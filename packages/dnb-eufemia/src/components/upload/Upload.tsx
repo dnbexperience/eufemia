@@ -133,4 +133,6 @@ const Upload = (localProps: UploadAllProps) => {
 
 Upload.useUpload = useUpload
 
+Upload._supportsSpacingProps = true
+
 export default Upload

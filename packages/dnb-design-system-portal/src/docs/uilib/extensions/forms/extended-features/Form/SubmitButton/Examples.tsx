@@ -3,7 +3,7 @@ import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Form.Handler
         data={{ foo: 'bar' }}
         onSubmit={(event) => console.log('onSubmit', event)}

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import pointer from 'json-pointer'
-import DataContext from '../DataContext'
+import * as DataContext from '../DataContext'
 
 export type Props = {
   visible?: boolean
@@ -82,5 +82,5 @@ function Visibility({
   return <>{children}</>
 }
 
-Visibility._supportsEufemiaSpacingProps = true
+Visibility._supportsSpacingProps = true
 export default Visibility

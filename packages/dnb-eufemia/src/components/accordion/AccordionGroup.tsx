@@ -116,4 +116,6 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   )
 }
 
+AccordionGroup._supportsSpacingProps = true
+
 export default AccordionGroup

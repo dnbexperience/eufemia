@@ -1,14 +1,9 @@
 import React, { useMemo, useContext, useState, useCallback } from 'react'
 import classnames from 'classnames'
-import { Div, Span } from '../../../elements'
-import { FormLabel, FormStatus } from '../../../components'
-import {
-  FormError,
-  ComponentProps,
-  FieldProps,
-  pickSpacingProps,
-} from '../types'
+import { Space, FormLabel, FormStatus } from '../../../components'
+import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
+import { findElementInChildren } from '../../../shared/component-helper'
 
 export type Props = Pick<
   FieldProps,
@@ -25,10 +20,12 @@ export type Props = Pick<
   contentClassName?: string
   children: React.ReactNode
   /** Width of outer block element */
-  width?: 'small' | 'medium' | 'large'
+  width?: false | 'small' | 'medium' | 'large'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
-}
+  /** Typography size */
+  size?: 'medium' | 'large'
+} & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {
   const nestedFieldBlockContext = useContext(FieldBlockContext)
@@ -45,8 +42,10 @@ function FieldBlock(props: Props) {
     error: errorProp,
     width,
     contentsWidth,
+    size,
     contentClassName,
     children,
+    ...rest
   } = props
 
   const [fieldErrorRecord, setFieldErrorRecord] = useState<
@@ -115,12 +114,48 @@ function FieldBlock(props: Props) {
       : undefined
   }, [errorProp, fieldErrorRecord, showFieldErrorRecord])
 
-  const cn = classnames(
+  const mainClasses = classnames(
     'dnb-forms-field-block',
-    `dnb-forms-field-block--layout-${layout}`,
     width !== undefined && `dnb-forms-field-block--width-${width}`,
     className
   )
+  const gridClasses = classnames(
+    'dnb-forms-field-block__grid',
+    `dnb-forms-field-block--layout-${layout}`
+  )
+
+  // A child component with a label was found, use fieldset/legend instead of div/label
+  const enableFieldset = useMemo(
+    () =>
+      !nestedFieldBlockContext &&
+      findElementInChildren(
+        children,
+        (child: React.ReactElement) => child.props.label
+      ),
+    []
+  )
+
+  const state = error || warning || info
+  const stateStatus = error
+    ? 'error'
+    : warning
+    ? 'warn'
+    : info
+    ? 'info'
+    : null
+
+  const Label = ({ children }) => {
+    return (
+      <FormLabel
+        element={enableFieldset ? 'legend' : 'label'}
+        for_id={forId}
+        space={{ top: 0, bottom: 'x-small' }}
+        size={size}
+      >
+        {children}
+      </FormLabel>
+    )
+  }
 
   return (
     <FieldBlockContext.Provider
@@ -129,91 +164,68 @@ function FieldBlock(props: Props) {
         setShowError,
       }}
     >
-      <Div className={cn} {...pickSpacingProps(props)}>
-        {labelDescription || labelSecondary ? (
-          <div className={classnames('dnb-forms-field-block__label')}>
-            {label || labelDescription ? (
-              <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
-                {label}
-                {labelDescription && (
-                  <span className="dnb-forms-field-block__label-description">
-                    {labelDescription}
-                  </span>
-                )}
-              </FormLabel>
-            ) : (
-              <>&nbsp;</>
-            )}
-            {labelSecondary && (
-              <Span className="dnb-forms-field-block__label-secondary">
-                {labelSecondary}
-              </Span>
-            )}
-          </div>
-        ) : (
-          label && (
-            <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
-              {label}
-            </FormLabel>
-          )
-        )}
-
-        <div
-          className={classnames(
-            'dnb-forms-field-block__contents',
-            contentsWidth !== undefined &&
-              `dnb-forms-field-block__contents--width-${contentsWidth}`,
-            contentClassName
+      <Space
+        element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
+        className={mainClasses}
+        {...rest}
+      >
+        <div className={gridClasses}>
+          {labelDescription || labelSecondary ? (
+            <div className="dnb-forms-field-block__label">
+              {label || labelDescription ? (
+                <Label>
+                  {label}
+                  {labelDescription && (
+                    <span className="dnb-forms-field-block__label-description">
+                      {labelDescription}
+                    </span>
+                  )}
+                </Label>
+              ) : (
+                <>&nbsp;</>
+              )}
+              {labelSecondary && (
+                <span className="dnb-forms-field-block__label-secondary">
+                  {labelSecondary}
+                </span>
+              )}
+            </div>
+          ) : (
+            label && <Label>{label}</Label>
           )}
-        >
-          {children}
-        </div>
 
-        {(error && (
-          <div className="dnb-forms-field-block__status">
-            <FormStatus
-              state="error"
-              id={forId ? `${forId}-form-status` : undefined}
-              text={error?.message}
-              label={label}
-              space={{ top: 'x-small' }}
-            />
+          <div
+            className={classnames(
+              'dnb-forms-field-block__contents',
+              contentsWidth !== undefined &&
+                `dnb-forms-field-block__contents--width-${contentsWidth}`,
+              contentClassName
+            )}
+          >
+            {children}
           </div>
-        )) ||
-          (warning && (
+
+          {stateStatus && (
             <div className="dnb-forms-field-block__status">
               <FormStatus
-                state="warn"
+                state={stateStatus}
                 id={forId ? `${forId}-form-status` : undefined}
                 text={
-                  (warning instanceof Error && warning.message) ||
-                  (warning instanceof FormError && warning.message) ||
-                  warning?.toString()
+                  error?.message ||
+                  (state instanceof Error && state.message) ||
+                  (state instanceof FormError && state.message) ||
+                  state?.toString()
                 }
-                label={label}
+                label={label as string}
                 space={{ top: 'x-small' }}
               />
             </div>
-          )) ||
-          (info && (
-            <div className="dnb-forms-field-block__status">
-              <FormStatus
-                state="info"
-                id={forId ? `${forId}-form-status` : undefined}
-                text={
-                  (info instanceof Error && info.message) ||
-                  (info instanceof FormError && info.message) ||
-                  info?.toString()
-                }
-                label={label}
-                space={{ top: 'x-small' }}
-              />
-            </div>
-          ))}
-      </Div>
+          )}
+        </div>
+      </Space>
     </FieldBlockContext.Provider>
   )
 }
 
-FieldBlock._supportsEufemiaSpacingProps = true
+FieldBlock._supportsSpacingProps = true
 export default FieldBlock

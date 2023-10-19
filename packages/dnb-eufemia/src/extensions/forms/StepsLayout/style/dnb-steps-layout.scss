@@ -27,4 +27,8 @@
     flex: 1;
     min-width: 25rem;
   }
+
+  &__contents .dnb-card {
+    --border-color: var(--color-pistachio);
+  }
 }

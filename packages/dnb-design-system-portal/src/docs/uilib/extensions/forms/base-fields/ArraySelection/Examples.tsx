@@ -5,7 +5,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 // Checkbox
 
 export const CheckboxEmpty = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       onFocus={(value) => console.log('onFocus', value)}
       onBlur={(value) => console.log('onBlur', value)}
@@ -20,7 +20,7 @@ export const CheckboxEmpty = () => (
 )
 
 export const CheckboxLabel = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -34,7 +34,7 @@ export const CheckboxLabel = () => (
 )
 
 export const CheckboxOptionSelected = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       value={['bar']}
       onChange={(values) => console.log('onChange', values)}
@@ -48,7 +48,7 @@ export const CheckboxOptionSelected = () => (
 )
 
 export const CheckboxHorizontalLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       value={['bar']}
@@ -64,7 +64,7 @@ export const CheckboxHorizontalLayout = () => (
 )
 
 export const CheckboxHorizontalOptionsLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       value={['bar']}
@@ -80,7 +80,7 @@ export const CheckboxHorizontalOptionsLayout = () => (
 )
 
 export const CheckboxHorizontalLayoutAndHorizontalOptionsLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       value={['bar']}
@@ -97,7 +97,7 @@ export const CheckboxHorizontalLayoutAndHorizontalOptionsLayout = () => (
 )
 
 export const CheckboxDisabled = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       value={['bar']}
       label="Label text"
@@ -113,7 +113,7 @@ export const CheckboxDisabled = () => (
 )
 
 export const CheckboxInfo = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -128,7 +128,7 @@ export const CheckboxInfo = () => (
 )
 
 export const CheckboxWarning = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -143,7 +143,7 @@ export const CheckboxWarning = () => (
 )
 
 export const CheckboxError = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -160,7 +160,7 @@ export const CheckboxError = () => (
 // Button
 
 export const ButtonEmpty = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       onChange={(value) => console.log('onChange', value)}
@@ -174,7 +174,7 @@ export const ButtonEmpty = () => (
 )
 
 export const ButtonLabel = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -189,7 +189,7 @@ export const ButtonLabel = () => (
 )
 
 export const ButtonOptionSelected = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       value={['bar']}
@@ -204,7 +204,7 @@ export const ButtonOptionSelected = () => (
 )
 
 export const ButtonHorizontalLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -221,7 +221,7 @@ export const ButtonHorizontalLayout = () => (
 )
 
 export const ButtonHorizontalOptionsLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -238,7 +238,7 @@ export const ButtonHorizontalOptionsLayout = () => (
 )
 
 export const ButtonHorizontalLayoutAndHorizontalOptionsLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -256,7 +256,7 @@ export const ButtonHorizontalLayoutAndHorizontalOptionsLayout = () => (
 )
 
 export const ButtonDisabled = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       value={['bar']}
@@ -273,7 +273,7 @@ export const ButtonDisabled = () => (
 )
 
 export const ButtonInfo = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -289,7 +289,7 @@ export const ButtonInfo = () => (
 )
 
 export const ButtonWarning = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -305,7 +305,7 @@ export const ButtonWarning = () => (
 )
 
 export const ButtonError = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.ArraySelection
       variant="button"
       label="Label text"

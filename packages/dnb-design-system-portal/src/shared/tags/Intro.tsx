@@ -7,8 +7,10 @@ import React from 'react'
 import { Global, css } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
-import { Link, Button, Space } from '@dnb/eufemia/src'
+import { Anchor, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
+import { startPageTransition } from './Transition'
+import { Link } from './Anchor'
 
 const ref = React.createRef<HTMLDivElement>()
 const Intro = ({ children }) => {
@@ -17,6 +19,7 @@ const Intro = ({ children }) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
         return
       }
+      startPageTransition()
       try {
         if (e.key === 'ArrowRight' && ref && ref.current) {
           const elem = ref.current.querySelector('a[href*="/intro"]')
@@ -61,13 +64,14 @@ export const IntroFooter = ({ href, text }) => (
         }
       `}
     />
-    <Button href={href} text={text} icon="chevron_right" />
+    <Button href={href} text={text} icon="chevron_right" element={Link} />
     <Button
       href="/uilib/getting-started"
       variant="secondary"
       text="Cancel"
       icon="close"
       icon_position="left"
+      element={Link}
     />
   </Space>
 )
@@ -79,9 +83,8 @@ IntroFooter.defaultProps = {}
 
 export const Next = (props) => (
   <>
-    {/* <Hr /> */}
     <div className="dnb-section dnb-section--spacing">
-      <Link {...props} />
+      <Anchor {...props} />
     </div>
   </>
 )

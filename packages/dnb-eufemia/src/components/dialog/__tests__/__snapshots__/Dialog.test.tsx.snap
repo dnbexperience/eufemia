@@ -881,12 +881,14 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem;
   --dialog-spacing-minus: -2rem;
+  --dialog-radius: 0.5rem;
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: var(--dialog-radius);
   box-shadow: var(--shadow-default);
   user-select: text;
   border: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: var(--dialog-background);
   max-height: 100vh;
   overflow: hidden;
 }
@@ -1054,6 +1056,26 @@ html:not([data-visual-test]) .dnb-dialog--hide {
 }
 .dnb-dialog__icon {
   display: flex;
+}
+.dnb-dialog__icon__primary.dnb-icon--border {
+  --icon-border-positioning--default: var(--dialog-icon-positioning);
+  color: var(--dialog-icon-color);
+}
+.dnb-dialog__icon__primary.dnb-icon--border svg {
+  z-index: 1;
+  position: relative;
+}
+.dnb-dialog__icon__primary.dnb-icon--border::after {
+  border: none;
+  background-color: var(--dialog-icon-background);
+}
+.dnb-dialog__icon__primary.dnb-dialog__icon--warning {
+  --dialog-icon-color: var(--dialog-icon-color--warning);
+  --dialog-icon-background: var(--dialog-icon-background--warning);
+}
+.dnb-dialog__icon__primary.dnb-dialog__icon--info {
+  --dialog-icon-color: var(--dialog-icon-color--info);
+  --dialog-icon-background: var(--dialog-icon-background--info);
 }
 .dnb-dialog__icon ~ .dnb-dialog__header {
   margin-top: 1.5rem;

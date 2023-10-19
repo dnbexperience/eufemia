@@ -279,6 +279,7 @@
 }
 
 $breakpoints: (
+  'x-small': 30em /* not documented yet */,
   'small': 40em,
   'medium': 60em,
   'large': 72em,
@@ -289,12 +290,12 @@ $breakpoints: (
 // Example usage:
 // @include allAbove(medium){ styles go here.. }
 @mixin allAbove($size) {
-  @media screen and (min-width: map-get($breakpoints, $size)) {
+  @media screen and (min-width: if(map-has-key($breakpoints, $size), map-get($breakpoints, $size), #{$size})) {
     @content;
   }
 }
 @mixin allBelow($size) {
-  @media screen and (max-width: map-get($breakpoints, $size)) {
+  @media screen and (max-width: if(map-has-key($breakpoints, $size), map-get($breakpoints, $size), #{$size})) {
     @content;
   }
 }
@@ -361,4 +362,26 @@ $breakpoints: (
       margin-top: 0.5rem;
     }
   }
+}
+
+@mixin fieldsetReset($checkSpaceProps: false) {
+  @if $checkSpaceProps {
+    &:not([class*='space__top']) {
+      margin-top: 0;
+    }
+    &:not([class*='space__right']) {
+      margin-right: 0;
+    }
+    &:not([class*='space__bottom']) {
+      margin-bottom: 0;
+    }
+    &:not([class*='space__left']) {
+      margin-left: 0;
+    }
+  } @else {
+    margin: 0;
+  }
+  padding: 0;
+  border: none;
+  line-height: var(--font-size-basis--em);
 }

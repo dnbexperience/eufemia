@@ -13,4 +13,8 @@ const Div = React.forwardRef((props: DivProps, ref) => (
   <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
 ))
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+Div._supportsSpacingProps = true
+
 export default Div

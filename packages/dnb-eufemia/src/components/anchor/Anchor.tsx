@@ -14,6 +14,7 @@ import {
 import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
+import { launch as launchIcon } from '../../icons'
 import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
@@ -76,20 +77,24 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   } = allProps
 
   const attributes = rest as ElementProps
-
   const internalId = id || 'id' + makeUniqueId()
-
-  // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-  const showTooltip =
-    tooltip || (allProps.target === '_blank' && !allProps.title)
-
   const as = (element || 'a') as string
 
-  let prefix
-  let suffix
+  let prefix: React.ReactNode
+  let suffix: React.ReactNode
+
+  const href = allProps.href || allProps.to
+  const showLaunchicon =
+    allProps.target === '_blank' && !/^(mailto|tel|sms)/.test(href)
+  const showTooltip = (tooltip || showLaunchicon) && !allProps.title
+
+  // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
+  if (showLaunchicon) {
+    suffix = <IconPrimary icon={launchIcon} />
+  }
+
   if (icon) {
-    const iconNode =
-      typeof icon === 'string' ? <IconPrimary icon={icon} /> : icon
+    const iconNode = pickIcon(icon) || <IconPrimary icon={icon} />
     if (iconPosition === 'left') {
       prefix = <>{iconNode} </>
     } else if (iconPosition === 'right') {
@@ -105,13 +110,10 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         className={classnames(
           omitClass !== true && 'dnb-anchor',
           className,
-
-          // because we then don't want to distract the link out
-          // we make sure we hide the icon
-          allProps.target === '_blank' && suffix && 'dnb-anchor--no-icon',
-          typeof children !== 'string' && 'dnb-anchor--has-icon',
           prefix && 'dnb-anchor--icon-left',
-          suffix && 'dnb-anchor--icon-right'
+          suffix && 'dnb-anchor--icon-right',
+          typeof children !== 'string' && 'dnb-anchor--was-node',
+          showLaunchicon && 'dnb-anchor--launch-icon'
         )}
         {...attributes}
         innerRef={innerRef}
@@ -141,12 +143,16 @@ const Anchor = React.forwardRef(
   }
 )
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+Anchor._supportsSpacingProps = true
+
 export default Anchor
 
 export function scrollToHashHandler(
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
 ) {
-  const element = e.currentTarget as HTMLAnchorElement
+  const element = event.currentTarget as HTMLAnchorElement
   const href = element.getAttribute('href')
 
   if (typeof document === 'undefined' || !href.includes('#')) {
@@ -171,14 +177,28 @@ export function scrollToHashHandler(
     const anchorElem = document.getElementById(id)
 
     if (anchorElem instanceof HTMLElement) {
-      e.preventDefault()
+      try {
+        const scrollPadding = parseFloat(
+          window.getComputedStyle(document.documentElement)
+            .scrollPaddingTop
+        )
+        const top = getOffsetTop(anchorElem) - scrollPadding || 0
 
-      const scrollPadding = parseFloat(
-        window.getComputedStyle(document.documentElement).scrollPaddingTop
-      )
-      const top = getOffsetTop(anchorElem) - scrollPadding || 0
+        window.scroll({ top })
 
-      window.scroll({ top })
+        return { element: anchorElem }
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
+}
+
+export function pickIcon(icon) {
+  return icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')
+    ? React.cloneElement(icon, {
+        key: 'button-icon-clone',
+        className: classnames(icon.props?.className, 'dnb-button__icon'),
+      })
+    : null
 }

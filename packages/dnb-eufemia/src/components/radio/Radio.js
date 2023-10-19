@@ -32,7 +32,7 @@ import RadioGroup from './RadioGroup'
 import RadioGroupContext from './RadioGroupContext'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 /**
  * The radio component is our enhancement of the classic radio button.
@@ -273,7 +273,9 @@ export default class Radio extends React.PureComponent {
             Radio.defaultProps,
             contextProps,
             { skeleton: context?.skeleton },
-            includeValidProps(context.FormRow),
+            // Deprecated – can be removed in v11
+            pickFormElementProps(context.FormRow),
+            pickFormElementProps(context.formElement),
             context.Radio
           )
 
@@ -458,3 +460,5 @@ export default class Radio extends React.PureComponent {
     )
   }
 }
+
+Radio._supportsSpacingProps = true

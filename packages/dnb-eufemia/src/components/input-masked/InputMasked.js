@@ -46,6 +46,8 @@ const InputMasked = (props) => {
   )
 }
 
+InputMasked._supportsSpacingProps = true
+
 export default InputMasked
 
 InputMasked.propTypes = {

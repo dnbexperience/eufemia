@@ -14,14 +14,16 @@
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
+  --dialog-radius: 0.5rem;
 
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: var(--dialog-radius);
 
   @include defaultDropShadow();
   user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+  background: var(--dialog-background);
 
   max-height: 100vh;
   overflow: hidden;
@@ -216,6 +218,30 @@
 
   &__icon {
     display: flex;
+    // Modify the border prop from the icon component
+    &__primary.dnb-icon--border {
+      --icon-border-positioning--default: var(--dialog-icon-positioning);
+      color: var(--dialog-icon-color);
+
+      svg {
+        z-index: 1;
+        position: relative;
+      }
+
+      &::after {
+        border: none;
+        background-color: var(--dialog-icon-background);
+      }
+    }
+
+    &__primary#{&}--warning {
+      --dialog-icon-color: var(--dialog-icon-color--warning);
+      --dialog-icon-background: var(--dialog-icon-background--warning);
+    }
+    &__primary#{&}--info {
+      --dialog-icon-color: var(--dialog-icon-color--info);
+      --dialog-icon-background: var(--dialog-icon-background--info);
+    }
   }
 
   &__icon ~ &__header {

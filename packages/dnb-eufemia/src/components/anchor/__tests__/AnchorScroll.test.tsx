@@ -39,6 +39,74 @@ describe('Anchor with scrollToHashHandler', () => {
     expect(onScroll).toHaveBeenCalledWith({ top: 0 })
   })
 
+  it('should not call preventDefault', () => {
+    const preventDefault = jest.fn()
+    const onScroll = jest.fn()
+
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
+    jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
+      ...location,
+      href: 'http://localhost/path',
+    })
+
+    render(
+      <>
+        <Anchor
+          onClick={(event) =>
+            scrollToHashHandler({ ...event, preventDefault })
+          }
+          href="/path/#hash-id"
+        >
+          text
+        </Anchor>
+        <span id="hash-id" />
+      </>
+    )
+
+    const element = document.querySelector('a')
+    fireEvent.click(element)
+
+    expect(preventDefault).toHaveBeenCalledTimes(0)
+    expect(onScroll).toHaveBeenCalledTimes(1)
+  })
+
+  it('should return { element } on match', () => {
+    let returnResult = null
+
+    const onScroll = jest.fn()
+    const onClick = jest.fn((event) => {
+      returnResult = scrollToHashHandler(event)
+    })
+
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
+    jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
+      ...location,
+      href: 'http://localhost/path',
+    })
+
+    render(
+      <>
+        <Anchor onClick={onClick} href="/path/#hash-id">
+          text
+        </Anchor>
+        <span id="hash-id" />
+      </>
+    )
+
+    const spanElement = document.querySelector('span')
+    const anchorElement = document.querySelector('a')
+    fireEvent.click(anchorElement)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ target: anchorElement })
+    )
+    expect(onScroll).toHaveBeenCalledTimes(1)
+    expect(returnResult).toEqual(
+      expect.objectContaining({ element: spanElement })
+    )
+  })
+
   it('should use last hash', () => {
     const onScroll = jest.fn()
 

@@ -345,3 +345,5 @@ export const createPagination = (initProps = {}) => {
     endInfinity,
   }
 }
+
+Pagination._supportsSpacingProps = true

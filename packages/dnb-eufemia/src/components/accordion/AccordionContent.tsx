@@ -185,3 +185,5 @@ export default function AccordionContent(props: AccordionContentProps) {
     </HeightAnimation>
   )
 }
+
+AccordionContent._supportsSpacingProps = true

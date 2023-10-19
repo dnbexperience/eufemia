@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Dl, Dt, Dd, Ul, Li, Ol } from '@dnb/eufemia/src'
+import { Dl, Dt, Dd, Ul, Li, Ol, Anchor } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const DefinitionListExample = () => (
@@ -55,10 +55,7 @@ export const UnorderedListExample = () => (
         <Ul>
           <Li>
             Item 1 <br />
-            Break with a{' '}
-            <a className="dnb-anchor" href="/">
-              Anchor (Text Link
-            </a>
+            Break with a <Anchor href="/">Anchor (Text Link</Anchor>
           </Li>
           <Li>Item 2</Li>
         </Ul>

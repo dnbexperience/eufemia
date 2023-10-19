@@ -43,6 +43,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: false,
+          key: null,
         })
       )
     })
@@ -57,6 +58,7 @@ describe('useMedia', () => {
           isSmall: true,
           isMedium: false,
           isLarge: false,
+          key: 'small',
         })
       )
 
@@ -70,6 +72,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -85,6 +88,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: true,
           isLarge: false,
+          key: 'medium',
         })
       )
 
@@ -98,6 +102,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -113,6 +118,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
 
@@ -126,6 +132,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           })
         )
       })
@@ -141,6 +148,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
 
@@ -151,6 +159,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           }),
         },
         {
@@ -159,6 +168,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           }),
         },
         {
@@ -167,6 +177,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: true,
             isLarge: false,
+            key: 'medium',
           }),
         },
         {
@@ -175,6 +186,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           }),
         },
         {
@@ -183,6 +195,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           }),
         },
         {
@@ -191,6 +204,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           }),
         },
       ]
@@ -217,6 +231,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
 
@@ -235,6 +250,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -251,6 +267,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           })
         )
 
@@ -275,6 +292,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -293,6 +311,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           isSSR: true,
+          key: null,
         })
       )
     })
@@ -318,6 +337,7 @@ describe('useMedia', () => {
         isMedium: false,
         isLarge: false,
         isSSR: false,
+        key: 'small',
       })
 
       act(() => {
@@ -329,6 +349,7 @@ describe('useMedia', () => {
           isMedium: true,
           isLarge: false,
           isSSR: false,
+          key: 'medium',
         })
       )
 
@@ -341,6 +362,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
+          key: 'large',
         })
       })
 
@@ -353,6 +375,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           isSSR: false,
+          key: 'small',
         })
       })
 
@@ -365,6 +388,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
+          key: 'large',
         })
       })
 
@@ -382,6 +406,7 @@ describe('useMedia', () => {
         isMedium: false,
         isLarge: false,
         isSSR: false,
+        key: 'small',
       }
       act(() => {
         setMedia({ width: MEDIUM })
@@ -404,6 +429,7 @@ describe('useMedia', () => {
           isMedium: true,
           isLarge: false,
           isSSR: false,
+          key: 'medium',
         })
       )
 
@@ -416,10 +442,92 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
+          key: 'large',
         })
       )
 
       expect(count).toBe(24)
+    })
+
+    it('will return correct key based on size', async () => {
+      setMedia({ width: ABOVE })
+
+      const { result } = renderHook(useMedia, { wrapper })
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          key: 'large',
+        })
+      )
+
+      const queries = [
+        {
+          width: BELOW,
+          expectResult: expect.objectContaining({
+            isSmall: true,
+            isMedium: false,
+            isLarge: false,
+            key: 'small',
+          }),
+        },
+        {
+          width: ABOVE,
+          expectResult: expect.objectContaining({
+            isSmall: false,
+            isMedium: false,
+            isLarge: true,
+            key: 'large',
+          }),
+        },
+        {
+          width: MEDIUM,
+          expectResult: expect.objectContaining({
+            isSmall: false,
+            isMedium: true,
+            isLarge: false,
+            key: 'medium',
+          }),
+        },
+        {
+          width: LARGE,
+          expectResult: expect.objectContaining({
+            isSmall: false,
+            isMedium: false,
+            isLarge: true,
+            key: 'large',
+          }),
+        },
+        {
+          width: SMALL,
+          expectResult: expect.objectContaining({
+            isSmall: true,
+            isMedium: false,
+            isLarge: false,
+            key: 'small',
+          }),
+        },
+        {
+          width: BELOW,
+          expectResult: expect.objectContaining({
+            isSmall: true,
+            isMedium: false,
+            isLarge: false,
+            key: 'small',
+          }),
+        },
+      ]
+
+      for await (const { width, expectResult } of queries) {
+        act(() => {
+          setMedia({ width })
+        })
+        await waitFor(() => {
+          expect(result.current).toEqual(expectResult)
+        })
+      }
     })
 
     describe('breakpoints', () => {
@@ -449,6 +557,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
 
@@ -459,6 +568,7 @@ describe('useMedia', () => {
               isSmall: true,
               isMedium: false,
               isLarge: false,
+              key: 'small',
             }),
           },
           {
@@ -467,6 +577,7 @@ describe('useMedia', () => {
               isSmall: false,
               isMedium: false,
               isLarge: true,
+              key: 'large',
             }),
           },
           {
@@ -475,6 +586,7 @@ describe('useMedia', () => {
               isSmall: false,
               isMedium: true,
               isLarge: false,
+              key: 'medium',
             }),
           },
           {
@@ -483,6 +595,7 @@ describe('useMedia', () => {
               isSmall: false,
               isMedium: false,
               isLarge: true,
+              key: 'large',
             }),
           },
           {
@@ -491,6 +604,7 @@ describe('useMedia', () => {
               isSmall: true,
               isMedium: false,
               isLarge: false,
+              key: 'small',
             }),
           },
           {
@@ -499,6 +613,198 @@ describe('useMedia', () => {
               isSmall: true,
               isMedium: false,
               isLarge: false,
+              key: 'small',
+            }),
+          },
+        ]
+
+        for await (const { width, expectResult } of queries) {
+          act(() => {
+            setMedia({ width })
+          })
+          await waitFor(() => {
+            expect(result.current).toEqual(expectResult)
+          })
+        }
+      })
+
+      it('will use custom breakpoints', async () => {
+        setMedia({ width: ABOVE })
+
+        const SMALL = '29em' // 40em
+        const MEDIUM = '39em' // 72em
+        const LARGE = '59em' // 80em
+
+        const { result } = renderHook(() =>
+          useMedia({
+            breakpoints: { small: '30em', medium: '40em', large: '60em' },
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            isSmall: false,
+            isMedium: false,
+            isLarge: true,
+            key: 'large',
+          })
+        )
+
+        const queries = [
+          {
+            width: BELOW,
+            expectResult: expect.objectContaining({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              key: 'small',
+            }),
+          },
+          {
+            width: ABOVE,
+            expectResult: expect.objectContaining({
+              isSmall: false,
+              isMedium: false,
+              isLarge: true,
+              key: 'large',
+            }),
+          },
+          {
+            width: MEDIUM,
+            expectResult: expect.objectContaining({
+              isSmall: false,
+              isMedium: true,
+              isLarge: false,
+              key: 'medium',
+            }),
+          },
+          {
+            width: LARGE,
+            expectResult: expect.objectContaining({
+              isSmall: false,
+              isMedium: false,
+              isLarge: true,
+              key: 'large',
+            }),
+          },
+          {
+            width: SMALL,
+            expectResult: expect.objectContaining({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              key: 'small',
+            }),
+          },
+          {
+            width: BELOW,
+            expectResult: expect.objectContaining({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              key: 'small',
+            }),
+          },
+        ]
+
+        for await (const { width, expectResult } of queries) {
+          act(() => {
+            setMedia({ width })
+          })
+          await waitFor(() => {
+            expect(result.current).toEqual(expectResult)
+          })
+        }
+      })
+    })
+
+    describe('queries', () => {
+      it('should use custom queries', async () => {
+        const CUSTOM_SMALL = '10em'
+        const CUSTOM_LARGE = '30em'
+
+        setMedia({ width: ABOVE })
+
+        const { result } = renderHook(() =>
+          useMedia({
+            queries: {
+              customSmall: { max: CUSTOM_SMALL },
+              customMedium: { min: CUSTOM_SMALL, max: CUSTOM_LARGE },
+              customLarge: { min: CUSTOM_LARGE },
+            },
+          })
+        )
+
+        expect(result.current).toEqual({
+          isCustomsmall: false,
+          isCustommedium: false,
+          isCustomlarge: true,
+          isSSR: false,
+          key: 'customLarge',
+        })
+
+        const queries = [
+          {
+            width: '9em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: true,
+              isCustommedium: false,
+              isCustomlarge: false,
+              key: 'customSmall',
+            }),
+          },
+          {
+            width: '15em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: true,
+              isCustomlarge: false,
+              key: 'customMedium',
+            }),
+          },
+          {
+            width: '29em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: true,
+              isCustomlarge: false,
+              key: 'customMedium',
+            }),
+          },
+          {
+            width: '31em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: false,
+              isCustomlarge: true,
+              key: 'customLarge',
+            }),
+          },
+          {
+            width: '5em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: true,
+              isCustommedium: false,
+              isCustomlarge: false,
+              key: 'customSmall',
+            }),
+          },
+          {
+            width: '45em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: false,
+              isCustomlarge: true,
+              key: 'customLarge',
+            }),
+          },
+          {
+            width: '25em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: true,
+              isCustomlarge: false,
+              key: 'customMedium',
             }),
           },
         ]
@@ -537,6 +843,7 @@ describe('useMedia', () => {
           isSmall: true,
           isMedium: false,
           isLarge: false,
+          key: 'small',
         })
       )
     })
@@ -552,6 +859,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: true,
           isLarge: false,
+          key: 'medium',
         })
       )
     })
@@ -567,6 +875,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
     })
@@ -598,6 +907,7 @@ describe('useMedia without window.matchMedia', () => {
       isMedium: false,
       isLarge: false,
       isSSR: true,
+      key: null,
     })
   })
 })

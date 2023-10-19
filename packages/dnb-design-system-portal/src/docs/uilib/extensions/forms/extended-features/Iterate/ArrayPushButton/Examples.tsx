@@ -16,7 +16,7 @@ export const PrimitiveElements = () => {
 
 export const ObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Form, Field }}>
+    <ComponentBox scope={{ Iterate }}>
       <Form.Handler
         data={[
           { name: 'Iron Man' },

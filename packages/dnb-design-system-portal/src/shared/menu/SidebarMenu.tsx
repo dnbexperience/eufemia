@@ -5,15 +5,13 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
-import Link from '../parts/Link'
+import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
-import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
-import useTheme from '@dnb/eufemia/src/shared/useTheme'
+import { Icon, Badge } from '@dnb/eufemia/src/components'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { MediaQuery } from '@dnb/eufemia/src/shared'
+import { Context, useTheme } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import {
   setPageFocusElement,
@@ -154,18 +152,17 @@ export default function SidebarLayout({
       )}
       ref={scrollRef}
     >
-      <MediaQuery when={{ min: 0, max: 'medium' }}>
-        <Space left="large" top="large">
-          <PortalToolsMenu
-            triggerAttributes={{
-              text: 'Portal Tools',
-              icon: 'chevron_right',
-              icon_position: 'right',
-            }}
-            tooltipPosition="bottom"
-          />
-        </Space>
-      </MediaQuery>
+      <PortalToolsMenu
+        triggerAttributes={{
+          left: 'large',
+          top: 'large',
+          text: 'Portal Tools',
+          icon: 'chevron_right',
+          icon_position: 'right',
+        }}
+        tooltipPosition="bottom"
+        hideWhenMediaLarge
+      />
       <ul className="dev-grid">{navItems}</ul>
     </nav>
   )
@@ -188,17 +185,10 @@ export default function SidebarLayout({
       const offset = scrollRef.current.getBoundingClientRect().top
       const rect = elem.getBoundingClientRect()
       const top = scrollRef.current.scrollTop + rect.top - offset
-      if (window.scrollTo) {
-        window.scrollTo({
-          top,
-          behavior: 'smooth',
-        })
-      } else {
-        // Typo or deprecated/old property that Typescript is not catching up on?
-        // Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'?
-        // Code below used to be window.scrollTop = top
-        window.scrollY = top
-      }
+      window.scrollTo({
+        top,
+        behavior: 'smooth',
+      })
     } catch (e) {
       console.log('Could not set scrollToActiveItem', e)
     }
@@ -318,8 +308,8 @@ function ListItem({
           } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
         }
       >
-        <Link
-          to={path}
+        <Anchor
+          href={path}
           onClick={closeMenu}
           className={classnames(
             'dnb-anchor',
@@ -344,7 +334,7 @@ function ListItem({
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
-        </Link>
+        </Anchor>
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
       {subheadings &&

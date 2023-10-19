@@ -9,7 +9,7 @@ import {
 import pointer from 'json-pointer'
 import { FormError, FieldProps } from '../types'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
-import DataContext from '../DataContext'
+import { Context } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
@@ -19,8 +19,8 @@ interface ReturnAdditional<Value> {
   value: Value
   error: Error | FormError | undefined
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
-  handleFocus: FieldProps<unknown>['onFocus']
-  handleBlur: FieldProps<unknown>['onBlur']
+  handleFocus: () => void
+  handleBlur: () => void
   handleChange: FieldProps<unknown>['onChange']
 }
 
@@ -43,11 +43,12 @@ export default function useDataValue<
     errorMessages,
     validateInitially,
     validateUnchanged,
+    continuousValidation,
     toInput = (value) => value,
     fromInput = (value) => value,
   } = props
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
-  const dataContext = useContext(DataContext.Context)
+  const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
 
@@ -125,6 +126,7 @@ export default function useDataValue<
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
   const [value, setValue] = useState(externalValue)
   const changedRef = useRef(false)
+  const hasFocusRef = useRef(false)
 
   useEffect(() => {
     // When receiving the initial value, or receiving an updated value by props, update the internal value
@@ -238,9 +240,11 @@ export default function useDataValue<
     (hasFocus: boolean, valueOverride?: unknown) => {
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
+        hasFocusRef.current = true
         onFocus?.(valueOverride ?? value)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
+        hasFocusRef.current = false
         onBlur?.(valueOverride ?? value)
 
         if (!changedRef.current && !validateUnchanged) {
@@ -292,13 +296,24 @@ export default function useDataValue<
       }
       setValue(newValue)
       changedRef.current = true
-      // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
-      setShowError(false)
-      setShowFieldBlockError?.(path ?? id, false)
+
+      if (
+        continuousValidation ||
+        (continuousValidation !== false && !hasFocusRef.current)
+      ) {
+        // When there is a change to the value without there having been any focus callback beforehand, it is likely
+        // to believe that the blur callback will not be called either, which would trigger the display of the error.
+        // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
+        setShowError(true)
+        setShowFieldBlockError?.(path ?? id, true)
+      } else {
+        // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
+        setShowError(false)
+        setShowFieldBlockError?.(path ?? id, false)
+      }
       // Always validate the value immediately when it is changed
       validateValue(newValue)
 
-      // Tell any parent data context about the error, so they can take it into consideration when a submit button is clicked for instance
       onChange?.(newValue)
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
@@ -316,6 +331,7 @@ export default function useDataValue<
       elementPath,
       iterateElementIndex,
       value,
+      continuousValidation,
       onChange,
       validateValue,
       dataContextHandlePathChange,

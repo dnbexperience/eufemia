@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         onChange={(value) => console.log('onChange', value)}
       />
@@ -14,7 +14,7 @@ export const Empty = () => {
 
 export const OmitMask = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         onChange={(value) => console.log('onChange', value)}
         omitMask
@@ -25,7 +25,7 @@ export const OmitMask = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         placeholder="Enter 9 digits..."
         onChange={(value) => console.log('onChange', value)}
@@ -36,7 +36,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -47,7 +47,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         label="Label text"
         value="987654321"
@@ -59,7 +59,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         label="Label text"
         value="987654321"
@@ -76,7 +76,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         value="989898989"
         label="Label text"
@@ -89,7 +89,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.OrganizationNumber
         value="007"
         label="Label text"
@@ -102,7 +102,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.OrganizationNumber
         value="123456789"
         label="Label text"

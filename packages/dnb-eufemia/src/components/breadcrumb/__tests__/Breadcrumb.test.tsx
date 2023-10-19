@@ -6,6 +6,7 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
+import { AnchorAllProps } from '../../Anchor'
 
 const matchMedia = new MatchMediaMock()
 
@@ -257,6 +258,28 @@ describe('Breadcrumb', () => {
       render(<BreadcrumbItem onClick={jest.fn()} text="Page" />)
 
       expect(screen.queryByRole('button')).toBeDefined()
+    })
+
+    it('will use given element', () => {
+      const CustomElement = React.forwardRef(
+        (props: AnchorAllProps, ref) => {
+          return (
+            <span
+              {...props}
+              ref={ref as React.RefObject<HTMLAnchorElement>}
+              className="custom-element"
+            />
+          )
+        }
+      )
+
+      render(
+        <BreadcrumbItem element={CustomElement} text="Page" href="/" />
+      )
+
+      expect(
+        document.querySelector('span.custom-element')
+      ).toBeInTheDocument()
     })
 
     it('fires onClick event', () => {

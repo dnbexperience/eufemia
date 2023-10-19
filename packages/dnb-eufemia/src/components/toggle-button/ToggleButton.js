@@ -18,7 +18,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -286,7 +286,9 @@ export default class ToggleButton extends React.PureComponent {
             ToggleButton.defaultProps,
             contextProps,
             context.translation.ToggleButton,
-            includeValidProps(context.FormRow),
+            // Deprecated – can be removed in v11
+            pickFormElementProps(context.FormRow),
+            pickFormElementProps(context.formElement),
             context.ToggleButton
           )
 
@@ -498,3 +500,5 @@ export default class ToggleButton extends React.PureComponent {
     )
   }
 }
+
+ToggleButton._supportsSpacingProps = true

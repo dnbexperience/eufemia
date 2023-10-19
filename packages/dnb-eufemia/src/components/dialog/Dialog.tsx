@@ -157,4 +157,6 @@ Dialog.Header = DialogHeader
 Dialog.Navigation = DialogNavigation
 Dialog.Action = DialogAction
 
+Dialog._supportsSpacingProps = true
+
 export default Dialog

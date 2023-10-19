@@ -3,7 +3,7 @@ import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const FieldString = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foobar"
@@ -15,7 +15,7 @@ export const FieldString = () => {
 
 export const FieldNumber = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         label="Label text"
         value={42}
@@ -27,7 +27,7 @@ export const FieldNumber = () => {
 
 export const FieldBoolean = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foo"

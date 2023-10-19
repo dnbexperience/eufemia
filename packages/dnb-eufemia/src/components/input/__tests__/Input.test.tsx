@@ -8,7 +8,7 @@ import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 const props: InputProps = {
   id: 'input',
@@ -557,11 +557,11 @@ describe('Input with clear button', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Input label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-input')

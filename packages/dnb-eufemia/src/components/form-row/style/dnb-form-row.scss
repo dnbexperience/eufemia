@@ -114,9 +114,7 @@
   // reset the fieldset
   &__fieldset,
   .dnb-core-style &__fieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
+    @include fieldsetReset();
 
     width: 100%;
   }

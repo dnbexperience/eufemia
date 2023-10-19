@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Tabs', () => {
+describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/tabs/demos',
     each: true,
   })
@@ -134,8 +135,9 @@ describe('Tabs', () => {
   })
 })
 
-describe('Tabs', () => {
+describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/tabs/demos',
     pageViewport: {
       width: 480, // 30rem
@@ -155,8 +157,9 @@ describe('Tabs', () => {
   })
 })
 
-describe('Tabs', () => {
+describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/tabs/demos',
     pageViewport: {
       width: 800, // 50rem

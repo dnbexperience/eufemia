@@ -37,4 +37,19 @@ $ yarn add @dnb/eufemia@11
 - `fire-red`
 - `fire-red-8`
 
+## Anchor icons
+
+For when using icons in an Anchor (text link), use the `icon` property instead of inlining it.
+
+## Removal of FormRow and FormSet
+
+For more information on how to replace these, check out [these docs](/uilib/layout/form-set-row-deprication#depreciation).
+
+- Find `<FormRow>` and replace with `<Flex.Horizontal align="baseline">`.
+- Find `<FormRow vertical>` and replace with `<Flex.Vertical>`.
+- Find `<FormRow centered>` and replace with `<Flex.Horizontal align="center">`.
+- Find `FormRow=` and replace with `formElement=`.
+- Find `FormRow:` and replace with `formElement:`.
+- Find `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` and replace with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
+
 _June, 1. 2023_

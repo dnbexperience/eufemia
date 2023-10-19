@@ -16,10 +16,10 @@ import {
   FormStatus,
   Icon,
   Input,
-  FormRow,
   ToggleButton,
   Link,
 } from '@dnb/eufemia/src'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 export const FormStatusDefault = () => (
   <ComponentBox data-visual-test="form-status">
@@ -85,7 +85,7 @@ export const FormStatusAnimation = () => (
           setStatus((s) => (!s ? 'You have to fill in this field' : null))
         }
         return (
-          <FormRow vertical={false}>
+          <Provider formElement={{ vertical: false }}>
             <Input
               label="Input with status:"
               status={status}
@@ -95,7 +95,7 @@ export const FormStatusAnimation = () => (
             <ToggleButton top on_change={toggleStatus}>
               Toggle
             </ToggleButton>
-          </FormRow>
+          </Provider>
         )
       }
       return <ToggleAnimation />

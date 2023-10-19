@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date onChange={(value) => console.log('onChange', value)} />
     </ComponentBox>
   )
@@ -12,7 +12,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date
         placeholder="Enter a date"
         onChange={(value) => console.log('onChange', value)}
@@ -23,7 +23,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -34,7 +34,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date
         value="2023-01-16"
         label="Label text"
@@ -46,7 +46,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date
         value="2023-01-16"
         label="Label text"
@@ -63,7 +63,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date
         value="2023-01-16"
         label="Label text"
@@ -76,7 +76,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Date
         value="2023-01-16"
         label="Label text"
@@ -89,7 +89,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Date
         value="2023-01-16"
         label="Label text"

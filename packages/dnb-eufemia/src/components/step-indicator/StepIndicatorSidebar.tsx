@@ -105,4 +105,6 @@ function StepIndicatorSidebar({
   )
 }
 
+StepIndicatorSidebar._supportsSpacingProps = true
+
 export default StepIndicatorSidebar

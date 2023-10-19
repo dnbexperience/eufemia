@@ -9,6 +9,8 @@ import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
+import { Provider } from '@dnb/eufemia/src/shared'
+import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
 
 if (!globalThis.ComponentBoxMemo) {
   globalThis.ComponentBoxMemo = {}
@@ -42,6 +44,10 @@ function ComponentBox(props: ComponentBoxProps) {
         ...getComponents(),
         ...getFragments(),
         ...getElements(),
+        Provider,
+        FieldBlock,
+        Field,
+        Form,
         styled,
         React,
         // TestWrapper,// Not used as of now

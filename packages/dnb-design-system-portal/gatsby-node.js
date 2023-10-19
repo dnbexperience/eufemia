@@ -139,20 +139,26 @@ exports.onCreatePage = ({ page, actions }) => {
   // Only build pages without "'/uilib'" when building for visual tests
   if (process.env.IS_VISUAL_TEST === '1') {
     if (
-      (page.path !== '/' &&
-        !existsInPages(page.path, [
-          '/404',
-          '/500',
-          '/uilib',
-          '/quickguide-designer/colors',
-          '/quickguide-designer/fonts',
-          '/contribute/getting-started',
-        ])) ||
-      existsInPages(page.path, ['/forms/']) ||
-      existsInPages(page.componentPath, [
-        'properties.mdx',
-        'events.mdx',
-        'info.mdx',
+      page.path !== '/' &&
+      !existsInPages(page.path, [
+        // General pages
+        '/404',
+        '/500',
+
+        // Playwright e2e tests
+        '/uilib',
+        '/uilib/components/button',
+        '/uilib/components',
+        '/uilib/extensions',
+        '/uilib/elements',
+        '/quickguide-designer/colors',
+        '/quickguide-designer/fonts',
+        '/contribute/getting-started',
+      ]) &&
+      !existsInPages(page.componentPath, [
+        // Visual e2e tests
+        'visual-tests',
+        'demos.mdx',
       ])
     ) {
       deletedPages.push(page.path)
@@ -250,14 +256,6 @@ exports.onCreateWebpackConfig = ({
       },
     },
     plugins: [
-      plugins.define({
-        'global.STYLE_IMPORT_PATH': JSON.stringify(
-          PREBUILD_EXISTS
-            ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
-            : '@dnb/eufemia/src/style/core',
-        ),
-      }),
-
       // Webpack 4 to 5 migration
       plugins.provide({ process: 'process/browser' }),
     ],

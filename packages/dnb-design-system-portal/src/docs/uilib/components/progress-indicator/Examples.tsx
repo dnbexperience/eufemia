@@ -10,6 +10,7 @@ import {
   Button,
   FormRow,
   Dialog,
+  Flex,
 } from '@dnb/eufemia/src'
 
 export const ProgressIndicatorDefaultExample = () => (
@@ -63,7 +64,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
       const ChangeValue = () => {
         const [value, setValue] = React.useState(50)
         return (
-          <FormRow centered>
+          <Flex.Horizontal align="center">
             <ProgressIndicator
               type="circular"
               progress={value}
@@ -78,7 +79,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
             >
               Change
             </Button>
-          </FormRow>
+          </Flex.Horizontal>
         )
       }
 

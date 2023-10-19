@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const ValueOn = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -19,7 +19,7 @@ export const ValueOn = () => {
 
 export const ValueOff = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -34,7 +34,7 @@ export const ValueOff = () => {
 
 export const NoValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -48,7 +48,7 @@ export const NoValue = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -63,7 +63,7 @@ export const Disabled = () => {
 
 export const Info = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -78,7 +78,7 @@ export const Info = () => {
 
 export const Warning = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -93,7 +93,7 @@ export const Warning = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -110,7 +110,7 @@ export const Error = () => {
 
 export const BooleanValueOn = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn={true}
         valueOff={false}
@@ -125,7 +125,7 @@ export const BooleanValueOn = () => {
 
 export const BooleanValueOff = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn={true}
         valueOff={false}
@@ -140,7 +140,7 @@ export const BooleanValueOff = () => {
 
 export const NumberValueOn = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn={100}
         valueOff={0}
@@ -155,7 +155,7 @@ export const NumberValueOn = () => {
 
 export const NumberValueOff = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn={100}
         valueOff={0}
@@ -172,7 +172,7 @@ export const NumberValueOff = () => {
 
 export const VariantButton = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="on"
         valueOff="off"
@@ -187,7 +187,7 @@ export const VariantButton = () => {
 
 export const VariantCheckboxButton = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="on"
         valueOff="off"
@@ -202,7 +202,7 @@ export const VariantCheckboxButton = () => {
 
 export const VariantButtons = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="on"
         valueOff="off"

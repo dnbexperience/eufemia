@@ -1,0 +1,38 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Description
+
+`Grid.Item` is a building block for [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) based layout of contents and components. Should be used in combination with [Grid.Container](/uilib/layout/grid/container/).
+
+The columns do change based on what [breakpoint](/uilib/usage/layout/media-queries/) the browser is in:
+
+- 4 columns when `small`
+- 6 columns when `medium`
+- 12 columns when `large`
+
+### Span
+
+You need to provide a `span` prop with a number from 1 to 12 (can be changed in [Grid.Container](/uilib/layout/grid/container/) with the `columns` property).
+
+The span will be used to specify where the item is placed in the grid columns.
+
+A span needs always two numbers – from and to.
+
+<Examples.BasicSpan />
+
+Example of spans:
+
+- `span={[1, 'end']}`
+- `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`
+
+### Responsive spans
+
+You can also make spans respond to media queries.
+
+For doing so, provide a `span` prop with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media size should contain a span, like mentioned above.
+
+<Examples.ResponsiveSpan />

@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         onFocus={(value) => console.log('onFocus', value)}
         onBlur={(value) => console.log('onBlur', value)}
@@ -16,7 +16,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         placeholder="Enter a text..."
         onChange={(value) => console.log('onChange', value)}
@@ -27,7 +27,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -38,7 +38,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foo"
@@ -50,7 +50,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foo"
@@ -67,7 +67,7 @@ export const WithHelp = () => {
 
 export const HorizontalLayout = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foo"
@@ -80,7 +80,7 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Default width (property omitted)"
         value="foo"
@@ -116,7 +116,7 @@ export const Widths = () => {
 
 export const Icons = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Icon left"
         value="foo"
@@ -135,7 +135,7 @@ export const Icons = () => {
 
 export const CharacterCounter1 = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         onChange={(value) => console.log('onChange', value)}
         characterCounter
@@ -146,7 +146,7 @@ export const CharacterCounter1 = () => {
 
 export const CharacterCounter2 = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foo"
@@ -159,7 +159,7 @@ export const CharacterCounter2 = () => {
 
 export const CharacterCounter3 = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         value="foo"
@@ -173,7 +173,7 @@ export const CharacterCounter3 = () => {
 
 export const Clear = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         onChange={(value) => console.log('onChange', value)}
@@ -185,7 +185,7 @@ export const Clear = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text"
@@ -198,7 +198,7 @@ export const Disabled = () => {
 
 export const Info = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text"
@@ -211,7 +211,7 @@ export const Info = () => {
 
 export const Warning = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.String
         value="foo"
         label="Label text"
@@ -224,7 +224,7 @@ export const Warning = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.String
         value="foo"
         label="Label text"
@@ -237,7 +237,7 @@ export const Error = () => {
 
 export const ValidateRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text"
@@ -250,7 +250,7 @@ export const ValidateRequired = () => {
 
 export const ValidateMinimumLength = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text (minimum 8 characters)"
@@ -263,7 +263,7 @@ export const ValidateMinimumLength = () => {
 
 export const ValidateMaximumLengthCustomError = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text (maximum 8 characters)"
@@ -279,7 +279,7 @@ export const ValidateMaximumLengthCustomError = () => {
 
 export const ValidatePattern = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text"
@@ -292,7 +292,7 @@ export const ValidatePattern = () => {
 
 export const SynchronousExternalValidator = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
@@ -309,7 +309,7 @@ export const SynchronousExternalValidator = () => {
 
 export const AsynchronousExternalValidator = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
@@ -334,7 +334,7 @@ export const AsynchronousExternalValidator = () => {
 
 export const SynchronousExternalBlurValidator = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
@@ -351,7 +351,7 @@ export const SynchronousExternalBlurValidator = () => {
 
 export const AsynchronousExternalBlurValidator = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
@@ -376,7 +376,7 @@ export const AsynchronousExternalBlurValidator = () => {
 
 export const MultipleEmpty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         onChange={(value) => console.log('onChange', value)}
         multiline
@@ -387,7 +387,7 @@ export const MultipleEmpty = () => {
 
 export const MultiplePlaceholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         placeholder="Enter text here"
         onChange={(value) => console.log('onChange', value)}
@@ -399,7 +399,7 @@ export const MultiplePlaceholder = () => {
 
 export const MultipleLabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in tempus odio, nec interdum orci. Integer vehicula ipsum et risus finibus, vitae commodo ex luctus. Nam viverra sollicitudin dictum. Vivamus maximus dignissim lorem, vitae viverra erat dapibus a."
         label="Label text"
@@ -412,7 +412,7 @@ export const MultipleLabelAndValue = () => {
 
 export const MultipleWithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.String
         label="Label text"
         help={{

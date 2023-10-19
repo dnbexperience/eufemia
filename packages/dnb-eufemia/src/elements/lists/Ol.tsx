@@ -44,4 +44,8 @@ const Ol = ({ nested, inside, outside, ...p }: OlAllProps = {}) => {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+Ol._supportsSpacingProps = true
+
 export default Ol

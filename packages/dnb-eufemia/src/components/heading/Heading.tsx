@@ -12,7 +12,6 @@ import {
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext, { HeadingContextProps } from './HeadingContext'
-import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
@@ -35,8 +34,8 @@ import {
 } from './HeadingCounter'
 import { SpacingProps } from '../space/types'
 import { SkeletonShow } from '../Skeleton'
-import { useTheme } from '../../shared'
-import { DynamicElement } from '../../shared/types'
+import { useTheme, Context } from '../../shared'
+import type { DynamicElement } from '../../shared/types'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize
@@ -336,6 +335,9 @@ Heading.Reset = (props: HeadingStaticProps) => {
 }
 Heading.resetLevels = resetLevels
 Heading.setNextLevel = setNextLevel
+
+Heading._isHeadingElement = true
+Heading._supportsSpacingProps = true
 
 // Interceptor to reset leveling
 export { resetAllLevels, resetLevels, setNextLevel }

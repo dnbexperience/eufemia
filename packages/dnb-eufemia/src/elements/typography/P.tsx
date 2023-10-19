@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
-import { DynamicElement } from '../../shared/types'
+import type { DynamicElement } from '../../shared/types'
 import E from '../Element'
 
 export type PSize =
@@ -85,5 +85,7 @@ const P = ({
     />
   )
 }
+
+P._supportsSpacingProps = true
 
 export default P

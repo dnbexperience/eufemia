@@ -7,14 +7,14 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { FormLabel, Checkbox, Switch } from '@dnb/eufemia/src'
 
-export const FormLabelDefaultExample = () => (
+export const Default = () => (
   <ComponentBox data-visual-test="form-label-default">
     <FormLabel for_id="alone-1">Default horizontal FormLabel:</FormLabel>
     <Checkbox id="alone-1" label="Checkbox" />
   </ComponentBox>
 )
 
-export const FormLabelVerticalExample = () => (
+export const Vertical = () => (
   <ComponentBox data-visual-test="form-label-vertical">
     <FormLabel for_id="alone-2" label_direction="vertical">
       Vertical FormLabel:
@@ -23,14 +23,14 @@ export const FormLabelVerticalExample = () => (
   </ComponentBox>
 )
 
-export const FormLabelNoForIdExample = () => (
+export const NoForId = () => (
   <ComponentBox>
     <FormLabel vertical={true}>Without for_id (select me):</FormLabel>
     <Checkbox label="Checkbox" />
   </ComponentBox>
 )
 
-export const FormLabelLinkedLabelExample = () => (
+export const LinkedLabel = () => (
   <ComponentBox>
     <form>
       <div>

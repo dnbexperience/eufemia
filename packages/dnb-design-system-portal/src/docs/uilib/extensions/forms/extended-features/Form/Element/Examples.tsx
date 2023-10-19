@@ -1,16 +1,17 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Layout, Form, Field } from '@dnb/eufemia/src/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
+import { Card } from '@dnb/eufemia/src'
 
 export const DefaultElement = () => {
   return (
-    <ComponentBox scope={{ Layout, Form, Field }}>
+    <ComponentBox>
       <Form.Element onSubmit={(event) => console.log('onSubmit', event)}>
-        <Layout.Card spacing="medium">
+        <Card spacing="medium">
           <Field.Email />
-          <Layout.ButtonRow>
+          <Form.ButtonRow>
             <Form.SubmitButton />
-          </Layout.ButtonRow>
-        </Layout.Card>
+          </Form.ButtonRow>
+        </Card>
       </Form.Element>
     </ComponentBox>
   )

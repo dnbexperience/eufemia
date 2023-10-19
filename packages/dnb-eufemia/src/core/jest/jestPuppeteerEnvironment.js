@@ -56,6 +56,8 @@ class JestEnvironment extends PlaywrightEnvironment {
     }
 
     if (config.retryTimes > 0) {
+      this.global.retryAttempt = 0
+
       if (event.name === 'test_fn_failure') {
         const currentTestName = this.getCurrentTestName(state)
         const slug = slugify(currentTestName)
@@ -69,6 +71,8 @@ class JestEnvironment extends PlaywrightEnvironment {
         }
 
         const retryAttempt = state.currentlyRunningTest.invocations
+        this.global.retryAttempt = retryAttempt
+
         console.log(
           chalk.yellow(
             `Retry attempt #${retryAttempt}: ${currentTestName}`

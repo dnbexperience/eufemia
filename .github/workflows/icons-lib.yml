@@ -19,14 +19,10 @@ env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
   FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
-  ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-  ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-  ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
-  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
 
 jobs:
   process-icons:
-    name: Fetch and Build Icons # this name is used in "checkName"
+    name: Fetch and Build Icons
 
     runs-on: ubuntu-latest
 
@@ -75,6 +71,7 @@ jobs:
         run: yarn workspace @dnb/eufemia postbuild:commit
 
   visual-test:
+    needs: process-icons
     name: Run visual e2e-test for icons
 
     runs-on: macos-latest
@@ -100,15 +97,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
-
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Fetch and Build Icons # Has to be the action name
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 10
-          timeoutSeconds: 2400
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3

@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         onChange={(value) => console.log('onChange', value)}
       />
@@ -14,7 +14,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         placeholder="Enter a number"
         onChange={(value) => console.log('onChange', value)}
@@ -25,7 +25,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         label="Amount"
         onChange={(value) => console.log('onChange', value)}
@@ -36,7 +36,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         value={150000}
         currency="NOK"
@@ -49,7 +49,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         value={150000}
         currency="NOK"
@@ -67,7 +67,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         value={25000000}
         label="Label text"
@@ -80,7 +80,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Currency
         value={12345678}
         label="Label text"
@@ -93,7 +93,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Currency
         value={42}
         label="Label text"

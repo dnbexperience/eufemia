@@ -19,7 +19,7 @@ import {
   warn,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
@@ -339,7 +339,9 @@ export default class Textarea extends React.PureComponent {
       Textarea.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Textarea,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Textarea
     )
 
@@ -540,3 +542,5 @@ export default class Textarea extends React.PureComponent {
     )
   }
 }
+
+Textarea._supportsSpacingProps = true

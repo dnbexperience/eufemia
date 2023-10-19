@@ -169,7 +169,6 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   display: inline-block;
   margin-right: 0.5rem;
   word-break: break-word;
-  white-space: nowrap;
   font-size: inherit;
 }
 @media screen and (min-width: 40em) {

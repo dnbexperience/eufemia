@@ -16,7 +16,7 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
@@ -198,7 +198,9 @@ export default class Switch extends React.PureComponent {
       Switch.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Switch,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Switch
     )
 
@@ -360,3 +362,5 @@ export default class Switch extends React.PureComponent {
     )
   }
 }
+
+Switch._supportsSpacingProps = true

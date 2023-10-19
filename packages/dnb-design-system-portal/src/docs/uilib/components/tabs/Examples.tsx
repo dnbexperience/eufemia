@@ -67,7 +67,7 @@ export const TabsExamplePrerender = () => (
   <Wrapper>
     <ComponentBox>
       <>
-        <Tabs prerender content_style="black-3">
+        <Tabs prerender content_style="info">
           <Tabs.Content title="Tab 1">
             <H2>Content 1</H2>
           </Tabs.Content>
@@ -146,7 +146,7 @@ export const TabsExampleScrollable = () => (
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      <Tabs tabs_style="mint-green" content_style="black-3">
+      <Tabs tabs_style="info" content_style="info">
         <Tabs.Content title="First">
           <Section spacing top bottom style_type="white">
             <H2 top={0} bottom>
@@ -223,7 +223,7 @@ export const TabsExampleMaxWidth = () => (
     {() => {
       const MaxWidthWrapper = styled.div`
         max-width: 30rem;
-        background: var(--color-mint-green-12);
+        background: var(--color-white);
       `
 
       function TabsMaxWidth() {
@@ -266,7 +266,7 @@ export const TabsExampleReachRouterNavigation = () =>
                 ]}
                 selected_key={pathname}
                 on_change={({ key }) => navigate(key)}
-                tabs_style="mint-green"
+                tabs_style="info"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>
                   <Router>

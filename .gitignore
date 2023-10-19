@@ -12,6 +12,7 @@ completions.json
 .history
 *not_in_use*
 /packages/dnb-ui-lib
+**/test-results
 
 # pkm
 npm-debug.log*

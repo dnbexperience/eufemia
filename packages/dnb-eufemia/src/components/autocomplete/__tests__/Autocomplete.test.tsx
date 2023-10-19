@@ -21,12 +21,12 @@ import {
   act,
   waitFor,
 } from '@testing-library/react'
-import FormRow from '../../form-row/FormRow'
 import {
   DrawerListData,
   DrawerListDataObject,
   DrawerListDataObjectUnion,
 } from '../../../fragments/drawer-list'
+import { Provider } from '../../../shared'
 
 const mockProps: AutocompleteProps = {
   id: 'autocomplete-id',
@@ -495,30 +495,30 @@ describe('Autocomplete component', () => {
 
     toggle()
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      ''
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('')
 
     // simulate changes
     keydown(40) // down
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'AA c'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('AA c')
 
     // simulate changes
     keydown(40) // down
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'BB cc zethx'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('BB cc zethx')
 
     // simulate changes
     keydown(40) // down
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'CCcc'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('CCcc')
 
     act(() => {
       document.dispatchEvent(
@@ -528,17 +528,17 @@ describe('Autocomplete component', () => {
       )
     })
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'Valgt: CCcc'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('Valgt: CCcc')
 
     // simulate changes
     toggle()
     keydown(38) // up
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'BB cc zethx'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('BB cc zethx')
 
     // eslint-disable-next-line
     Object.defineProperty(helpers, 'IS_MAC', {
@@ -548,9 +548,9 @@ describe('Autocomplete component', () => {
     // simulate changes
     keydown(38) // up
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      ''
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('')
   })
 
   it('can be used with regex chars', () => {
@@ -2293,11 +2293,11 @@ describe('Autocomplete component', () => {
     expect(element.classList).toContain('dnb-space__top--large')
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Autocomplete label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-autocomplete')

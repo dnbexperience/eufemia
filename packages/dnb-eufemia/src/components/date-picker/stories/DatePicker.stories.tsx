@@ -19,12 +19,13 @@ import isWeekend from 'date-fns/isWeekend'
 import {
   DatePicker,
   Button,
-  FormRow,
   Dropdown,
   Input,
   Section,
   GlobalStatus,
+  Flex,
 } from '../..'
+import { FieldBlock } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/DatePicker',
@@ -69,7 +70,7 @@ const ChangeLocale = () => {
 export const DatePickerSandbox = () => (
   <Wrapper>
     <Box>
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <DatePicker
           label="Linked Range DatePicker:"
           // label_direction="vertical"
@@ -122,7 +123,7 @@ export const DatePickerSandbox = () => (
           }}
           // status="Please select a valid date"
         />
-      </FormRow>
+      </Provider>
     </Box>
     <Box>
       <DatePicker
@@ -185,95 +186,107 @@ export const DatePickerSandbox = () => (
       />
     </Box>
     <Box>
-      <FormRow label_direction="vertical" label="Legend:">
-        <DatePicker
-          label="Date Picker 1"
-          right="small"
-          date="1981-01-15"
-          title="My Button"
-        />
-        <DatePicker
-          label="Date Picker 2:"
-          align_picker="right"
-          date={new Date()}
-        />
-        <DatePicker
-          label="Date Picker 3:"
-          show_input
-          align_picker="right"
-          mask_placeholder="dd/mm/yyyy"
-          locale={enLocale}
-          first_day="sunday"
-          return_format="dd/MM/yyyy"
-          date="1981-01-15"
-          data-foo="bar"
-          on_show={(props) => {
-            console.log(
-              'on_show',
-              // props,
-              props.event
-            )
-          }}
-          on_hide={(props) => {
-            console.log(
-              'on_hide',
-              // props,
-              props.event
-            )
-          }}
-          on_change={(props) => {
-            console.log(
-              'on_change',
-              // props,
-              props.event
-            )
-          }}
-        />
-        <DatePicker
-          label="Hidden Nav:"
-          show_input
-          // date="2019/05/05"
-          // start_date="05/05/2019"
-          hide_navigation={true}
-          hide_days={true}
-          submit_button_text="OK"
-          cancel_button_text="Cancel"
-          date_format="dd/MM/yyyy"
-          range={true}
-          // return_format="dd/MM/yyyy"
-          return_format="yyyy/MM/dd"
-          on_change={({ date }) => {
-            console.log('on_change', date)
-          }}
-          // on_hide={({ date }) => {
-          //   console.log('on_hide', date)
-          // }}
-          shortcuts={[
-            {
-              title: 'Set date period',
-              start_date: '1981-01-15',
-              end_date: '1981-02-15',
-            },
-            {
-              title: 'This month',
-              start_date: startOfMonth(new Date()),
-              end_date: lastDayOfMonth(new Date()),
-            },
-          ]}
-        />
-      </FormRow>
+      <Provider
+        formElement={{
+          label_direction: 'vertical',
+        }}
+      >
+        <FieldBlock label="Legend:">
+          <Flex.Vertical>
+            <DatePicker
+              label="Date Picker 1"
+              right="small"
+              date="1981-01-15"
+              title="My Button"
+            />
+            <DatePicker
+              label="Date Picker 2:"
+              align_picker="right"
+              date={new Date()}
+            />
+            <DatePicker
+              label="Date Picker 3:"
+              show_input
+              align_picker="right"
+              mask_placeholder="dd/mm/yyyy"
+              locale={enLocale}
+              first_day="sunday"
+              return_format="dd/MM/yyyy"
+              date="1981-01-15"
+              data-foo="bar"
+              on_show={(props) => {
+                console.log(
+                  'on_show',
+                  // props,
+                  props.event
+                )
+              }}
+              on_hide={(props) => {
+                console.log(
+                  'on_hide',
+                  // props,
+                  props.event
+                )
+              }}
+              on_change={(props) => {
+                console.log(
+                  'on_change',
+                  // props,
+                  props.event
+                )
+              }}
+            />
+            <DatePicker
+              label="Hidden Nav:"
+              show_input
+              // date="2019/05/05"
+              // start_date="05/05/2019"
+              hide_navigation={true}
+              hide_days={true}
+              submit_button_text="OK"
+              cancel_button_text="Cancel"
+              date_format="dd/MM/yyyy"
+              range={true}
+              // return_format="dd/MM/yyyy"
+              return_format="yyyy/MM/dd"
+              on_change={({ date }) => {
+                console.log('on_change', date)
+              }}
+              // on_hide={({ date }) => {
+              //   console.log('on_hide', date)
+              // }}
+              shortcuts={[
+                {
+                  title: 'Set date period',
+                  start_date: '1981-01-15',
+                  end_date: '1981-02-15',
+                },
+                {
+                  title: 'This month',
+                  start_date: startOfMonth(new Date()),
+                  end_date: lastDayOfMonth(new Date()),
+                },
+              ]}
+            />
+          </Flex.Vertical>
+        </FieldBlock>
+      </Provider>
     </Box>
     <Box>
-      <FormRow direction="vertical" label="Legend:">
-        <DatePicker label="Date Picker 1:" />
-        <DatePicker label="Date Picker 2:" top="small" />
-      </FormRow>
+      <FieldBlock label="Legend:">
+        <Flex.Vertical>
+          <DatePicker label="Date Picker 1:" />
+          <DatePicker label="Date Picker 2:" top="small" />
+        </Flex.Vertical>
+      </FieldBlock>
     </Box>
     <Box>
-      <FormRow vertical label="Legend:">
-        <DatePicker label="Date Picker 1:" />
-        <DatePicker label="Date Picker 2:" top="small" />
-      </FormRow>
+      <FieldBlock label="Legend:">
+        <Flex.Vertical>
+          <DatePicker label="Date Picker 1:" />
+          <DatePicker label="Date Picker 2:" top="small" />
+        </Flex.Vertical>
+      </FieldBlock>
     </Box>
     <Box>
       <DatePicker
@@ -325,51 +338,59 @@ export const DatePickerSandbox = () => (
       />
     </Box>
     <Box>
-      <FormRow vertical>
-        <Input label="Input Default" />
-        <DatePicker
-          label="DatePicker Default"
-          date={new Date()}
-          show_input={true}
-        />
-        <Input label="Input Default" />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
+          <Input label="Input Default" />
+          <DatePicker
+            label="DatePicker Default"
+            date={new Date()}
+            show_input={true}
+          />
+          <Input label="Input Default" />
+        </Flex.Vertical>
+      </Provider>
     </Box>
     <Box>
-      <FormRow vertical>
-        <Input size="small" label="Input Small" />
-        <DatePicker
-          size="small"
-          label="DatePicker Small"
-          date={new Date()}
-          show_input={true}
-        />
-        <Input size="small" label="Input Small" />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
+          <Input size="small" label="Input Small" />
+          <DatePicker
+            size="small"
+            label="DatePicker Small"
+            date={new Date()}
+            show_input={true}
+          />
+          <Input size="small" label="Input Small" />
+        </Flex.Vertical>
+      </Provider>
     </Box>
     <Box>
-      <FormRow vertical>
-        <Input size="medium" label="Input Medium" />
-        <DatePicker
-          size="medium"
-          label="DatePicker Medium"
-          date={new Date()}
-          show_input={true}
-        />
-        <Input size="medium" label="Input Medium" />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
+          <Input size="medium" label="Input Medium" />
+          <DatePicker
+            size="medium"
+            label="DatePicker Medium"
+            date={new Date()}
+            show_input={true}
+          />
+          <Input size="medium" label="Input Medium" />
+        </Flex.Vertical>
+      </Provider>
     </Box>
     <Box>
-      <FormRow vertical>
-        <Input size="large" label="Input Large" />
-        <DatePicker
-          size="large"
-          label="DatePicker Large"
-          date={new Date()}
-          show_input={true}
-        />
-        <Input size="large" label="Input Large" />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
+          <Input size="large" label="Input Large" />
+          <DatePicker
+            size="large"
+            label="DatePicker Large"
+            date={new Date()}
+            show_input={true}
+          />
+          <Input size="large" label="Input Large" />
+        </Flex.Vertical>
+      </Provider>
     </Box>
   </Wrapper>
 )

@@ -33,7 +33,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
@@ -176,6 +176,14 @@ export default class Autocomplete extends React.PureComponent {
         PropTypes.oneOfType([
           PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
           PropTypes.shape({
+            selectedKey: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+            ]),
+            selected_key: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+            ]),
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
@@ -1633,26 +1641,27 @@ class AutocompleteInstance extends React.PureComponent {
 
   getVoiceOverActiveItem(selected_sr) {
     // Add VoiceOver support to read the "selected" item
-    if (IS_MAC) {
-      const { active_item, selected_item } = this.context.drawerList
-      const currentDataItem = getCurrentData(
-        active_item,
-        this.context.drawerList.data
-      )
+    const { active_item, selected_item } = this.context.drawerList
+    const currentDataItem = getCurrentData(
+      active_item,
+      this.context.drawerList.data
+    )
 
-      return (
-        <span className="dnb-sr-only" aria-live="assertive" aria-atomic>
-          {currentDataItem && (
-            <>
-              {active_item === selected_item ? <>{selected_sr} </> : null}
-              <ItemContent>{currentDataItem}</ItemContent>
-            </>
-          )}
-        </span>
-      )
-    }
-
-    return null
+    return (
+      <span
+        hidden={!IS_MAC}
+        className="dnb-sr-only"
+        aria-live="assertive"
+        aria-atomic
+      >
+        {currentDataItem && (
+          <>
+            {active_item === selected_item ? <>{selected_sr} </> : null}
+            <ItemContent>{currentDataItem}</ItemContent>
+          </>
+        )}
+      </span>
+    )
   }
 
   render() {
@@ -1661,7 +1670,9 @@ class AutocompleteInstance extends React.PureComponent {
       this.props,
       Autocomplete.defaultProps,
       this.context.getTranslation(this.props).Autocomplete,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Autocomplete
     ))
 
@@ -1878,12 +1889,13 @@ class AutocompleteInstance extends React.PureComponent {
       )
     }
 
-    const suffixValue = getCurrentData(
+    const currentDataItem = getCurrentData(
       selected_item,
       this.context.drawerList.original_data
-    )?.suffix_value
+    )
 
-    const innerId = suffixValue && showStatus ? `${id}-inner` : null
+    const innerId =
+      currentDataItem?.suffix_value && showStatus ? `${id}-inner` : null
 
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
@@ -1947,7 +1959,7 @@ class AutocompleteInstance extends React.PureComponent {
                   status_state={status_state}
                   type={null}
                   inner_element={
-                    suffixValue && (
+                    currentDataItem?.suffix_value && (
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                       <span
                         onClick={
@@ -1955,7 +1967,7 @@ class AutocompleteInstance extends React.PureComponent {
                         }
                         className="dnb-autocomplete__suffix_value"
                       >
-                        {suffixValue}
+                        {currentDataItem?.suffix_value}
                       </span>
                     )
                   }
@@ -2042,3 +2054,5 @@ class AutocompleteInstance extends React.PureComponent {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
+
+Autocomplete._supportsSpacingProps = true

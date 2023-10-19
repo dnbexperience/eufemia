@@ -352,7 +352,7 @@ export default class GlobalStatus extends React.PureComponent {
       const globalStatus = extendPropsWithContextInClassComponent(
         this.props,
         GlobalStatus.defaultProps,
-        this.state.globalStatus
+        this.context.globalStatus
       )
       this.setState({
         globalStatus,
@@ -831,3 +831,5 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   }
   return null
 }
+
+GlobalStatus._supportsSpacingProps = true

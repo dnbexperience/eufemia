@@ -165,4 +165,6 @@ Avatar.Group = AvatarGroup
 
 export { AvatarGroup }
 
+Avatar._supportsSpacingProps = true
+
 export default Avatar

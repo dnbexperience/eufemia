@@ -182,13 +182,15 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-white);
 }
 .dnb-section--fire-red .dnb-anchor:hover, .dnb-section--emerald-green .dnb-anchor:hover, .dnb-section--sea-green .dnb-anchor:hover, .dnb-section--success .dnb-anchor:hover {
-  color: var(--color-emerald-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
+  color: var(--anchor-color--contrast);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
 }
 .dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active, .dnb-section--success .dnb-anchor:active {
   color: var(--color-white);
   background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
 }
 .dnb-section--fire-red .dnb-anchor:focus-visible, .dnb-section--emerald-green .dnb-anchor:focus-visible, .dnb-section--sea-green .dnb-anchor:focus-visible, .dnb-section--success .dnb-anchor:focus-visible {
   color: var(--color-white);

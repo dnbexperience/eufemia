@@ -11,8 +11,8 @@ import {
   Input,
   Section,
   ToggleButton,
-  FormSet,
 } from '@dnb/eufemia/src'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 export const GlobalStatusError = () => (
   <ComponentBox data-visual-test="global-status">
@@ -342,9 +342,11 @@ export const GlobalStatusInfoExample2 = () => (
 export const GlobalStatusInfoExample3 = () => (
   <ComponentBox hidePreview hideToolbar>
     <GlobalStatus id="other-global-status" />
-    <FormSet globalStatus={{ id: 'other-global-status' }}>
+    <Provider
+      formElement={{ globalStatus: { id: 'other-global-status' } }}
+    >
       <Input status="Message" />
-    </FormSet>
+    </Provider>
   </ComponentBox>
 )
 

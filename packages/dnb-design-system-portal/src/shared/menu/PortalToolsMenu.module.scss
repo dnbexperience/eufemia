@@ -1,0 +1,16 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+
+.buttonStyle {
+  @include allBelow(medium) {
+    display: none;
+  }
+
+  &:global(.hideWhenMediaLarge) {
+    @include allBelow(medium) {
+      display: block;
+    }
+    @include allAbove(medium) {
+      display: none;
+    }
+  }
+}

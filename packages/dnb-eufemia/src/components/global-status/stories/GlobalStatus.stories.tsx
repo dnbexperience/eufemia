@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import {
@@ -14,16 +14,20 @@ import {
   ToggleButton,
   Section,
   Button,
-  FormRow,
-  FormSet,
   Autocomplete,
   DatePicker,
+  Space,
+  Radio,
 } from '../..'
 import {
+  Flex,
   H2,
   // P,
   Link,
 } from '../../..'
+import { Provider } from '../../../shared'
+import { FieldBlock, Form } from '../../../extensions/forms'
+import type { GlobalStatusState } from '../GlobalStatus'
 // import { GlobalStatusProvider } from '../../global-status/GlobalStatusContext'
 
 export default {
@@ -41,7 +45,12 @@ export const ComponentAsLabel = () => {
     <>
       <GlobalStatus id="test" />
 
-      <FormSet label_direction="vertical" globalStatus={{ id: 'test' }}>
+      <Provider
+        formElement={{
+          label_direction: 'vertical',
+          globalStatus: { id: 'test' },
+        }}
+      >
         <ToggleButton
           bottom
           on_change={() => setStatus((s) => (!s ? 'min status' : null))}
@@ -49,12 +58,12 @@ export const ComponentAsLabel = () => {
           set status
         </ToggleButton>
 
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <Input
             label={<Component />}
             status={status ? status + '1' : undefined}
           />
-        </FormRow>
+        </Flex.Horizontal>
         <Input
           label={<Component />}
           status={status ? status + '2' : undefined}
@@ -68,7 +77,7 @@ export const ComponentAsLabel = () => {
           show_input
           status={status ? status + '4' : undefined}
         />
-      </FormSet>
+      </Provider>
     </>
   )
 }
@@ -84,15 +93,17 @@ export const CustomGlobalStatusMessage = () => {
     <>
       <GlobalStatus id="test-test" />
 
-      <FormSet
-        label_direction="vertical"
-        globalStatus={{ id: 'test-test', message: 'Hva skjer nå' }}
+      <Provider
+        formElement={{
+          label_direction: 'vertical',
+          globalStatus: { id: 'test-test', message: 'Hva skjer nå' },
+        }}
       >
         <ToggleButton bottom on_change={() => setShowStatus((s) => !s)}>
           set status
         </ToggleButton>
 
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <Input
             label={<Component />}
             status={showStatus ? 'Input status' : ''}
@@ -100,7 +111,7 @@ export const CustomGlobalStatusMessage = () => {
               message: showStatus ? 'Input global status' : '',
             }}
           />
-        </FormRow>
+        </Flex.Horizontal>
         <Input
           label={<Component />}
           status={showStatus ? 'Input status withough global' : ''}
@@ -120,7 +131,7 @@ export const CustomGlobalStatusMessage = () => {
             message: showStatus ? 'Datepicker global status' : '',
           }}
         />
-      </FormSet>
+      </Provider>
     </>
   )
 }
@@ -219,11 +230,13 @@ const InputWithError = () => {
   const [haveAnErrorMessage3, setErrorMessage3] = React.useState(false)
   const [haveAnErrorMessage4, setErrorMessage4] = React.useState(false)
   return (
-    <>
-      <FormSet
-      // globalStatus={{ id: 'form-status' }}
-      >
-        <FormRow label="Caption:">
+    <Provider
+      formElement={{
+        globalStatus: { id: 'form-status' },
+      }}
+    >
+      <Form.Handler>
+        <FieldBlock label="Caption:">
           <Input
             placeholder="Enter #1 ..."
             status={haveAnErrorMessage1 ? 'Error Message #1' : null}
@@ -242,27 +255,29 @@ const InputWithError = () => {
             right="small"
             // status_no_animation
           />
-          <FormRow vertical>
-            <Switch
-              status={haveAnErrorMessage3 ? 'Error Message #3' : null}
-              on_change={({ checked }) => {
-                setErrorMessage3(checked)
-              }}
-              bottom="small"
-              // status_no_animation
-            />
-            <Switch
-              status={haveAnErrorMessage4 ? 'Error Message #4' : null}
-              on_change={({ checked }) => {
-                setErrorMessage4(checked)
-              }}
-              // status_no_animation
-            />
-          </FormRow>
-        </FormRow>
-      </FormSet>
+          <Provider formElement={{ label_direction: 'vertical' }}>
+            <Flex.Vertical>
+              <Switch
+                status={haveAnErrorMessage3 ? 'Error Message #3' : null}
+                on_change={({ checked }) => {
+                  setErrorMessage3(checked)
+                }}
+                bottom="small"
+                // status_no_animation
+              />
+              <Switch
+                status={haveAnErrorMessage4 ? 'Error Message #4' : null}
+                on_change={({ checked }) => {
+                  setErrorMessage4(checked)
+                }}
+                // status_no_animation
+              />
+            </Flex.Vertical>
+          </Provider>
+        </FieldBlock>
+      </Form.Handler>
       <GlobalStatus id="form-status" autoscroll={false} top="small" />
-    </>
+    </Provider>
   )
 }
 
@@ -726,4 +741,45 @@ export const AsFigmaGlobalStatus = () => {
       </Box>
     </Wrapper>
   )
+}
+
+export function GlobalStatusSelector() {
+  const [pickerState, setPickerState] =
+    useState<GlobalStatusState>('warning')
+
+  return (
+    <Section spacing>
+      <Space left>
+        <GlobalStatus
+          show={true}
+          state={pickerState}
+          title={pickerState}
+          text={`You have chosen: ${pickerState}`}
+        />
+      </Space>
+      <Space top="large" left>
+        <Radio.Group label="Status states">
+          <Radio
+            label="warning"
+            value="warning"
+            onChange={setGlobalStatus}
+          />
+          <Radio label="info" value="info" onChange={setGlobalStatus} />
+          <Radio
+            label="success"
+            value="success"
+            onChange={setGlobalStatus}
+          />
+          <Radio label="error" value="error" onChange={setGlobalStatus} />
+        </Radio.Group>
+      </Space>
+    </Section>
+  )
+
+  function setGlobalStatus(event) {
+    const input = event.target as HTMLInputElement
+    const value = input.value as GlobalStatusState
+
+    setPickerState(value)
+  }
 }

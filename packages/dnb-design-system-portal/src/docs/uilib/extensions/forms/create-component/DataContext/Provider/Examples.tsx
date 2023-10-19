@@ -3,10 +3,10 @@ import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
   Form,
   DataContext,
-  Layout,
   Field,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
+import { Card, Flex } from '@dnb/eufemia/src'
 
 export const TestdataSchema: JSONSchema7 = {
   type: 'object',
@@ -79,10 +79,7 @@ export const Default = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         DataContext,
-        Layout,
-        Field,
         Value,
         testdata,
         TestdataSchema,
@@ -96,10 +93,11 @@ export const Default = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
+        sessionStorageId="provider-example-1"
       >
-        <Layout.Section>
-          <Layout.Card>
-            <Layout.Column divider="line" spacing="small">
+        <Flex.Stack>
+          <Card>
+            <Flex.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -135,7 +133,7 @@ export const Default = () => {
                 />
               </div>
               <div className="hmm">
-                <Layout.Row>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/0/itemText"
                     label="Item text"
@@ -144,8 +142,8 @@ export const Default = () => {
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
-                <Layout.Row>
+                </Flex.Horizontal>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/1/itemText"
                     label="Item text"
@@ -154,14 +152,14 @@ export const Default = () => {
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
+                </Flex.Horizontal>
               </div>
-              <Layout.ButtonRow>
+              <Form.ButtonRow>
                 <Form.SubmitButton />
-              </Layout.ButtonRow>
-            </Layout.Column>
-          </Layout.Card>
-        </Layout.Section>
+              </Form.ButtonRow>
+            </Flex.Vertical>
+          </Card>
+        </Flex.Stack>
       </DataContext.Provider>
     </ComponentBox>
   )
@@ -171,10 +169,7 @@ export const ValidationWithJsonSchema = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         DataContext,
-        Layout,
-        Field,
         Value,
         testdata,
         TestdataSchema,
@@ -190,9 +185,9 @@ export const ValidationWithJsonSchema = () => {
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
-        <Layout.Section>
-          <Layout.Card>
-            <Layout.Column divider="line" spacing="small">
+        <Flex.Stack>
+          <Card>
+            <Flex.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -226,7 +221,7 @@ export const ValidationWithJsonSchema = () => {
                 />
               </div>
               <div className="hmm">
-                <Layout.Row>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/0/itemText"
                     label="Item text"
@@ -235,8 +230,8 @@ export const ValidationWithJsonSchema = () => {
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
-                <Layout.Row>
+                </Flex.Horizontal>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/1/itemText"
                     label="Item text"
@@ -245,14 +240,14 @@ export const ValidationWithJsonSchema = () => {
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
+                </Flex.Horizontal>
               </div>
-              <Layout.ButtonRow>
+              <Form.ButtonRow>
                 <Form.SubmitButton />
-              </Layout.ButtonRow>
-            </Layout.Column>
-          </Layout.Card>
-        </Layout.Section>
+              </Form.ButtonRow>
+            </Flex.Vertical>
+          </Card>
+        </Flex.Stack>
       </DataContext.Provider>
     </ComponentBox>
   )

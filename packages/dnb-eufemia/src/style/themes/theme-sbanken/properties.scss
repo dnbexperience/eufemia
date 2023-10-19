@@ -1,9 +1,9 @@
 /*
- * CSS Properties
+ * CSS Properties Sbanken
  *
  */
 
-@mixin getDefaultProperties() {
+:root {
   // Typography Family
   --sb-font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   --sb-font-family-headings: 'MaisonNeueHeadings', 'Roboto', 'Helvetica',
@@ -117,12 +117,4 @@
 
   // Easing
   --sb-easing-default: cubic-bezier(0.42, 0, 0, 1);
-
-  @if mixin-exists('propertiesCustomisation') {
-    @include propertiesCustomisation();
-  }
-}
-
-:root {
-  @include getDefaultProperties();
 }

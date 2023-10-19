@@ -3,7 +3,7 @@ import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         onChange={(value) => console.log('onChange', value)}
       />
@@ -13,7 +13,7 @@ export const Default = () => {
 
 export const CheckboxTrue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox"
         label="Label text"
@@ -26,7 +26,7 @@ export const CheckboxTrue = () => {
 
 export const CheckboxFalse = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox"
         label="Label text"
@@ -39,7 +39,7 @@ export const CheckboxFalse = () => {
 
 export const CheckboxRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox"
         label="Set to be required initially"
@@ -53,7 +53,7 @@ export const CheckboxRequired = () => {
 
 export const CheckboxDisabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox"
         label="I am disabled"
@@ -66,7 +66,7 @@ export const CheckboxDisabled = () => {
 
 export const CheckboxError = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox"
         label="Label text"
@@ -79,7 +79,7 @@ export const CheckboxError = () => {
 
 export const ButtonTrue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="button"
         label="Label text"
@@ -92,7 +92,7 @@ export const ButtonTrue = () => {
 
 export const ButtonFalse = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="button"
         label="Label text"
@@ -105,7 +105,7 @@ export const ButtonFalse = () => {
 
 export const ButtonRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="button"
         label="Set to be required initially"
@@ -119,7 +119,7 @@ export const ButtonRequired = () => {
 
 export const ButtonDisabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="button"
         label="I am disabled"
@@ -132,7 +132,7 @@ export const ButtonDisabled = () => {
 
 export const ButtonError = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="button"
         label="Label text"
@@ -145,7 +145,7 @@ export const ButtonError = () => {
 
 export const CheckboxButtonTrue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox-button"
         label="Label text"
@@ -158,7 +158,7 @@ export const CheckboxButtonTrue = () => {
 
 export const CheckboxButtonFalse = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox-button"
         label="Label text"
@@ -171,7 +171,7 @@ export const CheckboxButtonFalse = () => {
 
 export const CheckboxButtonRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox-button"
         label="Set to be required initially"
@@ -185,7 +185,7 @@ export const CheckboxButtonRequired = () => {
 
 export const CheckboxButtonDisabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox-button"
         label="I am disabled"
@@ -198,7 +198,7 @@ export const CheckboxButtonDisabled = () => {
 
 export const CheckboxButtonError = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="checkbox-button"
         label="Label text"
@@ -211,7 +211,7 @@ export const CheckboxButtonError = () => {
 
 export const ButtonsTrue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="buttons"
         label="Label text"
@@ -224,7 +224,7 @@ export const ButtonsTrue = () => {
 
 export const ButtonsFalse = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="buttons"
         label="Label text"
@@ -237,7 +237,7 @@ export const ButtonsFalse = () => {
 
 export const ButtonsRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="buttons"
         label="Set to be required initially"
@@ -251,7 +251,7 @@ export const ButtonsRequired = () => {
 
 export const ButtonsDisabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="buttons"
         label="I am disabled"
@@ -264,7 +264,7 @@ export const ButtonsDisabled = () => {
 
 export const ButtonsError = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Boolean
         variant="buttons"
         label="Label text"

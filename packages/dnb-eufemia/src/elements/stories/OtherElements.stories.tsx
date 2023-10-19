@@ -10,12 +10,13 @@ import styled from '@emotion/styled'
 
 import {
   FormStatus,
-  FormRow,
   Skeleton,
   IconPrimary,
   ToggleButton,
+  Flex,
 } from '../../components'
 import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
+import { Provider } from '../../shared'
 // import Link from '../../../elements/Link'
 
 export default {
@@ -162,24 +163,26 @@ export const Textarea = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
-        <FormRow vertical>
-          <label className="dnb-form-label" htmlFor="hendrerit">
-            Label for the textarea:
-          </label>
-          <textarea
-            className="dnb-textarea"
-            id="hendrerit"
-            rows={5}
-            cols={33}
-            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
-              nostra lacinia bibendum hendrerit porttitor volutpat nam duis
-              nisl scelerisque sapien erat"
-          />
-        </FormRow>
+        <Provider formElement={{ label_direction: 'vertical' }}>
+          <Flex.Vertical>
+            <label className="dnb-form-label" htmlFor="hendrerit">
+              Label for the textarea:
+            </label>
+            <textarea
+              className="dnb-textarea"
+              id="hendrerit"
+              rows={5}
+              cols={33}
+              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
+            nostra lacinia bibendum hendrerit porttitor volutpat nam duis
+            nisl scelerisque sapien erat"
+            />
+          </Flex.Vertical>
+        </Provider>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <label className="dnb-form-label" htmlFor="litora">
             Label for the textarea:
           </label>
@@ -191,7 +194,7 @@ export const Textarea = () => (
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
           />
-        </FormRow>
+        </Flex.Horizontal>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
@@ -209,24 +212,26 @@ export const Textarea = () => (
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <FormRow vertical>
-          <label className="dnb-form-label" htmlFor="vestibulum">
-            Label:
-          </label>
-          <textarea
-            id="vestibulum"
-            className="dnb-textarea status--error"
-            cols={33}
-            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
+        <Provider formElement={{ label_direction: 'vertical' }}>
+          <Flex.Vertical>
+            <label className="dnb-form-label" htmlFor="vestibulum">
+              Label:
+            </label>
+            <textarea
+              id="vestibulum"
+              className="dnb-textarea status--error"
+              cols={33}
+              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-          />
+            />
+          </Flex.Vertical>
           <FormStatus text="Message to the user" />
-        </FormRow>
+        </Provider>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <label className="dnb-form-label" htmlFor="volutpat">
             Label:
           </label>
@@ -240,7 +245,7 @@ export const Textarea = () => (
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
           />
-        </FormRow>
+        </Flex.Horizontal>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
     </CustomStyles>

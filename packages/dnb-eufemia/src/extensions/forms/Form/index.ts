@@ -1,11 +1,6 @@
-import SubmitButton from './SubmitButton'
-import Element from './FormElement'
-import Handler from './FormHandler'
-
-const FormExport = {
-  Handler,
-  Element,
-  SubmitButton,
-}
-
-export default FormExport
+export { default as Handler } from './Handler'
+export { default as Element } from './Element'
+export { default as SubmitButton } from './SubmitButton'
+export { default as ButtonRow } from './ButtonRow'
+export { default as MainHeading } from './MainHeading'
+export { default as SubHeading } from './SubHeading'

@@ -104,3 +104,9 @@ html[show-dev-grid] .dev-grid {
 .lh-32 {
   line-height: calc(var(--line-height-basis) + 0.5rem); /* 2rem */
 }
+
+// Make the home => pages animation
+.home-background ul,
+#portal-sidebar-menu {
+  view-transition-name: home;
+}

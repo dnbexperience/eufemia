@@ -23,28 +23,6 @@ export class FormError extends Error {
   }
 }
 
-// Spacing
-
-export const pickSpacingProps = <Props extends SpacingProps>(
-  props: Props
-): SpacingProps => {
-  return {
-    space: props?.space,
-    top: props?.top,
-    bottom: props?.bottom,
-    left: props?.left,
-    right: props?.right,
-  }
-}
-
-export const omitSpacingProps = <Props extends SpacingProps>(
-  props: Props
-): Omit<Props, keyof SpacingProps> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { space, top, bottom, left, right, ...restProps } = props
-  return restProps
-}
-
 // Data value
 
 interface DefaultErrorMessages {
@@ -167,11 +145,11 @@ export interface FieldProps<
   id?: string
   layout?: 'horizontal' | 'vertical'
   /** Main label text */
-  label?: string
+  label?: React.ReactNode
   /** A more discreet text displayed beside the label (i.e for "(optional)") */
-  labelDescription?: string
+  labelDescription?: React.ReactNode
   /** Secondary information displayed at the end of the label line (i.e character counter) */
-  labelSecondary?: string
+  labelSecondary?: React.ReactNode
   /** Text showing in place of the value if no value is given */
   placeholder?: string
   info?: Error | FormError | string

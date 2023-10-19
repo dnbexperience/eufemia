@@ -1,16 +1,17 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
+import { Flex } from '@dnb/eufemia/src'
 import {
   Iterate,
-  Layout,
   Field,
   Value,
   Form,
+  FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const PrimitiveElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field }}>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         label="Array label"
         value={['Iron Man', 'Captain America', 'The Hulk']}
@@ -24,7 +25,7 @@ export const PrimitiveElements = () => {
 
 export const ObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, Field, Value }}>
+    <ComponentBox scope={{ Iterate, Value }}>
       <Iterate.Array
         label="Accounts"
         value={[
@@ -42,10 +43,10 @@ export const ObjectElements = () => {
         <h3>
           <Value.String elementPath="/nickname" />
         </h3>
-        <Layout.Row>
+        <Flex.Horizontal>
           <Field.BankAccountNumber elementPath="/accountNumber" />
           <Field.String label="Account name" elementPath="/accountName" />
-        </Layout.Row>
+        </Flex.Horizontal>
       </Iterate.Array>
     </ComponentBox>
   )
@@ -53,7 +54,7 @@ export const ObjectElements = () => {
 
 export const RenderPropsPrimitiveElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field }}>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         label="Array label"
         value={['foo', 'bar', 'baz']}
@@ -67,7 +68,7 @@ export const RenderPropsPrimitiveElements = () => {
 
 export const RenderPropsObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, Field }}>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         label="Array label"
         value={[
@@ -79,10 +80,10 @@ export const RenderPropsObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         {({ num, txt }) => (
-          <Layout.Row width="large">
+          <FieldBlock width="large">
             <Field.Number value={num} width="small" />
             <Field.String value={txt} width={false} />
-          </Layout.Row>
+          </FieldBlock>
         )}
       </Iterate.Array>
     </ComponentBox>
@@ -91,9 +92,7 @@ export const RenderPropsObjectElements = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate, Layout, Field, Value, Form, TrashIcon }}
-    >
+    <ComponentBox scope={{ Iterate, Value, TrashIcon }}>
       <Form.Handler
         data={{
           avengers: [
@@ -114,17 +113,17 @@ export const ArrayFromFormHandler = () => {
         }}
         onChange={(data) => console.log('Source onChange', data)}
       >
-        <Layout.MainHeading>Avengers</Layout.MainHeading>
+        <Form.MainHeading>Avengers</Form.MainHeading>
 
         <Iterate.Array
           path="/avengers"
           onChange={(value) => console.log('Iterate onChange', value)}
         >
-          <Layout.SubHeading>
+          <Form.SubHeading>
             <Value.String elementPath="/nickname" />
-          </Layout.SubHeading>
+          </Form.SubHeading>
 
-          <Layout.Row align="center">
+          <Flex.Horizontal align="center">
             <Field.String
               elementPath="/firstName"
               width="medium"
@@ -141,7 +140,7 @@ export const ArrayFromFormHandler = () => {
               width="small"
             />
             <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
-          </Layout.Row>
+          </Flex.Horizontal>
 
           <Field.String path="/alwaysThere" top="x-small" />
         </Iterate.Array>

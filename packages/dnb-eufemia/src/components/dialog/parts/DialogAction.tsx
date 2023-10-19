@@ -131,4 +131,6 @@ const DialogAction = ({
   )
 }
 
+DialogAction._supportsSpacingProps = true
+
 export default DialogAction

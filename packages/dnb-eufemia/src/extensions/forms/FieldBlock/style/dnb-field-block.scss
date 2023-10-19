@@ -1,35 +1,43 @@
-@import '../../variables.scss';
+@import '../../Field/style/field-sizes.scss';
+@import '../../../../style/core/utilities.scss';
+
+fieldset.dnb-forms-field-block {
+  @include fieldsetReset(true);
+}
 
 .dnb-forms-field-block {
-  // Layout
-  &--layout-vertical {
+  &__grid {
     display: grid;
-    grid-template-columns: auto;
-    grid-template-areas:
-      'label'
-      'contents'
-      'status';
   }
 
-  &--layout-horizontal {
-    display: grid;
-    grid-template-columns: $forms-field-width-medium auto;
-    grid-template-areas:
-      'label contents'
-      'status status';
+  &--layout {
+    &-vertical {
+      grid-template-columns: auto;
+      grid-template-areas:
+        'label'
+        'contents'
+        'status';
+    }
+    &-horizontal {
+      grid-template-columns: var(--forms-field-width--medium) auto;
+      grid-template-areas:
+        'label contents'
+        'status status';
+    }
   }
 
-  // Width
-  &--width-small {
-    width: $forms-field-width-small;
-  }
-
-  &--width-medium {
-    width: $forms-field-width-medium;
-  }
-
-  &--width-large {
-    width: $forms-field-width-large;
+  &--width {
+    @include allAbove(x-small) {
+      &-small {
+        width: var(--forms-field-width--small);
+      }
+      &-medium {
+        width: var(--forms-field-width--medium);
+      }
+      &-large {
+        width: var(--forms-field-width--large);
+      }
+    }
   }
 
   // Elements
@@ -59,20 +67,21 @@
   &__contents {
     grid-area: contents;
 
-    &--width-stretch {
-      width: 100%;
-    }
-
-    &--width-small {
-      width: $forms-field-width-small;
-    }
-
-    &--width-medium {
-      width: $forms-field-width-medium;
-    }
-
-    &--width-large {
-      width: $forms-field-width-large;
+    &--width {
+      &-stretch {
+        width: 100%;
+      }
+      @include allAbove(x-small) {
+        &-small {
+          width: var(--forms-field-width--small);
+        }
+        &-medium {
+          width: var(--forms-field-width--medium);
+        }
+        &-large {
+          width: var(--forms-field-width--large);
+        }
+      }
     }
   }
 }

@@ -14,23 +14,23 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  GH_EMAIL: ${{ secrets.GH_EMAIL }}
+  GH_NAME: ${{ secrets.GH_NAME }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+  ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+  ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+  ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+
 jobs:
   action:
     name: Run release and deploy
 
     runs-on: ubuntu-latest
-
-    env:
-      GH_EMAIL: ${{ secrets.GH_EMAIL }}
-      GH_NAME: ${{ secrets.GH_NAME }}
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-      FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
-      ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-      ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-      ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
-      ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
 
     steps:
       - name: Git checkout

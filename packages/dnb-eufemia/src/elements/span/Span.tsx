@@ -13,4 +13,8 @@ const Span = React.forwardRef((props: SpanProps, ref) => (
   <E as="span" innerRef={ref} {...props} />
 ))
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+Span._supportsSpacingProps = true
+
 export default Span
