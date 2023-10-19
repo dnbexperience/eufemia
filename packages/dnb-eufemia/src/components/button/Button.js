@@ -27,9 +27,8 @@ import {
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import IconPrimary from '../icon-primary/IconPrimary'
-import { launch, launch_medium } from '../../icons'
 import FormStatus from '../form-status/FormStatus'
-import Anchor from '../anchor/Anchor'
+import Anchor, { pickIcon } from '../anchor/Anchor'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -178,14 +177,6 @@ export default class Button extends React.PureComponent {
       : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
-      if (
-        (props.href || props.to) &&
-        props.target &&
-        props.target.includes('_blank') &&
-        !icon
-      ) {
-        icon = icon_size === 'medium' ? launch_medium : launch
-      }
     }
 
     const classes = classnames(
@@ -435,16 +426,7 @@ function Content({
       }
 
       {icon &&
-        (icon.props?.icon ||
-        icon.props?.className?.includes('dnb-icon') ? (
-          React.cloneElement(icon, {
-            key: 'button-icon-clone',
-            className: classnames(
-              icon.props?.className,
-              'dnb-button__icon'
-            ),
-          })
-        ) : (
+        (pickIcon(icon) || (
           <IconPrimary
             key="button-icon"
             className="dnb-button__icon"

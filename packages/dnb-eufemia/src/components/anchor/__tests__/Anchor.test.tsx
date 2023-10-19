@@ -5,8 +5,10 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { act, fireEvent, render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Anchor, { AnchorAllProps } from '../Anchor'
+import { bell } from '../../../icons'
+import IconPrimary from '../../IconPrimary'
 
 const props: AnchorAllProps = {
   element: 'a',
@@ -42,6 +44,7 @@ describe('Anchor element', () => {
       </Anchor>
     )
 
+    expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
     expect(
       document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
         .textContent
@@ -78,15 +81,73 @@ describe('Anchor element', () => {
     ).toContain('dnb-tooltip--active')
   })
 
-  it('has no "no-icon" class when element was given', () => {
+  it('has "--launch-icon" class when target is blank', () => {
     render(
       <Anchor href="/url" target="_blank">
         <span>text</span>
       </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--no-icon')
+      document.querySelector('.dnb-anchor--launch-icon')
+    ).toBeInTheDocument()
+  })
+
+  it('has no "--launch-icon" class when target is blank and href was mailto, tel or sms', () => {
+    const { rerender } = render(
+      <Anchor href="/url" target="_blank">
+        <span>text</span>
+      </Anchor>
+    )
+    expect(
+      document.querySelector('.dnb-anchor--launch-icon')
+    ).toBeInTheDocument()
+
+    rerender(
+      <Anchor href="mailto:" target="_blank">
+        <span>text</span>
+      </Anchor>
+    )
+    expect(
+      document.querySelector('.dnb-anchor--launch-icon')
     ).not.toBeInTheDocument()
+
+    rerender(
+      <Anchor href="tel:" target="_blank">
+        <span>text</span>
+      </Anchor>
+    )
+    expect(
+      document.querySelector('.dnb-anchor--launch-icon')
+    ).not.toBeInTheDocument()
+
+    rerender(
+      <Anchor href="sms:" target="_blank">
+        <span>text</span>
+      </Anchor>
+    )
+    expect(
+      document.querySelector('.dnb-anchor--launch-icon')
+    ).not.toBeInTheDocument()
+  })
+
+  it('has "--was-node" class when child was not a string', () => {
+    render(
+      <Anchor href="/url">
+        <span>text</span>
+      </Anchor>
+    )
+    expect(
+      document.querySelector('.dnb-anchor--was-node')
+    ).toBeInTheDocument()
+  })
+
+  it('has no tooltip when title was given', () => {
+    render(
+      <Anchor href="/url" target="_blank" title="Title">
+        <span>text</span>
+      </Anchor>
+    )
+    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
   })
 
   it('should forward ref', () => {
@@ -98,10 +159,8 @@ describe('Anchor element', () => {
       </Anchor>
     )
 
-    act(() => {
-      const element = document.querySelector('.dnb-anchor')
-      expect(ref.current).toBe(element)
-    })
+    const element = document.querySelector('.dnb-anchor')
+    expect(ref.current).toBe(element)
   })
 
   it('has aria-describedby when target is blank', () => {
@@ -182,15 +241,33 @@ describe('Anchor element', () => {
     ).toBeInTheDocument()
   })
 
-  it('hides launch icon when given a right icon', () => {
-    render(
-      <Anchor href="/url" target="_blank" icon="bell" iconPosition="right">
+  it('uses given icon instead of launch icon', () => {
+    const { rerender } = render(
+      <Anchor href="/url" target="_blank" icon={bell} iconPosition="right">
         text
       </Anchor>
     )
+
+    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
     expect(
-      document.querySelector('.dnb-anchor--no-icon')
-    ).toBeInTheDocument()
+      document.querySelector('.dnb-icon').getAttribute('data-testid')
+    ).toBe('bell icon')
+
+    rerender(
+      <Anchor
+        href="/url"
+        target="_blank"
+        icon={<IconPrimary icon={bell} />}
+        iconPosition="right"
+      >
+        text
+      </Anchor>
+    )
+
+    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-icon').getAttribute('data-testid')
+    ).toBe('bell icon')
   })
 })
 

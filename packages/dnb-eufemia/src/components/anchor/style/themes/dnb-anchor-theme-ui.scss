@@ -43,6 +43,13 @@
   &:focus-visible {
     @include anchorFocus();
   }
+
+  &--icon-left .dnb-icon {
+    margin-right: 0.25em;
+  }
+  &--icon-right .dnb-icon {
+    margin-left: 0.25em;
+  }
 }
 
 $useClasses: true !default;
