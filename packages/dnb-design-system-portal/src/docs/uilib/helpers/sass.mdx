@@ -127,8 +127,11 @@ You can either change the default values in the `$breakpoints` array from `utili
 $breakpoints: map-merge(
   $breakpints,
   (
+    // redefine a size
     'medium': 40em,
-    'large': 90em,
+
+    // add an offset to the original value
+    'large': map-get($breakpoints, large) + 5em
   )
 );
 
