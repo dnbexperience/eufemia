@@ -72,3 +72,96 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('media', () => {
+  const selector = '[data-visual-test="helper-media-offset"] ul'
+  const url = '/uilib/helpers/classes/visual-tests'
+
+  it('have to match media offset for "isLarge"', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 1055,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for "isLarge" + offset', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 1056,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for below "isMedium"', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 735,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for below "isMedium" + offset', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 865,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for above "isMedium"', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 736,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for above "isMedium" + offset', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 864,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for "isSmall"', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 545,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match media offset for "isSmall" + offset', async () => {
+    const screenshot = await makeScreenshot({
+      selector,
+      url,
+      pageViewport: {
+        width: 544,
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

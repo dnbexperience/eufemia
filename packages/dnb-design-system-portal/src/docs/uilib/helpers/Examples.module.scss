@@ -5,3 +5,57 @@
     @include fieldsetReset();
   }
 }
+
+.showWhenLarge,
+.showWhenMedium,
+.showWhenSmall {
+  color: grey;
+}
+.showWhenLargeOffset,
+.showWhenMediumOffset,
+.showWhenSmallOffset {
+  color: white;
+}
+
+// 1. Show green when NO offset is given
+.showWhenLarge {
+  // is green on 960 and more
+  @include allAbove(medium) {
+    color: var(--color-success-green);
+  }
+}
+.showWhenMedium {
+  // is green between 641 and 959
+  @include allBetween(small, medium) {
+    color: var(--color-success-green);
+  }
+}
+.showWhenSmall {
+  // is green on 640 and less
+  @include allBelow(small) {
+    color: var(--color-success-green);
+  }
+}
+
+// 2. Show red when an offset of 6em matches
+.showWhenLargeOffset {
+  // is grey on 1247
+  // is green on 1248
+  @include allAbove(medium, 6em) {
+    color: var(--color-success-green);
+  }
+}
+.showWhenMediumOffset {
+  // is grey on 735 or 865
+  // is green between 736 and 864
+  @include allBetween(small, medium, 6em, -6em) {
+    color: var(--color-success-green);
+  }
+}
+.showWhenSmallOffset {
+  // is grey on 545
+  // is green on 544
+  @include allBelow(small, -6em) {
+    color: var(--color-success-green);
+  }
+}
