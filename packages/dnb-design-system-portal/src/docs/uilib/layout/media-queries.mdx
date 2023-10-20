@@ -60,25 +60,82 @@ Numeric values will be handled as an `em` unit.
 
 ### `useMedia` hook usage
 
-```js
+```tsx
 import { useMedia } from '@dnb/eufemia/shared'
 
 function Component() {
   const { isSmall, isMedium, isLarge, isSSR } = useMedia()
 
-  return isSmall ? 'true' : 'false'
+  return isSmall && <IsVisibleWhenSmall />
 }
 ```
 
 To lower the possibility of CLS (Cumulative Layout Shift) on larger screens – you can make use of the `isSSR` property. Try to use it in combination with `isLarge`, because the negative CLS experience is most recognizable on larger screens:
 
-```js
+```tsx
 import { useMedia } from '@dnb/eufemia/shared'
 
 function Component() {
   const { isSmall, isMedium, isLarge, isSSR } = useMedia()
 
-  return isLarge || isSSR ? 'true' : 'false'
+  return (isLarge || isSSR) && <IsVisibleDuringSsrAndWhenLarge />
+}
+```
+
+During SSR, when no `window` object is available, all results are negative. But you can provide a `initialValue`:
+
+```tsx
+import { useMedia } from '@dnb/eufemia/shared'
+
+function Component() {
+  const { isSmall } = useMedia({
+    initialValue: {
+      isSmall: true,
+    },
+  })
+
+  return isSmall && <IsVisibleDuringSSR />
+}
+```
+
+Here are all the options:
+
+```tsx
+import { useMedia } from '@dnb/eufemia/shared'
+
+function Component() {
+  const { isSmall } = useMedia({
+    /**
+     * Give a initial value, that is used during SSR as well.
+     * Default: null
+     */
+    initialValue?: Partial<UseMediaResult>
+
+    /**
+     * If set to true, no MediaQuery will be used.
+     * Default: false
+     */
+    disabled?: boolean
+
+    /**
+     * Provide a custom breakpoint
+     * Default: defaultBreakpoints
+     */
+    breakpoints?: MediaQueryBreakpoints
+
+    /**
+     * Provide a custom query
+     * Default: defaultQueries
+     */
+    queries?: Record<string, MediaQueryCondition>
+
+    /**
+     * For debugging
+     */
+    log?: boolean
+  })
+
+  return isSmall
 }
 ```
 
