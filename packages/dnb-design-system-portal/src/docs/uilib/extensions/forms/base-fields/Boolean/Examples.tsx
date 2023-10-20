@@ -235,6 +235,18 @@ export const ButtonsFalse = () => {
   )
 }
 
+export const ButtonsUndefined = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="buttons"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const ButtonsRequired = () => {
   return (
     <ComponentBox>
