@@ -1,9 +1,13 @@
 import React, { useContext } from 'react'
 import pointer from 'json-pointer'
 import * as DataContext from '../DataContext'
+import { HeightAnimation } from '../../../components'
+import { SpacingProps } from '../../../shared/types'
 
 export type Props = {
   visible?: boolean
+  /** Will use span instead of div */
+  inline?: boolean
   /** Given data context path must be defined to show children */
   pathDefined?: string
   /** Given data context path must be undefined to show children */
@@ -19,10 +23,11 @@ export type Props = {
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
   children: React.ReactNode
-}
+} & SpacingProps
 
 function Visibility({
   visible,
+  inline,
   pathDefined,
   pathUndefined,
   pathTruthy,
@@ -31,18 +36,21 @@ function Visibility({
   pathFalse,
   inferData,
   children,
+  ...props
 }: Props) {
   const dataContext = useContext(DataContext.Context)
 
+  let open = true
+
   if (visible === false) {
-    return null
+    open = false
   }
 
   if (pathDefined && !pointer.has(dataContext.data, pathDefined)) {
-    return null
+    open = false
   }
   if (pathUndefined && pointer.has(dataContext.data, pathUndefined)) {
-    return null
+    open = false
   }
 
   if (
@@ -50,14 +58,14 @@ function Visibility({
     (!pointer.has(dataContext.data, pathTruthy) ||
       !pointer.get(dataContext.data, pathTruthy))
   ) {
-    return null
+    open = false
   }
   if (
     pathFalsy &&
     pointer.has(dataContext.data, pathFalsy) &&
     Boolean(pointer.get(dataContext.data, pathFalsy))
   ) {
-    return null
+    open = false
   }
 
   if (
@@ -65,21 +73,30 @@ function Visibility({
     (!pointer.has(dataContext.data, pathTrue) ||
       pointer.get(dataContext.data, pathTrue) !== true)
   ) {
-    return null
+    open = false
   }
   if (
     pathFalse &&
     (!pointer.has(dataContext.data, pathFalse) ||
       pointer.get(dataContext.data, pathFalse) !== false)
   ) {
-    return null
+    open = false
   }
 
   if (inferData && !inferData(dataContext.data)) {
-    return null
+    open = false
   }
 
-  return <>{children}</>
+  return (
+    <HeightAnimation
+      element={inline ? 'span' : 'div'}
+      animate={!inline}
+      open={open}
+      {...props}
+    >
+      {children}
+    </HeightAnimation>
+  )
 }
 
 Visibility._supportsSpacingProps = true

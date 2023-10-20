@@ -9,6 +9,42 @@ describe('Visibility', () => {
     expect(screen.getByText('Child')).toBeInTheDocument()
   })
 
+  it('renders div by default', () => {
+    render(<Visibility>Child</Visibility>)
+    expect(document.querySelector('.dnb-height-animation').tagName).toBe(
+      'DIV'
+    )
+  })
+
+  it('renders span when inline is true', () => {
+    render(<Visibility inline>Child</Visibility>)
+    expect(document.querySelector('.dnb-height-animation').tagName).toBe(
+      'SPAN'
+    )
+  })
+
+  it('should support spacing props', () => {
+    render(
+      <Visibility top="2rem" aria-label="label">
+        Child
+      </Visibility>
+    )
+
+    const element = document.querySelector('.dnb-height-animation')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'aria-label', 'style'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-space',
+      'dnb-space__top--large',
+      'dnb-height-animation',
+      'dnb-height-animation--is-in-dom',
+      'dnb-height-animation--parallax',
+    ])
+  })
+
   describe('visibility-prop', () => {
     it('renders children when visible is true', () => {
       render(<Visibility visible={true}>Child</Visibility>)
