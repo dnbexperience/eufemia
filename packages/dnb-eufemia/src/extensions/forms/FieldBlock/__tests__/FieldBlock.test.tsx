@@ -160,6 +160,21 @@ describe('FieldBlock', () => {
     expect(labelElements[4]).toBe(undefined)
   })
 
+  it('should use fieldset/legend when "asFieldset" is given', () => {
+    render(
+      <FieldBlock label="Legend" asFieldset>
+        content
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+    expect(document.querySelectorAll('legend')).toHaveLength(1)
+    expect(document.querySelector('legend')).not.toHaveAttribute('for')
+    expect(document.querySelector('.dnb-forms-field-block').tagName).toBe(
+      'FIELDSET'
+    )
+  })
+
   it('should render a FormStatus when "info" is given', () => {
     render(<FieldBlock info="Info">content</FieldBlock>)
 
