@@ -73,6 +73,28 @@ describe('PaymentCard', () => {
     expect(screen.queryByText(nb.text_not_active)).toBeInTheDocument()
   })
 
+  it('has correct renewed status', () => {
+    render(<PaymentCard {...defaultProps} card_status="renewed" />)
+
+    expect(screen.queryByText(nb.text_renewed)).toBeInTheDocument()
+  })
+
+  it('has correct replaced status', () => {
+    render(<PaymentCard {...defaultProps} card_status="replaced" />)
+
+    expect(screen.queryByText(nb.text_replaced)).toBeInTheDocument()
+  })
+
+  it('has correct order_in_process status', () => {
+    render(
+      <PaymentCard {...defaultProps} card_status="order_in_process" />
+    )
+
+    expect(
+      screen.queryByText(nb.text_order_in_process)
+    ).toBeInTheDocument()
+  })
+
   it('has correct blocked status', () => {
     render(<PaymentCard {...defaultProps} card_status="blocked" />)
 
