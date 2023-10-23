@@ -109,3 +109,14 @@ export function FormsetReset() {
     </Wrapper>
   )
 }
+export function SkipLink() {
+  return (
+    <Wrapper className={fieldsetReset}>
+      <ComponentBox hideCode data-visual-test="skip-link">
+        <a href="#something" className="dnb-skip-link">
+          I am a skip link
+        </a>
+      </ComponentBox>
+    </Wrapper>
+  )
+}
