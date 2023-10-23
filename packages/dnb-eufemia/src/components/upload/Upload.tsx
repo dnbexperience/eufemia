@@ -26,11 +26,19 @@ export { defaultProps }
 const Upload = (localProps: UploadAllProps) => {
   const context = React.useContext(Context)
 
+  const { buttonTextSingular, textSingular, ...translations } =
+    context.getTranslation(localProps).Upload
+
+  if (localProps?.filesAmountLimit === 1) {
+    translations.buttonText = buttonTextSingular
+    translations.text = textSingular
+  }
+
   const extendedProps = extendPropsWithContext(
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
-    context.getTranslation(localProps).Upload,
+    translations,
     context.Upload
   )
 

@@ -251,6 +251,20 @@ describe('Upload', () => {
         expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
       )
     })
+
+    it('renders the singular upload button text when filesAmountLimit is 1', () => {
+      render(<Upload {...defaultProps} filesAmountLimit={1} />)
+
+      expect(screen.queryByText(nb.buttonText)).not.toBeInTheDocument()
+      expect(screen.queryByText(nb.buttonTextSingular)).toBeInTheDocument()
+    })
+
+    it('renders the singular text when filesAmountLimit is 1', () => {
+      render(<Upload {...defaultProps} filesAmountLimit={1} />)
+
+      expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
+      expect(screen.queryByText(nb.textSingular)).toBeInTheDocument()
+    })
   })
 
   it('will only accept one file if filesAmountLimit is 1', async () => {
@@ -299,7 +313,7 @@ describe('Upload', () => {
 
     expect(
       screen.queryByRole('button', {
-        name: nb.buttonText,
+        name: nb.buttonTextSingular,
       })
     ).not.toHaveAttribute('disabled')
   })
