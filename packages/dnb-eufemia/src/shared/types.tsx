@@ -24,6 +24,9 @@ export type DataAttributeTypes = {
   // [property: `data-${string}`]: string
 }
 
-export type DynamicElement<P = React.HTMLProps<HTMLElement>> =
-  | keyof JSX.IntrinsicElements
-  | React.FunctionComponent<P>
+export type DynamicElement<
+  P = React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLElement>,
+    HTMLElement
+  >,
+> = keyof JSX.IntrinsicElements | React.FunctionComponent<P>
