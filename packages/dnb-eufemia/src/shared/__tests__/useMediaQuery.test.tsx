@@ -25,6 +25,10 @@ jest.mock('../MediaQueryUtils', () => ({
   isMatchMediaSupported: jest.fn(),
 }))
 
+const wrapper = ({ children }) => (
+  <React.StrictMode>{children}</React.StrictMode>
+)
+
 const RenderMediaQueryHook = (props: MediaQueryProps) => {
   const match = useMediaQuery(props)
   return <div id="mq-mock">{match ? props.children : null}</div>
@@ -170,27 +174,31 @@ describe('useMediaQuery', () => {
 
     const when = { min: '0', max: 'x-large' }
 
-    const { result: resultA } = renderHook(() =>
-      useMediaQuery({
-        when,
-      })
+    const { result: resultA } = renderHook(
+      () =>
+        useMediaQuery({
+          when,
+        }),
+      { wrapper }
     )
 
-    expect(window.matchMedia).toBeCalledTimes(2)
+    expect(window.matchMedia).toBeCalledTimes(4)
     expect(resultA.current).toBe(true)
 
     jest
       .spyOn(window, 'matchMedia')
       .mockImplementationOnce(jest.fn(window.matchMedia))
 
-    const { result: resultB } = renderHook(() =>
-      useMediaQuery({
-        disabled: true,
-        when,
-      })
+    const { result: resultB } = renderHook(
+      () =>
+        useMediaQuery({
+          disabled: true,
+          when,
+        }),
+      { wrapper }
     )
 
-    expect(window.matchMedia).toBeCalledTimes(2)
+    expect(window.matchMedia).toBeCalledTimes(4)
     expect(resultB.current).toBe(false)
   })
 })

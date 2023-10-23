@@ -12,13 +12,14 @@ import {
   InputMasked,
   HelpButton,
   Button,
-  FormSet,
-  FormRow,
   FormLabel,
   GlobalStatus,
+  Flex,
 } from '../..'
 import InputPassword from '../InputPassword'
 import { format } from '../../number-format/NumberUtils'
+import { FieldBlock, Form } from '../../../extensions/forms'
+import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Input',
@@ -28,10 +29,6 @@ const CustomStyle = styled.div`
   p {
     background-color: rgba(213, 30, 149, 0.25);
   }
-`
-
-const WidthLimit = styled(FormRow)`
-  ${'' /* width: 10rem; */}
 `
 
 const myRef = React.createRef<HTMLInputElement>()
@@ -51,59 +48,51 @@ export const InputSandbox = () => {
     <CustomStyle>
       <Wrapper>
         <Box>
-          <WidthLimit vertical>
-            {/* <Input placeholder="Placeholder" />
-              <Input value="Value" />
-              <Input placeholder="Placeholder" icon="calendar" /> */}
-            {/* <Input
-                placeholder="Placeholder"
+          <Provider formElement={{ label_direction: 'vertical' }}>
+            <Flex.Vertical>
+              <Input value="Plain" />
+              <Input value="Search" type="search" />
+              <Input value="Search" size="medium" type="search" />
+              <Input value="Search" size="large" type="search" />
+              <Input
+                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="medium"
                 value="Value"
                 icon="calendar"
                 align="right"
-              /> */}
-
-            <Input value="Plain" />
-            <Input value="Search" type="search" />
-            <Input value="Search" size="medium" type="search" />
-            <Input value="Search" size="large" type="search" />
-            <Input
-              value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-              icon_position="right"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="medium"
-              value="Value"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="medium"
-              placeholder="Placeholder"
-              icon_position="right"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="large"
-              value="Value"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="large"
-              placeholder="Placeholder"
-              icon_position="right"
-              icon="calendar"
-              align="right"
-            />
-          </WidthLimit>
+              />
+              <Input
+                size="medium"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="large"
+                value="Value"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="large"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+            </Flex.Vertical>
+          </Provider>
         </Box>
         <Box>
           <Input
@@ -116,54 +105,55 @@ export const InputSandbox = () => {
           <CustomInput />
         </Box>
         <Box>
-          <FormSet>
-            <FormRow
-              wrap
-              label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
-            >
-              <Input
-                inner_ref={myRef}
-                label="Input A:"
-                top="small"
-                right="small"
-                placeholder="Placeholder text"
-              />
+          🚀
+          <Provider formElement={{ label_direction: 'vertical' }}>
+            <Form.Element>
+              <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
+                <Flex.Vertical>
+                  <Input
+                    inner_ref={myRef}
+                    label="Input A:"
+                    placeholder="Placeholder text"
+                  />
 
-              <Input
-                label="Input B:"
-                top="small"
-                right="small"
-                placeholder="Placeholder text"
-              />
-              <Input label="Input C:" top="small" right="small" />
-            </FormRow>
-          </FormSet>
+                  <Input label="Input B:" placeholder="Placeholder text" />
+                  <Input label="Input C:" />
+                </Flex.Vertical>
+              </FieldBlock>
+            </Form.Element>
+          </Provider>
         </Box>
         <Box>
-          <FormRow
-            label="Vertical label:"
-            label_direction="vertical"
-            // vertical
+          <Provider
+            formElement={{
+              label_direction: 'vertical',
+            }}
           >
-            <Input label="Input label A:" right="small" />
-            <Input label="Input label B:" />
-          </FormRow>
+            <FieldBlock label="Vertical label:">
+              <Flex.Horizontal>
+                <Input label="Input label A:" right="small" />
+                <Input label="Input label B:" />
+              </Flex.Horizontal>
+            </FieldBlock>
+          </Provider>
         </Box>
         <Box>
-          <FormSet direction="vertical">
-            <FormRow label="Legend:">
+          <FieldBlock label="Legend:">
+            <Flex.Vertical>
               <Input label="Vertical 1:" />
               <Input label="Vertical 2:" stretch top="small" />
-            </FormRow>
-          </FormSet>
+            </Flex.Vertical>
+          </FieldBlock>
         </Box>
         <Box>
-          <FormSet vertical>
-            <FormRow label="Legend:">
-              <Input label="Vertical 1:" />
-              <Input label="Vertical 2:" stretch top="small" />
-            </FormRow>
-          </FormSet>
+          <Provider formElement={{ label_direction: 'vertical' }}>
+            <FieldBlock label="Legend:">
+              <Flex.Vertical>
+                <Input label="Vertical 1:" />
+                <Input label="Vertical 2:" stretch top="small" />
+              </Flex.Vertical>
+            </FieldBlock>
+          </Provider>
         </Box>
         <Box>
           <Input

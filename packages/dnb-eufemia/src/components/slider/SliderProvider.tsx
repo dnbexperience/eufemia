@@ -1,5 +1,5 @@
 import React from 'react'
-import { includeValidProps } from '../../components/form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   isTrue,
   makeUniqueId,
@@ -45,8 +45,19 @@ export function SliderProvider(localProps: SliderAllProps) {
       defaultProps,
       { skeleton: context?.skeleton },
       context?.getTranslation(localProps).Slider,
-      includeValidProps(
+      // Deprecated – can be removed in v11
+      pickFormElementProps(
         context?.FormRow,
+
+        /**
+         * Exclude some props
+         */
+        {
+          vertical: null,
+        }
+      ),
+      pickFormElementProps(
+        context?.formElement,
 
         /**
          * Exclude some props
@@ -150,7 +161,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     let numberValue = roundValue(rawValue, step)
     let multiValues: ValueTypes = numberValue
 
-    if (numberValue > -1) {
+    if (numberValue >= min) {
       if (isMulti) {
         const currentIndex = getAndUpdateCurrentIndex(numberValue)
         const lower = realtimeValue.current[currentIndex - 1]

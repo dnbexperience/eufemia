@@ -21,6 +21,53 @@ describe('Section component', () => {
     ).toContain('dnb-section--divider')
   })
 
+  it('should support "variant" props and takes precedence over "style_type"', () => {
+    const { rerender } = render(<Section variant="warning">text</Section>)
+
+    const element = document.querySelector('section.dnb-section')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-section',
+      'dnb-section--warning',
+    ])
+
+    rerender(
+      <Section variant="info" style_type="divider">
+        text
+      </Section>
+    )
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-section',
+      'dnb-section--info',
+    ])
+  })
+
+  it('should support custom class name', () => {
+    render(<Section className="custom-name">text</Section>)
+
+    const element = document.querySelector('section.dnb-section')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-section',
+      'dnb-section--default',
+      'custom-name',
+    ])
+  })
+
+  it('should support custom html attributes', () => {
+    render(<Section aria-label="Aria Label">text</Section>)
+
+    const element = document.querySelector('section.dnb-section')
+
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'aria-label'])
+    expect(element.getAttribute('aria-label')).toBe('Aria Label')
+  })
+
   it('should support any string in style_type', () => {
     render(<Section style_type="cucstom" />)
     expect(
@@ -35,7 +82,7 @@ describe('Section component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-section',
-      'dnb-section--mint-green-12',
+      'dnb-section--default',
       'dnb-space__top--medium',
     ])
   })

@@ -206,4 +206,6 @@ const Tag = (localProps: TagProps & SpacingProps) => {
 
 Tag.Group = TagGroup
 
+Tag._supportsSpacingProps = true
+
 export default Tag

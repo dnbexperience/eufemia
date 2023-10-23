@@ -189,3 +189,5 @@ function Exclude(props) {
 }
 
 Skeleton.Exclude = Exclude
+
+Skeleton._supportsSpacingProps = true

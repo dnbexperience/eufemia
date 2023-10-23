@@ -108,4 +108,6 @@ Timeline.Item = TimelineItem
 
 export { TimelineItem }
 
+Timeline._supportsSpacingProps = true
+
 export default Timeline

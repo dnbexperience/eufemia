@@ -416,8 +416,9 @@ const useCallEvent = ({ setLocalValue }) => {
 
     const numberValue = Number(num)
 
-    // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
-    const cleanedValue = numberValue === 0 ? '' : num
+    // Return '' (empty string) when the user has entered something invalid
+    const cleanedValue =
+      numberValue === 0 && String(num).charAt(0) !== '0' ? '' : num
 
     if (name === 'on_change' && numberValue === 0) {
       correctCaretPosition(event.target, maskParams, props)

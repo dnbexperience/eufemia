@@ -12,8 +12,10 @@
 
   opacity: 1;
 
-  transition: height 400ms var(--easing-default),
-    opacity 400ms var(--easing-default), margin 400ms var(--easing-default),
+  transition:
+    height 400ms var(--easing-default),
+    opacity 400ms var(--easing-default),
+    margin 400ms var(--easing-default),
     padding 400ms var(--easing-default);
 
   &--hidden {

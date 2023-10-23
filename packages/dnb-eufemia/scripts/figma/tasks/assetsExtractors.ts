@@ -679,7 +679,7 @@ const makeMetaFile = async ({
     {}
   )
 
-  await saveToFile(iconsMetaFile, formatIconsMetaFile(data))
+  await saveToFile(iconsMetaFile, await formatIconsMetaFile(data))
 
   log.info('> Figma: icons-meta.json file got generated')
 }
@@ -940,7 +940,7 @@ export const readIconsLockFile = async ({ file }) => {
   return {} as IconsLockFileMap
 }
 export const saveIconsLockFile = async ({ file, data }) => {
-  await saveToFile(file, formatIconsMetaFile(data))
+  await saveToFile(file, await formatIconsMetaFile(data))
 
   log.info(`> Figma: ${file} file got generated`)
 }
@@ -949,8 +949,8 @@ const iconsMetaFile = path.resolve(
   __dirname,
   '../../../src/icons/icons-meta.json'
 )
-export const formatIconsMetaFile = (data) => {
-  return prettier.format(JSON.stringify(data), {
+export const formatIconsMetaFile = async (data) => {
+  return await prettier.format(JSON.stringify(data), {
     ...prettierrc,
     filepath: iconsMetaFile,
   })

@@ -17,17 +17,20 @@ import Avatar from './avatar/Avatar'
 import Badge from './badge/Badge'
 import Breadcrumb from './breadcrumb/Breadcrumb'
 import Button from './button/Button'
+import Card from './card/Card'
 import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
 import Dialog from './dialog/Dialog'
 import Drawer from './drawer/Drawer'
 import Dropdown from './dropdown/Dropdown'
+import Flex from './flex/Flex'
 import FormLabel from './form-label/FormLabel'
 import FormRow from './form-row/FormRow'
 import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
+import Grid from './grid/Grid'
 import Heading from './heading/Heading'
 import HeightAnimation from './height-animation/HeightAnimation'
 import HelpButton from './help-button/HelpButton'
@@ -68,17 +71,20 @@ export {
   Badge,
   Breadcrumb,
   Button,
+  Card,
   Checkbox,
   DatePicker,
   Dialog,
   Drawer,
   Dropdown,
+  Flex,
   FormLabel,
   FormRow,
   FormSet,
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Grid,
   Heading,
   HeightAnimation,
   HelpButton,
@@ -120,17 +126,20 @@ export const getComponents = () => {
     Badge,
     Breadcrumb,
     Button,
+    Card,
     Checkbox,
     DatePicker,
     Dialog,
     Drawer,
     Dropdown,
+    Flex,
     FormLabel,
     FormRow,
     FormSet,
     FormStatus,
     GlobalError,
     GlobalStatus,
+    Grid,
     Heading,
     HeightAnimation,
     HelpButton,

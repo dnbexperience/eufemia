@@ -1,0 +1,33 @@
+/*
+* Sbanken Breadcrumb theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-breadcrumb {
+  .dnb-button {
+    &__text {
+      font-weight: var(--font-weight-medium);
+      color: var(--sb-color-text);
+    }
+  }
+  &__item {
+    &__span {
+      &__icon {
+        color: var(--sb-color-violet);
+      }
+      .dnb-p {
+        color: var(--sb-color-gray-dark-3);
+      }
+    }
+  }
+  &__item:not(:last-of-type) {
+    .dnb-button.dnb-button--has-text {
+      font-weight: var(--font-weight-medium);
+      .dnb-button__text {
+        color: var(--sb-color-text);
+      }
+    }
+  }
+}

@@ -437,3 +437,5 @@ export const prerenderIcon = ({
     return null
   }
 }
+
+Icon._supportsSpacingProps = true

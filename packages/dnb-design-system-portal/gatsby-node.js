@@ -118,6 +118,75 @@ exports.createPages = async (params) => {
   await createRedirects(params)
 }
 
+exports.onPostBuild = async (params) => {
+  await createRedirects(params)
+
+  if (deletedPages.length) {
+    params.reporter.warn(
+      `❗️ These pages where deleted:\n${deletedPages
+        .map((page) => `├ ${page}`)
+        .join('\n')}\n\n`,
+    )
+  }
+}
+
+const deletedPages = []
+const createdPages = []
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { deletePage } = actions
+
+  // Only build pages without "'/uilib'" when building for visual tests
+  if (process.env.IS_VISUAL_TEST === '1') {
+    if (
+      page.path !== '/' &&
+      !existsInPages(page.path, [
+        // General pages
+        '/404',
+        '/500',
+
+        // Playwright e2e tests
+        '/uilib',
+        '/uilib/components/button',
+        '/uilib/components',
+        '/uilib/extensions',
+        '/uilib/elements',
+        '/quickguide-designer/colors',
+        '/quickguide-designer/fonts',
+        '/contribute/getting-started',
+      ]) &&
+      !existsInPages(page.componentPath, [
+        // Visual e2e tests
+        'visual-tests',
+        'demos.mdx',
+      ])
+    ) {
+      deletedPages.push(page.path)
+      deletePage(page)
+    }
+  }
+
+  const filter = process.env.filter
+
+  if (!(filter?.length > 0)) {
+    return // stop here
+  }
+
+  const pages = filter.split(' ')
+
+  if (!existsInPages(page.path, pages)) {
+    deletePage(page)
+  } else {
+    createdPages.push(page.path)
+  }
+}
+
+function existsInPages(path, pages) {
+  return pages.some((p) => {
+    return path.includes(p)
+  })
+}
+
 async function createRedirects({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
@@ -187,15 +256,6 @@ exports.onCreateWebpackConfig = ({
       },
     },
     plugins: [
-      plugins.define({
-        'global.isCI': JSON.stringify(isCI),
-        'global.STYLE_IMPORT_PATH': JSON.stringify(
-          PREBUILD_EXISTS
-            ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
-            : '@dnb/eufemia/src/style/core'
-        ),
-      }),
-
       // Webpack 4 to 5 migration
       plugins.provide({ process: 'process/browser' }),
     ],
@@ -204,7 +264,7 @@ exports.onCreateWebpackConfig = ({
   if (PREBUILD_EXISTS && stage === 'build-javascript') {
     if (PREBUILD_EXISTS && !isCI) {
       reporter.warn(
-        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n'
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n',
       )
     }
 
@@ -212,16 +272,16 @@ exports.onCreateWebpackConfig = ({
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
           /@dnb\/eufemia\/src(.*)/,
-          '@dnb/eufemia/build$1'
+          '@dnb/eufemia/build$1',
         )
-      })
+      }),
     )
   }
 
   actions.setWebpackConfig(config)
 }
 
-exports.onCreateDevServer = () => {
+exports.onCreateDevServer = (params) => {
   // We call the "onPostBuild" because we want it to run during development
   // Source https://github.com/NekR/self-destroying-sw/tree/master/packages/gatsby-plugin-remove-serviceworker
   const {
@@ -229,4 +289,12 @@ exports.onCreateDevServer = () => {
   } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
 
   onPostBuild()
+
+  if (createdPages.length) {
+    params.reporter.info(
+      `🚀 You can only visit these pages:\n\n${createdPages
+        .map((page) => `├ http://localhost:8000${page}`)
+        .join('\n')}\n`,
+    )
+  }
 }

@@ -20,7 +20,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import Context from '../../shared/Context'
 
 export default class FormLabel extends React.PureComponent {
@@ -35,6 +35,7 @@ export default class FormLabel extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
+    size: PropTypes.oneOf(['basis', 'medium', 'large']),
     id: PropTypes.string,
     class: PropTypes.string,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -58,6 +59,7 @@ export default class FormLabel extends React.PureComponent {
     element: 'label',
     title: null,
     text: null,
+    size: null,
     id: null,
     class: null,
     disabled: null,
@@ -81,7 +83,9 @@ export default class FormLabel extends React.PureComponent {
       this.props,
       FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.FormLabel
     )
 
@@ -98,6 +102,7 @@ export default class FormLabel extends React.PureComponent {
       sr_only,
       class: _className,
       text: _text, // eslint-disable-line
+      size,
 
       ...attributes
     } = props
@@ -110,6 +115,7 @@ export default class FormLabel extends React.PureComponent {
         (isTrue(vertical) || label_direction === 'vertical') &&
           `dnb-form-label--vertical`,
         isTrue(sr_only) && 'dnb-sr-only',
+        size && `dnb-h--${size}`,
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
@@ -144,3 +150,5 @@ export default class FormLabel extends React.PureComponent {
     return <Element {...params} />
   }
 }
+
+FormLabel._supportsSpacingProps = true

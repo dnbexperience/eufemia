@@ -15,14 +15,15 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import FormRow from '../form-row/FormRow'
-import FormStatus from '../form-status/FormStatus'
+import FormLabel from '../FormLabel'
+import FormStatus from '../FormStatus'
+import Flex from '../Flex'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
@@ -43,7 +44,6 @@ export default class RadioGroup extends React.PureComponent {
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     label_position: PropTypes.oneOf(['left', 'right']),
     title: PropTypes.string,
-    no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -94,7 +94,6 @@ export default class RadioGroup extends React.PureComponent {
     label_sr_only: null,
     label_position: null,
     title: null,
-    no_fieldset: null,
     disabled: null,
     skeleton: null,
     id: null,
@@ -157,7 +156,9 @@ export default class RadioGroup extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       RadioGroup.defaultProps,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.RadioGroup
     )
 
@@ -174,7 +175,6 @@ export default class RadioGroup extends React.PureComponent {
       label_position,
       vertical,
       layout_direction,
-      no_fieldset,
       size,
       disabled,
       skeleton,
@@ -232,60 +232,63 @@ export default class RadioGroup extends React.PureComponent {
       onChange: this.onChangeHandler,
     }
 
-    const formRowParams = {
-      id,
-      label,
-      label_id: id + '-label', // send the id along, so the FormRow component can use it
-      label_direction,
-      label_sr_only,
-      direction: label_direction,
-      vertical,
-      disabled,
-      skeleton,
-      no_fieldset,
-      skipContentWrapperIfNested: true,
-    }
-
     return (
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <FormRow {...formRowParams}>
-            <span
-              id={id}
-              className="dnb-radio-group__shell"
-              role="radiogroup"
-              {...params}
+          <fieldset>
+            <Flex.Container
+              align="baseline"
+              direction={vertical ? 'vertical' : 'horizontal'}
+              spacing={vertical ? 'x-small' : undefined}
             >
-              {children}
+              <FormLabel
+                element="legend"
+                label_id={id + '-label'}
+                label_direction={label_direction}
+                label_sr_only={label_sr_only}
+              >
+                {label}
+              </FormLabel>
 
-              {suffix && (
-                <Suffix
-                  className="dnb-radio-group__suffix"
-                  id={id + '-suffix'} // used for "aria-describedby"
-                  context={props}
-                >
-                  {suffix}
-                </Suffix>
-              )}
+              <span
+                id={id}
+                className="dnb-radio-group__shell"
+                role="radiogroup"
+                {...params}
+              >
+                {children}
 
-              <FormStatus
-                show={showStatus}
-                id={id + '-form-status'}
-                globalStatus={globalStatus}
-                label={label}
-                text={status}
-                state={status_state}
-                text_id={id + '-status'} // used for "aria-describedby"
-                width_selector={id + ', ' + id + '-label'}
-                no_animation={status_no_animation}
-                skeleton={skeleton}
-                {...status_props}
-              />
-            </span>
-          </FormRow>
+                {suffix && (
+                  <Suffix
+                    className="dnb-radio-group__suffix"
+                    id={id + '-suffix'} // used for "aria-describedby"
+                    context={props}
+                  >
+                    {suffix}
+                  </Suffix>
+                )}
+
+                <FormStatus
+                  show={showStatus}
+                  id={id + '-form-status'}
+                  globalStatus={globalStatus}
+                  label={label}
+                  text={status}
+                  state={status_state}
+                  text_id={id + '-status'} // used for "aria-describedby"
+                  width_selector={id + ', ' + id + '-label'}
+                  no_animation={status_no_animation}
+                  skeleton={skeleton}
+                  {...status_props}
+                />
+              </span>
+            </Flex.Container>
+          </fieldset>
         </div>
       </RadioGroupContext.Provider>
     )
   }
 }
+
+RadioGroup._supportsSpacingProps = true

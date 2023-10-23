@@ -1,3 +1,4 @@
+@use './dnb-typography-theme-ui.scss';
 @use '../typography-mixins.scss' as typography;
 
 @include typography.typographySelectors() {

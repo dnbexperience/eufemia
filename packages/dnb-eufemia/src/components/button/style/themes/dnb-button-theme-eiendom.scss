@@ -5,14 +5,6 @@
 
 @import './dnb-button-theme-ui.scss';
 
-@mixin eiendomButtonDisabled() {
-  color: var(--color-black-55);
-  background-color: var(--color-white);
-
-  // only because of href/anchor button
-  @include fakeBorder(var(--color-black-55));
-}
-
 .dnb-button--primary {
   background-color: var(--color-emerald-green);
 

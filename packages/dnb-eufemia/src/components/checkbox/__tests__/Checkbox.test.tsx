@@ -6,8 +6,8 @@
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import Checkbox, { CheckboxProps } from '../Checkbox'
+import { Provider } from '../../../shared'
 
 const props: CheckboxProps = {
   label: 'checkbox',
@@ -141,11 +141,13 @@ describe('Checkbox component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical disabled>
+      <Provider
+        formElement={{ label_direction: 'vertical', disabled: true }}
+      >
         <Checkbox label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-checkbox')
@@ -180,6 +182,19 @@ describe('Checkbox component', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<Checkbox {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Checkbox {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.classList).toContain('dnb-checkbox__input')
   })
 })
 

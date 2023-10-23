@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Upload', () => {
-  setupPageScreenshot({ url: '/uilib/components/upload/demos' })
+describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/upload/demos',
+  })
 
   it('have to match the default', async () => {
     const screenshot = await makeScreenshot({

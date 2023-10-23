@@ -32,7 +32,7 @@ import RadioGroup from './RadioGroup'
 import RadioGroupContext from './RadioGroupContext'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 /**
  * The radio component is our enhancement of the classic radio button.
@@ -79,6 +79,7 @@ export default class Radio extends React.PureComponent {
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    innerRef: PropTypes.object,
 
     ...spacingPropTypes,
 
@@ -145,7 +146,7 @@ export default class Radio extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._refInput = React.createRef()
+    this._refInput = props.innerRef || React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
@@ -272,7 +273,9 @@ export default class Radio extends React.PureComponent {
             Radio.defaultProps,
             contextProps,
             { skeleton: context?.skeleton },
-            includeValidProps(context.FormRow),
+            // Deprecated – can be removed in v11
+            pickFormElementProps(context.FormRow),
+            pickFormElementProps(context.formElement),
             context.Radio
           )
 
@@ -300,6 +303,7 @@ export default class Radio extends React.PureComponent {
             children, // eslint-disable-line
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
+            innerRef, // eslint-disable-line
 
             ...rest
           } = props
@@ -456,3 +460,5 @@ export default class Radio extends React.PureComponent {
     )
   }
 }
+
+Radio._supportsSpacingProps = true

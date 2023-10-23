@@ -8,7 +8,7 @@ import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 const props: InputProps = {
   id: 'input',
@@ -222,6 +222,34 @@ describe('Input component', () => {
       </Input>
     )
     expect(document.querySelector('input').value).toBe('')
+  })
+
+  it('should show placeholder with both value null and undefined', () => {
+    const { rerender } = render(
+      <Input value={undefined} placeholder="AA" />
+    )
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('AA')
+
+    rerender(<Input placeholder="BB" value={null} />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('BB')
+
+    rerender(<Input placeholder="CC" value="" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('CC')
+
+    rerender(<Input placeholder="CC" value="new-value" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).not.toBeInTheDocument()
   })
 
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
@@ -529,11 +557,11 @@ describe('Input with clear button', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Input label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-input')

@@ -1,40 +1,175 @@
+import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { Input, Slider, Card, Flex } from '@dnb/eufemia/src'
 import {
-  DataContext,
-  Layout,
+  Form,
   StepsLayout,
   Field,
   Value,
   Visibility,
+  FieldBlock,
+  useDataValue,
+  DataContext,
 } from '@dnb/eufemia/src/extensions/forms'
+
+export const CreateBasicFieldComponent = () => {
+  return (
+    <ComponentBox
+      scope={{
+        useDataValue,
+      }}
+      hideCode
+    >
+      {() => {
+        const MyCustomField = (props) => {
+          const preparedProps = {
+            ...props,
+            validator: (value) => {
+              return value === 'secret'
+                ? new Error('Do not reveal the secret!')
+                : undefined
+            },
+          }
+
+          const {
+            info,
+            warning,
+            error,
+            value,
+            handleChange,
+            handleFocus,
+            handleBlur,
+          } = useDataValue(preparedProps)
+
+          return (
+            <FieldBlock
+              label="What is the secret of the custom field?"
+              info={info}
+              warning={warning}
+              error={error}
+            >
+              <Input
+                value={value}
+                on_change={({ value }) => handleChange(value)}
+                on_focus={handleFocus}
+                on_blur={handleBlur}
+              />
+            </FieldBlock>
+          )
+        }
+
+        return (
+          <MyCustomField
+            value="Nothing to see here"
+            onChange={(value) => console.log('onChange', value)}
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const CreateComposedFieldComponent = () => {
+  return (
+    <ComponentBox
+      scope={{
+        DataContext,
+        useDataValue,
+      }}
+      hideCode
+    >
+      {() => {
+        const MyComposedField = (props) => {
+          const birthYear = useDataValue({
+            path: '/birthYear',
+          })
+
+          const handleBirthYearChange = React.useCallback(
+            (sliderData) => {
+              birthYear.handleChange(sliderData.value)
+            },
+            [birthYear],
+          )
+
+          return (
+            <FieldBlock label={props.label ?? 'Name and age'}>
+              <Flex.Horizontal>
+                <Field.String
+                  path="/firstName"
+                  label="First name"
+                  width="medium"
+                  minLength={2}
+                />
+                <Field.String
+                  path="/lastName"
+                  label="Last name"
+                  width="medium"
+                  required
+                />
+                <FieldBlock width="large">
+                  <Slider
+                    min={1900}
+                    max={new Date().getFullYear()}
+                    step={1}
+                    label="Birth year"
+                    label_direction="vertical"
+                    value={parseFloat(String(birthYear.value))}
+                    on_change={handleBirthYearChange}
+                    on_drag_start={birthYear.handleFocus}
+                    on_drag_end={birthYear.handleBlur}
+                    status={birthYear.error?.message}
+                    tooltip
+                  />
+                </FieldBlock>
+              </Flex.Horizontal>
+            </FieldBlock>
+          )
+        }
+
+        const data = {
+          firstName: 'John',
+          birthYear: 2000,
+        }
+
+        return (
+          <DataContext.Provider
+            data={data}
+            onChange={(data) => console.log('onChange', data)}
+          >
+            <MyComposedField label="My custom label" />
+          </DataContext.Provider>
+        )
+      }}
+    </ComponentBox>
+  )
+}
 
 export const BaseFieldComponents = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <Field.String
-        label="Text field"
-        value="Lorem Ipsum"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        label="Number Field"
-        value={789}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Boolean
-        label="Boolean Field"
-        value={true}
-        onChange={(value) => console.log('onChange', value)}
-      />
+      <Card stack>
+        <Field.String
+          label="Text field"
+          value="Lorem Ipsum"
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Number
+          label="Number Field"
+          value={789}
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Boolean
+          label="Boolean Field"
+          value={true}
+          onChange={(value) => console.log('onChange', value)}
+        />
+      </Card>
     </ComponentBox>
   )
 }
@@ -43,19 +178,18 @@ export const FeatureFields = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <Field.FirstName value="John" />
-      <Field.LastName value="Smith" />
-      <Field.NationalIdentityNumber value="20058512345" />
-      <Field.Email value="john@smith.email" />
-      <Field.PhoneNumber value="+47 98765432" />
+      <Card stack>
+        <Field.String label="Fornavn" value="John" />
+        <Field.String label="Etternavn" value="Smith" />
+        <Field.NationalIdentityNumber value="20058512345" />
+        <Field.Email value="john@smith.email" />
+        <Field.PhoneNumber value="+47 98765432" />
+      </Card>
     </ComponentBox>
   )
 }
@@ -64,32 +198,29 @@ export const LayoutComponents = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <Layout.Section>
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+      <Flex.Stack>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
-          <Layout.SubHeading>Name</Layout.SubHeading>
+        <Card stack>
+          <Form.SubHeading>Name</Form.SubHeading>
 
-          <Field.FirstName value="John" />
-          <Field.LastName value="Smith" />
-        </Layout.Card>
+          <Field.String label="Fornavn" value="John" />
+          <Field.String label="Etternavn" value="Smith" />
+        </Card>
 
-        <Layout.Card stack>
-          <Layout.SubHeading>More information</Layout.SubHeading>
+        <Card stack>
+          <Form.SubHeading>More information</Form.SubHeading>
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
-        </Layout.Card>
-      </Layout.Section>
+        </Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
@@ -98,15 +229,12 @@ export const VisibilityBasedOnData = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: undefined,
           lastName: 'Smith',
@@ -121,50 +249,47 @@ export const VisibilityBasedOnData = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.Section>
-          <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Flex.Stack>
+          <Form.MainHeading>Profile</Form.MainHeading>
 
-          <Layout.Card stack>
-            <Layout.SubHeading>Name</Layout.SubHeading>
+          <Card stack>
+            <Form.SubHeading>Name</Form.SubHeading>
 
-            <Field.FirstName path="/firstName" />
-            <Field.LastName path="/lastName" />
-          </Layout.Card>
-        </Layout.Section>
+            <Field.String path="/firstName" label="Fornavn" />
+            <Field.String path="/lastName" label="Etternavn" />
+          </Card>
+        </Flex.Stack>
         <Field.Boolean
           path="/advanced"
           variant="checkbox-button"
           label="More fields"
         />
         <Visibility pathTrue="/advanced">
-          <Layout.Section>
-            <Layout.Card stack>
-              <Layout.SubHeading>More information</Layout.SubHeading>
+          <Flex.Stack>
+            <Card stack>
+              <Form.SubHeading>More information</Form.SubHeading>
 
               <Field.NationalIdentityNumber value="20058512345" />
               <Field.Email value="john@smith.email" />
               <Field.PhoneNumber value="+47 98765432" />
-            </Layout.Card>
-          </Layout.Section>
+            </Card>
+          </Flex.Stack>
         </Visibility>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
 
-export const UsingDataContextProvider = () => {
+export const UsingFormHandler = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: 'John',
           lastName: 'Smith',
@@ -178,20 +303,20 @@ export const UsingDataContextProvider = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
-          <Field.FirstName path="/firstName" />
-          <Field.LastName path="/lastName" />
+        <Card stack>
+          <Field.String path="/firstName" label="Fornavn" />
+          <Field.String path="/lastName" label="Etternavn" />
           <Field.NationalIdentityNumber path="/ssn" />
           <Field.Email path="/email" />
           <Field.PhoneNumber path="/phone" />
 
-          <Layout.ButtonRow>
-            <DataContext.SubmitButton />
-          </Layout.ButtonRow>
-        </Layout.Card>
-      </DataContext.Provider>
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Card>
+      </Form.Handler>
     </ComponentBox>
   )
 }
@@ -200,15 +325,12 @@ export const Validation = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: undefined,
           lastName: 'Smith',
@@ -222,16 +344,16 @@ export const Validation = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
-          <Field.FirstName path="/firstName" required />
-          <Field.LastName path="/lastName" required />
+        <Card stack>
+          <Field.String path="/firstName" label="Fornavn" required />
+          <Field.String path="/lastName" label="Etternavn" required />
           <Field.NationalIdentityNumber path="/ssn" validateInitially />
           <Field.Email path="/email" validateInitially />
           <Field.PhoneNumber path="/phone" validateInitially />
-        </Layout.Card>
-      </DataContext.Provider>
+        </Card>
+      </Form.Handler>
     </ComponentBox>
   )
 }
@@ -240,15 +362,12 @@ export const WithSteps = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
-        Layout,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: undefined,
           lastName: 'Smith',
@@ -263,60 +382,60 @@ export const WithSteps = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <StepsLayout>
+        <StepsLayout mode="loose">
           <StepsLayout.Step title="Name">
-            <Layout.MainHeading>Profile</Layout.MainHeading>
+            <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Layout.Card stack>
-              <Layout.SubHeading>Name</Layout.SubHeading>
+            <Card stack>
+              <Form.SubHeading>Name</Form.SubHeading>
 
-              <Field.FirstName path="/firstName" required />
-              <Field.LastName path="/lastName" required />
-            </Layout.Card>
+              <Field.String path="/firstName" label="Fornavn" required />
+              <Field.String path="/lastName" label="Etternavn" required />
+            </Card>
 
-            <Layout.ButtonRow>
+            <Form.ButtonRow>
               <StepsLayout.NextButton />
-            </Layout.ButtonRow>
+            </Form.ButtonRow>
           </StepsLayout.Step>
 
           <StepsLayout.Step title="More information">
-            <Layout.MainHeading>Profile</Layout.MainHeading>
+            <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Layout.Card stack>
-              <Layout.SubHeading>More information</Layout.SubHeading>
+            <Card stack>
+              <Form.SubHeading>More information</Form.SubHeading>
 
               <Field.NationalIdentityNumber path="/ssn" />
               <Field.Email path="/email" />
               <Field.PhoneNumber path="/phone" />
-            </Layout.Card>
+            </Card>
 
-            <Layout.ButtonRow>
+            <Form.ButtonRow>
               <StepsLayout.PreviousButton />
               <StepsLayout.NextButton />
-            </Layout.ButtonRow>
+            </Form.ButtonRow>
           </StepsLayout.Step>
 
           <StepsLayout.Step title="Summary">
-            <Layout.MainHeading>Profile</Layout.MainHeading>
+            <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Layout.Card stack>
-              <Layout.FlexContainer direction="row">
-                <Value.FirstName path="/firstName" />
-                <Value.LastName path="/lastName" />
-              </Layout.FlexContainer>
+            <Card stack>
+              <Flex.Container>
+                <Value.String path="/firstName" label="Fornavn" />
+                <Value.String path="/lastName" label="Etternavn" />
+              </Flex.Container>
 
               <Value.NationalIdentityNumber path="/ssn" />
               <Value.Email path="/email" />
               <Value.PhoneNumber path="/phone" />
-            </Layout.Card>
+            </Card>
 
-            <Layout.ButtonRow>
+            <Form.ButtonRow>
               <StepsLayout.PreviousButton />
-              <DataContext.SubmitButton />
-            </Layout.ButtonRow>
+              <Form.SubmitButton />
+            </Form.ButtonRow>
           </StepsLayout.Step>
         </StepsLayout>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }

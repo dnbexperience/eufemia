@@ -3,8 +3,14 @@
  *
  */
 
-import { HeadingAllProps, InternalHeadingLevel } from './Heading'
+import {
+  HeadingAllProps,
+  InternalHeadingLevel,
+  HeadingLevelSizeResolutions,
+} from './Heading'
+import { ThemeNames } from '../../shared'
 import { warn, convertJsxToString } from '../../shared/component-helper'
+import type { DynamicElement } from '../../shared/types'
 import { HeadingCounter } from './HeadingCounter'
 
 type GlobalSyncCounter = { current: HeadingCounter }
@@ -235,4 +241,49 @@ export function debugCounter(counter) {
     null,
     2
   )
+}
+
+export const getHeadingSize = (
+  theme: ThemeNames
+): HeadingLevelSizeResolutions => {
+  switch (theme) {
+    case 'sbanken':
+      return {
+        1: 'xx-large',
+        2: 'x-large',
+        3: 'large',
+        4: 'medium',
+        5: 'basis',
+        6: 'small',
+      }
+    case 'ui':
+    default:
+      return {
+        1: 'xx-large',
+        2: 'large',
+        3: 'medium',
+        4: 'basis',
+        5: 'small',
+        6: 'x-small',
+      }
+  }
+}
+
+export const getHeadingElement = (
+  level: InternalHeadingLevel
+): DynamicElement => {
+  switch (level) {
+    case 1:
+      return 'h1'
+    case 2:
+      return 'h2'
+    case 3:
+      return 'h3'
+    case 4:
+      return 'h4'
+    case 5:
+      return 'h5'
+    case 6:
+      return 'h6'
+  }
 }

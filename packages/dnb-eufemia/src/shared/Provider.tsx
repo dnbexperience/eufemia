@@ -6,7 +6,7 @@
 import React from 'react'
 import Context, { prepareContext } from './Context'
 import type { ContextProps } from './Context'
-import { prepareFormRowContext } from '../components/form-row/FormRowHelpers'
+import { prepareFormElementContext } from './helpers/filterValidProps'
 
 export type ProviderProps = {
   /**
@@ -83,13 +83,26 @@ function mergeContext<ContextT, PropsT>(
   // Merge our new values with an existing context
   const mergedContext = { ...context, ...merge }
 
-  // Because we don't want to deep merge, we merge FormRow additionally
+  // Because we don't want to deep merge, we merge formElement additionally
+  if (context?.formElement && merge.formElement) {
+    mergedContext.formElement = {
+      ...context.formElement,
+      ...merge.formElement,
+    }
+    mergedContext.formElement = prepareFormElementContext(
+      mergedContext.formElement
+    )
+  }
+
+  // Deprecated – can be removed in v11
   if (context?.FormRow && merge.FormRow) {
     mergedContext.FormRow = {
       ...context.FormRow,
       ...merge.FormRow,
     }
-    mergedContext.FormRow = prepareFormRowContext(mergedContext.FormRow)
+    mergedContext.FormRow = prepareFormElementContext(
+      mergedContext.FormRow
+    )
   }
 
   return mergedContext

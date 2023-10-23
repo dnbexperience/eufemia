@@ -20,14 +20,16 @@ test.describe('Page Lists', () => {
     test('should have same amount of components', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/components"]) ~ li:is(.l-3, .l-4):has(> a[href*="/components"]):has(> a:not([href*="/fragments"]))'
+          // make exception with:
+          // - "infinity-scroller"
+          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/components"]) ~ li:is(.l-3:has(> a[href*="/components"]):has(> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))',
         )
         .count()
 
       await expect(
         page.locator(
-          '#tabbar-content h2:has(a[href*="/uilib/components/"])'
-        )
+          '#tabbar-content h2:has(a[href*="/uilib/components/"]:not([aria-hidden]))',
+        ),
       ).toHaveCount(listLength)
     })
   })
@@ -51,14 +53,14 @@ test.describe('Page Lists', () => {
     test('should have same amount of extensions', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/extensions"]) ~ li.l-3:has(> a[href*="/uilib/extensions/"])'
+          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/extensions"]) ~ li.l-3:has(> a[href*="/uilib/extensions/"])',
         )
         .count()
 
       await expect(
         page.locator(
-          '#tabbar-content h2:has(a[href*="/uilib/extensions/"])'
-        )
+          '#tabbar-content h2:has(a[href*="/uilib/extensions/"]:not([aria-hidden]))',
+        ),
       ).toHaveCount(listLength)
     })
   })
@@ -82,13 +84,13 @@ test.describe('Page Lists', () => {
     test('should have same amount of elements', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li.l-2:has(> a[href*="/uilib/elements"]) ~ li:has(> a[href*="/uilib/elements"])'
+          '#portal-sidebar-menu ul li.l-2:has(> a[href*="/uilib/elements"]) ~ li:has(> a[href*="/uilib/elements"])',
         )
         .count()
       await expect(
         page.locator(
-          '#tabbar-content ul li:has(a[href*="/uilib/elements/"])'
-        )
+          '#tabbar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))',
+        ),
       ).toHaveCount(listLength)
     })
   })

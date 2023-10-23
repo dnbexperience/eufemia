@@ -1,0 +1,28 @@
+---
+showTabs: true
+---
+
+## Description
+
+To make it easier to build application layout and [form](/uilib/extensions/forms)-views in line with defined design sketches, there are a number of components for layout.
+
+- **[Flex.Container](/uilib/layout/flex/container)** is a building block for CSS flexbox based layout of contents and components.
+
+  - **`Flex.Vertical`** can be used as an alias instead of the property `direction="vertical"`.
+  - **`Flex.Horizontal`** can be used as an alias instead of the property `direction="horizontal"`.
+
+- **[Flex.Item](/uilib/layout/flex/item)** is a building block for CSS flexbox based layout of contents and components.
+
+- **[Flex.Stack](/uilib/layout/flex/stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
+
+```jsx
+import { Flex } from '@dnb/eufemia'
+
+render(
+  <Flex.Container>
+    <Flex.Item>content</Flex.Item>
+  </Flex.Container>,
+)
+```
+
+You find more related information in the [Layout](/uilib/layout) pages.

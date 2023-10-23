@@ -7,8 +7,9 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
+import { Slider, ToggleButton, Input, FormLabel, Flex } from '../../'
 import { format } from '../../number-format/NumberUtils'
+import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Slider',
@@ -35,6 +36,36 @@ const FixedSizeWrapper = styled.div`
   height: 20rem;
   margin-bottom: 1rem;
 `
+
+export function NegativeValues() {
+  const [value, setValue] = React.useState<Array<number>>([-20, 50])
+
+  return (
+    <FixedSizeWrapper>
+      <Slider
+        top="x-large"
+        label="Label with some text"
+        labelDirection="vertical"
+        multiThumbBehavior="push"
+        // multiThumbBehavior="omit"
+        // vertical
+        // reverse
+        // step={10}
+        value={value}
+        min={-40}
+        max={100}
+        stretch
+        numberFormat={(value) => format(value, { currency: 'USD' })}
+        tooltip
+        onChange={({ value, number }) => {
+          console.log('onChange:', value, number)
+          setValue(value as Array<number>)
+        }}
+      />
+      <code>{value.join(' | ')}</code>
+    </FixedSizeWrapper>
+  )
+}
 
 export function MultiButtons() {
   const [value, setValue] = React.useState<Array<number>>([100, 400, 800])
@@ -151,14 +182,14 @@ const SliderStory = () => {
         <Slider label="Disabled:" value={20} reverse disabled={true} />
       </Box>
       <Box>
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <FormLabel
             id="range-slider-label"
             for_id="range-slider"
             text="Native Range Slider"
           />
           <Slider label="Label" value={5} />
-        </FormRow>
+        </Flex.Horizontal>
       </Box>
     </Wrapper>
   )
@@ -167,7 +198,7 @@ const SliderStory = () => {
 const DisabledState = () => {
   const [isDisabled, setDisabled] = React.useState(false)
   return (
-    <FormRow direction="horizontal" centered>
+    <Provider formElement={{ direction: 'horizontal' }}>
       <ToggleButton
         checked={isDisabled}
         right
@@ -182,7 +213,7 @@ const DisabledState = () => {
         label="Default Slider:"
         disabled={isDisabled}
       />
-    </FormRow>
+    </Provider>
   )
 }
 

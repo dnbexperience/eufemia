@@ -116,6 +116,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -123,6 +127,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -180,6 +188,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -567,6 +577,10 @@ button.dnb-button::-moz-focus-inner {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -574,6 +588,10 @@ button.dnb-button::-moz-focus-inner {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -631,6 +649,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -707,7 +727,6 @@ html[data-visual-test] .dnb-tooltip--hide {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -817,6 +836,10 @@ button .dnb-form-status__text {
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
+  --slider-line-before: black;
+  --slider-line-after: gray;
+  --slider-line-before--disabled: dimgray;
+  --slider-line-after--disabled: lightgray;
   user-select: none;
   -webkit-touch-callout: none;
   display: flex;
@@ -888,8 +911,16 @@ button .dnb-form-status__text {
   margin: 0 calc(0px - var(--slider-space));
   height: var(--slider-track-height);
   transform: translate3d(0, -50%, 0);
-  background-color: grey;
+  background-color: var(--slider-line-before);
   border-radius: var(--slider-track-height);
+}
+.dnb-slider__line__before {
+  z-index: 2;
+}
+.dnb-slider__line__after {
+  z-index: 1;
+  right: 0;
+  background-color: var(--slider-line-after);
 }
 .dnb-slider--vertical .dnb-slider__line {
   width: var(--slider-track-height);
@@ -899,20 +930,15 @@ button .dnb-form-status__text {
   margin: calc(0px - var(--slider-space)) 0;
   transform: translate3d(-50%, 0, 0);
 }
-.dnb-slider__line__before {
-  z-index: 2;
-}
-.dnb-slider__line__after {
-  z-index: 1;
-  right: 0;
-  background-color: #ddd;
-}
 .dnb-slider--vertical .dnb-slider__line__before {
   top: 0;
   bottom: 0;
 }
 .dnb-slider--vertical .dnb-slider__line__after {
   bottom: 0;
+}
+.dnb-slider__thumb {
+  box-shadow: var(--shadow-default);
 }
 .dnb-slider__button-helper, .dnb-slider__thumb {
   position: absolute;

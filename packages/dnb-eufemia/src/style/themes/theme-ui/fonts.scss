@@ -36,7 +36,8 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 // Std and Regular
 @font-face {
   font-family: DNB;
-  src: url('#{$fonts-path}/DNB-Regular.woff2') format('woff2'),
+  src:
+    url('#{$fonts-path}/DNB-Regular.woff2') format('woff2'),
     url('#{$fonts-path}/DNB-Regular.woff') format('woff'),
     url('#{$fonts-path}/DNB-Regular.ttf') format('truetype');
   font-weight: normal; // have to be the same as: --font-weight-regular
@@ -47,7 +48,8 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 // Medium
 @font-face {
   font-family: DNB;
-  src: url('#{$fonts-path}/DNB-Medium.woff2') format('woff2'),
+  src:
+    url('#{$fonts-path}/DNB-Medium.woff2') format('woff2'),
     url('#{$fonts-path}/DNB-Medium.woff') format('woff'),
     url('#{$fonts-path}/DNB-Medium.ttf') format('truetype');
   font-weight: 500; // have to be the same as: --font-weight-medium
@@ -58,7 +60,8 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 // Bold
 @font-face {
   font-family: DNB;
-  src: url('#{$fonts-path}/DNB-Bold.woff2') format('woff2'),
+  src:
+    url('#{$fonts-path}/DNB-Bold.woff2') format('woff2'),
     url('#{$fonts-path}/DNB-Bold.woff') format('woff'),
     url('#{$fonts-path}/DNB-Bold.ttf') format('truetype');
   font-weight: 600; // have to be the same as: --font-weight-bold
@@ -69,7 +72,8 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 // Mono-Regular
 @font-face {
   font-family: DNBMono;
-  src: url('#{$fonts-path}/DNBMono-Regular.woff2') format('woff2'),
+  src:
+    url('#{$fonts-path}/DNBMono-Regular.woff2') format('woff2'),
     url('#{$fonts-path}/DNBMono-Regular.woff') format('woff'),
     url('#{$fonts-path}/DNBMono-Regular.ttf') format('truetype');
   font-weight: normal; // have to be the same as: --font-weight-regular

@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('FormLabel', () => {
-  setupPageScreenshot({ url: '/uilib/components/form-label/demos' })
+describe.each(['ui', 'sbanken'])('FormLabel for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/form-label/demos',
+  })
 
   it('have to match default form-label', async () => {
     const screenshot = await makeScreenshot({
@@ -22,6 +25,16 @@ describe('FormLabel', () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-label-default"]',
       simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match checkbox label hover', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="form-label-default"]',
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="form-label-default"] .dnb-checkbox .dnb-form-label',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

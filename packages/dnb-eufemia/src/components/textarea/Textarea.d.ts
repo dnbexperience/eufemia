@@ -17,9 +17,6 @@ export type TextareaAutoresizeMaxRows = string | number;
 export type TextareaTextareaAttributes = string | Record<string, unknown>;
 export type TextareaRows = number | string;
 export type TextareaCols = number | string;
-export type TextareaInnerRef =
-  | ((...args: any[]) => any)
-  | Record<string, unknown>;
 export type TextareaTextareaElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -109,7 +106,7 @@ export interface TextareaProps
   /**
    * By providing a React.ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: TextareaInnerRef;
+  inner_ref?: React.Ref;
   className?: string;
   textarea_element?: TextareaTextareaElement;
   children?: TextareaChildren;

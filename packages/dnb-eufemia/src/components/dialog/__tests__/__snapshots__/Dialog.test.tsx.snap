@@ -130,6 +130,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -137,6 +141,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -194,6 +202,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -871,12 +881,14 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem;
   --dialog-spacing-minus: -2rem;
+  --dialog-radius: 0.5rem;
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: var(--dialog-radius);
   box-shadow: var(--shadow-default);
   user-select: text;
   border: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: var(--dialog-background);
   max-height: 100vh;
   overflow: hidden;
 }
@@ -1044,6 +1056,26 @@ html:not([data-visual-test]) .dnb-dialog--hide {
 }
 .dnb-dialog__icon {
   display: flex;
+}
+.dnb-dialog__icon__primary.dnb-icon--border {
+  --icon-border-positioning--default: var(--dialog-icon-positioning);
+  color: var(--dialog-icon-color);
+}
+.dnb-dialog__icon__primary.dnb-icon--border svg {
+  z-index: 1;
+  position: relative;
+}
+.dnb-dialog__icon__primary.dnb-icon--border::after {
+  border: none;
+  background-color: var(--dialog-icon-background);
+}
+.dnb-dialog__icon__primary.dnb-dialog__icon--warning {
+  --dialog-icon-color: var(--dialog-icon-color--warning);
+  --dialog-icon-background: var(--dialog-icon-background--warning);
+}
+.dnb-dialog__icon__primary.dnb-dialog__icon--info {
+  --dialog-icon-color: var(--dialog-icon-color--info);
+  --dialog-icon-background: var(--dialog-icon-background--info);
 }
 .dnb-dialog__icon ~ .dnb-dialog__header {
   margin-top: 1.5rem;

@@ -136,3 +136,5 @@ export default class FormSet extends React.PureComponent {
     )
   }
 }
+
+FormSet._supportsSpacingProps = true

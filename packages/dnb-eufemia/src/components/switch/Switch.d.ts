@@ -84,6 +84,10 @@ export interface SwitchProps
    */
   on_change_end?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  /**
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   */
+  innerRef?: React.Ref;
 }
 export default class Switch extends React.Component<SwitchProps, any> {
   static defaultProps: object;

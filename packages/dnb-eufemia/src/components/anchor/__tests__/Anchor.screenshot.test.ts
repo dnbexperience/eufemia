@@ -148,6 +148,24 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the "hover" state for modifier no-style', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-no-style"]',
+      simulateSelector: '[data-visual-test="anchor-no-style"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the "hover" state for modifier no-hover', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-no-hover"]',
+      simulateSelector: '[data-visual-test="anchor-no-hover"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   if (themeName === 'sbanken') {
     it('have to match the dnb-anchor--inline class', async () => {
       const screenshot = await makeScreenshot({
@@ -207,6 +225,13 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match the target blank with href protocol', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-protocol"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     if (themeName === 'ui') {
       it('have to match the target blank with tooltip', async () => {
         const screenshot = await makeScreenshot({
@@ -217,6 +242,7 @@ describe.each(['ui', 'sbanken'])(
           simulateSelector:
             '[data-visual-test="anchor-blank"] a.dnb-anchor',
           simulate: 'hover',
+          waitAfterSimulate: 200,
         })
         expect(screenshot).toMatchImageSnapshot()
       })
@@ -224,30 +250,28 @@ describe.each(['ui', 'sbanken'])(
   }
 )
 
-describe.each(['ui', 'sbanken'])(
-  'Anchor legacy icon usage for %s',
-  (themeName) => {
-    setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
+// Deprecated – can be removed in v11
+describe.each(['ui'])('Anchor legacy icon usage for %s', (themeName) => {
+  setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
-    it('have to match anchor with legacy icon', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="anchor-legacy-icon"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match anchor with legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-icon"]',
     })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-    it('have to match anchor with paragraph legacy icon', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="anchor-legacy-paragraph"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match anchor with paragraph legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-paragraph"]',
     })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-    it('have to match anchor with target blank legacy icon', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="anchor-legacy-blank-with-icon"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match anchor with target blank legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-blank-with-icon"]',
     })
-  }
-)
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

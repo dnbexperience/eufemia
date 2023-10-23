@@ -3,26 +3,9 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-
 .dnb-slider {
-  &__line {
-    background-color: var(--color-sea-green);
-
-    &__after {
-      background-color: var(--color-mint-green-50);
-    }
-  }
-
-  &__state--disabled &__line {
-    background-color: var(--color-sea-green-30);
-
-    &__after {
-      background-color: var(--color-mint-green-25);
-    }
-  }
-
-  &__thumb {
-    @include defaultDropShadow();
-  }
+  --slider-line-before: var(--color-sea-green);
+  --slider-line-after: var(--color-mint-green-50);
+  --slider-line-before--disabled: var(--color-sea-green-30);
+  --slider-line-after--disabled: var(--color-mint-green-25);
 }

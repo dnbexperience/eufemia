@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 test.describe('Typography for UI', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=ui'
+      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=ui',
     )
 
     // Check if app is mounted
@@ -99,7 +99,7 @@ test.describe('Typography for UI', () => {
 test.describe('Typography for Sbanken', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=sbanken'
+      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=sbanken',
     )
 
     // Check if app is mounted
@@ -112,24 +112,24 @@ test.describe('Typography for Sbanken', () => {
     page,
   }) => {
     await page.waitForSelector('h2', { state: 'attached' })
-    const element = page.locator('.typography-box > .dnb-h--xx-large')
-    await expect(element).toHaveCSS('font-size', '50px')
+    const element = page.locator('.typography-box > h1.dnb-h--xx-large')
+    await expect(element).toHaveCSS('font-size', '48px')
   })
 
   test('docs should include heading x-large example with correct font-size', async ({
     page,
   }) => {
     await page.waitForSelector('h2', { state: 'attached' })
-    const element = page.locator('.typography-box > .dnb-h--x-large')
-    await expect(element).toHaveCSS('font-size', '42px')
+    const element = page.locator('.typography-box > h4.dnb-h--x-large')
+    await expect(element).toHaveCSS('font-size', '38px')
   })
 
   test('docs should include heading large example with correct font-size', async ({
     page,
   }) => {
     await page.waitForSelector('h2', { state: 'attached' })
-    const element = page.locator('.typography-box > .dnb-h--large')
-    await expect(element).toHaveCSS('font-size', '34px')
+    const element = page.locator('.typography-box > h4.dnb-h--large')
+    await expect(element).toHaveCSS('font-size', '32px')
   })
 
   test('examples should have correct color', async ({ page }) => {

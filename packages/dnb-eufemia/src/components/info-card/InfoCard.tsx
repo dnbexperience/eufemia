@@ -152,7 +152,10 @@ const InfoCard = (localProps: InfoCardAllProps) => {
       {...props}
     >
       <Provider skeleton={skeleton}>
-        <Space right={!centered && 'small'} bottom={centered && 'small'}>
+        <Space
+          right={!centered ? 'small' : false}
+          bottom={centered ? 'small' : false}
+        >
           {getIllustration()}
         </Space>
 
@@ -226,5 +229,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     )
   }
 }
+
+InfoCard._supportsSpacingProps = true
 
 export default InfoCard

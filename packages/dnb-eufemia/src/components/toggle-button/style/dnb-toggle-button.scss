@@ -134,6 +134,10 @@
 
     display: inline-flex;
 
+    fieldset {
+      @include fieldsetReset();
+    }
+
     // default spacing
     .dnb-toggle-button {
       margin-right: var(--toggle-button-group-margin-right);
@@ -164,10 +168,7 @@
       }
     }
 
-    .dnb-form-row {
-      // to make sure we vertical align centered to the text
-      align-items: baseline;
-
+    .dnb-flex-container {
       &--vertical-label {
         align-items: flex-start;
       }
@@ -183,12 +184,7 @@
     }
 
     // vertical alignment - if no label is given
-    &--no-label > .dnb-alignment-helper {
-      line-height: 2.5rem;
-    }
-
-    // correct for horizontal form-row direction
-    &--row#{&}:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
+    .dnb-alignment-helper {
       line-height: 2.5rem;
     }
   }

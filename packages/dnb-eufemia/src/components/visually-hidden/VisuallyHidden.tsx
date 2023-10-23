@@ -4,7 +4,7 @@ import classnames from 'classnames'
 // Shared
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import { DynamicElement } from '../../shared/types'
+import type { DynamicElement } from '../../shared/types'
 
 export interface VisuallyHiddenProps {
   /**
@@ -56,5 +56,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
     </Element>
   )
 }
+
+VisuallyHidden._supportsSpacingProps = true
 
 export default VisuallyHidden

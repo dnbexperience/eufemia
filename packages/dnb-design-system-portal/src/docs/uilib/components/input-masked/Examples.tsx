@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { FormRow, InputMasked } from '@dnb/eufemia/src'
+import { Flex, InputMasked } from '@dnb/eufemia/src'
 
 // https://github.com/text-mask/text-mask
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
@@ -16,82 +16,73 @@ import { FormRow, InputMasked } from '@dnb/eufemia/src'
 export const InputMaskedExampleNumberLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
-      <FormRow vertical>
-        <InputMasked
-          label="Number:"
-          as_number
-          mask_options={{ allowNegative: false }}
-          value="1234.50"
-          right
-          bottom
-          on_change={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-        <InputMasked
-          label="Number (decimal limit):"
-          as_number
-          number_mask={{ decimalLimit: 2 }}
-          value="1234.016"
-          right
-          bottom
-          on_change={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-        <InputMasked
-          label="Percentage:"
-          as_percent
-          number_mask={{ decimalLimit: 1 }}
-          value="1234.016"
-          right
-          bottom
-          on_change={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
+          <InputMasked
+            label="Number:"
+            as_number
+            mask_options={{ allowNegative: false }}
+            value="1234.50"
+            on_change={({ numberValue }) => {
+              console.log(numberValue)
+            }}
+          />
+          <InputMasked
+            label="Number (decimal limit):"
+            as_number
+            number_mask={{ decimalLimit: 2 }}
+            value="1234.016"
+            on_change={({ numberValue }) => {
+              console.log(numberValue)
+            }}
+          />
+          <InputMasked
+            label="Percentage:"
+            as_percent
+            number_mask={{ decimalLimit: 1 }}
+            value="1234.016"
+            on_change={({ numberValue }) => {
+              console.log(numberValue)
+            }}
+          />
+        </Flex.Vertical>
+      </Provider>
     </ComponentBox>
   </Wrapper>
 )
 
 export const InputMaskedExampleCurrencyLocale = () => (
   <Wrapper>
-    <ComponentBox
-      data-visual-test="input-masked-currency"
-      scope={{ Provider }}
-    >
-      <FormRow vertical>
-        <InputMasked
-          label="Currency:"
-          as_currency="EUR"
-          value="1234.50"
-          on_change={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-          right
-          bottom
-        />
-        <Provider
-          locale="en-GB"
-          InputMasked={{
-            currency_mask: {
-              decimalLimit: 3,
-            },
-          }}
-        >
+    <ComponentBox data-visual-test="input-masked-currency">
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
           <InputMasked
             label="Currency:"
-            as_currency="USD"
-            value="1234.567"
+            as_currency="EUR"
+            value="1234.50"
             on_change={({ numberValue }) => {
               console.log(numberValue)
             }}
-            right
-            bottom
           />
-        </Provider>
-      </FormRow>
+          <Provider
+            locale="en-GB"
+            InputMasked={{
+              currency_mask: {
+                decimalLimit: 3,
+              },
+            }}
+          >
+            <InputMasked
+              label="Currency:"
+              as_currency="USD"
+              value="1234.567"
+              on_change={({ numberValue }) => {
+                console.log(numberValue)
+              }}
+            />
+          </Provider>
+        </Flex.Vertical>
+      </Provider>
     </ComponentBox>
   </Wrapper>
 )
@@ -99,27 +90,27 @@ export const InputMaskedExampleCurrencyLocale = () => (
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
-      <FormRow vertical>
-        <InputMasked
-          label="Left aligned (default):"
-          show_mask
-          currency_mask="kr"
-          on_change={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-          right
-          bottom
-        />
-        <InputMasked
-          label="Right aligned:"
-          show_mask
-          currency_mask={{ currency: 'NOK' }}
-          align="right"
-          on_change={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Flex.Vertical>
+          <InputMasked
+            label="Left aligned (default):"
+            show_mask
+            currency_mask="kr"
+            on_change={({ numberValue }) => {
+              console.log(numberValue)
+            }}
+          />
+          <InputMasked
+            label="Right aligned:"
+            show_mask
+            currency_mask={{ currency: 'NOK' }}
+            align="right"
+            on_change={({ numberValue }) => {
+              console.log(numberValue)
+            }}
+          />
+        </Flex.Vertical>
+      </Provider>
     </ComponentBox>
   </Wrapper>
 )
@@ -258,7 +249,7 @@ export const InputMaskedInfoCleanNumberValues2 = () => (
 
 export const InputMaskedInfoDecimalsCurrencyProvider = () => (
   <Wrapper>
-    <ComponentBox hidePreview scope={{ Provider }}>
+    <ComponentBox hidePreview>
       <Provider
         locale="en-GB"
         InputMasked={{
@@ -275,7 +266,7 @@ export const InputMaskedInfoDecimalsCurrencyProvider = () => (
 
 export const InputMaskedInfoDecimalsNumberProvider = () => (
   <Wrapper>
-    <ComponentBox hidePreview scope={{ Provider }}>
+    <ComponentBox hidePreview>
       <Provider
         locale="en-GB"
         InputMasked={{

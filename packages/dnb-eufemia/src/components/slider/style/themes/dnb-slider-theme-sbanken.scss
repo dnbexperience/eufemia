@@ -1,0 +1,11 @@
+/*
+* Slider theme for Sbanken
+*
+*/
+
+.dnb-slider {
+  --slider-line-before: var(--sb-color-purple-alternative);
+  --slider-line-after: var(--sb-color-gray-light);
+  --slider-line-before--disabled: var(--sb-color-gray);
+  --slider-line-after--disabled: var(--sb-color-gray-light);
+}

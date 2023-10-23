@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { Link } from 'gatsby'
+import Anchor from '../tags/Anchor'
 import classnames from 'classnames'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
@@ -27,7 +27,7 @@ import {
   wrapperStyle,
   fullscreenStyle,
 } from './Layout.module.scss'
-import Sidebar from '../menu/SidebarMenu'
+import SidebarMenu from '../menu/SidebarMenu'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
@@ -103,7 +103,7 @@ function Layout(props: LayoutProps) {
 
         <div className={wrapperStyle}>
           {!fs && !hideSidebar && (
-            <Sidebar location={location} showAll={false} />
+            <SidebarMenu location={location} showAll={false} />
           )}
 
           <Content key="content" fullscreen={fs}>
@@ -148,7 +148,7 @@ const Content = ({
         contentStyle,
         'dnb-app-content',
         fullscreen && 'fullscreen-page',
-        className
+        className,
       )}
     >
       {children}
@@ -160,7 +160,11 @@ const MainContent = ({ mainRef, ...props }) => (
   <main
     ref={mainRef}
     id="dnb-app-content"
-    className={classnames(mainStyle, 'dnb-no-focus', 'dnb-spacing')}
+    className={classnames(
+      mainStyle,
+      'dnb-no-focus',
+      'dnb-spacing', // used so the portal elements uses their default space
+    )}
     {...props}
   />
 )
@@ -177,14 +181,12 @@ const Footer = () => {
 
       <Logo height="40" color="white" />
 
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <Link
+      <Anchor
         to="/license"
-        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
+        className="dnb-anchor--contrast dnb-anchor--no-underline"
       >
         Copyright (c) 2018-present DNB.no
-      </Link>
+      </Anchor>
     </footer>
   )
 }

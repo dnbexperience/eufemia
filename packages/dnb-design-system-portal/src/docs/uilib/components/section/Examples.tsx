@@ -78,7 +78,7 @@ export const SectionDemoEmeraldGreen = () => (
 )
 
 export const SectionDemoLavender = () => (
-  <ComponentBox data-visual-test="section-lavender">
+  <ComponentBox hideCode data-visual-test="section-lavender">
     <Section spacing="small" style_type="lavender">
       <P space={0}>
         Visual DNB Section: <Anchor href="#">lavender</Anchor>
@@ -88,7 +88,7 @@ export const SectionDemoLavender = () => (
 )
 
 export const SectionDemoBlack3 = () => (
-  <ComponentBox data-visual-test="section-black-3">
+  <ComponentBox hideCode data-visual-test="section-black-3">
     <Section spacing style_type="black-3">
       <P space={0}>
         Visual DNB Section: <Anchor href="#">black-3</Anchor>
@@ -98,7 +98,7 @@ export const SectionDemoBlack3 = () => (
 )
 
 export const SectionDemoSandYellow = () => (
-  <ComponentBox data-visual-test="section-sand-yellow">
+  <ComponentBox hideCode data-visual-test="section-sand-yellow">
     <Section spacing style_type="sand-yellow">
       <P space={0}>
         Visual DNB Section: <Anchor href="#">sand-yellow</Anchor>
@@ -108,7 +108,7 @@ export const SectionDemoSandYellow = () => (
 )
 
 export const SectionDemoPistachio = () => (
-  <ComponentBox data-visual-test="section-pistachio">
+  <ComponentBox hideCode data-visual-test="section-pistachio">
     <Section spacing style_type="pistachio">
       <P space={0}>
         Visual DNB Section: <Anchor href="#">pistachio</Anchor>
@@ -118,7 +118,7 @@ export const SectionDemoPistachio = () => (
 )
 
 export const SectionDemoFireRed = () => (
-  <ComponentBox data-visual-test="section-fire-red">
+  <ComponentBox hideCode data-visual-test="section-fire-red">
     <Section spacing style_type="fire-red">
       <P space={0}>
         Visual DNB Section: <Anchor href="#">fire-red</Anchor>
@@ -128,7 +128,7 @@ export const SectionDemoFireRed = () => (
 )
 
 export const SectionDemoFireRed8 = () => (
-  <ComponentBox data-visual-test="section-fire-red-8">
+  <ComponentBox hideCode data-visual-test="section-fire-red-8">
     <Section spacing style_type="fire-red-8">
       <P space={0}>
         Visual DNB Section: <Anchor href="#">fire-red-8</Anchor>
@@ -137,54 +137,90 @@ export const SectionDemoFireRed8 = () => (
   </ComponentBox>
 )
 
-export const SectionZIndex = () =>
-  !globalThis.IS_TEST ? null : (
-    <ComponentBox data-visual-test="section-z-index">
-      <Section spacing style_type="mint-green-12">
-        mint-green-12
-        <div>
-          <Section spacing style_type="mint-green">
-            mint-green
-            <div>
-              <Section spacing style_type="sea-green">
-                sea-green
-                <div>
-                  <Section spacing style_type="emerald-green">
-                    emerald-green
-                    <div>
-                      <Section spacing style_type="fire-red">
-                        fire-red
-                        <div>
-                          <Section spacing style_type="sand-yellow">
-                            sand-yellow
-                            <div>
-                              <Section spacing style_type="pistachio">
-                                pistachio
-                                <div>
-                                  <Section spacing style_type="lavender">
-                                    lavender
-                                    <div>
-                                      <Section
-                                        spacing
-                                        style_type="divider"
-                                      >
-                                        divider
-                                      </Section>
-                                    </div>
-                                  </Section>
-                                </div>
-                              </Section>
-                            </div>
-                          </Section>
-                        </div>
-                      </Section>
-                    </div>
-                  </Section>
-                </div>
-              </Section>
-            </div>
-          </Section>
-        </div>
-      </Section>
-    </ComponentBox>
-  )
+export const SectionZIndex = () => (
+  <ComponentBox hideCode data-visual-test="section-z-index">
+    <Section spacing style_type="mint-green-12">
+      mint-green-12
+      <div>
+        <Section spacing style_type="mint-green">
+          mint-green
+          <div>
+            <Section spacing style_type="sea-green">
+              sea-green
+              <div>
+                <Section spacing style_type="emerald-green">
+                  emerald-green
+                  <div>
+                    <Section spacing style_type="fire-red">
+                      fire-red
+                      <div>
+                        <Section spacing style_type="sand-yellow">
+                          sand-yellow
+                          <div>
+                            <Section spacing style_type="pistachio">
+                              pistachio
+                              <div>
+                                <Section spacing style_type="lavender">
+                                  lavender
+                                  <div>
+                                    <Section spacing style_type="divider">
+                                      divider
+                                    </Section>
+                                  </div>
+                                </Section>
+                              </div>
+                            </Section>
+                          </div>
+                        </Section>
+                      </div>
+                    </Section>
+                  </div>
+                </Section>
+              </div>
+            </Section>
+          </div>
+        </Section>
+      </div>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoInfo = () => (
+  <ComponentBox hideCode data-visual-test="section-info">
+    <Section spacing variant="info">
+      <P space={0}>
+        Generic info section: <Anchor href="#">info</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoError = () => (
+  <ComponentBox hideCode data-visual-test="section-error">
+    <Section spacing variant="error">
+      <P space={0}>
+        Error section: <Anchor href="#">error</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoWarning = () => (
+  <ComponentBox hideCode data-visual-test="section-warning">
+    <Section spacing variant="warning">
+      <P space={0}>
+        Warning section: <Anchor href="#">warning</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoSuccess = () => (
+  <ComponentBox hideCode data-visual-test="section-success">
+    <Section spacing variant="success">
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)

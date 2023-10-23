@@ -7,7 +7,8 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import Provider from '../../../shared/Provider'
-import { Textarea, FormRow, GlobalStatus } from '../..'
+import { Textarea, GlobalStatus, Flex } from '../..'
+import { FieldBlock } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Textarea',
@@ -16,10 +17,8 @@ export default {
 export const TextareaSandbox = () => (
   <Wrapper className="dnb-spacing">
     <Box>
-      <Provider FormRow={{ vertical: true }}>
-        <FormRow>
-          <Textarea value="Text" label="Label:" suffix="123" />
-        </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <Textarea value="Text" label="Label:" suffix="123" />
       </Provider>
     </Box>
     <Box>
@@ -38,38 +37,46 @@ export const TextareaSandbox = () => (
       />
     </Box>
     <Box>
-      <FormRow label_direction="vertical" label="Legend:">
-        <Textarea
-          label="Vertical label:"
-          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <FieldBlock label="Legend:">
+          <Flex.Vertical>
+            <Textarea
+              label="Vertical label:"
+              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-          right="small"
-        />
-        <Textarea
-          label="Vertical label:"
-          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+              right="small"
+            />
+            <Textarea
+              label="Vertical label:"
+              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-        />
-      </FormRow>
+            />
+          </Flex.Vertical>
+        </FieldBlock>
+      </Provider>
     </Box>
     <Box>
-      <FormRow vertical label="Legend:">
-        <Textarea
-          label="Vertical:"
-          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <FieldBlock label="Legend:">
+          <Flex.Vertical>
+            <Textarea
+              label="Vertical:"
+              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-        />
-        <Textarea
-          top="small"
-          label="Vertical:"
-          value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            />
+            <Textarea
+              top="small"
+              label="Vertical:"
+              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-        />
-      </FormRow>
+            />
+          </Flex.Vertical>
+        </FieldBlock>
+      </Provider>
     </Box>
     <Box>
       <Textarea

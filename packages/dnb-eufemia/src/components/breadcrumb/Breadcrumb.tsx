@@ -26,7 +26,7 @@ import {
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 
-export interface BreadcrumbProps {
+export type BreadcrumbProps = {
   /**
    * Custom className on the component root
    * Default: null
@@ -134,7 +134,7 @@ export const defaultProps = {
   backToText: 'Back to...',
   isCollapsed: true,
   styleType: 'transparent',
-  collapsedStyleType: 'pistachio',
+  collapsedStyleType: 'info',
   spacing: false,
 }
 
@@ -251,7 +251,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
       {currentVariant === 'collapse' && (
         <Section
-          style_type={collapsedStyleType}
+          variant={collapsedStyleType}
           className="dnb-breadcrumb__collapse"
         >
           <BreadcrumbMultiple
@@ -269,5 +269,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 Breadcrumb.Item = BreadcrumbItem
 
 export { BreadcrumbItem }
+
+Breadcrumb._supportsSpacingProps = true
 
 export default Breadcrumb

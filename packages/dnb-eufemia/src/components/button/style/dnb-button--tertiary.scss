@@ -3,7 +3,11 @@
 
 .dnb-button {
   &--tertiary {
-    --button-tertiary-focus-overflow: -1rem;
+    --button-tertiary-focus-left: -0.5rem;
+    --button-tertiary-focus-right: -0.5rem;
+    --button-tertiary-focus-overflow--icon-top: -0.5rem;
+    --button-tertiary-underline-overflow: 0;
+    --button-tertiary-underline-overflow--icon: -0.5rem;
     // create underline (::after)
     .dnb-button__text {
       position: relative; // because of the underline
@@ -15,12 +19,18 @@
         [data-visual-test-wrapper] & {
           transition: none;
         }
+        left: var(--button-tertiary-underline-overflow);
+        right: var(--button-tertiary-underline-overflow);
       }
     }
 
-    @include focus() {
-      @include removeFocusRing('keyboard');
-      @include buttonFocusRing();
+    @include focus-visible() {
+      outline: none;
+      @include buttonFocusRing(
+        'always',
+        $left: var(--button-tertiary-focus-left),
+        $right: var(--button-tertiary-focus-right)
+      );
 
       // underline
       .dnb-button__text::after {
@@ -78,6 +88,12 @@
     }
 
     &.dnb-button--icon-position-top {
+      --button-tertiary-focus-left: var(
+        --button-tertiary-focus-overflow--icon-top
+      );
+      --button-tertiary-focus-right: var(
+        --button-tertiary-focus-overflow--icon-top
+      );
       flex-direction: column;
       border-radius: 0.5rem;
       vertical-align: middle;
@@ -92,12 +108,6 @@
       }
 
       .dnb-button__text {
-        // underline
-        &::after {
-          left: 0;
-          right: 0;
-        }
-
         margin-top: 0;
         margin-bottom: 0.25rem;
         font-size: var(--font-size-x-small);
@@ -117,12 +127,13 @@
     &.dnb-button--has-icon {
       &.dnb-button--has-text {
         &.dnb-button--icon-position-left {
+          --button-tertiary-focus-right: -1rem;
           .dnb-button__text {
             padding-left: 1rem;
 
             // underline
             &::after {
-              left: -0.5rem;
+              left: var(--button-tertiary-underline-overflow--icon);
             }
           }
           .dnb-button__icon {
@@ -137,26 +148,20 @@
 
               // underline
               &::after {
-                left: -0.5rem;
-                right: 0;
+                left: 0;
               }
-            }
-          }
-
-          @include focus() {
-            &::before {
-              right: var(--button-tertiary-focus-overflow);
             }
           }
         }
         &.dnb-button--icon-position-right {
+          --button-tertiary-focus-left: -1rem;
           /* stylelint-disable */
           .dnb-button__text {
             padding-right: 1rem;
 
             // underline
             &::after {
-              right: -0.5rem;
+              right: var(--button-tertiary-underline-overflow--icon);
             }
           }
           .dnb-button__icon {
@@ -170,29 +175,18 @@
               padding-right: 0;
               margin-right: 1rem;
 
-              // underline
+              // underlinex
               &::after {
                 right: 0;
               }
-            }
-          }
-
-          @include focus() {
-            &::before {
-              left: var(--button-tertiary-focus-overflow);
             }
           }
         }
       }
 
       &:not(.dnb-button--has-text) {
-        @include focus() {
-          // make the ring round
-          &::before {
-            left: 0;
-            right: 0;
-          }
-        }
+        --button-tertiary-focus-left: 0;
+        --button-tertiary-focus-right: 0;
       }
     }
 

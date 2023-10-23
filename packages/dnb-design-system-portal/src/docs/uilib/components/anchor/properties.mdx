@@ -4,18 +4,18 @@ showTabs: true
 
 ## Properties
 
-| Properties                                  | Description                                                                                                                                          |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `element`                                   | _(optional)_ define what HTML or React element should be used (e.g. `element={Link}`). Defaults to semantic `a` element.                             |
-| `href`                                      | _(optional)_ relative or absolute url.                                                                                                               |
-| `to`                                        | _(optional)_ use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url. |
-| `target`                                    | _(optional)_ defines the opening method. Use `_blank` to open a new browser window/tab.                                                              |
-| `targetBlankTitle`                          | _(optional)_ the title shown as a tooltip when target is set to `_blank`.                                                                            |
-| `tooltip`                                   | _(optional)_ Provide a string or a React Element to be shown as the tooltip content.                                                                 |
-| `icon`                                      | _(optional)_ [Primary Icons](/icons/primary) can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements.        |
-| `iconPosition`                              | _(optional)_ `left` (default) or `right`. Places icon to the left or to the right of the text.                                                       |
-| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                  |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                |
+| Properties                              | Description                                                                                                                                          |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `element`                               | _(optional)_ define what HTML or React element should be used (e.g. `element={Link}`). Defaults to semantic `a` element.                             |
+| `href`                                  | _(optional)_ relative or absolute url.                                                                                                               |
+| `to`                                    | _(optional)_ use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url. |
+| `target`                                | _(optional)_ defines the opening method. Use `_blank` to open a new browser window/tab.                                                              |
+| `targetBlankTitle`                      | _(optional)_ the title shown as a tooltip when target is set to `_blank`.                                                                            |
+| `tooltip`                               | _(optional)_ Provide a string or a React Element to be shown as the tooltip content.                                                                 |
+| `icon`                                  | _(optional)_ [Primary Icons](/icons/primary) can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements.        |
+| `iconPosition`                          | _(optional)_ `left` (default) or `right`. Places icon to the left or to the right of the text.                                                       |
+| `skeleton`                              | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                  |
+| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                |
 
 ### Router Link
 
@@ -27,26 +27,6 @@ import { Link } from 'gatsby'
 render(
   <Anchor to="/url" element={Link}>
     Link
-  </Anchor>
-)
-```
-
-### Anchor hash
-
-Some browser like Chrome (behind a flag) does still not support animated anchor hash clicks when CSS `scroll-behavior: smooth;` is set. To make it work, you can provide the `scrollToHashHandler` helper function to the Anchor:
-
-```jsx
-import Anchor, {
-  scrollToHashHandler,
-} from '@dnb/eufemia/components/Anchor'
-
-render(
-  <>
-    <Anchor href="/path#hash-id" onClick={scrollToHashHandler}>
-      {children}
-    </Anchor>
-
-    <div id="hash-id">element to scroll to</div>
-  </>
+  </Anchor>,
 )
 ```

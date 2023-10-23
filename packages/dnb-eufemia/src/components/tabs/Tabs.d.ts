@@ -4,6 +4,9 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
+import { DynamicElement } from '../../shared/types';
+import { ButtonProps } from '../Button';
+import { AnchorAllProps } from '../Anchor';
 export type TabsData =
   | string
   | {
@@ -17,10 +20,7 @@ export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsTabElement =
-  | Record<string, unknown>
-  | React.ReactNode
-  | ((...args: any[]) => any);
+export type TabsTabElement = DynamicElement<ButtonProps | AnchorAllProps>;
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
 export type TabsChildren =
@@ -41,7 +41,7 @@ export interface TabsProps
   /**
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  content_style?: SectionStyleTypes;
+  content_style?: SectionStyleTypes | SectionVariants;
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
    */
@@ -62,7 +62,7 @@ export interface TabsProps
   /**
    * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  tabs_style?: SectionStyleTypes;
+  tabs_style?: SectionStyleTypes | SectionVariants;
   /**
    * To modify the `spacing` inside the tab list. Defaults to `null`.
    */

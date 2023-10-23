@@ -30,6 +30,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
+  global.console.log = jest.fn()
   document.body.innerHTML = ''
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
@@ -292,6 +293,53 @@ describe('Modal component', () => {
     expect(document.activeElement.classList).toContain(
       'dnb-modal__trigger'
     )
+  })
+
+  it('will set focus and selection on "focusSelector" element', async () => {
+    const { rerender } = render(
+      <Modal no_animation={true} focusSelector="#focus-me">
+        <DialogContent>
+          <input type="text" id="focus-me" defaultValue="value" />
+        </DialogContent>
+      </Modal>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    await wait(2)
+
+    const inputElement = document.getElementById(
+      'focus-me'
+    ) as HTMLInputElement
+
+    expect(document.activeElement.id).toContain('focus-me')
+    expect(inputElement).toHaveFocus()
+    expect(inputElement.selectionStart).toBe(0)
+    expect(inputElement.selectionEnd).toBe(5)
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    rerender(
+      <Modal no_animation={true} focusSelector="#focus-me">
+        <DialogContent>
+          <button id="focus-me">click me</button>
+        </DialogContent>
+      </Modal>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    await wait(2)
+
+    const buttonElement = document.getElementById(
+      'focus-me'
+    ) as HTMLInputElement
+
+    expect(document.activeElement.id).toContain('focus-me')
+    expect(buttonElement).toHaveFocus()
+    expect(buttonElement.selectionStart).toBe(undefined)
+    expect(buttonElement.selectionEnd).toBe(undefined)
   })
 
   it('will set "data-autofocus" attribute on focusing the trigger when closed', async () => {

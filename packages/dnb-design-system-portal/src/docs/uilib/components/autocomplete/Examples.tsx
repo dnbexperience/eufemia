@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import Context from '@dnb/eufemia/src/shared/Context'
 import {
   Autocomplete,
-  FormRow,
+  Flex,
   IconPrimary,
   NumberFormat,
 } from '@dnb/eufemia/src'
@@ -123,7 +123,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
               return () => clearTimeout(timeout)
             },
             { value },
-            250
+            250,
           )
         }
         return (
@@ -218,26 +218,19 @@ export const AutocompleteDifferentSizes = () => (
       data-visual-test="autocomplete-sizes"
       scope={{ topMovies }}
     >
-      <FormRow direction="vertical">
+      <Flex.Vertical>
         <Autocomplete
           label="Label:"
           size="default"
-          bottom
           data={() => topMovies}
         />
         <Autocomplete
           label="Label:"
           size="medium"
-          bottom
           data={() => topMovies}
         />
-        <Autocomplete
-          label="Label:"
-          size="large"
-          bottom
-          data={() => topMovies}
-        />
-      </FormRow>
+        <Autocomplete label="Label:" size="large" data={() => topMovies} />
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )
@@ -271,20 +264,18 @@ export const AutocompleteCustomWidth = () => (
         }
       `
       return (
-        <FormRow direction="vertical">
+        <Flex.Vertical>
           <CustomWidthOne
             label="Label:"
             label_sr_only
             size="default"
             icon_position="left"
-            bottom
             data={topMovies}
           />
           <CustomWidthTwo
             label="Label:"
             label_sr_only
             size="medium"
-            bottom
             data={topMovies}
           />
           <CustomWidthThree
@@ -294,10 +285,9 @@ export const AutocompleteCustomWidth = () => (
             align_autocomplete="right"
             icon_position="right"
             input_icon="bell"
-            bottom
             data={topMovies}
           />
-        </FormRow>
+        </Flex.Vertical>
       )
     }}
   </ComponentBox>
@@ -363,9 +353,6 @@ export const AutocompleteSuffix = () => {
 }
 
 export const AutocompleteOpened = () => {
-  if (!(typeof window !== 'undefined' && (window as any).IS_TEST)) {
-    return <></>
-  }
   return (
     <Wrapper>
       <ComponentBox
@@ -532,34 +519,33 @@ const topMovies = [
   { content: 'Monty Python and the Holy Grail', year: 1975 },
 ]
 
-export const AutocompleteDisabledExample = () =>
-  !globalThis.IS_TEST ? null : (
-    <Wrapper>
-      <ComponentBox
-        scope={{ topMovies }}
-        data-visual-test="autocomplete-disabled"
-      >
-        <Autocomplete
-          disabled
-          show_submit_button
-          data={topMovies}
-          value={1}
-          label="Label:"
-          bottom
-        />
-        <br />
-        <Autocomplete
-          disabled
-          show_submit_button
-          data={topMovies}
-          value={1}
-          label="Label:"
-          suffix="Suffix"
-          size="large"
-        />
-      </ComponentBox>
-    </Wrapper>
-  )
+export const AutocompleteDisabledExample = () => (
+  <Wrapper>
+    <ComponentBox
+      scope={{ topMovies }}
+      data-visual-test="autocomplete-disabled"
+    >
+      <Autocomplete
+        disabled
+        show_submit_button
+        data={topMovies}
+        value={1}
+        label="Label:"
+        bottom
+      />
+      <br />
+      <Autocomplete
+        disabled
+        show_submit_button
+        data={topMovies}
+        value={1}
+        label="Label:"
+        suffix="Suffix"
+        size="large"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
 
 export const AutocompleteContentAsArrayExample = () => (
   <Wrapper>

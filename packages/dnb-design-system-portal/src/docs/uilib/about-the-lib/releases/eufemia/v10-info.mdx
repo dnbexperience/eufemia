@@ -152,7 +152,7 @@ import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
 import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
 ```
 
-4. If you did import `/basis`, `/components`, and `themes/ui` like so(commonly done in `EufemiaStyleImporter` files):
+4. If you did import `/basis`, `/components`, and `themes/ui` like so (commonly done in `EufemiaStyleImporter` files):
 
 ```js
 import '@dnb/eufemia/style/basis'
@@ -383,7 +383,7 @@ The Anchor was moved from `/elements` to `/components`.
 
 1. In v10, InputMasked **allows leading zeros**. To prevent that behavior, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
-### [FormRow](/uilib/components/form-row)
+### [FormRow](/uilib/layout/form-row)
 
 1. The FormRow properties `indent` and `indent_offset` were removed.
 
@@ -465,6 +465,7 @@ Changed `img_class` prop to be `imgClass`.
 
 ### [PaymentCard](/uilib/extensions/payment-card/)
 
+1. `PaymentCard`'s size(height & width), proportions, and unit(from `mm` to `px`) was changed.
 1. `Type`'s `DNB` value/option `Metalic` was removed.
 1. `Type`'s `Saga` value/option `VisaPlatinum` was removed.
 1. `Type`'s `PB` value/option `Platinum` was removed.

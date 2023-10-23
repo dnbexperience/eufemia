@@ -48,6 +48,7 @@ function Drawer({
   omitTriggerButton,
   trigger,
   triggerAttributes,
+  closeButtonAttributes,
   overlayClass,
   contentClass,
   contentRef,
@@ -93,6 +94,7 @@ function Drawer({
     omitTriggerButton,
     trigger,
     triggerAttributes,
+    closeButtonAttributes,
     overlayClass,
     contentRef,
     scrollRef,
@@ -126,5 +128,7 @@ function Drawer({
 Drawer.Body = DrawerBody
 Drawer.Header = DrawerHeader
 Drawer.Navigation = DrawerNavigation
+
+Drawer._supportsSpacingProps = true
 
 export default Drawer

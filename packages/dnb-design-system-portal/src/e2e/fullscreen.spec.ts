@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Fullscreen', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/button')
+    await page.goto('/uilib/components/button/demos')
   })
 
   test('click on fullscreen button should navigate to the fullscreen page', async ({
@@ -10,13 +10,14 @@ test.describe('Fullscreen', () => {
   }) => {
     await page.waitForSelector('nav#portal-sidebar-menu')
 
-    await page.click('button[title="Fullscreen"]')
+    await page.click('a.fullscreen')
 
-    await page.waitForSelector('nav#portal-sidebar-menu', {
-      state: 'hidden',
-    })
+    expect(page.url()).toContain(
+      '/uilib/components/button/demos/?fullscreen',
+    )
 
-    const currentURL = page.url()
-    expect(currentURL).toContain('/uilib/components/button/?fullscreen')
+    await page.click('a.fullscreen')
+
+    expect(page.url()).toContain('/uilib/components/button/demos/')
   })
 })

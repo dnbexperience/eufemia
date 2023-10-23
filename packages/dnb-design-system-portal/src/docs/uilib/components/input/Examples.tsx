@@ -8,13 +8,14 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 import styled from '@emotion/styled'
 import {
-  FormSet,
-  FormRow,
   HelpButton,
   Space,
   Input,
-  Button,
-} from '@dnb/eufemia/src/components'
+  Flex,
+  FormLabel,
+} from '@dnb/eufemia/src'
+import { FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
   display: block;
@@ -107,21 +108,29 @@ export const InputExampleDisabled = () => (
 export const InputExampleFormStatus = () => (
   <Wrapper>
     <ComponentBox>
-      <FormRow bottom data-visual-test="input-error">
-        <Input
-          label="With FormStatus:"
-          status="You have to fill in this field"
-          value="Input value with error"
-        />
-      </FormRow>
-      <FormRow data-visual-test="input-error-button">
-        <Input
-          label="With button:"
-          status="You have to fill in this field"
-          value="Input value with error"
-          type="search"
-        />
-      </FormRow>
+      <Provider
+        formElement={{
+          label_direction: 'vertical',
+        }}
+      >
+        <Flex.Vertical>
+          <div data-visual-test="input-error">
+            <Input
+              label="With FormStatus:"
+              status="You have to fill in this field"
+              value="Input value with error"
+            />
+          </div>
+          <div data-visual-test="input-error-button">
+            <Input
+              label="With button:"
+              status="You have to fill in this field"
+              value="Input value with error"
+              type="search"
+            />
+          </div>
+        </Flex.Vertical>
+      </Provider>
     </ComponentBox>
   </Wrapper>
 )
@@ -154,17 +163,16 @@ export const InputExampleSuffix = () => (
 export const InputExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-stretch">
-      <FormRow
-        label="Long label labwl Adipiscing mauris dis proin nec:"
-        vertical
-      >
-        <Input
-          value="I stretch ..."
-          stretch
-          status="Status message"
-          status_state="warn"
-        />
-      </FormRow>
+      <Provider formElement={{ label_direction: 'vertical' }}>
+        <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec:">
+          <Input
+            value="I stretch ..."
+            stretch
+            status="Status message"
+            status_state="warn"
+          />
+        </FieldBlock>
+      </Provider>
     </ComponentBox>
   </Wrapper>
 )
@@ -191,16 +199,16 @@ export const InputExampleNumbers = () => (
 export const InputExampleSubmit = () => (
   <Wrapper>
     <ComponentBox>
-      <FormSet
-        prevent_submit={true}
-        on_submit={(event) => {
-          console.log('FormRow.on_submit', event)
+      <Form.Handler
+        onSubmit={(event) => {
+          console.log(event)
         }}
       >
-        <FormRow>
+        <FormLabel for_id="search">Label:</FormLabel>
+        <Flex.Horizontal align="baseline">
           <Input
+            id="search"
             type="search"
-            label="Label:"
             value="Input ..."
             selectall={true}
             on_submit={(event) => {
@@ -209,12 +217,10 @@ export const InputExampleSubmit = () => (
             on_change={({ value }) => {
               console.log('on_change:', value)
             }}
-            right="small"
-            bottom="x-small"
           />
-          <Button text="Submit" type="submit" />
-        </FormRow>
-      </FormSet>
+          <Form.SubmitButton />
+        </Flex.Horizontal>
+      </Form.Handler>
     </ComponentBox>
   </Wrapper>
 )
@@ -245,105 +251,107 @@ export const InputExamplePassword = () => (
 export const InputExampleClear = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-clear">
-      <FormRow direction="vertical">
+      <Flex.Vertical>
         <Input clear={true} value="Value ..." size="medium" />
-        <Input clear={true} value="Value ..." type="search" top />
-        <Input
-          clear={true}
-          value="Value ..."
-          icon="loupe"
-          type="search"
-          top
-        />
-      </FormRow>
+        <Input clear={true} value="Value ..." type="search" />
+        <Input clear={true} value="Value ..." icon="loupe" type="search" />
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )
 
 export const InputScreenshotTests = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <Wrapper>
       <ComponentBox data-visual-test="input-align">
-        <FormRow label="Left aligned" vertical>
-          <Input value="Plain" />
-          <Input value="Search" type="search" />
-          <Input value="Search" size="medium" type="search" />
-          <Input value="Search" size="large" type="search" />
-          <Input
-            value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-            icon="calendar"
-          />
-          <Input
-            placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-            icon_position="right"
-            icon="calendar"
-          />
-          <Input size="medium" value="Value" icon="calendar" />
-          <Input
-            size="medium"
-            placeholder="Placeholder"
-            icon_position="right"
-            icon="calendar"
-          />
-          <Input size="large" value="Value" icon="calendar" />
-          <Input
-            size="large"
-            placeholder="Placeholder"
-            icon_position="right"
-            icon="calendar"
-          />
-        </FormRow>
-        <FormRow label="Right aligned" vertical top>
-          <Input value="Plain" align="right" />
-          <Input value="Search" type="search" align="right" />
-          <Input
-            value="Search"
-            size="medium"
-            type="search"
-            align="right"
-          />
-          <Input value="Search" size="large" type="search" align="right" />
-          <Input
-            value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-            icon="calendar"
-            align="right"
-          />
-          <Input
-            placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-            icon_position="right"
-            icon="calendar"
-            align="right"
-          />
-          <Input
-            size="medium"
-            value="Value"
-            icon="calendar"
-            align="right"
-          />
-          <Input
-            size="medium"
-            placeholder="Placeholder"
-            icon_position="right"
-            icon="calendar"
-            align="right"
-          />
-          <Input
-            size="large"
-            value="Value"
-            icon="calendar"
-            align="right"
-          />
-          <Input
-            size="large"
-            placeholder="Placeholder"
-            icon_position="right"
-            icon="calendar"
-            align="right"
-          />
-        </FormRow>
+        <Provider formElement={{ label_direction: 'vertical' }}>
+          <FieldBlock label="Left aligned">
+            <Flex.Vertical>
+              <Input value="Plain" />
+              <Input value="Search" type="search" />
+              <Input value="Search" size="medium" type="search" />
+              <Input value="Search" size="large" type="search" />
+              <Input
+                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon="calendar"
+              />
+              <Input
+                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon_position="right"
+                icon="calendar"
+              />
+              <Input size="medium" value="Value" icon="calendar" />
+              <Input
+                size="medium"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+              />
+              <Input size="large" value="Value" icon="calendar" />
+              <Input
+                size="large"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+              />
+            </Flex.Vertical>
+          </FieldBlock>
+          <FieldBlock top label="Right aligned">
+            <Flex.Vertical>
+              <Input value="Plain" align="right" />
+              <Input value="Search" type="search" align="right" />
+              <Input
+                value="Search"
+                size="medium"
+                type="search"
+                align="right"
+              />
+              <Input
+                value="Search"
+                size="large"
+                type="search"
+                align="right"
+              />
+              <Input
+                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="medium"
+                value="Value"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="medium"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="large"
+                value="Value"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="large"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+            </Flex.Vertical>
+          </FieldBlock>
+        </Provider>
       </ComponentBox>
     </Wrapper>
   )

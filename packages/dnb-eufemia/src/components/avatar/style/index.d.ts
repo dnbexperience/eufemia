@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-avatar.scss'
+import './dnb-avatar.scss';

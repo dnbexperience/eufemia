@@ -10,6 +10,7 @@ import {
   Button,
   FormRow,
   Dialog,
+  Flex,
 } from '@dnb/eufemia/src'
 
 export const ProgressIndicatorDefaultExample = () => (
@@ -63,7 +64,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
       const ChangeValue = () => {
         const [value, setValue] = React.useState(50)
         return (
-          <FormRow centered>
+          <Flex.Horizontal align="center">
             <ProgressIndicator
               type="circular"
               progress={value}
@@ -78,7 +79,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
             >
               Change
             </Button>
-          </FormRow>
+          </Flex.Horizontal>
         )
       }
 
@@ -94,12 +95,12 @@ export const ProgressIndicatorCircularRandomTransitionExample = () => (
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
         const [progress, setProgressIndicator] = React.useState(
-          random(1, 100)
+          random(1, 100),
         )
         React.useEffect(() => {
           const timer = setInterval(
             () => setProgressIndicator(random(1, 100)),
-            1e3
+            1e3,
           )
           return () => clearInterval(timer)
         })
@@ -126,7 +127,7 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
         React.useEffect(() => {
           const timer = setInterval(
             () => setVisible(!visible),
-            random(2400, 4200)
+            random(2400, 4200),
           )
           return () => clearTimeout(timer)
         })
@@ -250,12 +251,12 @@ export const ProgressIndicatorLinearRandomTransitionExample = () => (
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
         const [progress, setProgressIndicator] = React.useState(
-          random(1, 100)
+          random(1, 100),
         )
         React.useEffect(() => {
           const timer = setInterval(
             () => setProgressIndicator(random(1, 100)),
-            1e3
+            1e3,
           )
           return () => clearInterval(timer)
         })
@@ -276,7 +277,7 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
         React.useEffect(() => {
           const timer = setInterval(
             () => setVisible(!visible),
-            random(2400, 4200)
+            random(2400, 4200),
           )
           return () => clearTimeout(timer)
         })

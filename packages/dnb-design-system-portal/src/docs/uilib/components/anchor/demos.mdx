@@ -8,6 +8,7 @@ import {
   AnchorExampleHelperClasses,
   AnchorExampleIcons,
   AnchorTargetBlank,
+  AnchorProtocol,
   AnchorExampleHeadings,
   AnchorSbankenRegular,
   AnchorSbankenGoto,
@@ -66,6 +67,10 @@ If the link opens a new window it will automatically get an icon to indicate thi
 
 <AnchorTargetBlank />
 
+Unless the href contains `:mailto`, `:tel` or `:sms`.
+
+<AnchorProtocol />
+
 ### Anchor in headings
 
 <AnchorExampleHeadings />
@@ -74,4 +79,6 @@ If the link opens a new window it will automatically get an icon to indicate thi
 
 <AnchorExampleInSection />
 
-<AnchorLegacyUsage />
+<VisibleWhenVisualTest>
+  <AnchorLegacyUsage />
+</VisibleWhenVisualTest>

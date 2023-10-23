@@ -38,7 +38,7 @@ const ContrastExample = styled(Example)`
 export const AnchorExampleInSection = () => (
   <Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
-      <Section spacing style_type="emerald-green">
+      <Section spacing>
         <Anchor
           className="dnb-anchor--no-underline"
           href="https://dnb.no/"
@@ -112,7 +112,7 @@ export const AnchorExampleHelperClasses = () => (
           Blank target without launch icon
         </Anchor>
       </Example>
-      <Example>
+      <Example data-visual-test="anchor-no-hover">
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-hover"
@@ -136,7 +136,7 @@ export const AnchorExampleHelperClasses = () => (
           No animation
         </Anchor>
       </Example>
-      <Example>
+      <Example data-visual-test="anchor-no-style">
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-style"
@@ -223,6 +223,32 @@ export const AnchorTargetBlank = () => (
           iconPosition="right"
         >
           Blank target with different launch icon
+        </Anchor>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AnchorProtocol = () => (
+  <Wrapper>
+    <ComponentBox
+      hideCode
+      scope={{ Example }}
+      data-visual-test="anchor-protocol"
+    >
+      <Example>
+        <Anchor target="_blank" href="mailto:john.doe@email.com">
+          Send a mail to: john.doe@email.com
+        </Anchor>
+      </Example>
+      <Example>
+        <Anchor target="_blank" href="tel:12345678">
+          Make a phone call to: 12345678
+        </Anchor>
+      </Example>
+      <Example>
+        <Anchor target="_blank" href="sms:12345678">
+          Send an SMS to: 12345678
         </Anchor>
       </Example>
     </ComponentBox>
@@ -361,9 +387,6 @@ export const AnchorSbankenInline = () => (
 )
 
 export const AnchorLegacyUsage = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <Wrapper>
       <ComponentBox hideCode scope={{ Example }}>

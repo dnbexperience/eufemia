@@ -130,9 +130,8 @@ export const runFactory = async ({
   returnResult = false,
 }) => {
   const themeSources = await getThemeSources(filesToFindGlob)
-  const themesWithRelatedFiles = await collecetRelatedThemeFiles(
-    themeSources
-  )
+  const themesWithRelatedFiles =
+    await collecetRelatedThemeFiles(themeSources)
 
   const collectedOutput = {}
 
@@ -143,7 +142,7 @@ export const runFactory = async ({
       }
       await fs.writeFile(
         file,
-        prettier.format(fileContent, {
+        await prettier.format(fileContent, {
           ...prettierrc,
           filepath: file,
         })

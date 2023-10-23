@@ -14,10 +14,12 @@ import {
   Button,
   Skeleton,
   ToggleButton,
-  FormRow,
   Div,
 } from '@dnb/eufemia/src'
-import { AllComponents } from '../form-row/Examples'
+import {
+  AllComponentsHorizontalTestCase,
+  AllComponentsVerticalLabelsTestCase,
+} from '../../layout/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
 import {
@@ -78,7 +80,7 @@ export const SkeletonWrapperExample = () => (
 )
 
 export const SkeletonEufemiaProviderExample = () => (
-  <ComponentBox scope={{ Provider }}>
+  <ComponentBox>
     <Provider skeleton={true}>
       <H2 top bottom>
         Heading
@@ -102,32 +104,15 @@ export const SkeletonFiguresExample = () => (
   </ComponentBox>
 )
 
-export const SkeletonVisualTests = () => {
-  if (!globalThis.IS_TEST) {
-    return <></>
-  }
+export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
-      <ComponentBox
-        data-visual-test="skeleton-all-horizontal"
-        scope={{ AllComponents }}
-      >
-        <FormRow>
-          <Skeleton show no_animation>
-            <AllComponents />
-          </Skeleton>
-        </FormRow>
-      </ComponentBox>
-      <ComponentBox
-        data-visual-test="skeleton-all-vertical"
-        scope={{ AllComponents }}
-      >
-        <FormRow vertical={true}>
-          <Skeleton show no_animation>
-            <AllComponents />
-          </Skeleton>
-        </FormRow>
-      </ComponentBox>
+      <Skeleton show no_animation>
+        <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
+      </Skeleton>
+      <Skeleton show no_animation>
+        <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
+      </Skeleton>
     </>
   )
 }
@@ -144,7 +129,7 @@ export const SkeletonInfoProvider = () => (
 )
 
 export const SkeletonInfoGlobalProvider = () => (
-  <ComponentBox scope={{ Provider }} hidePreview>
+  <ComponentBox hidePreview>
     <Provider locale="nb-NO">
       <Div id="your-app">
         <Provider skeleton={true}>

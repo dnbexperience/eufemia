@@ -220,7 +220,7 @@ export default class DatePickerInput extends React.PureComponent {
     startDate = parseISO(startDate)
     endDate = parseISO(endDate)
 
-    // ... check if they where valid
+    // ... check if they were valid
     if (!isValid(startDate)) {
       startDate = null
     }
@@ -572,6 +572,7 @@ export default class DatePickerInput extends React.PureComponent {
                   key={'dl' + i}
                   hidden
                   id={`${this.props.id}-${mode}-day-label`}
+                  htmlFor={`${this.props.id}-${mode}-day`}
                 >
                   {isRangeLabel + day}
                 </label>
@@ -603,6 +604,7 @@ export default class DatePickerInput extends React.PureComponent {
                   key={'ml' + i}
                   hidden
                   id={`${this.props.id}-${mode}-month-label`}
+                  htmlFor={`${this.props.id}-${mode}-month`}
                 >
                   {isRangeLabel + month}
                 </label>
@@ -634,6 +636,7 @@ export default class DatePickerInput extends React.PureComponent {
                   key={'yl' + i}
                   hidden
                   id={`${this.props.id}-${mode}-year-label`}
+                  htmlFor={`${this.props.id}-${mode}-year`}
                 >
                   {isRangeLabel + year}
                 </label>

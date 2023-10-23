@@ -46,3 +46,5 @@ export default function HelpButton(localProps: HelpButtonProps) {
 
   return <HelpButtonInstance {...params} />
 }
+
+HelpButton._supportsSpacingProps = true

@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import FormLabel, { FormLabelProps } from '../FormLabel'
 import Input from '../../input/Input'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 const props: FormLabelProps = {
   title: 'title',
@@ -47,11 +47,11 @@ describe('FormLabel component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <FormLabel label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-form-label')
@@ -64,6 +64,28 @@ describe('FormLabel component', () => {
       'dnb-form-label',
       'dnb-form-label--vertical',
     ])
+  })
+
+  it('should support heading size prop', () => {
+    const { rerender } = render(
+      <FormLabel label="Label" size="medium">
+        content
+      </FormLabel>
+    )
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--medium'
+    )
+
+    rerender(
+      <FormLabel label="Label" size="large">
+        content
+      </FormLabel>
+    )
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--large'
+    )
   })
 
   it('should validate with ARIA rules', async () => {

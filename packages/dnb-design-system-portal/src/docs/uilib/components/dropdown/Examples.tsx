@@ -10,15 +10,15 @@ import {
   Dropdown,
   NumberFormat,
   IconPrimary,
-  FormRow,
   Link,
   HelpButton,
   P,
+  Flex,
 } from '@dnb/eufemia/src'
 
 import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
-type VisualTestReturn = Pick<
+type VisibleWhenVisualTestReturn = Pick<
   DropdownProps,
   | 'opened'
   | 'prevent_close'
@@ -32,7 +32,9 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-visual-test] {
-    > :not(.dnb-dropdown--is-popup):not(.dnb-dropdown--independent-width):not(.dnb-dropdown--stretch)
+    > :not(.dnb-dropdown--is-popup):not(
+        .dnb-dropdown--independent-width
+      ):not(.dnb-dropdown--stretch)
       .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
@@ -207,21 +209,22 @@ export const DropdownNoValue = () => (
   </Wrapper>
 )
 
-export const DropdownEllipsisOverflow = () =>
-  globalThis.IS_TEST ? (
-    <Wrapper>
-      <ComponentBox data-visual-test="dropdown-ellipsis">
-        <Dropdown
-          data={['Long text that will overflow with CSS ellipsis']}
-          value={0}
-          label="Label:"
-        />
-      </ComponentBox>
-    </Wrapper>
-  ) : null
+export const DropdownEllipsisOverflow = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-ellipsis">
+      <Dropdown
+        data={['Long text that will overflow with CSS ellipsis']}
+        value={0}
+        label="Label:"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
 
 export const DropdownDirections = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean,
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -254,7 +257,7 @@ export const DropdownDirections = () => {
           ]}
           {...visualTestProps(
             globalThis.IS_TEST &&
-              window.location.search.includes('item-directions')
+              window.location.search.includes('item-directions'),
           )}
         />
       </ComponentBox>
@@ -319,7 +322,9 @@ export const DropdownTertiary = () => (
 )
 
 export const DropdownMoreMenu = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean,
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -350,7 +355,7 @@ export const DropdownMoreMenu = () => {
           right="small"
           {...visualTestProps(
             globalThis.IS_TEST &&
-              window.location.search.includes('left-side')
+              window.location.search.includes('left-side'),
           )}
         />
         <Dropdown
@@ -369,7 +374,7 @@ export const DropdownMoreMenu = () => {
           right="small"
           {...visualTestProps(
             globalThis.IS_TEST &&
-              window.location.search.includes('right-side')
+              window.location.search.includes('right-side'),
           )}
         />
         <Dropdown
@@ -430,7 +435,9 @@ export const DropdownDisabledTertiary = () => (
 )
 
 export const DropdownCustomEvent = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean,
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -492,7 +499,7 @@ export const DropdownCustomEvent = () => {
               }
               {...visualTestProps(
                 globalThis.IS_TEST &&
-                  window.location.search.includes('action_menu-custom')
+                  window.location.search.includes('action_menu-custom'),
               )}
             />
           )
@@ -505,11 +512,11 @@ export const DropdownCustomEvent = () => {
 export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
-      <FormRow direction="vertical">
-        <Dropdown label="Label:" size="default" bottom data={() => data} />
-        <Dropdown label="Label:" size="medium" bottom data={() => data} />
-        <Dropdown label="Label:" size="large" bottom data={() => data} />
-      </FormRow>
+      <Flex.Vertical>
+        <Dropdown label="Label:" size="default" data={() => data} />
+        <Dropdown label="Label:" size="medium" data={() => data} />
+        <Dropdown label="Label:" size="large" data={() => data} />
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )
@@ -551,35 +558,31 @@ export const DropdownCustomWidth = () => (
         `
 
         return (
-          <FormRow direction="vertical">
+          <Flex.Vertical>
             <CustomWidthOne
               label="Label:"
               size="default"
               icon_position="left"
-              bottom
               data={data}
             />
             <CustomWidthTwo
               label="Label:"
               size="small"
               more_menu
-              bottom
               data={data}
             />
             <CustomWidthThree
               label="Label:"
               size="large"
               align_dropdown="right"
-              bottom
               data={data}
             />
             <CustomWidthFour
               title="Min and max width"
               stretch={true}
-              bottom
               data={data}
             />
-          </FormRow>
+          </Flex.Vertical>
         )
       }}
     </ComponentBox>

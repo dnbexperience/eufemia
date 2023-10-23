@@ -19,8 +19,9 @@ import {
   Drawer,
   GlobalStatus,
 } from '../..'
-import { Link } from '../../..'
+import { Flex, Link } from '../../..'
 import { DrawerListDataObjectUnion } from '../../../fragments/DrawerList'
+import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Dropdown',
@@ -504,9 +505,9 @@ const DropdownStory = () => {
         </p>
       </Box>
       <Box>
-        <FormRow vertical>
+        <Provider formElement={{ label_direction: 'vertical' }}>
           <Dropdown label="Vertical:" data={dropdownData} />
-        </FormRow>
+        </Provider>
       </Box>
       <Box>
         <span className="dnb-p">Eros semper</span>
@@ -554,7 +555,7 @@ const DropdownStory = () => {
         </p>
       </Box>
       <Box>
-        <FormRow direction="vertical">
+        <Flex.Vertical>
           <Dropdown
             label="Label:"
             size="default"
@@ -567,7 +568,7 @@ const DropdownStory = () => {
             bottom
             data={() => data}
           />
-        </FormRow>
+        </Flex.Vertical>
         <Dropdown size="large" bottom data={() => data} />
         <Dropdown data={dropdownData} size="large" bottom value={2} />
       </Box>
@@ -770,16 +771,17 @@ function DropdownStatesSync() {
   }
 
   return (
-    <FormRow vertical>
-      <>{JSON.stringify(state)}</>
-      <Dropdown
-        data={dropdownDataScrollable}
-        // value={0}
-        default_value={0}
-        title="Dropdown 1"
-        on_change={handleOnChange}
-      />
-      {/* <Dropdown
+    <Provider formElement={{ label_direction: 'vertical' }}>
+      <Flex.Vertical>
+        <>{JSON.stringify(state)}</>
+        <Dropdown
+          data={dropdownDataScrollable}
+          // value={0}
+          default_value={0}
+          title="Dropdown 1"
+          on_change={handleOnChange}
+        />
+        {/* <Dropdown
         top
         data={dropdownDataScrollable}
         // value={1}
@@ -787,7 +789,8 @@ function DropdownStatesSync() {
         title="Dropdown 2"
         on_change={handleOnChange}
       /> */}
-    </FormRow>
+      </Flex.Vertical>
+    </Provider>
   )
 }
 

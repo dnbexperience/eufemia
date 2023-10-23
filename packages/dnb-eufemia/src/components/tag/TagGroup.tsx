@@ -87,4 +87,6 @@ const TagGroup = (localProps: TagGroupProps & SpacingProps) => {
   )
 }
 
+TagGroup._supportsSpacingProps = true
+
 export default TagGroup

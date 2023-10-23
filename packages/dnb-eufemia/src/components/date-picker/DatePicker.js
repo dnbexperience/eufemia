@@ -22,7 +22,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 // date-fns
@@ -472,7 +472,9 @@ export default class DatePicker extends React.PureComponent {
       DatePicker.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).DatePicker,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.DatePicker
     )
 
@@ -737,3 +739,5 @@ export default class DatePicker extends React.PureComponent {
     )
   }
 }
+
+DatePicker._supportsSpacingProps = true

@@ -138,10 +138,18 @@ const plugins = [
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
       },
-      filesGlob: shouldUsePrebuild()
-        ? '**/build/style/themes/**/*-theme-*.min.css'
-        : '**/src/style/themes/**/*-theme-*.scss', // also load the extensions CSS package
+      filesGlobs: shouldUsePrebuild()
+        ? [
+            '**/build/style/dnb-ui-core.min.css',
+            '**/build/style/themes/**/*-theme-*.min.css',
+          ]
+        : [
+            '**/src/style/dnb-ui-core.scss',
+            '**/src/style/themes/**/*-theme-*.scss',
+          ],
+      // also load the extensions CSS package
       defaultTheme,
+      wrapWithThemeProvider: false, // The portal uses its own wrapper: ThemeProvider
     },
   },
 ].filter(Boolean)
@@ -184,11 +192,8 @@ module.exports = {
   flags: {
     PRESERVE_FILE_DOWNLOAD_CACHE: true,
     PARALLEL_SOURCING: true,
-
-    /**
-     * FAST_DEV=true or DEV_SSR=true can be interesting when we use React v18 and the Hook useId.
-     * Because Gatsby then runs a page call as SSR, and warns when the VDOM do not match on the client.
-     */
+    FAST_DEV: true,
+    DEV_SSR: false,
   },
   pathPrefix,
   siteMetadata,

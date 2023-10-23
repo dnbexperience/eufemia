@@ -7,7 +7,6 @@
  */
 
 import { ErrorHandler, log } from '../lib'
-import del from 'del'
 
 /**
  * The Templates (prepareTemplates) generation is special in the sense
@@ -43,7 +42,6 @@ export const runPrepublishTasks = async ({
   process.env.NODE_ENV = 'production'
   log.start('Starting the prepublish process...')
   try {
-    await cleanupLib({ preventDelete })
     await convertSvgToJsx({ preventDelete })
 
     await makeReleaseVersion()
@@ -61,42 +59,3 @@ export const runPrepublishTasks = async ({
   }
   return true
 }
-
-export const cleanupLib = async ({ preventDelete = false } = {}) => {
-  // only delete things if there is a --clean flag or we force to
-  if (process.argv.indexOf('--clean') !== -1 || !preventDelete) {
-    log.info('> PrePublish: deleting existing style')
-    await del(
-      [
-        './es/**',
-        './esm/**',
-        './cjs/**',
-        './components/**',
-        './elements/**',
-        './extensions/**',
-        './style/**',
-        './shared/**',
-        './icons/**',
-        './umd/**',
-        '!./es',
-        '!./esm',
-        '!./cjs',
-        '!./components',
-        '!./elements',
-        '!./extensions',
-        '!./style',
-        '!./shared',
-        '!./icons',
-        '!./umd',
-      ],
-      {
-        force: true,
-      }
-    )
-  }
-}
-
-// const wait = t => new Promise(r => setTimeout(r, t))
-// alternative for gulp
-// import Undertaker from 'undertaker'
-// const taker = new Undertaker()

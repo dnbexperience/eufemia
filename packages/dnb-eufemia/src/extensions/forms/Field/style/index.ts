@@ -3,5 +3,4 @@
  *
  */
 
-import './dnb-national-identity-number.scss'
-import './dnb-phone-number.scss'
+import './dnb-forms-field.scss'

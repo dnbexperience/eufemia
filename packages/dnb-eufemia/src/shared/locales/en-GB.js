@@ -160,6 +160,7 @@ export default {
         'The value cannot be shorter than {minLength} characters',
       stringInputErrorMaxLength:
         'The value cannot be longer than {maxLength} characters',
+      selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
       emailErrorRequired: 'You must enter an email',

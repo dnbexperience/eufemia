@@ -81,6 +81,7 @@
       font-size: inherit;
       font-weight: inherit;
       border-radius: 0;
+      transition: none;
     }
 
     &.is-inside,
@@ -148,14 +149,14 @@
     }
 
     .dnb-anchor:hover {
+      --anchor-background: var(--dnb-sidebar-menu-hover-bg);
       color: var(--color-black);
       > span:first-child {
         text-decoration: underline;
       }
-      background-color: var(--dnb-sidebar-menu-hover-bg);
     }
 
-    .dnb-anchor:focus:not(:active) {
+    .dnb-anchor:focus-visible:not(:active) {
       color: var(--color-white);
       background-color: var(--dnb-sidebar-menu-focus-bg);
       box-shadow: none;
@@ -249,7 +250,9 @@
 
         .dnb-sidebar-menu__theme-badge__title {
           width: 0.7em;
+          height: 1.5rem;
           overflow: hidden;
+          padding: 0.0625rem;
         }
       }
     }

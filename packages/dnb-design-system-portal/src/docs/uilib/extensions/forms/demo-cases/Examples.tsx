@@ -1,9 +1,8 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { GlobalStatus, Section, Code } from '@dnb/eufemia/src'
+import { GlobalStatus, Section, Code, Card, Flex } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
-  DataContext,
-  Layout,
+  Form,
   StepsLayout,
   Field,
   Value,
@@ -13,9 +12,8 @@ export const BecomeCorporateCustomer = () => {
   return (
     <ComponentBox
       scope={{
+        Form,
         Code,
-        DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -28,17 +26,17 @@ export const BecomeCorporateCustomer = () => {
           return (
             <>
               <GlobalStatus />
-              <DataContext.Provider
+              <Form.Handler
                 data={data}
                 onChange={setData}
                 onSubmit={(data) => console.log('onSubmit', data)}
               >
-                <StepsLayout top>
+                <StepsLayout top scrollTopOnStepChange>
                   <StepsLayout.Step title="Bedriftsopplysninger">
-                    <Layout.MainHeading>
+                    <Form.MainHeading>
                       Bedriftsopplysninger
-                    </Layout.MainHeading>
-                    <Layout.Card spacing="medium">
+                    </Form.MainHeading>
+                    <Card spacing="medium">
                       <Field.OrganizationNumber
                         path="/companyOrganizationNumber"
                         required
@@ -92,8 +90,8 @@ export const BecomeCorporateCustomer = () => {
                         label="Etableringsland"
                         required
                       />
-                    </Layout.Card>
-                    <Layout.Card spacing="medium">
+                    </Card>
+                    <Card spacing="medium">
                       <Field.PhoneNumber
                         path="/phoneNumber"
                         label="Telefon/mobilnummer"
@@ -104,30 +102,28 @@ export const BecomeCorporateCustomer = () => {
                         path="/website"
                         label="Nettstedsadresse (valgfritt)"
                       />
-                    </Layout.Card>
+                    </Card>
 
-                    <Layout.ButtonRow>
+                    <Form.ButtonRow>
                       <StepsLayout.NextButton />
-                    </Layout.ButtonRow>
+                    </Form.ButtonRow>
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Kontaktperson">
-                    <Layout.MainHeading>Profile</Layout.MainHeading>
+                    <Form.MainHeading>Profile</Form.MainHeading>
 
-                    <Layout.Card stack>
-                      <Layout.SubHeading>
-                        More information
-                      </Layout.SubHeading>
+                    <Card stack>
+                      <Form.SubHeading>More information</Form.SubHeading>
 
                       <Field.NationalIdentityNumber path="/ssn" />
                       <Field.Email path="/email" />
                       <Field.PhoneNumber path="/phone" />
-                    </Layout.Card>
+                    </Card>
 
-                    <Layout.ButtonRow>
+                    <Form.ButtonRow>
                       <StepsLayout.PreviousButton />
                       <StepsLayout.NextButton />
-                    </Layout.ButtonRow>
+                    </Form.ButtonRow>
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Bedriftens virksomhet">
@@ -155,30 +151,30 @@ export const BecomeCorporateCustomer = () => {
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Oppsummering">
-                    <Layout.MainHeading>Profile</Layout.MainHeading>
+                    <Form.MainHeading>Profile</Form.MainHeading>
 
-                    <Layout.Card stack>
-                      <Layout.FlexContainer direction="row">
-                        <Value.FirstName path="/firstName" />
-                        <Value.LastName path="/lastName" />
-                      </Layout.FlexContainer>
+                    <Card stack>
+                      <Flex.Container>
+                        <Value.String path="/firstName" />
+                        <Value.String path="/lastName" />
+                      </Flex.Container>
 
                       <Value.NationalIdentityNumber path="/ssn" />
                       <Value.Email path="/email" />
                       <Value.PhoneNumber path="/phone" />
-                    </Layout.Card>
+                    </Card>
 
-                    <Layout.ButtonRow>
+                    <Form.ButtonRow>
                       <StepsLayout.PreviousButton />
-                      <DataContext.SubmitButton />
-                    </Layout.ButtonRow>
+                      <Form.SubmitButton />
+                    </Form.ButtonRow>
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Kvittering">
                     Kvittering...
                   </StepsLayout.Step>
                 </StepsLayout>
-              </DataContext.Provider>
+              </Form.Handler>
 
               <Section
                 element="output"

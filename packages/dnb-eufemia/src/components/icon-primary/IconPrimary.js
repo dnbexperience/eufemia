@@ -69,3 +69,5 @@ export default class IconPrimary extends React.PureComponent {
     )
   }
 }
+
+IconPrimary._supportsSpacingProps = true

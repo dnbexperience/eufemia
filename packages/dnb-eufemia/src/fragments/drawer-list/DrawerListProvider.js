@@ -375,8 +375,6 @@ export default class DrawerListProvider extends React.PureComponent {
    * EDS-246
    */
   correctHiddenView = () => {
-    // console.log('this._refShell.current', this._refShell.current)
-    // console.log('this._refUl.current', this._refUl.current)
     // We use "style.transform", because it is a independent "and quick" solution
     // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
     if (!this._refShell.current || !this._refUl.current) {

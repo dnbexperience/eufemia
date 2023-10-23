@@ -1,5 +1,48 @@
+@import '../../Field/style/field-sizes.scss';
+@import '../../../../style/core/utilities.scss';
+
+fieldset.dnb-forms-field-block {
+  @include fieldsetReset(true);
+}
+
 .dnb-forms-field-block {
-  &__label-block {
+  &__grid {
+    display: grid;
+  }
+
+  &--layout {
+    &-vertical {
+      grid-template-columns: auto;
+      grid-template-areas:
+        'label'
+        'contents'
+        'status';
+    }
+    &-horizontal {
+      grid-template-columns: var(--forms-field-width--medium) auto;
+      grid-template-areas:
+        'label contents'
+        'status status';
+    }
+  }
+
+  &--width {
+    @include allAbove(x-small) {
+      &-small {
+        width: var(--forms-field-width--small);
+      }
+      &-medium {
+        width: var(--forms-field-width--medium);
+      }
+      &-large {
+        width: var(--forms-field-width--large);
+      }
+    }
+  }
+
+  // Elements
+  &__label {
+    grid-area: label;
     display: flex;
     flex-flow: row;
     justify-content: space-between;
@@ -15,5 +58,30 @@
   &__label-secondary {
     color: var(--color-black-55);
     font-size: var(--font-size-small);
+  }
+
+  &__status {
+    grid-area: status;
+  }
+
+  &__contents {
+    grid-area: contents;
+
+    &--width {
+      &-stretch {
+        width: 100%;
+      }
+      @include allAbove(x-small) {
+        &-small {
+          width: var(--forms-field-width--small);
+        }
+        &-medium {
+          width: var(--forms-field-width--medium);
+        }
+        &-large {
+          width: var(--forms-field-width--large);
+        }
+      }
+    }
   }
 }

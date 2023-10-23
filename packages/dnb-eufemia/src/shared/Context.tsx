@@ -38,9 +38,11 @@ import type { TableProps } from '../components/Table'
 import type { GlobalErrorProps } from '../components/GlobalError'
 import type { ModalProps } from '../components/modal/types'
 import type { AccordionProps } from '../components/Accordion'
+import type { StepIndicatorProps } from '../components/StepIndicator'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
+import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 
 export type ContextComponents = {
@@ -70,11 +72,19 @@ export type ContextComponents = {
   GlobalError?: Partial<GlobalErrorProps>
   Modal?: Partial<ModalProps>
   Accordion?: Partial<AccordionProps>
+  StepIndicator?: Partial<StepIndicatorProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
   Pagination?: Record<string, unknown>
+
+  /**
+   * @deprecated – can be removed in v11
+   */
   FormRow?: FormRowProps
+
+  // Common props
+  formElement?: FormElementProps
 }
 
 export type ContextProps = ContextComponents & {

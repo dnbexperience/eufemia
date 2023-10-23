@@ -163,10 +163,10 @@ If you have one `/properties.md` file, but e.g. two components share most or all
 ```md
 #### Properties
 
-| Accordion and AccordionProvider Properties  | Description                                                           |
-| ------------------------------------------- | --------------------------------------------------------------------- |
-| `id`                                        | _(optional)_ docs.                                                    |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported. |
+| Accordion and AccordionProvider Properties | Description                                                           |
+| ------------------------------------------ | --------------------------------------------------------------------- |
+| `id`                                       | _(optional)_ docs.                                                    |
+| [Space](/uilib/layout/space/properties)    | _(optional)_ spacing properties like `top` or `bottom` are supported. |
 
 | AccordionProvider Properties | Description                    |
 | ---------------------------- | ------------------------------ |
@@ -177,12 +177,12 @@ If you have one `/properties.md` file, but e.g. two components share most or all
 
 Eufemia has a couple of common parts, so every component behaves consistent:
 
-- [Locale](/uilib/usage/customisation/localization) support
-- [Provider](/uilib/usage/customisation/provider) support for centralized property forwarding
-- [Spacing](/uilib/components/space) support
-- [Skeleton](/uilib/components/skeleton) support
-- [FormRow](/uilib/components/form-row) / [FormSet](/uilib/components/form-set) / [FormLabel](/uilib/components/form-label) support if its a form component
-- Automatic id generation and linking of HTML elements to enhance accessibility
+- [Locale](/uilib/usage/customisation/localization) support.
+- [Provider](/uilib/usage/customisation/provider) support for centralized property forwarding.
+- [Spacing](/uilib/layout/space) support.
+- [Skeleton](/uilib/components/skeleton) support.
+- [FormLabel](/uilib/components/form-label) / [FormStatus](/uilib/components/form-status) support if its a form component.
+- Automatic id generation and linking of HTML elements to enhance accessibility.
 - Handling of `aria-describedby` with `combineDescribedBy` etc.
 
 How to add support for every one of these are explained in [Additional support - Getting started](/contribute/getting-started#additional-support).
@@ -238,9 +238,9 @@ Add new pages to the storybook by adding a new directory `/stories` and a new fi
 
 ### Eufemia portal
 
-The portal is currently handled by [Gatsby](https://www.gatsbyjs.com/), a framework for building static websites.
+The portal is currently handled by [Gatsby](https://www.gatsbyjs.com/), a framework for building pre-rendered SSR websites.
 
-Run the Portal locally
+Run the Portal locally:
 
 ```bash
 $ yarn start
@@ -248,7 +248,17 @@ $ yarn start
 
 This will start the Portal. You can view the portal website by visiting [localhost:8000](http://localhost:8000/).
 
-Content changes to both Markdown files and styles (SCSS) and code changes will be reflected immediately.
+Content changes to both Markdown (MDX) files and styles (SCSS) and code changes will be reflected immediately.
+
+For a faster startup-time, you can decide what pages you need by using the environment variable `filter` e.g.:
+
+```bash
+$ filter=button yarn start
+# - or –
+$ filter="/button /input/" yarn start
+```
+
+And visit e.g. this page: [http://localhost:8000/uilib/components/button/](http://http://localhost:8000/uilib/components/button/)
 
 #### Local build
 

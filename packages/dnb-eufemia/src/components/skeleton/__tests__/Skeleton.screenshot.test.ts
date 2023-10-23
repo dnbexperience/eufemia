@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Skeleton', () => {
-  setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
+describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/skeleton/demos',
+  })
 
   it('have to match skeleton article figure', async () => {
     const screenshot = await makeScreenshot({
@@ -40,7 +43,6 @@ describe('Skeleton', () => {
 
   it('have to match all components - vertical', async () => {
     const screenshot = await makeScreenshot({
-      style: { width: '60rem' },
       selector: '[data-visual-test="skeleton-all-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -48,8 +50,10 @@ describe('Skeleton', () => {
 
   it('have to match all components - horizontal', async () => {
     const screenshot = await makeScreenshot({
-      style: { width: '60rem' },
-      selector: '[data-visual-test="skeleton-all-horizontal"]',
+      addWrapper: false,
+      style: { width: '60rem', overflow: 'visible' },
+      selector:
+        '[data-visual-test="skeleton-all-horizontal"] .dnb-flex-container',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

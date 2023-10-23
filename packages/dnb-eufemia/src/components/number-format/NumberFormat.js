@@ -458,3 +458,5 @@ export default class NumberFormat extends React.PureComponent {
 }
 
 let hasiOSFix = false
+
+NumberFormat._supportsSpacingProps = true

@@ -69,9 +69,15 @@
 
   &__status--error &__submit-button {
     html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):hover,
+      &__button.dnb-button--secondary:not(
+        &__button--has-text,
+        [disabled]
+      ):hover,
     html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):focus {
+      &__button.dnb-button--secondary:not(
+        &__button--has-text,
+        [disabled]
+      ):focus {
       &,
       &::after {
         background-color: var(--color-fire-red);
@@ -101,7 +107,7 @@
     display: none;
   }
 
-  &--keep-placeholder &[data-input-state='focus'] &__placeholder {
+  &--keep-placeholder[data-input-state='focus'] &__placeholder {
     display: block;
     color: var(--color-black-20);
   }

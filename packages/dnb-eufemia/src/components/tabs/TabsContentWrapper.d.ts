@@ -1,5 +1,9 @@
 import * as React from 'react';
-import type { SectionSpacing, SectionStyleTypes } from '../Section';
+import type {
+  SectionSpacing,
+  SectionStyleTypes,
+  SectionVariants
+} from '../Section';
 export type ContentWrapperSelectedKey = string | number;
 export type ContentWrapperChildren =
   | React.ReactNode
@@ -13,7 +17,7 @@ export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  content_style?: SectionStyleTypes;
+  content_style?: SectionStyleTypes | SectionVariants;
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
    */

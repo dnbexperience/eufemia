@@ -9,3 +9,5 @@ import Pagination from './Pagination'
 export default function InfinityScroller(props) {
   return <Pagination mode="infinity" {...props} />
 }
+
+InfinityScroller._supportsSpacingProps = true

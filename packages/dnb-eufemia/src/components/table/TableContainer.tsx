@@ -15,7 +15,7 @@ export type TableContainerProps = {
     | [
         React.ReactElement<TableContainerHeadProps>,
         React.ReactElement<TableContainerBodyProps>,
-        React.ReactElement<TableContainerFootProps>
+        React.ReactElement<TableContainerFootProps>,
       ]
     | React.ReactElement<TableContainerBodyProps>
 }

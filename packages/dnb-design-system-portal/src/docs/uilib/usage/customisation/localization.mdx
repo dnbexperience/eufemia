@@ -35,7 +35,7 @@ const myLocale = 'en-GB'
 render(
   <Provider locale={myLocale}>
     <MyApp>Eufemia components</MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -49,7 +49,7 @@ render(
     <MyApp>
       <HelpButton lang="nb-NO" />
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -70,7 +70,7 @@ render(
     }}
   >
     <MyApp>Eufemia components</MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -132,7 +132,7 @@ render(
     }}
   >
     <MyApp>Eufemia components</MyApp>
-  </EufemiaProvider>
+  </EufemiaProvider>,
 )
 ```
 
@@ -179,7 +179,7 @@ render(
   >
     <Component />
     <Translation id="my.string" foo="bar" />
-  </EufemiaProvider>
+  </EufemiaProvider>,
 )
 ```
 
@@ -249,7 +249,7 @@ import customTranslation from './locales/sv-SE'
 render(
   <Provider locales={customTranslation}>
     <MyApp>Eufemia components</MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -277,6 +277,6 @@ render(
       <ChangeLocale />
       ...
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```

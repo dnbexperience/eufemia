@@ -52,4 +52,11 @@ describe('HelperClasses', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match fieldset reset', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="helper-fieldset-reset"] fieldset',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

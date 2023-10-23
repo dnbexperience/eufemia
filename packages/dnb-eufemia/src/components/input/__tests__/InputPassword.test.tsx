@@ -7,10 +7,10 @@ import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import InputPassword, { InputPasswordProps } from '../InputPassword'
-import FormRow from '../../form-row/FormRow'
 
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
+import { Provider } from '../../../shared'
 
 const nb = nbNO['nb-NO'].Input
 const en = enGB['en-GB'].Input
@@ -157,11 +157,11 @@ describe('InputPassword component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <InputPassword label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-input')

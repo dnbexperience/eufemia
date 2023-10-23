@@ -1,10 +1,8 @@
 import React, { useContext, useState, useCallback } from 'react'
 import classnames from 'classnames'
-import { Div } from '../../../elements'
-import { StepIndicator } from '../../../components'
+import { Space, StepIndicator } from '../../../components'
 import { makeUniqueId } from '../../../shared/component-helper'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../component-types'
+import { ComponentProps } from '../types'
 import DataContext from '../DataContext/Context'
 import Step, { Props as StepProps } from './Step'
 import StepsContext from './StepsContext'
@@ -30,6 +28,7 @@ function StepsLayout(props: Props) {
     initialActiveIndex = 0,
     onStepChange,
     children,
+    ...rest
   } = props
   const dataContext = useContext(DataContext)
   const [activeIndex, setActiveIndex] =
@@ -61,7 +60,7 @@ function StepsLayout(props: Props) {
 
   const stepIndicatorData = React.Children.map(children, (child) => {
     if (!React.isValidElement(child) || child.type !== Step) {
-      throw new Error('Only Step can be children of Steps')
+      throw new Error('Only Step can be children of StepsLayout')
     }
     return child.props.title ?? 'Title missing'
   }) as string[]
@@ -78,9 +77,9 @@ function StepsLayout(props: Props) {
         handleNext,
       }}
     >
-      <Div
+      <Space
         className={classnames('dnb-forms-steps-layout', className)}
-        {...forwardSpaceProps(props)}
+        {...rest}
       >
         <aside className="dnb-forms-steps-layout__sidebar">
           <StepIndicator.Sidebar sidebar_id={id} />
@@ -108,12 +107,12 @@ function StepsLayout(props: Props) {
             return child
           })}
         </div>
-      </Div>
+      </Space>
     </StepsContext.Provider>
   )
 }
 
-StepsLayout._supportsEufemiaSpacingProps = true
+StepsLayout._supportsSpacingProps = true
 
 StepsLayout.Step = Step
 StepsLayout.NextButton = NextButton

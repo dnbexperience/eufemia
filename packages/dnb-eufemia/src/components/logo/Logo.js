@@ -267,3 +267,5 @@ export default class Logo extends React.PureComponent {
     return <span {...selectedLogoRootParams}>{selectedLogo}</span>
   }
 }
+
+Logo._supportsSpacingProps = true

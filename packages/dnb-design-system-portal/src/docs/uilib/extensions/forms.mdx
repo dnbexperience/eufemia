@@ -1,20 +1,168 @@
 ---
-title: 'Forms'
+title: 'Forms for applications'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-showTabs: true
 status: 'beta'
 order: 2
-tabs:
-  - title: Info
-    key: /uilib/extensions/forms/info
-  - title: Demos
-    key: /uilib/extensions/forms/demos
-  - title: Case demo 1
-    key: /uilib/extensions/forms/casedemo1
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
 ---
 
-import Info from 'Docs/uilib/extensions/forms/info'
-import Demos from 'Docs/uilib/extensions/forms/demos'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import FormDiagram1 from 'Docs/uilib/extensions/forms/form-diagram-1.png'
+import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
 
-<Info />
-<Demos />
+# Forms for applications
+
+**Table of Contents**
+
+- [Quick start](#quick-start)
+- [Philosophy](#philosophy)
+- [Features](#features)
+- [Examples](#examples)
+- [Getting started](#getting-started)
+- [Create your own components](#create-your-own-components)
+
+## Quick start
+
+Field components can be used directly as they are, for example `Field.Email`:
+
+```jsx
+import '@dnb/eufemia/extensions/forms/style'
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Email />)
+```
+
+By building an entire form with components from Eufemia and Eufemia Forms, you save time and code:
+
+```jsx
+import '@dnb/eufemia/extensions/forms/style'
+import { Card } from '@dnb/eufemia'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler
+    data={existingData}
+    onChange={...}
+    onSubmit={...}
+  >
+    <Card spacing="medium">
+      <Field.String
+        path="/companyName"
+        label="Bedriftens navn"
+        required
+      />
+      <Field.OrganizationNumber
+        path="/companyOrganizationNumber"
+        required
+      />
+      <Field.Selection
+        path="/postalAddressSelect"
+        label="Ønsket sted for tilsendt post"
+        variant="radio"
+      >
+        <Field.Option value="companyAddress" title="Samme som forretningsadresse" />
+        <Field.Option value="other" title="Annet" />
+      </Field.Selection>
+    </Card>
+  </Form.Handler>
+)
+```
+
+## Philosophy
+
+Eufemia Forms is:
+
+- A framework for building features
+- Flexibility by design
+- Data-driven API
+- Standardized data handling
+- Loosely coupled components
+
+Eufemia Forms is a set of building blocks for form functionality. Components are built on an API with standardized sets of props that make it easier to combine with surrounding data flow, and not least to create your own components that work well together with the ready-made components in Eufemia Forms.
+
+An important point is that the components are data-driven. They are built on the premise of the source data, rather than being closely coupled to HTML elements that the internal implementation uses.
+
+## Features
+
+Eufemia Forms consists of reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
+
+In summary:
+
+- Ready to use data driven form components.
+- All functionality in all components can be controlled and overridden via props.
+- State management using the declarative [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) directive (i.e `path="/firstName"`).
+- Simple validation (like `minLength` on text fields) as well as [Ajv JSON schema validator](https://ajv.js.org/) support on both single fields and the whole data set.
+- Building blocks for [creating custom field components](/uilib/extensions/forms/create-component).
+- Static [value components](/uilib/extensions/forms/create-component/Value/) for displaying data with proper formatting.
+
+### Basic field usage
+
+Components in Eufemia Forms are very flexible. They adapt to the set of props they receive, and you can therefore choose which parts of the functionality they consist of that you use, and what you yourself want to handle in the application code.
+
+Here is an example that consists of a large degree of data handling in the application, even though the form itself still consists of both components from Eufemia and local special components (the blue boxes):
+
+<div style={{ maxWidth: '1200px' }}>
+  <InlineImg
+    height="auto"
+    width="auto"
+    src={FormDiagram1}
+    caption="Simple form example with Eufemia Forms fields"
+  />
+</div>
+
+### Complete state management and local custom fields
+
+In this example, all state data, validation process and error handling are done by components from Eufemia Forms, while in a local field component created especially for this application, there is a combination of standardized field functionality taken from Eufemia Forms, and local special code to achieve the goal of maximum reuse without sacrificing flexibility:
+
+<div style={{ maxWidth: '1200px' }}>
+  <InlineImg
+    height="auto"
+    width="auto"
+    src={FormDiagram2}
+    caption="Complete state management and local custom fields"
+  />
+</div>
+
+## Examples
+
+- [General Demos](/uilib/extensions/forms/general-demos/)
+- [Case Demo 1 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo1/)
+
+## Getting started
+
+You need to import the styles once:
+
+```jsx
+import '@dnb/eufemia/extensions/forms/style'
+```
+
+### Field components
+
+The data-driven [base field components](/uilib/extensions/forms/base-fields) are named and structured according to the type of data they can display and produce based on the user's input and action in the interface.
+
+On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
+
+### Layout
+
+When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.
+
+- [Flex](/uilib/layout/flex) layout component for easy and consistent application forms.
+- [Card](/uilib/components/card) for the default card outline of forms.
+
+### Creating forms
+
+To build an entire form, there are surrounding components such as [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+
+### Value components
+
+Beside the interactive [Field](/uilib/extensions/forms/create-component/Field/) components, there are also the static [Value](/uilib/extensions/forms/create-component/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+## Create your own components
+
+Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
+
+Read more about on how to [create your own component](/uilib/extensions/forms/create-component).
+
+## Requirements
+
+Some of the internal logic requires support for importing JSON files. Meta frameworks do often support this by default.

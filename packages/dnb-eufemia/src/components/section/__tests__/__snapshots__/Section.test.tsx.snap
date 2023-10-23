@@ -27,7 +27,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
   top: 0;
   width: 100vw;
   height: 100%;
-  color: var(--color-mint-green-12);
+  color: var(--color-mint-green-12); /** deprecated: should be white in v11 */
   background-color: currentcolor;
   box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
 }
@@ -87,6 +87,15 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+.dnb-section {
+  /** deprecated: default should be white in v11 */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+}
 .dnb-section--divider {
   color: var(--color-black-80);
 }
@@ -97,10 +106,10 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--transparent::after {
   color: transparent;
 }
-.dnb-section--mint-green-12 {
+.dnb-section--mint-green-12, .dnb-section--default {
   color: var(--color-black-80);
 }
-.dnb-section--mint-green-12::after {
+.dnb-section--mint-green-12::after, .dnb-section--default::after {
   color: var(--color-mint-green-12);
 }
 .dnb-section--white {
@@ -121,16 +130,16 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--lavender::after {
   color: var(--color-lavender);
 }
-.dnb-section--sand-yellow {
+.dnb-section--sand-yellow, .dnb-section--warning {
   color: var(--color-black-80);
 }
-.dnb-section--sand-yellow::after {
+.dnb-section--sand-yellow::after, .dnb-section--warning::after {
   color: var(--color-sand-yellow);
 }
-.dnb-section--pistachio {
+.dnb-section--pistachio, .dnb-section--info {
   color: var(--color-black-80);
 }
-.dnb-section--pistachio::after {
+.dnb-section--pistachio::after, .dnb-section--info::after {
   color: var(--color-pistachio);
 }
 .dnb-section--black-3 {
@@ -157,25 +166,33 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--fire-red::after {
   color: var(--color-fire-red);
 }
-.dnb-section--fire-red-8 {
+.dnb-section--fire-red-8, .dnb-section--error {
   color: var(--color-black-80);
 }
-.dnb-section--fire-red-8::after {
+.dnb-section--fire-red-8::after, .dnb-section--error::after {
   color: var(--color-fire-red-8);
 }
-.dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor {
+.dnb-section--success {
   color: var(--color-white);
 }
-.dnb-section--fire-red .dnb-anchor:hover, .dnb-section--emerald-green .dnb-anchor:hover, .dnb-section--sea-green .dnb-anchor:hover {
-  color: var(--color-emerald-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
+.dnb-section--success::after {
+  color: var(--color-success-green);
 }
-.dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active {
+.dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor, .dnb-section--success .dnb-anchor {
+  color: var(--color-white);
+}
+.dnb-section--fire-red .dnb-anchor:hover, .dnb-section--emerald-green .dnb-anchor:hover, .dnb-section--sea-green .dnb-anchor:hover, .dnb-section--success .dnb-anchor:hover {
+  color: var(--anchor-color--contrast);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+}
+.dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active, .dnb-section--success .dnb-anchor:active {
   color: var(--color-white);
   background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
 }
-.dnb-section--fire-red .dnb-anchor:focus-visible, .dnb-section--emerald-green .dnb-anchor:focus-visible, .dnb-section--sea-green .dnb-anchor:focus-visible {
+.dnb-section--fire-red .dnb-anchor:focus-visible, .dnb-section--emerald-green .dnb-anchor:focus-visible, .dnb-section--sea-green .dnb-anchor:focus-visible, .dnb-section--success .dnb-anchor:focus-visible {
   color: var(--color-white);
   background-color: transparent;
   outline: none;

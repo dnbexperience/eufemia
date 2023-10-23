@@ -20,4 +20,6 @@ function Slider(localProps: SliderAllProps) {
   )
 }
 
+Slider._supportsSpacingProps = true
+
 export default Slider

@@ -160,3 +160,5 @@ export default function DialogContent({
     </div>
   )
 }
+
+DialogContent._supportsSpacingProps = true

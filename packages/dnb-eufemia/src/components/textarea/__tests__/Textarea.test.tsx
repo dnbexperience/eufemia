@@ -6,9 +6,9 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import Textarea, { TextareaProps } from '../Textarea'
 import userEvent from '@testing-library/user-event'
+import { Provider } from '../../../shared'
 
 const props: TextareaProps = {
   id: 'textarea',
@@ -234,11 +234,11 @@ describe('Textarea component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Textarea label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-textarea')

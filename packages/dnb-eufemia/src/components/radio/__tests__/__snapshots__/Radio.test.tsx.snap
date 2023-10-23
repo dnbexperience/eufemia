@@ -41,7 +41,6 @@ exports[`Radio scss has to match style dependencies css 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -296,6 +295,12 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   display: inline-flex;
   flex-direction: row;
 }
+.dnb-radio-group fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: var(--font-size-basis--em);
+}
 .dnb-radio-group .dnb-radio {
   margin-right: var(--radio-group-margin-right);
   margin-bottom: var(--radio-group-margin-bottom);
@@ -317,11 +322,10 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group--column .dnb-radio-group__shell {
   flex-direction: column;
 }
-.dnb-radio-group .dnb-form-row {
-  align-items: flex-start;
+.dnb-radio-group .dnb-flex-container {
   margin-bottom: calc(0px - var(--radio-group-margin-bottom));
 }
-.dnb-radio-group .dnb-form-row::before {
+.dnb-radio-group .dnb-flex-container::before {
   font-size: var(--font-size-basis);
 }
 .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {

@@ -25,6 +25,12 @@ exports[`Elements scss has to match style dependencies css 1`] = `
  *
  */
 .dnb-blockquote {
+  --blockquote-padding-top: 2rem;
+  --blockquote-padding-left: 1.5rem;
+  --blockquote-padding-bottom: 3rem;
+  --blockquote-quote-size: 3rem;
+  --blockquote-quote-padding: 6rem;
+  --blockquote-cite-style: italic;
   display: inline-block;
   width: auto;
   padding: 1.5rem;
@@ -39,22 +45,22 @@ exports[`Elements scss has to match style dependencies css 1`] = `
 .dnb-blockquote::before {
   content: "";
   position: absolute;
-  top: 2rem;
-  left: 1.5rem;
-  width: 3em;
-  height: 3em;
+  top: var(--blockquote-padding-top);
+  left: var(--blockquote-padding-left);
+  width: var(--blockquote-quote-size);
+  height: var(--blockquote-quote-size);
   background-size: cover;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0ibm9uZSI+ICA8cGF0aCBmaWxsPSIjQTVFMUQyIiBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik0zNy41IDI3LjVhOSA5IDAgMSAwIDAtMTggOSA5IDAgMCAwIDAgMTh6Ii8+ICA8cGF0aCBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik00Ni41IDE4LjVhMjEgMjEgMCAwIDEtMjEgMjEiLz4gIDxwYXRoIGZpbGw9IiNBNUUxRDIiIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTEzLjUgMjcuNWE5IDkgMCAxIDAgMC0xOCA5IDkgMCAwIDAgMCAxOHoiLz4gIDxwYXRoIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgMTguNWEyMSAyMSAwIDAgMS0yMSAyMSIvPjwvc3ZnPg==");
 }
 .dnb-blockquote, .dnb-blockquote.dnb-blockquote--left {
-  padding-left: 6rem;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  padding-left: var(--blockquote-quote-padding);
+  padding-top: var(--blockquote-padding-top);
+  padding-bottom: var(--blockquote-padding-bottom);
 }
 .dnb-blockquote.dnb-blockquote--top {
-  padding-left: 1.5rem;
-  padding-top: 6rem;
-  padding-bottom: 3rem;
+  padding-left: var(--blockquote-padding-left);
+  padding-top: var(--blockquote-quote-padding);
+  padding-bottom: var(--blockquote-padding-bottom);
 }
 .dnb-blockquote.dnb-blockquote--no-background {
   background-color: transparent;
@@ -68,7 +74,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   margin-top: 1rem;
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-basis);
-  font-style: italic;
+  font-style: var(--blockquote-cite-style);
 }
 .dnb-blockquote .dnb-cite::before,
 .dnb-blockquote .dnb-figcaption::before,
@@ -606,14 +612,17 @@ del .dnb-code {
   --typography-h-basis-small-font-size: var(--font-size-small);
   --typography-h-basis-small-line-height: var(--line-height-small);
   --typography-h-basis-weight: var(--font-weight-medium);
+  --typography-h-basis-font-family: var(--font-family-default);
   --typography-h-small-font-size: var(--font-size-small);
   --typography-h-small-line-height: var(--line-height-small);
   --typography-h-small-small-font-size: var(--font-size-x-small);
   --typography-h-small-small-line-height: var(--line-height-x-small);
   --typography-h-small-weight: var(--font-weight-medium);
+  --typography-h-small-font-family: var(--font-family-default);
   --typography-h-x-small-font-size: var(--font-size-x-small);
   --typography-h-x-small-line-height: var(--line-height-x-small);
   --typography-h-x-small-weight: var(--font-weight-medium);
+  --typography-h-x-small-font-family: var(--font-family-default);
 }
 
 .dnb-lead,
@@ -863,6 +872,7 @@ sub {
   font-size: var(--typography-h-basis-font-size);
   line-height: var(--typography-h-basis-line-height);
   font-weight: var(--typography-h-basis-weight);
+  font-family: var(--typography-h-basis-font-family);
 }
 .dnb-h--basis > small {
   font-size: var(--typography-h-basis-small-font-size);
@@ -873,6 +883,7 @@ sub {
   font-size: var(--typography-h-small-font-size);
   line-height: var(--typography-h-small-line-height);
   font-weight: var(--typography-h-small-weight);
+  font-family: var(--typography-h-small-font-family);
 }
 .dnb-h--small > small {
   font-size: var(--typography-h-small-small-font-size);
@@ -883,6 +894,7 @@ sub {
   font-size: var(--typography-h-x-small-font-size);
   line-height: var(--typography-h-x-small-line-height);
   font-weight: var(--typography-h-x-small-weight);
+  font-family: var(--typography-h-x-small-font-family);
 }
 .dnb-spacing .dnb-h--xx-large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--xx-large:not([class*=space__top]) {
   margin-top: 3rem;

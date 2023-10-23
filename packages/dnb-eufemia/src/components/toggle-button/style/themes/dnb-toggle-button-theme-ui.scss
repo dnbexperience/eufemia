@@ -205,7 +205,9 @@
       }
     }
     .dnb-checkbox
-      .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)
+      .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(
+        :hover
+      )
       ~ .dnb-checkbox__gfx {
       color: var(--color-fire-red);
     }

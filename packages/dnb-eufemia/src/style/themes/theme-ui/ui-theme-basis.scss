@@ -6,26 +6,4 @@
 @import './properties.scss';
 @import './fonts.scss';
 @import './ui-theme-elements.scss';
-
-:root {
-  // Focus Ring
-  --focus-ring-width: 0.125rem;
-  --focus-ring-color: var(--color-emerald-green);
-
-  // Scrollbar
-  --scrollbar-track-width: 0.5rem;
-  --scrollbar-thumb-width: 0.5rem;
-  --scrollbar-track-color: var(--color-black-8);
-  --scrollbar-thumb-color: var(--color-sea-green);
-  --scrollbar-thumb-hover-color: var(--color-emerald-green);
-}
-
-// ::selection appearance helper
-.dnb-selection::selection,
-.dnb-selection ::selection,
-[class^='dnb-']::selection,
-[class^='dnb-'] ::selection {
-  background-color: var(--color-mint-green);
-  color: var(--color-black);
-  text-shadow: none;
-}
+@import './globals.scss';

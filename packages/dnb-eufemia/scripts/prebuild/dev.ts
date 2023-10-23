@@ -8,7 +8,6 @@
 
 import {
   log,
-  // cleanupLib,
   // convertSvgToCjs,
   // makeIconLib,
   // makeIconsUMDBundle
@@ -29,7 +28,6 @@ const dev = async () => {
   log.start('Starting dev prepublish...')
   // const preventDelete = true
 
-  // await cleanupLib({ preventDelete })
   // // await convertSvgToCjs({ preventDelete })
   // await makeIconLib({ preventDelete })
   // await makeIconsUMDBundle()

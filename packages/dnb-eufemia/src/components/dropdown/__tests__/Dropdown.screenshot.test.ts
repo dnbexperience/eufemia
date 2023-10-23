@@ -124,7 +124,7 @@ describe('Dropdown', () => {
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'longclick',
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

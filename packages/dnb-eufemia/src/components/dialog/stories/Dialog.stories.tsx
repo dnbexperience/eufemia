@@ -14,14 +14,12 @@ import {
   Dropdown,
   Section,
   DatePicker,
-  FormSet,
-  FormRow,
   ProgressIndicator,
   NumberFormat,
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
-import { H2, P, Hr } from '../../..'
+import { H2, P, Hr, Flex } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
   trash_medium as TrashIcon,
@@ -30,6 +28,7 @@ import {
   cookie_medium,
   exclamation_triangle_medium as WarningIcon,
 } from '../../../icons'
+import { Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Dialog',
@@ -552,8 +551,8 @@ const ModalTriggerExample = () => {
   const [count, setCount] = React.useState(0)
 
   return (
-    <FormSet>
-      <FormRow>
+    <Form.Element>
+      <Flex.Horizontal align="baseline">
         <Button
           variant="secondary"
           text="Count"
@@ -582,8 +581,8 @@ const ModalTriggerExample = () => {
           }}
         />
         {count}
-      </FormRow>
-    </FormSet>
+      </Flex.Horizontal>
+    </Form.Element>
   )
 }
 

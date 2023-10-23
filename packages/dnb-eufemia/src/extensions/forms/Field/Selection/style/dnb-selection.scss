@@ -1,0 +1,21 @@
+@import '../../style/field-sizes.scss';
+
+.dnb-forms-field-selection {
+  &--width {
+    &-large {
+      .dnb-dropdown__shell {
+        width: var(--forms-field-width--large);
+      }
+    }
+    &-medium {
+      .dnb-dropdown__shell {
+        width: var(--forms-field-width--medium);
+      }
+    }
+    &-small {
+      .dnb-dropdown__shell {
+        width: var(--forms-field-width--small);
+      }
+    }
+  }
+}

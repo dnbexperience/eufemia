@@ -6,8 +6,8 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import Switch, { SwitchProps } from '../Switch'
+import { Provider } from '../../../shared'
 
 const props: SwitchProps = {
   title: 'title',
@@ -132,11 +132,11 @@ describe('Switch component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Switch label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-switch')
@@ -171,6 +171,19 @@ describe('Switch component', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<Switch {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Switch {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.classList).toContain('dnb-switch__input')
   })
 })
 

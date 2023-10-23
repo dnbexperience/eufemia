@@ -35,7 +35,9 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 
 ### Range DatePicker
 
-<DatePickerRange />
+<VisibleWhenNotVisualTest>
+  <DatePickerRange />
+</VisibleWhenNotVisualTest>
 
 ### Default DatePicker
 
@@ -43,29 +45,39 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 
 ### Default DatePicker with Input
 
-<DatePickerWithInput />
+<VisibleWhenNotVisualTest>
+  <DatePickerWithInput />
+</VisibleWhenNotVisualTest>
 
 ### Hidden Nav:
 
-<DatePickerHiddenNav />
+<VisibleWhenNotVisualTest>
+  <DatePickerHiddenNav />
+</VisibleWhenNotVisualTest>
 
 ### Show month only
 
-<DatePickerMonthOnly />
+<VisibleWhenNotVisualTest>
+  <DatePickerMonthOnly />
+</VisibleWhenNotVisualTest>
 
 ### With info message
 
-<DatePickerStatusMessage />
+<VisibleWhenNotVisualTest>
+  <DatePickerStatusMessage />
+</VisibleWhenNotVisualTest>
 
 ### With suffix
 
-<DatePickerSuffix />
+<VisibleWhenNotVisualTest>
+  <DatePickerSuffix />
+</VisibleWhenNotVisualTest>
 
 ### Linked DatePickers
 
 <DatePickerLinked />
 
-### DatePicker with error status
+### DatePicker with error status (no input)
 
 <DatePickerNoInputStatus />
 
@@ -83,6 +95,7 @@ Also used for screenshot tests.
 
 <DatePickerCalendar />
 
-<DatePickerScreenshotTestSizes />
-
-<DatePickerScreenshotTestDisabled />
+<VisibleWhenVisualTest>
+  <DatePickerScreenshotTestSizes />
+  <DatePickerScreenshotTestDisabled />
+</VisibleWhenVisualTest>

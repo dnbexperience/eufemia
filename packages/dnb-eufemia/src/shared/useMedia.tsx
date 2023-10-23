@@ -4,17 +4,47 @@ import {
   makeMediaQueryList,
   createMediaQueryListener,
   isMatchMediaSupported,
-  MediaQueryCondition,
 } from './MediaQueryUtils'
-import type { MediaQueryListener } from './MediaQueryUtils'
+import type {
+  MediaQueryListener,
+  MediaQueryCondition,
+  MediaQueryBreakpoints,
+} from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
 
+const makeLayoutEffect = () => {
+  // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+  return typeof window === 'undefined'
+    ? React.useEffect
+    : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
+    ? () => null
+    : React.useLayoutEffect
+}
+
 export type UseMediaProps = {
+  /**
+   * Give a initial value, that is used during SSR as well.
+   * Default: null
+   */
+  initialValue?: Partial<UseMediaResult>
+
   /**
    * If set to true, no MediaQuery will be used.
    * Default: false
    */
   disabled?: boolean
+
+  /**
+   * Provide a custom breakpoint
+   * Default: defaultBreakpoints
+   */
+  breakpoints?: MediaQueryBreakpoints
+
+  /**
+   * Provide a custom query
+   * Default: defaultQueries
+   */
+  queries?: Record<string, MediaQueryCondition>
 
   /**
    * For debugging
@@ -28,7 +58,7 @@ export type UseMediaQueries = {
   large: MediaQueryCondition
 }
 
-export const queries: UseMediaQueries = {
+export const defaultQueries: UseMediaQueries = {
   small: { min: 0, max: 'small' },
   medium: { min: 'small', max: 'medium' },
   large: { min: 'medium' },
@@ -39,11 +69,15 @@ export type UseMediaResult = {
   isMedium: boolean
   isLarge: boolean
   isSSR: boolean
+  key: Keys
 }
 
 /**
  * Internal stuff
  */
+
+type Keys = keyof UseMediaQueries
+type Names = 'isSmall' | 'isMedium' | 'isLarge'
 
 type UseMediaItem = {
   event: MediaQueryListener
@@ -51,19 +85,66 @@ type UseMediaItem = {
 }
 
 type UseMediaQueryProps = {
-  name: string
   when: MediaQueryCondition
+  name: Names
+  key: Keys
 }
 
 export default function useMedia(
   props: UseMediaProps = {}
 ): UseMediaResult {
-  const { disabled, log } = props
+  const {
+    initialValue = null,
+    disabled,
+    breakpoints,
+    queries = defaultQueries,
+    log,
+  } = props
 
-  const makeResult = () => {
+  const context = React.useContext(Context)
+
+  const refs = React.useRef({})
+  const defaults = React.useRef({})
+  const isMounted = React.useRef(false)
+  const isDisabled = React.useRef(disabled)
+  const [result, updateRerender] =
+    React.useState<UseMediaResult>(makeResult)
+
+  const useLayoutEffect = React.useMemo(makeLayoutEffect, [])
+
+  useLayoutEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+      updateRerender(makeResult())
+    }
+
+    return removeListeners
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useLayoutEffect(() => {
+    // If it was disabled before
+    if (isDisabled.current && !disabled) {
+      updateRerender(makeResult())
+    }
+    isDisabled.current = disabled
+  }, [disabled]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return result
+
+  function removeListeners() {
+    Object.entries(refs.current).forEach(
+      ([key, item]: [Keys, UseMediaItem]) => {
+        item?.event?.()
+        delete refs.current[key]
+      }
+    )
+  }
+
+  function makeResult() {
     return Object.entries(queries).reduce(
-      (acc, [key, when]) => {
-        const name = `is${toPascalCase(key)}`
+      (acc, [k, when]) => {
+        const key = k as Keys
+        const name = `is${toPascalCase(key)}` as Names
 
         if (disabled) {
           acc[name] = false
@@ -73,21 +154,34 @@ export default function useMedia(
         defaults.current[name] = false
 
         const item = runQuery({
-          name,
           when,
+          name,
+          key,
         })
 
-        acc[name] = item?.mediaQueryList?.matches || false
+        const hasMatch = !isMounted.current
+          ? typeof initialValue?.[name] !== 'undefined'
+            ? initialValue[name]
+            : false
+          : item?.mediaQueryList?.matches || false
+        acc[name] = hasMatch
+        if (hasMatch) {
+          acc.key = key
+        }
 
         refs.current[key] = item
 
         return acc
       },
-      { isSSR: !isMatchMediaSupported() }
+      { isSSR: !isMatchMediaSupported(), key: null } as UseMediaResult
     ) as UseMediaResult
   }
 
-  const runQuery = ({ when, name }: UseMediaQueryProps): UseMediaItem => {
+  function runQuery({
+    when,
+    name,
+    key,
+  }: UseMediaQueryProps): UseMediaItem {
     if (!isMatchMediaSupported()) {
       return // do nothing
     }
@@ -99,13 +193,14 @@ export default function useMedia(
         log,
       },
 
-      context.breakpoints
+      breakpoints || context.breakpoints
     )
 
     const event = createMediaQueryListener(mediaQueryList, (match) => {
-      if (!disabledRef.current && match) {
+      if (!isDisabled.current && match) {
         const state = {
           ...defaults.current,
+          key,
           isSSR: result.isSSR,
         } as UseMediaResult
         state[name] = match
@@ -115,29 +210,4 @@ export default function useMedia(
 
     return { event, mediaQueryList }
   }
-
-  React.useEffect(() => {
-    // If it was disabled before
-    if (disabledRef.current && !disabled) {
-      updateRerender(makeResult())
-    }
-    disabledRef.current = disabled
-  }, [disabled]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  React.useEffect(() => removeListeners, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const context = React.useContext(Context)
-
-  const refs = React.useRef({})
-  const defaults = React.useRef({})
-  const disabledRef = React.useRef(disabled)
-  const [result, updateRerender] =
-    React.useState<UseMediaResult>(makeResult)
-  const removeListeners = () => {
-    Object.values(refs.current).forEach(
-      (item: UseMediaItem) => item?.event && item.event()
-    )
-  }
-
-  return result
 }

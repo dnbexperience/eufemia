@@ -109,6 +109,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -116,6 +120,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -173,6 +181,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -235,7 +245,7 @@ button.dnb-anchor {
   appearance: none;
 }
 
-.dnb-anchor {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.0938rem;
   display: inline;
   padding: 0.05575em 0;
@@ -247,13 +257,24 @@ button.dnb-anchor {
   border-radius: 0;
   transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out, background 200ms ease-in-out;
 }
-sup .dnb-anchor, sub .dnb-anchor {
+sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   padding: 0 0.025em;
 }
-.dnb-p .dnb-anchor, .dnb-lead .dnb-anchor, .dnb-h--xx-large .dnb-anchor, .dnb-h--x-large .dnb-anchor, .dnb-h--large .dnb-anchor, .dnb-h--medium .dnb-anchor, .dnb-h--basis .dnb-anchor, .dnb-h--small .dnb-anchor, .dnb-h--x-small .dnb-anchor {
+.dnb-p :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-lead :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--xx-large :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--x-large :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--large :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--medium :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--basis :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--small :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--x-small :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   font-size: inherit;
 }
-.dnb-anchor:focus-visible {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--launch-icon .dnb-icon,
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--launch-icon .dnb-icon.dnb-icon--default {
+  font-size: 1.11em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--launch-icon .dnb-icon svg path,
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--launch-icon .dnb-icon.dnb-icon--default svg path {
+  stroke-width: 1.2;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon {
+  display: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   background-color: transparent;
   transition: none;
   outline: none;
@@ -263,52 +284,162 @@ sup .dnb-anchor, sub .dnb-anchor {
   border-color: transparent;
   border-radius: 0.25em;
 }
-.dnb-anchor:focus-visible, .dnb-section .dnb-anchor:focus-visible.dnb-anchor {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
   text-decoration: none;
 }
-.dnb-anchor:hover {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   border-radius: 0.25em;
 }
-.dnb-anchor:hover, .dnb-section .dnb-anchor:hover.dnb-anchor {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
   text-decoration: none;
 }
-.dnb-anchor:active {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    border-radius: 0.25em;
+  }
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
+    text-decoration: none;
+  }
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
   border-radius: 0.25em;
 }
-.dnb-anchor:active, .dnb-section .dnb-anchor:active.dnb-anchor {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:active, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:active.dnb-anchor {
   text-decoration: none;
 }
-.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon) {
-  position: relative;
-  background-size: 0;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTEgMGEuNzUuNzUgMCAwMDAgMS41VjB6bTQgLjc1aC43NUEuNzUuNzUgMCAwMDE1IDB2Ljc1em0tLjc1IDRhLjc1Ljc1IDAgMDAxLjUgMGgtMS41em0xLjUgNGEuNzUuNzUgMCAwMC0xLjUgMGgxLjV6bS0uNzUgNi41VjE2Yy40MSAwIC43NS0uMzQuNzUtLjc1SDE1em0tMTQgMEguMjVjMCAuNDEuMzQuNzUuNzUuNzV2LS43NXpNMSAuNzVWMGEuNzUuNzUgMCAwMC0uNzUuNzVIMXptNS43NS43NWEuNzUuNzUgMCAwMDAtMS41djEuNXptMi43MiAzLjcyYS43NS43NSAwIDAwMS4wNiAxLjA2TDkuNDcgNS4yMnpNMTQuMjUuNzV2NGgxLjV2LTRoLTEuNXptMCA4djYuNWgxLjV2LTYuNWgtMS41ek0xNSAxNC41SDFWMTZoMTR2LTEuNXptLTEzLjI1Ljc1Vi43NUguMjV2MTQuNWgxLjV6TTEgMS41aDUuNzVWMEgxdjEuNXptMTAgMGg0VjBoLTR2MS41em0tLjQ3IDQuNzhsNS01TDE0LjQ3LjIybC01IDUgMS4wNiAxLjA2eiIgZmlsbD0iIzAwNzI3MiIgLz48L3N2Zz4=");
-}
-.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon)::after {
-  content: "";
-  position: relative;
-  display: inline-block;
-  width: 0.889em;
-  height: 0.889em;
-  margin-left: 0.3em;
-  margin-right: 0.125em;
-  color: inherit;
-  background-size: cover;
-  background-image: inherit;
-  transition: transform 0.3s ease-out, filter 1s ease-in-out;
-  transform-origin: bottom;
-}
-.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon):active {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aAogICAgZD0iTTExIDBhLjc1Ljc1IDAgMDAwIDEuNVYwem00IC43NWguNzVBLjc1Ljc1IDAgMDAxNSAwdi43NXptLS43NSA0YS43NS43NSAwIDAwMS41IDBoLTEuNXptMS41IDRhLjc1Ljc1IDAgMDAtMS41IDBoMS41em0tLjc1IDYuNVYxNmMuNDEgMCAuNzUtLjM0Ljc1LS43NUgxNXptLTE0IDBILjI1YzAgLjQxLjM0Ljc1Ljc1Ljc1di0uNzV6TTEgLjc1VjBhLjc1Ljc1IDAgMDAtLjc1Ljc1SDF6bTUuNzUuNzVhLjc1Ljc1IDAgMDAwLTEuNXYxLjV6bTIuNzIgMy43MmEuNzUuNzUgMCAwMDEuMDYgMS4wNkw5LjQ3IDUuMjJ6TTE0LjI1Ljc1djRoMS41di00aC0xLjV6bTAgOHY2LjVoMS41di02LjVoLTEuNXpNMTUgMTQuNUgxVjE2aDE0di0xLjV6bS0xMy4yNS43NVYuNzVILjI1djE0LjVoMS41ek0xIDEuNWg1Ljc1VjBIMXYxLjV6bTEwIDBoNFYwaC00djEuNXptLS40NyA0Ljc4bDUtNUwxNC40Ny4yMmwtNSA1IDEuMDYgMS4wNnoiCiAgICBmaWxsPSIjYTVlMWQyIgogIC8+Cjwvc3ZnPg==");
-}
-.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon)::after {
-  top: 0.125em;
-}
-[data-visual-test-wrapper] .dnb-anchor {
+[data-visual-test-wrapper] :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   transition: none;
 }
-.dnb-anchor .dnb-icon {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
   display: inline-block;
   transform: translateY(-0.0625em);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast {
+  color: var(--color-white);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover {
+  color: var(--anchor-color--contrast);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:active {
+  color: var(--color-white);
+  background-color: transparent;
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:focus-visible {
+  color: var(--color-white);
+  background-color: transparent;
+  outline: none;
+  --border-color: var(--color-white);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+
+:not(.dnb-anchor--no-style) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    --anchor-underline-thickness: 0.0938rem;
+    display: inline;
+    padding: 0.05575em 0;
+    font-size: var(--font-size-basis);
+    text-decoration: underline;
+    text-decoration-color: currentcolor;
+    text-decoration-thickness: var(--anchor-underline-thickness);
+    text-underline-offset: 0.25em;
+    border-radius: 0;
+    transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out, background 200ms ease-in-out;
+  }
+  sup :not(.dnb-anchor--no-style).dnb-anchor, sub :not(.dnb-anchor--no-style).dnb-anchor {
+    padding: 0 0.025em;
+  }
+  .dnb-p :not(.dnb-anchor--no-style).dnb-anchor, .dnb-lead :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--xx-large :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--x-large :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--large :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--medium :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--basis :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--small :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--x-small :not(.dnb-anchor--no-style).dnb-anchor {
+    font-size: inherit;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--launch-icon .dnb-icon,
+  :not(.dnb-anchor--no-style).dnb-anchor--launch-icon .dnb-icon.dnb-icon--default {
+    font-size: 1.11em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--launch-icon .dnb-icon svg path,
+  :not(.dnb-anchor--no-style).dnb-anchor--launch-icon .dnb-icon.dnb-icon--default svg path {
+    stroke-width: 1.2;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon {
+    display: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    background-color: transparent;
+    transition: none;
+    outline: none;
+    --border-color: var(--focus-ring-color);
+    --border-width: var(--focus-ring-width);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+    border-radius: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
+    text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+    border-radius: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
+    text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+  }
+  @supports not (selector(*:where(*))) {
+    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+      border-radius: 0.25em;
+    }
+    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
+      text-decoration: none;
+    }
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:active {
+    border-radius: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:active, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:active.dnb-anchor {
+    text-decoration: none;
+  }
+  [data-visual-test-wrapper] :not(.dnb-anchor--no-style).dnb-anchor {
+    transition: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
+    display: inline-block;
+    transform: translateY(-0.0625em);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast {
+    color: var(--color-white);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover {
+    color: var(--anchor-color--contrast);
+    --anchor-background-gutter: 0.125em;
+    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:active {
+    color: var(--color-white);
+    background-color: transparent;
+    --anchor-background-gutter: 0.125em;
+    box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:focus-visible {
+    color: var(--color-white);
+    background-color: transparent;
+    outline: none;
+    --border-color: var(--color-white);
+    --border-width: var(--focus-ring-width);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+  }
 }
 
 .dnb-anchor--hover {
@@ -339,25 +470,8 @@ sup .dnb-anchor, sub .dnb-anchor {
   text-decoration: none;
 }
 
-.dnb-anchor--no-style {
-  color: inherit;
-  transition: none;
-}
-.dnb-anchor--no-style, .dnb-section .dnb-anchor--no-style.dnb-anchor {
-  text-decoration: none;
-}
-.dnb-anchor--no-style:hover {
-  color: inherit;
-  background-color: transparent;
-}
-
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {
   text-decoration: none;
-}
-
-.dnb-anchor--no-hover:hover {
-  color: inherit;
-  background-color: transparent;
 }
 
 .dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
@@ -376,8 +490,8 @@ a.dnb-button {
 .dnb-anchor.dnb-skeleton {
   text-decoration: none;
 }
-.dnb-skeleton > .dnb-anchor::after,
-.dnb-anchor.dnb-skeleton::after {
+.dnb-skeleton > .dnb-anchor .dnb-icon,
+.dnb-anchor.dnb-skeleton .dnb-icon {
   filter: grayscale(100%) opacity(0.3);
 }"
 `;
@@ -391,9 +505,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 /*
  * Utilities
  */
-.dnb-anchor {
+/*
+ * Anchor theme
+ *
+ */
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
+  --anchor-color--contrast: var(--sb-color-text);
   font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
@@ -401,75 +520,158 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   border-radius: 0.5em;
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background);
 }
-.dnb-anchor--no-underline, .dnb-anchor--has-icon, .dnb-anchor--inline {
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), -0.25em 0 0 0 var(--anchor-background), 0.25em 0 0 0 var(--anchor-background);
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-underline, :where(:not(.dnb-anchor--no-style)).dnb-anchor--was-node, :where(:not(.dnb-anchor--no-style)).dnb-anchor--inline {
+  --anchor-background-gutter: 0.25em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter) 0 0 0 var(--anchor-background);
 }
-.dnb-anchor:hover {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-background: var(--sb-color-green-dark);
   color: var(--sb-color-text);
   transition: none;
   border-radius: 0.5em;
 }
-.dnb-anchor:active {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    --anchor-background: var(--sb-color-green-dark);
+    color: var(--sb-color-text);
+    transition: none;
+    border-radius: 0.5em;
+  }
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
   --anchor-background: var(--sb-color-green);
   color: var(--sb-color-text);
   transition: none;
   border-radius: 0.5em;
 }
-.dnb-anchor:focus-visible {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25em;
 }
-.dnb-anchor:focus-visible.dnb-anchor--icon-left {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-left {
   margin-left: 0;
 }
-.dnb-anchor:focus-visible.dnb-anchor--icon-left .dnb-icon {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-left .dnb-icon {
   margin-left: 0;
 }
-.dnb-anchor:focus-visible.dnb-anchor--icon-right {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-right {
   margin-right: 0;
 }
-.dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
   margin-right: 0;
 }
-.dnb-anchor--icon-left {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left {
   margin-left: 1.125em;
 }
-.dnb-anchor--icon-left .dnb-icon {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon {
   font-size: 1em;
   margin-right: 0.125em;
   margin-left: -1.125em;
 }
-.dnb-anchor--icon-right {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right {
   margin-right: 1.125em;
 }
-.dnb-anchor--icon-right .dnb-icon {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon {
   font-size: 1em;
   margin-left: 0.125em;
   margin-right: -1.125em;
 }
-.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon) {
-  padding-right: 0.25em;
-}
-.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon)::after {
-  position: initial;
-  display: inline-block;
-  width: 1.275em;
-  height: 0.9em;
-  line-height: 0.9em;
-  margin-left: 0;
-  margin-right: 0;
-  background-position: right;
-  background-size: contain;
-}
-.dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style):not(.dnb-anchor--icon-left)::before {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-left)::before {
   text-decoration-color: var(--sb-color-green-dark);
   content: " ";
 }
-.dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style):not(.dnb-anchor--icon-right)::after {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-right)::after {
   text-decoration-color: var(--sb-color-green-dark);
   content: " ";
+}
+
+:not(.dnb-anchor--no-style) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    --anchor-underline-thickness: 0.125rem;
+    --anchor-background: transparent;
+    --anchor-color--contrast: var(--sb-color-text);
+    font-weight: var(--sb-font-weight-bold);
+    color: var(--sb-color-gray-dark-3);
+    text-decoration-color: var(--sb-color-green-dark);
+    padding: 0.15625em 0;
+    border-radius: 0.5em;
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--no-underline, :not(.dnb-anchor--no-style).dnb-anchor--was-node, :not(.dnb-anchor--no-style).dnb-anchor--inline {
+    --anchor-background-gutter: 0.25em;
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter) 0 0 0 var(--anchor-background);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+    --anchor-background: var(--sb-color-green-dark);
+    color: var(--sb-color-text);
+    transition: none;
+    border-radius: 0.5em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+  }
+  @supports not (selector(*:where(*))) {
+    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+      --anchor-background: var(--sb-color-green-dark);
+      color: var(--sb-color-text);
+      transition: none;
+      border-radius: 0.5em;
+    }
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:active {
+    --anchor-background: var(--sb-color-green);
+    color: var(--sb-color-text);
+    transition: none;
+    border-radius: 0.5em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    color: var(--sb-color-blue-dark);
+    background-color: var(--sb-color-blue-light-3);
+    border-radius: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-left {
+    margin-left: 0;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-left .dnb-icon {
+    margin-left: 0;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-right {
+    margin-right: 0;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
+    margin-right: 0;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left {
+    margin-left: 1.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon {
+    font-size: 1em;
+    margin-right: 0.125em;
+    margin-left: -1.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right {
+    margin-right: 1.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon {
+    font-size: 1em;
+    margin-left: 0.125em;
+    margin-right: -1.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-left)::before {
+    text-decoration-color: var(--sb-color-green-dark);
+    content: " ";
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-right)::after {
+    text-decoration-color: var(--sb-color-green-dark);
+    content: " ";
+  }
 }
 
 .dnb-anchor--hover {
@@ -521,28 +723,6 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 
 .dnb-anchor--inline {
   text-decoration-color: currentcolor;
-}
-
-.dnb-anchor--contrast {
-  color: var(--color-white);
-}
-.dnb-anchor--contrast:hover {
-  color: var(--sb-color-text);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
-}
-.dnb-anchor--contrast:active {
-  color: var(--color-white);
-  background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
-}
-.dnb-anchor--contrast:focus-visible {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }"
 `;
 
@@ -554,54 +734,104 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 /*
  * Utilities
  */
-.dnb-anchor {
-  color: var(--color-sea-green);
+/*
+ * Anchor theme
+ *
+ */
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  --anchor-color: var(--anchor-color--default, var(--color-sea-green));
+  --anchor-color--active: var(--color-mint-green);
+  --anchor-color--contrast: var(--color-emerald-green);
+  --anchor-background--hover: var(--color-mint-green-50);
+  --anchor-background--active: var(--color-emerald-green);
+  color: var(--anchor-color);
 }
-.dnb-anchor:hover {
-  color: var(--color-sea-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-mint-green-50), -0.125em 0 0 0 var(--color-mint-green-50), 0.125em 0 0 0 var(--color-mint-green-50);
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+  --anchor-color: var(--color-sea-green);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
 }
-.dnb-anchor:active {
-  color: var(--color-mint-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-emerald-green), -0.125em 0 0 0 var(--color-emerald-green), 0.125em 0 0 0 var(--color-emerald-green);
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
 }
-.dnb-anchor:focus-visible {
-  color: var(--color-sea-green);
+@supports not (selector(*:where(*))) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    --anchor-color: var(--color-sea-green);
+    --anchor-background-gutter: 0.125em;
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+  }
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
+  --anchor-color: var(--anchor-color--active);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+  --anchor-color: var(--color-sea-green);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon {
+  margin-right: 0.25em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon {
+  margin-left: 0.25em;
+}
+
+:not(.dnb-anchor--no-style) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    --anchor-color: var(--anchor-color--default, var(--color-sea-green));
+    --anchor-color--active: var(--color-mint-green);
+    --anchor-color--contrast: var(--color-emerald-green);
+    --anchor-background--hover: var(--color-mint-green-50);
+    --anchor-background--active: var(--color-emerald-green);
+    color: var(--anchor-color);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+    --anchor-color: var(--color-sea-green);
+    --anchor-background-gutter: 0.125em;
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+  }
+  @supports not (selector(*:where(*))) {
+    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+      --anchor-color: var(--color-sea-green);
+      --anchor-background-gutter: 0.125em;
+      box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+    }
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:active {
+    --anchor-color: var(--anchor-color--active);
+    --anchor-background-gutter: 0.125em;
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    --anchor-color: var(--color-sea-green);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon {
+    margin-right: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon {
+    margin-left: 0.25em;
+  }
 }
 
 .dnb-anchor--hover {
-  color: var(--color-sea-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-mint-green-50), -0.125em 0 0 0 var(--color-mint-green-50), 0.125em 0 0 0 var(--color-mint-green-50);
+  --anchor-color: var(--color-sea-green);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
 }
 
 .dnb-anchor--active {
-  color: var(--color-mint-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-emerald-green), -0.125em 0 0 0 var(--color-emerald-green), 0.125em 0 0 0 var(--color-emerald-green);
+  --anchor-color: var(--anchor-color--active);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
 }
 
 .dnb-anchor--focus {
-  color: var(--color-sea-green);
-}
-
-.dnb-anchor--contrast {
-  color: var(--color-white);
-}
-.dnb-anchor--contrast:hover {
-  color: var(--color-emerald-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
-}
-.dnb-anchor--contrast:active {
-  color: var(--color-white);
-  background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
-}
-.dnb-anchor--contrast:focus-visible {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+  --anchor-color: var(--color-sea-green);
 }"
 `;

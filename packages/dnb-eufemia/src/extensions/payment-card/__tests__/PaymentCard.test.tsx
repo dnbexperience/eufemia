@@ -11,6 +11,7 @@ import PaymentCard, {
   CardType,
   PaymentCardProps,
   BankAxeptType,
+  formatCardNumber,
 } from '../PaymentCard'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -145,6 +146,70 @@ describe('PaymentCard', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<PaymentCard {...defaultProps} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Helper functions', () => {
+  describe('formatCardNumber', () => {
+    it('should format card number', () => {
+      const result = formatCardNumber('************1337')
+      expect(result).toEqual('**** 1337')
+    })
+
+    it('should not break when provided with empty string as value', () => {
+      const result = formatCardNumber('')
+      expect(result).toEqual('')
+    })
+
+    it('should not break when provided with null as value', () => {
+      const result = formatCardNumber(null)
+      expect(result).toEqual(null)
+    })
+
+    it('should format card number to a certain length of 8', () => {
+      const result = formatCardNumber('************1337', 8)
+      expect(result).toEqual('**** 1337')
+    })
+
+    it('should format card number to a certain length of 6', () => {
+      const result = formatCardNumber('************1337', 6)
+      expect(result).toEqual('** 1337')
+    })
+
+    it('should format card number to a certain length of 4', () => {
+      const result = formatCardNumber('************1337', 4)
+      expect(result).toEqual('1337')
+    })
+
+    it('should format card number to a certain length of 1', () => {
+      const result = formatCardNumber('************1337', 1)
+      expect(result).toEqual('7')
+    })
+
+    it('should not break when provided with empty string and a digit', () => {
+      const result = formatCardNumber('', 8)
+      expect(result).toEqual('')
+    })
+
+    it('should not break when provided with a null and a digit', () => {
+      const result = formatCardNumber(null, 8)
+      expect(result).toEqual(null)
+    })
+
+    it('should format when digits is same as card number length', () => {
+      const result = formatCardNumber('**1337', 6)
+      expect(result).toEqual('** 1337')
+    })
+
+    it('should format as without digit, when provided with a digit of 0', () => {
+      const result = formatCardNumber('************1337', 0)
+      expect(result).toEqual('**** **** **** 1337')
+    })
+
+    it('should format as without digit, when provided with a digit greater than the characters in card number', () => {
+      const result = formatCardNumber('**1337', 8)
+      expect(result).toEqual('** 1337')
+    })
   })
 })
 

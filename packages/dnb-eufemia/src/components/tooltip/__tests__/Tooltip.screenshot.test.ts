@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Tooltip', () => {
+describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/tooltip/demos',
   })
 

@@ -14,6 +14,7 @@ import { SliderContext } from '../SliderProvider'
 export function useSliderEvents() {
   const {
     isReverse,
+    isMulti,
     emitChange,
     trackRef,
     isVertical,
@@ -120,10 +121,32 @@ export function useSliderEvents() {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const emitEvent = event as unknown
-    emitChange(
-      emitEvent as MouseEvent,
-      parseFloat(event.currentTarget.value)
-    )
+    const currentValue = parseFloat(event.currentTarget.value)
+    const currentIndex = parseFloat(event.currentTarget.dataset.index)
+
+    emitChange(emitEvent as MouseEvent, currentValue)
+
+    if (isMulti) {
+      const thumbs: NodeListOf<HTMLInputElement> =
+        trackRef.current.querySelectorAll(
+          'input.dnb-slider__button-helper'
+        )
+
+      Array.from(thumbs).some((element, indexA) => {
+        if (indexA !== currentIndex) {
+          const value = parseFloat(element.value)
+          if (
+            (indexA > currentIndex && currentValue >= value) ||
+            (indexA < currentIndex && currentValue <= value)
+          ) {
+            element.focus()
+            return true
+          }
+        }
+
+        return false
+      })
+    }
   }
 
   const onHelperFocusHandler = (

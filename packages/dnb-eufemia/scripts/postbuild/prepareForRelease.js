@@ -53,7 +53,7 @@ export async function cleanupPackage({ packageString, filepath }) {
     )
   )
 
-  return prettier.format(JSON.stringify(packageJson), {
+  return await prettier.format(JSON.stringify(packageJson), {
     ...prettierrc,
     filepath,
   })

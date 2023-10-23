@@ -343,4 +343,6 @@ const getSizeInPx = (size) => {
   return parseFloat(styleSize.replace(/(px)$/, ''))
 }
 
+PaginationBar._supportsSpacingProps = true
+
 export default PaginationBar

@@ -45,7 +45,9 @@ const LargePage = styled.div`
   background-color: ${(props) => props.color || 'tomato'};
   font-size: 15vw;
   font-weight: var(--font-weight-bold);
-  font-feature-settings: 'pnum' on, 'lnum' on;
+  font-feature-settings:
+    'pnum' on,
+    'lnum' on;
 
   color: var(--color-white);
 `
@@ -60,9 +62,12 @@ export const PaginationExampleInfinityLoadButton = () => (
         min_wait_time={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
-          const timeout = setTimeout(() => {
-            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-          }, Math.ceil(Math.random() * 500))
+          const timeout = setTimeout(
+            () => {
+              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+            },
+            Math.ceil(Math.random() * 500),
+          )
 
           return () => clearTimeout(timeout)
         }}
@@ -84,16 +89,19 @@ export const PaginationExampleInfinityIndicator = () => (
         min_wait_time={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
-          const timeout = setTimeout(() => {
-            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-          }, Math.ceil(Math.random() * 500))
+          const timeout = setTimeout(
+            () => {
+              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+            },
+            Math.ceil(Math.random() * 500),
+          )
 
           return () => clearTimeout(timeout)
         }}
         on_end={({ pageNumber, setContent }) => {
           setContent(
             pageNumber,
-            <LargePage color="lightgreen">End</LargePage>
+            <LargePage color="lightgreen">End</LargePage>,
           )
         }}
       />
@@ -110,20 +118,23 @@ export const PaginationExampleInfinityUnknown = () => (
         min_wait_time={0}
         on_load={({ pageNumber, setContent, endInfinity }) => {
           // simulate server communication delay
-          const timeout = setTimeout(() => {
-            if (pageNumber > 10) {
-              endInfinity()
-            } else {
-              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-            }
-          }, Math.ceil(Math.random() * 1e3))
+          const timeout = setTimeout(
+            () => {
+              if (pageNumber > 10) {
+                endInfinity()
+              } else {
+                setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+              }
+            },
+            Math.ceil(Math.random() * 1e3),
+          )
 
           return () => clearTimeout(timeout)
         }}
         on_end={({ pageNumber, setContent }) => {
           setContent(
             pageNumber,
-            <LargePage color="lightgreen">End</LargePage>
+            <LargePage color="lightgreen">End</LargePage>,
           )
         }}
       />
@@ -190,7 +201,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNumber, element = null, onExpanded = null }
+    { pageNumber, element = null, onExpanded = null },
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -220,7 +231,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
-      setHeight({ element, expanded, animation: false })
+      setHeight({ element, expanded, animation: false }),
     )
   }
 
@@ -245,15 +256,18 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
-    serverDelayTimeout = setTimeout(() => {
-      if (pageNumber === currentPage) {
-        // once we set current page, we force a re-render, and sync of data
-        // but only if we are on the same page
-        forceRerender(new Date().getTime())
-      } else {
-        setLocalPage(pageNumber)
-      }
-    }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+    serverDelayTimeout = setTimeout(
+      () => {
+        if (pageNumber === currentPage) {
+          // once we set current page, we force a re-render, and sync of data
+          // but only if we are on the same page
+          forceRerender(new Date().getTime())
+        } else {
+          setLocalPage(pageNumber)
+        }
+      },
+      Math.ceil(Math.random() * 1e3),
+    ) // simulate random delay
   }
 
   return (
@@ -461,7 +475,9 @@ const TableRow = styled.tr`
     transform: translateY(-10px);
     opacity: 0;
 
-    transition: height 400ms ease-out, opacity 600ms ease-out,
+    transition:
+      height 400ms ease-out,
+      opacity 600ms ease-out,
       transform 400ms ease-out;
 
     td {
@@ -500,7 +516,9 @@ const TableData = styled.td`
   .dnb-p {
     cursor: text;
 
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-feature-settings:
+      'pnum' on,
+      'lnum' on;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-large);
 
@@ -546,7 +564,7 @@ const setHeight = ({
         element.style.height = '1px'
       }
       window.requestAnimationFrame(
-        () => (element.style.height = newHeight)
+        () => (element.style.height = newHeight),
       )
     })
   }

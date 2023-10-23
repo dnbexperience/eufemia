@@ -12,6 +12,10 @@ on:
       - '!portal'
       - '!beta'
       - '!alpha'
+  pull_request:
+    branches:
+      - 'main'
+    types: [opened]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -31,41 +35,48 @@ env:
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
-  portal-build:
-    name: Run portal build
+  visual-test:
+    name: Run visual e2e-tests
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+
+    timeout-minutes: 40
 
     steps:
       - name: Git checkout
-        if: env.RUN_POST_BUILD == 'false'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
-
-      - name: Git checkout (with fetch-depth)
-        if: env.RUN_POST_BUILD == 'true'
-        uses: actions/checkout@v3
-        with:
-          persist-credentials: false
-          fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
 
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version-file: 'package.json'
 
-      - name: Use node_modules cache
+      - name: Use yarn cache
         uses: actions/cache@v3
-        id: modules-cache
+        id: yarn-cache
         with:
-          path: '**/node_modules'
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+          path: ./.yarn/cache
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
 
       - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
+
+      - name: Use Playwright cache
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: yarn workspace @dnb/eufemia playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
         if: env.RUN_POST_BUILD == 'true'
@@ -92,65 +103,6 @@ jobs:
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:visual-test
 
-      - name: Store portal artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: portal-build-artifact
-          path: ./packages/dnb-design-system-portal/public
-
-  visual-test:
-    name: Run visual e2e-tests
-
-    runs-on: macos-latest
-
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v3
-        with:
-          persist-credentials: false
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: 'package.json'
-
-      - name: Use yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ./.yarn/cache
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
-
-      - name: Use Playwright cache
-        uses: actions/cache@v3
-        id: playwright-cache
-        with:
-          path: ~/Library/Caches/ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: npx playwright-firefox install --with-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: npx playwright-firefox install-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Run portal build
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 10
-          timeoutSeconds: 2400
-
-      - name: Re-store portal artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: portal-build-artifact
-          path: ./packages/dnb-design-system-portal/public
-
       - name: Run visual tests
         run: yarn workspace dnb-design-system-portal test:screenshots:ci
 
@@ -166,9 +118,11 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
-      - uses: geekyeggo/delete-artifact@v2
+      - uses: actions/upload-artifact@v3
+        if: failure()
         with:
-          name: portal-build-artifact
+          name: portal-artifact
+          path: ./packages/dnb-design-system-portal/public
 
       - name: Slack
         uses: 8398a7/action-slack@v3
@@ -188,8 +142,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 40
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -204,44 +160,60 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
-      - name: Use Playwright cache
-        uses: actions/cache@v3
-        id: playwright-binary-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-binary-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Install Playwright
-        if: steps.playwright-binary-cache.outputs.cache-hit != 'true'
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
-
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
+      - name: Use Playwright cache
+        uses: actions/cache@v3
+        id: playwright-cache
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Run portal build
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 10
-          timeoutSeconds: 2400
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: yarn workspace dnb-design-system-portal playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
-      - name: Re-store portal artifacts
-        uses: actions/download-artifact@v3
+      - name: Prebuild Library
+        run: yarn workspace @dnb/eufemia prebuild:ci
+
+      - name: Postbuild Library
+        run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
+
+      - name: Use Gatsby cache
+        uses: actions/cache@v3
+        id: gatsby-cache
         with:
-          name: portal-build-artifact
-          path: ./packages/dnb-design-system-portal/public
+          path: |
+            ./packages/dnb-design-system-portal/.cache
+            ./packages/dnb-design-system-portal/public
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
-      - name: Run Playwright
-        run: yarn workspace dnb-design-system-portal test:e2e:ci
+      - name: Build portal
+        run: yarn workspace dnb-design-system-portal build
+
+      - name: Run Playwright on Portal
+        run: yarn workspace dnb-design-system-portal test:e2e:portal:ci
+
+      - name: Run Playwright on Eufemia Components
+        run: yarn workspace @dnb/eufemia test:e2e:ci
 
       - name: Store Playwright artifacts
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: playwright-develop-artifact
-          path: ./packages/dnb-design-system-portal/test-results
+          path: |
+            ./packages/dnb-design-system-portal/test-results
+            ./packages/dnb-design-system-portal/playwright-report
 
       - name: Slack
         uses: 8398a7/action-slack@v3

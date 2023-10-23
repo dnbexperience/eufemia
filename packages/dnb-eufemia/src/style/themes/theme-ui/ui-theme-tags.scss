@@ -15,11 +15,16 @@
 
 // Import themes
 @use '../../../components/anchor/style/themes/dnb-anchor-theme-ui.scss'
-  with ($useClasses: false);
+  with (
+  $useClasses: false
+);
 @use '../../../elements/typography/style/themes/dnb-typography-theme-ui.scss'
-  with ($useClasses: false);
-@use '../../../elements/img/style/themes/dnb-img-theme-ui.scss' with
-  ($useClasses: false);
+  with (
+  $useClasses: false
+);
+@use '../../../elements/img/style/themes/dnb-img-theme-ui.scss' with (
+  $useClasses: false
+);
 
 .dnb-core-style {
   // div

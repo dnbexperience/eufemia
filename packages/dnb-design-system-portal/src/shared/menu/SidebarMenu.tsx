@@ -5,15 +5,13 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
-import Link from '../parts/Link'
+import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
-import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
-import useTheme from '@dnb/eufemia/src/shared/useTheme'
+import { Icon, Badge } from '@dnb/eufemia/src/components'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { MediaQuery } from '@dnb/eufemia/src/shared'
+import { Context, useTheme } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import {
   setPageFocusElement,
@@ -21,6 +19,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
+import { defaultTabs } from '../tags/Tabbar'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
@@ -57,10 +56,14 @@ export default function SidebarLayout({
             frontmatter {
               title
               menuTitle
+              hideInMenu
               order
               status
               icon
               showTabs
+              tabs {
+                key
+              }
               theme
             }
           }
@@ -101,7 +104,7 @@ export default function SidebarLayout({
       showAll,
       pathPrefix,
     }),
-    location
+    location,
   )
     .filter(({ title, menuTitle }) => title || menuTitle)
     .map(
@@ -118,7 +121,7 @@ export default function SidebarLayout({
           isInsideActiveCategory,
           subheadings,
         },
-        nr
+        nr,
       ) => {
         const props = {
           level,
@@ -134,7 +137,7 @@ export default function SidebarLayout({
         }
 
         return <ListItem key={path} {...props} />
-      }
+      },
     )
 
   return (
@@ -145,22 +148,21 @@ export default function SidebarLayout({
         navStyle,
         'dnb-scrollbar-appearance',
         isOpen && 'show-mobile-menu',
-        isClosing && 'hide-mobile-menu'
+        isClosing && 'hide-mobile-menu',
       )}
       ref={scrollRef}
     >
-      <MediaQuery when={{ min: 0, max: 'medium' }}>
-        <Space left="large" top="large">
-          <PortalToolsMenu
-            triggerAttributes={{
-              text: 'Portal Tools',
-              icon: 'chevron_right',
-              icon_position: 'right',
-            }}
-            tooltipPosition="bottom"
-          />
-        </Space>
-      </MediaQuery>
+      <PortalToolsMenu
+        triggerAttributes={{
+          left: 'large',
+          top: 'large',
+          text: 'Portal Tools',
+          icon: 'chevron_right',
+          icon_position: 'right',
+        }}
+        tooltipPosition="bottom"
+        hideWhenMediaLarge
+      />
       <ul className="dev-grid">{navItems}</ul>
     </nav>
   )
@@ -183,17 +185,10 @@ export default function SidebarLayout({
       const offset = scrollRef.current.getBoundingClientRect().top
       const rect = elem.getBoundingClientRect()
       const top = scrollRef.current.scrollTop + rect.top - offset
-      if (window.scrollTo) {
-        window.scrollTo({
-          top,
-          behavior: 'smooth',
-        })
-      } else {
-        // Typo or deprecated/old property that Typescript is not catching up on?
-        // Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'?
-        // Code below used to be window.scrollTop = top
-        window.scrollY = top
-      }
+      window.scrollTo({
+        top,
+        behavior: 'smooth',
+      })
     } catch (e) {
       console.log('Could not set scrollToActiveItem', e)
     }
@@ -214,15 +209,21 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       sbanken: 'Sbanken',
       eiendom: 'Eiendom',
     }[theme]
+  const themeTitleTitle =
+    theme && `This component is ready for use with the ${themeTitle} theme`
   return (
     <span
+      title={themeTitleTitle}
       className={classnames(
         'dnb-sidebar-menu__theme-badge',
-        `dnb-sidebar-menu__theme-badge--${theme}`
+        `dnb-sidebar-menu__theme-badge--${theme}`,
       )}
       {...props}
     >
-      <span className={classnames('dnb-sidebar-menu__theme-badge__title')}>
+      <span
+        title={themeTitleTitle}
+        className={classnames('dnb-sidebar-menu__theme-badge__title')}
+      >
         {themeTitle}
       </span>
     </span>
@@ -240,6 +241,7 @@ type ListItemProps = {
   theme?: ThemeNames
   icon?: string
   isActive?: boolean
+  hideInMenu?: boolean
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
 }
@@ -257,11 +259,16 @@ function ListItem({
   icon,
   title,
   subheadings,
+  hideInMenu,
 }: ListItemProps) {
   const { name: currentTheme } = useTheme()
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
+
+  if (hideInMenu) {
+    return null
+  }
 
   const statusTitle =
     status &&
@@ -290,7 +297,7 @@ function ListItem({
           isInsideActivePath && 'is-inside-active-path',
           isInsideActiveCategory && !isInsideActivePath && 'is-inside',
           status && `status-${status}`,
-          className
+          className,
         )}
         ref={ref}
         style={
@@ -301,15 +308,15 @@ function ListItem({
           } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
         }
       >
-        <Link
-          to={path}
+        <Anchor
+          href={path}
           onClick={closeMenu}
           className={classnames(
             'dnb-anchor',
             'dnb-anchor--no-underline',
             'dnb-anchor--no-radius',
             'dnb-anchor--no-hover',
-            icon && graphics[icon] ? 'has-icon' : null
+            icon && graphics[icon] ? 'has-icon' : null,
           )}
           {...params}
         >
@@ -327,13 +334,18 @@ function ListItem({
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
-        </Link>
+        </Anchor>
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
       {subheadings &&
         subheadings.map((item) => <ListItem key={item.path} {...item} />)}
     </>
   )
+}
+
+type NavItemTabs = {
+  title: string
+  key: string
 }
 
 type NavItem = {
@@ -345,12 +357,14 @@ type NavItem = {
   icon?: string
   level?: number
   menuTitle?: string
+  hideInMenu?: boolean
   order?: number
   _order?: string
   path?: string
   status?: string
   title?: string
   showTabs?: boolean
+  tabs?: NavItemTabs[]
   subheadings?: NavItem[]
 }
 
@@ -373,7 +387,7 @@ const prepareNav = ({
         node: {
           fields: { slug },
         },
-      }) => slug
+      }) => slug,
     )
     .filter((slug) => slug !== '/')
     // preorder
@@ -406,7 +420,7 @@ const prepareNav = ({
           }
         }
       },
-      { items: [] }
+      { items: [] },
     )
 
   let countLevels = 0
@@ -427,7 +441,7 @@ const prepareNav = ({
           node: {
             fields: { slug },
           },
-        }) => slug === slugPath
+        }) => slug === slugPath,
       )
 
       const level = slug.split('/').filter(Boolean).length
@@ -474,7 +488,7 @@ const prepareNav = ({
   list
     // reorder regarding potential manually defined order
     .sort(({ _order: oA }, { _order: oB }) =>
-      oA < oB ? -1 : oA > oB ? 1 : 0
+      oA < oB ? -1 : oA > oB ? 1 : 0,
     )
 
   return list
@@ -543,27 +557,54 @@ function groupNavItems(navItems: NavItem[], location: Location) {
 
 function getActiveStatusForItem(
   currentPath: string,
-  { path: itemPath, showTabs }: NavItem
+  { path: itemPath, showTabs, tabs }: NavItem,
 ) {
   const portalSlug = itemPath.split('/').filter(Boolean)[0] ?? ''
   const categorySlug = itemPath.split('/').filter(Boolean)[1] ?? ''
   const startOfCurrentPath = `${portalSlug}/${categorySlug}`
 
-  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs)
+  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs, tabs)
 
-  const isInsideActivePath = !isActive && currentPath.startsWith(itemPath)
+  const isInsideActivePath = checkIfActivePath(
+    currentPath,
+    itemPath,
+    isActive,
+  )
 
-  const isInsideActiveCategory =
-    !isInsideActivePath && currentPath.startsWith(startOfCurrentPath)
+  const isInsideActiveCategory = checkIfActiveCategory(
+    currentPath,
+    startOfCurrentPath,
+    isInsideActivePath,
+  )
 
   return { isActive, isInsideActiveCategory, isInsideActivePath }
+}
+
+function checkIfActiveCategory(
+  currentPath: string,
+  startOfCurrentPath: string,
+  isInsideActivePath?: boolean,
+) {
+  return (
+    !isInsideActivePath &&
+    (currentPath + '/').startsWith(startOfCurrentPath + '/')
+  )
+}
+
+function checkIfActivePath(
+  currentPath: string,
+  itemPath: string,
+  isActive?: boolean,
+) {
+  return !isActive && (currentPath + '/').startsWith(itemPath + '/')
 }
 
 function checkIfActiveItem(
   currentPath: string,
   itemPath: string,
-  showTabs?: boolean
-) {
+  showTabs?: boolean,
+  tabs?: NavItemTabs[],
+): boolean {
   if (!showTabs) {
     return itemPath === currentPath
   }
@@ -573,12 +614,30 @@ function checkIfActiveItem(
     return true
   }
 
-  // If gatsby node has showTabs active
-  // we can most likely assume that the last part of the slug is the tab path
-  // and then remove it from the currentPath to determine if this item is the active item
-  const slugs = currentPath.split('/').filter(Boolean)
-  const lastSlug = slugs[slugs.length - 1]
-  const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
+  if (showTabs) {
+    // If gatsby node has showTabs active
+    // we can most likely assume that the last part of the slug is the tab path
+    // and then remove it from the currentPath to determine if this item is the active item
+    const slugs = currentPath.split('/').filter(Boolean)
+    const lastSlug = slugs[slugs.length - 1]
+    const currentPathWithoutTabSlug = currentPath.replace(
+      `/${lastSlug}`,
+      '',
+    )
 
-  return itemPath === currentPathWithoutTabSlug
+    if (itemPath === currentPathWithoutTabSlug) {
+      // In addition, because we show the info.mdx without /info
+      // we don't want the "parent" to be marked as active as well.
+      // So we get tabs and check for that state as well
+      const found = (tabs || defaultTabs).some(({ key }) => {
+        return '/' + lastSlug === key
+      })
+
+      if (found) {
+        return true
+      }
+    }
+  }
+
+  return false
 }

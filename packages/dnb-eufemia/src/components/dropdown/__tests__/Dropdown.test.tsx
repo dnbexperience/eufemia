@@ -291,6 +291,74 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
+  it('will select correct item on given numeric selectedKey', () => {
+    const { rerender } = render(
+      <Dropdown
+        {...props}
+        value={20}
+        data={[
+          { selectedKey: 10, content: 'Ten' },
+          { selectedKey: 20, content: 'Twenty' },
+          { selectedKey: 30, content: 'Thirty' },
+        ]}
+      />
+    )
+
+    open()
+
+    {
+      const selectedElement = document.querySelector(
+        '.dnb-drawer-list__option--selected'
+      )
+      expect(selectedElement).toBeInTheDocument()
+      expect(selectedElement.textContent).toBe('Twenty')
+    }
+
+    keydown(38) // up
+    keydown(32) // space
+    open()
+
+    {
+      const selectedElement = document.querySelector(
+        '.dnb-drawer-list__option--selected'
+      )
+      expect(selectedElement).toBeInTheDocument()
+      expect(selectedElement.textContent).toBe('Ten')
+    }
+
+    rerender(
+      <Dropdown
+        {...props}
+        value={30}
+        data={{
+          10: 'Ten',
+          20: 'Twenty',
+          30: 'Thirty',
+        }}
+      />
+    )
+
+    {
+      const selectedElement = document.querySelector(
+        '.dnb-drawer-list__option--selected'
+      )
+      expect(selectedElement).toBeInTheDocument()
+      expect(selectedElement.textContent).toBe('Thirty')
+    }
+
+    keydown(38) // up
+    keydown(32) // space
+    open()
+
+    {
+      const selectedElement = document.querySelector(
+        '.dnb-drawer-list__option--selected'
+      )
+      expect(selectedElement).toBeInTheDocument()
+      expect(selectedElement.textContent).toBe('Twenty')
+    }
+  })
+
   it('has no selected items on using prevent_selection', async () => {
     const on_change = jest.fn()
     const title = 'custom title'
@@ -1094,6 +1162,36 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('button.dnb-dropdown__trigger')
     ).toHaveAttribute('disabled')
+  })
+
+  it('gets valid buttonRef element', () => {
+    let ref: React.RefObject<HTMLButtonElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Dropdown {...props} buttonRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('BUTTON')
+    expect(ref.current instanceof HTMLButtonElement).toBe(true)
+  })
+
+  it('gets valid innerRef element', () => {
+    let ref: React.RefObject<HTMLButtonElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Dropdown {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.className).toContain('dnb-dropdown')
+    expect(ref.current.tagName).toBe('SPAN')
+    expect(ref.current instanceof HTMLSpanElement).toBe(true)
   })
 
   beforeAll(() => {

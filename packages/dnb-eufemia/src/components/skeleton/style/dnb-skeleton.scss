@@ -8,6 +8,13 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-skeleton {
+  --skeleton-delay: 5s;
+
+  img,
+  video {
+    filter: brightness(0%) contrast(0%) opacity(0.5);
+  }
+
   &--block {
     display: block;
   }
@@ -53,6 +60,24 @@
     box-shadow: none !important;
   }
 
+  &--shape#{&}::before {
+    background-color: var(--skeleton-color) !important; // to take presence
+  }
+
+  &--shape#{&}::after {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--skeleton-color--contrast) 1px 2px,
+      transparent 0 6px
+    ) !important;
+    background-repeat: repeat !important;
+    background-size: 100% !important; // to take presence
+
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    animation: skeletonLinearAnimation 1.5s linear infinite
+      var(--skeleton-delay);
+  }
+
   &--code,
   &--font {
     pre,
@@ -75,6 +100,10 @@
 
     font-family: var(--font-family-default) !important;
     font-style: unset !important;
+
+    &::marker {
+      color: var(--skeleton-color);
+    }
   }
 
   &--font,
@@ -86,6 +115,19 @@
 
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
+
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--skeleton-color--contrast) 1px 2px,
+      transparent 0 6px
+    ) !important;
+
+    --border-color: var(--skeleton-color);
+    background-color: var(--skeleton-color) !important;
+
+    background-position-x: 30rem;
+    animation: skeletonFontAnimation 5s linear infinite
+      var(--skeleton-delay);
 
     html[data-visual-test] & {
       animation: none !important;
@@ -120,12 +162,37 @@
   }
 }
 
+@keyframes skeletonLinearAnimation {
+  0% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  100% {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  }
+}
+
+@keyframes skeletonFontAnimation {
+  0% {
+    background-position-x: 30rem;
+  }
+
+  100% {
+    background-position-x: -30rem;
+  }
+}
+
 $fonts-path: '../../assets/fonts/dnb' !default;
 
 // Skeleton-Regular
 @font-face {
   font-family: DNBSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff2')
+  src:
+    url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff2')
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.ttf')
@@ -138,7 +205,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Skeleton-Medium
 @font-face {
   font-family: DNBSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff2')
+  src:
+    url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff2')
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.ttf')
@@ -151,8 +219,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Skeleton-Bold
 @font-face {
   font-family: DNBSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff2')
-      format('woff2'),
+  src:
+    url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff2') format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.ttf') format('truetype');
   font-weight: 600;
@@ -163,7 +231,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Mono-Skeleton
 @font-face {
   font-family: DNBMonoSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff2')
+  src:
+    url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff2')
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff')
       format('woff'),

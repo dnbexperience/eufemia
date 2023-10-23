@@ -34,7 +34,6 @@ exports[`FormLabel scss has to match style dependencies css 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -52,6 +51,9 @@ exports[`FormLabel scss have to match default theme snapshot 1`] = `
  */
 .dnb-form-label {
   color: var(--color-black-80);
+}
+.dnb-form-label[for]:not([disabled]) {
+  cursor: pointer;
 }
 .dnb-form-label[for]:not([disabled]):hover {
   color: var(--color-sea-green);

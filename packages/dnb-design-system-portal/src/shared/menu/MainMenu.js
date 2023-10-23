@@ -72,7 +72,7 @@ function MainMenu() {
           fields: { slug },
           frontmatter,
         },
-      }
+      },
     ) => {
       acc[slug] = {
         url: `/${slug}/`,
@@ -81,7 +81,7 @@ function MainMenu() {
       }
       return acc
     },
-    {}
+    {},
   )
 
   return (

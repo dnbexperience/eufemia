@@ -46,7 +46,7 @@ const CodeBlock = ({
       <div
         className={classnames(
           codeBlockStyle,
-          createSkeletonClass('code', context.skeleton)
+          createSkeletonClass('code', context.skeleton),
         )}
       >
         <LiveCode code={exampleCode} {...props} />
@@ -54,21 +54,17 @@ const CodeBlock = ({
     )
   } else {
     return (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Highlight
         {...defaultProps}
         code={String(exampleCode).trim()}
         language={language}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         theme={prismTheme}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
             className={classnames(
               codeBlockStyle,
-              createSkeletonClass('code', context.skeleton)
+              createSkeletonClass('code', context.skeleton),
             )}
           >
             <Tag as="pre" className={className} css={style}>
@@ -99,6 +95,7 @@ export type LiveCodeProps = {
   hideCode?: boolean
   hidePreview?: boolean
   language?: string
+  tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
 }
 
@@ -126,6 +123,7 @@ class LiveCode extends React.PureComponent<
       hideToolbar,
       hideCode,
       hidePreview,
+      tabMode: 'focus',
     }
 
     this._editorElementRef = React.createRef()
@@ -160,6 +158,10 @@ class LiveCode extends React.PureComponent<
     return code
   }
 
+  setIndentation(tabMode: LiveCodeProps['tabMode']) {
+    this.setState({ tabMode })
+  }
+
   render() {
     const {
       scope = {},
@@ -188,7 +190,6 @@ class LiveCode extends React.PureComponent<
     return (
       <div className={liveCodeEditorStyle}>
         <LiveProvider
-          Prism={Prism}
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
@@ -211,15 +212,15 @@ class LiveCode extends React.PureComponent<
             <div
               className={classnames(
                 'dnb-live-editor',
-                createSkeletonClass('code', this.context.skeleton)
+                createSkeletonClass('code', this.context.skeleton),
               )}
               ref={this._editorElementRef}
             >
-              <label className="dnb-sr-only" htmlFor={this._id}>
-                Code Editor
-              </label>
+              <span className="dnb-sr-only">Code Editor</span>
               <LiveEditor
+                prism={Prism}
                 id={this._id}
+                tabMode={this.state.tabMode}
                 className="dnb-live-editor__editable dnb-pre"
                 onChange={(code) => {
                   this.setState({ code })
@@ -227,15 +228,30 @@ class LiveCode extends React.PureComponent<
                 onFocus={() => {
                   if (this._editorElementRef.current) {
                     this._editorElementRef.current.classList.add(
-                      'dnb-pre--focus'
+                      'dnb-pre--focus',
                     )
                   }
                 }}
                 onBlur={() => {
                   if (this._editorElementRef.current) {
                     this._editorElementRef.current.classList.remove(
-                      'dnb-pre--focus'
+                      'dnb-pre--focus',
                     )
+                  }
+                }}
+                onMouseDown={(e) => {
+                  const focusMode =
+                    document.documentElement.getAttribute('data-whatinput')
+                  this.setIndentation(
+                    focusMode === 'mouse' ? 'indentation' : 'focus',
+                  )
+                }}
+                onBlurCapture={() => {
+                  this.setIndentation('focus')
+                }}
+                onKeyDown={({ code }) => {
+                  if (code !== 'Tab' && code !== 'ShiftLeft') {
+                    this.setIndentation('indentation')
                   }
                 }}
               />

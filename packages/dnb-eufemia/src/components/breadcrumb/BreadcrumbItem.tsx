@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Components
-import Button from '../button/Button'
+import Button, { ButtonProps } from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
 
@@ -12,11 +12,12 @@ import P from '../../elements/P'
 import homeIcon from '../../icons/home'
 
 // Shared
+import { useTheme, useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
-export interface BreadcrumbItemProps {
+export type BreadcrumbItemProps = {
   /**
    * Text displaying the title of the item's corresponding page
    * Default: If variant='home', default is "Home". Otherwise it is required.
@@ -55,7 +56,7 @@ export interface BreadcrumbItemProps {
 
   /** Internal */
   itemNr?: number
-}
+} & Omit<ButtonProps, 'variant'>
 
 const defaultProps = {
   text: null,
@@ -64,6 +65,21 @@ const defaultProps = {
   onClick: null,
   variant: null,
   skeleton: null,
+}
+
+const determineSbankenIcon: IconIcon = (
+  variant: string,
+  isSmallScreen: boolean
+) => {
+  switch (variant) {
+    case 'home':
+      return homeIcon
+    case 'single':
+    case 'collapse':
+      return 'chevron_left'
+    default:
+      return isSmallScreen ? 'chevron_left' : 'chevron_right'
+  }
 }
 
 const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
@@ -91,8 +107,17 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     context?.BreadcrumbItem
   )
 
-  const currentIcon: IconIcon =
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery({
+    matchOnSSR: true,
+    when: { max: 'medium' },
+  })
+
+  let currentIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
+  if (theme?.name === 'sbanken') {
+    currentIcon = icon || determineSbankenIcon(variant, isSmallScreen)
+  }
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
   const style = { '--delay': String(itemNr) } as React.CSSProperties
@@ -115,16 +140,18 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           {...props}
         />
       ) : (
-        <span className="dnb-breadcrumb__item__span" {...props}>
+        <span className="dnb-breadcrumb__item__span">
           <IconPrimary
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
           />
-          <P left="0">{currentText}</P>
+          <P space="0">{currentText}</P>
         </span>
       )}
     </li>
   )
 }
+
+BreadcrumbItem._supportsSpacingProps = true
 
 export default BreadcrumbItem

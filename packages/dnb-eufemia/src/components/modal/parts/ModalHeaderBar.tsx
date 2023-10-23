@@ -87,16 +87,11 @@ export default class ModalHeaderBar extends React.PureComponent<
     } = this.props
     const { showShadow } = this.state
     const {
-      title,
       hide_close_button = false,
       close_button_attributes,
       onCloseClickHandler,
       close_title,
     } = this.context
-
-    if (!title && isTrue(hide_close_button) && !this._ref.current) {
-      return null
-    }
 
     return (
       <Section

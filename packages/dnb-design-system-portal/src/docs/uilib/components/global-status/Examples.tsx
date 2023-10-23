@@ -11,8 +11,8 @@ import {
   Input,
   Section,
   ToggleButton,
-  FormSet,
 } from '@dnb/eufemia/src'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 export const GlobalStatusError = () => (
   <ComponentBox data-visual-test="global-status">
@@ -51,6 +51,36 @@ export const GlobalStatusInfo = () => (
   </ComponentBox>
 )
 
+export const GlobalStatusWarning = () => (
+  <ComponentBox>
+    <GlobalStatus
+      state="warning"
+      title="Custom warning title ..."
+      text="A string of text providing a warning or semi-urgent message of some kind to the user"
+      show={true}
+      autoscroll={false}
+      no_animation={true}
+      omit_set_focus={true}
+      id="demo-5"
+    />
+  </ComponentBox>
+)
+
+export const GlobalStatusSuccess = () => (
+  <ComponentBox>
+    <GlobalStatus
+      state="success"
+      title="Custom success title ..."
+      text="A string of text providing a success message of some kind to the user"
+      show={true}
+      autoscroll={false}
+      no_animation={true}
+      omit_set_focus={true}
+      id="demo-6"
+    />
+  </ComponentBox>
+)
+
 export const GlobalStatusCoupling = () => (
   <ComponentBox>
     {() => {
@@ -64,7 +94,7 @@ export const GlobalStatusCoupling = () => (
             status={errorMessage}
             on_blur={({ value }) => {
               setErrorMessage(
-                value.length <= 4 ? 'With a message shown' : null
+                value.length <= 4 ? 'With a message shown' : null,
               )
             }}
             globalStatus={{ id: 'main-status' }}
@@ -312,9 +342,11 @@ export const GlobalStatusInfoExample2 = () => (
 export const GlobalStatusInfoExample3 = () => (
   <ComponentBox hidePreview hideToolbar>
     <GlobalStatus id="other-global-status" />
-    <FormSet globalStatus={{ id: 'other-global-status' }}>
+    <Provider
+      formElement={{ globalStatus: { id: 'other-global-status' } }}
+    >
       <Input status="Message" />
-    </FormSet>
+    </Provider>
   </ComponentBox>
 )
 

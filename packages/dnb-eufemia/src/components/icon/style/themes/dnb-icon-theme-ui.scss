@@ -4,6 +4,8 @@
  */
 
 .dnb-icon {
+  --icon-border-positioning: var(--icon-border-positioning--default, -25%);
+
   &--border {
     position: relative;
     vertical-align: baseline;
@@ -11,10 +13,10 @@
     &::after {
       content: '';
       position: absolute;
-      left: -25%;
-      right: -25%;
-      top: -25%;
-      bottom: -25%;
+      left: var(--icon-border-positioning);
+      right: var(--icon-border-positioning);
+      top: var(--icon-border-positioning);
+      bottom: var(--icon-border-positioning);
 
       // Not needed, but maybe IE needs it?
       // width: 150%;

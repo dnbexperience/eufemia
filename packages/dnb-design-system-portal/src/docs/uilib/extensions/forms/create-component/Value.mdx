@@ -1,0 +1,36 @@
+---
+title: 'Value'
+description: '`Value` components can be used to summarize any kind of data.'
+componentType: 'basis-api'
+hideInMenu: true
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Create your component
+    href: /uilib/extensions/forms/create-component/
+  - text: Value
+    href: /uilib/extensions/forms/create-component/Value/
+---
+
+import ListBaseValueComponents from './Value/ListBaseValueComponents'
+import ListFeatureValueComponents from './Value/ListFeatureValueComponents'
+
+# Value
+
+Many screens summarize values from the data set statically, such as a final screen where the user can review the data they have entered before submitting it to the bank. To make displaying such data easier, a number of Value components have been created. These function similarly as field components. That is, they are data-driven, can be given `value`-props, or connected to a surrounding [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) by pointing to the relevant value they are to display with a `path`-prop. They are also available with more functional variants for given types of data.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+```
+
+## Creating custom value components
+
+The `useValue` hook that is used in all existing value components is exported to make it possible to create custom value components that have the same properties and follow the same flow as the standard components, without the need to recreate all the basic state handling features.
+
+## Base components
+
+<ListBaseValueComponents />
+
+## Feature components
+
+<ListFeatureValueComponents />

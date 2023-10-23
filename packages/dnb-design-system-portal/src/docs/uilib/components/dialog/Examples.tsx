@@ -289,7 +289,7 @@ export const DialogConfirmCookies = () => (
 )
 
 export const DialogConfirmScrollableContent = () => {
-  return !globalThis.IS_TEST ? null : (
+  return (
     <ComponentBox data-visual-test="dialog-scroll-content">
       {() => {
         const MockComponent = () => {
@@ -305,7 +305,7 @@ export const DialogConfirmScrollableContent = () => {
               onOpen={() => {
                 if (
                   document.documentElement.classList.contains(
-                    'scroll-to-bottom'
+                    'scroll-to-bottom',
                   )
                 ) {
                   scrollRef.current.scrollTop = 100000

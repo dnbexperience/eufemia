@@ -10,6 +10,10 @@
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
+  --slider-line-before: black;
+  --slider-line-after: gray;
+  --slider-line-before--disabled: dimgray;
+  --slider-line-after--disabled: lightgray;
 
   user-select: none; // Safari / Touch fix
   -webkit-touch-callout: none; // Safari / Touch fix
@@ -117,8 +121,18 @@
     height: var(--slider-track-height);
     transform: translate3d(0, -50%, 0);
 
-    background-color: grey;
+    background-color: var(--slider-line-before);
     border-radius: var(--slider-track-height);
+
+    &__before {
+      z-index: 2;
+    }
+
+    &__after {
+      z-index: 1;
+      right: 0;
+      background-color: var(--slider-line-after);
+    }
   }
 
   &--vertical &__line {
@@ -133,16 +147,6 @@
     transform: translate3d(-50%, 0, 0);
   }
 
-  &__line__before {
-    z-index: 2;
-  }
-
-  &__line__after {
-    z-index: 1;
-    right: 0;
-    background-color: #ddd;
-  }
-
   &--vertical &__line__before {
     top: 0;
     bottom: 0;
@@ -150,6 +154,10 @@
 
   &--vertical &__line__after {
     bottom: 0;
+  }
+
+  &__thumb {
+    @include defaultDropShadow();
   }
 
   &__button-helper,
@@ -199,8 +207,10 @@
 
   &__state--animate &__thumb,
   &__state--animate &__line {
-    transition: left 250ms var(--easing-default),
-      top 250ms var(--easing-default), bottom 250ms var(--easing-default),
+    transition:
+      left 250ms var(--easing-default),
+      top 250ms var(--easing-default),
+      bottom 250ms var(--easing-default),
       right 250ms var(--easing-default),
       box-shadow 250ms var(--easing-default);
   }

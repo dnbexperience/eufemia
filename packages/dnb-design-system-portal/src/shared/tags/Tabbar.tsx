@@ -4,13 +4,13 @@
  */
 
 import React from 'react'
-import { Link, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './Tabbar.module.scss'
+import { Link } from './Anchor'
 
-const defaultTabs = [
+export const defaultTabs = [
   { title: 'Info', key: '/info' },
   { title: 'Demos', key: '/demos' },
   { title: 'Properties', key: '/properties' },
@@ -38,43 +38,39 @@ export default function Tabbar({
   children,
 }: TabbarProps) {
   const [wasFullscreen, setFullscreen] = React.useState(
-    /fullscreen/.test(location.search)
+    /fullscreen/.test(location.search),
   )
-
-  const openFullscreen = () => {
-    setFullscreen(true)
-
-    const path = [
-      location.pathname,
-      location.search ? location.search + '&' : '?',
-      'fullscreen',
-      location.hash,
-    ].join('')
-
-    navigate(path)
-  }
 
   const cleanFullscreen = (s) =>
     s.replace(/\?fullscreen$|&fullscreen|fullscreen|\?$/, '')
 
+  const openFullscreen = () => {
+    setFullscreen(true)
+  }
+
   const quitFullscreen = () => {
     setFullscreen(false)
-
-    const path = [
-      location.pathname,
-      cleanFullscreen(location.search),
-      location.hash,
-    ].join('')
-
-    navigate(path)
   }
+
+  const fullscreenPath = [
+    location.pathname,
+    location.search ? location.search + '&' : '?',
+    'fullscreen',
+    location.hash,
+  ].join('')
+
+  const quitFullscreenPath = [
+    location.pathname,
+    cleanFullscreen(location.search),
+    location.hash,
+  ].join('')
 
   const preparedTabs = React.useMemo(() => {
     return (
       (tabs || defaultTabs)
         // remove the tab if it is hidden in frontmatter
         .filter(
-          ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
+          ({ title }) => !hideTabs?.find(({ title: t }) => t === title),
         )
         .map(({ key, ...rest }) => {
           const search = cleanFullscreen(location.search)
@@ -106,7 +102,7 @@ export default function Tabbar({
   ].join('')
 
   return (
-    <div className="dnb-tabbar">
+    <div className="dnb-tabbar dnb-tabs">
       {title && (
         <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
           {title}
@@ -114,12 +110,9 @@ export default function Tabbar({
       )}
       <Tabs
         id="tabbar"
-        tab_element={{ ...Link }}
+        tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
-        on_change={({ selected_key }) => {
-          navigate(selected_key)
-        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>
@@ -128,6 +121,8 @@ export default function Tabbar({
                 {wasFullscreen ? (
                   <Button
                     on_click={quitFullscreen}
+                    href={quitFullscreenPath}
+                    element={Link}
                     variant="secondary"
                     title="Quit Fullscreen"
                     icon="close"
@@ -136,6 +131,8 @@ export default function Tabbar({
                 ) : (
                   <Button
                     on_click={openFullscreen}
+                    href={fullscreenPath}
+                    element={Link}
                     variant="secondary"
                     title="Fullscreen"
                     icon={fullscreenIcon}

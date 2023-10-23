@@ -1,0 +1,17 @@
+/*
+ * Upload theme for Sbanken
+ *
+ */
+
+.dnb-upload {
+  --upload-background: var(--sb-color-white);
+  --upload-background--active: var(--sb-color-violet-light-4);
+  --upload-border: var(--sb-color-gray-dark-2);
+  --upload-border--active: var(--sb-color-violet);
+  --upload-list-border: var(--sb-color-gray);
+  --upload-icon--default: var(--sb-color-violet);
+  --upload-icon--warning: var(--sb-color-red);
+  --upload-highlight: var(--sb-color-yellow-light-3);
+  --upload-text--primary: var(--sb-color-text);
+  --upload-text--secondary: var(--sb-color-gray-dark-3);
+}

@@ -348,7 +348,7 @@ export const runFactory = async ({
 
         await fs.writeFile(
           destFile,
-          prettier.format(`${autoAdvice}${content}`, {
+          await prettier.format(`${autoAdvice}${content}`, {
             ...prettierrc,
             parser: 'babel',
           })
@@ -410,7 +410,7 @@ export const runFactory = async ({
     try {
       await fs.writeFile(
         destFile,
-        prettier.format(`${autoAdvice}${content}`, {
+        await prettier.format(`${autoAdvice}${content}`, {
           ...prettierrc,
           parser: 'babel',
         })

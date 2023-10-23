@@ -1,0 +1,19 @@
+/*
+* ProgressIndicator theme for Sbanken
+*
+*/
+
+.dnb-progress-indicator {
+  --progress-indicator-circular-background-color: var(
+    --sb-color-gray-light-2
+  );
+  --progress-indicator-circular-bar-color: var(
+    --sb-color-purple-alternative
+  );
+  --progress-indicator-linear-background-color: var(
+    --sb-color-gray-light-2
+  );
+  --progress-indicator-linear-bar-color: var(
+    --sb-color-purple-alternative
+  );
+}

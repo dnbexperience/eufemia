@@ -14,13 +14,19 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import { cleanup, fireEvent, render, act } from '@testing-library/react'
-import FormRow from '../../form-row/FormRow'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  act,
+  waitFor,
+} from '@testing-library/react'
 import {
   DrawerListData,
   DrawerListDataObject,
   DrawerListDataObjectUnion,
 } from '../../../fragments/drawer-list'
+import { Provider } from '../../../shared'
 
 const mockProps: AutocompleteProps = {
   id: 'autocomplete-id',
@@ -158,6 +164,41 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe('Ingen alternativer')
+  })
+
+  it('will set correct width when independent_width is set', async () => {
+    const style = {
+      getPropertyValue: () => 20,
+    } as undefined
+
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    const { rerender } = render(
+      <Autocomplete value={1} data={mockData} opened />
+    )
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toBe(
+        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;'
+      )
+    })
+
+    rerender(
+      <Autocomplete value={1} data={mockData} independent_width opened />
+    )
+
+    expect(styleElement.getAttribute('style')).toBe(
+      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
+    )
+
+    const element = document.querySelector('.dnb-drawer-list')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-drawer-list--independent-width'
+    )
   })
 
   describe('suffix_value', () => {
@@ -454,30 +495,30 @@ describe('Autocomplete component', () => {
 
     toggle()
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      ''
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('')
 
     // simulate changes
     keydown(40) // down
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'AA c'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('AA c')
 
     // simulate changes
     keydown(40) // down
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'BB cc zethx'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('BB cc zethx')
 
     // simulate changes
     keydown(40) // down
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'CCcc'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('CCcc')
 
     act(() => {
       document.dispatchEvent(
@@ -487,17 +528,17 @@ describe('Autocomplete component', () => {
       )
     })
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'Valgt: CCcc'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('Valgt: CCcc')
 
     // simulate changes
     toggle()
     keydown(38) // up
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      'BB cc zethx'
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('BB cc zethx')
 
     // eslint-disable-next-line
     Object.defineProperty(helpers, 'IS_MAC', {
@@ -507,9 +548,9 @@ describe('Autocomplete component', () => {
     // simulate changes
     keydown(38) // up
 
-    expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
-      ''
-    )
+    expect(
+      document.querySelector('.dnb-sr-only:not([hidden])').textContent
+    ).toBe('')
   })
 
   it('can be used with regex chars', () => {
@@ -2252,11 +2293,11 @@ describe('Autocomplete component', () => {
     expect(element.classList).toContain('dnb-space__top--large')
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Autocomplete label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-autocomplete')

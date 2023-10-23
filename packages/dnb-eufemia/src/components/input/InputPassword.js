@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 
 import Input, { SubmitButton } from './Input'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   makeUniqueId,
   extendPropsWithContextInClassComponent,
@@ -75,7 +75,9 @@ export default class InputPassword extends React.PureComponent {
       InputPassword.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Input,
       this.context.InputPassword
     )
@@ -125,3 +127,5 @@ export default class InputPassword extends React.PureComponent {
     )
   }
 }
+
+InputPassword._supportsSpacingProps = true

@@ -58,7 +58,7 @@ export const SkeletonSandbox = () => {
   return (
     <Provider
     // skeleton={showSkeleton}
-    // FormRow={{ skeleton: showSkeleton }}
+    // formElement={{ skeleton: showSkeleton }}
     >
       <Skeleton
         show={showSkeleton}

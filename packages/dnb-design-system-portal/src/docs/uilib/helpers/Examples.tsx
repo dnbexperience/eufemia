@@ -6,13 +6,14 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
+import { fieldsetReset } from './Examples.module.scss'
 
 // have a limit because this page is used for screenshot tests
 const Wrapper = styled.div`
   max-width: 40rem;
 `
 
-export function CoreStyleExample() {
+export function CoreStyle() {
   return (
     <Wrapper className="dnb-spacing">
       <ComponentBox hideCode data-visual-test="helper-core-style">
@@ -36,7 +37,7 @@ export function CoreStyleExample() {
   )
 }
 
-export function TabFocusExample() {
+export function TabFocus() {
   return (
     <Wrapper className="dnb-spacing">
       <ComponentBox hideCode data-visual-test="helper-tap-focus">
@@ -52,7 +53,7 @@ export function TabFocusExample() {
   )
 }
 
-export function UnstyledListExample() {
+export function UnstyledList() {
   return (
     <Wrapper className="dnb-spacing">
       <ComponentBox hideCode data-visual-test="helper-unstyled-list">
@@ -69,7 +70,7 @@ export function UnstyledListExample() {
   )
 }
 
-export function ScreenReaderOnlyExample() {
+export function ScreenReaderOnly() {
   return (
     <Wrapper className="dnb-spacing">
       <ComponentBox hideCode data-visual-test="helper-sr-only">
@@ -86,7 +87,7 @@ export function ScreenReaderOnlyExample() {
   )
 }
 
-export function SelectionExample() {
+export function Selection() {
   return (
     <Wrapper className="dnb-spacing">
       <ComponentBox hideCode data-visual-test="helper-selection">
@@ -94,6 +95,16 @@ export function SelectionExample() {
           If you select a part of this text, you will see the selection
           highlight is green.
         </p>
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export function FormsetReset() {
+  return (
+    <Wrapper className={fieldsetReset}>
+      <ComponentBox hideCode data-visual-test="helper-fieldset-reset">
+        <fieldset>I'm a fieldset without styling.</fieldset>
       </ComponentBox>
     </Wrapper>
   )

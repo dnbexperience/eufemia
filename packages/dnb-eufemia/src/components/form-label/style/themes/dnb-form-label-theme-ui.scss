@@ -6,7 +6,11 @@
 .dnb-form-label {
   color: var(--color-black-80);
 
-  &[for]:not([disabled]):hover {
-    color: var(--color-sea-green);
+  &[for]:not([disabled]) {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-sea-green);
+    }
   }
 }

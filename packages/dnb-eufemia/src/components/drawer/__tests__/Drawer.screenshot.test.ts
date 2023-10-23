@@ -68,7 +68,7 @@ describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="simple-drawer"] button:first-of-type',
-        screenshotSelector: '.dnb-modal__content',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         ...defaults,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -80,7 +80,7 @@ describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="fullscreen-drawer"] button:first-of-type',
-        screenshotSelector: '.dnb-modal__content',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         ...defaults,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -92,7 +92,7 @@ describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="left-placement-drawer"] button:first-of-type',
-        screenshotSelector: '.dnb-modal__content',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         ...defaults,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -104,7 +104,7 @@ describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="full-drawer"] button:first-of-type',
-        screenshotSelector: '.dnb-modal__content',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         ...defaults,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -116,7 +116,7 @@ describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="callback-drawer"] button:first-of-type',
-        screenshotSelector: '.dnb-modal__content',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         ...defaults,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -128,7 +128,7 @@ describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="drawer-no-animation"] button:first-of-type',
-        screenshotSelector: '.dnb-modal__content',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         ...defaults,
       })
       expect(screenshot).toMatchImageSnapshot()

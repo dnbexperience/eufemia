@@ -78,7 +78,9 @@
 @mixin buttonFocusRing(
   $whatinput: null,
   $inset: null,
-  $extendShadow: null
+  $extendShadow: null,
+  $left: -0.5rem,
+  $right: -0.5rem
 ) {
   // Create focus-ring
   &::before {
@@ -87,9 +89,9 @@
     z-index: 1; // to be visible in other absolute contexts
 
     top: 0;
-    left: -0.5rem;
+    left: $left;
     bottom: 0;
-    right: -0.5rem;
+    right: $right;
 
     height: inherit;
     border-radius: inherit;

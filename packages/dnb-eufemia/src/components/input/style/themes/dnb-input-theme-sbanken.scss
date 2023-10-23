@@ -37,6 +37,7 @@
 
   &__submit-button__button {
     --button-secondary-color: var(--sb-color-violet);
+    --button-secondary-color--active: var(--sb-color-violet);
   }
 
   &__placeholder {
@@ -86,26 +87,6 @@
       --input-border-width: 0.125rem;
     }
 
-    // Button
-    .dnb-input__submit-button__button {
-      transition: border-radius 0.25s ease-out;
-      background-color: transparent;
-      box-shadow: none;
-
-      &:hover,
-      &:active {
-        border: var(--input-button-border-width) solid
-          var(--input-button-border-color);
-        border-left: none;
-        padding-left: var(--input-button-border-width);
-      }
-
-      &:focus-visible {
-        border: none;
-        padding-left: none;
-      }
-    }
-
     &.dnb-input__status--error {
       --input-border-color: var(--sb-color-red);
       --input-color--default: var(--sb-color-red);
@@ -116,10 +97,21 @@
 
       .dnb-input__submit-button__button {
         --button-secondary-background--hover: var(--sb-color-red);
+        --button-secondary-color--hover: var(--sb-color-white);
+        --button-secondary-color--active: var(--sb-color-red);
+      }
+    }
 
-        &:hover:not(:active) {
-          --button-secondary-color: var(--sb-color-white);
-        }
+    .dnb-input__submit-button__button:not(:focus-visible) {
+      background-color: transparent;
+      box-shadow: none;
+
+      &:hover,
+      &:active {
+        border: var(--input-button-border-width) solid
+          var(--input-button-border-color);
+        border-left: none;
+        padding-left: var(--input-button-border-width);
       }
     }
   }

@@ -11,28 +11,9 @@
 *.min.mjs
 /build
 /build/CHANGELOG.md
-/dist
-/es
-/esm
-/cjs
-/lib
-/package
-/components
-/fragments
-/elements
-/extensions
-/shared
-/umd
-/style
-/icons
 /assets/icons/*/*.pdf
 /assets/icons/*/*.xml
-/dnb-ui-resources
 **/test-files/dist
-/docs
-/index.*
-!index.js
-/lib.js
 @dnb/eufemia*.tgz
 
 # misc

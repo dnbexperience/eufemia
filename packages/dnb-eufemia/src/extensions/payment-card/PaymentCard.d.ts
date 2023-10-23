@@ -61,6 +61,16 @@ export interface PaymentCardRawData {
   productType: ProductType;
   bankAxept: BankAxeptType;
 }
+export interface CardDesign {
+  name: string;
+  cardStyle: string;
+  bankLogo: any;
+  visa: any;
+  mastercard: any;
+  bankAxept: any;
+  saga: any;
+  privateBanking: any;
+}
 export type PaymentCardChildren =
   | string
   | React.ReactNode
@@ -77,7 +87,7 @@ export interface PaymentCardProps
    */
   card_number: string;
   /**
-   * Use one of these: `active`, `blocked`, `expired`. Defaults to `active`.
+   * Use one of these: `active`, `not_active`, `blocked`, `expired`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**
@@ -112,6 +122,11 @@ export default class PaymentCard extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-export const getCardData = (product_code: string) => PaymentCardRawData;
-export const formatCardNumber = (cardNumber: string, digits?: number) =>
-  string;
+type CardDataReturn = Omit<PaymentCardRawData, 'cardDesign'> & {
+  cardDesign: CardDesign;
+};
+export const getCardData = (product_code: string): CardDataReturn => null;
+export const formatCardNumber = (
+  cardNumber: string,
+  digits?: number
+): string => null;

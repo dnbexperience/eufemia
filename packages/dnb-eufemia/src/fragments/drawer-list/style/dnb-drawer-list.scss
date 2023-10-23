@@ -120,7 +120,9 @@
     background-color: transparent;
 
     transform: translateY(0);
-    transition: transform 200ms, opacity 160ms ease-out;
+    transition:
+      transform 200ms,
+      opacity 160ms ease-out;
   }
 
   // ul element
@@ -218,7 +220,6 @@
         display: inline-block;
         margin-right: 0.5rem;
         word-break: break-word;
-        white-space: nowrap;
 
         font-size: inherit;
       }

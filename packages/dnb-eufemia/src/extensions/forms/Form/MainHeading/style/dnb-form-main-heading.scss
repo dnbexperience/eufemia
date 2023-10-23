@@ -1,0 +1,17 @@
+.dnb-form-main-heading {
+  // Reset inherited spacing
+  .dnb-spacing & {
+    &.dnb-h--large:not([class*='space__']) {
+      margin: 0;
+    }
+  }
+
+  &:has(+ .dnb-flex-stack > .dnb-card, + .dnb-card) {
+    &:not([class*='space__left']) {
+      margin-left: var(--spacing-medium);
+    }
+    &:not([class*='space__bottom']) {
+      margin-bottom: var(--spacing-small);
+    }
+  }
+}

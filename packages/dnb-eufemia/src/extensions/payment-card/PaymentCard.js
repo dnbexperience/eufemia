@@ -182,12 +182,18 @@ export default class PaymentCard extends React.PureComponent {
 
 const formatCardNumberRegex = /(?=(?:....)*$)/g
 
-export const formatCardNumber = (cardNumber, digits) =>
-  digits
-    ? cardNumber
-        .slice(cardNumber.length - digits, cardNumber.length)
-        .replace(formatCardNumberRegex, ' ')
-    : cardNumber.replace(formatCardNumberRegex, ' ')
+export const formatCardNumber = (cardNumber, digits = 8) => {
+  if (!cardNumber) {
+    return cardNumber
+  }
+  if (digits && digits <= cardNumber.length) {
+    return cardNumber
+      .slice(cardNumber.length - digits, cardNumber.length)
+      .replace(formatCardNumberRegex, ' ')
+      .trim()
+  }
+  return cardNumber.replace(formatCardNumberRegex, ' ').trim()
+}
 
 export const getCardData = (productCode) => {
   const card = cardProducts.find(

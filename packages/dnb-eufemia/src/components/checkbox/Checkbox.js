@@ -25,7 +25,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -78,6 +78,7 @@ export default class Checkbox extends React.PureComponent {
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
+    innerRef: PropTypes.object,
 
     ...spacingPropTypes,
 
@@ -141,7 +142,8 @@ export default class Checkbox extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._refInput = React.createRef()
+    this._refInput = props.innerRef || React.createRef()
+
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
@@ -177,7 +179,9 @@ export default class Checkbox extends React.PureComponent {
       Checkbox.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.getTranslation(this.props).Checkbox,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Checkbox
     )
 
@@ -206,6 +210,7 @@ export default class Checkbox extends React.PureComponent {
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line
+      innerRef, // eslint-disable-line
 
       ...rest
     } = props
@@ -366,3 +371,5 @@ CheckIcon.propTypes = {
 CheckIcon.defaultProps = {
   size: 'default',
 }
+
+CheckIcon._supportsSpacingProps = true

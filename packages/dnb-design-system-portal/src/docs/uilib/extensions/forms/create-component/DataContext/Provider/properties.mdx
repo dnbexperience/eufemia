@@ -1,0 +1,14 @@
+---
+showTabs: true
+---
+
+## Properties
+
+| Property            | Type         | Description                                                                                                                     |
+| ------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultData`       | `object`     | _(required)_ Default source data, only used if no other source is available, and not leading to updates if changed after mount. |
+| `data`              | `object`     | _(required)_ Dynamic source data used as both initial data, and updates internal data if changed after mount.                   |
+| `schema`            | `object`     | _(optional)_ JSON Schema for validation of the data set.                                                                        |
+| `scrollTopOnSubmit` | `boolean`    | _(optional)_ True for the UI to scroll to the top of the page when data is submitted.                                           |
+| `sessionStorageId`  | `string`     | _(optional)_ Key for saving active data to session storage and loading it on mount.                                             |
+| `children`          | `React.Node` | _(required)_ Contents.                                                                                                          |

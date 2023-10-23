@@ -22,7 +22,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
@@ -75,6 +75,8 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    innerRef: PropTypes.object,
+    buttonRef: PropTypes.object,
     globalStatus: PropTypes.shape({
       id: PropTypes.string,
       message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -119,6 +121,14 @@ export default class Dropdown extends React.PureComponent {
         PropTypes.oneOfType([
           PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
           PropTypes.shape({
+            selectedKey: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+            ]),
+            selected_key: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+            ]),
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
@@ -178,6 +188,8 @@ export default class Dropdown extends React.PureComponent {
     status_props: null,
     status_no_animation: null,
     globalStatus: null,
+    innerRef: null,
+    buttonRef: null,
     suffix: null,
     scrollable: true,
     focusable: false,
@@ -256,9 +268,9 @@ class DropdownInstance extends React.PureComponent {
     this.attributes = {}
     this.state = this.state || {}
 
-    this._ref = React.createRef()
-    this._refShell = React.createRef()
-    this._refButton = React.createRef()
+    this._ref = props.innerRef || React.createRef()
+    this._refWrapper = React.createRef()
+    this._refButton = props.buttonRef || React.createRef()
   }
 
   componentDidMount() {
@@ -273,7 +285,7 @@ class DropdownInstance extends React.PureComponent {
 
   setVisible = () => {
     this.context.drawerList
-      .setWrapperElement(this._ref.current)
+      .setWrapperElement(this._refWrapper.current)
       .setVisible()
   }
 
@@ -353,7 +365,7 @@ class DropdownInstance extends React.PureComponent {
     clearTimeout(this._focusTimeout)
     this._focusTimeout = setTimeout(() => {
       try {
-        const element = this._refButton.current._ref.current
+        const element = this._refButton.current
         if (element && typeof element.focus === 'function') {
           if (args.preventHideFocus !== true) {
             element.focus({ preventScroll: true })
@@ -407,7 +419,9 @@ class DropdownInstance extends React.PureComponent {
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Dropdown
     )
 
@@ -458,6 +472,8 @@ class DropdownInstance extends React.PureComponent {
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      buttonRef, // eslint-disable-line
+      innerRef, // eslint-disable-line
 
       ...attributes
     } = props
@@ -556,7 +572,7 @@ class DropdownInstance extends React.PureComponent {
     this.attributes = validateDOMAttributes(null, attributes)
 
     return (
-      <span {...mainParams}>
+      <span ref={this._ref} {...mainParams}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -570,7 +586,7 @@ class DropdownInstance extends React.PureComponent {
           />
         )}
 
-        <span className="dnb-dropdown__inner" ref={this._ref}>
+        <span className="dnb-dropdown__inner" ref={this._refWrapper}>
           <AlignmentHelper />
 
           <FormStatus
@@ -587,7 +603,7 @@ class DropdownInstance extends React.PureComponent {
           />
 
           <span className="dnb-dropdown__row">
-            <span className="dnb-dropdown__shell" ref={this._refShell}>
+            <span className="dnb-dropdown__shell">
               {CustomTrigger ? (
                 <CustomTrigger {...triggerParams} />
               ) : (
@@ -595,7 +611,7 @@ class DropdownInstance extends React.PureComponent {
                   variant={variant}
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
-                  ref={this._refButton}
+                  innerRef={this._refButton}
                   custom_content={
                     <>
                       {!isPopupMenu && (
@@ -682,3 +698,5 @@ class DropdownInstance extends React.PureComponent {
 }
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
+
+Dropdown._supportsSpacingProps = true

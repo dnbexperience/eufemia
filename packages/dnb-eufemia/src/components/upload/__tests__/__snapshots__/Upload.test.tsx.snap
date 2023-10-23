@@ -202,6 +202,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -209,6 +213,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -266,6 +274,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -734,11 +744,22 @@ button .dnb-form-status__text {
  * Utilities
  */
 .dnb-upload {
+  --upload-background: white;
+  --upload-background--active: lightgray;
+  --upload-border: gray;
+  --upload-border--active: black;
+  --upload-list-border: black;
+  --upload-icon--default: black;
+  --upload-icon--warning: red;
+  --upload-highlight: lightyellow;
+  --upload-text--primary: black;
+  --upload-text--secondary: black;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   padding: var(--spacing-medium);
-  background-color: var(--color-white);
+  background-color: var(--upload-background);
+  border-radius: 0.5rem;
 }
 @media screen and (max-width: 40em) {
   .dnb-upload {
@@ -752,6 +773,22 @@ button .dnb-form-status__text {
   inset: 0;
   height: 100%;
   width: 100%;
+  border-radius: 0.5rem;
+  stroke: var(--upload-border);
+  stroke-width: 0.1875rem;
+}
+.dnb-upload--active .dnb-upload__outline {
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  stroke: var(--upload-border--active);
+}
+.dnb-upload--active .dnb-upload__outline rect {
+  stroke-width: 0.25rem;
+  stroke-dasharray: 0;
+}
+.dnb-upload--active {
+  background-color: var(--upload-background--active);
 }
 .dnb-upload__file-input {
   position: absolute;
@@ -769,11 +806,15 @@ button .dnb-form-status__text {
   position: absolute;
   inset: 0;
   height: 1px;
-  background-color: var(--color-black-8);
+  background-color: var(--upload-list-border);
 }
 .dnb-upload__file-cell {
   position: relative;
   padding: var(--spacing-small) 0;
+  /** Highlight Animation */
+  transition: background-color;
+  transition-duration: 1.5s;
+  transition-timing-function: var(--easing-default);
 }
 .dnb-upload__file-cell::after {
   top: auto;
@@ -789,6 +830,15 @@ button .dnb-form-status__text {
   flex-direction: row;
   align-items: center;
 }
+.dnb-upload__file-cell__content__left .dnb-icon {
+  color: var(--upload-icon--default);
+}
+.dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
+  color: var(--upload-icon--warning);
+}
+.dnb-upload__file-cell--highlight {
+  background-color: var(--upload-highlight);
+}
 .dnb-upload__file-cell__text-container {
   display: flex;
   flex-direction: column;
@@ -796,6 +846,12 @@ button .dnb-form-status__text {
 }
 .dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);
+}
+.dnb-upload__text.dnb-p {
+  color: var(--upload-text--secondary);
+}
+.dnb-upload__subtitle.dnb-p {
+  color: var(--upload-text--secondary);
 }"
 `;
 
@@ -805,43 +861,15 @@ exports[`Upload scss have to match default theme snapshot 1`] = `
  *
  */
 .dnb-upload {
-  background-color: var(--color-white);
-  border-radius: 0.5rem;
-}
-.dnb-upload__outline {
-  stroke: var(--color-sea-green);
-  border-radius: 0.5rem;
-  stroke-width: 0.1875rem;
-}
-.dnb-upload--active .dnb-upload__outline {
-  stroke: var(--color-emerald-green);
-  inset: -1px;
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
-}
-.dnb-upload--active .dnb-upload__outline rect {
-  stroke-width: 0.25rem;
-  stroke-dasharray: 0;
-}
-.dnb-upload--active {
-  background-color: var(--color-pistachio);
-}
-.dnb-upload__file-cell {
-  /** Highlight Animation */
-  transition: background-color;
-  transition-duration: 1.5s;
-  transition-timing-function: var(--easing-default);
-}
-.dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
-  color: var(--color-fire-red);
-}
-.dnb-upload__file-cell--highlight {
-  background-color: var(--color-sand-yellow);
-}
-.dnb-upload__text.dnb-p {
-  color: var(--color-black-55);
-}
-.dnb-upload__subtitle.dnb-p {
-  color: var(--color-black-55);
+  --upload-background: var(--color-white);
+  --upload-background--active: var(--color-pistachio);
+  --upload-border: var(--color-sea-green);
+  --upload-border--active: var(--color-emerald-green);
+  --upload-list-border: var(--color-black-8);
+  --upload-icon--default: var(--color-black-80);
+  --upload-icon--warning: var(--color-fire-red);
+  --upload-highlight: var(--color-sand-yellow);
+  --upload-text--primary: var(--color-black-55);
+  --upload-text--secondary: var(--color-black-55);
 }"
 `;

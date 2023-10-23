@@ -1,15 +1,4 @@
-import Context, { ContextState } from './Context'
-import Provider from './Provider'
-import SubmitButton from './SubmitButton'
-import At from './At'
-
-const DataContext = {
-  Context,
-  Provider,
-  SubmitButton,
-  At,
-}
-
-export type { ContextState }
-export default DataContext
-
+export * from './Context'
+export { default as Context } from './Context'
+export { default as Provider } from './Provider'
+export { default as At } from './At'

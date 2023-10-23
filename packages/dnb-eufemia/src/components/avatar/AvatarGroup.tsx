@@ -178,4 +178,6 @@ function ElementsHidden(props: ElementsHiddenProps) {
   )
 }
 
+AvatarGroup._supportsSpacingProps = true
+
 export default AvatarGroup

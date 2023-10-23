@@ -14,6 +14,7 @@ export type FormStatusState =
   | 'error'
   | 'warn'
   | 'info'
+  | 'success'
   | 'marketing';
 export type FormStatusVariant = 'flat' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
@@ -115,6 +116,7 @@ export interface InfoIconProps {
    * The `title` attribute in the status.
    */
   title?: string;
+  theme?: string;
 }
 export declare const InfoIcon: React.FC<InfoIconProps>;
 export interface MarketingIconProps {

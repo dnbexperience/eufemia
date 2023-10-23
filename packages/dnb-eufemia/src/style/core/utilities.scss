@@ -148,7 +148,9 @@
   $width: 0.0625rem /*1px*/
 ) {
   $second: 0 0 0 calc(var(--focus-ring-width) + #{$width}) $second-color;
-  box-shadow: 0 0 0 $width $first-color, $second;
+  box-shadow:
+    0 0 0 $width $first-color,
+    $second;
 }
 
 @mixin dummySpacing() {
@@ -277,22 +279,25 @@
 }
 
 $breakpoints: (
+  'x-small': 30em /* not documented yet */,
   'small': 40em,
   'medium': 60em,
   'large': 72em,
   'x-large': 80em /* not documented yet */,
   'xx-large': 90em /* not documented yet */,
 );
+$breakpoint-offset: 0;
 
 // Example usage:
 // @include allAbove(medium){ styles go here.. }
-@mixin allAbove($size) {
-  @media screen and (min-width: map-get($breakpoints, $size)) {
+// $offset and $list are needed to provide global customization options
+@mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
+  @media screen and (min-width: (if(map-has-key($list, $size), map-get($list, $size), #{$size}) + $offset)) {
     @content;
   }
 }
-@mixin allBelow($size) {
-  @media screen and (max-width: map-get($breakpoints, $size)) {
+@mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
+  @media screen and (max-width: (if(map-has-key($list, $size), map-get($list, $size), #{$size}) + $offset)) {
     @content;
   }
 }
@@ -359,4 +364,26 @@ $breakpoints: (
       margin-top: 0.5rem;
     }
   }
+}
+
+@mixin fieldsetReset($checkSpaceProps: false) {
+  @if $checkSpaceProps {
+    &:not([class*='space__top']) {
+      margin-top: 0;
+    }
+    &:not([class*='space__right']) {
+      margin-right: 0;
+    }
+    &:not([class*='space__bottom']) {
+      margin-bottom: 0;
+    }
+    &:not([class*='space__left']) {
+      margin-left: 0;
+    }
+  } @else {
+    margin: 0;
+  }
+  padding: 0;
+  border: none;
+  line-height: var(--font-size-basis--em);
 }

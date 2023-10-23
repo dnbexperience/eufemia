@@ -44,17 +44,20 @@ import Avatar from './components/avatar/Avatar'
 import Badge from './components/badge/Badge'
 import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
+import Card from './components/card/Card'
 import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
 import Dialog from './components/dialog/Dialog'
 import Drawer from './components/drawer/Drawer'
 import Dropdown from './components/dropdown/Dropdown'
+import Flex from './components/flex/Flex'
 import FormLabel from './components/form-label/FormLabel'
 import FormRow from './components/form-row/FormRow'
 import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
+import Grid from './components/grid/Grid'
 import Heading from './components/heading/Heading'
 import HeightAnimation from './components/height-animation/HeightAnimation'
 import HelpButton from './components/help-button/HelpButton'
@@ -122,17 +125,20 @@ export {
   Badge,
   Breadcrumb,
   Button,
+  Card,
   Checkbox,
   DatePicker,
   Dialog,
   Drawer,
   Dropdown,
+  Flex,
   FormLabel,
   FormRow,
   FormSet,
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Grid,
   Heading,
   HeightAnimation,
   HelpButton,

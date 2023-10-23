@@ -46,6 +46,14 @@ export const UseMediaHook = () => {
   )
 }
 
+export function UseMediaHookStrictMode() {
+  return (
+    <React.StrictMode>
+      <UseMediaHook />
+    </React.StrictMode>
+  )
+}
+
 const Div1 = styled.div`
   @media (min-width: 0) and (max-width: 60em) {
     color: blue;
