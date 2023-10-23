@@ -82,7 +82,6 @@ exports[`FormRow scss has to match style dependencies css 1`] = `
   margin: 0;
   padding: 0;
   border: none;
-  line-height: var(--font-size-basis--em);
   width: 100%;
 }"
 `;
