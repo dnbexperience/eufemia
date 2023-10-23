@@ -2,17 +2,7 @@
 showTabs: true
 ---
 
-import {
-  SectionDemo,
-  SectionDemoSpacing,
-  SectionDemoWhite,
-  SectionDemoDivider,
-  SectionZIndex,
-  SectionDemoInfo,
-  SectionDemoError,
-  SectionDemoWarning,
-  SectionDemoSuccess,
-} from 'Docs/uilib/components/section/Examples'
+import * as Examples from 'Docs/uilib/components/section/Examples'
 
 ### Deprecated color styles
 
@@ -22,36 +12,40 @@ These [color styles](/uilib/components/section/deprecated/) are deprecated and w
 
 ### Default Section without spacing
 
-<SectionDemo />
+<Examples.Default />
 
 ### Default Section with large spacing
 
-<SectionDemoSpacing />
+<Examples.Spacing />
+
+### Responsive Section
+
+<Examples.Responsive />
 
 ### White Section
 
-<SectionDemoWhite />
+<Examples.White />
 
 ### Divider Section
 
-<SectionDemoDivider />
+<Examples.Divider />
 
 ### Info Section
 
-<SectionDemoInfo />
+<Examples.Info />
 
 ### Error Section
 
-<SectionDemoError />
+<Examples.Error />
 
 ### Warning Section
 
-<SectionDemoWarning />
+<Examples.Warning />
 
 ### Success Section
 
-<SectionDemoSuccess />
+<Examples.Success />
 
 <VisibleWhenVisualTest>
-  <SectionZIndex />
+  <Examples.SectionZIndex />
 </VisibleWhenVisualTest>

@@ -4,14 +4,18 @@ showTabs: true
 
 ## Properties
 
-| Properties                              | Description                                                                                                                                                                           |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `variant`                               | _(optional)_ Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop                                              |
-| `spacing`                               | _(optional)_ will add spacing around the given content. If `true`, then `large` is used. See the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`. |
-| `element`                               | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                                        |
-| `style_type`                            | _(optional)_ to define the style of the visual helper. Defaults to `mint-green-12`.                                                                                                   |
-| `inner_ref`                             | _(optional)_ by providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.                        |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                 |
+| Properties                              | Description                                                                                                                                                    |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`                               | _(optional)_ defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop                       |
+| `element`                               | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                 |
+| `breakout`                              | _(optional)_ use `true` to enable a fullscreen breakout look. Defaults to `true`.                                                                              |
+| `outline`                               | _(optional)_ define a custom border color. If `true` is given, `color-black-8` is used. Use a Eufemia color.                                                   |
+| `roundedCorner`                         | _(optional)_ use `true` to enable rounded corners (border-radius). Defaults to `false`.                                                                        |
+| `backgroundColor`                       | _(optional)_ define a custom background color, instead of a variant. Use a Eufemia color.                                                                      |
+| `textColor`                             | _(optional)_ define a custom text color to compliment the backgroundColor. Use a Eufemia color.                                                                |
+| `innerRef`                              | _(optional)_ by providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`. |
+| `innerSpace`                            | _(optional)_ will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}`.                                   |
+| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                          |
 
 ## Variants
 

@@ -12,26 +12,75 @@
   // it eliminates margin-collapsing
   display: flow-root;
 
+  --breakout--value: visible;
+  --rounded-corner--value: 0.75rem;
+  --outline: 0 0 0 1px var(--outline-color, transparent);
+  --top: 0;
+  --left: -100vw;
+  --width: 100vw;
+  --height: 100%;
+
+  box-shadow: var(--outline, none);
+  color: var(--text-color, black);
+  border-radius: var(--rounded-corner, 0);
+
+  &[style*='--background-color'] {
+    background-color: var(--background-color, white);
+  }
+
   &::after {
     content: '';
+    visibility: var(--breakout, hidden);
     position: absolute;
     z-index: -15;
-    left: -100vw;
-    top: 0;
-    width: 100vw;
-    height: 100%;
-    color: var(
-      --color-mint-green-12
-    ); /** deprecated: should be white in v11 */
+    left: var(--left);
+    top: var(--top);
+    width: var(--width);
+    height: var(--height);
+    color: var(--background-color, currentcolor);
     background-color: currentcolor;
+
+    --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+      297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
 
     // we use box-shadow to avoid a horizontal scrollbar
     // We lower the left position, so we get an overlap
-    box-shadow:
-      99vw 0 0 0 currentcolor,
-      198vw 0 0 0 currentcolor,
-      297vw 0 0 0 currentcolor,
-      396vw 0 0 0 currentcolor;
+    box-shadow: var(--box-shadow);
+  }
+
+  &:not([style*='--breakout']) {
+    --breakout: var(--breakout--value);
+  }
+
+  @include allBelow(medium) {
+    --breakout: var(--breakout--small, var(--breakout--fallback));
+    --background-color--value: var(--background-color--small);
+    --text-color--value: var(--text-color--small);
+    --outline-color: var(--outline-color--small);
+    --rounded-corner: var(
+      --rounded-corner--small,
+      var(--rounded-corner--fallback)
+    );
+  }
+  @include allBetween(small, medium) {
+    --breakout: var(--breakout--medium, var(--breakout--fallback));
+    --background-color--value: var(--background-color--medium);
+    --text-color--value: var(--text-color--medium);
+    --outline-color: var(--outline-color--medium);
+    --rounded-corner: var(
+      --rounded-corner--medium,
+      var(--rounded-corner--fallback)
+    );
+  }
+  @include allAbove(medium) {
+    --breakout: var(--breakout--large, var(--breakout--fallback));
+    --background-color--value: var(--background-color--large);
+    --text-color--value: var(--text-color--large);
+    --outline-color: var(--outline-color--large);
+    --rounded-corner: var(
+      --rounded-corner--large,
+      var(--rounded-corner--fallback)
+    );
   }
 
   & &::after {
@@ -66,28 +115,30 @@
     z-index: -7;
   }
 
+  // deprecated and can be removed in v11
   &--spacing-x-small {
-    padding: var(--spacing-x-small) 0;
+    padding-top: var(--spacing-x-small);
+    padding-bottom: var(--spacing-x-small);
   }
-
   &--spacing-small {
-    padding: var(--spacing-small) 0;
+    padding-top: var(--spacing-small);
+    padding-bottom: var(--spacing-small);
   }
-
   &--spacing-medium {
-    padding: var(--spacing-medium) 0;
+    padding-top: var(--spacing-medium);
+    padding-bottom: var(--spacing-medium);
   }
-
-  &--spacing-x-large {
-    padding: var(--spacing-x-large) 0;
-  }
-
-  &--spacing-xx-large {
-    padding: var(--spacing-xx-large) 0;
-  }
-
   &--spacing,
   &--spacing-large {
-    padding: var(--spacing-large) 0;
+    padding-top: var(--spacing-large);
+    padding-bottom: var(--spacing-large);
+  }
+  &--spacing-x-large {
+    padding-top: var(--spacing-x-large);
+    padding-bottom: var(--spacing-x-large);
+  }
+  &--spacing-xx-large {
+    padding-top: var(--spacing-xx-large);
+    padding-bottom: var(--spacing-xx-large);
   }
 }
