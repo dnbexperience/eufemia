@@ -51,6 +51,9 @@ const translationDefaultPropsProps = {
   text_expired: null,
   text_blocked: null,
   text_not_active: null,
+  text_order_in_process: null,
+  text_renewed: null,
+  text_replaced: null
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -59,7 +62,10 @@ export default class PaymentCard extends React.PureComponent {
   static propTypes = {
     product_code: PropTypes.string.isRequired,
     card_number: PropTypes.string.isRequired,
-    card_status: PropTypes.oneOf(['active', 'blocked', 'expired', 'not_active']),
+    card_status: PropTypes.oneOf(['active', 'blocked', 'expired', 'not_active',
+    'order_in_process',
+    'renewed',
+    'replaced']),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     raw_data: cardDataPropTypes,
@@ -225,6 +231,52 @@ function StatusOverlay({ cardStatus, translations, skeleton }) {
           </div>
         </div>
       )
+
+    case 'order_in_process':
+      return (
+      <div
+        className={classnames(
+          'dnb-payment-card__blocking__overlay',
+          createSkeletonClass('font', skeleton)
+        )}
+      >
+        <div className="dnb-payment-card__blocking__center">
+          <StatusIcon status={cardStatus} />
+          <P top="xx-small">{translations.text_order_in_process}</P>
+        </div>
+      </div>
+      )
+
+    case 'renewed':
+      return (
+      <div
+        className={classnames(
+          'dnb-payment-card__blocking__overlay',
+          createSkeletonClass('font', skeleton)
+        )}
+      >
+        <div className="dnb-payment-card__blocking__center">
+          <StatusIcon status={cardStatus} />
+          <P top="xx-small">{translations.text_renewed}</P>
+        </div>
+      </div>
+      )
+
+    case 'replaced':
+      return (
+      <div
+        className={classnames(
+          'dnb-payment-card__blocking__overlay',
+          createSkeletonClass('font', skeleton)
+        )}
+      >
+        <div className="dnb-payment-card__blocking__center">
+          <StatusIcon status={cardStatus} />
+          <P top="xx-small">{translations.text_replaced}</P>
+        </div>
+      </div>
+      )
+
     case 'blocked':
       return (
         <div
