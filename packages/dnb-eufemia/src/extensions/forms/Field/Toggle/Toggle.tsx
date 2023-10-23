@@ -82,6 +82,7 @@ function Toggle(props: Props) {
   }
 
   const isOn = value === valueOn
+  const isOff = value === valueOff
 
   switch (variant) {
     default:
@@ -134,7 +135,7 @@ function Toggle(props: Props) {
               id={id}
               text={textOff ?? sharedContext?.translation.Forms.booleanNo}
               on_click={setOff}
-              variant={isOn ? 'secondary' : undefined}
+              variant={isOff ? undefined : 'secondary'}
               disabled={disabled}
               status={error ? 'error' : undefined}
             />
