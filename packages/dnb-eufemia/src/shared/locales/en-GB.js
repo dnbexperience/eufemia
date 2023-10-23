@@ -116,6 +116,9 @@ export default {
       text_expired: 'Expired',
       text_blocked: 'Blocked',
       text_not_active: 'Not activated',
+      text_order_in_process: 'Order in process',
+      text_renewed: 'Renewed',
+      text_replaced: 'Replaced',
     },
     Logo: {
       alt: 'DNB Logo',
