@@ -588,6 +588,33 @@ describe('NumberFormat component', () => {
     ).toBe('12,34 kr')
   })
 
+  it('should show dashes when number is invalid', () => {
+    const { rerender } = render(<Component currency>invalid</Component>)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-- kr'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-- norske kroner')
+
+    rerender(<Component percent>invalid</Component>)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-- %'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-- %')
+
+    rerender(<Component>invalid</Component>)
+
+    expect(document.querySelector(displaySelector).textContent).toBe('--')
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('--')
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(
       <Component value={-value} currency srLabel="Total:" />

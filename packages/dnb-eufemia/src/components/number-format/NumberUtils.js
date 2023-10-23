@@ -417,16 +417,20 @@ const prepareMinus = (display, locale) => {
     return display
   }
 
+  // check for first and second char
+  const first = display[0]
+  const second = display[1]
+
+  // Seems to be the invalid replacement
+  if (first === '-' && second === '-') {
+    return display
+  }
+
   // change the position of minus if it's first
   // check for two minus - −
   // check also for hyphen ‐
   // check also for dashes ‒  –  —  ―
-
   const reg = '^(-|−|‐|‒|–|—|―)'
-
-  // check for first and second char
-  const first = display[0]
-  const second = display[1]
 
   if (new RegExp(reg).test(first)) {
     // if second is number
@@ -495,14 +499,18 @@ export const formatNumber = (
     }
 
     if (formatter) {
-      return formatToParts({ number, locale, options })
-        .map(formatter)
-        .reduce((acc, { value }) => acc + value, '')
+      return replaceNaNWithDash(
+        formatToParts({ number, locale, options })
+          .map(formatter)
+          .reduce((acc, { value }) => acc + value, '')
+      )
     } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
     ) {
-      return parseFloat(number).toLocaleString(locale, options)
+      return replaceNaNWithDash(
+        parseFloat(number).toLocaleString(locale, options)
+      )
     }
   } catch (e) {
     warn(
@@ -514,7 +522,11 @@ export const formatNumber = (
       e
     )
   }
-  return number
+  return replaceNaNWithDash(number)
+}
+
+function replaceNaNWithDash(number) {
+  return String(number).replace(/NaN/, '--')
 }
 
 /**
