@@ -4,7 +4,7 @@ import BankAxept from './BankAxept'
 import DNB from './DNB'
 import Expired from './Clock'
 import Blocked from './Padlock'
-import NotActive from './CardIn'
+import CardIn from './CardIn'
 import MastercardDefault from './MastercardDefault'
 import MastercardDark from './MastercardDark'
 import Pluss from './Pluss'
@@ -16,6 +16,7 @@ import SagaGold from './SagaGold'
 import SagaPlatinum from './SagaPlatinum'
 import VisaDefault from './VisaDefault'
 import VisaPlatinum from './VisaPlatinum'
+import Hourglass from './Hourglass'
 
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
@@ -71,10 +72,19 @@ const StatusIcon = ({ status }) => {
       return <Expired />
 
     case 'not_active':
-      return <NotActive />
+      return <CardIn />
     
     case 'blocked':
       return <Blocked />
+    
+    case 'order_in_process':
+      return <Hourglass />
+
+    case 'renewed':
+      return <CardIn />
+    
+    case 'replaced':
+      return <CardIn />
 
     case 'active':
     default:
