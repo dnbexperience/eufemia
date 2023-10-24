@@ -1274,18 +1274,18 @@ html[data-visual-test] .dnb-input__input {
   font-family: var(--font-family-monospace);
 }
 
-.dnb-stepped-mask__fieldset {
+.dnb-multi-input-mask__fieldset {
   margin: 0;
   padding: 0;
   border: none;
 }
-.dnb-stepped-mask__fieldset--horizontal {
+.dnb-multi-input-mask__fieldset--horizontal {
   display: inline-flex;
   flex-flow: row wrap;
   align-items: baseline;
 }
 
-.dnb-stepped-mask__input {
+.dnb-multi-input-mask__input {
   display: inline-block;
   width: auto;
   margin: 0;
@@ -1299,42 +1299,42 @@ html[data-visual-test] .dnb-input__input {
   overflow: visible;
   white-space: nowrap;
 }
-.dnb-stepped-mask__input:first-of-type {
+.dnb-multi-input-mask__input:first-of-type {
   padding-left: 0.5rem;
 }
-.dnb-stepped-mask__input:last-of-type {
+.dnb-multi-input-mask__input:last-of-type {
   padding-right: 0.5rem;
 }
 
-.dnb-stepped-mask {
+.dnb-multi-input-mask {
   width: fit-content;
 }
-.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__input,
-.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__delimiter {
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input,
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter {
   color: var(--color-black-55);
 }
-.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__input--highlight,
-.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__delimiter--highlight {
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input--highlight,
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter--highlight {
   color: var(--color-black);
 }
-.dnb-stepped-mask .dnb-input__shell:focus-within {
+.dnb-multi-input-mask .dnb-input__shell:focus-within {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 
-.dnb-stepped-mask__legend--horizontal {
+.dnb-multi-input-mask__legend--horizontal {
   float: left;
   transform: translateY(0);
 }
-.dnb-stepped-mask__legend:not([disabled]) {
+.dnb-multi-input-mask__legend:not([disabled]) {
   cursor: pointer;
 }
-.dnb-stepped-mask__legend:not([disabled]):hover {
+.dnb-multi-input-mask__legend:not([disabled]):hover {
   color: var(--color-sea-green);
 }
-.dnb-stepped-mask__legend:not([disabled]):hover ~ .dnb-stepped-mask .dnb-input__shell {
+.dnb-multi-input-mask__legend:not([disabled]):hover ~ .dnb-multi-input-mask .dnb-input__shell {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
