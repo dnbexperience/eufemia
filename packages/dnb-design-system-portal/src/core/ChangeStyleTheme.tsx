@@ -9,8 +9,14 @@ import {
 
 export default function ChangeStyleTheme({ label = null } = {}) {
   const themes = getThemes()
-  const { name } = getTheme()
   const { update } = React.useContext(Context)
+
+  const [themeName, setThemeName] = React.useState(null)
+
+  React.useEffect(() => {
+    const { name } = getTheme()
+    setThemeName(name)
+  }, [])
 
   const date = Object.entries(themes).reduce((acc, [key, value]) => {
     if (!value?.hide) {
@@ -22,7 +28,7 @@ export default function ChangeStyleTheme({ label = null } = {}) {
   return (
     <Dropdown
       id="change-theme"
-      value={name}
+      value={themeName}
       data={date}
       label={label}
       on_change={({ data: { value } }) => {
