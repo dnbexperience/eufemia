@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
-describe('HelperClasses', () => {
+describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/helpers/classes/visual-tests',
   })
 
@@ -56,6 +57,17 @@ describe('HelperClasses', () => {
   it('have to match fieldset reset', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="helper-fieldset-reset"] fieldset',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match focused skip link', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="skip-link"]',
+      simulateSelector: '[data-visual-test="skip-link"] .dnb-skip-link',
+      simulate: 'focus',
+      waitAfterSimulate: 300,
+      screenshotSelector: '[data-visual-test="skip-link"] .dnb-skip-link',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

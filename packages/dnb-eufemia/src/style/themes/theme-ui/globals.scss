@@ -17,6 +17,14 @@
   // Skeleton
   --skeleton-color: var(--color-black-8);
   --skeleton-color--contrast: var(--color-white);
+
+  // Skip Link
+  --skip-link-color: var(--color-sea-green);
+  --skip-link-color--hover: var(--color-sea-green);
+  --skip-link-color--active: var(--color-white);
+  --skip-link-background: var(--color-white);
+  --skip-link-background--hover: var(--color-mint-green-50);
+  --skip-link-background--active: var(--color-emerald-green);
 }
 
 // ::selection appearance helper

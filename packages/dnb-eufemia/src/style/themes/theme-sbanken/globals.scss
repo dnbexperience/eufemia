@@ -19,6 +19,14 @@
   // Skeleton
   --skeleton-color: var(--sb-color-gray-light-2);
   --skeleton-color--contrast: var(--sb-color-white);
+
+  // Skip Link
+  --skip-link-color: var(--sb-color-blue-dark);
+  --skip-link-color--hover: var(--sb-color-purple-alternative);
+  --skip-link-color--active: var(--sb-color-purple-alternative);
+  --skip-link-background: var(--sb-color-blue-light-3);
+  --skip-link-background--hover: var(--sb-color-green);
+  --skip-link-background--active: var(--sb-color-white);
 }
 
 // ::selection appearance helper
