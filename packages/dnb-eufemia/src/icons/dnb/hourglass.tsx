@@ -12,7 +12,7 @@ const hourglass = (props) => (
   >
     <g clipPath="url(#hourglass_svg__a)">
       <path
-        stroke="#000"
+        stroke={props.stroke || "#000"}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.5}
