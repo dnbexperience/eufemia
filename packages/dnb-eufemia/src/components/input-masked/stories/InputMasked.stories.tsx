@@ -10,8 +10,8 @@ import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
-import SteppedMask from '../SteppedMask'
-import type { SteppedMaskValue } from '../SteppedMask'
+import { MultiInputMask } from '../'
+import type { MultiInputMaskValue } from '../'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -197,25 +197,25 @@ function ShowMask() {
   )
 }
 
-export function SteppedMaskPlayground() {
+export function MultiInputMaskPlayground() {
   return (
     <>
       <Box>
-        <SteppedMaskDate />
+        <MultiInputMaskDate />
       </Box>
       <Box>
-        <SteppedMaskMix />
+        <MultiInputMaskMix />
       </Box>
       <Box>
-        <SteppedMaskStuses />
+        <MultiInputMaskStatuses />
       </Box>
     </>
   )
 }
 
-function SteppedMaskDate() {
+function MultiInputMaskDate() {
   const [values, setValues] = useState<
-    SteppedMaskValue<'day' | 'month' | 'year'>
+    MultiInputMaskValue<'day' | 'month' | 'year'>
   >({
     day: '',
     month: '',
@@ -223,12 +223,12 @@ function SteppedMaskDate() {
   })
 
   return (
-    <InputMasked.Stepped
+    <MultiInputMask
       label="Datogreier"
       onChange={({ day, month, year }) => setValues({ day, month, year })}
       values={values}
       delimiter="/"
-      steps={[
+      inputs={[
         {
           id: 'day',
           label: 'dagen',
@@ -252,9 +252,9 @@ function SteppedMaskDate() {
   )
 }
 
-function SteppedMaskMix() {
+function MultiInputMaskMix() {
   const [values, setValues] = useState<
-    SteppedMaskValue<'numbers' | 'letters' | 'mix'>
+    MultiInputMaskValue<'numbers' | 'letters' | 'mix'>
   >({
     letters: '',
     numbers: '',
@@ -262,14 +262,14 @@ function SteppedMaskMix() {
   })
 
   return (
-    <InputMasked.Stepped
+    <MultiInputMask
       label="Mix"
       onChange={({ letters, numbers, mix }) =>
         setValues({ letters, numbers, mix })
       }
       delimiter="/"
       values={values}
-      steps={[
+      inputs={[
         {
           id: 'numbers',
           label: 'just numbers',
@@ -293,14 +293,14 @@ function SteppedMaskMix() {
   )
 }
 
-function SteppedMaskStuses() {
+function MultiInputMaskStatuses() {
   return (
     <>
-      <InputMasked.Stepped
+      <MultiInputMask
         label="Statuses"
         status="error"
         statusState="error"
-        steps={[
+        inputs={[
           {
             id: 'error',
             label: 'error',
@@ -309,10 +309,10 @@ function SteppedMaskStuses() {
           },
         ]}
       />
-      <InputMasked.Stepped
+      <MultiInputMask
         label="Statuses"
         disabled
-        steps={[
+        inputs={[
           {
             id: 'disabled',
             label: 'disabled',

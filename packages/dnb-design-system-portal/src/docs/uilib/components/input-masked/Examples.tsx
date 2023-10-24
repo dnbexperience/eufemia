@@ -8,6 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { Flex, InputMasked } from '@dnb/eufemia/src'
+import { MultiInputMask } from '@dnb/eufemia/src/components/input-masked'
 
 // https://github.com/text-mask/text-mask
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
@@ -296,25 +297,25 @@ export const InputMaskedInfoRemoveDecimalLimit = () => (
   </Wrapper>
 )
 
-export const InputMaskedExampleStepped = () => (
+export const InputMaskedExampleMulti = () => (
   <Wrapper>
-    <ComponentBox>
-      <InputMasked.Stepped
+    <ComponentBox scope={{ MultiInputMask }}>
+      <MultiInputMask
         label="Date"
         delimiter="/"
         onChange={({ month, year, suffix }) =>
           console.log({ month, year, suffix })
         }
-        steps={[
+        inputs={[
           {
             id: 'month',
-            label: 'the day',
+            label: 'the month',
             placeholderCharacter: 'd',
-            mask: [/[0-9]/, /[0-2]/],
+            mask: [/[0-9]/, /[0-9]/],
           },
           {
             id: 'year',
-            label: 'the month',
+            label: 'the year',
             placeholderCharacter: 'm',
             mask: [/[0-9]/, /[0-9]/],
           },

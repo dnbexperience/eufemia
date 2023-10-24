@@ -11,8 +11,8 @@
   }
 }
 
-// Stepped
-.dnb-stepped-mask__fieldset {
+// MultiInputMask
+.dnb-multi-input-mask__fieldset {
   margin: 0;
   padding: 0;
   border: none;
@@ -24,7 +24,7 @@
   }
 }
 
-.dnb-stepped-mask__input {
+.dnb-multi-input-mask__input {
   display: inline-block;
   width: auto;
 
@@ -53,12 +53,12 @@
   }
 }
 
-.dnb-stepped-mask {
+.dnb-multi-input-mask {
   width: fit-content;
 
   &:not(.dnb-input__status--error) {
-    .dnb-stepped-mask__input,
-    .dnb-stepped-mask__delimiter {
+    .dnb-multi-input-mask__input,
+    .dnb-multi-input-mask__delimiter {
       color: var(--color-black-55);
 
       &--highlight {
@@ -72,7 +72,7 @@
   }
 }
 
-.dnb-stepped-mask__legend {
+.dnb-multi-input-mask__legend {
   &--horizontal {
     float: left;
 
@@ -84,7 +84,7 @@
 
     &:hover {
       color: var(--color-sea-green);
-      ~ .dnb-stepped-mask .dnb-input__shell {
+      ~ .dnb-multi-input-mask .dnb-input__shell {
         @include fakeBorder(var(--color-sea-green), 0.125rem);
       }
     }

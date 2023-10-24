@@ -3,7 +3,9 @@
  *
  */
 
-export { default as InputMasked } from './InputMasked'
-export { default as SteppedMask } from './/SteppedMask'
+import InputMasked from './InputMasked'
+export default InputMasked
 export * from './InputMasked'
-export * from './SteppedMask'
+
+export { default as MultiInputMask } from './MultiInputMask'
+export * from './MultiInputMask'

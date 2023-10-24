@@ -7,13 +7,13 @@ import React from 'react'
 
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SteppedMask, {
-  SteppedMaskStep,
-  SteppedMaskProps,
-} from '../SteppedMask'
+import MultiInputMask, {
+  MultiInputMaskInput,
+  MultiInputMaskProps,
+} from '../MultiInputMask'
 
-const defaultProps: SteppedMaskProps<'day' | 'month' | 'year'> = {
-  steps: [
+const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
+  inputs: [
     {
       id: 'day',
       label: 'the day',
@@ -35,7 +35,7 @@ const defaultProps: SteppedMaskProps<'day' | 'month' | 'year'> = {
   ],
 }
 
-describe('SteppedInput', () => {
+describe('MultiInputMask', () => {
   beforeEach(() => {
     window.requestAnimationFrame = jest.fn((callback) => {
       return setTimeout(callback, 0)
@@ -49,10 +49,10 @@ describe('SteppedInput', () => {
   it('should update input values when typing', async () => {
     const onChange = jest.fn()
 
-    render(<SteppedMask {...defaultProps} onChange={onChange} />)
+    render(<MultiInputMask {...defaultProps} onChange={onChange} />)
 
     const firstInput = document.querySelectorAll(
-      '.dnb-stepped-mask__input'
+      '.dnb-multi-input-mask__input'
     )[0] as HTMLInputElement
 
     act(() => {
@@ -109,11 +109,11 @@ describe('SteppedInput', () => {
     })
   })
 
-  it('render inputs based on steps prop', () => {
-    render(<SteppedMask {...defaultProps} />)
+  it('render inputs based on inputs prop', () => {
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     expect(first.id).toBe('day__input')
@@ -126,11 +126,11 @@ describe('SteppedInput', () => {
     expect(third.tagName).toBe('INPUT')
   })
 
-  it('should apply labels to input steps', () => {
-    render(<SteppedMask {...defaultProps} />)
+  it('should apply labels to input inputs', () => {
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     expect(first.nextElementSibling).toHaveTextContent('the day')
@@ -148,38 +148,40 @@ describe('SteppedInput', () => {
 
   it('should show legend based on label prop', () => {
     const { rerender } = render(
-      <SteppedMask {...defaultProps} label="My awesome label" />
+      <MultiInputMask {...defaultProps} label="My awesome label" />
     )
 
-    const label = document.querySelector('.dnb-stepped-mask__legend')
+    const label = document.querySelector('.dnb-multi-input-mask__legend')
 
     expect(label).toHaveTextContent('My awesome label')
 
-    rerender(<SteppedMask {...defaultProps} label="New label" />)
+    rerender(<MultiInputMask {...defaultProps} label="New label" />)
 
     expect(label).toHaveTextContent('New label')
   })
 
   it('should change label layout direction', () => {
     const { rerender } = render(
-      <SteppedMask {...defaultProps} label="Directions" />
+      <MultiInputMask {...defaultProps} label="Directions" />
     )
 
-    const label = document.querySelector('.dnb-stepped-mask__legend')
-    const fieldset = document.querySelector('.dnb-stepped-mask__fieldset')
+    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const fieldset = document.querySelector(
+      '.dnb-multi-input-mask__fieldset'
+    )
 
     expect(label).toHaveTextContent('Directions')
 
     expect(label.classList).toContain(
-      'dnb-stepped-mask__legend--horizontal'
+      'dnb-multi-input-mask__legend--horizontal'
     )
     expect(label.classList).not.toContain('dnb-form-label--vertical')
     expect(fieldset.classList).toContain(
-      'dnb-stepped-mask__fieldset--horizontal'
+      'dnb-multi-input-mask__fieldset--horizontal'
     )
 
     rerender(
-      <SteppedMask
+      <MultiInputMask
         {...defaultProps}
         label="Directions"
         labelDirection="vertical"
@@ -189,21 +191,21 @@ describe('SteppedInput', () => {
     expect(label).toHaveTextContent('Directions')
 
     expect(label.classList).not.toContain(
-      'dnb-stepped-mask__legend--horizontal'
+      'dnb-multi-input-mask__legend--horizontal'
     )
     expect(label.classList).toContain('dnb-form-label--vertical')
     expect(fieldset.classList).not.toContain(
-      'dnb-stepped-mask__fieldset--horizontal'
+      'dnb-multi-input-mask__fieldset--horizontal'
     )
   })
 
   it('onChange should have object params based on step ids', async () => {
     const onChange = jest.fn()
 
-    render(<SteppedMask {...defaultProps} onChange={onChange} />)
+    render(<MultiInputMask {...defaultProps} onChange={onChange} />)
 
     const [first] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -223,7 +225,7 @@ describe('SteppedInput', () => {
   it('step id, value and onChange param properties should all match', async () => {
     const onChange = jest.fn()
 
-    const steps: SteppedMaskStep<'first' | 'second' | 'third'>[] = [
+    const inputs: MultiInputMaskInput<'first' | 'second' | 'third'>[] = [
       {
         id: 'first',
         label: 'first',
@@ -251,11 +253,15 @@ describe('SteppedInput', () => {
     }
 
     render(
-      <SteppedMask steps={steps} values={values} onChange={onChange} />
+      <MultiInputMask
+        inputs={inputs}
+        values={values}
+        onChange={onChange}
+      />
     )
 
     const [first] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -271,20 +277,20 @@ describe('SteppedInput', () => {
     const valueKeys = Object.keys(values)
 
     expect(onChangeParamKeys[0]).toEqual(valueKeys[0])
-    expect(onChangeParamKeys[0]).toEqual(steps[0].id)
+    expect(onChangeParamKeys[0]).toEqual(inputs[0].id)
 
     expect(onChangeParamKeys[1]).toEqual(valueKeys[1])
-    expect(onChangeParamKeys[1]).toEqual(steps[1].id)
+    expect(onChangeParamKeys[1]).toEqual(inputs[1].id)
 
     expect(onChangeParamKeys[2]).toEqual(valueKeys[2])
-    expect(onChangeParamKeys[2]).toEqual(steps[2].id)
+    expect(onChangeParamKeys[2]).toEqual(inputs[2].id)
   })
 
   it('should show placeholder character', () => {
-    render(<SteppedMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
       // _valueTracker is whats controlling the placeholder, no idea where this property comes form though, can't find it when searching for it
     ) as (HTMLInputElement & { _valueTracker: Record<string, any> })[]
 
@@ -294,7 +300,7 @@ describe('SteppedInput', () => {
   })
 
   it('inputs should only allow values defined by mask', async () => {
-    const steps = [
+    const inputs = [
       {
         id: 'numbers',
         label: 'just numbers',
@@ -315,10 +321,10 @@ describe('SteppedInput', () => {
       },
     ]
 
-    render(<SteppedMask steps={steps} />)
+    render(<MultiInputMask inputs={inputs} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -379,7 +385,7 @@ describe('SteppedInput', () => {
   })
 
   it('inputs size should match mask length', () => {
-    const steps: SteppedMaskStep<string>[] = [
+    const inputs: MultiInputMaskInput<string>[] = [
       {
         id: 'short',
         label: 'long',
@@ -400,10 +406,10 @@ describe('SteppedInput', () => {
       },
     ]
 
-    render(<SteppedMask steps={steps} />)
+    render(<MultiInputMask inputs={inputs} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     expect(first.size).toBe(2)
@@ -413,30 +419,30 @@ describe('SteppedInput', () => {
 
   it('should display delimiter when given', () => {
     const { rerender } = render(
-      <SteppedMask {...defaultProps} delimiter="/" />
+      <MultiInputMask {...defaultProps} delimiter="/" />
     )
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     expect(first.labels[0].nextElementSibling).toHaveTextContent('/')
     expect(second.labels[0].nextElementSibling).toHaveTextContent('/')
     expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
 
-    rerender(<SteppedMask {...defaultProps} delimiter="-" />)
+    rerender(<MultiInputMask {...defaultProps} delimiter="-" />)
 
     expect(first.labels[0].nextElementSibling).toHaveTextContent('-')
     expect(second.labels[0].nextElementSibling).toHaveTextContent('-')
     expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
 
-    rerender(<SteppedMask {...defaultProps} delimiter="." />)
+    rerender(<MultiInputMask {...defaultProps} delimiter="." />)
 
     expect(first.labels[0].nextElementSibling).toHaveTextContent('.')
     expect(second.labels[0].nextElementSibling).toHaveTextContent('.')
     expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
 
-    rerender(<SteppedMask {...defaultProps} />)
+    rerender(<MultiInputMask {...defaultProps} />)
 
     expect(first.labels[0].nextElementSibling).toBe(second)
     expect(second.labels[0].nextElementSibling).toBe(third)
@@ -445,7 +451,11 @@ describe('SteppedInput', () => {
 
   it('should show error state', () => {
     render(
-      <SteppedMask {...defaultProps} status="error" statusState="error" />
+      <MultiInputMask
+        {...defaultProps}
+        status="error"
+        statusState="error"
+      />
     )
 
     const errorInput = document.querySelector('.dnb-input__status--error')
@@ -454,13 +464,13 @@ describe('SteppedInput', () => {
   })
 
   it('should be disabled based on prop', () => {
-    render(<SteppedMask {...defaultProps} label="disabled" disabled />)
+    render(<MultiInputMask {...defaultProps} label="disabled" disabled />)
 
-    const inputWrapper = document.querySelector('.dnb-stepped-mask')
-    const label = document.querySelector('.dnb-stepped-mask__legend')
+    const inputWrapper = document.querySelector('.dnb-multi-input-mask')
+    const label = document.querySelector('.dnb-multi-input-mask__legend')
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     expect(inputWrapper.getAttribute('data-input-state')).toBe('disabled')
@@ -472,18 +482,20 @@ describe('SteppedInput', () => {
   })
 
   it('should support spacing props', () => {
-    render(<SteppedMask {...defaultProps} top="2rem" />)
+    render(<MultiInputMask {...defaultProps} top="2rem" />)
 
-    const fieldset = document.querySelector('.dnb-stepped-mask__fieldset')
+    const fieldset = document.querySelector(
+      '.dnb-multi-input-mask__fieldset'
+    )
 
     expect(fieldset.classList).toContain('dnb-space__top--large')
   })
 
   it('should change caret position when one input is filled out', async () => {
-    render(<SteppedMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -515,10 +527,10 @@ describe('SteppedInput', () => {
   })
 
   it('should change caret on backspace', async () => {
-    render(<SteppedMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -547,10 +559,10 @@ describe('SteppedInput', () => {
   })
 
   it('should be able to navigate between inputs using arrow keys', async () => {
-    render(<SteppedMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -596,10 +608,10 @@ describe('SteppedInput', () => {
   })
 
   it('should be able to tab between inputs', async () => {
-    render(<SteppedMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-stepped-mask__input')
+      document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     act(() => {
@@ -623,12 +635,12 @@ describe('SteppedInput', () => {
 
   describe('click', () => {
     it('should focus and select input on label click', async () => {
-      render(<SteppedMask {...defaultProps} label="label" />)
+      render(<MultiInputMask {...defaultProps} label="label" />)
 
-      const label = document.querySelector('.dnb-stepped-mask__legend')
+      const label = document.querySelector('.dnb-multi-input-mask__legend')
 
       const [first] = Array.from(
-        document.querySelectorAll('.dnb-stepped-mask__input')
+        document.querySelectorAll('.dnb-multi-input-mask__input')
       ) as HTMLInputElement[]
 
       await userEvent.click(label)
@@ -639,10 +651,10 @@ describe('SteppedInput', () => {
     })
 
     it('should select whole input value on click', async () => {
-      render(<SteppedMask {...defaultProps} />)
+      render(<MultiInputMask {...defaultProps} />)
 
       const [first, second, third] = Array.from(
-        document.querySelectorAll('.dnb-stepped-mask__input')
+        document.querySelectorAll('.dnb-multi-input-mask__input')
       ) as HTMLInputElement[]
 
       await userEvent.click(first)

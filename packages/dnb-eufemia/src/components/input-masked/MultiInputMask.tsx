@@ -8,9 +8,9 @@ import FormLabel, { FormLabelLabelDirection } from '../FormLabel'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
-import { useSteppedValues } from './hooks/useSteppedValues'
+import { useMultiInputValue } from './hooks/useMultiInputValues'
 
-export type SteppedMaskStep<T extends string> = {
+export type MultiInputMaskInput<T extends string> = {
   /**
    * Defines the id for the input. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` paramaters.
    */
@@ -29,12 +29,12 @@ export type SteppedMaskStep<T extends string> = {
   placeholderCharacter: string
 }
 
-export type SteppedMaskValue<T extends string> = {
+export type MultiInputMaskValue<T extends string> = {
   // eslint-disable-next-line no-unused-vars
   [K in T]: string
 }
 
-export type SteppedMaskProps<T extends string> = {
+export type MultiInputMaskProps<T extends string> = {
   /**
    * The label describing the group of inputs inside the components.
    */
@@ -44,21 +44,21 @@ export type SteppedMaskProps<T extends string> = {
    */
   labelDirection?: FormLabelLabelDirection
   /**
-   * Used to define the different inputs representing the steps in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`
+   * Used to define the different inputs representing the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`
    */
-  steps: SteppedMaskStep<T>[]
+  inputs: MultiInputMaskInput<T>[]
   /**
-   * Values used for the inputs inside the component. Expects an object with keys matching the id's defined in `steps`
+   * Values used for the inputs inside the component. Expects an object with keys matching the id's defined in `inputs`
    */
-  values?: SteppedMaskValue<T>
+  values?: MultiInputMaskValue<T>
   /**
    * Defines the delimiter used to seperate the inputs inside the component.
    */
   delimiter?: string
   /**
-   * Runs when the input value changes. Has an object parameter with keys matching the id's defined in `steps`. i.e. `{month: string, year: string}`
+   * Runs when the input value changes. Has an object parameter with keys matching the id's defined in `inputs`. i.e. `{month: string, year: string}`
    */
-  onChange?: (values: SteppedMaskValue<T>) => void
+  onChange?: (values: MultiInputMaskValue<T>) => void
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
@@ -73,10 +73,10 @@ export type SteppedMaskProps<T extends string> = {
 > &
   SpacingProps
 
-function SteppedMask<T extends string>({
+function MultiInputMask<T extends string>({
   label,
   labelDirection = 'horizontal',
-  steps,
+  inputs,
   delimiter,
   onChange: onChangeExternal,
   disabled,
@@ -84,9 +84,10 @@ function SteppedMask<T extends string>({
   statusState,
   values: defaultValues,
   ...props
-}: SteppedMaskProps<T>) {
-  const [values, onChange] = useSteppedValues({
-    steps,
+}: MultiInputMaskProps<T>) {
+  console.log('skjer de tnoe her?')
+  const [values, onChange] = useMultiInputValue({
+    inputs,
     defaultValues,
     callback: onChangeExternal,
   })
@@ -105,18 +106,18 @@ function SteppedMask<T extends string>({
   return (
     <WrapperElement
       className={classnames(
-        'dnb-stepped-mask__fieldset',
+        'dnb-multi-input-mask__fieldset',
         labelDirection === 'horizontal' &&
-          'dnb-stepped-mask__fieldset--horizontal',
+          'dnb-multi-input-mask__fieldset--horizontal',
         createSpacingClasses(props)
       )}
     >
       {label && (
         <FormLabel
           className={classnames(
-            'dnb-stepped-mask__legend',
+            'dnb-multi-input-mask__legend',
             labelDirection === 'horizontal' &&
-              'dnb-stepped-mask__legend--horizontal'
+              'dnb-multi-input-mask__legend--horizontal'
           )}
           element="legend"
           onClick={onLegendClick}
@@ -128,17 +129,17 @@ function SteppedMask<T extends string>({
       )}
       <Input
         {...restOfProps}
-        className={classnames('dnb-stepped-mask', className)}
+        className={classnames('dnb-multi-input-mask', className)}
         disabled={disabled}
         status={status}
         status_state={statusState}
-        input_element={steps.map((step, index) => (
-          <Fragment key={step.id}>
-            <SteppedMaskInput
-              {...step}
-              value={values[step.id]}
+        input_element={inputs.map((input, index) => (
+          <Fragment key={input.id}>
+            <MultiInputMaskInput
+              {...input}
+              value={values[input.id]}
               delimiter={
-                index !== steps.length - 1 ? delimiter : undefined
+                index !== inputs.length - 1 ? delimiter : undefined
               }
               onKeyDown={handleKeydown}
               onChange={onChange}
@@ -183,7 +184,7 @@ function SteppedMask<T extends string>({
 
     // If there are multiple types of masks used, then map the maps to an object based on input ids
     // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handeled or not
-    return steps.reduce(
+    return inputs.reduce(
       (keys, { id, mask }) => {
         keys[`${id}__input`] = mask
 
@@ -196,31 +197,31 @@ function SteppedMask<T extends string>({
   function getUniqueMasks() {
     const masks = new Set()
 
-    steps.forEach((step) => {
-      step.mask.forEach((pattern) => masks.add(String(pattern)))
+    inputs.forEach((input) => {
+      input.mask.forEach((pattern) => masks.add(String(pattern)))
     })
 
     return masks
   }
 }
 
-type SteppdMaskInputProps<T extends string> = SteppedMaskStep<T> & {
-  id: SteppedMaskStep<T>['id']
-  label: SteppedMaskStep<T>['label']
+type inputpdMaskInputProps<T extends string> = MultiInputMaskInput<T> & {
+  id: MultiInputMaskInput<T>['id']
+  label: MultiInputMaskInput<T>['label']
   value: string
-  mask: SteppedMaskStep<T>['mask']
-  placeholderCharacter: SteppedMaskStep<T>['placeholderCharacter']
-  delimiter?: SteppedMaskProps<T>['delimiter']
+  mask: MultiInputMaskInput<T>['mask']
+  placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
+  delimiter?: MultiInputMaskProps<T>['delimiter']
   disabled: boolean
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onChange: (
     id: string,
-    placeholderCharacter: SteppedMaskStep<T>['placeholderCharacter']
+    placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
   ) => void
   inputRef: any
 }
 
-function SteppedMaskInput<T extends string>({
+function MultiInputMaskInput<T extends string>({
   id,
   label,
   value,
@@ -231,15 +232,15 @@ function SteppedMaskInput<T extends string>({
   inputRef,
   onKeyDown,
   onChange,
-}: SteppdMaskInputProps<T>) {
+}: inputpdMaskInputProps<T>) {
   return (
     <>
       <TextMask
         id={`${id}__input`}
         className={classnames(
           'dnb-input__input',
-          'dnb-stepped-mask__input',
-          value && 'dnb-stepped-mask__input--highlight'
+          'dnb-multi-input-mask__input',
+          value && 'dnb-multi-input-mask__input--highlight'
         )}
         disabled={disabled}
         size={mask.length}
@@ -267,8 +268,8 @@ function SteppedMaskInput<T extends string>({
         <span
           aria-hidden
           className={classnames(
-            'dnb-stepped-mask__delimiter',
-            value && 'dnb-stepped-mask__delimiter--highlight'
+            'dnb-multi-input-mask__delimiter',
+            value && 'dnb-multi-input-mask__delimiter--highlight'
           )}
         >
           {delimiter}
@@ -287,4 +288,4 @@ function SteppedMaskInput<T extends string>({
   }
 }
 
-export default SteppedMask
+export default MultiInputMask
