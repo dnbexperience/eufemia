@@ -50,7 +50,7 @@ const Img = ({
         className={imgClass}
         skeleton={skeleton}
         onError={() => setError(true)}
-        {...removeSpaceProps(p)}
+        {...removeSpaceProps(p as Omit<ImgProps, 'ref'>)}
       />
       {caption && <figcaption>{caption}</figcaption>}
     </E>

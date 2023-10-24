@@ -26,6 +26,24 @@ UX designers are using a 12 column system during their design processes.
 | 960   | `medium` | **60em** | `--layout-medium` | 6 columns  |
 | 1152  | `large`  | **72em** | `--layout-large`  | 12 columns |
 
+### Breakpoint ranges
+
+Application in DNB do actually break only twice (`small` and `medium`). But have a max-width of `large`.
+
+So when dealing with naming of breakpoint ranges (between breakpoints), we actually use the term `large` when a media query breaks on `medium`:
+
+| Name     | Range             | Mixin                       | Columns |
+| -------- | ----------------- | --------------------------- | ------- |
+| `small`  | from 0 to 40em    | `allBelow(small)`           | 4       |
+| `medium` | from 40em to 60em | `allBetween(small, medium)` | 6       |
+| `large`  | from 60em         | `allAbove(medium)`          | 12      |
+
+An example is the `innerSpace` property of the [Space](/uilib/layout/space/demos/#responsive-innerspace)-component.
+
+### Unknown sizes
+
+When dealing with breakpoints; UX often designs only for two sizes. This leads is with a unknown size in between. So check with your UXer your applications should behave for when the screen size is in between.
+
 ## MediaQuery component and React Hooks
 
 Both the component and the React Hooks uses the JavaScript API [matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia).

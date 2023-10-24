@@ -4,15 +4,19 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 import classnames from 'classnames'
-import { createSpacingClasses } from '@dnb/eufemia/src/components/space/SpacingHelper'
+import {
+  createSpacingClasses,
+  createSpacingProperties,
+  removeSpaceProps,
+} from '@dnb/eufemia/src/components/space/SpacingHelper'
+import { Theme } from '@emotion/react'
 
-export const SpaceExamplesMethod1 = () => (
+export const Method1 = () => (
   <TestStyles>
     <ComponentBox
       data-visual-test="spacing-method-space"
@@ -27,33 +31,7 @@ export const SpaceExamplesMethod1 = () => (
   </TestStyles>
 )
 
-export const SpaceExamplesMethod2 = () => (
-  <TestStyles>
-    <ComponentBox
-      scope={{ RedBox, createSpacingClasses, classnames }}
-      data-visual-test="spacing-method-form-row"
-    >
-      {() => {
-        const Component = ({ className = null, ...props }) => {
-          const spacingClasses = createSpacingClasses(props)
-
-          const cn = classnames('my-comoponent', spacingClasses, className)
-
-          return <div className={cn} {...props} />
-        }
-
-        return (
-          <RedBox>
-            <Component top="small medium large">Space A</Component>
-            <Component top>Space B</Component>
-          </RedBox>
-        )
-      }}
-    </ComponentBox>
-  </TestStyles>
-)
-
-export const SpaceExamplesMethod3 = () => (
+export const Method2 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-component">
       <Input label="Input A:" right="small" />
@@ -62,7 +40,87 @@ export const SpaceExamplesMethod3 = () => (
   </TestStyles>
 )
 
-export const SpaceExampleMarginCollapse = () => (
+export const Method3 = () => (
+  <TestStyles>
+    <ComponentBox
+      scope={{
+        RedBox,
+        createSpacingClasses,
+        createSpacingProperties,
+        removeSpaceProps,
+        classnames,
+      }}
+      data-visual-test="spacing-method-form-row"
+    >
+      {() => {
+        const Component = ({
+          className = null,
+          style = null,
+          ...props
+        }) => {
+          const spacingClasses = createSpacingClasses(props)
+          const spacingProperties = createSpacingProperties(props)
+
+          const cn = classnames(
+            'my-comoponent',
+            'dnb-space',
+            spacingClasses,
+            className,
+          )
+          const st = { ...style, ...spacingProperties }
+
+          return (
+            <div className={cn} style={st} {...removeSpaceProps(props)} />
+          )
+        }
+
+        return (
+          <>
+            <RedBox>
+              <Component top="small medium large">Space A</Component>
+            </RedBox>
+            <RedBox>
+              <Component top>Space B</Component>
+            </RedBox>
+            <RedBox>
+              <Component innerSpace="large">Inner Space</Component>
+            </RedBox>
+            <RedBox>
+              <Component innerSpace={{ large: true }}>
+                Has space when breakpoint is large
+              </Component>
+            </RedBox>
+          </>
+        )
+      }}
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const InnerSpace = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="inner-spacing" scope={{ RedBox }}>
+      <RedBox>
+        <Space
+          innerSpace={{
+            small: 'large x-small',
+            medium: true,
+            large: {
+              top: '2rem',
+              left: '16px',
+              bottom: 'large',
+              right: '5rem',
+            },
+          }}
+        >
+          <P>Content</P>
+        </Space>
+      </RedBox>
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const MarginCollapse = () => (
   <TestStyles>
     <ComponentBox hideCode scope={{ RedBox, Vertical }}>
       <Vertical>
@@ -85,7 +143,7 @@ export const SpaceExampleMarginCollapse = () => (
   </TestStyles>
 )
 
-export const SpaceExampleMargins = () => (
+export const Margins = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-margins" hideCode>
       <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px">
@@ -244,18 +302,12 @@ const Vertical = styled.div`
   flex-direction: column;
 `
 
-const RedBox = ({ children }) => {
+const RedBox = ({ children, ...props }) => {
   return (
     <CustomStyle>
-      <VisualSpace>{children}</VisualSpace>
+      <VisualSpace {...props}>{children}</VisualSpace>
     </CustomStyle>
   )
-}
-RedBox.propTypes = {
-  children: PropTypes.node,
-}
-RedBox.defaultProps = {
-  children: null,
 }
 
 const Block = styled.div`
@@ -282,17 +334,19 @@ const Line = styled.div`
   background-color: var(--color-fire-red);
   ${'' /* border-left: 0.0625rem dotted var(--color-fire-red); */}
 `
-const MarginContainer = styled.div`
+const RelativeContainer = styled.div`
   position: relative;
 `
+
+declare module '@emotion/react' {
+  export interface Theme {
+    unit?: string
+  }
+}
+
 const Margin = styled.div`
   position: absolute;
-  bottom: 100%;
-
-  &.bottom {
-    top: 100%;
-    bottom: 0;
-  }
+  inset: 0;
 
   display: flex;
   align-items: center;
@@ -301,9 +355,28 @@ const Margin = styled.div`
   width: 100%;
   height: 100%;
 
-  background-color: rgba(213, 30, 149, 0.25);
-  ${'' /* border-left: 0.0625rem dotted var(--color-fire-red); */}
+  background-color: ${(props) =>
+    props.theme.unit === 'padding'
+      ? 'rgba(30, 112, 213, 0.25)'
+      : 'rgba(213, 30, 149, 0.25)'};
 `
+const VisualSpaceTop = styled(Margin)`
+  top: ${(props) => (props.theme.unit === 'padding' ? 0 : 'auto')};
+  bottom: 100%;
+`
+const VisualSpaceBottom = styled(Margin)`
+  top: ${(props) => (props.theme.unit === 'padding' ? 'auto' : '100%')};
+  bottom: 0;
+`
+const VisualSpaceLeft = styled(Margin)`
+  left: auto;
+  right: auto;
+`
+const VisualSpaceRight = styled(Margin)`
+  left: auto;
+  right: 0;
+`
+
 const Label = styled.label`
   display: block;
   width: 1rem;
@@ -313,154 +386,163 @@ const Label = styled.label`
   color: var(--color-black-80);
 `
 
-const MagicBox = ({ label = null, ...rest }) => {
+const MagicBox = (props) => {
   const ref = React.createRef<HTMLDivElement>()
 
-  const [spaceInRem, setLabel] = React.useState(label)
+  const [spaceInRem, setValue] = React.useState('')
   const [title, setTitle] = React.useState(null)
 
   React.useEffect(() => {
-    let _isMounted = true
-    const init = () => {
-      if (_isMounted) {
-        try {
-          if (!label) {
-            const spaceInPixels = window
-              .getComputedStyle(ref.current.parentElement)
-              .getPropertyValue('margin-top')
-            const spaceInRem = `${parseFloat(spaceInPixels) / 16}`
-            setLabel(spaceInRem)
+    const elem = ref.current
+    const run = () => {
+      try {
+        const spaceInPixels = window
+          .getComputedStyle(elem.parentElement)
+          .getPropertyValue('margin-top')
+        const spaceInRem = `${parseFloat(spaceInPixels) / 16}`
+        setValue(spaceInRem)
 
-            const title = ref.current.parentElement.getAttribute('class')
-            setTitle(title)
-          }
-        } catch (e) {
-          console.warn(e)
-        }
+        const title = elem.parentElement.getAttribute('class')
+        setTitle(title)
+      } catch (e) {
+        console.warn(e)
       }
     }
 
     if (document.readyState === 'complete') {
-      init()
+      run()
     } else if (typeof window !== 'undefined') {
-      window.addEventListener('load', init)
+      window.addEventListener('load', run)
     }
 
     return () => {
-      _isMounted = false
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('load', init)
-      }
+      window.removeEventListener('load', run)
     }
-  }, [label, ref])
+  }, [])
 
   return (
-    <Block {...rest} ref={ref} title={title}>
+    <Block {...props} ref={ref} title={title}>
       <Line style={{ height: `${spaceInRem}rem` }} />
       <Label>{spaceInRem}</Label>
     </Block>
   )
 }
-MagicBox.propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-}
-MagicBox.defaultProps = {
-  label: null,
-}
 
-const VisualSpace = ({ label = null, children, ...rest }) => {
+const VisualSpace = ({ children, ...rest }) => {
   const ref = React.createRef<HTMLDivElement>()
-
-  const [direction, setDirection] = React.useState('top')
-  const [spaceInRem, setLabel] = React.useState(label)
+  const initValue = {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  }
+  const [margin, setMargin] = React.useState(initValue)
+  const [padding, setPadding] = React.useState(initValue)
   const [title, setTitle] = React.useState(null)
 
   React.useEffect(() => {
-    if (!label) {
-      let _isMounted = true
-      const init = () => {
-        if (_isMounted) {
-          try {
-            const elem = ref.current
-            const style = window.getComputedStyle(elem.children[0])
-            const top = parseFloat(style.getPropertyValue('margin-top'))
-            const bottom = parseFloat(
-              style.getPropertyValue('margin-bottom'),
-            )
-            let spaceInPixels = top
+    const elem = ref.current
+    const run = () => {
+      try {
+        const margin = { ...initValue }
+        const padding = { ...initValue }
+        const style = window.getComputedStyle(elem.children[0])
 
-            if (bottom > 0) {
-              spaceInPixels = bottom
-              setDirection('bottom')
-            }
+        Object.keys(initValue).forEach((key) => {
+          margin[key] =
+            parseFloat(style.getPropertyValue(`margin-${key}`)) / 16
+          padding[key] =
+            parseFloat(style.getPropertyValue(`padding-${key}`)) / 16
+        })
 
-            const spaceInRem = `${spaceInPixels / 16}`
-            setLabel(spaceInRem)
+        setMargin(margin)
+        setPadding(padding)
 
-            const title = elem.parentElement.getAttribute('class')
-            setTitle(title)
-          } catch (e) {
-            console.warn(e)
-          }
-        }
-      }
-
-      if (document.readyState === 'complete') {
-        init()
-      } else if (typeof window !== 'undefined') {
-        window.addEventListener('load', init)
-      }
-
-      return () => {
-        _isMounted = false
-        if (typeof window !== 'undefined') {
-          window.removeEventListener('load', init)
-        }
+        const title = elem.parentElement.getAttribute('class')
+        setTitle(title)
+      } catch (e) {
+        console.warn(e)
       }
     }
-  }, [label, ref])
+
+    if (document.readyState === 'complete') {
+      run()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', run)
+    }
+
+    let timeout: NodeJS.Timeout
+    const onResize = () => {
+      clearTimeout(timeout)
+      timeout = setTimeout(run, 10)
+    }
+
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('load', run)
+        window.removeEventListener('resize', onResize)
+      }
+    }
+  }, [])
+
+  const makeVisualHelper = ({ space, unit }) =>
+    Object.keys(initValue).map((key) => {
+      const theme = { unit } as Theme
+
+      let Comp = null
+      switch (key) {
+        case 'top':
+          Comp = VisualSpaceTop
+          break
+        case 'right':
+          Comp = VisualSpaceRight
+          break
+        case 'bottom':
+          Comp = VisualSpaceBottom
+          break
+        case 'left':
+          Comp = VisualSpaceLeft
+          break
+      }
+
+      const name = key === 'top' || key === 'bottom' ? 'height' : 'width'
+
+      return (
+        <Comp
+          key={key}
+          theme={theme}
+          style={{
+            [name]: `${space[key]}rem`,
+          }}
+        >
+          <Label>{space[key] || ''}</Label>
+        </Comp>
+      )
+    })
 
   return (
     <Space {...rest} title={title}>
-      <MarginContainer ref={ref}>
+      <RelativeContainer ref={ref}>
         {children}
-        <Margin
-          style={{ height: `${spaceInRem}rem` }}
-          className={direction}
-        >
-          <Label>{spaceInRem}</Label>
-        </Margin>
-      </MarginContainer>
+        {makeVisualHelper({ space: margin, unit: 'margin' })}
+        {makeVisualHelper({ space: padding, unit: 'padding' })}
+      </RelativeContainer>
     </Space>
   )
-}
-VisualSpace.propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  children: PropTypes.node,
-}
-VisualSpace.defaultProps = {
-  label: null,
-  children: null,
 }
 
 export { MagicBox, VisualSpace }
 
-export const SpaceExamplesSameResult1 = () => (
+export const SameResult1 = () => (
   <ComponentBox hidePreview hideToolbar>
     {/* All of these methods will result in the same spacing */}
     <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" />
   </ComponentBox>
 )
 
-export const SpaceExamplesSameResult2 = () => (
+export const SameResult2 = () => (
   <ComponentBox hidePreview hideToolbar>
     {/* All of these methods will result in the same spacing */}
     <Space
@@ -474,14 +556,14 @@ export const SpaceExamplesSameResult2 = () => (
   </ComponentBox>
 )
 
-export const SpaceExamplesComponents = () => (
+export const Components = () => (
   <ComponentBox hidePreview hideToolbar>
     <Button top="large x-small medium" />
     <Button space={{ top: 'large x-small medium' }} />
   </ComponentBox>
 )
 
-export const SpaceExamplesShorthand = () => (
+export const Shorthand = () => (
   <ComponentBox hidePreview hideToolbar>
     {/* Equivalent to top="small" */}
     <Button top />
@@ -490,13 +572,13 @@ export const SpaceExamplesShorthand = () => (
   </ComponentBox>
 )
 
-export const SpaceExamplesFourDirections = () => (
+export const FourDirections = () => (
   <ComponentBox hidePreview hideToolbar>
     <Button space="large x-small medium" />
   </ComponentBox>
 )
 
-export const SpaceExampleProvider = () => (
+export const ProviderExample = () => (
   <ComponentBox hidePreview>
     <Provider space={{ no_collapse: true }}>
       <Space>I do not collapse</Space>

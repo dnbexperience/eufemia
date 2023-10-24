@@ -15,6 +15,7 @@ import {
   findNearestTypes,
   isValidSpaceProp,
   createSpacingClasses,
+  createSpacingProperties,
 } from '../SpacingUtils'
 import { spacingPropTypes } from '../SpacingHelper'
 import { SpaceType } from '../types'
@@ -249,6 +250,148 @@ describe('createSpacingClasses', () => {
       'dnb-space__top--small',
     ])
     expect(createSpacingClasses({ space: null })).toEqual([])
+  })
+
+  it('should ignore innerSpace', () => {
+    expect(createSpacingClasses({ innerSpace: 'large' })).toEqual([])
+  })
+})
+
+describe('createSpacingProperties', () => {
+  it('should return correct spacing properties', () => {
+    expect(
+      createSpacingProperties({ innerSpace: { right: 'large x-small' } })
+    ).toEqual({
+      '--space-r-l': '2.5rem',
+      '--space-r-m': '2.5rem',
+      '--space-r-s': '2.5rem',
+    })
+  })
+
+  it('should return properties with zero', () => {
+    expect(
+      createSpacingProperties({ innerSpace: { right: false } })
+    ).toEqual({
+      '--space-r-l': '0',
+      '--space-r-m': '0',
+      '--space-r-s': '0',
+    })
+    expect(createSpacingProperties({ innerSpace: { right: 0 } })).toEqual({
+      '--space-r-l': '0',
+      '--space-r-m': '0',
+      '--space-r-s': '0',
+    })
+    expect(
+      createSpacingProperties({ innerSpace: { right: null } })
+    ).toEqual({})
+  })
+
+  it('should include media query sizes', () => {
+    expect(
+      createSpacingProperties({
+        innerSpace: {
+          small: {
+            right: 'large small',
+            top: 'large',
+            left: '1.5rem',
+            bottom: '16px',
+          },
+          medium: {
+            right: 'large small',
+            top: 'large',
+            left: '1.5rem',
+            bottom: '16px',
+          },
+          large: {
+            right: 'large small',
+            top: 'large',
+            left: '1.5rem',
+            bottom: '16px',
+          },
+        },
+      })
+    ).toEqual({
+      '--space-b-l': '1rem',
+      '--space-l-l': '1.5rem',
+      '--space-r-l': '3rem',
+      '--space-t-l': '2rem',
+      '--space-b-m': '1rem',
+      '--space-l-m': '1.5rem',
+      '--space-r-m': '3rem',
+      '--space-t-m': '2rem',
+      '--space-b-s': '1rem',
+      '--space-l-s': '1.5rem',
+      '--space-r-s': '3rem',
+      '--space-t-s': '2rem',
+    })
+    expect(
+      createSpacingProperties({ innerSpace: { small: { right: 0 } } })
+    ).toEqual({ '--space-r-s': '0' })
+    expect(
+      createSpacingProperties({ innerSpace: { small: { right: null } } })
+    ).toEqual({})
+    expect(
+      createSpacingProperties({
+        innerSpace: { small: true },
+      })
+    ).toEqual({
+      '--space-b-s': '1rem',
+      '--space-l-s': '1rem',
+      '--space-r-s': '1rem',
+      '--space-t-s': '1rem',
+    })
+  })
+
+  it('should handle frozen props', () => {
+    const props = Object.freeze({ innerSpace: true })
+    expect(createSpacingProperties(props)).toEqual({
+      '--space-b-l': '1rem',
+      '--space-l-l': '1rem',
+      '--space-r-l': '1rem',
+      '--space-t-l': '1rem',
+      '--space-b-m': '1rem',
+      '--space-l-m': '1rem',
+      '--space-r-m': '1rem',
+      '--space-t-m': '1rem',
+      '--space-b-s': '1rem',
+      '--space-l-s': '1rem',
+      '--space-r-s': '1rem',
+      '--space-t-s': '1rem',
+    })
+  })
+
+  it('should handle the space prop for in all directions', () => {
+    expect(createSpacingProperties({ innerSpace: false })).toEqual({}) // we may extend that with all four "--zero" in future
+    expect(createSpacingProperties({ innerSpace: 0 })).toEqual({})
+    expect(createSpacingProperties({ innerSpace: true })).toEqual({
+      '--space-b-l': '1rem',
+      '--space-l-l': '1rem',
+      '--space-r-l': '1rem',
+      '--space-t-l': '1rem',
+      '--space-b-m': '1rem',
+      '--space-l-m': '1rem',
+      '--space-r-m': '1rem',
+      '--space-t-m': '1rem',
+      '--space-b-s': '1rem',
+      '--space-l-s': '1rem',
+      '--space-r-s': '1rem',
+      '--space-t-s': '1rem',
+    })
+    expect(createSpacingProperties({ innerSpace: '1rem' })).toEqual({
+      '--space-b-l': '1rem',
+      '--space-l-l': '1rem',
+      '--space-r-l': '1rem',
+      '--space-t-l': '1rem',
+      '--space-b-m': '1rem',
+      '--space-l-m': '1rem',
+      '--space-r-m': '1rem',
+      '--space-t-m': '1rem',
+      '--space-b-s': '1rem',
+      '--space-l-s': '1rem',
+      '--space-r-s': '1rem',
+      '--space-t-s': '1rem',
+    })
+    expect(createSpacingProperties({ innerSpace: null })).toEqual({})
   })
 })
 

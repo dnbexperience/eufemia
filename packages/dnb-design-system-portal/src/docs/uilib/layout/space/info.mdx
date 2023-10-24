@@ -3,13 +3,7 @@ showTabs: true
 ---
 
 import SpacingTable from 'Docs/uilib/layout/spacing-table.mdx'
-import {
-  SpaceExamplesSameResult1,
-  SpaceExamplesSameResult2,
-  SpaceExamplesComponents,
-  SpaceExamplesShorthand,
-  SpaceExamplesFourDirections,
-} from 'Docs/uilib/layout/space/Examples'
+import * as Examples from 'Docs/uilib/layout/space/Examples'
 
 ## Description
 
@@ -34,27 +28,27 @@ There are a couple of different ways you can define the spacing types and values
 
 To get a spacing of e.g. **2.5rem** (40px)- you may combine types `large` and `x-small`.
 
-<SpaceExamplesSameResult1 />
+<Examples.SameResult1 />
 
 With React, you can also use an object with the different directions:
 
-<SpaceExamplesSameResult2 />
+<Examples.SameResult2 />
 
 ### Components and Spacing
 
 Every component supports the spacing patterns, so it's possible to send in the `top`, `right`, `bottom`, `left` and `space` properties directly, like:
 
-<SpaceExamplesComponents />
+<Examples.Components />
 
 ### Spacing shorthands
 
 A shorthand for getting 1rem (most used) is to simply send in a boolean, set as true. No given value in JSX means true, so you only need the property key:
 
-<SpaceExamplesShorthand />
+<Examples.Shorthand />
 
 In order to set all four directions at once, you can provide a string as the `space` value:
 
-<SpaceExamplesFourDirections />
+<Examples.FourDirections />
 
 ### Does it not work as expected?
 
