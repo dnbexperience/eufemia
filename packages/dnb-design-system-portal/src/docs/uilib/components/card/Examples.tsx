@@ -4,8 +4,8 @@ import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox>
-      <Card data-visual-test="layout-card-border">
+    <ComponentBox data-visual-test="layout-card-border">
+      <Card>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum.
