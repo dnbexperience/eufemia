@@ -10,6 +10,7 @@ import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
+import SteppedMask from '../SteppedMask'
 import type { SteppedMaskValue } from '../SteppedMask'
 
 const Pre = styled.pre`

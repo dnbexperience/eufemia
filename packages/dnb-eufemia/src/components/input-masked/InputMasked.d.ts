@@ -1,5 +1,4 @@
 import * as React from 'react';
-import type { SteppedMaskProps } from './SteppedMask';
 import type { Locale } from '../../shared/Context';
 import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
@@ -30,7 +29,6 @@ export type InputMaskedCurrencyMask =
   | string
   | boolean
   | Record<string, unknown>;
-
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
 export type InputMaskedValue = string | number;
@@ -68,7 +66,6 @@ export interface InputMaskedProps
    * Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `curreny_mask`. All options are listed below.
    */
   mask_options?: InputMaskedMaskOptions;
-
   /**
    * Use an object with <a href="/uilib/components/number-format/properties">NumberFormat</a> e.g. `{ omit_rounding: false }`.
    */
@@ -257,8 +254,4 @@ export interface InputMaskedProps
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;
 }
-declare const InputMasked: React.FC<InputMaskedProps> & {
-  Stepped: <T extends string>(props: SteppedMaskProps<T>) => JSX.Element;
-};
-
 export default InputMasked;
