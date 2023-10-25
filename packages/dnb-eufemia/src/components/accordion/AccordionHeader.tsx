@@ -366,7 +366,7 @@ export const AccordionHeader = ({
     className: classnames(
       'dnb-accordion__header',
       icon_position && `dnb-accordion__header--icon-${icon_position}`,
-      isHovering && hasClicked && 'dnb-accordion--hover',
+      isHovering && hasClicked && 'dnb-accordion__header--after-click',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',
       no_animation && 'dnb-accordion__header--no-animation',

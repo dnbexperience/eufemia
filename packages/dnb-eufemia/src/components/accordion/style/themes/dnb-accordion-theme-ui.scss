@@ -4,16 +4,66 @@
 */
 
 @import '../../../../style/core/utilities.scss';
-@import '../../../button/style/themes/button-mixins.scss';
+
+@mixin accordion-hover() {
+  @include hover() {
+    color: var(--color-emerald-green);
+    background-color: var(--color-white);
+
+    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+  }
+}
+@mixin accordion-hover-clear() {
+  @include hover() {
+    color: var(--color-white);
+    background-color: var(--color-sea-green);
+    @include fakeBorder(var(--color-sea-green));
+    * {
+      color: var(--color-white);
+    }
+  }
+}
+
+@mixin accordion-active() {
+  @include active() {
+    color: var(--color-emerald-green);
+    background-color: var(--color-pistachio);
+
+    @include fakeBorder(var(--color-emerald-green), 0.0625rem, inset);
+  }
+}
+
+@mixin accordion-focus() {
+  @include focus() {
+    html[data-whatinput='keyboard'] & {
+      color: var(--color-emerald-green);
+      background-color: var(--color-white);
+    }
+
+    @include focusRing($inset: inset);
+  }
+}
+
+@mixin accordion-focus-expanded() {
+  &:focus {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--color-mint-green);
+
+      color: var(--color-emerald-green);
+    }
+    @include focusRing(null, var(--color-emerald-green), inset);
+  }
+}
 
 .dnb-accordion {
+  --accordion-icon-color: var(--color-emerald-green);
+
   &__header {
     border: none;
   }
-
   &__header__icon,
   &__header__container {
-    color: var(--color-sea-green);
+    color: var(--accordion-icon-color);
   }
 
   &__header__description {
@@ -24,84 +74,59 @@
     font-weight: var(--font-weight-medium);
   }
 
-  // &__variant--default {
-  // }
-
   // Variant: outlined
+  &__variant--outlined {
+    --accordion-icon-color: inherit;
+  }
+
   &__variant--outlined > &__header {
-    color: var(--color-black-80);
+    color: var(--color-emerald-green);
     background-color: var(--color-white);
 
     @include fakeBorder(var(--color-black-8), 0.0625rem, inset);
-    @include buttonFocus(var(--color-emerald-green), var(--color-white));
-    @include buttonHover(var(--color-emerald-green), var(--color-white));
+    @include accordion-focus();
+    @include accordion-hover();
 
-    @include active() {
-      color: var(--color-emerald-green);
-      background-color: var(--color-pistachio);
+    @include accordion-active();
 
-      @include fakeBorder(var(--color-emerald-green), 0.0625rem);
-    }
-  }
+    &[disabled] {
+      background-color: var(--color-white);
 
-  &__variant--outlined > &__header[disabled] {
-    background-color: var(--color-white);
+      @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
 
-    @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
-
-    * {
       color: var(--color-sea-green-30);
     }
   }
+
   &__variant--outlined#{&}--expanded > &__header {
     color: var(--color-white);
     background-color: var(--color-sea-green);
 
     @include fakeBorder(transparent);
-  }
-  &__variant--outlined#{&}--expanded > &__header[disabled] {
-    background-color: var(--color-sea-green-30);
 
-    * {
-      color: var(--color-white);
-    }
-  }
-
-  // Additional focus handling
-  html[data-whatinput='keyboard']
-    &__variant--outlined#{&}--expanded
-    > &__header:not([disabled]):not(:active):not(:hover):focus {
-    background-color: var(--color-mint-green);
-
-    * {
-      color: var(--color-emerald-green);
-    }
-  }
-  &__variant--outlined#{&}--expanded
-    > &__header:not([disabled]):not(:active):not(:hover):focus {
-    @include focusRing(null, var(--color-emerald-green), inset);
-  }
-
-  &__variant--outlined#{&}--expanded
-    > &__header:not(:hover):not([disabled]) {
-    * {
-      color: var(--color-white);
-    }
-  }
-
-  // we have this hover variant, because of the default html focus/hover handling
-  &__variant--outlined#{&}--expanded > &__header#{&}--hover:not(:active) {
-    @include hover() {
-      color: var(--color-white);
-      background-color: var(--color-sea-green);
-
-      // NB: We may remove the border in future, but for now it gives the user a good indicator on mouse out
-      // @include fakeBorder(transparent);
-      @include fakeBorder(var(--color-sea-green));
+    &[disabled] {
+      background-color: var(--color-sea-green-30);
     }
 
-    * {
-      color: var(--color-white);
+    &:not([disabled]) {
+      // Additional focus handling
+      &:not(:active):not(:hover) {
+        @include accordion-focus-expanded();
+      }
+    }
+
+    &--after-click,
+    &:not(:hover):not(:active) {
+      &:not([disabled]) {
+        .dnb-accordion__header__description {
+          color: inherit;
+        }
+      }
+    }
+
+    // we have this hover variant, because of the default html focus/hover handling
+    &--after-click:not(:active) {
+      @include accordion-hover-clear();
     }
   }
 }

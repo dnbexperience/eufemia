@@ -265,15 +265,14 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
-* Button mixins
-*
-*/
+.dnb-accordion {
+  --accordion-icon-color: var(--color-emerald-green);
+}
 .dnb-accordion__header {
   border: none;
 }
 .dnb-accordion__header__icon, .dnb-accordion__header__container {
-  color: var(--color-sea-green);
+  color: var(--accordion-icon-color);
 }
 .dnb-accordion__header__description {
   color: var(--color-black-55);
@@ -281,8 +280,11 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
 .dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header__title {
   font-weight: var(--font-weight-medium);
 }
+.dnb-accordion__variant--outlined {
+  --accordion-icon-color: inherit;
+}
 .dnb-accordion__variant--outlined > .dnb-accordion__header {
-  color: var(--color-black-80);
+  color: var(--color-emerald-green);
   background-color: var(--color-white);
   --border-color: var(--color-black-8);
   --border-width: 0.0625rem;
@@ -324,7 +326,7 @@ html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined > .dnb-accor
   background-color: var(--color-pistachio);
   --border-color: var(--color-emerald-green);
   --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] {
@@ -333,8 +335,6 @@ html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined > .dnb-accor
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] * {
   color: var(--color-sea-green-30);
 }
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header {
@@ -348,17 +348,12 @@ html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined > .dnb-accor
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header[disabled] {
   background-color: var(--color-sea-green-30);
 }
-.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header[disabled] * {
-  color: var(--color-white);
+.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
+  outline: none;
 }
 html[data-whatinput=keyboard] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
   background-color: var(--color-mint-green);
-}
-html[data-whatinput=keyboard] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus * {
   color: var(--color-emerald-green);
-}
-.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
-  outline: none;
 }
 html[data-whatinput=keyboard] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
   --border-color: var(--color-emerald-green);
@@ -366,13 +361,13 @@ html[data-whatinput=keyboard] .dnb-accordion__variant--outlined.dnb-accordion--e
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not(:hover):not([disabled]) * {
-  color: var(--color-white);
+.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header--after-click:not([disabled]) .dnb-accordion__header__description, .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not(:hover):not(:active):not([disabled]) .dnb-accordion__header__description {
+  color: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header.dnb-accordion--hover:not(:active):hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header--after-click:not(:active):hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header.dnb-accordion--hover:not(:active):hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header--after-click:not(:active):hover:not([disabled]) {
   color: var(--color-white);
   background-color: var(--color-sea-green);
   --border-color: var(--color-sea-green);
@@ -380,7 +375,7 @@ html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined.dnb-accordio
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header.dnb-accordion--hover:not(:active) * {
+html:not([data-whatintent=touch]) .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header--after-click:not(:active):hover:not([disabled]) * {
   color: var(--color-white);
 }"
 `;
