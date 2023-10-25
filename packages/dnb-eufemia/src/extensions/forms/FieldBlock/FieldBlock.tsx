@@ -130,12 +130,13 @@ function FieldBlock(props: Props) {
   // A child component with a label was found, use fieldset/legend instead of div/label
   const enableFieldset = useMemo(
     () =>
-      asFieldset ||
-      (!nestedFieldBlockContext &&
-        findElementInChildren(
-          children,
-          (child: React.ReactElement) => child.props.label
-        )),
+      label &&
+      (asFieldset ||
+        (!nestedFieldBlockContext &&
+          findElementInChildren(
+            children,
+            (child: React.ReactElement) => child.props.label
+          ))),
     []
   )
 

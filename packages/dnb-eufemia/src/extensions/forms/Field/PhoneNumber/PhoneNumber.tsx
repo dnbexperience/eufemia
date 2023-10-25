@@ -116,7 +116,7 @@ function PhoneNumber(props: Props) {
       warning={warning}
       error={error}
     >
-      <Flex.Container direction="horizontal">
+      <Flex.Horizontal>
         <Autocomplete
           className={classnames(
             'dnb-forms-field-phone-number__country-code',
@@ -176,7 +176,7 @@ function PhoneNumber(props: Props) {
           width="stretch"
           help={help}
         />
-      </Flex.Container>
+      </Flex.Horizontal>
     </FieldBlock>
   )
 }
