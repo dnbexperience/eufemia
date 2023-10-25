@@ -130,11 +130,14 @@ export default {
     Upload: {
       title: 'Upload documents',
       text: 'Drag & drop your files or choose files to upload.',
+      textSingular:
+        'Drag & drop your file or choose which file to upload.',
       fileTypeDescription: 'Allowed formats:',
       fileSizeDescription: 'Max. filesize:',
       fileAmountDescription: 'Max. number of files:',
       fileSizeContent: '%size MB',
       buttonText: 'Choose files',
+      buttonTextSingular: 'Choose file',
       loadingText: 'Uploading',
       errorLargeFile:
         'The file you are trying to upload is too big, the maximum size supported is %size MB.',
