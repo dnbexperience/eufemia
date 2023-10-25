@@ -118,12 +118,6 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
-      - uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: portal-artifact
-          path: ./packages/dnb-design-system-portal/public
-
       - name: Slack
         uses: 8398a7/action-slack@v3
         with:
