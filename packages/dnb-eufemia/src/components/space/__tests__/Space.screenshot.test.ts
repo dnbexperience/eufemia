@@ -61,4 +61,46 @@ describe('Space', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match inner spacing', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="inner-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Space', () => {
+  it('have to match inner spacing on "small" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      url: '/uilib/layout/space/demos',
+      pageViewport: {
+        width: 400,
+      },
+      selector: '[data-visual-test="inner-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match inner spacing on "medium" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      url: '/uilib/layout/space/demos',
+      pageViewport: {
+        width: 800,
+      },
+      selector: '[data-visual-test="inner-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match inner spacing on "large" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      url: '/uilib/layout/space/demos',
+      pageViewport: {
+        width: 1000,
+      },
+      selector: '[data-visual-test="inner-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

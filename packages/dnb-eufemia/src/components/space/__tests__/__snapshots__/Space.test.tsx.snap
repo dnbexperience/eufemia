@@ -571,6 +571,42 @@ exports[`Space scss has to match style dependencies css 1`] = `
 .dnb-space__reset:not([class*=dnb-space__right]) {
   margin-right: 0;
 }
+.dnb-space[style*="--space-t-"] {
+  padding-top: var(--padding-top, 0);
+}
+.dnb-space[style*="--space-r-"] {
+  padding-right: var(--padding-right, 0);
+}
+.dnb-space[style*="--space-b-"] {
+  padding-bottom: var(--padding-bottom, 0);
+}
+.dnb-space[style*="--space-l-"] {
+  padding-left: var(--padding-left, 0);
+}
+@media screen and (max-width: 60em) {
+  .dnb-space {
+    --padding-right: var(--space-r-s);
+    --padding-left: var(--space-l-s);
+    --padding-top: var(--space-t-s);
+    --padding-bottom: var(--space-b-s);
+  }
+}
+@media screen and (max-width: 59.9375em) and (min-width: 40.0625em) {
+  .dnb-space {
+    --padding-right: var(--space-r-m);
+    --padding-left: var(--space-l-m);
+    --padding-top: var(--space-t-m);
+    --padding-bottom: var(--space-b-m);
+  }
+}
+@media screen and (min-width: 60em) {
+  .dnb-space {
+    --padding-right: var(--space-r-l);
+    --padding-left: var(--space-l-l);
+    --padding-top: var(--space-t-l);
+    --padding-bottom: var(--space-b-l);
+  }
+}
 
 span.dnb-space--no-collapse > span {
   display: block;

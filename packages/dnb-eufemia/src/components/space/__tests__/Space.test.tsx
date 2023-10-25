@@ -7,6 +7,7 @@ import React from 'react'
 import { loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Space, { SpaceAllProps } from '../Space'
+import Section from '../../Section'
 
 const props: SpaceAllProps = {}
 
@@ -21,6 +22,25 @@ describe('Space component', () => {
     expect(document.querySelector('span.dnb-space').classList).toContain(
       'dnb-space__top--large'
     )
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLDivElement>
+
+    function MockComponent(props) {
+      ref = React.useRef()
+      return <Space {...props} innerRef={ref} />
+    }
+
+    const { rerender } = render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLDivElement).toBe(true)
+    expect(ref.current.tagName).toBe('DIV')
+
+    rerender(<MockComponent element={Section} />)
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
   })
 
   it('should accept space only prop', () => {
@@ -76,6 +96,37 @@ describe('Space component', () => {
     expect(
       document.querySelector('.dnb-space--no-collapse')
     ).toBeInTheDocument()
+  })
+
+  it('should support "innerSpace"', () => {
+    const { rerender } = render(<Space innerSpace={true} />)
+    expect(
+      document.querySelector('.dnb-space').getAttribute('style')
+    ).toBe(
+      '--space-t-s: 1rem; --space-r-s: 1rem; --space-b-s: 1rem; --space-l-s: 1rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-t-l: 1rem; --space-r-l: 1rem; --space-b-l: 1rem; --space-l-l: 1rem;'
+    )
+
+    rerender(<Space innerSpace="large medium small" />)
+    expect(
+      document.querySelector('.dnb-space').getAttribute('style')
+    ).toBe(
+      '--space-t-s: 4.5rem; --space-r-s: 4.5rem; --space-b-s: 4.5rem; --space-l-s: 4.5rem; --space-t-m: 4.5rem; --space-r-m: 4.5rem; --space-b-m: 4.5rem; --space-l-m: 4.5rem; --space-t-l: 4.5rem; --space-r-l: 4.5rem; --space-b-l: 4.5rem; --space-l-l: 4.5rem;'
+    )
+
+    rerender(
+      <Space
+        innerSpace={{
+          small: { top: '0.5rem', right: 'large' },
+          medium: true,
+          large: { left: '16px', right: 'x-small' },
+        }}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-space').getAttribute('style')
+    ).toBe(
+      '--space-t-s: 0.5rem; --space-r-s: 2rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-r-l: 0.5rem; --space-l-l: 1rem;'
+    )
   })
 })
 

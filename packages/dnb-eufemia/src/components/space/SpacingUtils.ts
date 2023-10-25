@@ -12,12 +12,16 @@ import type {
   SpaceTypesPositiveValuesType,
   SpaceTypesPositiveRemValuesType,
   SpaceStringTypes,
+  SpaceTypeMedia,
+  SpaceTypeAll,
+  SpacingElementProps,
 } from './types'
 
 type SpaceNumber = number
 
 export const spacingDefaultProps: SpacingProps = {
   space: null,
+  innerSpace: null,
   top: null,
   right: null,
   bottom: null,
@@ -65,6 +69,90 @@ export const calc = (...types: Array<SpaceType>) => {
 }
 
 /**
+ * Creates a valid space CSS style out from given space types
+ *
+ * @param props
+ * @returns { '--space-b-l': '2rem', '--space-t-l': '1rem' }
+ */
+export const createSpacingProperties = (
+  props: SpacingProps
+): React.CSSProperties => {
+  if (props?.innerSpace) {
+    return computeProperties(props.innerSpace)
+  }
+
+  return {}
+}
+
+function hasMediaSize(media: SpaceTypeMedia) {
+  const keys = Object.keys(media)
+  return (
+    keys.includes('small') ||
+    keys.includes('medium') ||
+    keys.includes('large')
+  )
+}
+
+function hasSize(space: SpacingElementProps) {
+  const keys = Object.keys(space)
+  return (
+    keys.includes('top') ||
+    keys.includes('right') ||
+    keys.includes('bottom') ||
+    keys.includes('left')
+  )
+}
+
+function computeProperties(space: SpaceTypeAll | SpaceTypeMedia) {
+  if (!hasMediaSize(space as SpaceTypeMedia)) {
+    space = {
+      small: space,
+      medium: space,
+      large: space,
+    } as SpaceTypeMedia
+  }
+
+  const result = {}
+
+  for (const size in space as SpaceTypeMedia) {
+    const value = space?.[size] as SpaceType | SpacingElementProps
+    const props = transformToAll(value)
+
+    for (const key in props as SpaceTypeMedia) {
+      if (isValidSpaceProp(key)) {
+        const cur = props[key]
+        const name = `--space-${key[0]}-${size[0]}`
+
+        if (String(cur) === '0' || String(cur) === 'false') {
+          result[name] = '0'
+        } else if (cur) {
+          const typeModifiers = createTypeModifiers(cur as SpaceType)
+          const sum = sumTypes(typeModifiers)
+          result[name] = `${sum}rem`
+        }
+      }
+    }
+  }
+
+  return result as React.CSSProperties
+}
+
+function transformToAll(value: SpaceType | SpacingElementProps) {
+  let result = value
+
+  if (!hasSize(value as SpacingElementProps)) {
+    result = {
+      top: value,
+      right: value,
+      bottom: value,
+      left: value,
+    } as SpacingElementProps
+  }
+
+  return result as SpacingElementProps
+}
+
+/**
  * Creates a valid space CSS class out from given space types
  *
  * @param props
@@ -101,7 +189,7 @@ export const createSpacingClasses = (
   }
 
   return Object.entries(p).reduce((acc, [direction, cur]) => {
-    if (isValidSpaceProp(direction)) {
+    if (isValidSpaceProp(direction) && direction !== 'innerSpace') {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
       } else if (cur) {
@@ -276,18 +364,17 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
 
 // @internal Checks if a space prop is a valid string like "top"
 export const isValidSpaceProp = (propName: string) =>
-  propName && ['top', 'right', 'bottom', 'left'].includes(propName)
+  propName &&
+  ['top', 'right', 'bottom', 'left', 'space', 'innerSpace'].includes(
+    propName
+  )
 
-export const removeSpaceProps = (
-  props: SpacingProps | SpacingUnknownProps
-) => {
-  const p = Object.isFrozen(props) ? { ...props } : props
-  for (const i in p) {
-    if (isValidSpaceProp(i)) {
-      delete p[i]
-    }
-  }
-  return p
+export const removeSpaceProps = <Props extends SpacingProps>(
+  props: Props
+): Omit<Props, keyof SpacingProps> => {
+  const { space, innerSpace, top, bottom, left, right, ...restProps } =
+    props
+  return restProps
 }
 
 export const isInline = (elementName: string) => {
