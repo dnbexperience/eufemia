@@ -2,7 +2,7 @@
  * All inline tags for Markdown
  */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input } from '@dnb/eufemia/src/components'
 import { Ul, Ol, Dl, Li, P, Hr, Blockquote, Code } from '@dnb/eufemia/src'
@@ -51,11 +51,29 @@ export default {
   Copy,
   VisibilityByTheme,
   VisibleWhenVisualTest: ({ children }) => {
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+      // Wait for component to mount,
+      // as we will not know if IS_TEST(?data-visual-test=true) before mounting when ran in SSR.
+      setMounted(true)
+    }, [])
+
+    if (!mounted) return null
     if (typeof globalThis !== 'undefined' && globalThis.IS_TEST) {
       return children
     }
   },
   VisibleWhenNotVisualTest: ({ children }) => {
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+      // Wait for component to mount,
+      // as we will not know if IS_TEST(?data-visual-test=true) before mounting when ran in SSR.
+      setMounted(true)
+    }, [])
+
+    if (!mounted) return null
     if (typeof globalThis !== 'undefined' && !globalThis.IS_TEST) {
       return children
     }
