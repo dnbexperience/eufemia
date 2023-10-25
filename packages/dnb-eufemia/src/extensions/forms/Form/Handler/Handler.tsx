@@ -20,7 +20,7 @@ export default function FormHandler<Data extends JsonObject>({
   scrollTopOnSubmit,
   sessionStorageId,
   ...rest
-}: ProviderProps<Data> & Props) {
+}: ProviderProps<Data> & Omit<Props, keyof ProviderProps<Data>>) {
   const providerProps = {
     defaultData,
     data,
