@@ -219,7 +219,28 @@ describe('Field.Boolean', () => {
   describe('variant: buttons', () => {
     it('renders label', () => {
       render(<Field.Boolean variant="buttons" label="Boolean label" />)
-      expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
+      expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('has no selected value by defualt', () => {
+      render(<Field.Boolean variant="buttons" />)
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
+      expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+    })
+
+    it('has "false" selected', () => {
+      render(<Field.Boolean variant="buttons" value={false} />)
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
+      expect(buttons[1].getAttribute('aria-pressed')).toBe('true')
+    })
+
+    it('has "true" selected', () => {
+      render(<Field.Boolean variant="buttons" value={true} />)
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-pressed')).toBe('true')
+      expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
     })
 
     it('renders error', () => {
@@ -241,8 +262,10 @@ describe('Field.Boolean', () => {
           error={new Error('This is what went wrong')}
         />
       )
-      const element = document.querySelector('.dnb-button')
-      expect(element.className).toContain('dnb-button__status--error')
+      const element = document.querySelector('.dnb-toggle-button')
+      expect(element.className).toContain(
+        'dnb-toggle-button__status--error'
+      )
     })
 
     it('should show error when no value is given', () => {
