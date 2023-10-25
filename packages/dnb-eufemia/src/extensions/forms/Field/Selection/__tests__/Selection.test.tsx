@@ -189,6 +189,57 @@ describe('Selection', () => {
         expect(radioButtons[1]).not.toBeChecked()
       })
     })
+
+    describe('button', () => {
+      it('has no selected value by defualt', () => {
+        render(
+          <Field.Selection variant="button">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        const buttons = document.querySelectorAll('button')
+        expect(buttons.length).toEqual(2)
+        expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
+        expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+      })
+
+      it('renders selected option', () => {
+        render(
+          <Field.Selection variant="button" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        const buttons = document.querySelectorAll('button')
+        expect(buttons.length).toEqual(2)
+        expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
+        expect(buttons[1].getAttribute('aria-pressed')).toBe('true')
+      })
+
+      it('renders update selected option based on external value change', () => {
+        const { rerender } = render(
+          <Field.Selection variant="button" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        rerender(
+          <Field.Selection variant="button" value="foo">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        const buttons = document.querySelectorAll('button')
+        expect(buttons.length).toEqual(2)
+        expect(buttons[0].getAttribute('aria-pressed')).toBe('true')
+        expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+      })
+    })
   })
 
   describe('event handlers', () => {

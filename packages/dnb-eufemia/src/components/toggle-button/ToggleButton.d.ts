@@ -29,7 +29,7 @@ export interface ToggleButtonProps
   /**
    * <em>(required)</em> the text shown in the ToggleButton.
    */
-  text?: string;
+  text?: React.ReactNode;
   /**
    * Use either the `label` property or provide a custom one.
    */

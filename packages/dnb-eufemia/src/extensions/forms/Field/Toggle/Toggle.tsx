@@ -47,7 +47,6 @@ function Toggle(props: Props) {
   )
   const handleToggleChange = useCallback(
     ({ value }) => {
-      console.log('value', value)
       handleChange?.(value === 'on' ? valueOn : valueOff)
     },
     [handleChange, valueOn, valueOff]

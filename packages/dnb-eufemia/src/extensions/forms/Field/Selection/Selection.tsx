@@ -1,6 +1,6 @@
 import React, { useMemo, useContext, useCallback } from 'react'
 import {
-  Button,
+  ToggleButton,
   Dropdown,
   Radio,
   HelpButton,
@@ -14,6 +14,7 @@ import Option from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 
 interface IOption {
   title: string | React.ReactNode
@@ -153,17 +154,21 @@ function Selection(props: Props) {
       return (
         <FieldBlock {...fieldBlockProps}>
           <ButtonRow>
-            {options.map((option, i) => (
-              <Button
-                key={`option-${i}-${option.value}`}
-                id={id}
-                text={option.title}
-                on_click={option.handleSelect}
-                variant={option.value === value ? undefined : 'secondary'}
-                status={error ? 'error' : undefined}
-                disabled={disabled}
-              />
-            ))}
+            <ToggleButtonGroupContext.Provider
+              value={{
+                status: error ? 'error' : undefined,
+                disabled,
+              }}
+            >
+              {options.map((option, i) => (
+                <ToggleButton
+                  key={`option-${i}-${option.value}`}
+                  text={option.title}
+                  on_change={option.handleSelect}
+                  checked={option.value === value}
+                />
+              ))}
+            </ToggleButtonGroupContext.Provider>
           </ButtonRow>
         </FieldBlock>
       )
