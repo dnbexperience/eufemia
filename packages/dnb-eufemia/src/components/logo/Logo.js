@@ -64,6 +64,20 @@ export default class Logo extends React.PureComponent {
     ratio: 1.715277777777778,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      mounted: false,
+    }
+  }
+
+  componentDidMount() {
+    // waiting to render this component until after it's mounted,
+    // this is only to make it actually work in SSR when brand == null && this.context.theme
+    this.setState({ mounted: true })
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
@@ -263,6 +277,8 @@ export default class Logo extends React.PureComponent {
     }
 
     validateDOMAttributes(this.props, selectedLogoRootParams)
+
+    if (!this.state.mounted) return null
 
     return <span {...selectedLogoRootParams}>{selectedLogo}</span>
   }
