@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import useTheme from './useTheme'
 import type { ThemeNames, ThemeProps } from './Theme'
 
@@ -30,10 +30,18 @@ export default function VisibilityByTheme({
   visible,
   hidden,
 }: VisibilityByThemeProps) {
+  const [mounted, setMounted] = useState(false)
+
   const theme = useTheme()
 
   const visibleList = Array.isArray(visible) ? visible : [visible]
   const hiddenList = Array.isArray(hidden) ? hidden : [hidden]
+
+  useEffect(() => {
+    // Wait for component to mount,
+    // as we will not know the theme before mounting when ran in SSR.
+    setMounted(true)
+  }, [])
 
   if (visible) {
     if (!visibleList.some(match(theme))) {
@@ -45,6 +53,7 @@ export default function VisibilityByTheme({
     }
   }
 
+  if (!mounted) return null
   return children as JSX.Element
 
   function match(theme: ThemeProps) {
