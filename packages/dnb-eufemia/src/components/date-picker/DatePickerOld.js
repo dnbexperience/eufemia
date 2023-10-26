@@ -389,6 +389,7 @@ export default class DatePicker extends React.PureComponent {
       hidden: false,
       _listenForPropChanges: false,
     })
+
     dispatchCustomElementEvent(this, 'on_show', this.getReturnObject(args))
 
     this.setTrianglePosition()
