@@ -127,4 +127,87 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  describe('with description', () => {
+    const style = { width: '20rem', height: '15rem' }
+    const selector = '[data-visual-test="accordion-description"]'
+
+    it('have to match', async () => {
+      const screenshot = await makeScreenshot({
+        style,
+        selector,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    describe('expanded', () => {
+      const simulateSelector =
+        '[data-visual-test="accordion-description"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header'
+
+      it('hover', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+          simulateSelector,
+          simulate: 'hover',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('active', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+          simulateSelector,
+          simulate: 'active',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('focus', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+          simulateSelector,
+          simulate: 'focus',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    })
+
+    describe('closed', () => {
+      const simulateSelector =
+        '[data-visual-test="accordion-description"] .dnb-accordion:nth-of-type(2) .dnb-accordion__header'
+
+      it('hover', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+          simulateSelector,
+          simulate: 'hover',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('active', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+          simulateSelector,
+          simulate: 'active',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('focus', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+          simulateSelector,
+          simulate: 'focus',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    })
+  })
 })
