@@ -752,7 +752,7 @@ export default class GlobalStatus extends React.PureComponent {
       <div className="dnb-global-status__content">
         {title !== false && (
           <Section element="div" variant={state}>
-            <p className="dnb-p dnb-global-status__title" lang={lang}>
+            <div className="dnb-global-status__title" lang={lang}>
               <span className="dnb-global-status__icon">
                 {iconToRender}
               </span>
@@ -769,7 +769,7 @@ export default class GlobalStatus extends React.PureComponent {
                   icon_position="left"
                 />
               )}
-            </p>
+            </div>
             {hasContent && (
               <Section
                 element="div"
