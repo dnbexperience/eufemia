@@ -7,3 +7,27 @@ showTabs: true
 `Field.String` is the base component for receiving user input where the target data is of type `string`.
 
 There is a corresponding [Value.String](/uilib/extensions/forms/create-component/Value/String) component.
+
+## Autocomplete and autofill
+
+The string component does support HTML `autocomplete` [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete).
+
+1. You may either set the property directly on each field:
+
+```tsx
+<Form.Handler>
+  <Field.String autoComplete="first-name" path="/your-pointer" />
+  <Field.String autoComplete="last-name" path="/your-pointer" />
+</Form.Handler>
+```
+
+2. Or use the "less-code" approach, by just giving the data pointer `path` a meaningful name:
+
+```tsx
+<Form.Handler autoComplete={true}>
+  <Field.String path="/firstName" />
+  <Field.String path="/lastName" />
+</Form.Handler>
+```
+
+The `path` property will be used to set the `name` attribute.

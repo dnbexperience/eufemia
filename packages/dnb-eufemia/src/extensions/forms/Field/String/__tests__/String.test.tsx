@@ -75,6 +75,46 @@ describe('Field.String', () => {
       )
     })
 
+    it('renders autoComplete', () => {
+      const { rerender } = render(
+        <Field.String autoComplete="firstName" />
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('firstName')
+
+      rerender(
+        <Field.String path="/firstName" autoComplete="family-name" />
+      )
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('family-name')
+
+      rerender(
+        <Field.String
+          path="/firstName"
+          autoComplete="family-name"
+          name="additional-name"
+        />
+      )
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'additional-name'
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('family-name')
+    })
+
+    it('renders name based on path', () => {
+      render(<Field.String path="/firstName" />)
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+    })
+
     it('renders error', () => {
       render(<Field.String error={new Error('This is what went wrong')} />)
       expect(

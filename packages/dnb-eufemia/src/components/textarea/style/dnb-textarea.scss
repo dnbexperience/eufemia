@@ -20,6 +20,7 @@
 .dnb-textarea {
   --textarea-padding-width: 0.5rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
+  --textarea-background-color: var(--color-white);
 
   display: inline-flex;
 
@@ -70,6 +71,14 @@
     @include textareaStyleCommon();
 
     @include scrollY(auto);
+  }
+
+  // change the autocomplete appearance once filled out
+  &__input:autofill {
+    // set the border and the background
+    box-shadow:
+      0 0 0 var(--border-width) var(--border-color),
+      0 0 0 10em var(--textarea-background-color) inset;
   }
 
   &__placeholder {

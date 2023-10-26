@@ -143,6 +143,7 @@ export interface FieldProps<
 > extends DataValueReadWriteComponentProps<Value, EmptyValue> {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
+  name?: string
   layout?: 'horizontal' | 'vertical'
   /** Main label text */
   label?: React.ReactNode
@@ -152,6 +153,9 @@ export interface FieldProps<
   labelSecondary?: React.ReactNode
   /** Text showing in place of the value if no value is given */
   placeholder?: string
+  autoComplete?:
+    | HTMLInputElement['autocomplete']
+    | HTMLTextAreaElement['autocomplete']
   info?: Error | FormError | string
   warning?: Error | FormError | string
   error?: Error | FormError

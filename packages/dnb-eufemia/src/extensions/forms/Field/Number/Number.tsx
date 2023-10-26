@@ -122,7 +122,9 @@ function NumberComponent(props: Props) {
 
   const {
     id,
+    name,
     className,
+    autoComplete,
     inputClassName,
     layout,
     placeholder,
@@ -158,6 +160,8 @@ function NumberComponent(props: Props) {
     >
       <InputMasked
         id={id}
+        name={name}
+        autoComplete={autoComplete}
         className={classnames(
           'dnb-forms-field-number__input',
           inputClassName

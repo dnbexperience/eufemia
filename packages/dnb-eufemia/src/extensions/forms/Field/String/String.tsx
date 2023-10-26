@@ -28,6 +28,7 @@ export type Props = FieldHelpProps &
     innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
     clear?: boolean
     autoresize?: boolean
+    autoComplete?: HTMLInputElement['autocomplete']
     autoresizeMaxRows?: number
     characterCounter?: boolean
     mask?: InputMaskedProps['mask']
@@ -80,9 +81,12 @@ function StringComponent(props: Props) {
     },
     width: props.width ?? 'large',
   }
+
   const {
     id,
+    name,
     className,
+    autoComplete,
     innerRef,
     inputClassName,
     layout,
@@ -118,6 +122,25 @@ function StringComponent(props: Props) {
     : undefined
   const cn = classnames('dnb-forms-field-string__input', inputClassName)
 
+  const sharedProps = {
+    id,
+    name,
+    autoComplete,
+    className: cn,
+    placeholder: placeholder,
+    suffix: help ? (
+      <HelpButton title={help.title}>{help.contents}</HelpButton>
+    ) : undefined,
+    on_focus: handleFocus,
+    on_blur: handleBlur,
+    on_change: handleChange,
+    disabled: disabled,
+    stretch: width !== undefined,
+    inner_ref: innerRef,
+    status: error ? 'error' : undefined,
+    value: value?.toString() ?? '',
+  }
+
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-string', className)}
@@ -134,71 +157,24 @@ function StringComponent(props: Props) {
     >
       {multiline ? (
         <Textarea
-          id={id}
-          className={cn}
-          placeholder={placeholder}
-          value={value}
-          suffix={
-            help ? (
-              <HelpButton title={help.title} left="x-small">
-                {help.contents}
-              </HelpButton>
-            ) : undefined
-          }
-          on_focus={handleFocus}
-          on_blur={handleBlur}
-          on_change={handleChange}
+          {...sharedProps}
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
-          disabled={disabled}
-          stretch={width !== undefined}
-          inner_ref={innerRef}
-          status={error ? 'error' : undefined}
         />
       ) : mask ? (
         <InputMasked
-          id={id}
-          className={cn}
+          {...sharedProps}
           mask={mask}
-          placeholder={placeholder}
-          value={value?.toString() ?? ''}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
-          suffix={
-            help ? (
-              <HelpButton title={help.title}>{help.contents}</HelpButton>
-            ) : undefined
-          }
-          on_focus={handleFocus}
-          on_blur={handleBlur}
-          on_change={handleChange}
-          disabled={disabled}
-          stretch={width !== undefined}
-          inner_ref={innerRef}
-          status={error ? 'error' : undefined}
         />
       ) : (
         <Input
-          id={id}
-          className={cn}
+          {...sharedProps}
           type={type}
-          placeholder={placeholder}
-          value={value?.toString() ?? ''}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
           clear={clear}
-          suffix={
-            help ? (
-              <HelpButton title={help.title}>{help.contents}</HelpButton>
-            ) : undefined
-          }
-          on_focus={handleFocus}
-          on_blur={handleBlur}
-          on_change={handleChange}
-          disabled={disabled}
-          stretch={width !== undefined}
-          inner_ref={innerRef}
-          status={error ? 'error' : undefined}
         />
       )}
     </FieldBlock>

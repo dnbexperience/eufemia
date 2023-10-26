@@ -6,6 +6,15 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-input {
+  // Border
+  --input-border-color: var(--color-sea-green);
+  --input-border-color--hover: var(--color-sea-green);
+  --input-border-color--focus: var(--color-emerald-green);
+  --input-border-color--disabled: var(--color-black-55);
+  --input-border-radius: 0.25rem;
+  --input-border-width: 0.0625rem;
+  --input-border-width--focus: 0.125rem;
+
   color: var(--color-black);
 
   &__inner {
@@ -14,11 +23,11 @@
 
   &__shell {
     color: inherit;
-    background-color: var(--color-white);
+    background-color: var(--input-background-color);
     border: none;
 
     @include fakeBorder(
-      var(--color-sea-green),
+      var(--input-border-color),
       var(--input-border-width),
       inset
     );
@@ -37,7 +46,7 @@
     -webkit-text-fill-color: currentcolor;
 
     @include fakeBorder(
-      var(--color-black-55),
+      var(--input-border-color--disabled),
       var(--input-border-width),
       inset
     );
@@ -46,11 +55,17 @@
 
   &:not([data-input-state='disabled']) &__shell:hover,
   &:not([data-input-state='disabled']):hover &__shell {
-    @include fakeBorder(var(--color-sea-green), 0.125rem);
+    @include fakeBorder(
+      var(--input-border-color--hover),
+      var(--input-border-width--focus)
+    );
   }
 
   &[data-input-state='focus']:not([data-input-state='disabled']) &__shell {
-    @include fakeBorder(var(--color-emerald-green), 0.125rem);
+    @include fakeBorder(
+      var(--input-border-color--focus),
+      var(--input-border-width--focus)
+    );
   }
 
   // with status_state = "error"
@@ -64,7 +79,10 @@
   &__status--error#{&}[data-input-state='focus'] &__shell,
   &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
   &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
-    @include fakeBorder(var(--color-fire-red), 0.125rem);
+    @include fakeBorder(
+      var(--color-fire-red),
+      var(--input-border-width--focus)
+    );
   }
 
   &__status--error &__submit-button {

@@ -1,0 +1,23 @@
+---
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Best Practices on Forms
+    href: /uilib/extensions/forms/best-practice-on-forms/
+---
+
+# Best Practices on Forms
+
+- Ensure you have a `form` element. It will add support for additional keyboard and auto-complete features. Use the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) that uses the [Form.Element](/uilib/extensions/forms/extended-features/Form/Element/) under the hood.
+- Ensure your form HTML elements have a semantic and unique `name`. By using the `path` property (e.g. `path="/firstName"`), it will set an unique `name` attribute to the rendered HTML element.
+- Ensure you have a submit button. Use the [Form.SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) for that.
+- Ensure to let browser autofill personal data if applicable, based on HTML [autocomplete attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete). By using the `path` property with semantic names (e.g. `path="/firstName"`), browser will be able to provide a correct autofill integration.
+- In some cases, it is appreciated to temporary store user entered input data. Use the `sessionStorageId` feature provided by [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) for that.
+
+```jsx
+<Form.Handler autoComplete={true}>
+  <Field.String path="/firstName" />
+  <Field.Email path="/email" />
+  <Form.SubmitButton>Submit</Form.SubmitButton>
+</Form.Handler>
+```

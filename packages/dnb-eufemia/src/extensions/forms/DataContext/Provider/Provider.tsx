@@ -61,6 +61,7 @@ export default function Provider<Data extends JsonObject>({
   scrollTopOnSubmit,
   sessionStorageId,
   children,
+  ...rest
 }: Props<Data>) {
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
@@ -243,6 +244,7 @@ export default function Provider<Data extends JsonObject>({
     <Context.Provider
       value={{
         data: internalData,
+        ...rest,
         handlePathChange,
         handleSubmit,
         errors: errorsRef.current,

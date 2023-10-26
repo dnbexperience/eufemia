@@ -9,6 +9,8 @@ export interface ContextState {
   data: any
   /** Should the form validate data before submitting? */
   errors?: Record<string, Error>
+  /** Will set autoComplete="on" on each nested Field.String and Field.Number */
+  autoComplete?: boolean
   handlePathChange: (path: string, value: any) => void
   handleSubmit: (props?: HandleSubmitProps) => any
   // Error status
