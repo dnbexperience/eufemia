@@ -1,0 +1,179 @@
+/*
+* ScrollView theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+:root {
+  --drawer-list-height: 2.5rem;
+}
+
+.dnb-drawer-list {
+  --drawer-list-options-border-radius: 0 0 0.5rem 0.5rem;
+  --drawer-list-options-border-radius-reversed: 0.5rem 0.5rem 0 0;
+  --drawer-list-option-border-width: 0.125rem;
+  --drawer-list-option-inner-border-display: none;
+  --drawer-list-option-inner-background: transparent;
+  --drawer-list-list-background: var(--sb-color-white);
+
+  &__list {
+    margin-top: calc(
+      -1 * var(--drawer-list-option-border-width)
+    ); // Switch border width to a negative number
+    border-radius: var(--drawer-list-options-border-radius);
+
+    &:focus-visible {
+      outline: var(--sb-color-blue-dark) solid
+        var(--drawer-list-option-border-width);
+    }
+  }
+
+  &__option__inner {
+    overflow: visible;
+    background-color: transparent;
+    padding: 1rem 0.75rem;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -3px;
+      left: 0.5rem;
+      width: calc(100% - 1rem);
+      height: 1px;
+      @include fakeBorder(var(--sb-color-gray-dark), 0.125rem, inset);
+    }
+  }
+
+  &__options {
+    @include fakeBorder(
+      var(--sb-color-gray-dark-2),
+      var(--drawer-list-option-border-width),
+      inset
+    );
+    border-radius: var(--drawer-list-options-border-radius);
+  }
+
+  &__option {
+    border: var(--drawer-list-option-border-width) solid
+      var(--sb-color-gray-dark-2);
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent; // Fix ugly border with scrollbar
+    background-color: transparent;
+    z-index: 0;
+
+    @include hover() {
+      border-color: var(--sb-color-violet);
+      z-index: 1;
+
+      .dnb-drawer-list__option__inner::before {
+        display: var(--drawer-list-option-inner-border-display);
+      }
+    }
+
+    @include active() {
+      border-color: var(--sb-color-violet);
+      z-index: 1;
+
+      .dnb-drawer-list__option__inner::before {
+        display: var(--drawer-list-option-inner-border-display);
+      }
+    }
+
+    &--selected {
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-white);
+      border-right-color: var(
+        --sb-color-gray-dark-2
+      ); // Compensate for transparent right border
+
+      &.last-of-type {
+        border-bottom-color: var(--sb-color-gray-dark-2);
+      }
+
+      .dnb-drawer-list__option__inner::before {
+        display: var(--drawer-list-option-inner-border-display);
+      }
+
+      // check icon
+      .dnb-drawer-list__option__inner::after {
+        content: '';
+
+        grid-column: 2;
+        grid-row: 1 / -1;
+
+        justify-self: end;
+        align-self: center;
+
+        width: 1rem;
+        height: 1rem;
+
+        background-size: cover;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K');
+      }
+    }
+
+    &.last-of-type {
+      border-radius: var(--drawer-list-options-border-radius);
+
+      .dnb-drawer-list__option__inner::before {
+        display: none;
+      }
+    }
+
+    &:focus-visible {
+      border-color: var(--sb-color-blue-dark);
+      outline: 0.0625rem solid var(--sb-color-blue-dark);
+      background-color: var(--sb-color-blue-light-3);
+      color: var(--sb-color-blue-dark);
+      font-weight: var(--sb-font-weight-medium);
+      z-index: 1;
+
+      .dnb-drawer-list__option__inner::before {
+        display: var(--drawer-list-option-inner-border-display);
+      }
+
+      .dnb-drawer-list__option__inner::after {
+        // Selected checkmark icon
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSIjMDA1Q0ZGIi8+Cjwvc3ZnPgo=');
+      }
+    }
+  }
+
+  &__triangle {
+    display: none;
+  }
+
+  // When it opens upwards
+  &--top {
+    .dnb-drawer-list__list {
+      border-radius: var(--drawer-list-options-border-radius-reversed);
+      margin-top: 0;
+      margin-bottom: calc(
+        -1 * var(--drawer-list-option-border-width)
+      ); // Switch border width to a negative number
+    }
+
+    .dnb-drawer-list__options {
+      border-radius: var(--drawer-list-options-border-radius-reversed);
+    }
+
+    .dnb-drawer-list__option {
+      &.last-of-type {
+        border-radius: 0;
+      }
+
+      &.first-of-type {
+        border-radius: var(--drawer-list-options-border-radius-reversed);
+      }
+    }
+
+    .dnb-drawer-list__option--selected {
+      &.first-of-type {
+        border-top-color: var(--sb-color-gray-dark-2);
+      }
+    }
+  }
+}

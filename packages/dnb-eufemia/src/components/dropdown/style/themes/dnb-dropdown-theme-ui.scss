@@ -6,6 +6,13 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-dropdown {
+  --dropdown-error-border-width: 0.125rem;
+  --dropdown-button-padding: 0 1rem;
+  --dropdown-foreground-color-primary: var(--color-black-55);
+  --dropdown-foreground-color-error: var(--color-fire-red);
+  --dropdown-background-color-disabled: var(--color-black-3);
+  --dropdown-background-color-error-active: var(--color-fire-red-8);
+
   // button
   &__trigger {
     @include hover() {
@@ -14,11 +21,11 @@
   }
 
   &__trigger[disabled] {
-    color: var(--color-black-55);
-    background-color: var(--color-black-3);
+    color: var(--dropdown-foreground-color-primary);
+    background-color: var(--dropdown-background-color-disabled);
 
     &:not(.dnb-button--tertiary) {
-      @include fakeBorder(var(--color-black-55));
+      @include fakeBorder(var(--dropdown-foreground-color-primary));
     }
   }
 
@@ -28,33 +35,4 @@
   //     font-weight: var(--font-weight-medium);
   //   }
   // }
-
-  // error status
-  &__status--error:not(#{&}--opened) &__trigger {
-    @include fakeBorder(var(--color-fire-red));
-
-    @include hover() {
-      color: var(--color-fire-red);
-
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
-
-      & .dnb-dropdown__icon .dnb-icon {
-        color: var(--color-fire-red);
-      }
-    }
-
-    @include active() {
-      color: var(--color-fire-red);
-      background-color: var(--color-fire-red-8);
-    }
-  }
-  &__status--error:not(#{&}--opened) &__trigger,
-  &__status--error:not(#{&}--opened) &__icon {
-    color: var(--color-fire-red);
-  }
-
-  // adjust the form-status to the inner border for 2px
-  > .dnb-form-status {
-    transform: translateY(-0.4375rem);
-  }
 }

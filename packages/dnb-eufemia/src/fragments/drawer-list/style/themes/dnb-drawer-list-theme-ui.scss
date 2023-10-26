@@ -8,12 +8,13 @@
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-border-width: 0.0625rem;
+  --drawer-list-option-inner-background: var(--color-white);
+  --drawer-list-list-background: var(--color-white);
 
   color: var(--color-emerald-green);
 
   &__list {
     @include defaultDropShadow();
-    background-color: var(--color-white);
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
@@ -66,10 +67,6 @@
 
     &__item.item-nr-1 {
       font-weight: var(--font-weight-medium);
-    }
-
-    &__inner {
-      background-color: var(--color-white);
     }
 
     @include hover() {

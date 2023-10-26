@@ -27,6 +27,9 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
+  --drawer-list-option-inner-background: var(--color-white);
+  --drawer-list-list-background: var(--color-white);
+  --drawer-list-list-line-height: var(--line-height-basis);
   display: block;
   position: relative;
   width: inherit;
@@ -70,8 +73,8 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   margin: 0;
   padding: 0;
   font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-  background-color: transparent;
+  line-height: var(--drawer-list-list-line-height);
+  background-color: var(--drawer-list-list-background);
   transform: translateY(0);
   transition: transform 200ms, opacity 160ms ease-out;
 }
@@ -149,7 +152,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   margin: 0;
   padding: 1rem;
   color: inherit;
-  background-color: var(--color-white);
+  background-color: var(--drawer-list-option-inner-background);
 }
 .dnb-drawer-list__option__inner > * {
   align-self: self-start;
@@ -401,11 +404,12 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-border-width: 0.0625rem;
+  --drawer-list-option-inner-background: var(--color-white);
+  --drawer-list-list-background: var(--color-white);
   color: var(--color-emerald-green);
 }
 .dnb-drawer-list__list {
   box-shadow: var(--shadow-default);
-  background-color: var(--color-white);
   border-radius: calc(var(--drawer-list-options-border-radius) + 0.15rem);
 }
 .dnb-drawer-list__options {
@@ -453,9 +457,6 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
 }
 .dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);
-}
-.dnb-drawer-list__option__inner {
-  background-color: var(--color-white);
 }
 html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
   cursor: not-allowed;
