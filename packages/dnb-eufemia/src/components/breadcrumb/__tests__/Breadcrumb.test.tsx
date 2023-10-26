@@ -282,6 +282,23 @@ describe('Breadcrumb', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders breadcrumbitem as a link if the to prop is given and element is a router link', () => {
+      const MockLink = React.forwardRef(
+        (props: { to: string; children: React.ReactNode }, ref) => (
+          <a
+            href={props.to}
+            ref={ref as React.RefObject<HTMLAnchorElement>}
+          >
+            {props.children}
+          </a>
+        )
+      )
+
+      render(<BreadcrumbItem to={'/url'} element={MockLink} text="Page" />)
+
+      expect(screen.getByRole('link')).toHaveAttribute('href', '/url')
+    })
+
     it('fires onClick event', () => {
       const onClick = jest.fn()
       render(<BreadcrumbItem onClick={onClick} text="Page" />)
