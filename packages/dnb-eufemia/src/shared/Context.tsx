@@ -41,6 +41,7 @@ import type { AccordionProps } from '../components/Accordion'
 import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
+import type { DatePickerProps } from '../components/DatePicker'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
@@ -77,6 +78,7 @@ export type ContextComponents = {
   StepIndicator?: Partial<StepIndicatorProps>
   FormLabel?: Partial<FormLabelProps>
   Input?: Partial<InputProps>
+  DatePicker?: Partial<DatePickerProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
