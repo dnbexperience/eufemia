@@ -36,6 +36,21 @@
   }
 }
 
+.dnb-form-label-wrapper {
+  display: inline-block;
+  margin-right: 1rem;
+  .dnb-form-label {
+    margin-right: 0.5rem;
+  }
+  &--vertical {
+    display: block;
+    .dnb-form-label {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
 legend.dnb-form-label {
   display: inline-block;
 }
