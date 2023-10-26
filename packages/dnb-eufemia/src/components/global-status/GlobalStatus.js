@@ -752,7 +752,11 @@ export default class GlobalStatus extends React.PureComponent {
       <div className="dnb-global-status__content">
         {title !== false && (
           <Section element="div" variant={state}>
-            <div className="dnb-global-status__title" lang={lang}>
+            <div
+              className="dnb-global-status__title"
+              role={titleToRender?.type ? undefined : 'paragraph'}
+              lang={lang}
+            >
               <span className="dnb-global-status__icon">
                 {iconToRender}
               </span>
