@@ -5,7 +5,17 @@
 import React from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input } from '@dnb/eufemia/src/components'
-import { Ul, Ol, Dl, Li, P, Hr, Blockquote, Code } from '@dnb/eufemia/src'
+import {
+  Ul,
+  Ol,
+  Dl,
+  Li,
+  P,
+  Hr,
+  Blockquote,
+  Code,
+  Icon,
+} from '@dnb/eufemia/src'
 import Table from './Table'
 // import Img from './Img'
 import Anchor from './Anchor'
@@ -40,11 +50,21 @@ export const basicComponents = {
       </Copy>
     )
   },
-  a: Anchor as React.DetailedHTMLFactory<
-    React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    HTMLAnchorElement
-  >,
-  anchor: Anchor,
+
+  a: (props) => {
+    if (props?.children[0]?.type === Icon) {
+      // If first children is a Icon, we pass it to Anchor's icon property and sets is position to left
+      const { children } = props
+      const [icon, ...restChildren] = children
+      return (
+        <Anchor icon={icon} iconPosition="left" {...props}>
+          {restChildren}
+        </Anchor>
+      )
+    }
+
+    return <Anchor {...props} />
+  },
 }
 
 export default {
@@ -61,7 +81,9 @@ export default {
     }
   },
 
-  link: Anchor,
+  link: (props) => {
+    return <Anchor {...props} />
+  },
   input: ({ type, ...rest }) => {
     switch (type) {
       case 'checkbox':
