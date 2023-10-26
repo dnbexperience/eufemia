@@ -169,7 +169,7 @@ export default function Provider<Data extends JsonObject>({
         pointer.set(newData as Data, path, value)
       }
 
-      onChange?.(newData)
+      onChange?.(newData as Data)
 
       if (sessionStorageId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(
