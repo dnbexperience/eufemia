@@ -76,6 +76,7 @@ describe('Breadcrumb', () => {
         data={[
           {
             text: 'Page 2',
+            role: 'button',
             'data-testid': dataTestId,
           },
         ]}
@@ -86,6 +87,9 @@ describe('Breadcrumb', () => {
     expect(screen.queryByTestId(dataTestId).className).toMatch(
       'dnb-breadcrumb__item__span'
     )
+    expect(
+      document.querySelector('.dnb-breadcrumb__item__span')
+    ).not.toHaveAttribute('role')
   })
 
   it('renders a breadcrumb with multiple items by children', () => {
