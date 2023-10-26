@@ -36,9 +36,8 @@ export type DatePickerEvent<T extends T> = T & {
 };
 export interface DatePickerProps
   extends Omit<
-      React.HTMLProps<HTMLButtonElement | HTMLInputElement>,
-      'ref',
-      'onBlur'
+      React.HTMLProps<HTMLElement>,
+      'ref' | 'label' | 'size' | 'onBlur'
     >,
     SpacingProps {
   id?: string;

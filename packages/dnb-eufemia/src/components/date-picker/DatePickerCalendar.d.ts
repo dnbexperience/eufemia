@@ -24,7 +24,7 @@ export interface DatePickerCalendarProps
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
-  locale?: Record<string, unknown>;
+  locale?: Locale;
   rtl?: boolean;
   isRange?: boolean;
   resetDate?: boolean;

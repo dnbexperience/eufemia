@@ -1,7 +1,8 @@
 import * as React from 'react';
 export type DatePickerRangeViews = number | Record<string, unknown>[];
 export interface DatePickerRangeProps
-  extends React.HTMLProps<HTMLElement> {
+  extends React.HTMLProps<HTMLElement>,
+    DatePickerCalendarProps {
   id?: string;
   isRange?: boolean;
   isLink?: boolean;
@@ -13,7 +14,7 @@ export interface DatePickerRangeProps
   onNav?: (...args: any[]) => any;
 }
 export default class DatePickerRange extends React.Component<
-  DatePickerRangeProps,
+  DatePickerRangeProps & DatePickerCalendarProps,
   any
 > {
   static defaultProps: object;

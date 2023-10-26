@@ -7,7 +7,7 @@ import type {
 import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 export interface DatePickerInputProps
-  extends React.HTMLProps<HTMLElement> {
+  extends Omit<React.HTMLProps<HTMLElement> | 'children'> {
   id?: string;
   title?: string;
   selectedDateTitle?: string;
