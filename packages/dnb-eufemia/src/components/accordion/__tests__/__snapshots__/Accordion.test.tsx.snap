@@ -103,10 +103,10 @@ p > .dnb-icon {
  */
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
-  --accordion-border-radius: 0.25rem;
+  --accordion-border-radius: 0.5rem;
   --accordion-easing: var(--easing-default);
-  --accordion-header-margin-vertical: 1.5rem;
-  --accordion-header-margin-vertical--description: 1rem;
+  --accordion-header-margin-vertical: 1.25rem;
+  --accordion-header-margin-vertical--description: 0.75rem;
   --accordion-header-wrapper-margin: 2rem;
   --accordion-header-wrapper-margin--icon-right: 1rem;
   --accordion-header-icon-gutter: 1rem;
@@ -156,7 +156,7 @@ p > .dnb-icon {
   transition: transform 400ms var(--accordion-easing);
 }
 .dnb-accordion__header--description .dnb-accordion__header__icon {
-  margin-top: 1rem;
+  margin-top: var(--accordion-header-margin-vertical--description);
 }
 .dnb-accordion__header--icon-right {
   justify-content: space-between;
