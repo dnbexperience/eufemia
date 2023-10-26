@@ -140,7 +140,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           {...props}
         />
       ) : (
-        <span className="dnb-breadcrumb__item__span">
+        <span className="dnb-breadcrumb__item__span" {...props}>
           <IconPrimary
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
