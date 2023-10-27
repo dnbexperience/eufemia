@@ -69,6 +69,7 @@ describe('Breadcrumb', () => {
     )
   })
 
+  //TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
   it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
     const dataTestId = 'my-test-id'
     render(
@@ -389,6 +390,7 @@ describe('Breadcrumb', () => {
       )
     })
 
+    //TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
     it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
       const dataTestId = 'my-test-id'
       render(

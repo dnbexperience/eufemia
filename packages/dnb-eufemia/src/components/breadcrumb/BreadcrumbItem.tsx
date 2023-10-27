@@ -145,6 +145,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       ) : (
         <span
           className="dnb-breadcrumb__item__span"
+          //TODO: Consider deprecating passing down props to span in v11
           {...filterProps(props, (key) => !key.includes('-'))}
         >
           <IconPrimary
