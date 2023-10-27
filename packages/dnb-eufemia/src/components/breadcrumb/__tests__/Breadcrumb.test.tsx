@@ -391,12 +391,21 @@ describe('Breadcrumb', () => {
 
     it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
       const dataTestId = 'my-test-id'
-      render(<BreadcrumbItem text="Home" data-testid={dataTestId} />)
+      render(
+        <BreadcrumbItem
+          text="Home"
+          data-testid={dataTestId}
+          role="button"
+        />
+      )
 
       expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
       expect(screen.queryByTestId(dataTestId).className).toMatch(
         'dnb-breadcrumb__item__span'
       )
+      expect(
+        document.querySelector('.dnb-breadcrumb__item__span')
+      ).not.toHaveAttribute('role')
     })
 
     describe('will set animation style', () => {
