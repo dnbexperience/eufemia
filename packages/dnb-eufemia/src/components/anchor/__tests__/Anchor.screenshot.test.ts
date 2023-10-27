@@ -225,6 +225,13 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match blank target with icon left', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-blank-icon-left"] a',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match the target blank with href protocol', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-protocol"]',
