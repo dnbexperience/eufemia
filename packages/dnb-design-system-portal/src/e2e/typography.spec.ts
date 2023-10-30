@@ -168,7 +168,7 @@ test.describe('Typography for Sbanken', () => {
     const element = page
       .locator('.typography-box > .dnb-typo-bold')
       .first()
-    await expect(element).toHaveCSS('font-weight', '700')
+    await expect(element).toHaveCSS('font-weight', '500')
   })
 
   test('examples should not have paragraphs inside headings', async ({
