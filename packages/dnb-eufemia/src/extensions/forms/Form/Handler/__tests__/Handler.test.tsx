@@ -2,6 +2,7 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import type { Props as StringProps } from '../../../Field/String'
+import userEvent from '@testing-library/user-event'
 
 describe('Form.Handler', () => {
   it('should call "onSubmit"', () => {
@@ -176,5 +177,92 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
     expect(reset).toHaveBeenCalledTimes(1)
+  })
+
+  it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
+    const setItem = jest.spyOn(
+      Object.getPrototypeOf(window.sessionStorage),
+      'setItem'
+    )
+
+    render(
+      <Form.Handler
+        defaultData={{ foo: 'original' }}
+        sessionStorageId="test-data"
+      >
+        <Field.String path="/foo" />
+      </Form.Handler>
+    )
+
+    expect(setItem).not.toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original123',
+      })
+    )
+
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, '123')
+
+    expect(setItem).toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original1',
+      })
+    )
+    expect(setItem).toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original12',
+      })
+    )
+    expect(setItem).toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original123',
+      })
+    )
+
+    setItem.mockRestore()
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should reset sessionStorage on submit', async () => {
+    const setItem = jest.spyOn(
+      Object.getPrototypeOf(window.sessionStorage),
+      'setItem'
+    )
+
+    render(
+      <Form.Handler
+        defaultData={{ foo: 'original' }}
+        sessionStorageId="test-data"
+      >
+        <Field.String path="/foo" />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, '123')
+
+    expect(setItem).toHaveBeenLastCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original123',
+      })
+    )
+    expect(window.sessionStorage.getItem('test-data')).toEqual(
+      JSON.stringify({
+        foo: 'original123',
+      })
+    )
+
+    const buttonElement = document.querySelector('button')
+    fireEvent.click(buttonElement)
+
+    expect(window.sessionStorage.getItem('test-data')).toBe(null)
+
+    setItem.mockRestore()
   })
 })

@@ -209,10 +209,17 @@ export default function Provider<Data extends JsonObject>({
     ({ formElement = null } = {}) => {
       if (!hasErrors()) {
         onSubmit?.(internalData as Data)
+
         formElement?.reset?.()
-        if (scrollTopOnSubmit) {
-          typeof window !== 'undefined' &&
+
+        if (typeof window !== 'undefined') {
+          if (sessionStorageId) {
+            window.sessionStorage.removeItem(sessionStorageId)
+          }
+
+          if (scrollTopOnSubmit) {
             window?.scrollTo({ top: 0, behavior: 'smooth' })
+          }
         }
       } else {
         setShowAllErrors(true)
