@@ -51,16 +51,15 @@
 
     min-height: 4.5rem;
 
-    &.dnb-p {
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
 
-      padding: 1rem 5rem 1rem 2.5rem;
-      margin-bottom: 0.5rem;
-    }
+    padding: 1rem 5rem 1rem 2.5rem;
+    font-size: var(--font-size-basis);
 
-    .dnb-spacing &.dnb-p,
-    .dnb-spacing &.dnb-p:not([class*='dnb-space']) {
+    .dnb-p,
+    .dnb-spacing & .dnb-p,
+    .dnb-spacing & .dnb-p:not([class*='dnb-space']) {
       margin: 0;
     }
   }
@@ -74,8 +73,8 @@
       flex-direction: column;
 
       padding: 0.5rem 0 2.5rem 2.5rem;
-
-      & .dnb-p,
+      // stylelint-disable-next-line no-descending-specificity
+      .dnb-p,
       .dnb-spacing & .dnb-p,
       .dnb-spacing & .dnb-p:not([class*='dnb-space']) {
         display: inline-block;
