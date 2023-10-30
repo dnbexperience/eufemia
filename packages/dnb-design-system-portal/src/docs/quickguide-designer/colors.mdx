@@ -3,6 +3,7 @@ title: 'Colors'
 icon: 'colors'
 ---
 
+import { Logo } from '@dnb/eufemia/src'
 import ColorsTable from 'Docs/quickguide-designer/colors-table.mdx'
 
 # Colors
@@ -42,6 +43,46 @@ Tints are lighter versions of the color that are made by mixing a color with whi
 Tertiary colors are available in Eufemia Web Figma file for Sbanken. These are mainly lighter variations of the secondary colors.
 
 </VisibilityByTheme>
+
+## Using Colors in Code
+
+You can use the defined colors in your code as follows:
+
+```jsx
+import { colors } from '@dnb/eufemia/shared'
+
+// Example using colors from DNB UI
+const dnbColors = colors.ui
+
+const MyComponent = () => {
+  return (
+    <div>
+      Hex values:
+      <div>
+        <Logo color={dnbColors.oceanGreen.hex} size="100" />
+        <Logo color={dnbColors.emeraldGreen.hex} size="100" />
+        <Logo color={dnbColors.seaGreen.hex} size="100" />
+        <Logo color={dnbColors.mintGreen.hex} size="100" />
+        <Logo color={dnbColors.summerGreen.hex} size="100" />
+        <Logo color={dnbColors.accentYellow.hex} size="100" />
+        <Logo color={dnbColors.indigo.hex} size="100" />
+        <Logo color={dnbColors.violet.hex} size="100" />
+      </div>
+      Rgb values:
+      <div>
+        <Logo color={dnbColors.oceanGreen.rgb} size="100" />
+        <Logo color={dnbColors.emeraldGreen.rgb} size="100" />
+        <Logo color={dnbColors.seaGreen.rgb} size="100" />
+        <Logo color={dnbColors.mintGreen.rgb} size="100" />
+        <Logo color={dnbColors.summerGreen.rgb} size="100" />
+        <Logo color={dnbColors.accentYellow.rgb} size="100" />
+        <Logo color={dnbColors.indigo.rgb} size="100" />
+        <Logo color={dnbColors.violet.rgb} size="100" />
+      </div>
+    </div>
+  )
+}
+```
 
 ### Resources
 
