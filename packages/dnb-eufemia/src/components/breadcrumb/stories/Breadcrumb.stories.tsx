@@ -176,7 +176,7 @@ export const SupportsChildrenAsNull = () => {
   )
 }
 
-//TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
+// TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
 export const BreadcrumbItemWithButtonPropsButNotInteractive = () => {
   const props = {
     ...Button.defaultProps,
