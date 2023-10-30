@@ -68,14 +68,17 @@ function PhoneNumber(props: Props) {
       ? value.match(/^(\+[^ ]+)? ?(.*)$/)
       : [undefined, '', '']
 
+  const lang = sharedContext.locale?.split('-')[0]
   const countryCodeData = useMemo(
     () =>
       countries.map((country) => ({
-        selectedKey: `+${country.code}`,
-        selected_value: `${country.iso} (+${country.code})`,
-        content: `+${country.code} ${country.name}`,
+        selectedKey: `+${country.cdc}`,
+        selected_value: `${country.iso} (+${country.cdc})`,
+        content: `+${country.cdc} ${
+          country.i18n[lang] ?? country.i18n.en
+        }`,
       })),
-    []
+    [sharedContext.locale]
   )
 
   const handleCountryCodeChange = useCallback(
