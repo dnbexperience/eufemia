@@ -11,14 +11,22 @@ export const Default = () => (
   <ComponentBox hideCode data-visual-test="section-default">
     <Section>
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">default</Anchor>
+        Visual Section: <Anchor href="#">default</Anchor>
       </P>
     </Section>
   </ComponentBox>
 )
 
-export const Responsive = () => (
-  <ComponentBox hideCode data-visual-test="section-responsive">
+export const NoBreakout = () => (
+  <ComponentBox hideCode data-visual-test="section-no-breakout">
+    <Section breakout={false} backgroundColor="pistachio">
+      <P space={0}>No breakout</P>
+    </Section>
+  </ComponentBox>
+)
+
+export const ResponsiveAppearance = () => (
+  <ComponentBox hideCode data-visual-test="section-responsive-appearance">
     <Section
       breakout={{
         small: true,
@@ -29,25 +37,40 @@ export const Responsive = () => (
         medium: true,
         large: 'black',
       }}
-      roundedCorner={{ medium: true }}
-      innerSpace={{
-        small: { top: 'small', bottom: 'small' },
-        medium: true,
-        large: false,
+      roundedCorner={{ large: true }}
+      backgroundColor={{
+        small: 'white',
+        medium: 'pistachio',
+        large: 'pistachio',
       }}
-      backgroundColor="sand-yellow"
+      innerSpace
     >
       <P space={0}>Responsive properties</P>
     </Section>
   </ComponentBox>
 )
 
+export const ResponsiveInnerSpace = () => (
+  <ComponentBox hideCode>
+    <Section
+      innerSpace={{
+        small: { top: 'small', bottom: 'small' },
+        medium: true,
+        large: false,
+      }}
+      backgroundColor="pistachio"
+      breakout={false}
+    >
+      <P space={0}>Responsive innerSpace</P>
+    </Section>
+  </ComponentBox>
+)
+
 export const Spacing = () => (
-  <ComponentBox hideCode data-visual-test="section-innerSpace">
-    <Section innerSpace>
+  <ComponentBox hideCode>
+    <Section innerSpace={{ top: 'large', bottom: 'large', left: 'small' }}>
       <P space={0}>
-        Visual DNB Section:{' '}
-        <Anchor href="#">default with innerSpace</Anchor>
+        Visual Section: <Anchor href="#">default with innerSpace</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -60,7 +83,7 @@ export const White = () => (
       backgroundColor="white"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">white</Anchor>
+        Visual Section: <Anchor href="#">white</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -73,7 +96,7 @@ export const Divider = () => (
       variant="divider"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">divider</Anchor>
+        Visual Section: <Anchor href="#">divider</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -86,7 +109,7 @@ export const MintGreen = () => (
       backgroundColor="mint-green"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">mint-green</Anchor>
+        Visual Section: <Anchor href="#">mint-green</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -99,7 +122,7 @@ export const SeaGreen = () => (
       style_type="sea-green"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">sea-green</Anchor>
+        Visual Section: <Anchor href="#">sea-green</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -112,7 +135,7 @@ export const EmeraldGreen = () => (
       style_type="emerald-green"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">emerald-green</Anchor>
+        Visual Section: <Anchor href="#">emerald-green</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -126,7 +149,7 @@ export const Lavender = () => (
       backgroundColor="lavender"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">lavender</Anchor>
+        Visual Section: <Anchor href="#">lavender</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -139,7 +162,7 @@ export const Black3 = () => (
       backgroundColor="black-3"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">black-3</Anchor>
+        Visual Section: <Anchor href="#">black-3</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -152,7 +175,7 @@ export const SandYellow = () => (
       backgroundColor="sand-yellow"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">sand-yellow</Anchor>
+        Visual Section: <Anchor href="#">sand-yellow</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -165,7 +188,7 @@ export const Pistachio = () => (
       backgroundColor="pistachio"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">pistachio</Anchor>
+        Visual Section: <Anchor href="#">pistachio</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -178,7 +201,7 @@ export const FireRed = () => (
       style_type="fire-red"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">fire-red</Anchor>
+        Visual Section: <Anchor href="#">fire-red</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -191,7 +214,7 @@ export const FireRed8 = () => (
       backgroundColor="fire-red-8"
     >
       <P space={0}>
-        Visual DNB Section: <Anchor href="#">fire-red-8</Anchor>
+        Visual Section: <Anchor href="#">fire-red-8</Anchor>
       </P>
     </Section>
   </ComponentBox>

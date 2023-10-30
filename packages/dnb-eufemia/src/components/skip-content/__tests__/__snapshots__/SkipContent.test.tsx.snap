@@ -579,7 +579,8 @@ button.dnb-button::-moz-focus-inner {
 .dnb-section {
   position: relative;
   display: flow-root;
-  --breakout--value: visible;
+  --breakout--on: visible;
+  --breakout--off: hidden;
   --rounded-corner--value: 0.75rem;
   --outline: 0 0 0 1px var(--outline-color, transparent);
   --top: 0;
@@ -609,7 +610,7 @@ button.dnb-button::-moz-focus-inner {
   box-shadow: var(--box-shadow);
 }
 .dnb-section:not([style*="--breakout"]) {
-  --breakout: var(--breakout--value);
+  --breakout: var(--breakout--on);
 }
 @media screen and (max-width: 60em) {
   .dnb-section {

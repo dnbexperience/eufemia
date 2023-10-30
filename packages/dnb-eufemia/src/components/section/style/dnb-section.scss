@@ -12,7 +12,8 @@
   // it eliminates margin-collapsing
   display: flow-root;
 
-  --breakout--value: visible;
+  --breakout--on: visible;
+  --breakout--off: hidden;
   --rounded-corner--value: 0.75rem;
   --outline: 0 0 0 1px var(--outline-color, transparent);
   --top: 0;
@@ -49,7 +50,7 @@
   }
 
   &:not([style*='--breakout']) {
-    --breakout: var(--breakout--value);
+    --breakout: var(--breakout--on);
   }
 
   @include allBelow(medium) {

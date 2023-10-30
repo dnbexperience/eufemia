@@ -10,7 +10,11 @@ import {
   isTrue,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type {
+  DynamicElement,
+  ResponsiveProp,
+  SpacingProps,
+} from '../../shared/types'
 import Space from '../space/Space'
 
 export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
@@ -50,15 +54,9 @@ export type SectionSpacing =
   | 'x-large'
   | 'xx-large'
 
-export type SectionMedia<T> = {
-  small?: T
-  medium?: T
-  large?: T
-}
-
 export type TextColor = string
 export type OutlineColor = string | boolean
-export type BackgroundColor = SectionStyleTypes | string
+export type BackgroundColor = string
 
 export type SectionProps = {
   /**
@@ -69,27 +67,27 @@ export type SectionProps = {
   /**
    * Define if the background color should break-out to a fullscreen view. Defualts to `true`.
    */
-  breakout?: boolean | SectionMedia<boolean>
+  breakout?: boolean | ResponsiveProp<boolean>
 
   /**
    * Define if the section should have rounded corners. Defualts to `false`.
    */
-  roundedCorner?: boolean | SectionMedia<boolean>
+  roundedCorner?: boolean | ResponsiveProp<boolean>
 
   /**
    * Define a custom border color. Use a Eufemia color.
    */
-  outline?: OutlineColor | SectionMedia<OutlineColor>
+  outline?: OutlineColor | ResponsiveProp<OutlineColor>
 
   /**
    * Define a custom text color to compliment the backgroundColor. Use a Eufemia color.
    */
-  textColor?: TextColor | SectionMedia<TextColor>
+  textColor?: TextColor | ResponsiveProp<TextColor>
 
   /**
    * Define a custom background color, instead of a variant. Use a Eufemia color.
    */
-  backgroundColor?: BackgroundColor | SectionMedia<BackgroundColor>
+  backgroundColor?: BackgroundColor | ResponsiveProp<BackgroundColor>
 
   /**
    * Define what HTML element should be used. Defaults to `<section>`.
@@ -103,7 +101,7 @@ export type SectionProps = {
 
   /**
    * @deprecated in v11 use "innerSpace" prop instead */
-  spacing?: SectionSpacing | SectionMedia<SectionSpacing>
+  spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
   /**
    * @deprecated in v11 use "background" prop instead */
   style_type?: SectionStyleTypes | string
@@ -140,12 +138,12 @@ export default function Section(localProps: SectionAllProps) {
     textColor,
     backgroundColor,
     outline,
-    spacing,
     innerRef,
 
     className,
     children,
 
+    spacing,
     style_type,
     inner_ref,
 
@@ -168,11 +166,15 @@ export default function Section(localProps: SectionAllProps) {
   params.innerRef = elementRef
 
   const styleObj = {
-    ...computeStyle(breakout, 'breakout', 'var(--breakout--value)'),
+    ...computeStyle(
+      breakout,
+      'breakout',
+      (value) => `var(--breakout--${value ? 'on' : 'off'})`
+    ),
     ...computeStyle(
       roundedCorner,
       'rounded-corner',
-      'var(--rounded-corner--value)'
+      (value) => value && 'var(--rounded-corner--value)'
     ),
     ...computeStyle(textColor, 'text-color', (value) => getColor(value)),
     ...computeStyle(backgroundColor, 'background-color', (value) =>
@@ -202,26 +204,28 @@ function getColor(value: string) {
 }
 
 function computeStyle(
-  property: SectionMedia<unknown> | boolean | string,
+  property: ResponsiveProp<unknown> | boolean | string,
   name: string,
-  value: string | ((value: string) => string)
+  valueCallback: (value: string) => string | undefined
 ) {
-  let media = property as SectionMedia<unknown>
+  let media = property as ResponsiveProp<unknown>
 
   if (media !== null && typeof media !== 'object') {
     media = {
       small: property,
       medium: property,
       large: property,
-    } as SectionMedia<unknown>
+    } as ResponsiveProp<unknown>
   }
 
   const result = {}
 
-  for (const size in media as SectionMedia<unknown>) {
-    if (media?.[size]) {
-      result[`--${name}--${size}`] =
-        typeof value === 'function' ? value(media?.[size]) : value
+  for (const size in media as ResponsiveProp<unknown>) {
+    if (typeof media?.[size] !== 'undefined') {
+      const value = valueCallback(media?.[size])
+      if (typeof value === 'string') {
+        result[`--${name}--${size}`] = value
+      }
     }
   }
 

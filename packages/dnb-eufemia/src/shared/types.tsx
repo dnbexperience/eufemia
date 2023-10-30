@@ -2,6 +2,12 @@ import React from 'react'
 import type { GetTranslationProps } from './Context'
 export * from '../components/space/types'
 
+export type ResponsiveProp<T> = {
+  small?: T
+  medium?: T
+  large?: T
+}
+
 export type LocaleProps = GetTranslationProps
 
 export type DataAttributeTypes = {
