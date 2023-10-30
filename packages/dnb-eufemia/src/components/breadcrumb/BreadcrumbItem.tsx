@@ -119,7 +119,8 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     currentIcon = icon || determineSbankenIcon(variant, isSmallScreen)
   }
   const currentText = text || (variant === 'home' && homeText) || ''
-  const isInteractive = (href || onClick) && variant !== 'current'
+  const isInteractive =
+    (href || onClick || props.to) && variant !== 'current'
   const style = { '--delay': String(itemNr) } as React.CSSProperties
 
   return (
