@@ -115,6 +115,7 @@ function PhoneNumber(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      {...pickSpacingProps(props)}
     >
       <Flex.Horizontal>
         <Autocomplete
@@ -136,7 +137,6 @@ function PhoneNumber(props: Props) {
           on_change={handleCountryCodeChange}
           independent_width
           search_numbers
-          {...pickSpacingProps(props)}
           stretch={width === 'stretch'}
         />
 

@@ -59,4 +59,22 @@ describe('Field.PhoneNumber', () => {
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
     expect(onChange).toHaveBeenLastCalledWith('+41 99999999')
   })
+
+  it('should support spacing props', () => {
+    render(<PhoneNumber top="2rem" />)
+
+    const element = document.querySelector('.dnb-forms-field-phone-number')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-space',
+      'dnb-space__top--large',
+      'dnb-forms-field-block',
+      'dnb-forms-field-phone-number',
+      'dnb-forms-field-block--width-large',
+    ])
+  })
 })
