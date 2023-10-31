@@ -15,7 +15,10 @@ import homeIcon from '../../icons/home'
 import { useTheme, useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  filterProps,
+} from '../../shared/component-helper'
 
 export type BreadcrumbItemProps = {
   /**
@@ -141,7 +144,11 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           {...props}
         />
       ) : (
-        <span className="dnb-breadcrumb__item__span">
+        <span
+          className="dnb-breadcrumb__item__span"
+          // TODO: Consider deprecating passing down props to span in v11
+          {...filterProps(props, (key) => !key.includes('-'))}
+        >
           <IconPrimary
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"

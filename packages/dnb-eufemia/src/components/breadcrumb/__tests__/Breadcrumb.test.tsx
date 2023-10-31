@@ -49,6 +49,50 @@ describe('Breadcrumb', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(1)
   })
 
+  it('forwards rest props like data-testid, etc, to the breadcrumb item button when interactive', () => {
+    const dataTestId = 'my-test-id'
+    render(
+      <Breadcrumb
+        data={[
+          {
+            href: '/page1/page2',
+            text: 'Page 2',
+            'data-testid': dataTestId,
+          },
+        ]}
+      />
+    )
+
+    expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
+    expect(screen.queryByTestId(dataTestId).className).toMatch(
+      'dnb-button'
+    )
+  })
+
+  // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
+  it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
+    const dataTestId = 'my-test-id'
+    render(
+      <Breadcrumb
+        data={[
+          {
+            text: 'Page 2',
+            role: 'button',
+            'data-testid': dataTestId,
+          },
+        ]}
+      />
+    )
+
+    expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
+    expect(screen.queryByTestId(dataTestId).className).toMatch(
+      'dnb-breadcrumb__item__span'
+    )
+    expect(
+      document.querySelector('.dnb-breadcrumb__item__span')
+    ).not.toHaveAttribute('role')
+  })
+
   it('renders a breadcrumb with multiple items by children', () => {
     render(
       <Breadcrumb>
@@ -348,6 +392,39 @@ describe('Breadcrumb', () => {
       expect(screen.getByRole('button').className).toMatch(
         skeletonClassName
       )
+    })
+
+    it('forwards rest props like data-testid, etc, to the breadcrumb item button when interactive', () => {
+      const dataTestId = 'my-test-id'
+      render(
+        <BreadcrumbItem href="/" text="Home" data-testid={dataTestId} />
+      )
+
+      expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
+
+      expect(screen.queryByTestId(dataTestId).className).toMatch(
+        'dnb-button'
+      )
+    })
+
+    // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
+    it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
+      const dataTestId = 'my-test-id'
+      render(
+        <BreadcrumbItem
+          text="Home"
+          data-testid={dataTestId}
+          role="button"
+        />
+      )
+
+      expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
+      expect(screen.queryByTestId(dataTestId).className).toMatch(
+        'dnb-breadcrumb__item__span'
+      )
+      expect(
+        document.querySelector('.dnb-breadcrumb__item__span')
+      ).not.toHaveAttribute('role')
     })
 
     describe('will set animation style', () => {
