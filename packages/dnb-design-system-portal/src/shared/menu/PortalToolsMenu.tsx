@@ -8,6 +8,15 @@ import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
+import { TooltipPosition } from '@dnb/eufemia/src/components/tooltip/types'
+import { ButtonProps } from '@dnb/eufemia/src/components/Button'
+
+type Props = {
+  className?: string
+  tooltipPosition?: TooltipPosition
+  triggerAttributes?: ButtonProps
+  hideWhenMediaLarge?: boolean
+}
 
 export default function PortalToolsMenu({
   className = null,
@@ -15,7 +24,7 @@ export default function PortalToolsMenu({
   triggerAttributes = null,
   hideWhenMediaLarge = false,
   ...props
-}) {
+}: Props) {
   const { skeleton, theme } = React.useContext(Context)
 
   return (
