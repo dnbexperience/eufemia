@@ -1018,6 +1018,36 @@ describe('InputMasked component as_number', () => {
     expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
+  it('will not overwrite decimalSymbol when undefined was given', () => {
+    const { rerender } = render(
+      <InputMasked
+        value={12345.678}
+        as_number
+        number_mask={{
+          thousandsSeparatorSymbol: '|',
+          decimalSymbol: ':',
+          allowDecimal: true,
+        }}
+      />
+    )
+
+    expect(document.querySelector('input').value).toBe('12|345:67')
+
+    rerender(
+      <InputMasked
+        value={12345.678}
+        as_number
+        number_mask={{
+          thousandsSeparatorSymbol: undefined,
+          decimalSymbol: undefined,
+          allowDecimal: true,
+        }}
+      />
+    )
+
+    expect(document.querySelector('input').value).toBe('12 345,67')
+  })
+
   it('should merge "mask_options" properties', () => {
     render(
       <InputMasked

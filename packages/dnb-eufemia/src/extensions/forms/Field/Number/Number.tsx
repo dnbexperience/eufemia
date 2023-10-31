@@ -46,7 +46,7 @@ function NumberComponent(props: Props) {
     percent,
     mask,
     thousandSeparator,
-    decimalSymbol = ',',
+    decimalSymbol,
     decimalLimit = 12,
     prefix,
     suffix,
