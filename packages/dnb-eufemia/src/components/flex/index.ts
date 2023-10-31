@@ -1,5 +1,8 @@
-export { default as Container } from './Container'
-export { default as Item } from './Item'
-export { default as Stack } from './Stack'
-export { default as Horizontal } from './Horizontal'
-export { default as Vertical } from './Vertical'
+/**
+ * Component Entry
+ *
+ */
+
+import Flex from './Flex'
+export default Flex
+export * from './Flex'
