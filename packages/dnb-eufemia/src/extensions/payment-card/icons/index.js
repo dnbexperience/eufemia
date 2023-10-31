@@ -5,6 +5,7 @@ import DNB from './DNB'
 import { clock_medium as Expired } from '../../../icons'
 import { padlock_medium as Blocked } from '../../../icons'
 import { card_in_medium as CardIn } from '../../../icons'
+import { hourglass as Hourglass } from '../../../icons'
 import MastercardDefault from './MastercardDefault'
 import MastercardDark from './MastercardDark'
 import Pluss from './Pluss'
@@ -16,7 +17,6 @@ import SagaGold from './SagaGold'
 import SagaPlatinum from './SagaPlatinum'
 import VisaDefault from './VisaDefault'
 import VisaPlatinum from './VisaPlatinum'
-import { hourglass as Hourglass } from '../../../icons'
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
     Colored: (color) => (
@@ -68,22 +68,22 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
 const StatusIcon = ({ status }) => {
   switch (status) {
     case 'expired':
-      return <Expired stroke="#fefefe"/>
+      return <Expired />
 
     case 'not_active':
-      return <CardIn stroke="#fefefe"/>
+      return <CardIn />
     
     case 'blocked':
-      return <Blocked stroke="#fefefe"/>
+      return <Blocked />
     
     case 'order_in_process':
-      return <Hourglass stroke="#fefefe"/>
+      return <Hourglass />
 
     case 'renewed':
-      return <CardIn stroke="#fefefe"/>
+      return <CardIn />
     
     case 'replaced':
-      return <CardIn stroke="#fefefe"/>
+      return <CardIn />
 
     case 'active':
     default:
