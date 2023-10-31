@@ -52,6 +52,11 @@ For more information on how to replace these, check out [these docs](/uilib/layo
 - Find `FormRow:` and replace with `formElement:`.
 - Find `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` and replace with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
 
+## FormLabel
+
+- Find `for_id` and replace with `forId`.
+- Find `sr_only` and replace with `srOnly`.
+
 ## Removal of passing down props to BreadcrumbItem's span
 
 We don't think this has been used for anything other than passing down `data-testid`'s for testing. We believe the potential side effects of passing down props to this span is greater than the advantages it gives for those who want to test this span using data-testid as their way of selecting the span.

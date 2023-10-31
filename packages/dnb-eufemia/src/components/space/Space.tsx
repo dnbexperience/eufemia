@@ -22,7 +22,11 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type {
+  DynamicElement,
+  DynamicElementParams,
+  SpacingProps,
+} from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 
 export { spacingPropTypes }
@@ -145,7 +149,7 @@ function Element({
   innerRef,
   ...props
 }: SpaceAllProps) {
-  const ElementDynamic = element as DynamicElement<any>
+  const ElementDynamic = element
 
   if (element?.['_name'] === 'Section') {
     props['inner_ref'] = innerRef
@@ -155,7 +159,11 @@ function Element({
     props['ref'] = innerRef
   }
 
-  const component = <ElementDynamic {...props}>{children}</ElementDynamic>
+  const component = (
+    <ElementDynamic {...(props as DynamicElementParams)}>
+      {children}
+    </ElementDynamic>
+  )
 
   if (isTrue(no_collapse)) {
     const R =

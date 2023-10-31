@@ -6,11 +6,12 @@ showTabs: true
 
 | Properties                              | Description                                                                                             |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `for_id`                                | _(required)_ the `id` of the input.                                                                     |
+| `forId`                                 | _(required)_ the same unique `id` like the linked HTML element has.                                     |
+| `text`                                  | _(optional)_ the `text` of the label. You can use `children` as well.                                   |
+| `srOnly`                                | _(optional)_ when `true`, the label will be invisible and only accessible for screen readers.           |
 | `vertical`                              | _(optional)_ if set to `true`, will do the same as `label_direction` when set to **vertical**.          |
-| `title`                                 | _(optional)_ the `title` attribute of the label.                                                        |
-| `text`                                  | _(optional)_ the `text` of the label.                                                                   |
 | `size`                                  | _(optional)_ define one of the following [heading size](/uilib/elements/heading/): `medium` or `large`. |
 | `skeleton`                              | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                     |
 | `element`                               | _(optional)_ defines the HTML element used. Defaults to `label`.                                        |
+| `innerRef`                              | _(optional)_ attach a React Ref to the inner label `element`.                                           |
 | [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                   |
