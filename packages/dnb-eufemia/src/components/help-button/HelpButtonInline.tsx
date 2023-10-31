@@ -17,15 +17,13 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
     return null
   }
 
-  const icon = isOpen ? 'close' : rest.icon
-
   return (
     <>
       <HelpButtonInstance
         on_click={() => {
           setIsOpen((open) => !open)
         }}
-        icon={icon}
+        icon={isOpen ? 'close' : rest.icon}
         {...rest}
       />
       <HelpButtonContent
@@ -47,7 +45,7 @@ function HelpButtonContent({
   return ReactDOM.createPortal(
     <span>
       <HeightAnimation open={isOpen}>
-        <div>{children}</div>
+        <div className="dnb-help-button-content">{children}</div>
       </HeightAnimation>
     </span>,
     contentElement

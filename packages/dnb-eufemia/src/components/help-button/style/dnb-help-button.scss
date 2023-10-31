@@ -4,3 +4,18 @@
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
  */
+
+.dnb-help-button-content {
+  --help-button-content-color: white;
+  --help-button-content-background: darkgrey;
+  --help-button-content-border-radius: 0.25rem;
+
+  // @TODO Fix CSS prop order
+
+  color: var(--help-button-content-color);
+  background-color: var(--help-button-content-background);
+  padding: 1.5rem;
+  margin: 1.125rem 0;
+  border-radius: var(--help-button-content-border-radius);
+  max-width: 30rem;
+}
