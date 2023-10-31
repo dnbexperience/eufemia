@@ -9,12 +9,7 @@ import ModalContext from '../ModalContext'
 import classnames from 'classnames'
 import { SectionProps } from '../../Section'
 
-export interface ModalInnerProps extends SectionProps {
-  /**
-   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
-   */
-  className?: string
-}
+export type ModalInnerProps = SectionProps
 
 export default class ModalInner extends React.PureComponent<
   ModalInnerProps & React.HTMLProps<HTMLElement>
@@ -24,23 +19,23 @@ export default class ModalInner extends React.PureComponent<
   context!: React.ContextType<typeof ModalContext>
 
   componentDidMount() {
-    const { style_type = 'black-3' } = this.props
-    if (style_type) {
-      this.context.setBackgroundColor(style_type)
+    const { backgroundColor = 'black-3' } = this.props
+    if (backgroundColor) {
+      this.context.setBackgroundColor(backgroundColor)
     }
   }
 
   render() {
     const {
       className = null,
-      style_type = 'black-3',
+      backgroundColor = 'black-3',
       ref, // eslint-disable-line
       ...props
     } = this.props
 
     return (
       <Section
-        style_type={style_type}
+        backgroundColor={backgroundColor}
         className={classnames(className)}
         {...props}
       />

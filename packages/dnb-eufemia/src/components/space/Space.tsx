@@ -148,7 +148,7 @@ function Element({
   const ElementDynamic = element as DynamicElement<any>
 
   if (element?.['_name'] === 'Section') {
-    props['inner_ref'] = innerRef
+    props['innerRef'] = innerRef
   } else {
     // also used for code markup simulation
     validateDOMAttributes({}, props)

@@ -96,9 +96,20 @@ export default class ContentWrapper extends React.PureComponent {
         role="tabpanel"
         tabIndex="-1"
         id={`${id}-content`}
-        spacing={content_style ? false : undefined}
-        style_type={content_style ? content_style : undefined}
-        element={content_style ? Section : 'div'}
+        element={
+          content_style
+            ? React.forwardRef((props, ref) => {
+                return (
+                  <Section
+                    spacing={content_style ? false : undefined}
+                    style_type={content_style ? content_style : undefined}
+                    innerRef={ref}
+                    {...props}
+                  />
+                )
+              })
+            : 'div'
+        }
         className={classnames(
           'dnb-tabs__content',
           'dnb-no-focus',

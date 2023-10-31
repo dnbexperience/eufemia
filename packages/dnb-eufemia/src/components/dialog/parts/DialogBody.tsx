@@ -24,7 +24,7 @@ export default function DialogBody({
   return (
     <ModalInner
       {...props}
-      style_type={styleType}
+      backgroundColor={styleType}
       className={classnames('dnb-dialog__body', className)}
     />
   )
