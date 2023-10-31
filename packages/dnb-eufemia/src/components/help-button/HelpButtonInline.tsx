@@ -1,38 +1,55 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
-import styled from '@emotion/styled'
 
-const StyledDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
+export type HelpButtonInlineProps = {
+  isOpen?: boolean
+} & HelpButtonProps
 
-const BreakItem = styled.div`
-  flex-basis: 100%;
-  height: 0;
-`
-
-const HelpContent = styled.div``
-
-export default function HelpButtonInline(props: HelpButtonProps) {
+export default function HelpButtonInline(props: HelpButtonInlineProps) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const { children, ...rest } = props
+  const { contentElement, children, ...rest } = props
+
+  if (contentElement === null) {
+    return null
+  }
+
+  const icon = isOpen ? 'close' : rest.icon
 
   return (
-    <StyledDiv>
+    <>
       <HelpButtonInstance
+        on_click={() => {
+          setIsOpen((open) => !open)
+        }}
+        icon={icon}
         {...rest}
-        on_click={() => setIsOpen((open) => !open)}
       />
-      <BreakItem />
-      <HelpContent>
-        <HeightAnimation open={isOpen}>
-          <div>{children}</div>
-        </HeightAnimation>
-      </HelpContent>
-    </StyledDiv>
+      <HelpButtonContent
+        isOpen={isOpen}
+        contentElement={contentElement}
+        {...props}
+      >
+        {children}
+      </HelpButtonContent>
+    </>
+  )
+}
+
+function HelpButtonContent({
+  isOpen,
+  contentElement,
+  children,
+}: HelpButtonInlineProps) {
+  return ReactDOM.createPortal(
+    <span>
+      <HeightAnimation open={isOpen}>
+        <div>{children}</div>
+      </HeightAnimation>
+    </span>,
+    contentElement
   )
 }

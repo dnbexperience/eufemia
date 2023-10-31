@@ -22,19 +22,17 @@ export type HelpButtonProps = {
     props: ButtonProps
   ) => React.ReactElement
   displayMethod?: false | 'dialog' | 'inline'
+  contentElement?: Element
 } & ButtonProps
 
 export default function HelpButton(localProps: HelpButtonProps) {
   const context = React.useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps)
 
-  const { children, render, ...params } = props
+  const { children, render, displayMethod, ...params } = props
 
   if (params.icon === null) {
     params.icon = 'question'
-  }
-  if (params.displayMethod === null) {
-    params.displayMethod = 'dialog'
   }
 
   if (!children) {
@@ -49,7 +47,7 @@ export default function HelpButton(localProps: HelpButtonProps) {
     return render(children, params)
   }
 
-  if (params.displayMethod !== 'inline') {
+  if (displayMethod !== 'inline') {
     return <Dialog triggerAttributes={params}>{children}</Dialog>
   }
 
