@@ -23,6 +23,19 @@ render(
 )
 ```
 
+## Autocomplete and autofill
+
+You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/extensions/forms/base-fields/String/)-field will then get `autoComplete="on"`:
+
+```tsx
+<Form.Handler autoComplete={true}>
+  <Field.String path="/firstName" />
+  <Field.String path="/lastName" />
+</Form.Handler>
+```
+
+The `path` property will be used to set the `name` attribute, which lets browser know which autocomplete value should be proposed to the user.
+
 ## Temporary storage
 
 The `sessionStorageId` feature uses the browsers session-storage (temporary storage mechanism) to store data entered by the user.

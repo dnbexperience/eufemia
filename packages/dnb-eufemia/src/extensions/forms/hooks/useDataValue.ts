@@ -362,8 +362,12 @@ export default function useDataValue<
   return {
     ...props,
     id,
+    name: props.name || props.path?.replace('/', '') || id,
     value: toInput(value),
     error: inFieldBlock ? undefined : showError ? exportError : undefined,
+    autoComplete:
+      props.autoComplete ??
+      (dataContext.autoComplete === true ? 'on' : 'off'),
     setHasFocus,
     handleFocus,
     handleBlur,

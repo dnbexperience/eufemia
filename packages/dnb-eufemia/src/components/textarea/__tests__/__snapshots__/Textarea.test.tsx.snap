@@ -148,6 +148,7 @@ button .dnb-form-status__text {
 .dnb-textarea {
   --textarea-padding-width: 0.5rem;
   --textarea-rows: 2;
+  --textarea-background-color: var(--color-white);
   display: inline-flex;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
@@ -216,6 +217,9 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
     background-color: var(--scrollbar-thumb-hover-color, #666);
   }
+}
+.dnb-textarea__input:autofill {
+  box-shadow: 0 0 0 var(--border-width) var(--border-color), 0 0 0 10em var(--textarea-background-color) inset;
 }
 .dnb-textarea__placeholder {
   pointer-events: none;
@@ -337,7 +341,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
  */
 .dnb-textarea__textarea {
   color: var(--color-black);
-  background-color: var(--color-white);
+  background-color: var(--textarea-background-color);
 }
 .dnb-textarea__textarea ::selection {
   background-color: var(--color-mint-green);

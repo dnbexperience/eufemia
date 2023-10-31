@@ -12,9 +12,11 @@ import * as Examples from './Examples'
 
 ### With session storage
 
-<em>
-  Changes you make to the fields are saved to session storage and loaded
-  when the browser reload (as long as it is the same session)
-</em>
+Changes you make to the fields are temporarily saved and loaded
+when the browser reloads. The data is stored until the session storage is invalidated.
 
 <Examples.SessionStorage />
+
+### Autocomplete (autofill) user data
+
+<Examples.Autofill />

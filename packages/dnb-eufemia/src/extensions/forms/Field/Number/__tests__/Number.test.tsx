@@ -24,6 +24,30 @@ describe('Field.Number', () => {
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
     })
 
+    it('renders autoComplete', () => {
+      const { rerender } = render(
+        <Field.Number autoComplete="postalCode" />
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('postalCode')
+
+      rerender(<Field.Number path="/postalCode" autoComplete="tel" />)
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'postalCode'
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('tel')
+    })
+
+    it('renders name based on path', () => {
+      render(<Field.Number path="/postalCode" />)
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'postalCode'
+      )
+    })
+
     it('renders error', () => {
       render(<Field.Number error={new Error('This is what went wrong')} />)
       expect(

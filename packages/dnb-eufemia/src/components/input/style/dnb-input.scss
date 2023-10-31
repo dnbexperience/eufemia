@@ -18,8 +18,7 @@
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-border-width: 0.0625rem;
-  --input-border-radius: 0.25rem;
+  --input-background-color: var(--color-white);
 
   display: inline-flex;
   align-items: center;
@@ -117,6 +116,14 @@
 
   &__input::-ms-clear {
     display: none;
+  }
+
+  // change the autocomplete appearance once filled out
+  &__input:autofill {
+    // set the border and the background
+    box-shadow:
+      0 0 0 var(--input-border-width) var(--input-border-color),
+      0 0 0 10em var(--input-background-color) inset;
   }
 
   // change file type appearance on type="file"
