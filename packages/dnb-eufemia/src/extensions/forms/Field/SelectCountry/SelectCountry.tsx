@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import Selection, { Props as SelectionProps } from '../Selection'
 import Option from '../Option'
 import countries from '../../constants/countries'
@@ -23,17 +23,20 @@ function SelectCountry(props: Props) {
     },
   }
 
-  return (
-    <Selection {...selectComponentProps}>
-      {countries.map((country) => (
+  const lang = sharedContext.locale?.split('-')[0]
+  const countryOptions = useMemo(
+    () =>
+      countries.map((country) => (
         <Option
           key={country.iso}
           value={country.iso}
-          title={country.name}
+          title={country.i18n[lang] ?? country.i18n.en}
         />
-      ))}
-    </Selection>
+      )),
+    [sharedContext.locale]
   )
+
+  return <Selection {...selectComponentProps}>{countryOptions}</Selection>
 }
 
 SelectCountry._supportsSpacingProps = true

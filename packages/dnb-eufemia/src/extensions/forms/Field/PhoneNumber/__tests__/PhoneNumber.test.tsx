@@ -3,8 +3,62 @@ import { wait } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PhoneNumber from '..'
+import { Provider } from '../../../../../shared'
 
 describe('Field.PhoneNumber', () => {
+  it('should default to 47', () => {
+    render(<PhoneNumber />)
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    fireEvent.mouseDown(codeElement)
+
+    const selectedItemElement = document.querySelector(
+      '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+    )
+
+    expect(selectedItemElement).toBeInTheDocument()
+    expect(selectedItemElement.textContent).toContain('+47 Norge')
+  })
+
+  it('should use nb-NO by defualt', () => {
+    render(<PhoneNumber />)
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    fireEvent.mouseDown(codeElement)
+
+    const selectedItemElement = document.querySelector(
+      '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+    )
+
+    expect(selectedItemElement.textContent).toBe('+47 Norge')
+  })
+
+  it('should change locale', () => {
+    render(
+      <Provider locale="en-GB">
+        <PhoneNumber />
+      </Provider>
+    )
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    fireEvent.mouseDown(codeElement)
+
+    const selectedItemElement = document.querySelector(
+      '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+    )
+
+    expect(selectedItemElement.textContent).toBe('+47 Norway')
+  })
+
   it('should return correct value onFocus and onBlur event', async () => {
     const onFocus = jest.fn()
     const onBlur = jest.fn()

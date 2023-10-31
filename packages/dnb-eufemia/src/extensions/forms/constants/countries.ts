@@ -1,242 +1,2194 @@
+/**
+ * Source: Wikipedia's official list of phone number country codes
+ *
+ * cdc: Country Dialing Code
+ */
 export default [
-  { name: 'Afghanistan', code: '93', iso: 'AF' },
-  { name: 'Albania', code: '355', iso: 'AL' },
-  { name: 'Algeria', code: '213', iso: 'DZ' },
-  { name: 'American Samoa', code: '1-684', iso: 'AS' },
-  { name: 'Andorra', code: '376', iso: 'AD' },
-  { name: 'Angola', code: '244', iso: 'AO' },
-  { name: 'Anguilla', code: '1-264', iso: 'AI' },
-  { name: 'Antarctica', code: '672', iso: 'AQ' },
-  { name: 'Antigua and Barbuda', code: '1-268', iso: 'AG' },
-  { name: 'Argentina', code: '54', iso: 'AR' },
-  { name: 'Armenia', code: '374', iso: 'AM' },
-  { name: 'Aruba', code: '297', iso: 'AW' },
-  { name: 'Australia', code: '61', iso: 'AU' },
-  { name: 'Austria', code: '43', iso: 'AT' },
-  { name: 'Azerbaijan', code: '994', iso: 'AZ' },
-  { name: 'Bahamas', code: '1-242', iso: 'BS' },
-  { name: 'Bahrain', code: '973', iso: 'BH' },
-  { name: 'Bangladesh', code: '880', iso: 'BD' },
-  { name: 'Barbados', code: '1-246', iso: 'BB' },
-  { name: 'Belarus', code: '375', iso: 'BY' },
-  { name: 'Belgium', code: '32', iso: 'BE' },
-  { name: 'Belize', code: '501', iso: 'BZ' },
-  { name: 'Benin', code: '229', iso: 'BJ' },
-  { name: 'Bermuda', code: '1-441', iso: 'BM' },
-  { name: 'Bhutan', code: '975', iso: 'BT' },
-  { name: 'Bolivia', code: '591', iso: 'BO' },
-  { name: 'Bosnia and Herzegovina', code: '387', iso: 'BA' },
-  { name: 'Botswana', code: '267', iso: 'BW' },
-  { name: 'Brazil', code: '55', iso: 'BR' },
-  { name: 'British Indian Ocean Territory', code: '246', iso: 'IO' },
-  { name: 'British Virgin Islands', code: '1-284', iso: 'VG' },
-  { name: 'Brunei', code: '673', iso: 'BN' },
-  { name: 'Bulgaria', code: '359', iso: 'BG' },
-  { name: 'Burkina Faso', code: '226', iso: 'BF' },
-  { name: 'Burundi', code: '257', iso: 'BI' },
-  { name: 'Cambodia', code: '855', iso: 'KH' },
-  { name: 'Cameroon', code: '237', iso: 'CM' },
-  { name: 'Canada', code: '1', iso: 'CA' },
-  { name: 'Cape Verde', code: '238', iso: 'CV' },
-  { name: 'Cayman Islands', code: '1-345', iso: 'KY' },
-  { name: 'Central African Republic', code: '236', iso: 'CF' },
-  { name: 'Chad', code: '235', iso: 'TD' },
-  { name: 'Chile', code: '56', iso: 'CL' },
-  { name: 'China', code: '86', iso: 'CN' },
-  { name: 'Christmas Island', code: '61', iso: 'CX' },
-  { name: 'Cocos Islands', code: '61', iso: 'CC' },
-  { name: 'Colombia', code: '57', iso: 'CO' },
-  { name: 'Comoros', code: '269', iso: 'KM' },
-  { name: 'Cook Islands', code: '682', iso: 'CK' },
-  { name: 'Costa Rica', code: '506', iso: 'CR' },
-  { name: 'Croatia', code: '385', iso: 'HR' },
-  { name: 'Cuba', code: '53', iso: 'CU' },
-  { name: 'Curacao', code: '599', iso: 'CW' },
-  { name: 'Cyprus', code: '357', iso: 'CY' },
-  { name: 'Czech Republic', code: '420', iso: 'CZ' },
-  { name: 'Democratic Republic of the Congo', code: '243', iso: 'CD' },
-  { name: 'Denmark', code: '45', iso: 'DK' },
-  { name: 'Djibouti', code: '253', iso: 'DJ' },
-  { name: 'Dominica', code: '1-767', iso: 'DM' },
-  { name: 'Dominican Republic', code: '1-809, 1-829, 1-849', iso: 'DO' },
-  { name: 'East Timor', code: '670', iso: 'TL' },
-  { name: 'Ecuador', code: '593', iso: 'EC' },
-  { name: 'Egypt', code: '20', iso: 'EG' },
-  { name: 'El Salvador', code: '503', iso: 'SV' },
-  { name: 'Equatorial Guinea', code: '240', iso: 'GQ' },
-  { name: 'Eritrea', code: '291', iso: 'ER' },
-  { name: 'Estonia', code: '372', iso: 'EE' },
-  { name: 'Ethiopia', code: '251', iso: 'ET' },
-  { name: 'Falkland Islands', code: '500', iso: 'FK' },
-  { name: 'Faroe Islands', code: '298', iso: 'FO' },
-  { name: 'Fiji', code: '679', iso: 'FJ' },
-  { name: 'Finland', code: '358', iso: 'FI' },
-  { name: 'France', code: '33', iso: 'FR' },
-  { name: 'French Polynesia', code: '689', iso: 'PF' },
-  { name: 'Gabon', code: '241', iso: 'GA' },
-  { name: 'Gambia', code: '220', iso: 'GM' },
-  { name: 'Georgia', code: '995', iso: 'GE' },
-  { name: 'Germany', code: '49', iso: 'DE' },
-  { name: 'Ghana', code: '233', iso: 'GH' },
-  { name: 'Gibraltar', code: '350', iso: 'GI' },
-  { name: 'Greece', code: '30', iso: 'GR' },
-  { name: 'Greenland', code: '299', iso: 'GL' },
-  { name: 'Grenada', code: '1-473', iso: 'GD' },
-  { name: 'Guam', code: '1-671', iso: 'GU' },
-  { name: 'Guatemala', code: '502', iso: 'GT' },
-  { name: 'Guernsey', code: '44-1481', iso: 'GG' },
-  { name: 'Guinea', code: '224', iso: 'GN' },
-  { name: 'Guinea-Bissau', code: '245', iso: 'GW' },
-  { name: 'Guyana', code: '592', iso: 'GY' },
-  { name: 'Haiti', code: '509', iso: 'HT' },
-  { name: 'Honduras', code: '504', iso: 'HN' },
-  { name: 'Hong Kong', code: '852', iso: 'HK' },
-  { name: 'Hungary', code: '36', iso: 'HU' },
-  { name: 'Iceland', code: '354', iso: 'IS' },
-  { name: 'India', code: '91', iso: 'IN' },
-  { name: 'Indonesia', code: '62', iso: 'ID' },
-  { name: 'Iran', code: '98', iso: 'IR' },
-  { name: 'Iraq', code: '964', iso: 'IQ' },
-  { name: 'Ireland', code: '353', iso: 'IE' },
-  { name: 'Isle of Man', code: '44-1624', iso: 'IM' },
-  { name: 'Israel', code: '972', iso: 'IL' },
-  { name: 'Italy', code: '39', iso: 'IT' },
-  { name: 'Ivory Coast', code: '225', iso: 'CI' },
-  { name: 'Jamaica', code: '1-876', iso: 'JM' },
-  { name: 'Japan', code: '81', iso: 'JP' },
-  { name: 'Jersey', code: '44-1534', iso: 'JE' },
-  { name: 'Jordan', code: '962', iso: 'JO' },
-  { name: 'Kazakhstan', code: '7', iso: 'KZ' },
-  { name: 'Kenya', code: '254', iso: 'KE' },
-  { name: 'Kiribati', code: '686', iso: 'KI' },
-  { name: 'Kosovo', code: '383', iso: 'XK' },
-  { name: 'Kuwait', code: '965', iso: 'KW' },
-  { name: 'Kyrgyzstan', code: '996', iso: 'KG' },
-  { name: 'Laos', code: '856', iso: 'LA' },
-  { name: 'Latvia', code: '371', iso: 'LV' },
-  { name: 'Lebanon', code: '961', iso: 'LB' },
-  { name: 'Lesotho', code: '266', iso: 'LS' },
-  { name: 'Liberia', code: '231', iso: 'LR' },
-  { name: 'Libya', code: '218', iso: 'LY' },
-  { name: 'Liechtenstein', code: '423', iso: 'LI' },
-  { name: 'Lithuania', code: '370', iso: 'LT' },
-  { name: 'Luxembourg', code: '352', iso: 'LU' },
-  { name: 'Macao', code: '853', iso: 'MO' },
-  { name: 'Macedonia', code: '389', iso: 'MK' },
-  { name: 'Madagascar', code: '261', iso: 'MG' },
-  { name: 'Malawi', code: '265', iso: 'MW' },
-  { name: 'Malaysia', code: '60', iso: 'MY' },
-  { name: 'Maldives', code: '960', iso: 'MV' },
-  { name: 'Mali', code: '223', iso: 'ML' },
-  { name: 'Malta', code: '356', iso: 'MT' },
-  { name: 'Marshall Islands', code: '692', iso: 'MH' },
-  { name: 'Mauritania', code: '222', iso: 'MR' },
-  { name: 'Mauritius', code: '230', iso: 'MU' },
-  { name: 'Mayotte', code: '262', iso: 'YT' },
-  { name: 'Mexico', code: '52', iso: 'MX' },
-  { name: 'Micronesia', code: '691', iso: 'FM' },
-  { name: 'Moldova', code: '373', iso: 'MD' },
-  { name: 'Monaco', code: '377', iso: 'MC' },
-  { name: 'Mongolia', code: '976', iso: 'MN' },
-  { name: 'Montenegro', code: '382', iso: 'ME' },
-  { name: 'Montserrat', code: '1-664', iso: 'MS' },
-  { name: 'Morocco', code: '212', iso: 'MA' },
-  { name: 'Mozambique', code: '258', iso: 'MZ' },
-  { name: 'Myanmar', code: '95', iso: 'MM' },
-  { name: 'Namibia', code: '264', iso: 'NA' },
-  { name: 'Nauru', code: '674', iso: 'NR' },
-  { name: 'Nepal', code: '977', iso: 'NP' },
-  { name: 'Netherlands', code: '31', iso: 'NL' },
-  { name: 'Netherlands Antilles', code: '599', iso: 'AN' },
-  { name: 'New Caledonia', code: '687', iso: 'NC' },
-  { name: 'New Zealand', code: '64', iso: 'NZ' },
-  { name: 'Nicaragua', code: '505', iso: 'NI' },
-  { name: 'Niger', code: '227', iso: 'NE' },
-  { name: 'Nigeria', code: '234', iso: 'NG' },
-  { name: 'Niue', code: '683', iso: 'NU' },
-  { name: 'North Korea', code: '850', iso: 'KP' },
-  { name: 'Northern Mariana Islands', code: '1-670', iso: 'MP' },
-  { name: 'Norway', code: '47', iso: 'NO' },
-  { name: 'Oman', code: '968', iso: 'OM' },
-  { name: 'Pakistan', code: '92', iso: 'PK' },
-  { name: 'Palau', code: '680', iso: 'PW' },
-  { name: 'Palestine', code: '970', iso: 'PS' },
-  { name: 'Panama', code: '507', iso: 'PA' },
-  { name: 'Papua New Guinea', code: '675', iso: 'PG' },
-  { name: 'Paraguay', code: '595', iso: 'PY' },
-  { name: 'Peru', code: '51', iso: 'PE' },
-  { name: 'Philippines', code: '63', iso: 'PH' },
-  { name: 'Pitcairn', code: '64', iso: 'PN' },
-  { name: 'Poland', code: '48', iso: 'PL' },
-  { name: 'Portugal', code: '351', iso: 'PT' },
-  { name: 'Puerto Rico', code: '1-787, 1-939', iso: 'PR' },
-  { name: 'Qatar', code: '974', iso: 'QA' },
-  { name: 'Republic of the Congo', code: '242', iso: 'CG' },
-  { name: 'Reunion', code: '262', iso: 'RE' },
-  { name: 'Romania', code: '40', iso: 'RO' },
-  { name: 'Russia', code: '7', iso: 'RU' },
-  { name: 'Rwanda', code: '250', iso: 'RW' },
-  { name: 'Saint Barthelemy', code: '590', iso: 'BL' },
-  { name: 'Saint Helena', code: '290', iso: 'SH' },
-  { name: 'Saint Kitts and Nevis', code: '1-869', iso: 'KN' },
-  { name: 'Saint Lucia', code: '1-758', iso: 'LC' },
-  { name: 'Saint Martin', code: '590', iso: 'MF' },
-  { name: 'Saint Pierre and Miquelon', code: '508', iso: 'PM' },
-  { name: 'Saint Vincent and the Grenadines', code: '1-784', iso: 'VC' },
-  { name: 'Samoa', code: '685', iso: 'WS' },
-  { name: 'San Marino', code: '378', iso: 'SM' },
-  { name: 'Sao Tome and Principe', code: '239', iso: 'ST' },
-  { name: 'Saudi Arabia', code: '966', iso: 'SA' },
-  { name: 'Senegal', code: '221', iso: 'SN' },
-  { name: 'Serbia', code: '381', iso: 'RS' },
-  { name: 'Seychelles', code: '248', iso: 'SC' },
-  { name: 'Sierra Leone', code: '232', iso: 'SL' },
-  { name: 'Singapore', code: '65', iso: 'SG' },
-  { name: 'Sint Maarten', code: '1-721', iso: 'SX' },
-  { name: 'Slovakia', code: '421', iso: 'SK' },
-  { name: 'Slovenia', code: '386', iso: 'SI' },
-  { name: 'Solomon Islands', code: '677', iso: 'SB' },
-  { name: 'Somalia', code: '252', iso: 'SO' },
-  { name: 'South Africa', code: '27', iso: 'ZA' },
-  { name: 'South Korea', code: '82', iso: 'KR' },
-  { name: 'South Sudan', code: '211', iso: 'SS' },
-  { name: 'Spain', code: '34', iso: 'ES' },
-  { name: 'Sri Lanka', code: '94', iso: 'LK' },
-  { name: 'Sudan', code: '249', iso: 'SD' },
-  { name: 'Suriname', code: '597', iso: 'SR' },
-  { name: 'Svalbard and Jan Mayen', code: '47', iso: 'SJ' },
-  { name: 'Swaziland', code: '268', iso: 'SZ' },
-  { name: 'Sweden', code: '46', iso: 'SE' },
-  { name: 'Switzerland', code: '41', iso: 'CH' },
-  { name: 'Syria', code: '963', iso: 'SY' },
-  { name: 'Taiwan', code: '886', iso: 'TW' },
-  { name: 'Tajikistan', code: '992', iso: 'TJ' },
-  { name: 'Tanzania', code: '255', iso: 'TZ' },
-  { name: 'Thailand', code: '66', iso: 'TH' },
-  { name: 'Togo', code: '228', iso: 'TG' },
-  { name: 'Tokelau', code: '690', iso: 'TK' },
-  { name: 'Tonga', code: '676', iso: 'TO' },
-  { name: 'Trinidad and Tobago', code: '1-868', iso: 'TT' },
-  { name: 'Tunisia', code: '216', iso: 'TN' },
-  { name: 'Turkey', code: '90', iso: 'TR' },
-  { name: 'Turkmenistan', code: '993', iso: 'TM' },
-  { name: 'Turks and Caicos Islands', code: '1-649', iso: 'TC' },
-  { name: 'Tuvalu', code: '688', iso: 'TV' },
-  { name: 'U.S. Virgin Islands', code: '1-340', iso: 'VI' },
-  { name: 'Uganda', code: '256', iso: 'UG' },
-  { name: 'Ukraine', code: '380', iso: 'UA' },
-  { name: 'United Arab Emirates', code: '971', iso: 'AE' },
-  { name: 'United Kingdom', code: '44', iso: 'GB' },
-  { name: 'United States', code: '1', iso: 'US' },
-  { name: 'Uruguay', code: '598', iso: 'UY' },
-  { name: 'Uzbekistan', code: '998', iso: 'UZ' },
-  { name: 'Vanuatu', code: '678', iso: 'VU' },
-  { name: 'Vatican', code: '379', iso: 'VA' },
-  { name: 'Venezuela', code: '58', iso: 'VE' },
-  { name: 'Vietnam', code: '84', iso: 'VN' },
-  { name: 'Wallis and Futuna', code: '681', iso: 'WF' },
-  { name: 'Western Sahara', code: '212', iso: 'EH' },
-  { name: 'Yemen', code: '967', iso: 'YE' },
-  { name: 'Zambia', code: '260', iso: 'ZM' },
-  { name: 'Zimbabwe', code: '263', iso: 'ZW' },
+  {
+    i18n: {
+      en: 'Afghanistan',
+      nb: 'Afghanistan',
+    },
+    cdc: '93',
+    iso: 'AF',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Albania',
+      nb: 'Albania',
+    },
+    cdc: '355',
+    iso: 'AL',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Algeria',
+      nb: 'Algerie',
+    },
+    cdc: '213',
+    iso: 'DZ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'American Samoa',
+      nb: 'Amerikansk Samoa',
+    },
+    cdc: '1-684',
+    iso: 'AS',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Andorra',
+      nb: 'Andorra',
+    },
+    cdc: '376',
+    iso: 'AD',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Angola',
+      nb: 'Angola',
+    },
+    cdc: '244',
+    iso: 'AO',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Anguilla',
+      nb: 'Anguilla',
+    },
+    cdc: '1-264',
+    iso: 'AI',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Antarctica',
+      nb: 'Antarktis',
+    },
+    cdc: '672',
+    iso: 'AQ',
+    continent: 'Antarctica',
+  },
+  {
+    i18n: {
+      en: 'Antigua and Barbuda',
+      nb: 'Antigua og Barbuda',
+    },
+    cdc: '1-268',
+    iso: 'AG',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Argentina',
+      nb: 'Argentina',
+    },
+    cdc: '54',
+    iso: 'AR',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Armenia',
+      nb: 'Armenia',
+    },
+    cdc: '374',
+    iso: 'AM',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Aruba',
+      nb: 'Aruba',
+    },
+    cdc: '297',
+    iso: 'AW',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Australia',
+      nb: 'Australia',
+    },
+    cdc: '61',
+    iso: 'AU',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Austria',
+      nb: 'Østerrike',
+    },
+    cdc: '43',
+    iso: 'AT',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Azerbaijan',
+      nb: 'Aserbajdsjan',
+    },
+    cdc: '994',
+    iso: 'AZ',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Bahamas',
+      nb: 'Bahamas',
+    },
+    cdc: '1-242',
+    iso: 'BS',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Bahrain',
+      nb: 'Bahrain',
+    },
+    cdc: '973',
+    iso: 'BH',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Bangladesh',
+      nb: 'Bangladesh',
+    },
+    cdc: '880',
+    iso: 'BD',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Barbados',
+      nb: 'Barbados',
+    },
+    cdc: '1-246',
+    iso: 'BB',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Belarus',
+      nb: 'Hviterussland',
+    },
+    cdc: '375',
+    iso: 'BY',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Belgium',
+      nb: 'Belgia',
+    },
+    cdc: '32',
+    iso: 'BE',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Belize',
+      nb: 'Belize',
+    },
+    cdc: '501',
+    iso: 'BZ',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Benin',
+      nb: 'Benin',
+    },
+    cdc: '229',
+    iso: 'BJ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Bermuda',
+      nb: 'Bermuda',
+    },
+    cdc: '1-441',
+    iso: 'BM',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Bhutan',
+      nb: 'Bhutan',
+    },
+    cdc: '975',
+    iso: 'BT',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Bolivia',
+      nb: 'Bolivia',
+    },
+    cdc: '591',
+    iso: 'BO',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Bosnia and Herzegovina',
+      nb: 'Bosnia-Hercegovina',
+    },
+    cdc: '387',
+    iso: 'BA',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Botswana',
+      nb: 'Botswana',
+    },
+    cdc: '267',
+    iso: 'BW',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Brazil',
+      nb: 'Brasil',
+    },
+    cdc: '55',
+    iso: 'BR',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'British Indian Ocean Territory',
+      nb: 'Det britiske territoriet i Indiahavet',
+    },
+    cdc: '246',
+    iso: 'IO',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'British Virgin Islands',
+      nb: 'De britiske Jomfruøyene',
+    },
+    cdc: '1-284',
+    iso: 'VG',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Brunei',
+      nb: 'Brunei',
+    },
+    cdc: '673',
+    iso: 'BN',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Bulgaria',
+      nb: 'Bulgaria',
+    },
+    cdc: '359',
+    iso: 'BG',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Burkina Faso',
+      nb: 'Burkina Faso',
+    },
+    cdc: '226',
+    iso: 'BF',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Burundi',
+      nb: 'Burundi',
+    },
+    cdc: '257',
+    iso: 'BI',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Cambodia',
+      nb: 'Kambodsja',
+    },
+    cdc: '855',
+    iso: 'KH',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Cameroon',
+      nb: 'Kamerun',
+    },
+    cdc: '237',
+    iso: 'CM',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Canada',
+      nb: 'Canada',
+    },
+    cdc: '1',
+    iso: 'CA',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Cape Verde',
+      nb: 'Kapp Verde',
+    },
+    cdc: '238',
+    iso: 'CV',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Cayman Islands',
+      nb: 'Caymanøyene',
+    },
+    cdc: '1-345',
+    iso: 'KY',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Central African Republic',
+      nb: 'Den sentralafrikanske republikk',
+    },
+    cdc: '236',
+    iso: 'CF',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Chad',
+      nb: 'Tsjad',
+    },
+    cdc: '235',
+    iso: 'TD',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Chile',
+      nb: 'Chile',
+    },
+    cdc: '56',
+    iso: 'CL',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'China',
+      nb: 'Kina',
+    },
+    cdc: '86',
+    iso: 'CN',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Christmas Island',
+      nb: 'Christmasøya',
+    },
+    cdc: '61',
+    iso: 'CX',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Cocos Islands',
+      nb: 'Kokosøyene',
+    },
+    cdc: '61',
+    iso: 'CC',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Colombia',
+      nb: 'Colombia',
+    },
+    cdc: '57',
+    iso: 'CO',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Comoros',
+      nb: 'Komorene',
+    },
+    cdc: '269',
+    iso: 'KM',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Cook Islands',
+      nb: 'Cookøyene',
+    },
+    cdc: '682',
+    iso: 'CK',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Costa Rica',
+      nb: 'Costa Rica',
+    },
+    cdc: '506',
+    iso: 'CR',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Croatia',
+      nb: 'Kroatia',
+    },
+    cdc: '385',
+    iso: 'HR',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Cuba',
+      nb: 'Cuba',
+    },
+    cdc: '53',
+    iso: 'CU',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Curaçao',
+      nb: 'Curaçao',
+    },
+    cdc: '599',
+    iso: 'CW',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Cyprus',
+      nb: 'Kypros',
+    },
+    cdc: '357',
+    iso: 'CY',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Czech Republic',
+      nb: 'Tsjekkia',
+    },
+    cdc: '420',
+    iso: 'CZ',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Democratic Republic of the Congo',
+      nb: 'Den demokratiske republikken Kongo',
+    },
+    cdc: '243',
+    iso: 'CD',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Denmark',
+      nb: 'Danmark',
+    },
+    cdc: '45',
+    iso: 'DK',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Djibouti',
+      nb: 'Djibouti',
+    },
+    cdc: '253',
+    iso: 'DJ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Dominica',
+      nb: 'Dominica',
+    },
+    cdc: '1-767',
+    iso: 'DM',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Dominican Republic',
+      nb: 'Den dominikanske republikk',
+    },
+    cdc: '1-809',
+    iso: 'DO',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'East Timor',
+      nb: 'Øst-Timor',
+    },
+    cdc: '670',
+    iso: 'TL',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Ecuador',
+      nb: 'Ecuador',
+    },
+    cdc: '593',
+    iso: 'EC',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Egypt',
+      nb: 'Egypt',
+    },
+    cdc: '20',
+    iso: 'EG',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'El Salvador',
+      nb: 'El Salvador',
+    },
+    cdc: '503',
+    iso: 'SV',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Equatorial Guinea',
+      nb: 'Ekvatorial-Guinea',
+    },
+    cdc: '240',
+    iso: 'GQ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Eritrea',
+      nb: 'Eritrea',
+    },
+    cdc: '291',
+    iso: 'ER',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Estonia',
+      nb: 'Estland',
+    },
+    cdc: '372',
+    iso: 'EE',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Eswatini',
+      nb: 'Eswatini',
+    },
+    cdc: '268',
+    iso: 'SZ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Ethiopia',
+      nb: 'Etiopia',
+    },
+    cdc: '251',
+    iso: 'ET',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Falkland Islands',
+      nb: 'Falklandsøyene',
+    },
+    cdc: '500',
+    iso: 'FK',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Faroe Islands',
+      nb: 'Færøyene',
+    },
+    cdc: '298',
+    iso: 'FO',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Fiji',
+      nb: 'Fiji',
+    },
+    cdc: '679',
+    iso: 'FJ',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Finland',
+      nb: 'Finland',
+    },
+    cdc: '358',
+    iso: 'FI',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'France',
+      nb: 'Frankrike',
+    },
+    cdc: '33',
+    iso: 'FR',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'French Guiana',
+      nb: 'Fransk Guyana',
+    },
+    cdc: '594',
+    iso: 'GF',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'French Polynesia',
+      nb: 'Fransk Polynesia',
+    },
+    cdc: '689',
+    iso: 'PF',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Gabon',
+      nb: 'Gabon',
+    },
+    cdc: '241',
+    iso: 'GA',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Gambia',
+      nb: 'Gambia',
+    },
+    cdc: '220',
+    iso: 'GM',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Georgia',
+      nb: 'Georgia',
+    },
+    cdc: '995',
+    iso: 'GE',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Germany',
+      nb: 'Tyskland',
+    },
+    cdc: '49',
+    iso: 'DE',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Ghana',
+      nb: 'Ghana',
+    },
+    cdc: '233',
+    iso: 'GH',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Gibraltar',
+      nb: 'Gibraltar',
+    },
+    cdc: '350',
+    iso: 'GI',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Greece',
+      nb: 'Hellas',
+    },
+    cdc: '30',
+    iso: 'GR',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Greenland',
+      nb: 'Grønland',
+    },
+    cdc: '299',
+    iso: 'GL',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Grenada',
+      nb: 'Grenada',
+    },
+    cdc: '1-473',
+    iso: 'GD',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Guadeloupe',
+      nb: 'Guadeloupe',
+    },
+    cdc: '590',
+    iso: 'GP',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Guam',
+      nb: 'Guam',
+    },
+    cdc: '1-671',
+    iso: 'GU',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Guatemala',
+      nb: 'Guatemala',
+    },
+    cdc: '502',
+    iso: 'GT',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Guernsey',
+      nb: 'Guernsey',
+    },
+    cdc: '44-1481',
+    iso: 'GG',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Guinea',
+      nb: 'Guinea',
+    },
+    cdc: '224',
+    iso: 'GN',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Guinea-Bissau',
+      nb: 'Guinea-Bissau',
+    },
+    cdc: '245',
+    iso: 'GW',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Guyana',
+      nb: 'Guyana',
+    },
+    cdc: '592',
+    iso: 'GY',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Haiti',
+      nb: 'Haiti',
+    },
+    cdc: '509',
+    iso: 'HT',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Honduras',
+      nb: 'Honduras',
+    },
+    cdc: '504',
+    iso: 'HN',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Hong Kong',
+      nb: 'Hongkong',
+    },
+    cdc: '852',
+    iso: 'HK',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Hungary',
+      nb: 'Ungarn',
+    },
+    cdc: '36',
+    iso: 'HU',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Iceland',
+      nb: 'Island',
+    },
+    cdc: '354',
+    iso: 'IS',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'India',
+      nb: 'India',
+    },
+    cdc: '91',
+    iso: 'IN',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Indonesia',
+      nb: 'Indonesia',
+    },
+    cdc: '62',
+    iso: 'ID',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Iran',
+      nb: 'Iran',
+    },
+    cdc: '98',
+    iso: 'IR',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Iraq',
+      nb: 'Irak',
+    },
+    cdc: '964',
+    iso: 'IQ',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Ireland',
+      nb: 'Irland',
+    },
+    cdc: '353',
+    iso: 'IE',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Isle of Man',
+      nb: 'Mann',
+    },
+    cdc: '44-1624',
+    iso: 'IM',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Israel',
+      nb: 'Israel',
+    },
+    cdc: '972',
+    iso: 'IL',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Italy',
+      nb: 'Italia',
+    },
+    cdc: '39',
+    iso: 'IT',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Ivory Coast',
+      nb: 'Elfenbenskysten',
+    },
+    cdc: '225',
+    iso: 'CI',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Jamaica',
+      nb: 'Jamaica',
+    },
+    cdc: '1-876',
+    iso: 'JM',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Japan',
+      nb: 'Japan',
+    },
+    cdc: '81',
+    iso: 'JP',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Jersey',
+      nb: 'Jersey',
+    },
+    cdc: '44-1534',
+    iso: 'JE',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Jordan',
+      nb: 'Jordan',
+    },
+    cdc: '962',
+    iso: 'JO',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Kazakhstan',
+      nb: 'Kasakhstan',
+    },
+    cdc: '7',
+    iso: 'KZ',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Kenya',
+      nb: 'Kenya',
+    },
+    cdc: '254',
+    iso: 'KE',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Kiribati',
+      nb: 'Kiribati',
+    },
+    cdc: '686',
+    iso: 'KI',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Kosovo',
+      nb: 'Kosovo',
+    },
+    cdc: '383',
+    iso: 'XK',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Kuwait',
+      nb: 'Kuwait',
+    },
+    cdc: '965',
+    iso: 'KW',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Kyrgyzstan',
+      nb: 'Kirgisistan',
+    },
+    cdc: '996',
+    iso: 'KG',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Laos',
+      nb: 'Laos',
+    },
+    cdc: '856',
+    iso: 'LA',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Latvia',
+      nb: 'Latvia',
+    },
+    cdc: '371',
+    iso: 'LV',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Lebanon',
+      nb: 'Libanon',
+    },
+    cdc: '961',
+    iso: 'LB',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Lesotho',
+      nb: 'Lesotho',
+    },
+    cdc: '266',
+    iso: 'LS',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Liberia',
+      nb: 'Liberia',
+    },
+    cdc: '231',
+    iso: 'LR',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Libya',
+      nb: 'Libya',
+    },
+    cdc: '218',
+    iso: 'LY',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Liechtenstein',
+      nb: 'Liechtenstein',
+    },
+    cdc: '423',
+    iso: 'LI',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Lithuania',
+      nb: 'Litauen',
+    },
+    cdc: '370',
+    iso: 'LT',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Luxembourg',
+      nb: 'Luxemburg',
+    },
+    cdc: '352',
+    iso: 'LU',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Macao',
+      nb: 'Macao',
+    },
+    cdc: '853',
+    iso: 'MO',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Macedonia',
+      nb: 'Makedonia',
+    },
+    cdc: '389',
+    iso: 'MK',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Madagascar',
+      nb: 'Madagaskar',
+    },
+    cdc: '261',
+    iso: 'MG',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Malawi',
+      nb: 'Malawi',
+    },
+    cdc: '265',
+    iso: 'MW',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Malaysia',
+      nb: 'Malaysia',
+    },
+    cdc: '60',
+    iso: 'MY',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Maldives',
+      nb: 'Maldivene',
+    },
+    cdc: '960',
+    iso: 'MV',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Mali',
+      nb: 'Mali',
+    },
+    cdc: '223',
+    iso: 'ML',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Malta',
+      nb: 'Malta',
+    },
+    cdc: '356',
+    iso: 'MT',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Marshall Islands',
+      nb: 'Marshalløyene',
+    },
+    cdc: '692',
+    iso: 'MH',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Mauritania',
+      nb: 'Mauritania',
+    },
+    cdc: '222',
+    iso: 'MR',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Mauritius',
+      nb: 'Mauritius',
+    },
+    cdc: '230',
+    iso: 'MU',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Mayotte',
+      nb: 'Mayotte',
+    },
+    cdc: '262',
+    iso: 'YT',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Mexico',
+      nb: 'Mexico',
+    },
+    cdc: '52',
+    iso: 'MX',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Micronesia',
+      nb: 'Mikronesia',
+    },
+    cdc: '691',
+    iso: 'FM',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Moldova',
+      nb: 'Moldova',
+    },
+    cdc: '373',
+    iso: 'MD',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Monaco',
+      nb: 'Monaco',
+    },
+    cdc: '377',
+    iso: 'MC',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Mongolia',
+      nb: 'Mongolia',
+    },
+    cdc: '976',
+    iso: 'MN',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Montenegro',
+      nb: 'Montenegro',
+    },
+    cdc: '382',
+    iso: 'ME',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Montserrat',
+      nb: 'Montserrat',
+    },
+    cdc: '1-664',
+    iso: 'MS',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Morocco',
+      nb: 'Marokko',
+    },
+    cdc: '212',
+    iso: 'MA',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Mozambique',
+      nb: 'Mosambik',
+    },
+    cdc: '258',
+    iso: 'MZ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Myanmar',
+      nb: 'Myanmar',
+    },
+    cdc: '95',
+    iso: 'MM',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Namibia',
+      nb: 'Namibia',
+    },
+    cdc: '264',
+    iso: 'NA',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Nauru',
+      nb: 'Nauru',
+    },
+    cdc: '674',
+    iso: 'NR',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Nepal',
+      nb: 'Nepal',
+    },
+    cdc: '977',
+    iso: 'NP',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Netherlands',
+      nb: 'Nederland',
+    },
+    cdc: '31',
+    iso: 'NL',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Netherlands Antilles',
+      nb: 'Nederlandske Antiller',
+    },
+    cdc: '599',
+    iso: 'AN',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'New Caledonia',
+      nb: 'Ny-Caledonia',
+    },
+    cdc: '687',
+    iso: 'NC',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'New Zealand',
+      nb: 'New Zealand',
+    },
+    cdc: '64',
+    iso: 'NZ',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Nicaragua',
+      nb: 'Nicaragua',
+    },
+    cdc: '505',
+    iso: 'NI',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Niger',
+      nb: 'Niger',
+    },
+    cdc: '227',
+    iso: 'NE',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Nigeria',
+      nb: 'Nigeria',
+    },
+    cdc: '234',
+    iso: 'NG',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Niue',
+      nb: 'Niue',
+    },
+    cdc: '683',
+    iso: 'NU',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'North Korea',
+      nb: 'Nord-Korea',
+    },
+    cdc: '850',
+    iso: 'KP',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Northern Mariana Islands',
+      nb: 'Nord-Marianene',
+    },
+    cdc: '1-670',
+    iso: 'MP',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Norway',
+      nb: 'Norge',
+    },
+    cdc: '47',
+    iso: 'NO',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Oman',
+      nb: 'Oman',
+    },
+    cdc: '968',
+    iso: 'OM',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Pakistan',
+      nb: 'Pakistan',
+    },
+    cdc: '92',
+    iso: 'PK',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Palau',
+      nb: 'Palau',
+    },
+    cdc: '680',
+    iso: 'PW',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Palestine',
+      nb: 'Palestina',
+    },
+    cdc: '970',
+    iso: 'PS',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Panama',
+      nb: 'Panama',
+    },
+    cdc: '507',
+    iso: 'PA',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Papua New Guinea',
+      nb: 'Papua Ny-Guinea',
+    },
+    cdc: '675',
+    iso: 'PG',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Paraguay',
+      nb: 'Paraguay',
+    },
+    cdc: '595',
+    iso: 'PY',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Peru',
+      nb: 'Peru',
+    },
+    cdc: '51',
+    iso: 'PE',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Philippines',
+      nb: 'Filippinene',
+    },
+    cdc: '63',
+    iso: 'PH',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Pitcairn',
+      nb: 'Pitcairnøyene',
+    },
+    cdc: '64',
+    iso: 'PN',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Poland',
+      nb: 'Polen',
+    },
+    cdc: '48',
+    iso: 'PL',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Portugal',
+      nb: 'Portugal',
+    },
+    cdc: '351',
+    iso: 'PT',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Puerto Rico',
+      nb: 'Puerto Rico',
+    },
+    cdc: '1-787, 1-939',
+    iso: 'PR',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Qatar',
+      nb: 'Qatar',
+    },
+    cdc: '974',
+    iso: 'QA',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Republic of the Congo',
+      nb: 'Republikken Kongo',
+    },
+    cdc: '242',
+    iso: 'CG',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Reunion',
+      nb: 'Réunion',
+    },
+    cdc: '262',
+    iso: 'RE',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Romania',
+      nb: 'Romania',
+    },
+    cdc: '40',
+    iso: 'RO',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Russia',
+      nb: 'Russland',
+    },
+    cdc: '7',
+    iso: 'RU',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Rwanda',
+      nb: 'Rwanda',
+    },
+    cdc: '250',
+    iso: 'RW',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Saint Barthelemy',
+      nb: 'Saint Barthelemy',
+    },
+    cdc: '590',
+    iso: 'BL',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Saint Helena',
+      nb: 'Saint Helena',
+    },
+    cdc: '290',
+    iso: 'SH',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Saint Kitts and Nevis',
+      nb: 'Saint Kitts og Nevis',
+    },
+    cdc: '1-869',
+    iso: 'KN',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Saint Lucia',
+      nb: 'Saint Lucia',
+    },
+    cdc: '1-758',
+    iso: 'LC',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Saint Martin',
+      nb: 'Saint Martin',
+    },
+    cdc: '590',
+    iso: 'MF',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Saint Pierre and Miquelon',
+      nb: 'Saint Pierre og Miquelon',
+    },
+    cdc: '508',
+    iso: 'PM',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Saint Vincent and the Grenadines',
+      nb: 'Saint Vincent og Grenadinene',
+    },
+    cdc: '1-784',
+    iso: 'VC',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Samoa',
+      nb: 'Samoa',
+    },
+    cdc: '685',
+    iso: 'WS',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'San Marino',
+      nb: 'San Marino',
+    },
+    cdc: '378',
+    iso: 'SM',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Sao Tome and Principe',
+      nb: 'São Tomé og Príncipe',
+    },
+    cdc: '239',
+    iso: 'ST',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Saudi Arabia',
+      nb: 'Saudi-Arabia',
+    },
+    cdc: '966',
+    iso: 'SA',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Senegal',
+      nb: 'Senegal',
+    },
+    cdc: '221',
+    iso: 'SN',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Serbia',
+      nb: 'Serbia',
+    },
+    cdc: '381',
+    iso: 'RS',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Seychelles',
+      nb: 'Seychellene',
+    },
+    cdc: '248',
+    iso: 'SC',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Sierra Leone',
+      nb: 'Sierra Leone',
+    },
+    cdc: '232',
+    iso: 'SL',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Singapore',
+      nb: 'Singapore',
+    },
+    cdc: '65',
+    iso: 'SG',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Sint Maarten',
+      nb: 'Sint Maarten',
+    },
+    cdc: '1-721',
+    iso: 'SX',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Slovakia',
+      nb: 'Slovakia',
+    },
+    cdc: '421',
+    iso: 'SK',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Slovenia',
+      nb: 'Slovenia',
+    },
+    cdc: '386',
+    iso: 'SI',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Solomon Islands',
+      nb: 'Salomonøyene',
+    },
+    cdc: '677',
+    iso: 'SB',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Somalia',
+      nb: 'Somalia',
+    },
+    cdc: '252',
+    iso: 'SO',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'South Africa',
+      nb: 'Sør-Afrika',
+    },
+    cdc: '27',
+    iso: 'ZA',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'South Korea',
+      nb: 'Sør-Korea',
+    },
+    cdc: '82',
+    iso: 'KR',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'South Sudan',
+      nb: 'Sør-Sudan',
+    },
+    cdc: '211',
+    iso: 'SS',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Spain',
+      nb: 'Spania',
+    },
+    cdc: '34',
+    iso: 'ES',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Sri Lanka',
+      nb: 'Sri Lanka',
+    },
+    cdc: '94',
+    iso: 'LK',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Sudan',
+      nb: 'Sudan',
+    },
+    cdc: '249',
+    iso: 'SD',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Suriname',
+      nb: 'Surinam',
+    },
+    cdc: '597',
+    iso: 'SR',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Svalbard and Jan Mayen',
+      nb: 'Svalbard og Jan Mayen',
+    },
+    cdc: '47',
+    iso: 'SJ',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Swaziland',
+      nb: 'Swaziland',
+    },
+    cdc: '268',
+    iso: 'SZ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Sweden',
+      nb: 'Sverige',
+    },
+    cdc: '46',
+    iso: 'SE',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Switzerland',
+      nb: 'Sveits',
+    },
+    cdc: '41',
+    iso: 'CH',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Syria',
+      nb: 'Syria',
+    },
+    cdc: '963',
+    iso: 'SY',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Taiwan',
+      nb: 'Taiwan',
+    },
+    cdc: '886',
+    iso: 'TW',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Tajikistan',
+      nb: 'Tadsjikistan',
+    },
+    cdc: '992',
+    iso: 'TJ',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Tanzania',
+      nb: 'Tanzania',
+    },
+    cdc: '255',
+    iso: 'TZ',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Thailand',
+      nb: 'Thailand',
+    },
+    cdc: '66',
+    iso: 'TH',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Togo',
+      nb: 'Togo',
+    },
+    cdc: '228',
+    iso: 'TG',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Tokelau',
+      nb: 'Tokelau',
+    },
+    cdc: '690',
+    iso: 'TK',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Tonga',
+      nb: 'Tonga',
+    },
+    cdc: '676',
+    iso: 'TO',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Trinidad and Tobago',
+      nb: 'Trinidad og Tobago',
+    },
+    cdc: '1-868',
+    iso: 'TT',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Tunisia',
+      nb: 'Tunisia',
+    },
+    cdc: '216',
+    iso: 'TN',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Turkey',
+      nb: 'Tyrkia',
+    },
+    cdc: '90',
+    iso: 'TR',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Turkmenistan',
+      nb: 'Turkmenistan',
+    },
+    cdc: '993',
+    iso: 'TM',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Turks and Caicos Islands',
+      nb: 'Turks- og Caicosøyene',
+    },
+    cdc: '1-649',
+    iso: 'TC',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Tuvalu',
+      nb: 'Tuvalu',
+    },
+    cdc: '688',
+    iso: 'TV',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'U.S. Virgin Islands',
+      nb: 'De amerikanske Jomfruøyene',
+    },
+    cdc: '1-340',
+    iso: 'VI',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Uganda',
+      nb: 'Uganda',
+    },
+    cdc: '256',
+    iso: 'UG',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Ukraine',
+      nb: 'Ukraina',
+    },
+    cdc: '380',
+    iso: 'UA',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'United Arab Emirates',
+      nb: 'De forente arabiske emirater',
+    },
+    cdc: '971',
+    iso: 'AE',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'United Kingdom',
+      nb: 'Storbritannia',
+    },
+    cdc: '44',
+    iso: 'GB',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'United States',
+      nb: 'USA',
+    },
+    cdc: '1',
+    iso: 'US',
+    continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Uruguay',
+      nb: 'Uruguay',
+    },
+    cdc: '598',
+    iso: 'UY',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Uzbekistan',
+      nb: 'Usbekistan',
+    },
+    cdc: '998',
+    iso: 'UZ',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Vanuatu',
+      nb: 'Vanuatu',
+    },
+    cdc: '678',
+    iso: 'VU',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Vatican',
+      nb: 'Vatikanstaten',
+    },
+    cdc: '379',
+    iso: 'VA',
+    continent: 'Europe',
+  },
+  {
+    i18n: {
+      en: 'Venezuela',
+      nb: 'Venezuela',
+    },
+    cdc: '58',
+    iso: 'VE',
+    continent: 'South America',
+  },
+  {
+    i18n: {
+      en: 'Vietnam',
+      nb: 'Vietnam',
+    },
+    cdc: '84',
+    iso: 'VN',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Wallis and Futuna',
+      nb: 'Wallis og Futuna',
+    },
+    cdc: '681',
+    iso: 'WF',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Western Sahara',
+      nb: 'Vest-Sahara',
+    },
+    cdc: '212',
+    iso: 'EH',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Yemen',
+      nb: 'Jemen',
+    },
+    cdc: '967',
+    iso: 'YE',
+    continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'Zambia',
+      nb: 'Zambia',
+    },
+    cdc: '260',
+    iso: 'ZM',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Zimbabwe',
+      nb: 'Zimbabwe',
+    },
+    cdc: '263',
+    iso: 'ZW',
+    continent: 'Africa',
+  },
 ]
