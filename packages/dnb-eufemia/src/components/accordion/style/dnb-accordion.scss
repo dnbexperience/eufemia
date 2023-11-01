@@ -22,6 +22,10 @@
   --accordion-header-icon-gutter: 1rem;
   --accordion-header-icon-margin: 1rem;
 
+  // Title
+  --accordion-title-font-weight: var(--font-weight-basis);
+  --accordion-title-font-weight--expanded: var(--font-weight-medium);
+
   position: relative;
 
   display: flex;
@@ -111,9 +115,16 @@
       margin-left: 0;
     }
 
+    &--expanded {
+      --accordion-title-font-weight: var(
+        --accordion-title-font-weight--expanded
+      );
+    }
+
     &__title {
       font-size: var(--font-size-basis);
       line-height: var(--line-height-basis);
+      font-weight: var(--accordion-title-font-weight);
     }
 
     &__description {

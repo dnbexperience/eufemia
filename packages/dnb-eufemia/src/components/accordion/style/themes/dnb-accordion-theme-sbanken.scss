@@ -109,10 +109,6 @@
     --accordion-frame-color: var(--accordion-frame-color--expanded);
     --accordion-frame-width--active: 0.125rem;
 
-    > .dnb-accordion__header {
-      font-weight: var(--font-weight-medium);
-    }
-
     // disabled
     > .dnb-accordion__header[disabled],
     > .dnb-accordion__header[disabled] + .dnb-accordion__content {

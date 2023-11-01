@@ -5,60 +5,6 @@
 
 @import '../../../../style/core/utilities.scss';
 
-@mixin accordion-hover() {
-  @include hover() {
-    --accordion-color: var(--accordion-color--hover);
-    --accordion-background: var(--accordion-background--hover);
-    --accordion-border-color: var(--accordion-border-color--hover);
-    --accordion-border-width: 0.125rem;
-    --accordion-description-color: var(
-      --accordion-description-color--hover
-    );
-
-    @include fakeBorder(
-      var(--accordion-border-color),
-      var(--accordion-border-width)
-    );
-  }
-}
-
-@mixin accordion-hover-clear() {
-  @include hover() {
-    --accordion-color--hover: var(--accordion-color--expanded);
-    --accordion-background--hover: var(--accordion-background--expanded);
-    --accordion-border-color--hover: var(--color-sea-green);
-    --accordion-description-color--hover: var(--accordion-color--expanded);
-  }
-}
-
-@mixin accordion-active() {
-  @include active() {
-    --accordion-color: var(--accordion-color--default);
-    --accordion-background: var(--accordion-background--active);
-    --accordion-border-color: var(--color-emerald-green);
-    --accordion-border-width: 0.0625rem;
-    --accordion-description-color: var(
-      --accordion-description-color--default
-    );
-
-    @include fakeBorder(
-      var(--accordion-border-color),
-      var(--accordion-border-width),
-      inset
-    );
-  }
-}
-
-@mixin accordion-focus() {
-  @include focus-visible() {
-    --accordion-color: var(--accordion-color--default);
-    --accordion-background: var(--accordion-background--focus);
-    --accordion-border-color: var(--color-emerald-green);
-    --accordion-border-width: 0.125rem;
-    --accordion-description-color--expanded: var(--accordion-color);
-  }
-}
-
 .dnb-accordion {
   &__header {
     // Color
@@ -79,7 +25,6 @@
     // Border
     --accordion-border-color: var(--color-black-8);
     --accordion-border-color--hover: var(--color-emerald-green);
-    --accordion-border-width: 0.0625rem;
 
     // Disabled
     --accordion-disabled-color: var(--color-sea-green-30);
@@ -143,9 +88,44 @@
         inset
       );
 
-      @include accordion-hover();
-      @include accordion-active();
-      @include accordion-focus();
+      @include hover() {
+        --accordion-color: var(--accordion-color--hover);
+        --accordion-background: var(--accordion-background--hover);
+        --accordion-border-color: var(--accordion-border-color--hover);
+        --accordion-border-width: 0.125rem;
+        --accordion-description-color: var(
+          --accordion-description-color--hover
+        );
+
+        @include fakeBorder(
+          var(--accordion-border-color),
+          var(--accordion-border-width)
+        );
+      }
+
+      @include active() {
+        --accordion-color: var(--accordion-color--default);
+        --accordion-background: var(--accordion-background--active);
+        --accordion-border-color: var(--color-emerald-green);
+        --accordion-border-width: 0.0625rem;
+        --accordion-description-color: var(
+          --accordion-description-color--default
+        );
+
+        @include fakeBorder(
+          var(--accordion-border-color),
+          var(--accordion-border-width),
+          inset
+        );
+      }
+
+      @include focus-visible() {
+        --accordion-color: var(--accordion-color--default);
+        --accordion-background: var(--accordion-background--focus);
+        --accordion-border-color: var(--color-emerald-green);
+        --accordion-border-width: 0.125rem;
+        --accordion-description-color--expanded: var(--accordion-color);
+      }
 
       &[disabled] {
         --accordion-color: var(--accordion-disabled-color);
@@ -156,11 +136,16 @@
     }
 
     &--after-click {
-      @include accordion-hover-clear();
-    }
-
-    &--expanded &__title {
-      font-weight: var(--font-weight-medium);
+      @include hover() {
+        --accordion-color--hover: var(--accordion-color--expanded);
+        --accordion-background--hover: var(
+          --accordion-background--expanded
+        );
+        --accordion-border-color--hover: var(--color-sea-green);
+        --accordion-description-color--hover: var(
+          --accordion-color--expanded
+        );
+      }
     }
   }
 }

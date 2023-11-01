@@ -111,6 +111,8 @@ p > .dnb-icon {
   --accordion-header-wrapper-margin--icon-right: 1rem;
   --accordion-header-icon-gutter: 1rem;
   --accordion-header-icon-margin: 1rem;
+  --accordion-title-font-weight: var(--font-weight-basis);
+  --accordion-title-font-weight--expanded: var(--font-weight-medium);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -180,9 +182,15 @@ p > .dnb-icon {
 .dnb-accordion__header--icon-right .dnb-accordion__header__container + .dnb-accordion__header__wrapper {
   margin-left: 0;
 }
+.dnb-accordion__header--expanded {
+  --accordion-title-font-weight: var(
+    --accordion-title-font-weight--expanded
+  );
+}
 .dnb-accordion__header__title {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  font-weight: var(--accordion-title-font-weight);
 }
 .dnb-accordion__header__description {
   font-size: var(--font-size-small);
@@ -279,7 +287,6 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
   --accordion-background--focus--expanded: var(--color-mint-green);
   --accordion-border-color: var(--color-black-8);
   --accordion-border-color--hover: var(--color-emerald-green);
-  --accordion-border-width: 0.0625rem;
   --accordion-disabled-color: var(--color-sea-green-30);
   --accordion-disabled-color--expanded: var(--color-white);
   --accordion-disabled-background: var(--color-white);
@@ -381,11 +388,12 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover[disa
 }
 html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not([disabled]) {
   --accordion-color--hover: var(--accordion-color--expanded);
-  --accordion-background--hover: var(--accordion-background--expanded);
+  --accordion-background--hover: var(
+    --accordion-background--expanded
+  );
   --accordion-border-color--hover: var(--color-sea-green);
-  --accordion-description-color--hover: var(--accordion-color--expanded);
-}
-.dnb-accordion__header--expanded .dnb-accordion__header__title {
-  font-weight: var(--font-weight-medium);
+  --accordion-description-color--hover: var(
+    --accordion-color--expanded
+  );
 }"
 `;
