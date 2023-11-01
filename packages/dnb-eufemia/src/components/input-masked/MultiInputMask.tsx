@@ -1,6 +1,5 @@
 import React, { Fragment, MutableRefObject, useRef } from 'react'
 import Input from '../Input'
-
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
