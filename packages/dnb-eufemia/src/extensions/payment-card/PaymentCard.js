@@ -2,7 +2,6 @@
  * Web PaymentCard Component
  *
  */
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -51,6 +50,9 @@ const translationDefaultPropsProps = {
   text_expired: null,
   text_blocked: null,
   text_not_active: null,
+  text_order_in_process: null,
+  text_renewed: null,
+  text_replaced: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -64,6 +66,9 @@ export default class PaymentCard extends React.PureComponent {
       'blocked',
       'expired',
       'not_active',
+      'order_in_process',
+      'renewed',
+      'replaced',
     ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -220,50 +225,70 @@ StatusOverlay.defaultProps = {
   skeleton: false,
 }
 
-function StatusOverlay({ cardStatus, translations, skeleton }) {
+const BlockingOverlay = ({ cardStatus, text }, skeleton) => {
+  return (
+    <div
+      className={classnames(
+        'dnb-payment-card__blocking__overlay',
+        createSkeletonClass('font', skeleton)
+      )}
+    >
+      <div className="dnb-payment-card__blocking__center">
+        <StatusIcon status={cardStatus} />
+        <P top="xx-small">{text}</P>
+      </div>
+    </div>
+  )
+}
+
+function StatusOverlay({ cardStatus, translations }) {
   switch (cardStatus) {
     case 'not_active':
       return (
-        <div
-          className={classnames(
-            'dnb-payment-card__blocking__overlay',
-            createSkeletonClass('font', skeleton)
-          )}
-        >
-          <div className="dnb-payment-card__blocking__center">
-            <StatusIcon status={cardStatus} />
-            <P top="xx-small">{translations.text_not_active}</P>
-          </div>
-        </div>
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_not_active}
+        />
       )
+
+    case 'order_in_process':
+      return (
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_order_in_process}
+        />
+      )
+
+    case 'renewed':
+      return (
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_renewed}
+        />
+      )
+
+    case 'replaced':
+      return (
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_replaced}
+        />
+      )
+
     case 'blocked':
       return (
-        <div
-          className={classnames(
-            'dnb-payment-card__blocking__overlay',
-            createSkeletonClass('font', skeleton)
-          )}
-        >
-          <div className="dnb-payment-card__blocking__center">
-            <StatusIcon status={cardStatus} />
-            <P top="xx-small">{translations.text_blocked}</P>
-          </div>
-        </div>
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_blocked}
+        />
       )
 
     case 'expired':
       return (
-        <div
-          className={classnames(
-            'dnb-payment-card__blocking__overlay',
-            createSkeletonClass('font', skeleton)
-          )}
-        >
-          <div className="dnb-payment-card__blocking__center">
-            <StatusIcon status={cardStatus} />
-            <P top="xx-small">{translations.text_expired}</P>
-          </div>
-        </div>
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_expired}
+        />
       )
 
     case 'active':

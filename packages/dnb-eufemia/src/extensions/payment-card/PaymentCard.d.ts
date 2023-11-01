@@ -7,7 +7,10 @@ export type PaymentCardCardStatus =
   | 'active'
   | 'blocked'
   | 'expired'
-  | 'not_active';
+  | 'not_active'
+  | 'order_in_process'
+  | 'renewed'
+  | 'replaced';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
 export enum CardType {
