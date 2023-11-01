@@ -38,7 +38,7 @@ export type MultiInputMaskProps<T extends string> = {
   /**
    * The label describing the group of inputs inside the components.
    */
-  label?: string
+  label?: React.ReactNode
   /**
    * Use to change the label layout direction. Defaults to `horizontal`.
    */
