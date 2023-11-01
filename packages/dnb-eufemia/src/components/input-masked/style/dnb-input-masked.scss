@@ -13,9 +13,7 @@
 
 // MultiInputMask
 .dnb-multi-input-mask__fieldset {
-  margin: 0;
-  padding: 0;
-  border: none;
+@include fieldsetReset();
 
   &--horizontal {
     display: inline-flex;
