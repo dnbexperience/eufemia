@@ -6,17 +6,13 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import FormLabel, { FormLabelProps } from '../FormLabel'
+import FormLabel from '../FormLabel'
 import Input from '../../input/Input'
 import { Provider } from '../../../shared'
 
-const props: FormLabelProps = {
-  title: 'title',
-}
-
 describe('FormLabel component', () => {
   it('should forward unlisted attributes like "aria-hidden"', () => {
-    render(<FormLabel {...props} for_id="input" aria-hidden />)
+    render(<FormLabel forId="input" aria-hidden />)
     expect(
       document.querySelector('label[aria-hidden]')
     ).toBeInTheDocument()
@@ -26,7 +22,7 @@ describe('FormLabel component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<FormLabel for_id="input" top="large" />)
+    render(<FormLabel forId="input" top="large" />)
 
     const element = document.querySelector('.dnb-form-label')
 
@@ -36,8 +32,8 @@ describe('FormLabel component', () => {
     ])
   })
 
-  it('should set correct class when sr_only is set', () => {
-    render(<FormLabel for_id="input" sr_only />)
+  it('should set correct class when srOnly is set', () => {
+    render(<FormLabel forId="input" srOnly />)
 
     const element = document.querySelector('.dnb-form-label')
 
@@ -47,10 +43,18 @@ describe('FormLabel component', () => {
     ])
   })
 
+  it('should set correct for id', () => {
+    render(<FormLabel forId="unique-id" />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(element.getAttribute('for')).toBe('unique-id')
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ label_direction: 'vertical' }}>
-        <FormLabel label="Label" />
+        <FormLabel />
       </Provider>
     )
 
@@ -59,7 +63,7 @@ describe('FormLabel component', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'label'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-form-label',
       'dnb-form-label--vertical',
@@ -68,35 +72,55 @@ describe('FormLabel component', () => {
 
   it('should support heading size prop', () => {
     const { rerender } = render(
-      <FormLabel label="Label" size="medium">
-        content
-      </FormLabel>
+      <FormLabel size="medium">content</FormLabel>
     )
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
       'dnb-h--medium'
     )
 
-    rerender(
-      <FormLabel label="Label" size="large">
-        content
-      </FormLabel>
-    )
+    rerender(<FormLabel size="large">content</FormLabel>)
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
       'dnb-h--large'
     )
   })
 
+  it('should use label element by default', () => {
+    render(<FormLabel>content</FormLabel>)
+
+    expect(document.querySelector('.dnb-form-label').tagName).toBe('LABEL')
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <FormLabel innerRef={ref}>content</FormLabel>
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLLabelElement).toBe(true)
+    expect(ref.current.tagName).toBe('LABEL')
+  })
+
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<FormLabel {...props} />)
+    const Comp = render(
+      <FormLabel title="Title" text="Label" forId="input" />
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a label with a input', async () => {
-    const LabelComp = render(<FormLabel {...props} for_id="input" />)
-    const InputComp = render(<Input id="input" value="some value" />)
-    expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
+    const Comp = render(
+      <>
+        <FormLabel text="Text" forId="input" />
+        <Input id="input" value="some value" />
+      </>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

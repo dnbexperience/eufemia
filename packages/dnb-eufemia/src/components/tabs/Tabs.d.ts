@@ -20,7 +20,10 @@ export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsTabElement = DynamicElement<ButtonProps | AnchorAllProps>;
+export type TabsTabElement = DynamicElement<
+  null,
+  ButtonProps | AnchorAllProps
+>;
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
 export type TabsChildren =
