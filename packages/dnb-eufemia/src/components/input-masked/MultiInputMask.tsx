@@ -84,7 +84,6 @@ function MultiInputMask<T extends string>({
   values: defaultValues,
   ...props
 }: MultiInputMaskProps<T>) {
-  console.log('skjer de tnoe her?')
   const [values, onChange] = useMultiInputValue({
     inputs,
     defaultValues,
