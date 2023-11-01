@@ -52,7 +52,7 @@ const translationDefaultPropsProps = {
   text_not_active: null,
   text_order_in_process: null,
   text_renewed: null,
-  text_replaced: null
+  text_replaced: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -61,10 +61,15 @@ export default class PaymentCard extends React.PureComponent {
   static propTypes = {
     product_code: PropTypes.string.isRequired,
     card_number: PropTypes.string.isRequired,
-    card_status: PropTypes.oneOf(['active', 'blocked', 'expired', 'not_active',
-    'order_in_process',
-    'renewed',
-    'replaced']),
+    card_status: PropTypes.oneOf([
+      'active',
+      'blocked',
+      'expired',
+      'not_active',
+      'order_in_process',
+      'renewed',
+      'replaced',
+    ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     raw_data: cardDataPropTypes,
@@ -220,9 +225,7 @@ StatusOverlay.defaultProps = {
   skeleton: false,
 }
 
-
-
-const BlockingOverlay = ({cardStatus, text}, skeleton) => {
+const BlockingOverlay = ({ cardStatus, text }, skeleton) => {
   return (
     <div
       className={classnames(
@@ -236,42 +239,56 @@ const BlockingOverlay = ({cardStatus, text}, skeleton) => {
       </div>
     </div>
   )
-
 }
 
-function StatusOverlay({ cardStatus, translations}) {
+function StatusOverlay({ cardStatus, translations }) {
   switch (cardStatus) {
     case 'not_active':
       return (
-        <BlockingOverlay cardStatus={cardStatus} text={translations.text_not_active}/>
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_not_active}
+        />
       )
 
     case 'order_in_process':
       return (
-        <BlockingOverlay cardStatus={cardStatus} text={translations.text_order_in_process}/>
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_order_in_process}
+        />
       )
 
     case 'renewed':
       return (
-        <BlockingOverlay cardStatus={cardStatus} text={translations.text_renewed}/>
-
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_renewed}
+        />
       )
 
     case 'replaced':
       return (
-        <BlockingOverlay cardStatus={cardStatus} text={translations.text_replaced}/>
-
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_replaced}
+        />
       )
 
     case 'blocked':
       return (
-        <BlockingOverlay cardStatus={cardStatus} text={translations.text_blocked} />
-
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_blocked}
+        />
       )
 
     case 'expired':
       return (
-        <BlockingOverlay cardStatus={cardStatus} text={translations.text_expired} />
+        <BlockingOverlay
+          cardStatus={cardStatus}
+          text={translations.text_expired}
+        />
       )
 
     case 'active':

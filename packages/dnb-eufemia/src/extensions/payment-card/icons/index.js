@@ -2,10 +2,12 @@ import React from 'react'
 
 import BankAxept from './BankAxept'
 import DNB from './DNB'
-import { clock_medium as Expired } from '../../../icons'
-import { padlock_medium as Blocked } from '../../../icons'
-import { card_in_medium as CardIn } from '../../../icons'
-import { hourglass as Hourglass } from '../../../icons'
+import {
+  clock_medium as Expired,
+  padlock_medium as Blocked,
+  card_in_medium as CardIn,
+  hourglass as Hourglass,
+} from '../../../icons'
 import MastercardDefault from './MastercardDefault'
 import MastercardDark from './MastercardDark'
 import Pluss from './Pluss'
@@ -72,16 +74,16 @@ const StatusIcon = ({ status }) => {
 
     case 'not_active':
       return <CardIn />
-    
+
     case 'blocked':
       return <Blocked />
-    
+
     case 'order_in_process':
       return <Hourglass />
 
     case 'renewed':
       return <CardIn />
-    
+
     case 'replaced':
       return <CardIn />
 
