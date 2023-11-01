@@ -16,7 +16,7 @@ export function useMultiInputValue<T extends string>({
   callback,
 }: SteppedValuesHook<T>) {
   const [values, setValues] = useState<MultiInputMaskValue<T>>(
-    defaultValues ?? createDefaultValues()
+    defaultValues ? defaultValues : createDefaultValues()
   )
 
   function createDefaultValues() {
