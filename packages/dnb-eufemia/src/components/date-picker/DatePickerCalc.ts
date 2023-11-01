@@ -25,7 +25,7 @@ import startOfDay from 'date-fns/startOfDay'
 
 import { warn } from '../../shared/component-helper'
 
-type ZeroDayIndex = 1 | 2 | 3 | 4 | 5 | 6
+type ZeroDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 type DateRange = { startDate: Date; endDate: Date }
 
@@ -126,7 +126,9 @@ export function dayOffset(dayName: string) {
     'friday',
     'saturday',
   ]
-  return dayName ? week.indexOf(dayName.toLowerCase()) : 0
+  return (
+    dayName ? week.indexOf(dayName.toLowerCase()) : 0
+  ) as ZeroDayIndex
 }
 
 // creates a date range object and automatically swaps startDate and endDate if endDate is before startDate
