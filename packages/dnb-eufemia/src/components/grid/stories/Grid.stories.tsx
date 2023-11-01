@@ -4,15 +4,13 @@
  */
 
 import React from 'react'
-
 import { Grid } from '../..'
-import '../style'
 
 export default {
   title: 'Eufemia/Components/Layout',
 }
 
-export const colors = [
+const colors = [
   { background: '#babeee' } as React.CSSProperties,
   { background: '#dfe0ee' } as React.CSSProperties,
   { background: '#90d2c3' } as React.CSSProperties,

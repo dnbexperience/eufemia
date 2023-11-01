@@ -1,8 +1,2 @@
-/**
- * Component Entry
- *
- */
-
-import Grid from './Grid'
-export default Grid
-export * from './Grid'
+export { default as Container } from './Container'
+export { default as Item } from './Item'
