@@ -24,7 +24,7 @@
     "build:ci": "yarn prebuild:ci && yarn postbuild:ci && yarn publish:prepare",
     "postbuild:ci": "./scripts/postbuild/postbuild.sh",
     "build:cjs": "./scripts/postbuild/babel-cjs.sh",
-    "build:clean": "rm -rf build",
+    "build:clean": "cd build && find . -type f ! -name 'CHANGELOG.md' -delete",
     "build:copy": "./scripts/postbuild/copy-build-artifacts.sh",
     "build:es": "./scripts/postbuild/babel-es.sh",
     "build:esm": "./scripts/postbuild/babel-esm.sh",
