@@ -18,7 +18,7 @@ export type MultiInputMaskInput<T extends string> = {
   /**
    * Label used by the input. The label itself is hidden, but required to uphold accesability standards for screen readers.
    */
-  label: string
+  label: React.ReactNode
   /**
    * Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The length sets the size of the input, so an array of two items would produce an input of two characters
    */
