@@ -82,6 +82,6 @@ describe('useNumberFormat', () => {
       wrapper,
     })
 
-    expect(result.current).toBe('NOK--')
+    expect(result.current).toBe('NOK–')
   })
 })

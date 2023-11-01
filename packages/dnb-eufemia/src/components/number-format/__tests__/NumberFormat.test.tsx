@@ -592,27 +592,25 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component currency>invalid</Component>)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-- kr'
+      '– kr'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-- norske kroner')
+    ).toBe('Ikke tilgjengelig')
 
     rerender(<Component percent>invalid</Component>)
 
-    expect(document.querySelector(displaySelector).textContent).toBe(
-      '-- %'
-    )
+    expect(document.querySelector(displaySelector).textContent).toBe('– %')
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-- %')
+    ).toBe('Ikke tilgjengelig')
 
-    rerender(<Component>invalid</Component>)
+    rerender(<Component locale="en-GB">invalid</Component>)
 
-    expect(document.querySelector(displaySelector).textContent).toBe('--')
+    expect(document.querySelector(displaySelector).textContent).toBe('–')
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('--')
+    ).toBe('Not available')
   })
 
   it('should validate with ARIA rules', async () => {

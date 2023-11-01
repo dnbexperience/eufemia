@@ -21,6 +21,7 @@ import {
   IS_MAC,
   IS_WIN,
 } from '../../shared/helpers'
+import locales from '../../shared/locales'
 
 const NUMBER_CHARS = '\\-0-9,.'
 
@@ -290,6 +291,10 @@ export const format = (
       )
     }
 
+    if (value === 'invalid') {
+      aria = locales[locale].NumberFormat.not_available || 'N/A'
+    }
+
     // return "locale" as well value,l, since we have to "auto" option
     return { value, cleanedValue, number: display, aria, locale, type }
   }
@@ -526,7 +531,7 @@ export const formatNumber = (
 }
 
 function replaceNaNWithDash(number) {
-  return String(number).replace(/NaN/, '--')
+  return String(number).replace(/NaN/, '–')
 }
 
 /**
