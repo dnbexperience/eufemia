@@ -1,13 +1,3 @@
 {
-  "allowlist": [
-    "js-yaml",
-    "lodash",
-    "lodash.merge",
-    "mixin-deep",
-    "tar",
-    "fstream",
-    "handlebars"
-  ],
-  "hight": true,
-  "moderate": false
+  "allowlist": []
 }

@@ -2712,7 +2712,7 @@ __metadata:
     "@ungap/structured-clone": 1.2.0
     ajv: 8.12.0
     ajv-errors: 3.0.0
-    audit-ci: 5.1.2
+    audit-ci: 6.6.1
     babel-jest: 29.5.0
     babel-plugin-optimize-clsx: 2.6.2
     babel-plugin-search-and-replace: 1.1.1
@@ -8776,7 +8776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array.prototype.flatmap@npm:^1.2.5, array.prototype.flatmap@npm:^1.3.0, array.prototype.flatmap@npm:^1.3.1":
+"array.prototype.flatmap@npm:^1.3.0, array.prototype.flatmap@npm:^1.3.1":
   version: 1.3.1
   resolution: "array.prototype.flatmap@npm:1.3.1"
   dependencies:
@@ -8996,22 +8996,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"audit-ci@npm:5.1.2":
-  version: 5.1.2
-  resolution: "audit-ci@npm:5.1.2"
+"audit-ci@npm:6.6.1":
+  version: 6.6.1
+  resolution: "audit-ci@npm:6.6.1"
   dependencies:
     JSONStream: ^1.3.5
-    array.prototype.flatmap: ^1.2.5
     cross-spawn: ^7.0.3
     escape-string-regexp: ^4.0.0
     event-stream: 4.0.1
     jju: ^1.4.0
     readline-transform: 1.0.0
     semver: ^7.0.0
-    yargs: ^16.0.0
+    yargs: ^17.0.0
   bin:
-    audit-ci: lib/audit-ci.js
-  checksum: 7b25f73ac9113afdc8ecdef55eafd9e6549eb33eacc097dda60380f0e796a14cdc0059a0a179dc48a396aa22599c60cb1527f510c8df665b0263531e637072ab
+    audit-ci: dist/bin.js
+  checksum: d9b43da288f1f2023f9633227d4420e98abe1220669e71c967d182cda891775447e3f103dbc5c563bf8a51461e21f6b003902dd79248cbe195ef4411a7be3408
   languageName: node
   linkType: hard
 
@@ -32596,7 +32595,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1, yargs@npm:^17.5.1":
+"yargs@npm:^17.0.0, yargs@npm:^17.3.1, yargs@npm:^17.5.1":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
