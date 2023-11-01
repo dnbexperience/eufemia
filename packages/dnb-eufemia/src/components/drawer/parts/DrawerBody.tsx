@@ -24,7 +24,7 @@ export default function DrawerBody({
   return (
     <ModalInner
       {...props}
-      style_type={styleType}
+      backgroundColor={styleType}
       className={classnames('dnb-drawer__body', className)}
     />
   )

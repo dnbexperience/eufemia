@@ -2,17 +2,7 @@
 showTabs: true
 ---
 
-import {
-  SectionDemo,
-  SectionDemoSpacing,
-  SectionDemoWhite,
-  SectionDemoDivider,
-  SectionZIndex,
-  SectionDemoInfo,
-  SectionDemoError,
-  SectionDemoWarning,
-  SectionDemoSuccess,
-} from 'Docs/uilib/components/section/Examples'
+import * as Examples from 'Docs/uilib/components/section/Examples'
 
 ### Deprecated color styles
 
@@ -20,38 +10,56 @@ These [color styles](/uilib/components/section/deprecated/) are deprecated and w
 
 ## Demos
 
-### Default Section without spacing
+### Default Section
 
-<SectionDemo />
+<Examples.Default />
 
-### Default Section with large spacing
+### Default Section with inner space
 
-<SectionDemoSpacing />
+<Examples.Spacing />
+
+### Responsive inner space (padding)
+
+Where `innerSpace` do respond on different screen sizes.
+
+<Examples.ResponsiveInnerSpace />
+
+### Responsive appearance
+
+Where `breakout`, `outline`, `roundedCorner` and `backgroundColor` do respond on different screen sizes.
+
+<Examples.ResponsiveAppearance />
+
+### No breakout
+
+<Examples.NoBreakout />
 
 ### White Section
 
-<SectionDemoWhite />
+Will be default in v11.
+
+<Examples.White />
 
 ### Divider Section
 
-<SectionDemoDivider />
+<Examples.Divider />
 
-### Info Section
+### Variant: info
 
-<SectionDemoInfo />
+<Examples.Info />
 
-### Error Section
+### Variant: error
 
-<SectionDemoError />
+<Examples.Error />
 
-### Warning Section
+### Variant: warning
 
-<SectionDemoWarning />
+<Examples.Warning />
 
-### Success Section
+### Variant: success
 
-<SectionDemoSuccess />
+<Examples.Success />
 
 <VisibleWhenVisualTest>
-  <SectionZIndex />
+  <Examples.SectionZIndex />
 </VisibleWhenVisualTest>
