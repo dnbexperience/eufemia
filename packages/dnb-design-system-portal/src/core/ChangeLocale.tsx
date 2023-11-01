@@ -4,30 +4,14 @@ import { Dropdown } from '@dnb/eufemia/src'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { setLang } from './PortalProviders'
 
-export default function ChangeLocale({ showUS, ...props }) {
+export default function ChangeLocale({ listUSLocale = null, ...props }) {
   const { locale, setLocale } = React.useContext(Context)
-
-  // return (
-  //   <ToggleButton.Group
-  //     value={locale}
-  //     on_change={({ value }) => {
-  //       setLocale(value)
-  //       setLang(value)
-  //     }}
-  //     {...props}
-  //   >
-  //     <ToggleButton value="nb-NO">Norsk</ToggleButton>
-  //     <ToggleButton value="en-GB">English</ToggleButton>
-  //     <ToggleButton value="en-US">English (US)</ToggleButton>
-  //     {/* <ToggleButton value="de-DE">DE</ToggleButton> */}
-  //   </ToggleButton.Group>
-  // )
 
   const date = {
     'nb-NO': 'Norsk',
     'en-GB': 'English (GB)',
   }
-  if (showUS) {
+  if (listUSLocale) {
     date['en-US'] = 'English (US)'
   }
 
