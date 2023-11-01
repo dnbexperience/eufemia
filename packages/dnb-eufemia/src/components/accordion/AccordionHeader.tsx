@@ -22,7 +22,11 @@ import {
 import type { HeadingLevel } from '../Heading'
 import type { IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { AccordionIcon, AccordionIconPosition } from './Accordion'
+import type {
+  AccordionIcon,
+  AccordionIconPosition,
+  AccordionVariant,
+} from './Accordion'
 
 export type AccordionHeaderTitleProps = SpacingProps & {
   children?: React.ReactNode
@@ -176,6 +180,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     no_animation?: boolean
     className?: string
     children?: string | React.ReactNode | ((...args: any[]) => any)
+    variant?: AccordionVariant
   }
 
 const accordionHeaderDefaultProps = {
@@ -251,6 +256,7 @@ export const AccordionHeader = ({
     disabled,
     skeleton,
     no_animation,
+    variant,
   } = extendedProps
 
   let { icon_position } = extendedProps
@@ -365,8 +371,13 @@ export const AccordionHeader = ({
     tabIndex: 0,
     className: classnames(
       'dnb-accordion__header',
+      variant && `dnb-accordion__header--${variant}`,
+      context.expanded && 'dnb-accordion__header--expanded',
       icon_position && `dnb-accordion__header--icon-${icon_position}`,
-      isHovering && hasClicked && 'dnb-accordion__header--after-click',
+      isHovering &&
+        hasClicked &&
+        context.expanded &&
+        'dnb-accordion__header--after-click',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',
       no_animation && 'dnb-accordion__header--no-animation',
