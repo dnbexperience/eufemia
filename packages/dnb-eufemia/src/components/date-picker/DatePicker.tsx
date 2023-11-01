@@ -319,68 +319,8 @@ const defaultProps: DatePickerProps = {
   direction: 'auto',
 }
 
-function DatePicker({
-  mask_order: maskOrderDefault = defaultProps.mask_order,
-  mask_placeholder: maskPlaceholderDefault = defaultProps.mask_placeholder, // have to be same setup as "mask" - but can be like
-  date_format: dateFormatDefault = defaultProps.date_format, // in v1 of date-fns we were more flexible in terms of the format
-  return_format: returnFormatDefault = defaultProps.return_format, // used in date-fns v1
-  hide_navigation: hideNavigationDefault = defaultProps.hide_navigation,
-  hide_navigation_buttons:
-    hideNavigationButtonsDefault = defaultProps.hide_navigation_buttons,
-  hide_days: hideDaysDefault = defaultProps.hide_days,
-  only_month: onlyMonthDefault = defaultProps.only_month,
-  hide_last_week: hideLastWeekDefault = defaultProps.hide_last_week,
-  disable_autofocus:
-    disableAutofocusDefault = defaultProps.disable_autofocus,
-  enable_keyboard_nav:
-    enableKeyboardNavDefault = defaultProps.enable_keyboard_nav,
-  show_input: showInputDefault = defaultProps.show_input,
-  submit_button_text:
-    submitButtonTextDefault = defaultProps.submit_button_text,
-  cancel_button_text:
-    cancelButtonTextDefault = defaultProps.cancel_button_text,
-  reset_button_text:
-    resetButtonTextDefault = defaultProps.reset_button_text,
-  reset_date: resetDateDefault = defaultProps.reset_date,
-  first_day: firstDayDefault = defaultProps.first_day,
-  locale: localeDefault = defaultProps.locale,
-  range: rangeDefault = defaultProps.range,
-  link: linkDefault = defaultProps.link,
-  sync: syncDefault = defaultProps.sync,
-  status_state: statusStateDefault = defaultProps.status_state,
-  opened: openedDefault = defaultProps.opened,
-  no_animation: noAnimationDefault = defaultProps.no_animation,
-  direction: directionDefault = defaultProps.direction,
-  ...restOfProps
-}: DatePickerProps) {
-  const props = {
-    mask_order: maskOrderDefault,
-    mask_placeholder: maskPlaceholderDefault,
-    date_format: dateFormatDefault,
-    return_format: returnFormatDefault,
-    hide_navigation: hideNavigationDefault,
-    hide_navigation_buttons: hideNavigationButtonsDefault,
-    hide_days: hideDaysDefault,
-    only_month: onlyMonthDefault,
-    hide_last_week: hideLastWeekDefault,
-    disable_autofocus: disableAutofocusDefault,
-    enable_keyboard_nav: enableKeyboardNavDefault,
-    show_input: showInputDefault,
-    submit_button_text: submitButtonTextDefault,
-    cancel_button_text: cancelButtonTextDefault,
-    reset_button_text: resetButtonTextDefault,
-    reset_date: resetDateDefault,
-    first_day: firstDayDefault,
-    locale: localeDefault,
-    range: rangeDefault,
-    link: linkDefault,
-    sync: syncDefault,
-    status_state: statusStateDefault,
-    opened: openedDefault,
-    no_animation: noAnimationDefault,
-    direction: directionDefault,
-    ...restOfProps,
-  }
+function DatePicker(restOfProps: DatePickerProps) {
+  const props = { ...defaultProps, ...restOfProps }
 
   const [opened, setOpened] = useState<boolean>(props.opened)
   const [showInput, setShowInput] = useState<boolean>(props.show_input)
@@ -578,8 +518,8 @@ function DatePicker({
 
   function getPropsForTranslation() {
     const { lang, locale } = props
-
-    return { lang, locale: locale.code }
+    console.log('locale', locale)
+    return { lang, locale: locale?.code }
   }
 
   function formatSelectedDateTitle() {
