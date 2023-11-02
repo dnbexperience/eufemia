@@ -150,6 +150,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-section {
+  --background-color: var(--color-white);
   --outline-color--value: var(--color-black-8);
   /** deprecated: default should be white in v11 */
   /** deprecated */
