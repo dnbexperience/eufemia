@@ -153,10 +153,41 @@ describe('MultiInputMask', () => {
     const label = document.querySelector('.dnb-multi-input-mask__legend')
 
     expect(label).toHaveTextContent('My awesome label')
+    expect(label.tagName).toBe('LEGEND')
 
     rerender(<MultiInputMask {...defaultProps} label="New label" />)
 
     expect(label).toHaveTextContent('New label')
+    expect(label.tagName).toBe('LEGEND')
+  })
+
+  it('should be wrapped in a `fieldset` if label is provided', () => {
+    render(<MultiInputMask {...defaultProps} label="Label" />)
+
+    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const wrapper = document.querySelector(
+      '.dnb-multi-input-mask__fieldset'
+    )
+
+    expect(label).toHaveTextContent('Label')
+    expect(label.tagName).toBe('LEGEND')
+
+    expect(wrapper.tagName).toBe('FIELDSET')
+    expect(wrapper.tagName).not.toBe('DIV')
+  })
+
+  it('should be wrapped in a `div` if no label is provided', () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const wrapper = document.querySelector(
+      '.dnb-multi-input-mask__fieldset'
+    )
+
+    expect(label).not.toBeInTheDocument()
+
+    expect(wrapper.tagName).toBe('DIV')
+    expect(wrapper.tagName).not.toBe('FIELDSET')
   })
 
   it('should change label layout direction', () => {
