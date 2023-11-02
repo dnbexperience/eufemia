@@ -125,7 +125,12 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--closed')
 
     rerender(
-      <DatePicker {...defaultProps} on_change={on_change} range={false} />
+      <DatePicker
+        {...defaultProps}
+        on_change={on_change}
+        range={false}
+        end_date={null}
+      />
     )
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -550,6 +555,7 @@ describe('DatePicker component', () => {
         show_cancel_button={false}
         show_submit_button={false}
         range={false}
+        end_date={null}
       />
     )
 
@@ -677,6 +683,7 @@ describe('DatePicker component', () => {
         on_type={on_type}
         range={false}
         correct_invalid_date={false}
+        end_date={null}
       />
     )
 
