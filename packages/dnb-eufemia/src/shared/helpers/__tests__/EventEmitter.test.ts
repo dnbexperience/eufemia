@@ -20,7 +20,7 @@ describe('EventEmitter', () => {
     jest.resetAllMocks()
   })
 
-  it('should contain a listen fcuntion', () => {
+  it('should contain a listen function', () => {
     expect(typeof instanceA.listen).toBe('function')
   })
 
@@ -29,13 +29,13 @@ describe('EventEmitter', () => {
     expect(instanceB.listeners).toHaveLength(1)
   })
 
-  it('should not emmit listeners on data set', () => {
+  it('should not emit listeners on data set', () => {
     instanceA.set({ foo: 'bar' })
     expect(listenerA).toHaveBeenCalledTimes(0)
     expect(listenerB).toHaveBeenCalledTimes(0)
   })
 
-  it('should merge data at once dimention', () => {
+  it('should merge data at one dimension', () => {
     instanceA.set({ foo: 'bar' })
     expect(instanceA.get()).toMatchObject(
       expect.objectContaining({ foo: 'bar' })
@@ -53,7 +53,7 @@ describe('EventEmitter', () => {
     )
   })
 
-  it('should emmit listeners on data update', () => {
+  it('should emit listeners on data update', () => {
     const data = { foo: 'bar' }
 
     instanceA.update(data)
@@ -73,7 +73,7 @@ describe('EventEmitter', () => {
     expect(listenerB).toHaveBeenCalledTimes(1)
   })
 
-  it('should emmit a new added listener', () => {
+  it('should emit a new added listener', () => {
     const listenerC = jest.fn((data) => data)
     instanceA.listen(listenerC)
     instanceA.update({ foo: 'bar' })
