@@ -34,7 +34,7 @@ export const DrawerScrollViewSetup = () => (
               const contentOverflowY =
                 window.getComputedStyle(contentElem)?.overflowY
 
-              const scxrollOverflowY = window.getComputedStyle(
+              const scrollOverflowY = window.getComputedStyle(
                 scrollRef.current,
               ).overflowY
 
@@ -50,7 +50,7 @@ export const DrawerScrollViewSetup = () => (
                     innerOverflowY +
                     '" and not "visible"',
                 )
-              } else if (scxrollOverflowY !== 'auto') {
+              } else if (scrollOverflowY !== 'auto') {
                 setErrorMessage('.dnb-scroll-view was not "auto"')
               }
             }}
