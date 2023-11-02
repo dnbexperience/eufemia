@@ -79,6 +79,7 @@ export default {
     },
     NumberFormat: {
       clipboard_copy: 'Copied',
+      not_available: 'Not available',
     },
     HelpButton: {
       title: 'Help text',

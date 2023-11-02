@@ -33,6 +33,12 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 - Locale: `nb-NO`
 - Currency: `NOK`
 
+#### Not available
+
+When a number should be displayed, but for some reason is not available to the frontend application, the NumberFormat component will display a single **em dash** (–) and a screen reader will get a text (Ikke tilgjengelig / Not available).
+
+Example: <NumberFormat value="invalid" currency />
+
 ## Decimals
 
 When the amount of wanted `decimals` is set as a property, but the given value contains decimals that exceeds the wanted `decimals`, the output value will get rounded up or down. Use `omit_rounding` if you need to hard-cut decimals from the displayed value.

@@ -66,4 +66,22 @@ describe('useNumberFormat', () => {
 
     expect(result.current).toBe('NOK 1 234.00')
   })
+
+  it('should show dashes when number is invalid', () => {
+    const wrapper = ({ children }) => (
+      <Provider
+        locale="en-GB"
+        NumberFormat={{
+          currency: true,
+        }}
+      >
+        {children}
+      </Provider>
+    )
+    const { result } = renderHook(() => useNumberFormat('invalid'), {
+      wrapper,
+    })
+
+    expect(result.current).toBe('NOK–')
+  })
 })

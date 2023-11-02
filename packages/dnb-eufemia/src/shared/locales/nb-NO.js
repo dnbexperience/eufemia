@@ -79,6 +79,7 @@ export default {
     },
     NumberFormat: {
       clipboard_copy: 'Kopiert',
+      not_available: 'Ikke tilgjengelig',
     },
     HelpButton: {
       title: 'Hjelpetekst',
