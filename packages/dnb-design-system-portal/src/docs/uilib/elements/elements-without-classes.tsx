@@ -87,7 +87,7 @@ export default function ElementsWithoutClassesVisibleWhenVisualTest() {
       <blockquote>
         Dis leo ala tractatos{' '}
         <a href="/uilib/elements#blockquote">vivendum tractatos</a> ei quo.
-        <cite>Cite Referance</cite>
+        <cite>Cite Reference</cite>
       </blockquote>
     </div>
   )

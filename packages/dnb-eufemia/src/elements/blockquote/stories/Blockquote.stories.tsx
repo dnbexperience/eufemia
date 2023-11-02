@@ -34,7 +34,7 @@ export const BlockquoteSandbox = () => (
           laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
           vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
           sanctus deterruisset per
-          <footer>Footer Referance</footer>
+          <footer>Footer Reference</footer>
         </blockquote>
         <p className="dnb-p">
           Next line <cite>with a Cite</cite>
@@ -46,8 +46,8 @@ export const BlockquoteSandbox = () => (
           laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te
           vim enim meis conclusionemque, per ut dolorem copiosae, ea veri
           sanctus deterruisset per
-          <cite>Cite Referance</cite>
-          <figcaption>Figcaption Referance</figcaption>
+          <cite>Cite Reference</cite>
+          <figcaption>Figcaption Reference</figcaption>
         </blockquote>
       </Box>
     </CustomStyles>
@@ -57,8 +57,8 @@ export const BlockquoteSandbox = () => (
         laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te vim
         enim meis conclusionemque, per ut dolorem copiosae, ea veri sanctus
         deterruisset per
-        <cite>Cite Referance</cite>
-        <figcaption>Figcaption Referance</figcaption>
+        <cite>Cite Reference</cite>
+        <figcaption>Figcaption Reference</figcaption>
       </Blockquote>
     </Box>
   </Wrapper>

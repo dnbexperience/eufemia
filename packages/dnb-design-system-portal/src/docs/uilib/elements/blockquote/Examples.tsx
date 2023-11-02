@@ -12,7 +12,7 @@ export const BlockquoteDefaultExample = () => (
     <Blockquote data-visual-test="blockquote-default">
       Dis leo aliquam neque aptent nascetur metus ad ut eu Choro vivendum
       tractatos ei quo.
-      <cite>Cite Referance</cite>
+      <cite>Cite Reference</cite>
     </Blockquote>
   </ComponentBox>
 )
@@ -35,7 +35,7 @@ export const BlockquoteTransparentExample = () => (
       est dis curabitur sit.
       <cite>
         <Anchor href="/uilib/elements#blockquote" target="_blank">
-          Cite Referance
+          Cite Reference
         </Anchor>
       </cite>
     </Blockquote>
