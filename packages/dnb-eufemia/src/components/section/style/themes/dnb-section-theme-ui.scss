@@ -6,6 +6,7 @@
 @import '../../../../components/anchor/style/anchor-mixins.scss';
 
 .dnb-section {
+  --background-color: var(--color-white);
   --outline-color--value: var(--color-black-8);
 
   &--divider {
