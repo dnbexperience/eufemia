@@ -9,12 +9,13 @@ import styled from '@emotion/styled'
 import {
   Dropdown,
   NumberFormat,
-  IconPrimary,
+  Icon,
   Link,
   HelpButton,
   P,
   Flex,
 } from '@dnb/eufemia/src'
+import { download, trash } from '@dnb/eufemia/src/icons'
 
 import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
@@ -287,21 +288,29 @@ export const DropdownIconLeft = () => (
 
 export const DropdownActionMenu = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-visual-test="dropdown-action_menu">
+    <ComponentBox
+      scope={{ trash, download }}
+      data-visual-test="dropdown-action_menu"
+    >
       <Dropdown
         title="ActionMenu"
         action_menu={true}
         align_dropdown="left"
-        data={[
-          <>
-            <IconPrimary icon="check" right />
-            Save
-          </>,
-          <>
-            <IconPrimary icon="download" right />
-            Download
-          </>,
-        ]}
+        data={() => ({
+          trash: (
+            <>
+              <Icon icon={trash} right />
+              Save
+            </>
+          ),
+          download: (
+            <>
+              <Icon icon={download} right />
+              Download
+            </>
+          ),
+        })}
+        on_change={({ value }) => console.log('action:', value)}
       />
     </ComponentBox>
   </Wrapper>
@@ -364,13 +373,15 @@ export const DropdownMoreMenu = () => {
           size="small"
           title={null}
           aria-label="Choose an item"
-          data={() => [
-            <Link href="/" key="item-1">
-              Go to this Link
-            </Link>,
-            'Or press on me',
-            <>Custom component</>,
-          ]}
+          data={() => ({
+            first: (
+              <Link href="/" key="item-1">
+                Go to this Link
+              </Link>
+            ),
+            second: 'Or press on me',
+            third: <>Custom component</>,
+          })}
           right="small"
           {...visualTestProps(
             globalThis.IS_TEST &&
@@ -394,13 +405,15 @@ export const DropdownMoreMenu = () => {
           align_dropdown="right"
           title={null}
           aria-label="Choose an item"
-          data={[
-            <Link href="/" key="item-1">
-              Go to this Link
-            </Link>,
-            'Or press on me',
-            <>Custom component</>,
-          ]}
+          data={() => ({
+            first: (
+              <Link href="/" key="item-1">
+                Go to this Link
+              </Link>
+            ),
+            second: 'Or press on me',
+            third: <>Custom component</>,
+          })}
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
@@ -484,13 +497,15 @@ export const DropdownCustomEvent = () => {
               right
               label="Label:"
               title="Choose an item"
-              data={() => [
-                <Link href="/" key="item-1">
-                  Go to this Link
-                </Link>,
-                'Or press on me',
-                <CustomComponent key="item-2" />,
-              ]}
+              data={() => ({
+                first: (
+                  <Link href="/" key="item-1">
+                    Go to this Link
+                  </Link>
+                ),
+                second: 'Or press on me',
+                third: <CustomComponent key="item-2" />,
+              })}
               on_change={({ value }) => {
                 console.log('More menu:', value)
               }}

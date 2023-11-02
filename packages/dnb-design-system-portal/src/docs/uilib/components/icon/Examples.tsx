@@ -36,13 +36,8 @@ export const IconBorder = () => (
     <P>
       <Icon border={true} icon={Bell} right />
       <Icon border={true} icon={BellMedium} size="medium" right />
-      <IconPrimary border={true} icon={'information'} right />
-      <IconPrimary
-        border={true}
-        icon={'information'}
-        size="medium"
-        right
-      />
+      <IconPrimary border={true} icon="information" right />
+      <IconPrimary border={true} icon="information" size="medium" right />
       <Button icon={<IconPrimary icon="add" border />} text="Button" />
     </P>
   </ComponentBox>

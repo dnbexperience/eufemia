@@ -6,10 +6,11 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
+  bell,
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '@dnb/eufemia/src/icons'
-import { Accordion, P, IconPrimary } from '@dnb/eufemia/src'
+import { Accordion, P, Icon } from '@dnb/eufemia/src'
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
@@ -60,11 +61,8 @@ export const AccordionLargeContentExample = () => (
 )
 
 export const AccordionCustomisationExample = () => (
-  <ComponentBox data-visual-test="accordion-custom">
-    <Accordion
-      group="unique-id"
-      left_component={<IconPrimary icon="bell" />}
-    >
+  <ComponentBox data-visual-test="accordion-custom" scope={{ bell }}>
+    <Accordion group="unique-id" left_component={<Icon icon={bell} />}>
       <Accordion.Header>Accordion title</Accordion.Header>
       <Accordion.Content>
         <P>
