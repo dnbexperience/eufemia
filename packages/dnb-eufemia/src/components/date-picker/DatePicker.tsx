@@ -518,7 +518,7 @@ function DatePicker(restOfProps: DatePickerProps) {
 
   function getPropsForTranslation() {
     const { lang, locale } = props
-    console.log('locale', locale)
+
     return { lang, locale: locale?.code }
   }
 
