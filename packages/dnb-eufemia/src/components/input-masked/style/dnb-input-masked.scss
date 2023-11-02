@@ -13,12 +13,14 @@
 
 // MultiInputMask
 .dnb-multi-input-mask__fieldset {
-@include fieldsetReset();
+  @include fieldsetReset();
 
   &--horizontal {
     display: inline-flex;
     flex-flow: row wrap;
     align-items: baseline;
+    // Adds the 1rem space between legend and input wrapper, as the `display: contents` in .dnb-multi-input-mask__legend makes the margins from .dnb-form-label not apply
+    gap: 1rem;
   }
 }
 
@@ -71,10 +73,9 @@
 }
 
 .dnb-multi-input-mask__legend {
-  &--horizontal {
-    float: left;
-
-    transform: translateY(0);
+  // Using the full className instead of &--horizontal, as that method leads lesser specificity, an would need an `!important` to override legend.dnb-form-label css
+  &.dnb-multi-input-mask__legend--horizontal {
+    display: contents;
   }
 
   &:not([disabled]) {

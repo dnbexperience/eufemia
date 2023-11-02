@@ -122,7 +122,8 @@ function MultiInputMask<T extends string>({
           disabled={disabled}
           vertical={labelDirection === 'vertical'}
         >
-          {label}
+          {/* This <span/> wrapper is needed to make flexbox work with the legend element */}
+          <span>{label}</span>
         </FormLabel>
       )}
       <Input
