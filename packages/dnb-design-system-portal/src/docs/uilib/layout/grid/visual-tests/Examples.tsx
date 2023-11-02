@@ -8,8 +8,8 @@ import styled from '@emotion/styled'
 /**
  * NB: We want a total with of 272+24+1136=1432
  * Ideally all 15 columns should have 80px in max-width.
- * But that requres much more code to achieve.
- * This solution makes a compormize on that.
+ * But that requires much more code to achieve.
+ * This solution makes a compromise on that.
  *
  * The reason is that;
  * when we use a gap of 24 between the sidebar and the page content,
