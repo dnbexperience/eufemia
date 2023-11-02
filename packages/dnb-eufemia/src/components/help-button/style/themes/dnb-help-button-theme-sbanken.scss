@@ -1,7 +1,12 @@
 /*
- * No theme is provided
+ * Help button theme for Sbanken
  *
  */
+
+.dnb-help-button.dnb-help-button--inline {
+  --help-button-inline-color: var(--sb-color-text);
+  --help-button-inline-background: var(--sb-color-green);
+}
 
 .dnb-help-button-content {
   --help-button-content-color: var(--sb-color-text);
