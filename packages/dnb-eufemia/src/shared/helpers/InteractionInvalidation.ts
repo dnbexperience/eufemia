@@ -49,7 +49,7 @@ export class InteractionInvalidation {
 
   activate(targetElement: TargetElement | TargetSelector = null) {
     if (!this._nodesToInvalidate) {
-      this._runInvalidaiton(targetElement)
+      this._runInvalidation(targetElement)
     }
   }
 
@@ -58,7 +58,7 @@ export class InteractionInvalidation {
     this._nodesToInvalidate = null
   }
 
-  _runInvalidaiton(targetElement: TargetElement | TargetSelector) {
+  _runInvalidation(targetElement: TargetElement | TargetSelector) {
     if (typeof document === 'undefined') {
       return // stop here
     }
