@@ -82,6 +82,7 @@ function MultiInputMask<T extends string>({
   status,
   statusState,
   values: defaultValues,
+  className,
   ...props
 }: MultiInputMaskProps<T>) {
   const [values, onChange] = useMultiInputValue({
@@ -98,8 +99,6 @@ function MultiInputMask<T extends string>({
   )
 
   const WrapperElement = label ? 'fieldset' : 'div'
-
-  const { className, ...restOfProps } = props
 
   return (
     <WrapperElement
@@ -127,7 +126,7 @@ function MultiInputMask<T extends string>({
         </FormLabel>
       )}
       <Input
-        {...restOfProps}
+        {...props}
         className={classnames('dnb-multi-input-mask', className)}
         disabled={disabled}
         status={status}
