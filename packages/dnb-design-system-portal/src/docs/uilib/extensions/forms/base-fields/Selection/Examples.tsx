@@ -241,11 +241,11 @@ export const DropdownHighNumberOfOptions = () => (
       <Field.Option value="option-18" title="Eighteen" />
       <Field.Option value="option-19" title="Nineteen" />
       <Field.Option value="option-20" title="Twenty" />
-      <Field.Option value="option-21" title="Twentyone" />
-      <Field.Option value="option-22" title="Twentytwo" />
-      <Field.Option value="option-23" title="Twentythree" />
-      <Field.Option value="option-24" title="Twentyfour" />
-      <Field.Option value="option-25" title="Twentyfive" />
+      <Field.Option value="option-21" title="Twenty-one" />
+      <Field.Option value="option-22" title="Twenty-two" />
+      <Field.Option value="option-23" title="Twenty-three" />
+      <Field.Option value="option-24" title="Twenty-four" />
+      <Field.Option value="option-25" title="Twenty-five" />
     </Field.Selection>
   </ComponentBox>
 )
