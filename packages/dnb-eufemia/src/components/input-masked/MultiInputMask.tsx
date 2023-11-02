@@ -91,7 +91,7 @@ function MultiInputMask<T extends string>({
     callback: onChangeExternal,
   })
 
-  const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
+  const inputRefs = useRef<Array<MutableRefObject<HTMLInputElement>>>([])
 
   const { onKeyDown } = useHandleCursorPosition(
     inputRefs.current,
