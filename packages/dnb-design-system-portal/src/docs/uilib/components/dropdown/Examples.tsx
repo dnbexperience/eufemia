@@ -300,7 +300,7 @@ export const DropdownActionMenu = () => (
           trash: (
             <>
               <Icon icon={trash} right />
-              Save
+              Move to trash
             </>
           ),
           download: (
