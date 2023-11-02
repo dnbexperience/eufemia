@@ -937,8 +937,7 @@ button .dnb-form-status__text {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-border-width: 0.0625rem;
-  --input-border-radius: 0.25rem;
+  --input-background-color: var(--color-white);
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
@@ -1003,6 +1002,9 @@ button .dnb-form-status__text {
 }
 .dnb-input__input::-ms-clear {
   display: none;
+}
+.dnb-input__input:autofill {
+  box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color), 0 0 0 10em var(--input-background-color) inset;
 }
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
