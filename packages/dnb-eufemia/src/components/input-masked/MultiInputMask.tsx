@@ -92,7 +92,7 @@ function MultiInputMask<T extends string>({
 
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
 
-  const { handleKeydown } = useHandleCursorPosition(
+  const { onKeyDown } = useHandleCursorPosition(
     inputRefs.current,
     getKeysToHandle()
   )
@@ -140,7 +140,7 @@ function MultiInputMask<T extends string>({
               delimiter={
                 index !== inputs.length - 1 ? delimiter : undefined
               }
-              onKeyDown={handleKeydown}
+              onKeyDown={onKeyDown}
               onChange={onChange}
               disabled={disabled}
               inputRef={getInputRef}

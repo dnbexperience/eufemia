@@ -11,7 +11,7 @@ function useHandleCursorPosition(
     inputList.current = refsToInputList(inputRefs)
   }, [inputRefs])
 
-  function handleKeydown(event: React.KeyboardEvent) {
+  function onKeyDown(event: React.KeyboardEvent) {
     const inputs = inputList.current
     const input = event.target as HTMLInputElement
 
@@ -53,7 +53,7 @@ function useHandleCursorPosition(
     })
   }
 
-  return { handleKeydown }
+  return { onKeyDown }
 }
 
 // Helpers
