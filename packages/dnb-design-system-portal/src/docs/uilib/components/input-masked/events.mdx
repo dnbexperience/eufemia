@@ -10,3 +10,9 @@ showTabs: true
 | [Input](/uilib/components/input/events) | _(optional)_ all `Input` events are supported.                                                                                                                                   |
 
 **NB:** `numberValue` is returned as a float value and is only returned if the createNumberMask is used by either using `number_mask`, `currency_mask`, `as_number` or `as_currency`.
+
+### MultiInputMask
+
+| Events     | Description                                                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `onChange` | _(optional)_ runs an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`. |
