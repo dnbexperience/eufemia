@@ -1285,6 +1285,7 @@ html[data-visual-test] .dnb-input__input {
   display: inline-flex;
   flex-flow: row wrap;
   align-items: baseline;
+  gap: 1rem;
 }
 
 .dnb-multi-input-mask__input {
@@ -1326,9 +1327,8 @@ html[data-visual-test] .dnb-input__input {
   border-color: transparent;
 }
 
-.dnb-multi-input-mask__legend--horizontal {
-  float: left;
-  transform: translateY(0);
+.dnb-multi-input-mask__legend.dnb-multi-input-mask__legend--horizontal {
+  display: contents;
 }
 .dnb-multi-input-mask__legend:not([disabled]) {
   cursor: pointer;
