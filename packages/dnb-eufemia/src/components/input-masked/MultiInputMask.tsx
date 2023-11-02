@@ -204,21 +204,22 @@ function MultiInputMask<T extends string>({
   }
 }
 
-type inputpdMaskInputProps<T extends string> = MultiInputMaskInput<T> & {
-  id: MultiInputMaskInput<T>['id']
-  label: MultiInputMaskInput<T>['label']
-  value: string
-  mask: MultiInputMaskInput<T>['mask']
-  placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
-  delimiter?: MultiInputMaskProps<T>['delimiter']
-  disabled: boolean
-  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  onChange: (
-    id: string,
+type MultiInputMaskInputProps<T extends string> =
+  MultiInputMaskInput<T> & {
+    id: MultiInputMaskInput<T>['id']
+    label: MultiInputMaskInput<T>['label']
+    value: string
+    mask: MultiInputMaskInput<T>['mask']
     placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
-  ) => void
-  inputRef: any
-}
+    delimiter?: MultiInputMaskProps<T>['delimiter']
+    disabled: boolean
+    onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
+    onChange: (
+      id: string,
+      placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
+    ) => void
+    inputRef: any
+  }
 
 function MultiInputMaskInput<T extends string>({
   id,
@@ -231,7 +232,7 @@ function MultiInputMaskInput<T extends string>({
   inputRef,
   onKeyDown,
   onChange,
-}: inputpdMaskInputProps<T>) {
+}: MultiInputMaskInputProps<T>) {
   return (
     <>
       <TextMask
