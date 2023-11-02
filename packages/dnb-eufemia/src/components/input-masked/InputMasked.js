@@ -115,4 +115,6 @@ InputMasked.defaultProps = {
   on_submit_blur: null,
 }
 
+InputMasked._supportsSpacingProps = true
+
 export default InputMasked
