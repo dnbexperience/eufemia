@@ -3,7 +3,7 @@ import Input from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
-import FormLabel, { FormLabelLabelDirection } from '../FormLabel'
+import FormLabel from '../FormLabel'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
@@ -41,7 +41,7 @@ export type MultiInputMaskProps<T extends string> = {
   /**
    * Use to change the label layout direction. Defaults to `horizontal`.
    */
-  labelDirection?: FormLabelLabelDirection
+  labelDirection?: 'vertical' | 'horizontal'
   /**
    * Used to define the different inputs representing the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`
    */
