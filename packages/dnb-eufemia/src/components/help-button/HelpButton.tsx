@@ -21,7 +21,7 @@ export type HelpButtonProps = {
     children: React.ReactNode,
     props: ButtonProps
   ) => React.ReactElement
-  displayMethod?: false | 'dialog' | 'inline'
+  displayMethod?: 'dialog' | 'inline'
   contentElement?: Element
 } & ButtonProps
 
@@ -47,11 +47,11 @@ export default function HelpButton(localProps: HelpButtonProps) {
     return render(children, params)
   }
 
-  if (displayMethod !== 'inline') {
-    return <Dialog triggerAttributes={params}>{children}</Dialog>
+  if (displayMethod === 'inline') {
+    return <HelpButtonInline {...params}>{children}</HelpButtonInline>
   }
 
-  return <HelpButtonInline {...params}>{children}</HelpButtonInline>
+  return <Dialog triggerAttributes={params}>{children}</Dialog>
 }
 
 HelpButton._supportsSpacingProps = true
