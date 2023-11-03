@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import {
   extendPropsWithContext,
@@ -27,6 +27,8 @@ import type {
   DynamicElementParams,
   SpacingProps,
 } from '../../shared/types'
+import { FieldHelpProps } from '../../extensions/forms'
+import HelpButton from '../HelpButton'
 
 export type FormLabelProps = {
   forId?: string
@@ -54,7 +56,7 @@ export type FormLabelProps = {
   sr_only?: boolean
   /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
   label_direction?: FormElementProps['label_direction']
-}
+} & FieldHelpProps
 
 export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
@@ -87,6 +89,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     innerRef,
     className,
     children,
+    help,
     ...attributes
   } = props
 
@@ -98,14 +101,21 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       (typeof props.onClick === 'function' || forId)
   )
 
+  const [helpContentElement, setHelpContentElement] = useState(null)
+  useEffect(() => {
+    setHelpContentElement(document.getElementById(help?.selector))
+  }, [help])
+
+  const isVertical = isTrue(vertical) || labelDirection === 'vertical'
+
   const params = {
     className: classnames(
       'dnb-form-label',
-      (isTrue(vertical) || labelDirection === 'vertical') &&
-        `dnb-form-label--vertical`,
+      isVertical && `dnb-form-label--vertical`,
       srOnly && 'dnb-sr-only',
       size && `dnb-h--${size}`,
       isInteractive && 'dnb-form-label--interactive',
+      help && `dnb-form-label--has-help`,
       createSkeletonClass('font', skeleton, context),
       createSpacingClasses(
         content ? { right: 'small', ...props } : omitSpacingProps(props)
@@ -121,7 +131,34 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
 
-  return <Element {...params}>{content}</Element>
+  const labelContent = (
+    <>
+      <Element {...params}>{content}</Element>
+      {help && (
+        <HelpButton
+          title={help.title}
+          displayMethod="inline"
+          contentElement={helpContentElement}
+        >
+          {help.content}
+        </HelpButton>
+      )}
+    </>
+  )
+
+  return help && isVertical ? (
+    <div
+      className={classnames(
+        'dnb-form-label-wrapper',
+        isVertical && `dnb-form-label-wrapper--vertical`,
+        isTrue(srOnly) && 'dnb-sr-only'
+      )}
+    >
+      {labelContent}
+    </div>
+  ) : (
+    <>{labelContent}</>
+  )
 }
 
 FormLabel._formElement = true

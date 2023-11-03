@@ -21,10 +21,22 @@
   font-size: var(--font-size-basis);
   color: inherit;
 
+  &--has-help {
+    margin-right: 0.5rem;
+  }
+
+  + .dnb-help-button {
+    margin-right: 1rem;
+  }
+
   &--vertical {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem;
+
+    + .dnb-help-button {
+      margin-right: 0;
+    }
   }
 
   &--interactive {

@@ -254,6 +254,7 @@ export interface FieldHelpProps {
   help?: {
     title?: string
     content?: string
+    selector?: string
   }
 }
 
