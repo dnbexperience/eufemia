@@ -12,6 +12,7 @@ import {
 import {
   isTrue,
   dispatchCustomElementEvent,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
@@ -482,21 +483,19 @@ const useNumberMaskParams = () => {
     const decimalSymbol = handleDecimalSeparator(locale)
 
     if (isTrue(as_number) || isTrue(as_percent)) {
-      number_mask = {
+      number_mask = extendPropsWithContext(number_mask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
-        ...number_mask,
-      }
+      })
     } else if (as_currency) {
-      currency_mask = {
+      currency_mask = extendPropsWithContext(currency_mask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
         currency: getCurrencySymbol(
           locale,
           typeof as_currency === 'string' ? as_currency : null
         ),
-        ...currency_mask,
-      }
+      })
     }
   }
 

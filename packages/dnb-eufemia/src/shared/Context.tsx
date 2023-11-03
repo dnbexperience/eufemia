@@ -39,6 +39,7 @@ import type { GlobalErrorProps } from '../components/GlobalError'
 import type { ModalProps } from '../components/modal/types'
 import type { AccordionProps } from '../components/Accordion'
 import type { StepIndicatorProps } from '../components/StepIndicator'
+import type { FormLabelProps } from '../components/FormLabel'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
@@ -73,6 +74,7 @@ export type ContextComponents = {
   Modal?: Partial<ModalProps>
   Accordion?: Partial<AccordionProps>
   StepIndicator?: Partial<StepIndicatorProps>
+  FormLabel?: Partial<FormLabelProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>

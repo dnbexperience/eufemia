@@ -25,7 +25,7 @@ $ yarn add @dnb/eufemia@11
 
 ## Section
 
-1. Most of the `style_type` variants were removed. Instead use the new `variant` property:
+1. Most of the `style_type` variants were removed. Instead use the new `variant` or `backgroundColor` property:
 
 - `mint-green`
 - `sea-green`
@@ -37,13 +37,16 @@ $ yarn add @dnb/eufemia@11
 - `fire-red`
 - `fire-red-8`
 
+2. `spacing` is removed. Use `innerSpace` instead.
+3. `inner_ref` is removed. Use `innerRef` instead.
+
 ## Anchor icons
 
 For when using icons in an Anchor (text link), use the `icon` property instead of inlining it.
 
 ## Removal of FormRow and FormSet
 
-For more information on how to replace these, check out [these docs](/uilib/layout/form-set-row-deprication#depreciation).
+For more information on how to replace these, check out [these docs](/uilib/layout/form-set-row-deprecation#deprecation).
 
 - Find `<FormRow>` and replace with `<Flex.Horizontal align="baseline">`.
 - Find `<FormRow vertical>` and replace with `<Flex.Vertical>`.
@@ -51,5 +54,16 @@ For more information on how to replace these, check out [these docs](/uilib/layo
 - Find `FormRow=` and replace with `formElement=`.
 - Find `FormRow:` and replace with `formElement:`.
 - Find `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` and replace with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
+
+## FormLabel
+
+- Find `for_id` and replace with `forId`.
+- Find `sr_only` and replace with `srOnly`.
+
+## Removal of passing down props to BreadcrumbItem's span
+
+We don't think this has been used for anything other than passing down `data-testid`'s for testing. We believe the potential side effects of passing down props to this span is greater than the advantages it gives for those who want to test this span using data-testid as their way of selecting the span.
+We recommend to [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`.
+For more context, take a look in this [PR](https://github.com/dnbexperience/eufemia/pull/2798).
 
 _June, 1. 2023_

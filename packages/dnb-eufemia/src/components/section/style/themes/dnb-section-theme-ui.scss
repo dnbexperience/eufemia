@@ -6,136 +6,104 @@
 @import '../../../../components/anchor/style/anchor-mixins.scss';
 
 .dnb-section {
+  --background-color: var(--color-white);
+  --outline-color--value: var(--color-black-8);
+
   &--divider {
-    color: var(--color-black-80);
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-white);
+
+    // will else cover parts of the divider lines
+    z-index: 0;
+
+    // Separator color
+    --sc: var(--color-mint-green-50);
 
     &::after {
-      color: var(--color-white);
-      box-shadow:
-        99vw 0 0 0 currentcolor,
-        198vw 0 0 0 currentcolor,
-        297vw 0 0 0 currentcolor,
-        396vw 0 0 0 currentcolor,
-        0 0.0625rem 0 0 var(--color-mint-green-50),
-        99vw 0.0625rem 0 0 var(--color-mint-green-50),
-        0 -0.0625rem 0 0 var(--color-mint-green-50),
-        99vw -0.0625rem 0 0 var(--color-mint-green-50),
-        198vw 0.0625rem 0 0 var(--color-mint-green-50),
-        198vw -0.0625rem 0 0 var(--color-mint-green-50);
+      --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+        297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
+        0 0.0625rem 0 0 var(--sc), 99vw 0.0625rem 0 0 var(--sc),
+        0 -0.0625rem 0 0 var(--sc), 99vw -0.0625rem 0 0 var(--sc),
+        198vw 0.0625rem 0 0 var(--sc), 198vw -0.0625rem 0 0 var(--sc);
     }
   }
 
   &--transparent {
-    &::after {
-      color: transparent;
-    }
+    --background-color: transparent;
   }
 
   /** deprecated: default should be white in v11 */
   &--mint-green-12,
   &--default {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-mint-green-12);
-    }
+    --text-color: var(--text-color--value, var(--color-black-80));
+    --background-color: var(
+      --background-color--value,
+      var(--color-mint-green-12)
+    );
   }
 
   &--white {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-white);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-white);
   }
 
   /** deprecated */
   &--mint-green {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-mint-green);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-mint-green);
   }
 
   /** deprecated */
   &--lavender {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-lavender);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-lavender);
   }
 
   &--sand-yellow,/** deprecated */
   &--warning {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-sand-yellow);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-sand-yellow);
   }
 
   &--pistachio,/** deprecated */
   &--info {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-pistachio);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-pistachio);
   }
 
   /** deprecated */
   &--black-3 {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-black-3);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-black-3);
   }
 
   /** deprecated */
   &--emerald-green {
-    color: var(--color-mint-green);
-
-    &::after {
-      color: var(--color-emerald-green);
-    }
+    --text-color: var(--color-mint-green);
+    --background-color: var(--color-emerald-green);
   }
 
   /** deprecated */
   &--sea-green {
-    color: var(--color-white);
-
-    &::after {
-      color: var(--color-sea-green);
-    }
+    --text-color: var(--color-white);
+    --background-color: var(--color-sea-green);
   }
 
   /** deprecated */
   &--fire-red {
-    color: var(--color-white);
-
-    &::after {
-      color: var(--color-fire-red);
-    }
+    --text-color: var(--color-white);
+    --background-color: var(--color-fire-red);
   }
 
   &--fire-red-8,/** deprecated */
   &--error {
-    color: var(--color-black-80);
-
-    &::after {
-      color: var(--color-fire-red-8);
-    }
+    --text-color: var(--color-black-80);
+    --background-color: var(--color-fire-red-8);
   }
 
   &--success {
-    color: var(--color-white);
-
-    &::after {
-      color: var(--color-success-green);
-    }
+    --text-color: var(--color-white);
+    --background-color: var(--color-success-green);
   }
 
   // Contrast styles
@@ -149,18 +117,18 @@
   &--fire-red .dnb-button--tertiary,/** deprecated */
   &--emerald-green .dnb-button--tertiary,/** deprecated */
   &--sea-green .dnb-button--tertiary /** deprecated */ {
-    color: var(--color-white);
+    --text-color: var(--color-white);
 
     &:hover {
-      color: var(--color-white);
+      --text-color: var(--color-white);
     }
 
     &:hover .dnb-button__text::after {
-      color: var(--color-white) !important;
+      --text-color: var(--color-white) !important;
     }
 
     &:focus {
-      color: var(--color-white);
+      --text-color: var(--color-white);
 
       &::before {
         @include focusRing(null, var(--color-white));

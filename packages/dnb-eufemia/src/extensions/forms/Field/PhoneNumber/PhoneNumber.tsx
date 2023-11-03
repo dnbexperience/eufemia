@@ -68,14 +68,17 @@ function PhoneNumber(props: Props) {
       ? value.match(/^(\+[^ ]+)? ?(.*)$/)
       : [undefined, '', '']
 
+  const lang = sharedContext.locale?.split('-')[0]
   const countryCodeData = useMemo(
     () =>
       countries.map((country) => ({
-        selectedKey: `+${country.code}`,
-        selected_value: `${country.iso} (+${country.code})`,
-        content: `+${country.code} ${country.name}`,
+        selectedKey: `+${country.cdc}`,
+        selected_value: `${country.iso} (+${country.cdc})`,
+        content: `+${country.cdc} ${
+          country.i18n[lang] ?? country.i18n.en
+        }`,
       })),
-    []
+    [sharedContext.locale]
   )
 
   const handleCountryCodeChange = useCallback(
@@ -115,8 +118,9 @@ function PhoneNumber(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      {...pickSpacingProps(props)}
     >
-      <Flex.Container direction="horizontal">
+      <Flex.Horizontal>
         <Autocomplete
           className={classnames(
             'dnb-forms-field-phone-number__country-code',
@@ -136,7 +140,6 @@ function PhoneNumber(props: Props) {
           on_change={handleCountryCodeChange}
           independent_width
           search_numbers
-          {...pickSpacingProps(props)}
           stretch={width === 'stretch'}
         />
 
@@ -176,7 +179,7 @@ function PhoneNumber(props: Props) {
           width="stretch"
           help={help}
         />
-      </Flex.Container>
+      </Flex.Horizontal>
     </FieldBlock>
   )
 }

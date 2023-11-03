@@ -84,16 +84,6 @@
       @include anchorFocus();
     }
 
-    &--icon-left {
-      margin-left: 1em + $anchor-icon-gutter;
-
-      .dnb-icon {
-        font-size: 1em;
-        margin-right: $anchor-icon-gutter;
-        margin-left: -1em - $anchor-icon-gutter;
-      }
-    }
-
     &--icon-right {
       margin-right: 1em + $anchor-icon-gutter;
 
@@ -101,6 +91,16 @@
         font-size: 1em;
         margin-left: $anchor-icon-gutter;
         margin-right: -1em - $anchor-icon-gutter;
+      }
+    }
+
+    &--icon-left {
+      margin-left: 1em + $anchor-icon-gutter;
+
+      .dnb-icon:first-of-type {
+        font-size: 1em;
+        margin-right: $anchor-icon-gutter;
+        margin-left: -1em - $anchor-icon-gutter;
       }
     }
 

@@ -11,6 +11,8 @@ import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import { Provider } from '../../../shared'
+import { P } from '../../../elements'
 
 const text = 'text'
 const items = [
@@ -44,6 +46,40 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-ul').textContent).toBe(
       props.items.map(({ text }) => text).join('')
     )
+  })
+
+  it('title should have role of paragraph', () => {
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <GlobalStatus {...props} />
+      </Provider>
+    )
+    const element = document.querySelector('.dnb-global-status__title')
+    expect(element.tagName).toContain('DIV')
+    expect(element.getAttribute('role')).toBe('paragraph')
+
+    expect(element.textContent).toContain('An error has occurred')
+    expect(element.textContent).toContain('Close')
+    expect(element.getAttribute('lang')).toBe('en-GB')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <GlobalStatus {...props} />
+      </Provider>
+    )
+
+    expect(element.textContent).toContain('En feil har skjed')
+    expect(element.textContent).toContain('Lukk')
+    expect(element.getAttribute('lang')).toBe('nb-NO')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <GlobalStatus {...props} title={<P>Custom title</P>} />
+      </Provider>
+    )
+
+    expect(element.textContent).toContain('Custom title')
+    expect(element.getAttribute('role')).not.toBe('paragraph')
   })
 
   it('should have correct attributes like "aria-live"', async () => {

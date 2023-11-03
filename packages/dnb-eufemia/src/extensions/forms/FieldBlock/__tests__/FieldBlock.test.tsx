@@ -128,13 +128,35 @@ describe('FieldBlock', () => {
     expect(labelElement.textContent).toBe('A Secondary Label')
   })
 
+  it('should not use fieldset/legend elements when no label is given', () => {
+    render(
+      <FieldBlock>
+        <div>
+          <span>no label</span>
+          <Input label="Label" />
+          <FieldBlock label="Label">
+            <div>
+              <span>no label</span>
+              <Input label="Label" />
+              <span>no label</span>
+            </div>
+          </FieldBlock>
+          <span>no label</span>
+        </div>
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('fieldset')).not.toBeInTheDocument()
+    expect(document.querySelector('legend')).not.toBeInTheDocument()
+  })
+
   it('should use fieldset/legend elements when nested component has a label property', () => {
     render(
       <FieldBlock label="Legend">
         <div>
           <span>no label</span>
           <Input label="Label" />
-          <FieldBlock label="Legend">
+          <FieldBlock label="Label">
             <div>
               <span>no label</span>
               <Input label="Label" />
@@ -158,6 +180,21 @@ describe('FieldBlock', () => {
     expect(labelElements[2].tagName).toBe('LABEL')
     expect(labelElements[3].tagName).toBe('LABEL')
     expect(labelElements[4]).toBe(undefined)
+  })
+
+  it('should use fieldset/legend when "asFieldset" is given', () => {
+    render(
+      <FieldBlock label="Legend" asFieldset>
+        content
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+    expect(document.querySelectorAll('legend')).toHaveLength(1)
+    expect(document.querySelector('legend')).not.toHaveAttribute('for')
+    expect(document.querySelector('.dnb-forms-field-block').tagName).toBe(
+      'FIELDSET'
+    )
   })
 
   it('should render a FormStatus when "info" is given', () => {

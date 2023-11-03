@@ -4,9 +4,10 @@ showTabs: true
 
 ## Properties
 
-| Property                                                                                         | Type         | Description                                                           |
-| ------------------------------------------------------------------------------------------------ | ------------ | --------------------------------------------------------------------- |
-| `children`                                                                                       | `React.Node` | _(required)_ The content of the form.                                 |
-| [Space](/uilib/layout/space/properties)                                                          | Various      | _(optional)_ spacing properties like `top` or `bottom` are supported. |
-| [DataContext.Provider](/uilib/extensions/forms/create-component/DataContext/Provider/properties) | Various      | _(optional)_ provider properties such as `data` and `onChange`.       |
-| [Form Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attributes)     | Various      | _(optional)_ all supported form element attributes.                   |
+| Property                                                                                         | Type         | Description                                                                                                                 |
+| ------------------------------------------------------------------------------------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `children`                                                                                       | `React.Node` | _(required)_ The content of the form.                                                                                       |
+| `autoComplete`                                                                                   | `boolean`    | _(optional)_ Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields. |
+| [Space](/uilib/layout/space/properties)                                                          | Various      | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                       |
+| [DataContext.Provider](/uilib/extensions/forms/create-component/DataContext/Provider/properties) | Various      | _(optional)_ provider properties such as `data` and `onChange`.                                                             |
+| [Form Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attributes)     | Various      | _(optional)_ all supported form element attributes.                                                                         |

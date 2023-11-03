@@ -12,14 +12,21 @@ import {
 } from '../../shared/component-helper'
 import Context, { ContextProps } from '../../shared/Context'
 import { spacingPropTypes } from './SpacingHelper'
-import { createSpacingClasses, isInline } from './SpacingUtils'
+import {
+  createSpacingClasses,
+  createSpacingProperties,
+  isInline,
+} from './SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import Section from '../section/Section'
 
-import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type {
+  DynamicElement,
+  DynamicElementParams,
+  SpacingProps,
+} from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 
 export { spacingPropTypes }
@@ -89,7 +96,9 @@ export default function Space(localProps: SpaceAllProps) {
     right,
     bottom,
     left,
+    style,
     space,
+    innerSpace, // eslint-disable-line
     stretch,
     skeleton,
     innerRef,
@@ -111,6 +120,11 @@ export default function Space(localProps: SpaceAllProps) {
     ...attributes,
   }
 
+  const styleObj = {
+    ...style,
+    ...createSpacingProperties(props),
+  } as React.CSSProperties
+
   skeletonDOMAttributes(params, skeleton) // do not send along context
 
   return (
@@ -118,6 +132,7 @@ export default function Space(localProps: SpaceAllProps) {
       element={element}
       no_collapse={no_collapse}
       innerRef={innerRef}
+      style={styleObj}
       {...params}
     >
       {children}
@@ -134,25 +149,21 @@ function Element({
   innerRef,
   ...props
 }: SpaceAllProps) {
-  const ElementDynamic = element as DynamicElement<any>
-  let component: React.ReactElement = null
+  const ElementDynamic = element
 
-  if (ElementDynamic === Section) {
-    component = (
-      <ElementDynamic {...props} inner_ref={innerRef}>
-        {children}
-      </ElementDynamic>
-    )
+  if (element?.['_name'] === 'Section') {
+    props['innerRef'] = innerRef
   } else {
     // also used for code markup simulation
     validateDOMAttributes({}, props)
-
-    component = (
-      <ElementDynamic {...props} ref={innerRef}>
-        {children}
-      </ElementDynamic>
-    )
+    props['ref'] = innerRef
   }
+
+  const component = (
+    <ElementDynamic {...(props as DynamicElementParams)}>
+      {children}
+    </ElementDynamic>
+  )
 
   if (isTrue(no_collapse)) {
     const R =

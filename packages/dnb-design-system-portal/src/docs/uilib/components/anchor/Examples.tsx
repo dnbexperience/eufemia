@@ -225,6 +225,16 @@ export const AnchorTargetBlank = () => (
           Blank target with different launch icon
         </Anchor>
       </Example>
+      <Example data-visual-test="anchor-blank-icon-left">
+        <Anchor
+          target="_blank"
+          href="/uilib/components/anchor"
+          icon="bell"
+          iconPosition="left"
+        >
+          Blank target with icon to the left
+        </Anchor>
+      </Example>
     </ComponentBox>
   </Wrapper>
 )

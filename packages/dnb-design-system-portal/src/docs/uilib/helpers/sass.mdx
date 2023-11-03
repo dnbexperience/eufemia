@@ -1,0 +1,160 @@
+---
+title: 'SASS mixins'
+order: 2
+---
+
+import * as Examples from 'Docs/uilib/helpers/Examples'
+
+# SASS and mixins
+
+All CSS helper classes are to be found in `src/style/core/helper-classes/helper-classes.scss`
+Most helper classes are SCSS _mixins_ which are then applied to the class when invoked.
+
+You can import Eufemia _mixins_ directly into your SCSS styles:
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+/** State handling */
+@include hover {
+}
+@include focus {
+}
+@include active {
+}
+
+/** 
+ * Media Queries and Breakpoints 
+ * More info can be found in the sections below
+ */
+@include allBelow(large) {
+}
+@include allAbove(small) {
+}
+@include allBetween(small) {
+}
+
+/** Screen Reader Only */
+@include srOnly() {
+} // .dnb-sr-only
+
+/** Browser Checks */
+@include IS_EDGE {
+}
+@include IS_FF {
+}
+@include IS_CHROME {
+}
+@include IS_SAFARI_MOBILE {
+}
+@include IS_SAFARI_DESKTOP {
+}
+
+/** Eufemia DropShadow */
+@include defaultDropShadow();
+
+/** Eufemia Border helpers */
+@include focusRing(
+  /* $whatinput: 'keyboard', $color: var(--color-emerald-green), $inset: inset */
+);
+@include extendFocusRing(
+  /* $first-color: null, $second-color: null, width: 0.0625rem */
+);
+@include fakeBorder(
+  /* $color: var(--color-emerald-green), $width: 0.0625rem, $inset: inset */
+);
+
+/** Scroll behavior */
+@include scrollY(/* $mode: scroll */);
+@include scrollX(/* $mode: scroll */);
+@include hideScrollbar();
+@include scrollbarAppearance();
+
+/** Reset fieldset styles */
+@include fieldsetReset();
+```
+
+## Media queries and Breakpoints
+
+Use the `allAbove`, `allBelow` and `allBetween` mixins to add media queries to your css.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+@include allBelow(small) {
+}
+
+@include allBetween(small, medium) {
+}
+
+@include allAbove(medium) {
+}
+```
+
+`$breakpoints` is a key-value map containing all the available sizes for media queries
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// getting a size from $breakpoints
+div {
+  max-width: map-get($breakpoints, medium);
+}
+```
+
+### Custom offset
+
+You can either change the default value `$breakpoint-offset` (default: 0) from `utilities.scss`, or send in a custom offset to the mixin.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// Change the default offset (default: 0)
+$breakpoint-offset: 10em;
+
+// Will use the new default offset, adding 10em to the size
+@include allBelow(large) {
+}
+
+// You can also simply send in a custom offset
+@include allBelow(large, -5em) {
+}
+```
+
+### Custom size
+
+You can either change the default values in the `$breakpoints` array from `utilities.scss`, or send in a custom size to the mixin.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// Change default sizes
+$breakpoints: map-merge(
+  $breakpints,
+  (
+    // redefine a size
+    'medium': 40em,
+
+    // add an offset to the original value
+    'large': map-get($breakpoints, large) + 5em
+  )
+);
+
+// Will use the new default 'large' size of 90em
+@include allBelow(large) {
+}
+
+// You can also simply send in a custom size
+@include allBelow(90em) {
+}
+```
+
+## `<fieldset>` CSS reset
+
+Removes default styling on a `fieldset` element.
+
+`@include fieldsetReset($checkSpaceProps: boolean)`
+
+If true is given, it will handle margin gracefully by checking for e.g. `dnb-space__top--` and not reset if this class exists.
+
+<Examples.FormsetReset />

@@ -79,6 +79,7 @@ export default {
     },
     NumberFormat: {
       clipboard_copy: 'Copied',
+      not_available: 'Not available',
     },
     HelpButton: {
       title: 'Help text',
@@ -116,6 +117,9 @@ export default {
       text_expired: 'Expired',
       text_blocked: 'Blocked',
       text_not_active: 'Not activated',
+      text_order_in_process: 'Order in process',
+      text_renewed: 'Renewed',
+      text_replaced: 'Replaced',
     },
     Logo: {
       alt: 'DNB Logo',
@@ -130,11 +134,14 @@ export default {
     Upload: {
       title: 'Upload documents',
       text: 'Drag & drop your files or choose files to upload.',
+      textSingular:
+        'Drag & drop your file or choose which file to upload.',
       fileTypeDescription: 'Allowed formats:',
       fileSizeDescription: 'Max. filesize:',
       fileAmountDescription: 'Max. number of files:',
       fileSizeContent: '%size MB',
       buttonText: 'Choose files',
+      buttonTextSingular: 'Choose file',
       loadingText: 'Uploading',
       errorLargeFile:
         'The file you are trying to upload is too big, the maximum size supported is %size MB.',

@@ -1,56 +1,42 @@
 .dnb-section {
+  --background-color: var(--sb-color-white);
+  --outline-color--value: var(--sb-color-gray-light-2);
+
   &--transparent {
-    &::after {
-      color: transparent;
-    }
+    --background-color: transparent;
   }
 
   &--default,
   &--divider {
-    color: var(--sb-color-text);
-
-    &::after {
-      color: var(--sb-color-violet-light-4);
-    }
+    --text-color: var(--text-color--value, var(--sb-color-text));
+    --background-color: var(
+      --background-color--value,
+      var(--sb-color-violet-light-4)
+    );
   }
 
   &--white {
-    color: var(--sb-color-text);
-
-    &::after {
-      color: var(--sb-color-white);
-    }
+    --text-color: var(--sb-color-text);
+    --background-color: var(--sb-color-white);
   }
 
   &--error {
-    color: var(--sb-color-text);
-
-    &::after {
-      color: var(--sb-color-magenta-light-2);
-    }
+    --text-color: var(--sb-color-text);
+    --background-color: var(--sb-color-magenta-light-2);
   }
 
   &--info {
-    color: var(--sb-color-text);
-
-    &::after {
-      color: var(--sb-color-gray-light-2);
-    }
+    --text-color: var(--sb-color-text);
+    --background-color: var(--sb-color-gray-light-2);
   }
 
   &--warning {
-    color: var(--sb-color-text);
-
-    &::after {
-      color: var(--sb-color-yellow-light-3);
-    }
+    --text-color: var(--sb-color-text);
+    --background-color: var(--sb-color-yellow-light-3);
   }
 
   &--success {
-    color: var(--sb-color-text);
-
-    &::after {
-      color: var(--sb-color-green-light-2);
-    }
+    --text-color: var(--sb-color-text);
+    --background-color: var(--sb-color-green-light-2);
   }
 }

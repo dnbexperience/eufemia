@@ -446,7 +446,7 @@ describe('useMedia', () => {
         })
       )
 
-      expect(count).toBe(24)
+      expect(count).toBe(28)
     })
 
     it('will return correct key based on size', async () => {
@@ -873,6 +873,73 @@ describe('useMedia', () => {
       expect(result.current).toEqual(
         expect.objectContaining({
           isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          key: 'large',
+        })
+      )
+    })
+  })
+
+  describe('ssr', () => {
+    beforeAll(() => {
+      global.window['__SSR_TEST__'] = true
+    })
+
+    afterAll(() => {
+      delete global.window['__SSR_TEST__']
+    })
+
+    it('will by default return false on all sizes', () => {
+      const { result } = renderHook(useMedia, { wrapper })
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          isSSR: true,
+          isSmall: false,
+          isMedium: false,
+          isLarge: false,
+          key: null,
+        })
+      )
+    })
+
+    it('will return positive isSmall when in initialValue', () => {
+      const { result } = renderHook(useMedia, {
+        wrapper,
+        initialProps: {
+          initialValue: {
+            isSmall: true,
+          },
+        },
+      })
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          isSSR: true,
+          isSmall: true,
+          isMedium: false,
+          isLarge: false,
+          key: 'small',
+        })
+      )
+    })
+
+    it('will return both positive isSmall and isLarge', () => {
+      const { result } = renderHook(useMedia, {
+        wrapper,
+        initialProps: {
+          initialValue: {
+            isSmall: true,
+            isLarge: true,
+          },
+        },
+      })
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          isSSR: true,
+          isSmall: true,
           isMedium: false,
           isLarge: true,
           key: 'large',

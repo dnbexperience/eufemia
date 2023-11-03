@@ -10,7 +10,7 @@
   white-space: nowrap;
 
   font-size: var(--font-size-basis);
-  color: var(--color-sea-green);
+  color: var(--skip-link-color);
   text-decoration: none;
   text-align: center;
 
@@ -51,16 +51,16 @@
     height: 100%;
     border-radius: 1.5rem; // same as anchor
 
-    background-color: var(--color-white);
+    background-color: var(--skip-link-background);
 
     @include focusRing('mouse');
   }
 
   &:hover::before {
-    background-color: var(--color-mint-green-50);
+    background-color: var(--skip-link-background--hover);
   }
   &:active::before {
-    background-color: var(--color-emerald-green);
+    background-color: var(--skip-link-background--active);
   }
 
   // focus
@@ -72,15 +72,21 @@
   &:focus {
     opacity: 1;
   }
-  &:hover,
+
+  &:hover {
+    color: var(--skip-link-color--hover);
+    background-color: transparent;
+    box-shadow: none;
+  }
+
   &:focus:not(:hover):not(:active) {
-    color: var(--color-sea-green);
+    color: var(--skip-link-color);
     background-color: transparent;
     box-shadow: none;
   }
   // stylelint-disable-next-line
   &:active {
-    color: var(--color-white);
+    color: var(--skip-link-color--active);
     background-color: transparent;
   }
 }

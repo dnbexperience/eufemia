@@ -20,7 +20,6 @@ import {
   checkIfHasScrollbar,
   detectOutsideClick,
   makeUniqueId,
-  filterProps,
   isTouchDevice,
   slugify,
   roundToNearest,
@@ -466,32 +465,6 @@ describe('"toSnakeCase" should', () => {
 describe('"toKebabCase" should', () => {
   it('transform a camel case event name to kebab case', () => {
     expect(toKebabCase('MyEventIsLong')).toBe('my-event-is-long')
-  })
-})
-
-describe('"filterProps" should', () => {
-  const attributes = {
-    key1: 'value1',
-    key2: 'value2',
-    attr1: 'value1',
-    attr2: false,
-  }
-  const defaultProps = {
-    key1: 'value1',
-    key2: false,
-  }
-  it('remove all unwanted properties', () => {
-    expect(filterProps(attributes, defaultProps)).toEqual({
-      attr1: 'value1',
-      attr2: false,
-    })
-  })
-  it('remove all unwanted properties except "allowed"', () => {
-    expect(filterProps(attributes, defaultProps, ['key1'])).toEqual({
-      key1: 'value1',
-      attr1: 'value1',
-      attr2: false,
-    })
   })
 })
 

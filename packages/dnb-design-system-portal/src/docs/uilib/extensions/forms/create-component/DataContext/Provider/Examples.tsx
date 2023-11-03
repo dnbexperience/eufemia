@@ -86,7 +86,7 @@ export const Default = () => {
       }}
     >
       <DataContext.Provider
-        data={testdata}
+        defaultData={testdata}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
           console.log('onPathChange', path, value)

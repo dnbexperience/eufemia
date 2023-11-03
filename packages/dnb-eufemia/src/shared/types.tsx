@@ -2,6 +2,12 @@ import React from 'react'
 import type { GetTranslationProps } from './Context'
 export * from '../components/space/types'
 
+export type ResponsiveProp<T> = {
+  small?: T
+  medium?: T
+  large?: T
+}
+
 export type LocaleProps = GetTranslationProps
 
 export type DataAttributeTypes = {
@@ -24,6 +30,9 @@ export type DataAttributeTypes = {
   // [property: `data-${string}`]: string
 }
 
-export type DynamicElement<P = React.HTMLProps<HTMLElement>> =
-  | keyof JSX.IntrinsicElements
-  | React.FunctionComponent<P>
+export type DynamicElement<
+  E = HTMLElement,
+  P = React.DetailedHTMLProps<React.HTMLAttributes<E>, E>,
+> = keyof JSX.IntrinsicElements | React.FunctionComponent<P>
+
+export type DynamicElementParams<T = Record<string, unknown>> = T

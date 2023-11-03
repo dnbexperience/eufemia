@@ -1,10 +1,5 @@
 import React, { useContext, useCallback } from 'react'
-import {
-  Checkbox,
-  ToggleButton,
-  Button,
-  Space,
-} from '../../../../components'
+import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock from '../../FieldBlock'
@@ -12,6 +7,7 @@ import { useDataValue } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
+import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 
 export type Props = FieldProps<unknown> & {
   valueOn: unknown
@@ -49,18 +45,12 @@ function Toggle(props: Props) {
     },
     [handleChange, valueOn, valueOff]
   )
-
-  const setOn = useCallback(() => {
-    if (value !== valueOn) {
-      handleChange?.(valueOn)
-    }
-  }, [handleChange, value, valueOn])
-
-  const setOff = useCallback(() => {
-    if (value !== valueOff) {
-      handleChange?.(valueOff)
-    }
-  }, [handleChange, value, valueOff])
+  const handleToggleChange = useCallback(
+    ({ value }) => {
+      handleChange?.(value === 'on' ? valueOn : valueOff)
+    },
+    [handleChange, valueOn, valueOff]
+  )
 
   const cn = classnames('dnb-forms-field-toggle', className)
 
@@ -82,6 +72,7 @@ function Toggle(props: Props) {
   }
 
   const isOn = value === valueOn
+  const isOff = value === valueOff
 
   switch (variant) {
     default:
@@ -120,26 +111,30 @@ function Toggle(props: Props) {
       )
     case 'buttons':
       return (
-        <FieldBlock {...fieldBlockProps}>
-          <ButtonRow>
-            <Button
-              id={id}
-              text={textOn ?? sharedContext?.translation.Forms.booleanYes}
-              on_click={setOn}
-              variant={isOn ? undefined : 'secondary'}
-              status={error ? 'error' : undefined}
-              disabled={disabled}
-            />
-            <Button
-              id={id}
-              text={textOff ?? sharedContext?.translation.Forms.booleanNo}
-              on_click={setOff}
-              variant={isOn ? 'secondary' : undefined}
-              disabled={disabled}
-              status={error ? 'error' : undefined}
-            />
+        <FieldBlock {...fieldBlockProps} asFieldset>
+          <ButtonRow bottom="x-small">
+            <ToggleButtonGroupContext.Provider
+              value={{
+                value: isOn ? 'on' : isOff ? 'off' : undefined,
+                onChange: handleToggleChange,
+                status: error ? 'error' : undefined,
+                disabled,
+              }}
+            >
+              <ToggleButton
+                text={
+                  textOn ?? sharedContext?.translation.Forms.booleanYes
+                }
+                value="on"
+              />
+              <ToggleButton
+                text={
+                  textOff ?? sharedContext?.translation.Forms.booleanNo
+                }
+                value="off"
+              />
+            </ToggleButtonGroupContext.Provider>
           </ButtonRow>
-          <Space bottom="x-small" />
         </FieldBlock>
       )
     case 'checkbox-button':

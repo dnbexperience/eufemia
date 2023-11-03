@@ -1,11 +1,12 @@
 ---
-showTabs: true
+title: 'CSS classes'
+order: 1
 ---
 
 import * as Examples from 'Docs/uilib/helpers/Examples'
 import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.tsx'
 
-## Description
+## CSS helper classes
 
 Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
 
@@ -145,77 +146,3 @@ text-shadow: none;
 ## HTML class naming
 
 To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`. Read more about that in the [Naming conventions](/contribute/naming).
-
-## SASS and mixins
-
-All CSS helper classes are to be found in `src/style/core/helper-classes/helper-classes.scss`
-Most helper classes are SCSS _mixins_ which are then applied to the class when invoked.
-
-You can import Eufemia _mixins_ directly into your SCSS styles:
-
-```scss
-@import '@dnb/eufemia/style/core/utilities.scss';
-
-/** State handling */
-@include hover {
-}
-@include focus {
-}
-@include active {
-}
-
-/** Media Queries and Breakpoints */
-@include allBelow(large) {
-}
-@include allAbove(small) {
-}
-
-/** Screen Reader Only */
-@include srOnly() {
-} // .dnb-sr-only
-
-/** Browser Checks */
-@include IS_EDGE {
-}
-@include IS_FF {
-}
-@include IS_CHROME {
-}
-@include IS_SAFARI_MOBILE {
-}
-@include IS_SAFARI_DESKTOP {
-}
-
-/** Eufemia DropShadow */
-@include defaultDropShadow();
-
-/** Eufemia Border helpers */
-@include focusRing(
-  /* $whatinput: 'keyboard', $color: var(--color-emerald-green), $inset: inset */
-);
-@include extendFocusRing(
-  /* $first-color: null, $second-color: null, width: 0.0625rem */
-);
-@include fakeBorder(
-  /* $color: var(--color-emerald-green), $width: 0.0625rem, $inset: inset */
-);
-
-/** Scroll behavior */
-@include scrollY(/* $mode: scroll */);
-@include scrollX(/* $mode: scroll */);
-@include hideScrollbar();
-@include scrollbarAppearance();
-
-/** Reset fieldset styles */
-@include fieldsetReset();
-```
-
-### Formset reset
-
-Removes default styling on a `fieldset` element.
-
-`@include fieldsetReset($checkSpaceProps: boolean)`
-
-If true is given, it will handle margin gracefully by checking for e.g. `dnb-space__top--` and not reset if this class exists.
-
-<Examples.FormsetReset />

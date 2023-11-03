@@ -54,6 +54,9 @@
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
+  --drawer-list-option-inner-background: var(--color-white);
+  --drawer-list-list-background: var(--color-white);
+  --drawer-list-list-line-height: var(--line-height-basis);
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -116,8 +119,8 @@
     padding: 0;
 
     font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    background-color: transparent;
+    line-height: var(--drawer-list-list-line-height);
+    background-color: var(--drawer-list-list-background);
 
     transform: translateY(0);
     transition:
@@ -193,7 +196,7 @@
       padding: 1rem;
 
       color: inherit;
-      background-color: var(--color-white);
+      background-color: var(--drawer-list-option-inner-background);
 
       // So e.g. an anchor gets aligned to left
       > * {

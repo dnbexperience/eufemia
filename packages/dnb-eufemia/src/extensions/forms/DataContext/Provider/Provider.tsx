@@ -61,6 +61,7 @@ export default function Provider<Data extends JsonObject>({
   scrollTopOnSubmit,
   sessionStorageId,
   children,
+  ...rest
 }: Props<Data>) {
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
@@ -169,7 +170,7 @@ export default function Provider<Data extends JsonObject>({
         pointer.set(newData as Data, path, value)
       }
 
-      onChange?.(newData)
+      onChange?.(newData as Data)
 
       if (sessionStorageId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(
@@ -209,10 +210,17 @@ export default function Provider<Data extends JsonObject>({
     ({ formElement = null } = {}) => {
       if (!hasErrors()) {
         onSubmit?.(internalData as Data)
+
         formElement?.reset?.()
-        if (scrollTopOnSubmit) {
-          typeof window !== 'undefined' &&
+
+        if (typeof window !== 'undefined') {
+          if (sessionStorageId) {
+            window.sessionStorage.removeItem(sessionStorageId)
+          }
+
+          if (scrollTopOnSubmit) {
             window?.scrollTo({ top: 0, behavior: 'smooth' })
+          }
         }
       } else {
         setShowAllErrors(true)
@@ -236,6 +244,7 @@ export default function Provider<Data extends JsonObject>({
     <Context.Provider
       value={{
         data: internalData,
+        ...rest,
         handlePathChange,
         handleSubmit,
         errors: errorsRef.current,

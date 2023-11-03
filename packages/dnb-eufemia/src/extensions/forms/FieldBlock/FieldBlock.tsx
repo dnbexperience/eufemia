@@ -19,6 +19,8 @@ export type Props = Pick<
   forId?: string
   contentClassName?: string
   children: React.ReactNode
+  /** Use true if you have more than one form element */
+  asFieldset?: boolean
   /** Width of outer block element */
   width?: false | 'small' | 'medium' | 'large'
   /** Width of contents block, while label etc can be wider if space is available */
@@ -37,6 +39,7 @@ function FieldBlock(props: Props) {
     label,
     labelDescription,
     labelSecondary,
+    asFieldset,
     info,
     warning,
     error: errorProp,
@@ -127,11 +130,13 @@ function FieldBlock(props: Props) {
   // A child component with a label was found, use fieldset/legend instead of div/label
   const enableFieldset = useMemo(
     () =>
-      !nestedFieldBlockContext &&
-      findElementInChildren(
-        children,
-        (child: React.ReactElement) => child.props.label
-      ),
+      label &&
+      (asFieldset ||
+        (!nestedFieldBlockContext &&
+          findElementInChildren(
+            children,
+            (child: React.ReactElement) => child.props.label
+          ))),
     []
   )
 
@@ -148,7 +153,7 @@ function FieldBlock(props: Props) {
     return (
       <FormLabel
         element={enableFieldset ? 'legend' : 'label'}
-        for_id={forId}
+        for_id={enableFieldset ? undefined : forId}
         space={{ top: 0, bottom: 'x-small' }}
         size={size}
       >

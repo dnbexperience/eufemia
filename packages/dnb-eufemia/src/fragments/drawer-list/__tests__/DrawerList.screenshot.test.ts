@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('DrawerList', () => {
+describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/fragments/drawer-list/demos',
   })
 
@@ -22,4 +23,17 @@ describe('DrawerList', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  if (themeName === 'sbanken') {
+    it('have to match the sbanken drawer-list', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '14rem',
+        },
+        selector:
+          '[data-visual-test="drawer-list"] .dnb-drawer-list__list',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
 })

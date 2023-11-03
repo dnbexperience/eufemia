@@ -24,7 +24,7 @@
   --input-border-color--focus: var(--focus-ring-color);
 
   &__shell {
-    background-color: var(--color-white);
+    background-color: var(--input-background-color);
     transition: border-radius 0.25s ease-out;
     border: none;
     color: var(--input-color);

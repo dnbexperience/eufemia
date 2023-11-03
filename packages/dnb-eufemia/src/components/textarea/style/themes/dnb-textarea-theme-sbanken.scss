@@ -8,6 +8,7 @@
 .dnb-textarea {
   --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
+  --textarea-background-color: transparent;
 
   &__state {
     transition: border-radius 0.25s ease-out;
@@ -24,7 +25,7 @@
     --textarea-color--active: var(--color-black);
 
     color: var(--textarea-color);
-    background-color: transparent;
+    background-color: var(--textarea-background-color);
   }
 
   &__placeholder {

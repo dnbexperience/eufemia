@@ -21,6 +21,7 @@ export {
   extendPropsWithContextInClassComponent,
 } from './helpers/extendPropsWithContext'
 export { useEventEmitter } from './helpers/useEventEmitter'
+export { filterProps } from './helpers/filterProps'
 
 export { getPreviousSibling, warn }
 
@@ -136,6 +137,9 @@ export const validateDOMAttributes = (props, params) => {
   }
   if (typeof params.no_collapse !== 'undefined') {
     delete params.no_collapse
+  }
+  if (typeof params.innerSpace !== 'undefined') {
+    delete params.innerSpace
   }
 
   // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
@@ -558,30 +562,6 @@ const overflowIsScrollable = (elem) => {
       (style.overflowX || '') +
       (style.overflowY || '')
   )
-}
-
-export const filterProps = (props, remove = null, allowed = null) => {
-  if (Array.isArray(remove)) {
-    remove = remove.reduce((acc, key) => {
-      acc[key] = true
-      return acc
-    }, {})
-  }
-  if (Array.isArray(allowed)) {
-    allowed = allowed.reduce((acc, key) => {
-      acc[key] = true
-      return acc
-    }, {})
-  }
-  return Object.entries(props).reduce((acc, [k, v]) => {
-    if (
-      (remove && typeof remove[k] === 'undefined') ||
-      (allowed && typeof allowed[k] !== 'undefined')
-    ) {
-      acc[k] = v
-    }
-    return acc
-  }, {})
 }
 
 export const makeUniqueId = (prefix = 'id-', length = 8) =>

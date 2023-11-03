@@ -222,7 +222,7 @@ del .dnb-code {
   border-radius: 0.25px;
   /* 
   * 60% and 65% for best result on low res screens, like on Chromebook (Acer)
-  * Else the line will dissapear!
+  * Else the line will disappear!
   */
   background-image: linear-gradient(to bottom, currentcolor 60%, transparent 65%);
   background-size: 100% 1px;

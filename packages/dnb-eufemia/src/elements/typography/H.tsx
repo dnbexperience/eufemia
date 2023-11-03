@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
-import E from '../Element'
+import E, { ElementProps } from '../Element'
 import { HeadingSize } from '../../components/heading/Heading'
 import {
   setNextLevel,
@@ -33,7 +33,7 @@ type HProps = SpacingProps &
      * Default: xx-large
      */
     size?: HSize | 'auto'
-  }
+  } & ElementProps
 
 export type SharedHProps = Omit<HProps, 'as'>
 

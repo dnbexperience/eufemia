@@ -79,6 +79,7 @@ export default {
     },
     NumberFormat: {
       clipboard_copy: 'Kopiert',
+      not_available: 'Ikke tilgjengelig',
     },
     HelpButton: {
       title: 'Hjelpetekst',
@@ -116,6 +117,9 @@ export default {
       text_expired: 'Utgått',
       text_blocked: 'Sperret',
       text_not_active: 'Ikke aktivert',
+      text_order_in_process: 'Under behandling',
+      text_renewed: 'Fornyet',
+      text_replaced: 'Erstattet',
     },
     Logo: {
       alt: 'DNB Logo',
@@ -130,11 +134,13 @@ export default {
     Upload: {
       title: 'Last opp dokumenter',
       text: 'Dra & slipp eller velg hvilke filer du vil laste opp.',
+      textSingular: 'Dra & slipp eller velg hvilken fil du vil laste opp.',
       fileTypeDescription: 'Tillatte filformater:',
       fileSizeDescription: 'Maks filstørrelse:',
       fileAmountDescription: 'Maks antall filer:',
       fileSizeContent: '%size MB',
       buttonText: 'Velg filer',
+      buttonTextSingular: 'Velg fil',
       loadingText: 'Laster opp',
       errorLargeFile:
         'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB.',

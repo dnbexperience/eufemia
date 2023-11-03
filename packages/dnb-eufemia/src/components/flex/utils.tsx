@@ -1,6 +1,7 @@
 import React from 'react'
 import { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
+import { removeSpaceProps } from '../space/SpacingUtils'
 import * as EufemiaElements from '../../elements'
 import { End, Start } from './types'
 
@@ -16,12 +17,7 @@ export const pickSpacingProps = <Props extends SpacingProps>(
   }
 }
 
-export const omitSpacingProps = <Props extends SpacingProps>(
-  props: Props
-): Omit<Props, keyof SpacingProps> => {
-  const { space, top, bottom, left, right, ...restProps } = props
-  return restProps
-}
+export const omitSpacingProps = removeSpaceProps
 
 export const getSpaceValue = (
   type: Start | End,

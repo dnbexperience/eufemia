@@ -6,7 +6,16 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
-import { fieldsetReset } from './Examples.module.scss'
+import {
+  fieldsetReset,
+  showWhenSmall,
+  showWhenMedium,
+  showWhenLarge,
+  showWhenSmallOffset,
+  showWhenMediumOffset,
+  showWhenLargeOffset,
+} from './Examples.module.scss'
+import { Li, Ul } from '@dnb/eufemia/src'
 
 // have a limit because this page is used for screenshot tests
 const Wrapper = styled.div`
@@ -107,5 +116,49 @@ export function FormsetReset() {
         <fieldset>I'm a fieldset without styling.</fieldset>
       </ComponentBox>
     </Wrapper>
+  )
+}
+
+export function SkipLink() {
+  return (
+    <Wrapper className={fieldsetReset}>
+      <ComponentBox hideCode data-visual-test="skip-link">
+        <a href="#something" className="dnb-skip-link">
+          I am a skip link
+        </a>
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export function MediaSizeOffset() {
+  return (
+    <ComponentBox
+      hideCode
+      data-visual-test="helper-media-offset"
+      scope={{
+        showWhenSmall,
+        showWhenMedium,
+        showWhenLarge,
+        showWhenSmallOffset,
+        showWhenMediumOffset,
+        showWhenLargeOffset,
+      }}
+    >
+      <Ul space={0}>
+        <Li className={showWhenSmall}>
+          Show me when "small"{' '}
+          <span className={showWhenSmallOffset}>+ offset is active</span>
+        </Li>
+        <Li className={showWhenMedium}>
+          Show me when "medium"{' '}
+          <span className={showWhenMediumOffset}>+ offset is active</span>
+        </Li>
+        <Li className={showWhenLarge}>
+          Show me when "large"{' '}
+          <span className={showWhenLargeOffset}>+ offset is active</span>
+        </Li>
+      </Ul>
+    </ComponentBox>
   )
 }

@@ -92,8 +92,16 @@ export type SpaceStringTypes =
   | SpaceTypesTypeUnionInfinite
 
 export type SpaceType = SpaceStringTypes | SpaceRemNumberType | boolean
+export type SpaceTypeAll = SpaceType | SpacingElementProps
+
+export type SpaceTypeMedia = {
+  small?: SpaceTypeAll
+  medium?: SpaceTypeAll
+  large?: SpaceTypeAll
+}
 
 export type SpacingProps = SpacingElementProps & {
-  space?: SpaceType | SpacingElementProps
+  space?: SpaceTypeAll
+  innerSpace?: SpaceTypeAll | SpaceTypeMedia
 }
 export type SpacingUnknownProps = Record<string, unknown>

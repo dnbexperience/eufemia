@@ -12,7 +12,22 @@ import type {
 } from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
 
+const makeLayoutEffect = () => {
+  // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+  return typeof window === 'undefined'
+    ? React.useEffect
+    : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
+    ? () => null
+    : React.useLayoutEffect
+}
+
 export type UseMediaProps = {
+  /**
+   * Give a initial value, that is used during SSR as well.
+   * Default: null
+   */
+  initialValue?: Partial<UseMediaResult>
+
   /**
    * If set to true, no MediaQuery will be used.
    * Default: false
@@ -78,32 +93,40 @@ type UseMediaQueryProps = {
 export default function useMedia(
   props: UseMediaProps = {}
 ): UseMediaResult {
-  const { disabled, breakpoints, queries = defaultQueries, log } = props
+  const {
+    initialValue = null,
+    disabled,
+    breakpoints,
+    queries = defaultQueries,
+    log,
+  } = props
 
   const context = React.useContext(Context)
 
   const refs = React.useRef({})
   const defaults = React.useRef({})
-  const disabledRef = React.useRef(disabled)
+  const isMounted = React.useRef(false)
+  const isDisabled = React.useRef(disabled)
   const [result, updateRerender] =
     React.useState<UseMediaResult>(makeResult)
 
-  React.useEffect(() => {
-    // In StrictMode, the keys got empty,
-    // so we make the result again
-    if (Object.keys(refs.current).length) {
-      makeResult()
+  const useLayoutEffect = React.useMemo(makeLayoutEffect, [])
+
+  useLayoutEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+      updateRerender(makeResult())
     }
 
     return removeListeners
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  React.useEffect(() => {
+  useLayoutEffect(() => {
     // If it was disabled before
-    if (disabledRef.current && !disabled) {
+    if (isDisabled.current && !disabled) {
       updateRerender(makeResult())
     }
-    disabledRef.current = disabled
+    isDisabled.current = disabled
   }, [disabled]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return result
@@ -136,7 +159,11 @@ export default function useMedia(
           key,
         })
 
-        const hasMatch = item?.mediaQueryList?.matches || false
+        const hasMatch = !isMounted.current
+          ? typeof initialValue?.[name] !== 'undefined'
+            ? initialValue[name]
+            : false
+          : item?.mediaQueryList?.matches || false
         acc[name] = hasMatch
         if (hasMatch) {
           acc.key = key
@@ -170,7 +197,7 @@ export default function useMedia(
     )
 
     const event = createMediaQueryListener(mediaQueryList, (match) => {
-      if (!disabledRef.current && match) {
+      if (!isDisabled.current && match) {
         const state = {
           ...defaults.current,
           key,

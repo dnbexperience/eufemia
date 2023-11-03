@@ -286,17 +286,29 @@ $breakpoints: (
   'x-large': 80em /* not documented yet */,
   'xx-large': 90em /* not documented yet */,
 );
+$breakpoint-offset: 0;
 
 // Example usage:
 // @include allAbove(medium){ styles go here.. }
-@mixin allAbove($size) {
-  @media screen and (min-width: if(map-has-key($breakpoints, $size), map-get($breakpoints, $size), #{$size})) {
+// $offset and $list are needed to provide global customization options
+@mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
+  @media screen and (min-width: (if(map-has-key($list, $size), map-get($list, $size), #{$size}) + $offset)) {
     @content;
   }
 }
-@mixin allBelow($size) {
-  @media screen and (max-width: if(map-has-key($breakpoints, $size), map-get($breakpoints, $size), #{$size})) {
+@mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
+  @media screen and (max-width: (if(map-has-key($list, $size), map-get($list, $size), #{$size}) + $offset)) {
     @content;
+  }
+}
+@mixin allBetween($fromSize, $toSize, $fromOffset: null, $toOffset: null) {
+  @include allBelow($toSize, if($toOffset == null, -0.0625em, $toOffset)) {
+    @include allAbove(
+      $fromSize,
+      if($fromOffset == null, 0.0625em, $fromOffset)
+    ) {
+      @content;
+    }
   }
 }
 
@@ -383,5 +395,4 @@ $breakpoints: (
   }
   padding: 0;
   border: none;
-  line-height: var(--font-size-basis--em);
 }

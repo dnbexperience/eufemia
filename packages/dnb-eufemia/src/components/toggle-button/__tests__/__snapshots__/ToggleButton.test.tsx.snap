@@ -1181,7 +1181,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin: 0;
   padding: 0;
   border: none;
-  line-height: var(--font-size-basis--em);
 }
 .dnb-radio-group .dnb-radio {
   margin-right: var(--radio-group-margin-right);
@@ -1400,7 +1399,6 @@ button .dnb-form-status__text {
   margin: 0;
   padding: 0;
   border: none;
-  line-height: var(--font-size-basis--em);
 }
 .dnb-toggle-button-group .dnb-toggle-button {
   margin-right: var(--toggle-button-group-margin-right);

@@ -18,18 +18,74 @@ exports[`Section scss has to match style dependencies css 1`] = `
 .dnb-section {
   position: relative;
   display: flow-root;
+  --breakout--on: visible;
+  --breakout--off: hidden;
+  --rounded-corner--value: 0.75rem;
+  --outline: 0 0 0 1px var(--outline-color, transparent);
+  --top: 0;
+  --left: -100vw;
+  --width: 100vw;
+  --height: 100%;
+  box-shadow: var(--outline, none);
+  color: var(--text-color, black);
+  border-radius: var(--rounded-corner, 0);
+}
+.dnb-section[style*="--background-color"] {
+  background-color: var(--background-color, white);
 }
 .dnb-section::after {
   content: "";
+  visibility: var(--breakout, hidden);
   position: absolute;
   z-index: -15;
-  left: -100vw;
-  top: 0;
-  width: 100vw;
-  height: 100%;
-  color: var(--color-mint-green-12); /** deprecated: should be white in v11 */
+  left: var(--left);
+  top: var(--top);
+  width: var(--width);
+  height: var(--height);
+  color: var(--background-color, currentcolor);
   background-color: currentcolor;
-  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
+  --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+    297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
+  box-shadow: var(--box-shadow);
+}
+.dnb-section:not([style*="--breakout"]) {
+  --breakout: var(--breakout--on);
+}
+@media screen and (max-width: 60em) {
+  .dnb-section {
+    --breakout: var(--breakout--small, var(--breakout--fallback));
+    --background-color--value: var(--background-color--small);
+    --text-color--value: var(--text-color--small);
+    --outline-color: var(--outline-color--small);
+    --rounded-corner: var(
+      --rounded-corner--small,
+      var(--rounded-corner--fallback)
+    );
+  }
+}
+@media screen and (max-width: 59.9375em) and (min-width: 40.0625em) {
+  .dnb-section {
+    --breakout: var(--breakout--medium, var(--breakout--fallback));
+    --background-color--value: var(--background-color--medium);
+    --text-color--value: var(--text-color--medium);
+    --outline-color: var(--outline-color--medium);
+    --rounded-corner: var(
+      --rounded-corner--medium,
+      var(--rounded-corner--fallback)
+    );
+  }
+}
+@media screen and (min-width: 60em) {
+  .dnb-section {
+    --breakout: var(--breakout--large, var(--breakout--fallback));
+    --background-color--value: var(--background-color--large);
+    --text-color--value: var(--text-color--large);
+    --outline-color: var(--outline-color--large);
+    --rounded-corner: var(
+      --rounded-corner--large,
+      var(--rounded-corner--fallback)
+    );
+  }
 }
 .dnb-section .dnb-section::after {
   z-index: -14;
@@ -56,22 +112,28 @@ exports[`Section scss has to match style dependencies css 1`] = `
   z-index: -7;
 }
 .dnb-section--spacing-x-small {
-  padding: var(--spacing-x-small) 0;
+  padding-top: var(--spacing-x-small);
+  padding-bottom: var(--spacing-x-small);
 }
 .dnb-section--spacing-small {
-  padding: var(--spacing-small) 0;
+  padding-top: var(--spacing-small);
+  padding-bottom: var(--spacing-small);
 }
 .dnb-section--spacing-medium {
-  padding: var(--spacing-medium) 0;
-}
-.dnb-section--spacing-x-large {
-  padding: var(--spacing-x-large) 0;
-}
-.dnb-section--spacing-xx-large {
-  padding: var(--spacing-xx-large) 0;
+  padding-top: var(--spacing-medium);
+  padding-bottom: var(--spacing-medium);
 }
 .dnb-section--spacing, .dnb-section--spacing-large {
-  padding: var(--spacing-large) 0;
+  padding-top: var(--spacing-large);
+  padding-bottom: var(--spacing-large);
+}
+.dnb-section--spacing-x-large {
+  padding-top: var(--spacing-x-large);
+  padding-bottom: var(--spacing-x-large);
+}
+.dnb-section--spacing-xx-large {
+  padding-top: var(--spacing-xx-large);
+  padding-bottom: var(--spacing-xx-large);
 }"
 `;
 
@@ -88,6 +150,8 @@ exports[`Section scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-section {
+  --background-color: var(--color-white);
+  --outline-color--value: var(--color-black-8);
   /** deprecated: default should be white in v11 */
   /** deprecated */
   /** deprecated */
@@ -97,86 +161,71 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   /** deprecated */
 }
 .dnb-section--divider {
-  color: var(--color-black-80);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-white);
+  z-index: 0;
+  --sc: var(--color-mint-green-50);
 }
 .dnb-section--divider::after {
-  color: var(--color-white);
-  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor, 0 0.0625rem 0 0 var(--color-mint-green-50), 99vw 0.0625rem 0 0 var(--color-mint-green-50), 0 -0.0625rem 0 0 var(--color-mint-green-50), 99vw -0.0625rem 0 0 var(--color-mint-green-50), 198vw 0.0625rem 0 0 var(--color-mint-green-50), 198vw -0.0625rem 0 0 var(--color-mint-green-50);
+  --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+    297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
+    0 0.0625rem 0 0 var(--sc), 99vw 0.0625rem 0 0 var(--sc),
+    0 -0.0625rem 0 0 var(--sc), 99vw -0.0625rem 0 0 var(--sc),
+    198vw 0.0625rem 0 0 var(--sc), 198vw -0.0625rem 0 0 var(--sc);
 }
-.dnb-section--transparent::after {
-  color: transparent;
+.dnb-section--transparent {
+  --background-color: transparent;
 }
 .dnb-section--mint-green-12, .dnb-section--default {
-  color: var(--color-black-80);
-}
-.dnb-section--mint-green-12::after, .dnb-section--default::after {
-  color: var(--color-mint-green-12);
+  --text-color: var(--text-color--value, var(--color-black-80));
+  --background-color: var(
+    --background-color--value,
+    var(--color-mint-green-12)
+  );
 }
 .dnb-section--white {
-  color: var(--color-black-80);
-}
-.dnb-section--white::after {
-  color: var(--color-white);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-white);
 }
 .dnb-section--mint-green {
-  color: var(--color-black-80);
-}
-.dnb-section--mint-green::after {
-  color: var(--color-mint-green);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-mint-green);
 }
 .dnb-section--lavender {
-  color: var(--color-black-80);
-}
-.dnb-section--lavender::after {
-  color: var(--color-lavender);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-lavender);
 }
 .dnb-section--sand-yellow, .dnb-section--warning {
-  color: var(--color-black-80);
-}
-.dnb-section--sand-yellow::after, .dnb-section--warning::after {
-  color: var(--color-sand-yellow);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-sand-yellow);
 }
 .dnb-section--pistachio, .dnb-section--info {
-  color: var(--color-black-80);
-}
-.dnb-section--pistachio::after, .dnb-section--info::after {
-  color: var(--color-pistachio);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-pistachio);
 }
 .dnb-section--black-3 {
-  color: var(--color-black-80);
-}
-.dnb-section--black-3::after {
-  color: var(--color-black-3);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-black-3);
 }
 .dnb-section--emerald-green {
-  color: var(--color-mint-green);
-}
-.dnb-section--emerald-green::after {
-  color: var(--color-emerald-green);
+  --text-color: var(--color-mint-green);
+  --background-color: var(--color-emerald-green);
 }
 .dnb-section--sea-green {
-  color: var(--color-white);
-}
-.dnb-section--sea-green::after {
-  color: var(--color-sea-green);
+  --text-color: var(--color-white);
+  --background-color: var(--color-sea-green);
 }
 .dnb-section--fire-red {
-  color: var(--color-white);
-}
-.dnb-section--fire-red::after {
-  color: var(--color-fire-red);
+  --text-color: var(--color-white);
+  --background-color: var(--color-fire-red);
 }
 .dnb-section--fire-red-8, .dnb-section--error {
-  color: var(--color-black-80);
-}
-.dnb-section--fire-red-8::after, .dnb-section--error::after {
-  color: var(--color-fire-red-8);
+  --text-color: var(--color-black-80);
+  --background-color: var(--color-fire-red-8);
 }
 .dnb-section--success {
-  color: var(--color-white);
-}
-.dnb-section--success::after {
-  color: var(--color-success-green);
+  --text-color: var(--color-white);
+  --background-color: var(--color-success-green);
 }
 .dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor, .dnb-section--success .dnb-anchor {
   color: var(--color-white);
@@ -202,16 +251,16 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   border-color: transparent;
 }
 .dnb-section--fire-red .dnb-button--tertiary, .dnb-section--emerald-green .dnb-button--tertiary, .dnb-section--sea-green .dnb-button--tertiary {
-  color: var(--color-white);
+  --text-color: var(--color-white);
 }
 .dnb-section--fire-red .dnb-button--tertiary:hover, .dnb-section--emerald-green .dnb-button--tertiary:hover, .dnb-section--sea-green .dnb-button--tertiary:hover {
-  color: var(--color-white);
+  --text-color: var(--color-white);
 }
 .dnb-section--fire-red .dnb-button--tertiary:hover .dnb-button__text::after, .dnb-section--emerald-green .dnb-button--tertiary:hover .dnb-button__text::after, .dnb-section--sea-green .dnb-button--tertiary:hover .dnb-button__text::after {
-  color: var(--color-white) !important;
+  --text-color: var(--color-white) !important;
 }
 .dnb-section--fire-red .dnb-button--tertiary:focus, .dnb-section--emerald-green .dnb-button--tertiary:focus, .dnb-section--sea-green .dnb-button--tertiary:focus {
-  color: var(--color-white);
+  --text-color: var(--color-white);
 }
 .dnb-section--fire-red .dnb-button--tertiary:focus::before, .dnb-section--emerald-green .dnb-button--tertiary:focus::before, .dnb-section--sea-green .dnb-button--tertiary:focus::before {
   outline: none;

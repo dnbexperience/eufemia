@@ -11,7 +11,7 @@ const clock_medium = (props) => (
     {...props}
   >
     <path
-      stroke="#000"
+      stroke="#fefefe"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

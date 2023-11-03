@@ -564,14 +564,6 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
   margin-right: 0;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left {
-  margin-left: 1.125em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon {
-  font-size: 1em;
-  margin-right: 0.125em;
-  margin-left: -1.125em;
-}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right {
   margin-right: 1.125em;
 }
@@ -579,6 +571,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   font-size: 1em;
   margin-left: 0.125em;
   margin-right: -1.125em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left {
+  margin-left: 1.125em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-of-type {
+  font-size: 1em;
+  margin-right: 0.125em;
+  margin-left: -1.125em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-left)::before {
   text-decoration-color: var(--sb-color-green-dark);
@@ -648,14 +648,6 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
     margin-right: 0;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left {
-    margin-left: 1.125em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon {
-    font-size: 1em;
-    margin-right: 0.125em;
-    margin-left: -1.125em;
-  }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-right {
     margin-right: 1.125em;
   }
@@ -663,6 +655,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     font-size: 1em;
     margin-left: 0.125em;
     margin-right: -1.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left {
+    margin-left: 1.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-of-type {
+    font-size: 1em;
+    margin-right: 0.125em;
+    margin-left: -1.125em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-left)::before {
     text-decoration-color: var(--sb-color-green-dark);

@@ -1,5 +1,6 @@
 ---
-showTabs: true
+title: 'Functions'
+order: 3
 ---
 
 ## Component helpers
@@ -73,7 +74,7 @@ Filters out unwanted entries from either an object or array.
 ```js
 import { filterProps } from '@dnb/eufemia/shared/component-helper'
 
-filterProps(props: Object|Array, remove*: Object|Array, allowed*: Object|Array) // returns Object|Array
+filterProps(props: Object|Array, remove*: Object|Array|Function, allowed*: Object|Array|Function) // returns Object|Array
 ```
 
 #### \* Optional values (defaults)
