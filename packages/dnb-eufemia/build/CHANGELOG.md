@@ -3,6 +3,53 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.11.0](https://github.com/dnbexperience/eufemia/compare/v10.10.0...v10.11.0) (2023-11-03)
+
+
+### :sparkles: Features
+
+* **breakpoints:** media query mixin offset options ([#2773](https://github.com/dnbexperience/eufemia/issues/2773)) ([d0c4c6d](https://github.com/dnbexperience/eufemia/commit/d0c4c6da965610b399eb9aa7d7a397b75670709e))
+* **Dropdown:** add Drawerlist theme for Sbanken ([#2649](https://github.com/dnbexperience/eufemia/issues/2649)) ([3a69d7c](https://github.com/dnbexperience/eufemia/commit/3a69d7c6112158bbf9ff25ae39f34520aabde852))
+* **FormLabel:** rewrite to TypeScript ([#2818](https://github.com/dnbexperience/eufemia/issues/2818)) ([2b3e419](https://github.com/dnbexperience/eufemia/commit/2b3e41997339be1e6a00be0c9220a9bc7e949492))
+* **forms:** add autocomplete (autofill) support ([#2811](https://github.com/dnbexperience/eufemia/issues/2811)) ([342556c](https://github.com/dnbexperience/eufemia/commit/342556c88e376e1ff75bbcf61e352ed9f37ef2d1))
+* **forms:** add Norwegian translation to country list ([#2814](https://github.com/dnbexperience/eufemia/issues/2814)) ([6073ab7](https://github.com/dnbexperience/eufemia/commit/6073ab793e521642587b7268c395c5f14849e049))
+* **forms:** reset `sessionStorageId` on submit ([#2812](https://github.com/dnbexperience/eufemia/issues/2812)) ([cbbd9e5](https://github.com/dnbexperience/eufemia/commit/cbbd9e5d2510a534b472d860947e6a0a1bee72a3))
+* **PaymentCard:** add styling for other card statuses ([#2777](https://github.com/dnbexperience/eufemia/issues/2777)) ([#2822](https://github.com/dnbexperience/eufemia/issues/2822)) ([195b083](https://github.com/dnbexperience/eufemia/commit/195b0835a89f3118befb9548f453bacd27c914cb))
+* **SASS:** add allBetween media query breakpoint mixin ([#2779](https://github.com/dnbexperience/eufemia/issues/2779)) ([1c8e8ef](https://github.com/dnbexperience/eufemia/commit/1c8e8ef526177ed84d045e30a000de0b3ee14110))
+* **Section:** add responsive props: breakout, outline, cornerRadius, backgroundColor, textColor and innerSpace ([#2791](https://github.com/dnbexperience/eufemia/issues/2791)) ([ed3ca99](https://github.com/dnbexperience/eufemia/commit/ed3ca9971c6e2b4533a391bc466590a6147bd160))
+* **skip-link:** sbanken styling ([#2785](https://github.com/dnbexperience/eufemia/issues/2785)) ([f6d9ea3](https://github.com/dnbexperience/eufemia/commit/f6d9ea34944d0ef0d373d8114020e8cf90665f52))
+* **Space:** add innerSpace prop with media query breakpoints support ([#2790](https://github.com/dnbexperience/eufemia/issues/2790)) ([3dffb90](https://github.com/dnbexperience/eufemia/commit/3dffb902132ea9bae3919c24b04783b15f474da9))
+* **Upload:** singular texts when uploading single file ([#2783](https://github.com/dnbexperience/eufemia/issues/2783)) ([cbf1cb9](https://github.com/dnbexperience/eufemia/commit/cbf1cb98e5f13bbae18e99fae11b92c0565471c9))
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** position icon left with target blank sbanken ([#2797](https://github.com/dnbexperience/eufemia/issues/2797)) ([d2d1779](https://github.com/dnbexperience/eufemia/commit/d2d177974489f85e5dc5af888a1b255d6c39e4f1))
+* BreadcrumbItem when using to and element props ([#2813](https://github.com/dnbexperience/eufemia/issues/2813)) ([e7eff2d](https://github.com/dnbexperience/eufemia/commit/e7eff2d6767a746d699258175c19f0915e63c013))
+* **Breadcrumb:** Pass rest props to item when not interactive ([#2798](https://github.com/dnbexperience/eufemia/issues/2798)) ([72de227](https://github.com/dnbexperience/eufemia/commit/72de227ab05be94ef514f1f2fe78a34847203417)), closes [/github.com/dnbexperience/eufemia/pull/2676/files#r1368576095](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/2676/files/issues/r1368576095)
+* **FieldBlock:** add asFieldset property to force use fieldset/legend ([#2780](https://github.com/dnbexperience/eufemia/issues/2780)) ([bd1faed](https://github.com/dnbexperience/eufemia/commit/bd1faedb30e4e29987d8fa35e41b6d6fb3fe73dc))
+* **FieldBlock:** fix alignment issue when element is fieldset ([#2786](https://github.com/dnbexperience/eufemia/issues/2786)) ([544424b](https://github.com/dnbexperience/eufemia/commit/544424bddb7d245aeb6179f186e68a0e648ad621))
+* **forms:** enhance accessibility by using toggle buttons ([#2781](https://github.com/dnbexperience/eufemia/issues/2781)) ([aee0113](https://github.com/dnbexperience/eufemia/commit/aee0113382a216861e6c65ca08a15a834150b765))
+* **forms:** fix Form.Element type ([#2796](https://github.com/dnbexperience/eufemia/issues/2796)) ([0b5dfa7](https://github.com/dnbexperience/eufemia/commit/0b5dfa7807b11752bc197e2a8e512801b4bce398))
+* **forms:** Selection accessibility enhancement by using toggle buttons ([#2795](https://github.com/dnbexperience/eufemia/issues/2795)) ([6bc6062](https://github.com/dnbexperience/eufemia/commit/6bc6062cd107c4490e81bc5e121a47dbc65c115e))
+* **forms:** Support undefined in toggle and button fields ([#2775](https://github.com/dnbexperience/eufemia/issues/2775)) ([a22fad5](https://github.com/dnbexperience/eufemia/commit/a22fad521d60a41dac298f6e9fa1e4acf457e20e))
+* **GlobalStatus:** remove paragraph tag around title to allow children paragraphs ([#2800](https://github.com/dnbexperience/eufemia/issues/2800)) ([c0657bb](https://github.com/dnbexperience/eufemia/commit/c0657bb440cfaa9f65f657ae38391a493b91b892))
+* **NumberFormat:** show em dash instead of NaN ([#2784](https://github.com/dnbexperience/eufemia/issues/2784)) ([ca65f4a](https://github.com/dnbexperience/eufemia/commit/ca65f4a272a13ec21dd80c9c67a951bcae9c71b7))
+* **NumberMask:** as_number should default to locally given decimalSymbol ([#2810](https://github.com/dnbexperience/eufemia/issues/2810)) ([833f422](https://github.com/dnbexperience/eufemia/commit/833f422ef782a84e41932c09b6be082f8819b7c9))
+* **PhoneNumber:** fix spacing prop support ([#2815](https://github.com/dnbexperience/eufemia/issues/2815)) ([c57e7d1](https://github.com/dnbexperience/eufemia/commit/c57e7d1c324b1429700705ae9674e31602a3140f)), closes [#2807](https://github.com/dnbexperience/eufemia/issues/2807)
+* **TypeScript:** fix Grid and Flex export ([#2819](https://github.com/dnbexperience/eufemia/issues/2819)) ([5316fc0](https://github.com/dnbexperience/eufemia/commit/5316fc0d94af0f7384f2bd5793e001a0860cf5fb))
+* **TypeScript:** make dynamic element prop compatible with e.g. Styled Component elements ([#2778](https://github.com/dnbexperience/eufemia/issues/2778)) ([8a6b766](https://github.com/dnbexperience/eufemia/commit/8a6b7661c7e8e5c1c1eb6fc039f117839d9eb210))
+* **useMedia:** enhance SSR support by setting state during component mount ([#2774](https://github.com/dnbexperience/eufemia/issues/2774)) ([d72aa2b](https://github.com/dnbexperience/eufemia/commit/d72aa2b19bbbdaf4fbdde25269474d8c58037829))
+
+
+### :memo: Documentation
+
+* display anchors with icons using Anchor's icon prop ([#2801](https://github.com/dnbexperience/eufemia/issues/2801)) ([57e75ac](https://github.com/dnbexperience/eufemia/commit/57e75ac0833b3a19e011eee471efb5f8ea91709f))
+* **FieldBlock:** removes excessive properties header ([e5d9cbe](https://github.com/dnbexperience/eufemia/commit/e5d9cbe95c8be4589708e1ea93fac0bb943cff65))
+* **FieldBlock:** removes excessive properties header ([#2788](https://github.com/dnbexperience/eufemia/issues/2788)) ([bb739ea](https://github.com/dnbexperience/eufemia/commit/bb739eafd128bf77fbd7bc55085e18df42a8f49d))
+* **FormSet:** spelling in deprecation docs ([#2827](https://github.com/dnbexperience/eufemia/issues/2827)) ([1bcbf60](https://github.com/dnbexperience/eufemia/commit/1bcbf60f5c71cef2489046280b20e12a98f6c63a))
+* **PaymentCard:** sets card_number as required ([#2841](https://github.com/dnbexperience/eufemia/issues/2841)) ([b58978e](https://github.com/dnbexperience/eufemia/commit/b58978ed0a17335c98fec5e6fe09f8d5bd29a469))
+
 ## [10.10.0](https://github.com/dnbexperience/eufemia/compare/v10.9.0...v10.10.0) (2023-10-19)
 
 
