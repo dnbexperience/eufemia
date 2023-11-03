@@ -126,3 +126,25 @@ render(
   </Theme>,
 )
 ```
+
+### React Hook useTheme
+
+For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
+
+```tsx
+import { Theme, useTheme } from '@dnb/eufemia/shared'
+
+const Component = () => {
+  // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
+  const { name, isUi, isSbanken, isEiendom } = useTheme()
+  return null
+}
+
+render(
+  <Theme name="sbanken">
+    <App>
+      <MyComponent />
+    </App>
+  </Theme>,
+)
+```
