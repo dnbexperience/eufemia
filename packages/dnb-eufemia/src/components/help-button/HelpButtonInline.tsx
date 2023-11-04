@@ -24,7 +24,7 @@ export default function HelpButtonInline(props: HelpButtonProps) {
     if (!element) {
       element = document.getElementById(buttonId)?.parentElement
       if (!element.getAttribute('id')) {
-        element.setAttribute('id', `${buttonId}-help-content`)
+        element.setAttribute('id', `${buttonId}-content`)
       }
     }
     setContentElement(element)
