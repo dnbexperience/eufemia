@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import {
   extendPropsWithContext,
@@ -138,7 +138,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
         <HelpButton
           title={help.title}
           displayMethod="inline"
-          contentElement={helpContentElement}
+          contentId={help.identifier}
         >
           {help.content}
         </HelpButton>

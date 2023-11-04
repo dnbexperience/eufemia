@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
@@ -14,44 +14,43 @@ type HelpButtonContentProps = {
 
 export default function HelpButtonInline(props: HelpButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [actualContentElement, setActualContentElement] = useState(null)
+  const [contentElement, setContentElement] = useState(null)
 
-  const buttonId = useRef(`${makeUniqueId()}-help-button`)
-  const { contentElement, children, ...rest } = props
+  const buttonId = `${makeUniqueId()}-help-button`
+  const { contentId, children, ...rest } = props
 
   useEffect(() => {
-    const elementToSet = contentElement
-      ? contentElement
-      : document.getElementById(buttonId.current)?.parentElement
-    if (!elementToSet.getAttribute('id')) {
-      elementToSet.setAttribute('id', `${buttonId.current}-help-content`)
+    let element = document.getElementById(contentId)
+    if (!element) {
+      element = document.getElementById(buttonId)?.parentElement
+      if (!element.getAttribute('id')) {
+        element.setAttribute('id', `${buttonId}-help-content`)
+      }
     }
-    setActualContentElement(elementToSet)
+    setContentElement(element)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentElement])
+  }, [contentId])
 
   return (
     <>
       <HelpButtonInstance
-        id={buttonId.current}
+        id={buttonId}
         className="dnb-help-button--inline"
         on_click={() => {
           setIsOpen((open) => !open)
         }}
         icon={isOpen ? 'close' : rest.icon}
         aria-controls={
-          actualContentElement
-            ? actualContentElement.getAttribute('id')
-            : ''
+          contentElement ? contentElement.getAttribute('id') : ''
         }
         size={rest.size || 'small'}
         {...rest}
       />
-      {actualContentElement && (
+      {contentElement && (
         <HelpButtonContent
           isOpen={isOpen}
-          contentElement={actualContentElement}
-          id={actualContentElement.getAttribute('id')}
+          contentElement={contentElement}
+          id={contentElement.getAttribute('id')}
         >
           {children}
         </HelpButtonContent>

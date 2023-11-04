@@ -22,7 +22,7 @@ export type HelpButtonProps = {
     props: ButtonProps
   ) => React.ReactElement
   displayMethod?: 'dialog' | 'inline'
-  contentElement?: Element
+  contentId?: string
 } & ButtonProps
 
 export default function HelpButton(localProps: HelpButtonProps) {
