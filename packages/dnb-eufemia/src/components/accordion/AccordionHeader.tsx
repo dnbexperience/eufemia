@@ -10,7 +10,6 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { useTheme } from '../../shared'
 import IconPrimary from '../icon-primary/IconPrimary'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -106,21 +105,10 @@ function AccordionHeaderIcon({
   size = 'medium',
   icon_position,
 }: AccordionHeaderIconProps) {
-  const theme = useTheme()
-  let animateIcon = true
-  if (!icon && theme?.name === 'sbanken') {
-    animateIcon = false
-    icon = {
-      expanded: 'subtract-medium',
-      closed: 'add-medium',
-    }
-  }
-
   return (
     <span
       className={classnames(
         'dnb-accordion__header__icon',
-        !animateIcon && 'dnb-accordion__header__icon--no-animation',
         icon_position && `dnb-accordion__header__icon--${icon_position}`
       )}
     >

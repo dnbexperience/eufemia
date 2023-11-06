@@ -129,9 +129,7 @@
     }
   }
 
-  &--expanded
-    > &__header
-    &__header__icon:not(#{&}__header__icon--no-animation) {
+  &--expanded > &__header &__header__icon {
     transform: rotate(-180deg);
   }
 
@@ -188,10 +186,7 @@
     //   }
     // }
   }
-  &-group--single-container
-    &
-    > &__header
-    &__header__icon:not(#{&}__header__icon--no-animation) {
+  &-group--single-container & > &__header &__header__icon {
     @include allAbove(small) {
       transform: rotate(-90deg);
     }
