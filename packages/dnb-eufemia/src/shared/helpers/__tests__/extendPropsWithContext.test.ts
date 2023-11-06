@@ -121,7 +121,7 @@ describe('extendPropsWithContextInClassComponent', () => {
     })
   })
 
-  it('should use props if defined in props, but not in defualt', () => {
+  it('should use props if defined in props, but not in default', () => {
     const defaultProps = {}
     const props = { ...defaultProps, foo: 'use this value' } // Thats how ClassComponents include defaultProps
     const context1 = { foo: 'bar' }

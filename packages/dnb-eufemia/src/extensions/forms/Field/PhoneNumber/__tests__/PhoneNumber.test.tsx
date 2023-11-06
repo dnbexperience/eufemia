@@ -23,7 +23,7 @@ describe('Field.PhoneNumber', () => {
     expect(selectedItemElement.textContent).toContain('+47 Norge')
   })
 
-  it('should use nb-NO by defualt', () => {
+  it('should use nb-NO by default', () => {
     render(<PhoneNumber />)
 
     const codeElement = document.querySelector(

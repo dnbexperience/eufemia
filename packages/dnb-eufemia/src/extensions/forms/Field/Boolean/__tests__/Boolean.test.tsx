@@ -222,7 +222,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
 
-    it('has no selected value by defualt', () => {
+    it('has no selected value by default', () => {
       render(<Field.Boolean variant="buttons" />)
       const buttons = document.querySelectorAll('button')
       expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
