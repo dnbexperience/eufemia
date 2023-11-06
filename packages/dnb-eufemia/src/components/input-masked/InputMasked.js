@@ -46,10 +46,6 @@ const InputMasked = (props) => {
   )
 }
 
-InputMasked._supportsSpacingProps = true
-
-export default InputMasked
-
 InputMasked.propTypes = {
   mask: PropTypes.oneOfType([
     PropTypes.object,
@@ -118,3 +114,7 @@ InputMasked.defaultProps = {
   on_submit_focus: null,
   on_submit_blur: null,
 }
+
+InputMasked._supportsSpacingProps = true
+
+export default InputMasked

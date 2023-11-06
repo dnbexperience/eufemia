@@ -254,5 +254,4 @@ export interface InputMaskedProps
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;
 }
-declare const InputMasked: React.FC<InputMaskedProps>;
 export default InputMasked;
