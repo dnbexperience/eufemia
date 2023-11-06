@@ -574,12 +574,40 @@ button.dnb-button::-moz-focus-inner {
  *
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
- */"
+ */
+.dnb-help-button.dnb-help-button--inline {
+  --help-button-inline-color: black;
+  --help-button-inline-background: darkgrey;
+  color: var(--help-button-inline-color);
+  background-color: var(--help-button-inline-background);
+  box-shadow: none;
+}
+
+.dnb-help-button-content {
+  --help-button-content-color: white;
+  --help-button-content-background: darkgrey;
+  --help-button-content-border-radius: 0.25rem;
+  max-width: 30rem;
+  margin: 1rem 0;
+  padding: 1.5rem;
+  color: var(--help-button-content-color);
+  background-color: var(--help-button-content-background);
+  border-radius: var(--help-button-content-border-radius);
+}"
 `;
 
 exports[`HelpButton scss have to match default theme snapshot 1`] = `
 "/*
- * Np theme is provided
+ * Help button theme for UI
  *
- */"
+ */
+.dnb-help-button.dnb-help-button--inline {
+  --help-button-inline-color: var(--color-emerald-green);
+  --help-button-inline-background: var(--color-mint-green-50);
+}
+
+.dnb-help-button-content {
+  --help-button-content-color: var(--color-black-80);
+  --help-button-content-background: var(--color-black-3);
+}"
 `;
