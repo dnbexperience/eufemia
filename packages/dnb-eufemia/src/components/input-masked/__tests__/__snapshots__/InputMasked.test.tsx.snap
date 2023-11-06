@@ -1321,25 +1321,13 @@ html[data-visual-test] .dnb-input__input {
   color: var(--color-black);
 }
 .dnb-multi-input-mask .dnb-input__shell:focus-within {
-  --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 
-.dnb-multi-input-mask__legend.dnb-multi-input-mask__legend--horizontal {
+.dnb-multi-input-mask__legend--horizontal.dnb-form-label {
   display: contents;
 }
-.dnb-multi-input-mask__legend:not([disabled]) {
-  cursor: pointer;
-}
-.dnb-multi-input-mask__legend:not([disabled]):hover {
-  color: var(--color-sea-green);
-}
-.dnb-multi-input-mask__legend:not([disabled]):hover ~ .dnb-multi-input-mask .dnb-input__shell {
-  --border-color: var(--color-sea-green);
+.dnb-multi-input-mask__legend:not([disabled]):hover ~ .dnb-multi-input-mask__legend .dnb-input__shell {
   --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }"
 `;

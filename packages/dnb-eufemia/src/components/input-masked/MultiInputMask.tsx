@@ -121,7 +121,7 @@ function MultiInputMask<T extends string>({
           disabled={disabled}
           vertical={labelDirection === 'vertical'}
         >
-          {/* This <span/> wrapper is needed to make flexbox work with the legend element */}
+          {/* This <span/> wrapper is needed to make hover work in Safari Desktop */}
           <span>{label}</span>
         </FormLabel>
       )}

@@ -68,24 +68,16 @@
   }
 
   .dnb-input__shell:focus-within {
-    @include fakeBorder(var(--color-sea-green), 0.125rem);
+    --border-width: 0.125rem;
   }
 }
 
 .dnb-multi-input-mask__legend {
-  // Using the full className instead of &--horizontal, as that method leads lesser specificity, an would need an `!important` to override legend.dnb-form-label css
-  &.dnb-multi-input-mask__legend--horizontal {
+  &--horizontal.dnb-form-label {
     display: contents;
   }
 
-  &:not([disabled]) {
-    cursor: pointer;
-
-    &:hover {
-      color: var(--color-sea-green);
-      ~ .dnb-multi-input-mask .dnb-input__shell {
-        @include fakeBorder(var(--color-sea-green), 0.125rem);
-      }
-    }
+  &:not([disabled]):hover ~ & .dnb-input__shell {
+    --border-width: 0.125rem;
   }
 }
