@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
-import { HelpButton, Input, Dl, Dt, Dd, Dialog, P } from '@dnb/eufemia/src'
+import { HelpButton, Input, Dl, Dt, Dd, Dialog } from '@dnb/eufemia/src'
 
 export const HelpButtonDefaultExample = () => (
   <ComponentBox data-visual-test="help-button-default">
@@ -77,7 +77,7 @@ export const HelpButtonRenderExample = () => (
 )
 
 export const HelpButtonInline = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="help-button-inline-content">
     <HelpButton displayMethod="inline">Peekaboo!</HelpButton>
   </ComponentBox>
 )

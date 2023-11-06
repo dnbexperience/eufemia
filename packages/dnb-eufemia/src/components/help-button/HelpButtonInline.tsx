@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
@@ -16,41 +16,37 @@ export default function HelpButtonInline(props: HelpButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [contentElement, setContentElement] = useState(null)
 
-  const buttonId = `${makeUniqueId()}-help-button`
-  const { contentId, children, ...rest } = props
+  const { contentId: contentContainerId, children, ...rest } = props
+
+  const baseId = useRef(rest.id ? rest.id : makeUniqueId())
+  const contentId = `${baseId.current}-content`
 
   useEffect(() => {
-    let element = document.getElementById(contentId)
-    if (!element) {
-      element = document.getElementById(buttonId)?.parentElement
-      if (!element.getAttribute('id')) {
-        element.setAttribute('id', `${buttonId}-content`)
-      }
-    }
+    const element = document.getElementById(contentContainerId)
+      ? document.getElementById(contentContainerId)
+      : document.getElementById(baseId.current)?.parentElement
     setContentElement(element)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentId])
+  }, [contentContainerId])
 
   return (
     <>
       <HelpButtonInstance
-        id={buttonId}
         className="dnb-help-button--inline"
         on_click={() => {
           setIsOpen((open) => !open)
         }}
         icon={isOpen ? 'close' : rest.icon}
-        aria-controls={
-          contentElement ? contentElement.getAttribute('id') : ''
-        }
+        aria-controls={contentId}
         size={rest.size || 'small'}
         {...rest}
+        id={baseId.current}
       />
       {contentElement && (
         <HelpButtonContent
           isOpen={isOpen}
           contentElement={contentElement}
-          id={contentElement.getAttribute('id')}
+          id={contentId}
         >
           {children}
         </HelpButtonContent>

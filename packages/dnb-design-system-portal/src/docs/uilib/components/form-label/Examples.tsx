@@ -92,7 +92,7 @@ export const WithHelpCustom = () => (
             forId="with-custom-help"
             help={{
               contents: 'Peekaboo!',
-              identifier: 'help-content',
+              contentId: 'help-content',
             }}
           >
             Field label

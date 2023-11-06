@@ -254,7 +254,7 @@ export interface FieldHelpProps {
   help?: {
     title?: string
     content?: string
-    identifier?: string
+    contentId?: string
   }
 }
 
