@@ -6,7 +6,7 @@
 .dnb-form-label {
   color: var(--color-black-80);
 
-  &[for]:not([disabled]) {
+  &--interactive {
     cursor: pointer;
 
     &:hover {

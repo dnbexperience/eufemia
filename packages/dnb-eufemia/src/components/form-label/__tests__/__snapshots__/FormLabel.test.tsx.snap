@@ -52,10 +52,10 @@ exports[`FormLabel scss have to match default theme snapshot 1`] = `
 .dnb-form-label {
   color: var(--color-black-80);
 }
-.dnb-form-label[for]:not([disabled]) {
+.dnb-form-label--interactive {
   cursor: pointer;
 }
-.dnb-form-label[for]:not([disabled]):hover {
+.dnb-form-label--interactive:hover {
   color: var(--color-sea-green);
 }"
 `;
