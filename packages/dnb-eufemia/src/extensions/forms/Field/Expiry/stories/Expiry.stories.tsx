@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import Expiry, { ExpiryValue } from '../Expiry'
 
-import '../style'
-
 export default {
-  title: 'Eufemia/Extensions/Forms/Field',
+  title: 'Eufemia/Extensions/Forms/Field/Expiry',
 }
 export const ExpiryTest = () => {
   const [value, setValue] = useState<ExpiryValue>({ month: '', year: '' })

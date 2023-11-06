@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../'
+import * as Field from '../..'
 import { ExpiryValue } from '../Expiry'
 
 const initialValue: ExpiryValue = { month: '', year: '' }
