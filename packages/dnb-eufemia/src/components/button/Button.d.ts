@@ -38,9 +38,9 @@ export type ButtonChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ButtonElement = DynamicElement<
-  HTMLButtonElement | HTMLAnchorElement | AnchorProps
->;
+export type ButtonElement =
+  | DynamicElement<HTMLButtonElement | HTMLAnchorElement | AnchorProps>
+  | React.ReactNode;
 export type ButtonOnClick = string | ((...args: any[]) => any);
 export type ButtonProps = {
   /**
