@@ -83,6 +83,11 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     ...attributes
   } = props
 
+  const isInteractive =
+    !props.disabled &&
+    !srOnly &&
+    (typeof props.onClick === 'function' || forId || for_id)
+
   const params = {
     className: classnames(
       'dnb-form-label',
@@ -90,6 +95,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
         `dnb-form-label--vertical`,
       (srOnly || isTrue(sr_only)) && 'dnb-sr-only',
       size && `dnb-h--${size}`,
+      isInteractive && 'dnb-form-label--interactive',
       createSkeletonClass('font', skeleton, context),
       createSpacingClasses(props),
       className

@@ -1274,5 +1274,60 @@ html[data-visual-test] .dnb-input__input {
  */
 .dnb-input-masked--guide {
   font-family: var(--font-family-monospace);
+}
+
+.dnb-multi-input-mask__fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.dnb-multi-input-mask__fieldset--horizontal {
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.dnb-multi-input-mask__input {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  padding: 0 0.125rem;
+  transform: translateY(0);
+  outline: none;
+  font-family: var(--font-family-monospace);
+  text-align: center;
+  border: none;
+  background: transparent;
+  overflow: visible;
+  white-space: nowrap;
+}
+.dnb-multi-input-mask__input:first-of-type {
+  padding-left: 0.5rem;
+}
+.dnb-multi-input-mask__input:last-of-type {
+  padding-right: 0.5rem;
+}
+
+.dnb-multi-input-mask {
+  width: fit-content;
+}
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input,
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter {
+  color: var(--color-black-55);
+}
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input--highlight,
+.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter--highlight {
+  color: var(--color-black);
+}
+.dnb-multi-input-mask .dnb-input__shell:focus-within {
+  box-shadow: 0 0 0 var(--input-border-width--focus) var(--input-border-color--hover);
+}
+
+.dnb-multi-input-mask__legend--horizontal.dnb-form-label {
+  display: contents;
+}
+.dnb-multi-input-mask__legend:not([disabled]):hover ~ .dnb-multi-input-mask .dnb-input__shell {
+  box-shadow: 0 0 0 var(--input-border-width--focus) var(--input-border-color--hover);
 }"
 `;

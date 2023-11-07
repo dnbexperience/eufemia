@@ -10,3 +10,76 @@
     font-family: var(--font-family-monospace);
   }
 }
+
+// MultiInputMask
+.dnb-multi-input-mask__fieldset {
+  @include fieldsetReset();
+
+  &--horizontal {
+    display: inline-flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    // Adds the 1rem space between legend and input wrapper, as the `display: contents` in .dnb-multi-input-mask__legend makes the margins from .dnb-form-label not apply
+    gap: 1rem;
+  }
+}
+
+.dnb-multi-input-mask__input {
+  display: inline-block;
+  width: auto;
+
+  margin: 0;
+  padding: 0 0.125rem;
+
+  // reset vertical alignment
+  transform: translateY(0);
+
+  outline: none;
+
+  font-family: var(--font-family-monospace);
+  text-align: center;
+  border: none;
+  background: transparent;
+
+  overflow: visible;
+  white-space: nowrap;
+
+  &:first-of-type {
+    padding-left: 0.5rem;
+  }
+
+  &:last-of-type {
+    padding-right: 0.5rem;
+  }
+}
+
+.dnb-multi-input-mask {
+  width: fit-content;
+
+  &:not(.dnb-input__status--error) {
+    .dnb-multi-input-mask__input,
+    .dnb-multi-input-mask__delimiter {
+      color: var(--color-black-55);
+
+      &--highlight {
+        color: var(--color-black);
+      }
+    }
+  }
+
+  .dnb-input__shell:focus-within {
+    box-shadow: 0 0 0 var(--input-border-width--focus)
+      var(--input-border-color--hover);
+  }
+}
+
+.dnb-multi-input-mask__legend {
+  &--horizontal.dnb-form-label {
+    display: contents;
+  }
+
+  &:not([disabled]):hover ~ .dnb-multi-input-mask .dnb-input__shell {
+    box-shadow: 0 0 0 var(--input-border-width--focus)
+      var(--input-border-color--hover);
+  }
+}

@@ -185,6 +185,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   align-items: center;
   background: linear-gradient(184.55deg, rgba(204, 204, 204, 0.5) 4.63%, rgba(232, 232, 232, 0.5) 84.83%);
 }
+.dnb-payment-card__blocking__overlay svg path {
+  stroke: currentcolor;
+}
 .dnb-payment-card__blocking__center {
   padding: 1rem;
   display: flex;

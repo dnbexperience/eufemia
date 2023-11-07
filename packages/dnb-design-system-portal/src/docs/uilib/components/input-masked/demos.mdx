@@ -10,6 +10,7 @@ import {
   InputMaskedExampleNumberMask,
   InputMaskedExamplePrefix,
   InputMaskedExamplePhone,
+  InputMaskedExampleMulti,
 } from 'Docs/uilib/components/input-masked/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
@@ -54,3 +55,17 @@ When you use `as_currency` it will create a mask for you and inherit the locale 
 ### Phone Number, starting with 4
 
 <InputMaskedExamplePhone />
+
+### Mask with multiple inputs
+
+Allows for the same input functionality as in the [DatePicker](/uilib/components/date-picker), but with your own defined inputs.
+`onChange` takes an object with keys based on the step id's. e.g. `{month: string, year: string, suffix: string}`
+
+`import` as demostrated below
+
+```tsx
+import { MultiInputMask } from '@dnb/eufemia/src/components/input-masked'
+render(<MultiInputMask />)
+```
+
+<InputMaskedExampleMulti />

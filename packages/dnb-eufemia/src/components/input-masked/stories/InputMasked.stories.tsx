@@ -3,13 +3,15 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
 import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
+import { MultiInputMask } from '../'
+import type { MultiInputMaskValue } from '../'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -192,5 +194,133 @@ function ShowMask() {
         allowDecimal: true,
       }}
     />
+  )
+}
+
+export function MultiInputMaskPlayground() {
+  return (
+    <>
+      <Box>
+        <MultiInputMaskDate />
+      </Box>
+      <Box>
+        <MultiInputMaskMix />
+      </Box>
+      <Box>
+        <MultiInputMaskStatuses />
+      </Box>
+    </>
+  )
+}
+
+function MultiInputMaskDate() {
+  const [values, setValues] = useState<
+    MultiInputMaskValue<'day' | 'month' | 'year'>
+  >({
+    day: '',
+    month: '',
+    year: '',
+  })
+
+  return (
+    <MultiInputMask
+      label="Datogreier"
+      onChange={({ day, month, year }) => setValues({ day, month, year })}
+      values={values}
+      delimiter="/"
+      inputs={[
+        {
+          id: 'day',
+          label: 'dagen',
+          placeholderCharacter: 'd',
+          mask: [/[0-9]/, /[0-9]/],
+        },
+        {
+          id: 'month',
+          label: 'måneden',
+          placeholderCharacter: 'm',
+          mask: [/[0-9]/, /[0-9]/],
+        },
+        {
+          id: 'year',
+          label: 'året',
+          placeholderCharacter: 'å',
+          mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
+        },
+      ]}
+    />
+  )
+}
+
+function MultiInputMaskMix() {
+  const [values, setValues] = useState<
+    MultiInputMaskValue<'numbers' | 'letters' | 'mix'>
+  >({
+    letters: '',
+    numbers: '',
+    mix: '',
+  })
+
+  return (
+    <MultiInputMask
+      label="Mix"
+      onChange={({ letters, numbers, mix }) =>
+        setValues({ letters, numbers, mix })
+      }
+      delimiter="/"
+      values={values}
+      inputs={[
+        {
+          id: 'numbers',
+          label: 'just numbers',
+          placeholderCharacter: 'n',
+          mask: [/[0-9]/, /[0-9]/],
+        },
+        {
+          id: 'letters',
+          label: 'just letters',
+          placeholderCharacter: 'l',
+          mask: [/[a-zA-Z]/, /[a-zA-Z]/],
+        },
+        {
+          id: 'mix',
+          label: 'numbers and letters',
+          placeholderCharacter: 'm',
+          mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
+        },
+      ]}
+    />
+  )
+}
+
+function MultiInputMaskStatuses() {
+  return (
+    <>
+      <MultiInputMask
+        label="Statuses"
+        status="error"
+        statusState="error"
+        inputs={[
+          {
+            id: 'error',
+            label: 'error',
+            placeholderCharacter: 'e',
+            mask: [/[0-9]/, /[0-9]/],
+          },
+        ]}
+      />
+      <MultiInputMask
+        label="Statuses"
+        disabled
+        inputs={[
+          {
+            id: 'disabled',
+            label: 'disabled',
+            placeholderCharacter: 'd',
+            mask: [/[0-9]/, /[0-9]/],
+          },
+        ]}
+      />
+    </>
   )
 }

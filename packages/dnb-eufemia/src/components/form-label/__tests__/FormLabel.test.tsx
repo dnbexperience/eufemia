@@ -26,10 +26,9 @@ describe('FormLabel component', () => {
 
     const element = document.querySelector('.dnb-form-label')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-form-label',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toContain(
+      'dnb-space__top--large'
+    )
   })
 
   it('should set correct class when srOnly is set', () => {
@@ -37,10 +36,36 @@ describe('FormLabel component', () => {
 
     const element = document.querySelector('.dnb-form-label')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-form-label',
-      'dnb-sr-only',
-    ])
+    expect(Array.from(element.classList)).toContain('dnb-sr-only')
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-form-label--interactive'
+    )
+  })
+
+  it('should not have "--interactive" class when disabled', () => {
+    render(<FormLabel forId="input" disabled />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-form-label--interactive'
+    )
+  })
+
+  it('should have "--interactive" when forId or onClick was given', () => {
+    const { rerender } = render(<FormLabel forId="input" />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-form-label--interactive'
+    )
+
+    rerender(<FormLabel onClick={() => null} />)
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-form-label--interactive'
+    )
   })
 
   it('should set correct for id', () => {

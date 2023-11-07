@@ -9,6 +9,7 @@ import {
   InputMaskedInfoDecimalsCurrencyProvider,
   InputMaskedInfoDecimalsNumberProvider,
   InputMaskedInfoRemoveDecimalLimit,
+  InputMaskedExampleMulti,
 } from 'Docs/uilib/components/input-masked/Examples'
 
 ## Description
@@ -73,3 +74,17 @@ This example here also shows how to affect every InputMasked component in your a
 To remove a decimal limit, you can send in `null` and allow decimals with `allowDecimal`:
 
 <InputMaskedInfoRemoveDecimalLimit />
+
+### Mask with multiple inputs
+
+Allows for the same input functionality as in the [DatePicker](/uilib/components/date-picker), but with your own defined inputs.
+`onChange` takes an object with keys based on the step id's. e.g. `{month: string, year: string, suffix: string}`
+
+`import` as demostrated below
+
+```tsx
+import { MultiInputMask } from '@dnb/eufemia/src/components/input-masked'
+render(<MultiInputMask />)
+```
+
+<InputMaskedExampleMulti />
