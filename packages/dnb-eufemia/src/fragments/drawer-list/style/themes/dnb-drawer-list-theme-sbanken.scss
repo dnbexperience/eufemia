@@ -123,7 +123,8 @@
       }
     }
 
-    &:focus-visible {
+    &:focus-visible,
+    &--focus {
       border-color: var(--sb-color-blue-dark);
       outline: 0.0625rem solid var(--sb-color-blue-dark);
       background-color: var(--sb-color-blue-light-3);
@@ -131,6 +132,7 @@
       font-weight: var(--sb-font-weight-medium);
       z-index: 1;
 
+      /* stylelint-disable no-descending-specificity */
       .dnb-drawer-list__option__inner::before {
         display: var(--drawer-list-option-inner-border-display);
       }
@@ -139,6 +141,7 @@
         // Selected checkmark icon
         background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSIjMDA1Q0ZGIi8+Cjwvc3ZnPgo=');
       }
+      /* stylelint-enable no-descending-specificity */
     }
   }
 
