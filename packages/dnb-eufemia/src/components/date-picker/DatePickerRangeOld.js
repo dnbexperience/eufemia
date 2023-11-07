@@ -119,6 +119,7 @@ export default class DatePickerRange extends React.PureComponent {
 
   render() {
     const { id, ...props } = this.props
+    console.log('Range Views', this.props.views)
     return (
       <div className="dnb-date-picker__views">
         {this.context.views.map((calendar, i) => (
