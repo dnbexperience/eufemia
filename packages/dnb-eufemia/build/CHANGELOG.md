@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.12.0](https://github.com/dnbexperience/eufemia/compare/v10.11.0...v10.12.0) (2023-11-07)
+
+
+### :sparkles: Features
+
+* **MultiInputMask:** add support for multiple inputs ([#2736](https://github.com/dnbexperience/eufemia/issues/2736)) ([099c823](https://github.com/dnbexperience/eufemia/commit/099c823abd1094836d7d6b1f637d3cb4d5e7f273))
+* **useTheme:** return boolean constants: isUi, isSbanken and isEiendom ([#2845](https://github.com/dnbexperience/eufemia/issues/2845)) ([d3bb9be](https://github.com/dnbexperience/eufemia/commit/d3bb9be507588ac4596e793b316238de94e7ca15))
+
+
+### :memo: Documentation
+
+* fix heading evels in contribution guide ([e67a05a](https://github.com/dnbexperience/eufemia/commit/e67a05a3ae8361279f6b5890bfa15ee0551863b6))
+* fix heading levels in contribution guide ([#2853](https://github.com/dnbexperience/eufemia/issues/2853)) ([4c01854](https://github.com/dnbexperience/eufemia/commit/4c018545111243fc1a7a539ae4589321ef0c9add))
+* **Theme:** enhance info about using the shared theme provider ([#2860](https://github.com/dnbexperience/eufemia/issues/2860)) ([dec0664](https://github.com/dnbexperience/eufemia/commit/dec066463a06965cbca67d5532d8f96c67bbbc38))
+
+
+### :bug: Bug Fixes
+
+* **Button:** element's type supports Link of react-router-dom ([#2858](https://github.com/dnbexperience/eufemia/issues/2858)) ([b90acdb](https://github.com/dnbexperience/eufemia/commit/b90acdba6528d8eff9befce6bc93ae0fdd87c5bb))
+* **DrawerList:** Add focus style for Sbanken theme ([#2856](https://github.com/dnbexperience/eufemia/issues/2856)) ([1815342](https://github.com/dnbexperience/eufemia/commit/181534223feaa091573251ba3fb320462bffab34))
+* **FormLabel:** move hover color logic to act on properties forId and onClick ([#2848](https://github.com/dnbexperience/eufemia/issues/2848)) ([43723ab](https://github.com/dnbexperience/eufemia/commit/43723ab8c143e36119a4a9a5a87f7d9b419876e8))
+* **MultiInputMask:** incorrect legend hover and focus within effect ([#2861](https://github.com/dnbexperience/eufemia/issues/2861)) ([1cd6be4](https://github.com/dnbexperience/eufemia/commit/1cd6be4fdd39c9424365e2d9b394ecf0e34d2740))
+* **PaymentCard:** overlay icon fill color ([#2846](https://github.com/dnbexperience/eufemia/issues/2846)) ([712a227](https://github.com/dnbexperience/eufemia/commit/712a2278094039a27a9df5c3739a053281c3ca8a))
+
 ## [10.11.0](https://github.com/dnbexperience/eufemia/compare/v10.10.0...v10.11.0) (2023-11-03)
 
 
