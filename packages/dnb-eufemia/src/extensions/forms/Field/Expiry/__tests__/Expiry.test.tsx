@@ -17,7 +17,7 @@ describe('Field.Expiry', () => {
     })
   })
 
-  it('should return month and year value when input is fully filled out', async () => {
+  it('should return month and year values', async () => {
     const onChange = jest.fn()
 
     render(<Field.Expiry value={initialValue} onChange={onChange} />)
@@ -30,12 +30,20 @@ describe('Field.Expiry', () => {
 
     await userEvent.keyboard('1235')
 
-    expect(onChange).toBeCalledTimes(2)
+    expect(onChange).toBeCalledTimes(4)
     expect(onChange.mock.calls[0][0]).toEqual({
-      month: '',
+      month: '1',
       year: '',
     })
     expect(onChange.mock.calls[1][0]).toEqual({
+      month: '12',
+      year: '',
+    })
+    expect(onChange.mock.calls[2][0]).toEqual({
+      month: '12',
+      year: '3',
+    })
+    expect(onChange.mock.calls[3][0]).toEqual({
       month: '12',
       year: '35',
     })
