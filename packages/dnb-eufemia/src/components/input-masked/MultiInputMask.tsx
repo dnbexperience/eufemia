@@ -66,6 +66,10 @@ export type MultiInputMaskProps<T extends string> = {
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
   statusState?: FormStatusState
+  /**
+   * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
+   */
+  suffix?: React.ReactNode
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
   'onChange' | 'ref' | 'value' | 'label'
@@ -83,6 +87,7 @@ function MultiInputMask<T extends string>({
   statusState,
   values: defaultValues,
   className,
+  suffix,
   ...props
 }: MultiInputMaskProps<T>) {
   const [values, onChange] = useMultiInputValue({
@@ -131,6 +136,7 @@ function MultiInputMask<T extends string>({
         disabled={disabled}
         status={status}
         status_state={statusState}
+        suffix={suffix}
         input_element={inputs.map((input, index) => (
           <Fragment key={input.id}>
             <MultiInputMaskInput
