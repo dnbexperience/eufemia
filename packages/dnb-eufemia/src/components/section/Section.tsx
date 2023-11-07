@@ -65,12 +65,12 @@ export type SectionProps = {
   variant?: SectionVariants | string
 
   /**
-   * Define if the background color should break-out to a fullscreen view. Defualts to `true`.
+   * Define if the background color should break-out to a fullscreen view. Defaults to `true`.
    */
   breakout?: boolean | ResponsiveProp<boolean>
 
   /**
-   * Define if the section should have rounded corners. Defualts to `false`.
+   * Define if the section should have rounded corners. Defaults to `false`.
    */
   roundedCorner?: boolean | ResponsiveProp<boolean>
 

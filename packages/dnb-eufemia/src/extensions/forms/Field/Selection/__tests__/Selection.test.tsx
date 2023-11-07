@@ -191,7 +191,7 @@ describe('Selection', () => {
     })
 
     describe('button', () => {
-      it('has no selected value by defualt', () => {
+      it('has no selected value by default', () => {
         render(
           <Field.Selection variant="button">
             <Field.Option value="foo">Fooo</Field.Option>
