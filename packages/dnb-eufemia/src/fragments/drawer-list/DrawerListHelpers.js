@@ -475,7 +475,10 @@ export const prepareDerivedState = (props, state) => {
     if (props.value === 'initval') {
       state.selected_item = null
     } else {
-      state.selected_item = getCurrentIndex(props.value, state.data)
+      state.selected_item = getCurrentIndex(
+        props.value,
+        state.original_data
+      )
     }
 
     if (typeof props.on_state_update === 'function') {
