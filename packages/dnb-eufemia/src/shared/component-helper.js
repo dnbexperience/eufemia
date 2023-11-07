@@ -90,6 +90,27 @@ export function defineNavigator() {
   }
 }
 
+export const removeInvalidAttributes = (attr) => {
+  if (attr && typeof attr === 'object') {
+    for (const i in attr) {
+      switch (i) {
+        case 'className':
+          continue
+      }
+      if (
+        // we don't want anything else than valid HTML attributes
+        /[^a-z-]/i.test(i) ||
+        // we don't want camelCase props
+        /^[a-z]{1,}[A-Z]/.test(i)
+      ) {
+        delete attr[i]
+      }
+    }
+  }
+
+  return attr
+}
+
 export const validateDOMAttributes = (props, params) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
