@@ -68,7 +68,8 @@
   }
 
   .dnb-input__shell:focus-within {
-    --border-width: 0.125rem;
+    box-shadow: 0 0 0 var(--input-border-width--focus)
+      var(--input-border-color--hover);
   }
 }
 
@@ -77,7 +78,8 @@
     display: contents;
   }
 
-  &:not([disabled]):hover ~ & .dnb-input__shell {
-    --border-width: 0.125rem;
+  &:not([disabled]):hover ~ .dnb-multi-input-mask .dnb-input__shell {
+    box-shadow: 0 0 0 var(--input-border-width--focus)
+      var(--input-border-color--hover);
   }
 }
