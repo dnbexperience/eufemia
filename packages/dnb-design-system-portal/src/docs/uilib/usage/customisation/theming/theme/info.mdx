@@ -12,12 +12,56 @@ The Theme component is a helper component that lets you create nested theming so
 import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 const Component = () => {
+  const { name } = useTheme()
+  return 'My Component'
+}
+
+render(
+  <Theme name="sbanken">
+    <App>
+      <MyComponent />
+    </App>
+  </Theme>,
+)
+```
+
+From CSS you can use it as so:
+
+- `.eufemia-theme__sbanken`
+- `.eufemia-theme[data-name="sbanken"]` (alternative)
+
+**CSS**
+
+```css
+.eufemia-theme__sbanken .additional-selector {
+  --color-sea-green: var(--sb-color-purple-alternative);
+}
+```
+
+**SCSS**
+
+```scss
+:global(.eufemia-theme__sbanken) {
+  .additional-selector {
+    --color-sea-green: var(--sb-color-purple-alternative);
+  }
+}
+```
+
+### Mapping of properties with `propMapping`
+
+In order to change or map CSS properties, you can make use of the `propMapping` solution.
+
+```tsx
+import { Theme, useTheme } from '@dnb/eufemia/shared'
+
+const Component = () => {
   const { name, propMapping } = useTheme()
   return 'My Component'
 }
 
 render(
-  <Theme name="theme-name">
+  <Theme name="sbanken">
     <App>
       <Theme propMapping="my-class">
         <MyComponent />
@@ -27,26 +71,7 @@ render(
 )
 ```
 
-Will create the following HTML/CSS classes:
-
-**Outer Theme**
-
-- `eufemia-theme__theme-name`
-
-**Nested Theme**
-
-- `eufemia-theme__theme-name`
-- `eufemia-theme__prop-mapping--my-class`
-
-With that, you can create your own styles that contains the wanted style mapping.
-
-### Mapping of properties with `propMapping`
-
-**WIP:** This API may change in future, as it is currently under development. Please get in touch with us before you use it.
-
-In order to change or map CSS properties, you can make use of the `propMapping` solution.
-
-The main motivation of this feature is to provide a set of maps you can use in your app. But it lets you create your own sets as well. To do so;
+The main motivation of this feature is to provide a set of maps you can use in your app (if possible). But it lets you create your own sets as well. To do so:
 
 1. Define an area in your app – it could be your component – and give it a declarative name:
 
@@ -60,7 +85,9 @@ render(
 )
 ```
 
-2. Define the needed CSS properties:
+2. Define the needed properties:
+
+**CSS**
 
 ```css
 .eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
@@ -68,7 +95,15 @@ render(
 }
 ```
 
-#### Use your component as the wrapper element
+**SCSS**
+
+```scss
+.eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
+  --color-sea-green: var(--sb-color-purple-alternative);
+}
+```
+
+### Use your component as the wrapper element
 
 You can provide your component as the wrapper. This way no additional HTML Element will be created.
 
@@ -76,7 +111,7 @@ You can provide your component as the wrapper. This way no additional HTML Eleme
 import { Theme } from '@dnb/eufemia/shared'
 
 const Component = ({ classNamem ...props }) => {
-  return <div className={classNamem+' more-classes'}></div>
+  return <div className={classNamem+' more-classes'} {...props} />
 }
 
 render(
@@ -89,6 +124,32 @@ render(
   </Theme>
 )
 ```
+
+### React Hook useTheme
+
+For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
+
+```tsx
+import { Theme, useTheme } from '@dnb/eufemia/shared'
+
+const Component = () => {
+  // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
+  const { name, isUi, isSbanken, isEiendom } = useTheme()
+  return null
+}
+
+render(
+  <Theme name="sbanken">
+    <App>
+      <MyComponent />
+    </App>
+  </Theme>,
+)
+```
+
+### Integrations
+
+By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
 
 ### Hide or show parts of your component (filter)
 
@@ -123,28 +184,6 @@ render(
       Only shown in Sbanken then or Eiendom theme – that also includes the
       fictive variant="blue".
     </VisibilityByTheme>
-  </Theme>,
-)
-```
-
-### React Hook useTheme
-
-For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
-
-```tsx
-import { Theme, useTheme } from '@dnb/eufemia/shared'
-
-const Component = () => {
-  // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
-  const { name, isUi, isSbanken, isEiendom } = useTheme()
-  return null
-}
-
-render(
-  <Theme name="sbanken">
-    <App>
-      <MyComponent />
-    </App>
   </Theme>,
 )
 ```
