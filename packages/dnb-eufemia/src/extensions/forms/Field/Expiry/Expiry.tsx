@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
@@ -37,31 +37,14 @@ function Expiry(props: ExpiryProps) {
     handleBlur,
     handleChange,
   } = useDataValue(props)
-  const [internalValues, setInternalValues] = useState<ExpiryValue>({
-    month: value.month ?? '',
-    year: value.year ?? '',
-  })
 
   const id = useRef(propsId || makeUniqueId()).current
 
   const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
 
-  useEffect(() => {
-    const { month, year } = internalValues
-
-    const isInputEmpty = month === '' && year === ''
-    const isMonthFilledOut = month.length === 2
-    const isYearFilledOut = year.length === 2
-
-    if (isInputEmpty || (isMonthFilledOut && isYearFilledOut)) {
-      return handleChange(internalValues)
-    }
-  }, [internalValues, handleChange, placeholders])
-
   return (
     <FieldBlock
       className={classnames(className)}
-      layout={layout}
       labelSecondary={labelSecondary}
       labelDescription={labelDescription}
       info={info}
@@ -72,19 +55,15 @@ function Expiry(props: ExpiryProps) {
       <MultiInputMask
         id={`${id}__input`}
         label={label}
+        labelDirection={layout}
+        values={value}
         status={status}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
+        required={required}
+        onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
-        required={required}
-        // suffix={
-        //   help ? (
-        //     <HelpButton title={help.title}>{help.contents}</HelpButton>
-        //   ) : undefined
-        // }
-        values={internalValues}
-        onChange={setInternalValues}
         delimiter="/"
         inputs={[
           {
@@ -100,6 +79,11 @@ function Expiry(props: ExpiryProps) {
             placeholderCharacter: placeholders['year'],
           },
         ]}
+        suffix={
+          help ? (
+            <HelpButton title={help.title}>{help.contents}</HelpButton>
+          ) : undefined
+        }
       />
     </FieldBlock>
   )
