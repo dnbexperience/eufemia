@@ -3133,8 +3133,15 @@ __metadata:
     wait-on: "npm:6.0.0"
     what-input: "npm:5.2.10"
   peerDependencies:
+    "@types/react": ^17 || ^18
+    "@types/react-dom": ^17 || ^18
     react: ^17 || ^18
     react-dom: ^17 || ^18
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
   languageName: unknown
   linkType: soft
 
