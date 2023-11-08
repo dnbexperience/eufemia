@@ -747,6 +747,12 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
+  resetValue = () => {
+    this.context.drawerList.setState({
+      _value: 're-evaluate', // ensure "state.selected_item = getCurrentIndex(...)" inside "prepareDerivedState" does run
+    })
+  }
+
   updateData = (rawData) => {
     // invalidate the local cache now,
     // because we get else the same after we show the new result
@@ -763,7 +769,11 @@ class AutocompleteInstance extends React.PureComponent {
         if (parseFloat(itemIndex) > -1) {
           const newItem = rawData[itemIndex]
           const oldItem = this.context.drawerList.original_data[itemIndex]
-          if (newItem?.selected_key !== oldItem?.selected_key) {
+          if (
+            typeof newItem?.selectedKey !== 'undefined'
+              ? newItem?.selectedKey !== oldItem?.selectedKey
+              : newItem?.selected_key !== oldItem?.selected_key
+          ) {
             this.resetSelectionItem()
           }
         }
@@ -778,7 +788,7 @@ class AutocompleteInstance extends React.PureComponent {
           () => {
             const { typedInputValue } = this.state
 
-            if (typedInputValue && typedInputValue.length > 0) {
+            if (typedInputValue?.length > 0) {
               // run with side effects, to get preselection of active_item
               const filteredData =
                 this.runFilterWithSideEffects(typedInputValue)
@@ -786,6 +796,7 @@ class AutocompleteInstance extends React.PureComponent {
                 this.showNoOptionsItem()
               }
             } else {
+              this.resetValue()
               this.resetActiveItem()
               if (this.context.drawerList.opened) {
                 this.showAllItems()
@@ -1008,6 +1019,7 @@ class AutocompleteInstance extends React.PureComponent {
       attributes,
       dataList: this.context.drawerList.data,
       updateData: this.updateData,
+      resetValue: this.resetValue,
       showAllItems: this.showAllItems,
       setVisible: this.setVisible,
       setHidden: this.setHidden,

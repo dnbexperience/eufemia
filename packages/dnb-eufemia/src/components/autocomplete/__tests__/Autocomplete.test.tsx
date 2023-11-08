@@ -2315,6 +2315,71 @@ describe('Autocomplete component', () => {
       'dnb-autocomplete--default',
     ])
   })
+
+  it('should set correct value in input', () => {
+    const data = [
+      {
+        selectedKey: '+93',
+        selected_value: 'AF (+93)',
+        content: '+93 Afghanistan',
+      },
+      {
+        selectedKey: '+47',
+        selected_value: 'NO (+47)',
+        content: '+47 Norge',
+      },
+      {
+        selectedKey: '+46',
+        selected_value: 'SE (+46)',
+        content: '+46 Sverige',
+      },
+      {
+        selectedKey: '+41',
+        selected_value: 'CH (+41)',
+        content: '+41 Sveits',
+      },
+    ]
+    const MockComponent = () => {
+      const [value, setValue] = React.useState('+47')
+
+      return (
+        <Autocomplete
+          data={[data[1]]}
+          value={value}
+          mode="async"
+          on_change={({ data }) => setValue(data.selectedKey)}
+          on_focus={({ updateData }) => updateData(data)}
+          search_numbers
+          no_animation
+        />
+      )
+    }
+
+    render(<MockComponent />)
+
+    const inputElement: HTMLInputElement = document.querySelector('input')
+
+    expect(inputElement.value).toEqual('NO (+47)')
+
+    // open
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe('+47 Norge')
+
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, { target: { value: '+41' } })
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(inputElement.value).toEqual('CH (+41)')
+  })
 })
 
 describe('Autocomplete markup', () => {
