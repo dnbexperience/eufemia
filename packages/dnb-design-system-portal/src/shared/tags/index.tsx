@@ -22,6 +22,7 @@ import Anchor from './Anchor'
 import Header from './AutoLinkHeader'
 import Copy from './Copy'
 import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
+import { TypographyBox } from '../parts/TypographyBox'
 
 export const basicComponents = {
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
@@ -69,6 +70,7 @@ export const basicComponents = {
 
 export default {
   Copy,
+  TypographyBox,
   VisibilityByTheme,
   VisibleWhenVisualTest: ({ children }) => {
     if (typeof globalThis !== 'undefined' && globalThis.IS_TEST) {
