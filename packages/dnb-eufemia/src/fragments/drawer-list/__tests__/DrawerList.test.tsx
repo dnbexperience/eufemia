@@ -339,6 +339,28 @@ describe('DrawerList component', () => {
     })
   })
 
+  it('does not fire on_change when selecting the selected item', async () => {
+    const on_change = jest.fn()
+
+    render(
+      <DrawerList
+        {...props}
+        value={0}
+        data={mockData}
+        on_change={on_change}
+      />
+    )
+
+    // then simulate changes
+    keydown(40) // down
+    keydown(38) // up
+    keydown(32) // space
+
+    await waitFor(() => {
+      expect(on_change).toBeCalledTimes(0)
+    })
+  })
+
   it('has correct direction prop', () => {
     const directionTop = 'top'
 
