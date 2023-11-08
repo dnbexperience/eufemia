@@ -1280,6 +1280,74 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('will call on_change on each change, when selecting the first option from different data sources', () => {
+    const mockDataA = [{ selected_key: 'a', content: 'A' }]
+    const mockDataB = [{ selected_key: 'b', content: 'B' }]
+
+    const onTypeHandler = ({ value, updateData }) => {
+      if (value === 'a') {
+        updateData(mockDataA)
+      } else if (value === 'b') {
+        updateData(mockDataB)
+      }
+    }
+
+    const on_change = jest.fn()
+    const on_type = jest.fn(onTypeHandler)
+
+    render(
+      <Autocomplete
+        {...mockProps}
+        on_change={on_change}
+        on_type={on_type}
+        data={mockDataA}
+        mode="async"
+      />
+    )
+
+    // Search for a and select the option/result
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'a' },
+    })
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].data).toMatchObject(mockDataA[0])
+    expect(document.querySelector('input').value).toBe(
+      mockDataA[0].content
+    )
+
+    // Search for b and select the option/result
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'b' },
+    })
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].data).toMatchObject(mockDataB[0])
+    expect(document.querySelector('input').value).toBe(
+      mockDataB[0].content
+    )
+
+    // Search for a and select the option/result
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'a' },
+    })
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(on_change).toHaveBeenCalledTimes(3)
+    expect(on_change.mock.calls[0][0].data).toMatchObject(mockDataA[0])
+    expect(document.querySelector('input').value).toBe(
+      mockDataA[0].content
+    )
+  })
+
   it('selects correct value and key', () => {
     const mockData = [
       { selected_key: 'a', content: 'A value' },

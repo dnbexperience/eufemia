@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -14,7 +14,7 @@ import {
   Button,
   GlobalStatus,
 } from '../..'
-import { Anchor } from '../../../'
+import { Anchor, Li, Ol, P, Section, Space } from '../../../'
 import { Context, Provider } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
@@ -926,5 +926,69 @@ export const GlobalStatusExample = () => {
         status="Message"
       />
     </>
+  )
+}
+
+export const AsyncSearchExample = () => {
+  const dataA = [{ selected_id: 1, content: 'AAAAAA' }]
+  const dataB = [{ selected_id: 2, content: 'BBBBBB' }]
+
+  const [onChangeValue, setOnChangeValue] = useState()
+
+  const onTypeHandler = ({
+    value,
+    showIndicator,
+    hideIndicator,
+    updateData,
+    debounce,
+  }) => {
+    showIndicator()
+    debounce(
+      ({ value }) => {
+        let newData = []
+        if (value.toLowerCase() === 'a') {
+          newData = dataA
+        } else if (value.toLowerCase() === 'b') {
+          newData = dataB
+        }
+        // simulate server delay
+        const timeout = setTimeout(() => {
+          // update the drawerList
+          updateData(newData)
+          hideIndicator()
+        }, 600)
+
+        // cancel invocation method
+        return () => clearTimeout(timeout)
+      },
+      { value },
+      250
+    )
+  }
+  return (
+    <Section spacing>
+      <Space left>
+        <P>In this demo/recreation:</P>
+        <Ol>
+          <Li>Type "A" and select the option available</Li>
+          <Li>Type "B" and select the option available</Li>
+        </Ol>
+        <P>on_change is not firing when selecting "B".</P>
+        <Autocomplete
+          top
+          mode="async"
+          on_type={onTypeHandler}
+          no_scroll_animation={true}
+          placeholder="Search ..."
+          on_change={({ data }) => {
+            console.log('on_change', data)
+            if (data) {
+              setOnChangeValue(data.content)
+            }
+          }}
+        />
+        <P top>Value from on_change: {onChangeValue}</P>
+      </Space>
+    </Section>
   )
 }
