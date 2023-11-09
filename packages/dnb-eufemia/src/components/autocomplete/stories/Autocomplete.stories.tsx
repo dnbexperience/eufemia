@@ -981,7 +981,7 @@ export const AsyncSearchExample = () => {
           <Li>Type "A" and select the option available</Li>
           <Li>Type "B" and select the option available</Li>
         </Ol>
-        <P>on_change is not firing when selecting "B".</P>
+        <P>on_change should also be firing when selecting "B".</P>
         <Autocomplete
           top
           mode="async"
