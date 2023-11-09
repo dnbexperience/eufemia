@@ -50,6 +50,7 @@ import {
   drawerListPropTypes,
   parseContentTitle,
   getCurrentData,
+  getCurrentIndex,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Autocomplete extends React.PureComponent {
@@ -582,8 +583,18 @@ class AutocompleteInstance extends React.PureComponent {
         }
       }
     } else {
-      // this will not remove selected_item
-      this.totalReset()
+      if (
+        !isTrue(this.props.keep_value) &&
+        !isTrue(this.props.keep_value_and_selection)
+      ) {
+        // this will not remove selected_item
+        this.totalReset()
+      }
+
+      if (isTrue(this.props.keep_value)) {
+        this.resetSelectedItem()
+      }
+
       this.showAllItems()
     }
 
@@ -747,13 +758,36 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  resetValue = () => {
+  revalidateSelectedItem = () => {
+    const selected_item = getCurrentIndex(
+      this.props.value,
+      this.context.drawerList.original_data
+    )
+
     this.context.drawerList.setState({
-      _value: 're-evaluate', // ensure "state.selected_item = getCurrentIndex(...)" inside "prepareDerivedState" does run
+      selected_item,
     })
   }
 
+  hasDatasetChanged = (rawData) => {
+    const { selected_item } = this.context.drawerList
+    if (parseFloat(selected_item) > -1) {
+      const newItem = rawData[selected_item]
+      const oldItem = this.context.drawerList.original_data[selected_item]
+      if (
+        typeof newItem?.selectedKey !== 'undefined'
+          ? newItem?.selectedKey !== oldItem?.selectedKey
+          : newItem?.selected_key !== oldItem?.selected_key
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
   updateData = (rawData) => {
+    const hasChanged = this.hasDatasetChanged(rawData)
+
     // invalidate the local cache now,
     // because we get else the same after we show the new result
     this.context.drawerList.setState(
@@ -763,18 +797,14 @@ class AutocompleteInstance extends React.PureComponent {
       () => {
         // If the "selected_key" has changed in comparison to the existing data,
         // invalidated our selected_item
-        // Also, ensure to run if after a state update, because the "selected_item" (value prop) can have changed,
+        // Also, ensure to run it after a state update, because the "selected_item" (value prop) can have changed,
         // and should match the new data
-        const itemIndex = this.context.drawerList.selected_item
-        if (parseFloat(itemIndex) > -1) {
-          const newItem = rawData[itemIndex]
-          const oldItem = this.context.drawerList.original_data[itemIndex]
-          if (
-            typeof newItem?.selectedKey !== 'undefined'
-              ? newItem?.selectedKey !== oldItem?.selectedKey
-              : newItem?.selected_key !== oldItem?.selected_key
-          ) {
-            this.resetSelectionItem()
+        if (hasChanged) {
+          const { value } = this.props
+          if (value && value !== 'initval') {
+            this.revalidateSelectedItem()
+          } else {
+            this.resetSelectedItem()
           }
         }
       }
@@ -796,8 +826,8 @@ class AutocompleteInstance extends React.PureComponent {
                 this.showNoOptionsItem()
               }
             } else {
-              this.resetValue()
               this.resetActiveItem()
+
               if (this.context.drawerList.opened) {
                 this.showAllItems()
               }
@@ -902,10 +932,7 @@ class AutocompleteInstance extends React.PureComponent {
         })
       }
 
-      if (
-        !isTrue(prevent_selection) &&
-        !isTrue(keep_value_and_selection)
-      ) {
+      if (!isTrue(prevent_selection)) {
         const existingValue = this.state.inputValue
         this.clearInputValue()
 
@@ -1019,7 +1046,8 @@ class AutocompleteInstance extends React.PureComponent {
       attributes,
       dataList: this.context.drawerList.data,
       updateData: this.updateData,
-      resetValue: this.resetValue,
+      revalidateSelectedItem: this.revalidateSelectedItem,
+      resetSelectedItem: this.resetSelectedItem,
       showAllItems: this.showAllItems,
       setVisible: this.setVisible,
       setHidden: this.setHidden,
@@ -1149,20 +1177,13 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   totalReset = () => {
-    if (
-      !isTrue(this.props.keep_value) &&
-      !isTrue(this.props.keep_value_and_selection)
-    ) {
-      this.setState({
-        inputValue: null,
-      })
-    }
     this.setState({
+      inputValue: null,
       typedInputValue: null,
       _listenForPropChanges: false,
     })
     this.resetActiveItem()
-    this.resetSelectionItem()
+    this.resetSelectedItem()
   }
 
   resetActiveItem = () => {
@@ -1171,7 +1192,7 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  resetSelectionItem = () => {
+  resetSelectedItem = () => {
     const hasHadValue = this.hasSelectedItem()
     this.context.drawerList.setState(
       {

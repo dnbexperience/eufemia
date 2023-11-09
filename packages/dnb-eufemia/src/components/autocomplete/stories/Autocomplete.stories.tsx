@@ -54,10 +54,10 @@ export const SearchNumbers = () => {
 }
 
 const accounts = [
-  { selected_id: 1, content: 'A' },
-  { selected_id: 2, content: 'B' },
-  { selected_id: 3, content: 'C' },
-  { selected_id: 4, content: 'D' },
+  { selectedKey: 1, content: 'A' },
+  { selectedKey: 2, content: 'B' },
+  { selectedKey: 3, content: 'C' },
+  { selectedKey: 4, content: 'D' },
 ]
 export function UpdateEachOther() {
   const [selectedA, setSelectedA] = React.useState(-1)
@@ -67,11 +67,11 @@ export function UpdateEachOther() {
   const [selectedAccountsB, setSelectedAccountsB] =
     React.useState(accounts)
 
-  const indexA = selectedAccountsA.findIndex(({ selected_id }) => {
-    return selected_id === selectedA
+  const indexA = selectedAccountsA.findIndex(({ selectedKey }) => {
+    return selectedKey === selectedA
   })
-  const indexB = selectedAccountsB.findIndex(({ selected_id }) => {
-    return selected_id === selectedB
+  const indexB = selectedAccountsB.findIndex(({ selectedKey }) => {
+    return selectedKey === selectedB
   })
 
   console.log('selectedA', { selectedAccountsA, selectedA, indexA })
@@ -86,10 +86,10 @@ export function UpdateEachOther() {
         data={selectedAccountsA}
         value={indexA}
         on_change={({ data: account }) => {
-          setSelectedA(account?.selected_id)
+          setSelectedA(account?.selectedKey)
           setSelectedAccountsB(
-            accounts.filter(({ selected_id }) => {
-              return selected_id !== account?.selected_id
+            accounts.filter(({ selectedKey }) => {
+              return selectedKey !== account?.selectedKey
             })
           )
         }}
@@ -100,10 +100,10 @@ export function UpdateEachOther() {
         data={selectedAccountsB}
         value={indexB}
         on_change={({ data: account }) => {
-          setSelectedB(account?.selected_id)
+          setSelectedB(account?.selectedKey)
           setSelectedAccountsA(
-            accounts.filter(({ selected_id }) => {
-              return selected_id !== account?.selected_id
+            accounts.filter(({ selectedKey }) => {
+              return selectedKey !== account?.selectedKey
             })
           )
         }}
@@ -930,8 +930,14 @@ export const GlobalStatusExample = () => {
 }
 
 export const AsyncSearchExample = () => {
-  const dataA = [{ selected_id: 1, content: 'AAAAAA' }]
-  const dataB = [{ selected_id: 2, content: 'BBBBBB' }]
+  const dataA = [
+    { selectedKey: 'a', content: 'AAA' },
+    { selectedKey: 'c', content: 'CCC' },
+  ]
+  const dataB = [
+    { selectedKey: 'b', content: 'BBB' },
+    { selectedKey: 'e', content: 'EEE' },
+  ]
 
   const [onChangeValue, setOnChangeValue] = useState()
 
@@ -950,6 +956,8 @@ export const AsyncSearchExample = () => {
           newData = dataA
         } else if (value.toLowerCase() === 'b') {
           newData = dataB
+        } else {
+          newData = [...dataA, ...dataB]
         }
         // simulate server delay
         const timeout = setTimeout(() => {
@@ -962,7 +970,7 @@ export const AsyncSearchExample = () => {
         return () => clearTimeout(timeout)
       },
       { value },
-      250
+      150
     )
   }
   return (
@@ -982,12 +990,10 @@ export const AsyncSearchExample = () => {
           placeholder="Search ..."
           on_change={({ data }) => {
             console.log('on_change', data)
-            if (data) {
-              setOnChangeValue(data.content)
-            }
+            setOnChangeValue(data?.content)
           }}
         />
-        <P top>Value from on_change: {onChangeValue}</P>
+        <P top>Value from on_change: {onChangeValue || '–'}</P>
       </Space>
     </Section>
   )
