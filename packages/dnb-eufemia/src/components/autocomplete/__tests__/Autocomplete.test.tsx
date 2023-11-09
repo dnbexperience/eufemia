@@ -743,21 +743,22 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct options after filter and key interaction', () => {
-    let elem
-
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
 
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+
     // check "cc"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
     const content = (mockData[2] as DrawerListDataObject).content
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe((content as string[]).join(''))
+    expect(optionElements()[0].textContent).toBe(
+      (content as string[]).join('')
+    )
     expect(
       document.querySelectorAll(
         'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
@@ -770,16 +771,16 @@ describe('Autocomplete component', () => {
     // then simulate changes
     keydown(40) // down
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0].classList
-    ).toContain('dnb-drawer-list__option--focus')
+    expect(optionElements()[0].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
 
     // then simulate changes
     keydown(40) // down
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[1].classList
-    ).toContain('dnb-drawer-list__option--focus')
+    expect(optionElements()[1].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
     expect(
       document
         .querySelectorAll('li.dnb-drawer-list__option')[1]
@@ -791,7 +792,7 @@ describe('Autocomplete component', () => {
     )
 
     // check "cc bb"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc bb' },
     })
     expect(
@@ -802,16 +803,14 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelector('li.dnb-autocomplete__show-all').textContent
     ).toBe('Vis alt')
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
-    ).toBe(3)
+    expect(optionElements().length).toBe(3)
     expect(
       document
         .querySelectorAll('li.dnb-drawer-list__option')[1]
         .getAttribute('aria-selected')
     ).toBe('true')
 
-    elem = document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    let elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-selected')).toBe('true')
 
@@ -820,7 +819,7 @@ describe('Autocomplete component', () => {
     keydown(27) // esc
     toggle()
 
-    elem = document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-selected')).toBe('true')
   })
@@ -1367,54 +1366,44 @@ describe('Autocomplete component', () => {
       />
     )
 
-    // Search for a and select the option/result
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'a' },
-    })
-    fireEvent.click(
+    const inputElement = document.querySelector('input')
+    const firstElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    )
+
+    await userEvent.type(inputElement, 'a')
+
+    expect(on_change).toHaveBeenCalledTimes(0)
+    expect(inputElement.value).toBe('a')
+
+    fireEvent.click(firstElement())
 
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].data).toMatchObject(mockDataA[0])
-    expect(document.querySelector('input').value).toBe(
-      mockDataA[0].content
-    )
+    expect(inputElement.value).toBe(mockDataA[0].content)
 
-    // Search for b and select the option/result
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'b' },
-    })
+    await userEvent.type(inputElement, '{Backspace}b')
 
-    // because the key of the current data item has changed
     expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].data).toEqual(undefined)
+    expect(inputElement.value).toBe('b')
 
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    )
+    fireEvent.click(firstElement())
 
     expect(on_change).toHaveBeenCalledTimes(3)
     expect(on_change.mock.calls[2][0].data).toMatchObject(mockDataB[0])
-    expect(document.querySelector('input').value).toBe(
-      mockDataB[0].content
-    )
+    expect(inputElement.value).toBe(mockDataB[0].content)
 
-    // Search for a and select the option/result
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'a' },
-    })
+    await userEvent.type(inputElement, '{Backspace}a')
 
     expect(on_change).toHaveBeenCalledTimes(4)
+    expect(on_change.mock.calls[3][0].data).toEqual(undefined)
+    expect(inputElement.value).toBe('a')
 
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    )
+    fireEvent.click(firstElement())
 
     expect(on_change).toHaveBeenCalledTimes(5)
     expect(on_change.mock.calls[4][0].data).toMatchObject(mockDataA[0])
-    expect(document.querySelector('input').value).toBe(
-      mockDataA[0].content
-    )
+    expect(inputElement.value).toBe(mockDataA[0].content)
   })
 
   it('selects correct value and key', () => {
@@ -1528,13 +1517,6 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  const closeAndReopen = () => {
-    // Close and open
-    fireEvent.blur(document.querySelector('.dnb-input__input'))
-    fireEvent.focus(document.querySelector('.dnb-input__input'))
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
-  }
-
   it('should reset selected_item on input blur when no selection is made if "keep_value" and "keep_value_and_selection" is false', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
@@ -1556,54 +1538,50 @@ describe('Autocomplete component', () => {
       />
     )
 
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--selected')
+
     // open
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    fireEvent.mouseDown(inputElement)
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
-    ).toBe(3)
+    expect(optionElements().length).toBe(3)
 
-    fireEvent.focus(document.querySelector('.dnb-input__input'))
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
     // Make first item active
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     // This also opens the drawer-list
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
@@ -1617,30 +1595,19 @@ describe('Autocomplete component', () => {
     closeAndReopen()
 
     // Now we have a selected item
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('CC cc')
+    expect(selectedElement()).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
+    expect(selectedElement()).not.toBeInTheDocument()
 
     expect(on_show).toBeCalledTimes(2)
     expect(on_hide).toBeCalledTimes(2)
@@ -1672,54 +1639,50 @@ describe('Autocomplete component', () => {
       />
     )
 
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--selected')
+
     // open
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    fireEvent.mouseDown(inputElement)
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
-    ).toBe(3)
+    expect(optionElements().length).toBe(3)
 
-    fireEvent.focus(document.querySelector('.dnb-input__input'))
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
     // Make first item active
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     // This also opens the drawer-list
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
@@ -1733,30 +1696,19 @@ describe('Autocomplete component', () => {
     closeAndReopen()
 
     // Now we have a selected item
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('CC cc')
+    expect(selectedElement()).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
+    expect(selectedElement()).not.toBeInTheDocument()
 
     expect(on_show).toBeCalledTimes(2)
     expect(on_hide).toBeCalledTimes(2)
@@ -1788,54 +1740,50 @@ describe('Autocomplete component', () => {
       />
     )
 
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--selected')
+
     // open
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    fireEvent.mouseDown(inputElement)
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
-    ).toBe(3)
+    expect(optionElements().length).toBe(3)
 
-    fireEvent.focus(document.querySelector('.dnb-input__input'))
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
     // Make first item active
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     // This also opens the drawer-list
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
@@ -1849,30 +1797,19 @@ describe('Autocomplete component', () => {
     closeAndReopen()
 
     // Now we have a selected item
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('CC cc')
+    expect(selectedElement()).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect(selectedElement()).toBeInTheDocument()
 
     expect(on_show).toBeCalledTimes(2)
     expect(on_hide).toBeCalledTimes(2)
@@ -2735,4 +2672,11 @@ const toggle = () => {
       'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
     )
   )
+}
+
+const closeAndReopen = () => {
+  // Close and open
+  fireEvent.blur(document.querySelector('.dnb-input__input'))
+  fireEvent.focus(document.querySelector('.dnb-input__input'))
+  fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 }
