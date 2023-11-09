@@ -129,6 +129,10 @@ export interface AutocompleteProps
    */
   keep_value_and_selection?: boolean;
   /**
+   * Like `keep_value_and_selection` – but would not reset to the input value during input field blur.
+   */
+  keepSelection?: boolean;
+  /**
    * If set to `true`, a clear button is shown inside the input field. Defaults to `false`.
    */
   show_clear_button?: boolean;

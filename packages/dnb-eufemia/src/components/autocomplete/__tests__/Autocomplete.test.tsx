@@ -1819,6 +1819,84 @@ describe('Autocomplete component', () => {
     expect(on_type).toBeCalledTimes(4)
   })
 
+  it('should not reset selected_item on input blur if "keepSelection" true', () => {
+    const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+    const on_type = jest.fn()
+
+    render(
+      <Autocomplete
+        keepSelection
+        data={mockData}
+        {...mockProps}
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+      />
+    )
+
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--selected')
+
+    // open
+    fireEvent.mouseDown(inputElement)
+
+    expect(optionElements().length).toBe(3)
+
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
+      target: { value: 'cc' },
+    })
+
+    expect(optionElements().length).toBe(3)
+
+    // Make first item active
+    keydown(40) // down
+
+    expect(optionElements()[0].className).toContain('--focus')
+
+    fireEvent.click(optionElements()[0])
+
+    // reopen
+    keydown(40) // down
+
+    expect(focusElement()).toBeInTheDocument()
+    expect(selectedElement()).toBeInTheDocument()
+
+    fireEvent.change(inputElement, {
+      target: { value: '' },
+    })
+
+    expect(focusElement()).toBeInTheDocument()
+    expect(selectedElement()).toBeInTheDocument()
+
+    fireEvent.blur(inputElement)
+
+    closeAndReopen()
+
+    // This here is what we expect
+    expect(focusElement()).toBeInTheDocument()
+    expect(selectedElement()).toBeInTheDocument()
+
+    expect(on_show).toBeCalledTimes(2)
+    expect(on_hide).toBeCalledTimes(2)
+    expect(on_focus).toBeCalledTimes(2)
+    expect(on_blur).toBeCalledTimes(1)
+    expect(on_change).toBeCalledTimes(1)
+    expect(on_type).toBeCalledTimes(2)
+  })
+
   it('should have a button for screen readers to open options – regardless', () => {
     render(<Autocomplete {...mockProps} data={mockData} no_animation />)
 

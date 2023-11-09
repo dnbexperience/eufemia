@@ -102,6 +102,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    keepSelection: PropTypes.bool,
     show_clear_button: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -281,6 +282,7 @@ export default class Autocomplete extends React.PureComponent {
     label_sr_only: null,
     keep_value: null,
     keep_value_and_selection: null,
+    keepSelection: null,
     show_clear_button: null,
     status: null,
     status_state: 'error',
@@ -585,7 +587,8 @@ class AutocompleteInstance extends React.PureComponent {
     } else {
       if (
         !isTrue(this.props.keep_value) &&
-        !isTrue(this.props.keep_value_and_selection)
+        !isTrue(this.props.keep_value_and_selection) &&
+        !isTrue(this.props.keepSelection)
       ) {
         // this will not remove selected_item
         this.totalReset()
@@ -906,6 +909,7 @@ class AutocompleteInstance extends React.PureComponent {
       open_on_focus,
       keep_value,
       keep_value_and_selection,
+      keepSelection,
       prevent_selection,
       no_animation,
     } = this.props
@@ -932,7 +936,7 @@ class AutocompleteInstance extends React.PureComponent {
         })
       }
 
-      if (!isTrue(prevent_selection)) {
+      if (!isTrue(prevent_selection) && !isTrue(keepSelection)) {
         const existingValue = this.state.inputValue
         this.clearInputValue()
 
@@ -1732,6 +1736,7 @@ class AutocompleteInstance extends React.PureComponent {
       keep_open,
       keep_value, // eslint-disable-line
       keep_value_and_selection, // eslint-disable-line
+      keepSelection, // eslint-disable-line
       show_clear_button,
       prevent_close,
       no_animation,
