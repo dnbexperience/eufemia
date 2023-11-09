@@ -73,16 +73,11 @@ function PhoneNumber(props: Props) {
       ? value.match(/^(\+[^ ]+)? ?(.*)$/)
       : [undefined, '', '']
 
-  const getCountryData = ({ filter = null } = {}) => {
-    const lang = sharedContext.locale?.split('-')[0]
-    return countries
-      .filter(({ cdc }) => !filter || `+${cdc}` === filter)
-      .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
-      .map((country) => makeObject(country, lang))
-  }
-
   const singleCountryCodeData = useMemo(() => {
-    return getCountryData({ filter: countryCode })
+    return getCountryData({
+      lang: sharedContext.locale?.split('-')[0],
+      filter: countryCode,
+    })
   }, [])
 
   const handleCountryCodeChange = useCallback(
@@ -118,7 +113,9 @@ function PhoneNumber(props: Props) {
   const onFocusHandler = ({ dataList, updateData }) => {
     // because there can be more than one country with same cdc
     if (dataList.length < 10) {
-      updateData(getCountryData())
+      updateData(
+        getCountryData({ lang: sharedContext.locale?.split('-')[0] })
+      )
     }
     handleFocus()
   }
@@ -144,7 +141,6 @@ function PhoneNumber(props: Props) {
             countryCodeLabel ??
             sharedContext?.translation.Forms.countryCodeLabel
           }
-          mode="async"
           data={singleCountryCodeData}
           value={countryCode}
           disabled={disabled}
@@ -153,6 +149,7 @@ function PhoneNumber(props: Props) {
           on_change={handleCountryCodeChange}
           independent_width
           search_numbers
+          keep_value_and_selection
           no_animation={props.noAnimation}
           stretch={width === 'stretch'}
         />
@@ -212,6 +209,13 @@ function makeObject(country: CountryType, lang: string) {
     selected_value: `${country.iso} (+${country.cdc})`,
     content: `+${country.cdc} ${country.i18n[lang] ?? country.i18n.en}`,
   }
+}
+
+function getCountryData({ lang = 'en', filter = null } = {}) {
+  return countries
+    .filter(({ cdc }) => !filter || `+${cdc}` === filter)
+    .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
+    .map((country) => makeObject(country, lang))
 }
 
 PhoneNumber._supportsSpacingProps = true
