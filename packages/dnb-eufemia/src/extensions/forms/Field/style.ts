@@ -3,4 +3,3 @@
  *
  */
 
-import './style/index.scss'
