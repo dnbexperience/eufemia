@@ -126,10 +126,20 @@ describe('Field.PhoneNumber', () => {
     expect(codeElement.value).toEqual('NO (+47)')
 
     // open
+    fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
-      key: 'ArrowDown',
-      keyCode: 40,
+      key: 'Enter',
+      keyCode: 13,
     })
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+47 Norge')
+
+    await userEvent.type(codeElement, '{Backspace}')
+
+    expect(codeElement.value).toEqual('NO (+47')
 
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
