@@ -83,6 +83,25 @@ describe('Field.PhoneNumber', () => {
     expect(onBlur).toHaveBeenLastCalledWith('+47 99999999')
   })
 
+  it('should have selected correct item', async () => {
+    render(<PhoneNumber />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    expect(codeElement.value).toEqual('NO (+47)')
+
+    await userEvent.type(codeElement, ' ')
+
+    const items = document.querySelectorAll('li.dnb-drawer-list__option')
+    const item = Array.from(items).find((element) => {
+      return element.className.includes('selected')
+    })
+
+    expect(item.textContent).toBe('+47 Norge')
+  })
+
   it('should return correct value onChange event', async () => {
     const onChange = jest.fn()
     const onCountryCodeChange = jest.fn()
@@ -90,6 +109,7 @@ describe('Field.PhoneNumber', () => {
       <PhoneNumber
         onChange={onChange}
         onCountryCodeChange={onCountryCodeChange}
+        noAnimation
       />
     )
 
@@ -99,14 +119,31 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(phoneElement, '99999999')
     expect(onChange).toHaveBeenLastCalledWith('+47 99999999')
 
-    const codeElement = document.querySelector(
+    const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
     )
 
+    expect(codeElement.value).toEqual('NO (+47)')
+
+    // open
+    fireEvent.keyDown(codeElement, {
+      key: 'ArrowDown',
+      keyCode: 40,
+    })
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe('+47 Norge')
+
+    fireEvent.focus(codeElement)
     fireEvent.change(codeElement, { target: { value: '+41' } })
     fireEvent.click(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
     )
+
+    expect(codeElement.value).toEqual('CH (+41)')
+
     await wait(1)
 
     expect(onCountryCodeChange).toHaveBeenCalledTimes(1)
