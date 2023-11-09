@@ -67,7 +67,7 @@ export function pickFlexContainerProps<T extends Props>(
   return {
     ...defaults,
     ...Object.fromEntries(
-      Object.entries(props ?? {}).filter(
+      Object.entries(props ? props : {}).filter(
         ([key]) =>
           propNames.includes(key as keyof Props) &&
           !skip.includes(key as keyof Props)
@@ -137,8 +137,12 @@ function FlexContainer(props: Props) {
       // No line above/below headings
       !hasHeading
     ) {
-      const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
+      const spaceValueEnd = getSpaceValue(end, previousChild)
+      const spaceAboveLine = spaceValueEnd ? spaceValueEnd : spacing
+      const spaceValueStart = getSpaceValue(start, child)
+      startSpacing = (
+        spaceValueStart ? spaceValueStart : spacing
+      ) as SpaceType
 
       return (
         <React.Fragment key={`element-${i}`}>
@@ -156,10 +160,13 @@ function FlexContainer(props: Props) {
       startSpacing = 0
     } else {
       // Since top space of current and bottom space of previous component is the same
-      startSpacing =
-        getSpaceValue(start, child) ??
-        getSpaceValue(end, previousChild) ??
-        spacing
+      const spaceValueStart = getSpaceValue(start, child)
+      const spaceValueEnd = getSpaceValue(end, previousChild)
+      startSpacing = spaceValueStart
+        ? spaceValueStart
+        : spaceValueEnd
+        ? spaceValueEnd
+        : spacing
     }
 
     const space =

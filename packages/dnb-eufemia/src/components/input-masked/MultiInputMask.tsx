@@ -244,7 +244,7 @@ function MultiInputMaskInput<T extends string>({
         disabled={disabled}
         size={mask.length}
         mask={mask}
-        value={value ?? ''}
+        value={value ? value : ''}
         placeholderChar={placeholderCharacter}
         guide={true}
         showMask={true}

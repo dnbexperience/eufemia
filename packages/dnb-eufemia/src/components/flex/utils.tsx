@@ -27,12 +27,11 @@ export const getSpaceValue = (
     return
   }
 
-  return (
-    element.props?.[type] ??
-    (typeof element.props?.space === 'object'
-      ? element.props.space[type]
-      : undefined)
-  )
+  return element.props?.[type]
+    ? element.props?.[type]
+    : typeof element.props?.space === 'object'
+    ? element.props.space[type]
+    : undefined
 }
 
 export function isHeadingElement(

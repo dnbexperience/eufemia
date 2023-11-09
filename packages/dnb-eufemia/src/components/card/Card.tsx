@@ -24,11 +24,11 @@ function Card(props: Props) {
     return (
       <Flex.Container
         className={classnames('dnb-card', className)}
-        direction={direction ?? 'vertical'}
+        direction={direction ? direction : 'vertical'}
         divider={stack ? 'line' : 'space'}
         element="section"
         wrap={false}
-        spacing={spacing ?? (stack ? 'medium' : 'small')}
+        spacing={spacing ? spacing : stack ? 'medium' : 'small'}
         alignSelf={alignSelf}
         {...rest}
       >
