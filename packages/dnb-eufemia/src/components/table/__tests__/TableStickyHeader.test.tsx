@@ -202,7 +202,7 @@ describe('useStickyHeader', () => {
     )
   })
 
-  it('should check if .dnb-scroll-view has a vertical scrollbar and set shadown only, when css-position is used', () => {
+  it('should check if .dnb-scroll-view has a vertical scrollbar and set shadow only, when css-position is used', () => {
     const { rerender } = render(
       <Table.ScrollView style={{ maxHeight: '4rem' }}>
         <Table sticky="css-position" stickyOffset="1rem">

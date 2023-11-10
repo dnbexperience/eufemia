@@ -230,7 +230,7 @@ function Accordion({
   }, [context.flush_remembered_state, context.expanded_id])
 
   // Gets the initial expanded sate, to prevent the opening and closing of Accordion
-  // That happens when if we put this logic in a useEffect that runs after the inital expanded state is set
+  // That happens when if we put this logic in a useEffect that runs after the initial expanded state is set
   // Since useEffect runs after every render
   function getInitialExpandedState() {
     if (props.expanded_ssr || context?.expanded_ssr) {
@@ -424,7 +424,7 @@ function Accordion({
     </Context.Consumer>
   )
 }
-// TEMPORARY SOLUTION (defaultProps will be deprecated at one point). Needs to replacement with default prop parameters for example "({expaned: null})"
+// TEMPORARY SOLUTION (defaultProps will be deprecated at one point). Needs to replacement with default prop parameters for example "({expanded: null})"
 // Only solved this way to prevent tests from failing, for when expanded is undefined instead of null
 Accordion.defaultProps = accordionDefaultProps
 

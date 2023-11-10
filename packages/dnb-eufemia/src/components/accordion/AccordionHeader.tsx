@@ -188,7 +188,7 @@ export const AccordionHeader = ({
 }: AccordionHeaderProps) => {
   const props = { icon_size: icon_size_default, ...restOfProps }
 
-  const [isHoverring, setIsHovering] = useState<boolean>(false)
+  const [isHovering, setIsHovering] = useState<boolean>(false)
   const [hasClicked, setHasClicked] = useState<boolean>(false)
 
   const context = useContext(AccordionContext)
@@ -366,7 +366,7 @@ export const AccordionHeader = ({
     className: classnames(
       'dnb-accordion__header',
       icon_position && `dnb-accordion__header--icon-${icon_position}`,
-      isHoverring && hasClicked && 'dnb-accordion--hover',
+      isHovering && hasClicked && 'dnb-accordion--hover',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',
       no_animation && 'dnb-accordion__header--no-animation',

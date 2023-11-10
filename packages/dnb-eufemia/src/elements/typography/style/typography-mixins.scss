@@ -9,7 +9,7 @@
         // prettier-ignore
         $selectors: #{$selectors}, &;
         @at-root {
-          @include otherSelectos() {
+          @include otherSelectors() {
             // prettier-ignore
             $selectors: #{$selectors}, &;
 
@@ -56,7 +56,7 @@
   }
 }
 
-@mixin otherSelectos() {
+@mixin otherSelectors() {
   p,
   b,
   small,
