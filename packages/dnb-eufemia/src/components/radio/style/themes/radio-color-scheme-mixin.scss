@@ -8,45 +8,29 @@
     --radio-color-border-off: var(--color-sea-green);
     // disabled
     --radio-color-dot-on--disabled: var(--color-sea-green-30);
-    --radio-color-background-on--disabled: white;
     --radio-color-border-on--disabled: var(--color-sea-green-30);
-    --radio-color-background-off--disabled: lightgrey;
     --radio-color-border-off--disabled: var(--color-mint-green-50);
     // active
     --radio-color-dot-on--active: var(--color-mint-green-50);
-    --radio-color-background-on--active: white;
     --radio-color-border-on--active: var(--color-mint-green-50);
     --radio-color-background-off--active: var(--color-mint-green-50);
     --radio-color-border-off--active: transparent;
     // hover
     --radio-color-dot-on--hover: var(--color-mint-green-50);
-    --radio-color-background-on--hover: lightgrey;
-    --radio-color-border-on--hover: darkgrey;
     --radio-color-background-off--hover: var(--color-mint-green-50);
-    --radio-color-border-off--hover: darkgrey;
     // focus
-    --radio-color-dot-on--focus: var(--color-sea-green);
-    --radio-color-background-on--focus: lightgrey;
-    --radio-color-border-on--focus: darkgrey;
+    --radio-color-background-on--focus: var(--color-white);
     --radio-color-background-off--focus: var(--color-mint-green-50);
-    --radio-color-border-off--focus: darkgrey;
     // error
     --radio-color-dot-on--error: var(--color-fire-red);
-    --radio-color-background-on--error: white;
     --radio-color-border-on--error: var(--color-fire-red);
     --radio-color-background-off--error: var(--color-fire-red-8);
-    --radio-color-border-off--error: red;
     // error + hover
     --radio-color-dot-on--error-hover: var(--color-fire-red-8);
-    --radio-color-background-on--error-hover: white;
-    --radio-color-border-on--error-hover: darkred;
-    --radio-color-background-off--error-hover: white;
-    --radio-color-border-off--error-hover: darkred;
   }
 
   @if $theme == 'sbanken' {
     // normal state
-    // --focus-ring-width: 0.15rem;
     --radio-color-dot-on: var(--sb-color-violet-light);
     --radio-color-background-on: var(--sb-color-white);
     --radio-color-border-on: var(--sb-color-gray-dark-2-neutral);
@@ -54,45 +38,26 @@
     --radio-color-border-off: var(--sb-color-gray-dark-2-neutral);
     // disabled
     --radio-color-dot-on--disabled: var(--sb-color-gray-dark-2-neutral);
-    --radio-color-background-on--disabled: var(--sb-color-gray-light);
     --radio-color-border-on--disabled: var(--sb-color-gray-dark-2-neutral);
-    --radio-color-background-off--disabled: var(--sb-color-gray-light);
     --radio-color-border-off--disabled: var(
       --sb-color-gray-dark-2-neutral
     );
     // active
     --radio-color-dot-on--active: var(--sb-color-violet-light);
-    --radio-color-background-on--active: var(--sb-color-white);
     --radio-color-border-on--active: var(--sb-color-gray-dark-2-neutral);
     --radio-color-background-off--active: var(--sb-color-white);
     --radio-color-border-off--active: var(--sb-color-gray);
     // hover
     --radio-color-dot-on--hover: var(--sb-color-violet);
-    --radio-color-background-on--hover: var(--sb-color-white);
-    --radio-color-border-on--hover: var(--sb-color-violet);
     --radio-color-background-off--hover: var(--sb-color-white);
-    --radio-color-border-off--hover: var(--sb-color-violet);
     // focus
-    --radio-color-dot-on--focus: var(--sb-color-blue-dark);
     --radio-color-background-on--focus: var(--sb-color-blue-light-3);
-    --radio-color-border-on--focus: var(--sb-color-blue-dark);
     --radio-color-background-off--focus: var(--sb-color-blue-light-3);
-    --radio-color-border-off--focus: var(--sb-color-blue-dark);
     // error
     --radio-color-dot-on--error: var(--sb-color-magenta);
-    --radio-color-background-on--error: var(--sb-color-white);
     --radio-color-border-on--error: var(--sb-color-magenta);
     --radio-color-background-off--error: var(--sb-color-white);
-    --radio-color-border-off--error: var(--sb-color-magenta);
     // error + hover
     --radio-color-dot-on--error-hover: var(--sb-color-red);
-    --radio-color-background-on--error-hover: var(
-      --sb-color-magenta-light-2
-    );
-    --radio-color-border-on--error-hover: var(--sb-color-red);
-    --radio-color-background-off--error-hover: var(
-      --sb-color-magenta-light-2
-    );
-    --radio-color-border-off--error-hover: var(--sb-color-red);
   }
 }
