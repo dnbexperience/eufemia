@@ -183,4 +183,102 @@ describe('Field.Expiry', () => {
       expect(yearInput.selectionEnd).toBe(2)
     })
   })
+
+  describe('validation', () => {
+    it('should validate required', async () => {
+      render(<Field.Expiry />)
+
+      const input = document.querySelector('input')
+
+      const inputWrapper = document.querySelector('.dnb-input')
+      let formStatusText = document.querySelector('.dnb-form-status__text')
+
+      act(() => {
+        input.focus()
+      })
+
+      expect(inputWrapper.classList).not.toContain(
+        'dnb-input__status--error'
+      )
+      expect(formStatusText).not.toBeInTheDocument()
+
+      await userEvent.keyboard('1')
+
+      expect(inputWrapper.classList).not.toContain(
+        'dnb-input__status--error'
+      )
+      expect(formStatusText).not.toBeInTheDocument()
+
+      await userEvent.keyboard('{Backspace}')
+
+      formStatusText = document.querySelector('.dnb-form-status__text')
+
+      expect(inputWrapper.classList).toContain('dnb-input__status--error')
+      expect(formStatusText).toBeInTheDocument()
+      expect(formStatusText).toHaveTextContent('The value is required')
+
+      await userEvent.keyboard('12')
+
+      expect(inputWrapper.classList).not.toContain(
+        'dnb-input__status--error'
+      )
+      expect(formStatusText).not.toBeInTheDocument()
+    })
+
+    it('should validate month', async () => {
+      render(<Field.Expiry />)
+
+      const inputWrapper = document.querySelector('.dnb-input')
+      const input = document.querySelector('input')
+
+      let formStatusText = document.querySelector('.dnb-form-status__text')
+
+      act(() => {
+        input.focus()
+      })
+
+      expect(inputWrapper.classList).not.toContain(
+        'dnb-input__status--error'
+      )
+      expect(formStatusText).not.toBeInTheDocument()
+
+      await userEvent.keyboard('0')
+
+      expect(formStatusText).not.toBeInTheDocument()
+      expect(inputWrapper.classList).not.toContain(
+        'dnb-input__status--error'
+      )
+
+      await userEvent.keyboard('0')
+
+      formStatusText = document.querySelector('.dnb-form-status__text')
+
+      expect(inputWrapper.classList).toContain('dnb-input__status--error')
+      expect(formStatusText).toBeInTheDocument()
+      expect(formStatusText).toHaveTextContent('00 is not a valid month')
+
+      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}14')
+
+      formStatusText = document.querySelector('.dnb-form-status__text')
+
+      expect(inputWrapper.classList).toContain('dnb-input__status--error')
+      expect(formStatusText).toBeInTheDocument()
+      expect(formStatusText).toHaveTextContent('14 is not a valid month')
+
+      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}19')
+
+      formStatusText = document.querySelector('.dnb-form-status__text')
+
+      expect(inputWrapper.classList).toContain('dnb-input__status--error')
+      expect(formStatusText).toBeInTheDocument()
+      expect(formStatusText).toHaveTextContent('19 is not a valid month')
+
+      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}12')
+
+      expect(inputWrapper.classList).not.toContain(
+        'dnb-input__status--error'
+      )
+      expect(formStatusText).not.toBeInTheDocument()
+    })
+  })
 })
