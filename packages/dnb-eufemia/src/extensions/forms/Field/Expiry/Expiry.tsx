@@ -10,7 +10,7 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
 
-export type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
+type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
 export type ExpiryProps = FieldProps<string> & FieldHelpProps
 
