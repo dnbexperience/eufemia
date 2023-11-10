@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/components/Anchor'
 import Lead from '@dnb/eufemia/src/elements/Lead'
