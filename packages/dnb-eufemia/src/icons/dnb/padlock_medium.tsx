@@ -11,7 +11,7 @@ const padlock_medium = (props) => (
     {...props}
   >
     <path
-      stroke="#fefefe"
+      stroke="#000"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

@@ -83,11 +83,11 @@ export interface PaymentCardProps
    */
   product_code: string;
   /**
-   * Masked card number.
+   * <em>(required)</em> masked card number.
    */
   card_number: string;
   /**
-   * Use one of these: `active`, `not_active`, `blocked`, `expired`. Defaults to `active`.
+   * Use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**
