@@ -77,6 +77,10 @@ const productionPlugins = [
   ],
 ]
 
+if (global.bundler !== 'rollup') {
+  productionPlugins.push('babel-plugin-transform-next-use-client')
+}
+
 if (typeof process.env.BABEL_ENV !== 'undefined') {
   productionPlugins.push([
     'babel-plugin-search-and-replace',

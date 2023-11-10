@@ -189,6 +189,7 @@
     "babel-jest": "29.5.0",
     "babel-plugin-optimize-clsx": "2.6.2",
     "babel-plugin-search-and-replace": "1.1.1",
+    "babel-plugin-transform-next-use-client": "1.1.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "browserslist": "4.21.4",
     "camelcase": "6.2.0",
