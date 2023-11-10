@@ -67,7 +67,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   /**
    * Make the element focus-able by keyboard, if it is not a semantic element.
-   * This will enable keyboard access to the tooltip by adding focus posibility
+   * This will enable keyboard access to the tooltip by adding focus possibility
    */
   const handleSemanticElement = () => {
     try {

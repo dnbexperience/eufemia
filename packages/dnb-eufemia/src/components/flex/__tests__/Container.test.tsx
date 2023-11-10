@@ -86,12 +86,12 @@ describe('Flex.Container', () => {
 
     const element = document.querySelector('.dnb-flex-container')
     const children = element.children
-    const childredTextContents = Array.from(children).map((child) =>
+    const childrenTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')
     )
 
     expect(children.length).toEqual(3)
-    expect(childredTextContents).toEqual(['Flex 1', 'Flex 2', 'Flex 3'])
+    expect(childrenTextContents).toEqual(['Flex 1', 'Flex 2', 'Flex 3'])
   })
 
   it('should set flow direction of children', () => {

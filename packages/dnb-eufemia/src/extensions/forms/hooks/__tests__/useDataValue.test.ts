@@ -48,7 +48,7 @@ describe('useDataValue', () => {
   })
 
   describe('without using focus callbacks', () => {
-    it('should return the error as long as the value is invalud', () => {
+    it('should return the error as long as the value is invalid', () => {
       const { result } = renderHook(() =>
         useDataValue({
           value: 'foo',

@@ -261,7 +261,7 @@
   }
 
   // selected
-  // The code below makes the triangle on focus only, because of the focus ring, it can make sence
+  // The code below makes the triangle on focus only, because of the focus ring, it can make sense
   // &--bottom
   //   &__option.closest-to-top#{&}__option--focus
   //   ~ &__triangle::before,
@@ -283,7 +283,7 @@
     background-color: var(--color-emerald-green);
   }
 
-  // ajust the form-status to the inner border for 2px
+  // adjust the form-status to the inner border for 2px
   > .dnb-form-status {
     transform: translateY(-0.4375rem);
   }

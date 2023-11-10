@@ -18,7 +18,7 @@
     width: 100%; // to help #input stretch
   }
 
-  // for hoizontal direction
+  // for horizontal direction
   &:not(#{&}--vertical) {
     & > .dnb-form-row__content {
       align-items: baseline;

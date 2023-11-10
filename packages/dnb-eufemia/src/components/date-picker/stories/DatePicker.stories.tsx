@@ -402,11 +402,11 @@ const CustomDate = () => {
   // const [endDate, setEndDate] = React.useState(null)
   const [errorStatus, setErrorStatus] = React.useState('')
 
-  // const [count, incement] = React.useState(0)
+  // const [count, increment] = React.useState(0)
   //
   // React.useEffect(() => {
   //   const id = setInterval(() => {
-  //     incement(count + 1)
+  //     increment(count + 1)
   //   }, 1e3)
   //
   //   return () => clearInterval(id)
@@ -472,12 +472,12 @@ const CustomDate = () => {
 //   const [endDate, setEndDate] = React.useState(null)
 //   const [errorStatus, setErrorStatus] = React.useState(false)
 //
-//   const [count, incement] = React.useState(0)
+//   const [count, increment] = React.useState(0)
 //
 //   React.useEffect(() => {
 //     console.log('count', count)
 //     const id = setInterval(() => {
-//       incement(count + 1)
+//       increment(count + 1)
 //     }, 1e3)
 //
 //     return () => clearInterval(id)

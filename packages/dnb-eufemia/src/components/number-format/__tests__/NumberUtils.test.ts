@@ -273,7 +273,7 @@ describe('Currency format with dirty number', () => {
     ).toBe('-1 234 567,89 kr')
   })
 
-  it('return corret aria', () => {
+  it('return correct aria', () => {
     const number = -123456789.56
     expect(
       format(number, { currency: true, returnAria: true })
@@ -287,7 +287,7 @@ describe('Currency format with dirty number', () => {
     })
   })
 
-  it('return corret aria with "clean_copy_value"', () => {
+  it('return correct aria with "clean_copy_value"', () => {
     const number = -123456789.56
     expect(
       format(number, {

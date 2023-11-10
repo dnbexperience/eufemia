@@ -415,7 +415,7 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   // this gives us the possibility to quickly search for an item
-  // by simply pressing any alfabetic key
+  // by simply pressing any alphabetical key
   findItemByValue(value) {
     if (isTrue(this.props.skip_keysearch)) {
       return
@@ -529,7 +529,7 @@ export default class DrawerListProvider extends React.PureComponent {
   ) => {
     this.setState({ active_item }, () => {
       if (parseFloat(active_item) === -1) {
-        // Select the first item to NVDA is more easily navigateable,
+        // Select the first item to NVDA is more easily navigatable,
         // without using the alt + arrow key
         // else we set the focus on the "ul" element
         if (document.activeElement?.tagName !== 'INPUT') {

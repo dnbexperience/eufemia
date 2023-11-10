@@ -18,15 +18,15 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inpuptElement)
+    fireEvent.submit(inputElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
 
-    fireEvent.change(inpuptElement, { target: { value: 'New Value' } })
+    fireEvent.change(inputElement, { target: { value: 'New Value' } })
     fireEvent.click(buttonElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -46,10 +46,10 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inpuptElement)
+    fireEvent.submit(inputElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
@@ -74,10 +74,10 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inpuptElement)
+    fireEvent.submit(inputElement)
 
     expect(preventDefault).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -192,12 +192,12 @@ describe('Form.Handler', () => {
     )
 
     const formElement = document.querySelector('form')
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
     jest.spyOn(formElement, 'reset').mockImplementationOnce(reset)
 
-    fireEvent.change(inpuptElement, { target: { value: 'New Value' } })
+    fireEvent.change(inputElement, { target: { value: 'New Value' } })
     fireEvent.click(submitElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)

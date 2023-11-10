@@ -96,7 +96,7 @@ describe('DataContext.Provider', () => {
     expect(onChange).toHaveBeenCalledWith({ fooBar: 'Second Value' })
   })
 
-  it('should work without any data provided, using an empty object as default when pointing to an objec subkey', () => {
+  it('should work without any data provided, using an empty object as default when pointing to an object subkey', () => {
     const onChange = jest.fn()
 
     render(

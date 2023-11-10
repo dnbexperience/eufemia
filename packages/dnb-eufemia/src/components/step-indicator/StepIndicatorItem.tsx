@@ -217,7 +217,7 @@ function StepIndicatorItem({
     currentItemNum <= activeStep ||
     listOfReachedSteps.includes(currentItemNum)
 
-  const isNavigateable = mode === 'strict' || mode === 'loose'
+  const isNavigatable = mode === 'strict' || mode === 'loose'
 
   let isInactive =
     inactive || (mode === 'strict' && !hasPassedAndIsCurrent)
@@ -271,7 +271,7 @@ function StepIndicatorItem({
     buttonParams.disabled = true
   }
 
-  if (isNavigateable && !isInactive) {
+  if (isNavigatable && !isInactive) {
     buttonParams.onClick = ({ event }: never) =>
       onClickHandler({
         event,
