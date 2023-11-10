@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { makeUniqueId } from '../../../../shared/component-helper'
+import { makeUniqueId, warn } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -12,7 +12,7 @@ import { HelpButton } from '../../../../components'
 
 export type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
-type ExpiryProps = FieldProps<ExpiryValue, undefined> & FieldHelpProps
+export type ExpiryProps = FieldProps<string> & FieldHelpProps
 
 function Expiry(props: ExpiryProps) {
   const sharedContext = useContext(SharedContext)
@@ -28,7 +28,7 @@ function Expiry(props: ExpiryProps) {
     warning,
     help,
     disabled,
-    value,
+    value = '',
     labelDescription,
     labelSecondary,
     layout,
@@ -36,11 +36,16 @@ function Expiry(props: ExpiryProps) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(props)
+  } = useDataValue({ ...props, emptyValue: '' })
 
   const id = useRef(propsId || makeUniqueId()).current
 
   const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
+
+  const expiry: ExpiryValue = {
+    month: value.substring(0, 2) ?? '',
+    year: value.substring(2, 4) ?? '',
+  }
 
   return (
     <FieldBlock
@@ -56,12 +61,12 @@ function Expiry(props: ExpiryProps) {
         id={`${id}__input`}
         label={label}
         labelDirection={layout}
-        values={value}
+        values={expiry}
         status={status}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
         required={required}
-        onChange={handleChange}
+        onChange={(expiry) => handleChange(expiryToString(expiry))}
         onBlur={handleBlur}
         onFocus={handleFocus}
         delimiter="/"
@@ -87,6 +92,10 @@ function Expiry(props: ExpiryProps) {
       />
     </FieldBlock>
   )
+
+  function expiryToString(values: ExpiryValue) {
+    return Object.values(values).join('')
+  }
 }
 
 Expiry._supportsEufemiaSpacingProps = true
