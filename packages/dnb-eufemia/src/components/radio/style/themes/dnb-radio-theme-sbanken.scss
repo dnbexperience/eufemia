@@ -1,0 +1,10 @@
+/*
+* Radio theme for Sbanken
+*
+*/
+
+@import './radio-color-scheme-mixin.scss';
+
+.dnb-radio {
+  @include radioColorScheme('sbanken');
+}

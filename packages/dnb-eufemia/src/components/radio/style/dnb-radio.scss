@@ -4,6 +4,7 @@
 */
 
 @import '../../../style/core/utilities.scss';
+@import './themes/radio-color-scheme-mixin.scss';
 
 :root {
   --radio-width--medium: 1.5rem;
@@ -14,6 +15,8 @@
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
   --radio-border-width: 0.125rem;
+
+  @include radioColorScheme();
 
   display: inline-flex;
   flex-direction: column;
@@ -73,6 +76,10 @@
     width: calc(var(--radio-width--medium) - 0.75rem);
     height: calc(var(--radio-height--medium) - 0.75rem);
     border-radius: 50%;
+    background-color: var(--radio-color-dot-on);
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
 
     .dnb-radio--large & {
       width: calc(var(--radio-width--large) - 0.875rem);
@@ -192,6 +199,11 @@
     margin-bottom: 1rem;
   }
 
+  // adjust the form-status to the inner border for 3px
+  > .dnb-form-status {
+    transform: translateY(0.25rem); /* 4/16 */
+  }
+
   &-group {
     --radio-group-margin-bottom: 0.5rem;
     --radio-group-margin-right: 1rem;
@@ -248,4 +260,169 @@
   .dnb-skeleton &__input[disabled] ~ &__button {
     border-color: var(--skeleton-color);
   }
+
+  /** Color scheme **/
+  /* stylelint-disable no-descending-specificity */
+  // We prioritise categorisation+readbility over specificity here
+
+  /** Normal state **/
+
+  // On
+  &__input:checked ~ &__button,
+  &__input[data-checked='true'] ~ &__button {
+    background-color: var(--radio-color-background-on);
+    border-color: var(--radio-color-border-on);
+  }
+  &__input:checked ~ &__dot,
+  &__input[data-checked='true'] ~ &__dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  // Off
+  &__input:not(:checked):not([data-checked='true']) ~ &__dot {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  &__input:not(:checked):not([data-checked='true']) ~ &__button {
+    background-color: var(--radio-color-background-off);
+    border-color: var(--radio-color-border-off);
+  }
+
+  /** Disabled state **/
+
+  // On
+  &__input[disabled]:checked ~ &__button,
+  &__input[disabled][data-checked='true'] ~ &__button {
+    border-color: var(--radio-color-border-on--disabled);
+  }
+
+  &__input[disabled]:checked ~ &__dot,
+  &__input[disabled][data-checked='true'] ~ &__dot {
+    background-color: var(--radio-color-dot-on--disabled);
+  }
+
+  // Off
+  &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
+    border-color: var(--radio-color-border-off--disabled);
+  }
+
+  /** Active state **/
+
+  // On
+  &__input:not([disabled]):checked:active ~ &__button,
+  &__input:not([disabled])[data-checked='true']:active ~ &__button {
+    border-color: var(--radio-color-border-on--active);
+  }
+
+  &__input:not([disabled]):checked:active ~ &__dot,
+  &__input:not([disabled])[data-checked='true']:active ~ &__dot {
+    background-color: var(--radio-color-dot-on--active);
+  }
+
+  // Off
+  &__input:not([disabled]):not(:checked):not([data-checked='true']):active
+    ~ &__button {
+    background-color: var(--radio-color-background-off--active);
+    border-color: var(--radio-color-border-off--active);
+  }
+
+  /** Hover state **/
+
+  // On
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__dot,
+  &__input:not([disabled]):not(:focus)[data-checked='true']:hover
+    ~ &__dot {
+    background-color: var(--radio-color-dot-on--hover);
+  }
+
+  // Off
+  &__input:not([disabled]):not(:focus):not(:checked):not(
+      [data-checked='true']
+    ):hover
+    ~ &__button {
+    background-color: var(--radio-color-background-off--hover);
+  }
+
+  /** Focus state **/
+
+  // General
+  &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      border: none;
+    }
+  }
+  &__input:not([disabled]):focus ~ &__focus,
+  &__input:not([disabled]):active ~ &__focus {
+    display: block;
+  }
+
+  // On
+  &__input:not([disabled]):not(:active):not(:hover):checked:focus
+    ~ &__button,
+  &__input:not([disabled]):not(:active):not(
+      :hover
+    )[data-checked='true']:focus
+    ~ &__button {
+    background-color: var(--radio-color-background-on--focus);
+  }
+
+  // Off
+  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
+    ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--radio-color-background-off--focus);
+    }
+  }
+
+  /** Error state **/
+
+  // General
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button {
+    border: none;
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__focus {
+    display: block;
+    @include fakeBorder(
+      var(--radio-color-border-on--error),
+      var(--focus-ring-width)
+    );
+  }
+
+  // On
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__dot,
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(
+      :hover
+    )[data-checked='true']
+    ~ &__dot {
+    background-color: var(--radio-color-dot-on--error);
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    ~ &__dot,
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(
+      :active
+    )[data-checked='true']:hover
+    ~ &__dot {
+    background-color: var(--radio-color-dot-on--error-hover);
+  }
+
+  // Off
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:checked):not(
+      [data-checked='true']
+    ):hover
+    ~ &__button {
+    background-color: var(--radio-color-background-off--error);
+  }
+
+  /* stylelint-enable no-descending-specificity */
 }
