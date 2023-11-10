@@ -3,12 +3,14 @@ import React, {
   useRef,
   useMemo,
   useCallback,
-  useState,
+  useReducer,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { JSONSchema7 } from 'json-schema'
+import { ValidateFunction } from 'ajv'
 import ajv, { ajvErrorsToFormErrors } from '../../utils/ajv'
 import { FormError } from '../../types'
+import { useMountEffect, useUpdateEffect } from '../../hooks'
 import Context, { ContextState } from '../Context'
 
 /**
@@ -63,6 +65,7 @@ export default function Provider<Data extends JsonObject>({
   children,
   ...rest
 }: Props<Data>) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
     console.error(
@@ -71,7 +74,16 @@ export default function Provider<Data extends JsonObject>({
   }
 
   // State
-  const wasMounted = useRef(false)
+  const mountedFieldPathsRef = useRef<string[]>([])
+  // - Errors from provider validation (the whole data set)
+  const errorsRef = useRef<Record<string, FormError> | undefined>()
+  const showAllErrorsRef = useRef<boolean>(false)
+  const setShowAllErrors = useCallback((showAllErrors: boolean) => {
+    showAllErrorsRef.current = showAllErrors
+  }, [])
+  // - Errors reported by fields, based on their direct validation rules
+  const pathsWithErrorRef = useRef<string[]>([])
+  // - Data
   const initialData = useMemo(() => {
     if (sessionStorageId && typeof window !== 'undefined') {
       const sessionDataJSON =
@@ -81,65 +93,49 @@ export default function Provider<Data extends JsonObject>({
       }
     }
     return data ?? defaultData
-  }, [data, defaultData, sessionStorageId])
-  const ajvSchemaValidator = useMemo(
-    () => (schema ? ajv.compile(schema) : undefined),
-    [schema]
-  )
-  const [internalData, setInternalData] =
-    useState<Partial<Data>>(initialData)
-  const mountedFieldPathsRef = useRef<string[]>([])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
+  }, [])
+  const internalDataRef = useRef<Partial<Data>>(initialData)
+  // - Validator
+  const ajvSchemaValidatorRef = useRef<ValidateFunction>()
 
-  // Errors from provider validation (the whole data set)
-  const errorsRef = useRef<Record<string, FormError>>({})
-  const [showAllErrors, setShowAllErrors] = useState<boolean>(false)
-  // Errors reported by fields, based on their direct validation rules
-  const pathsWithErrorRef = useRef<string[]>([])
+  const validateData = useCallback(() => {
+    if (!ajvSchemaValidatorRef.current) {
+      // No schema-based validator. Assume data is valid.
+      return
+    }
 
+    if (!ajvSchemaValidatorRef.current(internalDataRef.current)) {
+      // Errors found
+      const errors = ajvErrorsToFormErrors(
+        ajvSchemaValidatorRef.current.errors
+      )
+      errorsRef.current = errors
+    } else {
+      errorsRef.current = undefined
+    }
+    forceUpdate()
+  }, [])
+
+  useEffect(() => {
+    if (!schema) {
+      return
+    }
+    ajvSchemaValidatorRef.current = ajv.compile(schema)
+    validateData()
+  }, [schema, validateData])
+
+  // Error handling
   const hasErrors = useCallback(
     () =>
       Boolean(
         mountedFieldPathsRef.current.find(
           (mountedFieldPath) =>
-            errorsRef.current[mountedFieldPath] !== undefined ||
+            errorsRef.current?.[mountedFieldPath] !== undefined ||
             pathsWithErrorRef.current.includes(mountedFieldPath)
         )
       ),
     []
-  )
-
-  useEffect(() => {
-    if (!wasMounted.current) {
-      wasMounted.current = true
-      return
-    }
-    // When receiving the initial data, or receiving updated data by props, update the internal data (controlled state)
-    setInternalData(data)
-  }, [data])
-
-  const validateBySchema = useCallback(
-    (data: Partial<Data>): Record<string, Error> | undefined => {
-      if (!ajvSchemaValidator) {
-        // No schema-based validator. Assume data is valid.
-        return
-      }
-
-      if (!ajvSchemaValidator(data)) {
-        // Errors found
-        const errors = ajvErrorsToFormErrors(ajvSchemaValidator.errors)
-        return errors
-      } else {
-        return
-      }
-    },
-    [ajvSchemaValidator]
-  )
-
-  const validateBySchemaAndUpdateState = useCallback(
-    (data: Partial<Data>) => {
-      errorsRef.current = validateBySchema(data) ?? {}
-    },
-    [validateBySchema]
   )
 
   const setPathWithError = useCallback(
@@ -164,7 +160,8 @@ export default function Provider<Data extends JsonObject>({
           ? // When setting the root of the data, the whole data set should be the new value
             value
           : // For sub paths, use the the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
-            internalData ?? (path.match(isArrayJsonPointer) ? [] : {})
+            internalDataRef.current ??
+              (path.match(isArrayJsonPointer) ? [] : {})
       )
       if (path !== '/') {
         pointer.set(newData as Data, path, value)
@@ -179,13 +176,13 @@ export default function Provider<Data extends JsonObject>({
         )
       }
 
-      validateBySchemaAndUpdateState(newData)
+      internalDataRef.current = newData
 
-      setInternalData(newData)
-
-      setShowAllErrors(false)
+      validateData()
+      showAllErrorsRef.current = false
+      forceUpdate()
     },
-    [internalData, onChange, onPathChange, validateBySchemaAndUpdateState]
+    [onChange, onPathChange, validateData, sessionStorageId]
   )
 
   // Mounted fields
@@ -209,7 +206,7 @@ export default function Provider<Data extends JsonObject>({
   const handleSubmit = useCallback<ContextState['handleSubmit']>(
     ({ formElement = null } = {}) => {
       if (!hasErrors()) {
-        onSubmit?.(internalData as Data)
+        onSubmit?.(internalDataRef.current as Data)
 
         formElement?.reset?.()
 
@@ -223,32 +220,41 @@ export default function Provider<Data extends JsonObject>({
           }
         }
       } else {
-        setShowAllErrors(true)
+        showAllErrorsRef.current = true
         onSubmitRequest?.()
       }
-      return internalData
+      return internalDataRef.current
     },
-    [internalData, scrollTopOnSubmit, hasErrors, onSubmit, onSubmitRequest]
+    [
+      scrollTopOnSubmit,
+      hasErrors,
+      onSubmit,
+      onSubmitRequest,
+      sessionStorageId,
+    ]
   )
 
-  useEffect(() => {
-    // Mount procedure
-    if (initialData) {
-      // Validate the initial data to know if the user can submit, and to show errors if inputs are requested to with props
-      validateBySchemaAndUpdateState(initialData)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
-  }, [])
+  useMountEffect(() => {
+    // Validate the initial data
+    validateData()
+  })
+
+  useUpdateEffect(() => {
+    // Update and validate changes to the external data set
+    internalDataRef.current = data
+    validateData()
+    forceUpdate()
+  }, [data, validateData, forceUpdate])
 
   return (
     <Context.Provider
       value={{
-        data: internalData,
+        data: internalDataRef.current,
         ...rest,
         handlePathChange,
         handleSubmit,
         errors: errorsRef.current,
-        showAllErrors,
+        showAllErrors: showAllErrorsRef.current,
         setShowAllErrors,
         mountedFieldPaths: mountedFieldPathsRef.current,
         handleMountField,

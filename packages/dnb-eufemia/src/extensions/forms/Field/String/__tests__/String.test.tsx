@@ -254,7 +254,7 @@ describe('Field.String', () => {
       })
 
       describe('with validateInitially', () => {
-        it('should show error message initially', () => {
+        it('should show error message initially', async () => {
           render(
             <Field.String
               value="abc"
@@ -262,12 +262,14 @@ describe('Field.String', () => {
               validateInitially
             />
           )
-          expect(screen.getByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.getByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
       describe('with validateUnchanged', () => {
-        it('should show error message when blurring without any changes', () => {
+        it('should show error message when blurring without any changes', async () => {
           render(
             <Field.String
               value="abc"
@@ -281,7 +283,9 @@ describe('Field.String', () => {
           act(() => {
             input.blur()
           })
-          expect(screen.getByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.getByRole('alert')).toBeInTheDocument()
+          })
         })
       })
     })

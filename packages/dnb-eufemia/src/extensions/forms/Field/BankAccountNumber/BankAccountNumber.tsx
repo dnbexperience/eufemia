@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import StringComponent, { Props as StringComponentProps } from '../String'
 import SharedContext from '../../../../shared/Context'
 
@@ -9,7 +9,50 @@ export type Props = StringComponentProps & {
 
 function BankAccountNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
   const { validate = true, omitMask } = props
+
+  const errorMessages = useMemo(
+    () => ({
+      required: tr.bankAccountNumberErrorRequired,
+      pattern: tr.bankAccountNumberErrorPattern,
+      ...props.errorMessages,
+    }),
+    [tr, props.errorMessages]
+  )
+  const mask = useMemo(
+    () =>
+      omitMask
+        ? [
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+          ]
+        : [
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+          ],
+    [omitMask]
+  )
 
   const stringComponentProps: Props = {
     ...props,
@@ -18,30 +61,8 @@ function BankAccountNumber(props: Props) {
     label:
       props.label ??
       sharedContext?.translation.Forms.bankAccountNumberLabel,
-    errorMessages: {
-      required:
-        sharedContext?.translation.Forms.bankAccountNumberErrorRequired,
-      pattern:
-        sharedContext?.translation.Forms.bankAccountNumberErrorPattern,
-      ...props.errorMessages,
-    },
-    mask: omitMask
-      ? [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
-      : [
-          /\d/,
-          /\d/,
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          /\d/,
-          /\d/,
-          /\d/,
-        ],
+    errorMessages,
+    mask,
     width: props.width ?? 'medium',
   }
 
