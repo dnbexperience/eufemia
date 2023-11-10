@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Expiry
         onChange={({ month, year }) =>
           console.log('onChange', { month, year })
@@ -16,7 +16,7 @@ export const Empty = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Expiry
         label="Label text"
         onChange={({ month, year }) =>
@@ -29,7 +29,7 @@ export const Label = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Expiry
         label="Label text"
         help={{
@@ -47,7 +47,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Expiry
         value={{ month: '08', year: '26' }}
         label="Label text"
@@ -62,7 +62,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Expiry
         value={{ month: '00', year: '26' }}
         label="Label text"
@@ -77,7 +77,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Expiry
         value={{ month: '08', year: '26' }}
         label="Label text"
