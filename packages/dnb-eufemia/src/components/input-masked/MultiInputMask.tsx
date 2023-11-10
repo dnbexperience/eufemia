@@ -11,11 +11,11 @@ import { useMultiInputValue } from './hooks/useMultiInputValues'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
-   * Defines the id for the input. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` paramaters.
+   * Defines the id for the input. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.
    */
   id: T
   /**
-   * Label used by the input. The label itself is hidden, but required to uphold accesability standards for screen readers.
+   * Label used by the input. The label itself is hidden, but required to uphold accessibility standards for screen readers.
    */
   label: React.ReactNode
   /**
@@ -51,7 +51,7 @@ export type MultiInputMaskProps<T extends string> = {
    */
   values?: MultiInputMaskValue<T>
   /**
-   * Defines the delimiter used to seperate the inputs inside the component.
+   * Defines the delimiter used to separate the inputs inside the component.
    */
   delimiter?: string
   /**
@@ -162,7 +162,7 @@ function MultiInputMask<T extends string>({
     firstInput.setSelectionRange(0, 0)
   }
 
-  // Utilites
+  // Utilities
   function getInputRef(ref: any) {
     const inputRef = ref?.inputRef
 
@@ -181,7 +181,7 @@ function MultiInputMask<T extends string>({
     }
 
     // If there are multiple types of masks used, then map the maps to an object based on input ids
-    // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handeled or not
+    // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handled or not
     return inputs.reduce(
       (keys, { id, mask }) => {
         keys[`${id}__input`] = mask
