@@ -285,6 +285,17 @@ describe('babel build', () => {
       )
       expect(content).not.toContain('??')
     }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/components/accordion/Accordion.js`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain('use client')
+    }
   })
 })
 

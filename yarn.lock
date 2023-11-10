@@ -3055,6 +3055,7 @@ __metadata:
     babel-jest: "npm:29.5.0"
     babel-plugin-optimize-clsx: "npm:2.6.2"
     babel-plugin-search-and-replace: "npm:1.1.1"
+    babel-plugin-transform-next-use-client: "npm:1.1.1"
     babel-plugin-transform-react-remove-prop-types: "npm:0.4.24"
     browserslist: "npm:4.21.4"
     camelcase: "npm:6.2.0"
@@ -9872,6 +9873,15 @@ __metadata:
   version: 7.0.0-beta.0
   resolution: "babel-plugin-syntax-trailing-function-commas@npm:7.0.0-beta.0"
   checksum: e37509156ca945dd9e4b82c66dd74f2d842ad917bd280cb5aa67960942300cd065eeac476d2514bdcdedec071277a358f6d517c31d9f9244d9bbc3619a8ecf8a
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-next-use-client@npm:1.1.1":
+  version: 1.1.1
+  resolution: "babel-plugin-transform-next-use-client@npm:1.1.1"
+  peerDependencies:
+    "@babel/core": ^7.22.5
+  checksum: 9d8b00ee5226190da3bf663459dda619032194fae46a702b37834c30445c47e2ccdb52f19318070b9d709968e68ef299fed38eb18e9ecef0bb3a954ce990e221
   languageName: node
   linkType: hard
 
