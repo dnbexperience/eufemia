@@ -38,14 +38,20 @@ function Expiry(props: ExpiryProps) {
     handleChange,
   } = useDataValue({ ...props, emptyValue: '' })
 
-  const id = useRef(propsId || makeUniqueId()).current
-
-  const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
+  if (value.length > 4) {
+    warn(
+      'Expiry field value length should not exceed four, Only the first four characters will be used!'
+    )
+  }
 
   const expiry: ExpiryValue = {
     month: value.substring(0, 2) ?? '',
     year: value.substring(2, 4) ?? '',
   }
+
+  const id = useRef(propsId || makeUniqueId()).current
+
+  const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
 
   return (
     <FieldBlock
