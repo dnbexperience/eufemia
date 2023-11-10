@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react'
 import { makeUniqueId, warn } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps, FormError } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useDataValue } from '../../hooks'
 import classnames from 'classnames'
@@ -36,7 +36,10 @@ function Expiry(props: ExpiryProps) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue({ ...props, emptyValue: '' })
+  } = useDataValue({
+    ...props,
+    validator: validateExpiry,
+  })
 
   if (value.length > 4) {
     warn(
@@ -98,6 +101,21 @@ function Expiry(props: ExpiryProps) {
       />
     </FieldBlock>
   )
+
+  function validateExpiry(expiry: string) {
+    if (!expiry) {
+      return new FormError('The value is required', {
+        validationRule: 'required',
+      })
+    }
+
+    const month = expiry.substring(0, 2)
+    const isValidMonth = /^(0[1-9]|1[0-2])$/g.test(month)
+
+    if (month.length === 2 && !isValidMonth) {
+      return new FormError(`${month} is not a valid month`)
+    }
+  }
 
   function expiryToString(values: ExpiryValue) {
     return Object.values(values).join('')
