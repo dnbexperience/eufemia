@@ -47,7 +47,6 @@ function PhoneNumber(props: Props) {
     className,
     countryCodeFieldClassName,
     numberFieldClassName,
-    layout = 'vertical',
     countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
@@ -61,6 +60,10 @@ function PhoneNumber(props: Props) {
     disabled,
     width = 'large',
     help,
+    required,
+    validateInitially,
+    continuousValidation,
+    validateUnchanged,
     handleFocus,
     handleBlur,
     handleChange,
@@ -136,7 +139,7 @@ function PhoneNumber(props: Props) {
             countryCodeFieldClassName
           )}
           placeholder={countryCodePlaceholder ?? ' '}
-          label_direction={layout}
+          label_direction="vertical"
           label={
             countryCodeLabel ??
             sharedContext?.translation.Forms.countryCodeLabel
@@ -189,6 +192,10 @@ function PhoneNumber(props: Props) {
           disabled={disabled}
           width="stretch"
           help={help}
+          required={required}
+          validateInitially={validateInitially}
+          continuousValidation={continuousValidation}
+          validateUnchanged={validateUnchanged}
         />
       </Flex.Horizontal>
     </FieldBlock>

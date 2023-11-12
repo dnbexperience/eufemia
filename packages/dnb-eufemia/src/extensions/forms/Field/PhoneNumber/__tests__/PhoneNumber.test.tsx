@@ -178,4 +178,24 @@ describe('Field.PhoneNumber', () => {
       'dnb-forms-field-block--width-large',
     ])
   })
+
+  it('should require one number', async () => {
+    render(<PhoneNumber required />)
+
+    const inputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(inputElement, '1{Backspace}')
+    fireEvent.blur(inputElement)
+
+    expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+
+    await userEvent.type(inputElement, '1')
+    fireEvent.blur(inputElement)
+
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
+  })
 })
