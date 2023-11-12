@@ -20,6 +20,11 @@ export type Props = FieldHelpProps &
     width?: 'large' | 'stretch'
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
+  } & {
+    /**
+     * For internal testing purposes
+     */
+    noAnimation?: boolean
   }
 
 function PhoneNumber(props: Props) {
@@ -68,18 +73,17 @@ function PhoneNumber(props: Props) {
       ? value.match(/^(\+[^ ]+)? ?(.*)$/)
       : [undefined, '', '']
 
-  const lang = sharedContext.locale?.split('-')[0]
-  const countryCodeData = useMemo(
-    () =>
-      countries.map((country) => ({
-        selectedKey: `+${country.cdc}`,
-        selected_value: `${country.iso} (+${country.cdc})`,
-        content: `+${country.cdc} ${
-          country.i18n[lang] ?? country.i18n.en
-        }`,
-      })),
-    [sharedContext.locale]
-  )
+  const getCountryData = ({ filter = null } = {}) => {
+    const lang = sharedContext.locale?.split('-')[0]
+    return countries
+      .filter(({ cdc }) => !filter || `+${cdc}` === filter)
+      .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
+      .map((country) => makeObject(country, lang))
+  }
+
+  const singleCountryCodeData = useMemo(() => {
+    return getCountryData({ filter: countryCode })
+  }, [])
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
@@ -111,6 +115,14 @@ function PhoneNumber(props: Props) {
     [countryCode, emptyValue, handleChange, onNumberChange]
   )
 
+  const onFocusHandler = ({ dataList, updateData }) => {
+    // because there can be more than one country with same cdc
+    if (dataList.length < 10) {
+      updateData(getCountryData())
+    }
+    handleFocus()
+  }
+
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-phone-number', className)}
@@ -132,14 +144,16 @@ function PhoneNumber(props: Props) {
             countryCodeLabel ??
             sharedContext?.translation.Forms.countryCodeLabel
           }
-          data={countryCodeData}
+          mode="async"
+          data={singleCountryCodeData}
           value={countryCode}
           disabled={disabled}
-          on_focus={handleFocus}
+          on_focus={onFocusHandler}
           on_blur={handleBlur}
           on_change={handleCountryCodeChange}
           independent_width
           search_numbers
+          no_animation={props.noAnimation}
           stretch={width === 'stretch'}
         />
 
@@ -182,6 +196,22 @@ function PhoneNumber(props: Props) {
       </Flex.Horizontal>
     </FieldBlock>
   )
+}
+
+type CountryType = {
+  cdc: string
+  iso: string
+  i18n: {
+    en: string
+  }
+}
+
+function makeObject(country: CountryType, lang: string) {
+  return {
+    selectedKey: `+${country.cdc}`,
+    selected_value: `${country.iso} (+${country.cdc})`,
+    content: `+${country.cdc} ${country.i18n[lang] ?? country.i18n.en}`,
+  }
 }
 
 PhoneNumber._supportsSpacingProps = true

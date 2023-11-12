@@ -66,12 +66,12 @@ describe('Flex.Vertical', () => {
       '.dnb-flex-container--direction-vertical'
     )
     const children = element.children
-    const childredTextContents = Array.from(children).map((child) =>
+    const childrenTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')
     )
 
     expect(children.length).toEqual(3)
-    expect(childredTextContents).toEqual([
+    expect(childrenTextContents).toEqual([
       'Content 1',
       'Content 2',
       'Content 3',

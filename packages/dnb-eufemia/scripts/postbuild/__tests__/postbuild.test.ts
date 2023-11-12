@@ -274,6 +274,28 @@ describe('babel build', () => {
         path.resolve(packpath.self(), `build${stage}/components/Input.js`)
       )
     ).toBe(true)
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/components/card/Card.js`
+        ),
+        'utf-8'
+      )
+      expect(content).not.toContain('??')
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/components/accordion/Accordion.js`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain('use client')
+    }
   })
 })
 

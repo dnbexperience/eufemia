@@ -10,7 +10,7 @@ import type { SpacingProps } from '../../shared/types'
 
 export type DlProps = {
   /**
-   * Use "true" to horizontallly align both the term and the description
+   * Use "true" to horizontally align both the term and the description
    */
   direction?: 'vertical' | 'horizontal'
 }

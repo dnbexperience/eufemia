@@ -10,7 +10,6 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { useTheme } from '../../shared'
 import IconPrimary from '../icon-primary/IconPrimary'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -106,21 +105,10 @@ function AccordionHeaderIcon({
   size = 'medium',
   icon_position,
 }: AccordionHeaderIconProps) {
-  const theme = useTheme()
-  let animateIcon = true
-  if (!icon && theme?.name === 'sbanken') {
-    animateIcon = false
-    icon = {
-      expanded: 'subtract-medium',
-      closed: 'add-medium',
-    }
-  }
-
   return (
     <span
       className={classnames(
         'dnb-accordion__header__icon',
-        !animateIcon && 'dnb-accordion__header__icon--no-animation',
         icon_position && `dnb-accordion__header__icon--${icon_position}`
       )}
     >
@@ -200,7 +188,7 @@ export const AccordionHeader = ({
 }: AccordionHeaderProps) => {
   const props = { icon_size: icon_size_default, ...restOfProps }
 
-  const [isHoverring, setIsHovering] = useState<boolean>(false)
+  const [isHovering, setIsHovering] = useState<boolean>(false)
   const [hasClicked, setHasClicked] = useState<boolean>(false)
 
   const context = useContext(AccordionContext)
@@ -378,7 +366,7 @@ export const AccordionHeader = ({
     className: classnames(
       'dnb-accordion__header',
       icon_position && `dnb-accordion__header--icon-${icon_position}`,
-      isHoverring && hasClicked && 'dnb-accordion--hover',
+      isHovering && hasClicked && 'dnb-accordion--hover',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',
       no_animation && 'dnb-accordion__header--no-animation',

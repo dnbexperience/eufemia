@@ -109,12 +109,12 @@ describe('Grid.Container', () => {
 
     const element = document.querySelector('.dnb-grid-container')
     const children = element.children
-    const childredTextContents = Array.from(children).map((child) =>
+    const childrenTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')
     )
 
     expect(children.length).toEqual(3)
-    expect(childredTextContents).toEqual(['Item 1', 'Item 2', 'Item 3'])
+    expect(childrenTextContents).toEqual(['Item 1', 'Item 2', 'Item 3'])
   })
 
   it('should set given columns', () => {

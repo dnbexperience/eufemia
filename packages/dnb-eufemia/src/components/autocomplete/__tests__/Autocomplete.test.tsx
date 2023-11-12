@@ -14,13 +14,7 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import {
-  cleanup,
-  fireEvent,
-  render,
-  act,
-  waitFor,
-} from '@testing-library/react'
+import { fireEvent, render, act, waitFor } from '@testing-library/react'
 import {
   DrawerListData,
   DrawerListDataObject,
@@ -749,21 +743,22 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct options after filter and key interaction', () => {
-    let elem
-
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
 
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+
     // check "cc"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
     const content = (mockData[2] as DrawerListDataObject).content
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe((content as string[]).join(''))
+    expect(optionElements()[0].textContent).toBe(
+      (content as string[]).join('')
+    )
     expect(
       document.querySelectorAll(
         'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
@@ -776,16 +771,16 @@ describe('Autocomplete component', () => {
     // then simulate changes
     keydown(40) // down
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0].classList
-    ).toContain('dnb-drawer-list__option--focus')
+    expect(optionElements()[0].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
 
     // then simulate changes
     keydown(40) // down
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[1].classList
-    ).toContain('dnb-drawer-list__option--focus')
+    expect(optionElements()[1].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
     expect(
       document
         .querySelectorAll('li.dnb-drawer-list__option')[1]
@@ -797,7 +792,7 @@ describe('Autocomplete component', () => {
     )
 
     // check "cc bb"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc bb' },
     })
     expect(
@@ -808,16 +803,14 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelector('li.dnb-autocomplete__show-all').textContent
     ).toBe('Vis alt')
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
-    ).toBe(3)
+    expect(optionElements().length).toBe(3)
     expect(
       document
         .querySelectorAll('li.dnb-drawer-list__option')[1]
         .getAttribute('aria-selected')
     ).toBe('true')
 
-    elem = document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    let elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-selected')).toBe('true')
 
@@ -826,7 +819,7 @@ describe('Autocomplete component', () => {
     keydown(27) // esc
     toggle()
 
-    elem = document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-selected')).toBe('true')
   })
@@ -1200,6 +1193,10 @@ describe('Autocomplete component', () => {
       />
     )
 
+    expect(document.querySelector('input').value).toBe(
+      Array.from(mockData[2].content).join(' ')
+    )
+
     // 2. Then update the data
     rerender(
       <Autocomplete
@@ -1209,6 +1206,10 @@ describe('Autocomplete component', () => {
         data={newMockData}
         value={2}
       />
+    )
+
+    expect(document.querySelector('input').value).toBe(
+      Array.from(newMockData[2].content).join(' ')
     )
 
     // 3. And change the value again
@@ -1222,8 +1223,6 @@ describe('Autocomplete component', () => {
       />
     )
 
-    // It should not trigger the resetSelectionItem method
-    expect(on_change).toHaveBeenCalledTimes(0)
     expect(document.querySelector('input').value).toBe(
       newMockData[1].content
     )
@@ -1238,6 +1237,8 @@ describe('Autocomplete component', () => {
         value={null}
       />
     )
+
+    expect(document.querySelector('input').value).toBe('')
 
     fireEvent.change(document.querySelector('input'), {
       target: { value: 'cc' },
@@ -1278,6 +1279,131 @@ describe('Autocomplete component', () => {
     expect(document.querySelector('input').value).toBe(
       newMockData[1].content
     )
+  })
+
+  it('should show "no-options" when in sync mode', async () => {
+    const mockData = [
+      { selected_key: 'a', content: 'AA c' },
+      { selected_key: 'b', content: 'BB cc zethx' },
+      { selected_key: 'c', content: ['CC', 'cc'] },
+    ]
+
+    render(<Autocomplete {...mockProps} data={mockData} mode="sync" />)
+
+    const inputElement = document.querySelector('input')
+
+    await userEvent.type(inputElement, 'aa')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).not.toBeInTheDocument()
+
+    await userEvent.type(inputElement, 'invalid')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).toBeInTheDocument()
+  })
+
+  it('should not show "no-options" during async mode', async () => {
+    const mockData = [
+      { selected_key: 'a', content: 'AA c' },
+      { selected_key: 'b', content: 'BB cc zethx' },
+      { selected_key: 'c', content: ['CC', 'cc'] },
+    ]
+
+    render(<Autocomplete {...mockProps} data={mockData} mode="async" />)
+
+    const inputElement = document.querySelector('input')
+
+    await userEvent.type(inputElement, 'aa')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).not.toBeInTheDocument()
+
+    await userEvent.type(inputElement, 'invalid')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('will call on_change on each change, when selecting the first option from different data sources', async () => {
+    const mockDataA = [{ selected_key: 'a', content: 'A' }]
+    const mockDataB = [{ selected_key: 'b', content: 'B' }]
+
+    const onTypeHandler = ({ value, updateData }) => {
+      if (value === 'a') {
+        updateData(mockDataA)
+      } else if (value === 'b') {
+        updateData(mockDataB)
+      }
+    }
+
+    const on_change = jest.fn()
+    const on_type = jest.fn(onTypeHandler)
+
+    render(
+      <Autocomplete
+        {...mockProps}
+        on_change={on_change}
+        on_type={on_type}
+        data={mockDataA}
+        mode="async"
+      />
+    )
+
+    const inputElement = document.querySelector('input')
+    const firstElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    await userEvent.type(inputElement, 'a')
+
+    expect(on_change).toHaveBeenCalledTimes(0)
+    expect(inputElement.value).toBe('a')
+
+    fireEvent.click(firstElement())
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].data).toMatchObject(mockDataA[0])
+    expect(inputElement.value).toBe(mockDataA[0].content)
+
+    await userEvent.type(inputElement, '{Backspace}b')
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].data).toEqual(undefined)
+    expect(inputElement.value).toBe('b')
+
+    fireEvent.click(firstElement())
+
+    expect(on_change).toHaveBeenCalledTimes(3)
+    expect(on_change.mock.calls[2][0].data).toMatchObject(mockDataB[0])
+    expect(inputElement.value).toBe(mockDataB[0].content)
+
+    await userEvent.type(inputElement, '{Backspace}a')
+
+    expect(on_change).toHaveBeenCalledTimes(4)
+    expect(on_change.mock.calls[3][0].data).toEqual(undefined)
+    expect(inputElement.value).toBe('a')
+
+    fireEvent.click(firstElement())
+
+    expect(on_change).toHaveBeenCalledTimes(5)
+    expect(on_change.mock.calls[4][0].data).toMatchObject(mockDataA[0])
+    expect(inputElement.value).toBe(mockDataA[0].content)
   })
 
   it('selects correct value and key', () => {
@@ -1373,6 +1499,7 @@ describe('Autocomplete component', () => {
         .value
     ).toBe('456 value')
     expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
+
     rerender(
       <Autocomplete
         {...mockProps}
@@ -1390,68 +1517,71 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  const runBlurActiveItemTest = ({
-    Comp,
-    shouldHaveActiveItem,
-    shouldHaveActiveItemWhenEmpty,
-  }) => {
-    const closeAndReopen = () => {
-      // Close and open
-      fireEvent.blur(document.querySelector('.dnb-input__input'))
-      fireEvent.focus(document.querySelector('.dnb-input__input'))
-      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
-    }
+  it('should reset selected_item on input blur when no selection is made if "keep_value" and "keep_value_and_selection" is false', () => {
+    const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+    const on_type = jest.fn()
 
-    render(Comp)
+    render(
+      <Autocomplete
+        data={mockData}
+        {...mockProps}
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+      />
+    )
+
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--selected')
 
     // open
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    fireEvent.mouseDown(inputElement)
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
-    ).toBe(3)
+    expect(optionElements().length).toBe(3)
 
-    fireEvent.focus(document.querySelector('.dnb-input__input'))
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
     // Make first item active
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus') !== null
-    ).toBe(shouldHaveActiveItem)
+    expect(focusElement()).not.toBeInTheDocument()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).not.toBeInTheDocument()
+    expect(focusElement()).not.toBeInTheDocument()
 
     keydown(40) // down
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus') !== null
-    ).toBe(shouldHaveActiveItemWhenEmpty)
+    expect(focusElement()).not.toBeInTheDocument()
 
     // This also opens the drawer-list
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
@@ -1465,58 +1595,120 @@ describe('Autocomplete component', () => {
     closeAndReopen()
 
     // Now we have a selected item
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    ).toBeInTheDocument()
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('CC cc')
+    expect(selectedElement()).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: '' },
     })
 
     closeAndReopen()
 
     // This here is what we expect
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--focus') !== null
-    ).toBe(shouldHaveActiveItemWhenEmpty)
-    expect(
+    expect(focusElement()).not.toBeInTheDocument()
+    expect(selectedElement()).not.toBeInTheDocument()
+
+    expect(on_show).toBeCalledTimes(2)
+    expect(on_hide).toBeCalledTimes(2)
+    expect(on_focus).toBeCalledTimes(4)
+    expect(on_blur).toBeCalledTimes(3)
+    expect(on_change).toBeCalledTimes(2)
+    expect(on_type).toBeCalledTimes(4)
+  })
+
+  it('should not reset input value on input blur if "keep_value" is true and value is empty', () => {
+    const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+    const on_type = jest.fn()
+
+    render(
+      <Autocomplete
+        keep_value
+        data={mockData}
+        {...mockProps}
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+      />
+    )
+
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
       document.querySelector('li.dnb-drawer-list__option--selected')
-    ).not.toBeInTheDocument()
 
-    cleanup()
-  }
+    // open
+    fireEvent.mouseDown(inputElement)
 
-  it('should reset "active_item" on input blur when no selection is made and "keep_value" and "keep_value_and_selection" is false', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_focus = jest.fn()
-    const on_blur = jest.fn()
-    const on_change = jest.fn()
-    const on_type = jest.fn()
+    expect(optionElements().length).toBe(3)
 
-    runBlurActiveItemTest({
-      Comp: (
-        <Autocomplete
-          data={mockData}
-          {...mockProps}
-          on_show={on_show}
-          on_hide={on_hide}
-          on_focus={on_focus}
-          on_blur={on_blur}
-          on_change={on_change}
-          on_type={on_type}
-        />
-      ),
-      shouldHaveActiveItem: false,
-      shouldHaveActiveItemWhenEmpty: false,
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
+      target: { value: 'cc' },
     })
+
+    // Make first item active
+    keydown(40) // down
+
+    expect(focusElement()).toBeInTheDocument()
+
+    closeAndReopen()
+
+    expect(focusElement()).toBeInTheDocument()
+
+    fireEvent.change(inputElement, {
+      target: { value: '' },
+    })
+
+    expect(focusElement()).not.toBeInTheDocument()
+
+    keydown(40) // down
+
+    expect(focusElement()).toBeInTheDocument()
+
+    closeAndReopen()
+
+    // This here is what we expect
+    expect(focusElement()).not.toBeInTheDocument()
+
+    // This also opens the drawer-list
+    fireEvent.change(inputElement, {
+      target: { value: 'cc' },
+    })
+
+    keydown(40) // activate
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        keyCode: 13, // enter
+      })
+    )
+
+    closeAndReopen()
+
+    // Now we have a selected item
+    expect(selectedElement()).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
+
+    fireEvent.change(inputElement, {
+      target: { value: '' },
+    })
+
+    closeAndReopen()
+
+    // This here is what we expect
+    expect(focusElement()).not.toBeInTheDocument()
+    expect(selectedElement()).not.toBeInTheDocument()
 
     expect(on_show).toBeCalledTimes(2)
     expect(on_hide).toBeCalledTimes(2)
@@ -1526,7 +1718,7 @@ describe('Autocomplete component', () => {
     expect(on_type).toBeCalledTimes(4)
   })
 
-  it('should only reset "active_item" on input blur and "keep_value" is true and value is empty', () => {
+  it('should not reset selected_item on input blur if "keep_value_and_selection" true', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const on_focus = jest.fn()
@@ -1534,63 +1726,96 @@ describe('Autocomplete component', () => {
     const on_change = jest.fn()
     const on_type = jest.fn()
 
-    runBlurActiveItemTest({
-      Comp: (
-        <Autocomplete
-          keep_value
-          data={mockData}
-          {...mockProps}
-          on_show={on_show}
-          on_hide={on_hide}
-          on_focus={on_focus}
-          on_blur={on_blur}
-          on_change={on_change}
-          on_type={on_type}
-        />
-      ),
-      shouldHaveActiveItem: true,
-      shouldHaveActiveItemWhenEmpty: false,
+    render(
+      <Autocomplete
+        keep_value_and_selection
+        data={mockData}
+        {...mockProps}
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+      />
+    )
+
+    const inputElement = document.querySelector('.dnb-input__input')
+    const optionElements = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const focusElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    const selectedElement = () =>
+      document.querySelector('li.dnb-drawer-list__option--selected')
+
+    // open
+    fireEvent.mouseDown(inputElement)
+
+    expect(optionElements().length).toBe(3)
+
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
+      target: { value: 'cc' },
     })
+
+    // Make first item active
+    keydown(40) // down
+
+    expect(focusElement()).toBeInTheDocument()
+
+    closeAndReopen()
+
+    expect(focusElement()).not.toBeInTheDocument()
+
+    fireEvent.change(inputElement, {
+      target: { value: '' },
+    })
+
+    expect(focusElement()).not.toBeInTheDocument()
+
+    keydown(40) // down
+
+    expect(focusElement()).toBeInTheDocument()
+
+    closeAndReopen()
+
+    // This here is what we expect
+    expect(focusElement()).not.toBeInTheDocument()
+
+    // This also opens the drawer-list
+    fireEvent.change(inputElement, {
+      target: { value: 'cc' },
+    })
+
+    keydown(40) // activate
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        keyCode: 13, // enter
+      })
+    )
+
+    closeAndReopen()
+
+    // Now we have a selected item
+    expect(selectedElement()).toBeInTheDocument()
+    expect(focusElement()).toBeInTheDocument()
+    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
+
+    fireEvent.change(inputElement, {
+      target: { value: '' },
+    })
+
+    closeAndReopen()
+
+    // This here is what we expect
+    expect(focusElement()).toBeInTheDocument()
+    expect(selectedElement()).toBeInTheDocument()
 
     expect(on_show).toBeCalledTimes(2)
     expect(on_hide).toBeCalledTimes(2)
     expect(on_focus).toBeCalledTimes(4)
     expect(on_blur).toBeCalledTimes(3)
-    expect(on_change).toBeCalledTimes(2)
-    expect(on_type).toBeCalledTimes(4)
-  })
-
-  it('should not reset "active_item" on input blur and "keep_value_and_selection" true', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_focus = jest.fn()
-    const on_blur = jest.fn()
-    const on_change = jest.fn()
-    const on_type = jest.fn()
-
-    runBlurActiveItemTest({
-      Comp: (
-        <Autocomplete
-          keep_value_and_selection
-          data={mockData}
-          {...mockProps}
-          on_show={on_show}
-          on_hide={on_hide}
-          on_focus={on_focus}
-          on_blur={on_blur}
-          on_change={on_change}
-          on_type={on_type}
-        />
-      ),
-      shouldHaveActiveItem: true,
-      shouldHaveActiveItemWhenEmpty: true,
-    })
-
-    expect(on_show).toBeCalledTimes(2)
-    expect(on_hide).toBeCalledTimes(2)
-    expect(on_focus).toBeCalledTimes(4)
-    expect(on_blur).toBeCalledTimes(3)
-    expect(on_change).toBeCalledTimes(2)
+    expect(on_change).toBeCalledTimes(1)
     expect(on_type).toBeCalledTimes(4)
   })
 
@@ -2315,6 +2540,82 @@ describe('Autocomplete component', () => {
       'dnb-autocomplete--default',
     ])
   })
+
+  it('should set correct value in input', async () => {
+    const data = [
+      {
+        selectedKey: '+93',
+        selected_value: 'AF (+93)',
+        content: '+93 Afghanistan',
+      },
+      {
+        selectedKey: '+47',
+        selected_value: 'NO (+47)',
+        content: '+47 Norge',
+      },
+      {
+        selectedKey: '+46',
+        selected_value: 'SE (+46)',
+        content: '+46 Sverige',
+      },
+      {
+        selectedKey: '+41',
+        selected_value: 'CH (+41)',
+        content: '+41 Sveits',
+      },
+    ]
+
+    const MockComponent = () => {
+      const [value, setValue] = React.useState('+47')
+
+      return (
+        <Autocomplete
+          data={[data[1]]}
+          value={value}
+          mode="async"
+          on_change={({ data }) => setValue(data?.selectedKey)}
+          on_focus={({ updateData }) => updateData(data)}
+          search_numbers
+          no_animation
+        />
+      )
+    }
+
+    render(<MockComponent />)
+
+    const inputElement: HTMLInputElement = document.querySelector('input')
+
+    expect(inputElement.value).toEqual('NO (+47)')
+
+    // open
+    fireEvent.focus(inputElement)
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+47 Norge')
+
+    await userEvent.type(inputElement, '{Backspace}')
+
+    expect(inputElement.value).toEqual('NO (+47')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe('+47 Norge')
+
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, { target: { value: '+41' } })
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(inputElement.value).toEqual('CH (+41)')
+  })
 })
 
 describe('Autocomplete markup', () => {
@@ -2371,4 +2672,11 @@ const toggle = () => {
       'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
     )
   )
+}
+
+const closeAndReopen = () => {
+  // Close and open
+  fireEvent.blur(document.querySelector('.dnb-input__input'))
+  fireEvent.focus(document.querySelector('.dnb-input__input'))
+  fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 }

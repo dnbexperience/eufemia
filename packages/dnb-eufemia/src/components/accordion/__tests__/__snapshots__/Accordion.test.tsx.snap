@@ -195,7 +195,7 @@ p > .dnb-icon {
 .dnb-accordion__header__description + .dnb-accordion__header__title {
   margin-top: 0.25rem;
 }
-.dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header__icon:not(.dnb-accordion__header__icon--no-animation) {
+.dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header__icon {
   transform: rotate(-180deg);
 }
 .dnb-accordion__content {
@@ -231,7 +231,7 @@ p > .dnb-icon {
   }
 }
 @media screen and (min-width: 40em) {
-  .dnb-accordion-group--single-container .dnb-accordion > .dnb-accordion__header .dnb-accordion__header__icon:not(.dnb-accordion__header__icon--no-animation) {
+  .dnb-accordion-group--single-container .dnb-accordion > .dnb-accordion__header .dnb-accordion__header__icon {
     transform: rotate(-90deg);
   }
 }

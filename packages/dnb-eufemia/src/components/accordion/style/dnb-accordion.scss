@@ -129,9 +129,7 @@
     }
   }
 
-  &--expanded
-    > &__header
-    &__header__icon:not(#{&}__header__icon--no-animation) {
+  &--expanded > &__header &__header__icon {
     transform: rotate(-180deg);
   }
 
@@ -168,7 +166,7 @@
         width: 40%; // 40% / 60%
       }
 
-      // Only to make sure we have a spacing. But would be typcally project specific
+      // Only to make sure we have a spacing. But would be typically project specific
       &__content {
         margin-left: 1rem;
 
@@ -188,10 +186,7 @@
     //   }
     // }
   }
-  &-group--single-container
-    &
-    > &__header
-    &__header__icon:not(#{&}__header__icon--no-animation) {
+  &-group--single-container & > &__header &__header__icon {
     @include allAbove(small) {
       transform: rotate(-90deg);
     }

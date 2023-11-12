@@ -7,13 +7,14 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import { Code, H4, Lead, P } from '@dnb/eufemia/src'
+import { TypographyBox } from '../../../shared/parts/TypographyBox'
 
 const Wrapper = styled.div`
   margin-bottom: 3rem;
 `
 
 const FontUsageExample = ({ typo_class, font_family }) => (
-  <div className="typography-box">
+  <TypographyBox>
     <h3 className={typo_class}>{font_family}</h3>
     <p className={typo_class}>
       Here is a paragraph with some nonsense{' '}
@@ -25,7 +26,7 @@ const FontUsageExample = ({ typo_class, font_family }) => (
       <strong>The Extremes</strong> of Good and Evil) by Cicero, written in
       45 BC.
     </p>
-  </div>
+  </TypographyBox>
 )
 
 export function FontWeightExample() {

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -14,7 +14,7 @@ import {
   Button,
   GlobalStatus,
 } from '../..'
-import { Anchor } from '../../../'
+import { Anchor, Li, Ol, P, Section, Space } from '../../../'
 import { Context, Provider } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
@@ -54,10 +54,10 @@ export const SearchNumbers = () => {
 }
 
 const accounts = [
-  { selected_id: 1, content: 'A' },
-  { selected_id: 2, content: 'B' },
-  { selected_id: 3, content: 'C' },
-  { selected_id: 4, content: 'D' },
+  { selectedKey: 1, content: 'A' },
+  { selectedKey: 2, content: 'B' },
+  { selectedKey: 3, content: 'C' },
+  { selectedKey: 4, content: 'D' },
 ]
 export function UpdateEachOther() {
   const [selectedA, setSelectedA] = React.useState(-1)
@@ -67,11 +67,11 @@ export function UpdateEachOther() {
   const [selectedAccountsB, setSelectedAccountsB] =
     React.useState(accounts)
 
-  const indexA = selectedAccountsA.findIndex(({ selected_id }) => {
-    return selected_id === selectedA
+  const indexA = selectedAccountsA.findIndex(({ selectedKey }) => {
+    return selectedKey === selectedA
   })
-  const indexB = selectedAccountsB.findIndex(({ selected_id }) => {
-    return selected_id === selectedB
+  const indexB = selectedAccountsB.findIndex(({ selectedKey }) => {
+    return selectedKey === selectedB
   })
 
   console.log('selectedA', { selectedAccountsA, selectedA, indexA })
@@ -86,10 +86,10 @@ export function UpdateEachOther() {
         data={selectedAccountsA}
         value={indexA}
         on_change={({ data: account }) => {
-          setSelectedA(account?.selected_id)
+          setSelectedA(account?.selectedKey)
           setSelectedAccountsB(
-            accounts.filter(({ selected_id }) => {
-              return selected_id !== account?.selected_id
+            accounts.filter(({ selectedKey }) => {
+              return selectedKey !== account?.selectedKey
             })
           )
         }}
@@ -100,10 +100,10 @@ export function UpdateEachOther() {
         data={selectedAccountsB}
         value={indexB}
         on_change={({ data: account }) => {
-          setSelectedB(account?.selected_id)
+          setSelectedB(account?.selectedKey)
           setSelectedAccountsA(
-            accounts.filter(({ selected_id }) => {
-              return selected_id !== account?.selected_id
+            accounts.filter(({ selectedKey }) => {
+              return selectedKey !== account?.selectedKey
             })
           )
         }}
@@ -926,5 +926,75 @@ export const GlobalStatusExample = () => {
         status="Message"
       />
     </>
+  )
+}
+
+export const AsyncSearchExample = () => {
+  const dataA = [
+    { selectedKey: 'a', content: 'AAA' },
+    { selectedKey: 'c', content: 'CCC' },
+  ]
+  const dataB = [
+    { selectedKey: 'b', content: 'BBB' },
+    { selectedKey: 'e', content: 'EEE' },
+  ]
+
+  const [onChangeValue, setOnChangeValue] = useState()
+
+  const onTypeHandler = ({
+    value,
+    showIndicator,
+    hideIndicator,
+    updateData,
+    debounce,
+  }) => {
+    showIndicator()
+    debounce(
+      ({ value }) => {
+        let newData = []
+        if (value.toLowerCase() === 'a') {
+          newData = dataA
+        } else if (value.toLowerCase() === 'b') {
+          newData = dataB
+        } else {
+          newData = [...dataA, ...dataB]
+        }
+        // simulate server delay
+        const timeout = setTimeout(() => {
+          // update the drawerList
+          updateData(newData)
+          hideIndicator()
+        }, 600)
+
+        // cancel invocation method
+        return () => clearTimeout(timeout)
+      },
+      { value },
+      150
+    )
+  }
+  return (
+    <Section spacing>
+      <Space left>
+        <P>In this demo/recreation:</P>
+        <Ol>
+          <Li>Type "A" and select the option available</Li>
+          <Li>Type "B" and select the option available</Li>
+        </Ol>
+        <P>on_change should also be firing when selecting "B".</P>
+        <Autocomplete
+          top
+          mode="async"
+          on_type={onTypeHandler}
+          no_scroll_animation={true}
+          placeholder="Search ..."
+          on_change={({ data }) => {
+            console.log('on_change', data)
+            setOnChangeValue(data?.content)
+          }}
+        />
+        <P top>Value from on_change: {onChangeValue || '–'}</P>
+      </Space>
+    </Section>
   )
 }

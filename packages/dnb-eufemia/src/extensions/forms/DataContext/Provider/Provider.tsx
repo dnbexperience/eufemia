@@ -12,7 +12,7 @@ import { FormError } from '../../types'
 import Context, { ContextState } from '../Context'
 
 /**
- * Deprecated, as it is supported my all mihor browsers and Node.js >=v18
+ * Deprecated, as it is supported by all major browsers and Node.js >=v18
  * So its a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
@@ -113,7 +113,7 @@ export default function Provider<Data extends JsonObject>({
       wasMounted.current = true
       return
     }
-    // When receivint the initial data, or receiving updated data by props, update the internal data (controlled state)
+    // When receiving the initial data, or receiving updated data by props, update the internal data (controlled state)
     setInternalData(data)
   }, [data])
 

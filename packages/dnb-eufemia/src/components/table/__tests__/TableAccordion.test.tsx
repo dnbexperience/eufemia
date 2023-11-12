@@ -214,7 +214,7 @@ describe('TableAccordion', () => {
     ).toBeInTheDocument()
   })
 
-  it('expanded accordion content content should contain aria-live accounement', () => {
+  it('expanded accordion content content should contain aria-live announcement', () => {
     render(
       <Table accordion>
         <tbody>
@@ -238,7 +238,7 @@ describe('TableAccordion', () => {
     ).toBe('assertive')
   })
 
-  it('expanded accordion content content should contain aria-live accounement', () => {
+  it('expanded accordion content content should contain aria-live announcement', () => {
     const { rerender } = render(
       <Table accordion>
         <tbody>
@@ -643,7 +643,7 @@ describe('TableAccordion', () => {
     )
   })
 
-  it('should have expanded accordion content when id matches locaiton hash', () => {
+  it('should have expanded accordion content when id matches location hash', () => {
     global.window = Object.create(window)
     const hash = '#unique-id-1'
     const href = `https://url.tld/${hash}`

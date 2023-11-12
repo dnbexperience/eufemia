@@ -513,7 +513,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
   --anchor-color--contrast: var(--sb-color-text);
-  font-weight: var(--sb-font-weight-bold);
+  font-weight: var(--font-weight-medium);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
   padding: 0.15625em 0;
@@ -597,7 +597,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
     --anchor-color--contrast: var(--sb-color-text);
-    font-weight: var(--sb-font-weight-bold);
+    font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
     text-decoration-color: var(--sb-color-green-dark);
     padding: 0.15625em 0;

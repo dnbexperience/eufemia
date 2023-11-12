@@ -68,7 +68,7 @@ describe('GlobalStatus component', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain('En feil har skjed')
+    expect(element.textContent).toContain('En feil har skjedd')
     expect(element.textContent).toContain('Lukk')
     expect(element.getAttribute('lang')).toBe('nb-NO')
 

@@ -177,7 +177,7 @@ export default function useDataValue<
   const validateValue = useCallback(
     (valueToValidate): FormError | undefined => {
       // Prioritize received validator functions first
-      // Possible future change: Merge errors if multiple, like one message with each message concatinated.
+      // Possible future change: Merge errors if multiple, like one message with each message concatenated.
       if (typeof validator === 'function') {
         // Since the validator can return either a synchronous result or an asynchronous
         Promise.resolve(validator(valueToValidate))
@@ -248,7 +248,7 @@ export default function useDataValue<
         onBlur?.(valueOverride ?? value)
 
         if (!changedRef.current && !validateUnchanged) {
-          // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
+          // Avoid showing errors when blurring without having changed the value, so tabbing through several
           // fields does not make errors pop up all over the place
           return
         }
@@ -319,10 +319,10 @@ export default function useDataValue<
         dataContextHandlePathChange?.(path, newValue)
       }
       if (elementPath) {
-        const iteratValuePath = `/${iterateElementIndex}${
+        const iterateValuePath = `/${iterateElementIndex}${
           elementPath && elementPath !== '/' ? elementPath : ''
         }`
-        handleIterateElementChange?.(iteratValuePath, newValue)
+        handleIterateElementChange?.(iterateValuePath, newValue)
       }
     },
     [

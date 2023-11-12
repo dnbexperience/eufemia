@@ -179,6 +179,7 @@ function makeRollupConfig(
   file,
   { name, format = 'umd', excludes = [] } = {}
 ) {
+  global.bundler = 'rollup'
   process.env.BABEL_ENV = format
 
   const globals = {

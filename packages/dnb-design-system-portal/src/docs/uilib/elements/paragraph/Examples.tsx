@@ -207,7 +207,7 @@ export function ParagraphRegressionTests() {
   }
 
   return (
-    <ComponentBox scope={{ PWrap }} data-visual-test={'paragraph-sizes'}>
+    <ComponentBox scope={{ PWrap }} data-visual-test="paragraph-sizes">
       <PWrap customSize="default" />
       <PWrap size="xx-large" />
       <PWrap size="x-large" />

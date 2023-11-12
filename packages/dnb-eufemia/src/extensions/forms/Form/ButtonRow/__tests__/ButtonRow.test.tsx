@@ -67,12 +67,12 @@ describe('Form.ButtonRow', () => {
 
     const element = document.querySelector('.dnb-forms-button-row')
     const children = element.children
-    const childredTextContents = Array.from(children).map((child) =>
+    const childrenTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')
     )
 
     expect(children.length).toEqual(3)
-    expect(childredTextContents).toEqual([
+    expect(childrenTextContents).toEqual([
       'Button 1',
       'Button 2',
       'Button 3',

@@ -313,8 +313,8 @@ describe('Timeline', () => {
       const firstInputElem = inputElems[0]
       const secondInputElem = inputElems[1]
 
-      const newValue1 = 'new vlaue 1'
-      const newValue2 = 'new vlaue 2'
+      const newValue1 = 'new value 1'
+      const newValue2 = 'new value 2'
 
       fireEvent.change(firstInputElem, { target: { value: newValue1 } })
 

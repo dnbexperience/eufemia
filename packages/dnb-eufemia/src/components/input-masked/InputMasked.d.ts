@@ -63,7 +63,7 @@ export interface InputMaskedProps
    */
   currency_mask?: InputMaskedCurrencyMask;
   /**
-   * Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `curreny_mask`. All options are listed below.
+   * Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `currency_mask`. All options are listed below.
    */
   mask_options?: InputMaskedMaskOptions;
   /**

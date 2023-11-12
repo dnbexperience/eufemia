@@ -252,7 +252,7 @@ export const format = (
 
     handleCompactBeforeAria({ value, compact, opts })
 
-    // fix for NDVA to make sure we read the number, we add a minimum fraction digit (decimal)
+    // fix for NVDA to make sure we read the number, we add a minimum fraction digit (decimal)
     // NVDA fix
     aria = formatNumber(value, locale, opts)
     aria = enhanceSR(value, aria, locale) // also calls prepareMinus

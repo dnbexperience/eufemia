@@ -1985,6 +1985,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-transform-nullish-coalescing-operator@npm:7.23.3":
+  version: 7.23.3
+  resolution: "@babel/plugin-transform-nullish-coalescing-operator@npm:7.23.3"
+  dependencies:
+    "@babel/helper-plugin-utils": "npm:^7.22.5"
+    "@babel/plugin-syntax-nullish-coalescing-operator": "npm:^7.8.3"
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: ea844a12a3ae5647d6d2ae0685fde48ae53e724ef9ce5d9fbf36e8f1ff0107f76a5349ef34c2a06984b3836c001748caf9701afb172bd7ba71a5dff79e16b434
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-transform-nullish-coalescing-operator@npm:^7.22.11":
   version: 7.22.11
   resolution: "@babel/plugin-transform-nullish-coalescing-operator@npm:7.22.11"
@@ -2995,6 +3007,7 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": "npm:7.8.3"
     "@babel/plugin-syntax-typescript": "npm:7.22.5"
     "@babel/plugin-transform-modules-commonjs": "npm:7.22.5"
+    "@babel/plugin-transform-nullish-coalescing-operator": "npm:7.23.3"
     "@babel/plugin-transform-react-constant-elements": "npm:7.22.5"
     "@babel/plugin-transform-runtime": "npm:7.22.5"
     "@babel/preset-env": "npm:7.22.5"
@@ -3042,6 +3055,7 @@ __metadata:
     babel-jest: "npm:29.5.0"
     babel-plugin-optimize-clsx: "npm:2.6.2"
     babel-plugin-search-and-replace: "npm:1.1.1"
+    babel-plugin-transform-next-use-client: "npm:1.1.1"
     babel-plugin-transform-react-remove-prop-types: "npm:0.4.24"
     browserslist: "npm:4.21.4"
     camelcase: "npm:6.2.0"
@@ -3133,8 +3147,15 @@ __metadata:
     wait-on: "npm:6.0.0"
     what-input: "npm:5.2.10"
   peerDependencies:
+    "@types/react": ^17 || ^18
+    "@types/react-dom": ^17 || ^18
     react: ^17 || ^18
     react-dom: ^17 || ^18
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -9852,6 +9873,15 @@ __metadata:
   version: 7.0.0-beta.0
   resolution: "babel-plugin-syntax-trailing-function-commas@npm:7.0.0-beta.0"
   checksum: e37509156ca945dd9e4b82c66dd74f2d842ad917bd280cb5aa67960942300cd065eeac476d2514bdcdedec071277a358f6d517c31d9f9244d9bbc3619a8ecf8a
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-next-use-client@npm:1.1.1":
+  version: 1.1.1
+  resolution: "babel-plugin-transform-next-use-client@npm:1.1.1"
+  peerDependencies:
+    "@babel/core": ^7.22.5
+  checksum: 9d8b00ee5226190da3bf663459dda619032194fae46a702b37834c30445c47e2ccdb52f19318070b9d709968e68ef299fed38eb18e9ecef0bb3a954ce990e221
   languageName: node
   linkType: hard
 

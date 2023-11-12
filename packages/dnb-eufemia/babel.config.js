@@ -77,6 +77,10 @@ const productionPlugins = [
   ],
 ]
 
+if (global.bundler !== 'rollup') {
+  productionPlugins.push('babel-plugin-transform-next-use-client')
+}
+
 if (typeof process.env.BABEL_ENV !== 'undefined') {
   productionPlugins.push([
     'babel-plugin-search-and-replace',
@@ -99,6 +103,7 @@ const config = {
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-optional-chaining',
+    '@babel/plugin-transform-nullish-coalescing-operator',
   ],
   sourceMaps: true,
   comments: false,
