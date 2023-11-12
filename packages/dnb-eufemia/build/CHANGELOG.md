@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.13.0](https://github.com/dnbexperience/eufemia/compare/v10.12.0...v10.13.0) (2023-11-12)
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** ensure correct value selection during data change ([#2863](https://github.com/dnbexperience/eufemia/issues/2863)) ([d229ec2](https://github.com/dnbexperience/eufemia/commit/d229ec212c3b1c6f01139cbbdf4a4403cee919c9))
+* **Autocomplete:** ensure on_change is firered during dataset update ([266ab6a](https://github.com/dnbexperience/eufemia/commit/266ab6a92d462b0f0367e7dc1baf8ceb35fa7ccc))
+* **PhoneNumber:** ensure correct selection of value ([#2852](https://github.com/dnbexperience/eufemia/issues/2852)) ([a20a764](https://github.com/dnbexperience/eufemia/commit/a20a76465f177c3912f4266f4dc8211846a4b8be))
+* remove nullish operator to support Storybook v6 ([#2873](https://github.com/dnbexperience/eufemia/issues/2873)) ([f0bab63](https://github.com/dnbexperience/eufemia/commit/f0bab63cce5c52d6156ce6dc27e198f6b9250f8f))
+* typescript react type resolution in monorepos ([#2866](https://github.com/dnbexperience/eufemia/issues/2866)) ([44f04f3](https://github.com/dnbexperience/eufemia/commit/44f04f3155ff45238c00a176280d6aaf1db3746b))
+
+
+### :sparkles: Features
+
+* **Accordion:** change sbanken expand icon to chevron ([#2854](https://github.com/dnbexperience/eufemia/issues/2854)) ([a7cb8b9](https://github.com/dnbexperience/eufemia/commit/a7cb8b929fadaa0c9a0fce78d0af1823a74b4aed))
+* add "use client" to components that use client side only React APIs (support for RSC) ([#2874](https://github.com/dnbexperience/eufemia/issues/2874)) ([a84e962](https://github.com/dnbexperience/eufemia/commit/a84e962e0cf0ef9e9049088cd16563071a162962))
+* **Button:** change sbanken primary button text color to white ([#2855](https://github.com/dnbexperience/eufemia/issues/2855)) ([1571138](https://github.com/dnbexperience/eufemia/commit/1571138a66cabb462bfc1279e660369a8683514b))
+* **Typography:** change sbanken bold to medium ([#2808](https://github.com/dnbexperience/eufemia/issues/2808)) ([4b0f930](https://github.com/dnbexperience/eufemia/commit/4b0f9304e8e8deb8e542470221310e0b08f1a889))
+
+
+### :memo: Documentation
+
+* **About:** add Snorre/Henrik/Ynge as contributors ([#2885](https://github.com/dnbexperience/eufemia/issues/2885)) ([fff72da](https://github.com/dnbexperience/eufemia/commit/fff72da50bdb76aae1e62efa34b0124d5ae92343))
+* **Autocomplete:** adds default value to keep_value props ([#2867](https://github.com/dnbexperience/eufemia/issues/2867)) ([7cae1fd](https://github.com/dnbexperience/eufemia/commit/7cae1fd75733bc7655f1138972f190fb768925a9))
+* fix font docs ([#2849](https://github.com/dnbexperience/eufemia/issues/2849)) ([13beec9](https://github.com/dnbexperience/eufemia/commit/13beec964afadd8f19cc7e810b027cb40475fadc))
+* **Ingress:** adds Ingress to docs ([#2879](https://github.com/dnbexperience/eufemia/issues/2879)) ([f771f3d](https://github.com/dnbexperience/eufemia/commit/f771f3d754f491e0e55c028a9d592e4fe68ced8d))
+* **Lead:** adds Lead to docs ([#2877](https://github.com/dnbexperience/eufemia/issues/2877)) ([0c0da7f](https://github.com/dnbexperience/eufemia/commit/0c0da7fe8371944a97be8e44b99a067758876025))
+
 ## [10.12.0](https://github.com/dnbexperience/eufemia/compare/v10.11.0...v10.12.0) (2023-11-07)
 
 
