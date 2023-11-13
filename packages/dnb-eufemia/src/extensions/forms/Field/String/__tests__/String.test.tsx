@@ -603,6 +603,38 @@ describe('Field.String', () => {
         })
       })
     })
+
+    describe('errorMessages', () => {
+      it('should show provided errorMessages based on validation rule', () => {
+        render(
+          <Field.String
+            emptyValue=""
+            value=""
+            errorMessages={{
+              required: 'You need this',
+            }}
+            required
+            validateInitially
+          />
+        )
+        expect(screen.getByText('You need this')).toBeInTheDocument()
+      })
+
+      it('should show provided errorMessages based on validation rule with injected value', () => {
+        render(
+          <Field.String
+            emptyValue=""
+            value=""
+            errorMessages={{
+              minLength: 'At least {minLength}..',
+            }}
+            minLength={4}
+            validateInitially
+          />
+        )
+        expect(screen.getByText('At least 4..')).toBeInTheDocument()
+      })
+    })
   })
 
   describe('with data context', () => {

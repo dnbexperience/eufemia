@@ -170,18 +170,28 @@ export default function useDataValue<
    * Prepare error from validation logic with correct error messages based on props
    */
   const prepareError = useCallback(
-    (error: Error | FormError | undefined): FormError => {
+    (error: Error | FormError | undefined): FormError | undefined => {
       if (error === undefined) {
         return
       }
-      const withCorrectMessage =
+
+      if (
         error instanceof FormError &&
         typeof error.validationRule === 'string' &&
-        errorMessagesRef?.[error.validationRule] !== undefined
-          ? new FormError(errorMessagesRef[error.validationRule])
-          : error
-      return withCorrectMessage
+        errorMessagesRef.current?.[error.validationRule] !== undefined
+      ) {
+        const message = errorMessagesRef.current[
+          error.validationRule
+        ].replace(
+          `{${error.validationRule}}`,
+          props?.[error.validationRule]
+        )
+        return new FormError(message)
+      }
+
+      return error
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -290,8 +300,8 @@ export default function useDataValue<
 
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   useEffect(() => {
-    contextErrorRef.current = dataContextError
-  }, [dataContextError])
+    contextErrorRef.current = prepareError(dataContextError)
+  }, [dataContextError, prepareError])
 
   useEffect(() => {
     if (dataContext.showAllErrors) {
