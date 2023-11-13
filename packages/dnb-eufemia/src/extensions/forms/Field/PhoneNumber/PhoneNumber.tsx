@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useCallback } from 'react'
+import React, { useMemo, useContext, useCallback, useEffect } from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
@@ -27,6 +27,10 @@ export type Props = FieldHelpProps &
     noAnimation?: boolean
   }
 
+// Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
+// back to +47 once the user empty the field so handleChange send out undefined.
+const defaultCountryCode = '+47'
+
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
@@ -40,9 +44,7 @@ function PhoneNumber(props: Props) {
   )
 
   const defaultProps: Partial<Props> = {
-    // Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
-    // back to +47 once the user empty the field so handleChange send out undefined.
-    value: '+47',
+    value: '',
     errorMessages,
   }
   const preparedProps: Props = {
@@ -78,46 +80,71 @@ function PhoneNumber(props: Props) {
     onNumberChange,
   } = useDataValue(preparedProps)
 
-  const [, countryCode, phoneNumber] =
-    value !== undefined
-      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
-      : [undefined, '', '']
+  const initialValues = useMemo(() => splitValue(value), [])
+  const countryCodeRef = React.useRef(
+    initialValues[1] || defaultCountryCode
+  )
+  const phoneNumberRef = React.useRef(initialValues[2])
+
+  useEffect(() => {
+    countryCodeRef.current =
+      splitValue(props.value)[1] || defaultCountryCode
+    phoneNumberRef.current = splitValue(props.value)[2]
+  }, [props.value])
 
   const singleCountryCodeData = useMemo(() => {
     return getCountryData({
       lang: sharedContext.locale?.split('-')[0],
-      filter: countryCode,
+      filter: countryCodeRef.current,
     })
-  }, [])
+  }, [props.value])
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
       const countryCode = data?.selectedKey?.trim() ?? emptyValue
+      countryCodeRef.current = countryCode
 
-      if (!countryCode && !phoneNumber) {
+      if (!countryCode && !phoneNumberRef.current) {
         handleChange?.(emptyValue)
         onCountryCodeChange?.(emptyValue)
         return
       }
 
-      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      if (countryCode && !phoneNumberRef.current) {
+        onCountryCodeChange?.(countryCode)
+        return
+      }
+
+      handleChange?.(
+        [countryCode, phoneNumberRef.current]
+          .filter(Boolean)
+          .join(seperator)
+      )
       onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, handleChange, onCountryCodeChange]
+    [phoneNumberRef, emptyValue, handleChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
     (phoneNumber: string) => {
-      if (!countryCode && !phoneNumber) {
-        handleChange?.(emptyValue)
+      phoneNumberRef.current = phoneNumber
+
+      if (!phoneNumber) {
+        handleChange?.(
+          [emptyValue, emptyValue].filter(Boolean).join(seperator)
+        )
         onNumberChange?.(emptyValue)
         return
       }
 
-      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      handleChange?.(
+        [countryCodeRef.current, phoneNumber]
+          .filter(Boolean)
+          .join(seperator)
+      )
       onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, handleChange, onNumberChange]
+    [countryCodeRef, emptyValue, handleChange, onNumberChange]
   )
 
   const onFocusHandler = ({ dataList, updateData }) => {
@@ -152,7 +179,7 @@ function PhoneNumber(props: Props) {
             sharedContext?.translation.Forms.countryCodeLabel
           }
           data={singleCountryCodeData}
-          value={countryCode}
+          value={countryCodeRef.current}
           disabled={disabled}
           on_focus={onFocusHandler}
           on_blur={handleBlur}
@@ -192,7 +219,7 @@ function PhoneNumber(props: Props) {
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleNumberChange}
-          value={phoneNumber}
+          value={phoneNumberRef.current}
           info={info}
           warning={warning}
           error={error}
@@ -230,6 +257,13 @@ function getCountryData({ lang = 'en', filter = null } = {}) {
     .filter(({ cdc }) => !filter || `+${cdc}` === filter)
     .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
     .map((country) => makeObject(country, lang))
+}
+
+const seperator = ' '
+function splitValue(value: string) {
+  return value !== undefined
+    ? value.match(/^(\+[^ ]+)? ?(.*)$/)
+    : [undefined, '', '']
 }
 
 PhoneNumber._supportsSpacingProps = true

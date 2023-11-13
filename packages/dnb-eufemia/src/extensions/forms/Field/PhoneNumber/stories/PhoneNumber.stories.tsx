@@ -6,8 +6,15 @@ export default {
 
 export function PhoneNumber() {
   return (
-    <Form.Handler onSubmit={console.log}>
-      <Field.PhoneNumber required validateInitially path="/phoneNumber" />
+    <Form.Handler onSubmit={console.log} onChange={console.log}>
+      <Field.PhoneNumber
+        required
+        // value="+47 1"
+        validateInitially
+        onBlur={console.log}
+        onFocus={console.log}
+        path="/phoneNumber"
+      />
       <Form.SubmitButton top />
     </Form.Handler>
   )
