@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react'
 import { makeUniqueId, warn } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
-import { FieldHelpProps, FieldProps, FormError } from '../../types'
+import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useDataValue } from '../../hooks'
 import classnames from 'classnames'
