@@ -156,7 +156,6 @@ export interface FieldProps<
   autoComplete?:
     | HTMLInputElement['autocomplete']
     | HTMLTextAreaElement['autocomplete']
-
   info?: Error | FormError | string
   warning?: Error | FormError | string
   error?: Error | FormError
