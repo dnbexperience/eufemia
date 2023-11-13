@@ -56,7 +56,7 @@ export const Error = () => {
   return (
     <ComponentBox scope={{ FormError }}>
       <Field.Expiry
-        value="0026"
+        value="0326"
         label="Label text"
         onChange={(expiry) => console.log('onChange', expiry)}
         error={new FormError('This is what is wrong...')}
