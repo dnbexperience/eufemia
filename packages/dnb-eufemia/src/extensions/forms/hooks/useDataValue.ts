@@ -258,7 +258,6 @@ export default function useDataValue<
         )
         throw error
       }
-
       // Validate by provided derivative validator
       if (validatorRef.current) {
         const res = await validatorRef.current?.(valueRef.current)
@@ -284,7 +283,7 @@ export default function useDataValue<
   ])
 
   useUpdateEffect(() => {
-    if (typeof schema !== 'object') {
+    if (!schema) {
       return
     }
     schemaValidatorRef.current = ajv.compile(schema)
