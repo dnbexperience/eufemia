@@ -8,9 +8,12 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Checkbox', () => {
+describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
   describe('unchecked', () => {
-    setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/checkbox/demos',
+    })
 
     it('have to match checkbox in unchecked state', async () => {
       const screenshot = await makeScreenshot({
