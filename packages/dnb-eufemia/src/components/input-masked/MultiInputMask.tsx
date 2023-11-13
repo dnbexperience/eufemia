@@ -8,6 +8,7 @@ import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
+import { makeUniqueId } from '../../shared/component-helper'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
@@ -190,11 +191,11 @@ function MultiInputMask<T extends string>({
     // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handeled or not
     return inputs.reduce(
       (keys, { id, mask }) => {
-        keys[`${id}__input`] = mask
+        keys[id] = mask
 
         return keys
       },
-      {} as Record<`${T}__input`, RegExp[]>
+      {} as Record<T, RegExp[]>
     )
   }
 
@@ -238,10 +239,13 @@ function MultiInputMaskInput<T extends string>({
   onKeyDown,
   onChange,
 }: MultiInputMaskInputProps<T>) {
+  const markupId = `${label}-${makeUniqueId()}`
+
   return (
     <>
       <TextMask
-        id={`${id}__input`}
+        id={`${markupId}__input`}
+        data-mask-id={id}
         className={classnames(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
@@ -255,7 +259,7 @@ function MultiInputMaskInput<T extends string>({
         guide={true}
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
-        aria-labelledby={`${id}__label`}
+        aria-labelledby={`${markupId}__label`}
         ref={inputRef}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
@@ -266,7 +270,11 @@ function MultiInputMaskInput<T extends string>({
           )
         }}
       />
-      <label id={`${id}__label`} htmlFor={`${id}__input`} hidden>
+      <label
+        id={`${markupId}__label`}
+        htmlFor={`${markupId}__input`}
+        hidden
+      >
         {label}
       </label>
       {delimiter && (
