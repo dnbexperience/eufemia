@@ -1,217 +1,179 @@
 /*
-* Accordion theme
-*
-*/
+ * Accordion theme
+ *
+ */
 
 @import '../../../../style/core/utilities.scss';
 
 .dnb-accordion {
-  --ui-accordion-closed-color: var(--color-emerald-green);
-  --ui-accordion-closed-background: var(--color-white);
-  --ui-accordion-closed-border-color: var(--color-black-8);
-  --ui-accordion-closed-description-color: var(--color-black-55);
-
-  --ui-accordion-expanded-color: var(--color-white);
-  --ui-accordion-expanded-background: var(--color-sea-green);
-  --ui-accordion-expanded-border-color: var(--color-sea-green);
-  --ui-accordion-expanded-description-color: var(--color-white);
-
-  --ui-accordion-hover-color: var(--color-emerald-green);
-  --ui-accordion-hover-background: var(--color-white);
-  --ui-accordion-hover-border-color: var(--color-emerald-green);
-  --ui-accordion-hover-description-color: var(--color-black-55);
-
-  --ui-accordion-hover-after-click-color: var(--color-white);
-  --ui-accordion-hover-after-click-background: var(--color-sea-green);
-  --ui-accordion-hover-after-click-border-color: var(--color-sea-green);
-  --ui-accordion-hover-after-click-description-color: var(--color-white);
-
-  --ui-accordion-active-color: var(--color-emerald-green);
-  --ui-accordion-active-background: var(--color-pistachio);
-  --ui-accordion-active-border-color: var(--color-emerald-green);
-  --ui-accordion-active-description-color: var(--color-black-55);
-
-  --ui-accordion-focus-color: var(--color-emerald-green);
-  --ui-accordion-focus-background: var(--color-white);
-  --ui-accordion-focus-border-color: var(--color-emerald-green);
-  --ui-accordion-focus-description-color: var(--color-black-55);
-
-  --ui-accordion-focus-expanded-color: var(--color-emerald-green);
-  --ui-accordion-focus-expanded-background: var(--color-mint-green);
-  --ui-accordion-focus-expanded-border-color: var(--color-emerald-green);
-  --ui-accordion-focus-expanded-description-color: var(
-    --color-emerald-green
-  );
-
-  // Disabled
-  --ui-accordion-disabled-color: var(--color-sea-green-30);
-  --ui-accordion-disabled-background: var(--color-white);
-  --ui-accordion-disabled-border-color: var(--color-sea-green-30);
-
-  --ui-accordion-disabled-expanded-color: var(--color-white);
-  --ui-accordion-disabled-expanded-background: var(--color-sea-green-30);
-  --ui-accordion-disabled-expanded-border-color: var(--color-sea-green-30);
-
-  --ui-accordion-box-shadow-inset-default: inset;
-  --ui-accordion-box-shadow-inset-hover: ;
-
   &__header {
-    --ui-accordion-color: var(--ui-accordion-closed-color);
-    --ui-accordion-background: var(--ui-accordion-closed-background);
-    --ui-accordion-border-color: var(--ui-accordion-closed-border-color);
-    --ui-accordion-border-inset: var(
-      --ui-accordion-box-shadow-inset-default
+    color: var(--ui-accordion-color--override, var(--ui-accordion-color));
+    background-color: var(
+      --ui-accordion-background--override,
+      var(--ui-accordion-background)
     );
-
-    // Box shadow
-    --ui-accordion-box-shadow: var(--ui-accordion-border-inset,) 0 0 0
-      var(--accordion-border-width) var(--ui-accordion-border-color);
-
-    // Description
-    --ui-accordion-description-color: var(
-      --ui-accordion-closed-description-color
-    );
-
+    box-shadow: var(--ui-accordion-box-shadow);
     border: none;
 
     &__description {
-      color: var(--ui-accordion-description-color);
+      color: var(
+        --ui-accordion-description-color--override,
+        var(--ui-accordion-description-color)
+      );
     }
 
-    // Variant: outlined
-    &--outlined {
-      color: var(--ui-accordion-color);
-      background-color: var(--ui-accordion-background);
+    /* 
+     * VARIANTS
+     * Each variant is mutually exclusive
+     */
 
-      box-shadow: var(--ui-accordion-box-shadow);
+    // Shared variant properties
+    &--outlined,
+    &--filled {
+      // Border
+      --ui-accordion-border-inset: inset;
+      --ui-accordion-box-shadow: var(--ui-accordion-border-inset) 0 0 0
+        var(--accordion-border-width)
+        var(
+          --ui-accordion-border-color--override,
+          var(--ui-accordion-border-color)
+        );
+
+      // Disabled
+      &[disabled] {
+        --ui-accordion-color: var(--color-sea-green-30);
+        --ui-accordion-background-: var(--color-white);
+        --ui-accordion-border-color: var(--color-sea-green-30);
+        --ui-accordion-description-color: var(--ui-accordion-color);
+
+        // state = expanded
+        --ui-accordion-expanded-color: var(--color-white);
+        --ui-accordion-expanded-background: var(--color-sea-green-30);
+      }
+    }
+
+    // Variant: "outlined"
+    &--outlined {
+      --ui-accordion-color: var(--color-emerald-green);
+      --ui-accordion-background: var(--color-white);
+      --ui-accordion-border-color: var(--color-black-8);
+      --ui-accordion-description-color: var(--color-black-55);
+
+      // state = expanded
+      --ui-accordion-expanded-color: var(--color-white);
+      --ui-accordion-expanded-background: var(--color-sea-green);
+      --ui-accordion-expanded-border-color: var(
+        --ui-accordion-expanded-background
+      );
+      --ui-accordion-expanded-description-color: var(
+        --ui-accordion-expanded-color
+      );
+
+      @include focus-visible() {
+        --accordion-border-width: 0.125rem;
+        --ui-accordion-border-color: var(--color-emerald-green);
+
+        // state = expanded
+        --ui-accordion-expanded-border-color: var(--color-emerald-green);
+        --ui-accordion-expanded-color: var(--color-emerald-green);
+        --ui-accordion-expanded-background: var(--color-mint-green);
+      }
 
       @include hover() {
-        --ui-accordion-color: var(
-          --ui-accordion-color--hover,
-          var(--ui-accordion-hover-color)
-        );
-        --ui-accordion-background: var(
-          --ui-accordion-background--hover,
-          var(--ui-accordion-hover-background)
-        );
-        --ui-accordion-border-color: var(
-          --ui-accordion-border-color--hover,
-          var(--ui-accordion-hover-border-color)
-        );
-        --ui-accordion-description-color: var(
-          --ui-accordion-description-color--hover,
-          var(--ui-accordion-hover-description-color)
-        );
         --accordion-border-width: 0.125rem;
-        --ui-accordion-border-inset: var(
-          --ui-accordion-box-shadow-inset-hover
+        --ui-accordion-color: var(--color-emerald-green);
+        --ui-accordion-background: var(--color-white);
+        --ui-accordion-border-color: var(--color-emerald-green);
+        --ui-accordion-description-color: var(--color-black-55);
+        --ui-accordion-border-inset: ;
+
+        // state = expanded
+        --ui-accordion-expanded-color: var(--ui-accordion-color);
+        --ui-accordion-expanded-background: var(--ui-accordion-background);
+        --ui-accordion-expanded-border-color: var(
+          --ui-accordion-border-color
         );
+        --ui-accordion-expanded-description-color: var(
+          --ui-accordion-description-color
+        );
+
+        // state = after-click
+        --ui-accordion-after-click-color: var(--color-white);
+        --ui-accordion-after-click-background: var(--color-sea-green);
+        --ui-accordion-after-click-border-color: var(--color-sea-green);
+        --ui-accordion-after-click-description-color: var(--color-white);
       }
 
       @include active() {
-        --ui-accordion-color: var(--ui-accordion-active-color);
-        --ui-accordion-background: var(--ui-accordion-active-background);
-        --ui-accordion-border-color: var(
-          --ui-accordion-active-border-color
-        );
-        --ui-accordion-description-color: var(
-          --ui-accordion-hover-description-color
-        );
         --accordion-border-width: 0.0625rem;
-        --ui-accordion-border-inset: var(
-          --ui-accordion-box-shadow-inset-default
-        );
+        --ui-accordion-background: var(--color-pistachio);
+        --ui-accordion-border-inset: inset;
+      }
+    }
+
+    // Variant: "filled"
+    &--filled {
+      --accordion-border-width: 0.125rem;
+      --accordion-title-font-weight--expanded: var(--font-weight-basis);
+      --ui-accordion-color: var(--color-emerald-green);
+      --ui-accordion-background: var(--color-pistachio);
+      --ui-accordion-border-color: var(--color-pistachio);
+      --ui-accordion-description-color: var(--color-black-55);
+
+      @include hover() {
+        --ui-accordion-background: var(--color-white);
+      }
+
+      @include active() {
+        --ui-accordion-color: var(--color-white);
+        --ui-accordion-background: var(--color-sea-green);
+        --ui-accordion-border-color: var(--color-sea-green);
+        --ui-accordion-description-color: ar(--color-white);
       }
 
       @include focus-visible() {
-        --ui-accordion-color: var(
-          --ui-accordion-color--focus,
-          var(--ui-accordion-focus-color)
-        );
-        --ui-accordion-background: var(
-          --ui-accordion-background--focus,
-          var(--ui-accordion-focus-background)
-        );
-        --ui-accordion-border-color: var(
-          --ui-accordion-border-color--focus,
-          var(--ui-accordion-focus-border-color)
-        );
-        --ui-accordion-description-color: var(
-          --ui-accordion-description-color--focus,
-          var(--ui-accordion-hover-description-color)
-        );
-        --accordion-border-width: 0.125rem;
-      }
-
-      &[disabled] {
-        --ui-accordion-color: var(
-          --ui-accordion-color--disabled,
-          var(--ui-accordion-disabled-color)
-        );
-        --ui-accordion-background: var(
-          --ui-accordion-background--disabled,
-          var(--ui-accordion-disabled-background)
-        );
-        --ui-accordion-border-color: var(
-          --ui-accordion-border-color--disabled,
-          var(--ui-accordion-disabled-border-color)
-        );
-        --ui-accordion-description-color: var(
-          --ui-accordion-color--disabled,
-          var(--ui-accordion-disabled-color)
-        );
+        --ui-accordion-border-color: var(--color-sea-green);
       }
     }
 
+    /* 
+     * STATES
+     * States that can exist across all variants.
+     */
+
+    // State: "expanded"
     &--expanded {
-      --ui-accordion-color: var(--ui-accordion-expanded-color);
-      --ui-accordion-background: var(--ui-accordion-expanded-background);
-      --ui-accordion-border-color: var(
-        --ui-accordion-expanded-border-color
+      --ui-accordion-color--override: var(
+        --ui-accordion-expanded-color--override,
+        var(--ui-accordion-expanded-color)
       );
-      --ui-accordion-description-color: var(
-        --ui-accordion-expanded-description-color
+      --ui-accordion-background--override: var(
+        --ui-accordion-expanded-background--override,
+        var(--ui-accordion-expanded-background)
       );
-
-      // Focus on expanded
-      --ui-accordion-color--focus: var(
-        --ui-accordion-focus-expanded-color
+      --ui-accordion-border-color--override: var(
+        --ui-accordion-expanded-border-color--override,
+        var(--ui-accordion-expanded-border-color)
       );
-      --ui-accordion-background--focus: var(
-        --ui-accordion-focus-expanded-background
-      );
-      --ui-accordion-border-color--focus: var(
-        --ui-accordion-focus-expanded-border-color
-      );
-      --ui-accordion-description-color--focus: var(
-        --ui-accordion-focus-expanded-description-color
-      );
-
-      // Disabled on expanded
-      --ui-accordion-color--disabled: var(
-        --ui-accordion-disabled-expanded-color
-      );
-      --ui-accordion-background--disabled: var(
-        --ui-accordion-disabled-expanded-background
-      );
-      --ui-accordion-border-color--disabled: var(
-        --ui-accordion-disabled-expanded-border-color
+      --ui-accordion-description-color--override: var(
+        --ui-accordion-expanded-description-color--override,
+        var(--ui-accordion-expanded-description-color)
       );
     }
 
+    // State: "after-click" (after expanding but still hovering)
     &--after-click {
-      // Hover after click
-      --ui-accordion-color--hover: var(
-        --ui-accordion-hover-after-click-color
+      --ui-accordion-expanded-color--override: var(
+        --ui-accordion-after-click-color
       );
-      --ui-accordion-background--hover: var(
-        --ui-accordion-hover-after-click-background
+      --ui-accordion-expanded-background--override: var(
+        --ui-accordion-after-click-background
       );
-      --ui-accordion-border-color--hover: var(
-        --ui-accordion-hover-after-click-border-color
+      --ui-accordion-expanded-border-color--override: var(
+        --ui-accordion-after-click-border-color
       );
-      --ui-accordion-description-color--hover: var(
-        --ui-accordion-hover-after-click-description-color
+      --ui-accordion-expanded-description-color--override: var(
+        --ui-accordion-after-click-description-color
       );
     }
   }

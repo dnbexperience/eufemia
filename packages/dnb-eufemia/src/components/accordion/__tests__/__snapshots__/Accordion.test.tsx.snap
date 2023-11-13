@@ -267,133 +267,160 @@ p > .dnb-icon {
 
 exports[`Accordion scss have to match default theme snapshot 1`] = `
 "/*
-* Accordion theme
-*
-*/
+ * Accordion theme
+ *
+ */
 /*
  * Utilities
  */
 .dnb-accordion__header {
-  --accordion-color: var(--accordion-color--default);
-  --accordion-color--default: var(--color-emerald-green);
-  --accordion-color--expanded: var(--color-white);
-  --accordion-color--hover: var(--accordion-color--default);
-  --accordion-background: var(--accordion-background--default);
-  --accordion-background--default: var(--color-white);
-  --accordion-background--expanded: var(--color-sea-green);
-  --accordion-background--hover: var(--accordion-background--default);
-  --accordion-background--active: var(--color-pistachio);
-  --accordion-background--focus: var(--color-white);
-  --accordion-background--focus--expanded: var(--color-mint-green);
-  --accordion-border-color: var(--color-black-8);
-  --accordion-border-color--hover: var(--color-emerald-green);
-  --accordion-disabled-color: var(--color-sea-green-30);
-  --accordion-disabled-color--expanded: var(--color-white);
-  --accordion-disabled-background: var(--color-white);
-  --accordion-disabled-background--expanded: var(--color-sea-green-30);
-  --accordion-disabled-border-color: var(--color-sea-green-30);
-  --accordion-description-color: var(
-    --accordion-description-color--default
-  );
-  --accordion-description-color--default: var(--color-black-55);
-  --accordion-description-color--expanded: var(--accordion-color);
-  --accordion-description-color--hover: var(
-    --accordion-description-color--default
-  );
-  --accordion-icon-color: var(--color-emerald-green);
+  color: var(--ui-accordion-color--override, var(--ui-accordion-color));
+  background-color: var(--ui-accordion-background--override, var(--ui-accordion-background));
+  box-shadow: var(--ui-accordion-box-shadow);
   border: none;
-}
-.dnb-accordion__header__icon, .dnb-accordion__header__container {
-  color: var(--accordion-icon-color);
+  /* 
+   * VARIANTS
+   * Each variant is mutually exclusive
+   */
+  /* 
+   * STATES
+   * States that can exist across all variants.
+   */
 }
 .dnb-accordion__header__description {
-  color: var(--accordion-description-color);
+  color: var(--ui-accordion-description-color--override, var(--ui-accordion-description-color));
 }
-.dnb-accordion__header--expanded {
-  --accordion-color: var(--accordion-color--expanded);
-  --accordion-background: var(--accordion-background--expanded);
-  --accordion-background--focus: var(
-    --accordion-background--focus--expanded
-  );
-  --accordion-border-color: var(--accordion-border-color--expanded);
-  --accordion-disabled-color: var(
-    --accordion-disabled-color--expanded
-  );
-  --accordion-disabled-background: var(
-    --accordion-disabled-background--expanded
-  );
-  --accordion-description-color: var(
-    --accordion-description-color--expanded
-  );
+.dnb-accordion__header--outlined, .dnb-accordion__header--filled {
+  --ui-accordion-border-inset: inset;
+  --ui-accordion-box-shadow: var(--ui-accordion-border-inset) 0 0 0
+    var(--accordion-border-width)
+    var(
+      --ui-accordion-border-color--override,
+      var(--ui-accordion-border-color)
+    );
+}
+.dnb-accordion__header--outlined[disabled], .dnb-accordion__header--filled[disabled] {
+  --ui-accordion-color: var(--color-sea-green-30);
+  --ui-accordion-background-: var(--color-white);
+  --ui-accordion-border-color: var(--color-sea-green-30);
+  --ui-accordion-description-color: var(--ui-accordion-color);
+  --ui-accordion-expanded-color: var(--color-white);
+  --ui-accordion-expanded-background: var(--color-sea-green-30);
 }
 .dnb-accordion__header--outlined {
-  --accordion-icon-color: var(--accordion-color);
-  color: var(--accordion-color);
-  background-color: var(--accordion-background);
-  --border-color: var(--accordion-border-color);
-  --border-width: var(--accordion-border-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([disabled]) {
-  --accordion-color: var(--accordion-color--hover);
-  --accordion-background: var(--accordion-background--hover);
-  --accordion-border-color: var(--accordion-border-color--hover);
-  --accordion-border-width: 0.125rem;
-  --accordion-description-color: var(
-    --accordion-description-color--hover
+  --ui-accordion-color: var(--color-emerald-green);
+  --ui-accordion-background: var(--color-white);
+  --ui-accordion-border-color: var(--color-black-8);
+  --ui-accordion-description-color: var(--color-black-55);
+  --ui-accordion-expanded-color: var(--color-white);
+  --ui-accordion-expanded-background: var(--color-sea-green);
+  --ui-accordion-expanded-border-color: var(
+    --ui-accordion-expanded-background
   );
-  --border-color: var(--accordion-border-color);
-  --border-width: var(--accordion-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-accordion__header--outlined:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-accordion__header--outlined:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active:not([disabled]) {
-  --accordion-color: var(--accordion-color--default);
-  --accordion-background: var(--accordion-background--active);
-  --accordion-border-color: var(--color-emerald-green);
-  --accordion-border-width: 0.0625rem;
-  --accordion-description-color: var(
-    --accordion-description-color--default
+  --ui-accordion-expanded-description-color: var(
+    --ui-accordion-expanded-color
   );
-  --border-color: var(--accordion-border-color);
-  --border-width: var(--accordion-border-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible:not([disabled]) {
-  --accordion-color: var(--accordion-color--default);
-  --accordion-background: var(--accordion-background--focus);
-  --accordion-border-color: var(--color-emerald-green);
   --accordion-border-width: 0.125rem;
-  --accordion-description-color--expanded: var(--accordion-color);
+  --ui-accordion-border-color: var(--color-emerald-green);
+  --ui-accordion-expanded-border-color: var(--color-emerald-green);
+  --ui-accordion-expanded-color: var(--color-emerald-green);
+  --ui-accordion-expanded-background: var(--color-mint-green);
 }
-.dnb-accordion__header--outlined[disabled] {
-  --accordion-color: var(--accordion-disabled-color);
-  --accordion-background: var(--accordion-disabled-background);
-  --accordion-border-color: var(--accordion-disabled-border-color);
-  --accordion-icon-color: var(--accordion-disabled-color);
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not([disabled]) {
-  --accordion-color--hover: var(--accordion-color--expanded);
-  --accordion-background--hover: var(
-    --accordion-background--expanded
+html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([disabled]) {
+  --accordion-border-width: 0.125rem;
+  --ui-accordion-color: var(--color-emerald-green);
+  --ui-accordion-background: var(--color-white);
+  --ui-accordion-border-color: var(--color-emerald-green);
+  --ui-accordion-description-color: var(--color-black-55);
+  --ui-accordion-border-inset: ;
+  --ui-accordion-expanded-color: var(--ui-accordion-color);
+  --ui-accordion-expanded-background: var(--ui-accordion-background);
+  --ui-accordion-expanded-border-color: var(
+    --ui-accordion-border-color
   );
-  --accordion-border-color--hover: var(--color-sea-green);
-  --accordion-description-color--hover: var(
-    --accordion-color--expanded
+  --ui-accordion-expanded-description-color: var(
+    --ui-accordion-description-color
+  );
+  --ui-accordion-after-click-color: var(--color-white);
+  --ui-accordion-after-click-background: var(--color-sea-green);
+  --ui-accordion-after-click-border-color: var(--color-sea-green);
+  --ui-accordion-after-click-description-color: var(--color-white);
+}
+.dnb-accordion__header--outlined:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-accordion__header--outlined:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active:not([disabled]) {
+  --accordion-border-width: 0.0625rem;
+  --ui-accordion-background: var(--color-pistachio);
+  --ui-accordion-border-inset: inset;
+}
+.dnb-accordion__header--filled {
+  --accordion-border-width: 0.125rem;
+  --accordion-title-font-weight--expanded: var(--font-weight-basis);
+  --ui-accordion-color: var(--color-emerald-green);
+  --ui-accordion-background: var(--color-pistachio);
+  --ui-accordion-border-color: var(--color-pistachio);
+  --ui-accordion-description-color: var(--color-black-55);
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover:not([disabled]) {
+  --ui-accordion-background: var(--color-white);
+}
+.dnb-accordion__header--filled:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--filled:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-accordion__header--filled:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--filled:active:not([disabled]) {
+  --ui-accordion-color: var(--color-white);
+  --ui-accordion-background: var(--color-sea-green);
+  --ui-accordion-border-color: var(--color-sea-green);
+  --ui-accordion-description-color: ar(--color-white);
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible:not([disabled]) {
+  --ui-accordion-border-color: var(--color-sea-green);
+}
+.dnb-accordion__header--expanded {
+  --ui-accordion-color--override: var(
+    --ui-accordion-expanded-color--override,
+    var(--ui-accordion-expanded-color)
+  );
+  --ui-accordion-background--override: var(
+    --ui-accordion-expanded-background--override,
+    var(--ui-accordion-expanded-background)
+  );
+  --ui-accordion-border-color--override: var(
+    --ui-accordion-expanded-border-color--override,
+    var(--ui-accordion-expanded-border-color)
+  );
+  --ui-accordion-description-color--override: var(
+    --ui-accordion-expanded-description-color--override,
+    var(--ui-accordion-expanded-description-color)
+  );
+}
+.dnb-accordion__header--after-click {
+  --ui-accordion-expanded-color--override: var(
+    --ui-accordion-after-click-color
+  );
+  --ui-accordion-expanded-background--override: var(
+    --ui-accordion-after-click-background
+  );
+  --ui-accordion-expanded-border-color--override: var(
+    --ui-accordion-after-click-border-color
+  );
+  --ui-accordion-expanded-description-color--override: var(
+    --ui-accordion-after-click-description-color
   );
 }"
 `;

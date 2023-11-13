@@ -214,3 +214,14 @@ export const AccordionDescriptionExample = () => (
     </Accordion>
   </ComponentBox>
 )
+
+export const AccordionFilledExample = () => (
+  <ComponentBox data-visual-test="accordion-filled">
+    <Accordion expanded title="Accordion title" variant="filled">
+      <P>Accordion content</P>
+    </Accordion>
+    <Accordion top title="Accordion title" variant="filled">
+      <P>Accordion content</P>
+    </Accordion>
+  </ComponentBox>
+)
