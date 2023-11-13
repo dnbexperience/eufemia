@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import DataContextProvider from '../../DataContext/Provider'
+import { Provider } from '../../DataContext'
 import Visibility from '../Visibility'
 
 describe('Visibility', () => {
@@ -24,18 +24,18 @@ describe('Visibility', () => {
   describe('pathDefined-prop', () => {
     it('renders children when target path is defined', () => {
       render(
-        <DataContextProvider data={{ isDefined: 'foo' }}>
+        <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/isDefined">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
     it('does not render children when target path is not defined', () => {
       render(
-        <DataContextProvider data={{ isDefined: 'foo' }}>
+        <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/notDefined">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -44,18 +44,18 @@ describe('Visibility', () => {
   describe('pathUndefined-prop', () => {
     it('renders children when target path is defined', () => {
       render(
-        <DataContextProvider data={{ isDefined: 'foo' }}>
+        <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/isDefined">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
     it('does not render children when target path is not defined', () => {
       render(
-        <DataContextProvider data={{ isDefined: 'foo' }}>
+        <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/notDefined">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -64,27 +64,27 @@ describe('Visibility', () => {
   describe('pathTruthy-prop', () => {
     it('renders children when target path is truthy', () => {
       render(
-        <DataContextProvider data={{ isTrue: true }}>
+        <Provider data={{ isTrue: true }}>
           <Visibility pathTruthy="/isTrue">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
     it('does not render children when target path is not truthy', () => {
       render(
-        <DataContextProvider data={{ isFalse: false }}>
+        <Provider data={{ isFalse: false }}>
           <Visibility pathTruthy="/isFalse">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
     it('does not render children when target path is not defined', () => {
       render(
-        <DataContextProvider data={{ isFalse: false }}>
+        <Provider data={{ isFalse: false }}>
           <Visibility pathTruthy="/isNotDefined">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -93,27 +93,27 @@ describe('Visibility', () => {
   describe('pathFalsy-prop', () => {
     it('renders children when target path is falsy', () => {
       render(
-        <DataContextProvider data={{ isFalse: false }}>
+        <Provider data={{ isFalse: false }}>
           <Visibility pathFalsy="/isFalse">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
     it('renders children when target path is not defined', () => {
       render(
-        <DataContextProvider data={{ isFalse: false }}>
+        <Provider data={{ isFalse: false }}>
           <Visibility pathFalsy="/isNotDefined">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
     it('does not render children when target path is not falsy', () => {
       render(
-        <DataContextProvider data={{ isTrue: true }}>
+        <Provider data={{ isTrue: true }}>
           <Visibility pathFalsy="/isTrue">Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -124,9 +124,9 @@ describe('Visibility', () => {
       // eslint-disable-next-line no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
-        <DataContextProvider data={{ foo: 'bar' }}>
+        <Provider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -135,9 +135,9 @@ describe('Visibility', () => {
       // eslint-disable-next-line no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
-        <DataContextProvider data={{ foo: 'bar' }}>
+        <Provider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
-        </DataContextProvider>
+        </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(inferData.mock.calls).toHaveLength(1)

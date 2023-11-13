@@ -254,7 +254,7 @@ describe('Field.String', () => {
       })
 
       describe('with validateInitially', () => {
-        it('should show error message initially', () => {
+        it('should show error message initially', async () => {
           render(
             <Field.String
               value="abc"
@@ -262,12 +262,14 @@ describe('Field.String', () => {
               validateInitially
             />
           )
-          expect(screen.getByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.getByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
       describe('with validateUnchanged', () => {
-        it('should show error message when blurring without any changes', () => {
+        it('should show error message when blurring without any changes', async () => {
           render(
             <Field.String
               value="abc"
@@ -281,7 +283,9 @@ describe('Field.String', () => {
           act(() => {
             input.blur()
           })
-          expect(screen.getByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.getByRole('alert')).toBeInTheDocument()
+          })
         })
       })
     })
@@ -597,6 +601,38 @@ describe('Field.String', () => {
           // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
+      })
+    })
+
+    describe('errorMessages', () => {
+      it('should show provided errorMessages based on validation rule', () => {
+        render(
+          <Field.String
+            emptyValue=""
+            value=""
+            errorMessages={{
+              required: 'You need this',
+            }}
+            required
+            validateInitially
+          />
+        )
+        expect(screen.getByText('You need this')).toBeInTheDocument()
+      })
+
+      it('should show provided errorMessages based on validation rule with injected value', () => {
+        render(
+          <Field.String
+            emptyValue=""
+            value=""
+            errorMessages={{
+              minLength: 'At least {minLength}..',
+            }}
+            minLength={4}
+            validateInitially
+          />
+        )
+        expect(screen.getByText('At least 4..')).toBeInTheDocument()
       })
     })
   })

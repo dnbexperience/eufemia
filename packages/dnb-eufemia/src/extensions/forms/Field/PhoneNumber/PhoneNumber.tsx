@@ -29,14 +29,21 @@ export type Props = FieldHelpProps &
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
+
+  const errorMessages = useMemo(
+    () => ({
+      required: tr.phoneNumberErrorRequired,
+      ...props?.errorMessages,
+    }),
+    [tr, props.errorMessages]
+  )
+
   const defaultProps: Partial<Props> = {
     // Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
     // back to +47 once the user empty the field so handleChange send out undefined.
     value: '+47',
-    errorMessages: {
-      required: sharedContext?.translation.Forms.phoneNumberErrorRequired,
-      ...props?.errorMessages,
-    },
+    errorMessages,
   }
   const preparedProps: Props = {
     ...defaultProps,
