@@ -186,12 +186,10 @@ describe('Field.Expiry', () => {
 
   describe('validation', () => {
     it('should validate required', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry required />)
 
       const input = document.querySelector('input')
-
       const inputWrapper = document.querySelector('.dnb-input')
-      let formStatusText = document.querySelector('.dnb-form-status__text')
 
       act(() => {
         input.focus()
@@ -200,18 +198,24 @@ describe('Field.Expiry', () => {
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
       )
-      expect(formStatusText).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
 
       await userEvent.keyboard('1')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
       )
-      expect(formStatusText).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
 
       await userEvent.keyboard('{Backspace}')
 
-      formStatusText = document.querySelector('.dnb-form-status__text')
+      const formStatusText = document.querySelector(
+        '.dnb-form-status__text'
+      )
 
       expect(inputWrapper.classList).toContain('dnb-input__status--error')
       expect(formStatusText).toBeInTheDocument()
