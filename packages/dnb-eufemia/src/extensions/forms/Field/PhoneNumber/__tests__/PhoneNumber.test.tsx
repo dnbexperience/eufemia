@@ -126,10 +126,20 @@ describe('Field.PhoneNumber', () => {
     expect(codeElement.value).toEqual('NO (+47)')
 
     // open
+    fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
-      key: 'ArrowDown',
-      keyCode: 40,
+      key: 'Enter',
+      keyCode: 13,
     })
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+47 Norge')
+
+    await userEvent.type(codeElement, '{Backspace}')
+
+    expect(codeElement.value).toEqual('NO (+47')
 
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -167,5 +177,25 @@ describe('Field.PhoneNumber', () => {
       'dnb-forms-field-phone-number',
       'dnb-forms-field-block--width-large',
     ])
+  })
+
+  it('should require one number', async () => {
+    render(<PhoneNumber required />)
+
+    const inputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(inputElement, '1{Backspace}')
+    fireEvent.blur(inputElement)
+
+    expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+
+    await userEvent.type(inputElement, '1')
+    fireEvent.blur(inputElement)
+
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
   })
 })
