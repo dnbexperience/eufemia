@@ -239,7 +239,7 @@ function MultiInputMaskInput<T extends string>({
   onKeyDown,
   onChange,
 }: MultiInputMaskInputProps<T>) {
-  const markupId = `${label}-${makeUniqueId()}`
+  const markupId = `${id}-${makeUniqueId()}`
 
   return (
     <>
