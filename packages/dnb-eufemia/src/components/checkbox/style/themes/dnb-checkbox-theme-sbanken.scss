@@ -2,3 +2,9 @@
 * Checkbox theme for Sbanken
 *
 */
+
+@import './checkbox-color-scheme-mixin.scss';
+
+.dnb-checkbox {
+  @include checkboxColorScheme('sbanken');
+}

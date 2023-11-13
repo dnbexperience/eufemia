@@ -1,0 +1,59 @@
+@mixin checkboxColorScheme($theme: 'ui') {
+  @if $theme == 'ui' {
+    // Normal state
+    --checkbox-color-gfx-on: var(--color-white);
+    --checkbox-color-gfx-off: var(--color-sea-green);
+    --checkbox-color-background-on: var(--color-sea-green);
+    --checkbox-color-background-off: var(--color-white);
+    --checkbox-color-border-off: var(--color-sea-green);
+    // Disabled state
+    --checkbox-color-background-on--disabled: var(--color-sea-green-30);
+    --checkbox-color-border-on--disabled: transparent;
+    --checkbox-color-border-off--disabled: var(--color-mint-green-50);
+    // Active state
+    --checkbox-color-background--active: var(--color-mint-green-50);
+    --checkbox-color-border--active: transparent;
+    // Hover state
+    --checkbox-color-gfx--hover: var(--color-sea-green);
+    --checkbox-color-background--hover: var(--color-mint-green-50);
+    --checkbox-color-border-on--hover: transparent;
+    // Focus state
+    --checkbox-color-gfx--focus: var(--color-sea-green);
+    --checkbox-color-background--focus: var(--color-mint-green-50);
+    // Error state
+    --checkbox-color-gfx--error: var(--color-fire-red-8);
+    --checkbox-color-gfx--error-contrast: var(--color-fire-red);
+    --checkbox-color-background-on--error: var(--color-fire-red);
+    --checkbox-color-background--error-contrast: var(--color-fire-red-8);
+    --checkbox-color-border--error: var(--color-fire-red);
+  }
+
+  @if $theme == 'sbanken' {
+    // Normal state
+    --checkbox-color-gfx: var(--color-white);
+    --checkbox-color-gfx-off: var(--color-sea-green);
+    --checkbox-color-background-on: var(--color-sea-green);
+    --checkbox-color-background-off: var(--color-white);
+    --checkbox-color-border-off: var(--color-sea-green);
+    // Disabled state
+    --checkbox-color-background-on--disabled: var(--color-sea-green-30);
+    --checkbox-color-border-on--disabled: transparent;
+    --checkbox-color-border-off--disabled: var(--color-mint-green-50);
+    // Active state
+    --checkbox-color-background--active: var(--color-mint-green-50);
+    --checkbox-color-border--active: transparent;
+    // Hover state
+    --checkbox-color-gfx--hover: var(--color-sea-green);
+    --checkbox-color-background--hover: var(--color-mint-green-50);
+    --checkbox-color-border-on--hover: transparent;
+    // Focus state
+    --checkbox-color-gfx--focus: var(--color-sea-green);
+    --checkbox-color-background--focus: var(--color-mint-green-50);
+    // Error state
+    --checkbox-color-gfx--error: var(--color-fire-red-8);
+    --checkbox-color-gfx--error-contrast: var(--color-fire-red);
+    --checkbox-color-background-on--error: var(--color-fire-red);
+    --checkbox-color-background--error-contrast: var(--color-fire-red-8);
+    --checkbox-color-border--error: var(--color-fire-red);
+  }
+}
