@@ -36,7 +36,9 @@ export const CardSandbox = () => {
             label="NationalIdentityNumber"
           />
           <Field.Number path="/number" label="Number" />
-          <Field.Option path="/option" label="Option" />
+          <Field.Selection path="/selectionoption" label="SelectionOption">
+            <Field.Option path="/option" label="Option" />
+          </Field.Selection>
           <Field.OrganizationNumber
             path="/org"
             label="OrganizationNumber"
@@ -84,7 +86,9 @@ export const CardSandbox = () => {
             label="NationalIdentityNumber"
           />
           <Field.Number path="/number" label="Number" />
-          <Field.Option path="/option" label="Option" />
+          <Field.Selection path="/selectionoption" label="SelectionOption">
+            <Field.Option path="/option" label="Option" />
+          </Field.Selection>
           <Field.OrganizationNumber
             path="/org"
             label="OrganizationNumber"
@@ -132,7 +136,9 @@ export const CardSandbox = () => {
             label="NationalIdentityNumber"
           />
           <Field.Number path="/number" label="Number" />
-          <Field.Option path="/option" label="Option" />
+          <Field.Selection path="/selectionoption" label="SelectionOption">
+            <Field.Option path="/option" label="Option" />
+          </Field.Selection>
           <Field.OrganizationNumber
             path="/org"
             label="OrganizationNumber"
@@ -181,7 +187,12 @@ export const CardSandbox = () => {
               label="NationalIdentityNumber"
             />
             <Field.Number path="/number" label="Number" />
-            <Field.Option path="/option" label="Option" />
+            <Field.Selection
+              path="/selectionoption"
+              label="SelectionOption"
+            >
+              <Field.Option path="/option" label="Option" />
+            </Field.Selection>
             <Field.OrganizationNumber
               path="/org"
               label="OrganizationNumber"
@@ -231,7 +242,12 @@ export const CardSandbox = () => {
               label="NationalIdentityNumber"
             />
             <Field.Number path="/number" label="Number" />
-            <Field.Option path="/option" label="Option" />
+            <Field.Selection
+              path="/selectionoption"
+              label="SelectionOption"
+            >
+              <Field.Option path="/option" label="Option" />
+            </Field.Selection>
             <Field.OrganizationNumber
               path="/org"
               label="OrganizationNumber"
@@ -280,7 +296,9 @@ export const CardSandbox = () => {
             label="NationalIdentityNumber"
           />
           <Field.Number path="/number" label="Number" />
-          <Field.Option path="/option" label="Option" />
+          <Field.Selection path="/selectionoption" label="SelectionOption">
+            <Field.Option path="/option" label="Option" />
+          </Field.Selection>
           <Field.OrganizationNumber
             path="/org"
             label="OrganizationNumber"
