@@ -38,7 +38,7 @@ function Expiry(props: ExpiryProps) {
     handleChange,
   } = useDataValue({
     ...props,
-    validator: validateExpiry,
+    emptyValue: '',
   })
 
   if (value.length > 4) {
@@ -83,7 +83,13 @@ function Expiry(props: ExpiryProps) {
           {
             id: 'month',
             label: sharedContext?.translation.DatePicker['month'],
-            mask: [/[0-1]/, /[0-9]/],
+            mask: [
+              /[0-1]/,
+              expiry.month.charAt(0) === '0' ||
+              expiry.month.charAt(0) === ''
+                ? /[1-9]/
+                : /[0-2]/,
+            ],
             placeholderCharacter: placeholders['month'],
           },
           {
@@ -101,21 +107,6 @@ function Expiry(props: ExpiryProps) {
       />
     </FieldBlock>
   )
-
-  function validateExpiry(expiry: string) {
-    if (!expiry) {
-      return new FormError('The value is required', {
-        validationRule: 'required',
-      })
-    }
-
-    const month = expiry.substring(0, 2)
-    const isValidMonth = /^(0[1-9]|1[0-2])$/g.test(month)
-
-    if (month.length === 2 && !isValidMonth) {
-      return new FormError(`${month} is not a valid month`)
-    }
-  }
 
   function expiryToString(values: ExpiryValue) {
     return Object.values(values).join('')
