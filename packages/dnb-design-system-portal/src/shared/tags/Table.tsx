@@ -14,6 +14,27 @@ const StyledTable = styled(TableElement)`
   }
 `
 
+export function OmitTableProperties({ children, ...rest }) {
+  const omitProperties = globalThis.omitTableProperties || []
+
+  return recursiveMap(children, (child: React.ReactElement) => {
+    if (child.type === 'tr') {
+      const firstTd = getFirstChild(child)
+
+      if (firstTd.type === 'td') {
+        const tdContent = getFirstChild(firstTd)
+        const name = getFirstChild(tdContent)
+
+        if (omitProperties.includes(name)) {
+          return null
+        }
+      }
+    }
+
+    return child
+  })
+}
+
 export default function Table({ children }) {
   // make sure we get the table children
   children =
@@ -54,6 +75,10 @@ export default function Table({ children }) {
       <StyledTable>{children}</StyledTable>
     </TableElement.ScrollView>
   )
+}
+
+function getFirstChild(children: ChildrenWithChildren) {
+  return children.props.children.at(0)
 }
 
 function getChildren(children: ChildrenWithChildren) {
