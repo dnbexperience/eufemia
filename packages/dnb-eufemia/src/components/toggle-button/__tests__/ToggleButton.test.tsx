@@ -275,6 +275,45 @@ describe('ToggleButton component', () => {
 })
 
 describe('ToggleButton group component', () => {
+  it('should support vertical label', () => {
+    const { rerender } = render(
+      <ToggleButton.Group label="Label" vertical>
+        <ToggleButton />
+      </ToggleButton.Group>
+    )
+
+    const element = document.querySelector('.dnb-toggle-button-group')
+    const flexElement = element.querySelector('.dnb-flex-container')
+
+    expect(Array.from(flexElement.classList)).toEqual([
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-vertical',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-x-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
+    ])
+
+    rerender(
+      <ToggleButton.Group label="Label" label_direction="vertical">
+        <ToggleButton />
+      </ToggleButton.Group>
+    )
+
+    expect(Array.from(flexElement.classList)).toEqual([
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-vertical',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
+    ])
+  })
+
   it('has to have variant="radio', () => {
     render(
       <ToggleButton.Group label="Label" id="group">
@@ -630,7 +669,7 @@ describe('ToggleButton group component', () => {
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-baseline',
       'dnb-flex-container--spacing-small',
@@ -642,7 +681,7 @@ describe('ToggleButton group component', () => {
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-baseline',
       'dnb-flex-container--spacing-small',

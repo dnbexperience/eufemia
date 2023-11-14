@@ -294,14 +294,17 @@ export default class ToggleButtonGroup extends React.PureComponent {
           <fieldset>
             <Flex.Container
               align="baseline"
-              direction={vertical ? 'vertical' : 'horizontal'}
+              direction={
+                vertical || label_direction === 'vertical'
+                  ? 'vertical'
+                  : 'horizontal'
+              }
               spacing={vertical ? 'x-small' : undefined}
             >
               <FormLabel
                 element="legend"
-                label_id={id + '-label'}
-                label_direction={label_direction}
-                label_sr_only={label_sr_only}
+                id={id + '-label'}
+                srOnly={label_sr_only}
               >
                 {label}
               </FormLabel>
