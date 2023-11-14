@@ -2854,39 +2854,39 @@ button .dnb-form-status__text {
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
   --radio-border-width: 0.125rem;
-  --radio-color-dot-on: var(--color-sea-green);
-  --radio-color-background-on: var(--color-white);
-  --radio-color-border-on: var(--color-sea-green);
-  --radio-color-background-off: var(--color-white);
-  --radio-color-border-off: var(--color-sea-green);
-  --radio-color-dot-on--disabled: var(--color-sea-green-30);
-  --radio-color-border-on--disabled: var(--color-sea-green-30);
-  --radio-color-border-off--disabled: var(--color-mint-green-50);
-  --radio-color-dot-on--active: var(--color-mint-green-50);
-  --radio-color-border-on--active: var(--color-mint-green-50);
-  --radio-color-background-off--active: var(--color-mint-green-50);
+  --radio-color-dot-on: black;
+  --radio-color-background-on: white;
+  --radio-color-border-on: black;
+  --radio-color-background-off: white;
+  --radio-color-border-off: black;
+  --radio-color-dot-on--disabled: lightgrey;
+  --radio-color-border-on--disabled: lightgrey;
+  --radio-color-border-off--disabled: lightgrey;
+  --radio-color-dot-on--active: lightgrey;
+  --radio-color-border-on--active: lightgrey;
+  --radio-color-background-off--active: lightgrey;
   --radio-color-border-off--active: transparent;
-  --radio-color-dot-on--hover: var(--color-mint-green-50);
-  --radio-color-background-off--hover: var(--color-mint-green-50);
+  --radio-color-dot-on--hover: lightgrey;
+  --radio-color-background-off--hover: lightgrey;
   --radio-color-background-on--focus: var(--color-white);
-  --radio-color-background-off--focus: var(--color-mint-green-50);
-  --radio-color-dot-on--error: var(--color-fire-red);
-  --radio-color-border-on--error: var(--color-fire-red);
-  --radio-color-background-off--error: var(--color-fire-red-8);
-  --radio-color-dot-on--error-hover: var(--color-fire-red-8);
+  --radio-color-background-off--focus: lightgrey;
+  --radio-color-dot-on--error: red;
+  --radio-color-border-on--error: red;
+  --radio-color-background-off--error: lavenderblush;
+  --radio-color-dot-on--error-hover: lavenderblush;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
-  /** Color scheme **/
-  /* stylelint-disable no-descending-specificity */
+  /*
+   * Color scheme
+   */
   /** Normal state **/
   /** Disabled state **/
   /** Active state **/
   /** Hover state **/
   /** Focus state **/
   /** Error state **/
-  /* stylelint-enable no-descending-specificity */
 }
 .dnb-radio__inner {
   display: inline-flex;
