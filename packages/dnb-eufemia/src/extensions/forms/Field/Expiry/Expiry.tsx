@@ -46,7 +46,7 @@ function Expiry(props: ExpiryProps) {
     year: value.substring(2, 4) ?? '',
   }
 
-  const id = useRef(propsId || makeUniqueId()).current
+  const idRef = useRef(propsId || makeUniqueId()).current
 
   const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
 
@@ -61,7 +61,7 @@ function Expiry(props: ExpiryProps) {
       {...pickSpacingProps(props)}
     >
       <MultiInputMask
-        id={`${id}__input`}
+        id={`${idRef}__input`}
         label={label}
         labelDirection={layout}
         values={expiry}
