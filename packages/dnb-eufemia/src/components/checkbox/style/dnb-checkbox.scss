@@ -4,7 +4,6 @@
 */
 
 @import '../../../style/core/utilities.scss';
-@import './themes/checkbox-color-scheme-mixin.scss';
 
 :root {
   --checkbox-width--medium: 1.5rem;
@@ -16,7 +15,37 @@
   --checkbox-height--large: 2rem;
   --checkbox-border-width: 0.125rem;
 
-  @include checkboxColorScheme();
+  /** Color scheme variables **/
+  // Normal state
+  --checkbox-color-gfx-on: black;
+  --checkbox-color-gfx-off: black;
+  --checkbox-color-background-on: white;
+  --checkbox-color-background-off: white;
+  --checkbox-color-border-on: black;
+  --checkbox-color-border-off: black;
+  // Disabled state
+  --checkbox-color-gfx--disabled: grey;
+  --checkbox-color-background-on--disabled: lightgrey;
+  --checkbox-color-background-off--disabled: lightgrey;
+  --checkbox-color-border-on--disabled: grey;
+  --checkbox-color-border-off--disabled: grey;
+  // Active state
+  --checkbox-color-background--active: lightgrey;
+  --checkbox-color-border--active: transparent;
+  // Hover state
+  --checkbox-color-gfx--hover: grey;
+  --checkbox-color-background--hover: white;
+  --checkbox-color-border-on--hover: grey;
+  --checkbox-color-border-off--hover: grey;
+  // Focus state
+  --checkbox-color-gfx--focus: grey;
+  --checkbox-color-background--focus: lightgrey;
+  // Error state
+  --checkbox-color-gfx--error: lavenderblush;
+  --checkbox-color-gfx--error-contrast: red;
+  --checkbox-color-background-on--error: red;
+  --checkbox-color-background--error-contrast: lavenderblush;
+  --checkbox-color-border--error: red;
 
   display: inline-flex;
   flex-direction: column;
@@ -227,8 +256,8 @@
   // On
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {
+    background-color: var(--checkbox-color-background-on--disabled);
     border-color: var(--checkbox-color-border-on--disabled);
-    background-color: var(--checkbox-color-background--disabled);
   }
   &__input[disabled]:checked ~ &__gfx,
   &__input[disabled][data-checked='true'] ~ &__gfx {
@@ -238,6 +267,7 @@
   // Off
   &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
     border-color: var(--checkbox-color-border-off--disabled);
+    background-color: var(--checkbox-color-background-off--disabled);
   }
 
   /** Active state **/
