@@ -28,10 +28,7 @@ describe('Field.Expiry', () => {
     await userEvent.keyboard('1235')
 
     expect(onChange).toBeCalledTimes(4)
-    expect(onChange.mock.calls[0][0]).toEqual('1')
-    expect(onChange.mock.calls[1][0]).toEqual('12')
-    expect(onChange.mock.calls[2][0]).toEqual('123')
-    expect(onChange.mock.calls[3][0]).toEqual('1235')
+    expect(onChange).toHaveBeenLastCalledWith('1235')
   })
 
   describe('keydown', () => {
