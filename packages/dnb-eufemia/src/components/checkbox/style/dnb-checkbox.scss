@@ -230,6 +230,10 @@
     border-color: var(--checkbox-color-border-on--disabled);
     background-color: var(--checkbox-color-background--disabled);
   }
+  &__input[disabled]:checked ~ &__gfx,
+  &__input[disabled][data-checked='true'] ~ &__gfx {
+    color: var(--checkbox-color-gfx--disabled);
+  }
 
   // Off
   &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
@@ -254,6 +258,7 @@
 
   // General
   &__input:not([disabled]):not(:focus):hover ~ &__button {
+    border-color: var(--checkbox-color-border-off--hover);
     background-color: var(--checkbox-color-background--hover);
   }
   &__input:not([disabled]):not(:focus):hover ~ &__gfx {
