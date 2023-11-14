@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { makeUniqueId, warn } from '../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -40,12 +40,6 @@ function Expiry(props: ExpiryProps) {
     ...props,
     emptyValue: '',
   })
-
-  if (value.length > 4) {
-    warn(
-      'Expiry field value length should not exceed four, Only the first four characters will be used!'
-    )
-  }
 
   const expiry: ExpiryValue = {
     month: value.substring(0, 2) ?? '',
