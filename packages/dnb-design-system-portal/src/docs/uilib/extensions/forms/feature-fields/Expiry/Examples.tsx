@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="expiry-empty">
       <Field.Expiry
         onChange={(expiry) => console.log('onChange', expiry)}
       />
@@ -14,8 +14,9 @@ export const Empty = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="expiry-with-value">
       <Field.Expiry
+        value="0835"
         label="Label text"
         onChange={(expiry) => console.log('onChange', expiry)}
       />
@@ -25,7 +26,7 @@ export const Label = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="expiry-with-help">
       <Field.Expiry
         label="Label text"
         help={{
@@ -41,7 +42,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="expiry-disabled">
       <Field.Expiry
         value="0826"
         label="Label text"
@@ -54,7 +55,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox scope={{ FormError }} data-visual-test="expiry-error">
       <Field.Expiry
         value="0326"
         label="Label text"
