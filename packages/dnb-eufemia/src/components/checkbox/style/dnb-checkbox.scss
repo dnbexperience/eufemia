@@ -207,6 +207,7 @@
   &__input:checked ~ &__button,
   &__input[data-checked='true'] ~ &__button {
     background-color: var(--checkbox-color-background-on);
+    border-color: var(--checkbox-color-border-on);
   }
 
   // Off
@@ -227,7 +228,7 @@
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {
     border-color: var(--checkbox-color-border-on--disabled);
-    background-color: var(--checkbox-color-background-on--disabled);
+    background-color: var(--checkbox-color-background--disabled);
   }
 
   // Off

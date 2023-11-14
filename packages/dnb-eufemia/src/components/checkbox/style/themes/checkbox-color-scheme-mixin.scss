@@ -5,9 +5,10 @@
     --checkbox-color-gfx-off: var(--color-sea-green);
     --checkbox-color-background-on: var(--color-sea-green);
     --checkbox-color-background-off: var(--color-white);
+    --checkbox-color-border-on: transparent;
     --checkbox-color-border-off: var(--color-sea-green);
     // Disabled state
-    --checkbox-color-background-on--disabled: var(--color-sea-green-30);
+    --checkbox-color-background--disabled: var(--color-sea-green-30);
     --checkbox-color-border-on--disabled: transparent;
     --checkbox-color-border-off--disabled: var(--color-mint-green-50);
     // Active state
@@ -30,13 +31,14 @@
 
   @if $theme == 'sbanken' {
     // Normal state
-    --checkbox-color-gfx: var(--color-white);
-    --checkbox-color-gfx-off: var(--color-sea-green);
-    --checkbox-color-background-on: var(--color-sea-green);
-    --checkbox-color-background-off: var(--color-white);
-    --checkbox-color-border-off: var(--color-sea-green);
+    --checkbox-color-gfx-on: var(--sb-color-violet-light);
+    --checkbox-color-gfx-off: var(--sb-color-violet-light);
+    --checkbox-color-background-on: var(--sb-color-white);
+    --checkbox-color-background-off: var(--sb-color-white);
+    --checkbox-color-border-on: var(--sb-color-gray-dark-2-neutral);
+    --checkbox-color-border-off: var(--sb-color-gray-dark-2-neutral);
     // Disabled state
-    --checkbox-color-background-on--disabled: var(--color-sea-green-30);
+    --checkbox-color-background--disabled: var(--color-sea-green-30);
     --checkbox-color-border-on--disabled: transparent;
     --checkbox-color-border-off--disabled: var(--color-mint-green-50);
     // Active state
