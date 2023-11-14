@@ -279,7 +279,7 @@ describe('Radio group component', () => {
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-baseline',
       'dnb-flex-container--spacing-small',
@@ -291,7 +291,46 @@ describe('Radio group component', () => {
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--direction-vertical',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
+    ])
+  })
+
+  it('should support vertical label', () => {
+    const { rerender } = render(
+      <Radio.Group label="Label" vertical>
+        <Radio />
+      </Radio.Group>
+    )
+
+    const element = document.querySelector('.dnb-radio-group')
+    const flexElement = element.querySelector('.dnb-flex-container')
+
+    expect(Array.from(flexElement.classList)).toEqual([
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-vertical',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-x-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
+    ])
+
+    rerender(
+      <Radio.Group label="Label" label_direction="vertical">
+        <Radio />
+      </Radio.Group>
+    )
+
+    expect(Array.from(flexElement.classList)).toEqual([
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-baseline',
       'dnb-flex-container--spacing-small',
@@ -300,6 +339,7 @@ describe('Radio group component', () => {
     ])
   })
 })
+
 describe('Radio ARIA', () => {
   it('should validate with ARIA rules for Radio', async () => {
     const Comp = render(<Radio {...props} />)
