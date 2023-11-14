@@ -78,7 +78,19 @@ const productionPlugins = [
 ]
 
 if (global.bundler !== 'rollup') {
-  productionPlugins.push('babel-plugin-transform-next-use-client')
+  productionPlugins.push([
+    'babel-plugin-transform-next-use-client',
+    {
+      customClientImports: [
+        'Context',
+        'Provider',
+        'useMedia',
+        'useMediaQuery',
+        'useEventEmitter',
+        'useTheme',
+      ],
+    },
+  ])
 }
 
 if (typeof process.env.BABEL_ENV !== 'undefined') {
