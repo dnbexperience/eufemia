@@ -843,6 +843,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputKeyDownHandler = ({ event: e }) => {
     const key = keycode(e)
+
     switch (key) {
       case 'page up':
       case 'page down':
@@ -851,6 +852,43 @@ class AutocompleteInstance extends React.PureComponent {
       case 'down':
       case 'up':
         e.preventDefault() // has to be there for VO, one the drawer is closed
+        break
+    }
+
+    switch (key) {
+      case 'up':
+      case 'down':
+        if (!this.context.drawerList.opened) {
+          // e.preventDefault()
+          this.setVisible()
+        }
+
+        break
+
+      case 'esc':
+        this.setState({
+          showAllNextTime: true,
+          _listenForPropChanges: false,
+        })
+
+        break
+
+      case 'enter':
+        e.preventDefault()
+
+        if (!this.context.drawerList.opened && this.hasFilterActive()) {
+          this.ignoreEvents()
+          this.showAll()
+        }
+        if (
+          (!this.hasValidData() || !this.hasSelectedItem()) &&
+          !this.hasActiveItem()
+        ) {
+          this.toggleVisible()
+        } else {
+          this.setVisible()
+        }
+
         break
     }
   }
@@ -1008,47 +1046,6 @@ class AutocompleteInstance extends React.PureComponent {
             warn(e)
           }
         }
-        break
-    }
-  }
-
-  onShellKeyDownHandler = (e) => {
-    const key = keycode(e)
-
-    switch (key) {
-      case 'up':
-      case 'down':
-        if (!this.context.drawerList.opened) {
-          e.preventDefault()
-          this.setVisible()
-        }
-
-        break
-
-      case 'esc':
-        this.setState({
-          showAllNextTime: true,
-          _listenForPropChanges: false,
-        })
-
-        break
-
-      case 'enter':
-        e.preventDefault()
-
-        if (!this.context.drawerList.opened && this.hasFilterActive()) {
-          this.ignoreEvents()
-          this.showAll()
-        }
-        if (
-          (!this.hasValidData() || !this.hasSelectedItem()) &&
-          !this.hasActiveItem()
-        ) {
-          this.toggleVisible()
-        } else {
-          this.setVisible()
-        }
-
         break
     }
   }
@@ -1836,7 +1833,6 @@ class AutocompleteInstance extends React.PureComponent {
     const shellParams = {
       className: 'dnb-autocomplete__shell dnb-no-focus',
       ref: this._refShell,
-      onKeyDown: this.onShellKeyDownHandler,
     }
 
     const inputParams = {
