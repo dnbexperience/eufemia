@@ -128,6 +128,7 @@ export const inputPropTypes = {
   on_submit_focus: PropTypes.func,
   on_submit_blur: PropTypes.func,
   on_state_update: PropTypes.func,
+  on_clear: PropTypes.func,
 }
 
 export default class Input extends React.PureComponent {
@@ -191,6 +192,7 @@ export default class Input extends React.PureComponent {
     on_submit_focus: null,
     on_submit_blur: null,
     on_state_update: null,
+    on_clear: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -319,9 +321,15 @@ export default class Input extends React.PureComponent {
     }
   }
   clearValue = (event) => {
+    const previousValue = this.state.value
     const value = ''
     this.setState({ value })
     dispatchCustomElementEvent(this, 'on_change', { value, event })
+    dispatchCustomElementEvent(this, 'on_clear', {
+      value,
+      previousValue,
+      event,
+    })
     this._ref.current.focus({ preventScroll: true })
   }
   render() {

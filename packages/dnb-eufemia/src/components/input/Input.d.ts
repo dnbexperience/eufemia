@@ -186,6 +186,7 @@ export interface InputProps
   on_submit_focus?: (...args: any[]) => any;
   on_submit_blur?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  on_clear?: (...args: any[]) => any;
 }
 export default class Input extends React.Component<InputProps, any> {
   static defaultProps: object;
