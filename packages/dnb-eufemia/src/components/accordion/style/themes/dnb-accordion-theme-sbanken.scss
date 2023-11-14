@@ -15,39 +15,32 @@
 
   // header
   --accordion-header-wrapper-margin--icon-right: calc(
-    1.5rem - var(--accordion-frame-width)
+    1.5rem - var(--sb-accordion-frame-width)
   );
 
   // icon
   --accordion-header-icon-gutter: 0.5rem;
   --accordion-header-icon-margin: calc(
-    1.5rem - var(--accordion-frame-width)
+    1.5rem - var(--sb-accordion-frame-width)
   );
 
   // frame (left border on expand)
-  --accordion-frame-color: transparent;
-  --accordion-frame-color--expanded: var(--sb-color-violet);
-  --accordion-frame-color--disabled: var(--sb-color-gray-dark-2);
-  --accordion-frame-width: 0.1875rem;
-  --accordion-frame-width--active: 0rem;
-
-  // background
-  --accordion-bg: transparent;
-  --accordion-bg--expanded: var(--sb-color-violet-light-4);
-  --accordion-bg--disabled: var(--sb-color-gray-light-2);
+  --sb-accordion-frame-color: transparent;
+  --sb-accordion-frame-width: 0.1875rem;
+  --sb-accordion-frame-width--active: 0rem;
 
   // other
-  --accordion-content-padding-left: calc(
-    3.5rem - var(--accordion-frame-width)
+  --sb-accordion-content-padding-left: calc(
+    3.5rem - var(--sb-accordion-frame-width)
   );
 
   color: var(--sb-color-text);
 
   &__header,
   &__content {
-    background-color: var(--accordion-bg);
-    border-left: var(--accordion-frame-width) solid
-      var(--accordion-frame-color);
+    background-color: var(--sb-accordion-background, transparent);
+    border-left: var(--sb-accordion-frame-width) solid
+      var(--sb-accordion-frame-color);
   }
 
   &__header {
@@ -71,9 +64,11 @@
       @include fakeBorder(null, null, inset);
       // must be set after fakeBorder()
       --border-color: var(--sb-color-violet);
-      border-left-width: var(--accordion-frame-width--active);
+      border-left-width: var(--sb-accordion-frame-width--active);
       padding-left: calc(
-        var(--accordion-frame-width) - var(--accordion-frame-width--active)
+        var(--sb-accordion-frame-width) - var(
+            --sb-accordion-frame-width--active
+          )
       );
     }
 
@@ -85,8 +80,8 @@
     &--icon-right {
       --accordion-header-icon-margin: 1.5rem;
       + .dnb-accordion__content {
-        --accordion-content-padding-left: calc(
-          1.5rem - var(--accordion-frame-width)
+        --sb-accordion-content-padding-left: calc(
+          1.5rem - var(--sb-accordion-frame-width)
         );
       }
     }
@@ -101,19 +96,19 @@
 
   &__content__inner {
     margin-top: 0;
-    padding: 0 1rem 1rem var(--accordion-content-padding-left);
+    padding: 0 1rem 1rem var(--sb-accordion-content-padding-left);
   }
 
   &--expanded {
-    --accordion-bg: var(--accordion-bg--expanded);
-    --accordion-frame-color: var(--accordion-frame-color--expanded);
-    --accordion-frame-width--active: 0.125rem;
+    --sb-accordion-background: var(--sb-color-violet-light-4);
+    --sb-accordion-frame-color: var(--sb-color-violet);
+    --sb-accordion-frame-width--active: 0.125rem;
 
     // disabled
     > .dnb-accordion__header[disabled],
     > .dnb-accordion__header[disabled] + .dnb-accordion__content {
-      --accordion-bg: var(--accordion-bg--disabled);
-      --accordion-frame-color: var(--accordion-frame-color--disabled);
+      --sb-accordion-background: var(--sb-color-gray-light-2);
+      --sb-accordion-frame-color: var(--sb-color-gray-dark-2);
     }
   }
 }
