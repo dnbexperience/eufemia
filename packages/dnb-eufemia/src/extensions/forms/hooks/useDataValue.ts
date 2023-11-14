@@ -15,11 +15,9 @@ import { Context } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
-import {
-  useMountEffect,
-  useUpdateEffect,
-  useProcessManager,
-} from '../hooks'
+import useMountEffect from './useMountEffect'
+import useUpdateEffect from './useUpdateEffect'
+import useProcessManager from './useProcessManager'
 
 interface ReturnAdditional<Value> {
   id: string
