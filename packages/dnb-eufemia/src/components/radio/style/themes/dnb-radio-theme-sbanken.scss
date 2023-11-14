@@ -3,8 +3,31 @@
 *
 */
 
-@import './radio-color-scheme-mixin.scss';
-
 .dnb-radio {
-  @include radioColorScheme('sbanken');
+  // Normal state
+  --radio-color-dot-on: var(--sb-color-violet-light);
+  --radio-color-background-on: var(--sb-color-white);
+  --radio-color-border-on: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-background-off: var(--sb-color-white);
+  --radio-color-border-off: var(--sb-color-gray-dark-2-neutral);
+  // Disabled state
+  --radio-color-dot-on--disabled: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-border-on--disabled: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-border-off--disabled: var(--sb-color-gray-dark-2-neutral);
+  // Active state
+  --radio-color-dot-on--active: var(--sb-color-violet-light);
+  --radio-color-border-on--active: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-background-off--active: var(--sb-color-white);
+  --radio-color-border-off--active: var(--sb-color-gray);
+  // Hover state
+  --radio-color-dot-on--hover: var(--sb-color-violet);
+  --radio-color-background-off--hover: var(--sb-color-white);
+  // Focus state
+  --radio-color-background-on--focus: var(--sb-color-blue-light-3);
+  --radio-color-background-off--focus: var(--sb-color-blue-light-3);
+  // Error state
+  --radio-color-dot-on--error: var(--sb-color-magenta);
+  --radio-color-border-on--error: var(--sb-color-magenta);
+  --radio-color-background-off--error: var(--sb-color-white);
+  --radio-color-dot-on--error-hover: var(--sb-color-red);
 }
