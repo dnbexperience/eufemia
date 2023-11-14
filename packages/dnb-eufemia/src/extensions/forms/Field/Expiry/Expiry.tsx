@@ -62,6 +62,7 @@ function Expiry(props: ExpiryProps) {
     >
       <MultiInputMask
         id={`${idRef}__input`}
+        className="dnb-forms-field-expiry"
         label={label}
         labelDirection={layout}
         values={expiry}
