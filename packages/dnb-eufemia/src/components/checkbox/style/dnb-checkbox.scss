@@ -14,8 +14,6 @@
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
   --checkbox-border-width: 0.125rem;
-
-  /** Color scheme variables **/
   // Normal state
   --checkbox-color-gfx-on: black;
   --checkbox-color-gfx-off: black;
@@ -220,9 +218,12 @@
     border-color: var(--skeleton-color);
   }
 
-  /** Color scheme **/
-  /* stylelint-disable no-descending-specificity */
-  // We prioritise categorisation+readbility over specificity here
+  /*
+   * Color scheme
+   */
+
+  // stylelint-disable no-descending-specificity
+  // We prioritise categorisation and readability over specificity here
 
   /** Normal state **/
 
@@ -374,5 +375,5 @@
     ~ &__button {
     background-color: var(--checkbox-color-background-on--error);
   }
-  /* stylelint-enable no-descending-specificity */
+  // stylelint-enable no-descending-specificity
 }
