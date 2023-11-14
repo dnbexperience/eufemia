@@ -31,7 +31,7 @@ function Expiry(props: ExpiryProps) {
     value = '',
     labelDescription,
     labelSecondary,
-    layout,
+    layout = 'vertical',
     required,
     handleFocus,
     handleBlur,
