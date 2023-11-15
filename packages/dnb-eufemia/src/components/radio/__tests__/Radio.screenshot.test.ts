@@ -8,9 +8,12 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Radio', () => {
+describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
   describe('unchecked', () => {
-    setupPageScreenshot({ url: '/uilib/components/radio/demos' })
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/radio/demos',
+    })
 
     it('have to match radio in unchecked state', async () => {
       const screenshot = await makeScreenshot({
@@ -43,7 +46,10 @@ describe('Radio', () => {
   // NB: Because of focus simulation and screenshotElement.press('Tab')
   // we have to run the two focus simulations in a separate run each
   describe('checked', () => {
-    setupPageScreenshot({ url: '/uilib/components/radio/demos' })
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/radio/demos',
+    })
 
     it('have to match radio in checked state', async () => {
       const screenshot = await makeScreenshot({
