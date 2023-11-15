@@ -211,13 +211,6 @@
     }
   }
 
-  &.dnb-skeleton &__input[disabled] ~ &__button {
-    &::before {
-      border-radius: 0;
-    }
-    border-color: var(--skeleton-color);
-  }
-
   /*
    * Color scheme
    */
@@ -374,6 +367,16 @@
     &__input:not([disabled]):not(:active):not(:hover)[data-checked='true']
     ~ &__button {
     background-color: var(--checkbox-color-background-on--error);
+  }
+
+  &.dnb-skeleton &__input[disabled] ~ &__button {
+    &::before {
+      border-radius: 0;
+    }
+    border-color: var(--skeleton-color);
+  }
+  &.dnb-skeleton &__input[disabled] ~ &__gfx {
+    color: var(--skeleton-color);
   }
   // stylelint-enable no-descending-specificity
 }

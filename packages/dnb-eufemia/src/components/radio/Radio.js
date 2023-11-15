@@ -436,7 +436,17 @@ export default class Radio extends React.PureComponent {
                         aria-hidden
                       />
                       <span className="dnb-radio__focus" aria-hidden />
-                      <span className="dnb-radio__dot" aria-hidden />
+                      <span
+                        className={classnames(
+                          'dnb-radio__dot',
+                          createSkeletonClass(
+                            'font',
+                            skeleton,
+                            this.context
+                          )
+                        )}
+                        aria-hidden
+                      />
                     </span>
 
                     {label_position !== 'left' && labelComp}
