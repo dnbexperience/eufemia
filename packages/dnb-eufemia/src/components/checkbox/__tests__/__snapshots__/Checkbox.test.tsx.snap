@@ -154,7 +154,6 @@ button .dnb-form-status__text {
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
   --checkbox-border-width: 0.125rem;
-  /** Color scheme variables **/
   --checkbox-color-gfx-on: black;
   --checkbox-color-gfx-off: black;
   --checkbox-color-background-on: white;
@@ -183,15 +182,15 @@ button .dnb-form-status__text {
   flex-direction: column;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
-  /** Color scheme **/
-  /* stylelint-disable no-descending-specificity */
+  /*
+   * Color scheme
+   */
   /** Normal state **/
   /** Disabled state **/
   /** Active state **/
   /** Hover state **/
   /** Focus state **/
   /** Error state **/
-  /* stylelint-enable no-descending-specificity */
 }
 .dnb-checkbox__inner {
   display: inline-flex;
