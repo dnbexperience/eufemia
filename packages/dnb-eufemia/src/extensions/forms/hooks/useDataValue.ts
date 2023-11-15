@@ -415,7 +415,6 @@ export default function useDataValue<
       dataContextHandlePathChange,
       showError,
       hideError,
-      // setShowFieldBlockError,
       handleIterateElementChange,
       fromInput,
       forceUpdate,
