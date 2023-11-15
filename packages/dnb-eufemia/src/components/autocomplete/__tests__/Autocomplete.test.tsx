@@ -2542,9 +2542,54 @@ describe('Autocomplete component', () => {
     expect(inputElement.value).toEqual('CH (+41)')
   })
 
+  it('shold reset value and open drawer on clear button click', async () => {
+    const on_focus = jest.fn()
+    render(
+      <Autocomplete
+        show_clear_button
+        data={mockData}
+        {...mockProps}
+        on_focus={on_focus}
+      />
+    )
+
+    const inputElement = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+    const clearElement = () =>
+      document.querySelector('.dnb-input__clear-button')
+
+    // Reset with click
+    {
+      await userEvent.type(inputElement, 'aa')
+
+      expect(inputElement.value).toBe('aa')
+      expect(document.activeElement).toBe(inputElement)
+
+      fireEvent.click(clearElement())
+
+      expect(inputElement.value).toBe('')
+      expect(document.activeElement).toBe(inputElement)
+    }
+
+    // Reset with keyboard
+    {
+      await userEvent.type(inputElement, 'bb')
+
+      expect(inputElement.value).toBe('bb')
+      expect(document.activeElement).toBe(inputElement)
+
+      await userEvent.type(clearElement(), '{Enter}')
+
+      expect(inputElement.value).toBe('')
+      expect(document.activeElement).toBe(inputElement)
+    }
+  })
+
   describe('input blur', () => {
     const mainElement = () => document.querySelector('.dnb-autocomplete')
-    const inputElement = () => document.querySelector('.dnb-input__input')
+    const inputElement = () =>
+      document.querySelector('.dnb-input__input') as HTMLInputElement
     const inputComponent = () => document.querySelector('.dnb-input')
     const listElement = () =>
       document.querySelector('.dnb-autocomplete__list')
