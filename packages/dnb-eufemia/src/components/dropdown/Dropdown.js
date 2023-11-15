@@ -698,5 +698,5 @@ class DropdownInstance extends React.PureComponent {
 }
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
-
+Dropdown._formElement = true
 Dropdown._supportsSpacingProps = true

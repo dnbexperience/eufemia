@@ -112,4 +112,5 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   return <Element {...params}>{text || children}</Element>
 }
 
+FormLabel._formElement = true
 FormLabel._supportsSpacingProps = true

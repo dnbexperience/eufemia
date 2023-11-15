@@ -302,3 +302,6 @@ function MultiInputMaskInput<T extends string>({
 }
 
 export default MultiInputMask
+
+MultiInputMask._formElement = true
+MultiInputMask._supportsSpacingProps = true

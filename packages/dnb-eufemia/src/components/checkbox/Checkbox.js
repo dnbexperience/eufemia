@@ -372,4 +372,5 @@ CheckIcon.defaultProps = {
   size: 'default',
 }
 
+CheckIcon._formElement = true
 CheckIcon._supportsSpacingProps = true

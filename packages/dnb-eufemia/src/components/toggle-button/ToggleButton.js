@@ -501,4 +501,5 @@ export default class ToggleButton extends React.PureComponent {
   }
 }
 
+ToggleButton._formElement = true
 ToggleButton._supportsSpacingProps = true

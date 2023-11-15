@@ -2095,5 +2095,5 @@ class AutocompleteInstance extends React.PureComponent {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
-
+Autocomplete._formElement = true
 Autocomplete._supportsSpacingProps = true

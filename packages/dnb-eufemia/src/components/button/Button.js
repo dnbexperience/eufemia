@@ -470,4 +470,5 @@ Content.defaultProps = {
   isIconOnly: null,
 }
 
+Button._formElement = true
 Button._supportsSpacingProps = true
