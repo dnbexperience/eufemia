@@ -910,12 +910,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   vertical-align: top;
   margin-top: 0.5rem;
 }
-.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
-  border-color: var(--skeleton-color);
-}
-.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
-  border-radius: 0;
-}
 .dnb-checkbox__input:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[data-checked=true] ~ .dnb-checkbox__gfx {
   opacity: 1;
   transform: scale(1);
@@ -1003,6 +997,15 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover)[data-checked=true] ~ .dnb-checkbox__button {
   background-color: var(--checkbox-color-background-on--error);
+}
+.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+  border-color: var(--skeleton-color);
+}
+.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+  border-radius: 0;
+}
+.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__gfx {
+  color: var(--skeleton-color);
 }
 
 /*
@@ -1365,9 +1368,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group .dnb-flex-container::before {
   font-size: var(--font-size-basis);
 }
-.dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
-  border-color: var(--skeleton-color);
-}
 .dnb-radio__input:checked ~ .dnb-radio__button, .dnb-radio__input[data-checked=true] ~ .dnb-radio__button {
   background-color: var(--radio-color-background-on);
   border-color: var(--radio-color-border-on);
@@ -1390,8 +1390,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio__input[disabled]:checked ~ .dnb-radio__dot, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--disabled);
 }
-.dnb-radio__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-radio__button {
+.dnb-radio__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-radio__button:not(.dnb-skeleton) {
   border-color: var(--radio-color-border-off--disabled);
+}
+.dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
+  border-color: var(--skeleton-color);
+}
+.dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton::before {
+  border-radius: 0;
 }
 .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__button {
   border-color: var(--radio-color-border-on--active);
