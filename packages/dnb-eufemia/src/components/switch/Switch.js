@@ -363,4 +363,5 @@ export default class Switch extends React.PureComponent {
   }
 }
 
+Switch._formElement = true
 Switch._supportsSpacingProps = true

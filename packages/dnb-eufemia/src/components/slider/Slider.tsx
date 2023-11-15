@@ -20,6 +20,7 @@ function Slider(localProps: SliderAllProps) {
   )
 }
 
+Slider._formElement = true
 Slider._supportsSpacingProps = true
 
 export default Slider

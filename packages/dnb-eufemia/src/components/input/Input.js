@@ -777,4 +777,5 @@ InputIcon.propTypes = {
   ]).isRequired,
 }
 
+Input._formElement = true
 Input._supportsSpacingProps = true

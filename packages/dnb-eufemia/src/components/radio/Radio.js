@@ -461,4 +461,5 @@ export default class Radio extends React.PureComponent {
   }
 }
 
+Radio._formElement = true
 Radio._supportsSpacingProps = true
