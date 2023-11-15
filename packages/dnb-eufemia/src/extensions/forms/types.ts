@@ -1,8 +1,12 @@
 import { JSONSchema7 } from 'json-schema'
 import { SpacingProps } from '../../components/space/types'
 
+type ValidationRule = string | string[]
+type MessageValues = Record<string, string>
+
 interface IFormErrorOptions {
-  validationRule?: string | string[]
+  validationRule?: ValidationRule
+  messageValues?: MessageValues
 }
 
 /**
@@ -12,13 +16,20 @@ export class FormError extends Error {
   /**
    * What validation rule did the error occur based on? (i.e: minLength, required or maximum)
    */
-  validationRule?: string | string[]
+  validationRule?: ValidationRule
+
+  /**
+   * Replacement values relevant for this error.
+   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} charactes"
+   */
+  messageValues?: MessageValues
 
   constructor(message: string, options?: IFormErrorOptions) {
     super(message)
 
     if (options) {
       this.validationRule = options.validationRule
+      this.messageValues = options.messageValues
     }
   }
 }

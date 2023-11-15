@@ -36,9 +36,38 @@ function getValidationRule(ajvError: ErrorObject): string {
   return ajvError.keyword
 }
 
+function getMessageValues(
+  ajvError: ErrorObject
+): FormError['messageValues'] {
+  const validationRule = getValidationRule(ajvError)
+
+  switch (validationRule) {
+    case 'minLength':
+    case 'maxLength':
+    case 'minimum':
+    case 'maximum':
+    case 'exclusiveMinimum':
+    case 'exclusiveMaximum':
+      return {
+        [validationRule]: ajvError.params?.limit,
+      }
+    case 'multipleOf':
+      return {
+        [validationRule]: ajvError.params?.multipleOf,
+      }
+    case 'pattern':
+      return {
+        [validationRule]: ajvError.params?.pattern,
+      }
+  }
+}
+
 function ajvErrorToFormError(ajvError: ErrorObject): FormError {
   const error = new FormError(ajvError.message ?? 'Unknown error', {
     validationRule: getValidationRule(ajvError),
+    // Keep the message values in the error object instead of injecting them into the message
+    // at once, since an error might be validated one place, and then get a new message before it is displayed.
+    messageValues: getMessageValues(ajvError),
   })
   return error
 }
