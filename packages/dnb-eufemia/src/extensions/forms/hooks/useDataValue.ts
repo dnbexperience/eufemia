@@ -406,7 +406,6 @@ export default function useDataValue<
       forceUpdate()
     },
     [
-      // id,
       path,
       elementPath,
       iterateElementIndex,
