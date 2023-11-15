@@ -167,6 +167,14 @@ export default {
         'Verdien kan ikke være kortere enn {minLength} tegn',
       stringInputErrorMaxLength:
         'Verdien kan ikke være lengre enn {maxLength} tegn',
+      numberFieldErrorMinimum: 'Verdien må være minst {minimum}',
+      numberFieldErrorMaximum: 'Verdien må være maksimalt {maximum}',
+      numberFieldErrorExclusiveMinimum:
+        'Verdien må være større enn {exclusiveMinimum}',
+      numberFieldErrorExclusiveMaximum:
+        'Verdien må være mindre enn {exclusiveMaximum}',
+      numberFieldErrorMultipleOf:
+        'Verdien må være et multiplum av {multipleOf}',
       selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',

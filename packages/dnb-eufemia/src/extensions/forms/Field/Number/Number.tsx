@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo, useCallback } from 'react'
+import { JSONSchema7 } from 'json-schema'
 import { InputMasked, HelpButton } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
+import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
@@ -41,6 +43,9 @@ export type Props = FieldHelpProps &
   }
 
 function NumberComponent(props: Props) {
+  const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
+
   const {
     currency,
     percent,
@@ -52,6 +57,77 @@ function NumberComponent(props: Props) {
     suffix,
     rightAligned,
   } = props
+
+  const errorMessages = useMemo(
+    () => ({
+      required: tr.inputErrorRequired,
+      minimum: tr.numberFieldErrorMinimum.replace(
+        '{minimum}',
+        props.minimum?.toString()
+      ),
+      maximum: tr.numberFieldErrorMaximum.replace(
+        '{maximum}',
+        props.maximum?.toString()
+      ),
+      exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum.replace(
+        '{exclusiveMinimum}',
+        props.exclusiveMinimum?.toString()
+      ),
+      exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum.replace(
+        '{exclusiveMaximum}',
+        props.exclusiveMaximum?.toString()
+      ),
+      multipleOf: tr.numberFieldErrorMultipleOf.replace(
+        '{multipleOf}',
+        props.multipleOf?.toString()
+      ),
+      ...props.errorMessages,
+    }),
+    [
+      tr,
+      props.errorMessages,
+      props.minimum,
+      props.maximum,
+      props.exclusiveMinimum,
+      props.exclusiveMaximum,
+      props.multipleOf,
+    ]
+  )
+  const schema = useMemo<JSONSchema7>(
+    () =>
+      props.schema ?? {
+        type: 'number',
+        minimum: props.minimum,
+        maximum: props.maximum,
+        exclusiveMinimum: props.exclusiveMinimum,
+        exclusiveMaximum: props.exclusiveMaximum,
+        multipleOf: props.multipleOf,
+      },
+    [
+      props.schema,
+      props.minimum,
+      props.maximum,
+      props.exclusiveMinimum,
+      props.exclusiveMaximum,
+      props.multipleOf,
+    ]
+  )
+
+  const toInput = useCallback((external: number | undefined) => {
+    if (external === undefined) {
+      return ''
+    }
+    return external
+  }, [])
+  const fromInput = useCallback(
+    ({ value, numberValue }: { value: string; numberValue: number }) => {
+      if (value === '') {
+        return emptyValue
+      }
+      return numberValue
+    },
+    []
+  )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
     if (currency) {
@@ -91,32 +167,10 @@ function NumberComponent(props: Props) {
 
   const preparedProps: Props = {
     ...props,
-    schema: props.schema ?? {
-      type: 'number',
-      minimum: props.minimum,
-      maximum: props.maximum,
-      exclusiveMinimum: props.exclusiveMinimum,
-      exclusiveMaximum: props.exclusiveMaximum,
-      multipleOf: props.multipleOf,
-    },
-    toInput: (external: number | undefined) => {
-      if (external === undefined) {
-        return ''
-      }
-      return external
-    },
-    fromInput: ({
-      value,
-      numberValue,
-    }: {
-      value: string
-      numberValue: number
-    }) => {
-      if (value === '') {
-        return emptyValue
-      }
-      return numberValue
-    },
+    errorMessages,
+    schema,
+    toInput,
+    fromInput,
     width: props.width ?? 'medium',
   }
 

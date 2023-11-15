@@ -146,6 +146,19 @@ export const GroupMultipleFields = () => {
   )
 }
 
+export const CombineErrorMessages = () => {
+  return (
+    <ComponentBox>
+      <FieldBlock>
+        <Flex.Horizontal>
+          <Field.Number width="small" label="Num" minimum={100} />
+          <Field.String width="medium" label="Txt" minLength={5} />
+        </Flex.Horizontal>
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalAutoSize = () => {
   return (
     <ComponentBox>

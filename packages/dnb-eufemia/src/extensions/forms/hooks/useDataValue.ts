@@ -139,14 +139,15 @@ export default function useDataValue<
   const hasFocusRef = useRef<boolean>(false)
 
   // Error handling
+  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
+  // the component means it is supposed to be shown initially.
+  const showErrorInitially = validateInitially || errorProp
   // - Local errors are errors based on validation instructions received by
   const localErrorRef = useRef<Error | FormError | undefined>()
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const contextErrorRef = useRef<Error | FormError | undefined>()
 
-  const showErrorRef = useRef<boolean>(
-    Boolean(validateInitially || errorProp)
-  )
+  const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
   const errorMessagesRef = useRef(errorMessages)
   useEffect(() => {
     errorMessagesRef.current = errorMessages
@@ -163,6 +164,16 @@ export default function useDataValue<
   const schemaValidatorRef = useRef<ValidateFunction>(
     schema ? ajv.compile(schema) : undefined
   )
+
+  const showError = useCallback(() => {
+    showErrorRef.current = true
+    setShowFieldBlockError?.(path ?? id, true)
+  }, [path, id, setShowFieldBlockError])
+
+  const hideError = useCallback(() => {
+    showErrorRef.current = false
+    setShowFieldBlockError?.(path ?? id, false)
+  }, [path, id, setShowFieldBlockError])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -304,10 +315,9 @@ export default function useDataValue<
     if (dataContext.showAllErrors) {
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
-      showErrorRef.current = true
-      setShowFieldBlockError?.(path ?? id, true)
+      showError()
     }
-  }, [id, path, dataContext.showAllErrors, setShowFieldBlockError])
+  }, [dataContext.showAllErrors, showError])
 
   const setHasFocus = useCallback(
     (hasFocus: boolean, valueOverride?: Value) => {
@@ -336,20 +346,17 @@ export default function useDataValue<
         }
 
         // Since the user left the field, show error (if any)
-        showErrorRef.current = true
-        setShowFieldBlockError?.(path ?? id, true)
+        showError()
         forceUpdate()
       }
     },
     [
-      id,
-      path,
       validateUnchanged,
       onFocus,
       onBlur,
       onBlurValidator,
       persistErrorState,
-      setShowFieldBlockError,
+      showError,
       forceUpdate,
     ]
   )
@@ -376,12 +383,10 @@ export default function useDataValue<
         // When there is a change to the value without there having been any focus callback beforehand, it is likely
         // to believe that the blur callback will not be called either, which would trigger the display of the error.
         // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
-        showErrorRef.current = true
-        setShowFieldBlockError?.(path ?? id, true)
+        showError()
       } else {
         // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
-        showErrorRef.current = false
-        setShowFieldBlockError?.(path ?? id, false)
+        hideError()
       }
       // Always validate the value immediately when it is changed
       validateValue()
@@ -399,7 +404,6 @@ export default function useDataValue<
       forceUpdate()
     },
     [
-      id,
       path,
       elementPath,
       iterateElementIndex,
@@ -407,7 +411,8 @@ export default function useDataValue<
       onChange,
       validateValue,
       dataContextHandlePathChange,
-      setShowFieldBlockError,
+      showError,
+      hideError,
       handleIterateElementChange,
       fromInput,
       forceUpdate,
@@ -419,6 +424,10 @@ export default function useDataValue<
       dataContext?.handleMountField(path)
     }
     validateValue()
+
+    if (showErrorInitially) {
+      showError()
+    }
 
     return () => {
       // Unmount procedure
