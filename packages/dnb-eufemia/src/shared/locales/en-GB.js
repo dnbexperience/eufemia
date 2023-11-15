@@ -32,6 +32,11 @@ export default {
       submit_button_text: 'OK',
       cancel_button_text: 'Cancel',
       reset_button_text: 'Reset',
+      placeholder_characters: {
+        day: 'd',
+        month: 'm',
+        year: 'y',
+      },
     },
     Anchor: {
       targetBlankTitle: 'Opens a new Window',
@@ -167,6 +172,7 @@ export default {
       selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
+      expiryLabel: 'Expiry date',
       emailErrorRequired: 'You must enter an email',
       emailErrorPattern: 'This is not a valid email address',
       emailLabel: 'Email',
