@@ -475,7 +475,6 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this._ariaLiveUpdateTimeout)
     clearTimeout(this._focusTimeout)
     clearTimeout(this._blurTimeout)
-    clearTimeout(this._toggleVisibleTimeout)
   }
 
   setVisible = (args = null, onStateComplete = null) => {
@@ -564,6 +563,8 @@ class AutocompleteInstance extends React.PureComponent {
     const data = this.runFilter(value, options)
     const count = this.countData(data)
 
+    const { keep_value, keep_value_and_selection } = this.props
+
     if (value && value.length > 0) {
       // show the "no_options" message
       if (count === 0) {
@@ -583,15 +584,12 @@ class AutocompleteInstance extends React.PureComponent {
         }
       }
     } else {
-      if (
-        !isTrue(this.props.keep_value) &&
-        !isTrue(this.props.keep_value_and_selection)
-      ) {
+      if (!isTrue(keep_value) && !isTrue(keep_value_and_selection)) {
         // this will not remove selected_item
         this.totalReset()
       }
 
-      if (isTrue(this.props.keep_value)) {
+      if (isTrue(keep_value)) {
         this.resetSelectedItem()
       }
 
@@ -845,6 +843,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputKeyDownHandler = ({ event: e }) => {
     const key = keycode(e)
+
     switch (key) {
       case 'page up':
       case 'page down':
@@ -853,6 +852,43 @@ class AutocompleteInstance extends React.PureComponent {
       case 'down':
       case 'up':
         e.preventDefault() // has to be there for VO, one the drawer is closed
+        break
+    }
+
+    switch (key) {
+      case 'up':
+      case 'down':
+        if (!this.context.drawerList.opened) {
+          // e.preventDefault()
+          this.setVisible()
+        }
+
+        break
+
+      case 'esc':
+        this.setState({
+          showAllNextTime: true,
+          _listenForPropChanges: false,
+        })
+
+        break
+
+      case 'enter':
+        e.preventDefault()
+
+        if (!this.context.drawerList.opened && this.hasFilterActive()) {
+          this.ignoreEvents()
+          this.showAll()
+        }
+        if (
+          (!this.hasValidData() || !this.hasSelectedItem()) &&
+          !this.hasActiveItem()
+        ) {
+          this.toggleVisible()
+        } else {
+          this.setVisible()
+        }
+
         break
     }
   }
@@ -893,15 +929,38 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  onReserveActivityHandler = (event) => {
-    // Prevent to happen the on_blur event during drawer-list activity
-    this.__preventFiringBlurEvent =
+  reserveActivityHandler = (event = null) => {
+    this.__preventFiringBlurEvent = Boolean(
       event.key === 'enter' ||
-      event.key === 'space' ||
-      (event.target && getPreviousSibling('dnb-drawer-list', event.target))
+        (event?.currentTarget
+          ? getPreviousSibling('dnb-drawer-list', event.currentTarget) ||
+            getPreviousSibling(
+              'dnb-input__submit-button__button',
+              event.currentTarget
+            )
+          : false)
+    )
+
+    if (this.__preventFiringBlurEvent) {
+      setTimeout(
+        () => {
+          this.__preventFiringBlurEvent = false
+        },
+        isTrue(this.props.no_animation) ? 1 : DrawerList.blurDelay
+      )
+    }
   }
 
   onBlurHandler = (event) => {
+    if (
+      this.__preventFiringBlurEvent ||
+      this.context.drawerList.hasFocusOnElement ||
+      this.state.hasBlur
+    ) {
+      this.__preventFiringBlurEvent = null
+      return false
+    }
+
     const {
       open_on_focus,
       keep_value,
@@ -910,60 +969,54 @@ class AutocompleteInstance extends React.PureComponent {
       no_animation,
     } = this.props
 
-    if (
-      !this.state.hasBlur &&
-      !this.__preventFiringBlurEvent &&
-      !this.context.drawerList.hasFocusOnElement
-    ) {
-      dispatchCustomElementEvent(this, 'on_blur', {
-        event,
-        ...this.getEventObjects('on_blur'),
-      })
+    dispatchCustomElementEvent(this, 'on_blur', {
+      event,
+      ...this.getEventObjects('on_blur'),
+    })
 
+    this.setState({
+      hasBlur: true,
+      hasFocus: false,
+    })
+
+    if (!isTrue(keep_value) && !isTrue(keep_value_and_selection)) {
       this.setState({
-        hasBlur: true,
-        hasFocus: false,
+        typedInputValue: null,
+        _listenForPropChanges: false,
       })
+    }
 
-      if (!isTrue(keep_value_and_selection)) {
-        this.setState({
-          typedInputValue: null,
-          _listenForPropChanges: false,
-        })
-      }
+    if (!isTrue(prevent_selection)) {
+      const existingValue = this.state.inputValue
 
-      if (!isTrue(prevent_selection)) {
-        const existingValue = this.state.inputValue
+      if (!isTrue(keep_value) && !isTrue(keep_value_and_selection)) {
         this.clearInputValue()
-
-        const resetAfterClose = () => {
-          if (
-            !isTrue(keep_value) ||
-            !existingValue ||
-            this.hasSelectedItem()
-          ) {
-            this.resetActiveItem()
-          }
-          this.resetFilter()
-        }
-
-        if (isTrue(no_animation)) {
-          resetAfterClose()
-        } else {
-          clearTimeout(this._blurTimeout)
-          this._blurTimeout = setTimeout(
-            resetAfterClose,
-            DrawerList.blurDelay
-          ) // only to let the animation pass, before we make the effect. Else this would be a visible change
-        }
       }
 
-      if (isTrue(open_on_focus)) {
-        this.setHidden()
+      const resetAfterClose = () => {
+        if (
+          !isTrue(keep_value) ||
+          !existingValue ||
+          this.hasSelectedItem()
+        ) {
+          this.resetActiveItem()
+        }
+        this.resetFilter()
       }
-    } else if (this.__preventFiringBlurEvent) {
-      this.__preventFiringBlurEvent = null
-      return false
+
+      if (isTrue(no_animation)) {
+        resetAfterClose()
+      } else {
+        clearTimeout(this._blurTimeout)
+        this._blurTimeout = setTimeout(
+          resetAfterClose,
+          DrawerList.blurDelay
+        ) // only to let the animation pass, before we make the effect. Else this would be a visible change
+      }
+    }
+
+    if (isTrue(open_on_focus)) {
+      this.setHidden()
     }
   }
 
@@ -993,48 +1046,6 @@ class AutocompleteInstance extends React.PureComponent {
             warn(e)
           }
         }
-        break
-    }
-  }
-
-  onShellKeyDownHandler = (e) => {
-    const key = keycode(e)
-
-    switch (key) {
-      case 'up':
-      case 'down':
-        if (!this.context.drawerList.opened) {
-          e.preventDefault()
-          this.setVisible()
-        }
-
-        break
-
-      case 'esc':
-        this.setState({
-          showAllNextTime: true,
-          _listenForPropChanges: false,
-        })
-
-        break
-
-      case 'enter':
-        e.preventDefault()
-
-        if (!this.context.drawerList.opened && this.hasFilterActive()) {
-          this.ignoreEvents()
-          this.showAll()
-        }
-        if (
-          (!this.hasValidData() || !this.hasSelectedItem()) &&
-          !this.hasActiveItem()
-        ) {
-          clearTimeout(this._toggleVisibleTimeout)
-          this._toggleVisibleTimeout = setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
-        } else {
-          this.setVisible()
-        }
-
         break
     }
   }
@@ -1541,12 +1552,9 @@ class AutocompleteInstance extends React.PureComponent {
         } catch (e) {
           // do nothing
         }
-        clearTimeout(this._focusTimeout)
-        this._focusTimeout = setTimeout(() => {
-          this.setState({
-            hasFocus: false,
-          })
-        }, 1) // we have to wait in order to make sure the focus situation is cleared up
+        this.setState({
+          hasFocus: false,
+        })
       }
     )
   }
@@ -1825,7 +1833,6 @@ class AutocompleteInstance extends React.PureComponent {
     const shellParams = {
       className: 'dnb-autocomplete__shell dnb-no-focus',
       ref: this._refShell,
-      onKeyDown: this.onShellKeyDownHandler,
     }
 
     const inputParams = {
@@ -1895,6 +1902,7 @@ class AutocompleteInstance extends React.PureComponent {
       status: !opened && status ? status_state : null,
       onKeyDown: this.onTriggerKeyDownHandler,
       onSubmit: this.toggleVisible,
+      onMouseDown: this.reserveActivityHandler,
       'aria-haspopup': 'listbox',
       'aria-expanded': isExpanded,
       'aria-label': !hidden ? submit_button_title : undefined,
@@ -2057,8 +2065,8 @@ class AutocompleteInstance extends React.PureComponent {
                 on_select={this.onSelectHandler}
                 on_hide={this.onHideHandler}
                 on_pre_change={this.onPreChangeHandler}
-                on_key_down={this.onReserveActivityHandler}
-                onMouseDown={this.onReserveActivityHandler}
+                on_key_down={this.reserveActivityHandler}
+                onMouseDown={this.reserveActivityHandler}
                 independent_width={independent_width}
               />
             </span>
@@ -2087,5 +2095,5 @@ class AutocompleteInstance extends React.PureComponent {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
-
+Autocomplete._formElement = true
 Autocomplete._supportsSpacingProps = true

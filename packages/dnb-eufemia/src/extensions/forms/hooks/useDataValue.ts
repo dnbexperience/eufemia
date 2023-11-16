@@ -4,15 +4,20 @@ import {
   useContext,
   useCallback,
   useMemo,
-  useState,
+  useReducer,
 } from 'react'
 import pointer from 'json-pointer'
-import { FormError, FieldProps } from '../types'
+import { ValidateFunction } from 'ajv'
+import { errorChanged } from '../utils'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
+import { FormError, FieldProps } from '../types'
 import { Context } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
+import useMountEffect from './useMountEffect'
+import useUpdateEffect from './useUpdateEffect'
+import useProcessManager from './useProcessManager'
 
 interface ReturnAdditional<Value> {
   id: string
@@ -47,6 +52,8 @@ export default function useDataValue<
     toInput = (value) => value,
     fromInput = (value) => value,
   } = props
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const { startProcess } = useProcessManager()
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
   const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
@@ -57,6 +64,7 @@ export default function useDataValue<
     setPathWithError: dataContextSetPathWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
+  const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
     setError: setFieldBlockError,
@@ -122,130 +130,212 @@ export default function useDataValue<
     dataContext.data,
   ])
 
+  // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
+  // useEffect depend on them (like the external `value`)
+
   // Hold an internal copy of the input value in case the input component is used uncontrolled,
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
-  const [value, setValue] = useState(externalValue)
-  const changedRef = useRef(false)
-  const hasFocusRef = useRef(false)
-
-  useEffect(() => {
-    // When receiving the initial value, or receiving an updated value by props, update the internal value
-    // so the component can be used "controlled".
-    setValue(externalValue)
-  }, [externalValue])
+  const valueRef = useRef<Value>(externalValue)
+  const changedRef = useRef<boolean>(false)
+  const hasFocusRef = useRef<boolean>(false)
 
   // Error handling
-  const [error, setError] = useState<Error | FormError | undefined>()
-  const [showError, setShowError] = useState<boolean>(
-    Boolean(validateInitially || errorProp)
-  )
-  const schemaValidator = useMemo(
-    () =>
-      schema && Object.keys(schema).length > 0
-        ? ajv.compile(schema)
-        : undefined,
-    [schema]
+  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
+  // the component means it is supposed to be shown initially.
+  const showErrorInitially = validateInitially || errorProp
+  // - Local errors are errors based on validation instructions received by
+  const localErrorRef = useRef<Error | FormError | undefined>()
+  // - Context errors are from outer contexts, like validation for this field as part of the whole data set
+  const contextErrorRef = useRef<Error | FormError | undefined>(
+    dataContextError
   )
 
-  const setErrorAndUpdateDataContext = useCallback(
-    (error: FormError | undefined) => {
-      const errorWithCorrectMessage =
-        error instanceof FormError &&
-        typeof error.validationRule === 'string' &&
-        errorMessages?.[error.validationRule] !== undefined
-          ? new FormError(errorMessages[error.validationRule])
-          : error
+  const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
+  const errorMessagesRef = useRef(errorMessages)
+  useEffect(() => {
+    errorMessagesRef.current = errorMessages
+  }, [errorMessages])
+  const schemaRef = useRef(schema)
+  useEffect(() => {
+    schemaRef.current = schema
+  }, [schema])
+  const validatorRef = useRef(validator)
+  useEffect(() => {
+    validatorRef.current = validator
+  }, [validator])
 
-      setError(errorWithCorrectMessage)
+  const schemaValidatorRef = useRef<ValidateFunction>(
+    schema ? ajv.compile(schema) : undefined
+  )
+
+  const showError = useCallback(() => {
+    showErrorRef.current = true
+    setShowFieldBlockError?.(path ?? id, true)
+  }, [path, id, setShowFieldBlockError])
+
+  const hideError = useCallback(() => {
+    showErrorRef.current = false
+    setShowFieldBlockError?.(path ?? id, false)
+  }, [path, id, setShowFieldBlockError])
+
+  /**
+   * Prepare error from validation logic with correct error messages based on props
+   */
+  const prepareError = useCallback(
+    (error: Error | FormError | undefined): FormError | undefined => {
+      if (error === undefined) {
+        return
+      }
+
+      if (error instanceof FormError) {
+        const message =
+          (typeof error.validationRule === 'string' &&
+            errorMessagesRef.current?.[error.validationRule]) ||
+          error.message
+
+        const messageWithValues = Object.entries(
+          error.messageValues ?? {}
+        ).reduce((message, [key, value]) => {
+          return message.replace(`{${key}}`, value)
+        }, message)
+
+        return new FormError(messageWithValues)
+      }
+
+      return error
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
+
+  /**
+   * Based on validation, update error state, locally and relevant surrounding contexts
+   */
+  const persistErrorState = useCallback(
+    (errorArg: FormError | undefined) => {
+      const error = prepareError(errorArg)
+
+      if (!errorChanged(error, localErrorRef.current)) {
+        // In case different triggers lead to validation with no changes in the result (like still no error, or the same error),
+        // avoid unnecessary re-renders by letting the old error object stay in the state and skip re-rendering.
+        return
+      }
+
+      localErrorRef.current = error
 
       if (path) {
         // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
         dataContextSetPathWithError?.(path, Boolean(error))
       }
 
-      setFieldBlockError?.(path ?? id, errorWithCorrectMessage)
+      setFieldBlockError?.(path ?? id, error)
+      forceUpdate()
     },
     [
       path,
       id,
-      errorMessages,
+      prepareError,
       dataContextSetPathWithError,
       setFieldBlockError,
+      forceUpdate,
     ]
   )
 
-  const validateValue = useCallback(
-    (valueToValidate): FormError | undefined => {
-      // Prioritize received validator functions first
-      // Possible future change: Merge errors if multiple, like one message with each message concatenated.
-      if (typeof validator === 'function') {
-        // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(validator(valueToValidate))
-          // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
-          // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
-          // as if they were operational errors.
-          .then(setErrorAndUpdateDataContext)
-      }
+  const clearErrorState = useCallback(
+    () => persistErrorState(undefined),
+    [persistErrorState]
+  )
 
-      if (valueToValidate === emptyValue && required) {
-        const error = new FormError('The value is required', {
+  /**
+   * Validate the current state value by provided validator instructions
+   */
+  const validateValue = useCallback(async () => {
+    const isProcessActive = startProcess()
+
+    try {
+      // Validate required
+      if (valueRef.current === emptyValue && required) {
+        throw new FormError('The value is required', {
           validationRule: 'required',
         })
-        setErrorAndUpdateDataContext(error)
-        return error
-      } else if (schemaValidator) {
-        // This input has a direct schema (through props)
-        if (valueToValidate === undefined && emptyValue === undefined) {
-          // Avoid validating undefined-values if they are expected (set with emptyValue) as they will
-          // usually fail against json-schema type
-          setErrorAndUpdateDataContext(undefined)
-          return undefined
-        }
-        schemaValidator(valueToValidate)
-        const error = ajvErrorsToOneFormError(schemaValidator.errors)
-        setErrorAndUpdateDataContext(error)
-        return error
-      } else {
-        // Removing any previous error from required
-        setErrorAndUpdateDataContext(undefined)
-        return undefined
       }
-    },
-    [
-      schemaValidator,
-      emptyValue,
-      required,
-      setErrorAndUpdateDataContext,
-      validator,
-    ]
-  )
+
+      // Validate by provided JSON Schema for this value
+      if (
+        schemaValidatorRef.current &&
+        valueRef.current !== undefined &&
+        !schemaValidatorRef.current(valueRef.current)
+      ) {
+        const error = ajvErrorsToOneFormError(
+          schemaValidatorRef.current.errors
+        )
+        throw error
+      }
+      // Validate by provided derivative validator
+      if (validatorRef.current) {
+        const res = await validatorRef.current?.(valueRef.current)
+        if (res instanceof Error) {
+          throw res
+        }
+      }
+
+      if (isProcessActive()) {
+        clearErrorState()
+      }
+    } catch (error: unknown) {
+      if (isProcessActive()) {
+        persistErrorState(error as Error)
+      }
+    }
+  }, [
+    emptyValue,
+    required,
+    startProcess,
+    persistErrorState,
+    clearErrorState,
+  ])
+
+  useUpdateEffect(() => {
+    if (!schema) {
+      return
+    }
+    schemaValidatorRef.current = ajv.compile(schema)
+    validateValue()
+  }, [schema, validateValue])
+
+  useUpdateEffect(() => {
+    // Error or removed error for this field from the surrounding data context (by path)
+    valueRef.current = externalValue
+    validateValue()
+    forceUpdate()
+  }, [externalValue, validateValue])
 
   useEffect(() => {
-    // If a surrounding data context has an error for this field (by path) and no error has been set by local component validation, use the data context error
-    if (!error && path && dataContextErrors?.[path]) {
-      setErrorAndUpdateDataContext(dataContextErrors[path])
+    const error = prepareError(dataContextError)
+    if (errorChanged(error, contextErrorRef.current)) {
+      contextErrorRef.current = error
+      forceUpdate()
     }
-  }, [path, dataContextErrors, error, setErrorAndUpdateDataContext])
+  }, [dataContextError, prepareError])
 
   useEffect(() => {
     if (dataContext.showAllErrors) {
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
-      setShowError(true)
-      setShowFieldBlockError?.(path ?? id, true)
+      showError()
     }
-  }, [id, path, dataContext.showAllErrors, setShowFieldBlockError])
+  }, [dataContext.showAllErrors, showError])
 
   const setHasFocus = useCallback(
-    (hasFocus: boolean, valueOverride?: unknown) => {
+    (hasFocus: boolean, valueOverride?: Value) => {
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        onFocus?.(valueOverride ?? value)
+        onFocus?.(valueOverride ?? valueRef.current)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        onBlur?.(valueOverride ?? value)
+        onBlur?.(valueOverride ?? valueRef.current)
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -257,28 +347,24 @@ export default function useDataValue<
         // expensive validation calling external services etc.
         if (typeof onBlurValidator === 'function') {
           // Since the validator can return either a synchronous result or an asynchronous
-          Promise.resolve(onBlurValidator(valueOverride ?? value))
-            // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
-            // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
-            // as if they were operational errors.
-            .then(setErrorAndUpdateDataContext)
+          Promise.resolve(
+            onBlurValidator(valueOverride ?? valueRef.current)
+          ).then(persistErrorState)
         }
 
         // Since the user left the field, show error (if any)
-        setShowError(true)
-        setShowFieldBlockError?.(path ?? id, true)
+        showError()
+        forceUpdate()
       }
     },
     [
-      id,
-      path,
-      value,
       validateUnchanged,
       onFocus,
       onBlur,
       onBlurValidator,
-      setErrorAndUpdateDataContext,
-      setShowFieldBlockError,
+      persistErrorState,
+      showError,
+      forceUpdate,
     ]
   )
 
@@ -289,12 +375,12 @@ export default function useDataValue<
     (argFromInput) => {
       const newValue = fromInput(argFromInput)
 
-      if (newValue === value) {
+      if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
       }
-      setValue(newValue)
+      valueRef.current = newValue
       changedRef.current = true
 
       if (
@@ -304,15 +390,13 @@ export default function useDataValue<
         // When there is a change to the value without there having been any focus callback beforehand, it is likely
         // to believe that the blur callback will not be called either, which would trigger the display of the error.
         // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
-        setShowError(true)
-        setShowFieldBlockError?.(path ?? id, true)
+        showError()
       } else {
         // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
-        setShowError(false)
-        setShowFieldBlockError?.(path ?? id, false)
+        hideError()
       }
       // Always validate the value immediately when it is changed
-      validateValue(newValue)
+      validateValue()
 
       onChange?.(newValue)
       if (path) {
@@ -324,31 +408,33 @@ export default function useDataValue<
         }`
         handleIterateElementChange?.(iterateValuePath, newValue)
       }
+      forceUpdate()
     },
     [
-      id,
       path,
       elementPath,
       iterateElementIndex,
-      value,
       continuousValidation,
       onChange,
       validateValue,
       dataContextHandlePathChange,
-      setShowFieldBlockError,
+      showError,
+      hideError,
       handleIterateElementChange,
       fromInput,
+      forceUpdate,
     ]
   )
 
-  const exportError = useMemo(() => errorProp ?? error, [errorProp, error])
-
-  useEffect(() => {
-    // Mount procedure
+  useMountEffect(() => {
     if (path) {
       dataContext?.handleMountField(path)
     }
-    validateValue(externalValue)
+    validateValue()
+
+    if (showErrorInitially) {
+      showError()
+    }
 
     return () => {
       // Unmount procedure
@@ -356,15 +442,17 @@ export default function useDataValue<
         dataContext?.handleUnMountField(path)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
-  }, [])
+  })
 
   return {
     ...props,
     id,
     name: props.name || props.path?.replace('/', '') || id,
-    value: toInput(value),
-    error: inFieldBlock ? undefined : showError ? exportError : undefined,
+    value: toInput(valueRef.current),
+    error:
+      !inFieldBlock && showErrorRef.current
+        ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+        : undefined,
     autoComplete:
       props.autoComplete ??
       (dataContext.autoComplete === true ? 'on' : 'off'),

@@ -128,4 +128,5 @@ export default class InputPassword extends React.PureComponent {
   }
 }
 
+InputPassword._formElement = true
 InputPassword._supportsSpacingProps = true

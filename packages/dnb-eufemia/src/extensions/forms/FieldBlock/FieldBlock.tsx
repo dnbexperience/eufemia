@@ -3,7 +3,10 @@ import classnames from 'classnames'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
-import { findElementInChildren } from '../../../shared/component-helper'
+import {
+  findElementInChildren,
+  warn,
+} from '../../../shared/component-helper'
 
 export type Props = Pick<
   FieldProps,
@@ -128,17 +131,13 @@ function FieldBlock(props: Props) {
   )
 
   // A child component with a label was found, use fieldset/legend instead of div/label
-  const enableFieldset = useMemo(
-    () =>
-      label &&
-      (asFieldset ||
-        (!nestedFieldBlockContext &&
-          findElementInChildren(
-            children,
-            (child: React.ReactElement) => child.props.label
-          ))),
-    []
-  )
+  const enableFieldset = useEnableFieldset({
+    label,
+    forId,
+    asFieldset,
+    children,
+    nestedFieldBlockContext,
+  })
 
   const state = error || warning || info
   const stateStatus = error
@@ -153,7 +152,7 @@ function FieldBlock(props: Props) {
     return (
       <FormLabel
         element={enableFieldset ? 'legend' : 'label'}
-        for_id={enableFieldset ? undefined : forId}
+        forId={enableFieldset ? undefined : forId}
         space={{ top: 0, bottom: 'x-small' }}
         size={size}
       >
@@ -230,6 +229,42 @@ function FieldBlock(props: Props) {
       </Space>
     </FieldBlockContext.Provider>
   )
+}
+
+function useEnableFieldset({
+  label,
+  forId,
+  asFieldset,
+  children,
+  nestedFieldBlockContext,
+}) {
+  return useMemo(() => {
+    let result = asFieldset
+
+    if (label && !result && !nestedFieldBlockContext) {
+      let count = 0
+
+      findElementInChildren(children, (child: React.ReactElement) => {
+        if (
+          typeof child?.props?.label !== 'undefined' ||
+          child?.type?.['_formElement'] === true
+        ) {
+          count++
+        }
+        if (count > 1) {
+          return (result = true)
+        }
+      })
+
+      if (forId && count > 1) {
+        warn(
+          `You may not use forId="${forId}" as there where given several (${count}) form elements as children.`
+        )
+      }
+    }
+
+    return Boolean(result)
+  }, [children])
 }
 
 FieldBlock._supportsSpacingProps = true

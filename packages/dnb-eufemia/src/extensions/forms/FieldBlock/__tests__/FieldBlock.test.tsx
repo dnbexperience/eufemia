@@ -89,6 +89,30 @@ describe('FieldBlock', () => {
     )
   })
 
+  it('should warn when "forId" and several form elements where given', () => {
+    const orig = console.log
+    console.log = jest.fn()
+
+    render(
+      <FieldBlock forId="invalid" label="A Label">
+        <MockComponent label="Label" id="foo" />
+        <MockComponent label="Label" id="bar" />
+      </FieldBlock>
+    )
+
+    expect(console.log).toHaveBeenCalledTimes(1)
+    expect(console.log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('forId="invalid"')
+    )
+
+    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+    expect(document.querySelectorAll('legend')).toHaveLength(1)
+    expect(document.querySelectorAll('label')).toHaveLength(2)
+
+    console.log = orig
+  })
+
   it('should render a "label"', () => {
     render(<FieldBlock label="A Label">content</FieldBlock>)
 
@@ -180,6 +204,69 @@ describe('FieldBlock', () => {
     expect(labelElements[2].tagName).toBe('LABEL')
     expect(labelElements[3].tagName).toBe('LABEL')
     expect(labelElements[4]).toBe(undefined)
+  })
+
+  it('should use fieldset/legend elements when nested component has a label property', () => {
+    const { rerender } = render(
+      <FieldBlock label="Legend">
+        <MockComponent label="Label" />
+        <MockComponent label="Label" />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+    expect(document.querySelectorAll('legend')).toHaveLength(1)
+    expect(document.querySelector('legend')).not.toHaveAttribute('for')
+    expect(document.querySelectorAll('label')).toHaveLength(2)
+
+    rerender(
+      <FieldBlock label="Legend" forId="unique">
+        <MockComponent label="Label" />
+        <MockComponent id="unique" />
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('fieldset')).not.toBeInTheDocument()
+    expect(document.querySelector('legend')).not.toBeInTheDocument()
+    expect(document.querySelectorAll('label')).toHaveLength(2)
+
+    rerender(
+      <FieldBlock label="Legend">
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('fieldset')).not.toBeInTheDocument()
+    expect(document.querySelector('legend')).not.toBeInTheDocument()
+    expect(document.querySelectorAll('label')).toHaveLength(1)
+  })
+
+  it('should use fieldset/legend when _formElement is given', () => {
+    MockComponent._formElement = true
+
+    const { rerender } = render(
+      <FieldBlock label="Legend">
+        <MockComponent />
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+    expect(document.querySelectorAll('legend')).toHaveLength(1)
+    expect(document.querySelector('legend')).not.toHaveAttribute('for')
+
+    delete MockComponent._formElement
+
+    rerender(
+      <FieldBlock label="Legend">
+        <MockComponent />
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('fieldset')).not.toBeInTheDocument()
+    expect(document.querySelector('legend')).not.toBeInTheDocument()
+    expect(document.querySelectorAll('label')).toHaveLength(1)
   })
 
   it('should use fieldset/legend when "asFieldset" is given', () => {
@@ -300,3 +387,13 @@ describe('FieldBlock', () => {
     expect(element.classList).toContain('custom-class')
   })
 })
+
+function MockComponent({ label = null, id = null }) {
+  return (
+    <>
+      {label && <label htmlFor={id}>{label}</label>}
+      <input id={id} />
+    </>
+  )
+}
+MockComponent._formElement = null

@@ -642,7 +642,28 @@ describe('Input with clear button', () => {
         .querySelector('svg')
     ).toBeInTheDocument()
   })
+
+  it('should emit on_clear event on clear button click', () => {
+    const on_clear = jest.fn()
+    const on_change = jest.fn()
+
+    render(
+      <Input value="123" clear on_clear={on_clear} on_change={on_change} />
+    )
+
+    fireEvent.click(document.querySelector('.dnb-input__clear-button'))
+
+    expect(on_clear).toHaveBeenCalledTimes(1)
+    expect(on_clear).toHaveBeenCalledWith(
+      expect.objectContaining({ value: '', previousValue: '123' })
+    )
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change).toHaveBeenCalledWith(
+      expect.objectContaining({ value: '' })
+    )
+  })
 })
+
 describe('Input ARIA', () => {
   it('should validate with ARIA rules as a search input with a label', async () => {
     const Comp = render(

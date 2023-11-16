@@ -1,4 +1,8 @@
+import { OmitTableProperties } from 'dnb-design-system-portal/src/shared/tags/Table'
+
 ### Standard data value component props
+
+<OmitTableProperties>
 
 | Property               | Type                        | Description                                                                                                                                                                                                                                                                    |
 | ---------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -11,7 +15,7 @@
 | `labelDescription`     | `string`                    | _(optional)_ A more discreet text displayed beside the label (i.e for "(optional)").                                                                                                                                                                                           |
 | `labelSecondary`       | `string`                    | _(optional)_ Secondary information displayed at the end of the label line (i.e character counter).                                                                                                                                                                             |
 | `placeholder`          | `string`                    | _(optional)_ Text showing in place of the value if no value is given.                                                                                                                                                                                                          |
-| `path`                 | `string`                    | _(optional)_ JSON Pointer for where the data for this input is located in the source dataset (when using Form.Handler or DataContext). The `path` will also be sett as the `name` attribute for the [string](/uilib/extensions/forms/base-fields/String/)-field.               |
+| `path`                 | `string`                    | _(optional)_ JSON Pointer for where the data for this input is located in the source dataset (when using Form.Handler or DataContext). The `path` will also be set as the `name` attribute for the [string](/uilib/extensions/forms/base-fields/String/)-field.                |
 | `info`                 | `Error` or `string`         | _(optional)_ Info message shown below / after the input.                                                                                                                                                                                                                       |
 | `warning`              | `Error` or `string`         | _(optional)_ Warning message shown below / after the input.                                                                                                                                                                                                                    |
 | `error`                | `Error`                     | _(optional)_ Error message shown below / after the input.                                                                                                                                                                                                                      |
@@ -27,3 +31,10 @@
 | `onBlurValidator`      | `function`                  | _(optional)_ Custom validator function that will be called when the user leaves the field (blurring a text input, closing a dropdown etc). Can be asynchronous or synchronous.                                                                                                 |
 | `toInput`              | `function`                  | _(optional)_ Derivate called when the received / active value is sent to the input. Can be used for casting, changing syntax etc.                                                                                                                                              |
 | `fromInput`            | `function`                  | _(optional)_ Derivate called when changes is made by the user, to cast or change syntax back to the original (opposite of `toInput`).                                                                                                                                          |
+
+</OmitTableProperties>
+
+export default function Layout({ omit = null, children }) {
+  globalThis.omitTableProperties = omit
+  return <>{children}</>
+}

@@ -740,4 +740,5 @@ export default class DatePicker extends React.PureComponent {
   }
 }
 
+DatePicker._formElement = true
 DatePicker._supportsSpacingProps = true

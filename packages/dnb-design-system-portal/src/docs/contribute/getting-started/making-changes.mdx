@@ -148,9 +148,35 @@ function MyComponent(props: ComponentAllProps) {
 }
 ```
 
-### Form element support with `pickFormElementProps`
+### "Form element" components
 
-Form elements, like input, checkbox, slider etc. do support some form element properties. In order to support them, you can use `pickFormElementProps`, so only valid properties will effected the component.
+Form elements, like input, checkbox, slider etc. should include some extra functionality in order to be used in various situations.
+
+Basically, components we would place inside a HTML `<form>` element.
+
+**Label vs fieldset/legend**
+
+They should be declared as a form element:
+
+```tsx
+FormComponent._formElement = true
+```
+
+This helps e.g. to detect automated determination of label vs fieldset/legend.
+
+**Spacing**
+
+And they should be declared to support spacing props as well:
+
+```tsx
+FormComponent._supportsSpacingProps = true
+```
+
+This is needed in order to fully support [Flex](/uilib/layout/flex/) layouts.
+
+#### Usage of `pickFormElementProps`
+
+In order to support form element props, such as `vertical` or `labelDirection`, you can use `pickFormElementProps`, so only valid properties will effected the component.
 
 ```tsx
 import { Context } from '../../shared'
@@ -161,14 +187,14 @@ const defaultProps = {
   myParam: 'value',
 }
 
-function MyComponent(props: Types) {
+function FormComponent(props: Types) {
   const context = React.useContext(Context)
 
   const { myParam, skeleton, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
     pickFormElementProps(context?.formElement)
-    context.MyComponent,
+    context.FormComponent,
   )
 
   // Use myParam and spread the ...rest

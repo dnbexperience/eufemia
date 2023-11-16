@@ -8,6 +8,7 @@ import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
+import { makeUniqueId } from '../../shared/component-helper'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
@@ -66,6 +67,10 @@ export type MultiInputMaskProps<T extends string> = {
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
   statusState?: FormStatusState
+  /**
+   * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
+   */
+  suffix?: React.ReactNode
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
   'onChange' | 'ref' | 'value' | 'label'
@@ -83,6 +88,7 @@ function MultiInputMask<T extends string>({
   statusState,
   values: defaultValues,
   className,
+  suffix,
   ...props
 }: MultiInputMaskProps<T>) {
   const [values, onChange] = useMultiInputValue({
@@ -131,6 +137,7 @@ function MultiInputMask<T extends string>({
         disabled={disabled}
         status={status}
         status_state={statusState}
+        suffix={suffix}
         input_element={inputs.map((input, index) => (
           <Fragment key={input.id}>
             <MultiInputMaskInput
@@ -184,11 +191,11 @@ function MultiInputMask<T extends string>({
     // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handled or not
     return inputs.reduce(
       (keys, { id, mask }) => {
-        keys[`${id}__input`] = mask
+        keys[id] = mask
 
         return keys
       },
-      {} as Record<`${T}__input`, RegExp[]>
+      {} as Record<T, RegExp[]>
     )
   }
 
@@ -232,10 +239,13 @@ function MultiInputMaskInput<T extends string>({
   onKeyDown,
   onChange,
 }: MultiInputMaskInputProps<T>) {
+  const markupId = `${id}-${makeUniqueId()}`
+
   return (
     <>
       <TextMask
-        id={`${id}__input`}
+        id={`${markupId}__input`}
+        data-mask-id={id}
         className={classnames(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
@@ -249,7 +259,7 @@ function MultiInputMaskInput<T extends string>({
         guide={true}
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
-        aria-labelledby={`${id}__label`}
+        aria-labelledby={`${markupId}__label`}
         ref={inputRef}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
@@ -260,7 +270,11 @@ function MultiInputMaskInput<T extends string>({
           )
         }}
       />
-      <label id={`${id}__label`} htmlFor={`${id}__input`} hidden>
+      <label
+        id={`${markupId}__label`}
+        htmlFor={`${markupId}__input`}
+        hidden
+      >
         {label}
       </label>
       {delimiter && (
@@ -288,3 +302,6 @@ function MultiInputMaskInput<T extends string>({
 }
 
 export default MultiInputMask
+
+MultiInputMask._formElement = true
+MultiInputMask._supportsSpacingProps = true

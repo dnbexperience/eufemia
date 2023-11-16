@@ -3,148 +3,31 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-
 .dnb-radio {
-  &__dot {
-    background-color: var(--color-sea-green);
-    transition:
-      opacity 200ms ease-out,
-      transform 200ms ease-out;
-  }
-
-  // When radio is ON
-  &__input:checked ~ &__button,
-  &__input[data-checked='true'] ~ &__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green);
-  }
-  &__input:checked ~ &__dot,
-  &__input[data-checked='true'] ~ &__dot {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  // When radio is OFF
-  &__input:not(:checked):not([data-checked='true']) ~ &__dot {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  &__input:not(:checked):not([data-checked='true']) ~ &__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green);
-  }
-
-  // On disabled
-  &__input[disabled]:checked ~ &__button,
-  &__input[disabled][data-checked='true'] ~ &__button {
-    border-color: var(--color-sea-green-30);
-  }
-  &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
-    border-color: var(--color-mint-green-50);
-  }
-  &__input[disabled]:checked ~ &__dot,
-  &__input[disabled][data-checked='true'] ~ &__dot {
-    background-color: var(--color-sea-green-30);
-  }
-
-  // On active
-  &__input:not([disabled]):checked:active ~ &__button,
-  &__input:not([disabled])[data-checked='true']:active ~ &__button {
-    border-color: var(--color-mint-green-50);
-  }
-  &__input:not([disabled]):not(:checked):not([data-checked='true']):active
-    ~ &__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent;
-  }
-  &__input:not([disabled]):checked:active ~ &__dot,
-  &__input:not([disabled])[data-checked='true']:active ~ &__dot {
-    background-color: var(--color-mint-green-50);
-  }
-
-  // On hover
-  &__input:not([disabled]):not(:focus):not(:checked):not(
-      [data-checked='true']
-    ):hover
-    ~ &__button {
-    background-color: var(--color-mint-green-50);
-  }
-  &__input:not([disabled]):not(:focus):checked:hover ~ &__dot,
-  &__input:not([disabled]):not(:focus)[data-checked='true']:hover
-    ~ &__dot {
-    background-color: var(--color-mint-green-50);
-  }
-
-  // On focus
-  /* stylelint-disable */
-  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
-    ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--color-mint-green-50);
-    }
-  }
-  &__input:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      border: none;
-    }
-  }
-  &__input:not([disabled]):focus ~ &__focus,
-  &__input:not([disabled]):active ~ &__focus {
-    display: block;
-  }
-  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
-    ~ &__button,
-  &__input:not([disabled]):not(:checked):not([data-checked='true']):active
-    ~ &__button {
-    background-color: var(--color-mint-green-50);
-  }
-  /* stylelint-enable */
-
-  // On error state
-  /* stylelint-disable */
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button {
-    border: none;
-  }
-  /* stylelint-enable */
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__focus {
-    display: block;
-    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
-  }
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:checked):not(
-      [data-checked='true']
-    ):hover
-    ~ &__button {
-    background-color: var(--color-fire-red-8);
-  }
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
-    ~ &__dot,
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(
-      :hover
-    )[data-checked='true']
-    ~ &__dot {
-    background-color: var(--color-fire-red);
-  }
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):checked:hover
-    ~ &__dot,
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(
-      :active
-    )[data-checked='true']:hover
-    ~ &__dot {
-    background-color: var(--color-fire-red-8);
-  }
-
-  // adjust the form-status to the inner border for 3px
-  > .dnb-form-status {
-    transform: translateY(0.25rem); /* 4/16 */
-  }
+  // Normal state
+  --radio-color-dot-on: var(--color-sea-green);
+  --radio-color-background-on: var(--color-white);
+  --radio-color-border-on: var(--color-sea-green);
+  --radio-color-background-off: var(--color-white);
+  --radio-color-border-off: var(--color-sea-green);
+  // Disabled state
+  --radio-color-dot-on--disabled: var(--color-sea-green-30);
+  --radio-color-border-on--disabled: var(--color-sea-green-30);
+  --radio-color-border-off--disabled: var(--color-mint-green-50);
+  // Active state
+  --radio-color-dot-on--active: var(--color-mint-green-50);
+  --radio-color-border-on--active: var(--color-mint-green-50);
+  --radio-color-background-off--active: var(--color-mint-green-50);
+  --radio-color-border-off--active: transparent;
+  // Hover state
+  --radio-color-dot-on--hover: var(--color-mint-green-50);
+  --radio-color-background-off--hover: var(--color-mint-green-50);
+  // Focus state
+  --radio-color-background-on--focus: var(--color-white);
+  --radio-color-background-off--focus: var(--color-mint-green-50);
+  // Error state
+  --radio-color-dot-on--error: var(--color-fire-red);
+  --radio-color-border-on--error: var(--color-fire-red);
+  --radio-color-background-off--error: var(--color-fire-red-8);
+  --radio-color-dot-on--error-hover: var(--color-fire-red-8);
 }

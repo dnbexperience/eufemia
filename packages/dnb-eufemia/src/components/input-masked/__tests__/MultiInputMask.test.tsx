@@ -115,13 +115,13 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    expect(first.id).toBe('day__input')
+    expect(first.id).toMatch(new RegExp(/^day-id-\w+__input/))
     expect(first.tagName).toBe('INPUT')
 
-    expect(second.id).toBe('month__input')
+    expect(second.id).toMatch(new RegExp(/^month-id-\w+__input/))
     expect(second.tagName).toBe('INPUT')
 
-    expect(third.id).toBe('year__input')
+    expect(third.id).toMatch(new RegExp(/^year-id-\w+__input/))
     expect(third.tagName).toBe('INPUT')
   })
 
@@ -133,15 +133,15 @@ describe('MultiInputMask', () => {
     ) as HTMLInputElement[]
 
     expect(first.nextElementSibling).toHaveTextContent('the day')
-    expect(first.labels[0].id).toBe('day__label')
+    expect(first.labels[0].id).toMatch(new RegExp(/^day-id-\w+__label/))
     expect(first.nextElementSibling.tagName).toBe('LABEL')
 
     expect(second.nextElementSibling).toHaveTextContent('the month')
-    expect(second.labels[0].id).toBe('month__label')
+    expect(second.labels[0].id).toMatch(new RegExp(/^month-id-\w+__label/))
     expect(second.nextElementSibling.tagName).toBe('LABEL')
 
     expect(third.nextElementSibling).toHaveTextContent('the year')
-    expect(third.labels[0].id).toBe('year__label')
+    expect(third.labels[0].id).toMatch(new RegExp(/^year-id-\w+__label/))
     expect(third.nextElementSibling.tagName).toBe('LABEL')
   })
 

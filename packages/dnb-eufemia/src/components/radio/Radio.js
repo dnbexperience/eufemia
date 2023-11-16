@@ -372,11 +372,11 @@ export default class Radio extends React.PureComponent {
           const labelComp = label && (
             <FormLabel
               id={id + '-label'}
-              for_id={id}
+              forId={id}
               text={label}
               disabled={disabled}
               skeleton={skeleton}
-              sr_only={label_sr_only}
+              srOnly={label_sr_only}
             />
           )
 
@@ -461,4 +461,5 @@ export default class Radio extends React.PureComponent {
   }
 }
 
+Radio._formElement = true
 Radio._supportsSpacingProps = true

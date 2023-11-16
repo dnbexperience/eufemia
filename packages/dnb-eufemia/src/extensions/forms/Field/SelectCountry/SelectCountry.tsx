@@ -8,6 +8,15 @@ export type Props = SelectionProps
 
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
+
+  const errorMessages = useMemo(
+    () => ({
+      required: tr.selectCountryErrorRequired,
+      ...props.errorMessages,
+    }),
+    [tr, props.errorMessages]
+  )
 
   const selectComponentProps: Props = {
     ...props,
@@ -16,11 +25,7 @@ function SelectCountry(props: Props) {
       sharedContext?.translation.Forms.selectCountryPlaceholder,
     label:
       props.label ?? sharedContext?.translation.Forms.selectCountryLabel,
-    errorMessages: {
-      required:
-        sharedContext?.translation.Forms.selectCountryErrorRequired,
-      ...props.errorMessages,
-    },
+    errorMessages,
   }
 
   const lang = sharedContext.locale?.split('-')[0]
@@ -33,7 +38,7 @@ function SelectCountry(props: Props) {
           title={country.i18n[lang] ?? country.i18n.en}
         />
       )),
-    [sharedContext.locale]
+    [lang]
   )
 
   return <Selection {...selectComponentProps}>{countryOptions}</Selection>

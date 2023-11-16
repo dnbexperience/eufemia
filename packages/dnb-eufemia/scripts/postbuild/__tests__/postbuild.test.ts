@@ -290,7 +290,7 @@ describe('babel build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/components/accordion/Accordion.js`
+          `build${stage}/components/button/Button.js`
         ),
         'utf-8'
       )

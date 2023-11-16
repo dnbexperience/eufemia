@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo, useCallback } from 'react'
 import classnames from 'classnames'
+import { JSONSchema7 } from 'json-schema'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
@@ -42,43 +43,50 @@ export type Props = FieldHelpProps &
 
 function StringComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
 
-  const preparedProps: Props = {
-    ...props,
-    errorMessages: {
-      required: sharedContext?.translation.Forms.inputErrorRequired,
-      minLength:
-        sharedContext?.translation.Forms.stringInputErrorMinLength.replace(
-          '{minLength}',
-          props.minLength?.toString()
-        ),
-      maxLength:
-        sharedContext?.translation.Forms.stringInputErrorMaxLength.replace(
-          '{maxLength}',
-          props.maxLength?.toString()
-        ),
-      pattern: sharedContext?.translation.Forms.inputErrorPattern,
+  const errorMessages = useMemo(
+    () => ({
+      required: tr.inputErrorRequired,
+      minLength: tr.stringInputErrorMinLength.replace(
+        '{minLength}',
+        props.minLength?.toString()
+      ),
+      maxLength: tr.stringInputErrorMaxLength.replace(
+        '{maxLength}',
+        props.maxLength?.toString()
+      ),
+      pattern: tr.inputErrorPattern,
       ...props.errorMessages,
-    },
-    schema: props.schema ?? {
-      type: 'string',
-      minLength: props.minLength,
-      maxLength: props.maxLength,
-      pattern: props.pattern,
-    },
-    fromInput: ({
-      value,
-      cleanedValue,
-    }: {
-      value: string
-      cleanedValue: string
-    }) => {
+    }),
+    [tr, props.errorMessages, props.minLength, props.maxLength]
+  )
+  const schema = useMemo<JSONSchema7>(
+    () =>
+      props.schema ?? {
+        type: 'string',
+        minLength: props.minLength,
+        maxLength: props.maxLength,
+        pattern: props.pattern,
+      },
+    [props.schema, props.minLength, props.maxLength, props.pattern]
+  )
+  const fromInput = useCallback(
+    ({ value, cleanedValue }: { value: string; cleanedValue: string }) => {
       if (value === '') {
         return props.emptyValue
       }
       // Cleaned value for masked
       return cleanedValue ?? value
     },
+    [props.emptyValue]
+  )
+
+  const preparedProps: Props = {
+    ...props,
+    errorMessages,
+    schema,
+    fromInput,
     width: props.width ?? 'large',
   }
 

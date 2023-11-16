@@ -32,6 +32,11 @@ export default {
       submit_button_text: 'OK',
       cancel_button_text: 'Cancel',
       reset_button_text: 'Reset',
+      placeholder_characters: {
+        day: 'd',
+        month: 'm',
+        year: 'y',
+      },
     },
     Anchor: {
       targetBlankTitle: 'Opens a new Window',
@@ -164,9 +169,18 @@ export default {
         'The value cannot be shorter than {minLength} characters',
       stringInputErrorMaxLength:
         'The value cannot be longer than {maxLength} characters',
+      numberFieldErrorMinimum: 'The value must be at lest {minimum}',
+      numberFieldErrorMaximum: 'The value must be a maximum of {maximum}',
+      numberFieldErrorExclusiveMinimum:
+        'The value must be greater than {exclusiveMinimum}',
+      numberFieldErrorExclusiveMaximum:
+        'The value must be less than {exclusiveMaximum}',
+      numberFieldErrorMultipleOf:
+        'The value must be a multiple of {multipleOf}',
       selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
+      expiryLabel: 'Expiry date',
       emailErrorRequired: 'You must enter an email',
       emailErrorPattern: 'This is not a valid email address',
       emailLabel: 'Email',

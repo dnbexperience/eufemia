@@ -49,6 +49,15 @@ export default !/^(release|beta|alpha|next|portal|main)$/.test(
           excludes,
         }
       ),
+      makeRollupConfig(
+        './src/umd/dnb-ui-extensions.ts',
+        'build/umd/dnb-ui-extensions.min.js',
+        {
+          name: 'dnbExtensions',
+          format: 'umd',
+          excludes,
+        }
+      ),
     ]
   : [
       makeRollupConfig(

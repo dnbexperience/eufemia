@@ -1,8 +1,13 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form, DataContext, Field } from '../../../'
+import { Props as StringFieldProps } from '../../../Field/String/String'
 import { JSONSchema7 } from 'json-schema'
+
+function TestField(props: StringFieldProps) {
+  return <Field.String {...props} validateInitially continuousValidation />
+}
 
 describe('DataContext.Provider', () => {
   it('should provide value from defaultData but ignore changes', () => {
@@ -24,7 +29,7 @@ describe('DataContext.Provider', () => {
     expect(screen.queryByDisplayValue('changed')).not.toBeInTheDocument()
   })
 
-  it('should provide value from data and update based on changes', () => {
+  it('should provide value from data and update based on changes', async () => {
     const { rerender } = render(
       <DataContext.Provider data={{ foo: 'original' }}>
         <Field.String path="/foo" />
@@ -38,12 +43,15 @@ describe('DataContext.Provider', () => {
         <Field.String path="/foo" />
       </DataContext.Provider>
     )
-
-    expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
-    expect(screen.queryByDisplayValue('original')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
+      expect(
+        screen.queryByDisplayValue('original')
+      ).not.toBeInTheDocument()
+    })
   })
 
-  it('should handle path change', () => {
+  it('should handle path change', async () => {
     const { rerender } = render(
       <DataContext.Provider data={{ foo: 'original' }}>
         <Field.String path="/foo" />
@@ -58,7 +66,9 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
+    })
   })
 
   it('should call "onChange" on internal value change', () => {
@@ -212,7 +222,7 @@ describe('DataContext.Provider', () => {
     expect(onSubmit).toHaveBeenCalledWith({ fooBar: 'Second Value' })
   })
 
-  it('should call "onSubmitRequest" on invalid submit', () => {
+  it('should call "onSubmitRequest" on invalid submit', async () => {
     const onSubmitRequest = jest.fn()
 
     const { rerender } = render(
@@ -228,13 +238,15 @@ describe('DataContext.Provider', () => {
     const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    fireEvent.change(inputElement, {
-      target: { value: '1' },
-    })
-    fireEvent.click(submitElement)
+    await waitFor(() => {
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
+      })
+      fireEvent.click(submitElement)
 
-    expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-    expect(onSubmitRequest).toHaveBeenCalledWith()
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledWith()
+    })
 
     rerender(
       <DataContext.Provider
@@ -246,13 +258,15 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    fireEvent.change(inputElement, {
-      target: { value: '2' },
-    })
-    fireEvent.click(submitElement)
+    await waitFor(() => {
+      fireEvent.change(inputElement, {
+        target: { value: '2' },
+      })
+      fireEvent.click(submitElement)
 
-    expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-    expect(onSubmitRequest).toHaveBeenCalledWith()
+      expect(onSubmitRequest).toHaveBeenCalledTimes(2)
+      expect(onSubmitRequest).toHaveBeenCalledWith()
+    })
   })
 
   it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
@@ -289,7 +303,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'changed' }}
+        data={{ foo: 'changed' }}
         onSubmitRequest={onSubmitRequest}
         schema={TestdataSchema}
       >
@@ -441,5 +455,191 @@ describe('DataContext.Provider', () => {
 
     expect(errorSpy).toHaveBeenCalled()
     errorSpy.mockRestore()
+  })
+
+  it('should revalidate with provided schema based on changes in external data', () => {
+    const schema: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        somekey: {
+          type: 'string',
+        },
+      },
+    }
+    const validData = {
+      somekey: 'some-value',
+    }
+    const invalidData = {
+      somekey: 123,
+    }
+    const { rerender } = render(
+      <DataContext.Provider schema={schema} data={validData}>
+        <Field.String
+          path="/somekey"
+          validateInitially
+          continuousValidation
+        />
+      </DataContext.Provider>
+    )
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+    rerender(
+      <DataContext.Provider schema={schema} data={invalidData}>
+        <Field.String
+          path="/somekey"
+          validateInitially
+          continuousValidation
+        />
+      </DataContext.Provider>
+    )
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    rerender(
+      <DataContext.Provider schema={schema} data={validData}>
+        <Field.String
+          path="/somekey"
+          validateInitially
+          continuousValidation
+        />
+      </DataContext.Provider>
+    )
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('should revalidate correctly basded on changes in provided schema', () => {
+    const schema1: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        somekey: {
+          type: 'number',
+        },
+      },
+    }
+    const schema2: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        somekey: {
+          type: 'string',
+        },
+      },
+    }
+    const data = {
+      somekey: 'some-value',
+    }
+    const { rerender } = render(
+      <DataContext.Provider schema={schema1} defaultData={data}>
+        <Field.String
+          path="/somekey"
+          validateInitially
+          continuousValidation
+        />
+      </DataContext.Provider>
+    )
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    rerender(
+      <DataContext.Provider schema={schema2} defaultData={data}>
+        <Field.String
+          path="/somekey"
+          validateInitially
+          continuousValidation
+        />
+      </DataContext.Provider>
+    )
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+    rerender(
+      <DataContext.Provider schema={schema1} defaultData={data}>
+        <Field.String
+          path="/somekey"
+          validateInitially
+          continuousValidation
+        />
+      </DataContext.Provider>
+    )
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
+  it('should handle errors from inner components and outer provider interchangeably', async () => {
+    const schema: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        txt: {
+          type: 'string',
+          pattern: '^(one|two|three)$',
+        },
+      },
+    }
+    const { rerender } = render(
+      <DataContext.Provider schema={schema} data={{ txt: 'one' }}>
+        <TestField path="/txt" />
+      </DataContext.Provider>
+    )
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+    // Change value so field component and provider both have errors
+    rerender(
+      <DataContext.Provider schema={schema} data={{ txt: 'fooooooooo' }}>
+        <TestField path="/txt" maxLength={5} />
+      </DataContext.Provider>
+    )
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    // Change value so only provider has errors (ensuring removed field error does not remove provider error)
+    rerender(
+      <DataContext.Provider schema={schema} data={{ txt: 'fooo' }}>
+        <TestField path="/txt" maxLength={5} />
+      </DataContext.Provider>
+    )
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    // Change value so only field component has error
+    rerender(
+      <DataContext.Provider schema={schema} data={{ txt: 'three' }}>
+        <TestField path="/txt" maxLength={1} />
+      </DataContext.Provider>
+    )
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    // Change value back to one with no errors again
+    rerender(
+      <DataContext.Provider schema={schema} data={{ txt: 'three' }}>
+        <TestField path="/txt" maxLength={5} />
+      </DataContext.Provider>
+    )
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+  })
+
+  it('should show provided errorMessages based on outer schema validation with injected value', () => {
+    const schema: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        val: {
+          type: 'string',
+          minLength: 7,
+        },
+      },
+    }
+
+    render(
+      <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
+        <TestField
+          path="/val"
+          errorMessages={{
+            minLength: 'Minimum {minLength} chars.',
+          }}
+        />
+      </DataContext.Provider>
+    )
+
+    expect(screen.getByText('Minimum 7 chars.')).toBeInTheDocument()
   })
 })

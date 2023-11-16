@@ -32,6 +32,11 @@ export default {
       submit_button_text: 'Ok',
       cancel_button_text: 'Avbryt',
       reset_button_text: 'Tilbakestill',
+      placeholder_characters: {
+        day: 'd',
+        month: 'm',
+        year: 'å',
+      },
     },
     Anchor: {
       targetBlankTitle: 'Åpner et nytt vindu',
@@ -162,9 +167,18 @@ export default {
         'Verdien kan ikke være kortere enn {minLength} tegn',
       stringInputErrorMaxLength:
         'Verdien kan ikke være lengre enn {maxLength} tegn',
+      numberFieldErrorMinimum: 'Verdien må være minst {minimum}',
+      numberFieldErrorMaximum: 'Verdien må være maksimalt {maximum}',
+      numberFieldErrorExclusiveMinimum:
+        'Verdien må være større enn {exclusiveMinimum}',
+      numberFieldErrorExclusiveMaximum:
+        'Verdien må være mindre enn {exclusiveMaximum}',
+      numberFieldErrorMultipleOf:
+        'Verdien må være et multiplum av {multipleOf}',
       selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',
+      expiryLabel: 'Utløpsdato',
       emailErrorRequired: 'Du må fylle inn e-post',
       emailErrorPattern: 'Dette er ikke en gyldig e-postadresse',
       emailLabel: 'E-post',
