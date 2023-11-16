@@ -3,6 +3,36 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.14.0](https://github.com/dnbexperience/eufemia/compare/v10.13.0...v10.14.0) (2023-11-16)
+
+
+### :memo: Documentation
+
+* **Forms:** lists component specific props 1st ([#2892](https://github.com/dnbexperience/eufemia/issues/2892)) ([c05740c](https://github.com/dnbexperience/eufemia/commit/c05740cbd6905558f3c69e97571b85fe23ee2e37))
+* **PhoneNumber:** remove unsupported props ([#2894](https://github.com/dnbexperience/eufemia/issues/2894)) ([4800a8e](https://github.com/dnbexperience/eufemia/commit/4800a8e0d6a63fe2ed701f32b1b77449bd00cd95))
+* **PostalCodeAndCity:** remove unsupported props ([#2890](https://github.com/dnbexperience/eufemia/issues/2890)) ([fe1ee9e](https://github.com/dnbexperience/eufemia/commit/fe1ee9e77cb30995542c54f04cf0d3acdf626287))
+
+
+### :sparkles: Features
+
+* **Forms:** expiry field ([#2660](https://github.com/dnbexperience/eufemia/issues/2660)) ([af5aa61](https://github.com/dnbexperience/eufemia/commit/af5aa61f939bcc5ffd891ad99ef19a4d123b0e3f))
+* **forms:** improved state management and reacting to more changed props ([#2882](https://github.com/dnbexperience/eufemia/issues/2882)) ([0ca9533](https://github.com/dnbexperience/eufemia/commit/0ca9533deaff48d2e714e8a04a04c97d0a8958c8))
+* **Input:** add clear button event "on_clear" ([#2898](https://github.com/dnbexperience/eufemia/issues/2898)) ([eb6b722](https://github.com/dnbexperience/eufemia/commit/eb6b722b09861c809f5f8afacf31f655fe7d95ac))
+* **Radio:** Sbanken styling ([#2888](https://github.com/dnbexperience/eufemia/issues/2888)) ([d7ffcf8](https://github.com/dnbexperience/eufemia/commit/d7ffcf80384d54f5268d99346b2832d634dd687f))
+
+
+### :bug: Bug Fixes
+
+* add "use client" to non hook components like the Button ([#2895](https://github.com/dnbexperience/eufemia/issues/2895)) ([2d54a13](https://github.com/dnbexperience/eufemia/commit/2d54a131b23e44d967270e4d54fd66fcb098e38c))
+* **Autocomplete:** enhance logic for when to blur ([#2886](https://github.com/dnbexperience/eufemia/issues/2886)) ([ce5c3fa](https://github.com/dnbexperience/eufemia/commit/ce5c3fa9ab811f0f66a654bf9f1712a40f887b8f))
+* **Autocomplete:** make clear button work with enter key ([#2901](https://github.com/dnbexperience/eufemia/issues/2901)) ([30007c4](https://github.com/dnbexperience/eufemia/commit/30007c4737105dcff9b64675d4b7528108b4e3c6)), closes [#2185](https://github.com/dnbexperience/eufemia/issues/2185)
+* **FieldBlock:** enhance fieldset/legend detection ([#2902](https://github.com/dnbexperience/eufemia/issues/2902)) ([4c62052](https://github.com/dnbexperience/eufemia/commit/4c62052549b5e1e5e6311f8e330f0462b508741a)), closes [#2893](https://github.com/dnbexperience/eufemia/issues/2893)
+* fix Flex and Grid export to work with Vite.js ([#2905](https://github.com/dnbexperience/eufemia/issues/2905)) ([ef83713](https://github.com/dnbexperience/eufemia/commit/ef837139425ab4427efb18dfb209330ec1aa33f6))
+* fix vertical label_direction support for Radio group and ToggleButton group ([#2899](https://github.com/dnbexperience/eufemia/issues/2899)) ([d650c66](https://github.com/dnbexperience/eufemia/commit/d650c66743c8f02d83f28c0f1e2ac0dfee8b324d))
+* **forms:** Field block error handling ([#2900](https://github.com/dnbexperience/eufemia/issues/2900)) ([9582c64](https://github.com/dnbexperience/eufemia/commit/9582c6498bd80619fb03920f40586d5f834d1fa4))
+* **forms:** Improved message value replacements ([#2903](https://github.com/dnbexperience/eufemia/issues/2903)) ([a61140b](https://github.com/dnbexperience/eufemia/commit/a61140b247e98cd6338f21382f1916f91d937b64))
+* **PhoneNumber:** keep selected countryCode value on blur ([#2869](https://github.com/dnbexperience/eufemia/issues/2869)) ([7e0f9c5](https://github.com/dnbexperience/eufemia/commit/7e0f9c55ccc07ac6dfeb2fa887adf66e6b61fe39))
+
 ## [10.13.0](https://github.com/dnbexperience/eufemia/compare/v10.12.0...v10.13.0) (2023-11-12)
 
 
