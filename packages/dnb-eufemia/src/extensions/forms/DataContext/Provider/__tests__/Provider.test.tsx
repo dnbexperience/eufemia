@@ -617,4 +617,29 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
   })
+
+  it('should show provided errorMessages based on outer schema validation with injected value', () => {
+    const schema: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        val: {
+          type: 'string',
+          minLength: 7,
+        },
+      },
+    }
+
+    render(
+      <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
+        <TestField
+          path="/val"
+          errorMessages={{
+            minLength: 'Minimum {minLength} chars.',
+          }}
+        />
+      </DataContext.Provider>
+    )
+
+    expect(screen.getByText('Minimum 7 chars.')).toBeInTheDocument()
+  })
 })

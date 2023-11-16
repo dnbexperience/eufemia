@@ -64,6 +64,7 @@ export default function useDataValue<
     setPathWithError: dataContextSetPathWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
+  const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
     setError: setFieldBlockError,
@@ -145,7 +146,9 @@ export default function useDataValue<
   // - Local errors are errors based on validation instructions received by
   const localErrorRef = useRef<Error | FormError | undefined>()
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
-  const contextErrorRef = useRef<Error | FormError | undefined>()
+  const contextErrorRef = useRef<Error | FormError | undefined>(
+    dataContextError
+  )
 
   const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
   const errorMessagesRef = useRef(errorMessages)
@@ -184,18 +187,19 @@ export default function useDataValue<
         return
       }
 
-      if (
-        error instanceof FormError &&
-        typeof error.validationRule === 'string' &&
-        errorMessagesRef.current?.[error.validationRule] !== undefined
-      ) {
-        const message = errorMessagesRef.current[
-          error.validationRule
-        ].replace(
-          `{${error.validationRule}}`,
-          props?.[error.validationRule]
-        )
-        return new FormError(message)
+      if (error instanceof FormError) {
+        const message =
+          (typeof error.validationRule === 'string' &&
+            errorMessagesRef.current?.[error.validationRule]) ||
+          error.message
+
+        const messageWithValues = Object.entries(
+          error.messageValues ?? {}
+        ).reduce((message, [key, value]) => {
+          return message.replace(`{${key}}`, value)
+        }, message)
+
+        return new FormError(messageWithValues)
       }
 
       return error
@@ -306,9 +310,12 @@ export default function useDataValue<
     forceUpdate()
   }, [externalValue, validateValue])
 
-  const dataContextError = path ? dataContextErrors?.[path] : undefined
   useEffect(() => {
-    contextErrorRef.current = prepareError(dataContextError)
+    const error = prepareError(dataContextError)
+    if (errorChanged(error, contextErrorRef.current)) {
+      contextErrorRef.current = error
+      forceUpdate()
+    }
   }, [dataContextError, prepareError])
 
   useEffect(() => {
@@ -444,7 +451,7 @@ export default function useDataValue<
     value: toInput(valueRef.current),
     error:
       !inFieldBlock && showErrorRef.current
-        ? errorProp ?? localErrorRef.current ?? dataContextError
+        ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
         : undefined,
     autoComplete:
       props.autoComplete ??
