@@ -43,6 +43,19 @@ export const VerticalFields = () => {
   )
 }
 
+export const HorizontalFields = () => {
+  return (
+    <ComponentBox>
+      <Card>
+        <Flex.Horizontal>
+          <Field.String label="Label" value="Value" width="small" />
+          <Field.String label="Label" value="Value" width="stretch" />
+        </Flex.Horizontal>
+      </Card>
+    </ComponentBox>
+  )
+}
+
 export const WithHeadingsAndAriaLabel = () => {
   return (
     <ComponentBox hidePreview>
