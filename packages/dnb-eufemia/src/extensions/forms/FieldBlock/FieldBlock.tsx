@@ -3,10 +3,7 @@ import classnames from 'classnames'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
-import {
-  findElementInChildren,
-  warn,
-} from '../../../shared/component-helper'
+import { findElementInChildren } from '../../../shared/component-helper'
 
 export type Props = Pick<
   FieldProps,
@@ -133,7 +130,6 @@ function FieldBlock(props: Props) {
   // A child component with a label was found, use fieldset/legend instead of div/label
   const enableFieldset = useEnableFieldset({
     label,
-    forId,
     asFieldset,
     children,
     nestedFieldBlockContext,
@@ -233,7 +229,6 @@ function FieldBlock(props: Props) {
 
 function useEnableFieldset({
   label,
-  forId,
   asFieldset,
   children,
   nestedFieldBlockContext,
@@ -255,12 +250,6 @@ function useEnableFieldset({
           return (result = true)
         }
       })
-
-      if (forId && count > 1) {
-        warn(
-          `You may not use forId="${forId}" as there where given several (${count}) form elements as children.`
-        )
-      }
     }
 
     return Boolean(result)
