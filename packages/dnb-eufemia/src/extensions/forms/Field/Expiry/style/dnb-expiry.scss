@@ -1,9 +1,11 @@
 @import '../../style/field-sizes.scss';
 
 .dnb-forms-field-expiry {
-  width: var(--forms-field-width--small);
+  .dnb-multi-input-mask {
+    width: var(--forms-field-width--small);
 
-  .dnb-input__shell {
-    justify-content: center;
+    .dnb-input__shell {
+      justify-content: center;
+    }
   }
 }
