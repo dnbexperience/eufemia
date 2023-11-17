@@ -68,6 +68,10 @@ export type MultiInputMaskProps<T extends string> = {
    */
   statusState?: FormStatusState
   /**
+   * Set it to `true` in order to stretch the input to the available space. Defaults to false.
+   */
+  stretch?: boolean
+  /**
    * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
   suffix?: React.ReactNode
@@ -88,6 +92,7 @@ function MultiInputMask<T extends string>({
   statusState,
   values: defaultValues,
   className,
+  stretch,
   suffix,
   ...props
 }: MultiInputMaskProps<T>) {
@@ -138,6 +143,7 @@ function MultiInputMask<T extends string>({
         status={status}
         status_state={statusState}
         suffix={suffix}
+        stretch={stretch}
         input_element={inputs.map((input, index) => (
           <Fragment key={input.id}>
             <MultiInputMaskInput
