@@ -219,6 +219,33 @@ describe('Selection', () => {
         expect(buttons[1].getAttribute('aria-pressed')).toBe('true')
       })
 
+      it('renders fieldset/legend if more than two options are given', () => {
+        const { rerender } = render(
+          <Field.Selection variant="button" label="Legend">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+        expect(document.querySelectorAll('legend')).toHaveLength(1)
+        expect(document.querySelectorAll('label')).toHaveLength(0)
+
+        rerender(
+          <Field.Selection variant="button" label="Label">
+            <Field.Option value="foo">Fooo</Field.Option>
+          </Field.Selection>
+        )
+
+        expect(document.querySelectorAll('fieldset')).toHaveLength(0)
+        expect(document.querySelectorAll('legend')).toHaveLength(0)
+        expect(document.querySelectorAll('label')).toHaveLength(1)
+        expect(document.querySelector('label')).toHaveAttribute('for')
+        expect(document.querySelector('label').getAttribute('for')).toBe(
+          document.querySelector('button').getAttribute('id')
+        )
+      })
+
       it('renders update selected option based on external value change', () => {
         const { rerender } = render(
           <Field.Selection variant="button" value="bar">
