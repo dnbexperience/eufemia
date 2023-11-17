@@ -123,7 +123,7 @@ exports.onPostBuild = async (params) => {
 
   if (deletedPages.length) {
     params.reporter.warn(
-      `❗️ These pages where deleted:\n${deletedPages
+      `❗️ These pages were deleted:\n${deletedPages
         .map((page) => `├ ${page}`)
         .join('\n')}\n\n`,
     )
