@@ -1,22 +1,8 @@
-@import '../../style/field-sizes.scss';
-
 .dnb-forms-field-postal-code-and-city {
   &__fields {
     display: flex;
     flex-flow: row;
     column-gap: var(--spacing-small);
-  }
-
-  &--width {
-    &-small {
-      width: var(--forms-field-width--small);
-    }
-    &-medium {
-      width: var(--forms-field-width--medium);
-    }
-    &-large {
-      width: var(--forms-field-width--large);
-    }
   }
 
   &__postal-code {

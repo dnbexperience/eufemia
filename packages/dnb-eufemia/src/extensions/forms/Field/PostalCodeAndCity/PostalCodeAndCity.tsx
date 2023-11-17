@@ -7,9 +7,7 @@ import { FieldHelpProps } from '../../types'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
-  Record<'postalCode' | 'city', StringComponentProps> & {
-    width?: 'small' | 'medium' | 'large'
-  }
+  Record<'postalCode' | 'city', StringComponentProps>
 
 function PostalCodeAndCity(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -17,8 +15,8 @@ function PostalCodeAndCity(props: Props) {
   const {
     postalCode = {},
     city = {},
-    width = 'large',
     help,
+    width = 'large',
     ...fieldBlockProps
   } = props
 
@@ -29,12 +27,11 @@ function PostalCodeAndCity(props: Props) {
         props.className
       )}
       {...fieldBlockProps}
+      width={width}
     >
       <div
         className={classnames(
-          'dnb-forms-field-postal-code-and-city__fields',
-          width !== undefined &&
-            `dnb-forms-field-postal-code-and-city--width-${width}`
+          'dnb-forms-field-postal-code-and-city__fields'
         )}
       >
         <StringComponent
