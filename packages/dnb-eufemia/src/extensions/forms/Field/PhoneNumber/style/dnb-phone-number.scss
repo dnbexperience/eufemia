@@ -1,11 +1,9 @@
-@import '../../style/field-sizes.scss';
-
 .dnb-forms-field-phone-number {
   &__country-code {
-    width: 9rem;
+    width: calc(var(--forms-field-width--medium) - 2rem);
 
     .dnb-autocomplete__shell {
-      width: 9rem;
+      width: calc(var(--forms-field-width--medium) - 2rem);
     }
   }
 
