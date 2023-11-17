@@ -1288,7 +1288,7 @@ html[data-visual-test] .dnb-input__input {
   gap: 1rem;
 }
 
-.dnb-multi-input-mask__input {
+.dnb-multi-input-mask__input.dnb-input__input {
   display: inline-block;
   width: auto;
   margin: 0;
@@ -1302,10 +1302,10 @@ html[data-visual-test] .dnb-input__input {
   overflow: visible;
   white-space: nowrap;
 }
-.dnb-multi-input-mask__input:first-of-type {
+.dnb-multi-input-mask__input.dnb-input__input:first-of-type {
   padding-left: 0.5rem;
 }
-.dnb-multi-input-mask__input:last-of-type {
+.dnb-multi-input-mask__input.dnb-input__input:last-of-type {
   padding-right: 0.5rem;
 }
 
