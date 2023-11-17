@@ -27,6 +27,9 @@ fieldset.dnb-forms-field-block {
   }
 
   &--width {
+    &-stretch {
+      flex-grow: 1;
+    }
     @include allAbove(x-small) {
       &-small {
         width: var(--forms-field-width--small);
