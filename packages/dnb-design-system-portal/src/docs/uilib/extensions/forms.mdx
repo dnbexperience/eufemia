@@ -28,7 +28,6 @@ import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
 Field components can be used directly as they are, for example `Field.Email`:
 
 ```jsx
-import '@dnb/eufemia/extensions/forms/style'
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Email />)
 ```
@@ -36,7 +35,6 @@ render(<Field.Email />)
 By building an entire form with components from Eufemia and Eufemia Forms, you save time and code:
 
 ```jsx
-import '@dnb/eufemia/extensions/forms/style'
 import { Card } from '@dnb/eufemia'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 render(
@@ -130,11 +128,22 @@ In this example, all state data, validation process and error handling are done 
 
 ## Getting started
 
-You need to import the styles once:
+You import the components from with scopes, such as `Form` and `Field`:
 
 ```jsx
-import '@dnb/eufemia/extensions/forms/style'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler onSubmit={console.log}>
+    <Field.String label="Custom Field" />
+    <Form.ButtonRow>
+      <Form.SubmitButton />
+    </Form.ButtonRow>
+  </Form.Handler>,
+)
 ```
+
+The needed styles are included in the Eufemia core package via `dnb-ui-components`.
 
 ### Field components
 
