@@ -110,7 +110,7 @@ const commitToBranch = async ({
         ).test(f)
     )
 
-    // check if the changes where in the files directories
+    // check if the changes were in the files directories
     const hasChanges = filesToCommit.length > 0
 
     if (hasChanges) {

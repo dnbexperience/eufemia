@@ -25,7 +25,7 @@ test.describe('Slider', () => {
       await page.keyboard.press('ArrowRight')
     }
 
-    await expect(inputElements.nth(2)).toHaveValue('55') // the elements where swapped
+    await expect(inputElements.nth(2)).toHaveValue('55') // the elements were swapped
     await expect(inputElements.nth(1)).toHaveValue('50') // therefore, now the first one is at 30
   })
 })
