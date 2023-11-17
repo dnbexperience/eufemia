@@ -55,46 +55,60 @@ export const Widths = () => {
       scope={{ TestElement }}
       data-visual-test="forms-field-block-widths"
     >
-      <FieldBlock label="Default width (no width props)">
-        <TestElement>Input feature</TestElement>
-      </FieldBlock>
-      <FieldBlock
-        label="Small (affects outer block element)"
-        width="small"
-      >
-        <TestElement>Input</TestElement>
-      </FieldBlock>
-      <FieldBlock
-        label="Medium (affects outer block element)"
-        width="medium"
-      >
-        <TestElement>Input feature</TestElement>
-      </FieldBlock>
-      <FieldBlock
-        label="Large (affects outer block element)"
-        width="large"
-      >
-        <TestElement>Input feature</TestElement>
-      </FieldBlock>
+      <Flex.Vertical align="stretch">
+        <FieldBlock label="Default width (no width props)">
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Small (affects outer block element)"
+          width="small"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Medium (affects outer block element)"
+          width="medium"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Large (affects outer block element)"
+          width="large"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Stretch (affects outer block element)"
+          width="stretch"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
 
-      <FieldBlock
-        label="Small (affects contents only)"
-        contentsWidth="small"
-      >
-        <TestElement>Input</TestElement>
-      </FieldBlock>
-      <FieldBlock
-        label="Medium (affects contents only)"
-        contentsWidth="medium"
-      >
-        <TestElement>Input feature</TestElement>
-      </FieldBlock>
-      <FieldBlock
-        label="Large (affects contents only)"
-        contentsWidth="large"
-      >
-        <TestElement>Input feature</TestElement>
-      </FieldBlock>
+        <FieldBlock
+          label="Small (affects contents only)"
+          contentsWidth="small"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Medium (affects contents only)"
+          contentsWidth="medium"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Large (affects contents only)"
+          contentsWidth="large"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Stretch (affects contents only)"
+          contentsWidth="stretch"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+      </Flex.Vertical>
     </ComponentBox>
   )
 }

@@ -209,6 +209,7 @@ function NumberComponent(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      width={width === 'stretch' ? width : undefined}
       contentsWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >

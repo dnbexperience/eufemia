@@ -25,7 +25,7 @@ export type Props = Pick<
   /** Use true if you have more than one form element */
   asFieldset?: boolean
   /** Width of outer block element */
-  width?: false | 'small' | 'medium' | 'large'
+  width?: false | 'small' | 'medium' | 'large' | 'stretch'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
   /** Typography size */
