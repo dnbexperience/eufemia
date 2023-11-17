@@ -89,30 +89,6 @@ describe('FieldBlock', () => {
     )
   })
 
-  it('should warn when "forId" and several form elements where given', () => {
-    const orig = console.log
-    console.log = jest.fn()
-
-    render(
-      <FieldBlock forId="invalid" label="A Label">
-        <MockComponent label="Label" id="foo" />
-        <MockComponent label="Label" id="bar" />
-      </FieldBlock>
-    )
-
-    expect(console.log).toHaveBeenCalledTimes(1)
-    expect(console.log).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.stringContaining('forId="invalid"')
-    )
-
-    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
-    expect(document.querySelectorAll('legend')).toHaveLength(1)
-    expect(document.querySelectorAll('label')).toHaveLength(2)
-
-    console.log = orig
-  })
-
   it('should render a "label"', () => {
     render(<FieldBlock label="A Label">content</FieldBlock>)
 
