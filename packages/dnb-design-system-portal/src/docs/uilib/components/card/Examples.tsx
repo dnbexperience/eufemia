@@ -48,8 +48,8 @@ export const HorizontalFields = () => {
     <ComponentBox>
       <Card>
         <Flex.Horizontal>
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" width="small" />
+          <Field.String label="Label" value="Value" width="stretch" />
         </Flex.Horizontal>
       </Card>
     </ComponentBox>
