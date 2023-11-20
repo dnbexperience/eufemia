@@ -280,10 +280,6 @@
     }
   }
 
-  .dnb-skeleton &__input[disabled] ~ &__button {
-    border-color: var(--skeleton-color);
-  }
-
   /*
    * Color scheme
    */
@@ -329,8 +325,17 @@
   }
 
   // Off
-  &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
+  &__input[disabled]:not(:checked):not([data-checked='true'])
+    ~ &__button:not(.dnb-skeleton) {
     border-color: var(--radio-color-border-off--disabled);
+  }
+
+  // Skeleton
+  &__input[disabled] ~ &__button.dnb-skeleton {
+    &::before {
+      border-radius: 0;
+    }
+    border-color: var(--skeleton-color);
   }
 
   /** Active state **/
