@@ -27,6 +27,7 @@ interface ReturnAdditional<Value> {
   handleFocus: () => void
   handleBlur: () => void
   handleChange: FieldProps<unknown>['onChange']
+  updateValue: (value: Value) => void
 }
 
 export default function useDataValue<
@@ -371,6 +372,14 @@ export default function useDataValue<
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
+  const updateValue = useCallback(
+    (argFromInput) => {
+      valueRef.current = fromInput(argFromInput)
+      forceUpdate()
+    },
+    [fromInput]
+  )
+
   const handleChange = useCallback(
     (argFromInput) => {
       const newValue = fromInput(argFromInput)
@@ -460,5 +469,6 @@ export default function useDataValue<
     handleFocus,
     handleBlur,
     handleChange,
+    updateValue,
   }
 }

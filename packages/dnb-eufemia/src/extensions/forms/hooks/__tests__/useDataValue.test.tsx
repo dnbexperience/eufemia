@@ -122,4 +122,46 @@ describe('useDataValue', () => {
       })
     })
   })
+
+  describe('updating internal value', () => {
+    it('should update the internal value, but not call any event handler', () => {
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 'foo',
+          emptyValue: '',
+          onFocus,
+          onBlur,
+          onChange,
+        })
+      )
+
+      const { handleFocus, handleBlur, updateValue } = result.current
+
+      act(() => {
+        handleFocus()
+        handleBlur()
+        updateValue('')
+      })
+
+      expect(onFocus).toHaveBeenLastCalledWith('foo')
+      expect(onBlur).toHaveBeenLastCalledWith('foo')
+
+      act(() => {
+        handleFocus()
+        updateValue('a')
+        handleBlur()
+      })
+
+      expect(onFocus).toHaveBeenLastCalledWith('')
+      expect(onBlur).toHaveBeenLastCalledWith('a')
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenCalledTimes(2)
+    })
+  })
 })
