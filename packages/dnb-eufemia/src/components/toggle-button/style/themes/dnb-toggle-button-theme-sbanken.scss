@@ -1,0 +1,45 @@
+/*
+* ToggleButton theme for Sbanken
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-toggle-button {
+  &__button {
+    background-color: var(--sb-color-white);
+    color: var(--sb-color-violet);
+    @include fakeBorder(var(--sb-color-violet), 0.09375rem, inset);
+
+    @include hover() {
+      background-color: var(--sb-color-violet-light-4);
+      color: var(--sb-color-violet);
+    }
+
+    @include active() {
+      @include fakeBorder(var(--sb-color-violet), 0.125rem, inset);
+      background-color: var(--sb-color-violet-light-4);
+      color: var(--sb-color-violet);
+    }
+
+    &[disabled] {
+      @include fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
+      background-color: var(--sb-color-gray-light);
+      color: var(--sb-color-gray-dark);
+    }
+  }
+
+  &--checked &__button {
+    &:not([disabled]):not(:active) {
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-white);
+      box-shadow: none;
+    }
+
+    @include hover() {
+      background-color: var(--sb-color-violet-light-4);
+      color: var(--sb-color-violet);
+      @include fakeBorder(var(--sb-color-violet), 0.09375rem, inset);
+    }
+  }
+}
