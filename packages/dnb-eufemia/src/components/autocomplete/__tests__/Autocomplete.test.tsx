@@ -875,9 +875,23 @@ describe('Autocomplete component', () => {
   it('has correct "opened" state on submit button click', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
-    toggle()
-
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
     const elem = document.querySelector('.dnb-autocomplete')
+
+    fireEvent.click(submitButton)
+
+    expect(elem.classList).toContain('dnb-autocomplete--opened')
+
+    fireEvent.click(submitButton)
+
+    expect(elem.classList).not.toContain('dnb-autocomplete--opened')
+
+    fireEvent.keyDown(submitButton, {
+      key: 'Enter',
+      keyCode: 13,
+    })
 
     expect(elem.classList).toContain('dnb-autocomplete--opened')
   })
@@ -924,21 +938,23 @@ describe('Autocomplete component', () => {
       />
     )
 
-    document.querySelector('input').focus()
+    const inputElement = document.querySelector('input')
+
+    inputElement.focus()
     expect(on_focus).toHaveBeenCalledTimes(1)
     expect(on_focus.mock.calls[0][0].attributes).toMatchObject(params)
     expect(document.activeElement.tagName).toBe('INPUT')
 
     // ensure we focus only once
-    document.querySelector('input').focus()
+    inputElement.focus()
     expect(on_focus).toHaveBeenCalledTimes(1)
 
-    fireEvent.blur(document.querySelector('input'))
+    fireEvent.blur(inputElement)
     expect(on_blur).toHaveBeenCalledTimes(1)
     expect(on_blur.mock.calls[0][0].attributes).toMatchObject(params)
 
     // ensure we blur only once
-    fireEvent.blur(document.querySelector('input'))
+    fireEvent.blur(inputElement)
     expect(on_blur).toHaveBeenCalledTimes(1)
 
     toggle()
@@ -965,7 +981,7 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--opened')
 
     // ensure we blur only once
-    fireEvent.blur(document.querySelector('input'))
+    fireEvent.blur(inputElement)
     expect(on_blur).toHaveBeenCalledTimes(1)
 
     toggle()
@@ -1009,7 +1025,7 @@ describe('Autocomplete component', () => {
   })
 
   it('can be reset to null', () => {
-    let value
+    let value: number
     const { rerender } = render(
       <Autocomplete
         {...props}
@@ -1019,10 +1035,11 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('')
+    const inputElement = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    expect(inputElement.value).toBe('')
     expect(
       document.querySelector('.dnb-input__placeholder').textContent
     ).toBe('placeholder')
@@ -1037,10 +1054,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe(mockData[value])
+    expect(inputElement.value).toBe(mockData[value])
 
     rerender(
       <Autocomplete
@@ -1051,10 +1065,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('')
+    expect(inputElement.value).toBe('')
 
     value = 0
     rerender(
@@ -1066,10 +1077,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe(mockData[value])
+    expect(inputElement.value).toBe(mockData[value])
 
     rerender(
       <Autocomplete
@@ -1080,10 +1088,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(
-      (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
-    ).toBe('')
+    expect(inputElement.value).toBe('')
   })
 
   it('will invalidate selected_item when selected_key changes', () => {
@@ -1779,8 +1784,15 @@ describe('Autocomplete component', () => {
   it('should keep input focus when using show-all or select item', () => {
     render(<Autocomplete data={mockData} {...mockProps} />)
 
-    document.querySelector('input').focus()
-    fireEvent.change(document.querySelector('input'), {
+    const inputElement = document.querySelector('input')
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    inputElement.focus()
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
@@ -1793,7 +1805,7 @@ describe('Autocomplete component', () => {
       ).length
     ).toBe(mockData.length - 1)
 
-    document.querySelector('input').focus()
+    inputElement.focus()
 
     expect(Array.from(document.activeElement.classList)).toContain(
       'dnb-input__input'
@@ -1817,7 +1829,7 @@ describe('Autocomplete component', () => {
       ).length
     ).toBe(mockData.length)
 
-    fireEvent.blur(document.querySelector('input'))
+    fireEvent.blur(inputElement)
     fireEvent.click(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
     )
@@ -2234,16 +2246,16 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(document.querySelector('input')).toBeInTheDocument()
-    expect(
-      Array.from(document.querySelector('input').classList)
-    ).toContain('dnb-autocomplete__input')
-    expect(
-      document.querySelector('input').getAttribute('aria-label')
-    ).toBe('label')
+    const inputElement = document.querySelector('input')
+
+    expect(inputElement).toBeInTheDocument()
+    expect(Array.from(inputElement.classList)).toContain(
+      'dnb-autocomplete__input'
+    )
+    expect(inputElement.getAttribute('aria-label')).toBe('label')
 
     const value = 'new value'
-    fireEvent.change(document.querySelector('input'), {
+    fireEvent.change(inputElement, {
       target: { value },
     })
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -2492,14 +2504,19 @@ describe('Autocomplete component', () => {
 
     const MockComponent = () => {
       const [value, setValue] = React.useState('+47')
+      const allData = React.useMemo(() => [data[1]], [])
 
       return (
         <Autocomplete
-          data={[data[1]]}
+          data={allData}
           value={value}
           mode="async"
-          on_change={({ data }) => setValue(data?.selectedKey)}
-          on_focus={({ updateData }) => updateData(data)}
+          on_change={({ data }) => {
+            setValue(data?.selectedKey)
+          }}
+          on_focus={({ updateData }) => {
+            updateData(data)
+          }}
           search_numbers
           no_animation
         />
@@ -2509,6 +2526,10 @@ describe('Autocomplete component', () => {
     render(<MockComponent />)
 
     const inputElement: HTMLInputElement = document.querySelector('input')
+    const items = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    const firstItemElement = () => items()[0]
+    const mainElement = () => document.querySelector('.dnb-autocomplete')
 
     expect(inputElement.value).toEqual('NO (+47)')
 
@@ -2523,34 +2544,35 @@ describe('Autocomplete component', () => {
       document.querySelector('li.dnb-drawer-list__option--selected')
         .textContent
     ).toBe('+47 Norge')
+    expect(items()).toHaveLength(4)
 
     await userEvent.type(inputElement, '{Backspace}')
 
     expect(inputElement.value).toEqual('NO (+47')
+    expect(firstItemElement().textContent).toBe('+47 Norge')
 
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe('+47 Norge')
+    await userEvent.type(inputElement, '{Backspace>7}+41')
 
-    fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, { target: { value: '+41' } })
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    )
+    expect(inputElement.value).toEqual('+41')
+    expect(firstItemElement().textContent).toBe('+41 Sveits')
+    expect(items()).toHaveLength(2)
+
+    expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
 
     expect(inputElement.value).toEqual('CH (+41)')
+    expect(mainElement().classList).not.toContain(
+      'dnb-autocomplete--opened'
+    )
   })
 
   it('should reset value and open drawer on clear button click', async () => {
-    const on_focus = jest.fn()
     render(
-      <Autocomplete
-        show_clear_button
-        data={mockData}
-        {...mockProps}
-        on_focus={on_focus}
-      />
+      <Autocomplete show_clear_button data={mockData} {...mockProps} />
     )
 
     const inputElement = document.querySelector(
@@ -2638,6 +2660,29 @@ describe('Autocomplete component', () => {
       expect(on_blur).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: '' })
       )
+    })
+
+    it('should clear input value', () => {
+      render(<Autocomplete data={mockData} {...mockProps} />)
+
+      fireEvent.focus(inputElement())
+      keyDownOnInput(13) // enter
+      keyDownOnInput(40) // down
+      keyDownOnInput(13) // enter
+
+      fireEvent.blur(inputElement())
+
+      expect(inputElement()).toHaveValue('AA c')
+
+      fireEvent.blur(inputElement())
+
+      fireEvent.focus(inputElement())
+      fireEvent.change(inputElement(), {
+        target: { value: '' },
+      })
+      fireEvent.blur(inputElement())
+
+      expect(inputElement()).toHaveValue('')
     })
 
     it('should not emit on submit button press', () => {
@@ -2891,30 +2936,26 @@ describe('Autocomplete component', () => {
     })
 
     it('should dismiss focus only on blur', () => {
-      const on_focus = jest.fn()
-      const on_blur = jest.fn()
-      const onBlur = jest.fn()
       const on_change = jest.fn()
 
       render(
         <Autocomplete
-          on_focus={on_focus}
-          on_blur={on_blur}
-          onBlur={onBlur}
           on_change={on_change}
           data={mockData}
           {...mockProps}
         />
       )
 
+      const inputElement = document.querySelector('input')
+
       expect(document.querySelector('.dnb-input')).toHaveAttribute(
         'data-input-state',
         'virgin'
       )
 
-      fireEvent.focus(document.querySelector('input'))
+      fireEvent.focus(inputElement)
 
-      fireEvent.keyDown(document.querySelector('input'), {
+      fireEvent.keyDown(inputElement, {
         key: 'Enter',
         keyCode: 13,
       })
@@ -2924,7 +2965,7 @@ describe('Autocomplete component', () => {
         'focus'
       )
 
-      fireEvent.keyDown(document.querySelector('input'), {
+      fireEvent.keyDown(inputElement, {
         key: 'Enter',
         keyCode: 13,
       })
