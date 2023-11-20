@@ -44,6 +44,7 @@ async function runStyleFactory() {
     customContent: `
       @import './core/utilities.scss';
       @import './${fallbackPrefix}-ui-fragments.scss';
+      @import './${fallbackPrefix}-ui-forms.scss';
     `,
     importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
     searchGlob: [
@@ -121,6 +122,28 @@ async function runStyleFactory() {
   }).then(() => {
     if (isCLI) {
       log.info('> Created the style file with all the extensions')
+    }
+  })
+
+  // forms
+  await runFactory({
+    outputFile: path.resolve(
+      __dirname,
+      `../../../src/style/${fallbackPrefix}-ui-forms.scss`
+    ),
+    customContent: `@import './core/utilities.scss';`,
+    importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
+    searchGlob: [
+      path.resolve(
+        __dirname,
+        `../../../src/extensions/forms/**/style/${fallbackPrefix}-*.scss`
+      ),
+    ].concat(['!**/style/dnb-forms.*']),
+  }).then(() => {
+    if (isCLI) {
+      log.succeed(
+        '> PrePublish: "styleFactory" Created the style file with all the forms styles'
+      )
     }
   })
 }
