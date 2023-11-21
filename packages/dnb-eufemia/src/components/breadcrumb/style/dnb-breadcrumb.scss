@@ -25,7 +25,7 @@
 
     flex-flow: row wrap;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
   }
 
   &__item {
@@ -39,14 +39,6 @@
       &__icon {
         margin-right: 0.5rem;
       }
-    }
-
-    .dnb-button.dnb-button--has-text::before {
-      --button-tertiary-focus-right: -0.5rem;
-    }
-
-    &:not(:first-of-type) .dnb-button.dnb-button--has-text::before {
-      --button-tertiary-focus-left: -0.25rem;
     }
   }
 

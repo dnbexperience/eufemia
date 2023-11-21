@@ -720,7 +720,7 @@ button.dnb-button::-moz-focus-inner {
   list-style: none;
   flex-flow: row wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 .dnb-breadcrumb__item__span {
   display: flex;
@@ -730,12 +730,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__item__span__icon {
   margin-right: 0.5rem;
-}
-.dnb-breadcrumb__item .dnb-button.dnb-button--has-text::before {
-  --button-tertiary-focus-right: -0.5rem;
-}
-.dnb-breadcrumb__item:not(:first-of-type) .dnb-button.dnb-button--has-text::before {
-  --button-tertiary-focus-left: -0.25rem;
 }
 .dnb-breadcrumb__animation {
   display: flex;
