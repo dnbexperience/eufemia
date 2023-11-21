@@ -1,107 +1,180 @@
 /*
-* Accordion theme
-*
-*/
+ * Accordion theme
+ *
+ */
 
 @import '../../../../style/core/utilities.scss';
-@import '../../../button/style/themes/button-mixins.scss';
 
 .dnb-accordion {
   &__header {
+    color: var(--ui-accordion-color--override, var(--ui-accordion-color));
+    background-color: var(
+      --ui-accordion-background--override,
+      var(--ui-accordion-background)
+    );
+    box-shadow: var(--ui-accordion-box-shadow);
     border: none;
-  }
 
-  &__header__icon,
-  &__header__container {
-    color: var(--color-sea-green);
-  }
-
-  &__header__description {
-    color: var(--color-black-55);
-  }
-
-  &--expanded > &__header &__header__title {
-    font-weight: var(--font-weight-medium);
-  }
-
-  // &__variant--default {
-  // }
-
-  // Variant: outlined
-  &__variant--outlined > &__header {
-    color: var(--color-black-80);
-    background-color: var(--color-white);
-
-    @include fakeBorder(var(--color-black-8), 0.0625rem, inset);
-    @include buttonFocus(var(--color-emerald-green), var(--color-white));
-    @include buttonHover(var(--color-emerald-green), var(--color-white));
-
-    @include active() {
-      color: var(--color-emerald-green);
-      background-color: var(--color-pistachio);
-
-      @include fakeBorder(var(--color-emerald-green), 0.0625rem);
-    }
-  }
-
-  &__variant--outlined > &__header[disabled] {
-    background-color: var(--color-white);
-
-    @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
-
-    * {
-      color: var(--color-sea-green-30);
-    }
-  }
-  &__variant--outlined#{&}--expanded > &__header {
-    color: var(--color-white);
-    background-color: var(--color-sea-green);
-
-    @include fakeBorder(transparent);
-  }
-  &__variant--outlined#{&}--expanded > &__header[disabled] {
-    background-color: var(--color-sea-green-30);
-
-    * {
-      color: var(--color-white);
-    }
-  }
-
-  // Additional focus handling
-  html[data-whatinput='keyboard']
-    &__variant--outlined#{&}--expanded
-    > &__header:not([disabled]):not(:active):not(:hover):focus {
-    background-color: var(--color-mint-green);
-
-    * {
-      color: var(--color-emerald-green);
-    }
-  }
-  &__variant--outlined#{&}--expanded
-    > &__header:not([disabled]):not(:active):not(:hover):focus {
-    @include focusRing(null, var(--color-emerald-green), inset);
-  }
-
-  &__variant--outlined#{&}--expanded
-    > &__header:not(:hover):not([disabled]) {
-    * {
-      color: var(--color-white);
-    }
-  }
-
-  // we have this hover variant, because of the default html focus/hover handling
-  &__variant--outlined#{&}--expanded > &__header#{&}--hover:not(:active) {
-    @include hover() {
-      color: var(--color-white);
-      background-color: var(--color-sea-green);
-
-      // NB: We may remove the border in future, but for now it gives the user a good indicator on mouse out
-      // @include fakeBorder(transparent);
-      @include fakeBorder(var(--color-sea-green));
+    &__description {
+      color: var(
+        --ui-accordion-description-color--override,
+        var(--ui-accordion-description-color)
+      );
     }
 
-    * {
-      color: var(--color-white);
+    /* 
+     * VARIANTS
+     * Each variant is mutually exclusive
+     */
+
+    // Shared variant properties
+    &--outlined,
+    &--filled {
+      // Border
+      --ui-accordion-border-inset: inset;
+      --ui-accordion-box-shadow: var(--ui-accordion-border-inset) 0 0 0
+        var(--accordion-border-width)
+        var(
+          --ui-accordion-border-color--override,
+          var(--ui-accordion-border-color)
+        );
+
+      // Disabled
+      &[disabled] {
+        --ui-accordion-color: var(--color-sea-green-30);
+        --ui-accordion-background-: var(--color-white);
+        --ui-accordion-border-color: var(--color-sea-green-30);
+        --ui-accordion-description-color: var(--ui-accordion-color);
+
+        // state = expanded
+        --ui-accordion-expanded-color: var(--color-white);
+        --ui-accordion-expanded-background: var(--color-sea-green-30);
+      }
+    }
+
+    // Variant: "outlined"
+    &--outlined {
+      --ui-accordion-color: var(--color-emerald-green);
+      --ui-accordion-background: var(--color-white);
+      --ui-accordion-border-color: var(--color-black-8);
+      --ui-accordion-description-color: var(--color-black-55);
+
+      // state = expanded
+      --ui-accordion-expanded-color: var(--color-white);
+      --ui-accordion-expanded-background: var(--color-sea-green);
+      --ui-accordion-expanded-border-color: var(
+        --ui-accordion-expanded-background
+      );
+      --ui-accordion-expanded-description-color: var(
+        --ui-accordion-expanded-color
+      );
+
+      @include focus-visible() {
+        --accordion-border-width: 0.125rem;
+        --ui-accordion-border-color: var(--color-emerald-green);
+
+        // state = expanded
+        --ui-accordion-expanded-border-color: var(--color-emerald-green);
+        --ui-accordion-expanded-color: var(--color-emerald-green);
+        --ui-accordion-expanded-background: var(--color-mint-green);
+      }
+
+      @include hover() {
+        --accordion-border-width: 0.125rem;
+        --ui-accordion-color: var(--color-emerald-green);
+        --ui-accordion-background: var(--color-white);
+        --ui-accordion-border-color: var(--color-emerald-green);
+        --ui-accordion-description-color: var(--color-black-55);
+        --ui-accordion-border-inset: ;
+
+        // state = expanded
+        --ui-accordion-expanded-color: var(--ui-accordion-color);
+        --ui-accordion-expanded-background: var(--ui-accordion-background);
+        --ui-accordion-expanded-border-color: var(
+          --ui-accordion-border-color
+        );
+        --ui-accordion-expanded-description-color: var(
+          --ui-accordion-description-color
+        );
+
+        // state = after-click
+        --ui-accordion-after-click-color: var(--color-white);
+        --ui-accordion-after-click-background: var(--color-sea-green);
+        --ui-accordion-after-click-border-color: var(--color-sea-green);
+        --ui-accordion-after-click-description-color: var(--color-white);
+      }
+
+      @include active() {
+        --accordion-border-width: 0.0625rem;
+        --ui-accordion-background: var(--color-pistachio);
+        --ui-accordion-border-inset: inset;
+      }
+    }
+
+    // Variant: "filled"
+    &--filled {
+      --accordion-border-width: 0.125rem;
+      --accordion-title-font-weight--expanded: var(--font-weight-basis);
+      --ui-accordion-color: var(--color-emerald-green);
+      --ui-accordion-background: var(--color-pistachio);
+      --ui-accordion-border-color: var(--color-pistachio);
+      --ui-accordion-description-color: var(--color-black-55);
+
+      @include hover() {
+        --ui-accordion-background: var(--color-white);
+      }
+
+      @include active() {
+        --ui-accordion-color: var(--color-white);
+        --ui-accordion-background: var(--color-sea-green);
+        --ui-accordion-border-color: var(--color-sea-green);
+        --ui-accordion-description-color: ar(--color-white);
+      }
+
+      @include focus-visible() {
+        --ui-accordion-border-color: var(--color-sea-green);
+      }
+    }
+
+    /* 
+     * STATES
+     * States that can exist across all variants.
+     */
+
+    // State: "expanded"
+    &--expanded {
+      --ui-accordion-color--override: var(
+        --ui-accordion-expanded-color--override,
+        var(--ui-accordion-expanded-color)
+      );
+      --ui-accordion-background--override: var(
+        --ui-accordion-expanded-background--override,
+        var(--ui-accordion-expanded-background)
+      );
+      --ui-accordion-border-color--override: var(
+        --ui-accordion-expanded-border-color--override,
+        var(--ui-accordion-expanded-border-color)
+      );
+      --ui-accordion-description-color--override: var(
+        --ui-accordion-expanded-description-color--override,
+        var(--ui-accordion-expanded-description-color)
+      );
+    }
+
+    // State: "after-click" (after expanding but still hovering)
+    &--after-click {
+      --ui-accordion-expanded-color--override: var(
+        --ui-accordion-after-click-color
+      );
+      --ui-accordion-expanded-background--override: var(
+        --ui-accordion-after-click-background
+      );
+      --ui-accordion-expanded-border-color--override: var(
+        --ui-accordion-after-click-border-color
+      );
+      --ui-accordion-expanded-description-color--override: var(
+        --ui-accordion-after-click-description-color
+      );
     }
   }
 }

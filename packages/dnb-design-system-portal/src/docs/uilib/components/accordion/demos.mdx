@@ -11,6 +11,8 @@ import {
   AccordionNestedExample,
   AccordionPlainVariant,
   AccordionDisabledExample,
+  AccordionDescriptionExample,
+  AccordionFilledExample,
 } from 'Docs/uilib/components/accordion/Examples'
 
 ## Demos
@@ -25,7 +27,7 @@ import {
 
 ### Grouped Accordion
 
-**NB:** Please have a read on the [unexpected behavior](/uilib/components/accordion/info#unexpected-behavior) thoughts.
+**NB:** Please have a read on the [unexpected behavior](/uilib/components/accordion#unexpected-behavior) thoughts.
 
 <AccordionGroupExample />
 
@@ -46,3 +48,15 @@ import {
 Accordion can be disabled, though is not exactly defined what the use case is.
 
 <AccordionDisabledExample />
+
+### Variant `filled`
+
+<VisibilityByTheme visible="sbanken">
+  This variant does not have any different styling in the Sbanken theme.
+</VisibilityByTheme>
+
+<AccordionFilledExample />
+
+<VisibleWhenVisualTest>
+  <AccordionDescriptionExample />
+</VisibleWhenVisualTest>

@@ -7,20 +7,24 @@
 
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
-  --accordion-border-radius: 0.25rem;
+  --accordion-border-radius: 0.5rem;
   --accordion-easing: var(--easing-default);
 
   // vertical spacing
-  --accordion-header-margin-vertical: 1.5rem;
-  --accordion-header-margin-vertical--description: 1rem;
+  --accordion-header-margin-vertical: 1.25rem;
+  --accordion-header-margin-vertical--description: 0.75rem;
 
   // wrapper
-  --accordion-header-wrapper-margin: 2rem;
+  --accordion-header-wrapper-margin: 1rem;
   --accordion-header-wrapper-margin--icon-right: 1rem;
 
   // icon
   --accordion-header-icon-gutter: 1rem;
   --accordion-header-icon-margin: 1rem;
+
+  // Title
+  --accordion-title-font-weight: var(--font-weight-basis);
+  --accordion-title-font-weight--expanded: var(--font-weight-medium);
 
   position: relative;
 
@@ -86,7 +90,7 @@
       transition: transform 400ms var(--accordion-easing);
     }
     &--description &__icon {
-      margin-top: 1rem;
+      margin-top: var(--accordion-header-margin-vertical--description);
     }
     &--icon-right {
       justify-content: space-between;
@@ -111,9 +115,16 @@
       margin-left: 0;
     }
 
+    &--expanded {
+      --accordion-title-font-weight: var(
+        --accordion-title-font-weight--expanded
+      );
+    }
+
     &__title {
       font-size: var(--font-size-basis);
       line-height: var(--line-height-basis);
+      font-weight: var(--accordion-title-font-weight);
     }
 
     &__description {
