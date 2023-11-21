@@ -163,5 +163,54 @@ describe('useDataValue', () => {
       expect(onFocus).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
+
+    it('should update the internal value and run error validation', async () => {
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 'foo',
+          emptyValue: '',
+          onFocus,
+          onBlur,
+          onChange,
+          required: true,
+        })
+      )
+
+      const { handleFocus, handleBlur, updateValue } = result.current
+
+      act(() => {
+        handleFocus()
+        handleBlur()
+        updateValue('')
+      })
+
+      expect(onFocus).toHaveBeenLastCalledWith('foo')
+      expect(onBlur).toHaveBeenLastCalledWith('foo')
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+      })
+
+      act(() => {
+        handleFocus()
+        updateValue('a')
+        handleBlur()
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      expect(onFocus).toHaveBeenLastCalledWith('')
+      expect(onBlur).toHaveBeenLastCalledWith('a')
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenCalledTimes(2)
+    })
   })
 })

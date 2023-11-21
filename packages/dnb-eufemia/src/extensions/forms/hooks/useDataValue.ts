@@ -374,14 +374,6 @@ export default function useDataValue<
 
   const updateValue = useCallback(
     (argFromInput) => {
-      valueRef.current = fromInput(argFromInput)
-      forceUpdate()
-    },
-    [fromInput]
-  )
-
-  const handleChange = useCallback(
-    (argFromInput) => {
       const newValue = fromInput(argFromInput)
 
       if (newValue === valueRef.current) {
@@ -389,8 +381,8 @@ export default function useDataValue<
         // calling onChange even if the actual value did not change.
         return
       }
+
       valueRef.current = newValue
-      changedRef.current = true
 
       if (
         continuousValidation ||
@@ -407,31 +399,52 @@ export default function useDataValue<
       // Always validate the value immediately when it is changed
       validateValue()
 
-      onChange?.(newValue)
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
       }
+
+      forceUpdate()
+    },
+    [
+      continuousValidation,
+      dataContextHandlePathChange,
+      fromInput,
+      hideError,
+      path,
+      showError,
+      validateValue,
+    ]
+  )
+
+  const handleChange = useCallback(
+    (argFromInput) => {
+      const newValue = fromInput(argFromInput)
+
+      if (newValue === valueRef.current) {
+        // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
+        // calling onChange even if the actual value did not change.
+        return
+      }
+
+      updateValue(argFromInput)
+
+      changedRef.current = true
+      onChange?.(newValue)
+
       if (elementPath) {
         const iterateValuePath = `/${iterateElementIndex}${
           elementPath && elementPath !== '/' ? elementPath : ''
         }`
         handleIterateElementChange?.(iterateValuePath, newValue)
       }
-      forceUpdate()
     },
     [
-      path,
       elementPath,
-      iterateElementIndex,
-      continuousValidation,
-      onChange,
-      validateValue,
-      dataContextHandlePathChange,
-      showError,
-      hideError,
-      handleIterateElementChange,
       fromInput,
-      forceUpdate,
+      handleIterateElementChange,
+      iterateElementIndex,
+      onChange,
+      updateValue,
     ]
   )
 
