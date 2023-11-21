@@ -21,14 +21,36 @@ describe('FormLabel component', () => {
     )
   })
 
+  it('should have default spacing', () => {
+    const { rerender } = render(<FormLabel forId="input" text="Label" />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-space__right--small'
+    )
+
+    rerender(<FormLabel forId="input" text="Label" />)
+
+    expect(Array.from(element.classList)).not.toContain('dnb-space__right')
+  })
+
   it('should support spacing props', () => {
-    render(<FormLabel forId="input" top="large" />)
+    render(<FormLabel forId="input" top="large" text="Label" />)
 
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).toContain(
       'dnb-space__top--large'
     )
+  })
+
+  it('should remove spacing props when no label was given', () => {
+    render(<FormLabel forId="input" top="large" />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).not.toContain('dnb-space')
   })
 
   it('should set correct class when srOnly is set', () => {

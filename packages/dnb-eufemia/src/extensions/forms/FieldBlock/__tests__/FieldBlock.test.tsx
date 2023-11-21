@@ -109,7 +109,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement.className).toBe(
-      'dnb-form-label dnb-space__top--zero dnb-space__bottom--x-small'
+      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Label Description')
   })
@@ -123,7 +123,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement.className).toBe(
-      'dnb-form-label dnb-space__top--zero dnb-space__bottom--x-small'
+      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Secondary Label')
   })

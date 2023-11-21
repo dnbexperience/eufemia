@@ -16,8 +16,9 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import { omitSpacingProps } from '../flex/utils'
 import Context from '../../shared/Context'
-import {
+import type {
   DynamicElement,
   DynamicElementParams,
   SpacingProps,
@@ -83,6 +84,8 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     ...attributes
   } = props
 
+  const content = text || children
+
   const isInteractive =
     !props.disabled &&
     !srOnly &&
@@ -97,7 +100,9 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       size && `dnb-h--${size}`,
       isInteractive && 'dnb-form-label--interactive',
       createSkeletonClass('font', skeleton, context),
-      createSpacingClasses(props),
+      createSpacingClasses(
+        content ? { right: 'small', ...props } : omitSpacingProps(props)
+      ),
       className
     ),
     htmlFor: forId || for_id,
@@ -109,7 +114,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
 
-  return <Element {...params}>{text || children}</Element>
+  return <Element {...params}>{content}</Element>
 }
 
 FormLabel._formElement = true
