@@ -25,11 +25,11 @@ asyncForEach(
     { fontName: 'DNBMono', styleName: 'Bold' },
   ],
   async ({ fontName, styleName }) => {
-    const soruceFile = `${fontName}-${styleName}.ttf`
+    const sourceFile = `${fontName}-${styleName}.ttf`
     const sourcePath = path.resolve(
       __dirname,
       '../../assets/fonts/dnb/',
-      soruceFile
+      sourceFile
     )
 
     const familyName = `${fontName}Skeleton`

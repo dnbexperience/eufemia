@@ -128,7 +128,7 @@
   --border-color: #{$color};
   --border-width: #{$width};
 
-  // we use !important, cause we have no changes to select the selctor right
+  // we use !important, cause we have no changes to select the selector right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
   box-shadow: (

@@ -121,7 +121,7 @@ describe('babel build', () => {
     } catch (error) {
       // In case the git CLI command fails, we do not want to break the run
       console.error(
-        'Could not run the CLI command to get the commited files (getCommittedFiles)',
+        'Could not run the CLI command to get the committed files (getCommittedFiles)',
         error
       )
     }

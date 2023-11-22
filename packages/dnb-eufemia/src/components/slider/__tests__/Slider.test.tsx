@@ -124,7 +124,7 @@ describe('Slider component', () => {
 
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
-    expect(parseFloat(getButtonHelper().value)).toBe(20) // sice we use reverse in vertical mode
+    expect(parseFloat(getButtonHelper().value)).toBe(20) // since we use reverse in vertical mode
   })
 
   it('has correct value with reverse', () => {

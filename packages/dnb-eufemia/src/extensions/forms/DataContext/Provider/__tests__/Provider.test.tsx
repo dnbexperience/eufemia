@@ -508,7 +508,7 @@ describe('DataContext.Provider', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
-  it('should revalidate correctly basded on changes in provided schema', () => {
+  it('should revalidate correctly based on changes in provided schema', () => {
     const schema1: JSONSchema7 = {
       type: 'object',
       properties: {

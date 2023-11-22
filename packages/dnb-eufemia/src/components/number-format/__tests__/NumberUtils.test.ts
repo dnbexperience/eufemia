@@ -392,7 +392,7 @@ describe('Currency format with dirty number', () => {
       })
     ).toBe('-NOK 0.00')
     expect(
-      format('someting 1234 someting', {
+      format('something 1234 something', {
         clean: true,
         currency: true,
         currency_position: 'after',

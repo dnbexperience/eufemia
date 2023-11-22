@@ -278,7 +278,7 @@ const generateIndexFile = async ({
 }: ForwardParams) => {
   // the index.ts file will contain "all icons"
   // even the ones which don't exists in the lock file
-  // this is in contrast to the "groups", they will only contain the icons, deticated to the current figma document
+  // this is in contrast to the "groups", they will only contain the icons, dedicated to the current figma document
   const _imports = icons
     .map(
       ({ name, filename }) =>
