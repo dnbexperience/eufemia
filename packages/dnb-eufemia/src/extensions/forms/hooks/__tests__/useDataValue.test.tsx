@@ -123,6 +123,47 @@ describe('useDataValue', () => {
     })
   })
 
+  describe('value manipulation', () => {
+    it('should call fromInput and toInput', () => {
+      const fromInput = jest.fn((v) => v + 1)
+      const toInput = jest.fn((v) => v - 1)
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 1,
+          onChange,
+          fromInput,
+          toInput,
+        })
+      )
+
+      const { handleChange } = result.current
+
+      act(() => {
+        handleChange(2)
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(1)
+      expect(toInput).toHaveBeenCalledTimes(2)
+      expect(fromInput).toHaveBeenLastCalledWith(2)
+      expect(toInput).toHaveBeenLastCalledWith(3)
+
+      act(() => {
+        handleChange(4)
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(2)
+      expect(toInput).toHaveBeenCalledTimes(3)
+      expect(fromInput).toHaveBeenLastCalledWith(4)
+      expect(toInput).toHaveBeenLastCalledWith(5)
+
+      /**
+       * NB: "forceUpdate" is initiator that "toInput" is called more often.
+       */
+    })
+  })
+
   describe('updating internal value', () => {
     it('should update the internal value, but not call any event handler', () => {
       const onFocus = jest.fn()
@@ -132,7 +173,6 @@ describe('useDataValue', () => {
       const { result } = renderHook(() =>
         useDataValue({
           value: 'foo',
-          emptyValue: '',
           onFocus,
           onBlur,
           onChange,
@@ -162,6 +202,58 @@ describe('useDataValue', () => {
       expect(onChange).toHaveBeenCalledTimes(0)
       expect(onFocus).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenCalledTimes(2)
+    })
+
+    it('should not call fromInput', () => {
+      const fromInput = jest.fn((v) => v)
+      const toInput = jest.fn((v) => v)
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 'foo',
+          onChange,
+          fromInput,
+          toInput,
+        })
+      )
+
+      const { updateValue, handleChange } = result.current
+
+      act(() => {
+        updateValue('')
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        updateValue('bar')
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(0)
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange('')
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      act(() => {
+        updateValue('unchanged')
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      act(() => {
+        handleChange('unchanged')
+      })
+
+      expect(fromInput).toHaveBeenCalledTimes(2)
+      expect(toInput).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenCalledTimes(1)
     })
 
     it('should update the internal value and run error validation', async () => {

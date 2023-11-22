@@ -50,8 +50,8 @@ export default function useDataValue<
     validateInitially,
     validateUnchanged,
     continuousValidation,
-    toInput = (value) => value,
-    fromInput = (value) => value,
+    toInput = (value: Value) => value,
+    fromInput = (value: Value) => value,
   } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
@@ -373,9 +373,7 @@ export default function useDataValue<
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   const updateValue = useCallback(
-    (argFromInput) => {
-      const newValue = fromInput(argFromInput)
-
+    (newValue: Value) => {
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
@@ -396,6 +394,7 @@ export default function useDataValue<
         // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
         hideError()
       }
+
       // Always validate the value immediately when it is changed
       validateValue()
 
@@ -408,7 +407,6 @@ export default function useDataValue<
     [
       continuousValidation,
       dataContextHandlePathChange,
-      fromInput,
       hideError,
       path,
       showError,
@@ -417,7 +415,7 @@ export default function useDataValue<
   )
 
   const handleChange = useCallback(
-    (argFromInput) => {
+    (argFromInput: Value) => {
       const newValue = fromInput(argFromInput)
 
       if (newValue === valueRef.current) {
@@ -426,7 +424,7 @@ export default function useDataValue<
         return
       }
 
-      updateValue(argFromInput)
+      updateValue(newValue)
 
       changedRef.current = true
       onChange?.(newValue)
