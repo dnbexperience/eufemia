@@ -805,7 +805,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -1844,7 +1843,6 @@ button.dnb-button::-moz-focus-inner {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -2447,7 +2445,6 @@ button.dnb-button::-moz-focus-inner {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -2851,7 +2848,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -3510,7 +3506,6 @@ button .dnb-form-status__text {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;

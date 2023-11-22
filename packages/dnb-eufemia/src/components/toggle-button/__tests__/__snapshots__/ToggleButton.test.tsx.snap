@@ -26,7 +26,6 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -629,7 +628,6 @@ button.dnb-button::-moz-focus-inner {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -1033,7 +1031,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
