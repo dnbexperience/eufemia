@@ -2542,7 +2542,7 @@ describe('Autocomplete component', () => {
     expect(inputElement.value).toEqual('CH (+41)')
   })
 
-  it('shold reset value and open drawer on clear button click', async () => {
+  it('should reset value and open drawer on clear button click', async () => {
     const on_focus = jest.fn()
     render(
       <Autocomplete
@@ -2600,7 +2600,7 @@ describe('Autocomplete component', () => {
     const selectedElement = () =>
       document.querySelector('li.dnb-drawer-list__option--selected')
 
-    it('shold emit with empty value', async () => {
+    it('should emit with empty value', async () => {
       const on_blur = jest.fn()
       const onBlur = jest.fn()
 
@@ -2640,7 +2640,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('shold not emit on submit button press', () => {
+    it('should not emit on submit button press', () => {
       const on_blur = jest.fn()
       const onBlur = jest.fn()
 

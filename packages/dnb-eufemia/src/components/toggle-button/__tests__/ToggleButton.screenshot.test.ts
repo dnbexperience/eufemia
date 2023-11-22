@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('ToggleButton', () => {
-  describe('ToggleButto unchecked', () => {
+  describe('ToggleButton unchecked', () => {
     setupPageScreenshot({
       url: '/uilib/components/toggle-button/demos',
     })

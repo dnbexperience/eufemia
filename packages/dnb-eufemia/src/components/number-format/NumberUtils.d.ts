@@ -43,7 +43,7 @@ export interface formatOptionParams {
   /** How many decimals */
   decimals?: number;
 
-  /** Do not round the retuned number */
+  /** Do not round the returned number */
   omit_rounding?: boolean;
 
   /** phone type */

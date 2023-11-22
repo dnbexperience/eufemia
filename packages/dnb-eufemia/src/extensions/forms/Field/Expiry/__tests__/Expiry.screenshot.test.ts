@@ -35,7 +35,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the disbled state', async () => {
+  it('have to match the disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-disabled"]',
     })

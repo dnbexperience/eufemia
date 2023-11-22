@@ -164,7 +164,7 @@ export async function runFactory({
 }) {
   const themeSources = await getThemeSources(filesToFindGlob)
   const themesWithRelatedFiles =
-    await collecetRelatedThemeFiles(themeSources)
+    await collectRelatedThemeFiles(themeSources)
 
   const collectedOutput = {}
 
@@ -317,7 +317,7 @@ async function getThemeSources(filesToFindGlob: Array<string>) {
   return groups
 }
 
-async function collecetRelatedThemeFiles(themeSources: ThemeSources) {
+async function collectRelatedThemeFiles(themeSources: ThemeSources) {
   // make a group of all gathered themes we later will iterate through
   const relatedFiles: RelatedFiles = []
   Object.entries(themeSources).forEach(([name, list]) => {

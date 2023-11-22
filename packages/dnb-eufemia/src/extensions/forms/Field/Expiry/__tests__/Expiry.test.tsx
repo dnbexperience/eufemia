@@ -14,7 +14,7 @@ describe('Field.Expiry', () => {
     })
   })
 
-  it('should return month and year values as a concacted string', async () => {
+  it('should return month and year values as a concatenated string', async () => {
     const onChange = jest.fn()
 
     render(<Field.Expiry onChange={onChange} />)

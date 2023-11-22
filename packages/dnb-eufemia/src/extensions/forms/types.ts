@@ -20,7 +20,7 @@ export class FormError extends Error {
 
   /**
    * Replacement values relevant for this error.
-   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} charactes"
+   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
    */
   messageValues?: MessageValues
 

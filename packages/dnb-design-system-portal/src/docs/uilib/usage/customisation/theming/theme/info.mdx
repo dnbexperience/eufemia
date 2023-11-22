@@ -110,8 +110,8 @@ You can provide your component as the wrapper. This way no additional HTML Eleme
 ```tsx
 import { Theme } from '@dnb/eufemia/shared'
 
-const Component = ({ classNamem ...props }) => {
-  return <div className={classNamem+' more-classes'} {...props} />
+const Component = ({ className ...props }) => {
+  return <div className={className+' more-classes'} {...props} />
 }
 
 render(
