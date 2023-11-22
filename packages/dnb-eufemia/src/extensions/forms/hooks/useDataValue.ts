@@ -27,6 +27,7 @@ interface ReturnAdditional<Value> {
   handleFocus: () => void
   handleBlur: () => void
   handleChange: FieldProps<unknown>['onChange']
+  updateValue: (value: Value) => void
 }
 
 export default function useDataValue<
@@ -49,8 +50,8 @@ export default function useDataValue<
     validateInitially,
     validateUnchanged,
     continuousValidation,
-    toInput = (value) => value,
-    fromInput = (value) => value,
+    toInput = (value: Value) => value,
+    fromInput = (value: Value) => value,
   } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
@@ -376,17 +377,15 @@ export default function useDataValue<
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
-  const handleChange = useCallback(
-    (argFromInput) => {
-      const newValue = fromInput(argFromInput)
-
+  const updateValue = useCallback(
+    (newValue: Value) => {
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
       }
+
       valueRef.current = newValue
-      changedRef.current = true
 
       if (
         continuousValidation ||
@@ -400,34 +399,55 @@ export default function useDataValue<
         // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
         hideError()
       }
+
       // Always validate the value immediately when it is changed
       validateValue()
 
-      onChange?.(newValue)
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
       }
+
+      forceUpdate()
+    },
+    [
+      continuousValidation,
+      dataContextHandlePathChange,
+      hideError,
+      path,
+      showError,
+      validateValue,
+    ]
+  )
+
+  const handleChange = useCallback(
+    (argFromInput: Value) => {
+      const newValue = fromInput(argFromInput)
+
+      if (newValue === valueRef.current) {
+        // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
+        // calling onChange even if the actual value did not change.
+        return
+      }
+
+      updateValue(newValue)
+
+      changedRef.current = true
+      onChange?.(newValue)
+
       if (elementPath) {
         const iterateValuePath = `/${iterateElementIndex}${
           elementPath && elementPath !== '/' ? elementPath : ''
         }`
         handleIterateElementChange?.(iterateValuePath, newValue)
       }
-      forceUpdate()
     },
     [
-      path,
       elementPath,
-      iterateElementIndex,
-      continuousValidation,
-      onChange,
-      validateValue,
-      dataContextHandlePathChange,
-      showError,
-      hideError,
-      handleIterateElementChange,
       fromInput,
-      forceUpdate,
+      handleIterateElementChange,
+      iterateElementIndex,
+      onChange,
+      updateValue,
     ]
   )
 
@@ -461,5 +481,6 @@ export default function useDataValue<
     handleFocus,
     handleBlur,
     handleChange,
+    updateValue,
   }
 }
