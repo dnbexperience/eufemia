@@ -59,10 +59,10 @@ function FieldBlock(props: Props) {
   >({})
 
   const setError = useCallback(
-    (id, error) => {
+    (identifier, error) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setError(id, error)
+        nestedFieldBlockContext.setError(identifier, error)
         return
       }
 
@@ -70,11 +70,11 @@ function FieldBlock(props: Props) {
         if (error) {
           return {
             ...existing,
-            [id]: error,
+            [identifier]: error,
           }
         } else {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { [id]: removed, ...newRecord } = existing
+          const { [identifier]: removed, ...newRecord } = existing
           return newRecord
         }
       })
@@ -83,10 +83,10 @@ function FieldBlock(props: Props) {
   )
 
   const setShowError = useCallback(
-    (id, show) => {
+    (identifier, show) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setShowError(id, show)
+        nestedFieldBlockContext.setShowError(identifier, show)
         return
       }
 
@@ -94,10 +94,10 @@ function FieldBlock(props: Props) {
         if (show) {
           return {
             ...existing,
-            [id]: true,
+            [identifier]: true,
           }
         } else {
-          const { [id]: removed, ...newRecord } = existing
+          const { [identifier]: removed, ...newRecord } = existing
           return newRecord
         }
       })
@@ -110,7 +110,7 @@ function FieldBlock(props: Props) {
       return errorProp
     }
     const errors = Object.entries(fieldErrorRecord)
-      .filter(([id]) => showFieldErrorRecord[id] === true)
+      .filter(([identifier]) => showFieldErrorRecord[identifier] === true)
       .map(([, error]) => error)
     return errors.length > 0
       ? new Error(errors.map((error) => error.message).join(' | '))

@@ -83,7 +83,7 @@ export default function Provider<Data extends JsonObject>({
     showAllErrorsRef.current = showAllErrors
   }, [])
   // - Errors reported by fields, based on their direct validation rules
-  const pathsWithErrorRef = useRef<string[]>([])
+  const valuesWithErrorRef = useRef<string[]>([])
   // - Data
   const initialData = useMemo(() => {
     if (sessionStorageId && typeof window !== 'undefined') {
@@ -133,17 +133,21 @@ export default function Provider<Data extends JsonObject>({
         mountedFieldPathsRef.current.find(
           (mountedFieldPath) =>
             errorsRef.current?.[mountedFieldPath] !== undefined ||
-            pathsWithErrorRef.current.includes(mountedFieldPath)
+            valuesWithErrorRef.current.includes(mountedFieldPath)
         )
       ),
     []
   )
 
-  const setPathWithError = useCallback(
-    (path: string, hasError: boolean) => {
-      pathsWithErrorRef.current = hasError
-        ? addListPath(pathsWithErrorRef.current, path)
-        : removeListPath(pathsWithErrorRef.current, path)
+  const setValueWithError = useCallback(
+    (identifier: string, withError: boolean) => {
+      if (withError !== valuesWithErrorRef.current.includes(identifier)) {
+        // The boolean error state for the target value was changed
+        valuesWithErrorRef.current = withError
+          ? addListPath(valuesWithErrorRef.current, identifier)
+          : removeListPath(valuesWithErrorRef.current, identifier)
+        forceUpdate()
+      }
     },
     []
   )
@@ -223,6 +227,7 @@ export default function Provider<Data extends JsonObject>({
       } else {
         showAllErrorsRef.current = true
         onSubmitRequest?.()
+        forceUpdate()
       }
       return internalDataRef.current
     },
@@ -261,7 +266,7 @@ export default function Provider<Data extends JsonObject>({
         handleMountField,
         handleUnMountField,
         hasErrors,
-        setPathWithError,
+        setValueWithError,
       }}
     >
       {children}

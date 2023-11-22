@@ -61,7 +61,7 @@ export default function useDataValue<
 
   const {
     handlePathChange: dataContextHandlePathChange,
-    setPathWithError: dataContextSetPathWithError,
+    setValueWithError: dataContextSetValueWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
   const dataContextError = path ? dataContextErrors?.[path] : undefined
@@ -92,6 +92,11 @@ export default function useDataValue<
       'elementPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
     )
   }
+
+  const identifier = useMemo(() => {
+    // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
+    return path ?? id
+  }, [path, id])
 
   const externalValue = useMemo(() => {
     if (props.value !== undefined) {
@@ -223,19 +228,18 @@ export default function useDataValue<
 
       localErrorRef.current = error
 
-      if (path) {
-        // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-        dataContextSetPathWithError?.(path, Boolean(error))
-      }
+      // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
+      dataContextSetValueWithError?.(identifier, Boolean(error))
 
       setFieldBlockError?.(path ?? id, error)
       forceUpdate()
     },
     [
       path,
+      identifier,
       id,
       prepareError,
-      dataContextSetPathWithError,
+      dataContextSetValueWithError,
       setFieldBlockError,
       forceUpdate,
     ]
@@ -323,6 +327,7 @@ export default function useDataValue<
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
       showError()
+      forceUpdate()
     }
   }, [dataContext.showAllErrors, showError])
 
@@ -427,9 +432,7 @@ export default function useDataValue<
   )
 
   useMountEffect(() => {
-    if (path) {
-      dataContext?.handleMountField(path)
-    }
+    dataContext?.handleMountField(identifier)
     validateValue()
 
     if (showErrorInitially) {
@@ -438,9 +441,7 @@ export default function useDataValue<
 
     return () => {
       // Unmount procedure
-      if (path) {
-        dataContext?.handleUnMountField(path)
-      }
+      dataContext?.handleUnMountField(identifier)
     }
   })
 
