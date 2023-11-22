@@ -321,7 +321,9 @@ export const ResponsiveGridContainer = () => {
 export const FormSetAlternativeBefore = () => (
   <ComponentBox>
     <FormSet label_direction="vertical">
-      <H2 top={0}>Heading</H2>
+      <H2 top={0} bottom="small">
+        Heading
+      </H2>
       <FormRow label={<span className="dnb-h--medium">Legend</span>}>
         <Input label="Label A" right />
         <Input label="Label B" />
@@ -333,15 +335,15 @@ export const FormSetAlternativeBefore = () => (
 export const FormSetAlternativeAfter = () => (
   <ComponentBox>
     <Provider formElement={{ label_direction: 'vertical' }}>
-      <Form.Handler>
-        <H2 top={0}>Heading</H2>
-        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
+      <Flex.Stack element="form">
+        <H2 space={0}>Heading</H2>
+        <FieldBlock label="Legend" size="medium">
           <Flex.Horizontal>
             <Input label="Label A" />
             <Input label="Label B" />
           </Flex.Horizontal>
         </FieldBlock>
-      </Form.Handler>
+      </Flex.Stack>
     </Provider>
   </ComponentBox>
 )
@@ -351,7 +353,7 @@ export const FormSetAlternativeForms = () => (
     <Form.Handler>
       <Flex.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
-        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
+        <FieldBlock label="Legend" size="medium">
           <Flex.Horizontal>
             <Field.String label="Label A" width="medium" />
             <Field.String label="Label B" width="large" />

@@ -5,13 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import {
-  ProgressIndicator,
-  Button,
-  FormRow,
-  Dialog,
-  Flex,
-} from '@dnb/eufemia/src'
+import { ProgressIndicator, Button, Dialog, Flex } from '@dnb/eufemia/src'
 
 export const ProgressIndicatorDefaultExample = () => (
   <ComponentBox>
@@ -221,7 +215,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
       const ChangeValue = () => {
         const [value, setValue] = React.useState(50)
         return (
-          <FormRow centered>
+          <Flex.Horizontal align="center" wrap={false}>
             <ProgressIndicator
               type="linear"
               progress={value}
@@ -235,7 +229,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
             >
               Change
             </Button>
-          </FormRow>
+          </Flex.Horizontal>
         )
       }
 
