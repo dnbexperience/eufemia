@@ -69,10 +69,10 @@ describe('Field.PhoneNumber', () => {
     )
 
     fireEvent.focus(phoneElement)
-    expect(onFocus).toHaveBeenLastCalledWith('')
+    expect(onFocus).toHaveBeenLastCalledWith(undefined)
 
     fireEvent.blur(phoneElement)
-    expect(onBlur).toHaveBeenLastCalledWith('')
+    expect(onBlur).toHaveBeenLastCalledWith(undefined)
 
     await userEvent.type(phoneElement, '99999999')
 
@@ -172,8 +172,8 @@ describe('Field.PhoneNumber', () => {
     fireEvent.change(phoneElement, { target: { value: '' } })
     fireEvent.focus(phoneElement)
 
-    expect(onChange).toHaveBeenNthCalledWith(3, '')
-    expect(onFocus).toHaveBeenNthCalledWith(4, '')
+    expect(onChange).toHaveBeenNthCalledWith(3, undefined)
+    expect(onFocus).toHaveBeenNthCalledWith(4, undefined)
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('')
   })
@@ -236,7 +236,7 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '{Backspace>8}')
 
-    expect(onChange).toHaveBeenLastCalledWith('')
+    expect(onChange).toHaveBeenLastCalledWith(undefined)
   })
 
   it('should handle events correctly with initial value', async () => {
@@ -266,7 +266,7 @@ describe('Field.PhoneNumber', () => {
 
     fireEvent.change(phoneElement, { target: { value: '' } })
 
-    expect(onChange).toHaveBeenLastCalledWith('')
+    expect(onChange).toHaveBeenLastCalledWith(undefined)
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('')
 

@@ -11,7 +11,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined> & {
+  FieldProps<string, undefined | string> & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
     countryCodePlaceholder?: string
@@ -45,7 +45,6 @@ function PhoneNumber(props: Props) {
   )
 
   const defaultProps: Partial<Props> = {
-    value: '',
     errorMessages,
   }
   const preparedProps: Props = {
@@ -63,6 +62,7 @@ function PhoneNumber(props: Props) {
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     numberMask,
     emptyValue,
+    value,
     info,
     warning,
     error,
@@ -115,10 +115,10 @@ function PhoneNumber(props: Props) {
    */
   useEffect(() => {
     const [countryCode, phoneNumber] = splitValue(props.value)
-    const newValue = joinValue(
-      phoneNumber ? [countryCode, phoneNumber] : []
-    )
-    if (newValue !== props.value) {
+    const newValue = phoneNumber
+      ? joinValue([countryCode, phoneNumber])
+      : emptyValue
+    if (newValue !== value) {
       updateValue(newValue)
     }
   }, [props.value]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -162,7 +162,7 @@ function PhoneNumber(props: Props) {
       phoneNumberRef.current = phoneNumber
 
       if (!phoneNumber) {
-        handleChange(joinValue([emptyValue, emptyValue]))
+        handleChange(emptyValue)
         onNumberChange?.(emptyValue)
         return
       }
@@ -287,7 +287,7 @@ function getCountryData({ lang = 'en', filter = null } = {}) {
 
 function splitValue(value: string) {
   return (
-    value !== undefined
+    typeof value === 'string'
       ? value.match(/^(\+[^ ]+)? ?(.*)$/)
       : [undefined, '', '']
   ).slice(1)
