@@ -12,14 +12,14 @@
     @include fakeBorder(var(--sb-color-violet), 0.09375rem, inset);
 
     @include hover() {
-      background-color: var(--sb-color-violet-light-4);
+      background-color: var(--sb-color-violet-light-3);
       color: var(--sb-color-violet);
     }
 
     @include active() {
-      @include fakeBorder(var(--sb-color-violet), 0.125rem, inset);
-      background-color: var(--sb-color-violet-light-4);
-      color: var(--sb-color-violet);
+      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem, inset);
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-violet-light-3);
     }
 
     &[disabled] {
@@ -37,9 +37,15 @@
     }
 
     @include hover() {
-      background-color: var(--sb-color-violet-light-4);
-      color: var(--sb-color-violet);
-      @include fakeBorder(var(--sb-color-violet), 0.09375rem, inset);
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-white);
+      @include fakeBorder(var(--sb-color-violet), 0.125rem);
+    }
+
+    @include active() {
+      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem, inset);
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-violet-light-3);
     }
   }
 }
