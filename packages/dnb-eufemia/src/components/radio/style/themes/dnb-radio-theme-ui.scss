@@ -21,6 +21,7 @@
   --radio-color-border-off--active: transparent;
   // Hover state
   --radio-color-dot-on--hover: var(--color-mint-green-50);
+  --radio-color-background-on--hover: var(--color-white);
   --radio-color-background-off--hover: var(--color-mint-green-50);
   // Focus state
   --radio-color-background-on--focus: var(--color-white);
@@ -28,6 +29,8 @@
   // Error state
   --radio-color-dot-on--error: var(--color-fire-red);
   --radio-color-border-on--error: var(--color-fire-red);
-  --radio-color-background-off--error: var(--color-fire-red-8);
+  --radio-color-border--error-hover: var(--radio-color-border-on--error);
+  --radio-color-background-off--error-hover: var(--color-fire-red-8);
+  --radio-color-background-on--error-hover: var(--color-white);
   --radio-color-dot-on--error-hover: var(--color-fire-red-8);
 }
