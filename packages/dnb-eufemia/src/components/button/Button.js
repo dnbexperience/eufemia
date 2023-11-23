@@ -29,6 +29,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon } from '../anchor/Anchor'
+import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -181,6 +182,13 @@ export default class Button extends React.PureComponent {
       : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
+      if (
+        props.target === '_blank' &&
+        !/^(mailto|tel|sms)/.test(props.href) &&
+        !icon
+      ) {
+        icon = launch
+      }
     }
 
     const classes = classnames(
@@ -202,7 +210,8 @@ export default class Button extends React.PureComponent {
       createSpacingClasses(props),
       class_name,
       className,
-      props.href || props.to ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover
+      props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
+      Element === Anchor && 'dnb-anchor--no-style'
     )
 
     const params = {
