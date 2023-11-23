@@ -267,6 +267,7 @@
   &.dnb-skeleton
     &__input[disabled]:not(:checked)
     ~ .dnb-switch__background::after {
+    content: '';
     border-color: var(--skeleton-color--contrast);
   }
 
