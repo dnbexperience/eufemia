@@ -3,5 +3,271 @@
 *
 */
 
+@import '../../../../style/core/utilities.scss';
+
 .dnb-switch {
+  --switch-width--medium: 3.75rem;
+  --switch-height--medium: 2rem;
+  --switch-width--large: 5rem;
+  --switch-height--large: 2.625rem;
+  // Theme-specific variables
+  --switch-spacing-height--medium: 0.375rem;
+  --switch-spacing-width--medium: 0.25rem;
+  --switch-spacing-height--large: 0.5rem;
+  --switch-spacing-width--large: 0.25rem;
+  --switch-content-width: 1.125rem;
+  --switch-content-spacing--medium: 0.5rem;
+  --switch-content-spacing--large: 0.875rem;
+  --button-dimension--medium: calc(
+    var(--switch-height--medium) - var(--switch-spacing-height--medium)
+  );
+  --button-dimension--large: calc(
+    var(--switch-height--large) - var(--switch-spacing-height--large)
+  );
+
+  &--large &__row {
+    height: var(--switch-height--large);
+  }
+
+  &__background {
+    background-color: var(--sb-color-gray);
+    height: 100%;
+    border-radius: 1.5rem;
+
+    &::after {
+      content: 'Av';
+      color: var(--sb-color-text);
+      font-size: var(--font-size-small);
+      width: var(--switch-content-width);
+    }
+
+    .dnb-switch--large & {
+      height: 100%;
+      border-radius: 1.5rem;
+    }
+  }
+
+  &__button {
+    background-color: var(--sb-color-white);
+
+    width: var(--button-dimension--medium);
+    height: var(--button-dimension--medium);
+
+    @include hover() {
+      background-color: var(--sb-color-violet-light-3);
+    }
+
+    .dnb-switch--large & {
+      width: var(--button-dimension--large);
+      height: var(--button-dimension--large);
+    }
+  }
+
+  /* stylelint-disable no-descending-specificity */
+
+  /*
+   * When switched ON
+   */
+  &__input:checked ~ &__button {
+    transform: translateX(
+      calc(
+        var(--switch-width--medium) - var(--button-dimension--medium) - var(
+            --switch-spacing-width--medium
+          )
+      )
+    );
+  }
+
+  &__input:checked ~ &__background {
+    background-color: var(--sb-color-violet-light);
+
+    &::after {
+      content: 'På';
+      color: var(--sb-color-white);
+      transform: translateX(var(--switch-content-spacing--medium));
+    }
+  }
+
+  &--large &__input:checked ~ &__button {
+    transform: translateX(
+      calc(
+        var(--switch-width--large) - var(--button-dimension--large) -
+          0.25rem
+      )
+    );
+  }
+
+  &--large &__input:checked ~ &__background::after {
+    transform: translateX(var(--switch-content-spacing--large));
+  }
+
+  /*
+   * When switched OFF
+   */
+  &__input:not(:checked) ~ &__button {
+    transform: translateX(var(--switch-spacing-width--medium));
+  }
+
+  &--large &__input:not(:checked) ~ &__button {
+    transform: translateX(var(--switch-spacing-width--large));
+  }
+
+  &__input:not(:checked) ~ &__background::after {
+    transform: translateX(
+      calc(
+        var(--switch-width--medium) - var(--switch-content-width) - var(
+            --switch-content-spacing--medium
+          )
+      )
+    );
+  }
+
+  &--large &__input:not(:checked) ~ &__background::after {
+    transform: translateX(
+      calc(
+        var(--switch-width--large) - var(--switch-content-width) - var(
+            --switch-content-spacing--large
+          )
+      )
+    );
+  }
+
+  /*
+   * On disabled state
+   *
+   */
+  &__input[disabled]:not(:checked) ~ &__background {
+    background-color: var(--sb-color-gray);
+    &::after {
+      color: var(--sb-color-gray-dark-3-neutral);
+    }
+    @include hover() {
+      box-shadow: none;
+    }
+  }
+
+  &__input[disabled]:not(:checked) ~ &__button {
+    background-color: var(--sb-color-gray-light);
+  }
+
+  &__input[disabled]:checked ~ &__background {
+    background-color: var(--sb-color-violet);
+    opacity: 0.3;
+  }
+
+  &__input[disabled]:checked ~ &__button {
+    background-color: var(--sb-color-white);
+  }
+
+  /*
+   * On focus state
+   *
+   */
+  &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      @include removeFocusRing();
+    }
+  }
+
+  &__input:not([disabled]):checked:focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--focus-ring-color);
+    }
+  }
+
+  &__input:not([disabled]):not(:checked):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      @include removeFocusRing();
+    }
+  }
+
+  &__input:not([disabled]):focus ~ &__background {
+    @include focusRing();
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--sb-color-blue-light-3);
+      &::after {
+        color: var(--focus-ring-color);
+        font-weight: var(--sb-font-weight-bold);
+      }
+    }
+  }
+
+  &__input:not([disabled]):focus ~ &__button &__focus {
+    display: block;
+    html[data-whatinput='keyboard'] & {
+      // @include removeFocusRing();
+      @include fakeBorder(var(--focus-ring-color), 0.0625rem);
+    }
+  }
+
+  /*
+   * On hover state
+   *
+   */
+  &__background:hover,
+  &__input:not([disabled]):not(:active):not(:checked):hover
+    ~ &__background {
+    background-color: var(--sb-color-violet-light-3);
+    color: var(--sb-color-violet);
+    @include fakeBorder(var(--sb-color-violet), 0.0625rem);
+  }
+
+  &__input:not([disabled]):not(:active):checked:hover ~ &__background {
+    background-color: var(--sb-color-violet);
+  }
+
+  /*
+   * On error state
+   *
+   */
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__background {
+    background-color: var(--sb-color-white);
+    @include fakeBorder(var(--color-fire-red), 0.0625rem);
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):hover
+    ~ &__background {
+    background-color: var(--sb-color-magenta-light-2);
+  }
+
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):not(:checked)
+    ~ &__background {
+    &::after {
+      color: var(--sb-color-red);
+    }
+  }
+
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):checked
+    ~ &__background {
+    background-color: var(--sb-color-magenta);
+    box-shadow: none;
+  }
+
+  &__status--error
+    &__input:not(:focus):not([disabled]):not(:active):checked:hover
+    ~ &__background {
+    background-color: var(--sb-color-red);
+    @include fakeBorder(var(--sb-color-red), 0.0625rem);
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:checked)
+    ~ &__button
+    &__focus {
+    display: block;
+    @include fakeBorder(var(--sb-color-red), 0.0625rem);
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):checked
+    ~ &__button
+    &__focus {
+    box-shadow: none;
+  }
+  /* stylelint-enable no-descending-specificity */
 }
