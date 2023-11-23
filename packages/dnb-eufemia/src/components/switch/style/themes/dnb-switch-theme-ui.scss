@@ -28,6 +28,8 @@
     );
   }
 
+  /* stylelint-disable no-descending-specificity */
+
   /*
     * When switched OFF
     * aka when the checkbox is not :checked
@@ -81,7 +83,7 @@
   }
 
   /*
-    * On disabled
+    * On disabled state
     *
     */
   &__input[disabled] ~ &__background {
@@ -105,7 +107,7 @@
   }
 
   /*
-    * On focus
+    * On focus state
     *
     */
   &__input:not([disabled]):focus ~ &__button {
@@ -113,39 +115,28 @@
       border: none;
     }
   }
-  /* stylelint-disable-next-line */
   &__input:not([disabled]):not(:checked):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       background-color: var(--color-mint-green-50);
     }
-  }
-  &__input:not([disabled]):focus ~ &__background,
-  &__input:not([disabled]):active ~ &__background {
-    @include focusRing();
-  }
-  &__input:not([disabled]):focus ~ &__button &__focus,
-  &__input:not([disabled]):active ~ &__button &__focus {
-    display: block;
   }
   &__input:not([disabled]):checked ~ &__button &__focus {
     transform: rotate(180deg);
   }
 
   /*
-    * On hover
+    * On hover state
     *
     */
-  /* stylelint-disable-next-line */
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
     border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
   }
 
   /*
-    * On active
+    * On active state
     *
     */
-  /* stylelint-disable-next-line */
   &__input:not([disabled]):active ~ &__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent;
@@ -155,7 +146,6 @@
     * On error state
     *
     */
-  /* stylelint-disable-next-line */
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
     // change button color
     border-color: var(--color-fire-red);
@@ -202,7 +192,6 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button
     &__focus {
-    display: block;
     @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
 
@@ -213,6 +202,7 @@
     &__focus {
     transform: rotate(180deg);
   }
+  /* stylelint-enable no-descending-specificity */
 
   // adjust the form-status to the inner border for 3px
   > .dnb-form-status {

@@ -30,32 +30,31 @@
   }
 
   &__background {
-    background-color: var(--sb-color-gray);
     height: 100%;
+
+    background-color: var(--sb-color-gray);
     border-radius: 1.5rem;
 
     &::after {
-      content: 'Av';
       color: var(--sb-color-text);
-      font-size: var(--font-size-small);
       width: var(--switch-content-width);
+
+      font-size: var(--font-size-small);
+      content: 'Av';
     }
 
     .dnb-switch--large & {
       height: 100%;
+
       border-radius: 1.5rem;
     }
   }
 
   &__button {
-    background-color: var(--sb-color-white);
-
     width: var(--button-dimension--medium);
     height: var(--button-dimension--medium);
 
-    @include hover() {
-      background-color: var(--sb-color-violet-light-3);
-    }
+    background-color: var(--sb-color-white);
 
     .dnb-switch--large & {
       width: var(--button-dimension--large);
@@ -82,8 +81,8 @@
     background-color: var(--sb-color-violet-light);
 
     &::after {
-      content: 'På';
       color: var(--sb-color-white);
+      content: 'På';
       transform: translateX(var(--switch-content-spacing--medium));
     }
   }
@@ -136,23 +135,23 @@
    * On disabled state
    *
    */
-  &__input[disabled]:not(:checked) ~ &__background {
+  &__input[disabled] ~ &__background {
     background-color: var(--sb-color-gray);
     &::after {
       color: var(--sb-color-gray-dark-3-neutral);
     }
-    @include hover() {
-      box-shadow: none;
-    }
   }
 
-  &__input[disabled]:not(:checked) ~ &__button {
+  &__input[disabled] ~ &__button {
     background-color: var(--sb-color-gray-light);
   }
 
   &__input[disabled]:checked ~ &__background {
     background-color: var(--sb-color-violet);
     opacity: 0.3;
+    &::after {
+      color: var(--sb-color-white);
+    }
   }
 
   &__input[disabled]:checked ~ &__button {
@@ -182,7 +181,6 @@
   }
 
   &__input:not([disabled]):focus ~ &__background {
-    @include focusRing();
     html[data-whatinput='keyboard'] & {
       background-color: var(--sb-color-blue-light-3);
       &::after {
@@ -193,7 +191,6 @@
   }
 
   &__input:not([disabled]):focus ~ &__button &__focus {
-    display: block;
     html[data-whatinput='keyboard'] & {
       // @include removeFocusRing();
       @include fakeBorder(var(--focus-ring-color), 0.0625rem);
@@ -205,14 +202,16 @@
    *
    */
   &__background:hover,
-  &__input:not([disabled]):not(:active):not(:checked):hover
+  &__input:not([disabled]):not(:focus):not(:active):not(:checked):hover
     ~ &__background {
-    background-color: var(--sb-color-violet-light-3);
     color: var(--sb-color-violet);
+
+    background-color: var(--sb-color-violet-light-3);
     @include fakeBorder(var(--sb-color-violet), 0.0625rem);
   }
 
-  &__input:not([disabled]):not(:active):checked:hover ~ &__background {
+  &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    ~ &__background {
     background-color: var(--sb-color-violet);
   }
 
@@ -259,7 +258,6 @@
     &__input:not([disabled]):not(:focus):not(:active):not(:checked)
     ~ &__button
     &__focus {
-    display: block;
     @include fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 

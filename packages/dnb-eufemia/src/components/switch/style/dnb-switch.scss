@@ -28,11 +28,11 @@
   }
 
   &__shell {
-    user-select: none; // Safari / Touch fix
     position: relative;
-
     display: flex;
     align-items: center;
+
+    user-select: none; // Safari / Touch fix
   }
 
   &--large {
@@ -46,6 +46,7 @@
   &__row {
     display: inline-flex;
     align-items: center;
+
     height: var(--switch-height--medium);
   }
 
@@ -63,10 +64,9 @@
     width: var(--switch-height--medium);
     height: var(--switch-height--medium);
 
-    transform: translateX(0);
-    transition: transform 160ms ease-out 125ms;
-
     border: var(--switch-border-width--medium) solid transparent;
+
+    transition: transform 160ms ease-out 125ms;
 
     .dnb-switch--large & {
       width: var(--switch-height--large);
@@ -129,18 +129,16 @@
 
   &__background {
     position: relative;
-
     display: flex;
     flex-direction: row;
     align-items: center;
 
     overflow: hidden;
 
-    background-color: grey;
-
     width: var(--switch-width--medium);
     height: calc(var(--switch-height--medium) - 0.5rem);
 
+    background-color: grey;
     border-radius: calc(var(--switch-height--medium) - 0.5rem / 2);
 
     &::after {
@@ -186,6 +184,16 @@
 
   &__input:not([disabled]) {
     cursor: pointer;
+  }
+
+  &__input:not([disabled]):focus ~ &__background,
+  &__input:not([disabled]):active ~ &__background {
+    @include focusRing();
+  }
+
+  &__input:not([disabled]):focus ~ &__button &__focus,
+  &__input:not([disabled]):active ~ &__button &__focus {
+    display: block;
   }
 
   // label
@@ -238,6 +246,13 @@
       order: 3;
       margin-top: 0.5rem;
     }
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button
+    &__focus {
+    display: block;
   }
 
   &.dnb-skeleton &__input[disabled] ~ &__button,
