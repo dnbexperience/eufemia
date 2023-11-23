@@ -42,6 +42,25 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match switch in unchecked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="switch-error"] .dnb-switch',
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="switch-error"] .dnb-switch__input',
+          },
+          {
+            action: 'click',
+            selector: 'body',
+          },
+        ],
+        waitAfterSimulate: 300,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 
