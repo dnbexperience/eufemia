@@ -98,6 +98,10 @@ export default class Autocomplete extends React.PureComponent {
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keep_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     keep_value_and_selection: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -280,6 +284,7 @@ export default class Autocomplete extends React.PureComponent {
     label_direction: null,
     label_sr_only: null,
     keep_value: null,
+    keep_selection: null,
     keep_value_and_selection: null,
     show_clear_button: null,
     status: null,
@@ -461,6 +466,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTimeout)
     clearTimeout(this._focusTimeout)
     clearTimeout(this._blurTimeout)
@@ -546,7 +552,8 @@ class AutocompleteInstance extends React.PureComponent {
     const data = this.runFilter(value, options)
     const count = this.countData(data)
 
-    const { keep_value, keep_value_and_selection } = this.props
+    const { keep_value, keep_selection, keep_value_and_selection } =
+      this.props
 
     if (value && value.length > 0) {
       // show the "no_options" message
@@ -567,12 +574,13 @@ class AutocompleteInstance extends React.PureComponent {
         }
       }
     } else {
-      if (!isTrue(keep_value) && !isTrue(keep_value_and_selection)) {
-        // this will not remove selected_item
+      if (
+        !isTrue(keep_value) &&
+        !isTrue(keep_selection) &&
+        !isTrue(keep_value_and_selection)
+      ) {
         this.totalReset()
-      }
-
-      if (isTrue(keep_value)) {
+      } else if (isTrue(keep_value)) {
         this.resetSelectedItem()
       }
 
@@ -691,23 +699,26 @@ class AutocompleteInstance extends React.PureComponent {
     const { input_value, keep_value, keep_value_and_selection } =
       this.props
 
-    if (isTrue(keep_value) || isTrue(keep_value_and_selection)) {
-      return
+    if (
+      isTrue(keep_value) ||
+      isTrue(keep_value_and_selection) ||
+      (input_value !== 'initval' && input_value.length > 0)
+    ) {
+      return // stop here
     }
 
-    // setTimeout(() => {
-    // }, 1)
-    window.requestAnimationFrame(() => {
+    clearTimeout(this._selectTimeout)
+    this._selectTimeout = setTimeout(() => {
       if (this.hasSelectedItem()) {
         const inputValue = AutocompleteInstance.getCurrentDataTitle(
           this.context.drawerList.selected_item,
           this.context.drawerList.original_data
         )
         this.setInputValue(inputValue)
-      } else if (!(input_value !== 'initval' && input_value.length > 0)) {
+      } else {
         this.clearInputValue()
       }
-    })
+    }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
   }
 
   showNoOptionsItem = () => {
@@ -780,9 +791,7 @@ class AutocompleteInstance extends React.PureComponent {
       selected_item,
       this.context.drawerList.original_data
     )
-    this.setState({
-      inputValue,
-    })
+    this.setInputValue(inputValue)
   }
 
   revalidateSelectedItem = () => {
@@ -999,11 +1008,6 @@ class AutocompleteInstance extends React.PureComponent {
       no_animation,
     } = this.props
 
-    dispatchCustomElementEvent(this, 'on_blur', {
-      event,
-      ...this.getEventObjects('on_blur'),
-    })
-
     this.setState({
       hasBlur: true,
       hasFocus: false,
@@ -1046,6 +1050,11 @@ class AutocompleteInstance extends React.PureComponent {
     if (isTrue(open_on_focus)) {
       this.setHidden()
     }
+
+    dispatchCustomElementEvent(this, 'on_blur', {
+      event,
+      ...this.getEventObjects('on_blur'),
+    })
   }
 
   onTriggerKeyDownHandler = (e) => {
@@ -1621,24 +1630,18 @@ class AutocompleteInstance extends React.PureComponent {
 
         this.setState(
           {
-            inputValue: AutocompleteInstance.getCurrentDataTitle(
-              selected_item,
-              this.context.drawerList.data
-            ),
             skipFocusDuringChange: false,
             _listenForPropChanges: false,
           },
           () => this.setFocusOnInput()
         )
-      } else {
-        this.setState({
-          inputValue: AutocompleteInstance.getCurrentDataTitle(
-            selected_item,
-            this.context.drawerList.data
-          ),
-          _listenForPropChanges: false,
-        })
       }
+
+      const inputValue = AutocompleteInstance.getCurrentDataTitle(
+        selected_item,
+        this.context.drawerList.data
+      )
+      this.setInputValue(inputValue)
     }
 
     if (typeof args.data.render === 'function') {

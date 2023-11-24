@@ -1453,300 +1453,414 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  it('should reset selected_item on input blur when no selection is made if "keep_value" and "keep_value_and_selection" is false', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_focus = jest.fn()
-    const on_blur = jest.fn()
-    const on_change = jest.fn()
-    const on_type = jest.fn()
+  describe('should have correct values on input blur ', () => {
+    it('when no selection is made and "keep_value" and "keep_value_and_selection" is false', async () => {
+      const on_change = jest.fn()
 
-    render(
-      <Autocomplete
-        data={mockData}
-        {...mockProps}
-        on_show={on_show}
-        on_hide={on_hide}
-        on_focus={on_focus}
-        on_blur={on_blur}
-        on_change={on_change}
-        on_type={on_type}
-      />
-    )
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          on_change={on_change}
+        />
+      )
 
-    const inputElement = document.querySelector('.dnb-input__input')
-    const optionElements = () =>
-      document.querySelectorAll('li.dnb-drawer-list__option')
-    const focusElement = () =>
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    const selectedElement = () =>
-      document.querySelector('li.dnb-drawer-list__option--selected')
+      const inputElement: HTMLInputElement = document.querySelector(
+        '.dnb-input__input'
+      )
+      const optionElements = () =>
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      const focusElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--focus')
+      const selectedElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--selected')
 
-    // open
-    fireEvent.mouseDown(inputElement)
+      // open
+      fireEvent.mouseDown(inputElement)
 
-    expect(optionElements().length).toBe(3)
+      expect(optionElements().length).toBe(3)
 
-    fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
+      await userEvent.type(inputElement, 'cc')
+
+      // Make first item active
+      keyDownOnInput(40) // down
+
+      expect(inputElement.value).toBe('cc')
+      expect(focusElement()).toBeInTheDocument()
+
+      closeAndReopen()
+
+      expect(inputElement.value).toBe('cc')
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(selectedElement()).not.toBeInTheDocument()
+
+      await userEvent.type(inputElement, 'cc')
+
+      // Make first item active
+      keyDownOnInput(40) // down
+
+      expect(focusElement()).toBeInTheDocument()
+      expect(selectedElement()).not.toBeInTheDocument()
+
+      fireEvent.blur(inputElement)
+
+      expect(inputElement.value).toBe('cc')
+
+      await wait(1) // because the implementation has a delay here of 1ms
+
+      expect(inputElement.value).toBe('')
+
+      expect(inputElement.value).toBe('')
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(selectedElement()).not.toBeInTheDocument()
+      expect(on_change).toHaveBeenCalledTimes(0)
     })
 
-    // Make first item active
-    keyDownOnInput(40) // down
+    it('when a selection is made and "keep_value" and "keep_value_and_selection" is false', async () => {
+      const on_change = jest.fn()
 
-    expect(focusElement()).toBeInTheDocument()
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          on_change={on_change}
+        />
+      )
 
-    closeAndReopen()
+      const inputElement: HTMLInputElement = document.querySelector(
+        '.dnb-input__input'
+      )
 
-    expect(focusElement()).not.toBeInTheDocument()
+      // open
+      fireEvent.mouseDown(inputElement)
 
-    fireEvent.change(inputElement, {
-      target: { value: '' },
+      await userEvent.type(inputElement, 'cc')
+
+      keyDownOnInput(40) // down
+      dispatchKeyDown(13) // enter
+
+      fireEvent.blur(inputElement)
+
+      expect(inputElement.value).toBe('cc')
+
+      await wait(1) // because the implementation has a delay here of 1ms
+
+      expect(inputElement.value).toBe('CC cc')
+
+      expect(on_change).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          value: 2,
+          data: { content: ['CC', 'cc'] },
+        })
+      )
+
+      fireEvent.focus(inputElement)
+
+      await userEvent.type(inputElement, ' invalid')
+
+      expect(inputElement.value).toBe('CC cc invalid')
+
+      fireEvent.blur(inputElement)
+
+      expect(inputElement.value).toBe('CC cc invalid')
+
+      await wait(1) // because the implementation has a delay here of 1ms
+
+      expect(inputElement.value).toBe('CC cc')
+
+      expect(on_change).toHaveBeenCalledTimes(1)
+      expect(on_change).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          value: 2,
+          data: { content: ['CC', 'cc'] },
+        })
+      )
     })
 
-    expect(focusElement()).not.toBeInTheDocument()
+    it('if "keep_value" is true and value is empty', async () => {
+      const on_change = jest.fn()
 
-    keyDownOnInput(40) // down
+      render(
+        <Autocomplete
+          keep_value
+          data={mockData}
+          {...mockProps}
+          on_change={on_change}
+        />
+      )
 
-    expect(focusElement()).toBeInTheDocument()
+      const inputElement: HTMLInputElement = document.querySelector(
+        '.dnb-input__input'
+      )
+      const optionElements = () =>
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      const focusElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--focus')
+      const selectedElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--selected')
 
-    closeAndReopen()
+      // open
+      fireEvent.mouseDown(inputElement)
 
-    // This here is what we expect
-    expect(focusElement()).not.toBeInTheDocument()
+      expect(optionElements().length).toBe(3)
 
-    // This also opens the drawer-list
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
+      fireEvent.focus(inputElement)
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
+
+      // Make first item active
+      keyDownOnInput(40) // down
+
+      expect(focusElement()).toBeInTheDocument()
+
+      closeAndReopen()
+
+      expect(focusElement()).toBeInTheDocument()
+
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      expect(focusElement()).not.toBeInTheDocument()
+
+      keyDownOnInput(40) // down
+
+      expect(focusElement()).toBeInTheDocument()
+
+      closeAndReopen()
+
+      // This here is what we expect
+      expect(focusElement()).not.toBeInTheDocument()
+
+      // This also opens the drawer-list
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
+
+      keyDownOnInput(40) // activate
+      dispatchKeyDown(13) // enter
+
+      fireEvent.blur(inputElement)
+
+      await wait(1) // because the implementation has a delay here of 1ms
+
+      expect(inputElement.value).toBe('CC cc')
+      expect(on_change).toHaveBeenCalledTimes(1)
+      expect(on_change).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          value: 2,
+          data: { content: ['CC', 'cc'] },
+        })
+      )
+
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      closeAndReopen()
+
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(selectedElement()).not.toBeInTheDocument()
+
+      expect(on_change).toHaveBeenCalledTimes(2)
+      expect(on_change).not.toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          value: expect.anything(),
+          data: { content: expect.anything() },
+        })
+      )
     })
 
-    keyDownOnInput(40) // activate
-    dispatchKeyDown(13) // enter
+    it('if "keep_value_and_selection" is true', async () => {
+      const on_change = jest.fn()
 
-    closeAndReopen()
+      render(
+        <Autocomplete
+          keep_value_and_selection
+          data={mockData}
+          {...mockProps}
+          on_change={on_change}
+        />
+      )
 
-    // Now we have a selected item
-    expect(selectedElement()).toBeInTheDocument()
-    expect(focusElement()).toBeInTheDocument()
-    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
+      const inputElement = document.querySelector(
+        '.dnb-input__input'
+      ) as HTMLInputElement
+      const optionElements = () =>
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      const focusElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--focus')
+      const selectedElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--selected')
 
-    fireEvent.change(inputElement, {
-      target: { value: '' },
+      // open
+      fireEvent.mouseDown(inputElement)
+
+      expect(optionElements().length).toBe(3)
+
+      fireEvent.focus(inputElement)
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
+
+      // Make first item active
+      keyDownOnInput(40) // down
+
+      expect(focusElement()).toBeInTheDocument()
+      expect(inputElement.value).toBe('cc')
+
+      closeAndReopen()
+
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(inputElement.value).toBe('cc')
+
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      expect(focusElement()).not.toBeInTheDocument()
+
+      keyDownOnInput(40) // down
+
+      expect(focusElement()).toBeInTheDocument()
+
+      closeAndReopen()
+
+      // This here is what we expect
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(inputElement.value).toBe('')
+
+      // This also opens the drawer-list
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
+
+      keyDownOnInput(40) // activate
+      dispatchKeyDown(13) // enter
+
+      fireEvent.blur(inputElement)
+
+      await wait(1) // because the implementation has a delay here of 1ms
+
+      expect(inputElement.value).toBe('CC cc')
+
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      closeAndReopen()
+
+      expect(focusElement()).toBeInTheDocument()
+      expect(selectedElement()).toBeInTheDocument()
+      expect(inputElement.value).toBe('')
+
+      expect(on_change).toHaveBeenCalledTimes(1)
+      expect(on_change).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          value: 2,
+          data: { content: ['CC', 'cc'] },
+        })
+      )
     })
 
-    closeAndReopen()
+    it('if "keep_election" is true', async () => {
+      const on_change = jest.fn()
 
-    // This here is what we expect
-    expect(focusElement()).not.toBeInTheDocument()
-    expect(selectedElement()).not.toBeInTheDocument()
+      render(
+        <Autocomplete
+          keep_selection
+          data={mockData}
+          {...mockProps}
+          on_change={on_change}
+        />
+      )
 
-    expect(on_show).toBeCalledTimes(2)
-    expect(on_hide).toBeCalledTimes(2)
-    expect(on_focus).toBeCalledTimes(4)
-    expect(on_blur).toBeCalledTimes(3)
-    expect(on_change).toBeCalledTimes(2)
-    expect(on_type).toBeCalledTimes(4)
-  })
+      const inputElement = document.querySelector(
+        '.dnb-input__input'
+      ) as HTMLInputElement
+      const optionElements = () =>
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      const focusElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--focus')
+      const selectedElement = () =>
+        document.querySelector('li.dnb-drawer-list__option--selected')
 
-  it('should not reset input value on input blur if "keep_value" is true and value is empty', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_focus = jest.fn()
-    const on_blur = jest.fn()
-    const on_change = jest.fn()
-    const on_type = jest.fn()
+      // open
+      fireEvent.mouseDown(inputElement)
 
-    render(
-      <Autocomplete
-        keep_value
-        data={mockData}
-        {...mockProps}
-        on_show={on_show}
-        on_hide={on_hide}
-        on_focus={on_focus}
-        on_blur={on_blur}
-        on_change={on_change}
-        on_type={on_type}
-      />
-    )
+      expect(optionElements().length).toBe(3)
 
-    const inputElement = document.querySelector('.dnb-input__input')
-    const optionElements = () =>
-      document.querySelectorAll('li.dnb-drawer-list__option')
-    const focusElement = () =>
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    const selectedElement = () =>
-      document.querySelector('li.dnb-drawer-list__option--selected')
+      fireEvent.focus(inputElement)
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
 
-    // open
-    fireEvent.mouseDown(inputElement)
+      // Make first item active
+      keyDownOnInput(40) // down
 
-    expect(optionElements().length).toBe(3)
+      expect(focusElement()).toBeInTheDocument()
+      expect(inputElement.value).toBe('cc')
 
-    fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
+      closeAndReopen()
+
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(inputElement.value).toBe('cc')
+
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      expect(focusElement()).not.toBeInTheDocument()
+
+      keyDownOnInput(40) // down
+
+      expect(focusElement()).toBeInTheDocument()
+
+      closeAndReopen()
+
+      // This here is what we expect
+      expect(focusElement()).not.toBeInTheDocument()
+      expect(inputElement.value).toBe('')
+
+      // This also opens the drawer-list
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
+
+      keyDownOnInput(40) // activate
+      dispatchKeyDown(13) // enter
+
+      fireEvent.blur(inputElement)
+
+      await wait(1) // because the implementation has a delay here of 1ms
+
+      expect(inputElement.value).toBe('CC cc')
+
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      closeAndReopen()
+
+      expect(focusElement()).toBeInTheDocument()
+      expect(selectedElement()).toBeInTheDocument()
+      expect(inputElement.value).toBe('')
+
+      expect(on_change).toHaveBeenCalledTimes(1)
+      expect(on_change).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          value: 2,
+          data: { content: ['CC', 'cc'] },
+        })
+      )
     })
-
-    // Make first item active
-    keyDownOnInput(40) // down
-
-    expect(focusElement()).toBeInTheDocument()
-
-    closeAndReopen()
-
-    expect(focusElement()).toBeInTheDocument()
-
-    fireEvent.change(inputElement, {
-      target: { value: '' },
-    })
-
-    expect(focusElement()).not.toBeInTheDocument()
-
-    keyDownOnInput(40) // down
-
-    expect(focusElement()).toBeInTheDocument()
-
-    closeAndReopen()
-
-    // This here is what we expect
-    expect(focusElement()).not.toBeInTheDocument()
-
-    // This also opens the drawer-list
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
-    })
-
-    keyDownOnInput(40) // activate
-    dispatchKeyDown(13) // enter
-
-    closeAndReopen()
-
-    // Now we have a selected item
-    expect(selectedElement()).toBeInTheDocument()
-    expect(focusElement()).toBeInTheDocument()
-    expect((inputElement as HTMLInputElement).value).toBe('CC cc')
-
-    fireEvent.change(inputElement, {
-      target: { value: '' },
-    })
-
-    closeAndReopen()
-
-    // This here is what we expect
-    expect(focusElement()).not.toBeInTheDocument()
-    expect(selectedElement()).not.toBeInTheDocument()
-
-    expect(on_show).toBeCalledTimes(2)
-    expect(on_hide).toBeCalledTimes(2)
-    expect(on_focus).toBeCalledTimes(4)
-    expect(on_blur).toBeCalledTimes(3)
-    expect(on_change).toBeCalledTimes(2)
-    expect(on_type).toBeCalledTimes(4)
-  })
-
-  it('should not reset selected_item on input blur if "keep_value_and_selection" true', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_focus = jest.fn()
-    const on_blur = jest.fn()
-    const on_change = jest.fn()
-    const on_type = jest.fn()
-
-    render(
-      <Autocomplete
-        keep_value_and_selection
-        data={mockData}
-        {...mockProps}
-        on_show={on_show}
-        on_hide={on_hide}
-        on_focus={on_focus}
-        on_blur={on_blur}
-        on_change={on_change}
-        on_type={on_type}
-      />
-    )
-
-    const inputElement = document.querySelector(
-      '.dnb-input__input'
-    ) as HTMLInputElement
-    const optionElements = () =>
-      document.querySelectorAll('li.dnb-drawer-list__option')
-    const focusElement = () =>
-      document.querySelector('li.dnb-drawer-list__option--focus')
-    const selectedElement = () =>
-      document.querySelector('li.dnb-drawer-list__option--selected')
-
-    // open
-    fireEvent.mouseDown(inputElement)
-
-    expect(optionElements().length).toBe(3)
-
-    fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
-    })
-
-    // Make first item active
-    keyDownOnInput(40) // down
-
-    expect(focusElement()).toBeInTheDocument()
-    expect(inputElement.value).toBe('cc')
-
-    closeAndReopen()
-
-    expect(focusElement()).not.toBeInTheDocument()
-    expect(inputElement.value).toBe('cc')
-
-    fireEvent.change(inputElement, {
-      target: { value: '' },
-    })
-
-    expect(focusElement()).not.toBeInTheDocument()
-
-    keyDownOnInput(40) // down
-
-    expect(focusElement()).toBeInTheDocument()
-
-    closeAndReopen()
-
-    // This here is what we expect
-    expect(focusElement()).not.toBeInTheDocument()
-    expect(inputElement.value).toBe('')
-
-    // This also opens the drawer-list
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
-    })
-
-    keyDownOnInput(40) // activate
-    dispatchKeyDown(13) // enter
-
-    closeAndReopen()
-
-    // Now we have a selected item
-    expect(selectedElement()).toBeInTheDocument()
-    expect(focusElement()).toBeInTheDocument()
-    expect(inputElement.value).toBe('CC cc')
-
-    fireEvent.change(inputElement, {
-      target: { value: '' },
-    })
-
-    closeAndReopen()
-
-    // This here is what we expect
-    expect(focusElement()).toBeInTheDocument()
-    expect(selectedElement()).toBeInTheDocument()
-    expect(inputElement.value).toBe('')
-
-    expect(on_show).toBeCalledTimes(2)
-    expect(on_hide).toBeCalledTimes(2)
-    expect(on_focus).toBeCalledTimes(4)
-    expect(on_blur).toBeCalledTimes(3)
-    expect(on_change).toBeCalledTimes(1)
-    expect(on_type).toBeCalledTimes(4)
   })
 
   it('should have a button for screen readers to open options – regardless', () => {
