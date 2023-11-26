@@ -351,6 +351,10 @@
     html[data-whatinput='keyboard'] & {
       border: none;
       background-color: var(--checkbox-color-background--error-contrast);
+      @include fakeBorder(
+        var(--checkbox-color-border--error),
+        calc(var(--focus-ring-width) + 0.0625rem)
+      );
     }
   }
   &__status--error &__input:not([disabled]):focus:hover ~ &__gfx {
