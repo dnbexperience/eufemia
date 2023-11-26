@@ -172,3 +172,14 @@ export function RadioVisibleWhenVisualTests() {
     </>
   )
 }
+
+export const RadioExampleError = () => (
+  <>
+    <ComponentBox data-visual-test="radio-error-unchecked">
+      <Radio label="Unchecked" status="error" />
+    </ComponentBox>
+    <ComponentBox data-visual-test="radio-error-checked">
+      <Radio label="Checked" status="error" checked />
+    </ComponentBox>
+  </>
+)
