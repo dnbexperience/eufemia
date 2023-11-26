@@ -41,6 +41,23 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match checkbox in unchecked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-unchecked"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in unchecked state with error and hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-unchecked"] .dnb-checkbox',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 
   // NB: Because of focus simulation and screenshotElement.press('Tab')
@@ -90,6 +107,23 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
     it('have to match checkbox in error state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-error"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in checked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-checked"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in checked state with error and hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-checked"] .dnb-checkbox',
+        simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
