@@ -408,6 +408,18 @@
       background-color: var(--radio-color-background-on--focus);
     }
   }
+  &__input:not([disabled]):not(:active):not(:hover):checked:focus ~ &__dot,
+  &__input:not([disabled]):not(:active):not(
+      :hover
+    )[data-checked='true']:focus
+    ~ &__dot {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(
+        --radio-color-dot-on--focus,
+        var(--focus-ring-color)
+      );
+    }
+  }
 
   // Off
   &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
