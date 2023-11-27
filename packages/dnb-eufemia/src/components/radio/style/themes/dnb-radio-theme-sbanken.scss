@@ -11,10 +11,10 @@
   --radio-color-background-off: var(--sb-color-white);
   --radio-color-border-off: var(--sb-color-violet);
   // Disabled state
-  --radio-color-dot-on--disabled: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-dot-on--disabled: var(--sb-color-gray-dark);
   --radio-color-background--disabled: var(--sb-color-gray-light);
-  --radio-color-border-on--disabled: var(--sb-color-gray-dark-2-neutral);
-  --radio-color-border-off--disabled: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-border-on--disabled: var(--sb-color-gray-dark);
+  --radio-color-border-off--disabled: var(--sb-color-gray-dark);
   // Active state
   --radio-color-dot-on--active: var(--sb-color-violet-light);
   --radio-color-border-on--active: var(--sb-color-gray-dark-2-neutral);

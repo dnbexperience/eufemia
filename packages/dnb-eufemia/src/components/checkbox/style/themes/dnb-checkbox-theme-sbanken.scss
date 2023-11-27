@@ -12,15 +12,11 @@
   --checkbox-color-border-on: var(--sb-color-violet);
   --checkbox-color-border-off: var(--sb-color-violet);
   // Disabled state
-  --checkbox-color-gfx--disabled: var(--sb-color-gray-dark-2-neutral);
+  --checkbox-color-gfx--disabled: var(--sb-color-gray-dark);
   --checkbox-color-background-on--disabled: var(--sb-color-gray-light);
-  --checkbox-color-background-off-disabled: var(--sb-color-gray-light);
-  --checkbox-color-border-on--disabled: var(
-    --sb-color-gray-dark-2-neutral
-  );
-  --checkbox-color-border-off--disabled: var(
-    --sb-color-gray-dark-2-neutral
-  );
+  --checkbox-color-background-off--disabled: var(--sb-color-gray-light);
+  --checkbox-color-border-on--disabled: var(--sb-color-gray-dark);
+  --checkbox-color-border-off--disabled: var(--sb-color-gray-dark);
   // Active state
   --checkbox-color-background--active: var(--sb-color-white);
   --checkbox-color-border--active: var(--sb-color-gray);
