@@ -22,6 +22,7 @@
   --radio-color-border-off: black;
   // Disabled state
   --radio-color-dot-on--disabled: lightgrey;
+  --radio-color-background--disabled: white;
   --radio-color-border-on--disabled: lightgrey;
   --radio-color-border-off--disabled: lightgrey;
   // Active state
@@ -321,6 +322,7 @@
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {
     border-color: var(--radio-color-border-on--disabled);
+    background-color: var(--radio-color-background--disabled);
   }
 
   &__input[disabled]:checked ~ &__dot,
@@ -332,6 +334,7 @@
   &__input[disabled]:not(:checked):not([data-checked='true'])
     ~ &__button:not(.dnb-skeleton) {
     border-color: var(--radio-color-border-off--disabled);
+    background-color: var(--radio-color-background--disabled);
   }
 
   // Skeleton
