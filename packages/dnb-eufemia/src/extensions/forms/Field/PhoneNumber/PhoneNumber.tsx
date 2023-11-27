@@ -62,7 +62,6 @@ function PhoneNumber(props: Props) {
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     numberMask,
     emptyValue,
-    value,
     info,
     warning,
     error,
@@ -100,14 +99,12 @@ function PhoneNumber(props: Props) {
     ) {
       countryCodeRef.current = countryCode || defaultCountryCode
 
-      if (lang === langRef.current) {
-        dataRef.current = getCountryData({
-          lang,
-          filter: countryCodeRef.current,
-        })
-      }
+      dataRef.current = getCountryData({
+        lang,
+        filter: countryCodeRef.current,
+      })
     }
-  }, [props.value]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.value, lang])
 
   /**
    * On external value change, update the internal,
@@ -118,10 +115,8 @@ function PhoneNumber(props: Props) {
     const newValue = phoneNumber
       ? joinValue([countryCode, phoneNumber])
       : emptyValue
-    if (newValue !== value) {
-      updateValue(newValue)
-    }
-  }, [props.value]) // eslint-disable-line react-hooks/exhaustive-deps
+    updateValue(newValue)
+  }, [props.value, emptyValue, updateValue])
 
   /**
    * Update whole contry list when lang changes.
@@ -173,15 +168,18 @@ function PhoneNumber(props: Props) {
     [countryCodeRef, emptyValue, handleChange, onNumberChange]
   )
 
-  const onFocusHandler = ({ updateData }) => {
-    if (dataRef.current.length < 10) {
-      dataRef.current = getCountryData({
-        lang: sharedContext.locale?.split('-')[0],
-      })
-      updateData(dataRef.current)
-    }
-    handleFocus()
-  }
+  const onFocusHandler = useCallback(
+    ({ updateData }) => {
+      if (dataRef.current.length < 10) {
+        dataRef.current = getCountryData({
+          lang: sharedContext.locale?.split('-')[0],
+        })
+        updateData(dataRef.current)
+      }
+      handleFocus()
+    },
+    [handleFocus, sharedContext.locale]
+  )
 
   return (
     <FieldBlock

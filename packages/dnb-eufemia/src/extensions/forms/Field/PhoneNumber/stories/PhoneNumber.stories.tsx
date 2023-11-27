@@ -16,7 +16,6 @@ export function PhoneNumber() {
     <Field.PhoneNumber
       required
       value={state}
-      // validateInitially
       onBlur={console.log}
       onFocus={console.log}
       onChange={(value) => {
