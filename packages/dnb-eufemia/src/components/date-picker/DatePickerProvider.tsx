@@ -3,8 +3,7 @@
  *
  */
 
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import isSameMonth from 'date-fns/isSameMonth'
 import isValid from 'date-fns/isValid'
@@ -12,10 +11,7 @@ import format from 'date-fns/format'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 
 import Context from '../../shared/Context'
-import {
-  isTrue,
-  dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import {
   convertStringToDate,
   correctV1Format,
@@ -23,42 +19,88 @@ import {
 } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 import { getViews } from './DatePickerRange'
+import type { DatePickerProps } from './DatePicker'
 
-export default class DatePickerProvider extends React.PureComponent {
-  static contextType = Context
+type DatePickerProviderState = {
+  _listenForPropChanges: boolean
+  changeMonthViews: boolean
+  startDate: Date
+  endDate: Date
+  minDate: Date
+  maxDate: Date
+  __startDay: string
+  __startMonth: string
+  __startYear: string
+  hasHadValidDate: boolean
+  __endDay: string
+  __endMonth: string
+  __endYear: string
+  startMonth: Date
+  endMonth: Date
+  views: [
+    {
+      month: Date
+      nr: number
+    },
+  ]
+  _date: Date
+  _startDate: Date
+  _minDate: string
+  _maxDate: string
+  hoverDate: Date
+  on_show: string
+  lastEventCallCache: { startDate: Date; endDate: Date }
+}
 
-  static propTypes = {
-    min_date: PropTypes.oneOfType([
-      PropTypes.instanceOf(Date),
-      PropTypes.string,
-    ]),
-    max_date: PropTypes.oneOfType([
-      PropTypes.instanceOf(Date),
-      PropTypes.string,
-    ]),
-    return_format: PropTypes.string,
-
-    range: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
-      .isRequired,
-    setReturnObject: PropTypes.func.isRequired,
-    enhanceWithMethods: PropTypes.object,
-
-    attributes: PropTypes.object,
-    children: PropTypes.node.isRequired,
+type DatePickerProviderProps = React.HTMLProps<HTMLElement> &
+  DatePickerProps & {
+    setReturnObject: (...args: any[]) => any
+    enhanceWithMethods?: Record<string, unknown>
+    attributes?: Record<string, unknown>
+    children: React.ReactNode
   }
 
-  static defaultProps = {
-    min_date: null,
-    max_date: null,
-    return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-    attributes: null,
-    enhanceWithMethods: null,
-  }
+const defaultProps = {
+  return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
+}
 
-  state = { _listenForPropChanges: true, changeMonthViews: false }
+function DatePickerProvider(externalProps: DatePickerProviderProps) {
+  const props = { ...defaultProps, ...externalProps }
 
-  static getDerivedStateFromProps(props, state) {
-    const isRange = isTrue(props.range)
+  const [state, setState] = useState<DatePickerProviderState>({
+    _listenForPropChanges: true,
+    changeMonthViews: false,
+  } as DatePickerProviderState)
+
+  const context = useContext(Context)
+
+  const setViewsCallbackRef = useRef<() => void>(null)
+  const setStateCallbackRef = useRef<() => void>(null)
+
+  getDerivedStateFromProps(props, state)
+
+  useEffect(() => {
+    if (typeof props.setReturnObject === 'function') {
+      props.setReturnObject(getReturnObject)
+    }
+  }, [])
+
+  // Set views callback
+  useEffect(() => {
+    if (setViewsCallbackRef.current) {
+      setViewsCallbackRef.current()
+    }
+  }, [state?.views])
+
+  // Set state callback
+  useEffect(() => {
+    if (setStateCallbackRef.current) {
+      setStateCallbackRef.current()
+    }
+  }, [state])
+
+  function getDerivedStateFromProps(props, state) {
+    const isRange = props.range
 
     if (state._listenForPropChanges) {
       let startDate = undefined
@@ -86,13 +128,13 @@ export default class DatePickerProvider extends React.PureComponent {
             date_format,
           }) || undefined
 
-        if (!isTrue(props.range)) {
+        if (!props.range) {
           state.endDate = state.startDate
         }
       }
       if (
         typeof props.end_date !== 'undefined' &&
-        isTrue(props.range) &&
+        props.range &&
         props.end_date !== state._endDate
       ) {
         state.endDate =
@@ -136,22 +178,16 @@ export default class DatePickerProvider extends React.PureComponent {
           date_format,
         })
       }
-    }
 
-    /**
-     * Because now we do not any more relay on auto "correction",
-     * but rather return "is_valid_start_date=false"
-     */
-    if (isTrue(props.correct_invalid_date)) {
-      if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
-        state.startDate = state.minDate
-      }
-      if (isDisabled(state.endDate, state.minDate, state.maxDate)) {
-        // state.endDate is only used by the input if range is set to true.
-        // this is done to make max_date correction work if the input is not a range and only max_date is defined.
-        if (!props.range && !props.min_date) {
-          state.startDate = state.maxDate
-        } else {
+      /**
+       * Because now we do not any more relay on auto "correction",
+       * but rather return "is_valid_start_date=false"
+       */
+      if (props.correct_invalid_date) {
+        if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
+          state.startDate = state.minDate
+        }
+        if (isDisabled(state.endDate, state.minDate, state.maxDate)) {
           state.endDate = state.maxDate
         }
       }
@@ -189,7 +225,6 @@ export default class DatePickerProvider extends React.PureComponent {
 
     if (
       !state.startMonth ||
-      state._date !== props.date ||
       (state.changeMonthViews &&
         !isSameMonth(state.startMonth, state.startDate))
     ) {
@@ -198,7 +233,6 @@ export default class DatePickerProvider extends React.PureComponent {
 
     if (
       !state.endMonth ||
-      state._date !== props.date ||
       (isRange &&
         state.changeMonthViews &&
         !isSameMonth(state.endMonth, state.endDate))
@@ -231,64 +265,62 @@ export default class DatePickerProvider extends React.PureComponent {
     state._minDate = props.min_date
     state._maxDate = props.max_date
 
-    return state
+    setState((previousState) => ({ ...previousState, ...state }))
   }
 
-  constructor(props) {
-    super(props)
-
-    if (typeof props.setReturnObject === 'function') {
-      props.setReturnObject(this.getReturnObject)
-    }
+  function setContextViews(views, cb = null) {
+    setState((previousState) => ({
+      ...previousState,
+      views: { ...previousState.views, ...views },
+      _listenForPropChanges: false,
+    }))
+    setViewsCallbackRef.current = cb
   }
 
-  setViews = (views, cb = null) => {
-    this.setState({ views, _listenForPropChanges: false }, cb)
+  function updateState(state, cb = null) {
+    setState((currentState) => ({
+      ...currentState,
+      ...state,
+      _listenForPropChanges: false,
+    }))
+    setStateCallbackRef.current = cb
   }
 
-  updateState = (state, cb = null) => {
-    this.setState({ ...state, _listenForPropChanges: false }, cb)
-  }
-
-  callOnChangeHandler = (args) => {
+  function callOnChangeHandler(args: any) {
     /**
      * Prevent on_change to be fired twice if date not has actually changed
      * We clear the cache inside getDerivedStateFromProps
      */
     if (
-      this.state.lastEventCallCache &&
-      this.state.lastEventCallCache.startDate === this.state.startDate &&
-      this.state.lastEventCallCache.endDate === this.state.endDate
+      state.lastEventCallCache &&
+      state.lastEventCallCache.startDate === state.startDate &&
+      state.lastEventCallCache.endDate === state.endDate
     ) {
       return // stop here
     }
 
-    dispatchCustomElementEvent(
-      this,
-      'on_change',
-      this.getReturnObject(args)
-    )
+    dispatchCustomElementEvent(this, 'on_change', getReturnObject(args))
 
     const lastEventCallCache = {
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
+      startDate: state.startDate,
+      endDate: state.endDate,
     }
-    this.setState({ lastEventCallCache })
+    setState((currentState) => ({ ...currentState, lastEventCallCache }))
   }
 
-  getReturnObject = ({ event = null, ...rest } = {}) => {
-    const { startDate, endDate, partialStartDate, partialEndDate } = {
-      ...this.state,
-      ...rest,
-    }
-    const attributes = this.props.attributes || {}
-    const returnFormat = correctV1Format(this.props.return_format)
+  function getReturnObject({
+    event = null,
+    ...rest
+  }: { event?: Event } = {}) {
+    const { startDate, endDate } = { ...state, ...rest }
+    const attributes = props.attributes || {}
+    const returnFormat = correctV1Format(props.return_format)
     const startDateIsValid = Boolean(startDate && isValid(startDate))
     const endDateIsValid = Boolean(endDate && isValid(endDate))
 
     let ret = null
 
-    if (isTrue(this.props.range)) {
+    if (props.range) {
       ret = {
         event,
         attributes,
@@ -302,37 +334,34 @@ export default class DatePickerProvider extends React.PureComponent {
         end_date: endDateIsValid ? format(endDate, returnFormat) : null,
         is_valid_start_date: startDateIsValid,
         is_valid_end_date: endDateIsValid,
-        partialStartDate,
-        partialEndDate,
       }
     } else {
       ret = {
         event,
         attributes,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
-        partialStartDate,
         is_valid: startDateIsValid,
       }
     }
 
-    if (this.props.min_date || this.props.max_date) {
-      if (isTrue(this.props.range)) {
+    if (props.min_date || props.max_date) {
+      if (props.range) {
         if (
           startDateIsValid &&
-          isDisabled(startDate, this.state.minDate, this.state.maxDate)
+          isDisabled(startDate, state.minDate, state.maxDate)
         ) {
           ret.is_valid_start_date = false
         }
         if (
           endDateIsValid &&
-          isDisabled(endDate, this.state.minDate, this.state.maxDate)
+          isDisabled(endDate, state.minDate, state.maxDate)
         ) {
           ret.is_valid_end_date = false
         }
       } else {
         if (
           startDateIsValid &&
-          isDisabled(startDate, this.state.minDate, this.state.maxDate)
+          isDisabled(startDate, state.minDate, state.maxDate)
         ) {
           ret.is_valid = false
         }
@@ -342,26 +371,26 @@ export default class DatePickerProvider extends React.PureComponent {
     return ret
   }
 
-  render() {
-    const { children } = this.props
+  const { children } = props
 
-    return (
-      <DatePickerContext.Provider
-        value={{
-          translation: this.context.translation,
-          setViews: this.setViews,
-          updateState: this.updateState,
-          getReturnObject: this.getReturnObject,
-          callOnChangeHandler: this.callOnChangeHandler,
-          props: this.props,
-          ...this.props.enhanceWithMethods,
-          ...this.state,
-        }}
-      >
-        {children}
-      </DatePickerContext.Provider>
-    )
-  }
+  return (
+    <DatePickerContext.Provider
+      value={{
+        translation: context.translation,
+        setViews: setContextViews,
+        updateState,
+        getReturnObject,
+        callOnChangeHandler,
+        props: props,
+        ...props.enhanceWithMethods,
+        ...state,
+      }}
+    >
+      {children}
+    </DatePickerContext.Provider>
+  )
 }
+
+export default DatePickerProvider
 
 export const pad = (num, size) => ('000000000' + num).substr(-size)
