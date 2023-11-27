@@ -9,7 +9,7 @@
   &__button {
     background-color: var(--sb-color-white);
     color: var(--sb-color-violet);
-    @include fakeBorder(var(--sb-color-violet), 0.09375rem, inset);
+    @include fakeBorder(var(--sb-color-violet), 0.09375rem);
 
     @include hover() {
       background-color: var(--sb-color-violet-light-3);
@@ -17,7 +17,7 @@
     }
 
     @include active() {
-      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem, inset);
+      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem);
       background-color: var(--sb-color-violet);
       color: var(--sb-color-violet-light-3);
     }
@@ -27,8 +27,33 @@
       background-color: var(--sb-color-gray-light);
       color: var(--sb-color-gray-dark);
     }
+
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
+      .dnb-radio {
+        &__button {
+          background-color: transparent;
+          border-color: var(--focus-ring-color);
+          box-shadow: 0 0 0 0.0625rem var(--focus-ring-color);
+        }
+        &__dot {
+          background-color: var(--focus-ring-color);
+        }
+      }
+      .dnb-checkbox {
+        &__button {
+          background-color: transparent;
+          border-color: var(--focus-ring-color);
+          box-shadow: 0 0 0 0.0625rem var(--focus-ring-color);
+        }
+        &__gfx {
+          color: var(--focus-ring-color);
+        }
+      }
+    }
   }
 
+  /* stylelint-disable no-descending-specificity */
   &--checked &__button {
     &:not([disabled]):not(:active) {
       background-color: var(--sb-color-violet);
@@ -48,4 +73,5 @@
       color: var(--sb-color-violet-light-3);
     }
   }
+  /* stylelint-enable no-descending-specificity */
 }
