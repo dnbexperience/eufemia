@@ -9,8 +9,8 @@
   --checkbox-color-gfx-off: var(--sb-color-violet-light);
   --checkbox-color-background-on: var(--sb-color-white);
   --checkbox-color-background-off: var(--sb-color-white);
-  --checkbox-color-border-on: var(--sb-color-gray-dark-2-neutral);
-  --checkbox-color-border-off: var(--sb-color-gray-dark-2-neutral);
+  --checkbox-color-border-on: var(--sb-color-violet);
+  --checkbox-color-border-off: var(--sb-color-violet);
   // Disabled state
   --checkbox-color-gfx--disabled: var(--sb-color-gray-dark-2-neutral);
   --checkbox-color-background-on--disabled: var(--sb-color-gray-light);
@@ -26,11 +26,11 @@
   --checkbox-color-border--active: var(--sb-color-gray);
   // Hover state
   --checkbox-color-gfx--hover: var(--sb-color-violet-light);
-  --checkbox-color-background--hover: var(--sb-color-white);
-  --checkbox-color-border-on--hover: var(--sb-color-violet-light);
-  --checkbox-color-border-off--hover: var(--sb-color-violet-light);
+  --checkbox-color-background--hover: var(--sb-color-violet-light-3);
+  --checkbox-color-border-on--hover: var(--sb-color-violet);
+  --checkbox-color-border-off--hover: var(--sb-color-violet);
   // Focus state
-  --checkbox-color-gfx--focus: var(--sb-color-violet-light);
+  --checkbox-color-gfx--focus: var(--focus-ring-color);
   --checkbox-color-background--focus: var(--sb-color-blue-light-3);
   // Error state
   --checkbox-color-gfx--error: var(--sb-color-magenta);

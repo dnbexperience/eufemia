@@ -52,3 +52,14 @@ export const CheckboxDisabled = () => (
     <Checkbox checked disabled />
   </ComponentBox>
 )
+
+export const CheckboxWithErrorStates = () => (
+  <>
+    <ComponentBox data-visual-test="checkbox-error-unchecked">
+      <Checkbox label="Unchecked" status="error" />
+    </ComponentBox>
+    <ComponentBox data-visual-test="checkbox-error-checked">
+      <Checkbox label="Checked" status="error" checked />
+    </ComponentBox>
+  </>
+)
