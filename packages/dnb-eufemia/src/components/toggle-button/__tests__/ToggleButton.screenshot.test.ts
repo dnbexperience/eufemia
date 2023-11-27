@@ -8,9 +8,10 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('ToggleButton', () => {
+describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
   describe('ToggleButton unchecked', () => {
     setupPageScreenshot({
+      themeName,
       url: '/uilib/components/toggle-button/demos',
     })
 
@@ -45,7 +46,10 @@ describe('ToggleButton', () => {
   // NB: Because of focus simulation and screenshotElement.press('Tab')
   // we have to run the two focus simulations in a separate run each
   describe('checked', () => {
-    setupPageScreenshot({ url: '/uilib/components/toggle-button/demos' })
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/toggle-button/demos',
+    })
 
     it('have to match toggle-button in checked state', async () => {
       const screenshot = await makeScreenshot({
