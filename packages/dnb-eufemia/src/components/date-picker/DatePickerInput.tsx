@@ -107,6 +107,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const context = useContext(DatePickerContext)
 
+  const shouldLog = context.props.id === 'first-datepicker'
+
   // Used in reflist, and initatied inside object to to maintain the way of accessing mimiic `this`, used in this component
   // Should probably refactor at one point
   const inputRefs = {
@@ -136,12 +138,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const shortcuts = useRef(null)
   const focusMode = useRef(null)
-  const maskList = useRef([])
+  const maskList = createMaskList()
 
-  useEffect(() => {
+  function createMaskList() {
     const separators = props.maskOrder.match(props.separatorRexExp)
-    console.log('props.maskOrder', props.maskOrder)
-    const x = props.maskOrder
+
+    return props.maskOrder
       .split(props.separatorRexExp)
       .reduce((acc, cur) => {
         if (cur) {
@@ -152,17 +154,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
         return acc
       }, [])
+  }
 
-    maskList.current = x
-    console.log('maskList.current', maskList.current, x)
-
+  useEffect(() => {
     return () => {
       if (shortcuts.current) {
         // OS specific shortcuts set somewhere? Could be removed, cannot find any references to this in the rest of the codebase
         shortcuts.current?.remove(this.osShortcut)
       }
     }
-  }, [])
+  }, [props.maskOrder])
 
   async function shortcutHandler(e) {
     if (focusMode.current) {
@@ -559,6 +560,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     refList.current = []
     const startDateList = generateDateList(params, 'start')
     const endDateList = generateDateList(params, 'end')
+
     return (
       <span id={`${id}-input`} className="dnb-date-picker__input__wrapper">
         {startDateList}
@@ -577,9 +579,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     return props.maskPlaceholder[index]
   }
 
-  // Fix ref logic and <DateField/>
   function generateDateList(params, mode) {
-    return maskList.current.map((value, i) => {
+    return maskList.map((value, i) => {
       const state = value.slice(0, 1)
       const placeholderChar = getPlaceholderChar(value)
       const { input_element, separatorRexExp, isRange, size } = props
