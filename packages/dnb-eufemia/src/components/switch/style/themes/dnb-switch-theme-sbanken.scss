@@ -10,6 +10,8 @@
   --switch-height--medium: 2rem;
   --switch-width--large: 5rem;
   --switch-height--large: 2.625rem;
+  --switch-border-width--medium: 0.0625rem;
+  --switch-border-width--large: 0.0625rem;
   // Theme-specific variables
   --switch-spacing-height--medium: 0.375rem;
   --switch-spacing-width--medium: 0.25rem;
@@ -37,9 +39,8 @@
 
     &::after {
       color: var(--sb-color-text);
-      width: var(--switch-content-width);
 
-      font-size: var(--font-size-small);
+      font-size: var(--sb-font-size-small);
       content: 'Av';
     }
 
@@ -47,6 +48,10 @@
       height: 100%;
 
       border-radius: 1.5rem;
+
+      &::after {
+        font-size: var(--sb-font-size-basis);
+      }
     }
   }
 
@@ -90,8 +95,9 @@
   &--large &__input:checked ~ &__button {
     transform: translateX(
       calc(
-        var(--switch-width--large) - var(--button-dimension--large) -
-          0.25rem
+        var(--switch-width--large) - var(--button-dimension--large) - var(
+            --switch-spacing-width--large
+          )
       )
     );
   }
@@ -192,7 +198,6 @@
 
   &__input:not([disabled]):focus ~ &__button &__focus {
     html[data-whatinput='keyboard'] & {
-      // @include removeFocusRing();
       @include fakeBorder(var(--focus-ring-color), 0.0625rem);
     }
   }
@@ -208,6 +213,10 @@
 
     background-color: var(--sb-color-violet-light-3);
     @include fakeBorder(var(--sb-color-violet), 0.0625rem);
+
+    &::after {
+      color: var(--sb-color-violet);
+    }
   }
 
   &__input:not([disabled]):not(:focus):not(:active):checked:hover
@@ -223,13 +232,14 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
     background-color: var(--sb-color-white);
-    @include fakeBorder(var(--color-fire-red), 0.0625rem);
+    @include fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):hover
     ~ &__background {
     background-color: var(--sb-color-magenta-light-2);
+    @include fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 
   &__status--error
@@ -251,7 +261,6 @@
     &__input:not(:focus):not([disabled]):not(:active):checked:hover
     ~ &__background {
     background-color: var(--sb-color-red);
-    @include fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 
   &__status--error
