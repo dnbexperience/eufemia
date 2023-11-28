@@ -84,8 +84,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   let suffix: React.ReactNode
 
   const href = allProps.href || allProps.to
-  const showLaunchIcon =
-    allProps.target === '_blank' && !/^(mailto|tel|sms)/.test(href)
+  const showLaunchIcon = opensNewTab(allProps.target, href)
   const showTooltip = (tooltip || showLaunchIcon) && !allProps.title
 
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
@@ -205,3 +204,6 @@ export function pickIcon(icon) {
       })
     : null
 }
+
+export const opensNewTab = (target: string, href: string): boolean =>
+  target === '_blank' && !/^(mailto|tel|sms)/.test(href)

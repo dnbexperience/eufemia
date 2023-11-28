@@ -28,7 +28,7 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
-import Anchor, { pickIcon } from '../anchor/Anchor'
+import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 
@@ -182,11 +182,7 @@ export default class Button extends React.PureComponent {
       : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
-      if (
-        props.target === '_blank' &&
-        !/^(mailto|tel|sms)/.test(props.href) &&
-        !icon
-      ) {
+      if (opensNewTab(props.target, props.href) && !icon) {
         icon = launch
       }
     }
