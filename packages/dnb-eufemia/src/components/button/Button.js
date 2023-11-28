@@ -67,10 +67,14 @@ export default class Button extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.innerRef) {
-      this.props.innerRef.current = this._ref.current
+      typeof this.props.innerRef === 'function'
+        ? this.props.innerRef(this._ref.current)
+        : (this.props.innerRef.current = this._ref.current)
     }
     if (this.props.inner_ref) {
-      this.props.inner_ref.current = this._ref.current
+      typeof this.props.innerRef === 'function'
+        ? this.props.inner_ref(this._ref.current)
+        : (this.props.inner_ref.current = this._ref.current)
     }
   }
 
@@ -313,10 +317,10 @@ Button.propTypes = {
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inner_ref: PropTypes.object,
+  inner_ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 
   className: PropTypes.string,
-  innerRef: PropTypes.object,
+  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
