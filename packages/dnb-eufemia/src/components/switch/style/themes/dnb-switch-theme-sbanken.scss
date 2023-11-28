@@ -138,7 +138,7 @@
   &__input[disabled] ~ &__background {
     background-color: var(--sb-color-gray);
     &::after {
-      color: var(--sb-color-gray-dark-3-neutral);
+      color: var(--sb-color-gray-dark);
     }
   }
 
