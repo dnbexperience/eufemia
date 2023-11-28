@@ -125,6 +125,7 @@ export default {
       text_order_in_process: 'Order in process',
       text_renewed: 'Renewed',
       text_replaced: 'Replaced',
+      text_unknown: 'Unknown',
     },
     Logo: {
       alt: 'DNB Logo',

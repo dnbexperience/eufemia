@@ -125,6 +125,7 @@ export default {
       text_order_in_process: 'Under behandling',
       text_renewed: 'Fornyet',
       text_replaced: 'Erstattet',
+      text_unknown: 'Ukjent',
     },
     Logo: {
       alt: 'DNB Logo',

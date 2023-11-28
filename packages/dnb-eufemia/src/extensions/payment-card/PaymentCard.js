@@ -53,6 +53,7 @@ const translationDefaultPropsProps = {
   text_order_in_process: null,
   text_renewed: null,
   text_replaced: null,
+  text_unknown: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -242,59 +243,22 @@ const BlockingOverlay = ({ cardStatus, text }, skeleton) => {
 }
 
 function StatusOverlay({ cardStatus, translations }) {
-  switch (cardStatus) {
-    case 'not_active':
-      return (
-        <BlockingOverlay
-          cardStatus={cardStatus}
-          text={translations.text_not_active}
-        />
-      )
-
-    case 'order_in_process':
-      return (
-        <BlockingOverlay
-          cardStatus={cardStatus}
-          text={translations.text_order_in_process}
-        />
-      )
-
-    case 'renewed':
-      return (
-        <BlockingOverlay
-          cardStatus={cardStatus}
-          text={translations.text_renewed}
-        />
-      )
-
-    case 'replaced':
-      return (
-        <BlockingOverlay
-          cardStatus={cardStatus}
-          text={translations.text_replaced}
-        />
-      )
-
-    case 'blocked':
-      return (
-        <BlockingOverlay
-          cardStatus={cardStatus}
-          text={translations.text_blocked}
-        />
-      )
-
-    case 'expired':
-      return (
-        <BlockingOverlay
-          cardStatus={cardStatus}
-          text={translations.text_expired}
-        />
-      )
-
-    case 'active':
-    default:
-      return null
+  const cardStatusMap = {
+    not_active: translations.text_not_active,
+    order_in_process: translations.text_order_in_process,
+    renewed: translations.text_renewed,
+    replaced: translations.text_replaced,
+    blocked: translations.text_blocked,
+    expired: translations.text_expired,
+    unknown: translations.text_unknown,
   }
+
+  return cardStatusMap[cardStatus] ? (
+    <BlockingOverlay
+      cardStatus={cardStatus}
+      text={cardStatusMap[cardStatus]}
+    />
+  ) : null
 }
 
 CardText.propTypes = {
