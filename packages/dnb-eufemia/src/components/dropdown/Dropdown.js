@@ -75,8 +75,8 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    innerRef: PropTypes.object,
-    buttonRef: PropTypes.object,
+    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    buttonRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     globalStatus: PropTypes.shape({
       id: PropTypes.string,
       message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),

@@ -138,7 +138,7 @@ export type ButtonProps = {
    */
   skeleton?: ButtonSkeleton;
   disabled?: boolean;
-  inner_ref?: any;
+  inner_ref?: React.Ref;
   className?: string;
   innerRef?: any;
   /**
