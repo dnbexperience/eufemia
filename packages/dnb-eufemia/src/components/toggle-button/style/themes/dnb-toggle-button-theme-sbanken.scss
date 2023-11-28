@@ -72,6 +72,12 @@
       background-color: var(--sb-color-violet);
       color: var(--sb-color-violet-light-3);
     }
+
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
+      color: var(--sb-color-blue-dark-2);
+      background-color: var(--sb-color-blue-light-2);
+    }
   }
   /* stylelint-enable no-descending-specificity */
 }
