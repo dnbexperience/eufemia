@@ -148,48 +148,52 @@ export const DependantListSchema = () => {
           ],
         }}
       >
-        <Card spacing="small" bottom="small">
+        <Flex.Vertical spacing="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
-
-          <Field.String path="/name" label="Name" />
-          <Field.Email path="/email" label="E-mail" />
-          <Field.PhoneNumber path="/phone" label="Phone number" />
+          <Card spacing="small">
+            <Field.String path="/name" label="Name" />
+            <Field.Email path="/email" label="E-mail" />
+            <Field.PhoneNumber path="/phone" label="Phone number" />
+          </Card>
 
           <Form.MainHeading>Accounts</Form.MainHeading>
+          <Card spacing="small">
+            <Form.SubHeading>Standard accounts</Form.SubHeading>
 
-          <Iterate.Array path="/accounts">
-            <Flex.Horizontal align="flex-end">
-              <Field.BankAccountNumber
-                elementPath="/accountNumber"
-                label="Account number"
-              />
-              <Field.String
-                elementPath="/alias"
-                label="Alias"
-                width="medium"
-              />
-              <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
-            </Flex.Horizontal>
-          </Iterate.Array>
+            <Iterate.Array path="/accounts">
+              <Flex.Horizontal align="flex-end">
+                <Field.BankAccountNumber
+                  elementPath="/accountNumber"
+                  label="Account number"
+                />
+                <Field.String
+                  elementPath="/alias"
+                  label="Alias"
+                  width="medium"
+                />
+                <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
+              </Flex.Horizontal>
+            </Iterate.Array>
 
-          <Iterate.ArrayPushButton
-            icon="add"
-            icon_position="left"
-            text="Add account"
-            path="/accounts"
-            pushValue={{}}
-            size="medium"
-          />
+            <Iterate.ArrayPushButton
+              icon="add"
+              icon_position="left"
+              text="Add account"
+              path="/accounts"
+              pushValue={{}}
+              size="medium"
+            />
 
-          <Form.SubHeading>BSU Account</Form.SubHeading>
-          <Field.BankAccountNumber
-            path="/bsuAccount/accountNumber"
-            label="Account number"
-          />
-          <Field.String path="/bsuAccount/alias" label="Alias" />
-        </Card>
+            <Form.SubHeading>BSU Account</Form.SubHeading>
+            <Field.BankAccountNumber
+              path="/bsuAccount/accountNumber"
+              label="Account number"
+            />
+            <Field.String path="/bsuAccount/alias" label="Alias" />
+          </Card>
 
-        <Form.SubmitButton />
+          <Form.SubmitButton />
+        </Flex.Vertical>
       </Form.Handler>
     </ComponentBox>
   )
