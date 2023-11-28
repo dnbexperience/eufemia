@@ -1168,6 +1168,7 @@ button .dnb-form-status__text {
   --radio-color-background-off: white;
   --radio-color-border-off: black;
   --radio-color-dot-on--disabled: lightgrey;
+  --radio-color-background--disabled: white;
   --radio-color-border-on--disabled: lightgrey;
   --radio-color-border-off--disabled: lightgrey;
   --radio-color-dot-on--active: lightgrey;
@@ -1391,12 +1392,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio__input[disabled]:checked ~ .dnb-radio__button, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__button {
   border-color: var(--radio-color-border-on--disabled);
+  background-color: var(--radio-color-background--disabled);
 }
 .dnb-radio__input[disabled]:checked ~ .dnb-radio__dot, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--disabled);
 }
 .dnb-radio__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-radio__button:not(.dnb-skeleton) {
   border-color: var(--radio-color-border-off--disabled);
+  background-color: var(--radio-color-background--disabled);
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
   border-color: var(--skeleton-color);
