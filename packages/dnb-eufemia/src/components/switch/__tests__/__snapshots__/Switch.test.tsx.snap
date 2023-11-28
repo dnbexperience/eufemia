@@ -196,6 +196,7 @@ button .dnb-form-status__text {
   left: 0;
   width: var(--switch-height--medium);
   height: var(--switch-height--medium);
+  background-color: lightgrey;
   border: var(--switch-border-width--medium) solid transparent;
   transition: transform 160ms ease-out 125ms;
 }
@@ -305,7 +306,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
 }
 .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
   order: 1;
-  align-self: flex-start;
+  align-self: center;
 }
 .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
   order: 3;
@@ -322,9 +323,6 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   order: 3;
   margin-top: 0.5rem;
 }
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
-  display: block;
-}
 .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__button, .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
   border-color: var(--skeleton-color);
 }
@@ -334,6 +332,20 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
 .dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
   content: "";
   border-color: var(--skeleton-color--contrast);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
+  display: block;
+  --border-color: red;
+  --border-width: var(--focus-ring-width, 0.125rem);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
+  background-color: tomato;
+  --border-color: red;
+  --border-width: var(--focus-ring-width, 0.125rem);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
 @supports (-ms-ime-align: auto) {
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
