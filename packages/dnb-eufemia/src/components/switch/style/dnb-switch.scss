@@ -64,6 +64,7 @@
     width: var(--switch-height--medium);
     height: var(--switch-height--medium);
 
+    background-color: lightgrey;
     border: var(--switch-border-width--medium) solid transparent;
 
     transition: transform 160ms ease-out 125ms;
@@ -248,13 +249,6 @@
     }
   }
 
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button
-    &__focus {
-    display: block;
-  }
-
   &.dnb-skeleton &__input[disabled] ~ &__button,
   &.dnb-skeleton &__input[disabled] ~ &__background::after {
     border-color: var(--skeleton-color);
@@ -269,6 +263,21 @@
     ~ .dnb-switch__background::after {
     content: '';
     border-color: var(--skeleton-color--contrast);
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button
+    &__focus {
+    display: block;
+    @include fakeBorder(red, var(--focus-ring-width, 0.125rem));
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__background {
+    background-color: tomato;
+    @include fakeBorder(red, var(--focus-ring-width, 0.125rem));
   }
 
   // Edge fix
