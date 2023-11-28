@@ -102,12 +102,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
 
   const [focusState, setFocusState] = useState<string>('virgin')
-  const [startDate, setStartDate] = useState<Date>()
-  const [endDate, setEndDate] = useState<Date>()
 
   const context = useContext(DatePickerContext)
-
-  const shouldLog = context.props.id === 'first-datepicker'
 
   // Used in reflist, and initatied inside object to to maintain the way of accessing mimiic `this`, used in this component
   // Should probably refactor at one point
@@ -171,6 +167,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         e.clipboardData ||
         (typeof window !== 'undefined' && window['clipboardData'])
       ).getData('text')
+
       if (success) {
         e.preventDefault()
         try {
@@ -245,13 +242,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   }) {
     const state = { changeMonthViews: true }
     if (typeof startDate !== 'undefined' && isValid(startDate)) {
-      setStartDate(startDate)
+      state['startDate'] = startDate
     }
     if (!props.isRange) {
-      setEndDate(startDate)
+      endDate = startDate
     }
     if (typeof endDate !== 'undefined' && isValid(endDate)) {
-      setEndDate(endDate)
+      state['endDate'] = endDate
     }
 
     context.updateState(state, () => {
@@ -275,7 +272,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           ].join('-')
           return acc
         },
-        { startDate, endDate }
+        { startDate: undefined, endDate: undefined }
       )
 
     // Get the typed dates, so we can ...
@@ -419,13 +416,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
     const secondSelectionStart = target.selectionStart
     const isValid = /[0-9]/.test(keyCode)
+    const refListArray = refList.current
 
-    const index = refList.current.findIndex(
+    const index = refListArray.findIndex(
       ({ current }) => current === target
     )
 
     if (
-      index < refList.current.length - 1 &&
+      index < refListArray.length - 1 &&
       ((secondSelectionStart === size &&
         isValid &&
         keyCode !== 'left' &&
@@ -434,10 +432,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ) {
       try {
         // stop in case there is no next input element
-        if (!refList.current[index + 1].current) {
+        if (!refListArray[index + 1].current) {
           return
         }
-        const nextSibling = refList.current[index + 1].current
+        const nextSibling = refListArray[index + 1].current
         if (nextSibling) {
           nextSibling.focus()
           nextSibling.setSelectionRange(0, 0)
@@ -450,7 +448,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         case 'left':
         case 'backspace':
           try {
-            const prevSibling = refList.current[index - 1].current
+            const prevSibling = refListArray[index - 1].current
             if (prevSibling) {
               const endPos = prevSibling.value.length
               prevSibling.focus()
