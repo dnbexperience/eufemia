@@ -264,9 +264,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       ['start', 'end'].reduce(
         (acc, mode) => {
           acc[`${mode}Date`] = [
-            dateRefs[`${mode}Year`] || context[`__${mode}Year`] || 'yyyy',
-            dateRefs[`${mode}Month`] || context[`__${mode}Month`] || 'mm',
-            dateRefs[`${mode}Day`] || context[`__${mode}Day`] || 'dd',
+            dateRefs[`${mode}Year`].current ||
+              context[`__${mode}Year`] ||
+              'yyyy',
+            dateRefs[`${mode}Month`].current ||
+              context[`__${mode}Month`] ||
+              'mm',
+            dateRefs[`${mode}Day`].current ||
+              context[`__${mode}Day`] ||
+              'dd',
           ].join('-')
           return acc
         },
