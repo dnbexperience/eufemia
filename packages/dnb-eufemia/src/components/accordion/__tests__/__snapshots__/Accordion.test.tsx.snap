@@ -366,8 +366,8 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
   --accordion-border-width: 0.125rem;
   --accordion-title-font-weight--expanded: var(--font-weight-basis);
   --ui-accordion-color: var(--color-emerald-green);
-  --ui-accordion-background: var(--color-pistachio);
-  --ui-accordion-border-color: var(--color-pistachio);
+  --ui-accordion-background: var(--color-black-3);
+  --ui-accordion-border-color: var(--color-black-3);
   --ui-accordion-description-color: var(--color-black-55);
 }
 html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover[disabled] {
