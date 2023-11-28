@@ -212,7 +212,10 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '99999999')
 
-    expect(onChange).toHaveBeenLastCalledWith('+47 99999999')
+    expect(onChange).toHaveBeenLastCalledWith('+47 99999999', {
+      countryCode: '+47',
+      phoneNumber: '99999999',
+    })
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('99 99 99 99')
 
@@ -241,13 +244,19 @@ describe('Field.PhoneNumber', () => {
 
     expect(onCountryCodeChange).toHaveBeenCalledTimes(1)
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
-    expect(onChange).toHaveBeenLastCalledWith('+41 99999999')
+    expect(onChange).toHaveBeenLastCalledWith('+41 99999999', {
+      countryCode: '+41',
+      phoneNumber: '99999999',
+    })
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('99 99 99 99')
 
     await userEvent.type(phoneElement, '{Backspace>8}')
 
-    expect(onChange).toHaveBeenLastCalledWith(undefined)
+    expect(onChange).toHaveBeenLastCalledWith(undefined, {
+      countryCode: '+41',
+      phoneNumber: undefined,
+    })
   })
 
   it('should handle events correctly with initial value', async () => {
@@ -273,11 +282,17 @@ describe('Field.PhoneNumber', () => {
 
     fireEvent.change(phoneElement, { target: { value: '1' } })
 
-    expect(onChange).toHaveBeenLastCalledWith('+47 1')
+    expect(onChange).toHaveBeenLastCalledWith('+47 1', {
+      countryCode: '+47',
+      phoneNumber: '1',
+    })
 
     fireEvent.change(phoneElement, { target: { value: '' } })
 
-    expect(onChange).toHaveBeenLastCalledWith(undefined)
+    expect(onChange).toHaveBeenLastCalledWith(undefined, {
+      countryCode: '+47',
+      phoneNumber: undefined,
+    })
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('')
 
@@ -289,7 +304,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.change(codeElement, { target: { value: '+41' } })
     fireEvent.click(firstItemElement())
 
-    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(3)
 
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
     expect(codeElement.value).toEqual('CH (+41)')
@@ -297,7 +312,10 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '456')
 
-    expect(onChange).toHaveBeenLastCalledWith('+41 456')
+    expect(onChange).toHaveBeenLastCalledWith('+41 456', {
+      countryCode: '+41',
+      phoneNumber: '456',
+    })
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('45 6​ ​​ ​​')
   })
@@ -331,7 +349,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.change(codeElement, { target: { value: '+41' } })
     fireEvent.click(firstItemElement())
 
-    expect(onChange).toHaveBeenCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(1)
 
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
     expect(codeElement.value).toEqual('CH (+41)')
@@ -339,7 +357,10 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '456')
 
-    expect(onChange).toHaveBeenLastCalledWith('+41 456')
+    expect(onChange).toHaveBeenLastCalledWith('+41 456', {
+      countryCode: '+41',
+      phoneNumber: '456',
+    })
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('45 6​ ​​ ​​')
   })

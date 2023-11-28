@@ -10,7 +10,7 @@ import pointer from 'json-pointer'
 import { ValidateFunction } from 'ajv'
 import { errorChanged } from '../utils'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
-import { FormError, FieldProps } from '../types'
+import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
@@ -420,7 +420,10 @@ export default function useDataValue<
   )
 
   const handleChange = useCallback(
-    (argFromInput: Value) => {
+    (
+      argFromInput: Value,
+      additionalArgs: AdditionalEventArgs = undefined
+    ) => {
       const newValue = fromInput(argFromInput)
 
       if (newValue === valueRef.current) {
@@ -432,7 +435,12 @@ export default function useDataValue<
       updateValue(newValue)
 
       changedRef.current = true
-      onChange?.(newValue)
+      onChange?.apply(
+        this,
+        typeof additionalArgs !== 'undefined'
+          ? [newValue, additionalArgs]
+          : [newValue]
+      )
 
       if (elementPath) {
         const iterateValuePath = `/${iterateElementIndex}${

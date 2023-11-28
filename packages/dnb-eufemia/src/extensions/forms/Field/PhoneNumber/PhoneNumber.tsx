@@ -132,40 +132,46 @@ function PhoneNumber(props: Props) {
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
-      const countryCode = data?.selectedKey?.trim() ?? emptyValue
+      const countryCode = data?.selectedKey?.trim() || emptyValue
+      const phoneNumber = phoneNumberRef.current || emptyValue
       countryCodeRef.current = countryCode
 
-      if (!countryCode && !phoneNumberRef.current) {
-        handleChange(emptyValue)
-        onCountryCodeChange?.(emptyValue)
-        return
-      }
+      /**
+       * To ensure, we actually call onChange every time,
+       * even if the value is undefined
+       */
+      updateValue('invalidate')
 
-      if (countryCode && !phoneNumberRef.current) {
-        onCountryCodeChange?.(countryCode)
-        return
-      }
+      handleChange(
+        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
+        {
+          countryCode,
+          phoneNumber,
+        }
+      )
 
-      handleChange(joinValue([countryCode, phoneNumberRef.current]))
       onCountryCodeChange?.(countryCode)
     },
-    [phoneNumberRef, emptyValue, handleChange, onCountryCodeChange]
+    [emptyValue, updateValue, handleChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
-    (phoneNumber: string) => {
-      phoneNumberRef.current = phoneNumber
+    (value: string) => {
+      const phoneNumber = value || emptyValue
+      const countryCode = countryCodeRef.current || emptyValue
+      phoneNumberRef.current = phoneNumber || emptyValue
 
-      if (!phoneNumber) {
-        handleChange(emptyValue)
-        onNumberChange?.(emptyValue)
-        return
-      }
+      handleChange(
+        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
+        {
+          countryCode,
+          phoneNumber,
+        }
+      )
 
-      handleChange(joinValue([countryCodeRef.current, phoneNumber]))
       onNumberChange?.(phoneNumber)
     },
-    [countryCodeRef, emptyValue, handleChange, onNumberChange]
+    [emptyValue, handleChange, onNumberChange]
   )
 
   const onFocusHandler = useCallback(
