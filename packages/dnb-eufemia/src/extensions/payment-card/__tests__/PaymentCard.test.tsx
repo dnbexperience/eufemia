@@ -102,6 +102,12 @@ describe('PaymentCard', () => {
     expect(screen.queryByText(nb.text_blocked)).toBeInTheDocument()
   })
 
+  it('has correct unknown status', () => {
+    render(<PaymentCard {...defaultProps} card_status="unknown" />)
+
+    expect(screen.queryByText(nb.text_unknown)).toBeInTheDocument()
+  })
+
   it('reacts to locale change', () => {
     const { rerender } = render(<PaymentCard {...defaultProps} />)
 
