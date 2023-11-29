@@ -3,11 +3,10 @@
  *
  */
 
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
-import def from 'ajv/dist/vocabularies/discriminator'
 
 export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
   /**
