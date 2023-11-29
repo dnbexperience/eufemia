@@ -41,7 +41,7 @@ describe('Field.PhoneNumber', () => {
 
   it('should change locale', () => {
     const { rerender } = render(
-      <Provider locale="en-GB">
+      <Provider>
         <PhoneNumber />
       </Provider>
     )
@@ -56,6 +56,16 @@ describe('Field.PhoneNumber', () => {
       document.querySelector(
         '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
       )
+
+    expect(selectedItemElement().textContent).toBe('+47 Norge')
+
+    rerender(
+      <Provider locale="en-GB">
+        <PhoneNumber />
+      </Provider>
+    )
+
+    fireEvent.mouseDown(codeElement)
 
     expect(selectedItemElement().textContent).toBe('+47 Norway')
 

@@ -124,6 +124,7 @@ function PhoneNumber(props: Props) {
    */
   useMemo(() => {
     if (lang !== langRef.current) {
+      langRef.current = lang
       dataRef.current = getCountryData({
         lang,
       })
