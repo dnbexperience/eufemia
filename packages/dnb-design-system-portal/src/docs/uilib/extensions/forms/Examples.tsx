@@ -43,12 +43,14 @@ export const CreateBasicFieldComponent = () => {
 
           return (
             <FieldBlock
+              forId="id"
               label="What is the secret of the custom field?"
               info={info}
               warning={warning}
               error={error}
             >
               <Input
+                id="id"
                 value={value}
                 on_change={({ value }) => handleChange(value)}
                 on_focus={handleFocus}
