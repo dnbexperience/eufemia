@@ -164,8 +164,12 @@ export const InputExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-stretch">
       <Provider formElement={{ label_direction: 'vertical' }}>
-        <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec:">
+        <FieldBlock
+          label="Long label labwl Adipiscing mauris dis proin nec:"
+          forId="input-id"
+        >
           <Input
+            id="input-id"
             value="I stretch ..."
             stretch
             status="Status message"
