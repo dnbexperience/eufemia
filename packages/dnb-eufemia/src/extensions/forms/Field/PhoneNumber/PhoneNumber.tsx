@@ -86,22 +86,33 @@ function PhoneNumber(props: Props) {
   const langRef = React.useRef(lang)
 
   /**
-   * Update countryCode and phoneNumber when value from outside changes.
-   * Use memo to update refs in sync
+   * We do not process the whole country list at the first render.
+   * Only when the Autocomplete opens (focus).
+   * To achieve this, we use memo instead of effect to update refs in sync.
+   *
+   * We set or update the data list depending on if the countrycode changes or lang changes.
+   * We then update countryCode and phoneNumber when value changes.
    */
   useMemo(() => {
     const [countryCode, phoneNumber] = splitValue(props.value)
     phoneNumberRef.current = phoneNumber
 
     if (
-      (countryCode && countryCodeRef.current !== countryCode) ||
-      !countryCodeRef.current
+      !countryCodeRef.current ||
+      (countryCode && countryCode !== countryCodeRef.current)
     ) {
       countryCodeRef.current = countryCode || defaultCountryCode
 
       dataRef.current = getCountryData({
         lang,
         filter: countryCodeRef.current,
+      })
+    }
+
+    if (lang !== langRef.current) {
+      langRef.current = lang
+      dataRef.current = getCountryData({
+        lang,
       })
     }
   }, [props.value, lang])
@@ -117,19 +128,6 @@ function PhoneNumber(props: Props) {
       : emptyValue
     updateValue(newValue)
   }, [props.value, emptyValue, updateValue])
-
-  /**
-   * Update whole contry list when lang changes.
-   * Use memo to update refs in sync.
-   */
-  useMemo(() => {
-    if (lang !== langRef.current) {
-      langRef.current = lang
-      dataRef.current = getCountryData({
-        lang,
-      })
-    }
-  }, [lang])
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
@@ -179,13 +177,13 @@ function PhoneNumber(props: Props) {
     ({ updateData }) => {
       if (dataRef.current.length < 10) {
         dataRef.current = getCountryData({
-          lang: sharedContext.locale?.split('-')[0],
+          lang,
         })
         updateData(dataRef.current)
       }
       handleFocus()
     },
-    [handleFocus, sharedContext.locale]
+    [handleFocus, lang]
   )
 
   return (
