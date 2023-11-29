@@ -80,7 +80,7 @@ const defaultProps: DatePickerCalendarProps = {
   resetDate: true,
 }
 
-export function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
+function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
 
   const context = useContext(DatePickerContext)
@@ -591,10 +591,10 @@ export function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         aria-disabled={handleAsDisabled}
                         aria-label={title}
                         {...paramsButton}
-                        onClick={
+                        on_click={
                           handleAsDisabled
                             ? undefined
-                            : (event) =>
+                            : ({ event }) =>
                                 onSelectRange({
                                   day,
                                   isRange,
@@ -634,6 +634,8 @@ export function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     </div>
   )
 }
+
+export default DatePickerCalendar
 
 function PrevButton({
   nr,
