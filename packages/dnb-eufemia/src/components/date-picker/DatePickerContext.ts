@@ -7,12 +7,12 @@ import React from 'react'
 import { DatePickerProps } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
 
-type DatePickerView = {
+export type DatePickerView = {
   month: Date
   nr: number
 }
 
-type DatePickerContextValues = {
+export type DatePickerContextValues = ContextProps & {
   props: DatePickerProps
   startDate: Date
   endDate: Date
