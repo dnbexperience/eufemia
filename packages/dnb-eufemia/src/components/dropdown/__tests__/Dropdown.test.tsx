@@ -1179,7 +1179,7 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLButtonElement).toBe(true)
   })
 
-  it.only('gets valid buttonRef element when ref is function', () => {
+  it('gets valid buttonRef element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLButtonElement> =
       React.createRef()
 
@@ -1209,7 +1209,7 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLSpanElement).toBe(true)
   })
 
-  it.only('gets valid innerRef element when ref is function', () => {
+  it('gets valid innerRef element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLButtonElement> =
       React.createRef()
 
