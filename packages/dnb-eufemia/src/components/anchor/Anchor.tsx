@@ -84,12 +84,11 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   let suffix: React.ReactNode
 
   const href = allProps.href || allProps.to
-  const showLaunchicon =
-    allProps.target === '_blank' && !/^(mailto|tel|sms)/.test(href)
-  const showTooltip = (tooltip || showLaunchicon) && !allProps.title
+  const showLaunchIcon = opensNewTab(allProps.target, href)
+  const showTooltip = (tooltip || showLaunchIcon) && !allProps.title
 
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-  if (showLaunchicon) {
+  if (showLaunchIcon && !omitClass) {
     suffix = <IconPrimary icon={launchIcon} />
   }
 
@@ -108,12 +107,15 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         as={as}
         id={id}
         className={classnames(
-          omitClass !== true && 'dnb-anchor',
-          className,
-          prefix && 'dnb-anchor--icon-left',
-          suffix && 'dnb-anchor--icon-right',
-          typeof children !== 'string' && 'dnb-anchor--was-node',
-          showLaunchicon && 'dnb-anchor--launch-icon'
+          omitClass !== true &&
+            classnames(
+              'dnb-anchor',
+              prefix && 'dnb-anchor--icon-left',
+              suffix && 'dnb-anchor--icon-right',
+              typeof children !== 'string' && 'dnb-anchor--was-node',
+              showLaunchIcon && 'dnb-anchor--launch-icon'
+            ),
+          className
         )}
         {...attributes}
         innerRef={innerRef}
@@ -202,3 +204,6 @@ export function pickIcon(icon) {
       })
     : null
 }
+
+export const opensNewTab = (target: string, href: string): boolean =>
+  target === '_blank' && !/^(mailto|tel|sms)/.test(href)
