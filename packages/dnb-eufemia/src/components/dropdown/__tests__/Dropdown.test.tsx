@@ -1179,6 +1179,21 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLButtonElement).toBe(true)
   })
 
+  it.only('gets valid buttonRef element when ref is function', () => {
+    const ref: React.MutableRefObject<HTMLButtonElement> =
+      React.createRef()
+
+    function refFuntion(instance: HTMLButtonElement) {
+      ref.current = instance
+    }
+
+    render(<Dropdown {...props} buttonRef={refFuntion} />)
+
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('BUTTON')
+    expect(ref.current instanceof HTMLButtonElement).toBe(true)
+  })
+
   it('gets valid innerRef element', () => {
     let ref: React.RefObject<HTMLButtonElement>
 
@@ -1188,6 +1203,21 @@ describe('Dropdown component', () => {
     }
 
     render(<MockComponent />)
+
+    expect(ref.current.className).toContain('dnb-dropdown')
+    expect(ref.current.tagName).toBe('SPAN')
+    expect(ref.current instanceof HTMLSpanElement).toBe(true)
+  })
+
+  it.only('gets valid innerRef element when ref is function', () => {
+    const ref: React.MutableRefObject<HTMLButtonElement> =
+      React.createRef()
+
+    function refFuntion(instance: HTMLButtonElement) {
+      ref.current = instance
+    }
+
+    render(<Dropdown {...props} innerRef={refFuntion} />)
 
     expect(ref.current.className).toContain('dnb-dropdown')
     expect(ref.current.tagName).toBe('SPAN')
