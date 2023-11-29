@@ -89,8 +89,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const listRef = useRef<HTMLTableElement>()
   const labelRef = useRef<HTMLLabelElement>()
-  const days = {}
-  const cache = {}
+  const days = useRef<Record<string, any>>({})
+  const cache = useRef<Record<string, any>>({})
 
   useEffect(() => {
     if (!props.noAutofocus && props.nr === 0) {
@@ -273,17 +273,17 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     if (context.props.on_days_render) {
       const month = format(date, 'yyyy-MM')
 
-      if (!days) {
+      if (!days.current) {
         return date
       }
 
-      if (!days[month]) {
+      if (!days.current[month]) {
         // re-render with new month
         getDays(date)
       }
 
-      if (Array.isArray(days[month])) {
-        const foundDate = days[month].find((cur) =>
+      if (Array.isArray(days.current[month])) {
+        const foundDate = days.current[month].find((cur) =>
           isSameDay(cur.date, date)
         )
 
@@ -352,11 +352,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     // but we do not avoid calculating every day during hover or select
     const key = getCacheKey()
 
-    if (cache[key]) {
-      return cache[key]
+    if (cache.current[key]) {
+      return cache.current[key]
     } else {
       let count = 0
-      return (cache[key] = Object.values(
+      return (cache.current[key] = Object.values(
         getDays(month).reduce((acc, cur, i) => {
           // Normalize the data for table consumption
           acc[count] = acc[count] || []
@@ -390,7 +390,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
     const { startDate, endDate, hoverDate, maxDate, minDate } = context
 
-    let days = getCalendar(
+    let daysFromCalendar = getCalendar(
       month || new Date(),
       dayOffset(firstDayOfWeek),
       {
@@ -409,16 +409,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     )
 
     if (context.props.on_days_render) {
-      const changedDays = context.props.on_days_render(days, nr)
+      const changedDays = context.props.on_days_render(
+        daysFromCalendar,
+        nr
+      )
       if (Array.isArray(changedDays)) {
-        days = changedDays
+        daysFromCalendar = changedDays
       }
     }
 
     // // Save for later check against disabled days during key navigation
-    days[format(month, 'yyyy-MM')] = days
+    days.current[format(month, 'yyyy-MM')] = daysFromCalendar
 
-    return days
+    return daysFromCalendar
   }
 
   const {
