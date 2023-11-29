@@ -21,9 +21,24 @@ type DatePickerContextValues = {
   hoverDate: Date
   translation: ContextProps['translation']
   views: Array<DatePickerView>
+  hasHadValidDate: boolean
   updateState: (states: any, callback?: () => void) => void
+  setState?: (state: any) => void
   setViews: (views: DatePickerView[], callback?: () => void) => void
   callOnChangeHandler: (...args: any[]) => void
+  getReturnObject: ({
+    startDate,
+    endDate,
+    event,
+  }: {
+    startDate?: Date
+    endDate?: Date
+    event: Event
+  }) => {
+    is_valid: boolean
+    is_valid_start_date: boolean
+    is_valid_end_date: boolean
+  }
 }
 
 const DatePickerContext = React.createContext<DatePickerContextValues>(
