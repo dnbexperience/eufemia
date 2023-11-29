@@ -35,10 +35,7 @@ import enLocale from 'date-fns/locale/en-GB'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-import FormLabel, {
-  FormLabelLabelDirection,
-  FormLabelText,
-} from '../form-label/FormLabel'
+import FormLabel from '../form-label/FormLabel'
 import FormStatus, {
   FormStatusProps,
   FormStatusState,
@@ -54,14 +51,6 @@ import { InputInputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 
-type DatePickerDate = Date | string
-type DatePickerStartDate = Date | string
-type DatePickerEndDate = Date | string
-type DatePickerMonth = Date | string
-type DatePickerStartMonth = Date | string
-type DatePickerEndMonth = Date | string
-type DatePickerMinDate = Date | string
-type DatePickerMaxDate = Date | string
 type DatePickerAddonElement = string | React.ReactNode
 type DatePickerShortcuts = any[] | ((...args: any[]) => any)
 type DatePickerSuffix = React.ReactNode
@@ -78,35 +67,35 @@ export type DatePickerProps = Omit<
     /**
      * Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`.
      */
-    date?: DatePickerDate
+    date?: Date | string
     /**
      * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
      */
-    start_date?: DatePickerStartDate
+    start_date?: Date | string
     /**
      * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
      */
-    end_date?: DatePickerEndDate
+    end_date?: Date | string
     /**
      * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
      */
-    month?: DatePickerMonth
+    month?: Date | string
     /**
      * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
      */
-    start_month?: DatePickerStartMonth
+    start_month?: Date | string
     /**
      * To display what month should be shown in the second calendar by default. Defaults to the `date` respective `start_date`.
      */
-    end_month?: DatePickerEndMonth
+    end_month?: Date | string
     /**
      * To limit a date range to a minimum `start_date`. Defaults to `null`.
      */
-    min_date?: DatePickerMinDate
+    min_date?: Date | string
     /**
      * To limit a date range to a maximum `end_date`. Defaults to `null`.
      */
-    max_date?: DatePickerMaxDate
+    max_date?: Date | string
     correct_invalid_date?: boolean
     /**
      * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
@@ -189,11 +178,11 @@ export type DatePickerProps = Omit<
     /**
      * A prepending label in sync with the date input field.
      */
-    label?: FormLabelText
+    label?: React.ReactNode
     /**
      * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
      */
-    label_direction?: FormLabelLabelDirection
+    label_direction?: 'vertical' | 'horizontal'
     /**
      * Use `true` to make the label only readable by screen readers.
      */
@@ -319,14 +308,14 @@ const defaultProps: DatePickerProps = {
   direction: 'auto',
 }
 
-function DatePicker(restOfProps: DatePickerProps) {
-  const props = { ...defaultProps, ...restOfProps }
+function DatePicker(externalProps: DatePickerProps) {
+  const props = { ...defaultProps, ...externalProps }
 
   const [opened, setOpened] = useState<boolean>(props.opened)
   const [showInput, setShowInput] = useState<boolean>(props.show_input)
   const [hidden, setHidden] = useState(!opened)
-  const [startDate, setStartDate] = useState()
-  const [endDate, setendDate] = useState()
+  const [startDate, setStartDate] = useState<Date>()
+  const [endDate, setEndDate] = useState<Date>()
 
   const context = useContext(Context)
   const blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
@@ -378,7 +367,7 @@ function DatePicker(restOfProps: DatePickerProps) {
       clearTimeout(hideTimeout.current)
       removeOutsideClickHandler()
     }
-  })
+  }, [])
 
   function hidePicker(args) {
     if (props.prevent_close) {
