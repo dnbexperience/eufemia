@@ -179,7 +179,7 @@ describe('Radio group component', () => {
     const { rerender } = render(
       <Radio.Group label="Legend">
         <Radio label="First" value="first" />
-        <Radio label="Seond" value="second" />
+        <Radio label="Second" value="second" />
       </Radio.Group>
     )
 
@@ -190,7 +190,7 @@ describe('Radio group component', () => {
     rerender(
       <Radio.Group>
         <Radio label="First" value="first" />
-        <Radio label="Seond" value="second" />
+        <Radio label="Second" value="second" />
       </Radio.Group>
     )
 
@@ -203,7 +203,7 @@ describe('Radio group component', () => {
     render(
       <Radio.Group>
         <Radio label="First" value="first" />
-        <Radio label="Seond" value="second" />
+        <Radio label="Second" value="second" />
       </Radio.Group>
     )
 

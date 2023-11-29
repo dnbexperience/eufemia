@@ -119,7 +119,7 @@ describe('GlobalError', () => {
     ])
   })
 
-  it('should add additioanl html props to main element', () => {
+  it('should add additional html props to main element', () => {
     render(<GlobalStatus {...props} aria-label="Label" />)
 
     const element = document.querySelector('.dnb-global-error')

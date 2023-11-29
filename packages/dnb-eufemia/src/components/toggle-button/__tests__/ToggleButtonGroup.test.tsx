@@ -145,7 +145,7 @@ describe('ToggleButton group component', () => {
     const { rerender } = render(
       <ToggleButton.Group label="Legend">
         <ToggleButton text="First" value="first" />
-        <ToggleButton text="Seond" value="second" />
+        <ToggleButton text="Second" value="second" />
       </ToggleButton.Group>
     )
 
@@ -156,7 +156,7 @@ describe('ToggleButton group component', () => {
     rerender(
       <ToggleButton.Group>
         <ToggleButton text="First" value="first" />
-        <ToggleButton text="Seond" value="second" />
+        <ToggleButton text="Second" value="second" />
       </ToggleButton.Group>
     )
 
@@ -169,7 +169,7 @@ describe('ToggleButton group component', () => {
     render(
       <ToggleButton.Group>
         <ToggleButton text="First" value="first" />
-        <ToggleButton text="Seond" value="second" />
+        <ToggleButton text="Second" value="second" />
       </ToggleButton.Group>
     )
 
