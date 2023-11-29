@@ -31,7 +31,9 @@ import {
   getCalendar,
 } from './DatePickerCalc'
 import Button from '../button/Button'
-import DatePickerContext from './DatePickerContext'
+import DatePickerContext, {
+  DatePickerContextValues,
+} from './DatePickerContext'
 
 export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
   id?: string
@@ -460,14 +462,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       {!hideNav && (
         <div className="dnb-date-picker__header">
           <div className="dnb-date-picker__header__nav">
-            <PrevButton
+            <CalendarButton
+              type="prev"
               nr={nr}
-              minDate={minDate}
+              date={minDate}
               month={month}
               locale={locale}
               context={context}
-              prevBtn={prevBtn}
-              onPrev={onPrev}
+              showButton={prevBtn}
+              onClick={onPrev}
             />
           </div>
           <label
@@ -487,14 +490,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
-            <NextButton
+            <CalendarButton
+              type="next"
               nr={nr}
-              maxDate={maxDate}
+              date={maxDate}
               month={month}
               locale={locale}
               context={context}
-              nextBtn={nextBtn}
-              onNext={onNext}
+              showButton={nextBtn}
+              onClick={onNext}
             />
           </div>
         </div>
@@ -637,86 +641,52 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
 export default DatePickerCalendar
 
-function PrevButton({
+type CalendarButtonProps = {
+  type: 'prev' | 'next'
+  nr: number
+  date: Date
+  month: Date
+  locale: Locale
+  context: DatePickerContextValues
+  showButton: boolean
+  onClick: ({ nr }: { nr: number }) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
+}
+
+function CalendarButton({
+  type,
   nr,
-  minDate,
+  date,
   month,
   locale,
   context,
-  prevBtn,
-  onPrev,
+  showButton,
+  onClick,
   onKeyDown,
-}) {
-  if (!prevBtn) {
+}: CalendarButtonProps) {
+  if (!showButton) {
     return <></>
   }
-  const disabled = minDate && isSameMonth(month, minDate)
-  const onClick = () => onPrev && !disabled && onPrev({ nr })
+  const disabled = date && isSameMonth(month, date)
 
-  const {
-    translation: {
-      DatePicker: { prev_month },
-    },
-  } = context
-
-  const title = prev_month.replace(
+  const title = context.translation.DatePicker[`${type}_month`].replace(
     /%s/,
     format(subMonths(month, 1), 'MMMM yyyy', {
       locale,
     })
   )
 
+  const icon = type === 'prev' ? 'chevron_left' : 'chevron_right'
+
   return (
     <Button
-      className={classnames('dnb-date-picker__prev', { disabled })}
-      icon="chevron_left"
+      className={classnames(`dnb-date-picker__${type}`, { disabled })}
+      icon={icon}
       size="small"
       aria-label={title}
-      onClick={onClick}
+      onClick={() => onClick && !disabled && onClick({ nr })}
       onKeyDown={onKeyDown}
     />
-  )
-}
-
-function NextButton({
-  nr,
-  maxDate,
-  month,
-  locale,
-  context,
-  nextBtn,
-  onNext,
-  onKeyDown,
-}) {
-  if (!nextBtn) {
-    return <></>
-  }
-  const disabled = maxDate && isSameMonth(month, maxDate)
-  const onClick = () => onNext && !disabled && onNext({ nr })
-
-  const {
-    translation: {
-      DatePicker: { next_month },
-    },
-  } = context
-  const title = next_month.replace(
-    /%s/,
-    format(addMonths(month, 1), 'MMMM yyyy', {
-      locale,
-    })
-  )
-
-  return (
-    nextBtn && (
-      <Button
-        className={classnames('dnb-date-picker__next', { disabled })}
-        icon="chevron_right"
-        size="small"
-        aria-label={title}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-      />
-    )
   )
 }
 
