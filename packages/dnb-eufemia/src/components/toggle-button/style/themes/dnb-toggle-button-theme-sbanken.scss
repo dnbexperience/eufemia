@@ -1,0 +1,83 @@
+/*
+* ToggleButton theme for Sbanken
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-toggle-button {
+  &__button {
+    background-color: var(--sb-color-white);
+    color: var(--sb-color-violet);
+    @include fakeBorder(var(--sb-color-violet), 0.09375rem);
+
+    @include hover() {
+      background-color: var(--sb-color-violet-light-3);
+      color: var(--sb-color-violet);
+    }
+
+    @include active() {
+      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem);
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-violet-light-3);
+    }
+
+    &[disabled] {
+      @include fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
+      background-color: var(--sb-color-gray-light);
+      color: var(--sb-color-gray-dark);
+    }
+
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
+      .dnb-radio {
+        &__button {
+          background-color: transparent;
+          border-color: var(--focus-ring-color);
+          box-shadow: 0 0 0 0.0625rem var(--focus-ring-color);
+        }
+        &__dot {
+          background-color: var(--focus-ring-color);
+        }
+      }
+      .dnb-checkbox {
+        &__button {
+          background-color: transparent;
+          border-color: var(--focus-ring-color);
+          box-shadow: 0 0 0 0.0625rem var(--focus-ring-color);
+        }
+        &__gfx {
+          color: var(--focus-ring-color);
+        }
+      }
+    }
+  }
+
+  /* stylelint-disable no-descending-specificity */
+  &--checked &__button {
+    &:not([disabled]):not(:active) {
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-white);
+      box-shadow: none;
+    }
+
+    @include hover() {
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-white);
+      @include fakeBorder(var(--sb-color-violet), 0.125rem);
+    }
+
+    @include active() {
+      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem, inset);
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-violet-light-3);
+    }
+
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
+      color: var(--sb-color-blue-dark-2);
+      background-color: var(--sb-color-blue-light-2);
+    }
+  }
+  /* stylelint-enable no-descending-specificity */
+}
