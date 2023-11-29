@@ -41,7 +41,7 @@ import type { SkeletonShow } from '../Skeleton'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'children' | 'ref' | 'value'
+  'children' | 'ref' | 'value' | 'size'
 > & {
   id?: string
   title?: string
