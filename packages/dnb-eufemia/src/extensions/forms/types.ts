@@ -77,7 +77,10 @@ export interface DataValueWriteProps<
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
   onBlur?: (value: Value | EmptyValue) => void
-  onChange?: (value: Value | EmptyValue) => void
+  onChange?: (
+    value: Value | EmptyValue,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
 }
 
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
@@ -136,6 +139,8 @@ export function omitDataValueReadWriteProps<
 export type ComponentProps = SpacingProps & {
   className?: string
 }
+
+export type AdditionalEventArgs = Record<string, unknown>
 
 export type DataValueReadComponentProps<Value = unknown> = ComponentProps &
   DataValueReadProps<Value>

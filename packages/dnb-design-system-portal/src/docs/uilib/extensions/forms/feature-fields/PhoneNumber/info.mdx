@@ -12,3 +12,15 @@ render(<Field.PhoneNumber />)
 ```
 
 There is a corresponding [Value.PhoneNumber](/uilib/extensions/forms/create-component/Value/PhoneNumber) component.
+
+## Value
+
+This component behaves as "one single component". Therefor it combines the country code and the number to a single string during an event callback.
+
+Also, the `value` property should be a string with the country code, separated from the main number by a space.
+
+The component returns the `emptyValue` when no number is set, which defaults to `undefined`.
+
+### Default country code
+
+The default country code is set to `+47`.

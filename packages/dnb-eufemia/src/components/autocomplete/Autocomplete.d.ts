@@ -125,7 +125,7 @@ export interface AutocompleteProps
    */
   keep_value?: boolean;
   /**
-   * Use `true` to not remove the selected value/key on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.
+   * Use `true` to not remove selected item on input blur, when the input value is empty. Defaults to `false`.
    */
   keep_selection?: boolean;
   /**
