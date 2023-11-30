@@ -1183,7 +1183,7 @@ describe('Dropdown component', () => {
     const ref: React.MutableRefObject<HTMLButtonElement> =
       React.createRef()
 
-    function refFuntion(instance: HTMLButtonElement) {
+    function refFunction(instance: HTMLButtonElement) {
       ref.current = instance
     }
 
