@@ -471,7 +471,10 @@ export default class DatePicker extends React.PureComponent {
       this.props,
       DatePicker.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.getTranslation(this.props).DatePicker,
+      this.context.getTranslation({
+        lang: this.props.lang,
+        locale: this.props.locale.code,
+      }).DatePicker,
       // Deprecated – can be removed in v11
       pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
