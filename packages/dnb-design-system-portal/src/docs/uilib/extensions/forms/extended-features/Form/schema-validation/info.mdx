@@ -1,0 +1,94 @@
+---
+showTabs: true
+---
+
+## Description
+
+JSON Schema is a vocabulary for annotating and validating data in JavaScript. More about JSON Schema on [json-schema.org](https://json-schema.org/)
+
+A schema can be used from the simplest description of the data type of a value:
+
+```JavaScript
+{
+  type: "string"
+}
+```
+
+```JSON
+"Foo"
+```
+
+To an object with both rules for required fields and validation rules for single values:
+
+```JavaScript
+{
+  type: "object",
+  properties: {
+    txt: { type: 'string', minLength: 5 },
+    num: { type: 'number', maximum: 100 },
+  },
+  required: ['txt']
+}
+```
+
+```JSON
+{
+  "txt": "abcde",
+  "num": 123
+}
+```
+
+### Using schema with DataContext
+
+Since a [DataContext](/uilib/extensions/forms/create-component/DataContext/) (used in isolation or through the use of [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/)) supports JSON Schema, these two examples will result in the same validation for the user:
+
+```jsx
+<Form.Handler data={user}>
+  <Field.String path="/name" label="Name" minLength={3} required />
+  <Field.Email path="/email" label="E-mail" required />
+  <Field.Number
+    path="/birthyear"
+    label="Birth year"
+    minimum={1900}
+    maximum={2023}
+    required
+  />
+</Form.Handler>
+```
+
+```jsx
+const schema = {
+  type: 'object',
+  properties: {
+    name: { type: 'string', minLength: 3 },
+    email: { type: 'string' },
+    birthyear: { type: 'number', minimum: 1900, maximum: 2023 }
+  },
+  required: ['name', 'email', 'birthyear'],
+}
+<Form.Handler data={user} schema={schema}>
+  <Field.String path="/name" label="Name"  />
+  <Field.Email path="/email" label="E-mail" />
+  <Field.Number path="/birthyear" label="Birth year" />
+</Form.Handler>
+```
+
+This makes it possible to create a uniform, testable description and requirements specification for the data, which can be tested independently of frontend code, and used across systems, e.g. frontend and backend.
+
+### Complex schemas
+
+In addition to basic validation as in the example above, JSON Schema can be used for more complex. Examples of definitions supported by the standard are:
+
+- Requirement that the object must not have other properties than those defined in `properties`.
+- Nested data structures and combinations of objects and arrays with rules for array elements (fixed or repetitive elements).
+- Regular expressions for the syntax of individual values.
+- Enum (a set of valid values).
+- Rules for the number of elements in arrays.
+- Rules for the number of properties in objects.
+- Predefined format rules (eg 'uri', 'email' and 'hostname').
+- Logical operators such as 'not', 'oneOf', 'allOf' and 'anyOf' which can be filled with rules for all or part of the data set.
+- Rule set based on the content of values (if-then-else).
+- Rules (sub-schemas) that become applicable if a given value is present.
+- Reuse within the definition, such as one and the same object structure being used as a definition for several locations in a structure.
+
+To learn more about what is possible with the JSON Schema standard, see [json-schema.org](https://json-schema.org/).

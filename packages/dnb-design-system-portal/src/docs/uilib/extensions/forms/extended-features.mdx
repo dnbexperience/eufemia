@@ -12,18 +12,32 @@ import ListAdvancedAPIs from './extended-features/ListAdvancedAPIs'
 
 # Extended features
 
+Forms is a flexible set of building blocks for form functionality. Besides field components and data display, it consists of more complex functionality for surrounding processes such as data flow, validation and building UI.
+
+## [Form](/uilib/extensions/forms/extended-features/Form)
+
+Form provides the main forms-helpers including data provider and event handling. This makes it possible to do a combined processing of the data for a form, so you don't have to create individual distribution of data and callbacks to persist changes for each field individually.
+
 Example using the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) collecting data with `onSubmit`:
 
 ```jsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
 render(
   <Form.Handler data={existingData} onSubmit={submitHandler}>
-    <Field.Email path="/dataPath" />
-    <Value.Date value="2023-01-16" />
+    <Field.Email path="/email" />
+    <Value.Date path="/date" />
     <Form.SubmitButton />
   </Form.Handler>,
 )
 ```
+
+### Schema validation
+
+`Forms.Handler` supports [JSON Schema](https://json-schema.org/) validation. JSON Schema is a flexible standard that makes it possible to describe the data's structure and validation needs, both for the individual value, and more complex rules across the data set. Descriptions and examples of such validation can be found [on a separate page](/uilib/extensions/forms/extended-features/Form/schema-validation).
+
+## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
+
+StepsLayout is a wrapper component for showing forms with a StepIndicator for navigation between several steps. It also includes components for navigating between steps.
 
 Example using the [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) for handling stepped layouts:
 
