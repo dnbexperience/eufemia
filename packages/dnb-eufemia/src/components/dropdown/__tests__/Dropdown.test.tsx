@@ -1217,7 +1217,7 @@ describe('Dropdown component', () => {
       ref.current = instance
     }
 
-    render(<Dropdown {...props} innerRef={refFuntion} />)
+    render(<Dropdown {...props} innerRef={refFunction} />)
 
     expect(ref.current.className).toContain('dnb-dropdown')
     expect(ref.current.tagName).toBe('SPAN')
