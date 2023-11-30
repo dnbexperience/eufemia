@@ -79,16 +79,16 @@ This makes it possible to create a uniform, testable description and requirement
 
 In addition to basic validation as in the example above, JSON Schema can be used for more complex. Examples of definitions supported by the standard are:
 
-- Requirement that the object must not have other properties than those defined in `properties`
-- Nested data structures and combinations of objects and arrays with rules for array elements (fixed or repetitive elements)
-- Regular expressions for the syntax of individual values
-- Enum (a set of valid values)
-- Rules for the number of elements in arrays
-- Rules for the number of properties in objects
-- Predefined format rules (eg 'uri', 'email' and 'hostname')
-- Logical operators such as 'not', 'oneOf', 'allOf' and 'anyOf' which can be filled with rules for all or part of the data set
-- Rule set based on the content of values (if-then-else)
-- Rules (sub-schemas) that become applicable if a given value is present
+- Requirement that the object must not have other properties than those defined in `properties`.
+- Nested data structures and combinations of objects and arrays with rules for array elements (fixed or repetitive elements).
+- Regular expressions for the syntax of individual values.
+- Enum (a set of valid values).
+- Rules for the number of elements in arrays.
+- Rules for the number of properties in objects.
+- Predefined format rules (eg 'uri', 'email' and 'hostname').
+- Logical operators such as 'not', 'oneOf', 'allOf' and 'anyOf' which can be filled with rules for all or part of the data set.
+- Rule set based on the content of values (if-then-else).
+- Rules (sub-schemas) that become applicable if a given value is present.
 - Reuse within the definition, such as one and the same object structure being used as a definition for several locations in a structure.
 
 To learn more about what is possible with the JSON Schema standard, see [json-schema.org](https://json-schema.org/).
