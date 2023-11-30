@@ -66,7 +66,7 @@ const schema = {
   },
   required: ['name', 'email', 'birthyear'],
 }
-<Form.Handler data={user}>
+<Form.Handler data={user} schema={schema}>
   <Field.String path="/name" label="Name"  />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
