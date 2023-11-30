@@ -46,10 +46,13 @@ export function pickFormElementProps(
 export function prepareFormElementContext<Props>(
   props: Props & FormElementProps
 ) {
-  if (typeof props.label_direction === 'undefined') {
-    props.label_direction = isTrue(props.vertical)
-      ? 'vertical'
-      : props.label_direction
+  if (isTrue(props.vertical)) {
+    if (typeof props.labelDirection === 'undefined') {
+      props.labelDirection = 'vertical'
+    }
+    if (typeof props.label_direction === 'undefined') {
+      props.label_direction = 'vertical'
+    }
   }
   return props
 }
