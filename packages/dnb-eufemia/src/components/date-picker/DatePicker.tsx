@@ -536,7 +536,7 @@ function DatePicker(externalProps: DatePickerProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(getPropsForTranslation()).DatePicker,
-    includeValidProps(context.FormRow),
+    includeValidProps(context?.formElement),
     context.DatePicker
   )
 
@@ -679,7 +679,7 @@ function DatePicker(externalProps: DatePickerProps) {
             id={id + '-label'}
             forId={id}
             text={label}
-            labelDirection={label_direction}
+            label_direction={label_direction}
             srOnly={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}
