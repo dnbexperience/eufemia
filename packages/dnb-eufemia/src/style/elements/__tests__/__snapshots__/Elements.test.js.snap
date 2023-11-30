@@ -194,9 +194,11 @@ del .dnb-code {
 .dnb-hr {
   position: relative;
   padding: 0;
+  width: 100%;
   height: 0;
-  display: flex;
+  display: flow-root;
   border: 0;
+  --thickness: calc(var(--hr-thickness, 1px) + var(--modifier, 0px));
 }
 .dnb-hr:not([class*=dnb-space]) {
   margin: 0;
@@ -204,39 +206,27 @@ del .dnb-code {
 .dnb-hr::after {
   content: "";
   position: absolute;
+  inset: 0;
   z-index: 1;
-  left: 0;
-  right: 0;
-  top: 0;
-  width: 100%;
-  height: 1px;
+  height: var(--thickness);
   color: inherit;
   background-color: currentcolor;
-  border-radius: 0.5px;
+  border-radius: calc(var(--thickness) / 2);
 }
 .dnb-hr--fullscreen::after {
   left: -100vw;
-  width: 200vw;
+  box-shadow: 100vw 0 0 0 currentcolor;
+  border-radius: 0;
 }
-.dnb-hr--light::after {
-  border-radius: 0.25px;
-  /* 
-  * 60% and 65% for best result on low res screens, like on Chromebook (Acer)
-  * Else the line will disappear!
-  */
-  background-image: linear-gradient(to bottom, currentcolor 60%, transparent 65%);
-  background-size: 100% 1px;
-  background-color: transparent;
+.dnb-hr--light {
+  --hr-thickness: 0.4px;
 }
-.dnb-hr--medium::after {
-  height: 2px;
-  border-radius: 0.75px;
-  /* Revert the hairline halv */
-  background-image: linear-gradient(to bottom, currentcolor 51%, transparent 51%);
-  background-size: 100% 3px;
-  background-color: transparent;
+html[data-visual-test] .dnb-hr--light {
+  --modifier: 0.7px;
 }
-
+.dnb-hr--medium {
+  --hr-thickness: 1.5px;
+}
 .dnb-spacing .dnb-hr:not([class*=dnb-space__top]) {
   margin-top: 0;
 }

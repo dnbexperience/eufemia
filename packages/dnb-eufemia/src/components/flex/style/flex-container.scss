@@ -102,7 +102,7 @@
     --gap: var(--spacing-large);
   }
 
-  .dnb-hr {
+  &__hr.dnb-hr {
     width: 100%;
     color: var(--color-black-8);
   }

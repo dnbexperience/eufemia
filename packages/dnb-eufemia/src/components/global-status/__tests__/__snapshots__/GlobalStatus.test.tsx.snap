@@ -784,9 +784,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;
-}
-.dnb-global-status__content .dnb-hr, .dnb-spacing .dnb-global-status__content .dnb-hr, .dnb-spacing .dnb-global-status__content .dnb-hr:not([class*=dnb-space]) {
-  margin: 0;
 }"
 `;
 

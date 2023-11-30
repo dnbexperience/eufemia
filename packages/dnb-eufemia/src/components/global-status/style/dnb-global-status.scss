@@ -118,11 +118,5 @@
         margin-left: 0.5rem;
       }
     }
-
-    & .dnb-hr,
-    .dnb-spacing & .dnb-hr,
-    .dnb-spacing & .dnb-hr:not([class*='dnb-space']) {
-      margin: 0;
-    }
   }
 }
