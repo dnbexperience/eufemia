@@ -11,40 +11,26 @@
 
   &--fullscreen::after {
     left: -100vw;
-    width: 200vw;
+    box-shadow: 100vw 0 0 0 currentcolor;
+    border-radius: 0;
   }
 
-  &--light::after {
-    border-radius: 0.25px;
+  --thickness: calc(var(--hr-thickness, 1px) + var(--modifier, 0px));
 
-    /* 
-    * 60% and 65% for best result on low res screens, like on Chromebook (Acer)
-    * Else the line will disappear!
-    */
-    background-image: linear-gradient(
-      to bottom,
-      currentcolor 60%,
-      transparent 65%
-    );
-    background-size: 100% 1px;
-    background-color: transparent;
+  &--light {
+    --hr-thickness: 0.4px;
+
+    // Modify the thickness, because the screenshot does not pick up the line when its under 1px.
+    // This may change in a later Playwright/Firefox version.
+    html[data-visual-test] & {
+      --modifier: 0.7px;
+    }
+  }
+  &--medium {
+    --hr-thickness: 1.5px;
   }
 
-  &--medium::after {
-    height: 2px;
-    border-radius: 0.75px;
-
-    /* Revert the hairline halv */
-    background-image: linear-gradient(
-      to bottom,
-      currentcolor 51%,
-      transparent 51%
-    );
-    background-size: 100% 3px;
-    background-color: transparent;
+  .dnb-spacing & {
+    @include ui-spacing.defaultSpacing();
   }
-}
-
-.dnb-spacing .dnb-hr {
-  @include ui-spacing.defaultSpacing();
 }
