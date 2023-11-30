@@ -182,14 +182,14 @@
     "category": "essentials"
   },
   "hand_money_medium": {
-    "tags": ["recieve", "receive"],
+    "tags": ["receive"],
     "created": 1668066353797,
     "name": "hand_money",
     "variant": "secondary",
     "category": "essentials"
   },
   "hand_money": {
-    "tags": ["recieve", "receive"],
+    "tags": ["receive"],
     "created": 1668066354615,
     "name": "hand_money",
     "variant": "secondary",
