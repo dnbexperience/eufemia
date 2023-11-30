@@ -1187,7 +1187,7 @@ describe('Dropdown component', () => {
       ref.current = instance
     }
 
-    render(<Dropdown {...props} buttonRef={refFuntion} />)
+    render(<Dropdown {...props} buttonRef={refFunction} />)
 
     expect(ref.current.id).toBe(props.id)
     expect(ref.current.tagName).toBe('BUTTON')
