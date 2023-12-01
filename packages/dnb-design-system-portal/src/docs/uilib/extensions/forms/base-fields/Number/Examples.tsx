@@ -48,6 +48,19 @@ export const LabelAndValue = () => {
   )
 }
 
+export const RightAligned = () => {
+  return (
+    <ComponentBox>
+      <Field.Number
+        rightAligned
+        value={420000.25}
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const WithHelp = () => {
   return (
     <ComponentBox>

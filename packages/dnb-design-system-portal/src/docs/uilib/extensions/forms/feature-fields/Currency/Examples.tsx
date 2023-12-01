@@ -1,6 +1,7 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 export const Empty = () => {
   return (
@@ -61,6 +62,16 @@ export const WithHelp = () => {
         }}
         onChange={(value) => console.log('onChange', value)}
       />
+    </ComponentBox>
+  )
+}
+
+export const WithGBLocale = () => {
+  return (
+    <ComponentBox>
+      <Provider locale="en-GB">
+        <Field.Currency value={-150000} rightAligned />
+      </Provider>
     </ComponentBox>
   )
 }

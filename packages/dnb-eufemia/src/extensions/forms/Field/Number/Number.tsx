@@ -224,7 +224,7 @@ function NumberComponent(props: Props) {
         placeholder={placeholder}
         value={value}
         {...maskProps}
-        right={rightAligned}
+        align={rightAligned && 'right'}
         on_focus={handleFocus}
         on_blur={handleBlur}
         on_change={handleChange}
