@@ -25,7 +25,6 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 // date-fns
@@ -50,6 +49,7 @@ import { SpacingProps } from '../space/types'
 import { InputInputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 type DatePickerAddonElement = string | React.ReactNode
 type DatePickerShortcuts = any[] | ((...args: any[]) => any)
@@ -312,10 +312,11 @@ function DatePicker(externalProps: DatePickerProps) {
   const props = { ...defaultProps, ...externalProps }
 
   const [opened, setOpened] = useState<boolean>(props.opened)
-  const [showInput, setShowInput] = useState<boolean>(props.show_input)
   const [hidden, setHidden] = useState(!opened)
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
+
+  const showInput = props.show_input
 
   const context = useContext(Context)
   const blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
@@ -452,6 +453,9 @@ function DatePicker(externalProps: DatePickerProps) {
     ) {
       hidePicker(args)
     }
+
+    setStartDate(args.startDate)
+    setEndDate(args.endDate)
   }
 
   function onSubmitHandler(args) {
@@ -536,7 +540,7 @@ function DatePicker(externalProps: DatePickerProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(getPropsForTranslation()).DatePicker,
-    includeValidProps(context?.formElement),
+    pickFormElementProps(context?.formElement),
     context.DatePicker
   )
 
