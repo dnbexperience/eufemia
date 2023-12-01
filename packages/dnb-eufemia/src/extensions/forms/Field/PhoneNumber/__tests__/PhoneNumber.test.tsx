@@ -80,6 +80,49 @@ describe('Field.PhoneNumber', () => {
     expect(selectedItemElement().textContent).toBe('+47 Norge')
   })
 
+  it('should only have a mask when +47 is given', async () => {
+    const { rerender } = render(<PhoneNumber value="999999990000" />)
+
+    const codeElement = () =>
+      document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+    const numberElement = () =>
+      document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+    expect(codeElement().value).toBe('NO (+47)')
+    expect(numberElement().value).toBe('99 99 99 99')
+
+    await userEvent.type(numberElement(), '123')
+
+    expect(numberElement().value).toBe('99 99 99 99')
+
+    rerender(<PhoneNumber value="+41 99999999123456" />)
+
+    expect(codeElement().value).toBe('CH (+41)')
+    expect(numberElement().value).toBe('999999991234')
+
+    await userEvent.type(numberElement(), '123')
+
+    expect(numberElement().value).toBe('999999991234')
+  })
+
+  it('should only have a placeholder when +47 is given', async () => {
+    const { rerender } = render(<PhoneNumber />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('00 00 00 00')
+
+    rerender(<PhoneNumber value="+41" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).not.toBeInTheDocument()
+  })
+
   it('should return correct value onFocus and onBlur event', async () => {
     const onFocus = jest.fn()
     const onBlur = jest.fn()
@@ -160,7 +203,7 @@ describe('Field.PhoneNumber', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
 
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('2​ ​​ ​​ ​​')
+    expect(phoneElement.value).toEqual('2​​​​​​​​​​​')
 
     // Change PhoneNumber
     fireEvent.change(phoneElement, { target: { value: '234' } })
@@ -169,7 +212,7 @@ describe('Field.PhoneNumber', () => {
     expect(onChange).toHaveBeenNthCalledWith(1, '+41 234')
     expect(onFocus).toHaveBeenNthCalledWith(1, '+41 234')
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('23 4​ ​​ ​​')
+    expect(phoneElement.value).toEqual('234​​​​​​​​​')
 
     // Change CountryCode
     fireEvent.focus(codeElement)
@@ -259,9 +302,9 @@ describe('Field.PhoneNumber', () => {
       phoneNumber: '99999999',
     })
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('99 99 99 99')
+    expect(phoneElement.value).toEqual('99999999​​​​')
 
-    await userEvent.type(phoneElement, '{Backspace>8}')
+    await userEvent.type(phoneElement, '{Backspace>12}')
 
     expect(onChange).toHaveBeenLastCalledWith(undefined, {
       countryCode: '+41',
@@ -327,7 +370,7 @@ describe('Field.PhoneNumber', () => {
       phoneNumber: '456',
     })
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('45 6​ ​​ ​​')
+    expect(phoneElement.value).toEqual('456​​​​​​​​​')
   })
 
   it('should handle events correctly', async () => {
@@ -372,7 +415,7 @@ describe('Field.PhoneNumber', () => {
       phoneNumber: '456',
     })
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('45 6​ ​​ ​​')
+    expect(phoneElement.value).toEqual('456​​​​​​​​​')
   })
 
   it('should support spacing props', () => {
