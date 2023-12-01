@@ -189,12 +189,28 @@ describe('Checkbox component', () => {
 
     function MockComponent() {
       ref = React.useRef()
-      return <Checkbox {...props} innerRef={ref} />
+      return <Checkbox id="unique" innerRef={ref} />
     }
 
     render(<MockComponent />)
 
+    expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-checkbox__input')
+    expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('gets valid element when ref is function', () => {
+    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+
+    const refFn = (elem: HTMLInputElement) => {
+      ref.current = elem
+    }
+
+    render(<Checkbox id="unique" innerRef={refFn} />)
+
+    expect(ref.current.getAttribute('id')).toBe('unique')
+    expect(ref.current.classList).toContain('dnb-checkbox__input')
+    expect(ref.current.tagName).toBe('INPUT')
   })
 })
 

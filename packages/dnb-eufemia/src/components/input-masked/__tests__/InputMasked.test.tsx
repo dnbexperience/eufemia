@@ -53,11 +53,9 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref = React.createRef<HTMLInputElement | null>()
+    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       ref.current = elem
     }
 

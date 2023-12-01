@@ -163,6 +163,20 @@ describe('Anchor element', () => {
     expect(ref.current).toBe(element)
   })
 
+  it('gets valid element when ref is function', () => {
+    const ref: React.MutableRefObject<HTMLAnchorElement> =
+      React.createRef()
+
+    const refFn = (elem: HTMLAnchorElement) => {
+      ref.current = elem
+    }
+
+    render(<Anchor id="unique" ref={refFn} />)
+
+    expect(ref.current.getAttribute('id')).toBe('unique')
+    expect(ref.current.tagName).toBe('A')
+  })
+
   it('has aria-describedby when target is blank', () => {
     const { rerender } = render(
       <Anchor href="/url" target="_blank" lang="en-GB">

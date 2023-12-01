@@ -3085,6 +3085,19 @@ describe('Autocomplete component', () => {
       })
     })
   })
+
+  it('gets valid element when input_ref is function', () => {
+    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+
+    const refFn = (elem: HTMLInputElement) => {
+      ref.current = elem
+    }
+
+    render(<Autocomplete id="unique" input_ref={refFn} />)
+
+    expect(ref.current.getAttribute('id')).toBe('unique')
+    expect(ref.current.tagName).toBe('INPUT')
+  })
 })
 
 describe('Autocomplete markup', () => {

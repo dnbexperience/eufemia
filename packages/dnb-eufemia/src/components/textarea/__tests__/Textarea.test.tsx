@@ -265,6 +265,37 @@ describe('Textarea component', () => {
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLTextAreaElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Textarea {...props} inner_ref={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.classList).toContain('dnb-textarea__textarea')
+    expect(ref.current.tagName).toBe('TEXTAREA')
+    expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+  })
+
+  it('gets valid element when ref is function', () => {
+    const ref: React.MutableRefObject<HTMLTextAreaElement> =
+      React.createRef()
+
+    const refFn = (elem: HTMLTextAreaElement) => {
+      ref.current = elem
+    }
+
+    render(<Textarea id="unique" inner_ref={refFn} />)
+
+    expect(ref.current.getAttribute('id')).toBe('unique')
+    expect(ref.current.classList).toContain('dnb-textarea__textarea')
+    expect(ref.current.tagName).toBe('TEXTAREA')
+    expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+  })
 })
 
 describe('Textarea scss', () => {

@@ -197,6 +197,19 @@ describe('Radio ARIA', () => {
 
     expect(ref.current.classList).toContain('dnb-radio__input')
   })
+
+  it('gets valid element when ref is function', () => {
+    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+
+    const refFn = (elem: HTMLInputElement) => {
+      ref.current = elem
+    }
+
+    render(<Radio id="unique" innerRef={refFn} />)
+
+    expect(ref.current.getAttribute('id')).toBe('unique')
+    expect(ref.current.classList).toContain('dnb-radio__input')
+  })
 })
 
 describe('Radio scss', () => {
