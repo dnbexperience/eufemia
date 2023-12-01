@@ -511,4 +511,55 @@ describe('Field.PhoneNumber', () => {
         .textContent
     ).toBe('+47 Norge')
   })
+
+  it('should omit country code implementation with omitCountryCodeField', async () => {
+    const onChange = jest.fn()
+
+    const { rerender } = render(
+      <PhoneNumber omitCountryCodeField onChange={onChange} />
+    )
+
+    const numberElement = () =>
+      document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+    expect(
+      document.querySelector('.dnb-forms-field-phone-number__country-code')
+    ).not.toBeInTheDocument()
+
+    await userEvent.type(numberElement(), '123')
+
+    expect(numberElement().value).toBe('12 3​ ​​ ​​')
+    expect(onChange).toHaveBeenLastCalledWith('123', {
+      countryCode: undefined,
+      phoneNumber: '123',
+    })
+
+    rerender(
+      <PhoneNumber
+        omitCountryCodeField
+        value="+47 99999999"
+        onChange={onChange}
+      />
+    )
+
+    expect(numberElement().value).toBe('99 99 99 99')
+
+    await userEvent.type(numberElement(), '{Backspace>8}8888')
+
+    expect(numberElement().value).toBe('88 88 ​​ ​​')
+    expect(onChange).toHaveBeenLastCalledWith('8888', {
+      countryCode: undefined,
+      phoneNumber: '8888',
+    })
+
+    await userEvent.type(numberElement(), '{Backspace>6}+4')
+
+    expect(numberElement().value).toBe('88 4​ ​​ ​​')
+    expect(onChange).toHaveBeenLastCalledWith('884', {
+      countryCode: undefined,
+      phoneNumber: '884',
+    })
+  })
 })
