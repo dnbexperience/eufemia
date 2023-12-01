@@ -2,7 +2,7 @@ import React, { useMemo, useContext, useCallback, useEffect } from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
-import countries from '../../constants/countries'
+import countries, { CountryType } from '../../constants/countries'
 import StringComponent from '../String'
 import { useDataValue } from '../../hooks'
 import FieldBlock from '../../FieldBlock'
@@ -20,7 +20,8 @@ export type Props = FieldHelpProps &
     width?: 'large' | 'stretch'
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
-  } & {
+    filterCountries?: (country: CountryType) => boolean
+
     /**
      * For internal testing purposes
      */
@@ -92,6 +93,7 @@ function PhoneNumber(props: Props) {
     updateValue,
     onCountryCodeChange,
     onNumberChange,
+    filterCountries,
   } = useDataValue(preparedProps)
 
   const countryCodeRef = React.useRef(null)
@@ -127,9 +129,10 @@ function PhoneNumber(props: Props) {
       langRef.current = lang
       dataRef.current = getCountryData({
         lang,
+        filter: filterCountries,
       })
     }
-  }, [props.value, lang])
+  }, [props.value, lang, filterCountries])
 
   /**
    * On external value change, update the internal,
@@ -192,12 +195,13 @@ function PhoneNumber(props: Props) {
       if (dataRef.current.length < 10) {
         dataRef.current = getCountryData({
           lang,
+          filter: filterCountries,
         })
         updateData(dataRef.current)
       }
       handleFocus()
     },
-    [handleFocus, lang]
+    [handleFocus, lang, filterCountries]
   )
 
   const isNorway = countryCodeRef.current.includes('47')
@@ -271,14 +275,6 @@ function PhoneNumber(props: Props) {
   )
 }
 
-type CountryType = {
-  cdc: string
-  iso: string
-  i18n: {
-    en: string
-  }
-}
-
 function makeObject(country: CountryType, lang: string) {
   return {
     selectedKey: `+${country.cdc}`,
@@ -287,9 +283,22 @@ function makeObject(country: CountryType, lang: string) {
   }
 }
 
-function getCountryData({ lang = 'en', filter = null } = {}) {
+type GetCountryData = {
+  lang?: string
+  filter?: Props['filterCountries']
+}
+function getCountryData({
+  lang = 'en',
+  filter = null,
+}: GetCountryData = {}) {
   return countries
-    .filter(({ cdc }) => !filter || `+${cdc}` === filter)
+    .filter((country) => {
+      if (typeof filter === 'function') {
+        return filter(country)
+      }
+
+      return !filter || `+${country.cdc}` === filter
+    })
     .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
     .map((country) => makeObject(country, lang))
 }

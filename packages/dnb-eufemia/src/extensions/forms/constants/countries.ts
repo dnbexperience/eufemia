@@ -3,6 +3,18 @@
  *
  * cdc: Country Dialing Code
  */
+
+export type CountryType = {
+  cdc: string
+  iso: string
+  i18n: {
+    en: string
+    nb: string
+  }
+  continent: string
+  regions?: string
+}
+
 export default [
   {
     i18n: {
@@ -516,6 +528,7 @@ export default [
     cdc: '45',
     iso: 'DK',
     continent: 'Europe',
+    regions: 'Scandinavia, NorthernNordic',
   },
   {
     i18n: {
@@ -642,6 +655,7 @@ export default [
     cdc: '298',
     iso: 'FO',
     continent: 'Europe',
+    regions: 'AutonomousNordic',
   },
   {
     i18n: {
@@ -660,6 +674,7 @@ export default [
     cdc: '358',
     iso: 'FI',
     continent: 'Europe',
+    regions: 'NorthernNordic',
   },
   {
     i18n: {
@@ -759,6 +774,7 @@ export default [
     cdc: '299',
     iso: 'GL',
     continent: 'North America',
+    regions: 'AutonomousNordic',
   },
   {
     i18n: {
@@ -876,6 +892,7 @@ export default [
     cdc: '354',
     iso: 'IS',
     continent: 'Europe',
+    regions: 'NorthernNordic',
   },
   {
     i18n: {
@@ -1452,6 +1469,7 @@ export default [
     cdc: '47',
     iso: 'NO',
     continent: 'Europe',
+    regions: 'Scandinavia, NorthernNordic',
   },
   {
     i18n: {
@@ -1902,6 +1920,7 @@ export default [
     cdc: '46',
     iso: 'SE',
     continent: 'Europe',
+    regions: 'Scandinavia, NorthernNordic',
   },
   {
     i18n: {
@@ -2191,4 +2210,4 @@ export default [
     iso: 'ZW',
     continent: 'Africa',
   },
-]
+] as Array<CountryType>

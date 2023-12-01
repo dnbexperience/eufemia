@@ -455,4 +455,34 @@ describe('Field.PhoneNumber', () => {
       document.querySelector('[role="alert"]')
     ).not.toBeInTheDocument()
   })
+
+  it('should filter countries list with given filterCountries', () => {
+    render(
+      <PhoneNumber
+        filterCountries={({ regions }) => regions?.includes('Scandinavia')}
+      />
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    // open
+    fireEvent.focus(codeElement)
+    fireEvent.keyDown(codeElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const liElements = document.querySelectorAll('li:not([aria-hidden])')
+    expect(liElements).toHaveLength(3)
+    expect(liElements[0].textContent).toBe('+45 Danmark')
+    expect(liElements[1].textContent).toBe('+47 Norge')
+    expect(liElements[2].textContent).toBe('+46 Sverige')
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+47 Norge')
+  })
 })
