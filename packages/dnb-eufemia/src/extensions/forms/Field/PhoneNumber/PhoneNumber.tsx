@@ -195,7 +195,7 @@ function PhoneNumber(props: Props) {
       error={error}
       {...pickSpacingProps(props)}
     >
-      <Flex.Horizontal>
+      <Flex.Horizontal align="baseline">
         <Autocomplete
           className={classnames(
             'dnb-forms-field-phone-number__country-code',
