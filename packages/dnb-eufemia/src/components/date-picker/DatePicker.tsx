@@ -540,6 +540,7 @@ function DatePicker(externalProps: DatePickerProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(getPropsForTranslation()).DatePicker,
+    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
     pickFormElementProps(context?.formElement),
     context.DatePicker
   )
@@ -796,9 +797,7 @@ function DatePicker(externalProps: DatePickerProps) {
           </span>
         </span>
 
-        <p className="dnb-sr-only" aria-live="assertive">
-          {selectedDateTitle}
-        </p>
+        <DatePickerLiveText />
       </span>
     </DatePickerProvider>
   )
@@ -807,3 +806,11 @@ function DatePicker(externalProps: DatePickerProps) {
 export default DatePicker
 
 DatePicker._supportsSpacingProps = true
+
+function DatePickerLiveText() {
+  return (
+    <p className="dnb-sr-only" aria-live="assertive">
+      {selectedDateTitle}
+    </p>
+  )
+}
