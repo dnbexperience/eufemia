@@ -171,10 +171,10 @@ button .dnb-form-status__text {
   font-size: var(--font-size-basis);
 }
 .dnb-switch__shell {
-  user-select: none;
   position: relative;
   display: flex;
   align-items: center;
+  user-select: none;
 }
 .dnb-switch--large {
   line-height: var(--switch-height--large);
@@ -196,9 +196,9 @@ button .dnb-form-status__text {
   left: 0;
   width: var(--switch-height--medium);
   height: var(--switch-height--medium);
-  transform: translateX(0);
-  transition: transform 160ms ease-out 125ms;
+  background-color: lightgrey;
   border: var(--switch-border-width--medium) solid transparent;
+  transition: transform 160ms ease-out 125ms;
 }
 .dnb-switch--large .dnb-switch__button {
   width: var(--switch-height--large);
@@ -211,9 +211,6 @@ button .dnb-form-status__text {
   z-index: 2;
   width: 100%;
   height: 100%;
-  transition: transform 150ms ease-out;
-  transform: rotate(0deg);
-  clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-switch__focus {
@@ -237,9 +234,20 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
   transform: translateX(calc(var(--switch-width--large) - 2rem + var(--switch-border-width--large)));
 }
 .dnb-switch__background {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
   width: var(--switch-width--medium);
   height: calc(var(--switch-height--medium) - 0.5rem);
+  background-color: grey;
   border-radius: calc(var(--switch-height--medium) - 0.25rem);
+}
+.dnb-switch__background::after {
+  content: "";
+  position: absolute;
+  transition: transform 0.3s ease-out, position 0.3s ease-out;
 }
 .dnb-switch--large .dnb-switch__background {
   width: var(--switch-width--large);
@@ -266,6 +274,18 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
 .dnb-switch__input:not([disabled]) {
   cursor: pointer;
 }
+.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
+  display: block;
+}
 .dnb-switch .dnb-form-label {
   padding-right: 0.5rem;
   margin-right: 0;
@@ -286,7 +306,7 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
 }
 .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
   order: 1;
-  align-self: flex-start;
+  align-self: center;
 }
 .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
   order: 3;
@@ -310,7 +330,22 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
   background-color: var(--skeleton-color);
 }
 .dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+  content: "";
   border-color: var(--skeleton-color--contrast);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
+  display: block;
+  --border-color: red;
+  --border-width: var(--focus-ring-width, 0.125rem);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
+  background-color: tomato;
+  --border-color: red;
+  --border-width: var(--focus-ring-width, 0.125rem);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
 @supports (-ms-ime-align: auto) {
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
@@ -331,6 +366,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-switch {
+  /* stylelint-disable no-descending-specificity */
   /*
     * When switched OFF
     * aka when the checkbox is not :checked
@@ -344,42 +380,34 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     *
     */
   /*
-    * On disabled
+    * On disabled state
     *
     */
   /*
-    * On focus
+    * On focus state
     *
     */
-  /* stylelint-disable-next-line */
   /*
-    * On hover
+    * On hover state
     *
     */
-  /* stylelint-disable-next-line */
   /*
-    * On active
+    * On active state
     *
     */
-  /* stylelint-disable-next-line */
   /*
     * On error state
     *
     */
-  /* stylelint-disable-next-line */
+  /* stylelint-enable no-descending-specificity */
 }
 .dnb-switch__background {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  overflow: hidden;
   background-color: var(--color-sea-green-30);
 }
-.dnb-switch__background::after {
-  content: "";
-  position: absolute;
-  transition: transform 0.3s ease-out, position 0.3s ease-out;
+.dnb-switch__focus {
+  transition: transform 150ms ease-out;
+  transform: rotate(0deg);
+  clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
 }
 .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
   background-color: var(--color-white);
@@ -434,18 +462,6 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
 html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
   background-color: var(--color-mint-green-50);
 }
-.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
-  display: block;
-}
 .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
   transform: rotate(180deg);
 }
@@ -481,7 +497,6 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   border-color: var(--color-fire-red);
 }
 .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
-  display: block;
   --border-color: var(--color-fire-red);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
