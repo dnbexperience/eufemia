@@ -710,10 +710,6 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status.dnb-section {
   display: block;
 }
-.dnb-global-status__wrapper {
-  position: relative;
-  z-index: 1;
-}
 .dnb-global-status__shell {
   width: 100%;
   opacity: 1;
