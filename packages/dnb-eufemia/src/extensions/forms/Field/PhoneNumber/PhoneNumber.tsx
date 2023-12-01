@@ -30,6 +30,20 @@ export type Props = FieldHelpProps &
 // Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
 // back to +47 once the user empty the field so handleChange send out undefined.
 const defaultCountryCode = '+47'
+const defaultPlaceholder = '00 00 00 00'
+const defaultMask = [
+  /\d/,
+  /\d/,
+  ' ',
+  /\d/,
+  /\d/,
+  ' ',
+  /\d/,
+  /\d/,
+  ' ',
+  /\d/,
+  /\d/,
+]
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -186,6 +200,8 @@ function PhoneNumber(props: Props) {
     [handleFocus, lang]
   )
 
+  const isNorway = countryCodeRef.current.includes('47')
+
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-phone-number', className)}
@@ -229,21 +245,11 @@ function PhoneNumber(props: Props) {
           emptyValue=""
           layout="vertical"
           label={label ?? ' '}
-          placeholder={placeholder ?? '00 00 00 00'}
+          placeholder={
+            placeholder ?? (isNorway ? defaultPlaceholder : undefined)
+          }
           mask={
-            numberMask ?? [
-              /\d/,
-              /\d/,
-              ' ',
-              /\d/,
-              /\d/,
-              ' ',
-              /\d/,
-              /\d/,
-              ' ',
-              /\d/,
-              /\d/,
-            ]
+            numberMask ?? (isNorway ? defaultMask : Array(12).fill(/\d/))
           }
           onFocus={handleFocus}
           onBlur={handleBlur}
