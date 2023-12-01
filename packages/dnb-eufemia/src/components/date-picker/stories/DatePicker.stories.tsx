@@ -544,3 +544,14 @@ export const GlobalStatusExample = () => {
     </>
   )
 }
+
+export const LocalePropExample = () => {
+  return (
+    <>
+      <DatePicker show_input={true} locale={enLocale} />
+      {/* <Provider locale="en-GB">
+        <DatePicker show_input={true} />
+      </Provider> */}
+    </>
+  )
+}

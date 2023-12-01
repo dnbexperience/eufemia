@@ -13,6 +13,7 @@ import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
 import isWeekend from 'date-fns/isWeekend'
+import enLocale from 'date-fns/locale/en-GB'
 import {
   toRange,
   dayOffset,
@@ -1288,6 +1289,35 @@ describe('DatePicker component', () => {
 
     expect(document.activeElement).toBe(document.body)
     expect(element.classList).toContain('dnb-date-picker--opened')
+  })
+
+  it('renders correct placeholder when setting locale', () => {
+    const props: DatePickerProps = {}
+
+    render(<DatePicker {...props} show_input={true} locale={enLocale} />)
+
+    const dayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const monthElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0] as HTMLInputElement
+    const yearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0] as HTMLInputElement
+
+    const seperator1 = document.querySelectorAll(
+      '.dnb-date-picker--separator'
+    )[0]
+    const seperator2 = document.querySelectorAll(
+      '.dnb-date-picker--separator'
+    )[0]
+
+    expect(dayElem.value).toBe('dd')
+    expect(monthElem.value).toBe('mm')
+    expect(yearElem.value).toBe('yyyy')
+    expect(seperator1.textContent).toBe('/')
+    expect(seperator2.textContent).toBe('/')
   })
 
   it('has to react on keydown events', async () => {
