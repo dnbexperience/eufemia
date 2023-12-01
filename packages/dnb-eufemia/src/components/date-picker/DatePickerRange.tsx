@@ -55,6 +55,8 @@ function DatePickerRange(props: DatePickerRangeProps) {
     props.onChange &&
       props.onChange({
         hidePicker: !props.isRange,
+        startDate: context.startDate,
+        endDate: context.endDate,
         ...args,
       })
   }
