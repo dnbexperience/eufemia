@@ -97,24 +97,10 @@
     }
   }
 
-  // default "active" style
-  &--checked &__button:not([disabled], :active) {
-    &.dnb-button--secondary,
-    &.dnb-button--secondary:hover {
-      background-color: var(--color-emerald-green);
-      color: var(--color-mint-green);
-    }
-  }
-
   // in case we don't define a wrapping group
   // and have a custom label component before the toggle-button (and not inside)
   :not(#{&}-group) > .dnb-form-label + & {
     vertical-align: top;
-  }
-
-  // &__suffix,
-  &-group__suffix {
-    font-size: var(--font-size-basis);
   }
 
   // status
@@ -186,6 +172,10 @@
     // vertical alignment - if no label is given
     .dnb-alignment-helper {
       line-height: 2.5rem;
+    }
+
+    &__suffix {
+      font-size: var(--font-size-basis);
     }
   }
 
