@@ -40,7 +40,7 @@ jobs:
 
     runs-on: macos-latest
 
-    timeout-minutes: 40
+    timeout-minutes: 60
 
     steps:
       - name: Git checkout
@@ -105,6 +105,14 @@ jobs:
 
       - name: Run visual tests
         run: yarn workspace dnb-design-system-portal test:screenshots:ci
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: dnb-design-system-portal
+          path: |
+            ./packages/dnb-design-system-portal/.cache
+            ./packages/dnb-design-system-portal/public
 
       - uses: actions/upload-artifact@v3
         if: failure()
