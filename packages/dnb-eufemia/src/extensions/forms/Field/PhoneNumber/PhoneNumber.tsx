@@ -3,7 +3,7 @@ import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
 import countries, { CountryType } from '../../constants/countries'
-import StringComponent from '../String'
+import StringComponent, { Props as InputProps } from '../String'
 import { useDataValue } from '../../hooks'
 import FieldBlock from '../../FieldBlock'
 import { FieldHelpProps, FieldProps } from '../../types'
@@ -17,6 +17,7 @@ export type Props = FieldHelpProps &
     countryCodePlaceholder?: string
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
+    pattern?: InputProps['pattern']
     width?: 'large' | 'stretch'
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
@@ -62,6 +63,7 @@ function PhoneNumber(props: Props) {
   const errorMessages = useMemo(
     () => ({
       required: tr.phoneNumberErrorRequired,
+      pattern: tr.phoneNumberErrorRequired,
       ...props?.errorMessages,
     }),
     [tr, props.errorMessages]
@@ -92,6 +94,7 @@ function PhoneNumber(props: Props) {
     disabled,
     width = 'large',
     help,
+    pattern,
     required,
     validateInitially,
     continuousValidation,
@@ -285,6 +288,8 @@ function PhoneNumber(props: Props) {
           width="stretch"
           help={help}
           required={required}
+          pattern={pattern}
+          errorMessages={errorMessages}
           validateInitially={validateInitially}
           continuousValidation={continuousValidation}
           validateUnchanged={validateUnchanged}

@@ -202,7 +202,7 @@ export default {
       bankAccountNumberErrorPattern:
         'Dette er ikke et gyldig bankkontonummer',
       phoneNumberLabel: 'Mobilnummer',
-      phoneNumberErrorRequired: 'Du må fylle inn mobilnummer',
+      phoneNumberErrorRequired: 'Du må fylle inn et gyldig nummer',
       postalCodeLabel: 'Postnr.',
       postalCodeErrorRequired: 'Du må fylle inn et postnummer',
       postalCodeErrorPattern: 'Dette er ikke et gyldig postnummer',

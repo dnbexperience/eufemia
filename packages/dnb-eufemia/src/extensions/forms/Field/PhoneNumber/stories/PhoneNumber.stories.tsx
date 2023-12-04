@@ -15,6 +15,7 @@ export function PhoneNumber() {
   return (
     <Field.PhoneNumber
       required
+      pattern="^[49]+"
       value={state}
       onBlur={console.log}
       onFocus={console.log}
