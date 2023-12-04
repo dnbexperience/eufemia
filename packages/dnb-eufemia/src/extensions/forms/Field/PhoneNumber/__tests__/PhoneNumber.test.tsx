@@ -456,6 +456,47 @@ describe('Field.PhoneNumber', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should handle "pattern" property', async () => {
+    render(
+      <Provider locale="en-GB">
+        <PhoneNumber required pattern="^[49]+" />
+      </Provider>
+    )
+
+    const numberElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    await userEvent.type(numberElement, '34')
+    fireEvent.blur(numberElement)
+
+    expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+    expect(document.querySelector('[role="alert"]').textContent).toContain(
+      'valid number'
+    )
+
+    await userEvent.type(numberElement, '{Backspace>8}89')
+    fireEvent.blur(numberElement)
+
+    expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+
+    await userEvent.type(numberElement, '{Backspace>8}43')
+    fireEvent.blur(numberElement)
+
+    expect(numberElement.value).toBe('43 ​​ ​​ ​​')
+
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
+
+    await userEvent.type(numberElement, '{Backspace>8}98')
+    fireEvent.blur(numberElement)
+
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
+  })
+
   it('should filter countries list with given filterCountries', () => {
     render(
       <PhoneNumber

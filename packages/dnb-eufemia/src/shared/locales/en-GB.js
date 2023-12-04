@@ -205,7 +205,7 @@ export default {
       bankAccountNumberErrorPattern:
         'This is not a valid bank account number',
       phoneNumberLabel: 'Mobile number',
-      phoneNumberErrorRequired: 'You must enter a mobile number',
+      phoneNumberErrorRequired: 'You must enter a valid number',
       postalCodeLabel: 'Postalc.',
       postalCodeErrorRequired: 'You must enter a postal code',
       postalCodeErrorPattern: 'This is not a valid postal code',
