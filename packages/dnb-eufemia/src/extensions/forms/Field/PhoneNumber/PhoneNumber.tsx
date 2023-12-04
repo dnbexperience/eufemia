@@ -18,6 +18,7 @@ export type Props = FieldHelpProps &
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
     width?: 'large' | 'stretch'
+    omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
     countries?: 'Scandinavia' | 'NorthernNordic' | 'Europe'
@@ -96,6 +97,7 @@ function PhoneNumber(props: Props) {
     validateInitially,
     continuousValidation,
     validateUnchanged,
+    omitCountryCodeField,
     handleFocus,
     handleBlur,
     handleChange,
@@ -193,20 +195,21 @@ function PhoneNumber(props: Props) {
   const handleNumberChange = useCallback(
     (value: string) => {
       const phoneNumber = value || emptyValue
-      const countryCode = countryCodeRef.current || emptyValue
+      const countryCode = omitCountryCodeField
+        ? emptyValue
+        : countryCodeRef.current || emptyValue
       phoneNumberRef.current = phoneNumber || emptyValue
 
       handleChange(
         phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
-        {
-          countryCode,
-          phoneNumber,
-        }
+        omitCountryCodeField
+          ? { phoneNumber }
+          : { countryCode, phoneNumber }
       )
 
       onNumberChange?.(phoneNumber)
     },
-    [emptyValue, handleChange, onNumberChange]
+    [emptyValue, handleChange, onNumberChange, omitCountryCodeField]
   )
 
   const onFocusHandler = useCallback(
@@ -235,29 +238,31 @@ function PhoneNumber(props: Props) {
       {...pickSpacingProps(props)}
     >
       <Flex.Horizontal align="baseline">
-        <Autocomplete
-          className={classnames(
-            'dnb-forms-field-phone-number__country-code',
-            countryCodeFieldClassName
-          )}
-          placeholder={countryCodePlaceholder ?? ' '}
-          label_direction="vertical"
-          label={
-            countryCodeLabel ??
-            sharedContext?.translation.Forms.countryCodeLabel
-          }
-          data={dataRef.current}
-          value={countryCodeRef.current}
-          disabled={disabled}
-          on_focus={onFocusHandler}
-          on_blur={handleBlur}
-          on_change={handleCountryCodeChange}
-          independent_width
-          search_numbers
-          keep_selection
-          no_animation={props.noAnimation}
-          stretch={width === 'stretch'}
-        />
+        {!omitCountryCodeField && (
+          <Autocomplete
+            className={classnames(
+              'dnb-forms-field-phone-number__country-code',
+              countryCodeFieldClassName
+            )}
+            placeholder={countryCodePlaceholder ?? ' '}
+            label_direction="vertical"
+            label={
+              countryCodeLabel ??
+              sharedContext?.translation.Forms.countryCodeLabel
+            }
+            data={dataRef.current}
+            value={countryCodeRef.current}
+            disabled={disabled}
+            on_focus={onFocusHandler}
+            on_blur={handleBlur}
+            on_change={handleCountryCodeChange}
+            independent_width
+            search_numbers
+            keep_selection
+            no_animation={props.noAnimation}
+            stretch={width === 'stretch'}
+          />
+        )}
 
         <StringComponent
           className={classnames(
@@ -282,7 +287,7 @@ function PhoneNumber(props: Props) {
           warning={warning}
           error={error}
           disabled={disabled}
-          width="stretch"
+          width={omitCountryCodeField ? 'medium' : 'stretch'}
           help={help}
           required={required}
           validateInitially={validateInitially}
