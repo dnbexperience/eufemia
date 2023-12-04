@@ -107,3 +107,15 @@ export const ValidationRequired = () => {
     </ComponentBox>
   )
 }
+
+export const WithFilter = () => {
+  return (
+    <ComponentBox>
+      <Field.PhoneNumber
+        label="Label text"
+        onChange={(...args) => console.log('onChange', ...args)}
+        countries="Scandinavia"
+      />
+    </ComponentBox>
+  )
+}
