@@ -550,7 +550,6 @@ describe('Field.PhoneNumber', () => {
 
     expect(numberElement().value).toBe('88 88 ​​ ​​')
     expect(onChange).toHaveBeenLastCalledWith('8888', {
-      countryCode: undefined,
       phoneNumber: '8888',
     })
 
@@ -558,8 +557,13 @@ describe('Field.PhoneNumber', () => {
 
     expect(numberElement().value).toBe('88 4​ ​​ ​​')
     expect(onChange).toHaveBeenLastCalledWith('884', {
-      countryCode: undefined,
       phoneNumber: '884',
     })
+    expect(
+      Object.prototype.hasOwnProperty.call(
+        onChange.mock.calls[17][1],
+        'countryCode'
+      )
+    ).toBeFalsy()
   })
 })

@@ -202,10 +202,9 @@ function PhoneNumber(props: Props) {
 
       handleChange(
         phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
-        {
-          countryCode,
-          phoneNumber,
-        }
+        omitCountryCodeField
+          ? { phoneNumber }
+          : { countryCode, phoneNumber }
       )
 
       onNumberChange?.(phoneNumber)
