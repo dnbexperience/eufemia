@@ -70,6 +70,7 @@ export default class PaymentCard extends React.PureComponent {
       'order_in_process',
       'renewed',
       'replaced',
+      'unknown',
     ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
