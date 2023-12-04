@@ -30,34 +30,3 @@ The default country code is set to `+47`.
 Creating a list of all possible phone numbers would be impractical due to the vast number of combinations, especially considering the various country codes, area codes, and local numbers. Additionally, new numbers are constantly being allocated, and existing numbers may be reassigned over time.
 
 Therefore, the structure and format is only used when `+47` is selected.
-
-## Filter countries
-
-You can filter out the countries based on many possibilities:
-
-- by continent, such as `Europe`.
-- by regions, such as `Scandinavia` or `NorthernNordic` countries.
-- by iso etc.
-
-Here is the object for Norway:
-
-```json
-{
-  "i18n": {
-    "en": "Norway",
-    "nb": "Norge"
-  },
-  "cdc": "47",
-  "iso": "NO",
-  "continent": "Europe",
-  "regions": "Scandinavia, NorthernNordic"
-}
-```
-
-Here is how you would filter countries:
-
-```jsx
-<PhoneNumber
-  filterCountries={({ regions }) => regions?.includes('Scandinavia')}
-/>
-```

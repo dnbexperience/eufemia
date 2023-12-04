@@ -20,6 +20,14 @@ export type Props = FieldHelpProps &
     width?: 'large' | 'stretch'
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
+    countries?: 'Scandinavia' | 'NorthernNordic' | 'Europe'
+
+    /**
+     * For internal use only.
+     *
+     * @param country
+     * @returns boolean
+     */
     filterCountries?: (country: CountryType) => boolean
 
     /**
@@ -76,6 +84,7 @@ function PhoneNumber(props: Props) {
     countryCodeLabel,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     numberMask,
+    countries: ccFilter,
     emptyValue,
     info,
     warning,
@@ -93,7 +102,17 @@ function PhoneNumber(props: Props) {
     updateValue,
     onCountryCodeChange,
     onNumberChange,
-    filterCountries,
+    filterCountries = ccFilter
+      ? (country) => {
+          switch (ccFilter) {
+            case 'Scandinavia':
+            case 'NorthernNordic':
+              return country.regions?.includes(ccFilter)
+            default:
+              return country.continent.includes(ccFilter)
+          }
+        }
+      : undefined,
   } = useDataValue(preparedProps)
 
   const countryCodeRef = React.useRef(null)

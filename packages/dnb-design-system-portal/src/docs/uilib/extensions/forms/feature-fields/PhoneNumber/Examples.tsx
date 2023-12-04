@@ -114,9 +114,7 @@ export const WithFilter = () => {
       <Field.PhoneNumber
         label="Label text"
         onChange={(...args) => console.log('onChange', ...args)}
-        filterCountries={({ regions }) =>
-          regions && regions.includes('Scandinavia')
-        }
+        countries="Scandinavia"
       />
     </ComponentBox>
   )
