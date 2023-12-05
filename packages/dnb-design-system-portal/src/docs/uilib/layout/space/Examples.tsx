@@ -62,7 +62,7 @@ export const Method3 = () => (
           const spacingProperties = createSpacingProperties(props)
 
           const cn = classnames(
-            'my-comoponent',
+            'my-component',
             'dnb-space',
             spacingClasses,
             className,
