@@ -1630,15 +1630,8 @@ button .dnb-form-status__text {
   width: calc(var(--radio-width--medium) - 1rem);
   height: calc(var(--radio-height--medium) - 1rem);
 }
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled], :active).dnb-button--secondary, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled], :active).dnb-button--secondary:hover {
-  background-color: var(--color-emerald-green);
-  color: var(--color-mint-green);
-}
 :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
   vertical-align: top;
-}
-.dnb-toggle-button-group__suffix {
-  font-size: var(--font-size-basis);
 }
 .dnb-toggle-button .dnb-form-status {
   order: 2;
@@ -1690,6 +1683,9 @@ button .dnb-form-status__text {
 }
 .dnb-toggle-button-group .dnb-alignment-helper {
   line-height: 2.5rem;
+}
+.dnb-toggle-button-group__suffix {
+  font-size: var(--font-size-basis);
 }
 @media screen and (min-width: 40em) {
   .dnb-form-label + .dnb-toggle-button {
@@ -1769,8 +1765,6 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
-}
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
   outline: none;
 }
 html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {

@@ -100,9 +100,6 @@
       &:not([disabled]):not(:active):not(:hover):focus {
       color: var(--color-emerald-green);
       background-color: var(--color-mint-green);
-    }
-    html[data-whatinput='keyboard']
-      &:not([disabled]):not(:active):not(:hover):focus {
       @include focusRing(null, var(--color-emerald-green), inset);
     }
   }
