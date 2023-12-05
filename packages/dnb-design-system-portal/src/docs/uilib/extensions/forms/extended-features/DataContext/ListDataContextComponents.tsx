@@ -12,7 +12,7 @@ export default function ListDataContextComponents() {
           frontmatter: { title: { ne: null }, draft: { ne: true } }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/create-component/DataContext/**/*"
+              glob: "**/uilib/extensions/forms/extended-features/DataContext/**/*"
             }
           }
         }
