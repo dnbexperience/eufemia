@@ -11,7 +11,8 @@
   --accordion-easing: var(--easing-default);
 
   // vertical spacing
-  --accordion-header-margin-vertical: 1.25rem;
+  --accordion-header-margin-vertical--icon: 1.25rem;
+  --accordion-header-margin-vertical--title: 1.25rem;
   --accordion-header-margin-vertical--description: 0.75rem;
 
   // wrapper
@@ -63,9 +64,9 @@
       flex-direction: column;
       width: 100%; // this pushes the &__container to the right
 
-      margin: var(--accordion-header-margin-vertical)
+      margin: var(--accordion-header-margin-vertical--title)
         var(--accordion-header-wrapper-margin)
-        var(--accordion-header-margin-vertical) 0;
+        var(--accordion-header-margin-vertical--title) 0;
     }
     &--description &__wrapper {
       margin-top: var(--accordion-header-margin-vertical--description);
@@ -78,9 +79,9 @@
     &__icon {
       align-self: flex-start;
 
-      margin: var(--accordion-header-margin-vertical)
+      margin: var(--accordion-header-margin-vertical--icon)
         var(--accordion-header-icon-gutter)
-        var(--accordion-header-margin-vertical)
+        var(--accordion-header-margin-vertical--icon)
         var(--accordion-header-icon-margin);
 
       font-size: var(--font-size-small);

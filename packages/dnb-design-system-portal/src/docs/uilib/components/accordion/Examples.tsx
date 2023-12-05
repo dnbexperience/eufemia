@@ -215,6 +215,23 @@ export const AccordionDescriptionExample = () => (
   </ComponentBox>
 )
 
+export const AccordionTwoLinesExample = () => (
+  <ComponentBox data-visual-test="accordion-two-lines">
+    <Accordion
+      expanded
+      title="Accordion title that should be long enough for two lines"
+    >
+      <P>Accordion content</P>
+    </Accordion>
+    <Accordion
+      top
+      title="Accordion title that should be long enough for two lines"
+    >
+      <P>Accordion content</P>
+    </Accordion>
+  </ComponentBox>
+)
+
 export const AccordionFilledExample = () => (
   <ComponentBox data-visual-test="accordion-filled">
     <Accordion expanded title="Accordion title" variant="filled">

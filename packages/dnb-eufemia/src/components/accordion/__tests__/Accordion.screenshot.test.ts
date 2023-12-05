@@ -124,6 +124,14 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match with two lines of title', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem', height: '14rem' },
+      selector: '[data-visual-test="accordion-two-lines"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match in open state with focus', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
