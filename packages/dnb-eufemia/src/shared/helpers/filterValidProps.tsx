@@ -57,12 +57,18 @@ export function prepareFormElementContext<Props>(
   return props
 }
 export type FormElementProps = {
-  label_direction?: 'vertical' | 'horizontal'
   vertical?: boolean
+  labelDirection?: 'vertical' | 'horizontal'
+
+  /** @deprecated use labelDirection instead */
+  label_direction?: 'vertical' | 'horizontal'
 }
-export const validFormElementProps = {
+const validFormElementProps = {
   skeleton: null,
   disabled: null,
   vertical: null,
+  labelDirection: null,
+
+  /** @deprecated use labelDirection instead */
   label_direction: null,
 }

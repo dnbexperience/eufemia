@@ -98,12 +98,47 @@ describe('FormLabel component', () => {
     expect(element.getAttribute('for')).toBe('unique-id')
   })
 
-  it('should inherit formElement vertical label', () => {
+  /** @deprecated can be removed in v11 */
+  it('should inherit formElement label_direction', () => {
     render(
       <Provider formElement={{ label_direction: 'vertical' }}>
         <FormLabel />
       </Provider>
     )
+
+    const element = document.querySelector('.dnb-form-label')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-label',
+      'dnb-form-label--vertical',
+    ])
+  })
+
+  it('should inherit formElement labelDirection', () => {
+    render(
+      <Provider formElement={{ labelDirection: 'vertical' }}>
+        <FormLabel />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-form-label')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-label',
+      'dnb-form-label--vertical',
+    ])
+  })
+
+  it('should support vertical class', () => {
+    render(<FormLabel vertical />)
 
     const element = document.querySelector('.dnb-form-label')
     const attributes = Array.from(element.attributes).map(
