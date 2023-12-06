@@ -134,3 +134,18 @@ export const ValidationRequired = () => {
     </ComponentBox>
   )
 }
+
+export const OmitCityField = () => {
+  return (
+    <ComponentBox>
+      <Field.PostalCodeAndCity
+        postalCode={{
+          label: 'Pnr.',
+          value: '0788',
+          onChange: (value) => console.log('postalCode onChange', value),
+        }}
+        omitCityField
+      />
+    </ComponentBox>
+  )
+}
