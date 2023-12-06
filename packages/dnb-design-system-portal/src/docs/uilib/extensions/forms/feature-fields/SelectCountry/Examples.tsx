@@ -38,7 +38,7 @@ export const OptionSelected = () => {
   return (
     <ComponentBox>
       <Field.SelectCountry
-        value="bar"
+        value="NO"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -49,7 +49,7 @@ export const LabelAndOptionSelected = () => {
   return (
     <ComponentBox>
       <Field.SelectCountry
-        value="bar"
+        value="NO"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
       />
@@ -61,7 +61,7 @@ export const WithHelp = () => {
   return (
     <ComponentBox>
       <Field.SelectCountry
-        value="bar"
+        value="NO"
         label="Label text"
         help={{
           title: 'Help is available',
@@ -78,7 +78,7 @@ export const Disabled = () => {
   return (
     <ComponentBox>
       <Field.SelectCountry
-        value="bar"
+        value="NO"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         disabled
@@ -91,7 +91,7 @@ export const Error = () => {
   return (
     <ComponentBox scope={{ FormError }}>
       <Field.SelectCountry
-        value="bar"
+        value="NO"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         error={new FormError('This is what is wrong...')}
