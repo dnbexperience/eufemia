@@ -61,6 +61,7 @@ function Toggle(props: Props) {
     info,
     warning,
     error,
+    disabled,
   }
 
   const fieldBlockProps = {
@@ -69,6 +70,7 @@ function Toggle(props: Props) {
     label,
     labelDescription,
     labelSecondary,
+    disabled,
   }
 
   const isOn = value === valueOn

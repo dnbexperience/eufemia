@@ -159,6 +159,7 @@ function StringComponent(props: Props) {
       labelSecondary={labelSecondary ?? characterCounterElement}
       info={info}
       warning={warning}
+      disabled={disabled}
       error={error}
       width={width === 'stretch' ? width : undefined}
       contentsWidth={width !== false ? width : undefined}

@@ -39,6 +39,20 @@ describe('Field.PhoneNumber', () => {
     expect(selectedItemElement.textContent).toBe('+47 Norge')
   })
 
+  it('should support disabled prop', () => {
+    const { rerender } = render(
+      <PhoneNumber label="Disabled label" disabled />
+    )
+
+    const labelElement = () => document.querySelector('label')
+
+    expect(labelElement()).toHaveAttribute('disabled')
+
+    rerender(<PhoneNumber label="Disabled label" />)
+
+    expect(labelElement()).not.toHaveAttribute('disabled')
+  })
+
   it('should change locale', () => {
     const { rerender } = render(
       <Provider>

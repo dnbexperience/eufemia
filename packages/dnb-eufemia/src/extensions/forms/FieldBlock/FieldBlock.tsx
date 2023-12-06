@@ -15,6 +15,7 @@ export type Props = Pick<
   | 'info'
   | 'warning'
   | 'error'
+  | 'disabled'
 > & {
   forId?: string
   contentClassName?: string
@@ -43,6 +44,7 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error: errorProp,
+    disabled,
     width,
     contentsWidth,
     size,
@@ -151,6 +153,7 @@ function FieldBlock(props: Props) {
         forId={enableFieldset ? undefined : forId}
         space={{ top: 0, bottom: 'x-small' }}
         size={size}
+        disabled={disabled}
       >
         {children}
       </FormLabel>
