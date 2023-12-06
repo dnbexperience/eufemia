@@ -6,8 +6,9 @@ import StringComponent, { Props as StringComponentProps } from '../String'
 import { FieldHelpProps } from '../../types'
 
 export type Props = FieldHelpProps &
-  Omit<FieldBlockProps, 'children'> &
-  Record<'postalCode' | 'city', StringComponentProps> & {
+  Omit<FieldBlockProps, 'children'> & {
+    postalCode: StringComponentProps
+    city?: StringComponentProps
     omitCityField?: boolean
   }
 
