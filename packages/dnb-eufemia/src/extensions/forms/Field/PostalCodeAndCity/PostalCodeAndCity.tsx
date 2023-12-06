@@ -7,7 +7,9 @@ import { FieldHelpProps } from '../../types'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
-  Record<'postalCode' | 'city', StringComponentProps>
+  Record<'postalCode' | 'city', StringComponentProps> & {
+    omitCityField?: boolean
+  }
 
 function PostalCodeAndCity(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -17,6 +19,7 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
+    omitCityField = false,
     ...fieldBlockProps
   } = props
 
@@ -56,20 +59,25 @@ function PostalCodeAndCity(props: Props) {
           width={false}
           inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         />
-        <StringComponent
-          {...city}
-          className={classnames(
-            'dnb-forms-field-postal-code-and-city__city',
-            city.className
-          )}
-          label={city.label ?? sharedContext?.translation.Forms.cityLabel}
-          errorMessages={{
-            required: sharedContext?.translation.Forms.cityErrorRequired,
-            ...city.errorMessages,
-          }}
-          width="stretch"
-          help={help}
-        />
+
+        {!omitCityField && (
+          <StringComponent
+            {...city}
+            className={classnames(
+              'dnb-forms-field-postal-code-and-city__city',
+              city.className
+            )}
+            label={
+              city.label ?? sharedContext?.translation.Forms.cityLabel
+            }
+            errorMessages={{
+              required: sharedContext?.translation.Forms.cityErrorRequired,
+              ...city.errorMessages,
+            }}
+            width="stretch"
+            help={help}
+          />
+        )}
       </div>
     </FieldBlock>
   )
