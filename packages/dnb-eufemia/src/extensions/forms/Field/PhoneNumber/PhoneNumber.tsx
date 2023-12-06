@@ -234,7 +234,7 @@ function PhoneNumber(props: Props) {
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-phone-number', className)}
-      width={width !== 'stretch' ? width : undefined}
+      width={omitCountryCodeField ? undefined : width}
       info={info}
       warning={warning}
       error={error}
