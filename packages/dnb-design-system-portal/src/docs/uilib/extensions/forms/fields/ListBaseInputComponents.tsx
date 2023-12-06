@@ -1,8 +1,8 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
+import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListBaseToggleComponents() {
+export default function ListBaseInputComponents() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -12,7 +12,7 @@ export default function ListBaseToggleComponents() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            componentType: { in: "base-toggle" }
+            componentType: { in: "base-input" }
           }
           internal: {
             contentFilePath: {

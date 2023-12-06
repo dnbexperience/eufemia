@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListBaseSelectionComponents() {
+export default function ListFeatureValueComponents() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -12,11 +12,11 @@ export default function ListBaseSelectionComponents() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            componentType: { in: "base-selection" }
+            componentType: { regex: "/feature/" }
           }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/base-fields/*"
+              glob: "**/uilib/extensions/forms/extended-features/Value/**/*"
             }
           }
         }
@@ -40,12 +40,5 @@ export default function ListBaseSelectionComponents() {
     }
   `)
 
-  return (
-    <ListSummaryFromEdges
-      space={{ top: 'x-small' }}
-      level={4}
-      description=""
-      edges={edges}
-    />
-  )
+  return <ListSummaryFromEdges edges={edges} />
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
+import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListBaseValueComponents() {
+export default function ListBaseSelectionComponents() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -12,11 +12,11 @@ export default function ListBaseValueComponents() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            componentType: { regex: "/base/" }
+            componentType: { in: "base-selection" }
           }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/create-component/Value/**/*"
+              glob: "**/uilib/extensions/forms/base-fields/*"
             }
           }
         }
@@ -40,5 +40,12 @@ export default function ListBaseValueComponents() {
     }
   `)
 
-  return <ListSummaryFromEdges edges={edges} />
+  return (
+    <ListSummaryFromEdges
+      space={{ top: 'x-small' }}
+      level={4}
+      description=""
+      edges={edges}
+    />
+  )
 }

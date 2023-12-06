@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListFeatureValueComponents() {
+export default function ListBaseValueComponents() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -12,11 +12,11 @@ export default function ListFeatureValueComponents() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            componentType: { regex: "/feature/" }
+            componentType: { regex: "/base/" }
           }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/create-component/Value/**/*"
+              glob: "**/uilib/extensions/forms/extended-features/Value/**/*"
             }
           }
         }
