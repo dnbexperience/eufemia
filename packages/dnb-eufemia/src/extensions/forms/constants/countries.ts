@@ -22,6 +22,13 @@ export type CountryType = {
   regions?: Array<'Scandinavia' | 'NorthernNordic' | 'AutonomousNordic'>
 }
 
+export const prioritizedCountries = [
+  'Norway',
+  'Sweden',
+  'Denmark',
+  'Finland',
+]
+
 const countries: Array<CountryType> = [
   {
     i18n: {

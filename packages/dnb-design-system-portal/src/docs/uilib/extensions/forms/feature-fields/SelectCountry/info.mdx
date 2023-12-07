@@ -11,3 +11,19 @@ When selecting a country, the value returned is the selected country's [ISO 3166
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.SelectCountry />)
 ```
+
+It supports the HTML [autofill](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute (`country-name`) if no value is given.
+
+### Filter or prioritize country listing
+
+Countries are sorted in alphabetically order. You can filter countries with the `countries` property or put these countries on top of the list:
+
+- Norway
+- Sweden
+- Denmark
+- Finland
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.PhoneNumber countries="Prioritized" />)
+```

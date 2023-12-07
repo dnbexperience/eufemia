@@ -28,6 +28,7 @@ interface ReturnAdditional<Value> {
   handleBlur: () => void
   handleChange: FieldProps<unknown>['onChange']
   updateValue: (value: Value) => void
+  forceUpdate: () => void
 }
 
 export default function useDataValue<
@@ -490,5 +491,6 @@ export default function useDataValue<
     handleBlur,
     handleChange,
     updateValue,
+    forceUpdate,
   }
 }
