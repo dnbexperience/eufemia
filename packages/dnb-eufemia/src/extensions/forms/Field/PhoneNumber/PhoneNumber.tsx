@@ -9,6 +9,11 @@ import FieldBlock from '../../FieldBlock'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
+import {
+  CountryFilterSet,
+  getCountryData,
+  makeCountryFilterSet,
+} from '../SelectCountry'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -22,7 +27,7 @@ export type Props = FieldHelpProps &
     omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
-    countries?: 'Scandinavia' | 'Nordic' | 'Europe'
+    countries?: CountryFilterSet
 
     /**
      * For internal use only.
@@ -108,22 +113,50 @@ function PhoneNumber(props: Props) {
     onCountryCodeChange,
     onNumberChange,
     filterCountries = ccFilter
-      ? (country) => {
-          switch (ccFilter) {
-            case 'Scandinavia':
-            case 'Nordic':
-              return country.regions?.includes(ccFilter)
-            default:
-              return country.continent.includes(ccFilter)
-          }
-        }
+      ? makeCountryFilterSet(ccFilter)
       : undefined,
   } = useDataValue(preparedProps)
 
   const countryCodeRef = React.useRef(null)
-  const phoneNumberRef = React.useRef(null)
+  const numberRef = React.useRef(null)
   const dataRef = React.useRef(null)
   const langRef = React.useRef(lang)
+  const wasFilled = React.useRef(false)
+
+  const updateCurrentDataSet = useCallback(() => {
+    dataRef.current = getCountryData({
+      lang,
+      filter: !wasFilled.current
+        ? (country) =>
+            `${formattCountryCode(country.cdc)}` === countryCodeRef.current
+        : filterCountries,
+      sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
+      makeObject,
+    })
+  }, [lang, filterCountries, ccFilter])
+
+  const callOnChange = useCallback(
+    ({
+      countryCode = omitCountryCodeField
+        ? emptyValue
+        : countryCodeRef.current || emptyValue,
+      phoneNumber = numberRef.current || emptyValue,
+    }) => {
+      /**
+       * To ensure, we actually call onChange every time,
+       * even if the value is undefined
+       */
+      updateValue('invalidate')
+
+      handleChange(
+        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
+        omitCountryCodeField
+          ? { phoneNumber }
+          : { countryCode, phoneNumber }
+      )
+    },
+    [omitCountryCodeField, emptyValue, updateValue, handleChange]
+  )
 
   /**
    * We do not process the whole country list at the first render.
@@ -135,28 +168,15 @@ function PhoneNumber(props: Props) {
    */
   useMemo(() => {
     const [countryCode, phoneNumber] = splitValue(props.value)
-    phoneNumberRef.current = phoneNumber
+    numberRef.current = phoneNumber
 
-    if (
-      !countryCodeRef.current ||
-      (countryCode && countryCode !== countryCodeRef.current)
-    ) {
+    if (lang !== langRef.current || !wasFilled.current) {
       countryCodeRef.current = countryCode || defaultCountryCode
-
-      dataRef.current = getCountryData({
-        lang,
-        filter: countryCodeRef.current,
-      })
-    }
-
-    if (lang !== langRef.current) {
       langRef.current = lang
-      dataRef.current = getCountryData({
-        lang,
-        filter: filterCountries,
-      })
+
+      updateCurrentDataSet()
     }
-  }, [props.value, lang, filterCountries])
+  }, [props.value, lang, updateCurrentDataSet])
 
   /**
    * On external value change, update the internal,
@@ -172,64 +192,66 @@ function PhoneNumber(props: Props) {
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
-      const countryCode = data?.selectedKey?.trim() || emptyValue
-      const phoneNumber = phoneNumberRef.current || emptyValue
-      countryCodeRef.current = countryCode
+      const countryCode = (countryCodeRef.current =
+        data?.selectedKey?.trim() || emptyValue)
 
-      /**
-       * To ensure, we actually call onChange every time,
-       * even if the value is undefined
-       */
-      updateValue('invalidate')
-
-      handleChange(
-        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
-        {
-          countryCode,
-          phoneNumber,
-        }
-      )
-
+      callOnChange({ countryCode })
       onCountryCodeChange?.(countryCode)
     },
-    [emptyValue, updateValue, handleChange, onCountryCodeChange]
+    [emptyValue, callOnChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
     (value: string) => {
-      const phoneNumber = value || emptyValue
-      const countryCode = omitCountryCodeField
-        ? emptyValue
-        : countryCodeRef.current || emptyValue
-      phoneNumberRef.current = phoneNumber || emptyValue
+      const phoneNumber = (numberRef.current = value || emptyValue)
 
-      handleChange(
-        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
-        omitCountryCodeField
-          ? { phoneNumber }
-          : { countryCode, phoneNumber }
-      )
-
+      callOnChange({ phoneNumber })
       onNumberChange?.(phoneNumber)
     },
-    [emptyValue, handleChange, onNumberChange, omitCountryCodeField]
+    [emptyValue, callOnChange, onNumberChange]
   )
 
   const onFocusHandler = useCallback(
     ({ updateData }) => {
-      if (dataRef.current.length < 10) {
-        dataRef.current = getCountryData({
-          lang,
-          filter: filterCountries,
-        })
+      if (!wasFilled.current) {
+        wasFilled.current = true
+        updateCurrentDataSet()
         updateData(dataRef.current)
       }
       handleFocus()
     },
-    [handleFocus, lang, filterCountries]
+    [handleFocus, updateCurrentDataSet]
   )
 
-  const isNorway = countryCodeRef.current.includes('47')
+  const onTypeHandler = useCallback(
+    ({ value, updateData, revalidateInputValue, event }) => {
+      // Handle browser autofill/autocomplete
+      if (typeof event?.nativeEvent?.data === 'undefined') {
+        const cdcVal = /\+\d{1,3}\s{1}\d+/.test(value)
+          ? splitValue(value)[0]
+          : value
+        const country = countries.find(({ cdc }) => cdc === cdcVal)
+        if (country?.cdc) {
+          const countryCode = (countryCodeRef.current = formattCountryCode(
+            country.cdc
+          ))
+
+          updateCurrentDataSet()
+          updateData(dataRef.current)
+          callOnChange({ countryCode })
+
+          // To ensure correct input value,
+          // regardless if there is changed data before or not.
+          window.requestAnimationFrame(() => {
+            revalidateInputValue()
+          })
+        }
+      }
+    },
+    [callOnChange, updateCurrentDataSet]
+  )
+
+  const isDefault = countryCodeRef.current.includes(defaultCountryCode)
 
   return (
     <FieldBlock
@@ -248,6 +270,7 @@ function PhoneNumber(props: Props) {
               'dnb-forms-field-phone-number__country-code',
               countryCodeFieldClassName
             )}
+            mode="async"
             placeholder={countryCodePlaceholder ?? ' '}
             label_direction="vertical"
             label={
@@ -260,9 +283,11 @@ function PhoneNumber(props: Props) {
             on_focus={onFocusHandler}
             on_blur={handleBlur}
             on_change={handleCountryCodeChange}
+            on_type={onTypeHandler}
             independent_width
             search_numbers
             keep_selection
+            autoComplete="tel-country-code"
             no_animation={props.noAnimation}
             stretch={width === 'stretch'}
           />
@@ -274,19 +299,20 @@ function PhoneNumber(props: Props) {
             numberFieldClassName
           )}
           type="tel"
+          autoComplete="tel-national"
           emptyValue=""
           layout="vertical"
           label={label ?? ' '}
           placeholder={
-            placeholder ?? (isNorway ? defaultPlaceholder : undefined)
+            placeholder ?? (isDefault ? defaultPlaceholder : undefined)
           }
           mask={
-            numberMask ?? (isNorway ? defaultMask : Array(12).fill(/\d/))
+            numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
           }
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleNumberChange}
-          value={phoneNumberRef.current}
+          value={numberRef.current}
           info={info}
           warning={warning}
           error={error}
@@ -307,30 +333,19 @@ function PhoneNumber(props: Props) {
 
 function makeObject(country: CountryType, lang: string) {
   return {
-    selectedKey: `+${country.cdc}`,
-    selected_value: `${country.iso} (+${country.cdc})`,
-    content: `+${country.cdc} ${country.i18n[lang] ?? country.i18n.en}`,
+    selectedKey: formattCountryCode(country.cdc),
+    selected_value: `${country.iso} (${formattCountryCode(country.cdc)})`,
+    search_content: Object.values(country.i18n).map(
+      (v) => `${formattCountryCode(country.cdc)} ${v}`
+    ),
+    content: `${formattCountryCode(country.cdc)} ${
+      country.i18n[lang] ?? country.i18n.en
+    }`,
   }
 }
 
-type GetCountryData = {
-  lang?: string
-  filter?: Props['filterCountries']
-}
-function getCountryData({
-  lang = 'en',
-  filter = null,
-}: GetCountryData = {}) {
-  return countries
-    .filter((country) => {
-      if (typeof filter === 'function') {
-        return filter(country)
-      }
-
-      return !filter || `+${country.cdc}` === filter
-    })
-    .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
-    .map((country) => makeObject(country, lang))
+function formattCountryCode(value: string) {
+  return `+${value}`
 }
 
 function splitValue(value: string) {
