@@ -14,6 +14,7 @@ function DateComponent(props: Props) {
     fromInput: ({ date }: { date: string }) => {
       return date
     },
+    emptyValue: null,
   }
 
   const {
