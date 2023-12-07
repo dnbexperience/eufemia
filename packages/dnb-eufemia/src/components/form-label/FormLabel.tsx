@@ -31,13 +31,11 @@ export type FormLabelProps = {
   size?: 'basis' | 'medium' | 'large'
   id?: string
   skeleton?: boolean
+  disabled?: boolean
   label?: React.ReactNode
   vertical?: boolean
   srOnly?: boolean
   innerRef?: React.RefObject<HTMLElement>
-
-  /** Is not a part of HTMLLabelElement and not documented as of now */
-  disabled?: boolean
 
   /** @deprecated use forId instead */
   for_id?: string

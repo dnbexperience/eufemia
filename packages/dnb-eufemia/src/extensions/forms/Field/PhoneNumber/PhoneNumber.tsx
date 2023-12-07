@@ -238,6 +238,7 @@ function PhoneNumber(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      disabled={disabled}
       {...pickSpacingProps(props)}
     >
       <Flex.Horizontal align="baseline">

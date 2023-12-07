@@ -31,6 +31,22 @@ describe('FieldBlock', () => {
     expect(element.classList).toContain('dnb-space__top--x-large')
   })
 
+  it('should support disabled prop', () => {
+    const { rerender } = render(
+      <FieldBlock label="Disabled label" disabled>
+        content
+      </FieldBlock>
+    )
+
+    const labelElement = () => document.querySelector('label')
+
+    expect(labelElement()).toHaveAttribute('disabled')
+
+    rerender(<FieldBlock label="Disabled label">content</FieldBlock>)
+
+    expect(labelElement()).not.toHaveAttribute('disabled')
+  })
+
   it('should support heading size prop', () => {
     const { rerender } = render(
       <FieldBlock label="Label" size="medium">

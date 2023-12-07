@@ -24,6 +24,20 @@ describe('Field.Number', () => {
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
     })
 
+    it('should support disabled prop', () => {
+      const { rerender } = render(
+        <Field.Number label="Disabled label" disabled />
+      )
+
+      const labelElement = () => document.querySelector('label')
+
+      expect(labelElement()).toHaveAttribute('disabled')
+
+      rerender(<Field.Number label="Disabled label" />)
+
+      expect(labelElement()).not.toHaveAttribute('disabled')
+    })
+
     it('renders autoComplete', () => {
       const { rerender } = render(
         <Field.Number autoComplete="postalCode" />
