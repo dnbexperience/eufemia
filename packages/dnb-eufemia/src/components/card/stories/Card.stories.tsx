@@ -56,7 +56,7 @@ const getFormFields = () => {
         valueOff="unchecked"
         label="Toggle"
       />
-      <Field.Expiry path="expiry" label="Expiry" />
+      <Field.Expiry path="/expiry" label="Expiry" />
     </>
   )
 
