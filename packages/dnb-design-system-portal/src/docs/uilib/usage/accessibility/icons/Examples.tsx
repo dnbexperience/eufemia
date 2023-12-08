@@ -6,7 +6,7 @@ import Beach from '../assets/beach'
 
 export const IconsDecorativeExample = () => (
   <ComponentBox scope={{ Beach }}>
-    <Icon icon={Beach} size="64" title="Beach" aria-hidden={true} />
+    <Icon icon={Beach} size="24" title="Beach" aria-hidden={true} />
   </ComponentBox>
 )
 
