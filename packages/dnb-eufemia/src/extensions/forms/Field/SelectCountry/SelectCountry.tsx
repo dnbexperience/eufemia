@@ -13,7 +13,7 @@ import FieldBlock from '../../FieldBlock'
 
 export type CountryFilterSet =
   | 'Scandinavia'
-  | 'NorthernNordic'
+  | 'Nordic'
   | 'Europe'
   | 'Prioritized'
 
@@ -253,7 +253,7 @@ export function makeCountryFilterSet(ccFilter: CountryFilterSet) {
   return (country: CountryType) => {
     switch (ccFilter) {
       case 'Scandinavia':
-      case 'NorthernNordic':
+      case 'Nordic':
         return country.regions?.includes(ccFilter)
       case 'Europe':
         return country.continent.includes(ccFilter)

@@ -33,7 +33,7 @@ describe('Field.SelectCountry', () => {
         nb: 'Norge',
       },
       iso: 'NO',
-      regions: ['Scandinavia', 'NorthernNordic'],
+      regions: ['Scandinavia', 'Nordic'],
     })
     expect(inputElement.value).toEqual('Norge')
 
@@ -48,7 +48,7 @@ describe('Field.SelectCountry', () => {
         nb: 'Danmark',
       },
       iso: 'DK',
-      regions: ['Scandinavia', 'NorthernNordic'],
+      regions: ['Scandinavia', 'Nordic'],
     })
     expect(inputElement.value).toEqual('Danmark')
   })
