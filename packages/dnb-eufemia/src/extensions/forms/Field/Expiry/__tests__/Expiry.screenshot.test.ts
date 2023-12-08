@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
+describe.each(['ui', 'sbanken'])('Expiry field for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/uilib/extensions/forms/feature-fields/Expiry',

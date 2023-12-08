@@ -237,6 +237,10 @@ function useEnableFieldset({
   nestedFieldBlockContext,
 }) {
   return useMemo(() => {
+    if (asFieldset === false) {
+      return false
+    }
+
     let result = asFieldset
 
     if (label && !result && !nestedFieldBlockContext) {

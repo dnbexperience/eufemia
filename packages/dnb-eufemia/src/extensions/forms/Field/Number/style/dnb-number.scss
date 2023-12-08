@@ -1,0 +1,176 @@
+@import '../../../../../style/core/utilities.scss';
+@import '../../style/field-sizes.scss';
+
+.dnb-forms-field-number {
+  --number-control-button-border-color: black;
+  --number-control-button-border-color--hover: darkgrey;
+  --number-control-button-border-color--focus: darkgrey;
+  --number-control-button-border-width--focus: 0.125rem;
+  --number-control-button-background-color--hover: grey;
+  --number-control-button-color--hover: black;
+  --number-control-button-background-color--active: black;
+  --number-control-button-color--active: lightgrey;
+  --number-control-button--error: red;
+  --number-control-button--error-contrast: white;
+  --number-control-button-width--small: 2rem;
+  --number-control-button-width--medium: 2.5rem;
+  --number-control-button-width--large: 3rem;
+  --forms-field-block--number-control-buttons-width--small: calc(
+    var(--number-control-button-width--small) * 2
+  );
+  --forms-field-block--number-control-buttons-width--medium: calc(
+    var(--number-control-button-width--medium) * 2
+  );
+  --forms-field-block--number-control-buttons-width--large: calc(
+    var(--number-control-button-width--large) * 2
+  );
+
+  &__contents {
+    display: flex;
+    align-items: center;
+
+    &--has-controls {
+      border-radius: 0.25rem;
+      @include fakeBorder(
+        var(--number-control-button-border-color),
+        0.0625rem
+      );
+      @include hover() {
+        @include fakeBorder(
+          var(--number-control-button-border-color),
+          0.125rem
+        );
+      }
+
+      &:focus-within {
+        html[data-whatinput='keyboard'] & {
+          @include fakeBorder(
+            var(--number-control-button-border-color--focus),
+            var(--number-control-button-border-width--focus)
+          );
+        }
+      }
+
+      .dnb-input {
+        &__shell {
+          border-radius: 0;
+          box-shadow: none;
+          @include hover() {
+            box-shadow: none;
+          }
+        }
+        &:not([data-input-state='disabled']):not(:active) {
+          // Focus
+          &[data-input-state='focus'] {
+            .dnb-input__shell {
+              @include removeFocusRing();
+            }
+          }
+        }
+      }
+
+      .dnb-button--control-before,
+      .dnb-button--control-after {
+        @include hover() {
+          background-color: var(
+            --number-control-button-background-color--hover
+          );
+          color: var(--number-control-button-color--hover);
+        }
+        @include active() {
+          background-color: var(
+            --number-control-button-background-color--active
+          );
+          color: var(--number-control-button-color--active);
+        }
+      }
+    }
+
+    &--has-controls#{&}--has-error {
+      @include fakeBorder(var(--number-control-button--error), 0.125rem);
+      @include hover() {
+        @include fakeBorder(var(--number-control-button--error), 0.125rem);
+      }
+
+      .dnb-input__status--error {
+        &:not([data-input-state='disabled']):not(:hover):not(:active) {
+          .dnb-input__shell {
+            box-shadow: none;
+          }
+        }
+      }
+
+      .dnb-button--control-before,
+      .dnb-button--control-after {
+        color: var(--number-control-button--error);
+        @include hover() {
+          background-color: var(--number-control-button--error-contrast);
+          color: var(--number-control-button--error);
+        }
+        @include active() {
+          background-color: var(--number-control-button--error);
+          color: var(--number-control-button--error-contrast);
+        }
+        &[disabled] {
+          color: var(--number-control-button--error-contrast);
+        }
+      }
+    }
+
+    &--has-controls#{&}--is-disabled {
+      @include fakeBorder(var(--color-black-55), 0.0625rem);
+      @include hover() {
+        @include fakeBorder(var(--color-black-55), 0.0625rem);
+      }
+
+      .dnb-input {
+        &[data-input-state='disabled'] {
+          .dnb-input__shell {
+            box-shadow: none;
+          }
+        }
+      }
+
+      .dnb-input[data-input-state='disabled'] & {
+        @include fakeBorder(var(--color-black-55), 0.0625rem);
+      }
+
+      .dnb-button--control-before[disabled],
+      .dnb-button--control-after[disabled] {
+        background-color: var(--color-black-3);
+        color: var(--color-black-20);
+      }
+    }
+
+    &--has-controls.dnb-forms-field-block__contents--width-small {
+      width: calc(
+        var(--forms-field-width--small) +
+          var(--forms-field-block--number-control-buttons-width--small)
+      );
+      .dnb-button--control-before,
+      .dnb-button--control-after {
+        width: var(--number-control-button-width--small);
+      }
+    }
+    &--has-controls.dnb-forms-field-block__contents--width-medium {
+      width: calc(
+        var(--forms-field-width--medium) +
+          var(--forms-field-block--number-control-buttons-width--medium)
+      );
+      .dnb-button--control-before,
+      .dnb-button--control-after {
+        width: var(--number-control-button-width--medium);
+      }
+    }
+    &--has-controls.dnb-forms-field-block__contents--width-large {
+      width: calc(
+        var(--forms-field-width--large) +
+          var(--forms-field-block--number-control-buttons-width--large)
+      );
+      .dnb-button--control-before,
+      .dnb-button--control-after {
+        width: var(--number-control-button-width--large);
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
-import { screen, render } from '@testing-library/react'
+import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
 
@@ -91,7 +91,7 @@ describe('Field.Number', () => {
 
     it('formats with percent', () => {
       render(<Field.Number value={12345} percent />)
-      expect(document.querySelector('input').value).toBe('12 345 %')
+      expect(document.querySelector('input')).toHaveValue('12 345 %')
     })
 
     it('formats with same decimal limit', () => {
@@ -101,7 +101,7 @@ describe('Field.Number', () => {
 
     it('formats with smaller decimal limit', () => {
       render(<Field.Number value={5876.789} decimalLimit={2} />)
-      expect(document.querySelector('input').value).toBe('5876,78')
+      expect(document.querySelector('input')).toHaveValue('5876,78')
     })
 
     it('formats with higher decimal limit', () => {
@@ -229,6 +229,135 @@ describe('Field.Number', () => {
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
+    })
+  })
+
+  describe('with step controls', () => {
+    it('renders with control buttons', () => {
+      render(<Field.Number showStepControls />)
+      const buttons = document.querySelectorAll('.dnb-button')
+      expect(buttons.length).toBe(2)
+    })
+
+    it('controls input value correctly using control buttons', () => {
+      render(<Field.Number showStepControls value={0} step={10} />)
+      const input = document.querySelector('input')
+      const [decreaseButton, increaseButton] = Array.from(
+        document.querySelectorAll('.dnb-button')
+      )
+
+      fireEvent.click(increaseButton)
+      expect(input).toHaveValue('10')
+
+      fireEvent.click(decreaseButton)
+      expect(input).toHaveValue('0')
+    })
+
+    it('controls input value correctly using arrow keys', async () => {
+      render(<Field.Number showStepControls value={0} step={10} />)
+
+      const input = document.querySelector('input')
+
+      act(() => {
+        input.focus()
+      })
+
+      await userEvent.keyboard('{ArrowUp}')
+
+      expect(input).toHaveValue('10')
+
+      await userEvent.keyboard('{ArrowDown}')
+
+      expect(input).toHaveValue('0')
+    })
+
+    it('respects input max/min props', () => {
+      render(
+        <Field.Number
+          showStepControls
+          value={1}
+          maximum={2}
+          minimum={0}
+          step={3}
+        />
+      )
+
+      const input = document.querySelector('input')
+      const [decreaseButton, increaseButton] = Array.from(
+        document.querySelectorAll('.dnb-button')
+      )
+
+      expect(increaseButton).not.toBeDisabled()
+      expect(decreaseButton).not.toBeDisabled()
+
+      fireEvent.click(increaseButton)
+      expect(input).toHaveValue('2')
+      expect(increaseButton).toBeDisabled()
+
+      fireEvent.click(increaseButton)
+      expect(input).toHaveValue('2')
+
+      fireEvent.click(decreaseButton)
+      expect(input).toHaveValue('0')
+      expect(increaseButton).not.toBeDisabled()
+      expect(decreaseButton).toBeDisabled()
+
+      fireEvent.click(decreaseButton)
+      expect(input).toHaveValue('0')
+    })
+
+    it('has correct accessibility props', () => {
+      const settings = {
+        showStepControls: true,
+        value: 10,
+        maximum: 20,
+        minimum: 0,
+        step: 5,
+      }
+      render(<Field.Number {...settings} />)
+
+      const input = document.querySelector('.dnb-input__input')
+      const [decreaseButton, increaseButton] = Array.from(
+        document.querySelectorAll('.dnb-button')
+      )
+
+      expect(input).toHaveAttribute('role', 'spinbutton')
+      expect(input).toHaveAttribute(
+        'aria-valuemin',
+        String(settings.minimum)
+      )
+      expect(input).toHaveAttribute(
+        'aria-valuemax',
+        String(settings.maximum)
+      )
+      expect(input).toHaveAttribute(
+        'aria-valuenow',
+        String(settings.value)
+      )
+      expect(input).toHaveAttribute(
+        'aria-valuetext',
+        String(settings.value)
+      )
+
+      expect(decreaseButton).toHaveAttribute('aria-hidden', 'true')
+      expect(increaseButton).toHaveAttribute('aria-hidden', 'true')
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.Number
+          label="Label"
+          showStepControls
+          value={5}
+          maximum={20}
+          minimum={10}
+          step={5}
+          required
+          validateInitially
+        />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
     })
   })
 
