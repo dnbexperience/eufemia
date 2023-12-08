@@ -1,8 +1,8 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListAdvancedAPIs() {
+export default function ListFeatureValueComponents() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -12,13 +12,18 @@ export default function ListAdvancedAPIs() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            componentType: { in: "advanced-api" }
+            componentType: { regex: "/feature/" }
           }
           internal: {
-            contentFilePath: { glob: "**/uilib/extensions/forms/**/*" }
+            contentFilePath: {
+              glob: "**/uilib/extensions/forms/extended-features/Value/**/*"
+            }
           }
         }
-        sort: [{ frontmatter: { title: ASC } }]
+        sort: [
+          { frontmatter: { order: ASC } }
+          { frontmatter: { title: ASC } }
+        ]
       ) {
         edges {
           node {

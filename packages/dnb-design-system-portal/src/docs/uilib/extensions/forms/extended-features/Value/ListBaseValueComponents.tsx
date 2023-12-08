@@ -16,7 +16,7 @@ export default function ListBaseValueComponents() {
           }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/create-component/Value/**/*"
+              glob: "**/uilib/extensions/forms/extended-features/Value/**/*"
             }
           }
         }

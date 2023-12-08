@@ -1,23 +1,23 @@
 ---
 title: 'DataContext'
 description: '`DataContext` interweaves your data-set with your form fields.'
-componentType: 'basis-api'
+componentType: 'advanced-api'
 hideInMenu: true
 showTabs: false
 breadcrumb:
   - text: Forms
     href: /uilib/extensions/forms/
-  - text: Create your component
-    href: /uilib/extensions/forms/create-component/
+  - text: Extended features
+    href: /uilib/extensions/forms/extended-features/
   - text: DataContext
-    href: /uilib/extensions/forms/create-component/DataContext/
+    href: /uilib/extensions/forms/extended-features/DataContext/
 ---
 
 import ListDataContextComponents from './DataContext/ListDataContextComponents'
 
 # DataContext
 
-The `DataContext` interweaves your data-set with your form fields.
+`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
 
 Example of using the `DataContext.Provider`:
 
@@ -27,7 +27,7 @@ Example of using the `DataContext.Provider`:
 </DataContext.Provider>
 ```
 
-Please use [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) for application forms.
+For a more complete feature set tailored to building forms, please use [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler). It uses DataContext internally.
 
 ## Components
 
@@ -35,7 +35,7 @@ Please use [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler
 
 ## More details
 
-If you don't want to repeat all the logic that drills down to values in the source data, and ensure that changes are sent to the right place, you can surround the components with a [DataContext.Provider](/uilib/extensions/forms/create-component/DataContext/Provider) component. This means that you feed the form with source data in one place, and give it only one `onChange` callback. Then you only send the individual fields instructions about where in the data set the value that field is to process is located. The components then communicate internally and ensure that the values are retrieved and sent to the correct location.
+If you don't want to repeat all the logic that drills down to values in the source data, and ensure that changes are sent to the right place, you can surround the components with a [DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider) component. This means that you feed the form with source data in one place, and give it only one `onChange` callback. Then you only send the individual fields instructions about where in the data set the value that field is to process is located. The components then communicate internally and ensure that the values are retrieved and sent to the correct location.
 
 The reference to a specific field's value in the dataset is given with a prop called `path`. Paths are defined in a syntax called JSON Pointer, which is basically a slash-separated string that can go several levels, and consist of both object-properties and array indexes. Examples of paths are: `/firstName`, `/nested/path/to/value` and `/list/2/keyInThirdObject`. More information about JSON Pointers can be found on [the website of JSON Schema](https://json-schema.org/draft/2020-12/relative-json-pointer.html).
 

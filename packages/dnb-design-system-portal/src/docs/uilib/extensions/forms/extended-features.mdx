@@ -1,14 +1,12 @@
 ---
 title: 'Extended features'
-order: 3
+order: 4
 breadcrumb:
   - text: Forms
     href: /uilib/extensions/forms/
   - text: Extended features
     href: /uilib/extensions/forms/extended-features/
 ---
-
-import ListAdvancedAPIs from './extended-features/ListAdvancedAPIs'
 
 # Extended features
 
@@ -35,6 +33,10 @@ render(
 
 `Forms.Handler` supports [JSON Schema](https://json-schema.org/) validation. JSON Schema is a flexible standard that makes it possible to describe the data's structure and validation needs, both for the individual value, and more complex rules across the data set. Descriptions and examples of such validation can be found [on a separate page](/uilib/extensions/forms/extended-features/Form/schema-validation).
 
+## [Data context](/uilib/extensions/forms/extended-features/DataContext/)
+
+`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
+
 ## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
 
 StepsLayout is a wrapper component for showing forms with a StepIndicator for navigation between several steps. It also includes components for navigating between steps.
@@ -52,6 +54,14 @@ render(
 )
 ```
 
-## Components
+## [Value](/uilib/extensions/forms/extended-features/Value/)
 
-<ListAdvancedAPIs />
+Value components are in practice like a field component whose value cannot be changed. They can be displayed with or without a label, and they format the value based on given rules. They can also connect to the surrounding [DataContext](/uilib/extensions/forms/extended-features/DataContext/).
+
+## [Iterate](/uilib/extensions/forms/extended-features/Iterate/)
+
+`Iterate` is components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.
+
+## [Visibility](/uilib/extensions/forms/extended-features/Visibility/)
+
+`Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.

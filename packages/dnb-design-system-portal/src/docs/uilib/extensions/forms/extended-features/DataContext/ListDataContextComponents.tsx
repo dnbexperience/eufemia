@@ -2,21 +2,17 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListFeatureValueComponents() {
+export default function ListDataContextComponents() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
     {
       allMdx(
         filter: {
-          frontmatter: {
-            title: { ne: null }
-            draft: { ne: true }
-            componentType: { regex: "/feature/" }
-          }
+          frontmatter: { title: { ne: null }, draft: { ne: true } }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/create-component/Value/**/*"
+              glob: "**/uilib/extensions/forms/extended-features/DataContext/**/*"
             }
           }
         }
