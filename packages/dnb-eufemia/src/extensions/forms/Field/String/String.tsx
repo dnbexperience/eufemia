@@ -48,18 +48,12 @@ function StringComponent(props: Props) {
   const errorMessages = useMemo(
     () => ({
       required: tr.inputErrorRequired,
-      minLength: tr.stringInputErrorMinLength.replace(
-        '{minLength}',
-        props.minLength?.toString()
-      ),
-      maxLength: tr.stringInputErrorMaxLength.replace(
-        '{maxLength}',
-        props.maxLength?.toString()
-      ),
+      minLength: tr.stringInputErrorMinLength,
+      maxLength: tr.stringInputErrorMaxLength,
       pattern: tr.inputErrorPattern,
       ...props.errorMessages,
     }),
-    [tr, props.errorMessages, props.minLength, props.maxLength]
+    [tr, props.errorMessages]
   )
   const schema = useMemo<JSONSchema7>(
     () =>

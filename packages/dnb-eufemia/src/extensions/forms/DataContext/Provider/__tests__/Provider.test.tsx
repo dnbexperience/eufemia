@@ -10,6 +10,9 @@ import userEvent from '@testing-library/user-event'
 import { Form, DataContext, Field } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String/String'
 import { JSONSchema7 } from 'json-schema'
+import nbNO from '../../../../../shared/locales/nb-NO'
+
+const nb = nbNO['nb-NO'].Forms
 
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially continuousValidation />
@@ -580,6 +583,30 @@ describe('DataContext.Provider', () => {
 
         expect(screen.getByText('Minimum 7 chars.')).toBeInTheDocument()
       })
+    })
+
+    it('should show default errorMessages based on outer schema validation with injected value', () => {
+      const schema: JSONSchema7 = {
+        type: 'object',
+        properties: {
+          val: {
+            type: 'string',
+            minLength: 486,
+          },
+        },
+      }
+
+      render(
+        <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
+          <TestField path="/val" />
+        </DataContext.Provider>
+      )
+
+      expect(
+        screen.getByText(
+          nb.stringInputErrorMinLength.replace('{minLength}', '486')
+        )
+      ).toBeInTheDocument()
     })
 
     it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
