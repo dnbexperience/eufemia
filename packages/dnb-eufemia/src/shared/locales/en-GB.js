@@ -191,9 +191,7 @@ export default {
       lastNameErrorRequired: 'You must enter a surname',
       nationalIdentityNumberLabel: 'National identity number (11 digits)',
       nationalIdentityNumberErrorRequired:
-        'You must enter a national identity number',
-      nationalIdentityNumberErrorPattern:
-        'This is not a valid national identity number',
+        'Invalid national identity number. Enter a valid 11-digit number.',
       organizationNumberLabel: 'Organization number',
       organizationNumberErrorRequired:
         'You must enter an organization number',

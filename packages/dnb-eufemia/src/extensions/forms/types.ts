@@ -180,7 +180,8 @@ export interface FieldProps<
   required?: boolean
   schema?: JSONSchema7
   validator?: (
-    value: Value | EmptyValue
+    value: Value | EmptyValue,
+    errorMessages?: ErrorMessages
   ) => Error | undefined | Promise<Error | undefined>
   onBlurValidator?: (
     value: Value | EmptyValue
