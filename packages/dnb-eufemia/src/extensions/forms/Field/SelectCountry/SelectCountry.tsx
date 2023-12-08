@@ -138,21 +138,21 @@ function SelectCountry(props: Props) {
     [fillData, handleFocus]
   )
 
-  const onBlurHandler = useCallback(
-    ({ value: currentValue }) => {
-      // In order to support browser autofill
-      if (!value) {
+  const onTypeHandler = useCallback(
+    ({ value: currentValue, setHidden, event }) => {
+      // Handle browser autofill/autocomplete
+      if (typeof event?.nativeEvent?.data === 'undefined') {
+        const search = currentValue.toLowerCase()
         const country = countries.find(({ i18n }) =>
-          Object.values(i18n).includes(currentValue)
+          Object.values(i18n).some((s) => s.toLowerCase().includes(search))
         )
         if (country?.iso) {
+          setHidden()
           handleChange(country.iso, country)
         }
       }
-
-      handleBlur()
     },
-    [value, handleChange, handleBlur]
+    [handleChange]
   )
 
   return (
@@ -174,11 +174,10 @@ function SelectCountry(props: Props) {
         disabled={disabled}
         on_show={fillData}
         on_focus={onFocusHandler}
-        on_blur={onBlurHandler}
+        on_blur={handleBlur}
         on_change={handleCountryChange}
-        independent_width
+        on_type={onTypeHandler}
         stretch
-        keep_selection
         show_submit_button
         suffix={
           help ? (
@@ -214,7 +213,6 @@ export function getCountryData({
     const content = country.i18n[lang] ?? country.i18n.en
     return {
       selectedKey: country.iso,
-      search_content: Object.values(country.i18n),
       content,
     }
   },

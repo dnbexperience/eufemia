@@ -22,6 +22,7 @@ describe('Field.SelectCountry', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
     expect(inputElement.value).toEqual('')
 
+    fireEvent.focus(inputElement)
     fireEvent.change(inputElement, { target: { value: 'Norg' } })
     fireEvent.click(firstItemElement())
 
@@ -37,7 +38,8 @@ describe('Field.SelectCountry', () => {
     })
     expect(inputElement.value).toEqual('Norge')
 
-    fireEvent.change(inputElement, { target: { value: 'Denm' } })
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, { target: { value: 'Dan' } })
     fireEvent.click(firstItemElement())
 
     expect(onChange).toHaveBeenLastCalledWith('DK', {
@@ -54,18 +56,38 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should select matching country on blur to support autofill', () => {
-    render(<SelectCountry />)
+    const onChange = jest.fn()
+
+    render(<SelectCountry onChange={onChange} />)
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
     )
+    const liElements = () =>
+      document.querySelectorAll('li:not([aria-hidden])')
+    const selectedItemElement = () =>
+      document.querySelector(
+        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+      )
 
-    fireEvent.change(inputElement, { target: { value: 'Denmark' } })
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
+      target: { value: 'sver' },
+      nativeEvent: undefined,
+    })
     fireEvent.blur(inputElement)
 
-    const liElements = document.querySelectorAll('li:not([aria-hidden])')
-    expect(liElements[0].textContent).toBe('Danmark')
-    expect(liElements[1].className).toContain('dnb-autocomplete__show-all')
+    expect(inputElement.value).toEqual('Sverige')
+    expect(liElements()).toHaveLength(2)
+    expect(selectedItemElement().textContent).toBe('Sverige')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith('SE', {
+      cdc: '46',
+      continent: 'Europe',
+      i18n: { en: 'Sweden', nb: 'Sverige' },
+      iso: 'SE',
+      regions: ['Scandinavia', 'Nordic'],
+    })
   })
 
   it('should change locale', () => {
