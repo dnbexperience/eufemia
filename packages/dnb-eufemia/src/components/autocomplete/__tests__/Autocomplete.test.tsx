@@ -356,9 +356,12 @@ describe('Autocomplete component', () => {
       />
     )
 
+    const inputElement = document.querySelector('.dnb-input__input')
+
     toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.focus(inputElement)
+    fireEvent.change(inputElement, {
       target: { value: 'bb' },
     })
 
@@ -372,7 +375,7 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe(mockData[1])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
 
@@ -386,7 +389,7 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe((content as string[]).join(''))
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'c' },
     })
 
@@ -399,7 +402,7 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe((content as string[]).join(''))
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
+    fireEvent.change(inputElement, {
       target: { value: 'invalid' },
     })
 
@@ -748,6 +751,7 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')
 
     // check "cc"
+    fireEvent.focus(inputElement)
     fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
@@ -1180,6 +1184,7 @@ describe('Autocomplete component', () => {
 
     expect(document.querySelector('input').value).toBe('')
 
+    fireEvent.focus(document.querySelector('input'))
     fireEvent.change(document.querySelector('input'), {
       target: { value: 'cc' },
     })
@@ -1204,6 +1209,7 @@ describe('Autocomplete component', () => {
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[1][0].data).toEqual(undefined)
 
+    fireEvent.focus(document.querySelector('input'))
     fireEvent.change(document.querySelector('input'), {
       target: { value: 'cc' },
     })

@@ -19,8 +19,15 @@ export type CountryType = {
     | 'Antarctica'
     | 'North America'
     | 'South America'
-  regions?: Array<'Scandinavia' | 'NorthernNordic' | 'AutonomousNordic'>
+  regions?: Array<'Scandinavia' | 'Nordic'>
 }
+
+export const prioritizedCountries = [
+  'Norway',
+  'Sweden',
+  'Denmark',
+  'Finland',
+]
 
 const countries: Array<CountryType> = [
   {
@@ -535,7 +542,7 @@ const countries: Array<CountryType> = [
     cdc: '45',
     iso: 'DK',
     continent: 'Europe',
-    regions: ['Scandinavia', 'NorthernNordic'],
+    regions: ['Scandinavia', 'Nordic'],
   },
   {
     i18n: {
@@ -662,7 +669,6 @@ const countries: Array<CountryType> = [
     cdc: '298',
     iso: 'FO',
     continent: 'Europe',
-    regions: ['AutonomousNordic'],
   },
   {
     i18n: {
@@ -681,7 +687,7 @@ const countries: Array<CountryType> = [
     cdc: '358',
     iso: 'FI',
     continent: 'Europe',
-    regions: ['NorthernNordic'],
+    regions: ['Nordic'],
   },
   {
     i18n: {
@@ -781,7 +787,6 @@ const countries: Array<CountryType> = [
     cdc: '299',
     iso: 'GL',
     continent: 'North America',
-    regions: ['AutonomousNordic'],
   },
   {
     i18n: {
@@ -899,7 +904,7 @@ const countries: Array<CountryType> = [
     cdc: '354',
     iso: 'IS',
     continent: 'Europe',
-    regions: ['NorthernNordic'],
+    regions: ['Nordic'],
   },
   {
     i18n: {
@@ -1476,7 +1481,7 @@ const countries: Array<CountryType> = [
     cdc: '47',
     iso: 'NO',
     continent: 'Europe',
-    regions: ['Scandinavia', 'NorthernNordic'],
+    regions: ['Scandinavia', 'Nordic'],
   },
   {
     i18n: {
@@ -1927,7 +1932,7 @@ const countries: Array<CountryType> = [
     cdc: '46',
     iso: 'SE',
     continent: 'Europe',
-    regions: ['Scandinavia', 'NorthernNordic'],
+    regions: ['Scandinavia', 'Nordic'],
   },
   {
     i18n: {

@@ -118,14 +118,6 @@
     display: none;
   }
 
-  // change the autocomplete appearance once filled out
-  &__input:autofill {
-    // set the border and the background
-    box-shadow:
-      0 0 0 var(--input-border-width) var(--input-border-color),
-      0 0 0 10em var(--input-background-color) inset;
-  }
-
   // change file type appearance on type="file"
   ::-webkit-file-upload-button {
     cursor: pointer;
@@ -172,6 +164,15 @@
   &__row {
     display: inline-flex;
     align-items: center; // Safari gets wired if we use "baseline"
+  }
+
+  // change the autocomplete appearance once filled out
+  &__input:autofill {
+    // set the border and the background
+    box-shadow:
+      0 0 0 var(--input-border-width) var(--input-border-color)
+        var(--autofill-inset, inset),
+      0 0 0 10em var(--input-background-color) inset;
   }
 
   &__suffix {
@@ -431,6 +432,7 @@
   &__icon {
     order: 0;
     position: absolute;
+    z-index: 2; // to ensure its still visible on autofill
     left: 1rem;
     right: auto;
 
@@ -465,6 +467,10 @@
 
   html[data-visual-test] &__input {
     caret-color: var(--color-white);
+  }
+
+  &[data-has-content='false'] &__input:focus:autofill {
+    --autofill-inset: none;
   }
 
   .dnb-responsive-component & {

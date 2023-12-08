@@ -480,6 +480,10 @@ class AutocompleteInstance extends React.PureComponent {
 
   setHidden = (args = null, onStateComplete = null) => {
     this.context.drawerList.setHidden(args, onStateComplete)
+    this.setState({
+      hasFocus: false,
+      hasBlur: false,
+    })
   }
 
   toggleVisible = (args = null, onStateComplete = null) => {
@@ -528,7 +532,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.setVisible(null, onStateComplete)
   }
 
-  onInputChangeHandler = ({ value, event }, options = {}) => {
+  onInputChangeHandler = ({ value, event }) => {
     this.setState({
       typedInputValue: value,
       inputValue: value,
@@ -543,7 +547,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     value = String(value).trim()
     if (value !== this.state.inputValue) {
-      this.runFilterWithSideEffects(value, options)
+      this.runFilterWithSideEffects(value)
     }
   }
 
@@ -558,9 +562,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (value && value.length > 0) {
       // show the "no_options" message
       if (count === 0) {
-        if (this.state.mode !== 'async') {
-          this.showNoOptionsItem()
-        }
+        this.showNoOptionsItem()
       } else if (count > 0) {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
         this.context.drawerList.setState({
@@ -588,8 +590,10 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     // Opens the drawer, also when pressing on the clear button
-    this.setVisible()
-    this.setAriaLiveUpdate()
+    if (this.state.hasFocus) {
+      this.setVisible()
+      this.setAriaLiveUpdate()
+    }
 
     return data
   }
@@ -722,6 +726,9 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   showNoOptionsItem = () => {
+    if (this.state.mode === 'async') {
+      return
+    }
     this.resetActiveItem()
     this.ignoreEvents()
     this.context.drawerList.setData([
@@ -1117,6 +1124,7 @@ class AutocompleteInstance extends React.PureComponent {
       clearInputValue: this.clearInputValue,
       showAllItems: this.showAllItems,
       setVisible: this.setVisible,
+      resetInputValue: this.resetInputValue,
       setHidden: this.setHidden,
       emptyData: this.emptyData,
       focusInput: this.focusInput,

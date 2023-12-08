@@ -22,7 +22,7 @@ export type Props = FieldHelpProps &
     omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
-    countries?: 'Scandinavia' | 'NorthernNordic' | 'Europe'
+    countries?: 'Scandinavia' | 'Nordic' | 'Europe'
 
     /**
      * For internal use only.
@@ -111,7 +111,7 @@ function PhoneNumber(props: Props) {
       ? (country) => {
           switch (ccFilter) {
             case 'Scandinavia':
-            case 'NorthernNordic':
+            case 'Nordic':
               return country.regions?.includes(ccFilter)
             default:
               return country.continent.includes(ccFilter)
