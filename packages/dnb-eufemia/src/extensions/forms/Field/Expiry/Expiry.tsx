@@ -86,12 +86,14 @@ function Expiry(props: ExpiryProps) {
                 : /[0-2]/,
             ],
             placeholderCharacter: placeholders['month'],
+            autoComplete: 'cc-exp-month',
           },
           {
             id: 'year',
             label: sharedContext?.translation.DatePicker['year'],
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
+            autoComplete: 'cc-exp-year',
           },
         ]}
         suffix={

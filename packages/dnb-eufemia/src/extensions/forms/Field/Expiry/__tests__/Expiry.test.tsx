@@ -31,6 +31,15 @@ describe('Field.Expiry', () => {
     expect(onChange).toHaveBeenLastCalledWith('1235')
   })
 
+  it('should have autofill attributes', () => {
+    render(<Field.Expiry />)
+
+    const [month, year] = Array.from(document.querySelectorAll('input'))
+
+    expect(month).toHaveAttribute('autocomplete', 'cc-exp-month')
+    expect(year).toHaveAttribute('autocomplete', 'cc-exp-year')
+  })
+
   describe('keydown', () => {
     beforeEach(() => {
       window.requestAnimationFrame = jest.fn((callback) => {
