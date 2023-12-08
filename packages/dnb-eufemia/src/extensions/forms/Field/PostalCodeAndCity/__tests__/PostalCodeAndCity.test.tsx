@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import PostalCodeAndCity, { Props } from '..'
-import { doc } from 'prettier'
 
 const props: Props = { postalCode: {}, city: {} }
 
