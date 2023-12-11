@@ -76,7 +76,7 @@ function SelectCountry(props: Props) {
     handleBlur,
     handleChange,
     forceUpdate,
-    filterCountries = ccFilter
+    filterCountries = ccFilter !== 'Prioritized'
       ? makeCountryFilterSet(ccFilter)
       : undefined,
   } = useDataValue(preparedProps)

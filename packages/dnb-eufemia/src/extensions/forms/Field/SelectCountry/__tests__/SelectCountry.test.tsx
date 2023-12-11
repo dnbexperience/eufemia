@@ -131,7 +131,7 @@ describe('Field.SelectCountry', () => {
     expect(selectedItemElement().textContent).toBe('Danmark')
   })
 
-  it('should filter countries list with given filterCountries', async () => {
+  it('should filter countries list with given filterCountries', () => {
     render(
       <SelectCountry
         filterCountries={({ regions }) => regions?.includes('Scandinavia')}
@@ -151,9 +151,9 @@ describe('Field.SelectCountry', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
-    expect(liElements[0].textContent).toBe('Danmark')
-    expect(liElements[1].textContent).toBe('Norge')
-    expect(liElements[2].textContent).toBe('Sverige')
+    expect(liElements[0].textContent).toBe('Norge')
+    expect(liElements[1].textContent).toBe('Sverige')
+    expect(liElements[2].textContent).toBe('Danmark')
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
