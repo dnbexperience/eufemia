@@ -43,6 +43,11 @@ export const ResponsiveAppearance = () => (
         medium: 'pistachio',
         large: 'pistachio',
       }}
+      dropShadow={{
+        small: false,
+        medium: true,
+        large: true,
+      }}
       innerSpace
     >
       <P space={0}>Responsive properties</P>
