@@ -279,7 +279,10 @@ export default function useDataValue<
       }
       // Validate by provided derivative validator
       if (validatorRef.current) {
-        const res = await validatorRef.current?.(valueRef.current)
+        const res = await validatorRef.current?.(
+          valueRef.current,
+          errorMessages
+        )
         if (res instanceof Error) {
           throw res
         }
@@ -296,6 +299,7 @@ export default function useDataValue<
   }, [
     emptyValue,
     required,
+    errorMessages,
     startProcess,
     persistErrorState,
     clearErrorState,

@@ -189,9 +189,7 @@ export default {
       lastNameErrorRequired: 'Du må fylle inn etternavn',
       nationalIdentityNumberLabel: 'Fødselsnummer (11 siffer)',
       nationalIdentityNumberErrorRequired:
-        'Du må fylle inn et fødselsnummer',
-      nationalIdentityNumberErrorPattern:
-        'Dette er ikke et gyldig fødselsnummer',
+        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
       organizationNumberLabel: 'Organisasjonsnummer',
       organizationNumberErrorRequired:
         'Du må fylle inn et organisasjonsnummer',
