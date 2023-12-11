@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import Expiry from '../Expiry'
+import { Field } from '../../../'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/Field/Expiry',
+  title: 'Eufemia/Extensions/Forms/Expiry',
 }
-export const ExpiryTest = () => {
+
+export const Expiry = () => {
   const [value, setValue] = useState<string>('')
   console.log(value)
 
@@ -12,5 +13,5 @@ export const ExpiryTest = () => {
     setValue(value)
   }
 
-  return <Expiry onChange={onChange} value={value} />
+  return <Field.Expiry onChange={onChange} value={value} />
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Field } from '../../..'
 
 export default {
-  title: 'Eufemia/Forms/PhoneNumber',
+  title: 'Eufemia/Extensions/Forms/PhoneNumber',
 }
 
 export function PhoneNumber() {
