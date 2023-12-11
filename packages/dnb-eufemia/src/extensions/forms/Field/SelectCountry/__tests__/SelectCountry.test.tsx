@@ -160,6 +160,29 @@ describe('Field.SelectCountry', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should by default sort prioritized countries on top', () => {
+    render(<SelectCountry />)
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // open
+    fireEvent.focus(inputElement)
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const liElements = document.querySelectorAll('li:not([aria-hidden])')
+    expect(liElements.length).toBeGreaterThan(200)
+    expect(liElements[0].textContent).toBe('Norge')
+    expect(liElements[1].textContent).toBe('Sverige')
+    expect(liElements[2].textContent).toBe('Danmark')
+    expect(liElements[3].textContent).toBe('Finland')
+    expect(liElements[4].textContent).toBe('Afghanistan')
+  })
+
   it('should show only Scandinavian countries', () => {
     render(<SelectCountry countries="Scandinavia" />)
 

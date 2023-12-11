@@ -64,7 +64,7 @@ function SelectCountry(props: Props) {
     placeholder = sharedContext?.translation.Forms
       .selectCountryPlaceholder,
     label = sharedContext?.translation.Forms.selectCountryLabel,
-    countries: ccFilter,
+    countries: ccFilter = 'Prioritized',
     info,
     warning,
     error,
