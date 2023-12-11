@@ -27,3 +27,16 @@ describe('Card', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Card', () => {
+  it('have to match border in small screen size', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 400,
+      },
+      url: '/uilib/components/card/demos',
+      selector: '[data-visual-test="layout-card-border"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
