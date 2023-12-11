@@ -75,6 +75,7 @@ function SelectCountry(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    updateValue,
     forceUpdate,
     filterCountries = ccFilter !== 'Prioritized'
       ? makeCountryFilterSet(ccFilter)
@@ -94,25 +95,35 @@ function SelectCountry(props: Props) {
    * We then update data set when value changes.
    */
   useMemo(() => {
-    if (lang !== langRef.current || !wasFilled.current) {
+    const isLangChange = lang !== langRef.current
+
+    if (isLangChange || !wasFilled.current) {
       langRef.current = lang
       dataRef.current = getCountryData({
         lang,
         filter: !wasFilled.current
-          ? (country) => country.iso === value
+          ? (country) => country.iso === props.value
           : filterCountries,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
+
+      // To force Autocomplete to re-evaluate the internal data
+      if (isLangChange && props.value && typeof window !== 'undefined') {
+        updateValue(null)
+        window.requestAnimationFrame(() => {
+          updateValue(props.value)
+        })
+      }
     }
-  }, [lang, filterCountries, ccFilter, value])
+  }, [lang, filterCountries, ccFilter, updateValue, props.value])
 
   const handleCountryChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
       const newValue = data?.selectedKey
-      handleChange(
-        newValue,
-        countries.find(({ iso }) => newValue === iso)
-      )
+      const country = countries.find(({ iso }) => newValue === iso)
+      if (country?.iso) {
+        handleChange(country.iso, country)
+      }
     },
     [handleChange]
   )
@@ -121,13 +132,13 @@ function SelectCountry(props: Props) {
     if (!wasFilled.current) {
       wasFilled.current = true
       dataRef.current = getCountryData({
-        lang,
+        lang: langRef.current,
         filter: filterCountries,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
       forceUpdate()
     }
-  }, [ccFilter, filterCountries, forceUpdate, lang])
+  }, [ccFilter, filterCountries, forceUpdate])
 
   const onFocusHandler = useCallback(
     ({ updateData }) => {

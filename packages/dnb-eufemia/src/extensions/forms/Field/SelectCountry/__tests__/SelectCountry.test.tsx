@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import SelectCountry, { Props } from '..'
 import { Provider } from '../../../../../shared'
 import { Form } from '../../..'
@@ -55,7 +55,7 @@ describe('Field.SelectCountry', () => {
     expect(inputElement.value).toEqual('Danmark')
   })
 
-  it('should select matching country on blur to support autofill', () => {
+  it('should select matching country on type change to support autofill', async () => {
     const onChange = jest.fn()
 
     render(<SelectCountry onChange={onChange} />)
@@ -75,7 +75,6 @@ describe('Field.SelectCountry', () => {
       target: { value: 'sver' },
       nativeEvent: undefined,
     })
-    fireEvent.blur(inputElement)
 
     expect(inputElement.value).toEqual('Sverige')
     expect(liElements()).toHaveLength(2)
@@ -88,47 +87,6 @@ describe('Field.SelectCountry', () => {
       iso: 'SE',
       regions: ['Scandinavia', 'Nordic'],
     })
-  })
-
-  it('should change locale', () => {
-    const { rerender } = render(
-      <Provider>
-        <SelectCountry value="NO" />
-      </Provider>
-    )
-
-    const inputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
-    )
-
-    fireEvent.mouseDown(inputElement)
-
-    const selectedItemElement = () =>
-      document.querySelector(
-        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
-      )
-
-    expect(selectedItemElement().textContent).toBe('Norge')
-
-    rerender(
-      <Provider locale="en-GB">
-        <SelectCountry value="NO" />
-      </Provider>
-    )
-
-    fireEvent.mouseDown(inputElement)
-
-    expect(selectedItemElement().textContent).toBe('Norway')
-
-    rerender(
-      <Provider locale="nb-NO">
-        <SelectCountry value="DK" />
-      </Provider>
-    )
-
-    fireEvent.mouseDown(inputElement)
-
-    expect(selectedItemElement().textContent).toBe('Danmark')
   })
 
   it('should filter countries list with given filterCountries', () => {
@@ -260,5 +218,51 @@ describe('Field.SelectCountry', () => {
     expect(
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
+  })
+
+  it('should change locale', async () => {
+    const { rerender } = render(
+      <Provider>
+        <SelectCountry value="NO" />
+      </Provider>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    fireEvent.mouseDown(inputElement)
+
+    const selectedItemElement = () =>
+      document.querySelector(
+        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+      )
+
+    expect(inputElement.value).toBe('Norge')
+    expect(selectedItemElement().textContent).toBe('Norge')
+
+    rerender(
+      <Provider locale="en-GB">
+        <SelectCountry value="NO" />
+      </Provider>
+    )
+
+    fireEvent.mouseDown(inputElement)
+
+    await waitFor(() => {
+      expect(inputElement.value).toBe('Norway')
+      expect(selectedItemElement().textContent).toBe('Norway')
+    })
+
+    rerender(
+      <Provider locale="nb-NO">
+        <SelectCountry value="DK" />
+      </Provider>
+    )
+
+    fireEvent.mouseDown(inputElement)
+
+    expect(inputElement.value).toBe('Danmark')
+    expect(selectedItemElement().textContent).toBe('Danmark')
   })
 })
