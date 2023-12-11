@@ -2,7 +2,7 @@ import React from 'react'
 import { Field } from '../../..'
 
 export default {
-  title: 'Eufemia/Forms/SelectCountry',
+  title: 'Eufemia/Extensions/Forms/SelectCountry',
 }
 
 export function SelectCountry() {
