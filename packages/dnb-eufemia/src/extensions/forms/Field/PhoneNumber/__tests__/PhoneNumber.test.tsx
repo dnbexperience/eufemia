@@ -4,6 +4,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PhoneNumber from '..'
 import { Provider } from '../../../../../shared'
+import { Form } from '../../..'
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -450,6 +451,41 @@ describe('Field.PhoneNumber', () => {
     ])
   })
 
+  it('should support country code autofill', async () => {
+    const onChange = jest.fn()
+
+    render(<PhoneNumber onChange={onChange} />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    fireEvent.change(phoneElement, {
+      target: { value: '999', nativeEvent: undefined },
+    })
+    fireEvent.change(codeElement, {
+      target: { value: '41', nativeEvent: undefined },
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenNthCalledWith(1, '+47 999', {
+      countryCode: '+47',
+      phoneNumber: '999',
+    })
+    expect(onChange).toHaveBeenNthCalledWith(2, '+41 999', {
+      countryCode: '+41',
+      phoneNumber: '999',
+    })
+
+    // Because of requestAnimationFrame
+    await wait(2)
+
+    expect(codeElement.value).toBe('CH (+41)')
+  })
+
   it('should require one number', async () => {
     render(<PhoneNumber required />)
 
@@ -567,6 +603,29 @@ describe('Field.PhoneNumber', () => {
     ).toBe('+47 Norge')
   })
 
+  it('should sort prioritized countries on top', () => {
+    render(<PhoneNumber countries="Prioritized" />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    // open
+    fireEvent.focus(codeElement)
+    fireEvent.keyDown(codeElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const liElements = document.querySelectorAll('li:not([aria-hidden])')
+    expect(liElements.length).toBeGreaterThan(200)
+    expect(liElements[0].textContent).toContain('Norge')
+    expect(liElements[1].textContent).toContain('Sverige')
+    expect(liElements[2].textContent).toContain('Danmark')
+    expect(liElements[3].textContent).toContain('Finland')
+    expect(liElements[4].textContent).toContain('Afghanistan')
+  })
+
   it('should omit country code implementation with omitCountryCodeField', async () => {
     const onChange = jest.fn()
 
@@ -620,5 +679,38 @@ describe('Field.PhoneNumber', () => {
         'countryCode'
       )
     ).toBeFalsy()
+  })
+
+  it('should validate when required', () => {
+    render(
+      <Form.Handler>
+        <PhoneNumber required />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-submit-button'
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(buttonElement)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+  })
+
+  it('should execute validateInitially if required', () => {
+    const { rerender } = render(<PhoneNumber required validateInitially />)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    rerender(<PhoneNumber validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
   })
 })
