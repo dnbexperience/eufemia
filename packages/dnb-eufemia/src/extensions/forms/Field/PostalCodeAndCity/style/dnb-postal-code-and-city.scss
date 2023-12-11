@@ -7,6 +7,12 @@
 
   &__postal-code {
     flex: 0 5rem;
+
+    // Sets the input to be a width of 5rem when cities field is omitted.
+    // Done this way because setting the width prop to medium makes the input to wide, and small does not have enough space for help other content, like the help button.
+    &--omit-cities .dnb-input__shell {
+      width: 5rem;
+    }
   }
 
   &__city {

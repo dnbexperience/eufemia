@@ -43,6 +43,8 @@ function PostalCodeAndCity(props: Props) {
           pattern={postalCode.pattern ?? '^[0-9]{4}$'}
           className={classnames(
             'dnb-forms-field-postal-code-and-city__postal-code',
+            omitCityField &&
+              'dnb-forms-field-postal-code-and-city__postal-code--omit-cities',
             postalCode.className
           )}
           label={
