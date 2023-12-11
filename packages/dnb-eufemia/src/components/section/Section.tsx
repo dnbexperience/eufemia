@@ -57,6 +57,7 @@ export type SectionSpacing =
 export type TextColor = string
 export type OutlineColor = string | boolean
 export type BackgroundColor = string
+export type DropShadow = boolean
 
 export type SectionProps = {
   /**
@@ -88,6 +89,11 @@ export type SectionProps = {
    * Define a custom background color, instead of a variant. Use a Eufemia color.
    */
   backgroundColor?: BackgroundColor | ResponsiveProp<BackgroundColor>
+
+  /**
+   * Define a custom drop-shadow.
+   */
+  dropShadow?: DropShadow | ResponsiveProp<DropShadow>
 
   /**
    * Define what HTML element should be used. Defaults to `<section>`.
@@ -137,6 +143,7 @@ export default function Section(localProps: SectionAllProps) {
     roundedCorner,
     textColor,
     backgroundColor,
+    dropShadow,
     outline,
     innerRef,
 
@@ -179,6 +186,11 @@ export default function Section(localProps: SectionAllProps) {
     ...computeStyle(textColor, 'text-color', (value) => getColor(value)),
     ...computeStyle(backgroundColor, 'background-color', (value) =>
       getColor(value)
+    ),
+    ...computeStyle(
+      dropShadow,
+      'drop-shadow',
+      (value) => value && 'var(--shadow-default)'
     ),
     ...computeStyle(outline, 'outline-color', (value) =>
       String(value) === 'true'
