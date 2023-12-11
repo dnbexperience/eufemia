@@ -17,7 +17,7 @@ export function withSnakeCaseProps<TBase, P>(
   const Component: React.ComponentType = Base
 
   const Derived = (props: P) => {
-    return <Component {...Object.freeze(convertSnakeCaseProps(props))} />
+    return <Component {...convertSnakeCaseProps(props)} />
   }
 
   Object.defineProperty(Derived, 'name', {
@@ -63,9 +63,7 @@ export function classWithSnakeCaseProps<
         this._prevProps = this.props
         this._elem = (
           // @ts-ignore
-          <Component
-            {...Object.freeze(convertSnakeCaseProps(this.props))}
-          />
+          <Component {...convertSnakeCaseProps(this.props)} />
         )
       }
 
@@ -85,7 +83,8 @@ export function classWithSnakeCaseProps<
 }
 
 export function convertSnakeCaseProps<P>(props: P) {
-  const newProps = { ...props }
+  const isFrozen = Object.isFrozen(props)
+  const newProps = isFrozen ? { ...props } : props
 
   for (const key in props) {
     if (key.includes('_') && /^[a-z]+/.test(key) && !/[A-Z]/.test(key)) {
@@ -94,7 +93,7 @@ export function convertSnakeCaseProps<P>(props: P) {
     }
   }
 
-  return newProps
+  return isFrozen ? Object.freeze(newProps) : newProps
 }
 
 /**

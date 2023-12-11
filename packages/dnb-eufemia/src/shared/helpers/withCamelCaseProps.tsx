@@ -17,7 +17,7 @@ export function withCamelCaseProps<TBase, P>(
   const Component: React.ComponentType = Base
 
   const Derived = (props: P) => {
-    return <Component {...Object.freeze(convertCamelCaseProps(props))} />
+    return <Component {...convertCamelCaseProps(props)} />
   }
 
   Object.defineProperty(Derived, 'name', {
@@ -63,9 +63,7 @@ export function classWithCamelCaseProps<
         this._prevProps = this.props
         this._elem = (
           // @ts-ignore
-          <Component
-            {...Object.freeze(convertCamelCaseProps(this.props))}
-          />
+          <Component {...convertCamelCaseProps(this.props)} />
         )
       }
 
@@ -84,8 +82,9 @@ export function classWithCamelCaseProps<
   return Derived
 }
 
-function convertCamelCaseProps<P>(props: P) {
-  const newProps = { ...props }
+export function convertCamelCaseProps<P>(props: P) {
+  const isFrozen = Object.isFrozen(props)
+  const newProps = isFrozen ? { ...props } : props
 
   for (const key in props) {
     switch (key) {
@@ -100,7 +99,7 @@ function convertCamelCaseProps<P>(props: P) {
     }
   }
 
-  return newProps
+  return isFrozen ? Object.freeze(newProps) : newProps
 }
 
 /**
