@@ -112,7 +112,7 @@ function PhoneNumber(props: Props) {
     updateValue,
     onCountryCodeChange,
     onNumberChange,
-    filterCountries = ccFilter
+    filterCountries = ccFilter !== 'Prioritized'
       ? makeCountryFilterSet(ccFilter)
       : undefined,
   } = useDataValue(preparedProps)

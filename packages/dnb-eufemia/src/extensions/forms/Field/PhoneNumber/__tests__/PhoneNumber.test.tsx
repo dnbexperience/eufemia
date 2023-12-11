@@ -567,9 +567,9 @@ describe('Field.PhoneNumber', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
-    expect(liElements[0].textContent).toBe('+45 Danmark')
-    expect(liElements[1].textContent).toBe('+47 Norge')
-    expect(liElements[2].textContent).toBe('+46 Sverige')
+    expect(liElements[0].textContent).toBe('+47 Norge')
+    expect(liElements[1].textContent).toBe('+46 Sverige')
+    expect(liElements[2].textContent).toBe('+45 Danmark')
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
