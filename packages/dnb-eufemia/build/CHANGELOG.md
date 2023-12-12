@@ -3,6 +3,63 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.15.0](https://github.com/dnbexperience/eufemia/compare/v10.14.0...v10.15.0) (2023-12-12)
+
+
+### :memo: Documentation
+
+* **Card:** adds horizontal fields example ([#2907](https://github.com/dnbexperience/eufemia/issues/2907)) ([661db7a](https://github.com/dnbexperience/eufemia/commit/661db7a5583ab0add0a67625bec152a2eec4afec))
+* **FAQ:** change version of yarn to v4 ([#2944](https://github.com/dnbexperience/eufemia/issues/2944)) ([5151fd9](https://github.com/dnbexperience/eufemia/commit/5151fd99acb839e40bda586542971d7804871bdf))
+* **FAQ:** removes stylelint as dependency issue ([#2943](https://github.com/dnbexperience/eufemia/issues/2943)) ([64ffd13](https://github.com/dnbexperience/eufemia/commit/64ffd13ea3809c7d1676d6eae2c378b567c9c914))
+* **Field.SelectCountry:** select component -> selection component ([#3003](https://github.com/dnbexperience/eufemia/issues/3003)) ([b098c6b](https://github.com/dnbexperience/eufemia/commit/b098c6bf7d597981d4a5b19b61109ae7b6819a5d))
+* **FormLabel:** document disabled property ([#3004](https://github.com/dnbexperience/eufemia/issues/3004)) ([d276bf6](https://github.com/dnbexperience/eufemia/commit/d276bf6d262e5aca093ca191d13c4aaafece9fba))
+* **Layout:** fix import of ux-layout-spacing.png ([#2921](https://github.com/dnbexperience/eufemia/issues/2921)) ([910bcb4](https://github.com/dnbexperience/eufemia/commit/910bcb498b24e06d15373dea1e6238dfcf8156dd))
+* **Number:** add info about when to use and not to use ([#2955](https://github.com/dnbexperience/eufemia/issues/2955)) ([55b3447](https://github.com/dnbexperience/eufemia/commit/55b34479083c206aea1de4322b32a8350fd2f5c1))
+* **SelectCountry:** replace bar as value in examples ([#2990](https://github.com/dnbexperience/eufemia/issues/2990)) ([8fd9f0e](https://github.com/dnbexperience/eufemia/commit/8fd9f0e83362ef4f1c9cebc96b5c2b039f7e0077))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** enhance reactivity by value change from outside ([#2922](https://github.com/dnbexperience/eufemia/issues/2922)) ([e4fd9f9](https://github.com/dnbexperience/eufemia/commit/e4fd9f964d3a598e873be1b484aa1dba124cd324))
+* **Card:** add support for small screen sizes ([#3051](https://github.com/dnbexperience/eufemia/issues/3051)) ([62daa1a](https://github.com/dnbexperience/eufemia/commit/62daa1a7b21ecbd687f4e61a4130b7796824f522))
+* **DatePicker:** renders mask_placeholder from locale w/o provider ([#2947](https://github.com/dnbexperience/eufemia/issues/2947)) ([b522bd7](https://github.com/dnbexperience/eufemia/commit/b522bd768eb6cde1450a0b1138fbf27c605c1811))
+* **Dropdown:** error message when passing a function to innerRef ([#2932](https://github.com/dnbexperience/eufemia/issues/2932)) ([c362a4a](https://github.com/dnbexperience/eufemia/commit/c362a4a32002f3e8ebfeb86ed1b5b3bda10ad163))
+* **Expiry:** correct class placement and CSS specificity issue ([#2915](https://github.com/dnbexperience/eufemia/issues/2915)) ([ae1154d](https://github.com/dnbexperience/eufemia/commit/ae1154dca1e8c779a6b209fbe18851dbf713122c)), closes [#2914](https://github.com/dnbexperience/eufemia/issues/2914)
+* **FieldBlock:** fix support for stretch alignment ([#2913](https://github.com/dnbexperience/eufemia/issues/2913)) ([2fdbd4b](https://github.com/dnbexperience/eufemia/commit/2fdbd4b6706c369895a537cc4ef5af96c46287a3)), closes [#2907](https://github.com/dnbexperience/eufemia/issues/2907)
+* **FormLabel:** don't apply margin-right when no content was given ([#2927](https://github.com/dnbexperience/eufemia/issues/2927)) ([057f957](https://github.com/dnbexperience/eufemia/commit/057f957f9b7bdabdd19c1476d7020f6a5473c158))
+* **forms:** Fix bug on replacing error message values ([#2971](https://github.com/dnbexperience/eufemia/issues/2971)) ([b24ddb5](https://github.com/dnbexperience/eufemia/commit/b24ddb51e5b85f3f43b26a0b9f08fd5620746061))
+* **forms:** Fix data context provider path and error state handling ([#2926](https://github.com/dnbexperience/eufemia/issues/2926)) ([01a01f4](https://github.com/dnbexperience/eufemia/commit/01a01f41c2f6bf76c48fff3de3c3e8c6ff1feb2f))
+* **GlobalStatus:** remove z-index to enhance flexibility ([#2952](https://github.com/dnbexperience/eufemia/issues/2952)) ([13a9d6e](https://github.com/dnbexperience/eufemia/commit/13a9d6e8ecfc29309285bfcabce1d0d0d484d034)), closes [/github.com/dnbexperience/eufemia/commit/1fb638b12df290533e6a89e7f8135a7e23c0797e#diff-4d582f82c1661d8de20042e6e65250a4d2710c2b31f8955fcd6eda14097a0b4](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/commit/1fb638b12df290533e6a89e7f8135a7e23c0797e/issues/diff-4d582f82c1661d8de20042e6e65250a4d2710c2b31f8955fcd6eda14097a0b4)
+* **Hr:** remove overflow causing a scrollbar ([#2945](https://github.com/dnbexperience/eufemia/issues/2945)) ([dc989ff](https://github.com/dnbexperience/eufemia/commit/dc989ff5dda412a3feee961e264d752817536ca2))
+* **PhoneNumber:** ensure correct alignment on smaller screens ([#2957](https://github.com/dnbexperience/eufemia/issues/2957)) ([ae9913b](https://github.com/dnbexperience/eufemia/commit/ae9913b65c51c8390400f056a1805d831cb4a20b))
+* **PhoneNumber:** return country code only when a number is given ([#2920](https://github.com/dnbexperience/eufemia/issues/2920)) ([5b1a9b0](https://github.com/dnbexperience/eufemia/commit/5b1a9b05341e93f6bb7e90c3d8c6d9c5accc47e1)), closes [#2922](https://github.com/dnbexperience/eufemia/issues/2922) [#2923](https://github.com/dnbexperience/eufemia/issues/2923)
+* **RadioGroup:** omit rendering label when not given ([#2928](https://github.com/dnbexperience/eufemia/issues/2928)) ([693f9d4](https://github.com/dnbexperience/eufemia/commit/693f9d4b70a053536cbd190ce0095c4306f9ce91))
+* **Selection:** correctly link id with label ([#2911](https://github.com/dnbexperience/eufemia/issues/2911)) ([71ad30d](https://github.com/dnbexperience/eufemia/commit/71ad30d4b0eba89194c61548070fe9f654933bcc)), closes [#2842](https://github.com/dnbexperience/eufemia/issues/2842)
+* **ToggleButtonGroup:** omit rendering label when not given ([#2929](https://github.com/dnbexperience/eufemia/issues/2929)) ([26f683e](https://github.com/dnbexperience/eufemia/commit/26f683edc4f940b29f09c3d8f456a8d282afd127))
+
+
+### :sparkles: Features
+
+* **Accordion:** new filled variant + style refactoring ([#2896](https://github.com/dnbexperience/eufemia/issues/2896)) ([a4c1fb0](https://github.com/dnbexperience/eufemia/commit/a4c1fb01389455e8d33a1f7b5adfb2f51de4220a))
+* add support for functional refs to various form components ([#2946](https://github.com/dnbexperience/eufemia/issues/2946)) ([cecad75](https://github.com/dnbexperience/eufemia/commit/cecad758321cd6c76b4b16d83fbe09f36183be68))
+* **Breadcrumb:** correct gap between items and fix overlapping focus ring ([#2917](https://github.com/dnbexperience/eufemia/issues/2917)) ([6252458](https://github.com/dnbexperience/eufemia/commit/6252458e6696b2f74fef4cc81f86ed827c34b1cd))
+* **Button, Anchor:** fix launch icon for _blank button links ([#2930](https://github.com/dnbexperience/eufemia/issues/2930)) ([37a65dc](https://github.com/dnbexperience/eufemia/commit/37a65dc8306a3bb72e01c134fd44a5a25d641815))
+* **Checkbox:** Sbanken styling ([#2904](https://github.com/dnbexperience/eufemia/issues/2904)) ([b2dbd44](https://github.com/dnbexperience/eufemia/commit/b2dbd44a051e056a40f211b0f4918d6c51948a87)), closes [#2888](https://github.com/dnbexperience/eufemia/issues/2888)
+* **Currency:** add automatic locale and alignment support ([#2956](https://github.com/dnbexperience/eufemia/issues/2956)) ([3c64d4d](https://github.com/dnbexperience/eufemia/commit/3c64d4d147d5df9f4f9dbaa3523e8257cc54baeb))
+* **forms:** include styles by default ([#2918](https://github.com/dnbexperience/eufemia/issues/2918)) ([e2f4c1e](https://github.com/dnbexperience/eufemia/commit/e2f4c1e82748a0d5f11aca3941d2da7b0e301950))
+* **MultiInputMask:** Add stretch property ([#2914](https://github.com/dnbexperience/eufemia/issues/2914)) ([706beb3](https://github.com/dnbexperience/eufemia/commit/706beb3d477af31fcd11b6d9dda489925387836e))
+* **PaymentCard:** adds card_status unknown ([#2934](https://github.com/dnbexperience/eufemia/issues/2934)) ([a36ffa7](https://github.com/dnbexperience/eufemia/commit/a36ffa719eb529abd80c22ab79cfa43df79f9d0b))
+* **PhoneNumber:** add `pattern` property ([#2962](https://github.com/dnbexperience/eufemia/issues/2962)) ([86cb6e0](https://github.com/dnbexperience/eufemia/commit/86cb6e04db44dd9baea3fd62cb331ab99f7c2706))
+* **PhoneNumber:** add filter for showing e.g. only Scandinavia countries ([#2959](https://github.com/dnbexperience/eufemia/issues/2959)) ([995c43d](https://github.com/dnbexperience/eufemia/commit/995c43d997de8496e391bed968d0ea7c7f38467c))
+* **PhoneNumber:** add prioritized sort option ([#3034](https://github.com/dnbexperience/eufemia/issues/3034)) ([5fe0e41](https://github.com/dnbexperience/eufemia/commit/5fe0e41568d444df9bbb97bf41cf17a76e760331)), closes [#3023](https://github.com/dnbexperience/eufemia/issues/3023)
+* **PhoneNumber:** add property `omitCountryCodeField` ([#2961](https://github.com/dnbexperience/eufemia/issues/2961)) ([4a3c7e2](https://github.com/dnbexperience/eufemia/commit/4a3c7e25d0b94e09bf2fbc8d66092145a6ef96fd))
+* **PhoneNumber:** remove structure and format when number is not +47 ([#2958](https://github.com/dnbexperience/eufemia/issues/2958)) ([56e2f08](https://github.com/dnbexperience/eufemia/commit/56e2f084de2fceb91d1b36915c6f2b44863a0e11))
+* **Section:** add dropShadow support ([#3053](https://github.com/dnbexperience/eufemia/issues/3053)) ([040a92b](https://github.com/dnbexperience/eufemia/commit/040a92be43b10ca5bf137a4542b28df795fe2d52))
+* **SelectCountry:** use autocomplete instead of dropdown ([#3023](https://github.com/dnbexperience/eufemia/issues/3023)) ([0f2990c](https://github.com/dnbexperience/eufemia/commit/0f2990c90412b02be40246bc8aa7ca29b31f2a46)), closes [#2993](https://github.com/dnbexperience/eufemia/issues/2993)
+* **Switch:** Sbanken styling ([#2939](https://github.com/dnbexperience/eufemia/issues/2939)) ([46c5506](https://github.com/dnbexperience/eufemia/commit/46c55066aed42b3073f095d7392b056a4a3b6681))
+* **ToggleButton:** Sbanken styling ([#2936](https://github.com/dnbexperience/eufemia/issues/2936)) ([5370376](https://github.com/dnbexperience/eufemia/commit/53703768972db3fcf44a9c62c160a7235866c0ad)), closes [#2931](https://github.com/dnbexperience/eufemia/issues/2931) [#2904](https://github.com/dnbexperience/eufemia/issues/2904) [#2888](https://github.com/dnbexperience/eufemia/issues/2888)
+* Updated Sbanken theming + improved screenshot test coverage for Radio+Checkbox ([#2931](https://github.com/dnbexperience/eufemia/issues/2931)) ([e42c81e](https://github.com/dnbexperience/eufemia/commit/e42c81e8e15f42ee410ea208d4c9ee3d7a0083dc))
+
 ## [10.14.0](https://github.com/dnbexperience/eufemia/compare/v10.13.0...v10.14.0) (2023-11-16)
 
 
