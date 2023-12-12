@@ -38,6 +38,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
   position: absolute;
   inset: 0;
   box-shadow: var(--drop-shadow, none);
+  border-radius: var(--rounded-corner, 0);
 }
 .dnb-section::after {
   content: "";
