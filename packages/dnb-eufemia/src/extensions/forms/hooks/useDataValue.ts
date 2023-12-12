@@ -38,7 +38,7 @@ export default function useDataValue<
 >(props: Props): Props & ReturnAdditional<Value> {
   const {
     path,
-    elementPath,
+    itemPath,
     emptyValue,
     required,
     error: errorProp,
@@ -102,14 +102,14 @@ export default function useDataValue<
       'Invalid path. Data value path JSON Pointers must be from root (starting with a /).'
     )
   }
-  if (elementPath && elementPath.substring(0, 1) !== '/') {
+  if (itemPath && itemPath.substring(0, 1) !== '/') {
     throw new Error(
-      'Invalid elementPath. Element pathJSON Pointers must be from root of iterate element (starting with a /).'
+      'Invalid itemPath. Item pathJSON Pointers must be from root of iterate element (starting with a /).'
     )
   }
-  if (elementPath && !iterateElementContext) {
+  if (itemPath && !iterateElementContext) {
     throw new Error(
-      'elementPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
+      'itemPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
     )
   }
 
@@ -124,14 +124,14 @@ export default function useDataValue<
       return transformers.current.fromExternal(props.value)
     }
 
-    if (inIterate && elementPath) {
+    if (inIterate && itemPath) {
       // This field is inside an iterate, and has a pointer from the base of the element being iterated
-      if (elementPath === '/') {
+      if (itemPath === '/') {
         return iterateElementValue
       }
 
-      return pointer.has(iterateElementValue, elementPath)
-        ? pointer.get(iterateElementValue, elementPath)
+      return pointer.has(iterateElementValue, itemPath)
+        ? pointer.get(iterateElementValue, itemPath)
         : undefined
     }
 
@@ -149,7 +149,7 @@ export default function useDataValue<
   }, [
     props.value,
     inIterate,
-    elementPath,
+    itemPath,
     dataContext.data,
     path,
     iterateElementValue,
@@ -477,15 +477,15 @@ export default function useDataValue<
           : [value]
       )
 
-      if (elementPath) {
+      if (itemPath) {
         const iterateValuePath = `/${iterateElementIndex}${
-          elementPath && elementPath !== '/' ? elementPath : ''
+          itemPath && itemPath !== '/' ? itemPath : ''
         }`
         handleIterateElementChange?.(iterateValuePath, newValue)
       }
     },
     [
-      elementPath,
+      itemPath,
       iterateElementIndex,
       handleIterateElementChange,
       updateValue,

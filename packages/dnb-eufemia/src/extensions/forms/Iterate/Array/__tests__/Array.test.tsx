@@ -11,7 +11,7 @@ describe('Iterate.Array', () => {
       const onChange = jest.fn()
       render(
         <Iterate.Array value={['one', 'two', 'three']} onChange={onChange}>
-          <Field.String elementPath="/" />
+          <Field.String itemPath="/" />
         </Iterate.Array>
       )
       const fields = document.querySelectorAll('input')
@@ -71,8 +71,8 @@ describe('Iterate.Array', () => {
           ]}
           onChange={onChange}
         >
-          <Field.String elementPath="/foo" />
-          <Field.String elementPath="/bar" />
+          <Field.String itemPath="/foo" />
+          <Field.String itemPath="/bar" />
         </Iterate.Array>
       )
       const fields = document.querySelectorAll('input')
@@ -142,7 +142,7 @@ describe('Iterate.Array', () => {
               { mem: 'D', second: '2nd' },
             ]}
           >
-            <Field.String elementPath="/" />
+            <Field.String itemPath="/" />
             {renderProp1}
             {renderProp2}
           </Iterate.Array>
@@ -186,7 +186,7 @@ describe('Iterate.Array', () => {
               onChange={dataContextOnChange}
             >
               <Iterate.Array path="/someList" onChange={iterateOnChange}>
-                <Field.String elementPath="/" />
+                <Field.String itemPath="/" />
                 <Field.String path="/otherValue" />
               </Iterate.Array>
             </DataContext.Provider>

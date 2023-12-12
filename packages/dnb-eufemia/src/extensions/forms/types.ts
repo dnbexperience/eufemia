@@ -44,11 +44,11 @@ export interface DataValueReadProps<Value = unknown> {
   /** JSON Pointer for where the data for this field is located in the source dataset */
   path?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  elementPath?: string
+  itemPath?: string
   value?: Value
 }
 
-const dataValueReadProps = ['path', 'elementPath', 'value']
+const dataValueReadProps = ['path', 'itemPath', 'value']
 
 export function pickDataValueReadProps<Props extends DataValueReadProps>(
   props: Props
@@ -235,7 +235,7 @@ export interface ValueProps<Value>
   /** Text showing in place of the value if no value is given. */
   placeholder?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  elementPath?: string
+  itemPath?: string
   /** For showing the value inline (not as a block element) */
   inline?: boolean
   // Derivatives

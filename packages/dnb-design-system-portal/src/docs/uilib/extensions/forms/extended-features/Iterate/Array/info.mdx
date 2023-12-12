@@ -10,12 +10,12 @@ showTabs: true
 
 Since `Iterate.Array` renders its children once per element, the field components inside must receive values based on the different elements in the array. This can be done in two ways:
 
-#### 1. elementPath
+#### 1. itemPath
 
-If field components inside `Iterate.Array` are given an `elementPath` prop, this will look for values based on the array element being the root of the structure, even if the array often comes from a surrounding data set. This means that you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can look at the individual element as its own structure.
+If field components inside `Iterate.Array` are given an `itemPath` prop, this will look for values based on the array element being the root of the structure, even if the array often comes from a surrounding data set. This means that you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can look at the individual element as its own structure.
 
 #### 2. Render props
 
 If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render prop. It works a bit like an array-map call. The render function receives the value of the element as the first argument, and the index of which element you are on as the second.
 
-Examples of both the use of `elementPath` and Render Props in `Iterate.Array` can be found on [demos](/uilib/extensions/forms/extended-features/Iterate/Array/demos).
+Examples of both the use of `itemPath` and Render Props in `Iterate.Array` can be found on [demos](/uilib/extensions/forms/extended-features/Iterate/Array/demos).
