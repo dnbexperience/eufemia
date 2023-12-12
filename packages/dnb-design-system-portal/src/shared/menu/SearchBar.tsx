@@ -15,12 +15,7 @@ import {
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/Layout'
-import { getIndexName } from '../../uilib/search/searchHelpers'
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
-
-const indexName = getIndexName()
-const algoliaApplicationID = 'SLD6KEYMQ9'
-const algoliaAPIKey = '6cf238b7456ffd9f7a400d8de37318a3'
 
 export const SearchBarInput = () => {
   const searchIndex = React.useRef(null)
@@ -63,8 +58,13 @@ export const SearchBarInput = () => {
   }
 
   const onFocusHandler = () => {
-    const searchClient = algoliasearch(algoliaApplicationID, algoliaAPIKey)
-    searchIndex.current = searchClient.initIndex(indexName)
+    const searchClient = algoliasearch(
+      process.env.ALGOLIA_APP_ID,
+      process.env.ALGOLIA_SEARCH_KEY,
+    )
+    searchIndex.current = searchClient.initIndex(
+      process.env.ALGOLIA_INDEX_NAME,
+    )
   }
 
   return (
