@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[27263],{60583:function(e,s,t){t.r(s),t.d(s,{default:function(){return r}});var n=t(68270),u=t(75440),l=t(52322);function r(){const{allMdx:{edges:e}}=(0,n.useStaticQuery)("2488855444");return(0,l.jsx)(u.Z,{space:{top:"x-small"},level:4,description:"",edges:e})}}}]);
+//# sourceMappingURL=component---src-docs-uilib-extensions-forms-fields-list-base-selection-components-tsx-adc649845a871066b1e9.js.map
