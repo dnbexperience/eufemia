@@ -1,4 +1,4 @@
-export type * from './types'
+export * from './types'
 export * from './utils'
 export * from './hooks'
 export * as Field from './Field'
