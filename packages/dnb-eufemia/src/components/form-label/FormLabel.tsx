@@ -15,7 +15,11 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import {
+  FormElementProps,
+  pickFormElementProps,
+} from '../../shared/helpers/filterValidProps'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { omitSpacingProps } from '../flex/utils'
 import Context from '../../shared/Context'
 import type {
@@ -31,18 +35,25 @@ export type FormLabelProps = {
   size?: 'basis' | 'medium' | 'large'
   id?: string
   skeleton?: boolean
-  disabled?: boolean
   label?: React.ReactNode
   vertical?: boolean
   srOnly?: boolean
   innerRef?: React.RefObject<HTMLElement>
 
+  /** Is not a part of HTMLLabelElement and not documented as of now */
+  disabled?: boolean
+
+  /**
+   * For internal use only
+   */
+  labelDirection?: FormElementProps['labelDirection']
+
   /** @deprecated use forId instead */
   for_id?: string
   /** @deprecated use srOnly instead */
   sr_only?: boolean
-  /** @deprecated use labelDirection instead (was not documented before) */
-  label_direction?: 'vertical' | 'horizontal'
+  /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
+  label_direction?: FormElementProps['label_direction']
 }
 
 export type FormLabelAllProps = FormLabelProps &
@@ -53,13 +64,15 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = extendPropsWithContext(
-    localProps,
-    null,
-    { skeleton: context?.skeleton },
-    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-    pickFormElementProps(context?.formElement),
-    context?.FormLabel
+  const props = convertSnakeCaseProps(
+    extendPropsWithContext(
+      localProps,
+      null,
+      { skeleton: context?.skeleton },
+      pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
+      pickFormElementProps(context?.formElement),
+      context?.FormLabel
+    )
   )
 
   const {
@@ -67,18 +80,13 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     text,
     srOnly,
     vertical,
+    labelDirection,
     size,
     skeleton,
     element: Element = 'label',
     innerRef,
     className,
     children,
-
-    /** @deprecated can be removed in v11 */
-    for_id,
-    sr_only,
-    label_direction,
-
     ...attributes
   } = props
 
@@ -87,14 +95,14 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   const isInteractive =
     !props.disabled &&
     !srOnly &&
-    (typeof props.onClick === 'function' || forId || for_id)
+    (typeof props.onClick === 'function' || forId)
 
   const params = {
     className: classnames(
       'dnb-form-label',
-      (isTrue(vertical) || label_direction === 'vertical') &&
+      (isTrue(vertical) || labelDirection === 'vertical') &&
         `dnb-form-label--vertical`,
-      (srOnly || isTrue(sr_only)) && 'dnb-sr-only',
+      srOnly && 'dnb-sr-only',
       size && `dnb-h--${size}`,
       isInteractive && 'dnb-form-label--interactive',
       createSkeletonClass('font', skeleton, context),
@@ -103,7 +111,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       ),
       className
     ),
-    htmlFor: forId || for_id,
+    htmlFor: forId,
     ...(attributes as DynamicElementParams),
   }
 

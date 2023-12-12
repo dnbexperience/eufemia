@@ -338,4 +338,14 @@ describe('convertSnakeCaseProps', () => {
       snakeCase: { foo_bar: 123 },
     })
   })
+
+  it('will keep frozen object as frozen', () => {
+    const props = Object.freeze({
+      foo_bar: 'value',
+      snake_case: { foo_bar: 123 },
+    })
+    const result = convertSnakeCaseProps(props)
+
+    expect(Object.isFrozen(result)).toBe(true)
+  })
 })
