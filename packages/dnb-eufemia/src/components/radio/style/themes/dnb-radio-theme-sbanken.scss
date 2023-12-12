@@ -5,15 +5,16 @@
 
 .dnb-radio {
   // Normal state
-  --radio-color-dot-on: var(--sb-color-violet-light);
+  --radio-color-dot-on: var(--sb-color-violet);
   --radio-color-background-on: var(--sb-color-white);
-  --radio-color-border-on: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-border-on: var(--sb-color-violet);
   --radio-color-background-off: var(--sb-color-white);
-  --radio-color-border-off: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-border-off: var(--sb-color-violet);
   // Disabled state
-  --radio-color-dot-on--disabled: var(--sb-color-gray-dark-2-neutral);
-  --radio-color-border-on--disabled: var(--sb-color-gray-dark-2-neutral);
-  --radio-color-border-off--disabled: var(--sb-color-gray-dark-2-neutral);
+  --radio-color-dot-on--disabled: var(--sb-color-gray-dark);
+  --radio-color-background--disabled: var(--sb-color-gray-light);
+  --radio-color-border-on--disabled: var(--sb-color-gray-dark);
+  --radio-color-border-off--disabled: var(--sb-color-gray-dark);
   // Active state
   --radio-color-dot-on--active: var(--sb-color-violet-light);
   --radio-color-border-on--active: var(--sb-color-gray-dark-2-neutral);
@@ -21,13 +22,21 @@
   --radio-color-border-off--active: var(--sb-color-gray);
   // Hover state
   --radio-color-dot-on--hover: var(--sb-color-violet);
-  --radio-color-background-off--hover: var(--sb-color-white);
+  --radio-color-background-on--hover: var(--sb-color-violet-light-3);
+  --radio-color-background-off--hover: var(--sb-color-violet-light-3);
   // Focus state
   --radio-color-background-on--focus: var(--sb-color-blue-light-3);
   --radio-color-background-off--focus: var(--sb-color-blue-light-3);
   // Error state
   --radio-color-dot-on--error: var(--sb-color-magenta);
   --radio-color-border-on--error: var(--sb-color-magenta);
-  --radio-color-background-off--error: var(--sb-color-white);
+  --radio-color-border--error-hover: var(--sb-color-red);
+  --radio-color-background-off--error-hover: var(
+    --sb-color-magenta-light-2
+  );
+  --radio-color-background-on--error-hover: var(
+    --sb-color-magenta-light-2
+  );
   --radio-color-dot-on--error-hover: var(--sb-color-red);
+  --radio-focus-ring-width--error: var(--radio-border-width);
 }

@@ -16,6 +16,7 @@ import {
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/Layout'
 import { getIndexName } from '../../uilib/search/searchHelpers'
+import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 
 const indexName = getIndexName()
 const algoliaApplicationID = 'SLD6KEYMQ9'
@@ -51,9 +52,11 @@ export const SearchBarInput = () => {
     showIndicator()
   }
 
-  const onChangeHandler = ({ data }) => {
+  const onChangeHandler = ({ data, emptyData }) => {
     try {
       navigate(`/${data.hit.slug}`.replace('//', '/'))
+      emptyData()
+      applyPageFocus('content')
     } catch (e) {
       setStatus(e.message)
     }

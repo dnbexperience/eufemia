@@ -10,7 +10,8 @@ export type PaymentCardCardStatus =
   | 'not_active'
   | 'order_in_process'
   | 'renewed'
-  | 'replaced';
+  | 'replaced'
+  | 'unknown';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
 export enum CardType {
@@ -87,7 +88,7 @@ export interface PaymentCardProps
    */
   card_number: string;
   /**
-   * Use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`. Defaults to `active`.
+   * Use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**

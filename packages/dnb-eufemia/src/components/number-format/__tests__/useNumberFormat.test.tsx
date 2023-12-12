@@ -37,7 +37,7 @@ describe('useNumberFormat', () => {
   it('will inherit NumberFormat props from provider', () => {
     const wrapper = ({ children }) => (
       <Provider
-        locale="nb-NO" // should get overwritte by the NumberFormat props
+        locale="nb-NO" // should get overwritten by the NumberFormat props
         NumberFormat={{
           currency: true,
           locale: 'en-GB',

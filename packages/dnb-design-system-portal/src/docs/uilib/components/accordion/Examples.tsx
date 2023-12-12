@@ -192,3 +192,36 @@ export const AccordionDisabledExample = () => (
     </Accordion.Provider>
   </ComponentBox>
 )
+
+export const AccordionDescriptionExample = () => (
+  <ComponentBox data-visual-test="accordion-description">
+    <Accordion
+      expanded
+      title="Accordion title"
+      description="Accordion description"
+    >
+      <P>Accordion content</P>
+    </Accordion>
+    <Accordion
+      top
+      icon="chevron_down"
+      icon_position="right"
+      id="description-provider-accordion"
+      title="Accordion title"
+      description="Accordion description"
+    >
+      <P>Accordion content</P>
+    </Accordion>
+  </ComponentBox>
+)
+
+export const AccordionFilledExample = () => (
+  <ComponentBox data-visual-test="accordion-filled">
+    <Accordion expanded title="Accordion title" variant="filled">
+      <P>Accordion content</P>
+    </Accordion>
+    <Accordion top title="Accordion title" variant="filled">
+      <P>Accordion content</P>
+    </Accordion>
+  </ComponentBox>
+)

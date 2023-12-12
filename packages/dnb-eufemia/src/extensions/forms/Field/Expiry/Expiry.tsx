@@ -52,7 +52,7 @@ function Expiry(props: ExpiryProps) {
 
   return (
     <FieldBlock
-      className={classnames(className)}
+      className={classnames('dnb-forms-field-expiry', className)}
       labelSecondary={labelSecondary}
       labelDescription={labelDescription}
       info={info}
@@ -61,8 +61,8 @@ function Expiry(props: ExpiryProps) {
       {...pickSpacingProps(props)}
     >
       <MultiInputMask
+        stretch
         id={`${idRef}__input`}
-        className="dnb-forms-field-expiry"
         label={label}
         labelDirection={layout}
         values={expiry}
@@ -86,12 +86,14 @@ function Expiry(props: ExpiryProps) {
                 : /[0-2]/,
             ],
             placeholderCharacter: placeholders['month'],
+            autoComplete: 'cc-exp-month',
           },
           {
             id: 'year',
             label: sharedContext?.translation.DatePicker['year'],
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
+            autoComplete: 'cc-exp-year',
           },
         ]}
         suffix={

@@ -232,11 +232,13 @@ export default class RadioGroup extends React.PureComponent {
       onChange: this.onChangeHandler,
     }
 
+    const Fieldset = label ? 'fieldset' : 'div'
+
     return (
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <fieldset>
+          <Fieldset>
             <Flex.Container
               align="baseline"
               direction={
@@ -246,13 +248,15 @@ export default class RadioGroup extends React.PureComponent {
               }
               spacing={vertical ? 'x-small' : undefined}
             >
-              <FormLabel
-                element="legend"
-                id={id + '-label'}
-                srOnly={label_sr_only}
-              >
-                {label}
-              </FormLabel>
+              {label && (
+                <FormLabel
+                  element="legend"
+                  id={id + '-label'}
+                  srOnly={label_sr_only}
+                >
+                  {label}
+                </FormLabel>
+              )}
 
               <span
                 id={id}
@@ -287,7 +291,7 @@ export default class RadioGroup extends React.PureComponent {
                 />
               </span>
             </Flex.Container>
-          </fieldset>
+          </Fieldset>
         </div>
       </RadioGroupContext.Provider>
     )

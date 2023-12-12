@@ -41,6 +41,21 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match radio in unchecked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="radio-error-unchecked"] .dnb-radio',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match radio in unchecked state with error and hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="radio-error-unchecked"] .dnb-radio',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 
   // NB: Because of focus simulation and screenshotElement.press('Tab')
@@ -127,6 +142,21 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
     it('have to match radio button in different sizes', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-sizes"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match radio in checked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="radio-error-checked"] .dnb-radio',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match radio in checked state with error and hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="radio-error-checked"] .dnb-radio',
+        simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

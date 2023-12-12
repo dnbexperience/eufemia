@@ -420,7 +420,7 @@ export const GlobalStatusInfoExampleManipulate3 = () => (
 
 export const GlobalStatusExampleControllers = () => (
   <ComponentBox hidePreview hideToolbar>
-    {/* Place the status where ever you have to.*/}
+    {/* Place the status wherever you have to.*/}
     <GlobalStatus id="custom-id" />
     {/* Manipulate the status later on. Every property is optional.*/}
     <GlobalStatus.Add

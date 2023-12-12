@@ -123,7 +123,7 @@ exports.onPostBuild = async (params) => {
 
   if (deletedPages.length) {
     params.reporter.warn(
-      `❗️ These pages where deleted:\n${deletedPages
+      `❗️ These pages were deleted:\n${deletedPages
         .map((page) => `├ ${page}`)
         .join('\n')}\n\n`,
     )
@@ -264,7 +264,7 @@ exports.onCreateWebpackConfig = ({
   if (PREBUILD_EXISTS && stage === 'build-javascript') {
     if (PREBUILD_EXISTS && !isCI) {
       reporter.warn(
-        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n',
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used during your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n',
       )
     }
 

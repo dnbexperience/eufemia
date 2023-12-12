@@ -46,20 +46,29 @@ export function pickFormElementProps(
 export function prepareFormElementContext<Props>(
   props: Props & FormElementProps
 ) {
-  if (typeof props.label_direction === 'undefined') {
-    props.label_direction = isTrue(props.vertical)
-      ? 'vertical'
-      : props.label_direction
+  if (isTrue(props.vertical)) {
+    if (typeof props.labelDirection === 'undefined') {
+      props.labelDirection = 'vertical'
+    }
+    if (typeof props.label_direction === 'undefined') {
+      props.label_direction = 'vertical'
+    }
   }
   return props
 }
 export type FormElementProps = {
-  label_direction?: 'vertical' | 'horizontal'
   vertical?: boolean
+  labelDirection?: 'vertical' | 'horizontal'
+
+  /** @deprecated use labelDirection instead */
+  label_direction?: 'vertical' | 'horizontal'
 }
-export const validFormElementProps = {
+const validFormElementProps = {
   skeleton: null,
   disabled: null,
   vertical: null,
+  labelDirection: null,
+
+  /** @deprecated use labelDirection instead */
   label_direction: null,
 }

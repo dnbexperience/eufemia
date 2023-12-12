@@ -6,6 +6,7 @@ import {
   withCamelCaseProps,
   classWithCamelCaseProps,
   IncludeCamelCase,
+  convertCamelCaseProps,
 } from '../withCamelCaseProps'
 
 type CustomType = {
@@ -365,5 +366,30 @@ describe('classWithCamelCaseProps', () => {
       <Component snake_case={true} camelCase={1} update_comp={on_update} />
     )
     expect(on_update).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('convertCamelCaseProps', () => {
+  it('will convert', () => {
+    const props = {
+      fooBar: 'value',
+      snakeCase: { fooBar: 123 },
+    }
+    const result = convertCamelCaseProps(props)
+
+    expect(result).toEqual({
+      foo_bar: 'value',
+      snake_case: { fooBar: 123 },
+    })
+  })
+
+  it('will keep frozen object as frozen', () => {
+    const props = Object.freeze({
+      fooBar: 'value',
+      snakeCase: { fooBar: 123 },
+    })
+    const result = convertCamelCaseProps(props)
+
+    expect(Object.isFrozen(result)).toBe(true)
   })
 })

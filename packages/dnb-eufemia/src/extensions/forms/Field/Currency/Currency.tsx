@@ -1,18 +1,25 @@
 import React from 'react'
 import classnames from 'classnames'
-import NumberComponent from '../Number'
+import { Context } from '../../../../shared'
+import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
+import { CURRENCY } from '../../../../shared/defaults'
+import NumberComponent, { Props as NumberProps } from '../Number'
 import type { FieldProps, FieldHelpProps } from '../../types'
 
 export type Props = FieldHelpProps &
   FieldProps<number, undefined> & {
-    currency?: string
+    currency?: NumberProps['currency']
+    rightAligned?: NumberProps['rightAligned']
   }
 
 function Currency(props: Props) {
+  const context = React.useContext(Context)
   const preparedProps = {
     ...props,
-    currency: props.currency ?? 'NOK',
-    placeholder: props.placeholder ?? 'kr',
+    currency: props.currency ?? CURRENCY,
+    placeholder:
+      props.placeholder ??
+      getCurrencySymbol(context?.locale, props.currency),
   }
 
   return (

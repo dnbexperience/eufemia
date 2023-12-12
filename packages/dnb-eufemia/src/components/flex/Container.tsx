@@ -143,7 +143,7 @@ function FlexContainer(props: Props) {
       return (
         <React.Fragment key={`element-${i}`}>
           <Space top={spaceAboveLine} />
-          <Hr space={0} />
+          <Hr space={0} className="dnb-flex-container__hr" />
           {renderWithSpacing(child, {
             space: { [start]: startSpacing, [end]: endSpacing },
           })}

@@ -10,7 +10,7 @@ import pointer from 'json-pointer'
 import { ValidateFunction } from 'ajv'
 import { errorChanged } from '../utils'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
-import { FormError, FieldProps } from '../types'
+import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
@@ -27,6 +27,8 @@ interface ReturnAdditional<Value> {
   handleFocus: () => void
   handleBlur: () => void
   handleChange: FieldProps<unknown>['onChange']
+  updateValue: (value: Value) => void
+  forceUpdate: () => void
 }
 
 export default function useDataValue<
@@ -49,8 +51,8 @@ export default function useDataValue<
     validateInitially,
     validateUnchanged,
     continuousValidation,
-    toInput = (value) => value,
-    fromInput = (value) => value,
+    toInput = (value: Value) => value,
+    fromInput = (value: Value) => value,
   } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
@@ -61,7 +63,7 @@ export default function useDataValue<
 
   const {
     handlePathChange: dataContextHandlePathChange,
-    setPathWithError: dataContextSetPathWithError,
+    setValueWithError: dataContextSetValueWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
   const dataContextError = path ? dataContextErrors?.[path] : undefined
@@ -92,6 +94,11 @@ export default function useDataValue<
       'elementPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
     )
   }
+
+  const identifier = useMemo(() => {
+    // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
+    return path ?? id
+  }, [path, id])
 
   const externalValue = useMemo(() => {
     if (props.value !== undefined) {
@@ -223,19 +230,18 @@ export default function useDataValue<
 
       localErrorRef.current = error
 
-      if (path) {
-        // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-        dataContextSetPathWithError?.(path, Boolean(error))
-      }
+      // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
+      dataContextSetValueWithError?.(identifier, Boolean(error))
 
       setFieldBlockError?.(path ?? id, error)
       forceUpdate()
     },
     [
       path,
+      identifier,
       id,
       prepareError,
-      dataContextSetPathWithError,
+      dataContextSetValueWithError,
       setFieldBlockError,
       forceUpdate,
     ]
@@ -273,7 +279,10 @@ export default function useDataValue<
       }
       // Validate by provided derivative validator
       if (validatorRef.current) {
-        const res = await validatorRef.current?.(valueRef.current)
+        const res = await validatorRef.current?.(
+          valueRef.current,
+          errorMessages
+        )
         if (res instanceof Error) {
           throw res
         }
@@ -290,6 +299,7 @@ export default function useDataValue<
   }, [
     emptyValue,
     required,
+    errorMessages,
     startProcess,
     persistErrorState,
     clearErrorState,
@@ -323,6 +333,7 @@ export default function useDataValue<
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
       showError()
+      forceUpdate()
     }
   }, [dataContext.showAllErrors, showError])
 
@@ -371,17 +382,15 @@ export default function useDataValue<
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
-  const handleChange = useCallback(
-    (argFromInput) => {
-      const newValue = fromInput(argFromInput)
-
+  const updateValue = useCallback(
+    (newValue: Value) => {
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
       }
+
       valueRef.current = newValue
-      changedRef.current = true
 
       if (
         continuousValidation ||
@@ -395,41 +404,68 @@ export default function useDataValue<
         // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
         hideError()
       }
+
       // Always validate the value immediately when it is changed
       validateValue()
 
-      onChange?.(newValue)
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
       }
+
+      forceUpdate()
+    },
+    [
+      continuousValidation,
+      dataContextHandlePathChange,
+      hideError,
+      path,
+      showError,
+      validateValue,
+    ]
+  )
+
+  const handleChange = useCallback(
+    (
+      argFromInput: Value,
+      additionalArgs: AdditionalEventArgs = undefined
+    ) => {
+      const newValue = fromInput(argFromInput)
+
+      if (newValue === valueRef.current) {
+        // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
+        // calling onChange even if the actual value did not change.
+        return
+      }
+
+      updateValue(newValue)
+
+      changedRef.current = true
+      onChange?.apply(
+        this,
+        typeof additionalArgs !== 'undefined'
+          ? [newValue, additionalArgs]
+          : [newValue]
+      )
+
       if (elementPath) {
         const iterateValuePath = `/${iterateElementIndex}${
           elementPath && elementPath !== '/' ? elementPath : ''
         }`
         handleIterateElementChange?.(iterateValuePath, newValue)
       }
-      forceUpdate()
     },
     [
-      path,
       elementPath,
-      iterateElementIndex,
-      continuousValidation,
-      onChange,
-      validateValue,
-      dataContextHandlePathChange,
-      showError,
-      hideError,
-      handleIterateElementChange,
       fromInput,
-      forceUpdate,
+      handleIterateElementChange,
+      iterateElementIndex,
+      onChange,
+      updateValue,
     ]
   )
 
   useMountEffect(() => {
-    if (path) {
-      dataContext?.handleMountField(path)
-    }
+    dataContext?.handleMountField(identifier)
     validateValue()
 
     if (showErrorInitially) {
@@ -438,9 +474,7 @@ export default function useDataValue<
 
     return () => {
       // Unmount procedure
-      if (path) {
-        dataContext?.handleUnMountField(path)
-      }
+      dataContext?.handleUnMountField(identifier)
     }
   })
 
@@ -460,5 +494,7 @@ export default function useDataValue<
     handleFocus,
     handleBlur,
     handleChange,
+    updateValue,
+    forceUpdate,
   }
 }

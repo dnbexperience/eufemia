@@ -162,6 +162,7 @@ function Selection(props: Props) {
             >
               {options.map((option, i) => (
                 <ToggleButton
+                  id={options.length > 0 ? id : undefined}
                   key={`option-${i}-${option.value}`}
                   text={option.title}
                   on_change={option.handleSelect}

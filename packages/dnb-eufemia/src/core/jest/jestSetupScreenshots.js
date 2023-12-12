@@ -25,7 +25,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   retryTimes: isCI ? 5 : 0,
-  timeout: isHeadless ? headlessTimeout : 30e3,
+  timeout: isHeadless ? 30e3 : headlessTimeout,
   pixelGrid: 8,
   pageViewport: {
     width: 1280,
@@ -133,6 +133,11 @@ const makeScreenshot = async ({
     screenshotSelector,
   })
 
+  // Only for dev
+  if (!isCI && !isHeadless) {
+    await page.waitForTimeout(headlessTimeout)
+  }
+
   if (simulate && simulate === 'active') {
     await page.mouse.up() // reset mouse.down() for subsequent tests
   }
@@ -151,11 +156,6 @@ const makeScreenshot = async ({
 
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
-  }
-
-  // Only for dev
-  if (!isCI && !isHeadless) {
-    await page.waitForTimeout(headlessTimeout)
   }
 
   return screenshot

@@ -12,11 +12,6 @@
     display: block;
   }
 
-  &__wrapper {
-    position: relative;
-    z-index: 1;
-  }
-
   &__shell {
     width: 100%;
     opacity: 1;
@@ -117,12 +112,6 @@
       .dnb-anchor:last-of-type {
         margin-left: 0.5rem;
       }
-    }
-
-    & .dnb-hr,
-    .dnb-spacing & .dnb-hr,
-    .dnb-spacing & .dnb-hr:not([class*='dnb-space']) {
-      margin: 0;
     }
   }
 }

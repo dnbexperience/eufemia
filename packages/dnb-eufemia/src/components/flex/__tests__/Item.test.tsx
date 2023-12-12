@@ -408,7 +408,7 @@ describe('Flex.Item', () => {
       ])
     })
 
-    it('should pcik nearest media key', () => {
+    it('should pick nearest media key', () => {
       setMedia({ width: SMALL })
 
       render(

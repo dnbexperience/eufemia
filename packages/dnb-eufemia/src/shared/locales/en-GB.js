@@ -125,6 +125,7 @@ export default {
       text_order_in_process: 'Order in process',
       text_renewed: 'Renewed',
       text_replaced: 'Replaced',
+      text_unknown: 'Unknown',
     },
     Logo: {
       alt: 'DNB Logo',
@@ -190,9 +191,7 @@ export default {
       lastNameErrorRequired: 'You must enter a surname',
       nationalIdentityNumberLabel: 'National identity number (11 digits)',
       nationalIdentityNumberErrorRequired:
-        'You must enter a national identity number',
-      nationalIdentityNumberErrorPattern:
-        'This is not a valid national identity number',
+        'Invalid national identity number. Enter a valid 11-digit number.',
       organizationNumberLabel: 'Organization number',
       organizationNumberErrorRequired:
         'You must enter an organization number',
@@ -204,7 +203,7 @@ export default {
       bankAccountNumberErrorPattern:
         'This is not a valid bank account number',
       phoneNumberLabel: 'Mobile number',
-      phoneNumberErrorRequired: 'You must enter a mobile number',
+      phoneNumberErrorRequired: 'You must enter a valid number',
       postalCodeLabel: 'Postalc.',
       postalCodeErrorRequired: 'You must enter a postal code',
       postalCodeErrorPattern: 'This is not a valid postal code',

@@ -28,7 +28,8 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
-import Anchor, { pickIcon } from '../anchor/Anchor'
+import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
+import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -67,10 +68,14 @@ export default class Button extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.innerRef) {
-      this.props.innerRef.current = this._ref.current
+      typeof this.props.innerRef === 'function'
+        ? this.props.innerRef(this._ref.current)
+        : (this.props.innerRef.current = this._ref.current)
     }
     if (this.props.inner_ref) {
-      this.props.inner_ref.current = this._ref.current
+      typeof this.props.innerRef === 'function'
+        ? this.props.inner_ref(this._ref.current)
+        : (this.props.inner_ref.current = this._ref.current)
     }
   }
 
@@ -177,6 +182,9 @@ export default class Button extends React.PureComponent {
       : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
+      if (opensNewTab(props.target, props.href) && !icon) {
+        icon = launch
+      }
     }
 
     const classes = classnames(
@@ -198,7 +206,8 @@ export default class Button extends React.PureComponent {
       createSpacingClasses(props),
       class_name,
       className,
-      props.href || props.to ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover
+      props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
+      Element === Anchor && 'dnb-anchor--no-style'
     )
 
     const params = {
@@ -313,10 +322,10 @@ Button.propTypes = {
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inner_ref: PropTypes.object,
+  inner_ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 
   className: PropTypes.string,
-  innerRef: PropTypes.object,
+  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,

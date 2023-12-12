@@ -20,7 +20,7 @@ export interface ContextState {
   mountedFieldPaths: string[]
   handleMountField: (path: string) => void
   handleUnMountField: (path: string) => void
-  setPathWithError: (path: string, hasError: boolean) => void
+  setValueWithError: (identifier: string, hasError: boolean) => void
   hasErrors: () => boolean
   _isInsideFormElement?: boolean
 }
@@ -35,7 +35,7 @@ export const defaultContextState: ContextState = {
   handleMountField: () => null,
   handleUnMountField: () => null,
   hasErrors: () => false,
-  setPathWithError: () => null,
+  setValueWithError: () => null,
   _isInsideFormElement: false,
 }
 

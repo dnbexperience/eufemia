@@ -61,37 +61,14 @@ function NumberComponent(props: Props) {
   const errorMessages = useMemo(
     () => ({
       required: tr.inputErrorRequired,
-      minimum: tr.numberFieldErrorMinimum.replace(
-        '{minimum}',
-        props.minimum?.toString()
-      ),
-      maximum: tr.numberFieldErrorMaximum.replace(
-        '{maximum}',
-        props.maximum?.toString()
-      ),
-      exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum.replace(
-        '{exclusiveMinimum}',
-        props.exclusiveMinimum?.toString()
-      ),
-      exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum.replace(
-        '{exclusiveMaximum}',
-        props.exclusiveMaximum?.toString()
-      ),
-      multipleOf: tr.numberFieldErrorMultipleOf.replace(
-        '{multipleOf}',
-        props.multipleOf?.toString()
-      ),
+      minimum: tr.numberFieldErrorMinimum,
+      maximum: tr.numberFieldErrorMaximum,
+      exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
+      exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
+      multipleOf: tr.numberFieldErrorMultipleOf,
       ...props.errorMessages,
     }),
-    [
-      tr,
-      props.errorMessages,
-      props.minimum,
-      props.maximum,
-      props.exclusiveMinimum,
-      props.exclusiveMaximum,
-      props.multipleOf,
-    ]
+    [tr, props.errorMessages]
   )
   const schema = useMemo<JSONSchema7>(
     () =>
@@ -209,6 +186,8 @@ function NumberComponent(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      disabled={disabled}
+      width={width === 'stretch' ? width : undefined}
       contentsWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
@@ -223,7 +202,7 @@ function NumberComponent(props: Props) {
         placeholder={placeholder}
         value={value}
         {...maskProps}
-        right={rightAligned}
+        align={rightAligned && 'right'}
         on_focus={handleFocus}
         on_blur={handleBlur}
         on_change={handleChange}

@@ -8,41 +8,66 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Switch unchecked', () => {
-  setupPageScreenshot({ url: '/uilib/components/switch/demos' })
-
-  it('have to match switch in unchecked state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="switch-default"] .dnb-switch',
+describe.each(['ui', 'sbanken'])(
+  'Unchecked Switch for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/switch/demos',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match switch in unchecked state with focus', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="switch-default"] .dnb-switch',
-      simulateSelector:
-        '[data-visual-test="switch-default"] .dnb-switch__input',
-      simulate: 'focus', // should be tested first
+    it('have to match switch in unchecked state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match switch in unchecked state with hover', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="switch-default"] .dnb-switch',
-      simulateSelector:
-        '[data-visual-test="switch-default"] .dnb-switch__input',
-      simulate: 'hover',
+    it('have to match switch in unchecked state with focus', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-default"] .dnb-switch__input',
+        simulate: 'focus', // should be tested first
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match switch in unchecked state with hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-default"] .dnb-switch__input',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match switch in unchecked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="switch-error"] .dnb-switch',
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="switch-error"] .dnb-switch__input',
+          },
+          {
+            action: 'click',
+            selector: 'body',
+          },
+        ],
+        waitAfterSimulate: 300,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe('Switch checked', () => {
-  setupPageScreenshot({ url: '/uilib/components/switch/demos' })
+describe.each(['ui', 'sbanken'])('Checked Switch for %s', (themeName) => {
+  setupPageScreenshot({ themeName, url: '/uilib/components/switch/demos' })
 
   it('have to match switch in checked state', async () => {
     const screenshot = await makeScreenshot({

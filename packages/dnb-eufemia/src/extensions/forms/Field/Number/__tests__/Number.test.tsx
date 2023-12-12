@@ -24,6 +24,20 @@ describe('Field.Number', () => {
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
     })
 
+    it('should support disabled prop', () => {
+      const { rerender } = render(
+        <Field.Number label="Disabled label" disabled />
+      )
+
+      const labelElement = () => document.querySelector('label')
+
+      expect(labelElement()).toHaveAttribute('disabled')
+
+      rerender(<Field.Number label="Disabled label" />)
+
+      expect(labelElement()).not.toHaveAttribute('disabled')
+    })
+
     it('renders autoComplete', () => {
       const { rerender } = render(
         <Field.Number autoComplete="postalCode" />
@@ -80,14 +94,21 @@ describe('Field.Number', () => {
       expect(screen.getByDisplayValue('42,51')).toBeInTheDocument()
     })
 
-    // it('formats with smaller decimal limit', () => {
-    //   render(<Field.Number value={5876.789} decimalLimit={2} />)
-    //   expect(screen.getByDisplayValue('5876,79')).toBeInTheDocument()
-    // })
+    it('formats with smaller decimal limit', () => {
+      render(<Field.Number value={5876.789} decimalLimit={2} />)
+      expect(document.querySelector('input').value).toBe('5876,78')
+    })
 
     it('formats with higher decimal limit', () => {
       render(<Field.Number value={123.456} decimalLimit={4} />)
       expect(screen.getByDisplayValue('123,456')).toBeInTheDocument()
+    })
+
+    it('should set align="right" when rightAligned is true', () => {
+      render(<Field.Number value={123} rightAligned />)
+
+      const element = document.querySelector('.dnb-input')
+      expect(element.className).toContain('dnb-input__align--right')
     })
   })
 

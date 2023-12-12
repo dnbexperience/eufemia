@@ -31,6 +31,22 @@ describe('FieldBlock', () => {
     expect(element.classList).toContain('dnb-space__top--x-large')
   })
 
+  it('should support disabled prop', () => {
+    const { rerender } = render(
+      <FieldBlock label="Disabled label" disabled>
+        content
+      </FieldBlock>
+    )
+
+    const labelElement = () => document.querySelector('label')
+
+    expect(labelElement()).toHaveAttribute('disabled')
+
+    rerender(<FieldBlock label="Disabled label">content</FieldBlock>)
+
+    expect(labelElement()).not.toHaveAttribute('disabled')
+  })
+
   it('should support heading size prop', () => {
     const { rerender } = render(
       <FieldBlock label="Label" size="medium">
@@ -89,30 +105,6 @@ describe('FieldBlock', () => {
     )
   })
 
-  it('should warn when "forId" and several form elements where given', () => {
-    const orig = console.log
-    console.log = jest.fn()
-
-    render(
-      <FieldBlock forId="invalid" label="A Label">
-        <MockComponent label="Label" id="foo" />
-        <MockComponent label="Label" id="bar" />
-      </FieldBlock>
-    )
-
-    expect(console.log).toHaveBeenCalledTimes(1)
-    expect(console.log).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.stringContaining('forId="invalid"')
-    )
-
-    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
-    expect(document.querySelectorAll('legend')).toHaveLength(1)
-    expect(document.querySelectorAll('label')).toHaveLength(2)
-
-    console.log = orig
-  })
-
   it('should render a "label"', () => {
     render(<FieldBlock label="A Label">content</FieldBlock>)
 
@@ -133,7 +125,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement.className).toBe(
-      'dnb-form-label dnb-space__top--zero dnb-space__bottom--x-small'
+      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Label Description')
   })
@@ -147,7 +139,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement.className).toBe(
-      'dnb-form-label dnb-space__top--zero dnb-space__bottom--x-small'
+      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Secondary Label')
   })

@@ -27,7 +27,7 @@ export type MultiInputMaskInput<T extends string> = {
    * Sets the placeholder character used for the input.
    */
   placeholderCharacter: string
-}
+} & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref'>
 
 export type MultiInputMaskValue<T extends string> = {
   // eslint-disable-next-line no-unused-vars
@@ -68,6 +68,10 @@ export type MultiInputMaskProps<T extends string> = {
    */
   statusState?: FormStatusState
   /**
+   * Set it to `true` in order to stretch the input to the available space. Defaults to false.
+   */
+  stretch?: boolean
+  /**
    * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
   suffix?: React.ReactNode
@@ -88,6 +92,7 @@ function MultiInputMask<T extends string>({
   statusState,
   values: defaultValues,
   className,
+  stretch,
   suffix,
   ...props
 }: MultiInputMaskProps<T>) {
@@ -138,20 +143,18 @@ function MultiInputMask<T extends string>({
         status={status}
         status_state={statusState}
         suffix={suffix}
+        stretch={stretch}
         input_element={inputs.map((input, index) => (
-          <Fragment key={input.id}>
-            <MultiInputMaskInput
-              {...input}
-              value={values[input.id]}
-              delimiter={
-                index !== inputs.length - 1 ? delimiter : undefined
-              }
-              onKeyDown={onKeyDown}
-              onChange={onChange}
-              disabled={disabled}
-              inputRef={getInputRef}
-            />
-          </Fragment>
+          <MultiInputMaskInput
+            key={input.id}
+            {...input}
+            value={values[input.id]}
+            delimiter={index !== inputs.length - 1 ? delimiter : undefined}
+            onKeyDown={onKeyDown}
+            onChange={onChange}
+            disabled={disabled}
+            inputRef={getInputRef}
+          />
         ))}
       />
     </WrapperElement>
@@ -238,6 +241,7 @@ function MultiInputMaskInput<T extends string>({
   inputRef,
   onKeyDown,
   onChange,
+  ...attributes
 }: MultiInputMaskInputProps<T>) {
   const markupId = `${id}-${makeUniqueId()}`
 
@@ -269,6 +273,7 @@ function MultiInputMaskInput<T extends string>({
             removePlaceholder(event.target.value, placeholderCharacter)
           )
         }}
+        {...attributes}
       />
       <label
         id={`${markupId}__label`}

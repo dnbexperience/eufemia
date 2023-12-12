@@ -25,6 +25,7 @@
 
     flex-flow: row wrap;
     align-items: center;
+    gap: 1.5rem;
   }
 
   &__item {
@@ -36,15 +37,8 @@
 
       // To match the other tertiary buttons
       &__icon {
-        margin-left: calc(var(--button-icon-size) / 2);
         margin-right: 0.5rem;
       }
-    }
-  }
-
-  &__item:not(:first-of-type) {
-    .dnb-button.dnb-button--has-text {
-      padding-left: 0.5rem;
     }
   }
 
@@ -76,5 +70,6 @@
 
     margin: 0.5rem 0;
     margin-left: 1.5rem;
+    gap: 0;
   }
 }

@@ -41,6 +41,11 @@ describe('Field.String', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders label', () => {
+      render(<Field.String label="The label" />)
+      expect(screen.getByLabelText('The label')).toBeInTheDocument()
+    })
+
     it('does not render placeholder when value is given', () => {
       render(
         <Field.String value="value-text" placeholder="placeholder-text" />
@@ -50,9 +55,18 @@ describe('Field.String', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('renders label', () => {
-      render(<Field.String label="The label" />)
-      expect(screen.getByLabelText('The label')).toBeInTheDocument()
+    it('should support disabled prop', () => {
+      const { rerender } = render(
+        <Field.String label="Disabled label" disabled />
+      )
+
+      const labelElement = () => document.querySelector('label')
+
+      expect(labelElement()).toHaveAttribute('disabled')
+
+      rerender(<Field.String label="Disabled label" />)
+
+      expect(labelElement()).not.toHaveAttribute('disabled')
     })
 
     it('input is connected to label', () => {

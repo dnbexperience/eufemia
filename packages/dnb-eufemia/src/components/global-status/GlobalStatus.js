@@ -790,7 +790,7 @@ export default class GlobalStatus extends React.PureComponent {
                 </div>
               </Section>
             )}
-            <Hr fullscreen />
+            <Hr fullscreen bottom={0} left={1} />
           </Section>
         )}
       </div>

@@ -14,7 +14,7 @@ describe('Field.Expiry', () => {
     })
   })
 
-  it('should return month and year values as a concacted string', async () => {
+  it('should return month and year values as a concatenated string', async () => {
     const onChange = jest.fn()
 
     render(<Field.Expiry onChange={onChange} />)
@@ -29,6 +29,15 @@ describe('Field.Expiry', () => {
 
     expect(onChange).toBeCalledTimes(4)
     expect(onChange).toHaveBeenLastCalledWith('1235')
+  })
+
+  it('should have autofill attributes', () => {
+    render(<Field.Expiry />)
+
+    const [month, year] = Array.from(document.querySelectorAll('input'))
+
+    expect(month).toHaveAttribute('autocomplete', 'cc-exp-month')
+    expect(year).toHaveAttribute('autocomplete', 'cc-exp-year')
   })
 
   describe('keydown', () => {

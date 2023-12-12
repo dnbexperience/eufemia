@@ -1,14 +1,28 @@
-import { Field, Form } from '../../..'
+import React from 'react'
+import { Field } from '../../..'
 
 export default {
-  title: 'Eufemia/Forms/PhoneNumber',
+  title: 'Eufemia/Extensions/Forms/PhoneNumber',
 }
 
 export function PhoneNumber() {
+  const [state, update] = React.useState('+47 1')
+  // const [state, update] = React.useState(undefined)
+  React.useEffect(() => {
+    // update('+41 1')
+    update('+45')
+  }, [])
   return (
-    <Form.Handler onSubmit={console.log}>
-      <Field.PhoneNumber required validateInitially path="/phoneNumber" />
-      <Form.SubmitButton top />
-    </Form.Handler>
+    <Field.PhoneNumber
+      required
+      pattern="^[49]+"
+      value={state}
+      onBlur={console.log}
+      onFocus={console.log}
+      onChange={(value) => {
+        console.log('onChange', value)
+        update(value)
+      }}
+    />
   )
 }

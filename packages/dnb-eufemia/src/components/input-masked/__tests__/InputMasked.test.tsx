@@ -53,11 +53,9 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref = React.createRef<HTMLInputElement | null>()
+    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       ref.current = elem
     }
 
@@ -706,7 +704,7 @@ describe('InputMasked component', () => {
     expect(setSelectionRange).toHaveBeenCalledWith(8, 8)
   })
 
-  it('should move carret position on delete key', () => {
+  it('should move caret position on delete key', () => {
     render(
       <InputMasked
         value={123456}

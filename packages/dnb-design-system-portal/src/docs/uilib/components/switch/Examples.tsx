@@ -7,18 +7,17 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Switch, HelpButton } from '@dnb/eufemia/src'
 
-const onChange = (state) => {
-  console.log('onChangeHandler', state)
-}
-
 export const SwitchExampleDefault = () => (
-  <ComponentBox data-visual-test="switch-default" scope={{ onChange }}>
-    <Switch label="Switch" on_change={onChange} />
+  <ComponentBox data-visual-test="switch-default">
+    <Switch
+      label="Switch"
+      on_change={({ checked }) => console.log(checked)}
+    />
   </ComponentBox>
 )
 
 export const SwitchExampleChecked = () => (
-  <ComponentBox data-visual-test="switch-checked" scope={{ onChange }}>
+  <ComponentBox data-visual-test="switch-checked">
     <Switch
       label="Label:"
       label_position="left"
@@ -29,13 +28,13 @@ export const SwitchExampleChecked = () => (
 )
 
 export const SwitchExampleErrorMessage = () => (
-  <ComponentBox data-visual-test="switch-error" scope={{ onChange }}>
+  <ComponentBox data-visual-test="switch-error">
     <Switch label="Switch" checked status="Error message" />
   </ComponentBox>
 )
 
 export const SwitchExampleSuffix = () => (
-  <ComponentBox scope={{ onChange }}>
+  <ComponentBox>
     <Switch
       label="Switch"
       checked

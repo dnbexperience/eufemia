@@ -805,7 +805,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
@@ -1003,9 +1002,6 @@ button .dnb-form-status__text {
 .dnb-input__input::-ms-clear {
   display: none;
 }
-.dnb-input__input:autofill {
-  box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color), 0 0 0 10em var(--input-background-color) inset;
-}
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
   outline: none;
@@ -1036,6 +1032,9 @@ button .dnb-form-status__text {
 .dnb-input__row {
   display: inline-flex;
   align-items: center;
+}
+.dnb-input__input:autofill {
+  box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color) var(--autofill-inset, inset), 0 0 0 10em var(--input-background-color) inset;
 }
 .dnb-input__suffix {
   color: inherit;
@@ -1224,6 +1223,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 .dnb-input__icon {
   order: 0;
   position: absolute;
+  z-index: 2;
   left: 1rem;
   right: auto;
   top: 0;
@@ -1249,6 +1249,9 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--color-white);
+}
+.dnb-input[data-has-content=false] .dnb-input__input:focus:autofill {
+  --autofill-inset: none;
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-input {
@@ -1288,7 +1291,7 @@ html[data-visual-test] .dnb-input__input {
   gap: 1rem;
 }
 
-.dnb-multi-input-mask__input {
+.dnb-multi-input-mask__input.dnb-input__input {
   display: inline-block;
   width: auto;
   margin: 0;
@@ -1302,10 +1305,10 @@ html[data-visual-test] .dnb-input__input {
   overflow: visible;
   white-space: nowrap;
 }
-.dnb-multi-input-mask__input:first-of-type {
+.dnb-multi-input-mask__input.dnb-input__input:first-of-type {
   padding-left: 0.5rem;
 }
-.dnb-multi-input-mask__input:last-of-type {
+.dnb-multi-input-mask__input.dnb-input__input:last-of-type {
   padding-right: 0.5rem;
 }
 

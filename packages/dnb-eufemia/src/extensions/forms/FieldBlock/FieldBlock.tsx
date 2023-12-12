@@ -3,10 +3,7 @@ import classnames from 'classnames'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
-import {
-  findElementInChildren,
-  warn,
-} from '../../../shared/component-helper'
+import { findElementInChildren } from '../../../shared/component-helper'
 
 export type Props = Pick<
   FieldProps,
@@ -18,6 +15,7 @@ export type Props = Pick<
   | 'info'
   | 'warning'
   | 'error'
+  | 'disabled'
 > & {
   forId?: string
   contentClassName?: string
@@ -25,7 +23,7 @@ export type Props = Pick<
   /** Use true if you have more than one form element */
   asFieldset?: boolean
   /** Width of outer block element */
-  width?: false | 'small' | 'medium' | 'large'
+  width?: false | 'small' | 'medium' | 'large' | 'stretch'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
   /** Typography size */
@@ -46,6 +44,7 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error: errorProp,
+    disabled,
     width,
     contentsWidth,
     size,
@@ -62,10 +61,10 @@ function FieldBlock(props: Props) {
   >({})
 
   const setError = useCallback(
-    (id, error) => {
+    (identifier, error) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setError(id, error)
+        nestedFieldBlockContext.setError(identifier, error)
         return
       }
 
@@ -73,11 +72,11 @@ function FieldBlock(props: Props) {
         if (error) {
           return {
             ...existing,
-            [id]: error,
+            [identifier]: error,
           }
         } else {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { [id]: removed, ...newRecord } = existing
+          const { [identifier]: removed, ...newRecord } = existing
           return newRecord
         }
       })
@@ -86,10 +85,10 @@ function FieldBlock(props: Props) {
   )
 
   const setShowError = useCallback(
-    (id, show) => {
+    (identifier, show) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setShowError(id, show)
+        nestedFieldBlockContext.setShowError(identifier, show)
         return
       }
 
@@ -97,10 +96,10 @@ function FieldBlock(props: Props) {
         if (show) {
           return {
             ...existing,
-            [id]: true,
+            [identifier]: true,
           }
         } else {
-          const { [id]: removed, ...newRecord } = existing
+          const { [identifier]: removed, ...newRecord } = existing
           return newRecord
         }
       })
@@ -113,7 +112,7 @@ function FieldBlock(props: Props) {
       return errorProp
     }
     const errors = Object.entries(fieldErrorRecord)
-      .filter(([id]) => showFieldErrorRecord[id] === true)
+      .filter(([identifier]) => showFieldErrorRecord[identifier] === true)
       .map(([, error]) => error)
     return errors.length > 0
       ? new Error(errors.map((error) => error.message).join(' | '))
@@ -133,7 +132,6 @@ function FieldBlock(props: Props) {
   // A child component with a label was found, use fieldset/legend instead of div/label
   const enableFieldset = useEnableFieldset({
     label,
-    forId,
     asFieldset,
     children,
     nestedFieldBlockContext,
@@ -155,6 +153,7 @@ function FieldBlock(props: Props) {
         forId={enableFieldset ? undefined : forId}
         space={{ top: 0, bottom: 'x-small' }}
         size={size}
+        disabled={disabled}
       >
         {children}
       </FormLabel>
@@ -233,7 +232,6 @@ function FieldBlock(props: Props) {
 
 function useEnableFieldset({
   label,
-  forId,
   asFieldset,
   children,
   nestedFieldBlockContext,
@@ -255,12 +253,6 @@ function useEnableFieldset({
           return (result = true)
         }
       })
-
-      if (forId && count > 1) {
-        warn(
-          `You may not use forId="${forId}" as there where given several (${count}) form elements as children.`
-        )
-      }
     }
 
     return Boolean(result)

@@ -8,9 +8,12 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Checkbox', () => {
+describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
   describe('unchecked', () => {
-    setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/checkbox/demos',
+    })
 
     it('have to match checkbox in unchecked state', async () => {
       const screenshot = await makeScreenshot({
@@ -34,6 +37,23 @@ describe('Checkbox', () => {
         selector: '[data-visual-test="checkbox-default"] .dnb-checkbox',
         simulateSelector:
           '[data-visual-test="checkbox-default"] .dnb-checkbox__input',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in unchecked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-unchecked"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in unchecked state with error and hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-unchecked"] .dnb-checkbox',
         simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -87,6 +107,23 @@ describe('Checkbox', () => {
     it('have to match checkbox in error state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-error"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in checked state with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-checked"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match checkbox in checked state with error and hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-error-checked"] .dnb-checkbox',
+        simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

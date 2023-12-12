@@ -112,3 +112,30 @@ export const ValidationRequired = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationFunction = () => {
+  return (
+    <ComponentBox scope={{ FormError }}>
+      {() => {
+        const fnr = (value: string) =>
+          value.length >= 11 ? { status: 'valid' } : { status: 'invalid' }
+
+        const validator = (value, errorMessages) => {
+          const result = fnr(value)
+          return result.status === 'invalid'
+            ? new FormError(errorMessages.pattern)
+            : undefined
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="123"
+            validator={validator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}

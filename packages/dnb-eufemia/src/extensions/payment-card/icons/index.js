@@ -7,6 +7,7 @@ import {
   padlock_medium as Blocked,
   card_in_medium as CardIn,
   hourglass as Hourglass,
+  question_medium as QuestionMark,
 } from '../../../icons'
 import MastercardDefault from './MastercardDefault'
 import MastercardDark from './MastercardDark'
@@ -86,6 +87,9 @@ const StatusIcon = ({ status }) => {
 
     case 'replaced':
       return <CardIn />
+
+    case 'unknown':
+      return <QuestionMark />
 
     case 'active':
     default:

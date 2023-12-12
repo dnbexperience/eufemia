@@ -10,7 +10,6 @@ The `Form.Handler` component provides both the [Form.Element](/uilib/extensions/
 - It calls `preventDefault` by default.
 
 ```jsx
-import '@dnb/eufemia/extensions/forms/style'
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(
   <Form.Handler
@@ -23,7 +22,7 @@ render(
 )
 ```
 
-## Autocomplete and autofill
+## Browser autofill
 
 You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/extensions/forms/base-fields/String/)-field will then get `autoComplete="on"`:
 

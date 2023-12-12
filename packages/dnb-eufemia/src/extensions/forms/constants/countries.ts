@@ -3,7 +3,33 @@
  *
  * cdc: Country Dialing Code
  */
-export default [
+
+export type CountryType = {
+  cdc: string
+  iso: string
+  i18n: {
+    en: string
+    nb: string
+  }
+  continent:
+    | 'Asia'
+    | 'Europe'
+    | 'Africa'
+    | 'Oceania'
+    | 'Antarctica'
+    | 'North America'
+    | 'South America'
+  regions?: Array<'Scandinavia' | 'Nordic'>
+}
+
+export const prioritizedCountries = [
+  'Norway',
+  'Sweden',
+  'Denmark',
+  'Finland',
+]
+
+const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Afghanistan',
@@ -516,6 +542,7 @@ export default [
     cdc: '45',
     iso: 'DK',
     continent: 'Europe',
+    regions: ['Scandinavia', 'Nordic'],
   },
   {
     i18n: {
@@ -660,6 +687,7 @@ export default [
     cdc: '358',
     iso: 'FI',
     continent: 'Europe',
+    regions: ['Nordic'],
   },
   {
     i18n: {
@@ -876,6 +904,7 @@ export default [
     cdc: '354',
     iso: 'IS',
     continent: 'Europe',
+    regions: ['Nordic'],
   },
   {
     i18n: {
@@ -1452,6 +1481,7 @@ export default [
     cdc: '47',
     iso: 'NO',
     continent: 'Europe',
+    regions: ['Scandinavia', 'Nordic'],
   },
   {
     i18n: {
@@ -1902,6 +1932,7 @@ export default [
     cdc: '46',
     iso: 'SE',
     continent: 'Europe',
+    regions: ['Scandinavia', 'Nordic'],
   },
   {
     i18n: {
@@ -2192,3 +2223,5 @@ export default [
     continent: 'Africa',
   },
 ]
+
+export default countries

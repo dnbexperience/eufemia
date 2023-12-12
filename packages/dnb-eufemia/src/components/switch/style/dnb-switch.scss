@@ -28,11 +28,11 @@
   }
 
   &__shell {
-    user-select: none; // Safari / Touch fix
     position: relative;
-
     display: flex;
     align-items: center;
+
+    user-select: none; // Safari / Touch fix
   }
 
   &--large {
@@ -46,6 +46,7 @@
   &__row {
     display: inline-flex;
     align-items: center;
+
     height: var(--switch-height--medium);
   }
 
@@ -63,10 +64,10 @@
     width: var(--switch-height--medium);
     height: var(--switch-height--medium);
 
-    transform: translateX(0);
-    transition: transform 160ms ease-out 125ms;
-
+    background-color: lightgrey;
     border: var(--switch-border-width--medium) solid transparent;
+
+    transition: transform 160ms ease-out 125ms;
 
     .dnb-switch--large & {
       width: var(--switch-height--large);
@@ -83,22 +84,6 @@
 
     width: 100%;
     height: 100%;
-
-    transition: transform 150ms ease-out;
-    transform: rotate(0deg);
-
-    // 15% is the top value
-    // 85% is the bottom value
-    clip-path: polygon(
-      50% 15%,
-      110% 15%,
-      110% -10%,
-      -10% -10%,
-      -10% 110%,
-      110% 110%,
-      110% 85%,
-      50% 85%
-    );
 
     @include focusRing();
   }
@@ -144,10 +129,26 @@
   }
 
   &__background {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    overflow: hidden;
+
     width: var(--switch-width--medium);
     height: calc(var(--switch-height--medium) - 0.5rem);
 
+    background-color: grey;
     border-radius: calc(var(--switch-height--medium) - 0.5rem / 2);
+
+    &::after {
+      content: '';
+      position: absolute;
+      transition:
+        transform 0.3s ease-out,
+        position 0.3s ease-out;
+    }
 
     .dnb-switch--large & {
       width: var(--switch-width--large);
@@ -186,6 +187,16 @@
     cursor: pointer;
   }
 
+  &__input:not([disabled]):focus ~ &__background,
+  &__input:not([disabled]):active ~ &__background {
+    @include focusRing();
+  }
+
+  &__input:not([disabled]):focus ~ &__button &__focus,
+  &__input:not([disabled]):active ~ &__button &__focus {
+    display: block;
+  }
+
   // label
   .dnb-form-label {
     padding-right: 0.5rem;
@@ -213,7 +224,7 @@
 
     .dnb-form-label {
       order: 1;
-      align-self: flex-start;
+      align-self: center;
     }
 
     .dnb-form-status {
@@ -250,7 +261,23 @@
   &.dnb-skeleton
     &__input[disabled]:not(:checked)
     ~ .dnb-switch__background::after {
+    content: '';
     border-color: var(--skeleton-color--contrast);
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__button
+    &__focus {
+    display: block;
+    @include fakeBorder(red, var(--focus-ring-width, 0.125rem));
+  }
+
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)
+    ~ &__background {
+    background-color: tomato;
+    @include fakeBorder(red, var(--focus-ring-width, 0.125rem));
   }
 
   // Edge fix

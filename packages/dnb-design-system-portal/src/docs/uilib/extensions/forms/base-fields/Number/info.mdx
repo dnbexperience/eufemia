@@ -6,8 +6,18 @@ showTabs: true
 
 `Field.Number` is the base component for receiving user input where the target data is of type `number`.
 
-There is a corresponding [Value.Number](/uilib/extensions/forms/create-component/Value/Number) component.
+There is a corresponding [Value.Number](/uilib/extensions/forms/extended-features/Value/Number) component.
 
-## Autocomplete and autofill
+## When to use and not to use
+
+`Field.Number` only allows the user to enter numbers (negative and positive) and decimal numbers.
+
+If a number has the type of number, and can not start with a zero, this field may be considered.
+
+But for e.g. a customer number, you rather use [Field.String](/uilib/extensions/forms/base-fields/String/).
+
+Internally, it is used by e.g. [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/).
+
+## Browser autofill
 
 Check out the [Field.String](/uilib/extensions/forms/base-fields/String/#autocomplete-and-autofill) docs about autocomplete.

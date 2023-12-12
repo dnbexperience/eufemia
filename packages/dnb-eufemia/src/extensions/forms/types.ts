@@ -20,7 +20,7 @@ export class FormError extends Error {
 
   /**
    * Replacement values relevant for this error.
-   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} charactes"
+   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
    */
   messageValues?: MessageValues
 
@@ -77,7 +77,10 @@ export interface DataValueWriteProps<
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
   onBlur?: (value: Value | EmptyValue) => void
-  onChange?: (value: Value | EmptyValue) => void
+  onChange?: (
+    value: Value | EmptyValue,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
 }
 
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
@@ -137,6 +140,8 @@ export type ComponentProps = SpacingProps & {
   className?: string
 }
 
+export type AdditionalEventArgs = Record<string, unknown>
+
 export type DataValueReadComponentProps<Value = unknown> = ComponentProps &
   DataValueReadProps<Value>
 
@@ -175,7 +180,8 @@ export interface FieldProps<
   required?: boolean
   schema?: JSONSchema7
   validator?: (
-    value: Value | EmptyValue
+    value: Value | EmptyValue,
+    errorMessages?: ErrorMessages
   ) => Error | undefined | Promise<Error | undefined>
   onBlurValidator?: (
     value: Value | EmptyValue
@@ -209,7 +215,7 @@ export interface FieldHelpProps {
 export interface ValueProps<Value>
   extends DataValueReadComponentProps<Value> {
   label?: string
-  /** Should the component render if the value is empty? */
+  /** Field label to show above the data value. */
   showEmpty?: boolean
   /** Text showing in place of the value if no value is given. */
   placeholder?: string

@@ -166,9 +166,9 @@ export const TabsExampleLeftAligned = () => (
   </Wrapper>
 )
 
-export const TabsExampleHorizontalAligned = () => (
+export const TabsExampleHorizontallyAligned = () => (
   <ComponentBox
-    data-visual-test="tabs-horizontal-aligned"
+    data-visual-test="tabs-horizontally-aligned"
     scope={{ manyTabs }}
   >
     {() => {

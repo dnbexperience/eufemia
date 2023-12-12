@@ -8,7 +8,7 @@ export const Empty = () => {
       <Field.PhoneNumber
         onFocus={(value) => console.log('onFocus', value)}
         onBlur={(value) => console.log('onBlur', value)}
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
         onCountryCodeChange={(countryCode) =>
           console.log('onCountryCodeChange', countryCode)
         }
@@ -25,7 +25,7 @@ export const Placeholder = () => {
     <ComponentBox>
       <Field.PhoneNumber
         placeholder="Call this number"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
       />
     </ComponentBox>
   )
@@ -36,7 +36,7 @@ export const Label = () => {
     <ComponentBox>
       <Field.PhoneNumber
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
       />
     </ComponentBox>
   )
@@ -48,7 +48,7 @@ export const LabelAndValue = () => {
       <Field.PhoneNumber
         label="Label text"
         value="+47 98765432"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
       />
     </ComponentBox>
   )
@@ -58,7 +58,7 @@ export const WithHelp = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
         help={{
           title: 'Help is available',
           contents:
@@ -75,7 +75,7 @@ export const Disabled = () => {
       <Field.PhoneNumber
         value="+47 12345678"
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
         disabled
       />
     </ComponentBox>
@@ -88,7 +88,7 @@ export const Error = () => {
       <Field.PhoneNumber
         value="007"
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
         error={new FormError('This is what is wrong...')}
       />
     </ComponentBox>
@@ -101,8 +101,20 @@ export const ValidationRequired = () => {
       <Field.PhoneNumber
         value="+47 888"
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(...args) => console.log('onChange', ...args)}
         required
+      />
+    </ComponentBox>
+  )
+}
+
+export const WithFilter = () => {
+  return (
+    <ComponentBox>
+      <Field.PhoneNumber
+        label="Label text"
+        onChange={(...args) => console.log('onChange', ...args)}
+        countries="Scandinavia"
       />
     </ComponentBox>
   )

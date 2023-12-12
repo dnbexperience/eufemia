@@ -33,6 +33,12 @@ exports[`Section scss has to match style dependencies css 1`] = `
 .dnb-section[style*="--background-color"] {
   background-color: var(--background-color, white);
 }
+.dnb-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: var(--drop-shadow, none);
+}
 .dnb-section::after {
   content: "";
   visibility: var(--breakout, hidden);
@@ -57,6 +63,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     --background-color--value: var(--background-color--small);
     --text-color--value: var(--text-color--small);
     --outline-color: var(--outline-color--small);
+    --drop-shadow: var(--drop-shadow--small);
     --rounded-corner: var(
       --rounded-corner--small,
       var(--rounded-corner--fallback)
@@ -69,6 +76,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     --background-color--value: var(--background-color--medium);
     --text-color--value: var(--text-color--medium);
     --outline-color: var(--outline-color--medium);
+    --drop-shadow: var(--drop-shadow--medium);
     --rounded-corner: var(
       --rounded-corner--medium,
       var(--rounded-corner--fallback)
@@ -81,6 +89,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     --background-color--value: var(--background-color--large);
     --text-color--value: var(--text-color--large);
     --outline-color: var(--outline-color--large);
+    --drop-shadow: var(--drop-shadow--large);
     --rounded-corner: var(
       --rounded-corner--large,
       var(--rounded-corner--fallback)

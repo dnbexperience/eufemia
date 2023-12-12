@@ -4,9 +4,28 @@ showTabs: true
 
 ## Description
 
-`Field.SelectCountry` is a wrapper component for the select component, with options built in for selecting a country.
+`Field.SelectCountry` is a wrapper component for the [selection component](/uilib/extensions/forms/base-fields/Selection), with options built in for selecting a country.
+When selecting a country, the value returned is the selected country's [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) like `NO` for Norway.
 
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.SelectCountry />)
+```
+
+It supports the HTML [autofill](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute (`country-name`) if no value is given.
+
+### Filter or prioritize country listing
+
+You can filter countries with the `countries` property's values `Scandinavia`, `Nordic` or `Europe`.
+
+Countries are sorted in alphabetically order with some prioritized countries on top of the list:
+
+- Norway
+- Sweden
+- Denmark
+- Finland
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.PhoneNumber countries="Prioritized" />)
 ```

@@ -125,6 +125,10 @@ export interface AutocompleteProps
    */
   keep_value?: boolean;
   /**
+   * Use `true` to not remove selected item on input blur, when the input value is empty. Defaults to `false`.
+   */
+  keep_selection?: boolean;
+  /**
    * Like `keep_value` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept. Defaults to `false`.
    */
   keep_value_and_selection?: boolean;

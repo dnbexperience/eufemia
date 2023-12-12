@@ -26,7 +26,22 @@ const getFormFields = () => {
         path="/bankaccount"
         label="BankAccountNumber"
       />
-      <Field.Boolean path="/boolean" label="Boolean" />
+      <Field.Boolean path="/boolean1" label="Boolean default" />
+      <Field.Boolean
+        path="/boolean2"
+        label="Boolean button"
+        variant="button"
+      />
+      <Field.Boolean
+        path="/boolean3"
+        label="Boolean buttons"
+        variant="buttons"
+      />
+      <Field.Boolean
+        path="/boolean4"
+        label="Boolean checkbox-button"
+        variant="checkbox-button"
+      />
       <Field.Currency path="/currency" label="Currency" />
       <Field.Date path="/data" label="Date" />
       <Field.NationalIdentityNumber
@@ -34,12 +49,28 @@ const getFormFields = () => {
         label="NationalIdentityNumber"
       />
       <Field.Number path="/number" label="Number" />
-      <Field.Selection path="/selectionoption" label="SelectionOption">
-        <Field.Option path="/option" label="Option" />
+      <Field.Selection path="/selection1" label="Selection">
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        path="/selection2"
+        label="Selection button"
+        variant="button"
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        path="/selection3"
+        label="Selection radio"
+        variant="radio"
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
       <Field.OrganizationNumber path="/org" label="OrganizationNumber" />
       <Field.PostalCodeAndCity
-        label="PostalCodeAndCity"
         postalCode={{
           path: '/postalCode',
         }}
@@ -48,14 +79,35 @@ const getFormFields = () => {
         }}
       />
       <Field.SelectCountry path="/selectcountry" label="SelectCountry" />
-      <Field.Selection path="/selection" label="Selection" />
       <Field.String path="/string" label="String" />
       <Field.Toggle
-        path="/toggle"
+        path="/toggle1"
         valueOn="checked"
         valueOff="unchecked"
-        label="Toggle"
+        label="Toggle default"
       />
+      <Field.Toggle
+        path="/toggle2"
+        valueOn="on"
+        valueOff="off"
+        variant="button"
+        label="Toggle button"
+      />
+      <Field.Toggle
+        path="/toggle3"
+        valueOn="on"
+        valueOff="off"
+        variant="buttons"
+        label="Toggle buttons"
+      />
+      <Field.Toggle
+        path="/toggle4"
+        valueOn="on"
+        valueOff="off"
+        variant="checkbox-button"
+        label="Toggle checkbox-button"
+      />
+      <Field.Expiry path="/expiry" label="Expiry" />
     </>
   )
 
@@ -67,25 +119,31 @@ export const CardSandbox = () => {
   return (
     <Wrapper>
       <Box>
+        Default card:
         <Card>{fields}</Card>
       </Box>
       <Box>
+        Card direction="horizontal":
         <Card direction="horizontal">{fields}</Card>
       </Box>
       <Box>
+        Card direction="vertical"
         <Card direction="vertical">{fields}</Card>
       </Box>
       <Box>
+        Card Flex.Horizontal
         <Card>
           <Flex.Horizontal>{fields}</Flex.Horizontal>
         </Card>
       </Box>
       <Box>
+        Card Flex.Vertical
         <Card>
           <Flex.Vertical>{fields}</Flex.Vertical>
         </Card>
       </Box>
       <Box>
+        Card stack
         <Card stack>{fields}</Card>
       </Box>
     </Wrapper>

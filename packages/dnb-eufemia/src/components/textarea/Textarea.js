@@ -195,7 +195,7 @@ export default class Textarea extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._ref = props.inner_ref || React.createRef()
+    this._ref = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     // make sure we don't trigger getDerivedStateFromProps on startup
@@ -206,6 +206,12 @@ export default class Textarea extends React.PureComponent {
     this.state._value = props.value
   }
   componentDidMount() {
+    if (this.props.inner_ref) {
+      typeof this.props.inner_ref === 'function'
+        ? this.props.inner_ref(this._ref.current)
+        : (this.props.inner_ref.current = this._ref.current)
+    }
+
     if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
       this.setAutosize()
       try {

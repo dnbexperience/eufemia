@@ -22,6 +22,7 @@
   --radio-color-border-off: black;
   // Disabled state
   --radio-color-dot-on--disabled: lightgrey;
+  --radio-color-background--disabled: white;
   --radio-color-border-on--disabled: lightgrey;
   --radio-color-border-off--disabled: lightgrey;
   // Active state
@@ -31,6 +32,7 @@
   --radio-color-border-off--active: transparent;
   // Hover state
   --radio-color-dot-on--hover: lightgrey;
+  --radio-color-background-on--hover: lightgrey;
   --radio-color-background-off--hover: lightgrey;
   // Focus state
   --radio-color-background-on--focus: var(--color-white);
@@ -38,8 +40,11 @@
   // Error state
   --radio-color-dot-on--error: red;
   --radio-color-border-on--error: red;
-  --radio-color-background-off--error: lavenderblush;
+  --radio-color-border--error-hover: red;
+  --radio-color-background-off--error-hover: lavenderblush;
+  --radio-color-background-on--error-hover: lavenderblush;
   --radio-color-dot-on--error-hover: lavenderblush;
+  --radio-focus-ring-width--error: var(--focus-ring-width);
 
   display: inline-flex;
   flex-direction: column;
@@ -280,10 +285,6 @@
     }
   }
 
-  .dnb-skeleton &__input[disabled] ~ &__button {
-    border-color: var(--skeleton-color);
-  }
-
   /*
    * Color scheme
    */
@@ -321,6 +322,7 @@
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {
     border-color: var(--radio-color-border-on--disabled);
+    background-color: var(--radio-color-background--disabled);
   }
 
   &__input[disabled]:checked ~ &__dot,
@@ -329,8 +331,18 @@
   }
 
   // Off
-  &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
+  &__input[disabled]:not(:checked):not([data-checked='true'])
+    ~ &__button:not(.dnb-skeleton) {
     border-color: var(--radio-color-border-off--disabled);
+    background-color: var(--radio-color-background--disabled);
+  }
+
+  // Skeleton
+  &__input[disabled] ~ &__button.dnb-skeleton {
+    &::before {
+      border-radius: 0;
+    }
+    border-color: var(--skeleton-color);
   }
 
   /** Active state **/
@@ -361,6 +373,11 @@
     ~ &__dot {
     background-color: var(--radio-color-dot-on--hover);
   }
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__button,
+  &__input:not([disabled]):not(:focus)[data-checked='true']:hover
+    ~ &__button {
+    background-color: var(--radio-color-background-on--hover);
+  }
 
   // Off
   &__input:not([disabled]):not(:focus):not(:checked):not(
@@ -390,7 +407,21 @@
       :hover
     )[data-checked='true']:focus
     ~ &__button {
-    background-color: var(--radio-color-background-on--focus);
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--radio-color-background-on--focus);
+    }
+  }
+  &__input:not([disabled]):not(:active):not(:hover):checked:focus ~ &__dot,
+  &__input:not([disabled]):not(:active):not(
+      :hover
+    )[data-checked='true']:focus
+    ~ &__dot {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(
+        --radio-color-dot-on--focus,
+        var(--focus-ring-color)
+      );
+    }
   }
 
   // Off
@@ -415,7 +446,15 @@
     display: block;
     @include fakeBorder(
       var(--radio-color-border-on--error),
-      var(--focus-ring-width)
+      var(--radio-focus-ring-width--error)
+    );
+  }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):hover
+    ~ &__focus {
+    @include fakeBorder(
+      var(--radio-color-border--error-hover),
+      var(--radio-focus-ring-width--error)
     );
   }
 
@@ -440,6 +479,16 @@
     ~ &__dot {
     background-color: var(--radio-color-dot-on--error-hover);
   }
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    ~ &__button,
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(
+      :active
+    )[data-checked='true']:hover
+    ~ &__button {
+    background-color: var(--radio-color-background-on--error-hover);
+  }
 
   // Off
   &__status--error
@@ -447,7 +496,8 @@
       [data-checked='true']
     ):hover
     ~ &__button {
-    background-color: var(--radio-color-background-off--error);
+    background-color: var(--radio-color-background-off--error-hover);
   }
+
   // stylelint-enable no-descending-specificity
 }

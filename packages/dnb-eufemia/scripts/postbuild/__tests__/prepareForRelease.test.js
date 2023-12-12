@@ -9,7 +9,7 @@ import path from 'path'
 import { cleanupPackage, writeLibVersion } from '../prepareForRelease'
 
 describe('cleanupPackage', () => {
-  it('gets preparered properly and have the expeted props', async () => {
+  it('gets prepared properly and have the expected props', async () => {
     const filepath = path.resolve(packpath.self(), 'package.json')
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({

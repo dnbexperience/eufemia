@@ -125,6 +125,7 @@ export default {
       text_order_in_process: 'Under behandling',
       text_renewed: 'Fornyet',
       text_replaced: 'Erstattet',
+      text_unknown: 'Ukjent',
     },
     Logo: {
       alt: 'DNB Logo',
@@ -188,9 +189,7 @@ export default {
       lastNameErrorRequired: 'Du må fylle inn etternavn',
       nationalIdentityNumberLabel: 'Fødselsnummer (11 siffer)',
       nationalIdentityNumberErrorRequired:
-        'Du må fylle inn et fødselsnummer',
-      nationalIdentityNumberErrorPattern:
-        'Dette er ikke et gyldig fødselsnummer',
+        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
       organizationNumberLabel: 'Organisasjonsnummer',
       organizationNumberErrorRequired:
         'Du må fylle inn et organisasjonsnummer',
@@ -201,7 +200,7 @@ export default {
       bankAccountNumberErrorPattern:
         'Dette er ikke et gyldig bankkontonummer',
       phoneNumberLabel: 'Mobilnummer',
-      phoneNumberErrorRequired: 'Du må fylle inn mobilnummer',
+      phoneNumberErrorRequired: 'Du må fylle inn et gyldig nummer',
       postalCodeLabel: 'Postnr.',
       postalCodeErrorRequired: 'Du må fylle inn et postnummer',
       postalCodeErrorPattern: 'Dette er ikke et gyldig postnummer',

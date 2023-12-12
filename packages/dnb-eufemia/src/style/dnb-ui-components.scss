@@ -6,6 +6,7 @@
 
 @import './core/utilities.scss';
 @import './dnb-ui-fragments.scss';
+@import './dnb-ui-forms.scss';
 @import '../components/accordion/style/dnb-accordion.scss';
 @import '../components/anchor/style/dnb-anchor.scss';
 @import '../components/autocomplete/style/dnb-autocomplete.scss';
@@ -32,8 +33,8 @@
 @import '../components/help-button/style/dnb-help-button.scss';
 @import '../components/icon/style/dnb-icon.scss';
 @import '../components/info-card/style/dnb-info-card.scss';
-@import '../components/input/style/dnb-input.scss';
 @import '../components/input-masked/style/dnb-input-masked.scss';
+@import '../components/input/style/dnb-input.scss';
 @import '../components/logo/style/dnb-logo.scss';
 @import '../components/modal/style/dnb-modal.scss';
 @import '../components/number-format/style/dnb-number-format.scss';

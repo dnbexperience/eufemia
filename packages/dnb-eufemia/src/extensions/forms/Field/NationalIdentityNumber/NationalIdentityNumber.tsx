@@ -10,33 +10,22 @@ export type Props = StringComponentProps & {
 function NationalIdentityNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
+  const errorMessage = tr.nationalIdentityNumberErrorRequired
 
   const { validate = true, omitMask } = props
 
   const errorMessages = useMemo(
     () => ({
-      required: tr.nationalIdentityNumberErrorRequired,
-      pattern: tr.nationalIdentityNumberErrorPattern,
+      required: errorMessage,
+      pattern: errorMessage,
       ...props.errorMessages,
     }),
-    [tr, props.errorMessages]
+    [errorMessage, props.errorMessages]
   )
   const mask = useMemo(
     () =>
       omitMask
-        ? [
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-          ]
+        ? Array(11).fill(/\d/)
         : [
             /\d/,
             /\d/,
@@ -56,7 +45,9 @@ function NationalIdentityNumber(props: Props) {
 
   const stringComponentProps: Props = {
     ...props,
-    pattern: props.pattern ?? (validate ? '^[0-9]{11}$' : undefined),
+    pattern:
+      props.pattern ??
+      (validate && !props.validator ? '^[0-9]{11}$' : undefined),
     label:
       props.label ??
       sharedContext?.translation.Forms.nationalIdentityNumberLabel,

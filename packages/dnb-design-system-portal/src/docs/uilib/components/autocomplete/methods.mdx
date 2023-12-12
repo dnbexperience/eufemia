@@ -7,8 +7,11 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 - `updateData` replace all data entries.
 - `emptyData` remove all data entries.
 - `resetSelectedItem` will invalidate the selected key.
-- `revalidateSelectedItem` will re-validate the selected key on the given `value`.
+- `revalidateSelectedItem` will re-validate the internal selected key on the given `value`.
+- `revalidateInputValue` will re-validate the current input value and update it – based on the given `value`.
 - `setInputValue` update the input value.
+- `clearInputValue` will set the current input value to an empty string.
+- `focusInput` will set focus on the input element.
 - `showIndicator` shows a progress indicator instead of the icon (inside the input).
 - `hideIndicator` hides the progress indicator inside the input.
 - `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as an data option item.

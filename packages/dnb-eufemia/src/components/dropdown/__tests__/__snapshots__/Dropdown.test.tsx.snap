@@ -666,7 +666,6 @@ button.dnb-button::-moz-focus-inner {
   display: inline-block;
   width: auto;
   padding: 0;
-  margin-right: 1rem;
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;

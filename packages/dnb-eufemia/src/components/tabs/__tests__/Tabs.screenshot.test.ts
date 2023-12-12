@@ -43,12 +43,12 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match horizontal aligned tabs', async () => {
+  it('have to match horizontally aligned tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '60rem',
       },
-      selector: '[data-visual-test="tabs-horizontal-aligned"]',
+      selector: '[data-visual-test="tabs-horizontally-aligned"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -1,48 +1,81 @@
-import React, { useMemo, useContext, useCallback } from 'react'
+import React, { useMemo, useContext, useCallback, useEffect } from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
-import countries from '../../constants/countries'
-import StringComponent from '../String'
+import countries, { CountryType } from '../../constants/countries'
+import StringComponent, { Props as InputProps } from '../String'
 import { useDataValue } from '../../hooks'
 import FieldBlock from '../../FieldBlock'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
+import {
+  CountryFilterSet,
+  getCountryData,
+  makeCountryFilterSet,
+} from '../SelectCountry'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined> & {
+  FieldProps<string, undefined | string> & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
     countryCodePlaceholder?: string
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
+    pattern?: InputProps['pattern']
     width?: 'large' | 'stretch'
+    omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
-  } & {
+    countries?: CountryFilterSet
+
+    /**
+     * For internal use only.
+     *
+     * @param country
+     * @returns boolean
+     */
+    filterCountries?: (country: CountryType) => boolean
+
     /**
      * For internal testing purposes
      */
     noAnimation?: boolean
   }
 
+// Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
+// back to +47 once the user empty the field so handleChange send out undefined.
+const defaultCountryCode = '+47'
+const defaultPlaceholder = '00 00 00 00'
+const defaultMask = [
+  /\d/,
+  /\d/,
+  ' ',
+  /\d/,
+  /\d/,
+  ' ',
+  /\d/,
+  /\d/,
+  ' ',
+  /\d/,
+  /\d/,
+]
+
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
+  const lang = sharedContext.locale?.split('-')[0]
 
   const errorMessages = useMemo(
     () => ({
       required: tr.phoneNumberErrorRequired,
+      pattern: tr.phoneNumberErrorRequired,
       ...props?.errorMessages,
     }),
     [tr, props.errorMessages]
   )
 
   const defaultProps: Partial<Props> = {
-    // Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
-    // back to +47 once the user empty the field so handleChange send out undefined.
-    value: '+47',
     errorMessages,
   }
   const preparedProps: Props = {
@@ -58,8 +91,8 @@ function PhoneNumber(props: Props) {
     placeholder,
     countryCodeLabel,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
-    value,
     numberMask,
+    countries: ccFilter = 'Prioritized',
     emptyValue,
     info,
     warning,
@@ -67,102 +100,198 @@ function PhoneNumber(props: Props) {
     disabled,
     width = 'large',
     help,
+    pattern,
     required,
     validateInitially,
     continuousValidation,
     validateUnchanged,
+    omitCountryCodeField,
     handleFocus,
     handleBlur,
     handleChange,
+    updateValue,
     onCountryCodeChange,
     onNumberChange,
+    filterCountries = ccFilter !== 'Prioritized'
+      ? makeCountryFilterSet(ccFilter)
+      : undefined,
   } = useDataValue(preparedProps)
 
-  const [, countryCode, phoneNumber] =
-    value !== undefined
-      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
-      : [undefined, '', '']
+  const countryCodeRef = React.useRef(null)
+  const numberRef = React.useRef(null)
+  const dataRef = React.useRef(null)
+  const langRef = React.useRef(lang)
+  const wasFilled = React.useRef(false)
 
-  const singleCountryCodeData = useMemo(() => {
-    return getCountryData({
-      lang: sharedContext.locale?.split('-')[0],
-      filter: countryCode,
+  const updateCurrentDataSet = useCallback(() => {
+    dataRef.current = getCountryData({
+      lang,
+      filter: !wasFilled.current
+        ? (country) =>
+            `${formattCountryCode(country.cdc)}` === countryCodeRef.current
+        : filterCountries,
+      sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
+      makeObject,
     })
-  }, [])
+  }, [lang, filterCountries, ccFilter])
+
+  const callOnChange = useCallback(
+    ({
+      countryCode = omitCountryCodeField
+        ? emptyValue
+        : countryCodeRef.current || emptyValue,
+      phoneNumber = numberRef.current || emptyValue,
+    }) => {
+      /**
+       * To ensure, we actually call onChange every time,
+       * even if the value is undefined
+       */
+      updateValue('invalidate')
+
+      handleChange(
+        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
+        omitCountryCodeField
+          ? { phoneNumber }
+          : { countryCode, phoneNumber }
+      )
+    },
+    [omitCountryCodeField, emptyValue, updateValue, handleChange]
+  )
+
+  /**
+   * We do not process the whole country list at the first render.
+   * Only when the Autocomplete opens (focus).
+   * To achieve this, we use memo instead of effect to update refs in sync.
+   *
+   * We set or update the data list depending on if the countrycode changes or lang changes.
+   * We then update countryCode and phoneNumber when value changes.
+   */
+  useMemo(() => {
+    const [countryCode, phoneNumber] = splitValue(props.value)
+    numberRef.current = phoneNumber
+
+    if (lang !== langRef.current || !wasFilled.current) {
+      countryCodeRef.current = countryCode || defaultCountryCode
+      langRef.current = lang
+
+      updateCurrentDataSet()
+    }
+  }, [props.value, lang, updateCurrentDataSet])
+
+  /**
+   * On external value change, update the internal,
+   * only so onFocus and onBlur does have correct (eventually empty) value.
+   */
+  useEffect(() => {
+    const [countryCode, phoneNumber] = splitValue(props.value)
+    const newValue = phoneNumber
+      ? joinValue([countryCode, phoneNumber])
+      : emptyValue
+    updateValue(newValue)
+  }, [props.value, emptyValue, updateValue])
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
-      const countryCode = data?.selectedKey?.trim() ?? emptyValue
+      const countryCode = (countryCodeRef.current =
+        data?.selectedKey?.trim() || emptyValue)
 
-      if (!countryCode && !phoneNumber) {
-        handleChange?.(emptyValue)
-        onCountryCodeChange?.(emptyValue)
-        return
-      }
-
-      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      callOnChange({ countryCode })
       onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, handleChange, onCountryCodeChange]
+    [emptyValue, callOnChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
-    (phoneNumber: string) => {
-      if (!countryCode && !phoneNumber) {
-        handleChange?.(emptyValue)
-        onNumberChange?.(emptyValue)
-        return
-      }
+    (value: string) => {
+      const phoneNumber = (numberRef.current = value || emptyValue)
 
-      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      callOnChange({ phoneNumber })
       onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, handleChange, onNumberChange]
+    [emptyValue, callOnChange, onNumberChange]
   )
 
-  const onFocusHandler = ({ dataList, updateData }) => {
-    // because there can be more than one country with same cdc
-    if (dataList.length < 10) {
-      updateData(
-        getCountryData({ lang: sharedContext.locale?.split('-')[0] })
-      )
-    }
-    handleFocus()
-  }
+  const onFocusHandler = useCallback(
+    ({ updateData }) => {
+      if (!wasFilled.current) {
+        wasFilled.current = true
+        updateCurrentDataSet()
+        updateData(dataRef.current)
+      }
+      handleFocus()
+    },
+    [handleFocus, updateCurrentDataSet]
+  )
+
+  const onTypeHandler = useCallback(
+    ({ value, updateData, revalidateInputValue, event }) => {
+      // Handle browser autofill/autocomplete
+      if (typeof event?.nativeEvent?.data === 'undefined') {
+        const cdcVal = /\+\d{1,3}\s{1}\d+/.test(value)
+          ? splitValue(value)[0]
+          : value
+        const country = countries.find(({ cdc }) => cdc === cdcVal)
+        if (country?.cdc) {
+          const countryCode = (countryCodeRef.current = formattCountryCode(
+            country.cdc
+          ))
+
+          updateCurrentDataSet()
+          updateData(dataRef.current)
+          callOnChange({ countryCode })
+
+          // To ensure correct input value,
+          // regardless if there is changed data before or not.
+          window.requestAnimationFrame(() => {
+            revalidateInputValue()
+          })
+        }
+      }
+    },
+    [callOnChange, updateCurrentDataSet]
+  )
+
+  const isDefault = countryCodeRef.current.includes(defaultCountryCode)
 
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-phone-number', className)}
-      width={width !== 'stretch' ? width : undefined}
+      width={omitCountryCodeField ? undefined : width}
       info={info}
       warning={warning}
       error={error}
+      disabled={disabled}
       {...pickSpacingProps(props)}
     >
-      <Flex.Horizontal>
-        <Autocomplete
-          className={classnames(
-            'dnb-forms-field-phone-number__country-code',
-            countryCodeFieldClassName
-          )}
-          placeholder={countryCodePlaceholder ?? ' '}
-          label_direction="vertical"
-          label={
-            countryCodeLabel ??
-            sharedContext?.translation.Forms.countryCodeLabel
-          }
-          data={singleCountryCodeData}
-          value={countryCode}
-          disabled={disabled}
-          on_focus={onFocusHandler}
-          on_blur={handleBlur}
-          on_change={handleCountryCodeChange}
-          independent_width
-          search_numbers
-          keep_value_and_selection
-          no_animation={props.noAnimation}
-          stretch={width === 'stretch'}
-        />
+      <Flex.Horizontal align="baseline">
+        {!omitCountryCodeField && (
+          <Autocomplete
+            className={classnames(
+              'dnb-forms-field-phone-number__country-code',
+              countryCodeFieldClassName
+            )}
+            mode="async"
+            placeholder={countryCodePlaceholder ?? ' '}
+            label_direction="vertical"
+            label={
+              countryCodeLabel ??
+              sharedContext?.translation.Forms.countryCodeLabel
+            }
+            data={dataRef.current}
+            value={countryCodeRef.current}
+            disabled={disabled}
+            on_focus={onFocusHandler}
+            on_blur={handleBlur}
+            on_change={handleCountryCodeChange}
+            on_type={onTypeHandler}
+            independent_width
+            search_numbers
+            keep_selection
+            autoComplete="tel-country-code"
+            no_animation={props.noAnimation}
+            stretch={width === 'stretch'}
+          />
+        )}
 
         <StringComponent
           className={classnames(
@@ -170,36 +299,29 @@ function PhoneNumber(props: Props) {
             numberFieldClassName
           )}
           type="tel"
+          autoComplete="tel-national"
           emptyValue=""
           layout="vertical"
           label={label ?? ' '}
-          placeholder={placeholder ?? '00 00 00 00'}
+          placeholder={
+            placeholder ?? (isDefault ? defaultPlaceholder : undefined)
+          }
           mask={
-            numberMask ?? [
-              /\d/,
-              /\d/,
-              ' ',
-              /\d/,
-              /\d/,
-              ' ',
-              /\d/,
-              /\d/,
-              ' ',
-              /\d/,
-              /\d/,
-            ]
+            numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
           }
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleNumberChange}
-          value={phoneNumber}
+          value={numberRef.current}
           info={info}
           warning={warning}
           error={error}
           disabled={disabled}
-          width="stretch"
+          width={omitCountryCodeField ? 'medium' : 'stretch'}
           help={help}
           required={required}
+          pattern={pattern}
+          errorMessages={errorMessages}
           validateInitially={validateInitially}
           continuousValidation={continuousValidation}
           validateUnchanged={validateUnchanged}
@@ -209,27 +331,33 @@ function PhoneNumber(props: Props) {
   )
 }
 
-type CountryType = {
-  cdc: string
-  iso: string
-  i18n: {
-    en: string
-  }
-}
-
 function makeObject(country: CountryType, lang: string) {
   return {
-    selectedKey: `+${country.cdc}`,
-    selected_value: `${country.iso} (+${country.cdc})`,
-    content: `+${country.cdc} ${country.i18n[lang] ?? country.i18n.en}`,
+    selectedKey: formattCountryCode(country.cdc),
+    selected_value: `${country.iso} (${formattCountryCode(country.cdc)})`,
+    search_content: Object.values(country.i18n).map(
+      (v) => `${formattCountryCode(country.cdc)} ${v}`
+    ),
+    content: `${formattCountryCode(country.cdc)} ${
+      country.i18n[lang] ?? country.i18n.en
+    }`,
   }
 }
 
-function getCountryData({ lang = 'en', filter = null } = {}) {
-  return countries
-    .filter(({ cdc }) => !filter || `+${cdc}` === filter)
-    .sort(({ i18n: a }, { i18n: b }) => (a[lang] > b[lang] ? 1 : -1))
-    .map((country) => makeObject(country, lang))
+function formattCountryCode(value: string) {
+  return `+${value}`
+}
+
+function splitValue(value: string) {
+  return (
+    typeof value === 'string'
+      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
+      : [undefined, '', '']
+  ).slice(1)
+}
+
+function joinValue(array: Array<string>) {
+  return array.filter(Boolean).join(' ')
 }
 
 PhoneNumber._supportsSpacingProps = true

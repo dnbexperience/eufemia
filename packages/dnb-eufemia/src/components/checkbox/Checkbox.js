@@ -78,7 +78,7 @@ export default class Checkbox extends React.PureComponent {
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
-    innerRef: PropTypes.object,
+    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 
     ...spacingPropTypes,
 
@@ -116,6 +116,8 @@ export default class Checkbox extends React.PureComponent {
 
     on_change: null,
     on_state_update: null,
+
+    innerRef: null,
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -142,11 +144,19 @@ export default class Checkbox extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._refInput = props.innerRef || React.createRef()
+    this._refInput = React.createRef()
 
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.innerRef) {
+      typeof this.props.innerRef === 'function'
+        ? this.props.innerRef(this._refInput.current)
+        : (this.props.innerRef.current = this._refInput.current)
     }
   }
 

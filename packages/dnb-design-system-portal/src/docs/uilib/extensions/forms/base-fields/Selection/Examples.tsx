@@ -1,5 +1,6 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Button } from '@dnb/eufemia/src'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
@@ -211,6 +212,50 @@ export const DropdownError = () => (
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
+  </ComponentBox>
+)
+
+export const DropdownDynamicOptions = () => (
+  <ComponentBox>
+    {() => {
+      const Example = () => {
+        const [numOptions, setNumOptions] = React.useState(3)
+
+        return (
+          <>
+            <Field.Selection
+              value="option-15"
+              label="Label text"
+              onChange={(value) => console.log('onChange', value)}
+            >
+              {Array.from(Array(numOptions).keys()).map((key) => (
+                <Field.Option
+                  key={key}
+                  value={key}
+                  title={'Option ' + (key + 1)}
+                />
+              ))}
+            </Field.Selection>
+
+            <p>
+              {[3, 4, 5].map((num, i) => (
+                <Button
+                  key={i}
+                  size="medium"
+                  right="x-small"
+                  variant={numOptions === num ? 'primary' : 'secondary'}
+                  on_click={() => setNumOptions(num)}
+                >
+                  {num} options
+                </Button>
+              ))}
+            </p>
+          </>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )
 

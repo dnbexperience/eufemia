@@ -151,7 +151,7 @@ describe('Pagination calculation helper', () => {
     expect(pages).toEqual([[1], [5, 6], [10]])
   })
 
-  it('should return page 1 if undefiend is given', () => {
+  it('should return page 1 if undefined is given', () => {
     const pages = calculatePagination(undefined, undefined)
     expect(pages).toEqual([[1]])
   })

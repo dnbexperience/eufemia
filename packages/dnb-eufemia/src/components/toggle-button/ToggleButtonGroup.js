@@ -287,11 +287,13 @@ export default class ToggleButtonGroup extends React.PureComponent {
       onChange: this.onChangeHandler,
     }
 
+    const Fieldset = label ? 'fieldset' : 'div'
+
     return (
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <fieldset>
+          <Fieldset>
             <Flex.Container
               align="baseline"
               direction={
@@ -301,13 +303,15 @@ export default class ToggleButtonGroup extends React.PureComponent {
               }
               spacing={vertical ? 'x-small' : undefined}
             >
-              <FormLabel
-                element="legend"
-                id={id + '-label'}
-                srOnly={label_sr_only}
-              >
-                {label}
-              </FormLabel>
+              {label && (
+                <FormLabel
+                  element="legend"
+                  id={id + '-label'}
+                  srOnly={label_sr_only}
+                >
+                  {label}
+                </FormLabel>
+              )}
 
               <span
                 id={id}
@@ -343,7 +347,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
                 </span>
               </span>
             </Flex.Container>
-          </fieldset>
+          </Fieldset>
         </div>
       </ToggleButtonGroupContext.Provider>
     )

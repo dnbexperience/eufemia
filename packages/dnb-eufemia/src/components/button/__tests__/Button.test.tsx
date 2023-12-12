@@ -167,6 +167,19 @@ describe('Button component', () => {
     expect(typeof ref.current).toBe('object')
   })
 
+  it('gets valid element when innerRef is function', () => {
+    const ref: React.MutableRefObject<HTMLButtonElement> =
+      React.createRef()
+
+    const refFn = (elem: HTMLButtonElement) => {
+      ref.current = elem
+    }
+    render(<Button id="unique" innerRef={refFn} />)
+
+    expect(ref.current.getAttribute('id')).toBe('unique')
+    expect(ref.current.tagName).toBe('BUTTON')
+  })
+
   it('has type of button', () => {
     render(<Button />)
     const button = document.querySelector('button')
