@@ -258,6 +258,20 @@ exports.onCreateWebpackConfig = ({
     plugins: [
       // Webpack 4 to 5 migration
       plugins.provide({ process: 'process/browser' }),
+
+      // Algolia info
+      plugins.define({
+        'process.env.ALGOLIA_INDEX_NAME': JSON.stringify(
+          process.env.ALGOLIA_INDEX_NAME || 'dev_eufemia_docs',
+        ),
+        'process.env.ALGOLIA_APP_ID': JSON.stringify(
+          process.env.ALGOLIA_APP_ID || 'SLD6KEYMQ9',
+        ),
+        'process.env.ALGOLIA_SEARCH_KEY': JSON.stringify(
+          process.env.ALGOLIA_SEARCH_KEY ||
+            '6cf238b7456ffd9f7a400d8de37318a3',
+        ),
+      }),
     ],
   }
 

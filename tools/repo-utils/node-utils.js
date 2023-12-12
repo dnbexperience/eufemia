@@ -1,9 +1,7 @@
-const ciVendors = ['CI', 'CODESANDBOX_SSE']
-
-const isCI = ciVendors.some((name) => {
-  const ci = String(process.env[name])
+const isCICheck = () => {
+  const ci = String(process.env.CI) || String(process.env.CODESANDBOX_SSE)
   return ci === 'true' || ci === '1'
-})
+}
 
-exports.isCI = isCI
-exports.CIName = isCI ? 'GitHub Actions' : null
+exports.isCI = isCICheck()
+exports.isCICheck = isCICheck
