@@ -92,7 +92,7 @@ function PhoneNumber(props: Props) {
     countryCodeLabel,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     numberMask,
-    countries: ccFilter,
+    countries: ccFilter = 'Prioritized',
     emptyValue,
     info,
     warning,
@@ -112,7 +112,7 @@ function PhoneNumber(props: Props) {
     updateValue,
     onCountryCodeChange,
     onNumberChange,
-    filterCountries = ccFilter
+    filterCountries = ccFilter !== 'Prioritized'
       ? makeCountryFilterSet(ccFilter)
       : undefined,
   } = useDataValue(preparedProps)
