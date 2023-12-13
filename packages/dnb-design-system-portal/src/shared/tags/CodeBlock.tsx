@@ -171,18 +171,11 @@ class LiveCode extends React.PureComponent<
 
     const { code, hideToolbar, hideCode, hidePreview } = this.state
 
-    const codeToUse =
-      typeof code === 'string' ? this.prepareCode(code) : ''
-
-    if (codeToUse.trim().length === 0) {
-      return <span>No Code provided</span>
-    }
-
     return (
       <div className={liveCodeEditorStyle}>
         <LiveProvider
           theme={prismTheme}
-          code={codeToUse}
+          code={code}
           scope={scope}
           language={language}
           transformCode={(code: string) =>
