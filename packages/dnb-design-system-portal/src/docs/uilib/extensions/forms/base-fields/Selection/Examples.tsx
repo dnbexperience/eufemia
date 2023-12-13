@@ -1,8 +1,7 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button } from '@dnb/eufemia/src'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
-import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
+import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
 
 // Dropdown
 

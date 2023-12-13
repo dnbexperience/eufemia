@@ -1,6 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
-import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
+import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 
 export const Empty = () => {

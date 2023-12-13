@@ -1,8 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import NationalIdentityNumber, { Props } from '..'
-import { Form } from '../../..'
-import { FormError } from '../../../types'
+import { Form, FormError } from '../../..'
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
