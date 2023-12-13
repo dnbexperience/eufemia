@@ -176,8 +176,8 @@ button .dnb-form-status__text {
 .dnb-textarea__row {
   display: inline-flex;
 }
-.dnb-textarea__suffix {
-  padding-left: 1.5rem;
+.dnb-textarea__suffix.dnb-suffix {
+  padding-left: 1rem;
 }
 .dnb-textarea__textarea {
   position: relative;
