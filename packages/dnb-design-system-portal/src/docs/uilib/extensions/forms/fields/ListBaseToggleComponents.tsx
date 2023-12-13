@@ -43,7 +43,7 @@ export default function ListBaseToggleComponents() {
   return (
     <ListSummaryFromEdges
       space={{ top: 'x-small' }}
-      level={4}
+      level={3}
       description=""
       edges={edges}
     />
