@@ -108,7 +108,6 @@ function Selection(props: Props) {
     labelDescription,
     labelSecondary,
   }
-
   const options: IOption[] = useMemo(
     () =>
       React.Children.toArray(children)
@@ -147,6 +146,13 @@ function Selection(props: Props) {
               key={`option-${i}-${option.value}`}
               label={option.title}
               value={String(option.value ?? '')}
+              status={
+                error
+                  ? i === options.length - 1
+                    ? error.message
+                    : 'error'
+                  : undefined
+              }
             />
           ))}
         </Radio.Group>
