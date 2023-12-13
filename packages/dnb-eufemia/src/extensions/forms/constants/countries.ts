@@ -669,6 +669,7 @@ const countries: Array<CountryType> = [
     cdc: '298',
     iso: 'FO',
     continent: 'Europe',
+    regions: ['Nordic'],
   },
   {
     i18n: {
@@ -787,6 +788,7 @@ const countries: Array<CountryType> = [
     cdc: '299',
     iso: 'GL',
     continent: 'North America',
+    regions: ['Nordic'],
   },
   {
     i18n: {
