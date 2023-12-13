@@ -725,6 +725,14 @@ describe('Field.PhoneNumber', () => {
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
+  it('should not validate initially when required and contry code is provided as a value', () => {
+    render(<PhoneNumber required value="+47" />)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
   it('should execute validateInitially if required', () => {
     const { rerender } = render(<PhoneNumber required validateInitially />)
 
