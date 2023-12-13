@@ -178,9 +178,6 @@ class LiveCode extends React.PureComponent<
           code={code}
           scope={scope}
           language={language}
-          transformCode={(code: string) =>
-            !useRender && noFragments ? `<>${code}</>` : code
-          }
           noInline={useRender}
           {...props}
         >
