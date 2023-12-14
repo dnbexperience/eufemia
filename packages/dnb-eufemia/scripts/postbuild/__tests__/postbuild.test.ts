@@ -489,5 +489,16 @@ describe('style build', () => {
       )
       expect(content).toContain(`.dnb-button {`)
     }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-ui/ui-theme-components.css`
+        ),
+        'utf-8'
+      )
+      expect(content).not.toContain(`\\`)
+    }
   })
 })
