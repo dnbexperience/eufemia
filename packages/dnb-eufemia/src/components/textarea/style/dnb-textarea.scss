@@ -60,8 +60,8 @@
     display: inline-flex;
   }
 
-  &__suffix {
-    padding-left: 1.5rem;
+  &__suffix.dnb-suffix {
+    padding-left: 1rem;
   }
 
   &__textarea {
