@@ -599,6 +599,7 @@ button.dnb-button::-moz-focus-inner {
   position: absolute;
   inset: 0;
   box-shadow: var(--drop-shadow, none);
+  border-radius: var(--rounded-corner, 0);
 }
 .dnb-section::after {
   content: "";

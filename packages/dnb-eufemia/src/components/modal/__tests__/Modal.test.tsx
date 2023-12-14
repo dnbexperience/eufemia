@@ -279,10 +279,13 @@ describe('Modal component', () => {
       </Modal>
     )
     fireEvent.click(document.querySelector('button'))
-    await wait(2)
 
     // and check the class of that element
-    expect(document.activeElement.classList).toContain('dnb-dialog__inner')
+    await waitFor(() => {
+      expect(document.activeElement.classList).toContain(
+        'dnb-dialog__inner'
+      )
+    })
 
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
       key: 'Esc',
@@ -363,9 +366,9 @@ describe('Modal component', () => {
       'dnb-modal__trigger'
     )
 
-    await wait(1)
-
-    expect(document.activeElement).not.toHaveAttribute('data-autofocus')
+    await waitFor(() => {
+      expect(document.activeElement).not.toHaveAttribute('data-autofocus')
+    })
   })
 
   it('will warn if first heading is not h1', async () => {
@@ -656,15 +659,15 @@ describe('Modal component', () => {
 
     fireEvent.click(document.querySelector('button#toggle'))
 
-    await wait(3)
-
-    expect(on_open).toBeCalledTimes(1)
+    await waitFor(() => {
+      expect(on_open).toBeCalledTimes(1)
+    })
 
     fireEvent.click(document.querySelector('button#toggle'))
 
-    await wait(10)
-
-    expect(on_close).toBeCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close).toBeCalledTimes(1)
+    })
   })
 
   it('will prevent closing the modal on prevent_close', async () => {

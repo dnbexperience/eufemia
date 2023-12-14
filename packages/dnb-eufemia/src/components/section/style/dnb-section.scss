@@ -34,6 +34,7 @@
     position: absolute;
     inset: 0;
     box-shadow: var(--drop-shadow, none);
+    border-radius: var(--rounded-corner, 0);
   }
 
   &::after {
