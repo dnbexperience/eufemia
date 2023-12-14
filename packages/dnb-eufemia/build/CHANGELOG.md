@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.15.1](https://github.com/dnbexperience/eufemia/compare/v10.15.0...v10.15.1) (2023-12-14)
+
+
+### :bug: Bug Fixes
+
+* correctly compile CSS functional :has() ([#3070](https://github.com/dnbexperience/eufemia/issues/3070)) ([5d2b4cf](https://github.com/dnbexperience/eufemia/commit/5d2b4cf7018b6f4391d4a16b1966d4712a7e406d))
+* **forms:** add Faroe islands and Greenland to Nordics in countrylist ([#3069](https://github.com/dnbexperience/eufemia/issues/3069)) ([1f7fc83](https://github.com/dnbexperience/eufemia/commit/1f7fc83badf97b6cf51dc51462b493bba77d90d4))
+* **Section:** ensure cornerRadius does work together with dropShadow ([#3060](https://github.com/dnbexperience/eufemia/issues/3060)) ([e5207a1](https://github.com/dnbexperience/eufemia/commit/e5207a165f6dd212191440bca67373745ded25b2))
+* **Textarea:** suffix spacing ([#3074](https://github.com/dnbexperience/eufemia/issues/3074)) ([ce28f3e](https://github.com/dnbexperience/eufemia/commit/ce28f3e6f2009bc3ca08b572819a17f9af26c70b))
+
 ## [10.15.0](https://github.com/dnbexperience/eufemia/compare/v10.14.0...v10.15.0) (2023-12-12)
 
 
