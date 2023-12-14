@@ -88,3 +88,96 @@ You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBl
 ### useDataValue
 
 The `useDataValue` hook standardize handling of the value flow for a single consumer component representing one data point. It holds error state, hides it while the field is in focus, connects to surrounding `DataContext` (if present) and other things that all field or value components needs to do. By implementing custom field or value components and passing the received props through `useDataValue`, all these features work the same way as other field or value components, and you only need to implement the specific unique features of that component.
+
+How to use:
+
+```ts
+const { value } = useDataValue(componentProps)
+```
+
+Advanced usage:
+
+```ts
+const {
+  value,
+  onChange,
+  onFocus,
+  onBlur,
+  error,
+  hasError,
+  isChanged,
+  setHasFocus,
+} = useDataValue({
+  toEvent,
+  ...componentProps,
+})
+```
+
+#### useDataValue return parameters
+
+- `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
+
+- `hasError` will return true in case an error, even if the hook is nested in a `FieldBlock`.
+
+- `isChanged` returns `true` if the value has changed with e.g. `handleChange`.
+
+- `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
+
+#### Validation
+
+- `validateRequired` does allow you to provide a custom logic for who the `required` prop should validate or not.
+
+```ts
+const validateRequired = (
+  value: Value,
+  { emptyValue, required, isChanged },
+) => {
+  return required && value === emptyValue
+}
+```
+
+##### Validation order
+
+During validation, the different APIs do have a prioritization order and will stop processing further when they match:
+
+1. `require` prop
+1. `schema` prop (including `pattern`)
+1. `validator` prop
+
+#### Value handlers
+
+- `handleFocus()` to call the `onFocus` event.
+
+- `handleBlur()` to call the `onBlur` event.
+
+- `handleChange(value)` to call the `onChange` event. Will update/change the internal value and re-render the React Hook, so will the outer component too.
+
+```ts
+handleChange(value, (additionalArgs = null))
+```
+
+- `updateValue(value)` to update/change the internal value, without calling any events.
+
+- `forceUpdate()` to re-render the React Hook along with the outer component.
+
+#### Value transformers
+
+The transformers are hooks to transform the value on different stages.
+
+They should return a transformed value: `(value) => value`
+
+- `toInput` transforms the value before it gets returned by the hook:
+
+```ts
+const { value } = useDataValue(props)
+```
+
+- `fromInput` transforms the value given by `handleChange` before it is used in the further process flow.
+
+```ts
+handleChange(value)
+```
+
+- `toEvent` transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`.
+
+- `fromExternal` transforms the given props `value` before any other step gets entered.

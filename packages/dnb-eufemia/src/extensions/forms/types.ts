@@ -175,6 +175,7 @@ export interface FieldProps<
   info?: Error | FormError | string
   warning?: Error | FormError | string
   error?: Error | FormError
+  hasError?: boolean
   disabled?: boolean
   // Validation
   required?: boolean
@@ -203,6 +204,20 @@ export interface FieldProps<
   // Derivatives
   toInput?: (external: Value | undefined) => any
   fromInput?: (...args: any[]) => Value | undefined
+  toEvent?: (internal: Value | undefined) => any
+  fromExternal?: (...args: any[]) => Value | undefined
+  validateRequired?: (
+    internal: Value | undefined,
+    {
+      emptyValue,
+      required,
+      isChanged,
+    }: {
+      emptyValue: undefined | string | number
+      required: boolean
+      isChanged: boolean
+    }
+  ) => boolean
 }
 
 export interface FieldHelpProps {
