@@ -13502,7 +13502,7 @@ __metadata:
     gatsby-plugin-babel-react-live: "npm:1.4.2"
     gatsby-plugin-catch-links: "npm:5.12.0"
     gatsby-plugin-emotion: "npm:8.12.0"
-    gatsby-plugin-eufemia-theme-handler: "npm:1.6.4"
+    gatsby-plugin-eufemia-theme-handler: "npm:1.7.0"
     gatsby-plugin-gatsby-cloud: "npm:5.12.0"
     gatsby-plugin-manifest: "npm:5.12.0"
     gatsby-plugin-mdx: "npm:5.12.0"
@@ -16702,9 +16702,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-eufemia-theme-handler@npm:1.6.4":
-  version: 1.6.4
-  resolution: "gatsby-plugin-eufemia-theme-handler@npm:1.6.4"
+"gatsby-plugin-eufemia-theme-handler@npm:1.7.0":
+  version: 1.7.0
+  resolution: "gatsby-plugin-eufemia-theme-handler@npm:1.7.0"
   dependencies:
     gatsby-core-utils: "npm:4.12.0"
     globby: "npm:11.0.4"
@@ -16715,7 +16715,7 @@ __metadata:
     "@dnb/eufemia": ">=10"
     gatsby: ">=4"
     react: ">=17"
-  checksum: 7bc3820a0f037f2b4d7aa9c403b643147e1f87e43ca868d5bc5437e8028c5fcf5cff4bf123ac9774c31598a945e3dcb34b0825e773ed834f0e5d11a626f12c6e
+  checksum: 15607696602e5ca26bbd8d5eef47498edac55c19a7e719665aefcb10b82548eb643de4c81811debe998438ba202d2a1d7a9107154ec372c790a0488cf9e93328
   languageName: node
   linkType: hard
 

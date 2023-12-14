@@ -141,12 +141,20 @@ const plugins = [
       filesGlobs: shouldUsePrebuild()
         ? [
             '**/build/style/dnb-ui-core.min.css',
-            '**/build/style/themes/**/*-theme-*.min.css',
+            '**/build/style/themes/**/*-theme-{basis,components}.min.css',
+            '**/build/extensions/payment-card/**/dnb-*.min.css',
           ]
         : [
             '**/src/style/dnb-ui-core.scss',
-            '**/src/style/themes/**/*-theme-*.scss',
+            '**/src/style/themes/**/*-theme-{basis,components}.scss',
+            '**/src/extensions/payment-card/**/dnb-*.scss',
           ],
+      includeFiles: [
+        '**/dnb-ui-core.*',
+        '**/*-theme-components.*',
+        '**/*-theme-basis.*',
+        '**/payment-card/**/*',
+      ],
       // also load the extensions CSS package
       defaultTheme,
       wrapWithThemeProvider: false, // The portal uses its own wrapper: ThemeProvider
