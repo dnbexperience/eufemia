@@ -62,6 +62,8 @@ import brickwall from './brickwall'
 import brickwall_medium from './brickwall_medium'
 import broken_chain from './broken_chain'
 import broken_chain_medium from './broken_chain_medium'
+import browser from './browser'
+import browser_medium from './browser_medium'
 import brush from './brush'
 import brush_medium from './brush_medium'
 import bsu from './bsu'
@@ -167,7 +169,11 @@ import deleted_invoice_medium from './deleted_invoice_medium'
 import diamond from './diamond'
 import diamond_medium from './diamond_medium'
 import digipass from './digipass'
+import digipass_corporate from './digipass_corporate'
+import digipass_corporate_medium from './digipass_corporate_medium'
 import digipass_medium from './digipass_medium'
+import digipass_private from './digipass_private'
+import digipass_private_medium from './digipass_private_medium'
 import digipost from './digipost'
 import digipost_medium from './digipost_medium'
 import dismiss_keyboard from './dismiss_keyboard'
@@ -184,6 +190,8 @@ import einvoice from './einvoice'
 import einvoice_medium from './einvoice_medium'
 import email from './email'
 import email_medium from './email_medium'
+import envelope_open from './envelope_open'
+import envelope_open_medium from './envelope_open_medium'
 import equities_and_mutual_funds from './equities_and_mutual_funds'
 import equities_and_mutual_funds_medium from './equities_and_mutual_funds_medium'
 import exclamation from './exclamation'
@@ -312,6 +320,8 @@ import kid_number from './kid_number'
 import kid_number_medium from './kid_number_medium'
 import language from './language'
 import language_medium from './language_medium'
+import laptop from './laptop'
+import laptop_medium from './laptop_medium'
 import launch from './launch'
 import launch_medium from './launch_medium'
 import layout_card from './layout_card'
@@ -348,8 +358,12 @@ import microphone from './microphone'
 import microphone_medium from './microphone_medium'
 import minimize from './minimize'
 import minimize_medium from './minimize_medium'
+import mobile from './mobile'
+import mobile_medium from './mobile_medium'
 import mobilephone from './mobilephone'
 import mobilephone_medium from './mobilephone_medium'
+import money_left from './money_left'
+import money_left_medium from './money_left_medium'
 import more from './more'
 import more_medium from './more_medium'
 import more_vertical from './more_vertical'
@@ -484,6 +498,8 @@ import swap from './swap'
 import swap_medium from './swap_medium'
 import tag from './tag'
 import tag_medium from './tag_medium'
+import teenager from './teenager'
+import teenager_medium from './teenager_medium'
 import thumbs_down from './thumbs_down'
 import thumbs_down_medium from './thumbs_down_medium'
 import thumbs_up from './thumbs_up'
@@ -596,6 +612,8 @@ export {
   brickwall_medium,
   broken_chain,
   broken_chain_medium,
+  browser,
+  browser_medium,
   brush,
   brush_medium,
   bsu,
@@ -701,7 +719,11 @@ export {
   diamond,
   diamond_medium,
   digipass,
+  digipass_corporate,
+  digipass_corporate_medium,
   digipass_medium,
+  digipass_private,
+  digipass_private_medium,
   digipost,
   digipost_medium,
   dismiss_keyboard,
@@ -718,6 +740,8 @@ export {
   einvoice_medium,
   email,
   email_medium,
+  envelope_open,
+  envelope_open_medium,
   equities_and_mutual_funds,
   equities_and_mutual_funds_medium,
   exclamation,
@@ -846,6 +870,8 @@ export {
   kid_number_medium,
   language,
   language_medium,
+  laptop,
+  laptop_medium,
   launch,
   launch_medium,
   layout_card,
@@ -882,8 +908,12 @@ export {
   microphone_medium,
   minimize,
   minimize_medium,
+  mobile,
+  mobile_medium,
   mobilephone,
   mobilephone_medium,
+  money_left,
+  money_left_medium,
   more,
   more_medium,
   more_vertical,
@@ -1018,6 +1048,8 @@ export {
   swap_medium,
   tag,
   tag_medium,
+  teenager,
+  teenager_medium,
   thumbs_down,
   thumbs_down_medium,
   thumbs_up,

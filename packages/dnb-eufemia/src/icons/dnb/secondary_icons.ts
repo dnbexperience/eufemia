@@ -25,6 +25,7 @@ import bookmark from './bookmark'
 import bowling from './bowling'
 import brickwall from './brickwall'
 import broken_chain from './broken_chain'
+import browser from './browser'
 import brush from './brush'
 import bsu from './bsu'
 import bubble from './bubble'
@@ -71,6 +72,8 @@ import customer_service from './customer_service'
 import deleted_invoice from './deleted_invoice'
 import diamond from './diamond'
 import digipass from './digipass'
+import digipass_corporate from './digipass_corporate'
+import digipass_private from './digipass_private'
 import digipost from './digipost'
 import dismiss_keyboard from './dismiss_keyboard'
 import dog from './dog'
@@ -78,6 +81,7 @@ import e_scooter from './e_scooter'
 import edit from './edit'
 import einvoice from './einvoice'
 import email from './email'
+import envelope_open from './envelope_open'
 import equities_and_mutual_funds from './equities_and_mutual_funds'
 import exclamation_circled from './exclamation_circled'
 import exclamation_triangle from './exclamation_triangle'
@@ -140,6 +144,7 @@ import investment_account from './investment_account'
 import keyfigures from './keyfigures'
 import kid_number from './kid_number'
 import language from './language'
+import laptop from './laptop'
 import launch from './launch'
 import layout_card from './layout_card'
 import leaf from './leaf'
@@ -157,7 +162,9 @@ import mastercard_card from './mastercard_card'
 import megaphone from './megaphone'
 import microphone from './microphone'
 import minimize from './minimize'
+import mobile from './mobile'
 import mobilephone from './mobilephone'
+import money_left from './money_left'
 import more_vertical from './more_vertical'
 import motorcycle from './motorcycle'
 import move from './move'
@@ -220,6 +227,7 @@ import subtract_circled from './subtract_circled'
 import support from './support'
 import swap from './swap'
 import tag from './tag'
+import teenager from './teenager'
 import thumbs_down from './thumbs_down'
 import thumbs_up from './thumbs_up'
 import tractor from './tractor'
@@ -271,6 +279,7 @@ export {
   bowling,
   brickwall,
   broken_chain,
+  browser,
   brush,
   bsu,
   bubble,
@@ -317,6 +326,8 @@ export {
   deleted_invoice,
   diamond,
   digipass,
+  digipass_corporate,
+  digipass_private,
   digipost,
   dismiss_keyboard,
   dog,
@@ -324,6 +335,7 @@ export {
   edit,
   einvoice,
   email,
+  envelope_open,
   equities_and_mutual_funds,
   exclamation_circled,
   exclamation_triangle,
@@ -386,6 +398,7 @@ export {
   keyfigures,
   kid_number,
   language,
+  laptop,
   launch,
   layout_card,
   leaf,
@@ -403,7 +416,9 @@ export {
   megaphone,
   microphone,
   minimize,
+  mobile,
   mobilephone,
+  money_left,
   more_vertical,
   motorcycle,
   move,
@@ -466,6 +481,7 @@ export {
   support,
   swap,
   tag,
+  teenager,
   thumbs_down,
   thumbs_up,
   tractor,

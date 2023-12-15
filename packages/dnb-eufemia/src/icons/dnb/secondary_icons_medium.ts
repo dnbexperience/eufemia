@@ -25,6 +25,7 @@ import bookmark_medium from './bookmark_medium'
 import bowling_medium from './bowling_medium'
 import brickwall_medium from './brickwall_medium'
 import broken_chain_medium from './broken_chain_medium'
+import browser_medium from './browser_medium'
 import brush_medium from './brush_medium'
 import bsu_medium from './bsu_medium'
 import bubble_medium from './bubble_medium'
@@ -70,7 +71,9 @@ import currency_medium from './currency_medium'
 import customer_service_medium from './customer_service_medium'
 import deleted_invoice_medium from './deleted_invoice_medium'
 import diamond_medium from './diamond_medium'
+import digipass_corporate_medium from './digipass_corporate_medium'
 import digipass_medium from './digipass_medium'
+import digipass_private_medium from './digipass_private_medium'
 import digipost_medium from './digipost_medium'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium'
 import dog_medium from './dog_medium'
@@ -78,6 +81,7 @@ import e_scooter_medium from './e_scooter_medium'
 import edit_medium from './edit_medium'
 import einvoice_medium from './einvoice_medium'
 import email_medium from './email_medium'
+import envelope_open_medium from './envelope_open_medium'
 import equities_and_mutual_funds_medium from './equities_and_mutual_funds_medium'
 import exclamation_circled_medium from './exclamation_circled_medium'
 import exclamation_triangle_medium from './exclamation_triangle_medium'
@@ -140,6 +144,7 @@ import investment_account_medium from './investment_account_medium'
 import keyfigures_medium from './keyfigures_medium'
 import kid_number_medium from './kid_number_medium'
 import language_medium from './language_medium'
+import laptop_medium from './laptop_medium'
 import launch_medium from './launch_medium'
 import layout_card_medium from './layout_card_medium'
 import leaf_medium from './leaf_medium'
@@ -157,7 +162,9 @@ import mastercard_medium from './mastercard_medium'
 import megaphone_medium from './megaphone_medium'
 import microphone_medium from './microphone_medium'
 import minimize_medium from './minimize_medium'
+import mobile_medium from './mobile_medium'
 import mobilephone_medium from './mobilephone_medium'
+import money_left_medium from './money_left_medium'
 import more_vertical_medium from './more_vertical_medium'
 import motorcycle_medium from './motorcycle_medium'
 import move_medium from './move_medium'
@@ -220,6 +227,7 @@ import subtract_circled_medium from './subtract_circled_medium'
 import support_medium from './support_medium'
 import swap_medium from './swap_medium'
 import tag_medium from './tag_medium'
+import teenager_medium from './teenager_medium'
 import thumbs_down_medium from './thumbs_down_medium'
 import thumbs_up_medium from './thumbs_up_medium'
 import tractor_medium from './tractor_medium'
@@ -271,6 +279,7 @@ export {
   bowling_medium,
   brickwall_medium,
   broken_chain_medium,
+  browser_medium,
   brush_medium,
   bsu_medium,
   bubble_medium,
@@ -316,7 +325,9 @@ export {
   customer_service_medium,
   deleted_invoice_medium,
   diamond_medium,
+  digipass_corporate_medium,
   digipass_medium,
+  digipass_private_medium,
   digipost_medium,
   dismiss_keyboard_medium,
   dog_medium,
@@ -324,6 +335,7 @@ export {
   edit_medium,
   einvoice_medium,
   email_medium,
+  envelope_open_medium,
   equities_and_mutual_funds_medium,
   exclamation_circled_medium,
   exclamation_triangle_medium,
@@ -386,6 +398,7 @@ export {
   keyfigures_medium,
   kid_number_medium,
   language_medium,
+  laptop_medium,
   launch_medium,
   layout_card_medium,
   leaf_medium,
@@ -403,7 +416,9 @@ export {
   megaphone_medium,
   microphone_medium,
   minimize_medium,
+  mobile_medium,
   mobilephone_medium,
+  money_left_medium,
   more_vertical_medium,
   motorcycle_medium,
   move_medium,
@@ -466,6 +481,7 @@ export {
   support_medium,
   swap_medium,
   tag_medium,
+  teenager_medium,
   thumbs_down_medium,
   thumbs_up_medium,
   tractor_medium,
