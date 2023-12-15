@@ -204,6 +204,19 @@ export const ValidateMinimum = () => {
   )
 }
 
+export const Percentage = () => {
+  return (
+    <ComponentBox>
+      <Field.Number
+        value={80}
+        label="Percentage"
+        onChange={(value) => console.log('onChange', value)}
+        minimum={90}
+      />
+    </ComponentBox>
+  )
+}
+
 export const ValidateMaximumCustomError = () => {
   return (
     <ComponentBox>

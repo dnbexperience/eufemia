@@ -89,6 +89,11 @@ describe('Field.Number', () => {
       expect(screen.getByDisplayValue('97531:2468')).toBeInTheDocument()
     })
 
+    it('formats with percent', () => {
+      render(<Field.Number value={12345} percent />)
+      expect(document.querySelector('input').value).toBe('12 345 %')
+    })
+
     it('formats with same decimal limit', () => {
       render(<Field.Number value={42.51} decimalLimit={2} />)
       expect(screen.getByDisplayValue('42,51')).toBeInTheDocument()
