@@ -217,7 +217,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
 
       rerender(
         <DataContext.Provider
@@ -235,7 +238,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenCalledWith({ fooBar: 'Second Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { fooBar: 'Second Value' },
+        expect.anything()
+      )
     })
 
     it('should call "onSubmitRequest" on invalid submit', async () => {
@@ -311,7 +317,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
       expect(scrollTo).toHaveBeenCalledTimes(1)
 
       rerender(
@@ -331,7 +340,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenCalledWith({ fooBar: 'Second Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { fooBar: 'Second Value' },
+        expect.anything()
+      )
       expect(scrollTo).toHaveBeenCalledTimes(2)
       expect(scrollTo).toHaveBeenCalledWith({
         behavior: 'smooth',

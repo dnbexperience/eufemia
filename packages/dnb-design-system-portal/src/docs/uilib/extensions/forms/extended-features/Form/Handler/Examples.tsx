@@ -7,7 +7,7 @@ export const Default = () => {
     <ComponentBox>
       <Form.Handler
         defaultData={{ email: null }}
-        onSubmit={(event) => console.log('onSubmit', event)}
+        onSubmit={(data) => console.log('onSubmit', data)}
       >
         <Card spacing="medium">
           <Field.Email path="/email" />
@@ -24,7 +24,13 @@ export const SessionStorage = () => {
   return (
     <ComponentBox>
       <Form.Handler
-        onSubmit={(event) => console.log('onSubmit', event)}
+        onSubmit={(data, { resetForm, clearData }) => {
+          console.log('onSubmit', data)
+
+          // Docs: https://eufemia.dnb.no/uilib/extensions/forms/extended-features/DataContext/Provider/events/#onsubmit-parameters
+          resetForm()
+          clearData()
+        }}
         sessionStorageId="session-key"
       >
         <Card spacing="medium">
@@ -43,7 +49,7 @@ export const Autofill = () => {
   return (
     <ComponentBox>
       <Form.Handler
-        onSubmit={(event) => console.log('onSubmit', event)}
+        onSubmit={(data) => console.log('onSubmit', data)}
         autoComplete
       >
         <Form.MainHeading>Delivery address</Form.MainHeading>

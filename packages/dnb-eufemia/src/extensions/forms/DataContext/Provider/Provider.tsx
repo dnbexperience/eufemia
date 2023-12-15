@@ -32,7 +32,18 @@ export interface Props<Data extends JsonObject> {
   /** Change handler for each value  */
   onPathChange?: (path: string, value: any) => void
   /** Submit called, data was valid (if validation available) */
-  onSubmit?: (data: Data) => void
+  onSubmit?: (
+    data: Data,
+    {
+      resetForm,
+      clearData,
+    }: {
+      /** Will remove browser-side stored autocomplete data  */
+      resetForm: () => void
+      /** Will empty the whole internal data set of the form  */
+      clearData: () => void
+    }
+  ) => void
   /** Submit was requested, but data was invalid */
   onSubmitRequest?: () => void
   scrollTopOnSubmit?: boolean
@@ -211,15 +222,28 @@ export default function Provider<Data extends JsonObject>({
   const handleSubmit = useCallback<ContextState['handleSubmit']>(
     ({ formElement = null } = {}) => {
       if (!hasErrors()) {
-        onSubmit?.(internalDataRef.current as Data)
+        const resetForm = () => {
+          formElement?.reset?.()
 
-        formElement?.reset?.()
-
-        if (typeof window !== 'undefined') {
-          if (sessionStorageId) {
-            window.sessionStorage.removeItem(sessionStorageId)
+          if (typeof window !== 'undefined') {
+            if (sessionStorageId) {
+              window.sessionStorage.removeItem(sessionStorageId)
+            }
           }
 
+          forceUpdate() // in order to fill "empty fields" again with their internal states
+        }
+        const clearData = () => {
+          internalDataRef.current = {}
+          forceUpdate()
+        }
+
+        onSubmit?.(internalDataRef.current as Data, {
+          resetForm,
+          clearData,
+        })
+
+        if (typeof window !== 'undefined') {
           if (scrollTopOnSubmit) {
             window?.scrollTo({ top: 0, behavior: 'smooth' })
           }
