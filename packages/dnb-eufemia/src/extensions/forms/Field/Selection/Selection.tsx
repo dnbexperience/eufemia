@@ -139,6 +139,7 @@ function Selection(props: Props) {
           vertical={layout === 'vertical'}
           on_change={handleRadioChange}
           value={String(value ?? '')}
+          disabled={disabled}
           {...pickSpacingProps(props)}
         >
           {options.map((option, i) => (
