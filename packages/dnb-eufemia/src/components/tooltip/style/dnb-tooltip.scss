@@ -22,6 +22,8 @@
   padding: 0 1rem;
   color: var(--tooltip-color);
 
+  text-align: center;
+
   background-color: var(--tooltip-background-color);
   border-radius: var(--tooltip-border-radius);
   @include defaultDropShadow();
