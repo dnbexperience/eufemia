@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useCallback, useEffect } from 'react'
+import React, { useMemo, useContext, useCallback } from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
@@ -6,7 +6,7 @@ import countries, { CountryType } from '../../constants/countries'
 import StringComponent, { Props as InputProps } from '../String'
 import { useDataValue } from '../../hooks'
 import FieldBlock from '../../FieldBlock'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps, FormError } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
@@ -66,6 +66,12 @@ function PhoneNumber(props: Props) {
   const tr = sharedContext?.translation.Forms
   const lang = sharedContext.locale?.split('-')[0]
 
+  const countryCodeRef = React.useRef(null)
+  const numberRef = React.useRef(null)
+  const dataRef = React.useRef(null)
+  const langRef = React.useRef(lang)
+  const wasFilled = React.useRef(false)
+
   const errorMessages = useMemo(
     () => ({
       required: tr.phoneNumberErrorRequired,
@@ -75,12 +81,41 @@ function PhoneNumber(props: Props) {
     [tr, props.errorMessages]
   )
 
+  const validateRequired = useCallback(
+    (value: string, { required, isChanged }) => {
+      const error = new FormError('The value is required', {
+        validationRule: 'required',
+      })
+
+      if (required) {
+        const [countryCode, phoneNumber] = splitValue(value)
+
+        if (countryCode !== prevCountryCodeRef.current) {
+          if (countryCode) {
+            prevCountryCodeRef.current = countryCode
+          }
+          return undefined
+        }
+
+        if (isChanged && !phoneNumber) {
+          return error
+        }
+      }
+
+      return undefined
+    },
+    []
+  )
+
   const defaultProps: Partial<Props> = {
     errorMessages,
   }
   const preparedProps: Props = {
     ...defaultProps,
     ...props,
+    validateRequired,
+    fromExternal,
+    toEvent,
   }
 
   const {
@@ -117,11 +152,21 @@ function PhoneNumber(props: Props) {
       : undefined,
   } = useDataValue(preparedProps)
 
-  const countryCodeRef = React.useRef(null)
-  const numberRef = React.useRef(null)
-  const dataRef = React.useRef(null)
-  const langRef = React.useRef(lang)
-  const wasFilled = React.useRef(false)
+  function fromExternal(external: string) {
+    const [, phoneNumber] = splitValue(external)
+    if (!phoneNumber && !props.omitCountryCodeField) {
+      return countryCodeRef.current
+    }
+    return external
+  }
+
+  function toEvent(value: string) {
+    const [, phoneNumber] = splitValue(value)
+    if (!phoneNumber) {
+      return emptyValue
+    }
+    return value
+  }
 
   const updateCurrentDataSet = useCallback(() => {
     dataRef.current = getCountryData({
@@ -143,13 +188,13 @@ function PhoneNumber(props: Props) {
       phoneNumber = numberRef.current || emptyValue,
     }) => {
       /**
-       * To ensure, we actually call onChange every time,
+       * To ensure, we actually call onChange every time the cc value changes,
        * even if the value is undefined
        */
       updateValue('invalidate')
 
       handleChange(
-        phoneNumber ? joinValue([countryCode, phoneNumber]) : emptyValue,
+        joinValue([countryCode, phoneNumber]),
         omitCountryCodeField
           ? { phoneNumber }
           : { countryCode, phoneNumber }
@@ -171,24 +216,16 @@ function PhoneNumber(props: Props) {
     numberRef.current = phoneNumber
 
     if (lang !== langRef.current || !wasFilled.current) {
-      countryCodeRef.current = countryCode || defaultCountryCode
+      if (!countryCodeRef.current || countryCode) {
+        countryCodeRef.current = countryCode || defaultCountryCode
+      }
       langRef.current = lang
 
       updateCurrentDataSet()
     }
   }, [props.value, lang, updateCurrentDataSet])
 
-  /**
-   * On external value change, update the internal,
-   * only so onFocus and onBlur does have correct (eventually empty) value.
-   */
-  useEffect(() => {
-    const [countryCode, phoneNumber] = splitValue(props.value)
-    const newValue = phoneNumber
-      ? joinValue([countryCode, phoneNumber])
-      : emptyValue
-    updateValue(newValue)
-  }, [props.value, emptyValue, updateValue])
+  const prevCountryCodeRef = React.useRef(countryCodeRef.current)
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
@@ -251,7 +288,7 @@ function PhoneNumber(props: Props) {
     [callOnChange, updateCurrentDataSet]
   )
 
-  const isDefault = countryCodeRef.current.includes(defaultCountryCode)
+  const isDefault = countryCodeRef.current?.includes(defaultCountryCode)
 
   return (
     <FieldBlock
@@ -271,7 +308,7 @@ function PhoneNumber(props: Props) {
               countryCodeFieldClassName
             )}
             mode="async"
-            placeholder={countryCodePlaceholder ?? ' '}
+            placeholder={countryCodePlaceholder}
             label_direction="vertical"
             label={
               countryCodeLabel ??
@@ -302,7 +339,7 @@ function PhoneNumber(props: Props) {
           autoComplete="tel-national"
           emptyValue=""
           layout="vertical"
-          label={label ?? ' '}
+          label={label}
           placeholder={
             placeholder ?? (isDefault ? defaultPlaceholder : undefined)
           }

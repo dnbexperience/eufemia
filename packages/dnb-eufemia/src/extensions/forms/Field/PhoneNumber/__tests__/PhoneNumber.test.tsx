@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import PhoneNumber from '..'
 import { Provider } from '../../../../../shared'
 import { Form } from '../../..'
+import { JSONSchema7 } from 'json-schema'
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -723,6 +724,34 @@ describe('Field.PhoneNumber', () => {
     fireEvent.click(buttonElement)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+  })
+
+  it('should validate schema', async () => {
+    const schema: JSONSchema7 = {
+      type: 'string',
+      pattern: '^\\+47 [49]+',
+    }
+
+    render(<PhoneNumber schema={schema} />)
+
+    const numberElement = () =>
+      document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+    await userEvent.type(numberElement(), '123')
+    fireEvent.blur(numberElement())
+
+    expect(numberElement().value).toBe('12 3​ ​​ ​​')
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.type(numberElement(), '{Backspace>8}456')
+    fireEvent.blur(numberElement())
+
+    expect(numberElement().value).toBe('45 6​ ​​ ​​')
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
   })
 
   it('should not validate initially when required and contry code is provided as a value', () => {
