@@ -64,6 +64,7 @@ function BankAccountNumber(props: Props) {
     errorMessages,
     mask,
     width: props.width ?? 'medium',
+    inputMode: 'numeric',
   }
 
   return <StringComponent {...stringComponentProps} />
