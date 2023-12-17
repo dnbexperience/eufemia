@@ -113,6 +113,7 @@ function StringComponent(props: Props) {
     characterCounter,
     mask,
     width,
+    inputMode,
     handleFocus,
     handleBlur,
     handleChange,
@@ -142,6 +143,7 @@ function StringComponent(props: Props) {
     inner_ref: innerRef,
     status: error ? 'error' : undefined,
     value: value?.toString() ?? '',
+    inputMode,
   }
 
   return (
