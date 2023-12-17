@@ -209,6 +209,7 @@ function NumberComponent(props: Props) {
         disabled={disabled}
         status={error ? 'error' : undefined}
         stretch={width !== undefined}
+        inputMode="numeric"
         suffix={
           help ? (
             <HelpButton title={help.title}>{help.contents}</HelpButton>
