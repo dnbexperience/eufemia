@@ -74,6 +74,7 @@ function Expiry(props: ExpiryProps) {
         onBlur={handleBlur}
         onFocus={handleFocus}
         delimiter="/"
+        inputMode="numeric"
         inputs={[
           {
             id: 'month',
