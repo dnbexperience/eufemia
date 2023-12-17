@@ -93,6 +93,7 @@ function MultiInputMask<T extends string>({
   values: defaultValues,
   className,
   stretch,
+  inputMode,
   suffix,
   ...props
 }: MultiInputMaskProps<T>) {
@@ -148,6 +149,7 @@ function MultiInputMask<T extends string>({
           <MultiInputMaskInput
             key={input.id}
             {...input}
+            inputMode={inputMode}
             value={values[input.id]}
             delimiter={index !== inputs.length - 1 ? delimiter : undefined}
             onKeyDown={onKeyDown}
