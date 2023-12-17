@@ -33,6 +33,7 @@ export type Props = FieldHelpProps &
     autoresizeMaxRows?: number
     characterCounter?: boolean
     mask?: InputMaskedProps['mask']
+    inputMode?: React.HTMLProps<HTMLInputElement>['inputMode']
     // Validation
     minLength?: number
     maxLength?: number
