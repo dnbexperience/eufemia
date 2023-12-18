@@ -765,7 +765,7 @@ const selectAll = (target) => {
   target.select()
 }
 
-const InputElement = (props) => {
+const InputElement = ({ className, value, ...props }) => {
   return (
     <TextMask
       guide={true}
@@ -775,6 +775,11 @@ const InputElement = (props) => {
       autoCapitalize="none"
       spellCheck={false}
       autoCorrect="off"
+      className={classnames(
+        className,
+        /\d+/.test(value) && 'dnb-date-picker__input--highlight'
+      )}
+      value={value}
       {...props}
     />
   )

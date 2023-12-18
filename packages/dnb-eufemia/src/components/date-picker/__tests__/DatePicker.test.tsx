@@ -23,6 +23,7 @@ import {
   makeDayObject,
 } from '../DatePickerCalc'
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
 
 beforeEach(() => {
@@ -350,6 +351,34 @@ describe('DatePicker component', () => {
         start_date={defaultProps.start_date}
       />
     )
+  })
+
+  it('will set highlight class on fields with a number value', async () => {
+    render(<DatePicker show_input />)
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    const test = async (elem: HTMLInputElement) => {
+      expect(elem.classList).not.toContain(
+        'dnb-date-picker__input--highlight'
+      )
+
+      await userEvent.type(elem, '1')
+
+      expect(elem.classList).toContain('dnb-date-picker__input--highlight')
+
+      await userEvent.type(elem, '{Backspace>4}') // use 4 because of year
+
+      expect(elem.classList).not.toContain(
+        'dnb-date-picker__input--highlight'
+      )
+    }
+
+    await test(day)
+    await test(month)
+    await test(year)
   })
 
   it('has to reset second input fields to blank during new date selection', () => {
