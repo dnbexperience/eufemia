@@ -236,7 +236,7 @@ export function safeSetSelection(element, selectionPosition) {
         0
       )
     } else {
-      element.setSelectionRange(selectionPosition, selectionPosition)
+      element?.setSelectionRange(selectionPosition, selectionPosition)
     }
   }
 }

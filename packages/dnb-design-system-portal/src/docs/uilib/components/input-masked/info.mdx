@@ -30,7 +30,11 @@ Both entering a comma or a dot will act as a decimal separator if [decimals are 
 
 #### InputMode
 
-For mobile devices and soft keyboards, the HTML input element does support a numeric-only keyboard. But sadly it does not support negative values at the time of writing this. So it is only enabled if `allowNegative` is set to false.
+**NB:** Please do not set `inputMode="numeric"` or `inputMode="decimal"`, because devices may or may not show a minus key (`-`)!
+
+The InputMasked component does handle soft keyboards (iOS and Android) by using either `inputMode="numeric"` and `inputMode="decimal"` depending on `allowNegative` and `allowDecimal` (getSoftKeyboardAttributes).
+
+For iOS it additionally sets `type="number"` during focus (InputModeNumber). This way the correct numeric soft keyboard is shown.
 
 <InputMaskedInfoInputMode />
 
