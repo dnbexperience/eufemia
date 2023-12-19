@@ -30,6 +30,7 @@ export type Props = FieldHelpProps &
     clear?: boolean
     autoresize?: boolean
     autoComplete?: HTMLInputElement['autocomplete']
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
     characterCounter?: boolean
     mask?: InputMaskedProps['mask']
@@ -89,6 +90,7 @@ function StringComponent(props: Props) {
     name,
     className,
     autoComplete,
+    inputMode,
     innerRef,
     inputClassName,
     layout,
@@ -128,6 +130,7 @@ function StringComponent(props: Props) {
     id,
     name,
     autoComplete,
+    inputMode,
     className: cn,
     placeholder: placeholder,
     suffix: help ? (
