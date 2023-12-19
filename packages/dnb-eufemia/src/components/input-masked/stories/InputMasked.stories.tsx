@@ -22,6 +22,10 @@ export default {
   title: 'Eufemia/Components/InputMasked',
 }
 
+export function TypeNumber() {
+  return <InputMasked label="Number:" as_currency value="12" />
+}
+
 export function Sandbox() {
   const [locale, setLocale] = React.useState('nb-NO')
   return (

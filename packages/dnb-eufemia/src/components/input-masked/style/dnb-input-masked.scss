@@ -9,6 +9,11 @@
   &--guide {
     font-family: var(--font-family-monospace);
   }
+
+  // Used on iOS when faking the inputMode to be type of number during focus – this fix avoids a flickering
+  input::placeholder {
+    color: inherit;
+  }
 }
 
 // MultiInputMask
