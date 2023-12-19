@@ -2,7 +2,7 @@ import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import useDataValue from '../useDataValue'
 import { JSONSchema7 } from 'json-schema'
-import { FieldBlock } from '../../Forms'
+import { FieldBlock, FormError } from '../../Forms'
 
 describe('useDataValue', () => {
   it('should call external onChange based change callbacks', () => {
@@ -199,9 +199,32 @@ describe('useDataValue', () => {
       })
     })
 
+    it('should show error message', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: undefined,
+          required: true,
+          validateInitially: true,
+          errorMessages: {
+            required: 'Show this message',
+          },
+        })
+      )
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.toString()).toBe(
+          'Error: Show this message'
+        )
+      })
+    })
+
     it('should validate "validateRequired"', async () => {
       const validateRequired = jest.fn((v, { emptyValue, required }) => {
         return required && emptyValue === 'empty' && v > 1
+          ? new FormError('The value is required', {
+              validationRule: 'required',
+            })
+          : undefined
       })
       const onChange = jest.fn()
       const onBlur = jest.fn()
@@ -213,6 +236,9 @@ describe('useDataValue', () => {
           emptyValue: 'empty',
           validateInitially: true,
           validateRequired,
+          errorMessages: {
+            required: 'Show this message',
+          },
           onChange,
           onBlur,
         })
@@ -230,6 +256,9 @@ describe('useDataValue', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.toString()).toBe(
+          'Error: Show this message'
+        )
       })
 
       act(() => {

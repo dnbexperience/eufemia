@@ -57,7 +57,11 @@ export default function useDataValue<
     toEvent = (value: Value) => value,
     fromExternal = (value: Value) => value,
     validateRequired = (value: Value, { emptyValue, required }) =>
-      required && value === emptyValue,
+      required && value === emptyValue
+        ? new FormError('The value is required', {
+            validationRule: 'required',
+          })
+        : undefined,
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -67,15 +71,13 @@ export default function useDataValue<
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
 
-  const transformersBase = {
+  const transformers = useRef({
     toInput,
     fromInput,
     toEvent,
     fromExternal,
     validateRequired,
-  }
-  const transformers = useRef(transformersBase)
-  transformers.current = transformersBase
+  })
 
   const {
     handlePathChange: dataContextHandlePathChange,
@@ -275,16 +277,16 @@ export default function useDataValue<
 
     try {
       // Validate required
-      if (
-        transformers.current.validateRequired(valueRef.current, {
+      const requiredError = transformers.current.validateRequired(
+        valueRef.current,
+        {
           emptyValue,
           required,
           isChanged: changedRef.current,
-        })
-      ) {
-        throw new FormError('The value is required', {
-          validationRule: 'required',
-        })
+        }
+      )
+      if (requiredError instanceof Error) {
+        throw requiredError
       }
 
       // Validate by provided JSON Schema for this value
@@ -303,7 +305,7 @@ export default function useDataValue<
       if (validatorRef.current) {
         const res = await validatorRef.current?.(
           valueRef.current,
-          errorMessages
+          errorMessagesRef.current
         )
         if (res instanceof Error) {
           throw res
@@ -322,7 +324,6 @@ export default function useDataValue<
     startProcess,
     emptyValue,
     required,
-    errorMessages,
     clearErrorState,
     persistErrorState,
   ])

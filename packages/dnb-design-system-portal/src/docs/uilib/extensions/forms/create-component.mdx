@@ -109,6 +109,7 @@ const {
   setHasFocus,
 } = useDataValue({
   toEvent,
+  errorMessages,
   ...componentProps,
 })
 ```
@@ -125,7 +126,7 @@ const {
 
 #### Validation
 
-- `validateRequired` does allow you to provide a custom logic for who the `required` prop should validate or not.
+- `validateRequired` does allow you to provide a custom logic for how the `required` prop should validate.
 
 ```ts
 const validateRequired = (
@@ -133,7 +134,21 @@ const validateRequired = (
   { emptyValue, required, isChanged },
 ) => {
   return required && value === emptyValue
+    ? new FormError('The value is required', {
+        validationRule: 'required',
+      })
+    : undefined
 }
+
+const { error, hasError } = useDataValue({
+  value: undefined,
+  required: true,
+  validateInitially: true,
+  validateRequired,
+  errorMessages: {
+    required: 'Show this when "required" fails!',
+  },
+})
 ```
 
 ##### Validation order
@@ -144,7 +159,48 @@ During validation, the different APIs do have a prioritization order and will st
 1. `schema` prop (including `pattern`)
 1. `validator` prop
 
-#### Value handlers
+#### Error handling
+
+Validation and error-handling is tight coupled together. When a validation fails, you may use the error-object to handle and show the failures/statuses.
+
+To generate the error-object, `FormError` is used. You can use it as well:
+
+```tsx
+import { FormError } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.String
+    label="Label"
+    warning={new FormError("I'm a warning too...")}
+  />,
+)
+```
+
+But when you handle errors via `useDataValue`, you may rather provide an object with messages, which will be used to display the error:
+
+```ts
+const { error, hasError } = useDataValue({
+  required: true,
+  errorMessages: {
+    required: 'Show this when "required" fails!',
+  },
+  ...componentProps,
+})
+```
+
+In order to invoke an error without a change and blur event, you can use `validateInitially`:
+
+```ts
+const { error, hasError } = useDataValue({
+  value: undefined,
+  required: true,
+  validateInitially: true,
+  errorMessages: {
+    required: 'Show this when "required" fails!',
+  },
+})
+```
+
+#### Event handlers
 
 - `handleFocus()` to call the `onFocus` event.
 

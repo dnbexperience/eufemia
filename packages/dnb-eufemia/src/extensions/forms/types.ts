@@ -217,7 +217,7 @@ export interface FieldProps<
       required: boolean
       isChanged: boolean
     }
-  ) => boolean
+  ) => FormError | undefined
 }
 
 export interface FieldHelpProps {
