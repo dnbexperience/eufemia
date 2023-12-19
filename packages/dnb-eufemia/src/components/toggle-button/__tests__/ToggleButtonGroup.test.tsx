@@ -10,6 +10,10 @@ import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
 
 describe('ToggleButton group component', () => {
+  it('should not have _formElement property', () => {
+    expect(ToggleButton.Group['_formElement']).toBeUndefined()
+  })
+
   it('should support vertical label', () => {
     const { rerender } = render(
       <ToggleButton.Group label="Label" vertical>
