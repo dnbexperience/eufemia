@@ -263,7 +263,7 @@ function PhoneNumber(props: Props) {
       disabled={disabled}
       {...pickSpacingProps(props)}
     >
-      <Flex.Horizontal align="baseline">
+      <Flex.Horizontal align="flex-end">
         {!omitCountryCodeField && (
           <Autocomplete
             className={classnames(

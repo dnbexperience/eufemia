@@ -118,3 +118,11 @@ export const WithFilter = () => {
     </ComponentBox>
   )
 }
+
+export const LongLabel = () => {
+  return (
+    <ComponentBox data-visual-test="phone-number-long-label">
+      <Field.PhoneNumber label="Telefon/mobilnummer with long label" />
+    </ComponentBox>
+  )
+}
