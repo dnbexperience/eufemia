@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import userEvent from '@testing-library/user-event'
 import DatePicker, { DatePickerProps } from '../DatePicker'
 
 jest.setTimeout(30e3)
@@ -1406,6 +1407,67 @@ describe('DatePicker component', () => {
         document.querySelector('.dnb-date-picker--large')
       ).toBeInTheDocument()
     })
+  })
+
+  it('should display the correct date in calendar when date prop changes', async () => {
+    const { rerender } = render(
+      <DatePicker date="2023-01-01" show_input />
+    )
+
+    function getDateElements() {
+      const title: HTMLLabelElement = document.querySelector(
+        '.dnb-date-picker__header__title'
+      )
+      const button: HTMLButtonElement = document.querySelector(
+        'button[aria-current="date"]'
+      )
+
+      return [title, button] as const
+    }
+
+    const inputButton = document.querySelector(
+      '.dnb-input__submit-button__button'
+    )
+
+    await userEvent.click(inputButton)
+
+    const [firstTitle, firstDateButton] = getDateElements()
+
+    expect(firstTitle.title).toBe('Valgt måned januar 2023')
+    expect(firstTitle).toHaveTextContent('januar 2023')
+
+    expect(firstDateButton.getAttribute('aria-label')).toBe(
+      'søndag 1. januar 2023'
+    )
+    expect(firstDateButton.children[2]).toHaveTextContent('1')
+
+    rerender(<DatePicker date="2024-05-17" show_input />)
+
+    await userEvent.click(inputButton)
+
+    const [secondTitle, secondDateButton] = getDateElements()
+
+    expect(secondTitle.title).toBe('Valgt måned mai 2024')
+    expect(secondTitle).toHaveTextContent('mai 2024')
+
+    expect(secondDateButton.getAttribute('aria-label')).toBe(
+      'fredag 17. mai 2024'
+    )
+    expect(secondDateButton.children[2]).toHaveTextContent('17')
+
+    rerender(<DatePicker date="2035-12-24" show_input />)
+
+    await userEvent.click(inputButton)
+
+    const [thirdTitle, thirdDateButton] = getDateElements()
+
+    expect(thirdTitle.title).toBe('Valgt måned desember 2035')
+    expect(thirdTitle).toHaveTextContent('desember 2035')
+
+    expect(thirdDateButton.getAttribute('aria-label')).toBe(
+      'mandag 24. desember 2035'
+    )
+    expect(thirdDateButton.children[2]).toHaveTextContent('24')
   })
 })
 
