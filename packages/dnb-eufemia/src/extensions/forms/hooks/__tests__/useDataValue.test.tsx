@@ -1,5 +1,8 @@
+import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import useDataValue from '../useDataValue'
+import { JSONSchema7 } from 'json-schema'
+import { FieldBlock, FormError } from '../../Forms'
 
 describe('useDataValue', () => {
   it('should call external onChange based change callbacks', () => {
@@ -13,6 +16,49 @@ describe('useDataValue', () => {
     })
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenNthCalledWith(1, 'new-value')
+  })
+
+  it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
+    const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+    const { result } = renderHook(
+      () =>
+        useDataValue({
+          value: 'foo',
+          emptyValue: '',
+          required: true,
+        }),
+      {
+        wrapper,
+      }
+    )
+
+    const { handleFocus, handleBlur, handleChange } = result.current
+
+    act(() => {
+      handleFocus()
+      handleChange('')
+    })
+    expect(result.current.error).toBeUndefined()
+    expect(result.current.hasError).toBeFalsy()
+
+    act(() => {
+      handleBlur()
+    })
+    await waitFor(() => {
+      expect(result.current.error).toBeUndefined()
+      expect(result.current.hasError).toBeTruthy()
+    })
+
+    act(() => {
+      handleFocus()
+      handleChange('a')
+      handleBlur()
+    })
+    await waitFor(() => {
+      expect(result.current.error).toBeUndefined()
+      expect(result.current.hasError).toBeFalsy()
+    })
   })
 
   describe('using focus callbacks', () => {
@@ -93,6 +139,7 @@ describe('useDataValue', () => {
           },
         }
       )
+
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
@@ -102,6 +149,120 @@ describe('useDataValue', () => {
         value: 'bar',
         validateInitially: true,
         continuousValidation: true,
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+    })
+
+    it('should validate schema', async () => {
+      const schema: JSONSchema7 = {
+        type: 'object',
+        properties: {
+          txt: {
+            type: 'string',
+            pattern: '^(valid)$',
+          },
+        },
+      }
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 'valid',
+          schema,
+          path: '/txt',
+        })
+      )
+
+      const { handleChange, handleFocus } = result.current
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      act(() => {
+        handleChange('invalid')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+      })
+
+      act(() => {
+        handleFocus()
+        handleChange('valid')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+    })
+
+    it('should show error message', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: undefined,
+          required: true,
+          validateInitially: true,
+          errorMessages: {
+            required: 'Show this message',
+          },
+        })
+      )
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.toString()).toBe(
+          'Error: Show this message'
+        )
+      })
+    })
+
+    it('should validate "validateRequired"', async () => {
+      const validateRequired = jest.fn((v, { emptyValue, required }) => {
+        return required && emptyValue === 'empty' && v > 1
+          ? new FormError('The value is required', {
+              validationRule: 'required',
+            })
+          : undefined
+      })
+      const onChange = jest.fn()
+      const onBlur = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 1,
+          required: true,
+          emptyValue: 'empty',
+          validateInitially: true,
+          validateRequired,
+          errorMessages: {
+            required: 'Show this message',
+          },
+          onChange,
+          onBlur,
+        })
+      )
+
+      const { handleChange } = result.current
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      act(() => {
+        handleChange(2)
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.toString()).toBe(
+          'Error: Show this message'
+        )
+      })
+
+      act(() => {
+        handleChange(1)
       })
 
       await waitFor(() => {
@@ -124,7 +285,7 @@ describe('useDataValue', () => {
   })
 
   describe('value manipulation', () => {
-    it('should call fromInput and toInput', () => {
+    it('should call "fromInput" and "toInput"', () => {
       const fromInput = jest.fn((v) => v + 1)
       const toInput = jest.fn((v) => v - 1)
       const onChange = jest.fn()
@@ -139,6 +300,9 @@ describe('useDataValue', () => {
       )
 
       const { handleChange } = result.current
+
+      expect(fromInput).toHaveBeenCalledTimes(0)
+      expect(toInput).toHaveBeenCalledTimes(1)
 
       act(() => {
         handleChange(2)
@@ -161,6 +325,111 @@ describe('useDataValue', () => {
       /**
        * NB: "forceUpdate" is initiator that "toInput" is called more often.
        */
+    })
+
+    it('should call "toEvent"', () => {
+      const toEvent = jest.fn((v) => v + 1)
+      const onChange = jest.fn()
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 1,
+          toEvent,
+          onChange,
+          onFocus,
+          onBlur,
+        })
+      )
+
+      const { handleFocus, handleBlur, handleChange } = result.current
+
+      expect(toEvent).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleFocus()
+        handleChange(2)
+        handleBlur()
+      })
+
+      expect(toEvent).toHaveBeenCalledTimes(3)
+      expect(toEvent).toHaveBeenLastCalledWith(2)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(3)
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenLastCalledWith(2)
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenLastCalledWith(3)
+
+      act(() => {
+        handleFocus()
+        handleChange(4)
+        handleBlur()
+      })
+
+      expect(toEvent).toHaveBeenCalledTimes(6)
+      expect(toEvent).toHaveBeenLastCalledWith(4)
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(5)
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      expect(onFocus).toHaveBeenLastCalledWith(3)
+      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenLastCalledWith(5)
+    })
+
+    it('should call "fromExternal"', () => {
+      const fromExternal = jest.fn((v) => v + 1)
+      const onChange = jest.fn()
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 1,
+          fromExternal,
+          onChange,
+          onFocus,
+          onBlur,
+        })
+      )
+
+      const { handleFocus, handleBlur, handleChange } = result.current
+
+      expect(fromExternal).toHaveBeenCalledTimes(1)
+      expect(fromExternal).toHaveBeenLastCalledWith(1)
+
+      act(() => {
+        handleFocus()
+        handleChange(2)
+        handleBlur()
+      })
+
+      expect(fromExternal).toHaveBeenCalledTimes(1)
+      expect(fromExternal).toHaveBeenLastCalledWith(1)
+
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenLastCalledWith(2)
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenLastCalledWith(2)
+
+      act(() => {
+        handleFocus()
+        handleChange(4)
+        handleBlur()
+      })
+
+      expect(fromExternal).toHaveBeenCalledTimes(1)
+      expect(fromExternal).toHaveBeenLastCalledWith(1)
+
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      expect(onFocus).toHaveBeenLastCalledWith(2)
+      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenLastCalledWith(4)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
     })
   })
 

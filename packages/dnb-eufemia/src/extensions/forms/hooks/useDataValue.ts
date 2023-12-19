@@ -23,6 +23,7 @@ interface ReturnAdditional<Value> {
   id: string
   value: Value
   error: Error | FormError | undefined
+  hasError: boolean
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
@@ -41,25 +42,42 @@ export default function useDataValue<
     emptyValue,
     required,
     error: errorProp,
+    errorMessages,
     onFocus,
     onBlur,
     onChange,
-    validator,
     onBlurValidator,
+    validator,
     schema,
-    errorMessages,
     validateInitially,
     validateUnchanged,
     continuousValidation,
     toInput = (value: Value) => value,
     fromInput = (value: Value) => value,
+    toEvent = (value: Value) => value,
+    fromExternal = (value: Value) => value,
+    validateRequired = (value: Value, { emptyValue, required }) =>
+      required && value === emptyValue
+        ? new FormError('The value is required', {
+            validationRule: 'required',
+          })
+        : undefined,
   } = props
+
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
   const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
+
+  const transformers = useRef({
+    toInput,
+    fromInput,
+    toEvent,
+    fromExternal,
+    validateRequired,
+  })
 
   const {
     handlePathChange: dataContextHandlePathChange,
@@ -103,7 +121,7 @@ export default function useDataValue<
   const externalValue = useMemo(() => {
     if (props.value !== undefined) {
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
-      return props.value
+      return transformers.current.fromExternal(props.value)
     }
 
     if (inIterate && elementPath) {
@@ -129,12 +147,12 @@ export default function useDataValue<
     }
     return undefined
   }, [
-    path,
-    elementPath,
-    inIterate,
-    iterateElementValue,
     props.value,
+    inIterate,
+    elementPath,
     dataContext.data,
+    path,
+    iterateElementValue,
   ])
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
@@ -211,7 +229,6 @@ export default function useDataValue<
 
       return error
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -260,10 +277,16 @@ export default function useDataValue<
 
     try {
       // Validate required
-      if (valueRef.current === emptyValue && required) {
-        throw new FormError('The value is required', {
-          validationRule: 'required',
-        })
+      const requiredError = transformers.current.validateRequired(
+        valueRef.current,
+        {
+          emptyValue,
+          required,
+          isChanged: changedRef.current,
+        }
+      )
+      if (requiredError instanceof Error) {
+        throw requiredError
       }
 
       // Validate by provided JSON Schema for this value
@@ -277,11 +300,12 @@ export default function useDataValue<
         )
         throw error
       }
+
       // Validate by provided derivative validator
       if (validatorRef.current) {
         const res = await validatorRef.current?.(
           valueRef.current,
-          errorMessages
+          errorMessagesRef.current
         )
         if (res instanceof Error) {
           throw res
@@ -297,12 +321,11 @@ export default function useDataValue<
       }
     }
   }, [
+    startProcess,
     emptyValue,
     required,
-    errorMessages,
-    startProcess,
-    persistErrorState,
     clearErrorState,
+    persistErrorState,
   ])
 
   useUpdateEffect(() => {
@@ -337,16 +360,35 @@ export default function useDataValue<
     }
   }, [dataContext.showAllErrors, showError])
 
+  const handleError = useCallback(() => {
+    if (
+      continuousValidation ||
+      (continuousValidation !== false && !hasFocusRef.current)
+    ) {
+      // When there is a change to the value without there having been any focus callback beforehand, it is likely
+      // to believe that the blur callback will not be called either, which would trigger the display of the error.
+      // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
+      showError()
+    } else {
+      // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
+      hideError()
+    }
+  }, [continuousValidation, hideError, showError])
+
   const setHasFocus = useCallback(
     (hasFocus: boolean, valueOverride?: Value) => {
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        onFocus?.(valueOverride ?? valueRef.current)
+        onFocus?.(
+          transformers.current.toEvent(valueOverride ?? valueRef.current)
+        )
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        onBlur?.(valueOverride ?? valueRef.current)
+        onBlur?.(
+          transformers.current.toEvent(valueOverride ?? valueRef.current)
+        )
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -359,7 +401,11 @@ export default function useDataValue<
         if (typeof onBlurValidator === 'function') {
           // Since the validator can return either a synchronous result or an asynchronous
           Promise.resolve(
-            onBlurValidator(valueOverride ?? valueRef.current)
+            onBlurValidator(
+              transformers.current.toEvent(
+                valueOverride ?? valueRef.current
+              )
+            )
           ).then(persistErrorState)
         }
 
@@ -369,17 +415,17 @@ export default function useDataValue<
       }
     },
     [
-      validateUnchanged,
-      onFocus,
       onBlur,
       onBlurValidator,
+      onFocus,
       persistErrorState,
       showError,
-      forceUpdate,
+      validateUnchanged,
     ]
   )
 
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
+
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   const updateValue = useCallback(
@@ -392,21 +438,10 @@ export default function useDataValue<
 
       valueRef.current = newValue
 
-      if (
-        continuousValidation ||
-        (continuousValidation !== false && !hasFocusRef.current)
-      ) {
-        // When there is a change to the value without there having been any focus callback beforehand, it is likely
-        // to believe that the blur callback will not be called either, which would trigger the display of the error.
-        // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
-        showError()
-      } else {
-        // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
-        hideError()
-      }
-
       // Always validate the value immediately when it is changed
       validateValue()
+
+      handleError()
 
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
@@ -414,14 +449,7 @@ export default function useDataValue<
 
       forceUpdate()
     },
-    [
-      continuousValidation,
-      dataContextHandlePathChange,
-      hideError,
-      path,
-      showError,
-      validateValue,
-    ]
+    [dataContextHandlePathChange, handleError, path, validateValue]
   )
 
   const handleChange = useCallback(
@@ -429,7 +457,7 @@ export default function useDataValue<
       argFromInput: Value,
       additionalArgs: AdditionalEventArgs = undefined
     ) => {
-      const newValue = fromInput(argFromInput)
+      const newValue = transformers.current.fromInput(argFromInput)
 
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
@@ -440,11 +468,13 @@ export default function useDataValue<
       updateValue(newValue)
 
       changedRef.current = true
+
+      const value = transformers.current.toEvent(newValue)
       onChange?.apply(
         this,
         typeof additionalArgs !== 'undefined'
-          ? [newValue, additionalArgs]
-          : [newValue]
+          ? [value, additionalArgs]
+          : [value]
       )
 
       if (elementPath) {
@@ -456,11 +486,10 @@ export default function useDataValue<
     },
     [
       elementPath,
-      fromInput,
-      handleIterateElementChange,
       iterateElementIndex,
-      onChange,
+      handleIterateElementChange,
       updateValue,
+      onChange,
     ]
   )
 
@@ -478,18 +507,21 @@ export default function useDataValue<
     }
   })
 
+  const error = showErrorRef.current
+    ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+    : undefined
+
   return {
     ...props,
-    id,
-    name: props.name || props.path?.replace('/', '') || id,
-    value: toInput(valueRef.current),
-    error:
-      !inFieldBlock && showErrorRef.current
-        ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-        : undefined,
     autoComplete:
       props.autoComplete ??
       (dataContext.autoComplete === true ? 'on' : 'off'),
+    id,
+    name: props.name || props.path?.replace('/', '') || id,
+    value: transformers.current.toInput(valueRef.current),
+    error: !inFieldBlock ? error : undefined,
+    hasError: Boolean(error),
+    isChanged: changedRef.current,
     setHasFocus,
     handleFocus,
     handleBlur,
