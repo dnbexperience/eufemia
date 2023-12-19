@@ -5,8 +5,6 @@ import {
   Radio,
   HelpButton,
 } from '../../../../components'
-import ButtonRow from '../../Form/ButtonRow'
-import FieldBlock from '../../FieldBlock'
 import classnames from 'classnames'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
@@ -14,12 +12,13 @@ import Option from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
+import type { FormStatusText } from '../../../../components/FormStatus'
+import FieldBlock from '../../FieldBlock'
 
 interface IOption {
   title: string | React.ReactNode
   value: number | string
-  handleSelect: () => void
+  status: FormStatusText
 }
 
 export type Props = FieldHelpProps &
@@ -70,7 +69,7 @@ function Selection(props: Props) {
     [handleChange, emptyValue, clearValue]
   )
 
-  const handleRadioChange = useCallback(
+  const onChangeHandler = useCallback(
     ({ value }) => {
       handleChange?.(value === undefined ? emptyValue : value)
     },
@@ -94,7 +93,12 @@ function Selection(props: Props) {
     [setHasFocus]
   )
 
-  const cn = classnames('dnb-forms-field-selection', className)
+  const cn = classnames(
+    'dnb-forms-field-selection',
+    `dnb-forms-field-selection__variant--${variant}`,
+    `dnb-forms-field-selection__options-layout--${optionsLayout}`,
+    className
+  )
 
   const fieldBlockProps = {
     forId: id,
@@ -108,78 +112,88 @@ function Selection(props: Props) {
     labelDescription,
     labelSecondary,
   }
+
+  const getStatus = useCallback(
+    (error: Error | FormError | undefined) => {
+      return (
+        error?.message ??
+        ((warning instanceof Error && warning.message) ||
+          (warning instanceof FormError && warning.message) ||
+          warning?.toString() ||
+          (info instanceof Error && info.message) ||
+          (info instanceof FormError && info.message) ||
+          info?.toString())
+      )
+    },
+    [info, warning]
+  )
+
   const options: IOption[] = useMemo(
     () =>
       React.Children.toArray(children)
         .filter(
           (child) => React.isValidElement(child) && child.type === Option
         )
-        .map((option: React.ReactElement) => ({
-          title: option.props.title ?? option.props.children,
-          value: option.props.value,
-          handleSelect: () => {
-            const selected = option.props.value
+        .map((option: React.ReactElement) => {
+          const {
+            value: v,
+            error,
+            title,
+            children,
+            ...rest
+          } = option.props
 
-            handleChange?.(selected === value ? emptyValue : selected)
-          },
-        })),
-    [children, value, emptyValue, handleChange]
+          const status = getStatus(error)
+
+          return {
+            title: title ?? children,
+            value: v,
+            status,
+            ...rest,
+          }
+        }),
+    [children, getStatus]
   )
+
+  const status = getStatus(error)
 
   switch (variant) {
     case 'radio':
-      return (
-        <Radio.Group
-          className={cn}
-          label={label}
-          layout_direction={
-            optionsLayout === 'horizontal' ? 'row' : 'column'
-          }
-          vertical={layout === 'vertical'}
-          on_change={handleRadioChange}
-          value={String(value ?? '')}
-          disabled={disabled}
-          {...pickSpacingProps(props)}
-        >
-          {options.map((option, i) => (
-            <Radio
-              key={`option-${i}-${option.value}`}
-              label={option.title}
-              value={String(option.value ?? '')}
-              status={
-                error
-                  ? i === options.length - 1
-                    ? error.message
-                    : 'error'
-                  : undefined
-              }
-            />
-          ))}
-        </Radio.Group>
-      )
-    case 'button':
+    case 'button': {
+      const Component = (
+        variant === 'radio' ? Radio : ToggleButton
+      ) as typeof Radio & typeof ToggleButton
+
       return (
         <FieldBlock {...fieldBlockProps}>
-          <ButtonRow>
-            <ToggleButtonGroupContext.Provider
-              value={{
-                status: error ? 'error' : undefined,
-                disabled,
-              }}
-            >
-              {options.map((option, i) => (
-                <ToggleButton
-                  id={options.length > 0 ? id : undefined}
-                  key={`option-${i}-${option.value}`}
-                  text={option.title}
-                  on_change={option.handleSelect}
-                  checked={option.value === value}
+          <Component.Group
+            className={cn}
+            layout_direction={
+              optionsLayout === 'horizontal' ? 'row' : 'column'
+            }
+            disabled={disabled}
+            on_change={onChangeHandler}
+            value={String(value ?? '')}
+          >
+            {options.map((option, i) => {
+              const { value, title, status, ...rest } = option
+              return (
+                <Component
+                  id={options.length === 1 ? id : undefined}
+                  key={`option-${i}-${value}`}
+                  label={variant === 'radio' ? title : undefined}
+                  text={variant === 'button' ? title : undefined}
+                  value={String(value ?? '')}
+                  status={status}
+                  {...rest}
                 />
-              ))}
-            </ToggleButtonGroupContext.Provider>
-          </ButtonRow>
+              )
+            })}
+          </Component.Group>
         </FieldBlock>
       )
+    }
+
     case 'dropdown': {
       const optionsData = React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.type === Option) {
@@ -220,41 +234,34 @@ function Selection(props: Props) {
       ].filter(Boolean)
 
       return (
-        <Dropdown
-          className={classnames(
-            'dnb-forms-field-selection',
-            width !== 'stretch' &&
-              `dnb-forms-field-selection--width-${width}`,
-            className
-          )}
-          list_class="dnb-forms-field-selection__list"
-          portal_class="dnb-forms-field-selection__portal"
-          title={placeholder}
-          value={String(value ?? '')}
-          label={label}
-          label_direction={layout}
-          status={
-            error?.message ??
-            ((warning instanceof Error && warning.message) ||
-              (warning instanceof FormError && warning.message) ||
-              warning?.toString() ||
-              (info instanceof Error && info.message) ||
-              (info instanceof FormError && info.message) ||
-              info?.toString())
-          }
-          disabled={disabled}
-          data={data}
-          suffix={
-            help ? (
-              <HelpButton title={help.title}>{help.contents}</HelpButton>
-            ) : undefined
-          }
-          on_change={handleDropdownChange}
-          on_show={handleShow}
-          on_hide={handleHide}
-          {...pickSpacingProps(props)}
-          stretch={width === 'stretch'}
-        />
+        <FieldBlock {...fieldBlockProps}>
+          <Dropdown
+            id={id}
+            className={classnames(
+              'dnb-forms-field-selection',
+              width !== 'stretch' &&
+                `dnb-forms-field-selection--width-${width}`,
+              className
+            )}
+            list_class="dnb-forms-field-selection__list"
+            portal_class="dnb-forms-field-selection__portal"
+            title={placeholder}
+            value={String(value ?? '')}
+            status={status && 'error'}
+            disabled={disabled}
+            data={data}
+            suffix={
+              help ? (
+                <HelpButton title={help.title}>{help.contents}</HelpButton>
+              ) : undefined
+            }
+            on_change={handleDropdownChange}
+            on_show={handleShow}
+            on_hide={handleHide}
+            {...pickSpacingProps(props)}
+            stretch={width === 'stretch'}
+          />
+        </FieldBlock>
       )
     }
   }
