@@ -183,6 +183,7 @@ export default class DatePickerProvider extends React.PureComponent {
 
     if (
       !state.startMonth ||
+      state._date !== props.date ||
       (state.changeMonthViews &&
         !isSameMonth(state.startMonth, state.startDate))
     ) {
@@ -191,6 +192,7 @@ export default class DatePickerProvider extends React.PureComponent {
 
     if (
       !state.endMonth ||
+      state._date !== props.date ||
       (isRange &&
         state.changeMonthViews &&
         !isSameMonth(state.endMonth, state.endDate))
