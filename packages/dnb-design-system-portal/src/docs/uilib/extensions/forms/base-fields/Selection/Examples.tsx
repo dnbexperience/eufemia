@@ -342,6 +342,7 @@ export const RadioOptionSelected = () => (
   <ComponentBox data-visual-test="selection-radio-vertical">
     <Field.Selection
       variant="radio"
+      label="Label text"
       value="bar"
       onChange={(value) => console.log('onChange', value)}
     >
@@ -446,7 +447,6 @@ export const ButtonLabel = () => (
     <Field.Selection
       variant="button"
       label="Label text"
-      optionsLayout="vertical"
       onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Foo!" />
@@ -455,7 +455,7 @@ export const ButtonLabel = () => (
   </ComponentBox>
 )
 
-export const ButtonHorizontalLayoutAndHorizontalOptionsLayout = () => (
+export const ButtonHorizontalOptionsLayout = () => (
   <ComponentBox data-visual-test="selection-button-options-horizontal">
     <Field.Selection
       variant="button"
@@ -473,22 +473,8 @@ export const ButtonOptionSelected = () => (
   <ComponentBox data-visual-test="selection-button-vertical">
     <Field.Selection
       variant="button"
-      value="bar"
-      onChange={(value) => console.log('onChange', value)}
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  </ComponentBox>
-)
-
-export const ButtonHorizontalLayout = () => (
-  <ComponentBox data-visual-test="selection-button-horizontal">
-    <Field.Selection
-      variant="button"
       label="Label text"
       value="bar"
-      layout="horizontal"
       onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Foo!" />

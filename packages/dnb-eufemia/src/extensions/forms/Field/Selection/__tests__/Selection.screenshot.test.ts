@@ -91,12 +91,5 @@ describe('Selection', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-
-    it('have to match button-horizontal', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="selection-button-horizontal"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
   })
 })
