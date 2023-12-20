@@ -7,3 +7,15 @@ import DataValueWriteEvents from 'Docs/uilib/extensions/forms/data-value-write-e
 ## Events
 
 <DataValueWriteEvents />
+
+### Argument value
+
+The argument value returned by the event handlers is an object containing `cdc`, `continent`, `i18n` and `iso`. e.g. `{
+  cdc: '41',
+  iso: 'CH',
+    i18n: {
+    en: 'Switzerland',
+    nb: 'Sveits'
+  },
+  continent: 'Europe'
+}`
