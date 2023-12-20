@@ -103,6 +103,7 @@ function StringComponent(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     help,
     multiline,
@@ -142,7 +143,7 @@ function StringComponent(props: Props) {
     disabled: disabled,
     stretch: width !== undefined,
     inner_ref: innerRef,
-    status: error ? 'error' : undefined,
+    status: error || hasError ? 'error' : undefined,
     value: value?.toString() ?? '',
   }
 
