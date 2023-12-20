@@ -25,7 +25,7 @@ describe('Form.Handler', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'data-context-value' },
+      { foo: 'Value' },
       expect.anything()
     )
 
@@ -59,7 +59,7 @@ describe('Form.Handler', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'data-context-value' },
+      { foo: 'Value' },
       expect.anything()
     )
 
@@ -67,7 +67,7 @@ describe('Form.Handler', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'data-context-value' },
+      { foo: 'Value' },
       expect.anything()
     )
   })
@@ -364,5 +364,25 @@ describe('Form.Handler', () => {
 
     expect(onSubmit).not.toHaveBeenCalled()
     expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
+  it('should include values from fields in data, without any change', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler defaultData={{ foo: 'bar' }} onSubmit={onSubmit}>
+        <Field.String path="/other" value="include this" />
+        <Form.SubmitButton />
+      </Form.Handler>,
+      { wrapper: React.StrictMode }
+    )
+
+    const buttonElement = document.querySelector('button')
+    fireEvent.click(buttonElement)
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'bar', other: 'include this' },
+      expect.anything()
+    )
   })
 })

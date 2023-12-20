@@ -52,7 +52,7 @@ describe('Form.Element', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'data-context-value' },
+      { foo: 'Value' },
       expect.anything()
     )
     expect(onSubmitElement).toHaveBeenCalledTimes(1)
@@ -61,7 +61,7 @@ describe('Form.Element', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'data-context-value' },
+      { foo: 'Value' },
       expect.anything()
     )
     expect(onSubmitElement).toHaveBeenCalledTimes(2)

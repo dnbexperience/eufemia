@@ -108,6 +108,7 @@ export default function Provider<Data extends JsonObject>({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Partial<Data>>(initialData)
+  const dataCacheRef = useRef<Partial<Data>>(data)
   // - Validator
   const ajvSchemaValidatorRef = useRef<ValidateFunction>()
 
@@ -163,12 +164,11 @@ export default function Provider<Data extends JsonObject>({
     []
   )
 
-  const handlePathChange = useCallback(
+  const updateDataValue = useCallback(
     (path, value) => {
       if (!path) {
         return
       }
-      onPathChange?.(path, value)
 
       // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
       const newData = structuredClone(
@@ -179,11 +179,10 @@ export default function Provider<Data extends JsonObject>({
             internalDataRef.current ??
               (path.match(isArrayJsonPointer) ? [] : {})
       )
+
       if (path !== '/') {
         pointer.set(newData as Data, path, value)
       }
-
-      onChange?.(newData as Data)
 
       if (sessionStorageId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(
@@ -194,11 +193,30 @@ export default function Provider<Data extends JsonObject>({
 
       internalDataRef.current = newData
 
-      validateData()
-      showAllErrorsRef.current = false
       forceUpdate()
+
+      return newData
     },
-    [onChange, onPathChange, validateData, sessionStorageId]
+    [sessionStorageId]
+  )
+
+  const handlePathChange = useCallback(
+    (path, value) => {
+      if (!path) {
+        return
+      }
+
+      onPathChange?.(path, value)
+
+      const newData = updateDataValue(path, value)
+
+      onChange?.(newData as Data)
+
+      showAllErrorsRef.current = false
+
+      validateData()
+    },
+    [onPathChange, updateDataValue, onChange, validateData]
   )
 
   // Mounted fields
@@ -270,8 +288,12 @@ export default function Provider<Data extends JsonObject>({
   })
 
   useUpdateEffect(() => {
-    // Update and validate changes to the external data set
-    internalDataRef.current = data
+    // Update and validate changes to the external data set,
+    // And avoid "resetting" the data with the originally given data (React.StrictMode)
+    if (data !== dataCacheRef.current) {
+      dataCacheRef.current = data
+      internalDataRef.current = data
+    }
     validateData()
     forceUpdate()
   }, [data, validateData, forceUpdate])
@@ -282,6 +304,7 @@ export default function Provider<Data extends JsonObject>({
         data: internalDataRef.current,
         ...rest,
         handlePathChange,
+        updateDataValue,
         handleSubmit,
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
