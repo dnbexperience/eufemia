@@ -244,7 +244,7 @@ function useEnableFieldset({
 
       findElementInChildren(children, (child: React.ReactElement) => {
         if (
-          typeof child?.props?.label !== 'undefined' ||
+          child?.props?.label ||
           child?.type?.['_formElement'] === true
         ) {
           count++
@@ -256,7 +256,7 @@ function useEnableFieldset({
     }
 
     return Boolean(result)
-  }, [children])
+  }, [asFieldset, children, label, nestedFieldBlockContext])
 }
 
 FieldBlock._supportsSpacingProps = true

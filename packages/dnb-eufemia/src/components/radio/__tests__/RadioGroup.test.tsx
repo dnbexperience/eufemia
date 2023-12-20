@@ -10,6 +10,10 @@ import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
 describe('Radio group component', () => {
+  it('should not have _formElement property', () => {
+    expect(Radio.Group['_formElement']).toBeUndefined()
+  })
+
   it('has to set correct value using keys', () => {
     const my_event = jest.fn()
     render(
