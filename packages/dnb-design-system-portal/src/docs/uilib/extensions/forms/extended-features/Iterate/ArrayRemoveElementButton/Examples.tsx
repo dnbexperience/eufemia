@@ -11,7 +11,7 @@ export const PrimitiveElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         <Flex.Horizontal align="center">
-          <Field.String elementPath="/" />
+          <Field.String itemPath="/" />
           <Iterate.ArrayRemoveElementButton
             icon={TrashIcon}
             onChange={(value) => console.log('onChange', value)}
@@ -35,7 +35,7 @@ export const ObjectElements = () => {
       >
         <Iterate.Array path="/">
           <Flex.Horizontal align="center">
-            <Field.String elementPath="/name" />
+            <Field.String itemPath="/name" />
             <Iterate.ArrayRemoveElementButton text="Remove avenger" />
           </Flex.Horizontal>
         </Iterate.Array>
