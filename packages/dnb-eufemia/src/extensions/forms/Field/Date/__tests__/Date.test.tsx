@@ -31,7 +31,7 @@ describe('Field.Date', () => {
     })
 
     await userEvent.keyboard(
-      '{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}'
+      '{Backspace>8}'
     )
 
     expect(datepicker.classList).toContain(
