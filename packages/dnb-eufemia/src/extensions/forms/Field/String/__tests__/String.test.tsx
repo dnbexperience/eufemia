@@ -328,6 +328,20 @@ describe('Field.String', () => {
         })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
+
+      it('should show error for initially empty value when required and validateInitially is set', async () => {
+        render(<Field.String value="" required validateInitially />)
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
+
+      it('should show error for initially empty value when required and blur event', async () => {
+        render(<Field.String value="" required />)
+        const input = document.querySelector('input')
+        act(() => {
+          input.blur()
+        })
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
     })
 
     describe('validation based on minLength-prop', () => {
