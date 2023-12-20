@@ -131,7 +131,6 @@ export default class TextMask extends React.PureComponent {
 
     const params = {
       onChange: this.onChange,
-      defaultValue: this.props.value,
       ...props,
     }
 

@@ -91,8 +91,14 @@ export const Default = () => {
         onPathChange={(path, value) =>
           console.log('onPathChange', path, value)
         }
-        onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
+        onSubmit={(data, { resetForm, clearData }) => {
+          console.log('onSubmit', data)
+
+          // Docs: https://eufemia.dnb.no/uilib/extensions/forms/extended-features/DataContext/Provider/events/#onsubmit-parameters
+          resetForm()
+          clearData()
+        }}
         sessionStorageId="provider-example-1"
       >
         <Flex.Stack>

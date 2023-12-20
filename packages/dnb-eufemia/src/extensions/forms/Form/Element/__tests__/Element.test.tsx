@@ -51,13 +51,19 @@ describe('Form.Element', () => {
     fireEvent.submit(inputElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'data-context-value' },
+      expect.anything()
+    )
     expect(onSubmitElement).toHaveBeenCalledTimes(1)
 
     fireEvent.click(buttonElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'data-context-value' },
+      expect.anything()
+    )
     expect(onSubmitElement).toHaveBeenCalledTimes(2)
 
     expect(onSubmitElement).toHaveBeenCalledWith(

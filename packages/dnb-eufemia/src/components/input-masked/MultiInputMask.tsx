@@ -255,7 +255,7 @@ function MultiInputMaskInput<T extends string>({
         className={classnames(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
-          value && 'dnb-multi-input-mask__input--highlight'
+          /\d+/.test(value) && 'dnb-multi-input-mask__input--highlight'
         )}
         disabled={disabled}
         size={mask.length}

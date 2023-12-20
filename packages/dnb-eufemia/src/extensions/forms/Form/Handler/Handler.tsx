@@ -36,9 +36,9 @@ export default function FormHandler<Data extends JsonObject>({
     schema,
     onChange,
     onPathChange,
-    onSubmit: (data: Data) => {
+    onSubmit: (...args) => {
       if (typeof onSubmit === 'function') {
-        onSubmit(data)
+        onSubmit(...args)
       }
     },
     onSubmitRequest,
