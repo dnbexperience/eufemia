@@ -1991,7 +1991,7 @@ describe('inputmode', () => {
 
     expect(inputElement).toHaveAttribute('type', 'number')
     expect(inputElement).toHaveAttribute('placeholder', '1 234,5 kr')
-    expect(inputElement).toHaveAttribute('value', '1234,5')
+    expect(inputElement).toHaveAttribute('value', null)
     expect(inputElement.value).toBe('')
     expect(inputElement.selectionStart).toBe(null)
     expect(inputElement.selectionEnd).toBe(null)
