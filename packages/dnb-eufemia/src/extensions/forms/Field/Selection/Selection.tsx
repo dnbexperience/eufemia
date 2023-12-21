@@ -234,15 +234,9 @@ function Selection(props: Props) {
       ].filter(Boolean)
 
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldBlockProps} width={width}>
           <Dropdown
             id={id}
-            className={classnames(
-              'dnb-forms-field-selection',
-              width !== 'stretch' &&
-                `dnb-forms-field-selection--width-${width}`,
-              className
-            )}
             list_class="dnb-forms-field-selection__list"
             portal_class="dnb-forms-field-selection__portal"
             title={placeholder}
@@ -259,7 +253,7 @@ function Selection(props: Props) {
             on_show={handleShow}
             on_hide={handleHide}
             {...pickSpacingProps(props)}
-            stretch={width === 'stretch'}
+            stretch
           />
         </FieldBlock>
       )

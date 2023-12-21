@@ -1,13 +1,22 @@
 import React from 'react'
+import { Card } from '../../../../../components'
 import { Field } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Selection',
 }
 
-export function SelectionRadio() {
+export function Selection() {
   return (
-    <>
+    <Card stack>
+      <Field.Selection
+        label="Label"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+
       <Field.Selection
         label="Label"
         variant="radio"
@@ -40,6 +49,6 @@ export function SelectionRadio() {
         />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
-    </>
+    </Card>
   )
 }
