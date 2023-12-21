@@ -103,7 +103,7 @@ export const AnchorExampleHelperClasses = () => (
           No underline
         </Anchor>
       </Example>
-      <Example>
+      <Example data-visual-test="anchor-no-icon">
         <Anchor
           target="_blank"
           href="/uilib/components/anchor"

@@ -141,6 +141,13 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the dnb-anchor--no-icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-no-icon"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the dnb-anchor--no-underline', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-in-section"]',
