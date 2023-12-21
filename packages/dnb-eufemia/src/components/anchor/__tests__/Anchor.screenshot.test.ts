@@ -107,6 +107,71 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the anchor-contrast no-underline "default" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-contrast-no-underline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast no-underline no-hover "default" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="anchor-contrast-no-underline-no-hover"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast no-underline no-hover "hover" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="anchor-contrast-no-underline-no-hover"]',
+      simulateSelector:
+        '[data-visual-test="anchor-contrast-no-underline-no-hover"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast no-underline no-radius "default" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="anchor-contrast-no-underline-no-radius"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast no-underline no-radius "hover" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="anchor-contrast-no-underline-no-radius"]',
+      simulateSelector:
+        '[data-visual-test="anchor-contrast-no-underline-no-radius"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast no-hover "hover" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-contrast-no-hover"]',
+      simulateSelector:
+        '[data-visual-test="anchor-contrast-no-hover"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast no-radius "hover" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-contrast-no-radius"]',
+      simulateSelector:
+        '[data-visual-test="anchor-contrast-no-radius"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the anchor-contrast "default" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-contrast"]',

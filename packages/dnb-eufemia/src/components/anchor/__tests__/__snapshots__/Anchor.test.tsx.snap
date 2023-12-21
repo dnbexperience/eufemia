@@ -321,10 +321,20 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast {
   color: var(--color-white);
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover:where(:not(.dnb-anchor--no-hover)) {
   color: var(--anchor-color--contrast);
   --anchor-background-gutter: 0.125em;
   box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
+    color: var(--anchor-color--contrast);
+    --anchor-background-gutter: 0.125em;
+    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+  }
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:active {
   color: var(--color-white);
@@ -421,10 +431,20 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast {
     color: var(--color-white);
   }
-  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover {
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover:where(:not(.dnb-anchor--no-hover)) {
     color: var(--anchor-color--contrast);
     --anchor-background-gutter: 0.125em;
     box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+  }
+  @supports not (selector(*:where(*))) {
+    :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
+      color: var(--anchor-color--contrast);
+      --anchor-background-gutter: 0.125em;
+      box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+    }
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:active {
     color: var(--color-white);
