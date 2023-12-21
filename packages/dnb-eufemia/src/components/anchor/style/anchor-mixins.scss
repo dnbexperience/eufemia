@@ -45,10 +45,6 @@
       }
     }
   }
-
-  &--no-icon .dnb-icon {
-    display: none;
-  }
 }
 
 // reset methods
@@ -165,6 +161,10 @@
 
     // -1px to center the icons against large chars
     transform: translateY(-0.0625em);
+  }
+
+  &--no-icon .dnb-icon {
+    display: none;
   }
 }
 

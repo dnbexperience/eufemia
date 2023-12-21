@@ -272,9 +272,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--launch-icon .dnb-icon.dnb-icon--default svg path {
   stroke-width: 1.2;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon {
-  display: none;
-}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   background-color: transparent;
   transition: none;
@@ -317,6 +314,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
   display: inline-block;
   transform: translateY(-0.0625em);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon {
+  display: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast {
   color: var(--color-white);
@@ -372,9 +372,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor--launch-icon .dnb-icon.dnb-icon--default svg path {
     stroke-width: 1.2;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon {
-    display: none;
-  }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     background-color: transparent;
     transition: none;
@@ -417,6 +414,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
     display: inline-block;
     transform: translateY(-0.0625em);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon {
+    display: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast {
     color: var(--color-white);
