@@ -24,7 +24,6 @@ import {
   makeDayObject,
 } from '../DatePickerCalc'
 import { fireEvent, render } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
 
 beforeEach(() => {
