@@ -44,6 +44,48 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('åå')
   })
 
+  describe('should handle non existing values for month', () => {
+    it('when month is 90', () => {
+      render(<Field.Expiry value="9022" />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      expect(monthInput.value).toBe('mm')
+      expect(yearInput.value).toBe('22')
+    })
+
+    it('when month is 23', () => {
+      render(<Field.Expiry value="2335" />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      expect(monthInput.value).toBe('mm')
+      expect(yearInput.value).toBe('35')
+    })
+
+    it('when month is 13', () => {
+      render(<Field.Expiry value="1312" />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      expect(monthInput.value).toBe('mm')
+      expect(yearInput.value).toBe('12')
+    })
+
+    it('when month is 00', () => {
+      render(<Field.Expiry value="0000" />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      expect(monthInput.value).toBe('mm')
+      expect(yearInput.value).toBe('00')
+    })
+  })
+
   it('should return month and year values as a concatenated string', async () => {
     const onChange = jest.fn()
 
