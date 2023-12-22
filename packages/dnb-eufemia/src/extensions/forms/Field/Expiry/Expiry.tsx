@@ -42,8 +42,8 @@ function Expiry(props: ExpiryProps) {
   })
 
   const expiry: ExpiryValue = {
-    month: value.substring(0, 2) ?? '',
-    year: value.substring(2, 4) ?? '',
+    month: value?.substring(0, 2) ?? '',
+    year: value?.substring(2, 4) ?? '',
   }
 
   const idRef = useRef(propsId || makeUniqueId()).current
