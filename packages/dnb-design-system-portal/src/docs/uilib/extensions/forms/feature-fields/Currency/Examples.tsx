@@ -69,7 +69,7 @@ export const WithGBLocale = () => {
   return (
     <ComponentBox>
       <Provider locale="en-GB">
-        <Field.Currency value={-150000} rightAligned />
+        <Field.Currency value={-150000} align="right" />
       </Provider>
     </ComponentBox>
   )

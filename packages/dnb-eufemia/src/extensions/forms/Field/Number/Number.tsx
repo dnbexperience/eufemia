@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useCallback } from 'react'
 import { JSONSchema7 } from 'json-schema'
 import { InputMasked, HelpButton } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
+import { InputAlign } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
@@ -39,7 +40,7 @@ export type Props = FieldHelpProps &
     multipleOf?: number
     // Styling
     width?: false | 'small' | 'medium' | 'large' | 'stretch'
-    rightAligned?: boolean
+    align?: InputAlign
   }
 
 function NumberComponent(props: Props) {
@@ -55,7 +56,6 @@ function NumberComponent(props: Props) {
     decimalLimit = 12,
     prefix,
     suffix,
-    rightAligned,
   } = props
 
   const errorMessages = useMemo(
@@ -149,6 +149,7 @@ function NumberComponent(props: Props) {
     toInput,
     fromInput,
     width: props.width ?? 'medium',
+    align: props.align ?? 'left',
   }
 
   const {
@@ -170,6 +171,7 @@ function NumberComponent(props: Props) {
     help,
     emptyValue,
     width,
+    align,
     handleFocus,
     handleBlur,
     handleChange,
@@ -202,7 +204,7 @@ function NumberComponent(props: Props) {
         placeholder={placeholder}
         value={value}
         {...maskProps}
-        align={rightAligned && 'right'}
+        align={align}
         on_focus={handleFocus}
         on_blur={handleBlur}
         on_change={handleChange}
