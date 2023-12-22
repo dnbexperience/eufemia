@@ -26,7 +26,6 @@ exports[`Section scss has to match style dependencies css 1`] = `
   --left: -100vw;
   --width: 100vw;
   --height: 100%;
-  box-shadow: var(--outline, none);
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
 }
@@ -37,7 +36,8 @@ exports[`Section scss has to match style dependencies css 1`] = `
   content: "";
   position: absolute;
   inset: 0;
-  box-shadow: var(--drop-shadow, none);
+  z-index: -1;
+  box-shadow: var(--drop-shadow, none), var(--outline, none);
   border-radius: var(--rounded-corner, 0);
 }
 .dnb-section::after {

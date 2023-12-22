@@ -21,7 +21,6 @@
   --width: 100vw;
   --height: 100%;
 
-  box-shadow: var(--outline, none);
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
 
@@ -33,7 +32,8 @@
     content: '';
     position: absolute;
     inset: 0;
-    box-shadow: var(--drop-shadow, none);
+    z-index: -1;
+    box-shadow: var(--drop-shadow, none), var(--outline, none);
     border-radius: var(--rounded-corner, 0);
   }
 
