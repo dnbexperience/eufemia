@@ -14,6 +14,36 @@ describe('Field.Expiry', () => {
     })
   })
 
+  it('should set value as a string', () => {
+    render(<Field.Expiry value="0835" />)
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    expect(monthInput.value).toBe('08')
+    expect(yearInput.value).toBe('35')
+  })
+
+  it('should hande value as undefined', () => {
+    render(<Field.Expiry value={undefined} />)
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    expect(monthInput.value).toBe('mm')
+    expect(yearInput.value).toBe('åå')
+  })
+
+  it('should hande value as null', () => {
+    render(<Field.Expiry value={null} />)
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    expect(monthInput.value).toBe('mm')
+    expect(yearInput.value).toBe('åå')
+  })
+
   it('should return month and year values as a concatenated string', async () => {
     const onChange = jest.fn()
 
