@@ -30,9 +30,7 @@ describe('Field.Date', () => {
       inputs[inputs.length - 1].setSelectionRange(4, 4)
     })
 
-    await userEvent.keyboard(
-      '{Backspace>8}'
-    )
+    await userEvent.keyboard('{Backspace>8}')
 
     expect(datepicker.classList).toContain(
       'dnb-date-picker__status--error'
