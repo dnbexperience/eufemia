@@ -23,7 +23,7 @@ function StepsLayout(props: Props) {
   const {
     className,
     id = makeUniqueId(),
-    mode = 'loose',
+    mode = 'strict',
     scrollTopOnStepChange,
     initialActiveIndex = 0,
     onStepChange,
