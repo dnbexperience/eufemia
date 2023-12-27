@@ -5,7 +5,7 @@ export const Empty = () => {
   return (
     <ComponentBox>
       <Field.SelectCountry
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
       />
     </ComponentBox>
   )
@@ -16,7 +16,7 @@ export const Placeholder = () => {
     <ComponentBox>
       <Field.SelectCountry
         placeholder="Select something...."
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
       />
     </ComponentBox>
   )
@@ -27,7 +27,7 @@ export const Label = () => {
     <ComponentBox>
       <Field.SelectCountry
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
       />
     </ComponentBox>
   )
@@ -38,7 +38,7 @@ export const OptionSelected = () => {
     <ComponentBox>
       <Field.SelectCountry
         value="NO"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
       />
     </ComponentBox>
   )
@@ -50,7 +50,7 @@ export const LabelAndOptionSelected = () => {
       <Field.SelectCountry
         value="NO"
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
       />
     </ComponentBox>
   )
@@ -67,7 +67,7 @@ export const WithHelp = () => {
           contents:
             'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
         }}
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
       />
     </ComponentBox>
   )
@@ -79,7 +79,7 @@ export const Disabled = () => {
       <Field.SelectCountry
         value="NO"
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
         disabled
       />
     </ComponentBox>
@@ -92,7 +92,7 @@ export const Error = () => {
       <Field.SelectCountry
         value="NO"
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
         error={new FormError('This is what is wrong...')}
       />
     </ComponentBox>
@@ -104,7 +104,7 @@ export const ValidationRequired = () => {
     <ComponentBox>
       <Field.SelectCountry
         label="Label text"
-        onChange={(value) => console.log('onChange', value)}
+        onChange={(value, obj) => console.log('onChange', value, obj)}
         required
         validateInitially
         validateUnchanged
