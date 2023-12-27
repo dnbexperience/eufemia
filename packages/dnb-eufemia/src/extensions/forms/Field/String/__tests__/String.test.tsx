@@ -312,7 +312,7 @@ describe('Field.String', () => {
       it('should show error for empty value', async () => {
         render(<Field.String value="a" required />)
         const input = document.querySelector('input')
-        await userEvent.type(input, '{backspace}')
+        await userEvent.type(input, '{Backspace}')
         act(() => {
           input.blur()
         })
@@ -327,6 +327,21 @@ describe('Field.String', () => {
           input.blur()
         })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should show error for initially empty value when required and validateInitially is set', async () => {
+        render(<Field.String value="" required validateInitially />)
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
+
+      it('should show error for initially empty value when required and blur event when validateUnchanged is set', async () => {
+        render(<Field.String value="" required validateUnchanged />)
+        const input = document.querySelector('input')
+        input.focus()
+        act(() => {
+          input.blur()
+        })
+        expect(screen.getByRole('alert')).toBeInTheDocument()
       })
     })
 

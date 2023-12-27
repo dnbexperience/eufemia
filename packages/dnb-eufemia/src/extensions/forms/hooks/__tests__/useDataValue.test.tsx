@@ -199,7 +199,7 @@ describe('useDataValue', () => {
       })
     })
 
-    it('should show error message', async () => {
+    it('should show given error message', () => {
       const { result } = renderHook(() =>
         useDataValue({
           value: undefined,
@@ -210,12 +210,21 @@ describe('useDataValue', () => {
           },
         })
       )
-      await waitFor(() => {
-        expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.toString()).toBe(
-          'Error: Show this message'
-        )
-      })
+      expect(result.current.error).toBeInstanceOf(Error)
+      expect(result.current.error.toString()).toBe(
+        'Error: Show this message'
+      )
+    })
+
+    it('should validate required when value is empty string', () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: '',
+          required: true,
+          validateInitially: true,
+        })
+      )
+      expect(result.current.error).toBeInstanceOf(Error)
     })
 
     it('should validate "validateRequired"', async () => {

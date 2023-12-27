@@ -56,12 +56,17 @@ export default function useDataValue<
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
     fromExternal = (value: Value) => value,
-    validateRequired = (value: Value, { emptyValue, required }) =>
-      required && value === emptyValue
-        ? new FormError('The value is required', {
-            validationRule: 'required',
-          })
-        : undefined,
+    validateRequired = (value: Value, { emptyValue, required }) => {
+      const res =
+        required &&
+        (value === emptyValue ||
+          (typeof emptyValue === 'undefined' && value === ''))
+          ? new FormError('The value is required', {
+              validationRule: 'required',
+            })
+          : undefined
+      return res
+    },
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})

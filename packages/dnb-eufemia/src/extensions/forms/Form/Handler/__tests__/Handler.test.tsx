@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import type { Props as StringProps } from '../../../Field/String'
 import userEvent from '@testing-library/user-event'
@@ -348,5 +348,21 @@ describe('Form.Handler', () => {
     expect(window.sessionStorage.getItem('test-data')).toBe(null)
 
     setItem.mockRestore()
+  })
+
+  it('should show errors if form is invalid on submit', () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String value="" required />
+      </Form.Handler>
+    )
+
+    const formElement = document.querySelector('form')
+    fireEvent.submit(formElement)
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 })
