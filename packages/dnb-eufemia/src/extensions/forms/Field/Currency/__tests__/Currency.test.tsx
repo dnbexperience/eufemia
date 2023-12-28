@@ -56,7 +56,6 @@ describe('Field.Currency', () => {
 
     const input = document.querySelector('.dnb-input__input')
 
-    expect(input).toHaveAttribute('inputmode')
-    expect(input.getAttribute('inputmode')).toBe('decimal')
+    expect(input).toHaveAttribute('inputmode', 'decimal')
   })
 })
