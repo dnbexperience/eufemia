@@ -20,7 +20,7 @@ describe('Field.PostalCodeAndCity', () => {
     )
 
     expect(postalCodeInput).toHaveAttribute('inputmode')
-    expect(postalCodeInput.getAttribute('inputmode')).toBe('numeric')
+    expect(postalCodeInput).toHaveAttribute('inputmode', 'numeric')
 
     expect(cityInput).not.toHaveAttribute('inputmode')
   })
