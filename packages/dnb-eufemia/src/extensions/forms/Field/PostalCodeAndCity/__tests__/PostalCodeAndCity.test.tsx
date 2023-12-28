@@ -33,7 +33,6 @@ describe('Field.PostalCodeAndCity', () => {
       '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
     )
 
-    expect(postalCodeInput).toHaveAttribute('inputmode')
     expect(postalCodeInput).toHaveAttribute('inputmode', 'numeric')
 
     expect(cityInput).not.toHaveAttribute('inputmode')
