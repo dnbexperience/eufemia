@@ -52,7 +52,7 @@ describe('Field.OrganizationNumber', () => {
     render(<OrganizationNumber />)
 
     const input = document.querySelector('.dnb-input__input')
-    expect(input).toHaveAttribute('inputmode')
-    expect(input.getAttribute('inputmode')).toBe('numeric')
+
+    expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 })
