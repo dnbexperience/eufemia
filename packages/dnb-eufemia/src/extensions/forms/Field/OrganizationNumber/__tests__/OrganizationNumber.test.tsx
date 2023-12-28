@@ -48,7 +48,7 @@ describe('Field.OrganizationNumber', () => {
     expect(element.textContent).toBe('Organisasjonsnummer')
   })
 
-  it('should have default label', () => {
+  it('should have numeric input mode', () => {
     render(<OrganizationNumber />)
 
     const input = document.querySelector('.dnb-input__input')
