@@ -21,7 +21,6 @@ describe('Field.PostalCodeAndCity', () => {
 
     await userEvent.type(postalCodeInput, '123456')
 
-    expect(postalCodeInput).not.toHaveValue('123456')
     expect(postalCodeInput).toHaveValue('1234')
   })
 })
