@@ -37,6 +37,7 @@ function PostalCodeAndCity(props: Props) {
         <StringComponent
           {...postalCode}
           pattern={postalCode.pattern ?? '^[0-9]{4}$'}
+          mask={[/\d/, /\d/, /\d/, /\d/]}
           className={classnames(
             'dnb-forms-field-postal-code-and-city__postal-code',
             postalCode.className
