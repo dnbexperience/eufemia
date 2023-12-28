@@ -22,8 +22,9 @@ describe('Field.PostalCodeAndCity', () => {
     await userEvent.type(postalCodeInput, '123456')
 
     expect(postalCodeInput).toHaveValue('1234')
-  
-    it('postal could should have numeric input mode', () => {
+  })
+
+  it('postal could should have numeric input mode', () => {
     render(<PostalCodeAndCity {...props} />)
 
     const postalCodeInput = document.querySelector(
