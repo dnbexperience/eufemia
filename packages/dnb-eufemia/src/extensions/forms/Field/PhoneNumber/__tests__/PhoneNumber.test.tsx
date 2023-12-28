@@ -778,7 +778,7 @@ describe('Field.PhoneNumber', () => {
     render(<PhoneNumber />)
 
     const input = document.querySelector(
-      '.dnb-forms-field-phone-number__number .dnb-input__input '
+      '.dnb-forms-field-phone-number__number .dnb-input__input'
     )
 
     expect(input).toHaveAttribute('inputmode')
