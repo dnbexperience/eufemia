@@ -787,6 +787,6 @@ describe('Field.PhoneNumber', () => {
     expect(countryCodeInput).not.toHaveAttribute('inputmode')
 
     expect(phoneNumberInput).toHaveAttribute('inputmode')
-    expect(phoneNumberInput.getAttribute('inputmode')).toBe('tel')
+    expect(phoneNumberInput)).toHaveAttribute('inputmode', 'tel')
   })
 })
