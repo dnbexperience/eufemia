@@ -773,4 +773,15 @@ describe('Field.PhoneNumber', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
   })
+
+  it('should have tel input mode', () => {
+    render(<PhoneNumber />)
+
+    const input = document.querySelector(
+      '.dnb-forms-field-phone-number__number .dnb-input__input '
+    )
+
+    expect(input).toHaveAttribute('inputmode')
+    expect(input.getAttribute('inputmode')).toBe('tel')
+  })
 })
