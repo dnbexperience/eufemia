@@ -17,7 +17,7 @@
     --border-color: var(--color-pistachio);
   }
 
-  @media (max-width: map-get($breakpoints, 'medium')) {
+  @include allBelow('medium') {
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
