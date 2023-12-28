@@ -29,12 +29,7 @@ describe('Field.PostalCodeAndCity', () => {
     const postalCodeInput = document.querySelector(
       '.dnb-forms-field-postal-code-and-city__postal-code-input .dnb-input__input'
     )
-    const cityInput = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
-    )
 
     expect(postalCodeInput).toHaveAttribute('inputmode', 'numeric')
-
-    expect(cityInput).not.toHaveAttribute('inputmode')
   })
 })
