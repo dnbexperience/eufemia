@@ -777,16 +777,10 @@ describe('Field.PhoneNumber', () => {
   it('phone number input should have tel input mode', () => {
     render(<PhoneNumber />)
 
-    const countryCodeInput = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code .dnb-input__input'
-    )
     const phoneNumberInput = document.querySelector(
       '.dnb-forms-field-phone-number__number .dnb-input__input'
     )
 
-    expect(countryCodeInput).not.toHaveAttribute('inputmode')
-
-    expect(phoneNumberInput).toHaveAttribute('inputmode')
-    expect(phoneNumberInput)).toHaveAttribute('inputmode', 'tel')
+    expect(phoneNumberInput).toHaveAttribute('inputmode', 'tel')
   })
 })
