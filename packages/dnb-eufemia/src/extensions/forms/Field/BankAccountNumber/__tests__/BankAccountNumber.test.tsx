@@ -8,19 +8,17 @@ describe('Field.ArraySelection', () => {
 
     render(<BankAccountNumber {...props} />)
 
-    const input = document.querySelector(
+    const component = document.querySelector(
       '.dnb-forms-field-bank-account-number'
     )
 
-    expect(input).toBeInTheDocument()
+    expect(component).toBeInTheDocument()
   })
 
   it('should have numeric input mode', () => {
     render(<BankAccountNumber />)
 
-    const input = document
-      .querySelector('.dnb-forms-field-bank-account-number')
-      .querySelector('input')
+    const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode')
     expect(input.getAttribute('inputmode')).toBe('numeric')
