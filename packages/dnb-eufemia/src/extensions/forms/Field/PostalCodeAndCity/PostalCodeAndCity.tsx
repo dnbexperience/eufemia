@@ -55,6 +55,7 @@ function PostalCodeAndCity(props: Props) {
           placeholder={postalCode.placeholder ?? '0000'}
           width={false}
           inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
+          inputMode="numeric"
         />
         <StringComponent
           {...city}
