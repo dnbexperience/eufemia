@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import BankAccountNumber, { Props } from '..'
 
-describe('Field.ArraySelection', () => {
+describe('Field.BankAccountNumber', () => {
   it('should render with props', () => {
     const props: Props = {}
 
