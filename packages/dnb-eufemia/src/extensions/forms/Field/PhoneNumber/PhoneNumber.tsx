@@ -362,6 +362,7 @@ function PhoneNumber(props: Props) {
           validateInitially={validateInitially}
           continuousValidation={continuousValidation}
           validateUnchanged={validateUnchanged}
+          inputMode="tel"
         />
       </Flex.Horizontal>
     </FieldBlock>
