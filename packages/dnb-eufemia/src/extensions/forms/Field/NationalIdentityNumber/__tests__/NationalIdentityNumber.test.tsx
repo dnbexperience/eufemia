@@ -104,4 +104,12 @@ describe('Field.NationalIdentityNumber', () => {
       required: expect.stringContaining('11'),
     })
   })
+
+  it('should have numeric input mode', () => {
+    render(<NationalIdentityNumber />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).toHaveAttribute('inputmode', 'numeric')
+  })
 })
