@@ -96,62 +96,6 @@ describe('Field.PhoneNumber', () => {
     expect(selectedItemElement().textContent).toBe('+47 Norge')
   })
 
-  it('should show search results based on locale', async () => {
-    const { rerender } = render(
-      <Provider>
-        <PhoneNumber />
-      </Provider>
-    )
-
-    const codeElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
-    ) as HTMLInputElement
-
-    const clearCodeElementValue = () => (codeElement.value = '')
-
-    const currentOptions = () =>
-      Array.from(
-        document.querySelectorAll(
-          '.dnb-drawer-list__options .dnb-drawer-list__option__inner'
-        )
-      ).map((option: HTMLSpanElement) => option.textContent)
-
-    await userEvent.click(codeElement)
-
-    clearCodeElementValue()
-
-    await userEvent.type(codeElement, 'Chi')
-
-    expect(currentOptions()).toContain('+56 Chile')
-    expect(currentOptions()).not.toContain('+86 Kina')
-
-    rerender(
-      <Provider locale="en-GB">
-        <PhoneNumber />
-      </Provider>
-    )
-
-    clearCodeElementValue()
-
-    await userEvent.type(codeElement, 'Chi')
-
-    expect(currentOptions()).toContain('+56 Chile')
-    expect(currentOptions()).toContain('+86 China')
-
-    rerender(
-      <Provider locale="nb-NO">
-        <PhoneNumber />
-      </Provider>
-    )
-
-    clearCodeElementValue()
-
-    await userEvent.type(codeElement, 'Chi')
-
-    expect(currentOptions()).toContain('+56 Chile')
-    expect(currentOptions()).not.toContain('+86 Kina')
-  })
-
   it('should only have a mask when +47 is given', async () => {
     const { rerender } = render(<PhoneNumber value="999999990000" />)
 
@@ -236,6 +180,57 @@ describe('Field.PhoneNumber', () => {
     })
 
     expect(item.textContent).toBe('+47 Norge')
+  })
+
+  it('should show search results based on locale', async () => {
+    const { rerender } = render(
+      <Provider>
+        <PhoneNumber />
+      </Provider>
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    const currentOptions = () =>
+      Array.from(
+        document.querySelectorAll(
+          '.dnb-drawer-list__options .dnb-drawer-list__option__inner'
+        )
+      ).map((option: HTMLSpanElement) => option.textContent)
+
+    await userEvent.click(codeElement)
+
+    await userEvent.clear(codeElement)
+    await userEvent.type(codeElement, 'Chi')
+
+    expect(currentOptions()).toContain('+56 Chile')
+    expect(currentOptions()).not.toContain('+86 Kina')
+
+    rerender(
+      <Provider locale="en-GB">
+        <PhoneNumber />
+      </Provider>
+    )
+
+    await userEvent.clear(codeElement)
+    await userEvent.type(codeElement, 'Chi')
+
+    expect(currentOptions()).toContain('+56 Chile')
+    expect(currentOptions()).toContain('+86 China')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <PhoneNumber />
+      </Provider>
+    )
+
+    await userEvent.clear(codeElement)
+    await userEvent.type(codeElement, 'Chi')
+
+    expect(currentOptions()).toContain('+56 Chile')
+    expect(currentOptions()).not.toContain('+86 Kina')
   })
 
   it('should update internal state from outside', () => {
