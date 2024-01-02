@@ -269,10 +269,6 @@ describe('Field.Expiry', () => {
       const input = document.querySelector('input')
       const inputWrapper = document.querySelector('.dnb-input')
 
-      act(() => {
-        input.focus()
-      })
-
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
       )
@@ -280,7 +276,7 @@ describe('Field.Expiry', () => {
         document.querySelector('.dnb-form-status__text')
       ).not.toBeInTheDocument()
 
-      await userEvent.keyboard('1')
+      await userEvent.type(input, '1')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
@@ -299,7 +295,7 @@ describe('Field.Expiry', () => {
       expect(formStatusText).toBeInTheDocument()
       expect(formStatusText).toHaveTextContent('The value is required')
 
-      await userEvent.keyboard('12')
+      await userEvent.type(input, '12')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
