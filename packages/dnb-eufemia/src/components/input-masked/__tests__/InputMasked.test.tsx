@@ -1701,6 +1701,29 @@ describe('InputMasked with custom mask', () => {
     expect(element.value).toBe('12––​​')
   })
 
+  it('should set correct cursor position when navigating using keyboard', async () => {
+    render(
+      <InputMasked
+        value='1'
+        mask={[/\d/, ' ', /\d/]}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    {
+      expect(document.body).toHaveFocus()
+
+      await userEvent.tab()
+      expect(input).toHaveFocus()
+      expect(input).toHaveValue(`1 ​`)
+
+      await userEvent.keyboard('{arrowright}') // removes selection
+      await userEvent.keyboard('2')
+      expect(input).toHaveValue(`1 2`)
+    }
+  })
+
   it('should show placeholder chars when show_mask is true', () => {
     render(
       <InputMasked
