@@ -110,8 +110,10 @@
   color: var(--color-white);
 
   &:hover {
-    color: var(--anchor-color--contrast);
-    @include anchorBackground(var(--color-white));
+    @include notNoHover() {
+      color: var(--anchor-color--contrast);
+      @include anchorBackground(var(--color-white));
+    }
   }
 
   &:active {
