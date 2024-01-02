@@ -69,6 +69,32 @@ describe('Field.String', () => {
       expect(labelElement()).not.toHaveAttribute('disabled')
     })
 
+    it('should support capitalize prop', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.String onChange={onChange} capitalize value="first WORD" />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, ' second')
+      expect(input).toHaveValue('First Word Second')
+
+      expect(onChange).toHaveBeenLastCalledWith('First Word Second')
+
+      await userEvent.type(input, ' WORD')
+      expect(input).toHaveValue('First Word Second Word')
+
+      expect(onChange).toHaveBeenLastCalledWith('First Word Second Word')
+
+      await userEvent.type(input, '{Backspace>22}')
+      expect(input).toHaveValue('')
+
+      await userEvent.type(input, 'æøå')
+      expect(input).toHaveValue('Æøå')
+    })
+
     it('input is connected to label', () => {
       const { rerender } = render(<Field.String label="Label" />)
 

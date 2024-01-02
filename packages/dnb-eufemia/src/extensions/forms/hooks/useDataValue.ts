@@ -14,7 +14,10 @@ import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
-import { makeUniqueId } from '../../../shared/component-helper'
+import {
+  makeUniqueId,
+  toCapitalized,
+} from '../../../shared/component-helper'
 import useMountEffect from './useMountEffect'
 import useUpdateEffect from './useUpdateEffect'
 import useProcessManager from './useProcessManager'
@@ -127,8 +130,14 @@ export default function useDataValue<
 
   const externalValue = useMemo(() => {
     if (props.value !== undefined) {
+      let value = transformers.current.fromExternal(props.value)
+
+      if (props.capitalize) {
+        value = toCapitalized(String(value || '')) as Value
+      }
+
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
-      return transformers.current.fromExternal(props.value)
+      return value
     }
 
     if (inIterate && itemPath) {
@@ -478,12 +487,16 @@ export default function useDataValue<
       argFromInput: Value,
       additionalArgs: AdditionalEventArgs = undefined
     ) => {
-      const newValue = transformers.current.fromInput(argFromInput)
+      let newValue = transformers.current.fromInput(argFromInput)
 
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
+      }
+
+      if (props.capitalize) {
+        newValue = toCapitalized(String(newValue || '')) as Value
       }
 
       updateValue(newValue)

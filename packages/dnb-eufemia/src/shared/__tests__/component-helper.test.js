@@ -17,6 +17,7 @@ import {
   toCamelCase,
   toSnakeCase,
   toKebabCase,
+  toCapitalized,
   checkIfHasScrollbar,
   detectOutsideClick,
   makeUniqueId,
@@ -465,6 +466,12 @@ describe('"toSnakeCase" should', () => {
 describe('"toKebabCase" should', () => {
   it('transform a camel case event name to kebab case', () => {
     expect(toKebabCase('MyEventIsLong')).toBe('my-event-is-long')
+  })
+})
+
+describe('"toCapitalized" should', () => {
+  it('capitalize the first letter of every word', () => {
+    expect(toCapitalized('first word æøå')).toBe('First Word Æøå')
   })
 })
 
