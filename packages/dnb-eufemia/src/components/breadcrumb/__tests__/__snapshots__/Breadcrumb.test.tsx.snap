@@ -582,8 +582,10 @@ button.dnb-button::-moz-focus-inner {
   display: flow-root;
   --breakout--on: visible;
   --breakout--off: hidden;
-  --rounded-corner--value: 0.75rem;
-  --outline: 0 0 0 1px var(--outline-color, transparent);
+  --rounded-corner--value: 0.5rem;
+  --outline: 0 0 0 var(--outline-width, 1px)
+    var(--outline-color, transparent);
+  --outline-none: 0 0 0 0 transparent;
   --top: 0;
   --left: -100vw;
   --width: 100vw;
@@ -599,7 +601,7 @@ button.dnb-button::-moz-focus-inner {
   position: absolute;
   inset: 0;
   z-index: -1;
-  box-shadow: var(--drop-shadow, none), var(--outline, none);
+  box-shadow: var(--drop-shadow, var(--outline-none)), var(--outline, var(--outline-none));
   border-radius: var(--rounded-corner, 0);
 }
 .dnb-section::after {
