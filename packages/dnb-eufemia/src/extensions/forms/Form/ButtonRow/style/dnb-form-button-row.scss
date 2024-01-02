@@ -1,5 +1,15 @@
+@import '../../../../../style/core/utilities.scss';
+
 .dnb-forms-button-row {
   display: flex;
   flex-flow: row;
   column-gap: var(--spacing-small);
+
+  .dnb-card + & {
+    &:not([class*='space__left']) {
+      @include allAbove(small) {
+        margin-left: var(--spacing-medium);
+      }
+    }
+  }
 }
