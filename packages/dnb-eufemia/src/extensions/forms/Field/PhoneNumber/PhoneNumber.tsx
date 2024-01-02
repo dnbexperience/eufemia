@@ -373,9 +373,6 @@ function makeObject(country: CountryType, lang: string) {
   return {
     selectedKey: formattCountryCode(country.cdc),
     selected_value: `${country.iso} (${formattCountryCode(country.cdc)})`,
-    search_content: Object.values(country.i18n).map(
-      (v) => `${formattCountryCode(country.cdc)} ${v}`
-    ),
     content: `${formattCountryCode(country.cdc)} ${
       country.i18n[lang] ?? country.i18n.en
     }`,
