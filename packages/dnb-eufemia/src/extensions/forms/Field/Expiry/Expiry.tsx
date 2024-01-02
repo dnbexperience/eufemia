@@ -42,7 +42,7 @@ function Expiry(props: ExpiryProps) {
   })
 
   const expiry: ExpiryValue = {
-    month: value?.substring(0, 2) ?? '',
+    month: ensureValidMonth(value?.substring(0, 2)),
     year: value?.substring(2, 4) ?? '',
   }
 
@@ -79,13 +79,7 @@ function Expiry(props: ExpiryProps) {
           {
             id: 'month',
             label: sharedContext?.translation.DatePicker['month'],
-            mask: [
-              /[0-1]/,
-              expiry.month.charAt(0) === '0' ||
-              expiry.month.charAt(0) === ''
-                ? /[1-9]/
-                : /[0-2]/,
-            ],
+            mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
           },
@@ -108,6 +102,43 @@ function Expiry(props: ExpiryProps) {
 
   function expiryToString(values: ExpiryValue) {
     return Object.values(values).join('')
+  }
+
+  function ensureValidMonth(month: string) {
+    // Return empty value if no month is given
+    if (!month) {
+      return ''
+    }
+
+    const [firstMask, secondMask] = getMonthMask(month)
+
+    const first = month?.charAt(0)
+    const isFirstValid = firstMask.test(first)
+
+    if (first && !isFirstValid) {
+      // Return empty value if the first digit is invalid
+      return ''
+    }
+
+    const second = month?.charAt(1)
+    const isSecondValid = secondMask.test(second)
+
+    if (second && !isSecondValid) {
+      // Return empty value if the second digit is invalid
+      return ''
+    }
+
+    // Return given month of month value is valid
+    return month
+  }
+
+  function getMonthMask(month: string) {
+    return [
+      /[0-1]/,
+      month?.charAt(0) === '0' || month?.charAt(0) === ''
+        ? /[1-9]/
+        : /[0-2]/,
+    ]
   }
 }
 
