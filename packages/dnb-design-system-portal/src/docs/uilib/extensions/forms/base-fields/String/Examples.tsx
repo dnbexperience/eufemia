@@ -64,6 +64,19 @@ export const WithHelp = () => {
   )
 }
 
+export const Capitalize = () => {
+  return (
+    <ComponentBox>
+      <Field.String
+        label="Label text"
+        value="foo bar"
+        capitalize
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox>

@@ -427,6 +427,12 @@ export const toSnakeCase = (str) =>
 export const toKebabCase = (str) =>
   str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 
+export function toCapitalized(str) {
+  return str
+    .toLowerCase()
+    .replace(/(?<=(^|\s))(.)/g, (l) => l.toUpperCase())
+}
+
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]
  * @param  {[type]} ignoreElement [The element we want to protect from a click]

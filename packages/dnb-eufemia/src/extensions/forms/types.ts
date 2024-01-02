@@ -177,6 +177,7 @@ export interface FieldProps<
   error?: Error | FormError
   hasError?: boolean
   disabled?: boolean
+  capitalize?: boolean
   // Validation
   required?: boolean
   schema?: JSONSchema7
