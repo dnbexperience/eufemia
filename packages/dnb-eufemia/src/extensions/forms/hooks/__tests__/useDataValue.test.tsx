@@ -1,6 +1,7 @@
 import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import useDataValue from '../useDataValue'
+import { Provider } from '../../DataContext'
 import { JSONSchema7 } from 'json-schema'
 import { FieldBlock, FormError } from '../../Forms'
 
@@ -16,6 +17,19 @@ describe('useDataValue', () => {
     })
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenNthCalledWith(1, 'new-value')
+  })
+
+  it('should update data context with initially given "value"', () => {
+    const value = 'include this'
+
+    const { result } = renderHook(
+      () => useDataValue({ path: '/foo', value }),
+      { wrapper: Provider }
+    )
+
+    expect(result.current.dataContext.data).toEqual({
+      foo: value,
+    })
   })
 
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
