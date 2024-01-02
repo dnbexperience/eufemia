@@ -112,18 +112,18 @@ function Expiry(props: ExpiryProps) {
 
     const [firstMask, secondMask] = getMonthMask(month)
 
-    const first = month?.charAt(0)
-    const isFirstValid = firstMask.test(first)
+    const firstDigit = month?.charAt(0)
+    const isFirstDigitValid = firstMask.test(firstDigit)
 
-    if (first && !isFirstValid) {
+    if (firstDigit && !isFirstDigitValid) {
       // Return empty value if the first digit is invalid
       return ''
     }
 
-    const second = month?.charAt(1)
-    const isSecondValid = secondMask.test(second)
+    const seconDigit = month?.charAt(1)
+    const isSecondDigitValid = secondMask.test(seconDigit)
 
-    if (second && !isSecondValid) {
+    if (seconDigit && !isSecondDigitValid) {
       // Return empty value if the second digit is invalid
       return ''
     }
@@ -133,11 +133,11 @@ function Expiry(props: ExpiryProps) {
   }
 
   function getMonthMask(month: string) {
+    const firstDigit = month?.charAt(0)
+
     return [
       /[0-1]/,
-      month?.charAt(0) === '0' || month?.charAt(0) === ''
-        ? /[1-9]/
-        : /[0-2]/,
+      firstDigit === '0' || firstDigit === '' ? /[1-9]/ : /[0-2]/,
     ]
   }
 }
