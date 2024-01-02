@@ -11,7 +11,7 @@ import { ValidateFunction } from 'ajv'
 import { errorChanged } from '../utils'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
-import { Context } from '../DataContext'
+import { Context, ContextState } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
@@ -24,6 +24,7 @@ interface ReturnAdditional<Value> {
   value: Value
   error: Error | FormError | undefined
   hasError: boolean
+  dataContext: ContextState
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
@@ -185,10 +186,6 @@ export default function useDataValue<
   useEffect(() => {
     errorMessagesRef.current = errorMessages
   }, [errorMessages])
-  const schemaRef = useRef(schema)
-  useEffect(() => {
-    schemaRef.current = schema
-  }, [schema])
   const validatorRef = useRef(validator)
   useEffect(() => {
     validatorRef.current = validator
@@ -335,6 +332,7 @@ export default function useDataValue<
 
   useUpdateEffect(() => {
     if (!schema) {
+      schemaValidatorRef.current = undefined
       return
     }
     schemaValidatorRef.current = ajv.compile(schema)
@@ -500,6 +498,7 @@ export default function useDataValue<
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)
+
     validateValue()
 
     if (showErrorInitially) {
@@ -527,6 +526,7 @@ export default function useDataValue<
     error: !inFieldBlock ? error : undefined,
     hasError: Boolean(error),
     isChanged: changedRef.current,
+    dataContext,
     setHasFocus,
     handleFocus,
     handleBlur,

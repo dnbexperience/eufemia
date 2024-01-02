@@ -199,6 +199,98 @@ describe('useDataValue', () => {
       })
     })
 
+    it('should have correct validation order', async () => {
+      const schema: JSONSchema7 = {
+        type: 'string',
+        pattern: '^(throw-on-validator)$',
+      }
+
+      const initialProps = {
+        require: true,
+
+        // Step 1.
+        validateRequired: (value: string) => {
+          return value === 'throw-on-required'
+            ? new Error(value)
+            : undefined
+        },
+
+        // Step 2.
+        schema,
+
+        // Step 3.
+        validator: (value: string) => {
+          return value === 'throw-on-validator'
+            ? new Error(value)
+            : undefined
+        },
+
+        // Step: when ever handleChange and handleBlur is called
+        onBlurValidator: (value: string) => {
+          return value === 'throw-on-blur-validator'
+            ? new Error(value)
+            : undefined
+        },
+        value: 'throw-on-required',
+        path: '/foo',
+      }
+
+      const { result } = renderHook((props) => useDataValue(props), {
+        initialProps,
+      })
+
+      const validateBlur = async () => {
+        act(() => {
+          result.current.handleChange('throw-on-blur-validator')
+          result.current.handleBlur()
+        })
+
+        await waitFor(() => {
+          expect(result.current.error.toString()).toBe(
+            'Error: throw-on-blur-validator'
+          )
+        })
+      }
+
+      await validateBlur()
+
+      act(() => {
+        result.current.updateValue('throw-on-required')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error.toString()).toBe(
+          'Error: throw-on-required'
+        )
+      })
+
+      await validateBlur()
+
+      act(() => {
+        result.current.updateValue('throw-on-schema')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error.toString()).toBe(
+          'Error: must match pattern "^(throw-on-validator)$"'
+        )
+      })
+
+      await validateBlur()
+
+      act(() => {
+        result.current.updateValue('throw-on-validator')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error.toString()).toBe(
+          'Error: throw-on-validator'
+        )
+      })
+
+      await validateBlur()
+    })
+
     it('should show given error message', () => {
       const { result } = renderHook(() =>
         useDataValue({

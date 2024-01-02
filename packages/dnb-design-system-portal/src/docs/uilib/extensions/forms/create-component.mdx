@@ -99,6 +99,7 @@ Advanced usage:
 
 ```ts
 const {
+  // Return Parameters:
   value,
   onChange,
   onFocus,
@@ -107,26 +108,59 @@ const {
   hasError,
   isChanged,
   setHasFocus,
+
+  // Component Properties
+  ...rest
 } = useDataValue({
-  toEvent,
-  errorMessages,
+  // Your Component Properties:
   ...componentProps,
+
+  // Internal Properties, listed down below:
+  required,
+  errorMessages,
 })
 ```
 
-#### useDataValue return parameters
+#### Internal Properties
 
-- `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
+All properties are optional and can be used as needed. These properties can be provided as part of your component properties.
 
-- `hasError` will return true in case an error, even if the hook is nested in a `FieldBlock`.
+- `value` the input value (string).
+- `emptyValue` defines what value is considered to be empty. Defaults to `undefined`. But an empty string is also validated when required is true.
+- `path` the JSON pointer that defines the entry name/key in the data structure.
 
-- `isChanged` returns `true` if the value has changed with e.g. `handleChange`.
+**Validation**
 
-- `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
-
-#### Validation
-
+- `required` if true, it will call `validateRequired` for validation.
+- `schema` or `pattern` for JSON schema validation powered by [ajv](https://ajv.js.org/).
+- `validator` your custom validation function. It will run on every keystroke.
 - `validateRequired` does allow you to provide a custom logic for how the `required` prop should validate.
+- `onBlurValidator` your custom validation function. It will run on a `handleBlur()` call. Use it over `validator` for validations with side-effects.
+- `validateInitially` in order to show an error without a change and blur event. Used for rare cases.
+- `validateUnchanged` in order to validate without a change and blur event. Used for rare cases.
+- `continuousValidation` in order to validate without a focus event beforehand. Used for rare cases.
+
+**Error**
+
+- `error` object like `FormError` that includes the string to display or an object with the key `validationRule`. More info down below.
+- `errorMessages` object with your custom messages, where each key represents a `validationRule`. More info down below.
+
+#### Return Parameters
+
+It returns all of the given component properties, in addition to these:
+
+- `value` the output value.
+- `id` creates a memorized id.
+- `dataContext` the internal shared data context.
+- `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
+- `hasError` will return true in case of an error, even if the hook is nested in a `FieldBlock`.
+- `isChanged` returns `true` if the value has changed with e.g. `handleChange`.
+- `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
+- `onFocus` event handler to assign to a form element.
+- `onBlur` event handler to assign to a form element.
+- `onChange` event handler to assign to a form element.
+
+#### Custom validateRequired
 
 ```ts
 const validateRequired = (
@@ -155,7 +189,7 @@ const { error, hasError } = useDataValue({
 
 During validation, the different APIs do have a prioritization order and will stop processing further when they match:
 
-1. `require` prop
+1. `required` prop
 1. `schema` prop (including `pattern`)
 1. `validator` prop
 
