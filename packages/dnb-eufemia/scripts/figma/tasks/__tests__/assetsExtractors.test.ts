@@ -422,70 +422,78 @@ describe('assetsExtractors', () => {
       3,
       expect.stringContaining('/dnb-eufemia/src/icons/dnb/icons-svg.lock'),
       expect.stringContaining(
-        await formatIconsMetaFile({
-          'bell_medium.svg': {
-            iconName: 'bell_medium',
-            name: 'bell',
-            category: 'objects',
-            url: 'file:./7174498d6976279f85d53855a1165429',
-            id: '2:63',
-            slug: 'f791e5e18139b49fe8f0b0a0060fee11',
-            size: '24',
-            variant: 'primary',
-            bundleName: 'primary_icons_medium',
-            created: 1577836800000,
-            updated: 1577836800000,
+        await formatIconsMetaFile(
+          {
+            'bell_medium.svg': {
+              iconName: 'bell_medium',
+              name: 'bell',
+              category: 'objects',
+              url: 'file:./7174498d6976279f85d53855a1165429',
+              id: '2:63',
+              slug: 'f791e5e18139b49fe8f0b0a0060fee11',
+              size: '24',
+              variant: 'primary',
+              bundleName: 'primary_icons_medium',
+              created: 1577836800000,
+              updated: 1577836800000,
+            },
+            'bell.svg': {
+              iconName: 'bell',
+              name: 'bell',
+              category: 'objects',
+              url: 'file:./12b63b85ba08cf1588a42fb69cb9654c',
+              id: '41:2',
+              slug: 'f791e5e18139b49fe8f0b0a0060fee11',
+              size: '16',
+              variant: 'primary',
+              bundleName: 'primary_icons',
+              created: 1577836800000,
+              updated: 1577836800000,
+            },
           },
-          'bell.svg': {
-            iconName: 'bell',
-            name: 'bell',
-            category: 'objects',
-            url: 'file:./12b63b85ba08cf1588a42fb69cb9654c',
-            id: '41:2',
-            slug: 'f791e5e18139b49fe8f0b0a0060fee11',
-            size: '16',
-            variant: 'primary',
-            bundleName: 'primary_icons',
-            created: 1577836800000,
-            updated: 1577836800000,
-          },
-        })
+          'dnb'
+        )
       )
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       4,
-      expect.stringContaining('/dnb-eufemia/src/icons/icons-meta.json'),
       expect.stringContaining(
-        await formatIconsMetaFile({
-          bell_medium: {
-            tags: [
-              'component-tag-24',
-              'component-tag-2',
-              'component-tag-3',
-              'set-tag-1',
-              'set-tag-2',
-              'set-tag-3',
-            ],
-            created: 1577836800000,
-            name: 'bell',
-            variant: 'primary',
-            category: 'objects',
+        '/dnb-eufemia/src/icons/dnb/icons-meta.json'
+      ),
+      expect.stringContaining(
+        await formatIconsMetaFile(
+          {
+            bell_medium: {
+              tags: [
+                'component-tag-24',
+                'component-tag-2',
+                'component-tag-3',
+                'set-tag-1',
+                'set-tag-2',
+                'set-tag-3',
+              ],
+              created: 1577836800000,
+              name: 'bell',
+              variant: 'primary',
+              category: 'objects',
+            },
+            bell: {
+              tags: [
+                'component-tag-16',
+                'component-tag-2',
+                'component-tag-3',
+                'set-tag-1',
+                'set-tag-2',
+                'set-tag-3',
+              ],
+              created: 1577836800000,
+              name: 'bell',
+              variant: 'primary',
+              category: 'objects',
+            },
           },
-          bell: {
-            tags: [
-              'component-tag-16',
-              'component-tag-2',
-              'component-tag-3',
-              'set-tag-1',
-              'set-tag-2',
-              'set-tag-3',
-            ],
-            created: 1577836800000,
-            name: 'bell',
-            variant: 'primary',
-            category: 'objects',
-          },
-        })
+          'dnb'
+        )
       )
     )
 

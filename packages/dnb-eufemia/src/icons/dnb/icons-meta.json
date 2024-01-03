@@ -182,14 +182,14 @@
     "category": "essentials"
   },
   "hand_money_medium": {
-    "tags": ["receive"],
+    "tags": ["recieve", "receive"],
     "created": 1668066353797,
     "name": "hand_money",
     "variant": "secondary",
     "category": "essentials"
   },
   "hand_money": {
-    "tags": ["receive"],
+    "tags": ["recieve", "receive"],
     "created": 1668066354615,
     "name": "hand_money",
     "variant": "secondary",
@@ -1036,14 +1036,14 @@
     "category": "objects"
   },
   "email_medium": {
-    "tags": ["envelope"],
+    "tags": ["envelope", "inbox", "innboks", "message"],
     "created": 1668066449497,
     "name": "email",
     "variant": "secondary",
     "category": "objects"
   },
   "email": {
-    "tags": ["envelope"],
+    "tags": ["envelope", "inbox", "innboks", "message"],
     "created": 1668066450286,
     "name": "email",
     "variant": "secondary",
@@ -2218,14 +2218,14 @@
     "category": "products"
   },
   "baby_medium": {
-    "tags": ["kid", "child", "insurance"],
+    "tags": ["kid", "child", "insurance", "Intro"],
     "created": 1668066587954,
     "name": "baby",
     "variant": "secondary",
     "category": "products"
   },
   "baby": {
-    "tags": ["kid", "child", "insurance"],
+    "tags": ["kid", "child", "insurance", "Intro"],
     "created": 1668066588733,
     "name": "baby",
     "variant": "secondary",
@@ -3603,20 +3603,6 @@
     "variant": "secondary",
     "category": "objects"
   },
-  "shield_lock_medium": {
-    "tags": [],
-    "created": 1680166729244,
-    "name": "shield_lock",
-    "variant": "secondary",
-    "category": "objects"
-  },
-  "shield_lock": {
-    "tags": [],
-    "created": 1680166729544,
-    "name": "shield_lock",
-    "variant": "secondary",
-    "category": "objects"
-  },
   "id_card_medium": {
     "tags": [],
     "created": 1680166729762,
@@ -3672,5 +3658,229 @@
     "name": "investment_account",
     "variant": "secondary",
     "category": "products"
+  },
+  "accounting_medium": {
+    "tags": ["Accounting"],
+    "created": 1685609767573,
+    "name": "accounting",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "accounting": {
+    "tags": ["Accounting"],
+    "created": 1685609767843,
+    "name": "accounting",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "fortune_ball_medium": {
+    "tags": ["Fortune ball"],
+    "created": 1685609768085,
+    "name": "fortune_ball",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "fortune_ball": {
+    "tags": ["Fortune ball"],
+    "created": 1685609768324,
+    "name": "fortune_ball",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "candle_stick_medium": {
+    "tags": ["Candle Stick"],
+    "created": 1685609797988,
+    "name": "candle_stick",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "candle_stick": {
+    "tags": ["Candle Stick"],
+    "created": 1685609798254,
+    "name": "candle_stick",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "shield_lock_medium": {
+    "tags": ["Shield lock"],
+    "created": 1680166729244,
+    "name": "shield_lock",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "shield_lock": {
+    "tags": ["Shield lock"],
+    "created": 1680166729544,
+    "name": "shield_lock",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "scan_medium": {
+    "tags": [
+      "sound",
+      "audio",
+      "mute",
+      "camera",
+      "invoice",
+      "receipt",
+      "QR",
+      "skann"
+    ],
+    "created": 1685609799058,
+    "name": "scan",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "scan": {
+    "tags": [
+      "sound",
+      "audio",
+      "mute",
+      "camera",
+      "invoice",
+      "receipt",
+      "QR",
+      "skann"
+    ],
+    "created": 1685609799310,
+    "name": "scan",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "teenager_medium": {
+    "tags": ["Intro", "UNG", "youth", "customer", "person"],
+    "created": 1702388817455,
+    "name": "teenager",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "teenager": {
+    "tags": ["Intro", "UNG", "youth", "customer", "person"],
+    "created": 1702388817720,
+    "name": "teenager",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "digipass_corporate_medium": {
+    "tags": [
+      "digipass corporate",
+      "kodebrikke",
+      "code device",
+      "login",
+      "authentication"
+    ],
+    "created": 1702388845915,
+    "name": "digipass_corporate",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "digipass_corporate": {
+    "tags": [
+      "digipass corporate",
+      "kodebrikke",
+      "code device",
+      "login",
+      "authentication"
+    ],
+    "created": 1702388846213,
+    "name": "digipass_corporate",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "digipass_private_medium": {
+    "tags": [
+      "digipass private",
+      "kodebrikke",
+      "code device",
+      "login",
+      "authentication"
+    ],
+    "created": 1702388846553,
+    "name": "digipass_private",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "digipass_private": {
+    "tags": [
+      "digipass private",
+      "kodebrikke",
+      "code device",
+      "login",
+      "authentication"
+    ],
+    "created": 1702388846812,
+    "name": "digipass_private",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "envelope_open_medium": {
+    "tags": ["read messages", "opened messages"],
+    "created": 1702388847077,
+    "name": "envelope_open",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "envelope_open": {
+    "tags": ["read messages", "opened messages"],
+    "created": 1702388847371,
+    "name": "envelope_open",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "money_left_medium": {
+    "tags": ["money left", "countdown", "smart saldo", "smart balance"],
+    "created": 1702388847645,
+    "name": "money_left",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "money_left": {
+    "tags": ["money left", "countdown", "smart saldo", "smart balance"],
+    "created": 1702388847915,
+    "name": "money_left",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "mobile_medium": {
+    "tags": ["phone", "iPhone", "android", "native"],
+    "created": 1702388848208,
+    "name": "mobile",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "mobile": {
+    "tags": ["phone", "iPhone", "android", "native"],
+    "created": 1702388848505,
+    "name": "mobile",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "browser_medium": {
+    "tags": ["desktop", "web", "netbank", "online bank", "responsive"],
+    "created": 1702388848807,
+    "name": "browser",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "browser": {
+    "tags": ["desktop", "web", "netbank", "online bank", "responsive"],
+    "created": 1702388849067,
+    "name": "browser",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "laptop_medium": {
+    "tags": ["desktop", "PC", "Mac"],
+    "created": 1702388849374,
+    "name": "laptop",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "laptop": {
+    "tags": ["desktop", "PC", "Mac"],
+    "created": 1702388849668,
+    "name": "laptop",
+    "variant": "secondary",
+    "category": "objects"
   }
 }
