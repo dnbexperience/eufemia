@@ -1,6 +1,12 @@
 import React from 'react'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { screen, render, waitFor, act } from '@testing-library/react'
+import {
+  screen,
+  render,
+  waitFor,
+  act,
+  fireEvent,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as DataContext from '../../../DataContext'
 import * as Field from '../..'
@@ -29,8 +35,12 @@ const asyncValidatorResolvingWithError = () =>
 describe('Field.String', () => {
   describe('props', () => {
     it('renders value', () => {
-      render(<Field.String value="test123" />)
-      expect(screen.getByDisplayValue('test123')).toBeInTheDocument()
+      const { rerender } = render(<Field.String value="test123" />)
+      expect(document.querySelector('input')).toHaveValue('test123')
+
+      rerender(<Field.String value="test123" multiline />)
+
+      expect(document.querySelector('textarea')).toHaveValue('test123')
     })
 
     it('renders placeholder', () => {
@@ -93,6 +103,44 @@ describe('Field.String', () => {
 
       await userEvent.type(input, 'æøå')
       expect(input).toHaveValue('Æøå')
+    })
+
+    it('should trim whitespaces', async () => {
+      const onChange = jest.fn()
+      const onBlur = jest.fn()
+
+      render(
+        <Field.String
+          trim
+          value=" first"
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue(' first')
+
+      await userEvent.type(input, ' second ')
+
+      expect(onChange).toHaveBeenLastCalledWith(' first second ')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('first second')
+      expect(onBlur).toHaveBeenLastCalledWith('first second')
+      expect(onChange).toHaveBeenLastCalledWith('first second')
+
+      await userEvent.type(input, '{Backspace>12}third')
+
+      expect(onChange).toHaveBeenLastCalledWith('third')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('third')
+      expect(onBlur).toHaveBeenLastCalledWith('third')
+      expect(onChange).toHaveBeenLastCalledWith('third')
     })
 
     it('input is connected to label', () => {
@@ -223,16 +271,12 @@ describe('Field.String', () => {
       render(<Field.String value="song2" onBlur={onBlur} />)
       const input = document.querySelector('input')
       input.focus()
-      act(() => {
-        input.blur()
-      })
+      fireEvent.blur(input)
       await wait(0)
       expect(onBlur.mock.calls).toHaveLength(1)
       expect(onBlur.mock.calls[0][0]).toEqual('song2')
       await userEvent.type(input, '345')
-      act(() => {
-        input.blur()
-      })
+      fireEvent.blur(input)
       expect(onBlur.mock.calls).toHaveLength(2)
       expect(onBlur.mock.calls[1][0]).toEqual('song2345')
     })
@@ -260,9 +304,7 @@ describe('Field.String', () => {
           )
           const input = document.querySelector('input')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-          act(() => {
-            input.blur()
-          })
+          fireEvent.blur(input)
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
 
@@ -280,15 +322,11 @@ describe('Field.String', () => {
           await userEvent.type(input, 'd')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
           // Error should be visible after blurring the field
-          act(() => {
-            input.blur()
-          })
+          fireEvent.blur(input)
           expect(screen.getByRole('alert')).toBeInTheDocument()
           // But remain gone when it becomes valid before blurring
           await userEvent.type(input, 'ef')
-          act(() => {
-            input.blur()
-          })
+          fireEvent.blur(input)
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
       })
@@ -320,9 +358,7 @@ describe('Field.String', () => {
           const input = document.querySelector('input')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
           input.focus()
-          act(() => {
-            input.blur()
-          })
+          fireEvent.blur(input)
           await waitFor(() => {
             expect(screen.getByRole('alert')).toBeInTheDocument()
           })
@@ -339,9 +375,7 @@ describe('Field.String', () => {
         render(<Field.String value="a" required />)
         const input = document.querySelector('input')
         await userEvent.type(input, '{Backspace}')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
@@ -349,9 +383,7 @@ describe('Field.String', () => {
         render(<Field.String value="a" required />)
         const input = document.querySelector('input')
         await userEvent.type(input, 'b')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
@@ -364,9 +396,7 @@ describe('Field.String', () => {
         render(<Field.String value="" required validateUnchanged />)
         const input = document.querySelector('input')
         input.focus()
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
     })
@@ -376,9 +406,7 @@ describe('Field.String', () => {
         render(<Field.String value="abc" minLength={5} />)
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
@@ -386,9 +414,7 @@ describe('Field.String', () => {
         render(<Field.String value="abc" minLength={2} />)
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
@@ -398,9 +424,7 @@ describe('Field.String', () => {
         render(<Field.String value="abc" maxLength={3} />)
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
@@ -408,9 +432,7 @@ describe('Field.String', () => {
         render(<Field.String value="abc" maxLength={4} />)
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
@@ -420,9 +442,7 @@ describe('Field.String', () => {
         render(<Field.String value="abcdef" pattern="^[a-z]{2}[0-9]+" />)
         const input = document.querySelector('input')
         await userEvent.type(input, 'g')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
@@ -430,9 +450,7 @@ describe('Field.String', () => {
         render(<Field.String value="ab1" pattern="^[a-z]{2}[0-9]+" />)
         const input = document.querySelector('input')
         await userEvent.type(input, '2')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
@@ -458,9 +476,7 @@ describe('Field.String', () => {
 
         const input = document.querySelector('input')
         await userEvent.type(input, 'def')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
 
         await waitFor(() => {
           expect(validator.mock.calls).toHaveLength(4)
@@ -516,9 +532,7 @@ describe('Field.String', () => {
         await userEvent.type(input, 'def')
 
         act(() => {
-          act(() => {
-            input.blur()
-          })
+          fireEvent.blur(input)
         })
 
         expect(validator.mock.calls).toHaveLength(4)
@@ -565,9 +579,7 @@ describe('Field.String', () => {
         })
         const input = document.querySelector('input')
         await userEvent.type(input, 'def')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
@@ -593,9 +605,7 @@ describe('Field.String', () => {
         )
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         await expectNever(() => {
           // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -621,9 +631,7 @@ describe('Field.String', () => {
         })
         const input = document.querySelector('input')
         await userEvent.type(input, 'def')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
@@ -649,9 +657,7 @@ describe('Field.String', () => {
         )
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
-        act(() => {
-          input.blur()
-        })
+        fireEvent.blur(input)
         await expectNever(() => {
           // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
           expect(screen.queryByRole('alert')).toBeInTheDocument()

@@ -178,6 +178,7 @@ export interface FieldProps<
   hasError?: boolean
   disabled?: boolean
   capitalize?: boolean
+  trim?: boolean
   // Validation
   required?: boolean
   schema?: JSONSchema7

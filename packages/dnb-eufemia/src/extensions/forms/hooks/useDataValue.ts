@@ -164,6 +164,7 @@ export default function useDataValue<
     return undefined
   }, [
     props.value,
+    props.capitalize,
     inIterate,
     itemPath,
     dataContext.data,
@@ -454,10 +455,6 @@ export default function useDataValue<
     ]
   )
 
-  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
-
-  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
-
   const updateValue = useCallback(
     (newValue: Value) => {
       if (newValue === valueRef.current) {
@@ -519,13 +516,25 @@ export default function useDataValue<
       }
     },
     [
+      props.capitalize,
+      updateValue,
+      onChange,
       itemPath,
       iterateElementIndex,
       handleIterateElementChange,
-      updateValue,
-      onChange,
     ]
   )
+
+  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
+
+  const handleBlur = useCallback(() => {
+    if (props.trim && /^\s|\s$/.test(String(valueRef.current))) {
+      const value = String(valueRef.current).trim()
+      handleChange(value as Value)
+    }
+
+    setHasFocus(false)
+  }, [props.trim, setHasFocus, handleChange])
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)

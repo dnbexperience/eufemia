@@ -67,12 +67,15 @@ function StringComponent(props: Props) {
     [props.schema, props.minLength, props.maxLength, props.pattern]
   )
   const fromInput = useCallback(
-    ({ value, cleanedValue }: { value: string; cleanedValue: string }) => {
-      if (value === '') {
+    (event: { value: string; cleanedValue?: string }) => {
+      if (typeof event === 'string') {
+        event = { value: event }
+      }
+      if (event?.value === '') {
         return props.emptyValue
       }
       // Cleaned value for masked
-      return cleanedValue ?? value
+      return event?.cleanedValue ?? event?.value
     },
     [props.emptyValue]
   )
