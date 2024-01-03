@@ -580,7 +580,7 @@ async function handleWrapper({
     // wrap the element/selector and give the wrapper also a style
     await page.$eval(
       selector,
-      (element, { id, style }) => {
+      (element, { id, style, isHeadless }) => {
         const attrValue = element.getAttribute('data-visual-test')
 
         const wrapperElement = document.createElement('div')
@@ -595,7 +595,7 @@ async function handleWrapper({
         const elRec = element.getBoundingClientRect()
         const wrRec = wrapperElement.getBoundingClientRect()
 
-        if (wrRec.top - elRec.top > 0) {
+        if (wrRec.top - elRec.top > 0 && isHeadless) {
           throw new Error(
             `Top of element is ${
               wrRec.top - elRec.top
@@ -603,7 +603,7 @@ async function handleWrapper({
           )
         }
 
-        if (elRec.bottom - wrRec.bottom > 0) {
+        if (elRec.bottom - wrRec.bottom > 0 && isHeadless) {
           throw new Error(
             `Bottom of element is ${
               elRec.bottom - wrRec.bottom
@@ -616,6 +616,7 @@ async function handleWrapper({
       {
         id: wrapperId,
         style,
+        isHeadless,
       }
     )
 

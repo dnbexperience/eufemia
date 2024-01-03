@@ -10,21 +10,32 @@ export const Default = () => {
     >
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
-          <Form.MainHeading>Step 1</Form.MainHeading>
+          <Form.MainHeading>Heading</Form.MainHeading>
           <Card>
-            <P>Step 1 contents</P>
+            <P>Contents</P>
+          </Card>
+          <Card>
+            <P>Contents</P>
           </Card>
           <StepsLayout.NextButton />
         </StepsLayout.Step>
+
         <StepsLayout.Step title="Step 2">
-          <P>Step 2 contents</P>
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Card>
+            <P>Contents</P>
+          </Card>
           <Form.ButtonRow>
             <StepsLayout.PreviousButton />
             <StepsLayout.NextButton />
           </Form.ButtonRow>
         </StepsLayout.Step>
-        <StepsLayout.Step>
-          <P>Step 3 contents</P>
+
+        <StepsLayout.Step title="Summary">
+          <Form.MainHeading>Summary</Form.MainHeading>
+          <Card>
+            <P>Contents</P>
+          </Card>
           <StepsLayout.PreviousButton />
         </StepsLayout.Step>
       </StepsLayout>
