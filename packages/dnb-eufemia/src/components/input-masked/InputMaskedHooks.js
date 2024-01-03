@@ -417,7 +417,10 @@ const useCallEvent = ({ setLocalValue }) => {
     const cleanedValue =
       numberValue === 0 && String(num).charAt(0) !== '0' ? '' : num
 
-    if (name === 'on_change' && numberValue === 0) {
+    if (
+      name === 'on_key_down' ||
+      (name === 'on_change' && numberValue === 0)
+    ) {
       correctCaretPosition(event.target, maskParams, props)
     }
 
