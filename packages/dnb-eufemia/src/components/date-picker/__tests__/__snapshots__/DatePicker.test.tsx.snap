@@ -3498,13 +3498,11 @@ button .dnb-form-status__text {
   transform: translateY(-0.5rem);
 }
 .dnb-toggle-button-group .dnb-flex-container {
-  margin-bottom: calc(0px - var(--toggle-button-group-margin-bottom));
+  margin-bottom: calc(var(--toggle-button-group-margin-bottom) * -1);
 }
-.dnb-toggle-button-group .dnb-flex-container--vertical-label {
-  align-items: flex-start;
-}
-.dnb-toggle-button-group .dnb-flex-container::before {
-  font-size: var(--font-size-basis);
+.dnb-toggle-button-group .dnb-flex-container--direction-horizontal .dnb-form-label {
+  margin-top: 0.5rem;
+  align-self: flex-start;
 }
 .dnb-toggle-button-group .dnb-alignment-helper {
   line-height: 2.5rem;
