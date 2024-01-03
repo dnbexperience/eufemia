@@ -88,7 +88,7 @@ export const GlobalStatusCoupling = () => (
         const [errorMessage, setErrorMessage] = React.useState(null)
         return (
           <Input
-            label="Input:"
+            label="Input"
             placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..."
             stretch
             status={errorMessage}
@@ -228,7 +228,7 @@ export const GlobalStatusUpdate = () => (
             <Input
               top
               right
-              label="Label A:"
+              label="Label A"
               placeholder="Placeholder A"
               status={errorA}
               globalStatus={{ id: 'demo-2' }}
@@ -238,7 +238,7 @@ export const GlobalStatusUpdate = () => (
             />
             <Input
               top
-              label="Label B:"
+              label="Label B"
               placeholder="Placeholder B"
               status={errorB}
               globalStatus={{ id: 'demo-2' }}

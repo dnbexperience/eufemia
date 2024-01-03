@@ -16,7 +16,7 @@ export const CheckboxUnchecked = () => (
 export const CheckboxChecked = () => (
   <ComponentBox data-visual-test="checkbox-checked">
     <Checkbox
-      label="Label:"
+      label="Label"
       label_position="left"
       checked
       on_change={({ checked }) => console.log(checked)}

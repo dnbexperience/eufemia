@@ -24,7 +24,7 @@ export const FormSetDefault = () => (
       <FormRow
         section_style="mint-green-12"
         section_spacing
-        label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
+        label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis"
       >
         <Radio.Group value="first">
           <Radio label="First" value="first" />
@@ -42,12 +42,12 @@ export const FormSetVertical = () => (
       <FormRow
         label={
           <Space element="span" className="dnb-h--large">
-            Custom Legend:
+            Custom Legend
           </Space>
         }
       >
-        <Input label="Label:" bottom />
-        <Input label="Label:" />
+        <Input label="Label" bottom />
+        <Input label="Label" />
       </FormRow>
     </FormSet>
   </ComponentBox>
@@ -62,7 +62,7 @@ export const FormSetSubmit = () => (
     >
       <FormRow>
         <Input
-          label="Search Input:"
+          label="Search Input"
           type="search"
           value="Search text ..."
           right="small"

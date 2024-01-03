@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 export const InputExampleDefault = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-placeholder">
-      <Input label="Label:" placeholder="Placeholder text" />
+      <Input label="Label" placeholder="Placeholder text" />
     </ComponentBox>
   </Wrapper>
 )
@@ -41,7 +41,7 @@ export const InputExampleSearch = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-search">
       <Input
-        label="Search:"
+        label="Search"
         type="search"
         placeholder="Search text placeholder"
         on_change={({ value }) => {
@@ -75,14 +75,14 @@ export const InputExampleWithIcon = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-icon">
       <Input
-        label="Input with icon:"
+        label="Input with icon"
         placeholder="Input"
         label_direction="vertical"
         icon="check"
         bottom
       />
       <Input
-        label="Input with icon:"
+        label="Input with icon"
         label_sr_only
         placeholder="Input with a placeholder"
         icon_position="right"
@@ -98,7 +98,7 @@ export const InputExampleDisabled = () => (
     <ComponentBox data-visual-test="input-disabled">
       <Input
         disabled
-        label="Disabled input:"
+        label="Disabled input"
         placeholder="Disabled Input with a placeholder"
       />
     </ComponentBox>
@@ -116,14 +116,14 @@ export const InputExampleFormStatus = () => (
         <Flex.Vertical>
           <div data-visual-test="input-error">
             <Input
-              label="With FormStatus:"
+              label="With FormStatus"
               status="You have to fill in this field"
               value="Input value with error"
             />
           </div>
           <div data-visual-test="input-error-button">
             <Input
-              label="With button:"
+              label="With button"
               status="You have to fill in this field"
               value="Input value with error"
               type="search"
@@ -165,7 +165,7 @@ export const InputExampleStretched = () => (
     <ComponentBox data-visual-test="input-stretch">
       <Provider formElement={{ label_direction: 'vertical' }}>
         <FieldBlock
-          label="Long label labwl Adipiscing mauris dis proin nec:"
+          label="Long label labwl Adipiscing mauris dis proin nec"
           forId="input-id"
         >
           <Input
@@ -185,7 +185,7 @@ export const InputExampleNumbers = () => (
   <Wrapper>
     <ComponentBox>
       <Input
-        label="Label:"
+        label="Label"
         autocomplete="on"
         placeholder="Placeholder text"
         status="Numbers are using DNB Mono (monospace)"
@@ -208,7 +208,7 @@ export const InputExampleSubmit = () => (
           console.log(event)
         }}
       >
-        <FormLabel for_id="search">Label:</FormLabel>
+        <FormLabel for_id="search">Label</FormLabel>
         <Flex.Horizontal align="baseline">
           <Input
             id="search"
@@ -236,7 +236,7 @@ export const InputExamplePassword = () => (
       data-visual-test="input-password"
     >
       <InputPassword
-        label="Label:"
+        label="Label"
         placeholder="A placeholder text"
         on_change={({ value }) => {
           console.log('on_change:', value)

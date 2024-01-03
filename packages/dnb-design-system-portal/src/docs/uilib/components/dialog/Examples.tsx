@@ -90,7 +90,7 @@ export const DialogExampleDelayClose = () => (
     >
       <P>This is a Dialog with no close button.</P>
       <P>Click outside me, and I will be closed within 1 second.</P>
-      <Input label="Focus:" top>
+      <Input label="Focus" top>
         Focus me with Tab key
       </Input>
     </Dialog>
