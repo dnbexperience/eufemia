@@ -5,6 +5,7 @@ import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/button/Button'
 import SharedContext from '../../../../shared/Context'
 import StepsContext from '../StepsContext'
+import ButtonRow from '../../Form/ButtonRow'
 
 export type Props = ComponentProps &
   ButtonProps & {
@@ -23,16 +24,18 @@ function PreviousButton(props: Props) {
   const stepsContext = useContext(StepsContext)
 
   return (
-    <Button
-      {...props}
-      className={classnames('dnb-forms-previous-button', className)}
-      onClick={stepsContext?.handlePrevious}
-      variant={variant}
-      icon_position={icon_position}
-      icon={icon}
-    >
-      {children}
-    </Button>
+    <ButtonRow>
+      <Button
+        {...props}
+        className={classnames('dnb-forms-previous-button', className)}
+        onClick={stepsContext?.handlePrevious}
+        variant={variant}
+        icon_position={icon_position}
+        icon={icon}
+      >
+        {children}
+      </Button>
+    </ButtonRow>
   )
 }
 

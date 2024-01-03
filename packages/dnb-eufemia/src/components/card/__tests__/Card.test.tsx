@@ -56,6 +56,8 @@ describe('Card', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-flex-item',
+      'dnb-section',
+      'dnb-section--default',
       'dnb-card',
       'custom-class',
       'dnb-flex-item--align-self-stretch',
@@ -88,9 +90,35 @@ describe('Card', () => {
     expect(element.className).not.toContain('dnb-flex-container--wrap')
   })
 
-  it('should stack children divided by lines', () => {
+  it('should stack children divided by space', () => {
     render(
       <Card stack>
+        <P>Paragraph</P>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    const children = element.children
+
+    expect(element.className).toContain(
+      'dnb-flex-container--divider-space'
+    )
+
+    expect(children.length).toBe(2)
+
+    expect(children[0].tagName).toBe('P')
+    expect(children[0].className).toEqual(
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+    )
+
+    expect(children[1].tagName).toBe('P')
+    expect(children[1].className).toContain('dnb-space__top--small')
+  })
+
+  it('should stack children divided by lines', () => {
+    render(
+      <Card stack divider="line">
         <P>Paragraph</P>
         <P>Paragraph</P>
       </Card>
@@ -104,7 +132,7 @@ describe('Card', () => {
     expect(children.length).toBe(4)
 
     expect(children[1].tagName).toBe('DIV')
-    expect(children[1].className).toContain('dnb-space__top--medium')
+    expect(children[1].className).toContain('dnb-space__top--small')
 
     expect(children[2].tagName).toBe('HR')
     expect(children[2].className).toContain(
@@ -117,7 +145,7 @@ describe('Card', () => {
     )
     expect(children[3].tagName).toBe('P')
     expect(children[3].className).toEqual(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--small dnb-space__bottom--zero'
     )
   })
 
@@ -216,5 +244,23 @@ describe('Card', () => {
 
     expect(children[2].className).toContain('dnb-space__top--large')
     expect(children[2].className).toContain('dnb-space__bottom--zero')
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return (
+        <Card innerRef={ref} element="div">
+          Content
+        </Card>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('DIV')
   })
 })

@@ -1,24 +1,4 @@
-@import '../../../style/core/utilities.scss';
-
 .dnb-card {
-  --background-color: var(--color-white);
-  --border-color: var(--color-lavender);
-  --border-width: 0.25rem;
-  --border-radius: 0.75rem;
-
-  padding: var(--spacing-medium) var(--spacing-medium) var(--spacing-large)
-    var(--spacing-medium);
-
-  background-color: var(--background-color);
-  border: var(--border-width) solid var(--border-color);
-  border-radius: var(--border-radius);
-
-  @include allBelow(small) {
-    --border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-
   &__heading {
     font-size: var(--font-size-basis);
     font-weight: var(--font-weight-medium);
