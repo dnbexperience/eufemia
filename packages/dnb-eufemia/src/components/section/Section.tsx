@@ -120,13 +120,24 @@ export type SectionAllProps = SectionProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
-type Attributes = Record<string, unknown> & { style?: React.CSSProperties }
+type SectionReturnParams = Record<string, unknown> & {
+  className: string
+  innerRef: React.RefObject<HTMLElement>
+  children: React.ReactNode
+  style: React.CSSProperties
+}
 
 const defaultProps = {
   element: 'section',
 }
 
 export default function Section(localProps: SectionAllProps) {
+  return <Space {...SectionParams(localProps)} />
+}
+
+export function SectionParams(
+  localProps: SectionAllProps
+): SectionReturnParams {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -137,7 +148,6 @@ export default function Section(localProps: SectionAllProps) {
   )
 
   const {
-    element,
     variant,
     breakout = true,
     roundedCorner,
@@ -157,7 +167,11 @@ export default function Section(localProps: SectionAllProps) {
     ...attributes
   } = props
 
-  const params = {
+  const internalRef = React.useRef<HTMLElement>()
+  const elementRef = innerRef || inner_ref || internalRef
+
+  return Object.freeze({
+    ...attributes,
     className: classnames(
       'dnb-section',
       `dnb-section--${variant ? variant : style_type || 'default'}`,
@@ -165,46 +179,36 @@ export default function Section(localProps: SectionAllProps) {
         `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
       className
     ),
-    ...attributes,
-  } as Attributes
-
-  const internalRef = React.useRef<HTMLElement>()
-  const elementRef = innerRef || inner_ref || internalRef
-  params.innerRef = elementRef
-
-  const styleObj = {
-    ...computeStyle(
-      breakout,
-      'breakout',
-      (value) => `var(--breakout--${value ? 'on' : 'off'})`
-    ),
-    ...computeStyle(
-      roundedCorner,
-      'rounded-corner',
-      (value) => value && 'var(--rounded-corner--value)'
-    ),
-    ...computeStyle(textColor, 'text-color', (value) => getColor(value)),
-    ...computeStyle(backgroundColor, 'background-color', (value) =>
-      getColor(value)
-    ),
-    ...computeStyle(
-      dropShadow,
-      'drop-shadow',
-      (value) => value && 'var(--shadow-default)'
-    ),
-    ...computeStyle(outline, 'outline-color', (value) =>
-      String(value) === 'true'
-        ? 'var(--outline-color--value)'
-        : getColor(value)
-    ),
-    ...params?.style,
-  } as React.CSSProperties
-
-  return (
-    <Space {...params} element={element} style={styleObj}>
-      {children}
-    </Space>
-  )
+    style: {
+      ...computeStyle(
+        breakout,
+        'breakout',
+        (value) => `var(--breakout--${value ? 'on' : 'off'})`
+      ),
+      ...computeStyle(
+        roundedCorner,
+        'rounded-corner',
+        (value) => value && 'var(--rounded-corner--value)'
+      ),
+      ...computeStyle(textColor, 'text-color', (value) => getColor(value)),
+      ...computeStyle(backgroundColor, 'background-color', (value) =>
+        getColor(value)
+      ),
+      ...computeStyle(
+        dropShadow,
+        'drop-shadow',
+        (value) => value && 'var(--shadow-default)'
+      ),
+      ...computeStyle(outline, 'outline-color', (value) =>
+        String(value) === 'true'
+          ? 'var(--outline-color--value)'
+          : getColor(value)
+      ),
+      ...attributes?.style,
+    } as React.CSSProperties,
+    innerRef: elementRef,
+    children,
+  })
 }
 
 function getColor(value: string) {
