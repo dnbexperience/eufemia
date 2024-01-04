@@ -11,7 +11,7 @@ import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
 export const RadioExampleDefault = () => (
   <ComponentBox data-visual-test="radio-group">
     <Radio.Group
-      label="Radio Group:"
+      label="Radio Group"
       on_change={({ value }) => {
         console.log('on_change', value)
       }}
@@ -27,7 +27,7 @@ export const RadioExampleDefault = () => (
 export const RadioExampleVerticalGroup = () => (
   <ComponentBox data-visual-test="radio-group-vertical">
     <Radio.Group
-      label="Vertical Group:"
+      label="Vertical Group"
       layout_direction="column"
       on_change={({ value }) => {
         console.log('on_change', value)
@@ -44,7 +44,7 @@ export const RadioExampleLabelAbove = () => (
   <ComponentBox data-visual-test="radio-group-label-above">
     <Radio.Group
       vertical
-      label="Vertical Group:"
+      label="Vertical Group"
       layout_direction="column"
       on_change={({ value }) => {
         console.log('on_change', value)
@@ -60,7 +60,7 @@ export const RadioExampleLabelAbove = () => (
 export const RadioExampleGroupStatus = () => (
   <ComponentBox data-visual-test="radio-group-status">
     <Radio.Group
-      label="Radio Group with status:"
+      label="Radio Group with status"
       layout_direction="column"
       on_change={({ value }) => {
         console.log('on_change', value)
@@ -81,7 +81,7 @@ export const RadioExampleGroupStatus = () => (
 
 export const RadioExampleWithoutGroup = () => (
   <ComponentBox data-visual-test="radio-group-plain">
-    <FieldBlock label="Plain Radio group:" layout="horizontal">
+    <FieldBlock label="Plain Radio group" layout="horizontal">
       <Radio
         value="first"
         label="First"
@@ -124,7 +124,7 @@ export const RadioExampleSizes = () => (
 export const RadioExampleDisabled = () => (
   <ComponentBox data-visual-test="radio-group-disabled">
     <Radio.Group
-      label="Disabled Group:"
+      label="Disabled Group"
       disabled
       label_position="left"
       name="MyGroup"
@@ -138,7 +138,7 @@ export const RadioExampleDisabled = () => (
 
 export const RadioExampleSuffix = () => (
   <ComponentBox>
-    <Radio.Group label="With suffixes:" label_position="left">
+    <Radio.Group label="With suffixes" label_position="left">
       <Radio label="First" value="first" />
       <Radio
         label="Second"

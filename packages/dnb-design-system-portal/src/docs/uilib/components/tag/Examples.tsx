@@ -14,7 +14,7 @@ import { Tag } from '@dnb/eufemia/src'
 
 export const TagDefault = () => (
   <ComponentBox data-visual-test="tag-default">
-    <Tag.Group label="Payment types:">
+    <Tag.Group label="Payment types">
       <Tag>Digipost</Tag>
       <Tag>AvtaleGiro</Tag>
     </Tag.Group>
@@ -26,7 +26,7 @@ export const TagWithIcon = () => (
     data-visual-test="tag-icon"
     scope={{ EInvoice, AInvoice, DigiPost }}
   >
-    <Tag.Group label="Betalingstyper:">
+    <Tag.Group label="Betalingstyper">
       <Tag icon={AInvoice} text="AvtaleGiro" />
       <Tag icon={EInvoice} text="eFaktura" />
       <Tag icon={DigiPost} text="DigiPost" />
@@ -36,7 +36,7 @@ export const TagWithIcon = () => (
 
 export const TagRemovable = () => (
   <ComponentBox data-visual-test="tag-removable">
-    <Tag.Group label="Files:">
+    <Tag.Group label="Files">
       <Tag
         text="Eufemia.tsx"
         onDelete={() => {
@@ -50,7 +50,7 @@ export const TagRemovable = () => (
 export const TagInline = () => (
   <ComponentBox data-visual-test="tag-inline">
     Text{' '}
-    <Tag.Group label="Inline:">
+    <Tag.Group label="Inline">
       <Tag text="First" /> between
       <Tag text="Second" />
       <Tag text="Third" />
@@ -78,7 +78,7 @@ export const TagMultipleRemovable = () => (
         }
 
         return (
-          <Tag.Group label="Genres:">
+          <Tag.Group label="Genres">
             {tagData.map((tag) => {
               return (
                 <Tag
@@ -98,7 +98,7 @@ export const TagMultipleRemovable = () => (
 
 export const TagSkeleton = () => (
   <ComponentBox data-visual-test="tag-skeleton">
-    <Tag.Group label="Skeletons:">
+    <Tag.Group label="Skeletons">
       <Tag skeleton text="Skeleton" />
       <Tag skeleton text="Skeleton" />
       <Tag skeleton text="Skeleton" />

@@ -12,7 +12,7 @@ export const TextareaExampleRowsCols = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-default">
       <Textarea
-        label="Default:"
+        label="Default"
         rows="2"
         cols="20"
         value="Textarea value\nNewline"
@@ -34,7 +34,7 @@ export const TextareaExampleRowsCols = () => (
 export const TextareaExamplePlaceholder = () => (
   <Wrapper>
     <ComponentBox>
-      <Textarea label="Placeholder:" placeholder="Placeholder text" />
+      <Textarea label="Placeholder" placeholder="Placeholder text" />
     </ComponentBox>
   </Wrapper>
 )
@@ -43,7 +43,7 @@ export const TextareaExampleVertical = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
-        label="Vertical:"
+        label="Vertical"
         label_direction="vertical"
         rows="3"
         cols="33"
@@ -57,7 +57,7 @@ export const TextareaExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-stretch">
       <Textarea
-        label="Horizontal:"
+        label="Horizontal"
         stretch={true}
         rows="3"
         value="Nec litora inceptos vestibulum id interdum donec gravida."
@@ -70,7 +70,7 @@ export const TextareaExampleAutoresize = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
-        label="Autogrow:"
+        label="Autogrow"
         rows={1}
         autoresize={true}
         autoresize_max_rows={4}
@@ -89,7 +89,7 @@ export const TextareaExampleMaxLength = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
-        label="Length limit:"
+        label="Length limit"
         rows="3"
         cols="33"
         maxLength={20}
@@ -104,7 +104,7 @@ export const TextareaExampleFormStatus = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-error">
       <Textarea
-        label="Error Message:"
+        label="Error Message"
         cols="33"
         value="Nec litora inceptos vestibulum id interdum donec gravida."
         status="Message to the user"
@@ -117,7 +117,7 @@ export const TextareaExampleDisabled = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
-        label="Disabled:"
+        label="Disabled"
         disabled
         value="Nec litora inceptos vestibulum id interdum donec gravida."
       />
@@ -129,7 +129,7 @@ export const TextareaExampleSuffix = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
-        label="Textarea with suffix:"
+        label="Textarea with suffix"
         value="Nec litora inceptos vestibulum id interdum donec gravida."
         suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
       />

@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 export const AutocompleteDefaultExample = () => (
   <Wrapper>
     <ComponentBox scope={{ topMovies }}>
-      <Autocomplete data={topMovies} label="Label:" />
+      <Autocomplete data={topMovies} label="Label" />
     </ComponentBox>
   </Wrapper>
 )
@@ -43,7 +43,7 @@ export const AutocompleteStatusExample = () => (
     >
       <Autocomplete
         data={topMovies}
-        label="Label:"
+        label="Label"
         status="Please select a valid date"
         status_state="info"
         show_submit_button
@@ -65,7 +65,7 @@ export const AutocompleteNumbersExample = () => (
       <Autocomplete
         input_value="201"
         show_clear_button
-        label="Label:"
+        label="Label"
         data={numbersData}
         search_numbers={true}
       />
@@ -83,7 +83,7 @@ export const AutocompleteWithCustomTitle = () => (
         data={topMovies}
         keep_value={true}
         show_clear_button={true}
-        label="Label:"
+        label="Label"
         placeholder="Custom placeholder ..."
         on_change={({ data }) => {
           console.log('on_change', data)
@@ -179,7 +179,7 @@ export const AutocompleteToggleExample = () => (
       scope={{ topMovies }}
     >
       <Autocomplete
-        label="Label:"
+        label="Label"
         value={10}
         show_submit_button={true}
         on_change={({ data }) => {
@@ -199,7 +199,7 @@ export const AutocompletePredefinedInput = () => (
       scope={{ topMovies }}
     >
       <Autocomplete
-        label="Label:"
+        label="Label"
         input_value="the pa ther"
         no_animation
         on_change={({ data }) => {
@@ -220,16 +220,12 @@ export const AutocompleteDifferentSizes = () => (
     >
       <Flex.Vertical>
         <Autocomplete
-          label="Label:"
+          label="Label"
           size="default"
           data={() => topMovies}
         />
-        <Autocomplete
-          label="Label:"
-          size="medium"
-          data={() => topMovies}
-        />
-        <Autocomplete label="Label:" size="large" data={() => topMovies} />
+        <Autocomplete label="Label" size="medium" data={() => topMovies} />
+        <Autocomplete label="Label" size="large" data={() => topMovies} />
       </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
@@ -266,20 +262,20 @@ export const AutocompleteCustomWidth = () => (
       return (
         <Flex.Vertical>
           <CustomWidthOne
-            label="Label:"
+            label="Label"
             label_sr_only
             size="default"
             icon_position="left"
             data={topMovies}
           />
           <CustomWidthTwo
-            label="Label:"
+            label="Label"
             label_sr_only
             size="medium"
             data={topMovies}
           />
           <CustomWidthThree
-            label="Label:"
+            label="Label"
             label_sr_only
             size="large"
             align_autocomplete="right"
@@ -361,7 +357,7 @@ export const AutocompleteOpened = () => {
         hideCode
       >
         <Autocomplete
-          label="Label:"
+          label="Label"
           input_value="lord"
           opened
           no_animation
@@ -371,7 +367,7 @@ export const AutocompleteOpened = () => {
           right="large"
         />
         <Autocomplete
-          label="Label:"
+          label="Label"
           input_value="angry"
           skip_portal
           opened
@@ -530,7 +526,7 @@ export const AutocompleteDisabledExample = () => (
         show_submit_button
         data={topMovies}
         value={1}
-        label="Label:"
+        label="Label"
         bottom
       />
       <br />
@@ -539,7 +535,7 @@ export const AutocompleteDisabledExample = () => (
         show_submit_button
         data={topMovies}
         value={1}
-        label="Label:"
+        label="Label"
         suffix="Suffix"
         size="large"
       />
@@ -566,7 +562,7 @@ export const AutocompleteContentAsArrayExample = () => (
             ],
           },
         ]}
-        label="Label:"
+        label="Label"
       />
     </ComponentBox>
   </Wrapper>
@@ -589,7 +585,7 @@ export const AutocompleteContentAsFragmentExample = () => (
             ),
           },
         ]}
-        label="Label:"
+        label="Label"
       />
     </ComponentBox>
   </Wrapper>
@@ -605,7 +601,7 @@ export const AutocompleteContentDecoupledExample = () => (
             search_content: ['your search content'],
           },
         ]}
-        label="Label:"
+        label="Label"
       />
     </ComponentBox>
   </Wrapper>

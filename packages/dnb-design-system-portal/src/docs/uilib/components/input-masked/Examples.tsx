@@ -20,7 +20,7 @@ export const InputMaskedExampleNumberLocale = () => (
       <Provider formElement={{ label_direction: 'vertical' }}>
         <Flex.Vertical>
           <InputMasked
-            label="Number:"
+            label="Number"
             as_number
             mask_options={{ allowNegative: false }}
             value="1234.50"
@@ -29,7 +29,7 @@ export const InputMaskedExampleNumberLocale = () => (
             }}
           />
           <InputMasked
-            label="Number (decimal limit):"
+            label="Number (decimal limit)"
             as_number
             number_mask={{ decimalLimit: 2 }}
             value="1234.016"
@@ -38,7 +38,7 @@ export const InputMaskedExampleNumberLocale = () => (
             }}
           />
           <InputMasked
-            label="Percentage:"
+            label="Percentage"
             as_percent
             number_mask={{ decimalLimit: 1 }}
             value="1234.016"
@@ -58,7 +58,7 @@ export const InputMaskedExampleCurrencyLocale = () => (
       <Provider formElement={{ label_direction: 'vertical' }}>
         <Flex.Vertical>
           <InputMasked
-            label="Currency:"
+            label="Currency"
             as_currency="EUR"
             value="1234.50"
             on_change={({ numberValue }) => {
@@ -74,7 +74,7 @@ export const InputMaskedExampleCurrencyLocale = () => (
             }}
           >
             <InputMasked
-              label="Currency:"
+              label="Currency"
               as_currency="USD"
               value="1234.567"
               on_change={({ numberValue }) => {
@@ -94,7 +94,7 @@ export const InputMaskedExampleCurrencyMask = () => (
       <Provider formElement={{ label_direction: 'vertical' }}>
         <Flex.Vertical>
           <InputMasked
-            label="Left aligned (default):"
+            label="Left aligned (default)"
             show_mask
             currency_mask="kr"
             on_change={({ numberValue }) => {
@@ -102,7 +102,7 @@ export const InputMaskedExampleCurrencyMask = () => (
             }}
           />
           <InputMasked
-            label="Right aligned:"
+            label="Right aligned"
             show_mask
             currency_mask={{ currency: 'NOK' }}
             align="right"
@@ -120,7 +120,7 @@ export const InputMaskedExampleCustomNumberMask = () => (
   <Wrapper>
     <ComponentBox>
       <InputMasked
-        label="Masked amount:"
+        label="Masked amount"
         show_mask
         number_mask={{
           suffix: ' kr',
@@ -139,7 +139,7 @@ export const InputMaskedExampleNumberMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number_mask">
       <InputMasked
-        label="Masked input:"
+        label="Masked input"
         value="1000000"
         number_mask={{
           suffix: ',-',
@@ -158,7 +158,7 @@ export const InputMaskedExamplePrefix = () => (
   <Wrapper>
     <ComponentBox>
       <InputMasked
-        label="Masked input:"
+        label="Masked input"
         number_mask={{
           prefix: 'NOK ',
         }}
@@ -176,7 +176,7 @@ export const InputMaskedExamplePhone = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-phone">
       <InputMasked
-        label="Masked input:"
+        label="Masked input"
         mask={[
           '0',
           '0',

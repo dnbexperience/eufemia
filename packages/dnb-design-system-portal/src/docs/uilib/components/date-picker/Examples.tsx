@@ -37,7 +37,7 @@ export const DatePickerRange = () => (
     }}
   >
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       start_date="2019-04-01"
       end_date="2019-05-17"
       range={true}
@@ -85,7 +85,7 @@ export const DatePickerRange = () => (
 export const DatePickerWithInput = () => (
   <ComponentBox>
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       date={new Date()}
       show_input={true}
       show_cancel_button={true}
@@ -104,7 +104,7 @@ export const DatePickerTrigger = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-trigger-default">
       <DatePicker
-        label="DatePicker:"
+        label="DatePicker"
         date="2019-05-05"
         return_format="dd-MM-yyyy"
         on_change={({ date }) => {
@@ -121,7 +121,7 @@ export const DatePickerTrigger = () => (
 export const DatePickerHiddenNav = () => (
   <ComponentBox>
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       date="2022/05/05"
       min_date="2022/05/01"
       max_date="2022/05/17"
@@ -142,7 +142,7 @@ export const DatePickerHiddenNav = () => (
 export const DatePickerMonthOnly = () => (
   <ComponentBox>
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       date="05/02/2019"
       date_format="MM/dd/yyyy"
       only_month={true}
@@ -153,7 +153,7 @@ export const DatePickerMonthOnly = () => (
 export const DatePickerStatusMessage = () => (
   <ComponentBox>
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       date={new Date()}
       show_input={true}
       status="Please select a valid date"
@@ -165,7 +165,7 @@ export const DatePickerStatusMessage = () => (
 export const DatePickerSuffix = () => (
   <ComponentBox>
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       date={new Date()}
       show_input
       suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
@@ -176,7 +176,7 @@ export const DatePickerSuffix = () => (
 export const DatePickerLinked = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-input">
-      <DatePicker label="DatePicker:" range link show_input />
+      <DatePicker label="DatePicker" range link show_input />
     </ComponentBox>
   </Wrapper>
 )
@@ -185,7 +185,7 @@ export const DatePickerNoInputStatus = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-trigger-error">
       <DatePicker
-        label="DatePicker:"
+        label="DatePicker"
         date="2019-05-05"
         hide_navigation={true}
         status="Please select a valid date"
@@ -198,7 +198,7 @@ export const DatePickerErrorMessage = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-input-error">
       <DatePicker
-        label="DatePicker:"
+        label="DatePicker"
         date="2019-05-05"
         show_input={true}
         show_submit_button={true}
@@ -216,7 +216,7 @@ export const DatePickerErrorMessage = () => (
 export const DatePickerErrorStatus = () => (
   <ComponentBox>
     <DatePicker
-      label="DatePicker:"
+      label="DatePicker"
       date={new Date()}
       hide_navigation={true}
       status="error"
@@ -246,25 +246,25 @@ export const DatePickerScreenshotTestSizes = () => {
         <Provider formElement={{ label_direction: 'vertical' }}>
           <Flex.Vertical>
             <DatePicker
-              label="DatePicker:"
+              label="DatePicker"
               date={new Date('2022/06/10')}
               show_input={true}
             />
             <DatePicker
               size="small"
-              label="DatePicker:"
+              label="DatePicker"
               date={new Date('2022/06/10')}
               show_input={true}
             />
             <DatePicker
               size="medium"
-              label="DatePicker:"
+              label="DatePicker"
               date={new Date('2022/06/10')}
               show_input={true}
             />
             <DatePicker
               size="large"
-              label="DatePicker:"
+              label="DatePicker"
               date={new Date('2022/06/10')}
               show_input={true}
             />

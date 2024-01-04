@@ -66,13 +66,13 @@ export const FormRowVerticalAlignedLabels = () => (
       <FormRow
         label={
           <Ingress top="0" bottom="small">
-            Custom legend:
+            Custom legend
           </Ingress>
         }
         label_direction="vertical"
       >
-        <Input label="Label A:" value="Input A" right="small" />
-        <Input label="Label B:" value="Input B" />
+        <Input label="Label A" value="Input A" right="small" />
+        <Input label="Label B" value="Input B" />
       </FormRow>
     </ComponentBox>
   </TestStyles>
@@ -85,7 +85,7 @@ export const FormRowSectionStyle = () => (
         vertical
         section_style="mint-green"
         section_spacing
-        label="A long horizontal legend (FormLabel) with a lot of informative text:"
+        label="A long horizontal legend (FormLabel) with a lot of informative text"
       >
         <Checkbox label="Checkbox" />
       </FormRow>
@@ -109,7 +109,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
                 bottom="large"
                 no_collapse={true}
               >
-                Custom vertical legend:
+                Custom vertical legend
               </Space>
             }
             vertical
@@ -137,7 +137,7 @@ export const FormRowDefault = () => (
     <ComponentBox>
       <FormRow>
         <Input
-          label="Default horizontal FormRow:"
+          label="Default horizontal FormRow"
           placeholder="Input ..."
         />
       </FormRow>
@@ -148,10 +148,10 @@ export const FormRowDefault = () => (
 export const FormRowVertical = () => (
   <TestStyles>
     <ComponentBox>
-      <FormRow direction="vertical" label="Label legend for the inputs:">
-        <Input label="Vertical direction:" placeholder="Input A ..." />
+      <FormRow direction="vertical" label="Label legend for the inputs">
+        <Input label="Vertical direction" placeholder="Input A ..." />
         <Input
-          label="Vertical direction:"
+          label="Vertical direction"
           placeholder="Input B ..."
           top="small"
         />
@@ -164,11 +164,11 @@ export const FormRowNoWrap = () => (
   <TestStyles>
     <ComponentBox>
       <FormRow
-        label="A long horizontal legend (FormLabel) with a lot of informative text:"
+        label="A long horizontal legend (FormLabel) with a lot of informative text"
         direction="horizontal"
       >
-        <Input label="Input label A:" right="small" />
-        <Input label="Input label B:" />
+        <Input label="Input label A" right="small" />
+        <Input label="Input label B" />
       </FormRow>
     </ComponentBox>
   </TestStyles>
@@ -178,13 +178,13 @@ export const FormRowWrap = () => (
   <TestStyles>
     <ComponentBox>
       <FormRow
-        label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
+        label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna"
         direction="horizontal"
         wrap
       >
-        <Input label="Input A:" top="small" right="small" />
-        <Input label="Input B:" top="small" right="small" />
-        <Input label="Input C:" top="small" right="small" />
+        <Input label="Input A" top="small" right="small" />
+        <Input label="Input B" top="small" right="small" />
+        <Input label="Input C" top="small" right="small" />
       </FormRow>
     </ComponentBox>
   </TestStyles>
@@ -194,18 +194,18 @@ export const FormRowLegendUsage = () => (
   <TestStyles>
     <ComponentBox>
       <FormSet label_direction="vertical">
-        <FormRow label="Label legend for the inputs:">
+        <FormRow label="Label legend for the inputs">
           <Input
-            label="Vertical label direction:"
+            label="Vertical label direction"
             placeholder="Input A ..."
             right="small"
           />
           <Input
-            label="Vertical label direction:"
+            label="Vertical label direction"
             placeholder="Input B ..."
           />
         </FormRow>
-        <FormRow label="Checkbox legend:" top="medium">
+        <FormRow label="Checkbox legend" top="medium">
           <Checkbox label="Checkbox" />
         </FormRow>
       </FormSet>
@@ -217,9 +217,9 @@ export const FormRowInheritContext = () => (
   <TestStyles>
     <ComponentBox>
       <FormRow vertical={true} disabled={true}>
-        <Input label="Vertical input A:" placeholder="Input A ..." />
+        <Input label="Vertical input A" placeholder="Input A ..." />
         <Input
-          label="Vertical input B:"
+          label="Vertical input B"
           placeholder="Input B ..."
           top="medium"
         />
@@ -326,8 +326,8 @@ export function FormRowLabelDirectionInfo() {
   return (
     <ComponentBox>
       <FormRow label_direction="vertical">
-        <Input label="Label:" right />
-        <Input label="Label:" />
+        <Input label="Label" right />
+        <Input label="Label" />
       </FormRow>
     </ComponentBox>
   )
@@ -337,8 +337,8 @@ export function FormRowDirectionInfo() {
   return (
     <ComponentBox>
       <FormRow direction="vertical">
-        <Input label="Label:" bottom />
-        <Input label="Label:" />
+        <Input label="Label" bottom />
+        <Input label="Label" />
       </FormRow>
     </ComponentBox>
   )
@@ -348,8 +348,8 @@ export function FormRowVerticalInfo() {
   return (
     <ComponentBox>
       <FormRow vertical>
-        <Input label="Label:" bottom />
-        <Input label="Label:" />
+        <Input label="Label" bottom />
+        <Input label="Label" />
       </FormRow>
     </ComponentBox>
   )
@@ -359,8 +359,8 @@ export function FormRowDefaultInfo() {
   return (
     <ComponentBox>
       <FormRow>
-        <Input label="Label:" right />
-        <Input label="Label:" />
+        <Input label="Label" right />
+        <Input label="Label" />
       </FormRow>
     </ComponentBox>
   )

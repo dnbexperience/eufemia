@@ -16,7 +16,7 @@ export const SliderExampleDefault = () => (
       min={0}
       max={100}
       value={70}
-      label="Default Slider:"
+      label="Default Slider"
       numberFormat={{ currency: 'EUR' }}
       tooltip={true}
       onChange={({ value }) => console.log('onChange:', value)}
@@ -33,7 +33,7 @@ export const SliderExampleMultiButtons = () => (
           max={100}
           value={[30, 70]}
           step={5}
-          label="Range with steps:"
+          label="Range with steps"
           numberFormat={{ currency: 'USD' }}
           tooltip
           onChange={({ value }) => console.log('onChange:', value)}
@@ -42,7 +42,7 @@ export const SliderExampleMultiButtons = () => (
           min={0}
           max={100}
           value={[10, 30, 50, 70]}
-          label="Multi thumbs:"
+          label="Multi thumbs"
           numberFormat={(value) =>
             format(value, { percent: true, decimals: 0 })
           }
@@ -63,7 +63,7 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
         <Slider
           multiThumbBehavior="omit"
           value={[30, 70]}
-          label="Omit behavior:"
+          label="Omit behavior"
           numberFormat={{ currency: 'EUR' }}
           tooltip={true}
           onChange={({ value }) => console.log('onChange:', value)}
@@ -73,7 +73,7 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
           min={-40}
           value={[-10, 50, 70]}
           step={1}
-          label="Push behavior:"
+          label="Push behavior"
           numberFormat={{ currency: true }}
           tooltip={true}
           onChange={({ value, number }) =>
@@ -96,7 +96,7 @@ export const SliderExampleHorizontalSync = () => (
               value={value}
               step={1}
               hideButtons
-              label="Slider A:"
+              label="Slider A"
               numberFormat={{ currency: 'EUR' }}
               tooltip={true}
               onChange={({ value }) => setValue(parseFloat(String(value)))}
@@ -107,7 +107,7 @@ export const SliderExampleHorizontalSync = () => (
                 vertical={true}
                 hideButtons={true}
                 step={10}
-                label="Slider B:"
+                label="Slider B"
                 labelDirection="vertical"
                 numberFormat={(value) =>
                   format(value, { currency: 'NOK' })
@@ -152,7 +152,7 @@ export const SliderExampleSuffix = () => (
       min={0}
       max={100}
       value={70}
-      label="Slider with suffix:"
+      label="Slider with suffix"
       suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
     />
   </ComponentBox>
@@ -174,7 +174,7 @@ export const SliderVerticalWithSteps = () => (
             value={20}
             step={10}
             vertical={true}
-            label="Vertical slider:"
+            label="Vertical slider"
             labelDirection="vertical"
             onChange={({ value }) => console.log('onChange:', value)}
           />

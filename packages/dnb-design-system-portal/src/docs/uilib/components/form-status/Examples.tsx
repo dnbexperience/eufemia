@@ -66,7 +66,7 @@ export const FormStatusWithMarketing = () => (
 export const FormStatusInput = () => (
   <ComponentBox>
     <Input
-      label="Input with status:"
+      label="Input with status"
       status="You have to fill in this field"
       value="Input value"
     />
@@ -87,7 +87,7 @@ export const FormStatusAnimation = () => (
         return (
           <Provider formElement={{ vertical: false }}>
             <Input
-              label="Input with status:"
+              label="Input with status"
               status={status}
               value="Input value"
               right
@@ -114,7 +114,7 @@ export const FormStatusCustom = () => (
 
       return (
         <Input
-          label="Input with custom status:"
+          label="Input with custom status"
           status={<CustomStatus />}
           status_state="info"
           value="Input value"
