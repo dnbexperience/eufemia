@@ -4,10 +4,6 @@ import SkipContent, { SkipContentAllProps } from '../SkipContent'
 import Section from '../../Section'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('SkipContent', () => {
   it('renders with properties as object', () => {
     const props: SkipContentAllProps = { selector: '#unique-id' }

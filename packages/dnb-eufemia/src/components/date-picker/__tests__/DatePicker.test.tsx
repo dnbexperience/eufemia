@@ -26,10 +26,6 @@ import {
 import { fireEvent, render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
     const props: DatePickerProps = {}

@@ -29,8 +29,6 @@ const value = 12345678.9876
 let languageGetter, platformGetter
 
 beforeEach(() => {
-  document.body.innerHTML = ''
-
   const selection = window.getSelection()
   selection.removeAllRanges()
 })

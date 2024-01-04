@@ -39,7 +39,7 @@ beforeAll(() => {
 })
 
 describe('"applyPageFocus" should', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     const bodyElement = document.body
     bodyElement.insertAdjacentHTML(
       'afterbegin',
@@ -50,10 +50,6 @@ describe('"applyPageFocus" should', () => {
     )
 
     setPageFocusElement('.focus-content', 'content')
-  })
-
-  beforeEach(() => {
-    setPageFocusElement(undefined, 'content')
   })
 
   it('set a focus on the given element', () => {

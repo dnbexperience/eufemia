@@ -44,10 +44,6 @@ const mockData: DrawerListDataObjectUnion[] = [
 
 mockImplementationForDirectionObserver()
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
     render(

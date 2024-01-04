@@ -15,10 +15,6 @@ import Context, {
 import Provider, { ProviderProps } from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Provider', () => {
   const title_nb = 'Tekst'
   const title_gb = 'Text'

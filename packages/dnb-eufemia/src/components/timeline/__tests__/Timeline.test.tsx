@@ -8,10 +8,6 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Timeline', () => {
   it('renders with props as an object', () => {
     const props: TimelineAllProps = {}

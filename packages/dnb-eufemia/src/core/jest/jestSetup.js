@@ -14,6 +14,11 @@ export { axe, toHaveNoViolations }
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 
+// To cleanup axe test leftovers from a test run before the current one
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
 export const wait = (t) => new Promise((r) => setTimeout(r, t))
 
 export const loadScss = (file, options = {}) => {
