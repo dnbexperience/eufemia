@@ -1498,7 +1498,7 @@ describe('DatePicker component', () => {
     expect(thirdDateButton.children[2]).toHaveTextContent('24')
   })
 
-  it.only('should fire blur event when input loses focus', async () => {
+  it('should fire blur event when input loses focus', async () => {
     const onBlur = jest.fn()
     render(<DatePicker show_input onBlur={onBlur} />)
 
