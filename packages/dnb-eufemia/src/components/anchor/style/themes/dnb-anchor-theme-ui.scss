@@ -44,10 +44,10 @@
     @include anchorFocus();
   }
 
-  &--icon-left .dnb-icon {
+  &--icon-left .dnb-icon:first-child {
     margin-right: 0.25em;
   }
-  &--icon-right .dnb-icon {
+  &--icon-right .dnb-icon:last-child {
     margin-left: 0.25em;
   }
 }
