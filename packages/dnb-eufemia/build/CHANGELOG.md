@@ -3,6 +3,49 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.16.0](https://github.com/dnbexperience/eufemia/compare/v10.15.1...v10.16.0) (2024-01-04)
+
+
+### :memo: Documentation
+
+* **Field.PhoneNumber:** document event handlers argument value ([#3063](https://github.com/dnbexperience/eufemia/issues/3063)) ([b6baeb7](https://github.com/dnbexperience/eufemia/commit/b6baeb72a8445046b87562c09c13278d25406c16))
+* remove colon in examples and add info about colon usage in labels for form elements ([#3167](https://github.com/dnbexperience/eufemia/issues/3167)) ([04d1e64](https://github.com/dnbexperience/eufemia/commit/04d1e64718cdec95d36e79fac6e199d489daa6ec))
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** dnb-anchor--no-hover and dnb-anchor--contrast ([#3139](https://github.com/dnbexperience/eufemia/issues/3139)) ([b718350](https://github.com/dnbexperience/eufemia/commit/b718350fe20659e1ecfdb37a3175886f91059e4f))
+* **Anchor:** remove icon when dnb-anchor--no-icon ([#3138](https://github.com/dnbexperience/eufemia/issues/3138)) ([83c1b47](https://github.com/dnbexperience/eufemia/commit/83c1b47860d8f92d6e8454ebb91cf354cd534da4))
+* **DatePicker:** make sure calendar shows correct date on date prop update ([#3112](https://github.com/dnbexperience/eufemia/issues/3112)) ([b571962](https://github.com/dnbexperience/eufemia/commit/b5719625ff0568172f63c09f88000ff5748d3e1d))
+* **Field.Date:** define empty value to trigger required error ([#3017](https://github.com/dnbexperience/eufemia/issues/3017)) ([45b4667](https://github.com/dnbexperience/eufemia/commit/45b46676ca2bf847896da2feb61e29f0dee5353f))
+* **Field.Expiry:** handles value as null ([#3143](https://github.com/dnbexperience/eufemia/issues/3143)) ([2a5fd66](https://github.com/dnbexperience/eufemia/commit/2a5fd66799e10fa3acf8e017e7b26e02c72f1ec9))
+* **Field.Expiry:** should handle values of non existing months ([#3144](https://github.com/dnbexperience/eufemia/issues/3144)) ([13cdc9f](https://github.com/dnbexperience/eufemia/commit/13cdc9f414b4da9600800f3ecf60dd8546c1386b))
+* **Field.PhoneNumber:** make country code only search for country name based on chosen locale ([#3156](https://github.com/dnbexperience/eufemia/issues/3156)) ([26c4f20](https://github.com/dnbexperience/eufemia/commit/26c4f20ad993c691ec9d52a02532e116d4f47c91))
+* **Field.PhoneNumber:** renders an validation error initially when it is required and only country code is provided ([#3081](https://github.com/dnbexperience/eufemia/issues/3081)) ([0d1063a](https://github.com/dnbexperience/eufemia/commit/0d1063aad64a57dce24d397548ec5db27e920abe))
+* **Field.Selection:** add error state and message ([#3077](https://github.com/dnbexperience/eufemia/issues/3077)) ([06de7c9](https://github.com/dnbexperience/eufemia/commit/06de7c958ac93dd259c0e05a20301fc5156b3136))
+* **Field.Selection:** fix Dropdown width ([#3136](https://github.com/dnbexperience/eufemia/issues/3136)) ([2fb7e47](https://github.com/dnbexperience/eufemia/commit/2fb7e471390c12d1549d4dc78c9bd2350979b3f6))
+* **Field.Selection:** make it possible to disable radio variants ([#3086](https://github.com/dnbexperience/eufemia/issues/3086)) ([980cabd](https://github.com/dnbexperience/eufemia/commit/980cabddcf524819ef224bdcae9055466aad4b92))
+* **Field.String:** validated empty value when required ([#3125](https://github.com/dnbexperience/eufemia/issues/3125)) ([541c9b1](https://github.com/dnbexperience/eufemia/commit/541c9b142a0f1520f88898bace7a1beda1a54211))
+* **forms:** update data context with initially given field value ([#3135](https://github.com/dnbexperience/eufemia/issues/3135)) ([93d08e6](https://github.com/dnbexperience/eufemia/commit/93d08e687f0800fae5f814784e82ad5fbf08fff8))
+* **PhoneNumber:** make long labels wrap nicely ([#3066](https://github.com/dnbexperience/eufemia/issues/3066)) ([d12850d](https://github.com/dnbexperience/eufemia/commit/d12850d44d9336e8ce621a09d591f3530b89bf4b))
+* **Radio:** fix correct spacing between label/legend and fieldset ([#3115](https://github.com/dnbexperience/eufemia/issues/3115)) ([9dc7d9e](https://github.com/dnbexperience/eufemia/commit/9dc7d9ee65dcf90e53208a07b0237eaba316a7f9))
+* **Section:** ensure overlay is behind content ([#3141](https://github.com/dnbexperience/eufemia/issues/3141)) ([53346ec](https://github.com/dnbexperience/eufemia/commit/53346eccb9d48efc36994b067019e670ae134e2d))
+* **StepsLayout:** mode defaults to strict ([#3145](https://github.com/dnbexperience/eufemia/issues/3145)) ([eef4744](https://github.com/dnbexperience/eufemia/commit/eef4744704fd422bb75920086222babb7bc82e2e))
+* **StepsLayout:** prevent component adjust to screen size on mobile ([#3146](https://github.com/dnbexperience/eufemia/issues/3146)) ([20d92d2](https://github.com/dnbexperience/eufemia/commit/20d92d29903554c06b3b1111bc0212635d631453))
+* **ToggleButton:** align label position ([#3169](https://github.com/dnbexperience/eufemia/issues/3169)) ([22f587d](https://github.com/dnbexperience/eufemia/commit/22f587dace68d17ca8f899f7468e92b4c6226d3e))
+* **Tooltip:** text alignment for short text ([#3084](https://github.com/dnbexperience/eufemia/issues/3084)) ([7b83a7a](https://github.com/dnbexperience/eufemia/commit/7b83a7a68198fd322b9c89d995d4db8032bd2f70))
+* **Upload:** omit FormEvent onChange type ([#3113](https://github.com/dnbexperience/eufemia/issues/3113)) ([52e42c2](https://github.com/dnbexperience/eufemia/commit/52e42c291295bb12bde7182deb9cb21d4480b8ae))
+
+
+### :sparkles: Features
+
+* **Card:** responsive breakout on small screens ([#3163](https://github.com/dnbexperience/eufemia/issues/3163)) ([da88ac9](https://github.com/dnbexperience/eufemia/commit/da88ac9902c66b7664aee0ce7cd9289b3d9eaa73))
+* **Email:** trim value ([#3170](https://github.com/dnbexperience/eufemia/issues/3170)) ([ea56957](https://github.com/dnbexperience/eufemia/commit/ea569579ffb1549a4687caee7c30a1a785478a0a)), closes [#3165](https://github.com/dnbexperience/eufemia/issues/3165)
+* **Icons:** add browser, digipass, envelope_open, laptop, mobile, money_left, teenager ([#3064](https://github.com/dnbexperience/eufemia/issues/3064)) ([b503e36](https://github.com/dnbexperience/eufemia/commit/b503e36925e6021b4ee085fa691cb81e3bc4dac5))
+* **InputMasked:** enhance inputMode for better support of showing correct soft keyboards ([#3108](https://github.com/dnbexperience/eufemia/issues/3108)) ([e95ef1f](https://github.com/dnbexperience/eufemia/commit/e95ef1f250f34cdecfa7e8d4f15c0a97471020e9)), closes [#3097](https://github.com/dnbexperience/eufemia/issues/3097)
+* **String:** add `capitalize` prop ([#3159](https://github.com/dnbexperience/eufemia/issues/3159)) ([3dce145](https://github.com/dnbexperience/eufemia/commit/3dce145d865693a13cfd9570863036e1bce3d2d2))
+* **useDataValue:** add toOutput, fromExternal and validateRequired ([#3109](https://github.com/dnbexperience/eufemia/issues/3109)) ([cf04125](https://github.com/dnbexperience/eufemia/commit/cf041259c49b18b40d31904ec6d545ea9c42dc5a))
+
 ## [10.15.1](https://github.com/dnbexperience/eufemia/compare/v10.15.0...v10.15.1) (2023-12-14)
 
 
