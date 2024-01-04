@@ -6,6 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import E, { ElementProps, ElementIsType } from '../../elements/Element'
+import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,
@@ -76,6 +77,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     ...rest
   } = allProps
 
+  const theme = useTheme()
+  const iconSpacer = theme?.isSbanken ? ' ' : ''
   const attributes = rest as ElementProps
   const internalId = id || 'id' + makeUniqueId()
   const as = (element || 'a') as string
@@ -90,16 +93,32 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
   if (showLaunchIcon && !omitClass) {
     suffix = (
-      <IconPrimary className="dnb-anchor__launch-icon" icon={launchIcon} />
+      <>
+        {iconSpacer}
+        <IconPrimary
+          className="dnb-anchor__launch-icon"
+          icon={launchIcon}
+        />
+      </>
     )
   }
 
   if (icon) {
     const iconNode = pickIcon(icon) || <IconPrimary icon={icon} />
     if (iconPosition === 'left') {
-      prefix = <>{iconNode} </>
+      prefix = (
+        <>
+          {iconNode}
+          {iconSpacer}
+        </>
+      )
     } else if (iconPosition === 'right') {
-      suffix = <> {iconNode}</>
+      suffix = (
+        <>
+          {iconSpacer}
+          {iconNode}
+        </>
+      )
     }
   }
 
