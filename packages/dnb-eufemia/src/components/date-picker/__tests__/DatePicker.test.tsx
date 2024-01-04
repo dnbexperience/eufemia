@@ -1497,6 +1497,41 @@ describe('DatePicker component', () => {
     )
     expect(thirdDateButton.children[2]).toHaveTextContent('24')
   })
+
+  it.only('should fire blur event when input loses focus', async () => {
+    const onBlur = jest.fn()
+    render(<DatePicker show_input onBlur={onBlur} />)
+
+    const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-input__input')
+    )
+
+    await userEvent.click(firstInput)
+
+    expect(onBlur).toHaveBeenCalledTimes(0)
+    expect(document.activeElement).toBe(firstInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(firstInput)
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({ target: firstInput })
+    )
+
+    await userEvent.click(secondInput)
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(secondInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(secondInput)
+    expect(onBlur).toHaveBeenCalledTimes(2)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({ target: secondInput })
+    )
+  })
 })
 
 // for the unit calc tests
