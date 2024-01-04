@@ -150,13 +150,12 @@ export default class Textarea extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     const value = Textarea.getValue(props)
     if (
-      state._listenForPropChanges &&
       value !== 'initval' &&
-      value !== state.value
+      value !== state.value &&
+      value !== state._value
     ) {
       if (
         value !== state.value &&
-        value !== state._value &&
         typeof props.on_state_update === 'function'
       ) {
         dispatchCustomElementEvent({ props }, 'on_state_update', { value })
@@ -166,7 +165,7 @@ export default class Textarea extends React.PureComponent {
     if (props.textarea_state) {
       state.textareaState = props.textarea_state
     }
-    state._listenForPropChanges = true
+    state._value = props.value
     return state
   }
 
@@ -198,12 +197,9 @@ export default class Textarea extends React.PureComponent {
     this._ref = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    // make sure we don't trigger getDerivedStateFromProps on startup
-    this.state._listenForPropChanges = true
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
     }
-    this.state._value = props.value
   }
   componentDidMount() {
     if (this.props.inner_ref) {
@@ -235,7 +231,7 @@ export default class Textarea extends React.PureComponent {
     const { value } = this._ref.current
     this.setState({
       value,
-      _listenForPropChanges: false,
+
       textareaState: 'focus',
     })
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
@@ -244,7 +240,7 @@ export default class Textarea extends React.PureComponent {
     const { value } = event.target
     this.setState({
       value,
-      _listenForPropChanges: false,
+
       textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial',
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
@@ -264,7 +260,7 @@ export default class Textarea extends React.PureComponent {
       event,
     })
     if (ret !== false) {
-      this.setState({ value, _listenForPropChanges: false })
+      this.setState({ value })
       if (isTrue(this.props.autoresize)) {
         this.setAutosize(rows)
       }

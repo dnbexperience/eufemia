@@ -18,12 +18,13 @@ function Email(props: Props) {
   )
 
   const stringComponentProps: Props = {
-    ...props,
-    type: props.type ?? 'email',
+    label: sharedContext?.translation.Forms.emailLabel,
+    autoComplete: 'email',
+    inputMode: 'email',
     pattern:
-      props.pattern ??
       "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-    label: props.label ?? sharedContext?.translation.Forms.emailLabel,
+    trim: true,
+    ...props,
     errorMessages,
   }
 

@@ -548,6 +548,55 @@ describe('useDataValue', () => {
     })
   })
 
+  describe('manipulate string value', () => {
+    it('should capitalize value', () => {
+      const onBlur = jest.fn()
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: 'foo',
+          capitalize: true,
+          onBlur,
+          onChange,
+        })
+      )
+
+      const { handleBlur, handleChange } = result.current
+
+      act(() => {
+        handleBlur()
+        handleChange('bar')
+      })
+
+      expect(onBlur).toHaveBeenLastCalledWith('Foo')
+      expect(onChange).toHaveBeenLastCalledWith('Bar')
+    })
+
+    it('should trim value', () => {
+      const onBlur = jest.fn()
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: ' foo',
+          trim: true,
+          onBlur,
+          onChange,
+        })
+      )
+
+      const { handleBlur } = result.current
+
+      act(() => {
+        handleBlur()
+      })
+
+      expect(onBlur).toHaveBeenLastCalledWith('foo')
+      expect(onChange).toHaveBeenLastCalledWith('foo')
+    })
+  })
+
   describe('updating internal value', () => {
     it('should update the internal value, but not call any event handler', () => {
       const onFocus = jest.fn()
