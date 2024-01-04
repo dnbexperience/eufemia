@@ -162,12 +162,14 @@ export const extractIcons = async ({
           acc[iconFile] = cur
           return acc
         }, {}),
+        assetsDir,
       })
 
       await makeMetaFile({
         listOfProcessedFiles,
         figmaDoc,
         iconRenameList,
+        assetsDir,
       })
     }
 
@@ -606,6 +608,7 @@ const makeMetaFile = async ({
   listOfProcessedFiles,
   figmaDoc,
   iconRenameList,
+  assetsDir,
 }) => {
   // save the metaFile content
   const data = listOfProcessedFiles.reduce(
@@ -679,7 +682,10 @@ const makeMetaFile = async ({
     {}
   )
 
-  await saveToFile(iconsMetaFile, await formatIconsMetaFile(data))
+  await saveToFile(
+    makeIconsMetaFile(assetsDir),
+    await formatIconsMetaFile(data, assetsDir)
+  )
 
   log.info('> Figma: icons-meta.json file got generated')
 }
@@ -939,20 +945,22 @@ export const readIconsLockFile = async ({ file }) => {
 
   return {} as IconsLockFileMap
 }
-export const saveIconsLockFile = async ({ file, data }) => {
-  await saveToFile(file, await formatIconsMetaFile(data))
+export const saveIconsLockFile = async ({ file, data, assetsDir }) => {
+  await saveToFile(file, await formatIconsMetaFile(data, assetsDir))
 
   log.info(`> Figma: ${file} file got generated`)
 }
 
-const iconsMetaFile = path.resolve(
-  __dirname,
-  '../../../src/icons/icons-meta.json'
-)
-export const formatIconsMetaFile = async (data) => {
+const makeIconsMetaFile = (assetsDir) =>
+  path.resolve(
+    __dirname,
+    `../../../src/icons/${assetsDir}/icons-meta.json`
+  )
+
+export const formatIconsMetaFile = async (data, assetsDir) => {
   return await prettier.format(JSON.stringify(data), {
     ...prettierrc,
-    filepath: iconsMetaFile,
+    filepath: makeIconsMetaFile(assetsDir),
   })
 }
 
