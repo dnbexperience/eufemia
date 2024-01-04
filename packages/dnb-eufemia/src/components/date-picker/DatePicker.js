@@ -187,6 +187,7 @@ export default class DatePicker extends React.PureComponent {
     on_submit: PropTypes.func,
     on_cancel: PropTypes.func,
     on_reset: PropTypes.func,
+    onBlur: PropTypes.func,
   }
 
   static defaultProps = {
@@ -257,6 +258,7 @@ export default class DatePicker extends React.PureComponent {
     on_submit: null,
     on_cancel: null,
     on_reset: null,
+    onBlur: null,
   }
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"

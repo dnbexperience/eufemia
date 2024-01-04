@@ -60,6 +60,7 @@ export default class DatePickerInput extends React.PureComponent {
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
   }
 
   static defaultProps = {
@@ -84,6 +85,7 @@ export default class DatePickerInput extends React.PureComponent {
     onChange: null,
     onSubmit: null,
     onFocus: null,
+    onBlur: null,
   }
 
   state = {
@@ -325,12 +327,16 @@ export default class DatePickerInput extends React.PureComponent {
     })
   }
 
-  onBlurHandler = () => {
+  onBlurHandler = (e) => {
     this.focusMode = null
     this.setState({
       focusState: 'blur',
       _listenForPropChanges: false,
     })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
   }
 
   onKeyDownHandler = async (event) => {
@@ -679,6 +685,7 @@ export default class DatePickerInput extends React.PureComponent {
       onChange, // eslint-disable-line
       onFocus, // eslint-disable-line
       onSubmit, // eslint-disable-line
+      onBlur, // eslint-disable-line
       selectedDateTitle, // eslint-disable-line
       showInput, // eslint-disable-line
       input_element,
