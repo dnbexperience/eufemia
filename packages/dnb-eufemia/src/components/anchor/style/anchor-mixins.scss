@@ -34,14 +34,6 @@
   .dnb-h--x-small & {
     font-size: inherit;
   }
-
-  // Align this icon to look the same as in v10
-  &__launch-icon.dnb-icon.dnb-icon--default {
-    font-size: 1.11em;
-    svg path {
-      stroke-width: 1.2;
-    }
-  }
 }
 
 // reset methods

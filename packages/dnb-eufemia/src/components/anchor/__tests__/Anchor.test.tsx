@@ -81,25 +81,29 @@ describe('Anchor element', () => {
     ).toContain('dnb-tooltip--active')
   })
 
-  it('has "--launch-icon" class when target is blank', () => {
+  it('has "__launch-icon" class when target is blank', () => {
     render(
       <Anchor href="/url" target="_blank">
         <span>text</span>
       </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--launch-icon')
+      document.querySelector(
+        '.dnb-anchor .dnb-anchor__launch-icon.dnb-icon.dnb-icon--default'
+      )
     ).toBeInTheDocument()
   })
 
-  it('has no "--launch-icon" class when target is blank and href was mailto, tel or sms', () => {
+  it('has no "__launch-icon" class when target is blank and href was mailto, tel or sms', () => {
     const { rerender } = render(
       <Anchor href="/url" target="_blank">
         <span>text</span>
       </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--launch-icon')
+      document.querySelector(
+        '.dnb-anchor .dnb-anchor__launch-icon.dnb-icon.dnb-icon--default'
+      )
     ).toBeInTheDocument()
 
     rerender(

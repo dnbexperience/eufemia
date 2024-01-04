@@ -50,6 +50,14 @@
   &--icon-right .dnb-icon:last-child {
     margin-left: 0.25em;
   }
+
+  // Align this icon to look the same as in v10
+  &__launch-icon.dnb-icon.dnb-icon--default {
+    font-size: 1.11em;
+    svg path {
+      stroke-width: 1.2;
+    }
+  }
 }
 
 $useClasses: true !default;
