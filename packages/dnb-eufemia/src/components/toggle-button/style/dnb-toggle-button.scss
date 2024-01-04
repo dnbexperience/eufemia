@@ -155,17 +155,11 @@
     }
 
     .dnb-flex-container {
-      &--vertical-label {
-        align-items: flex-start;
-      }
+      margin-bottom: calc(var(--toggle-button-group-margin-bottom) * -1);
 
-      margin-bottom: calc(
-        1px - 1px - var(--toggle-button-group-margin-bottom)
-      );
-
-      &::before {
-        // move the group 2px up if label exists
-        font-size: var(--font-size-basis);
+      &--direction-horizontal .dnb-form-label {
+        margin-top: 0.5rem;
+        align-self: flex-start;
       }
     }
 
