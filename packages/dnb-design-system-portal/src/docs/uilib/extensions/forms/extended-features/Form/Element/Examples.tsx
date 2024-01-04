@@ -5,7 +5,7 @@ import { Card } from '@dnb/eufemia/src'
 export const DefaultElement = () => {
   return (
     <ComponentBox>
-      <Form.Element onSubmit={(event) => console.log('onSubmit', event)}>
+      <Form.Element onSubmit={(data) => console.log('onSubmit', data)}>
         <Card spacing="medium">
           <Field.Email />
           <Form.ButtonRow>

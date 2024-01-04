@@ -1,3 +1,5 @@
+@import '../../../../../style/core/utilities.scss';
+
 .dnb-form-main-heading {
   // Reset inherited spacing
   .dnb-spacing & {
@@ -8,8 +10,11 @@
 
   &:has(+ .dnb-flex-stack > .dnb-card, + .dnb-card) {
     &:not([class*='space__left']) {
-      margin-left: var(--spacing-medium);
+      @include allAbove(small) {
+        margin-left: var(--spacing-medium);
+      }
     }
+
     &:not([class*='space__bottom']) {
       margin-bottom: var(--spacing-small);
     }

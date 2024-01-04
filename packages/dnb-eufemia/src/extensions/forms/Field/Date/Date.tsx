@@ -14,6 +14,7 @@ function DateComponent(props: Props) {
     fromInput: ({ date }: { date: string }) => {
       return date
     },
+    emptyValue: null,
   }
 
   const {
@@ -45,6 +46,7 @@ function DateComponent(props: Props) {
         ) : undefined
       }
       on_change={handleChange}
+      on_reset={handleChange}
       on_show={handleFocus}
       on_hide={handleBlur}
       {...pickSpacingProps(props)}

@@ -19,7 +19,7 @@ export const SwitchExampleDefault = () => (
 export const SwitchExampleChecked = () => (
   <ComponentBox data-visual-test="switch-checked">
     <Switch
-      label="Label:"
+      label="Label"
       label_position="left"
       checked
       on_change={({ checked }) => console.log(checked)}

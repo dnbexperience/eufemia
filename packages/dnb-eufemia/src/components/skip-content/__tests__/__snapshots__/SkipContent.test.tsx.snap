@@ -128,6 +128,7 @@ p > .dnb-icon {
   align-items: center;
   padding: 0 1rem;
   color: var(--tooltip-color);
+  text-align: center;
   background-color: var(--tooltip-background-color);
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
@@ -581,13 +582,14 @@ button.dnb-button::-moz-focus-inner {
   display: flow-root;
   --breakout--on: visible;
   --breakout--off: hidden;
-  --rounded-corner--value: 0.75rem;
-  --outline: 0 0 0 1px var(--outline-color, transparent);
+  --rounded-corner--value: 0.5rem;
+  --outline: 0 0 0 var(--outline-width, 1px)
+    var(--outline-color, transparent);
+  --outline-none: 0 0 0 0 transparent;
   --top: 0;
   --left: -100vw;
   --width: 100vw;
   --height: 100%;
-  box-shadow: var(--outline, none);
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
 }
@@ -598,7 +600,8 @@ button.dnb-button::-moz-focus-inner {
   content: "";
   position: absolute;
   inset: 0;
-  box-shadow: var(--drop-shadow, none);
+  z-index: -1;
+  box-shadow: var(--drop-shadow, var(--outline-none)), var(--outline, var(--outline-none));
   border-radius: var(--rounded-corner, 0);
 }
 .dnb-section::after {

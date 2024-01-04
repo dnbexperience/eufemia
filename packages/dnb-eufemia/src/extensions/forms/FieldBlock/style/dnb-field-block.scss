@@ -19,7 +19,7 @@ fieldset.dnb-forms-field-block {
         'status';
     }
     &-horizontal {
-      grid-template-columns: var(--forms-field-width--medium) auto;
+      grid-template-columns: fit-content(100%) auto;
       grid-template-areas:
         'label contents'
         'status status';

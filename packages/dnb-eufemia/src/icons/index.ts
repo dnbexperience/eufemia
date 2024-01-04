@@ -62,6 +62,8 @@ import brickwall from './dnb/brickwall'
 import brickwall_medium from './dnb/brickwall_medium'
 import broken_chain from './dnb/broken_chain'
 import broken_chain_medium from './dnb/broken_chain_medium'
+import browser from './dnb/browser'
+import browser_medium from './dnb/browser_medium'
 import brush from './dnb/brush'
 import brush_medium from './dnb/brush_medium'
 import bsu from './dnb/bsu'
@@ -167,7 +169,11 @@ import deleted_invoice_medium from './dnb/deleted_invoice_medium'
 import diamond from './dnb/diamond'
 import diamond_medium from './dnb/diamond_medium'
 import digipass from './dnb/digipass'
+import digipass_corporate from './dnb/digipass_corporate'
+import digipass_corporate_medium from './dnb/digipass_corporate_medium'
 import digipass_medium from './dnb/digipass_medium'
+import digipass_private from './dnb/digipass_private'
+import digipass_private_medium from './dnb/digipass_private_medium'
 import digipost from './dnb/digipost'
 import digipost_medium from './dnb/digipost_medium'
 import dismiss_keyboard from './dnb/dismiss_keyboard'
@@ -184,6 +190,8 @@ import einvoice from './dnb/einvoice'
 import einvoice_medium from './dnb/einvoice_medium'
 import email from './dnb/email'
 import email_medium from './dnb/email_medium'
+import envelope_open from './dnb/envelope_open'
+import envelope_open_medium from './dnb/envelope_open_medium'
 import equities_and_mutual_funds from './dnb/equities_and_mutual_funds'
 import equities_and_mutual_funds_medium from './dnb/equities_and_mutual_funds_medium'
 import exclamation from './dnb/exclamation'
@@ -312,6 +320,8 @@ import kid_number from './dnb/kid_number'
 import kid_number_medium from './dnb/kid_number_medium'
 import language from './dnb/language'
 import language_medium from './dnb/language_medium'
+import laptop from './dnb/laptop'
+import laptop_medium from './dnb/laptop_medium'
 import launch from './dnb/launch'
 import launch_medium from './dnb/launch_medium'
 import layout_card from './dnb/layout_card'
@@ -348,8 +358,12 @@ import microphone from './dnb/microphone'
 import microphone_medium from './dnb/microphone_medium'
 import minimize from './dnb/minimize'
 import minimize_medium from './dnb/minimize_medium'
+import mobile from './dnb/mobile'
+import mobile_medium from './dnb/mobile_medium'
 import mobilephone from './dnb/mobilephone'
 import mobilephone_medium from './dnb/mobilephone_medium'
+import money_left from './dnb/money_left'
+import money_left_medium from './dnb/money_left_medium'
 import more from './dnb/more'
 import more_medium from './dnb/more_medium'
 import more_vertical from './dnb/more_vertical'
@@ -484,6 +498,8 @@ import swap from './dnb/swap'
 import swap_medium from './dnb/swap_medium'
 import tag from './dnb/tag'
 import tag_medium from './dnb/tag_medium'
+import teenager from './dnb/teenager'
+import teenager_medium from './dnb/teenager_medium'
 import thumbs_down from './dnb/thumbs_down'
 import thumbs_down_medium from './dnb/thumbs_down_medium'
 import thumbs_up from './dnb/thumbs_up'
@@ -596,6 +612,8 @@ export {
   brickwall_medium,
   broken_chain,
   broken_chain_medium,
+  browser,
+  browser_medium,
   brush,
   brush_medium,
   bsu,
@@ -701,7 +719,11 @@ export {
   diamond,
   diamond_medium,
   digipass,
+  digipass_corporate,
+  digipass_corporate_medium,
   digipass_medium,
+  digipass_private,
+  digipass_private_medium,
   digipost,
   digipost_medium,
   dismiss_keyboard,
@@ -718,6 +740,8 @@ export {
   einvoice_medium,
   email,
   email_medium,
+  envelope_open,
+  envelope_open_medium,
   equities_and_mutual_funds,
   equities_and_mutual_funds_medium,
   exclamation,
@@ -846,6 +870,8 @@ export {
   kid_number_medium,
   language,
   language_medium,
+  laptop,
+  laptop_medium,
   launch,
   launch_medium,
   layout_card,
@@ -882,8 +908,12 @@ export {
   microphone_medium,
   minimize,
   minimize_medium,
+  mobile,
+  mobile_medium,
   mobilephone,
   mobilephone_medium,
+  money_left,
+  money_left_medium,
   more,
   more_medium,
   more_vertical,
@@ -1018,6 +1048,8 @@ export {
   swap_medium,
   tag,
   tag_medium,
+  teenager,
+  teenager_medium,
   thumbs_down,
   thumbs_down_medium,
   thumbs_up,

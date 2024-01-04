@@ -103,7 +103,7 @@ export const AnchorExampleHelperClasses = () => (
           No underline
         </Anchor>
       </Example>
-      <Example>
+      <Example data-visual-test="anchor-no-icon">
         <Anchor
           target="_blank"
           href="/uilib/components/anchor"
@@ -162,6 +162,62 @@ export const AnchorExampleHelperClasses = () => (
   </Wrapper>
 )
 
+export const AnchorExampleHelperContrastVariations = () => (
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
+      <Example>
+        <ContrastExample data-visual-test="anchor-contrast-no-hover">
+          <Anchor
+            href="/uilib/components/anchor"
+            className="dnb-anchor--contrast dnb-anchor--no-hover"
+          >
+            Contrast - no hover
+          </Anchor>
+        </ContrastExample>
+      </Example>
+      <Example>
+        <ContrastExample data-visual-test="anchor-contrast-no-radius">
+          <Anchor
+            href="/uilib/components/anchor"
+            className="dnb-anchor--contrast dnb-anchor--no-radius"
+          >
+            Contrast - no radius
+          </Anchor>
+        </ContrastExample>
+      </Example>
+      <Example>
+        <ContrastExample data-visual-test="anchor-contrast-no-underline">
+          <Anchor
+            href="/uilib/components/anchor"
+            className="dnb-anchor--contrast dnb-anchor--no-underline"
+          >
+            Contrast - no underline
+          </Anchor>
+        </ContrastExample>
+      </Example>
+      <Example>
+        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-hover">
+          <Anchor
+            href="/uilib/components/anchor"
+            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-hover"
+          >
+            Contrast - no underline - no hover
+          </Anchor>
+        </ContrastExample>
+      </Example>
+      <Example>
+        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-radius">
+          <Anchor
+            href="/uilib/components/anchor"
+            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-radius"
+          >
+            Contrast - no underline - no radius
+          </Anchor>
+        </ContrastExample>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
+)
 export const AnchorExampleIcons = () => (
   <Wrapper>
     <ComponentBox hideCode scope={{ Example }}>

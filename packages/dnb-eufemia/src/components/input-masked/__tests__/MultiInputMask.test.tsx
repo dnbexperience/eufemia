@@ -700,4 +700,31 @@ describe('MultiInputMask', () => {
       expect(third.selectionEnd).toBe(4)
     })
   })
+
+  it('will set highlight class on fields with a number value', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [month, year] = Array.from(document.querySelectorAll('input'))
+
+    const test = async (elem: HTMLInputElement) => {
+      expect(elem.classList).not.toContain(
+        'dnb-multi-input-mask__input--highlight'
+      )
+
+      await userEvent.type(elem, '1')
+
+      expect(elem.classList).toContain(
+        'dnb-multi-input-mask__input--highlight'
+      )
+
+      await userEvent.type(elem, '{Backspace>4}') // use 4 because of year
+
+      expect(elem.classList).not.toContain(
+        'dnb-multi-input-mask__input--highlight'
+      )
+    }
+
+    await test(month)
+    await test(year)
+  })
 })

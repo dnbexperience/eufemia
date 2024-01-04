@@ -24,7 +24,7 @@ export const Method1 = () => (
     >
       <RedBox>
         <Space top="large x-small">
-          <Input label="Input:" />
+          <Input label="Input" />
         </Space>
       </RedBox>
     </ComponentBox>
@@ -34,8 +34,8 @@ export const Method1 = () => (
 export const Method2 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-component">
-      <Input label="Input A:" right="small" />
-      <Input label="Input B:" />
+      <Input label="Input A" right="small" />
+      <Input label="Input B" />
     </ComponentBox>
   </TestStyles>
 )

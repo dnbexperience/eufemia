@@ -119,6 +119,46 @@ describe('DataContext.Provider', () => {
       expect(onChange).toHaveBeenCalledWith({ fooBar: 'Second Value' })
     })
 
+    it('should update data context with initially given "value"', () => {
+      const onChange = jest.fn()
+      const onSubmit = jest.fn()
+
+      render(
+        <DataContext.Provider
+          data={{ other: 'original' }}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        >
+          <Field.String path="/foo" value="include this" />
+          <Form.SubmitButton />
+        </DataContext.Provider>,
+        { wrapper: React.StrictMode }
+      )
+
+      const element = document.querySelector('input')
+      const button = document.querySelector('button')
+
+      fireEvent.click(button)
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'include this', other: 'original' },
+        expect.anything()
+      )
+
+      fireEvent.change(element, {
+        target: { value: 'New Value' },
+      })
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith({
+        foo: 'New Value',
+        other: 'original',
+      })
+    })
+
     it('should work without any data provided, using an empty object as default when pointing to an object subkey', () => {
       const onChange = jest.fn()
 
@@ -217,7 +257,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
 
       rerender(
         <DataContext.Provider
@@ -235,7 +278,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenCalledWith({ fooBar: 'Second Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { fooBar: 'Second Value' },
+        expect.anything()
+      )
     })
 
     it('should call "onSubmitRequest" on invalid submit', async () => {
@@ -311,7 +357,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
       expect(scrollTo).toHaveBeenCalledTimes(1)
 
       rerender(
@@ -331,7 +380,10 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitElement)
 
       expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenCalledWith({ fooBar: 'Second Value' })
+      expect(onSubmit).toHaveBeenCalledWith(
+        { fooBar: 'Second Value' },
+        expect.anything()
+      )
       expect(scrollTo).toHaveBeenCalledTimes(2)
       expect(scrollTo).toHaveBeenCalledWith({
         behavior: 'smooth',

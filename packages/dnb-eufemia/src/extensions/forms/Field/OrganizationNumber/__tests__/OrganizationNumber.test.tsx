@@ -47,4 +47,12 @@ describe('Field.OrganizationNumber', () => {
     const element = document.querySelector('label')
     expect(element.textContent).toBe('Organisasjonsnummer')
   })
+
+  it('should have numeric input mode', () => {
+    render(<OrganizationNumber />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).toHaveAttribute('inputmode', 'numeric')
+  })
 })

@@ -377,4 +377,25 @@ describe('Selection', () => {
     const element = document.querySelector('.dnb-dropdown')
     expect(element.className).toContain('dnb-dropdown__status--error')
   })
+
+  it('shows error in individual button item', () => {
+    render(
+      <Field.Selection variant="button">
+        <Field.Option
+          value="foo"
+          error={new Error('This is what went wrong')}
+        >
+          Fooo
+        </Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-toggle-button')
+    )
+    expect(first.className).toContain('dnb-toggle-button__status--error')
+    expect(second.className).not.toContain(
+      'dnb-toggle-button__status--error'
+    )
+  })
 })

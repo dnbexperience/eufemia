@@ -19,7 +19,7 @@ describe('StepsLayout', () => {
       '.dnb-step-indicator__item'
     )
 
-    expect(itemElements[1].querySelector('button')).toBeInTheDocument()
+    expect(itemElements[0].querySelector('button')).toBeInTheDocument()
   })
 
   it('should call event listener onStepChange', () => {

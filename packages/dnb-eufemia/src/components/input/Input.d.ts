@@ -30,7 +30,7 @@ export type InputSubmitButtonIcon =
   | ((...args: any[]) => any);
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
 export interface InputProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
+  extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'>,
     SpacingProps {
   /**
    * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
@@ -195,7 +195,8 @@ export default class Input extends React.Component<InputProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }
-export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
+export interface SubmitButtonProps
+  extends React.HTMLProps<HTMLInputElement> {
   id?: string;
   /**
    * The content value of the input.

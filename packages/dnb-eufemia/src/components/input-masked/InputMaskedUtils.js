@@ -9,7 +9,7 @@ import {
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
-import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
+import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
 const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
@@ -332,25 +332,29 @@ export const handleNumberMask = ({ mask_options, number_mask }) => {
 }
 
 /**
- * Returns the type of what inputMode should be used
+ * Returns the type of what inputMode or type attribute should be used
  *
  * @param {function} mask mask function
  * @returns undefined|decimal|numeric
  */
-export function getInputModeFromMask(mask) {
-  const maskParams = mask?.maskParams
-
-  // because of the missing minus key, we still have to use text on Android and iOS
-  if ((IS_ANDROID || IS_IOS) && maskParams?.allowNegative !== false) {
+export function getSoftKeyboardAttributes(mask) {
+  if (mask?.instanceOf !== 'createNumberMask') {
     return undefined
   }
 
-  if (maskParams && mask?.instanceOf === 'createNumberMask') {
-    return maskParams.allowDecimal && maskParams.decimalLimit !== 0
-      ? 'decimal'
-      : 'numeric'
+  const maskParams = mask?.maskParams
+
+  // because of the missing minus key, we still have to use text on iOS
+  if (IS_IOS && maskParams?.allowNegative !== false) {
+    return undefined
   }
-  return undefined
+
+  return {
+    inputMode:
+      maskParams.allowDecimal && maskParams.decimalLimit !== 0
+        ? 'decimal'
+        : 'numeric',
+  }
 }
 
 /**

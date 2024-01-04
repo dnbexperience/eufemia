@@ -135,6 +135,7 @@ p > .dnb-icon {
   align-items: center;
   padding: 0 1rem;
   color: var(--tooltip-color);
+  text-align: center;
   background-color: var(--tooltip-background-color);
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
@@ -682,6 +683,7 @@ p > .dnb-icon {
   align-items: center;
   padding: 0 1rem;
   color: var(--tooltip-color);
+  text-align: center;
   background-color: var(--tooltip-background-color);
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
@@ -1277,6 +1279,9 @@ html[data-visual-test] .dnb-input__input {
  */
 .dnb-input-masked--guide {
   font-family: var(--font-family-monospace);
+}
+.dnb-input-masked input::placeholder {
+  color: inherit;
 }
 
 .dnb-multi-input-mask__fieldset {

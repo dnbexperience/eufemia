@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
@@ -338,80 +338,6 @@ describe('InputMasked component', () => {
 
     expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
     expect(document.querySelector('input').value).toBe('-0')
-  })
-
-  it('should set inputmode based on device and mask options', () => {
-    const onKeyDown = jest.fn()
-    const preventDefault = jest.fn()
-
-    const { rerender } = render(
-      <InputMasked
-        {...props}
-        value={1234.5}
-        number_mask
-        onKeyDown={onKeyDown}
-      />
-    )
-
-    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
-      'numeric'
-    )
-
-    Object.defineProperty(helpers, 'IS_ANDROID', {
-      value: true,
-    })
-
-    // Re-render
-    rerender(<InputMasked />)
-
-    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
-      null
-    )
-
-    // Re-render
-    rerender(
-      <InputMasked
-        value={1234.5}
-        number_mask
-        onKeyDown={onKeyDown}
-        mask_options={{ allowNegative: false }}
-      />
-    )
-
-    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
-      'numeric'
-    )
-
-    // Re-render
-    rerender(
-      <InputMasked
-        value={1234.5}
-        number_mask
-        onKeyDown={onKeyDown}
-        mask_options={{ allowNegative: false, allowDecimal: true }}
-      />
-    )
-
-    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
-      'decimal'
-    )
-
-    Object.defineProperty(helpers, 'IS_ANDROID', {
-      value: false,
-    })
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: ',',
-      keyCode: 229, // unidentified, while 188 would have worked fine
-      target: {
-        value: '1234.5',
-      },
-      preventDefault,
-    })
-
-    expect(onKeyDown).toHaveBeenCalledTimes(1)
-    expect(preventDefault).toHaveBeenCalledTimes(0)
-    expect(document.querySelector('input').value).toBe('1234.5')
   })
 
   it('should update value when initial value was an empty string', () => {
@@ -1893,6 +1819,282 @@ describe('InputMasked with custom mask', () => {
     expect(onChange).toHaveBeenCalledTimes(34)
 
     await userEvent.clear(input)
+  })
+})
+
+describe('inputmode', () => {
+  it('should be undefined with no props', () => {
+    render(<InputMasked />)
+
+    expect(
+      document.querySelector('input').hasAttribute('inputmode')
+    ).toBeFalsy()
+  })
+
+  it('should be numeric with a number_mask', () => {
+    const onKeyDown = jest.fn()
+
+    render(<InputMasked {...props} number_mask onKeyDown={onKeyDown} />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'numeric'
+    )
+  })
+
+  it('should be decimal with a currency_mask', () => {
+    const onKeyDown = jest.fn()
+
+    render(<InputMasked {...props} currency_mask onKeyDown={onKeyDown} />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'decimal'
+    )
+  })
+
+  it('should be numeric with as_percent', () => {
+    const onKeyDown = jest.fn()
+
+    render(<InputMasked {...props} as_percent onKeyDown={onKeyDown} />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'numeric'
+    )
+  })
+
+  it('should use numeric with no decimal and no negative/minus', () => {
+    const onKeyDown = jest.fn()
+
+    render(
+      <InputMasked
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowNegative: false }}
+      />
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'numeric'
+    )
+  })
+
+  it('should use decimal with allowDecimal and no allowNegative', () => {
+    const onKeyDown = jest.fn()
+
+    render(
+      <InputMasked
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowDecimal: true, allowNegative: false }}
+      />
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'decimal'
+    )
+  })
+
+  it('should use decimal with allowDecimal and allowNegative', () => {
+    const onKeyDown = jest.fn()
+
+    render(
+      <InputMasked
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowDecimal: true, allowNegative: true }}
+      />
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'decimal'
+    )
+  })
+
+  it('should set custom inputMode', () => {
+    const onKeyDown = jest.fn()
+
+    render(
+      <InputMasked
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowDecimal: true, allowNegative: true }}
+        inputMode="tel"
+      />
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'inputmode',
+      'tel'
+    )
+  })
+
+  it('on iOS should remove "inputmode" when allowNegative is set', () => {
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: true,
+    })
+
+    const onKeyDown = jest.fn()
+    const preventDefault = jest.fn()
+
+    render(
+      <InputMasked
+        value={1234.5}
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowNegative: true }}
+      />
+    )
+
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'inputmode'
+    )
+    expect(document.querySelector('input').getAttribute('type')).toBe(
+      'text'
+    )
+
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: false,
+    })
+
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: ',',
+      keyCode: 229, // unidentified, while 188 would have worked fine
+      target: {
+        value: '1234.5',
+      },
+      preventDefault,
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(preventDefault).toHaveBeenCalledTimes(0)
+    expect(document.querySelector('input').value).toBe('1234.5')
+  })
+
+  it('should set type of number on focus when device is iOS (InputModeNumber)', async () => {
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: true,
+    })
+
+    render(<InputMasked value={1234.5} currency_mask />)
+
+    const inputElement = document.querySelector('input')
+
+    expect(inputElement.selectionStart).toBe(10)
+    expect(inputElement.selectionEnd).toBe(10)
+
+    fireEvent.mouseEnter(inputElement)
+
+    expect(inputElement).toHaveAttribute('type', 'number')
+    expect(inputElement).toHaveAttribute('placeholder', '1 234,5 kr')
+    expect(inputElement.value).toBe('')
+    expect(inputElement.selectionStart).toBe(null)
+    expect(inputElement.selectionEnd).toBe(null)
+
+    await waitFor(() => {
+      expect(inputElement).toHaveAttribute('type', 'text')
+      expect(inputElement.value).toBe('1 234,5 kr')
+    })
+
+    expect(inputElement).toHaveAttribute('type', 'text')
+    expect(inputElement).toHaveAttribute('placeholder', '')
+    expect(inputElement.value).toBe('1 234,5 kr')
+    expect(inputElement.selectionStart).toBe(10)
+    expect(inputElement.selectionEnd).toBe(10)
+
+    await userEvent.type(inputElement, '{Backspace>7}')
+    fireEvent.blur(inputElement)
+
+    fireEvent.mouseEnter(inputElement)
+
+    expect(inputElement).toHaveAttribute('type', 'number')
+
+    await waitFor(() => {
+      expect(inputElement).toHaveAttribute('type', 'text')
+      expect(inputElement.value).toBe('')
+    })
+
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: false,
+    })
+  })
+
+  it('should set type of number on label press when device is iOS (InputModeNumber)', async () => {
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: true,
+    })
+
+    render(<InputMasked label="Label" value={1234.5} currency_mask />)
+
+    const inputElement = document.querySelector('input')
+    const labelElement = document.querySelector('label')
+
+    fireEvent.mouseDown(labelElement)
+
+    expect(inputElement).toHaveAttribute('type', 'number')
+
+    await waitFor(() => {
+      expect(inputElement).toHaveAttribute('type', 'text')
+    })
+
+    expect(inputElement).toHaveAttribute('type', 'text')
+
+    await userEvent.type(inputElement, '{Backspace>7}')
+    fireEvent.blur(inputElement)
+
+    fireEvent.mouseDown(labelElement)
+
+    expect(inputElement).toHaveAttribute('type', 'number')
+
+    await waitFor(() => {
+      expect(inputElement).toHaveAttribute('type', 'text')
+    })
+
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: false,
+    })
+  })
+
+  it('should not set type of number on iOS, when inputMode is given (InputModeNumber)', async () => {
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: true,
+    })
+
+    render(
+      <InputMasked value={1234.5} currency_mask inputMode="numeric" />
+    )
+
+    const inputElement = document.querySelector('input')
+
+    expect(inputElement.selectionStart).toBe(10)
+    expect(inputElement.selectionEnd).toBe(10)
+
+    fireEvent.mouseEnter(inputElement)
+
+    expect(inputElement).toHaveAttribute('inputmode', 'numeric')
+    expect(inputElement).toHaveAttribute('type', 'text')
+
+    await waitFor(() => {
+      expect(inputElement).toHaveAttribute('type', 'text')
+    })
+
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: false,
+    })
+  })
+
+  it('should not set type of number on focus when device is not iOS', () => {
+    render(<InputMasked value={1234.5} currency_mask />)
+
+    const inputElement = document.querySelector('input')
+
+    fireEvent.mouseEnter(inputElement)
+
+    expect(inputElement).toHaveAttribute('type', 'text')
   })
 })
 

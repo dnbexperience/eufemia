@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import Space from '../space/Space'
+import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
 import {
@@ -10,8 +10,7 @@ import {
 } from './utils'
 
 import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
-import type { DynamicElement } from '../../shared/types'
-import type { SpaceType, SpacingProps } from '../space/types'
+import type { SpaceType } from '../space/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { End, Start } from './types'
 
@@ -41,13 +40,12 @@ export type BasicProps = {
     | 'large'
     | 'x-large'
     | 'xx-large'
-  element?: DynamicElement
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
 
 export type Props = BasicProps &
-  SpacingProps &
+  SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap'>
 
 const propNames: Array<keyof Props> = [

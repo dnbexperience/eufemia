@@ -9,14 +9,14 @@ import { ToggleButton, HelpButton } from '@dnb/eufemia/src'
 
 export const ToggleButtonUnchecked = () => (
   <ComponentBox data-visual-test="toggle-button-default">
-    <ToggleButton label="Label:" text="Toggle Me" />
+    <ToggleButton label="Label" text="Toggle Me" />
   </ComponentBox>
 )
 
 export const ToggleButtonChecked = () => (
   <ComponentBox data-visual-test="toggle-button-checked">
     <ToggleButton
-      label="Label:"
+      label="Label"
       text="Checked ToggleButton"
       checked
       on_change={({ checked }) => {
@@ -29,7 +29,7 @@ export const ToggleButtonChecked = () => (
 export const ToggleButtonDefault = () => (
   <ComponentBox data-visual-test="toggle-button-group-default">
     <ToggleButton.Group
-      label="ToggleButton Group:"
+      label="ToggleButton Group"
       value="first"
       on_change={({ value }) => {
         console.log('on_change', value)
@@ -45,7 +45,7 @@ export const ToggleButtonDefault = () => (
 export const ToggleButtonMultiselect = () => (
   <ComponentBox data-visual-test="toggle-button-group-multiselect">
     <ToggleButton.Group
-      label="Multi-select:"
+      label="Multi-select"
       multiselect={true}
       values={['first', 'third']}
       on_change={({ values }) => {
@@ -62,7 +62,7 @@ export const ToggleButtonMultiselect = () => (
 export const ToggleButtonVertical = () => (
   <ComponentBox data-visual-test="toggle-button-group-vertical">
     <ToggleButton.Group
-      label="Vertical Group:"
+      label="Vertical Group"
       layout_direction="column"
       multiselect={true}
       variant="checkbox"
@@ -80,7 +80,7 @@ export const ToggleButtonVertical = () => (
 export const ToggleButtonStatus = () => (
   <ComponentBox>
     <ToggleButton.Group
-      label="ToggleButton Group with status:"
+      label="ToggleButton Group with status"
       status="Error message"
       multiselect={true}
       on_change={({ values }) => {
@@ -97,7 +97,7 @@ export const ToggleButtonStatus = () => (
 export const ToggleButtonStatusMessages = () => (
   <ComponentBox data-visual-test="toggle-button-group-status">
     <ToggleButton.Group
-      label="ToggleButtons with status:"
+      label="ToggleButtons with status"
       variant="radio"
       on_change={({ value }) => {
         console.log('on_change', value)
@@ -122,11 +122,7 @@ export const ToggleButtonStatusMessages = () => (
 
 export const ToggleButtonDisabledGroup = () => (
   <ComponentBox data-visual-test="toggle-button-group-disabled">
-    <ToggleButton.Group
-      label="Disabled Group:"
-      disabled
-      variant="checkbox"
-    >
+    <ToggleButton.Group label="Disabled Group" disabled variant="checkbox">
       <ToggleButton text="First" value="first" />
       <ToggleButton text="Second" value="second" />
       <ToggleButton text="Third" value="third" checked />
@@ -137,7 +133,7 @@ export const ToggleButtonDisabledGroup = () => (
 export const ToggleButtonSuffix = () => (
   <ComponentBox>
     <ToggleButton.Group
-      label="With suffixes:"
+      label="With suffixes"
       suffix={<HelpButton title="Group suffix">Group suffix</HelpButton>}
     >
       <ToggleButton text="First" value="first" />
@@ -156,7 +152,7 @@ export const ToggleButtonSuffix = () => (
 
 export const ToggleButtonIconOnly = () => (
   <ComponentBox>
-    <ToggleButton.Group label="Icons only:">
+    <ToggleButton.Group label="Icons only">
       <ToggleButton icon="bell" value="first" checked />
       <ToggleButton icon="loupe" value="second" />
       <ToggleButton icon="calendar" value="third" />

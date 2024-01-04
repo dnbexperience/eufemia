@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import type { Props as StringProps } from '../../../Field/String'
 import userEvent from '@testing-library/user-event'
@@ -24,13 +24,19 @@ describe('Form.Handler', () => {
     fireEvent.submit(inputElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'Value' },
+      expect.anything()
+    )
 
     fireEvent.change(inputElement, { target: { value: 'New Value' } })
     fireEvent.click(buttonElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'New Value' },
+      expect.anything()
+    )
   })
 
   it('should call "onSubmit" from Provider at the same time', () => {
@@ -52,12 +58,18 @@ describe('Form.Handler', () => {
     fireEvent.submit(inputElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'Value' },
+      expect.anything()
+    )
 
     fireEvent.click(buttonElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'data-context-value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'Value' },
+      expect.anything()
+    )
   })
 
   it('should call preventDefault', () => {
@@ -176,8 +188,11 @@ describe('Form.Handler', () => {
     )
   })
 
-  it('should call HTMLFormElement.reset on submit', () => {
-    const onSubmit = jest.fn()
+  it('should call HTMLFormElement.reset on "resetForm" call', () => {
+    const onSubmit = jest.fn((data, { resetForm }) => {
+      resetForm()
+    })
+    const onChange = jest.fn()
     const reset = jest.fn()
 
     const MockComponent = (props: StringProps) => {
@@ -185,7 +200,7 @@ describe('Form.Handler', () => {
     }
 
     render(
-      <Form.Handler data={{}} onSubmit={onSubmit}>
+      <Form.Handler data={{}} onSubmit={onSubmit} onChange={onChange}>
         <MockComponent path="/foo" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form.Handler>
@@ -201,8 +216,47 @@ describe('Form.Handler', () => {
     fireEvent.click(submitElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'New Value' },
+      expect.anything()
+    )
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
     expect(reset).toHaveBeenCalledTimes(1)
+    expect(inputElement.value).toBe('New Value')
+  })
+
+  it('should empty whole data set "clearData" call', () => {
+    const onSubmit = jest.fn((data, { clearData }) => {
+      clearData()
+    })
+    const onChange = jest.fn()
+
+    const MockComponent = (props: StringProps) => {
+      return <Field.String {...props} />
+    }
+
+    render(
+      <Form.Handler data={{}} onSubmit={onSubmit} onChange={onChange}>
+        <MockComponent path="/foo" />
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const inputElement = document.querySelector('input')
+    const submitElement = document.querySelector('button')
+
+    fireEvent.change(inputElement, { target: { value: 'New Value' } })
+    fireEvent.click(submitElement)
+
+    expect(inputElement.value).toBe('')
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'New Value' },
+      expect.anything()
+    )
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
   })
 
   it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
@@ -253,16 +307,20 @@ describe('Form.Handler', () => {
     window.sessionStorage.removeItem('test-data')
   })
 
-  it('should reset sessionStorage on submit', async () => {
+  it('should reset sessionStorage on "resetForm" call', async () => {
     const setItem = jest.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
       'setItem'
     )
+    const onSubmit = jest.fn((data, { resetForm }) => {
+      resetForm()
+    })
 
     render(
       <Form.Handler
         defaultData={{ foo: 'original' }}
         sessionStorageId="test-data"
+        onSubmit={onSubmit}
       >
         <Field.String path="/foo" />
         <Form.SubmitButton />
@@ -290,5 +348,41 @@ describe('Form.Handler', () => {
     expect(window.sessionStorage.getItem('test-data')).toBe(null)
 
     setItem.mockRestore()
+  })
+
+  it('should show errors if form is invalid on submit', () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String value="" required />
+      </Form.Handler>
+    )
+
+    const formElement = document.querySelector('form')
+    fireEvent.submit(formElement)
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
+  it('should include values from fields in data, without any change', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler defaultData={{ foo: 'bar' }} onSubmit={onSubmit}>
+        <Field.String path="/other" value="include this" />
+        <Form.SubmitButton />
+      </Form.Handler>,
+      { wrapper: React.StrictMode }
+    )
+
+    const buttonElement = document.querySelector('button')
+    fireEvent.click(buttonElement)
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'bar', other: 'include this' },
+      expect.anything()
+    )
   })
 })

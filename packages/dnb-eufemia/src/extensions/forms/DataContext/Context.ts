@@ -12,6 +12,7 @@ export interface ContextState {
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
   autoComplete?: boolean
   handlePathChange: (path: string, value: any) => void
+  updateDataValue: (path: string, value: any) => void
   handleSubmit: (props?: HandleSubmitProps) => any
   // Error status
   showAllErrors: boolean
@@ -28,6 +29,7 @@ export interface ContextState {
 export const defaultContextState: ContextState = {
   data: undefined,
   handlePathChange: () => null,
+  updateDataValue: () => null,
   handleSubmit: () => null,
   showAllErrors: false,
   setShowAllErrors: () => null,

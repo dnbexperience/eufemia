@@ -89,6 +89,11 @@ describe('Field.Number', () => {
       expect(screen.getByDisplayValue('97531:2468')).toBeInTheDocument()
     })
 
+    it('formats with percent', () => {
+      render(<Field.Number value={12345} percent />)
+      expect(document.querySelector('input').value).toBe('12 345 %')
+    })
+
     it('formats with same decimal limit', () => {
       render(<Field.Number value={42.51} decimalLimit={2} />)
       expect(screen.getByDisplayValue('42,51')).toBeInTheDocument()
@@ -109,6 +114,14 @@ describe('Field.Number', () => {
 
       const element = document.querySelector('.dnb-input')
       expect(element.className).toContain('dnb-input__align--right')
+    })
+
+    it('should have decimal input mode', () => {
+      render(<Field.Number />)
+
+      const input = document.querySelector('.dnb-input__input')
+
+      expect(input).toHaveAttribute('inputmode', 'decimal')
     })
   })
 

@@ -383,6 +383,24 @@ describe('Flex.Container', () => {
     }
   })
 
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return (
+        <Flex.Container innerRef={ref} element="section">
+          <Flex.Item>FlexItem</Flex.Item>
+        </Flex.Container>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
+  })
+
   describe('size', () => {
     beforeEach(() => {
       jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)

@@ -1,0 +1,35 @@
+@import '../../../../style/core/utilities.scss';
+
+.dnb-card {
+  &.dnb-section {
+    --background-color: var(--color-white);
+    --outline-color: var(--border-color, var(--color-lavender));
+    --outline-width: 0.25rem;
+  }
+
+  @include allBelow(small) {
+    &::before {
+      left: -100%;
+      right: -100%;
+    }
+  }
+
+  // Show only one border (combined) when stacked
+  & + .dnb-card:not([class*='space__top']) {
+    &::before {
+      top: var(--outline-width);
+    }
+  }
+
+  // Combine the two borers to one
+  .dnb-flex-container.dnb-flex-container--divider-space & + .dnb-card {
+    @include allBelow(small) {
+      margin-top: 0;
+
+      &::before {
+        top: var(--outline-width);
+        z-index: 0;
+      }
+    }
+  }
+}

@@ -64,7 +64,7 @@ export type UploadProps = {
 export type UploadAllProps = UploadProps &
   SpacingProps &
   LocaleProps &
-  React.HTMLProps<HTMLElement>
+  Omit<React.HTMLProps<HTMLElement>, 'onChange'>
 
 export type UploadContextProps = {
   id?: string

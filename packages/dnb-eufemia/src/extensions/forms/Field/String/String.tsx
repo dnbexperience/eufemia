@@ -30,6 +30,7 @@ export type Props = FieldHelpProps &
     clear?: boolean
     autoresize?: boolean
     autoComplete?: HTMLInputElement['autocomplete']
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
     characterCounter?: boolean
     mask?: InputMaskedProps['mask']
@@ -66,12 +67,15 @@ function StringComponent(props: Props) {
     [props.schema, props.minLength, props.maxLength, props.pattern]
   )
   const fromInput = useCallback(
-    ({ value, cleanedValue }: { value: string; cleanedValue: string }) => {
-      if (value === '') {
+    (event: { value: string; cleanedValue?: string }) => {
+      if (typeof event === 'string') {
+        event = { value: event }
+      }
+      if (event?.value === '') {
         return props.emptyValue
       }
       // Cleaned value for masked
-      return cleanedValue ?? value
+      return event?.cleanedValue ?? event?.value
     },
     [props.emptyValue]
   )
@@ -89,6 +93,7 @@ function StringComponent(props: Props) {
     name,
     className,
     autoComplete,
+    inputMode,
     innerRef,
     inputClassName,
     layout,
@@ -101,6 +106,7 @@ function StringComponent(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     help,
     multiline,
@@ -128,6 +134,7 @@ function StringComponent(props: Props) {
     id,
     name,
     autoComplete,
+    inputMode,
     className: cn,
     placeholder: placeholder,
     suffix: help ? (
@@ -139,7 +146,7 @@ function StringComponent(props: Props) {
     disabled: disabled,
     stretch: width !== undefined,
     inner_ref: innerRef,
-    status: error ? 'error' : undefined,
+    status: error || hasError ? 'error' : undefined,
     value: value?.toString() ?? '',
   }
 

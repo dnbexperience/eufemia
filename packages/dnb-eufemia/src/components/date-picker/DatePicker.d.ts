@@ -26,7 +26,7 @@ type DatePickerSuffix =
 type DatePickerDirection = 'auto' | 'top' | 'bottom';
 type DatePickerAlignPicker = 'auto' | 'left' | 'right';
 export interface DatePickerProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref', 'onBlur'>,
     SpacingProps {
   id?: string;
   title?: string;
@@ -244,6 +244,10 @@ export interface DatePickerProps
    * Will be called once a user presses the reset button.
    */
   on_reset?: (...args: any[]) => any;
+  /**
+   * Will be called once the input loses focus.
+   */
+  onBlur?: (event: React.FocusEventHandler<HTMLInputElement>) => void;
 }
 export default class DatePicker extends React.Component<
   DatePickerProps,

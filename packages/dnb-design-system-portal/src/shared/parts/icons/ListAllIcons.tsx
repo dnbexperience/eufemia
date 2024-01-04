@@ -24,12 +24,11 @@ export const getListOfIcons = (icons) => {
       if (typeof Svg !== 'function') {
         return null
       }
-      const meta =
-        iconsMetaData && iconsMetaData[iconName]
-          ? iconsMetaData[iconName]
-          : { tags: [], created: Date.now() }
-      const category = grabCategory(meta.name)
-      return { iconName, Svg, category, ...meta }
+      const meta = iconsMetaData?.[iconName]
+        ? iconsMetaData[iconName]
+        : { tags: [], created: Date.now() }
+
+      return { iconName, Svg, ...meta }
     })
     .filter(Boolean)
     .sort((a, b) => {
@@ -50,10 +49,6 @@ const groupByCategory = (sourceIcons) => {
     categories.push([categoryName, icons])
   })
   return categories
-}
-
-const grabCategory = (name) => {
-  return String(name).split(/\//)[0]
 }
 
 type Props = {
@@ -102,9 +97,8 @@ export default class ListAllIcons extends React.PureComponent<Props> {
         <li key={iconName} className={listItemStyle}>
           <div className={listItemInnerStyle}>
             <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
-              {(SvgMedium && <Icon icon={SvgMedium} size="medium" />) || (
-                <Icon icon={Svg} />
-              )}
+              <Icon icon={Svg} right />
+              <Icon icon={SvgMedium} size="medium" />
             </figure>
 
             <AutoLinkHeader

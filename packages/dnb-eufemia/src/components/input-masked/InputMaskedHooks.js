@@ -29,7 +29,7 @@ import {
   handleCurrencyMask,
   handleNumberMask,
   correctCaretPosition,
-  getInputModeFromMask,
+  getSoftKeyboardAttributes,
   handleThousandsSeparator,
   handleDecimalSeparator,
   fromJSON,
@@ -230,11 +230,6 @@ export const useInputElement = () => {
     // Set ref for Eufemia input
     innerRef.current = ref.current
 
-    // Set "inputMode"
-    if (!params.inputMode) {
-      params.inputMode = getInputModeFromMask(mask)
-    }
-
     return (
       <TextMask
         inputRef={ref}
@@ -245,6 +240,7 @@ export const useInputElement = () => {
         guide={showGuide}
         keepCharPositions={keepCharPositions}
         placeholderChar={placeholderChar}
+        {...getSoftKeyboardAttributes(mask)}
         {...params}
         className={classnames(
           params.className,
@@ -441,7 +437,11 @@ const useCallEvent = ({ setLocalValue }) => {
       !props.selectall
     ) {
       // Also correct here, because of additional click inside the field
-      correctCaretPosition(event.target, maskParams, props)
+      event.target.runCorrectCaretPosition = () =>
+        correctCaretPosition(event.target, maskParams, props)
+      if (!event.target.__getCorrectCaretPosition) {
+        event.target.runCorrectCaretPosition()
+      }
     }
 
     return result

@@ -1,18 +1,23 @@
 .dnb-forms-field-selection {
-  &--width {
-    &-large {
-      .dnb-dropdown__shell {
-        width: var(--forms-field-width--large);
+  &__variant--dropdown {
+    .dnb-forms-field-block {
+      &--layout-horizontal .dnb-form-label {
+        align-self: center;
       }
     }
-    &-medium {
-      .dnb-dropdown__shell {
-        width: var(--forms-field-width--medium);
+  }
+  &__variant--dropdown,
+  &__options-layout--horizontal {
+    .dnb-forms-field-block {
+      &--layout-horizontal .dnb-form-label {
+        margin-bottom: 0;
       }
     }
-    &-small {
-      .dnb-dropdown__shell {
-        width: var(--forms-field-width--small);
+  }
+  &__variant--button {
+    .dnb-forms-field-block {
+      &--layout-horizontal .dnb-form-label {
+        line-height: 2.5rem;
       }
     }
   }

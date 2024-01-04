@@ -86,6 +86,26 @@ describe('Flex.Item', () => {
     expect(element.tagName).toBe('DIV')
   })
 
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return (
+        <Flex.Container>
+          <Flex.Item innerRef={ref} element="section">
+            FlexItem
+          </Flex.Item>
+        </Flex.Container>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
+  })
+
   describe('size', () => {
     beforeEach(() => {
       jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)

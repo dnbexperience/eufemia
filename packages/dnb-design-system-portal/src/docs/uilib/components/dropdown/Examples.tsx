@@ -142,7 +142,7 @@ export const DropdownFind = () => (
           <Dropdown
             data={scrollableData}
             value="key_1" // use either index (5) or selected_key: 'key_1'
-            label="Label:"
+            label="Label"
           />
         )
       }}
@@ -198,7 +198,7 @@ export const DropdownNoValue = () => (
         return (
           <Dropdown
             data={data}
-            label="Label:"
+            label="Label"
             title="Please select a value"
             on_change={({ data }) => {
               console.log('on_change', data)
@@ -216,7 +216,7 @@ export const DropdownEllipsisOverflow = () => (
       <Dropdown
         data={['Long text that will overflow with CSS ellipsis']}
         value={0}
-        label="Label:"
+        label="Label"
       />
     </ComponentBox>
   </Wrapper>
@@ -242,7 +242,7 @@ export const DropdownDirections = () => {
         data-visual-test="dropdown-item-directions"
       >
         <Dropdown
-          label="Label:"
+          label="Label"
           data={[
             ['Vertical', 'alignment'],
             <>
@@ -270,7 +270,7 @@ export const DropdownIconLeft = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
       <Dropdown
-        label="Label:"
+        label="Label"
         icon_position="left"
         data={data}
         value={3}
@@ -429,7 +429,7 @@ export const DropdownMoreMenu = () => {
 export const DropdownDisabled = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
-      <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
+      <Dropdown disabled data={['Disabled Dropdown']} label="Label" />
     </ComponentBox>
   </Wrapper>
 )
@@ -495,7 +495,7 @@ export const DropdownCustomEvent = () => {
             <Dropdown
               action_menu
               right
-              label="Label:"
+              label="Label"
               title="Choose an item"
               data={() => ({
                 first: (
@@ -528,9 +528,9 @@ export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
       <Flex.Vertical>
-        <Dropdown label="Label:" size="default" data={() => data} />
-        <Dropdown label="Label:" size="medium" data={() => data} />
-        <Dropdown label="Label:" size="large" data={() => data} />
+        <Dropdown label="Label" size="default" data={() => data} />
+        <Dropdown label="Label" size="medium" data={() => data} />
+        <Dropdown label="Label" size="large" data={() => data} />
       </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
@@ -575,19 +575,19 @@ export const DropdownCustomWidth = () => (
         return (
           <Flex.Vertical>
             <CustomWidthOne
-              label="Label:"
+              label="Label"
               size="default"
               icon_position="left"
               data={data}
             />
             <CustomWidthTwo
-              label="Label:"
+              label="Label"
               size="small"
               more_menu
               data={data}
             />
             <CustomWidthThree
-              label="Label:"
+              label="Label"
               size="large"
               align_dropdown="right"
               data={data}
@@ -612,7 +612,7 @@ export const DropdownStatusVertical = () => (
     >
       <Dropdown
         data={data}
-        label="Label:"
+        label="Label"
         label_direction="vertical"
         status="Message to the user"
       />

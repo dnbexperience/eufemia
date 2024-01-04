@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import createTextMaskInputElement from './text-mask/createTextMaskInputElement'
+import InputModeNumber from './text-mask/InputModeNumber'
 import { isNil } from './text-mask/utilities'
 
 export default class TextMask extends React.PureComponent {
@@ -47,17 +48,28 @@ export default class TextMask extends React.PureComponent {
     this.initTextMask()
   }
 
+  componentWillUnmount() {
+    this.inputMode?.remove()
+  }
+
   initTextMask() {
     const {
       props,
-      props: { value },
+      props: { value, inputMode },
     } = this
 
+    const inputElement = this.inputRef.current
     this.textMaskInputElement = createTextMaskInputElement({
       ...props,
-      inputElement: this.inputRef.current,
+      inputElement,
     })
     this.textMaskInputElement.update(value)
+
+    if (!inputMode && inputMode !== 'none') {
+      this.inputMode = new InputModeNumber()
+    }
+
+    this.inputMode?.setElement(inputElement)
   }
 
   onChange = (event) => {
@@ -119,7 +131,6 @@ export default class TextMask extends React.PureComponent {
 
     const params = {
       onChange: this.onChange,
-      defaultValue: this.props.value,
       ...props,
     }
 

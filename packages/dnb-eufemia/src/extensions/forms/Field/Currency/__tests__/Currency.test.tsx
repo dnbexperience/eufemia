@@ -50,4 +50,12 @@ describe('Field.Currency', () => {
     const element = document.querySelector('.dnb-input')
     expect(element.className).toContain('dnb-input__align--right')
   })
+
+  it('should have decimal input mode', () => {
+    render(<Currency />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).toHaveAttribute('inputmode', 'decimal')
+  })
 })

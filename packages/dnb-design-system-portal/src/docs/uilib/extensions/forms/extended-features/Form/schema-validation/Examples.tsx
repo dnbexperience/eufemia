@@ -163,11 +163,11 @@ export const DependantListSchema = () => {
             <Iterate.Array path="/accounts">
               <Flex.Horizontal align="flex-end">
                 <Field.BankAccountNumber
-                  elementPath="/accountNumber"
+                  itemPath="/accountNumber"
                   label="Account number"
                 />
                 <Field.String
-                  elementPath="/alias"
+                  itemPath="/alias"
                   label="Alias"
                   width="medium"
                 />

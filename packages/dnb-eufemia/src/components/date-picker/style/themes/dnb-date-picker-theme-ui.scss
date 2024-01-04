@@ -12,24 +12,12 @@
     & ~ .dnb-date-picker--separator {
       color: var(--color-black-55);
     }
-  }
-  &:not(#{&}__status--error) & {
-    &__input[value*='0'],
-    &__input[value*='1'],
-    &__input[value*='2'],
-    &__input[value*='3'],
-    &__input[value*='4'],
-    &__input[value*='5'],
-    &__input[value*='6'],
-    &__input[value*='7'],
-    &__input[value*='8'],
-    &__input[value*='9'] {
-      &:not([data-input-state='disabled']) {
-        color: var(--color-black);
 
-        & ~ .dnb-date-picker--separator {
-          color: var(--color-black);
-        }
+    &--highlight:not([disabled]) {
+      color: var(--color-black);
+
+      & ~ .dnb-date-picker--separator {
+        color: var(--color-black);
       }
     }
   }

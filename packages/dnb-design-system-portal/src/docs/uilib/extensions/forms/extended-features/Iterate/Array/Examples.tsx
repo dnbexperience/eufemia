@@ -17,7 +17,7 @@ export const PrimitiveElements = () => {
         value={['Iron Man', 'Captain America', 'The Hulk']}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Field.String elementPath="/" />
+        <Field.String itemPath="/" />
       </Iterate.Array>
     </ComponentBox>
   )
@@ -41,11 +41,11 @@ export const ObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         <h3>
-          <Value.String elementPath="/nickname" />
+          <Value.String itemPath="/nickname" />
         </h3>
         <Flex.Horizontal>
-          <Field.BankAccountNumber elementPath="/accountNumber" />
-          <Field.String label="Account name" elementPath="/accountName" />
+          <Field.BankAccountNumber itemPath="/accountNumber" />
+          <Field.String label="Account name" itemPath="/accountName" />
         </Flex.Horizontal>
       </Iterate.Array>
     </ComponentBox>
@@ -120,22 +120,22 @@ export const ArrayFromFormHandler = () => {
           onChange={(value) => console.log('Iterate onChange', value)}
         >
           <Form.SubHeading>
-            <Value.String elementPath="/nickname" />
+            <Value.String itemPath="/nickname" />
           </Form.SubHeading>
 
           <Flex.Horizontal align="center">
             <Field.String
-              elementPath="/firstName"
+              itemPath="/firstName"
               width="medium"
               label="First name"
             />
             <Field.String
-              elementPath="/lastName"
+              itemPath="/lastName"
               width="medium"
               label="Last name"
             />
             <Field.Number
-              elementPath="/bornYear"
+              itemPath="/bornYear"
               label="Year of birth"
               width="small"
             />

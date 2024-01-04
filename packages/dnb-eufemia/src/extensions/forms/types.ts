@@ -44,11 +44,11 @@ export interface DataValueReadProps<Value = unknown> {
   /** JSON Pointer for where the data for this field is located in the source dataset */
   path?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  elementPath?: string
+  itemPath?: string
   value?: Value
 }
 
-const dataValueReadProps = ['path', 'elementPath', 'value']
+const dataValueReadProps = ['path', 'itemPath', 'value']
 
 export function pickDataValueReadProps<Props extends DataValueReadProps>(
   props: Props
@@ -175,7 +175,10 @@ export interface FieldProps<
   info?: Error | FormError | string
   warning?: Error | FormError | string
   error?: Error | FormError
+  hasError?: boolean
   disabled?: boolean
+  capitalize?: boolean
+  trim?: boolean
   // Validation
   required?: boolean
   schema?: JSONSchema7
@@ -203,6 +206,20 @@ export interface FieldProps<
   // Derivatives
   toInput?: (external: Value | undefined) => any
   fromInput?: (...args: any[]) => Value | undefined
+  toEvent?: (internal: Value | undefined) => any
+  fromExternal?: (...args: any[]) => Value | undefined
+  validateRequired?: (
+    internal: Value | undefined,
+    {
+      emptyValue,
+      required,
+      isChanged,
+    }: {
+      emptyValue: undefined | string | number
+      required: boolean
+      isChanged: boolean
+    }
+  ) => FormError | undefined
 }
 
 export interface FieldHelpProps {
@@ -220,7 +237,7 @@ export interface ValueProps<Value>
   /** Text showing in place of the value if no value is given. */
   placeholder?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  elementPath?: string
+  itemPath?: string
   /** For showing the value inline (not as a block element) */
   inline?: boolean
   // Derivatives

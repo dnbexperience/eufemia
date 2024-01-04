@@ -6,7 +6,7 @@ export const Default = () => {
     <ComponentBox>
       <Form.Handler
         data={{ foo: 'bar' }}
-        onSubmit={(event) => console.log('onSubmit', event)}
+        onSubmit={(data) => console.log('onSubmit', data)}
       >
         <Form.SubmitButton />
       </Form.Handler>

@@ -26,7 +26,7 @@ export const ObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         <Iterate.Array path="/">
-          <Field.String elementPath="/name" />
+          <Field.String itemPath="/name" />
         </Iterate.Array>
 
         <Iterate.ArrayPushButton

@@ -1,52 +1,77 @@
 import React from 'react'
 import classnames from 'classnames'
 import Flex from '../flex/Flex'
+import { SectionParams } from '../section/Section'
+
 import type { Props as FlexContainerProps } from '../flex/Container'
 import type { Props as FlexItemProps } from '../flex/Item'
+import type { SpaceTypeMedia } from '../../shared/types'
 
-export type Props = FlexContainerProps &
-  FlexItemProps & {
-    stack?: boolean
-  }
-
+export type Props = Omit<
+  FlexContainerProps & FlexItemProps,
+  'ref' | 'wrap'
+> & {
+  stack?: boolean
+}
 function Card(props: Props) {
   const {
     className,
     stack,
     direction,
     spacing,
+    innerSpace,
     alignSelf = 'stretch',
+    divider = 'space',
     children,
     ...rest
   } = props
 
+  const falseWhenSmall = { small: false, medium: true, large: true }
+  const trueWhenSmall = { small: true, medium: false, large: false }
+  const basisSpace = {
+    top: 'medium',
+    right: 'medium',
+    bottom: 'large',
+    left: 'medium',
+  }
+  const smallSpace = {
+    ...basisSpace,
+    right: 0,
+    left: 0,
+  }
+
+  const params = SectionParams({
+    className: classnames('dnb-card', className),
+    backgroundColor: 'white',
+    breakout: trueWhenSmall,
+    roundedCorner: falseWhenSmall,
+    outline: true,
+    innerSpace:
+      innerSpace ??
+      ({
+        small: smallSpace,
+        medium: basisSpace,
+        large: basisSpace,
+      } as SpaceTypeMedia),
+    children,
+    ...rest,
+  })
+
   if (stack || direction || spacing) {
     return (
       <Flex.Container
-        className={classnames('dnb-card', className)}
         direction={direction ?? 'vertical'}
-        divider={stack ? 'line' : 'space'}
-        element="section"
+        divider={divider}
         wrap={false}
-        spacing={spacing ?? (stack ? 'medium' : 'small')}
+        spacing={spacing}
         alignSelf={alignSelf}
-        {...rest}
-      >
-        {children}
-      </Flex.Container>
+        element="section"
+        {...params}
+      />
     )
   }
 
-  return (
-    <Flex.Item
-      className={classnames('dnb-card', className)}
-      alignSelf={alignSelf}
-      element="section"
-      {...rest}
-    >
-      {children}
-    </Flex.Item>
-  )
+  return <Flex.Item alignSelf={alignSelf} element="section" {...params} />
 }
 
 Card._supportsSpacingProps = true
