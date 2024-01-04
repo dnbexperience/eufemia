@@ -1,8 +1,8 @@
 import React from 'react'
+import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
-import { wait } from '../../../../../core/jest/jestSetup'
 
 describe('Field.Number', () => {
   describe('props', () => {
@@ -222,5 +222,13 @@ describe('Field.Number', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const element = render(
+      <Field.Number label="Label" required validateInitially />
+    )
+
+    expect(await axeComponent(element)).toHaveNoViolations()
   })
 })

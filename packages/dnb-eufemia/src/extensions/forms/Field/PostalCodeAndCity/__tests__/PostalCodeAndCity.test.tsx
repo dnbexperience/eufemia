@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PostalCodeAndCity, { Props } from '..'
@@ -32,5 +33,11 @@ describe('Field.PostalCodeAndCity', () => {
     )
 
     expect(postalCodeInput).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const element = render(<PostalCodeAndCity {...props} />)
+
+    expect(await axeComponent(element)).toHaveNoViolations()
   })
 })

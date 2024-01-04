@@ -2,6 +2,7 @@ import React from 'react'
 import { act, render } from '@testing-library/react'
 import Date, { Props } from '..'
 import userEvent from '@testing-library/user-event'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 const props: Props = {}
 
@@ -70,5 +71,11 @@ describe('Field.Date', () => {
     expect(
       datepicker.querySelector('.dnb-form-status__text')
     ).toHaveTextContent('The value is required')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const element = render(<Date {...props} value="2023-12-07" required />)
+
+    expect(await axeComponent(element)).toHaveNoViolations()
   })
 })

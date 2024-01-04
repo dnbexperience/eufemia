@@ -1,5 +1,5 @@
 import React from 'react'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import {
   screen,
   render,
@@ -780,5 +780,23 @@ describe('Field.String', () => {
     expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(id)
     expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.String label="Label" required validateInitially />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.String multiline label="Label" required validateInitially />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
+    })
   })
 })

@@ -1,7 +1,12 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
+
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {
@@ -84,6 +89,20 @@ describe('Field.Boolean', () => {
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
+
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.Boolean
+          label="Label"
+          variant="checkbox"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
+    })
   })
 
   describe('variant: button', () => {
@@ -144,6 +163,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.Boolean
+          label="Label"
+          variant="button"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
     })
   })
 
@@ -213,6 +246,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.Boolean
+          label="Label"
+          variant="checkbox-button"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
     })
   })
 
@@ -297,6 +344,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const element = render(
+        <Field.Boolean
+          label="Label"
+          variant="buttons"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(element)).toHaveNoViolations()
     })
   })
 })

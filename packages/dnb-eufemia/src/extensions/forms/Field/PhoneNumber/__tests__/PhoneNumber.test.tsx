@@ -1,5 +1,5 @@
 import React from 'react'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PhoneNumber from '..'
@@ -835,5 +835,11 @@ describe('Field.PhoneNumber', () => {
       expect(currentOptions()).toContain('+56 Chile')
       expect(currentOptions()).not.toContain('+86 Kina')
     })
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const element = render(<PhoneNumber value="12345678" />)
+
+    expect(await axeComponent(element)).toHaveNoViolations()
   })
 })
