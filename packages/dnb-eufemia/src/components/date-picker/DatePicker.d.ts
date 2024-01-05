@@ -259,7 +259,6 @@ export interface DatePickerProps
     event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
   ) => void;
 }
-
 export default class DatePicker extends React.Component<
   DatePickerProps,
   any
