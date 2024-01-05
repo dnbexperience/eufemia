@@ -385,9 +385,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     setFocusState('focus')
   }
 
-  function onBlurHandler() {
+  function onBlurHandler(event: React.FocusEvent<HTMLInputElement>) {
     focusMode.current = null
     setFocusState('blur')
+
+    if (props.onBlur) {
+      props.onBlur(event)
+    }
   }
 
   async function onKeyDownHandler(event) {
@@ -748,6 +752,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onChange, // eslint-disable-line
     onFocus, // eslint-disable-line
     onSubmit, // eslint-disable-line
+    onBlur, // eslint-disable-line
     selectedDateTitle, // eslint-disable-line
     showInput, // eslint-disable-line
     input_element,
@@ -836,7 +841,7 @@ const selectAll = (target) => {
   target.select()
 }
 
-function InputElement(props: TextMaskProps) {
+function InputElement({ className, value, ...props }: TextMaskProps) {
   return (
     <TextMask
       guide={true}
@@ -846,6 +851,11 @@ function InputElement(props: TextMaskProps) {
       autoCapitalize="none"
       spellCheck={false}
       autoCorrect="off"
+      className={classnames(
+        className,
+        /\d+/.test(String(value)) && 'dnb-date-picker__input--highlight'
+      )}
+      value={value}
       {...props}
     />
   )
