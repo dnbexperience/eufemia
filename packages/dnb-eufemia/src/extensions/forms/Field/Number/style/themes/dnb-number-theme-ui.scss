@@ -1,0 +1,15 @@
+.dnb-forms-field-number {
+  --number-control-button-border-color: var(--color-sea-green);
+  --number-control-button-border-color--hover: var(--color-emerald-green);
+  --number-control-button-border-color--focus: var(--color-emerald-green);
+  --number-control-button-background-color--hover: var(
+    --color-mint-green-12
+  );
+  --number-control-button-color--hover: var(--color-emerald-green);
+  --number-control-button-background-color--active: var(
+    --color-mint-green-50
+  );
+  --number-control-button-color--active: var(--color-sea-green);
+  --number-control-button--error: var(--color-fire-red);
+  --number-control-button--error-contrast: var(--color-fire-red-8);
+}

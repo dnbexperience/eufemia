@@ -1,0 +1,81 @@
+@import '../../../../../../style/core/utilities.scss';
+
+.dnb-forms-field-number {
+  --number-control-button-border-color: var(--sb-color-purple-alternative);
+  --number-control-button-border-color--hover: var(
+    --sb-color-purple-alternative
+  );
+  --number-control-button-border-color--focus: var(--focus-ring-color);
+  --number-control-button-border-width--focus: var(--focus-ring-width);
+  --number-control-button-background-color--hover: #e0d0ff;
+  --number-control-button-color--hover: var(--sb-color-purple-alternative);
+  --number-control-button-background-color--active: #1c1b4e;
+  --number-control-button-color--active: #e0d0ff;
+  --number-control-button--error: var(--sb-color-red);
+  --number-control-button--error-contrast: var(--sb-color-magenta-light-2);
+
+  &__contents {
+    &--has-controls {
+      background-color: #1c1b4e;
+      border-radius: 3rem;
+      .dnb-input {
+        position: relative;
+        &::before,
+        &::after {
+          position: absolute;
+          top: 0.25rem;
+          bottom: 0.25rem;
+          border-left: 0.0625rem solid #e0d0ff;
+          content: '';
+          z-index: 1;
+        }
+        &::before {
+          left: -1px;
+        }
+        &::after {
+          right: -1px;
+        }
+      }
+      .dnb-button--control-before:not(:disabled):active
+        ~ .dnb-input::before {
+        z-index: -1;
+      }
+      .dnb-button--control-after:not(:disabled):active {
+        z-index: 1;
+      }
+    }
+
+    &--has-controls#{&}--has-error {
+      .dnb-input {
+        &::before,
+        &::after {
+          border-left: 0.0625rem solid
+            var(--number-control-button--error-contrast);
+        }
+      }
+    }
+
+    &--has-controls#{&}--is-disabled {
+      @include fakeBorder(var(--sb-color-gray-dark), 0.0625rem);
+      @include hover() {
+        @include fakeBorder(var(--sb-color-gray-dark), 0.0625rem);
+      }
+      background-color: var(--sb-color-gray-light);
+      .dnb-input {
+        &__input {
+          color: var(--sb-color-gray-dark);
+        }
+        &::before,
+        &::after {
+          border-left: 0.0625rem solid var(--sb-color-gray-dark);
+        }
+      }
+
+      .dnb-button--control-before[disabled],
+      .dnb-button--control-after[disabled] {
+        color: var(--sb-color-gray-dark);
+        background-color: var(--sb-color-gray-light);
+      }
+    }
+  }
+}

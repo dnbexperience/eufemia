@@ -13,6 +13,7 @@
 .dnb-button {
   // global
   --button-background--focus: var(--sb-color-blue-light-3);
+  --button-border-radius--control-button: 3rem;
 
   // primary
   --button-primary-shadow: var(--sb-shadow-medium);
@@ -98,6 +99,15 @@
       --button-secondary-border: var(--button-secondary-border--active);
       color: var(--button-secondary-color--active);
       background-color: var(--button-secondary-background--active);
+    }
+  }
+  &--secondary:not(#{&}--has-text)#{&}--control-before,
+  &--secondary:not(#{&}--has-text)#{&}--control-after {
+    box-shadow: none;
+    border: none;
+    @include hover() {
+      box-shadow: none;
+      border: none;
     }
   }
 
