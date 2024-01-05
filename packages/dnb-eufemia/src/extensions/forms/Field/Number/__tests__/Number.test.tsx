@@ -109,11 +109,19 @@ describe('Field.Number', () => {
       expect(screen.getByDisplayValue('123,456')).toBeInTheDocument()
     })
 
-    it('should set align="right" when rightAligned is true', () => {
-      render(<Field.Number value={123} rightAligned />)
+    it('should align input correctly', () => {
+      render(
+        <>
+          <Field.Number value={123} align="left" />
+          <Field.Number value={123} align="center" />
+          <Field.Number value={123} align="right" />
+        </>
+      )
 
-      const element = document.querySelector('.dnb-input')
-      expect(element.className).toContain('dnb-input__align--right')
+      const inputs = document.querySelectorAll('.dnb-input')
+      expect(inputs[0]).toHaveClass('dnb-input__align--left')
+      expect(inputs[1]).toHaveClass('dnb-input__align--center')
+      expect(inputs[2]).toHaveClass('dnb-input__align--right')
     })
 
     it('should have decimal input mode', () => {

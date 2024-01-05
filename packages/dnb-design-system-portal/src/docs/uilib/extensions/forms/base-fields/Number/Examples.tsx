@@ -47,13 +47,25 @@ export const LabelAndValue = () => {
   )
 }
 
-export const RightAligned = () => {
+export const Alignment = () => {
   return (
     <ComponentBox>
       <Field.Number
-        rightAligned
-        value={420000.25}
-        label="Label text"
+        align="center"
+        label="Center aligned (default)"
+        value={10}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        align="left"
+        label="Left aligned"
+        value={10}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        align="right"
+        label="Right aligned"
+        value={10}
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>

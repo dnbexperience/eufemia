@@ -9,7 +9,7 @@ import type { FieldProps, FieldHelpProps } from '../../types'
 export type Props = FieldHelpProps &
   FieldProps<number, undefined> & {
     currency?: NumberProps['currency']
-    rightAligned?: NumberProps['rightAligned']
+    align?: NumberProps['align']
   }
 
 function Currency(props: Props) {
