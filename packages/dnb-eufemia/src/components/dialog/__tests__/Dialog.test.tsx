@@ -17,7 +17,6 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  document.body.innerHTML = ''
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
   document.getElementById('dnb-modal-root')?.remove()

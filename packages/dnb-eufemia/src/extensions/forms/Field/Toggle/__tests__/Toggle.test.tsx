@@ -3,10 +3,6 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Toggle, { Props } from '../Toggle'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Field.Toggle', () => {
   it('should render with props', () => {
     const props: Props = { valueOn: 'checked', valueOff: 'unchecked' }

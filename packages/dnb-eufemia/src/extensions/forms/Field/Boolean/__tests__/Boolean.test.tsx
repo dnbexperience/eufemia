@@ -4,10 +4,6 @@ import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {
     it('renders label', () => {

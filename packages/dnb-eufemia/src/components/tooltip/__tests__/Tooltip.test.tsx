@@ -32,7 +32,6 @@ const defaultProps: TooltipAllProps = {
 }
 
 beforeEach(() => {
-  document.body.innerHTML = ''
   globalThis.IS_TEST = false
 })
 

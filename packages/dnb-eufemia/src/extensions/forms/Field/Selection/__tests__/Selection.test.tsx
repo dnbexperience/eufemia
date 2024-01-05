@@ -4,10 +4,6 @@ import { screen, render, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Selection', () => {
   describe('props', () => {
     it('renders selected option', () => {
