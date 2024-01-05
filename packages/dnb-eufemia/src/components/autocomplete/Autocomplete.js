@@ -1892,7 +1892,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     // Handling of activedescendant – required by NVDA
-    if (!hidden) {
+    if (isExpanded) {
       if (parseFloat(active_item) > -1) {
         inputParams[
           'aria-activedescendant'

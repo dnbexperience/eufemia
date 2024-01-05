@@ -1,6 +1,11 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Toggle, { Props } from '../Toggle'
+
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
@@ -67,6 +72,20 @@ describe('Field.Toggle', () => {
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on')
       })
+
+      it('should validate with ARIA rules', async () => {
+        const element = render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="button"
+            value="on"
+          />
+        )
+
+        expect(await axeComponent(element)).toHaveNoViolations()
+      })
     })
 
     describe('buttons', () => {
@@ -105,6 +124,20 @@ describe('Field.Toggle', () => {
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on')
       })
+
+      it('should validate with ARIA rules', async () => {
+        const element = render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            value="on"
+          />
+        )
+
+        expect(await axeComponent(element)).toHaveNoViolations()
+      })
     })
 
     describe('checkbox-button', () => {
@@ -140,6 +173,20 @@ describe('Field.Toggle', () => {
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on')
       })
+
+      it('should validate with ARIA rules', async () => {
+        const element = render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox-button"
+            value="on"
+          />
+        )
+
+        expect(await axeComponent(element)).toHaveNoViolations()
+      })
     })
 
     describe('checkbox', () => {
@@ -172,6 +219,20 @@ describe('Field.Toggle', () => {
         expect(element).toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on')
+      })
+
+      it('should validate with ARIA rules', async () => {
+        const element = render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            value="on"
+          />
+        )
+
+        expect(await axeComponent(element)).toHaveNoViolations()
       })
     })
   })

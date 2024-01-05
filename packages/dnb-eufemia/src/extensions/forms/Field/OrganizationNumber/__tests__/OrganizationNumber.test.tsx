@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import OrganizationNumber from '../OrganizationNumber'
@@ -54,5 +55,11 @@ describe('Field.OrganizationNumber', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const element = render(<OrganizationNumber value="12345678" />)
+
+    expect(await axeComponent(element)).toHaveNoViolations()
   })
 })

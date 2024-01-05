@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Currency from '../Currency'
 import { Provider } from '../../../../../shared'
@@ -57,5 +58,11 @@ describe('Field.Currency', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'decimal')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const element = render(<Currency label="Label" value={123} />)
+
+    expect(await axeComponent(element)).toHaveNoViolations()
   })
 })
