@@ -123,9 +123,25 @@ describe('Field.Email', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.Email value="me@mail.com" />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(<Field.Email required validateInitially />)
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.Email required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Email required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

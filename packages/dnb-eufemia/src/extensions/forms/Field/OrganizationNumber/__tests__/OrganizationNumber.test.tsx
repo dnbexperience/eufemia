@@ -57,9 +57,27 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.OrganizationNumber value="12345678" />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.OrganizationNumber required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.OrganizationNumber required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.OrganizationNumber required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

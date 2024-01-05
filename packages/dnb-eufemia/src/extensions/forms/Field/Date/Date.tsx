@@ -68,6 +68,7 @@ function DateComponent(props: Props) {
     error,
     hasError,
     disabled,
+    ariaAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -101,6 +102,7 @@ function DateComponent(props: Props) {
         on_reset={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        {...ariaAttributes}
         {...pickSpacingProps(props)}
       />
     </FieldBlock>

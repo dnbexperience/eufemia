@@ -13,11 +13,13 @@ breadcrumb:
 - Ensure you have a submit button. Use the [Form.SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) for that.
 - Ensure to let browser autofill personal data if applicable, based on HTML [autocomplete attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete). By using the `path` property with semantic names (e.g. `path="/firstName"`), browser will be able to provide a correct autofill integration.
 - In some cases, it is appreciated to temporary store user entered input data. Use the `sessionStorageId` feature provided by [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) for that.
+- Required fields should have `aria-required="true"` attribute. Use the `required` property for that.
+- Fields with errors should have `aria-invalid="true"` attribute.
 
 ```jsx
 <Form.Handler autoComplete={true}>
-  <Field.String path="/firstName" />
-  <Field.Email path="/email" />
+  <Field.String path="/firstName" required />
+  <Field.Email path="/email" required />
   <Form.SubmitButton>Submit</Form.SubmitButton>
 </Form.Handler>
 ```

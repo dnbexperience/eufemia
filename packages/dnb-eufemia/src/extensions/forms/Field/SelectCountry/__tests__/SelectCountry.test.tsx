@@ -290,9 +290,27 @@ describe('Field.SelectCountry', () => {
     expect(input).toHaveClass('dnb-input__status--error')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.SelectCountry value="DK" />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.SelectCountry required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.SelectCountry required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.SelectCountry required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

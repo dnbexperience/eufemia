@@ -184,6 +184,7 @@ export default {
       selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
+      dateErrorRequired: 'Du må angi en gyldig dato',
       expiryLabel: 'Expiry date',
       emailErrorRequired: 'You must enter an email',
       emailErrorPattern: 'This is not a valid email address',

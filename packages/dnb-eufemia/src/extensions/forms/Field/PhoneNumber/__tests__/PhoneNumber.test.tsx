@@ -56,30 +56,28 @@ describe('Field.PhoneNumber', () => {
   it('should only have a mask when +47 is given', async () => {
     const { rerender } = render(<Field.PhoneNumber value="999999990000" />)
 
-    const codeElement = () =>
-      document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
-      ) as HTMLInputElement
-    const numberElement = () =>
-      document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
-      ) as HTMLInputElement
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    ) as HTMLInputElement
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
 
-    expect(codeElement().value).toBe('NO (+47)')
-    expect(numberElement().value).toBe('99 99 99 99')
+    expect(codeElement.value).toBe('NO (+47)')
+    expect(numberElement.value).toBe('99 99 99 99')
 
-    await userEvent.type(numberElement(), '123')
+    await userEvent.type(numberElement, '123')
 
-    expect(numberElement().value).toBe('99 99 99 99')
+    expect(numberElement.value).toBe('99 99 99 99')
 
     rerender(<Field.PhoneNumber value="+41 99999999123456" />)
 
-    expect(codeElement().value).toBe('CH (+41)')
-    expect(numberElement().value).toBe('999999991234')
+    expect(codeElement.value).toBe('CH (+41)')
+    expect(numberElement.value).toBe('999999991234')
 
-    await userEvent.type(numberElement(), '123')
+    await userEvent.type(numberElement, '123')
 
-    expect(numberElement().value).toBe('999999991234')
+    expect(numberElement.value).toBe('999999991234')
   })
 
   it('should only have a placeholder when +47 is given', async () => {
@@ -633,18 +631,17 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber omitCountryCodeField onChange={onChange} />
     )
 
-    const numberElement = () =>
-      document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
-      ) as HTMLInputElement
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
 
     expect(
       document.querySelector('.dnb-forms-field-phone-number__country-code')
     ).not.toBeInTheDocument()
 
-    await userEvent.type(numberElement(), '123')
+    await userEvent.type(numberElement, '123')
 
-    expect(numberElement().value).toBe('12 3​ ​​ ​​')
+    expect(numberElement.value).toBe('12 3​ ​​ ​​')
     expect(onChange).toHaveBeenLastCalledWith('123', {
       countryCode: undefined,
       phoneNumber: '123',
@@ -658,18 +655,18 @@ describe('Field.PhoneNumber', () => {
       />
     )
 
-    expect(numberElement().value).toBe('99 99 99 99')
+    expect(numberElement.value).toBe('99 99 99 99')
 
-    await userEvent.type(numberElement(), '{Backspace>8}8888')
+    await userEvent.type(numberElement, '{Backspace>8}8888')
 
-    expect(numberElement().value).toBe('88 88 ​​ ​​')
+    expect(numberElement.value).toBe('88 88 ​​ ​​')
     expect(onChange).toHaveBeenLastCalledWith('8888', {
       phoneNumber: '8888',
     })
 
-    await userEvent.type(numberElement(), '{Backspace>6}+4')
+    await userEvent.type(numberElement, '{Backspace>6}+4')
 
-    expect(numberElement().value).toBe('88 4​ ​​ ​​')
+    expect(numberElement.value).toBe('88 4​ ​​ ​​')
     expect(onChange).toHaveBeenLastCalledWith('884', {
       phoneNumber: '884',
     })
@@ -710,21 +707,20 @@ describe('Field.PhoneNumber', () => {
 
     render(<Field.PhoneNumber schema={schema} />)
 
-    const numberElement = () =>
-      document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
-      ) as HTMLInputElement
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
 
-    await userEvent.type(numberElement(), '123')
-    fireEvent.blur(numberElement())
+    await userEvent.type(numberElement, '123')
+    fireEvent.blur(numberElement)
 
-    expect(numberElement().value).toBe('12 3​ ​​ ​​')
+    expect(numberElement.value).toBe('12 3​ ​​ ​​')
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
-    await userEvent.type(numberElement(), '{Backspace>8}456')
-    fireEvent.blur(numberElement())
+    await userEvent.type(numberElement, '{Backspace>8}456')
+    fireEvent.blur(numberElement)
 
-    expect(numberElement().value).toBe('45 6​ ​​ ​​')
+    expect(numberElement.value).toBe('45 6​ ​​ ​​')
     expect(
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
@@ -870,9 +866,31 @@ describe('Field.PhoneNumber', () => {
     })
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.PhoneNumber value="12345678" />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.PhoneNumber required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.PhoneNumber required />)
+
+      const input = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.PhoneNumber required validateInitially />)
+
+      const input = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

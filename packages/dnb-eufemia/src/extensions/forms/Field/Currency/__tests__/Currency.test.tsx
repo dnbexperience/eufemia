@@ -68,9 +68,27 @@ describe('Field.Currency', () => {
     expect(input).toHaveAttribute('inputmode', 'decimal')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.Currency label="Label" value={123} />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Currency label="Label" required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.Currency required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Currency required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

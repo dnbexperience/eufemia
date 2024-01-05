@@ -872,12 +872,60 @@ describe('Field.String', () => {
       expect(await axeComponent(result)).toHaveNoViolations()
     })
 
-    it('should validate with ARIA rule for multiline', async () => {
-      const result = render(
-        <Field.String multiline label="Label" required validateInitially />
+    it('should have aria-required', () => {
+      render(<Field.String required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(
+        <Field.String
+          value="abc"
+          schema={{ type: 'string', minLength: 6 }}
+          validateInitially
+        />
       )
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
+
+    describe('multiline', () => {
+      it('should validate with ARIA rule', async () => {
+        const result = render(
+          <Field.String
+            multiline
+            label="Label"
+            required
+            validateInitially
+          />
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.String multiline required />)
+
+        const textarea = document.querySelector('textarea')
+        expect(textarea).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.String
+            multiline
+            value="abc"
+            schema={{ type: 'string', minLength: 6 }}
+            validateInitially
+          />
+        )
+
+        const textarea = document.querySelector('textarea')
+        expect(textarea).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 })

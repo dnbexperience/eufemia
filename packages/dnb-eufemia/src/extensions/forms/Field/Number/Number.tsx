@@ -184,6 +184,7 @@ function NumberComponent(props: Props) {
     minimum = Number.MIN_SAFE_INTEGER,
     maximum = Number.MAX_SAFE_INTEGER,
     disabled,
+    ariaAttributes,
     info,
     warning,
     error,
@@ -306,6 +307,7 @@ function NumberComponent(props: Props) {
     onBlur: handleBlur,
     onChange: handleChange,
     disabled,
+    ...ariaAttributes,
     status: hasError ? 'error' : undefined,
     stretch: width !== undefined,
     suffix:

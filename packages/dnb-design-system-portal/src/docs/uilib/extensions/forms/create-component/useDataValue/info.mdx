@@ -14,7 +14,7 @@ const { value } = useDataValue(componentProps)
 
 Advanced usage:
 
-```ts
+```tsx
 const {
   // Return Parameters:
   value,
@@ -25,17 +25,24 @@ const {
   hasError,
   isChanged,
   setHasFocus,
+  ariaAttributes,
 
   // Component Properties
   ...rest
 } = useDataValue({
-  // Your Component Properties:
+  // Your component props + internal props such as "required":
   ...componentProps,
-
-  // Internal Properties, listed down below:
-  required,
-  errorMessages,
 })
+
+render(
+  <Input
+    value={value}
+    onChange={onChange}
+    onFocus={onFocus}
+    onBlur={onBlur}
+    {...ariaAttributes}
+  />,
+)
 ```
 
 ### Internal Properties
@@ -71,6 +78,7 @@ It returns all of the given component properties, in addition to these:
 - `dataContext` the internal shared data context.
 - `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
 - `hasError` will return true in case of an error, even if the hook is nested in a `FieldBlock`.
+- `ariaAttributes` object that include needed aria attributes, ready to be spread on form elements.
 - `isChanged` returns `true` if the value has changed with e.g. `handleChange`.
 - `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
 - `onFocus` event handler to assign to a form element.

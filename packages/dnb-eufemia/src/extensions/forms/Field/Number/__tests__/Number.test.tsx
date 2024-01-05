@@ -402,29 +402,68 @@ describe('Field.Number', () => {
       expect(increaseButton).toHaveAttribute('aria-hidden', 'true')
     })
 
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Number
+            label="Label"
+            showStepControls
+            value={5}
+            maximum={20}
+            minimum={10}
+            step={5}
+            required
+            validateInitially
+          />
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.Number showStepControls required />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Number
+            showStepControls
+            value={1}
+            minimum={2}
+            validateInitially
+          />
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
+  })
+
+  describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.Number
-          label="Label"
-          showStepControls
-          value={5}
-          maximum={20}
-          minimum={10}
-          step={5}
-          required
-          validateInitially
-        />
+        <Field.Number label="Label" required validateInitially />
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
-  })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(
-      <Field.Number label="Label" required validateInitially />
-    )
+    it('should have aria-required', () => {
+      render(<Field.Number required />)
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Number value={1} minimum={2} validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

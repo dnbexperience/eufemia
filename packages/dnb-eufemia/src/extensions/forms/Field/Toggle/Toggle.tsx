@@ -35,6 +35,7 @@ function Toggle(props: Props) {
     warning,
     error,
     hasError,
+    ariaAttributes,
     handleChange,
   } = useDataValue(props)
 
@@ -86,6 +87,7 @@ function Toggle(props: Props) {
             disabled={disabled}
             status={hasError ? 'error' : undefined}
             on_change={handleCheckboxChange}
+            {...ariaAttributes}
             {...pickSpacingProps(props)}
           />
         </FieldBlock>
@@ -105,6 +107,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
+            {...ariaAttributes}
           />
         </FieldBlock>
       )
@@ -125,12 +128,14 @@ function Toggle(props: Props) {
                   textOn ?? sharedContext?.translation.Forms.booleanYes
                 }
                 value="on"
+                {...ariaAttributes}
               />
               <ToggleButton
                 text={
                   textOff ?? sharedContext?.translation.Forms.booleanNo
                 }
                 value="off"
+                {...ariaAttributes}
               />
             </ToggleButtonGroupContext.Provider>
           </ButtonRow>
@@ -152,6 +157,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
+            {...ariaAttributes}
           />
         </FieldBlock>
       )

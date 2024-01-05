@@ -25,6 +25,10 @@ interface ReturnAdditional<Value> {
   error: Error | FormError | undefined
   hasError: boolean
   dataContext: ContextState
+  ariaAttributes: {
+    'aria-invalid'?: 'true' | 'false'
+    'aria-required'?: 'true' | 'false'
+  }
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
@@ -335,11 +339,7 @@ export default function useDataValue<
   ])
 
   useUpdateEffect(() => {
-    if (!schema) {
-      schemaValidatorRef.current = undefined
-      return
-    }
-    schemaValidatorRef.current = ajv.compile(schema)
+    schemaValidatorRef.current = schema ? ajv.compile(schema) : undefined
     validateValue()
   }, [schema, validateValue])
 
@@ -544,17 +544,26 @@ export default function useDataValue<
     ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
     : undefined
 
+  const ariaAttributes = {}
+  if (error) {
+    ariaAttributes['aria-invalid'] = String(Boolean(error))
+  }
+  if (required) {
+    ariaAttributes['aria-required'] = String(required)
+  }
+
   return {
     ...props,
-    autoComplete:
-      props.autoComplete ??
-      (dataContext.autoComplete === true ? 'on' : 'off'),
     id,
     name: props.name || props.path?.replace('/', '') || id,
     value: transformers.current.toInput(valueRef.current),
     error: !inFieldBlock ? error : undefined,
     hasError: Boolean(error),
     isChanged: changedRef.current,
+    autoComplete:
+      props.autoComplete ??
+      (dataContext.autoComplete === true ? 'on' : 'off'),
+    ariaAttributes,
     dataContext,
     setHasFocus,
     handleFocus,
