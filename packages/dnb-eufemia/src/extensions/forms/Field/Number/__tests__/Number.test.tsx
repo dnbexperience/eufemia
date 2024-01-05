@@ -344,7 +344,7 @@ describe('Field.Number', () => {
     })
 
     it('should validate with ARIA rules', async () => {
-      const element = render(
+      const result = render(
         <Field.Number
           label="Label"
           showStepControls
@@ -357,15 +357,15 @@ describe('Field.Number', () => {
         />
       )
 
-      expect(await axeComponent(element)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(
+    const result = render(
       <Field.Number label="Label" required validateInitially />
     )
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

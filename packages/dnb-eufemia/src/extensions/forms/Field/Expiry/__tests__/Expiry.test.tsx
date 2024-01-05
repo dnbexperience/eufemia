@@ -306,8 +306,8 @@ describe('Field.Expiry', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(<Field.Expiry />)
+    const result = render(<Field.Expiry />)
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

@@ -3115,12 +3115,12 @@ describe('Autocomplete markup', () => {
       no_animation: true,
       skip_portal: true,
     }
-    const CheckComponent = render(
+    const result = render(
       <Autocomplete {...snapshotProps} data={mockData} />
     )
 
     expect(
-      await axeComponent(CheckComponent, {
+      await axeComponent(result, {
         rules: {
           'aria-valid-attr-value': { enabled: false },
           'aria-required-children': { enabled: false },
@@ -3167,8 +3167,8 @@ const toggle = () => {
 }
 
 const closeAndReopen = () => {
-  // Close and open
-  fireEvent.blur(document.querySelector('.dnb-input__input'))
-  fireEvent.focus(document.querySelector('.dnb-input__input'))
-  fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+  const input = document.querySelector('.dnb-input__input')
+  fireEvent.blur(input)
+  fireEvent.focus(input)
+  fireEvent.mouseDown(input)
 }

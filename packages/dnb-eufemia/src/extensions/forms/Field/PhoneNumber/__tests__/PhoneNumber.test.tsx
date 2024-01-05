@@ -838,8 +838,8 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(<PhoneNumber value="12345678" />)
+    const result = render(<PhoneNumber value="12345678" />)
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

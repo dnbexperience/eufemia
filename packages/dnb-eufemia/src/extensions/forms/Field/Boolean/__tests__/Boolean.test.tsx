@@ -87,7 +87,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should validate with ARIA rules', async () => {
-      const element = render(
+      const result = render(
         <Field.Boolean
           label="Label"
           variant="checkbox"
@@ -97,7 +97,7 @@ describe('Field.Boolean', () => {
         />
       )
 
-      expect(await axeComponent(element)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 
@@ -162,7 +162,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should validate with ARIA rules', async () => {
-      const element = render(
+      const result = render(
         <Field.Boolean
           label="Label"
           variant="button"
@@ -172,7 +172,7 @@ describe('Field.Boolean', () => {
         />
       )
 
-      expect(await axeComponent(element)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 
@@ -245,7 +245,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should validate with ARIA rules', async () => {
-      const element = render(
+      const result = render(
         <Field.Boolean
           label="Label"
           variant="checkbox-button"
@@ -255,7 +255,7 @@ describe('Field.Boolean', () => {
         />
       )
 
-      expect(await axeComponent(element)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 
@@ -343,7 +343,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should validate with ARIA rules', async () => {
-      const element = render(
+      const result = render(
         <Field.Boolean
           label="Label"
           variant="buttons"
@@ -353,7 +353,7 @@ describe('Field.Boolean', () => {
         />
       )
 
-      expect(await axeComponent(element)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 })

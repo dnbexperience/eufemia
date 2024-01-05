@@ -516,11 +516,11 @@ describe('DrawerList markup', () => {
       size: 'default',
     }
 
-    const CheckComponent = render(
+    const result = render(
       <DrawerList {...snapshotProps} data={mockData} />
     )
     expect(
-      await axeComponent(CheckComponent, {
+      await axeComponent(result, {
         rules: {
           'aria-input-field-name': { enabled: false },
           'aria-required-children': { enabled: false },

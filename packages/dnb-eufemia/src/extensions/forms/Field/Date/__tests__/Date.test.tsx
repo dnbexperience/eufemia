@@ -74,8 +74,8 @@ describe('Field.Date', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(<Date {...props} value="2023-12-07" required />)
+    const result = render(<Date {...props} value="2023-12-07" required />)
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

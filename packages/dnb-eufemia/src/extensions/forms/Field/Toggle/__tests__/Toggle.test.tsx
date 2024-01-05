@@ -70,7 +70,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should validate with ARIA rules', async () => {
-        const element = render(
+        const result = render(
           <Toggle
             label="Label"
             valueOn="on"
@@ -80,7 +80,7 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(await axeComponent(element)).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
     })
 
@@ -122,7 +122,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should validate with ARIA rules', async () => {
-        const element = render(
+        const result = render(
           <Toggle
             label="Label"
             valueOn="on"
@@ -132,7 +132,7 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(await axeComponent(element)).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
     })
 
@@ -171,7 +171,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should validate with ARIA rules', async () => {
-        const element = render(
+        const result = render(
           <Toggle
             label="Label"
             valueOn="on"
@@ -181,7 +181,7 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(await axeComponent(element)).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
     })
 
@@ -218,7 +218,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should validate with ARIA rules', async () => {
-        const element = render(
+        const result = render(
           <Toggle
             label="Label"
             valueOn="on"
@@ -228,7 +228,7 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(await axeComponent(element)).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
     })
   })
