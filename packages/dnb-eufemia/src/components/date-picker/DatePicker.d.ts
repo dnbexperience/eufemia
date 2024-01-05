@@ -260,11 +260,6 @@ export interface DatePickerProps
   ) => void;
 }
 
-type TestType = {
-  target: any;
-  value: any;
-};
-
 export default class DatePicker extends React.Component<
   DatePickerProps,
   any
