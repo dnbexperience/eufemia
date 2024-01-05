@@ -171,7 +171,6 @@ const isWithinSelectionCalc = (date, startDate, endDate) => {
 // date is before minDate or after maxDate
 const isDisabledCalc = (date, minDate, maxDate) => {
   // isBefore and isAfter return false if comparison date is undefined, which is useful here in case minDate and maxDate aren't supplied
-
   return (
     (minDate && isBefore(date, startOfDay(minDate))) ||
     (maxDate && isAfter(date, startOfDay(maxDate)))
