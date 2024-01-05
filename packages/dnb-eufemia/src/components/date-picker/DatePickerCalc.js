@@ -179,6 +179,7 @@ const isDisabledCalc = (date, minDate, maxDate) => {
 export { isDisabledCalc as isDisabled }
 
 // useful for comparing dates that strictly speaking are the same, but differs in time (hours, minutes, seconds)
+// returns a new Date object to prevent mutation
 const resetHours = (date) => {
   const dateCopy = new Date(date)
   return dateCopy.setHours(0, 0, 0, 0)
