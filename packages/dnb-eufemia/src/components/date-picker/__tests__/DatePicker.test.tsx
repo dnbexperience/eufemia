@@ -1496,7 +1496,7 @@ describe('DatePicker component', () => {
 
   it('should fire blur event when input loses focus', async () => {
     const onBlur = jest.fn()
-    render(<DatePicker show_input onBlur={onBlur} />)
+    render(<DatePicker show_input onBlur={onBlur} date="2024-01-05" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-input__input')
@@ -1512,7 +1512,7 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(firstInput)
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: firstInput })
+      expect.objectContaining({ target: firstInput, date: '2024-01-05' })
     )
 
     await userEvent.click(secondInput)
@@ -1525,7 +1525,7 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(secondInput)
     expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: secondInput })
+      expect.objectContaining({ target: secondInput, date: '2024-01-05' })
     )
   })
 
