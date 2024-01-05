@@ -170,12 +170,19 @@ const isWithinSelectionCalc = (date, startDate, endDate) => {
 // date is before minDate or after maxDate
 const isDisabledCalc = (date, minDate, maxDate) => {
   // isBefore and isAfter return false if comparison date is undefined, which is useful here in case minDate and maxDate aren't supplied
+  // resetting the the `minDate` and `maxDate` hours for comparison, as the `date` param comes with a time of 00:00:00
   return (
-    (minDate && isBefore(date, minDate)) ||
-    (maxDate && isAfter(date, maxDate))
+    (minDate && isBefore(date, resetHours(minDate))) ||
+    (maxDate && isAfter(date, resetHours(maxDate)))
   )
 }
 export { isDisabledCalc as isDisabled }
+
+// useful for comparing dates that strictly speaking are the same, but differs in time (hours, minutes, seconds)
+const resetHours = (date) => {
+  const dateCopy = new Date(date)
+  return dateCopy.setHours(0, 0, 0, 0)
+}
 
 // date selected is start date
 const isStartDateCalc = (date, range) => {
