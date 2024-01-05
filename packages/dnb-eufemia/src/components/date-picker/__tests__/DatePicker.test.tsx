@@ -1528,6 +1528,24 @@ describe('DatePicker component', () => {
       expect.objectContaining({ target: secondInput })
     )
   })
+
+  it('should have todays date enabled in calendar if minDate is today', async () => {
+    const minDate = new Date()
+
+    render(<DatePicker min_date={minDate} />)
+
+    const button = document.querySelector(
+      '.dnb-input__submit-element > button'
+    )
+
+    await userEvent.click(button)
+
+    const todayButton = document.querySelector(
+      '.dnb-date-picker__day--today > button'
+    )
+
+    expect(todayButton).not.toBeDisabled()
+  })
 })
 
 // for the unit calc tests
