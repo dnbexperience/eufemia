@@ -59,7 +59,7 @@ type DatePickerAlignPicker = 'auto' | 'left' | 'right'
 
 export type DatePickerProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'ref' | 'children'
+  'ref' | 'children' | 'label' | 'size' | 'onBlur'
 > &
   SpacingProps & {
     id?: string
@@ -278,6 +278,10 @@ export type DatePickerProps = Omit<
      * Will be called once a user presses the reset button.
      */
     on_reset?: (...args: any[]) => any
+    /**
+     * Will be called once the input loses focus.
+     */
+    onBlur?: (event: React.FocusEventHandler<HTMLInputElement>) => void
   }
 
 const defaultProps: DatePickerProps = {
