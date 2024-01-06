@@ -24,6 +24,42 @@ describe('Field.Number', () => {
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
     })
 
+    it('corrects minimum number', () => {
+      render(<Field.Number value={-Number.MAX_SAFE_INTEGER} />)
+
+      const input = document.querySelector('input')
+
+      fireEvent.change(input, {
+        target: {
+          value: String(-Number.MAX_SAFE_INTEGER - 1),
+        },
+      })
+
+      expect(input).toHaveValue(String(-Number.MAX_SAFE_INTEGER - 1))
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue(String(-Number.MAX_SAFE_INTEGER))
+    })
+
+    it('corrects maximum number', () => {
+      render(<Field.Number value={Number.MAX_SAFE_INTEGER} />)
+
+      const input = document.querySelector('input')
+
+      fireEvent.change(input, {
+        target: {
+          value: String(Number.MAX_SAFE_INTEGER + 1),
+        },
+      })
+
+      expect(input).toHaveValue(String(Number.MAX_SAFE_INTEGER + 1))
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue(String(Number.MAX_SAFE_INTEGER))
+    })
+
     it('should support disabled prop', () => {
       const { rerender } = render(
         <Field.Number label="Disabled label" disabled />

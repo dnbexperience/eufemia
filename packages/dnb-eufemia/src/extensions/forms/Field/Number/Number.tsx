@@ -104,13 +104,31 @@ function NumberComponent(props: Props) {
     return external
   }, [])
   const fromInput = useCallback(
-    ({ value, numberValue }: { value: string; numberValue: number }) => {
-      if (value === '') {
+    (event: { value?: string; numberValue: number }) => {
+      if (typeof event === 'number') {
+        event = { numberValue: event }
+      }
+
+      if (event?.value === '') {
         return props.emptyValue
       }
-      return numberValue
+
+      return event?.numberValue
     },
     [props.emptyValue]
+  )
+  const transformValue = useCallback(
+    (value: number, currentValue: number) => {
+      if (
+        value > Number.MAX_SAFE_INTEGER ||
+        value < -Number.MAX_SAFE_INTEGER
+      ) {
+        return currentValue
+      }
+
+      return value
+    },
+    []
   )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
@@ -155,6 +173,7 @@ function NumberComponent(props: Props) {
     schema,
     toInput,
     fromInput,
+    transformValue,
     size:
       props.size !== 'small' && props.size !== 'large'
         ? 'medium'
@@ -174,8 +193,8 @@ function NumberComponent(props: Props) {
     labelDescription,
     labelSecondary,
     value,
-    minimum,
-    maximum,
+    minimum = -Number.MAX_SAFE_INTEGER,
+    maximum = Number.MAX_SAFE_INTEGER,
     disabled,
     info,
     warning,
