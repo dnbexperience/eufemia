@@ -191,6 +191,10 @@ function NumberComponent(props: Props) {
 
   const onKeyDownHandler = useCallback(
     ({ key, event }) => {
+      if (!showStepControls) {
+        return
+      }
+
       let numberValue = null
 
       switch (key) {
@@ -208,7 +212,7 @@ function NumberComponent(props: Props) {
         handleChange({ numberValue })
       }
     },
-    [handleChange, maximum, minimum, step, value]
+    [handleChange, maximum, minimum, showStepControls, step, value]
   )
 
   const fieldBlockProps = {
