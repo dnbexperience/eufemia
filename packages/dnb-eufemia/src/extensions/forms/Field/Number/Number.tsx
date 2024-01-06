@@ -288,7 +288,7 @@ function NumberComponent(props: Props) {
     step,
     placeholder,
     value,
-    align,
+    align: showStepControls ? 'center' : align,
     ...maskProps,
     onKeyDown: onKeyDownHandler,
     onFocus: handleFocus,

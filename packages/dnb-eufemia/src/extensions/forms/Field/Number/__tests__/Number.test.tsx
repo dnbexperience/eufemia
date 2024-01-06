@@ -112,6 +112,7 @@ describe('Field.Number', () => {
     it('should align input correctly', () => {
       render(
         <>
+          <Field.Number value={123} />
           <Field.Number value={123} align="left" />
           <Field.Number value={123} align="center" />
           <Field.Number value={123} align="right" />
@@ -119,9 +120,10 @@ describe('Field.Number', () => {
       )
 
       const inputs = document.querySelectorAll('.dnb-input')
-      expect(inputs[0]).toHaveClass('dnb-input__align--left')
-      expect(inputs[1]).toHaveClass('dnb-input__align--center')
-      expect(inputs[2]).toHaveClass('dnb-input__align--right')
+      expect(inputs[0].className).not.toContain('dnb-input__align')
+      expect(inputs[1]).toHaveClass('dnb-input__align--left')
+      expect(inputs[2]).toHaveClass('dnb-input__align--center')
+      expect(inputs[3]).toHaveClass('dnb-input__align--right')
     })
 
     it('should have decimal input mode', () => {
@@ -237,6 +239,13 @@ describe('Field.Number', () => {
       render(<Field.Number showStepControls />)
       const buttons = document.querySelectorAll('.dnb-button')
       expect(buttons.length).toBe(2)
+    })
+
+    it('should align input to center', () => {
+      render(<Field.Number showStepControls />)
+
+      const input = document.querySelector('.dnb-input')
+      expect(input).toHaveClass('dnb-input__align--center')
     })
 
     it('controls input value correctly using control buttons', () => {
