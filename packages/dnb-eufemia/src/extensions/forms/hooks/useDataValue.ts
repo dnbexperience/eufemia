@@ -14,10 +14,10 @@ import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
-import { makeUniqueId } from '../../../shared/component-helper'
 import useMountEffect from './useMountEffect'
 import useUpdateEffect from './useUpdateEffect'
 import useProcessManager from './useProcessManager'
+import useId from './useId'
 
 interface ReturnAdditional<Value> {
   id: string
@@ -73,7 +73,7 @@ export default function useDataValue<
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
-  const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
+  const id = useId(props.id)
   const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
