@@ -204,12 +204,16 @@ export interface FieldProps<
   continuousValidation?: boolean
   errorMessages?: ErrorMessages
   // Derivatives
-  toInput?: (external: Value | undefined) => any
-  fromInput?: (...args: any[]) => Value | undefined
-  toEvent?: (internal: Value | undefined) => any
-  fromExternal?: (...args: any[]) => Value | undefined
+  toInput?: (external: Value | unknown) => Value | unknown
+  fromInput?: (external: Value | unknown) => Value
+  toEvent?: (
+    internal: Value,
+    type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
+  ) => Value
+  fromExternal?: (external: Value) => Value
+  transformValue?: (value: Value, currentValue?: Value) => Value
   validateRequired?: (
-    internal: Value | undefined,
+    internal: Value,
     {
       emptyValue,
       required,

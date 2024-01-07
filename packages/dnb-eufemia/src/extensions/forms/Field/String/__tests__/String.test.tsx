@@ -88,6 +88,8 @@ describe('Field.String', () => {
 
       const input = document.querySelector('input')
 
+      expect(input).toHaveValue('First Word')
+
       await userEvent.type(input, ' second')
       expect(input).toHaveValue('First Word Second')
 
@@ -112,7 +114,7 @@ describe('Field.String', () => {
       render(
         <Field.String
           trim
-          value=" first"
+          value=" first"
           onChange={onChange}
           onBlur={onBlur}
         />
@@ -120,11 +122,11 @@ describe('Field.String', () => {
 
       const input = document.querySelector('input')
 
-      expect(input).toHaveValue(' first')
+      expect(input).toHaveValue(' first')
 
       await userEvent.type(input, ' second ')
 
-      expect(onChange).toHaveBeenLastCalledWith(' first second ')
+      expect(onChange).toHaveBeenLastCalledWith(' first second ')
 
       fireEvent.blur(input)
 

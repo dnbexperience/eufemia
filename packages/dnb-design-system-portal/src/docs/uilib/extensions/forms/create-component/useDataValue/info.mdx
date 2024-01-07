@@ -173,25 +173,12 @@ The transformers are hooks to transform the value on different stages.
 
 They should return a transformed value: `(value) => value`
 
-- `toInput` transforms the value before it gets returned by the hook:
+- `toInput` transforms the value before it gets returned as the `value`:
 
-```ts
-const { value } = useDataValue(props)
-```
+- `fromInput` transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value form the original event object.
 
-- `fromInput` transforms the value given by `handleChange` before it is used in the further process flow.
-
-```ts
-handleChange(value)
-```
-
-- `toEvent` transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`.
+- `toEvent` transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
 
 - `fromExternal` transforms the given props `value` before any other step gets entered.
 
-#### Additional features
-
-| Property     | Type      | Description                                                                                                                |
-| ------------ | --------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `capitalize` | `boolean` | _(optional)_ When set to `true`, it will capitalize the first letter of every word, transforming the rest to lowercase.    |
-| `trim`       | `boolean` | _(optional)_ When `true`, it will trim leading and trailing whitespaces on blur, triggering onChange if the value changes. |
+- `transformValue` transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value
