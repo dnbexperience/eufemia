@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { act, render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import MultiInputMask, {
   MultiInputMaskInput,
@@ -54,9 +54,7 @@ describe('MultiInputMask', () => {
       '.dnb-multi-input-mask__input'
     )[0] as HTMLInputElement
 
-    act(() => {
-      firstInput.focus()
-    })
+    fireEvent.focus(firstInput)
 
     await userEvent.keyboard('08122023')
 
@@ -238,9 +236,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-    })
+    fireEvent.focus(first)
 
     await userEvent.keyboard('11223333')
 
@@ -294,10 +290,8 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-      first.setSelectionRange(0, 0)
-    })
+    fireEvent.focus(first)
+    first.setSelectionRange(0, 0)
 
     await userEvent.keyboard('fst')
 
@@ -357,10 +351,8 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-      first.setSelectionRange(0, 0)
-    })
+    fireEvent.focus(first)
+    first.setSelectionRange(0, 0)
 
     expect(first.selectionStart).toBe(0)
     expect(first.selectionEnd).toBe(0)
@@ -528,10 +520,8 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-      first.setSelectionRange(0, 0)
-    })
+    fireEvent.focus(first)
+    first.setSelectionRange(0, 0)
 
     expect(first.selectionStart).toBe(0)
     expect(first.selectionEnd).toBe(0)
@@ -563,9 +553,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-    })
+    fireEvent.focus(first)
 
     await userEvent.keyboard('11223333')
 
@@ -595,22 +583,20 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-      first.setSelectionRange(0, 0)
-    })
+    fireEvent.focus(first)
+    first.setSelectionRange(0, 0)
 
     expect(first.selectionStart).toBe(0)
     expect(first.selectionEnd).toBe(0)
     expect(document.activeElement).toBe(first)
 
-    await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}')
+    await userEvent.keyboard('{ArrowRight>3}')
 
     expect(second.selectionStart).toBe(0)
     expect(second.selectionEnd).toBe(0)
     expect(document.activeElement).toBe(second)
 
-    await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}')
+    await userEvent.keyboard('{ArrowRight>3}')
 
     expect(third.selectionStart).toBe(0)
     expect(third.selectionEnd).toBe(0)
@@ -622,19 +608,65 @@ describe('MultiInputMask', () => {
     expect(second.selectionEnd).toBe(2)
     expect(document.activeElement).toBe(second)
 
-    await userEvent.keyboard('{ArrowLeft}{ArrowLeft}{ArrowLeft}')
+    await userEvent.keyboard('{ArrowLeft>3}')
 
     expect(first.selectionStart).toBe(2)
     expect(first.selectionEnd).toBe(2)
     expect(document.activeElement).toBe(first)
 
-    await userEvent.keyboard(
-      '{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}'
-    )
+    await userEvent.keyboard('{ArrowRight>3}{ArrowRight}')
 
     expect(third.selectionStart).toBe(0)
     expect(third.selectionEnd).toBe(0)
     expect(document.activeElement).toBe(third)
+  })
+
+  it('should set cursor at the start or end of the input when value is selected', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // 1. Test the ArrowRight
+
+    fireEvent.focus(first)
+
+    expect(document.activeElement).toBe(first)
+    expect(first.selectionStart).toBe(0)
+    expect(first.selectionEnd).toBe(2)
+
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(document.activeElement).toBe(first)
+    expect(first.selectionStart).toBe(2)
+    expect(first.selectionEnd).toBe(2)
+
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(document.activeElement).toBe(second)
+    expect(second.selectionStart).toBe(0)
+    expect(second.selectionEnd).toBe(0)
+
+    // 2. Test the same but with the last input and backspace
+
+    fireEvent.focus(third)
+
+    expect(document.activeElement).toBe(third)
+    expect(third.selectionStart).toBe(0)
+    expect(third.selectionEnd).toBe(4)
+
+    await userEvent.keyboard('{Backspace}')
+
+    expect(document.activeElement).toBe(third)
+    expect(third.selectionStart).toBe(0)
+    expect(third.selectionEnd).toBe(0)
+
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(document.activeElement).toBe(second)
+    expect(second.selectionStart).toBe(2)
+    expect(second.selectionEnd).toBe(2)
   })
 
   it('should be able to tab between inputs', async () => {
@@ -644,9 +676,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    act(() => {
-      first.focus()
-    })
+    fireEvent.focus(first)
 
     expect(document.activeElement).toBe(first)
 
