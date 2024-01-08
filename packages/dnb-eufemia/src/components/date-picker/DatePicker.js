@@ -673,7 +673,6 @@ export default class DatePicker extends React.PureComponent {
                   locale={locale}
                   {...attributes}
                   submitAttributes={submitParams}
-                  onFocus={this.showPicker}
                   onSubmit={this.togglePicker}
                   {...status_props}
                 />

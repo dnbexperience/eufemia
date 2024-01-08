@@ -1494,6 +1494,41 @@ describe('DatePicker component', () => {
     expect(thirdDateButton.children[2]).toHaveTextContent('24')
   })
 
+  it('should fire fire event when input gets focus', async () => {
+    const onFocus = jest.fn()
+    render(<DatePicker show_input onFocus={onFocus} date="2024-01-05" />)
+
+    const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-input__input')
+    )
+
+    await userEvent.click(firstInput)
+
+    expect(onFocus).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(firstInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(firstInput)
+    expect(onFocus).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledWith(
+      expect.objectContaining({ target: firstInput, date: '2024-01-05' })
+    )
+
+    await userEvent.click(secondInput)
+
+    expect(onFocus).toHaveBeenCalledTimes(2)
+    expect(document.activeElement).toBe(secondInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(secondInput)
+    expect(onFocus).toHaveBeenCalledTimes(2)
+    expect(onFocus).toHaveBeenCalledWith(
+      expect.objectContaining({ target: secondInput, date: '2024-01-05' })
+    )
+  })
+
   it('should fire blur event when input loses focus', async () => {
     const onBlur = jest.fn()
     render(<DatePicker show_input onBlur={onBlur} date="2024-01-05" />)
