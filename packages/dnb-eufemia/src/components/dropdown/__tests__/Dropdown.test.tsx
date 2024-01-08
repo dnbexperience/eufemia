@@ -61,9 +61,13 @@ const mockData: DrawerListDataObjectUnion[] = [
 mockImplementationForDirectionObserver()
 
 describe('Dropdown component', () => {
+  afterEach(() => {
+    dispatchKeyDown(27) // esc
+  })
+
   it('has correct value on keydown "ArrowDown" and "Enter"', () => {
     render(<Dropdown {...props} data={mockData} />)
-    let elem
+    let elem: HTMLUListElement
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
@@ -84,7 +88,7 @@ describe('Dropdown component', () => {
 
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       (props.value as number) + 1
-    ]
+    ] as HTMLUListElement
     expect(elem.classList).toContain('dnb-drawer-list__option--focus')
     expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
@@ -161,7 +165,6 @@ describe('Dropdown component', () => {
     expect(
       document
         .querySelector('.dnb-drawer-list__options')
-
         .getAttribute('aria-expanded')
     ).toBe('true')
   })
@@ -813,7 +816,7 @@ describe('Dropdown component', () => {
     })
 
     // close
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+    dispatchKeyDown(27) // esc
 
     expect(on_hide.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
@@ -893,7 +896,7 @@ describe('Dropdown component', () => {
 
     act(() => {
       // close
-      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+      dispatchKeyDown(27) // esc
     })
 
     expect(on_hide.mock.calls.length).toBe(1)
@@ -913,7 +916,7 @@ describe('Dropdown component', () => {
 
     act(() => {
       // close again, but with false returned
-      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+      dispatchKeyDown(27) // esc
     })
 
     expect(on_hide.mock.calls.length).toBe(2)
@@ -1157,11 +1160,32 @@ describe('Dropdown component', () => {
     const { rerender } = render(
       <Dropdown data={mockData} {...mockProps} />
     )
+
+    const button = document.querySelector('.dnb-dropdown__trigger')
+
+    expect(button).not.toHaveAttribute('disabled')
+
     rerender(<Dropdown data={mockData} {...mockProps} disabled={true} />)
 
-    expect(
-      document.querySelector('button.dnb-dropdown__trigger')
-    ).toHaveAttribute('disabled')
+    expect(button).toHaveAttribute('disabled')
+  })
+
+  it('has correct trigger button aria attributes', () => {
+    render(
+      <Dropdown data={mockData} {...mockProps} opened id="dropdown-id" />
+    )
+
+    const elem = document.querySelector('.dnb-dropdown__trigger')
+
+    expect(elem).toHaveAttribute('aria-haspopup', 'listbox')
+    expect(elem).toHaveAttribute('aria-controls', 'dropdown-id-ul')
+    expect(elem).toHaveAttribute('aria-expanded', 'true')
+
+    keydown(27) // esc
+
+    expect(elem).toHaveAttribute('aria-haspopup', 'listbox')
+    expect(elem).not.toHaveAttribute('aria-controls', 'dropdown-id-ul')
+    expect(elem).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('gets valid buttonRef element', () => {
@@ -1327,4 +1351,12 @@ const keydown = (keyCode) => {
 
 const open = () => {
   fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+}
+
+const dispatchKeyDown = (keyCode) => {
+  document.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      keyCode,
+    })
+  )
 }

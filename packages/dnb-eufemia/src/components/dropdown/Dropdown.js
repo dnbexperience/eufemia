@@ -536,7 +536,6 @@ class DropdownInstance extends React.PureComponent {
       disabled,
       'aria-haspopup': handleAsMenu ? true : 'listbox',
       'aria-expanded': opened,
-      // 'aria-controls': `${id}-drawer-list`,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -545,7 +544,7 @@ class DropdownInstance extends React.PureComponent {
     }
 
     if (opened) {
-      triggerParams['aria-controls'] = `${id}-drawer-list`
+      triggerParams['aria-controls'] = `${id}-ul`
     }
 
     if (showStatus || suffix) {
