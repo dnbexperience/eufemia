@@ -113,3 +113,16 @@ export const ValidationRequired = () => {
     </ComponentBox>
   )
 }
+
+export const WithStepControls = () => (
+  <ComponentBox data-visual-test="currency-input-step-controls">
+    <Field.Currency
+      showStepControls
+      label="Amount"
+      minimum={500}
+      maximum={2000}
+      value={1000}
+      step={100}
+    />
+  </ComponentBox>
+)
