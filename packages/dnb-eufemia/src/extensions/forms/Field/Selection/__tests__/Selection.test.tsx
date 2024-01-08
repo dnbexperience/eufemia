@@ -191,14 +191,14 @@ describe('Selection', () => {
       })
 
       it('should validate with ARIA rules', async () => {
-        const element = render(
+        const result = render(
           <Field.Selection variant="radio" value="bar">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
           </Field.Selection>
         )
 
-        expect(await axeComponent(element)).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
     })
 
@@ -281,14 +281,14 @@ describe('Selection', () => {
     })
 
     it('should validate with ARIA rules', async () => {
-      const element = render(
+      const result = render(
         <Field.Selection variant="button" value="bar">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
         </Field.Selection>
       )
 
-      expect(await axeComponent(element)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 

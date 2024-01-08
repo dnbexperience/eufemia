@@ -69,8 +69,8 @@ describe('Field.Currency', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(<Currency label="Label" value={123} />)
+    const result = render(<Currency label="Label" value={123} />)
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

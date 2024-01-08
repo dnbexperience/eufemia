@@ -36,8 +36,8 @@ describe('Field.PostalCodeAndCity', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(<PostalCodeAndCity {...props} />)
+    const result = render(<PostalCodeAndCity {...props} />)
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

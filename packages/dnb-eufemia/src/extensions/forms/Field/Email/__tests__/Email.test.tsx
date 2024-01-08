@@ -124,8 +124,8 @@ describe('Field.Email', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(<Email value="me@mail.com" />)
+    const result = render(<Email value="me@mail.com" />)
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

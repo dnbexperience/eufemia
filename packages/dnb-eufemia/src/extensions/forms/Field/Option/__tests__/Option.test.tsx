@@ -12,13 +12,13 @@ describe('Field.Option', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const element = render(
+    const result = render(
       <Selection>
         <Option value="foo" title="Foo!" />
         <Option value="bar" title="Baar!" />
       </Selection>
     )
 
-    expect(await axeComponent(element)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
