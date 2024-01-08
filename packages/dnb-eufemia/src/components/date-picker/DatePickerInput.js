@@ -325,6 +325,13 @@ export default class DatePickerInput extends React.PureComponent {
       focusState: 'focus',
       _listenForPropChanges: false,
     })
+
+    if (this.props.onFocus) {
+      this.props.onFocus({
+        ...event,
+        ...this.context.getReturnObject({ event }),
+      })
+    }
   }
 
   onBlurHandler = (event) => {

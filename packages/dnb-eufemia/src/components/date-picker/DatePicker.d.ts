@@ -253,6 +253,10 @@ export interface DatePickerProps
    */
   on_reset?: (...args: any[]) => any;
   /**
+   * Will be called once the input gets focus.
+   */
+  onFocus?: (event: React.FocusEventHandler<HTMLInputElement>) => void;
+  /**
    * Will be called once the input loses focus.
    */
   onBlur?: (
