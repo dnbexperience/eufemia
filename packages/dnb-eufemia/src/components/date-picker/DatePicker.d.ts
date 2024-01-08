@@ -25,6 +25,14 @@ type DatePickerSuffix =
   | React.ReactNode;
 type DatePickerDirection = 'auto' | 'top' | 'bottom';
 type DatePickerAlignPicker = 'auto' | 'left' | 'right';
+
+// Make it possible to join React.Event interfaces with DatePickerEvent type.
+type DatePickerEvent<T extends T> = T & {
+  date?: string;
+  start_date?: string;
+  end_date?: string;
+};
+
 export interface DatePickerProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref', 'onBlur'>,
     SpacingProps {
@@ -247,7 +255,9 @@ export interface DatePickerProps
   /**
    * Will be called once the input loses focus.
    */
-  onBlur?: (event: React.FocusEventHandler<HTMLInputElement>) => void;
+  onBlur?: (
+    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+  ) => void;
 }
 export default class DatePicker extends React.Component<
   DatePickerProps,
