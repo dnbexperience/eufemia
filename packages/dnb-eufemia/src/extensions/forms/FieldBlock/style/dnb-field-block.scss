@@ -8,6 +8,8 @@ fieldset.dnb-forms-field-block {
 .dnb-forms-field-block {
   &__grid {
     display: grid;
+
+    @include formLabelWrap();
   }
 
   &--layout {
