@@ -146,19 +146,22 @@ function FieldBlock(props: Props) {
     ? 'info'
     : null
 
-  const Label = ({ children }) => {
-    return (
-      <FormLabel
-        element={enableFieldset ? 'legend' : 'label'}
-        forId={enableFieldset ? undefined : forId}
-        space={{ top: 0, bottom: 'x-small' }}
-        size={size}
-        disabled={disabled}
-      >
-        {children}
-      </FormLabel>
-    )
-  }
+  const Label = useCallback(
+    ({ children }) => {
+      return (
+        <FormLabel
+          element={enableFieldset ? 'legend' : 'label'}
+          forId={enableFieldset ? undefined : forId}
+          space={{ top: 0, bottom: 'x-small' }}
+          size={size}
+          disabled={disabled}
+        >
+          {children}
+        </FormLabel>
+      )
+    },
+    [enableFieldset, forId, size, disabled]
+  )
 
   return (
     <FieldBlockContext.Provider
