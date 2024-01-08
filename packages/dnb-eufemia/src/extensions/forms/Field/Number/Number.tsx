@@ -104,16 +104,11 @@ function NumberComponent(props: Props) {
     return external
   }, [])
   const fromInput = useCallback(
-    (event: { value?: string; numberValue: number }) => {
-      if (typeof event === 'number') {
-        event = { numberValue: event }
-      }
-
-      if (event?.value === '') {
+    ({ value, numberValue }: { value: string; numberValue: number }) => {
+      if (value === '') {
         return props.emptyValue
       }
-
-      return event?.numberValue
+      return numberValue
     },
     [props.emptyValue]
   )
@@ -121,7 +116,7 @@ function NumberComponent(props: Props) {
     (value: number, currentValue: number) => {
       if (
         value > Number.MAX_SAFE_INTEGER ||
-        value < -Number.MAX_SAFE_INTEGER
+        value < Number.MIN_SAFE_INTEGER
       ) {
         return currentValue
       }
@@ -193,7 +188,7 @@ function NumberComponent(props: Props) {
     labelDescription,
     labelSecondary,
     value,
-    minimum = -Number.MAX_SAFE_INTEGER,
+    minimum = Number.MIN_SAFE_INTEGER,
     maximum = Number.MAX_SAFE_INTEGER,
     disabled,
     info,

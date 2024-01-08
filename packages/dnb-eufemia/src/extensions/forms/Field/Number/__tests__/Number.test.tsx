@@ -25,21 +25,21 @@ describe('Field.Number', () => {
     })
 
     it('corrects minimum number', () => {
-      render(<Field.Number value={-Number.MAX_SAFE_INTEGER} />)
+      render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
 
       fireEvent.change(input, {
         target: {
-          value: String(-Number.MAX_SAFE_INTEGER - 1),
+          value: String(Number.MIN_SAFE_INTEGER - 1),
         },
       })
 
-      expect(input).toHaveValue(String(-Number.MAX_SAFE_INTEGER - 1))
+      expect(input).toHaveValue(String(Number.MIN_SAFE_INTEGER - 1))
 
       fireEvent.blur(input)
 
-      expect(input).toHaveValue(String(-Number.MAX_SAFE_INTEGER))
+      expect(input).toHaveValue(String(Number.MIN_SAFE_INTEGER))
     })
 
     it('corrects maximum number', () => {
