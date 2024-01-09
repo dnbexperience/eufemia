@@ -16,6 +16,9 @@ export type Props = {
   pathTrue?: string
   /** Given data context path must be false to show children */
   pathFalse?: string
+  /** Given data context path must match, as well as the "whenValue" value */
+  pathValue?: string
+  whenValue?: unknown
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
   children: React.ReactNode
@@ -29,10 +32,19 @@ function Visibility({
   pathFalsy,
   pathTrue,
   pathFalse,
+  pathValue,
+  whenValue,
   inferData,
   children,
 }: Props) {
   const dataContext = useContext(DataContext.Context)
+
+  console.log(
+    'val',
+    pointer.has(dataContext.data, pathValue) &&
+      pointer.get(dataContext.data, pathValue),
+    whenValue
+  )
 
   if (visible === false) {
     return null
@@ -71,6 +83,16 @@ function Visibility({
     pathFalse &&
     (!pointer.has(dataContext.data, pathFalse) ||
       pointer.get(dataContext.data, pathFalse) !== false)
+  ) {
+    return null
+  }
+
+  if (
+    pathValue &&
+    !(
+      pointer.has(dataContext.data, pathValue) &&
+      pointer.get(dataContext.data, pathValue) === whenValue
+    )
   ) {
     return null
   }

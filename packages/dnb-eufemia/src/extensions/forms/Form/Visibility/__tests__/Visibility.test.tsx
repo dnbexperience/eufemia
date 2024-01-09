@@ -13,7 +13,7 @@ describe('Visibility', () => {
     expect(Visibility._supportsSpacingProps).toBe('children')
   })
 
-  describe('visibility-prop', () => {
+  describe('visibility', () => {
     it('renders children when visible is true', () => {
       render(<Visibility visible={true}>Child</Visibility>)
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -25,7 +25,7 @@ describe('Visibility', () => {
     })
   })
 
-  describe('pathDefined-prop', () => {
+  describe('pathDefined', () => {
     it('renders children when target path is defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
@@ -45,7 +45,7 @@ describe('Visibility', () => {
     })
   })
 
-  describe('pathUndefined-prop', () => {
+  describe('pathUndefined', () => {
     it('renders children when target path is defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
@@ -65,7 +65,7 @@ describe('Visibility', () => {
     })
   })
 
-  describe('pathTruthy-prop', () => {
+  describe('pathTruthy', () => {
     it('renders children when target path is truthy', () => {
       render(
         <Provider data={{ isTrue: true }}>
@@ -94,7 +94,7 @@ describe('Visibility', () => {
     })
   })
 
-  describe('pathFalsy-prop', () => {
+  describe('pathFalsy', () => {
     it('renders children when target path is falsy', () => {
       render(
         <Provider data={{ isFalse: false }}>
@@ -123,8 +123,8 @@ describe('Visibility', () => {
     })
   })
 
-  describe('inferData-prop', () => {
-    it('renders children when infer-function return true', () => {
+  describe('inferData', () => {
+    it('renders children when infer-function returns true', () => {
       // eslint-disable-next-line no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
@@ -146,6 +146,30 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(inferData.mock.calls).toHaveLength(1)
       expect(inferData.mock.calls[0][0]).toEqual({ foo: 'bar' })
+    })
+  })
+
+  describe('pathValue', () => {
+    it('renders children when target path and value matches', () => {
+      render(
+        <Provider data={{ myPath: 'checked' }}>
+          <Visibility pathValue="/myPath" whenValue="checked">
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when target path not not value matches', () => {
+      render(
+        <Provider data={{ myPath: 'checked' }}>
+          <Visibility pathValue="/myPath" whenValue="not-checked">
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).toBeNull()
     })
   })
 })

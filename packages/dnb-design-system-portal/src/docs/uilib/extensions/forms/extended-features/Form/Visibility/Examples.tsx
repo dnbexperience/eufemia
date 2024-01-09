@@ -13,9 +13,9 @@ export const BooleanExample = () => {
       <Form.Handler>
         <Flex.Stack>
           <Field.Boolean
+            label="Show content"
             variant="buttons"
             path="/toggleValue"
-            label="Show content"
             value={false}
           />
           <Form.Visibility pathTrue="/toggleValue">
@@ -23,6 +23,26 @@ export const BooleanExample = () => {
             <TestElement>Item 2</TestElement>
           </Form.Visibility>
         </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const PathValue = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Field.Toggle
+          label="Show content"
+          valueOn="checked"
+          valueOff="unchecked"
+          variant="buttons"
+          path="/toggleValue"
+          value="unchecked"
+        />
+        <Form.Visibility pathValue="/toggleValue" whenValue="checked">
+          <P>This is visible</P>
+        </Form.Visibility>
       </Form.Handler>
     </ComponentBox>
   )
