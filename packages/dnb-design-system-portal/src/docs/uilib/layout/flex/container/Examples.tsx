@@ -193,3 +193,29 @@ export const LayoutHorizontalFlexGrowItems = () => {
     </ComponentBox>
   )
 }
+
+export const WrappedWithChildren = () => {
+  return (
+    <ComponentBox
+      scope={{ TestElement }}
+      data-visual-test="flex-container-with-children"
+    >
+      {() => {
+        const Wrapper = Flex.withChildren(({ children }) => {
+          return <div>{children}</div>
+        })
+
+        return (
+          <Flex.Container direction="vertical">
+            <TestElement>FlexItem 1</TestElement>
+            <Wrapper>
+              <TestElement>FlexItem 2</TestElement>
+              <TestElement>FlexItem 3</TestElement>
+            </Wrapper>
+            <TestElement>FlexItem 4</TestElement>
+          </Flex.Container>
+        )
+      }}
+    </ComponentBox>
+  )
+}

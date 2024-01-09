@@ -10,3 +10,5 @@ export default function TestElement({ className = null, ...props }) {
     />
   )
 }
+
+TestElement._supportsSpacingProps = true
