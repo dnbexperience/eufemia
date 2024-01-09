@@ -28,6 +28,27 @@ You may else wrap your custom component in a `Flex.Item` – this way, you still
 
 Technically, `Flex.Container` checks if a nested component has a property called `_supportsSpacingProps`. So if you have a component that supports the [spacing properties](/uilib/layout/space/), you can add this property `ComponentName._supportsSpacingProps = true`.
 
+If the component is a wrapper component, and you want its children to support spacing, you can add this property `ComponentName._supportsSpacingProps = 'children'`.
+
+But for simplicity, you rather can use the HOC `Flex.withChildren`:
+
+```tsx
+const MyComponent = Flex.withChildren(() => {
+  return (
+    <div>
+      <ShouldGetSpacing />
+      <ShouldGetSpacing />
+    </div>
+  )
+})
+
+render(
+  <Flex.Container>
+    <MyComponent />
+  </Flex.Container>,
+)
+```
+
 ### Horizontal and Vertical aliases
 
 For shortening the usage of `direction="..."`, you can use:

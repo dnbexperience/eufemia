@@ -312,21 +312,8 @@ describe('Flex.Container', () => {
     expect(children[2].className).toContain('dnb-space__right--zero')
   })
 
-  it('should set element', () => {
-    render(<Flex.Container element="section">content</Flex.Container>)
-
-    const element = document.querySelector('.dnb-flex-container')
-
-    expect(element.tagName).toBe('SECTION')
-  })
-
   it('should not add a wrapper when _supportsSpacingProps is given', () => {
-    const { rerender } = render(
-      <Flex.Vertical>
-        <Flex.Item>content</Flex.Item>
-        <Flex.Item>content</Flex.Item>
-      </Flex.Vertical>
-    )
+    const { rerender } = render(<></>)
 
     const TestComponent = (props: SpaceProps) => {
       const cn = createSpacingClasses(props)
@@ -381,6 +368,130 @@ describe('Flex.Container', () => {
       expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
       expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
     }
+  })
+
+  it('should transform children of children if _supportsSpacingProps is given', () => {
+    const { rerender } = render(<></>)
+
+    const Wrapper = ({ children }) => {
+      return <div className="wrapper">{children}</div>
+    }
+
+    const TestComponent = (props: SpaceProps) => {
+      const cn = createSpacingClasses(props)
+      cn.push('test-item')
+      return <div className={cn.join(' ')}>content</div>
+    }
+
+    {
+      rerender(
+        <Flex.Vertical>
+          <Wrapper>
+            <TestComponent />
+            <TestComponent top="large" />
+          </Wrapper>
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect(elements[0].className).toBe(
+        'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBe(
+        'wrapper'
+      )
+    }
+
+    {
+      Wrapper._supportsSpacingProps = 'children'
+
+      rerender(
+        <Flex.Vertical>
+          <Wrapper>
+            <TestComponent />
+            <TestComponent top="large" />
+          </Wrapper>
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBe(
+        'test-item'
+      )
+      expect(elements[0].className).toBe(
+        'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
+      )
+      expect(elements[1].className).toBe(
+        'dnb-space dnb-space__top--large dnb-space__bottom--zero'
+      )
+    }
+
+    {
+      TestComponent._supportsSpacingProps = true
+
+      rerender(
+        <Flex.Vertical>
+          <Wrapper>
+            <TestComponent />
+            <TestComponent top="x-large" />
+          </Wrapper>
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect(elements[0].className).toBe(
+        'dnb-space__top--zero dnb-space__bottom--zero test-item'
+      )
+      expect(elements[1].className).toBe(
+        'dnb-space__top--x-large dnb-space__bottom--zero test-item'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
+      expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
+    }
+
+    {
+      TestComponent._supportsSpacingProps = true
+
+      const Wrapper = Flex.withChildren(function MyWrapper({ children }) {
+        return <div className="wrapper">{children}</div>
+      })
+
+      rerender(
+        // render(
+        <Flex.Vertical>
+          <Wrapper>
+            <TestComponent />
+            <TestComponent top="x-large" />
+          </Wrapper>
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect(elements[0].className).toBe(
+        'dnb-space__top--zero dnb-space__bottom--zero test-item'
+      )
+      expect(elements[1].className).toBe(
+        'dnb-space__top--x-large dnb-space__bottom--zero test-item'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
+      expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
+    }
+  })
+
+  it('should set custom element', () => {
+    render(<Flex.Container element="section">content</Flex.Container>)
+
+    const element = document.querySelector('.dnb-flex-container')
+
+    expect(element.tagName).toBe('SECTION')
   })
 
   it('gets valid ref element', () => {

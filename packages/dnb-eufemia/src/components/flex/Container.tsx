@@ -5,6 +5,7 @@ import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
 import {
   getSpaceValue,
+  getSpacingPropsChildren,
   isHeadingElement,
   renderWithSpacing,
 } from './utils'
@@ -94,7 +95,10 @@ function FlexContainer(props: Props) {
     ...rest
   } = props
 
-  const childrenArray = React.Children.toArray(children)
+  const firstChild = React.Children.toArray(children)?.[0]
+  const childrenArray = React.Children.toArray(
+    getSpacingPropsChildren(firstChild) || children
+  )
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
     return (

@@ -63,6 +63,15 @@ export const isSpacePropsComponent = (
   )
 }
 
+export const getSpacingPropsChildren = (child: React.ReactNode) => {
+  if (
+    React.isValidElement(child) &&
+    child?.type?.['_supportsSpacingProps'] === 'children'
+  ) {
+    return child?.props?.children
+  }
+}
+
 export const renderWithSpacing = (
   element: React.ReactNode,
   props: SpacingProps & { key?: string; className?: string }
