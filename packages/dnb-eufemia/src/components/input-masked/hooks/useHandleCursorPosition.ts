@@ -21,16 +21,18 @@ function useHandleCursorPosition(
       getKeysToHandle({ keysToHandle, input })?.test(pressedKey) ||
       /(ArrowRight|ArrowLeft|Backspace)/.test(pressedKey)
 
+    const hasSelection = hasSelectedValue(input)
+
+    const inputPosition = !hasSelection && getInputPosition(input, inputs)
+
     const initialSelectionStart = input.selectionStart
 
-    const inputPosition = getInputPosition(input, inputs)
-
     window.requestAnimationFrame(() => {
-      const caretPosition = getCaretPosition(input)
-
-      if (!hasPressedKeysToHandle) {
+      if (!hasPressedKeysToHandle || hasSelection) {
         return // stop here
       }
+
+      const caretPosition = getCaretPosition(input)
 
       if (
         caretPosition === 'last' &&
@@ -111,6 +113,10 @@ function getInputPosition(
 
 function getSelectionPositions(input: HTMLInputElement) {
   return { start: 0, end: Number(input.size) }
+}
+
+function hasSelectedValue(input: HTMLInputElement) {
+  return input.selectionEnd > input.selectionStart
 }
 
 function getCaretPosition(input: HTMLInputElement) {
