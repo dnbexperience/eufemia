@@ -82,5 +82,5 @@ function Visibility({
   return <>{children}</>
 }
 
-Visibility._supportsSpacingProps = true
+Visibility._supportsSpacingProps = 'children'
 export default Visibility

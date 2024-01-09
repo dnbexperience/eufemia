@@ -1,20 +1,67 @@
+import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { P } from '@dnb/eufemia/src'
-import { Form, Visibility } from '@dnb/eufemia/src/extensions/forms'
+import { Flex, P } from '@dnb/eufemia/src'
+import {
+  Field,
+  Form,
+  TestElement,
+  Visibility,
+} from '@dnb/eufemia/src/extensions/forms'
 
-export const BasedOnBooleanTrue = () => {
+export const BooleanExample = () => {
   return (
-    <ComponentBox scope={{ Visibility }}>
-      <Visibility visible={true}>This is visible</Visibility>
+    <ComponentBox scope={{ Visibility, TestElement }}>
+      <Form.Handler>
+        <Flex.Stack>
+          <Field.Boolean
+            variant="buttons"
+            path="/toggleValue"
+            label="Show content"
+            value={false}
+          />
+          <Visibility pathTrue="/toggleValue">
+            <TestElement>Item 1</TestElement>
+            <TestElement>Item 2</TestElement>
+          </Visibility>
+        </Flex.Stack>
+      </Form.Handler>
     </ComponentBox>
   )
 }
 
-export const BasedOnBooleanFalse = () => {
+export const InferData = () => {
   return (
     <ComponentBox scope={{ Visibility }}>
-      <Visibility visible={{ foo: 'foo' }.foo === 'bar'}>
-        This is not visible
+      {() => {
+        const MyComponent = () => {
+          const [state, setState] = React.useState(false)
+          const inferData = React.useCallback(() => state, [state])
+
+          return (
+            <Form.Handler>
+              <Field.Boolean
+                path="/toggleValue"
+                onChange={setState}
+                label="Check me"
+              />
+              <Visibility inferData={inferData}>
+                <P>This is visible</P>
+              </Visibility>
+            </Form.Handler>
+          )
+        }
+
+        return <MyComponent />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const BasedOnBooleanTrue = () => {
+  return (
+    <ComponentBox scope={{ Visibility }}>
+      <Visibility visible={true}>
+        <P>This is visible</P>
       </Visibility>
     </ComponentBox>
   )
