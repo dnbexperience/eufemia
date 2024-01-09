@@ -14,7 +14,7 @@ import {
   Flex,
   FormLabel,
 } from '@dnb/eufemia/src'
-import { FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
@@ -358,5 +358,17 @@ export const InputScreenshotTests = () => {
         </Provider>
       </ComponentBox>
     </Wrapper>
+  )
+}
+
+export const CurrencyField = () => {
+  return (
+    <ComponentBox hideCode>
+      <Field.Currency
+        label="Amount"
+        value={1234}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
   )
 }

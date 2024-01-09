@@ -9,7 +9,7 @@ import {
   InputMaskedExampleCustomNumberMask,
   InputMaskedExampleNumberMask,
   InputMaskedExamplePrefix,
-  InputMaskedExamplePhone,
+  InputMaskedExampleCustomMask,
   InputMaskedExampleMulti,
 } from 'Docs/uilib/components/input-masked/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
@@ -52,9 +52,13 @@ When you use `as_currency` it will create a mask for you and inherit the locale 
 
 <InputMaskedExamplePrefix />
 
-### Phone Number, starting with 4
+### Custom mask
 
-<InputMaskedExamplePhone />
+This is an example of how you can utilize a custom mask.
+
+For a phone number input, use the [PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) field instead.
+
+<InputMaskedExampleCustomMask />
 
 ### Mask with multiple inputs
 
