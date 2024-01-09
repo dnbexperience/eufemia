@@ -4,6 +4,7 @@ import { Space, FormLabel, FormStatus } from '../../../components'
 import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
 import { findElementInChildren } from '../../../shared/component-helper'
+import type { FormLabelAllProps } from '../../../components/FormLabel'
 
 export type Props = Pick<
   FieldProps,
@@ -146,22 +147,13 @@ function FieldBlock(props: Props) {
     ? 'info'
     : null
 
-  const Label = useCallback(
-    ({ children }) => {
-      return (
-        <FormLabel
-          element={enableFieldset ? 'legend' : 'label'}
-          forId={enableFieldset ? undefined : forId}
-          space={{ top: 0, bottom: 'x-small' }}
-          size={size}
-          disabled={disabled}
-        >
-          {children}
-        </FormLabel>
-      )
-    },
-    [enableFieldset, forId, size, disabled]
-  )
+  const labelProps: FormLabelAllProps = {
+    element: enableFieldset ? 'legend' : 'label',
+    forId: enableFieldset ? undefined : forId,
+    space: { top: 0, bottom: 'x-small' },
+    size,
+    disabled,
+  }
 
   return (
     <FieldBlockContext.Provider
@@ -179,14 +171,14 @@ function FieldBlock(props: Props) {
           {labelDescription || labelSecondary ? (
             <div className="dnb-forms-field-block__label">
               {label || labelDescription ? (
-                <Label>
+                <FormLabel {...labelProps}>
                   {label}
                   {labelDescription && (
                     <span className="dnb-forms-field-block__label-description">
                       {labelDescription}
                     </span>
                   )}
-                </Label>
+                </FormLabel>
               ) : (
                 <>&nbsp;</>
               )}
@@ -197,7 +189,7 @@ function FieldBlock(props: Props) {
               )}
             </div>
           ) : (
-            label && <Label>{label}</Label>
+            label && <FormLabel {...labelProps}>{label}</FormLabel>
           )}
 
           <div
