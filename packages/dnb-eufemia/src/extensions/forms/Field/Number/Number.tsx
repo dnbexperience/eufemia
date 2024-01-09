@@ -112,6 +112,19 @@ function NumberComponent(props: Props) {
     },
     [props.emptyValue]
   )
+  const transformValue = useCallback(
+    (value: number, currentValue: number) => {
+      if (
+        value > Number.MAX_SAFE_INTEGER ||
+        value < Number.MIN_SAFE_INTEGER
+      ) {
+        return currentValue
+      }
+
+      return value
+    },
+    []
+  )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
     if (currency) {
@@ -155,6 +168,7 @@ function NumberComponent(props: Props) {
     schema,
     toInput,
     fromInput,
+    transformValue,
     size:
       props.size !== 'small' && props.size !== 'large'
         ? 'medium'
@@ -174,8 +188,8 @@ function NumberComponent(props: Props) {
     labelDescription,
     labelSecondary,
     value,
-    minimum,
-    maximum,
+    minimum = Number.MIN_SAFE_INTEGER,
+    maximum = Number.MAX_SAFE_INTEGER,
     disabled,
     info,
     warning,
