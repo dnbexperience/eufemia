@@ -58,14 +58,12 @@ export default function useDataValue<
     toEvent = (value: Value) => value,
     transformValue = (value: Value) => value,
     fromExternal = (value: Value) => value,
-    validateRequired = (value: Value, { emptyValue, required }) => {
+    validateRequired = (value: Value, { emptyValue, required, error }) => {
       const res =
         required &&
         (value === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
-          ? new FormError('The value is required', {
-              validationRule: 'required',
-            })
+          ? error
           : undefined
       return res
     },
@@ -289,6 +287,9 @@ export default function useDataValue<
           emptyValue,
           required,
           isChanged: changedRef.current,
+          error: new FormError('The value is required', {
+            validationRule: 'required',
+          }),
         }
       )
       if (requiredError instanceof Error) {
