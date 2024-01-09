@@ -22,8 +22,11 @@ export const CreateBasicFieldComponent = () => {
     >
       {() => {
         const MyCustomField = (props) => {
+          const fromInput = React.useCallback(({ value }) => value, [])
+
           const preparedProps = {
             ...props,
+            fromInput,
             validator: (value) => {
               return value === 'secret'
                 ? new Error('Do not reveal the secret!')
@@ -32,6 +35,7 @@ export const CreateBasicFieldComponent = () => {
           }
 
           const {
+            id,
             info,
             warning,
             error,
@@ -43,16 +47,16 @@ export const CreateBasicFieldComponent = () => {
 
           return (
             <FieldBlock
-              forId="id"
+              forId={id}
               label="What is the secret of the custom field?"
               info={info}
               warning={warning}
               error={error}
             >
               <Input
-                id="id"
+                id={id}
                 value={value}
-                on_change={({ value }) => handleChange(value)}
+                on_change={handleChange}
                 on_focus={handleFocus}
                 on_blur={handleBlur}
               />

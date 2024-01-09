@@ -34,23 +34,29 @@ import {
 } from '@dnb/eufemia/extensions/forms'
 ```
 
-## More details
+## FieldBlock and useDataValue
 
-Here is an example of a custom component. Notice how the props received by your field component are passed through the `useDataValue` hook. This hook does not change the API of the props, so the props returned by the hook share the same typescript type with which it was called. However, it adds a few additional properties to simplify the standardization of field behavior. This in the form of the handler functions `handleFocus`, `handleChange` and `handleBlur`. Even if field components externally have these callback functions named with "on" (eg "onChange"), these will remain untouched, while the "handle" variants add handling that saves you a lot of extra work.
+The `FieldBlock` component and the `useDataValue` hook are the basis for all field components in Eufemia Forms.
+
+`FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
+
+While `useDataValue` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
 
 <CreateBasicFieldComponent />
 
+### More details
+
+This example shows a custom component. The `useDataValue` hook receives the props and adds extra properties to standardize field behavior. These includes `handleFocus`, `handleChange`, and `handleBlur` functions. Even if the field components has external callbacks like "onChange", these won't be altered. The "handle" variants simplifies your code.
+
 ### The example explained
 
-In the example above, you see how you can create your own user input functionality in a standardized context using `FieldBlock`. This allows you to display labels, error messages and other surrounding elements in a consistent manner with the ready-made fields found in Eufemia Forms.
+Using these two form helpers in your field component triggers several automatic processes. These include timely validation checks, syncing value changes with the `DataContext`, coordinating error messages across multiple fields, and preventing premature error displays while the user is editing the field.
 
-When you call these three functions as used above from your own implementation of the user experience for the field component, a lot will happen in the background. All available validation functions will be called at the right time, changes in value will be synchronized with any surrounding `DataContext`, co-operation between several fields that should display error messages collectively instead of individually, and not least it ensures that error messages are not displayed on unnecessary times such as while the user is making changes to the field.
-
-Remember that everything that happens by using `useDataValue` and the rest of the available helper functionality, you can override the behavior individually to make the component work exactly as you want.
+Keep in mind, you can customize the behavior of `useDataValue` and other helper functions to make the component work exactly as you want.
 
 ### Your own validation
 
-If – for example; you need to carry out your own custom validation and cannot use the built-in validation with a JSON Schema or by sending in a derivative validator (as is done in the example above), you can write your own logic for it, and send the result in as props to `FieldBlock` in the form of `error`. All direct props override standard handling, so you have full control over your component.
+If you need custom validation that can't use the built-in JSON Schema or a derivative validator (like in the example above), you can create your own logic. Then, pass the result as an `error` prop to `FieldBlock`. All direct props override standard handling, giving you full control over your component.
 
 ### Customized even further
 
