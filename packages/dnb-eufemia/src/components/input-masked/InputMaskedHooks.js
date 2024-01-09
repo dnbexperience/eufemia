@@ -271,6 +271,7 @@ export const useEventMapping = ({ setLocalValue }) => {
     onFocus: (params) => callEvent(params, 'on_focus'),
     onBlur: (params) => callEvent(params, 'on_blur'),
     onMouseUp: (event) => callEvent({ event }, 'on_mouse_up'),
+    onMouseDown: (event) => callEvent({ event }, 'on_mouse_down'),
     onKeyDown: (params) => callEvent(params, 'on_key_down'),
     onSubmit: (params) => callEvent(params, 'on_submit'),
     onChange: (params) => callEvent(params, 'on_change'),
@@ -417,11 +418,17 @@ const useCallEvent = ({ setLocalValue }) => {
     const cleanedValue =
       numberValue === 0 && String(num).charAt(0) !== '0' ? '' : num
 
-    if (
-      name === 'on_key_down' ||
-      (name === 'on_change' && numberValue === 0)
-    ) {
-      correctCaretPosition(event.target, maskParams, props)
+    switch (name) {
+      case 'on_focus':
+      case 'on_key_down':
+      case 'on_mouse_down':
+      case 'on_mouse_up':
+        event.target.runCorrectCaretPosition = () =>
+          correctCaretPosition(event.target, maskParams, props)
+        if (!event.target.__getCorrectCaretPosition) {
+          event.target.runCorrectCaretPosition()
+        }
+        break
     }
 
     const result = dispatchCustomElementEvent(props, name, {
@@ -433,18 +440,6 @@ const useCallEvent = ({ setLocalValue }) => {
 
     if (name === 'on_change') {
       setLocalValue(value)
-    }
-
-    if (
-      (name === 'on_focus' || name === 'on_mouse_up') &&
-      !props.selectall
-    ) {
-      // Also correct here, because of additional click inside the field
-      event.target.runCorrectCaretPosition = () =>
-        correctCaretPosition(event.target, maskParams, props)
-      if (!event.target.__getCorrectCaretPosition) {
-        event.target.runCorrectCaretPosition()
-      }
     }
 
     return result

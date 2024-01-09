@@ -1662,7 +1662,7 @@ describe('InputMasked component as_currency', () => {
 })
 
 describe('InputMasked with custom mask', () => {
-  it('should set correct cursor position on focus and mouseUp', async () => {
+  it('should set correct cursor position on focus', async () => {
     render(
       <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
     )
@@ -1672,7 +1672,6 @@ describe('InputMasked with custom mask', () => {
     const preventDefault = jest.fn()
     element.setSelectionRange = jest.fn()
 
-    // 1. Test first focus
     fireEvent.focus(element, {
       target: {
         selectionStart: 6,
@@ -1680,25 +1679,76 @@ describe('InputMasked with custom mask', () => {
       preventDefault,
     })
 
-    await wait(2) // because of the delayed requestAnimationFrame
+    await waitFor(() => {
+      expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
+      expect(element.setSelectionRange).toHaveBeenNthCalledWith(1, 4, 4)
+    })
+  })
 
-    expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
-    expect(element.setSelectionRange).toHaveBeenNthCalledWith(1, 4, 4)
+  it('should set correct cursor position on mouseDown', async () => {
+    render(
+      <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
+    )
 
-    // 2. Then test mouse up
-    fireEvent.mouseUp(element, {
+    const input = document.querySelector('input')
+
+    const preventDefault = jest.fn()
+    input.setSelectionRange = jest.fn()
+
+    fireEvent.focus(input)
+    fireEvent.mouseDown(input, {
       target: {
         selectionStart: 6,
       },
       preventDefault,
     })
 
-    await wait(2) // because of the delayed requestAnimationFrame
+    await waitFor(() => {
+      expect(input.setSelectionRange).toHaveBeenCalledTimes(2)
+      expect(input.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
 
-    expect(element.setSelectionRange).toHaveBeenCalledTimes(2)
-    expect(element.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
+      expect(input.value).toBe('12––​​')
+    })
+  })
 
-    expect(element.value).toBe('12––​​')
+  it('should set correct cursor position on mouseUp', async () => {
+    render(
+      <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
+    )
+
+    const input = document.querySelector('input')
+
+    const preventDefault = jest.fn()
+    input.setSelectionRange = jest.fn()
+
+    fireEvent.focus(input)
+    fireEvent.mouseUp(input, {
+      target: {
+        selectionStart: 6,
+      },
+      preventDefault,
+    })
+
+    await waitFor(() => {
+      expect(input.setSelectionRange).toHaveBeenCalledTimes(2)
+      expect(input.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
+
+      expect(input.value).toBe('12––​​')
+    })
+  })
+
+  it('should set target.runCorrectCaretPosition on focus event', () => {
+    render(
+      <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
+    )
+
+    const input = document.querySelector('input')
+
+    expect(input['runCorrectCaretPosition']).toBeType('undefined')
+
+    fireEvent.focus(input)
+
+    expect(input['runCorrectCaretPosition']).toBeType('function')
   })
 
   it('should set correct cursor position when navigating using keyboard', async () => {
