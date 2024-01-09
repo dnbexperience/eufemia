@@ -83,7 +83,10 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox
+      scope={{ FormError }}
+      data-visual-test="phone-number-error"
+    >
       <Field.PhoneNumber
         value="007"
         label="Label text"

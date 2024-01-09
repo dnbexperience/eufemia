@@ -1338,12 +1338,14 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   color: var(--color-fire-red);
 }
 .dnb-input__status--error.dnb-input:not([data-input-state=focus]):not(:hover) .dnb-input__shell {
+  --input-border-color: transparent;
   --border-color: var(--color-fire-red);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-input__status--error.dnb-input[data-input-state=focus] .dnb-input__shell, .dnb-input__status--error.dnb-input:not([data-input-state=disabled]) .dnb-input__shell:hover, .dnb-input__status--error.dnb-input:not([data-input-state=disabled]):hover .dnb-input__shell {
+  --input-border-color: var(--color-fire-red);
   --border-color: var(--color-fire-red);
   --border-width: var(--input-border-width--focus);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

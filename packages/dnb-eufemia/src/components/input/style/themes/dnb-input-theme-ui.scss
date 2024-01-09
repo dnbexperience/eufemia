@@ -74,11 +74,13 @@
   }
   &__status--error#{&}:not([data-input-state='focus']):not(:hover)
     &__shell {
+    --input-border-color: transparent;
     @include fakeBorder(var(--color-fire-red));
   }
   &__status--error#{&}[data-input-state='focus'] &__shell,
   &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
   &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
+    --input-border-color: var(--color-fire-red);
     @include fakeBorder(
       var(--color-fire-red),
       var(--input-border-width--focus)

@@ -312,6 +312,7 @@ function PhoneNumber(props: Props) {
             }
             data={dataRef.current}
             value={countryCodeRef.current}
+            status={error ? 'error' : undefined}
             disabled={disabled}
             on_focus={onFocusHandler}
             on_blur={handleBlur}

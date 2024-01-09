@@ -17,6 +17,13 @@ describe.each(['ui'])('PhoneNumber for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match with error', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="phone-number-error"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('PhoneNumber', () => {
