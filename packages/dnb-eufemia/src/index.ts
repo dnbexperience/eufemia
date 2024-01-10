@@ -39,6 +39,7 @@ import Tr from './elements/Tr'
 import Ul from './elements/Ul'
 import Accordion from './components/accordion/Accordion'
 import Anchor from './components/anchor/Anchor'
+import AriaLive from './components/aria-live/AriaLive'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Avatar from './components/avatar/Avatar'
 import Badge from './components/badge/Badge'
@@ -120,6 +121,7 @@ export {
   Ul,
   Accordion,
   Anchor,
+  AriaLive,
   Autocomplete,
   Avatar,
   Badge,

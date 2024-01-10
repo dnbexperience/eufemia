@@ -1,0 +1,52 @@
+---
+showTabs: true
+---
+
+## Description
+
+AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.
+
+Use it to automatically inform users using a screen reader, about changes on the screen that they didn't initiate.
+
+By default, the `AriaLive` component will announce changes to the screen reader in a polite manner. This means that the announcement will be made when the screen reader is idle. This is the recommended way to use the component.
+
+## Usage
+
+For text content:
+
+```tsx
+import { AriaLive } from '@dnb/eufemia'
+render(<AriaLive>unvisible message to announce</AriaLive>)
+```
+
+For content that is not visible, but should be announced on changes:
+
+```tsx
+import { AriaLive } from '@dnb/eufemia'
+render(
+  <AriaLive variant="content">
+    <ul>
+      <li>item one</li>
+      <li>item two</li>
+      {/* When item three appears, it will be announced */}
+    </ul>
+  </AriaLive>,
+)
+```
+
+## Priority
+
+The `priority` prop in the `AriaLive` component is used to control the urgency of the announcement. It can be set to `high` (defaults to `low`). This allows you to control how assertive the announcement should be, helping to create a better user experience for users who rely on screen readers.
+
+## AriaLive Hook
+
+The `useAriaLive` hook is a part of the `AriaLive` component. It can be used to make announcements in functional components. Here's an example of how to use it:
+
+```tsx
+import useAriaLive from '@dnb/eufemia/components/aria-live/useAriaLive'
+
+function MyCustomAriaLive(props) {
+  const ariaAttributes = useAriaLive(props)
+  return <section {...ariaAttributes} />
+}
+```
