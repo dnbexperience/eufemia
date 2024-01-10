@@ -9,6 +9,10 @@ describe('Visibility', () => {
     expect(screen.getByText('Child')).toBeInTheDocument()
   })
 
+  it('should have constant of _supportsSpacingProps="children"', () => {
+    expect(Visibility._supportsSpacingProps).toBe('children')
+  })
+
   describe('visibility-prop', () => {
     it('renders children when visible is true', () => {
       render(<Visibility visible={true}>Child</Visibility>)
