@@ -685,6 +685,7 @@ class DropdownInstance extends React.PureComponent {
                 className="dnb-dropdown__suffix"
                 id={id + '-suffix'} // used for "aria-describedby"
                 context={props}
+                onClick={this.setHidden}
               >
                 {suffix}
               </Suffix>
