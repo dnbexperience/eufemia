@@ -248,8 +248,7 @@
 
 // Firefox fix
 @mixin IS_FF() {
-  @supports (-moz-appearance: meterbar) and
-    (background-blend-mode: difference, normal) {
+  @-moz-document url-prefix() {
     @content;
   }
 }

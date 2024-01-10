@@ -217,6 +217,11 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     background-color: var(--scrollbar-thumb-hover-color, #666);
   }
 }
+@-moz-document url-prefix() {
+  .dnb-textarea__textarea {
+    overflow-x: clip;
+  }
+}
 .dnb-textarea__input:autofill {
   box-shadow: 0 0 0 var(--border-width) var(--border-color), 0 0 0 10em var(--textarea-background-color) inset;
 }
