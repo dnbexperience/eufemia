@@ -6,6 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Dropdown, { DropdownProps } from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
@@ -1294,6 +1295,26 @@ describe('Dropdown component', () => {
     open()
 
     await testDirectionObserver()
+  })
+
+  it('should close dropdown on suffix click', async () => {
+    render(
+      <Dropdown {...props} data={['One', 'Two']} suffix={'Click me'} />
+    )
+
+    const dropdown = document.querySelector('.dnb-dropdown')
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    const suffix = document.querySelector('.dnb-dropdown__suffix')
+
+    await userEvent.click(trigger)
+
+    expect(dropdown).toHaveClass('dnb-dropdown--opened')
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    await userEvent.click(suffix)
+
+    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(trigger).not.toHaveAttribute('aria-expanded', 'true')
   })
 })
 
