@@ -94,7 +94,7 @@ function FlexContainer(props: Props) {
     ...rest
   } = props
 
-  const childrenArray = React.Children.toArray(children)
+  const childrenArray = wrapChildren(props, children)
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
     return (
@@ -202,6 +202,23 @@ function FlexContainer(props: Props) {
       {content}
     </Space>
   )
+}
+
+function wrapChildren(props: Props, children: React.ReactNode) {
+  return React.Children.toArray(children).map((child) => {
+    if (
+      React.isValidElement(child) &&
+      child.type['_supportsSpacingProps'] === 'children'
+    ) {
+      return React.cloneElement(
+        child,
+        child.props,
+        <FlexContainer {...props}>{child.props.children}</FlexContainer>
+      )
+    }
+
+    return child
+  })
 }
 
 FlexContainer._supportsSpacingProps = true
