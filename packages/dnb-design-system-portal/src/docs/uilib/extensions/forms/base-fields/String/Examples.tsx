@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Flex } from '@dnb/eufemia/src'
 import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
@@ -92,36 +93,37 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox>
-      <Field.String
-        label="Default width (property omitted)"
-        value="foo"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.String
-        label="Small"
-        value="foo"
-        width="small"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.String
-        label="Medium"
-        value="foo"
-        width="medium"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.String
-        label="Large"
-        value="foo"
-        width="large"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.String
-        label="Stretch"
-        value="foo"
-        width="stretch"
-        onChange={(value) => console.log('onChange', value)}
-      />
+    <ComponentBox hideCode data-visual-test="string-widths">
+      <Flex.Stack>
+        <Field.String
+          label="Default width (property omitted)"
+          value="foo"
+        />
+        <Field.String label="Small" value="foo" width="small" />
+        <Field.String label="Medium" value="foo" width="medium" />
+        <Field.String label="Large" value="foo" width="large" />
+        <Field.String label="Stretch" value="foo" width="stretch" />
+
+        <Field.String
+          label="Default width (property omitted)"
+          value="foo"
+          multiline
+        />
+        <Field.String label="Small" value="foo" width="small" multiline />
+        <Field.String
+          label="Medium"
+          value="foo"
+          width="medium"
+          multiline
+        />
+        <Field.String label="Large" value="foo" width="large" multiline />
+        <Field.String
+          label="Stretch"
+          value="foo"
+          width="stretch"
+          multiline
+        />
+      </Flex.Stack>
     </ComponentBox>
   )
 }
