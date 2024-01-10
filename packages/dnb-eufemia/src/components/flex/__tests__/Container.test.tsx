@@ -5,6 +5,7 @@ import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
 import { createSpacingClasses } from '../../space/SpacingUtils'
 import { SpaceProps } from '../../Space'
+import H1 from '../../../elements/H1'
 
 describe('Flex.Container', () => {
   it('should forward HTML attributes', () => {
@@ -196,7 +197,6 @@ describe('Flex.Container', () => {
     expect(children[0].className).toContain('dnb-flex-item')
 
     expect(children[1].tagName).toContain('DIV')
-    expect(children[1].className).toContain('dnb-space')
     expect(children[1].className).toContain('dnb-space__top--small')
 
     expect(children[2].tagName).toContain('HR')
@@ -209,7 +209,6 @@ describe('Flex.Container', () => {
     expect(children[3].className).toContain('dnb-flex-item')
 
     expect(children[4].tagName).toContain('DIV')
-    expect(children[4].className).toContain('dnb-space')
     expect(children[4].className).toContain('dnb-space__top--small')
 
     expect(children[5].tagName).toContain('HR')
@@ -220,6 +219,41 @@ describe('Flex.Container', () => {
     expect(children[6].className).toContain('dnb-space__top--small')
     expect(children[6].className).toContain('dnb-space__bottom--zero')
     expect(children[6].className).toContain('dnb-flex-item')
+  })
+
+  it('should not add line divider below heading', () => {
+    render(
+      <Flex.Container direction="vertical" divider="line">
+        <H1>Heading</H1>
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    const children = element.children
+
+    expect(children.length).toBe(5)
+    expect(element.className).toContain('dnb-flex-container--divider-line')
+
+    expect(children[0].tagName).toContain('H1')
+    expect(children[0].className).toContain('dnb-space__top--zero')
+    expect(children[0].className).toContain('dnb-space__bottom--zero')
+
+    expect(children[1].tagName).toContain('DIV')
+    expect(children[1].className).toContain('dnb-space__top--small')
+
+    expect(children[2].tagName).toContain('DIV')
+    expect(children[2].className).toContain('dnb-space__top--small')
+
+    expect(children[3].tagName).toContain('HR')
+    expect(children[3].className).toContain(
+      'dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-space__top--zero dnb-hr'
+    )
+
+    expect(children[4].className).toContain('dnb-space__top--small')
+    expect(children[4].className).toContain('dnb-space__bottom--zero')
+    expect(children[4].className).toContain('dnb-flex-item')
   })
 
   it('should set spacing between children', () => {

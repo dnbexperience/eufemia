@@ -128,12 +128,13 @@ function FlexContainer(props: Props) {
     const endSpacing = 0
     let startSpacing = null
 
+    const isHeading = hasHeading && isHeadingElement(previousChild)
     if (
       divider === 'line' &&
       // No line above first element
       !isFirst &&
-      // No line above/below headings
-      !hasHeading
+      // No line above heading
+      !isHeading
     ) {
       const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
       startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType

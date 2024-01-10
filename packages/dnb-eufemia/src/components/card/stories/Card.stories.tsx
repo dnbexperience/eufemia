@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import { Field } from '../../../extensions/forms'
+import { Field, Form } from '../../../extensions/forms'
 import { Card, Flex } from '../../'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
@@ -147,5 +147,15 @@ export const CardSandbox = () => {
         <Card stack>{fields}</Card>
       </Box>
     </Wrapper>
+  )
+}
+
+export function CardWithHeading() {
+  return (
+    <Card stack divider="line">
+      <Form.SubHeading>Heading</Form.SubHeading>
+      <Field.PhoneNumber />
+      <Field.Email />
+    </Card>
   )
 }
