@@ -1,16 +1,15 @@
 import React from 'react'
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Flex, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
   TestElement,
-  Visibility,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const BooleanExample = () => {
   return (
-    <ComponentBox scope={{ Visibility, TestElement }}>
+    <ComponentBox scope={{ TestElement }}>
       <Form.Handler>
         <Flex.Stack>
           <Field.Boolean
@@ -19,10 +18,10 @@ export const BooleanExample = () => {
             label="Show content"
             value={false}
           />
-          <Visibility pathTrue="/toggleValue">
+          <Form.Visibility pathTrue="/toggleValue">
             <TestElement>Item 1</TestElement>
             <TestElement>Item 2</TestElement>
-          </Visibility>
+          </Form.Visibility>
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
@@ -31,7 +30,7 @@ export const BooleanExample = () => {
 
 export const InferData = () => {
   return (
-    <ComponentBox scope={{ Visibility }}>
+    <ComponentBox>
       {() => {
         const MyComponent = () => {
           const [state, setState] = React.useState(false)
@@ -44,9 +43,9 @@ export const InferData = () => {
                 onChange={setState}
                 label="Check me"
               />
-              <Visibility inferData={inferData}>
+              <Form.Visibility inferData={inferData}>
                 <P>This is visible</P>
-              </Visibility>
+              </Form.Visibility>
             </Form.Handler>
           )
         }
@@ -59,29 +58,29 @@ export const InferData = () => {
 
 export const BasedOnBooleanTrue = () => {
   return (
-    <ComponentBox scope={{ Visibility }}>
-      <Visibility visible={true}>
+    <ComponentBox>
+      <Form.Visibility visible={true}>
         <P>This is visible</P>
-      </Visibility>
+      </Form.Visibility>
     </ComponentBox>
   )
 }
 
 export const BasedOnContext = () => {
   return (
-    <ComponentBox scope={{ Visibility }}>
+    <ComponentBox>
       <Form.Handler
         data={{
           toBe: true,
           notToBe: false,
         }}
       >
-        <Visibility pathTrue="/toBe">
+        <Form.Visibility pathTrue="/toBe">
           <P>This will show, as long as `toBe` is true.</P>
-        </Visibility>
-        <Visibility pathTrue="/notToBe">
+        </Form.Visibility>
+        <Form.Visibility pathTrue="/notToBe">
           <P>This will not show until `notToBe` is true.</P>
-        </Visibility>
+        </Form.Visibility>
       </Form.Handler>
     </ComponentBox>
   )

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import pointer from 'json-pointer'
-import * as DataContext from '../DataContext'
+import * as DataContext from '../../DataContext'
 
 export type Props = {
   visible?: boolean
