@@ -155,7 +155,7 @@ button .dnb-form-status__text {
 .dnb-textarea__inner {
   display: inline-flex;
   flex-direction: column;
-  margin: var(--textarea-padding-width);
+  margin: 0 var(--textarea-padding-width);
 }
 .dnb-textarea__shell {
   display: inline-flex;
@@ -175,9 +175,16 @@ button .dnb-form-status__text {
 }
 .dnb-textarea__row {
   display: inline-flex;
+  margin: var(--textarea-padding-width) 0;
 }
 .dnb-textarea__suffix.dnb-suffix {
   padding-left: 1rem;
+}
+.dnb-textarea__counter {
+  margin-top: 0.5rem;
+  margin-left: -0.5rem;
+  font-size: var(--font-size-small);
+  color: var(--color-black-55);
 }
 .dnb-textarea__textarea {
   position: relative;
@@ -265,7 +272,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea__inner > .dnb-form-status {
   order: 2;
-  margin: 1rem 0 0 calc(0px - var(--textarea-padding-width));
+  margin: 0.5rem 0 0 calc(0px - var(--textarea-padding-width));
 }
 .dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
   margin-top: 0.5rem;

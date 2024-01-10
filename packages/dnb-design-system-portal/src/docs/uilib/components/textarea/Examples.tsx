@@ -53,6 +53,22 @@ export const TextareaExampleVertical = () => (
   </Wrapper>
 )
 
+export const TextareaCharacterCounter = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="textarea-character-counter">
+      <Textarea
+        label="Count characters"
+        label_direction="vertical"
+        autoresize
+        value="Textarea value\nNewline"
+        status="Message to the user"
+        characterCounter
+        maxLength={40}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const TextareaExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-stretch">

@@ -88,6 +88,10 @@ export interface TextareaProps
    */
   autoresize?: boolean;
   /**
+   * use `true` to show a character counter.
+   */
+  characterCounter?: boolean;
+  /**
    * Set a number to define how many rows the Textarea can auto grow.
    */
   autoresize_max_rows?: TextareaAutoresizeMaxRows;

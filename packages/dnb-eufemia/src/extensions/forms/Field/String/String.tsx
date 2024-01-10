@@ -32,6 +32,7 @@ export type Props = FieldHelpProps &
     autoComplete?: HTMLInputElement['autocomplete']
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
+    characterCounter?: boolean
     mask?: InputMaskedProps['mask']
     // Validation
     minLength?: number
@@ -140,6 +141,7 @@ function StringComponent(props: Props) {
     clear,
     autoresize = true,
     autoresizeMaxRows = 6,
+    characterCounter,
     mask,
     width,
     handleFocus,
@@ -193,6 +195,8 @@ function StringComponent(props: Props) {
           {...sharedProps}
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
+          characterCounter={characterCounter}
+          maxLength={characterCounter ? props.maxLength : undefined}
         />
       ) : mask ? (
         <InputMasked

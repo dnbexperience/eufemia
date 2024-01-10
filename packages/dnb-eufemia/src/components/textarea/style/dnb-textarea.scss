@@ -31,7 +31,7 @@
     display: inline-flex;
     flex-direction: column;
 
-    margin: var(--textarea-padding-width);
+    margin: 0 var(--textarea-padding-width);
   }
 
   &__shell {
@@ -58,10 +58,20 @@
 
   &__row {
     display: inline-flex;
+
+    margin: var(--textarea-padding-width) 0;
   }
 
   &__suffix.dnb-suffix {
     padding-left: 1rem;
+  }
+
+  &__counter {
+    margin-top: 0.5rem;
+    margin-left: -0.5rem;
+
+    font-size: var(--font-size-small);
+    color: var(--color-black-55);
   }
 
   &__textarea {
@@ -138,7 +148,7 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+    margin: 0.5rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
   }
 
   &:not(#{&}--vertical) .dnb-form-label {

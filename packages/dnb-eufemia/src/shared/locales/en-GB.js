@@ -1,5 +1,8 @@
 export default {
   'en-GB': {
+    Textarea: {
+      characterCounter: '%count of %max characters remaining',
+    },
     TimelineItem: {
       alt_label_completed: 'Complete',
       alt_label_current: 'Current',
