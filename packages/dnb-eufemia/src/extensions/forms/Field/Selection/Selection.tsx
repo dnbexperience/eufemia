@@ -40,8 +40,6 @@ function Selection(props: Props) {
     variant = 'dropdown',
     clear,
     label,
-    labelDescription,
-    labelSecondary,
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
@@ -109,8 +107,6 @@ function Selection(props: Props) {
     error,
     layout,
     label,
-    labelDescription,
-    labelSecondary,
   }
 
   const getStatus = useCallback(

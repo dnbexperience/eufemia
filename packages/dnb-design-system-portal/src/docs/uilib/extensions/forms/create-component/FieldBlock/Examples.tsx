@@ -114,40 +114,6 @@ export const Widths = () => {
   )
 }
 
-export const WithDescription = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock label="Label text" labelDescription="Description text">
-        Input features goes here
-      </FieldBlock>
-    </ComponentBox>
-  )
-}
-
-export const WithSecondary = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock label="Label text" labelSecondary="Secondary text">
-        Input features goes here
-      </FieldBlock>
-    </ComponentBox>
-  )
-}
-
-export const WithDescriptionAndSecondary = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock
-        label="Label text"
-        labelDescription="Description text"
-        labelSecondary="42"
-      >
-        Input features goes here
-      </FieldBlock>
-    </ComponentBox>
-  )
-}
-
 export const GroupMultipleFields = () => {
   return (
     <ComponentBox>

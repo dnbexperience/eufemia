@@ -33,7 +33,6 @@ export type Props = FieldHelpProps &
     autoComplete?: HTMLInputElement['autocomplete']
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
-    characterCounter?: boolean
     mask?: InputMaskedProps['mask']
     // Validation
     minLength?: number
@@ -129,8 +128,6 @@ function StringComponent(props: Props) {
     type,
     placeholder,
     label,
-    labelDescription,
-    labelSecondary,
     value,
     info,
     warning,
@@ -144,7 +141,6 @@ function StringComponent(props: Props) {
     clear,
     autoresize = true,
     autoresizeMaxRows = 6,
-    characterCounter,
     mask,
     width,
     handleFocus,
@@ -157,11 +153,6 @@ function StringComponent(props: Props) {
     [props.capitalize]
   )
 
-  const characterCounterElement = characterCounter
-    ? props.maxLength
-      ? `${value?.length ?? '0'}/${props.maxLength}`
-      : `${value?.length ?? '0'}`
-    : undefined
   const cn = classnames('dnb-forms-field-string__input', inputClassName)
 
   const sharedProps = {
@@ -190,8 +181,6 @@ function StringComponent(props: Props) {
       forId={id}
       layout={layout}
       label={label}
-      labelDescription={labelDescription}
-      labelSecondary={labelSecondary ?? characterCounterElement}
       info={info}
       warning={warning}
       disabled={disabled}

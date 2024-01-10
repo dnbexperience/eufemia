@@ -54,17 +54,6 @@ fieldset.dnb-forms-field-block {
     align-items: center;
   }
 
-  &__label-description {
-    margin-left: 0.3em;
-    color: var(--color-black-55);
-    font-size: var(--font-size-small);
-  }
-
-  &__label-secondary {
-    color: var(--color-black-55);
-    font-size: var(--font-size-small);
-  }
-
   &__status {
     grid-area: status;
   }

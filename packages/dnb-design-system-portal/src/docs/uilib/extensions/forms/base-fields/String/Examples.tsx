@@ -147,44 +147,6 @@ export const Icons = () => {
   )
 }
 
-export const CharacterCounter1 = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        onChange={(value) => console.log('onChange', value)}
-        characterCounter
-      />
-    </ComponentBox>
-  )
-}
-
-export const CharacterCounter2 = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        label="Label text"
-        value="foo"
-        onChange={(value) => console.log('onChange', value)}
-        characterCounter
-      />
-    </ComponentBox>
-  )
-}
-
-export const CharacterCounter3 = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        label="Label text"
-        value="foo"
-        onChange={(value) => console.log('onChange', value)}
-        maxLength={16}
-        characterCounter
-      />
-    </ComponentBox>
-  )
-}
-
 export const Clear = () => {
   return (
     <ComponentBox>
