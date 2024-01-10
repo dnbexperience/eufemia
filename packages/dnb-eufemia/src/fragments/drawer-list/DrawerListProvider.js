@@ -1285,7 +1285,6 @@ export default class DrawerListProvider extends React.PureComponent {
     } else {
       this.setState(
         {
-          selected_item: itemToSelect,
           active_item: itemToSelect,
         },
         onSelectionIsComplete
