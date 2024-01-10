@@ -172,11 +172,11 @@ export const InputMaskedExamplePrefix = () => (
   </Wrapper>
 )
 
-export const InputMaskedExamplePhone = () => (
+export const InputMaskedExampleCustomMask = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="input-masked-phone">
+    <ComponentBox data-visual-test="input-masked-custom-mask">
       <InputMasked
-        label="Masked input"
+        label="Custom mask"
         mask={[
           '0',
           '0',
