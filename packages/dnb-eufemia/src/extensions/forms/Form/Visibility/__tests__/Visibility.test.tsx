@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { Provider } from '../../DataContext'
+import { Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
 
 describe('Visibility', () => {
