@@ -183,7 +183,10 @@ export default class NumberFormat extends React.PureComponent {
   }
 
   onClickHandler = () => {
-    if (!hasSelectedText() || isTrue(this.props.always_selectall)) {
+    if (
+      (!hasSelectedText() || isTrue(this.props.always_selectall)) &&
+      isTrue(this.props.selectall)
+    ) {
       this.setFocus()
     }
   }
