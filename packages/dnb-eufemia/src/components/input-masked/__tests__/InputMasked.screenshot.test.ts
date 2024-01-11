@@ -21,7 +21,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       style,
       selector:
-        '[data-visual-test="input-masked-phone"] .dnb-input__shell',
+        '[data-visual-test="input-masked-custom-mask"] .dnb-input__shell',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

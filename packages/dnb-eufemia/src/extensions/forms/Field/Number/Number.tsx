@@ -1,13 +1,16 @@
 import React, { useContext, useMemo, useCallback } from 'react'
 import { JSONSchema7 } from 'json-schema'
-import { InputMasked, HelpButton } from '../../../../components'
+import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
+import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import { ButtonProps, ButtonSize } from '../../../../components/Button'
+import { clamp } from '../../../../components/slider/SliderHelpers'
 
 interface ErrorMessages {
   required?: string
@@ -25,6 +28,7 @@ export type Props = FieldHelpProps &
     currency?: InputMaskedProps['as_currency']
     percent?: InputMaskedProps['as_percent']
     mask?: InputMaskedProps['mask']
+    step?: number
     // Formatting
     thousandSeparator?: string | true
     decimalSymbol?: string
@@ -38,8 +42,10 @@ export type Props = FieldHelpProps &
     exclusiveMaximum?: number // aka less than
     multipleOf?: number
     // Styling
+    size?: InputSize
     width?: false | 'small' | 'medium' | 'large' | 'stretch'
-    rightAligned?: boolean
+    align?: InputAlign
+    showStepControls?: boolean
   }
 
 function NumberComponent(props: Props) {
@@ -50,12 +56,13 @@ function NumberComponent(props: Props) {
     currency,
     percent,
     mask,
+    step = 1,
     thousandSeparator,
     decimalSymbol,
     decimalLimit = 12,
     prefix,
     suffix,
-    rightAligned,
+    showStepControls,
   } = props
 
   const errorMessages = useMemo(
@@ -99,9 +106,22 @@ function NumberComponent(props: Props) {
   const fromInput = useCallback(
     ({ value, numberValue }: { value: string; numberValue: number }) => {
       if (value === '') {
-        return emptyValue
+        return props.emptyValue
       }
       return numberValue
+    },
+    [props.emptyValue]
+  )
+  const transformValue = useCallback(
+    (value: number, currentValue: number) => {
+      if (
+        value > Number.MAX_SAFE_INTEGER ||
+        value < Number.MIN_SAFE_INTEGER
+      ) {
+        return currentValue
+      }
+
+      return value
     },
     []
   )
@@ -148,6 +168,11 @@ function NumberComponent(props: Props) {
     schema,
     toInput,
     fromInput,
+    transformValue,
+    size:
+      props.size !== 'small' && props.size !== 'large'
+        ? 'medium'
+        : props.size,
     width: props.width ?? 'medium',
   }
 
@@ -163,60 +188,160 @@ function NumberComponent(props: Props) {
     labelDescription,
     labelSecondary,
     value,
+    minimum = Number.MIN_SAFE_INTEGER,
+    maximum = Number.MAX_SAFE_INTEGER,
     disabled,
     info,
     warning,
     error,
     help,
-    emptyValue,
+    size,
     width,
+    align,
     handleFocus,
     handleBlur,
     handleChange,
   } = useDataValue(preparedProps)
 
+  const onKeyDownHandler = useCallback(
+    ({ key, event }) => {
+      if (!showStepControls) {
+        return
+      }
+
+      let numberValue = null
+
+      switch (key) {
+        case 'ArrowUp':
+          numberValue = clamp((value as number) + step, minimum, maximum)
+          break
+        case 'ArrowDown':
+          numberValue = clamp((value as number) - step, minimum, maximum)
+          break
+      }
+
+      if (numberValue !== null) {
+        event.persist()
+        event.preventDefault()
+        handleChange({ numberValue })
+      }
+    },
+    [handleChange, maximum, minimum, showStepControls, step, value]
+  )
+
+  const fieldBlockProps = {
+    className: classnames('dnb-forms-field-number', className),
+    contentClassName: classnames(
+      'dnb-forms-field-number__contents',
+      showStepControls && 'dnb-forms-field-number__contents--has-controls',
+      disabled && 'dnb-forms-field-number__contents--is-disabled',
+      error && 'dnb-forms-field-number__contents--has-error'
+    ),
+    forId: id,
+    layout,
+    label,
+    labelDescription,
+    labelSecondary,
+    info,
+    warning,
+    error,
+    disabled,
+    width: width === 'stretch' ? width : undefined,
+    contentsWidth: width !== false ? width : undefined,
+    ...pickSpacingProps(props),
+  }
+
+  const increaseProps: ButtonProps = showStepControls && {
+    'aria-hidden': true,
+    className: 'dnb-button--control-after',
+    variant: 'secondary',
+    icon: 'add',
+    size: convertInputSizeToButtonSize(size),
+    tabIndex: -1,
+    disabled: disabled || value >= maximum,
+    onClick: () => {
+      handleChange({
+        numberValue: clamp((value as number) + step, minimum, maximum),
+      })
+    },
+    title: sharedContext?.translation.Slider.addTitle?.replace(
+      '%s',
+      String(value + step)
+    ),
+  }
+
+  const decreaseProps: ButtonProps = showStepControls && {
+    ...increaseProps,
+    className: 'dnb-button--control-before',
+    icon: 'subtract',
+    disabled: disabled || value <= minimum,
+    onClick: () => {
+      handleChange({
+        numberValue: clamp((value as number) - step, minimum, maximum),
+      })
+    },
+    title: sharedContext?.translation.Slider.subtractTitle?.replace(
+      '%s',
+      String(value - step)
+    ),
+  }
+
+  const ariaParams = showStepControls && {
+    role: 'spinbutton',
+    'aria-valuemin': String(minimum),
+    'aria-valuemax': String(maximum),
+    'aria-valuenow': String(value), // without it, VO will read an invlaid value
+    'aria-valuetext': String(value), // without it, VO will read %
+  }
+
+  const inputProps = {
+    id,
+    name,
+    autoComplete,
+    className: classnames(
+      'dnb-forms-field-number__input',
+      `dnb-input--${size}`,
+      inputClassName
+    ),
+    step,
+    placeholder,
+    value,
+    align: showStepControls ? 'center' : align,
+    ...maskProps,
+    onKeyDown: onKeyDownHandler,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onChange: handleChange,
+    disabled,
+    status: error ? 'error' : undefined,
+    stretch: width !== undefined,
+    suffix:
+      help && !showStepControls ? (
+        <HelpButton title={help.title}>{help.contents}</HelpButton>
+      ) : undefined,
+    ...ariaParams,
+  }
+
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-number', className)}
-      forId={id}
-      layout={layout}
-      label={label}
-      labelDescription={labelDescription}
-      labelSecondary={labelSecondary}
-      info={info}
-      warning={warning}
-      error={error}
-      disabled={disabled}
-      width={width === 'stretch' ? width : undefined}
-      contentsWidth={width !== false ? width : undefined}
-      {...pickSpacingProps(props)}
-    >
-      <InputMasked
-        id={id}
-        name={name}
-        autoComplete={autoComplete}
-        className={classnames(
-          'dnb-forms-field-number__input',
-          inputClassName
-        )}
-        placeholder={placeholder}
-        value={value}
-        {...maskProps}
-        align={rightAligned && 'right'}
-        on_focus={handleFocus}
-        on_blur={handleBlur}
-        on_change={handleChange}
-        disabled={disabled}
-        status={error ? 'error' : undefined}
-        stretch={width !== undefined}
-        suffix={
-          help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
-          ) : undefined
-        }
-      />
+    <FieldBlock {...fieldBlockProps} asFieldset={false}>
+      {showStepControls && <Button {...decreaseProps} />}
+      <InputMasked {...inputProps} />
+      {showStepControls && <Button {...increaseProps} />}
+      {help && showStepControls && (
+        <HelpButton title={help.title}>{help.contents}</HelpButton>
+      )}
     </FieldBlock>
   )
+}
+
+const convertInputSizeToButtonSize = (
+  inputSize: InputSize
+): ButtonSize => {
+  const buttonSize =
+    ['small', 'medium', 'large'].indexOf(inputSize as string) > -1
+      ? inputSize
+      : 'medium'
+  return buttonSize as ButtonSize
 }
 
 NumberComponent._supportsSpacingProps = true

@@ -72,7 +72,7 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
 
 export interface DataValueWriteProps<
   Value = unknown,
-  EmptyValue = undefined | string | number,
+  EmptyValue = undefined | string,
 > {
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
@@ -107,7 +107,7 @@ export function omitDataValueWriteProps<Props extends DataValueWriteProps>(
 
 export type DataValueReadWriteProps<
   Value = unknown,
-  EmptyValue = undefined | string | number,
+  EmptyValue = undefined | string,
 > = DataValueReadProps<Value> & DataValueWriteProps<Value, EmptyValue>
 
 export function pickDataValueReadWriteProps<
@@ -147,14 +147,14 @@ export type DataValueReadComponentProps<Value = unknown> = ComponentProps &
 
 export type DataValueReadWriteComponentProps<
   Value = unknown,
-  EmptyValue = undefined | string | number,
+  EmptyValue = undefined | string,
 > = ComponentProps &
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
 export interface FieldProps<
   Value = unknown,
-  EmptyValue = undefined | string | number,
+  EmptyValue = undefined | string,
   ErrorMessages extends { required?: string } = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue> {
   /** ID added to the actual field component, and linked to the label via for-attribute */
@@ -204,20 +204,26 @@ export interface FieldProps<
   continuousValidation?: boolean
   errorMessages?: ErrorMessages
   // Derivatives
-  toInput?: (external: Value | undefined) => any
-  fromInput?: (...args: any[]) => Value | undefined
-  toEvent?: (internal: Value | undefined) => any
-  fromExternal?: (...args: any[]) => Value | undefined
+  toInput?: (external: Value | unknown) => Value | unknown
+  fromInput?: (external: Value | unknown) => Value
+  toEvent?: (
+    internal: Value,
+    type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
+  ) => Value
+  fromExternal?: (external: Value) => Value
+  transformValue?: (value: Value, currentValue?: Value) => Value
   validateRequired?: (
-    internal: Value | undefined,
+    internal: Value,
     {
       emptyValue,
       required,
       isChanged,
+      error,
     }: {
-      emptyValue: undefined | string | number
+      emptyValue: EmptyValue
       required: boolean
       isChanged: boolean
+      error: FormError | undefined
     }
   ) => FormError | undefined
 }

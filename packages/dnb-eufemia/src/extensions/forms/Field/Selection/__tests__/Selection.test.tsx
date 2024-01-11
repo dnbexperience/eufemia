@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
@@ -188,6 +189,17 @@ describe('Selection', () => {
         expect(radioButtons[0]).toBeChecked()
         expect(radioButtons[1]).not.toBeChecked()
       })
+
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Selection variant="radio" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
     })
 
     describe('button', () => {
@@ -266,6 +278,17 @@ describe('Selection', () => {
         expect(buttons[0].getAttribute('aria-pressed')).toBe('true')
         expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
       })
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Selection variant="button" value="bar">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 

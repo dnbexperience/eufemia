@@ -26,10 +26,6 @@ import {
 import { fireEvent, render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
     const props: DatePickerProps = {}
@@ -1498,9 +1494,44 @@ describe('DatePicker component', () => {
     expect(thirdDateButton.children[2]).toHaveTextContent('24')
   })
 
+  it('should fire fire event when input gets focus', async () => {
+    const onFocus = jest.fn()
+    render(<DatePicker show_input onFocus={onFocus} date="2024-01-05" />)
+
+    const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-input__input')
+    )
+
+    await userEvent.click(firstInput)
+
+    expect(onFocus).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(firstInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(firstInput)
+    expect(onFocus).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledWith(
+      expect.objectContaining({ target: firstInput, date: '2024-01-05' })
+    )
+
+    await userEvent.click(secondInput)
+
+    expect(onFocus).toHaveBeenCalledTimes(2)
+    expect(document.activeElement).toBe(secondInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(secondInput)
+    expect(onFocus).toHaveBeenCalledTimes(2)
+    expect(onFocus).toHaveBeenCalledWith(
+      expect.objectContaining({ target: secondInput, date: '2024-01-05' })
+    )
+  })
+
   it('should fire blur event when input loses focus', async () => {
     const onBlur = jest.fn()
-    render(<DatePicker show_input onBlur={onBlur} />)
+    render(<DatePicker show_input onBlur={onBlur} date="2024-01-05" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-input__input')
@@ -1516,7 +1547,7 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(firstInput)
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: firstInput })
+      expect.objectContaining({ target: firstInput, date: '2024-01-05' })
     )
 
     await userEvent.click(secondInput)
@@ -1529,8 +1560,26 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(secondInput)
     expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: secondInput })
+      expect.objectContaining({ target: secondInput, date: '2024-01-05' })
     )
+  })
+
+  it('should have todays date enabled in calendar if minDate is today', async () => {
+    const minDate = new Date()
+
+    render(<DatePicker min_date={minDate} />)
+
+    const button = document.querySelector(
+      '.dnb-input__submit-element > button'
+    )
+
+    await userEvent.click(button)
+
+    const todayButton = document.querySelector(
+      '.dnb-date-picker__day--today > button'
+    )
+
+    expect(todayButton).not.toBeDisabled()
   })
 })
 

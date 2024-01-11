@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import SelectCountry, { Props } from '..'
 import { Provider } from '../../../../../shared'
@@ -264,5 +265,11 @@ describe('Field.SelectCountry', () => {
 
     expect(inputElement.value).toBe('Danmark')
     expect(selectedItemElement().textContent).toBe('Danmark')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const result = render(<SelectCountry value="DK" />)
+
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

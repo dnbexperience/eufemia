@@ -6,7 +6,7 @@ import countries, { CountryType } from '../../constants/countries'
 import StringComponent, { Props as InputProps } from '../String'
 import { useDataValue } from '../../hooks'
 import FieldBlock from '../../FieldBlock'
-import { FieldHelpProps, FieldProps, FormError } from '../../types'
+import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
@@ -82,11 +82,7 @@ function PhoneNumber(props: Props) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, isChanged }) => {
-      const error = new FormError('The value is required', {
-        validationRule: 'required',
-      })
-
+    (value: string, { required, isChanged, error }) => {
       if (required) {
         const [countryCode, phoneNumber] = splitValue(value)
 
@@ -316,6 +312,7 @@ function PhoneNumber(props: Props) {
             }
             data={dataRef.current}
             value={countryCodeRef.current}
+            status={error ? 'error' : undefined}
             disabled={disabled}
             on_focus={onFocusHandler}
             on_blur={handleBlur}

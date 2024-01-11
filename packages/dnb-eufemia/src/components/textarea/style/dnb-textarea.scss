@@ -71,6 +71,10 @@
     @include textareaStyleCommon();
 
     @include scrollY(auto);
+
+    @include IS_FF() {
+      overflow-x: clip;
+    }
   }
 
   // change the autocomplete appearance once filled out

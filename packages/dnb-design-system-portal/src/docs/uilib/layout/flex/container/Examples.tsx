@@ -1,6 +1,10 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Card, Flex } from '@dnb/eufemia/src'
-import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
+import {
+  TestElement,
+  Field,
+  Form,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
@@ -26,7 +30,7 @@ export const Default = () => {
 export const HorizontalWithFieldString = () => {
   return (
     <ComponentBox
-      scope={{ TestElement, Field }}
+      scope={{ TestElement }}
       data-visual-test="flex-container-field"
     >
       <Flex.Container>
@@ -135,7 +139,7 @@ export const VerticalWithCard = () => {
 
 export const VerticalWithFieldString = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Card>
         <Flex.Container direction="vertical">
           <Field.String label="Label" value="Foo" />
@@ -146,14 +150,15 @@ export const VerticalWithFieldString = () => {
   )
 }
 
-export const VerticalSpaceDivider = () => {
+export const VerticalLineDivider = () => {
   return (
     <ComponentBox
-      scope={{ TestElement, Field }}
+      scope={{ TestElement }}
       data-visual-test="flex-container-divider"
     >
       <Card>
-        <Flex.Container direction="vertical" divider="space">
+        <Flex.Container direction="vertical" divider="line">
+          <Form.SubHeading>Heading</Form.SubHeading>
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
         </Flex.Container>
@@ -185,6 +190,32 @@ export const LayoutHorizontalFlexGrowItems = () => {
           <Card>Card contents</Card>
         </Flex.Item>
       </Flex.Horizontal>
+    </ComponentBox>
+  )
+}
+
+export const WrappedWithChildren = () => {
+  return (
+    <ComponentBox
+      scope={{ TestElement }}
+      data-visual-test="flex-container-with-children"
+    >
+      {() => {
+        const Wrapper = Flex.withChildren(({ children }) => {
+          return <div>{children}</div>
+        })
+
+        return (
+          <Flex.Container direction="vertical">
+            <TestElement>FlexItem 1</TestElement>
+            <Wrapper>
+              <TestElement>FlexItem 2</TestElement>
+              <TestElement>FlexItem 3</TestElement>
+            </Wrapper>
+            <TestElement>FlexItem 4</TestElement>
+          </Flex.Container>
+        )
+      }}
     </ComponentBox>
   )
 }

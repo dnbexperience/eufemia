@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import pointer from 'json-pointer'
-import * as DataContext from '../DataContext'
+import * as DataContext from '../../DataContext'
 
 export type Props = {
   visible?: boolean
@@ -16,6 +16,9 @@ export type Props = {
   pathTrue?: string
   /** Given data context path must be false to show children */
   pathFalse?: string
+  /** Given data context path must match, as well as the "whenValue" value */
+  pathValue?: string
+  whenValue?: unknown
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
   children: React.ReactNode
@@ -29,10 +32,19 @@ function Visibility({
   pathFalsy,
   pathTrue,
   pathFalse,
+  pathValue,
+  whenValue,
   inferData,
   children,
 }: Props) {
   const dataContext = useContext(DataContext.Context)
+
+  console.log(
+    'val',
+    pointer.has(dataContext.data, pathValue) &&
+      pointer.get(dataContext.data, pathValue),
+    whenValue
+  )
 
   if (visible === false) {
     return null
@@ -75,6 +87,16 @@ function Visibility({
     return null
   }
 
+  if (
+    pathValue &&
+    !(
+      pointer.has(dataContext.data, pathValue) &&
+      pointer.get(dataContext.data, pathValue) === whenValue
+    )
+  ) {
+    return null
+  }
+
   if (inferData && !inferData(dataContext.data)) {
     return null
   }
@@ -82,5 +104,5 @@ function Visibility({
   return <>{children}</>
 }
 
-Visibility._supportsSpacingProps = true
+Visibility._supportsSpacingProps = 'children'
 export default Visibility

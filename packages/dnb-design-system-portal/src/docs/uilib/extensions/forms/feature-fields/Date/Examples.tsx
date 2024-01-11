@@ -33,7 +33,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-label">
       <Field.Date
         value="2023-01-16"
         label="Label text"
@@ -75,7 +75,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox scope={{ FormError }} data-visual-test="date-error">
       <Field.Date
         value="2023-01-16"
         label="Label text"

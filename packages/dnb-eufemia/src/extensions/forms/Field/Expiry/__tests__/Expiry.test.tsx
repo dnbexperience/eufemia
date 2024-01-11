@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../..'
@@ -302,5 +303,11 @@ describe('Field.Expiry', () => {
       )
       expect(formStatusText).not.toBeInTheDocument()
     })
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const result = render(<Field.Expiry />)
+
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

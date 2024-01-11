@@ -81,7 +81,6 @@ describe('Logo component', () => {
   it('should inherit props from global provider', () => {
     render(<Logo brand="sbanken" variant="compact" />)
     const refHTML = document.querySelector('svg').outerHTML
-    document.body.innerHTML = ''
 
     render(
       <Provider
@@ -101,7 +100,6 @@ describe('Logo component', () => {
   it('should inherit props from theme provider', () => {
     render(<Logo brand="sbanken" variant="compact" />)
     const refHTML = document.querySelector('svg').outerHTML
-    document.body.innerHTML = ''
 
     render(
       <Theme name="sbanken">

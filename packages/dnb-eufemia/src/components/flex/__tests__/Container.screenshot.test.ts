@@ -15,6 +15,15 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match with children', async () => {
+    const screenshot = await makeScreenshot({
+      url: '/uilib/layout/flex/container/demos',
+      selector:
+        '[data-visual-test="flex-container-with-children"] .dnb-flex-container',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match field on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',

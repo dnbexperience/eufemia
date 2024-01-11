@@ -1,9 +1,11 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Slider, Grid } from '@dnb/eufemia/src'
 import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import React from 'react'
 
 export const Empty = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="number-input">
       <Field.Number
         onFocus={(value) => console.log('onFocus', value)}
         onBlur={(value) => console.log('onBlur', value)}
@@ -47,13 +49,25 @@ export const LabelAndValue = () => {
   )
 }
 
-export const RightAligned = () => {
+export const Alignment = () => {
   return (
     <ComponentBox>
       <Field.Number
-        rightAligned
-        value={420000.25}
-        label="Label text"
+        align="center"
+        label="Center aligned (default)"
+        value={10}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        align="left"
+        label="Left aligned"
+        value={10}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        align="right"
+        label="Right aligned"
+        value={10}
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -92,7 +106,8 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox>
+    <ComponentBox hideCode>
+      <h4 className="dnb-lead">Without step controls</h4>
       <Field.Number
         label="Default width (property omitted)"
         value={123}
@@ -117,6 +132,41 @@ export const Widths = () => {
         onChange={(value) => console.log('onChange', value)}
       />
       <Field.Number
+        label="Stretch"
+        value={123}
+        width="stretch"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <h4 className="dnb-lead">With step controls</h4>
+      <Field.Number
+        showStepControls
+        label="Default width (property omitted)"
+        value={123}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        showStepControls
+        label="Small"
+        value={123}
+        width="small"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        showStepControls
+        label="Medium"
+        value={123}
+        width="medium"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        showStepControls
+        label="Large"
+        value={123}
+        width="large"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        showStepControls
         label="Stretch"
         value={123}
         width="stretch"
@@ -232,3 +282,87 @@ export const ValidateMaximumCustomError = () => {
     </ComponentBox>
   )
 }
+
+export const WithStepControls = () => (
+  <ComponentBox data-visual-test="number-input-step-controls">
+    <Field.Number
+      showStepControls
+      minimum={0}
+      maximum={100}
+      step={10}
+      value={50}
+    />
+  </ComponentBox>
+)
+
+export const WithStepControlsError = () => (
+  <ComponentBox
+    scope={{ FormError }}
+    data-visual-test="number-input-step-controls-error"
+  >
+    <Field.Number
+      showStepControls
+      maximum={100}
+      value={150}
+      error={new FormError('You done messed up, A-a-ron!')}
+    />
+  </ComponentBox>
+)
+
+export const WithStepControlsDisabled = () => (
+  <ComponentBox
+    scope={{ FormError }}
+    data-visual-test="number-input-step-controls-disabled"
+  >
+    <Field.Number showStepControls disabled />
+  </ComponentBox>
+)
+
+export const WithSlider = () => (
+  <ComponentBox hideCode>
+    {() => {
+      const Component = () => {
+        const [value, setValue] = React.useState(50000)
+        const settings = {
+          min: 0,
+          max: 100000,
+          step: 1000,
+        }
+        return (
+          <Grid.Container>
+            <Grid.Item
+              span={{
+                small: [1, 12],
+                medium: [1, 4],
+                large: [1, 3],
+              }}
+            >
+              <Field.Number
+                showStepControls
+                minimum={settings.min}
+                maximum={settings.max}
+                step={settings.step}
+                value={value}
+                onChange={(value) => setValue(value)}
+                width="stretch"
+                bottom="small"
+              />
+              <Slider
+                min={settings.min}
+                max={settings.max}
+                step={settings.step}
+                value={value}
+                onChange={({ value }) =>
+                  setValue(parseFloat(String(value)))
+                }
+                hideButtons
+                tooltip
+              />
+            </Grid.Item>
+          </Grid.Container>
+        )
+      }
+      return <Component />
+    }}
+  </ComponentBox>
+)

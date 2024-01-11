@@ -14,13 +14,10 @@ import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
-import {
-  makeUniqueId,
-  toCapitalized,
-} from '../../../shared/component-helper'
 import useMountEffect from './useMountEffect'
 import useUpdateEffect from './useUpdateEffect'
 import useProcessManager from './useProcessManager'
+import useId from './useId'
 
 interface ReturnAdditional<Value> {
   id: string
@@ -59,15 +56,14 @@ export default function useDataValue<
     toInput = (value: Value) => value,
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
+    transformValue = (value: Value) => value,
     fromExternal = (value: Value) => value,
-    validateRequired = (value: Value, { emptyValue, required }) => {
+    validateRequired = (value: Value, { emptyValue, required, error }) => {
       const res =
         required &&
         (value === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
-          ? new FormError('The value is required', {
-              validationRule: 'required',
-            })
+          ? error
           : undefined
       return res
     },
@@ -75,7 +71,7 @@ export default function useDataValue<
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
-  const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
+  const id = useId(props.id)
   const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
@@ -85,6 +81,7 @@ export default function useDataValue<
     fromInput,
     toEvent,
     fromExternal,
+    transformValue,
     validateRequired,
   })
 
@@ -130,14 +127,8 @@ export default function useDataValue<
 
   const externalValue = useMemo(() => {
     if (props.value !== undefined) {
-      let value = transformers.current.fromExternal(props.value)
-
-      if (props.capitalize) {
-        value = toCapitalized(String(value || '')) as Value
-      }
-
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
-      return value
+      return transformers.current.fromExternal(props.value)
     }
 
     if (inIterate && itemPath) {
@@ -296,6 +287,9 @@ export default function useDataValue<
           emptyValue,
           required,
           isChanged: changedRef.current,
+          error: new FormError('The value is required', {
+            validationRule: 'required',
+          }),
         }
       )
       if (requiredError instanceof Error) {
@@ -411,15 +405,19 @@ export default function useDataValue<
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        onFocus?.(
-          transformers.current.toEvent(valueOverride ?? valueRef.current)
+        const value = transformers.current.toEvent(
+          valueOverride ?? valueRef.current,
+          'onFocus'
         )
+        onFocus?.(value)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        onBlur?.(
-          transformers.current.toEvent(valueOverride ?? valueRef.current)
+        const value = transformers.current.toEvent(
+          valueOverride ?? valueRef.current,
+          'onBlur'
         )
+        onBlur?.(value)
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -431,13 +429,11 @@ export default function useDataValue<
         // expensive validation calling external services etc.
         if (typeof onBlurValidator === 'function') {
           // Since the validator can return either a synchronous result or an asynchronous
-          Promise.resolve(
-            onBlurValidator(
-              transformers.current.toEvent(
-                valueOverride ?? valueRef.current
-              )
-            )
-          ).then(persistErrorState)
+          const value = transformers.current.toEvent(
+            valueOverride ?? valueRef.current,
+            'onBlurValidator'
+          )
+          Promise.resolve(onBlurValidator(value)).then(persistErrorState)
         }
 
         // Since the user left the field, show error (if any)
@@ -484,23 +480,25 @@ export default function useDataValue<
       argFromInput: Value,
       additionalArgs: AdditionalEventArgs = undefined
     ) => {
+      const currentValue = valueRef.current
       let newValue = transformers.current.fromInput(argFromInput)
 
-      if (newValue === valueRef.current) {
+      if (newValue === currentValue) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
       }
 
-      if (props.capitalize) {
-        newValue = toCapitalized(String(newValue || '')) as Value
-      }
+      newValue = transformers.current.transformValue(
+        newValue,
+        currentValue
+      )
 
       updateValue(newValue)
 
       changedRef.current = true
 
-      const value = transformers.current.toEvent(newValue)
+      const value = transformers.current.toEvent(newValue, 'onChange')
       onChange?.apply(
         this,
         typeof additionalArgs !== 'undefined'
@@ -516,7 +514,6 @@ export default function useDataValue<
       }
     },
     [
-      props.capitalize,
       updateValue,
       onChange,
       itemPath,
@@ -527,14 +524,7 @@ export default function useDataValue<
 
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
 
-  const handleBlur = useCallback(() => {
-    if (props.trim && /^\s|\s$/.test(String(valueRef.current))) {
-      const value = String(valueRef.current).trim()
-      handleChange(value as Value)
-    }
-
-    setHasFocus(false)
-  }, [props.trim, setHasFocus, handleChange])
+  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)

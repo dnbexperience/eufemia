@@ -6,6 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Dropdown, { DropdownProps } from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
@@ -61,9 +62,13 @@ const mockData: DrawerListDataObjectUnion[] = [
 mockImplementationForDirectionObserver()
 
 describe('Dropdown component', () => {
+  afterEach(() => {
+    dispatchKeyDown(27) // esc
+  })
+
   it('has correct value on keydown "ArrowDown" and "Enter"', () => {
     render(<Dropdown {...props} data={mockData} />)
-    let elem
+    let elem: HTMLUListElement
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
@@ -84,7 +89,7 @@ describe('Dropdown component', () => {
 
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       (props.value as number) + 1
-    ]
+    ] as HTMLUListElement
     expect(elem.classList).toContain('dnb-drawer-list__option--focus')
     expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
@@ -161,7 +166,6 @@ describe('Dropdown component', () => {
     expect(
       document
         .querySelector('.dnb-drawer-list__options')
-
         .getAttribute('aria-expanded')
     ).toBe('true')
   })
@@ -813,7 +817,7 @@ describe('Dropdown component', () => {
     })
 
     // close
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+    dispatchKeyDown(27) // esc
 
     expect(on_hide.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
@@ -893,7 +897,7 @@ describe('Dropdown component', () => {
 
     act(() => {
       // close
-      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+      dispatchKeyDown(27) // esc
     })
 
     expect(on_hide.mock.calls.length).toBe(1)
@@ -913,7 +917,7 @@ describe('Dropdown component', () => {
 
     act(() => {
       // close again, but with false returned
-      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+      dispatchKeyDown(27) // esc
     })
 
     expect(on_hide.mock.calls.length).toBe(2)
@@ -1157,11 +1161,32 @@ describe('Dropdown component', () => {
     const { rerender } = render(
       <Dropdown data={mockData} {...mockProps} />
     )
+
+    const button = document.querySelector('.dnb-dropdown__trigger')
+
+    expect(button).not.toHaveAttribute('disabled')
+
     rerender(<Dropdown data={mockData} {...mockProps} disabled={true} />)
 
-    expect(
-      document.querySelector('button.dnb-dropdown__trigger')
-    ).toHaveAttribute('disabled')
+    expect(button).toHaveAttribute('disabled')
+  })
+
+  it('has correct trigger button aria attributes', () => {
+    render(
+      <Dropdown data={mockData} {...mockProps} opened id="dropdown-id" />
+    )
+
+    const elem = document.querySelector('.dnb-dropdown__trigger')
+
+    expect(elem).toHaveAttribute('aria-haspopup', 'listbox')
+    expect(elem).toHaveAttribute('aria-controls', 'dropdown-id-ul')
+    expect(elem).toHaveAttribute('aria-expanded', 'true')
+
+    keydown(27) // esc
+
+    expect(elem).toHaveAttribute('aria-haspopup', 'listbox')
+    expect(elem).not.toHaveAttribute('aria-controls', 'dropdown-id-ul')
+    expect(elem).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('gets valid buttonRef element', () => {
@@ -1271,6 +1296,26 @@ describe('Dropdown component', () => {
 
     await testDirectionObserver()
   })
+
+  it('should close dropdown on suffix click', async () => {
+    render(
+      <Dropdown {...props} data={['One', 'Two']} suffix={'Click me'} />
+    )
+
+    const dropdown = document.querySelector('.dnb-dropdown')
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    const suffix = document.querySelector('.dnb-dropdown__suffix')
+
+    await userEvent.click(trigger)
+
+    expect(dropdown).toHaveClass('dnb-dropdown--opened')
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    await userEvent.click(suffix)
+
+    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(trigger).not.toHaveAttribute('aria-expanded', 'true')
+  })
 })
 
 describe('Dropdown markup', () => {
@@ -1327,4 +1372,12 @@ const keydown = (keyCode) => {
 
 const open = () => {
   fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+}
+
+const dispatchKeyDown = (keyCode) => {
+  document.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      keyCode,
+    })
+  )
 }

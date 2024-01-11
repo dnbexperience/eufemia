@@ -11,6 +11,7 @@ import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import { toCapitalized } from '../../../../shared/component-helper'
 
 interface ErrorMessages {
   required?: string
@@ -79,12 +80,40 @@ function StringComponent(props: Props) {
     },
     [props.emptyValue]
   )
+  const toEvent = useCallback(
+    (value: string, type: string) => {
+      if (props.trim && type === 'onBlur') {
+        const spaces = '[\\s ]'
+        if (new RegExp(`^${spaces}|${spaces}$`).test(value)) {
+          value = value.replace(
+            new RegExp(`^${spaces}+|${spaces}+$`, 'g'),
+            ''
+          )
+          handleChange(value)
+        }
+      }
+      return value
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.trim]
+  )
+  const transformValue = useCallback(
+    (value: string) => {
+      if (props.capitalize) {
+        value = toCapitalized(String(value || ''))
+      }
+      return value
+    },
+    [props.capitalize]
+  )
 
   const preparedProps: Props = {
     ...props,
     errorMessages,
     schema,
     fromInput,
+    toEvent,
+    transformValue,
     width: props.width ?? 'large',
   }
 
@@ -123,6 +152,11 @@ function StringComponent(props: Props) {
     handleChange,
   } = useDataValue(preparedProps)
 
+  const transformInstantly = useCallback(
+    (value: string) => (props.capitalize ? toCapitalized(value) : value),
+    [props.capitalize]
+  )
+
   const characterCounterElement = characterCounter
     ? props.maxLength
       ? `${value?.length ?? '0'}/${props.maxLength}`
@@ -147,7 +181,7 @@ function StringComponent(props: Props) {
     stretch: width !== undefined,
     inner_ref: innerRef,
     status: error || hasError ? 'error' : undefined,
-    value: value?.toString() ?? '',
+    value: transformInstantly(value?.toString() ?? ''),
   }
 
   return (

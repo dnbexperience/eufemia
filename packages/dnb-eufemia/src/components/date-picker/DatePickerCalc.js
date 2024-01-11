@@ -21,6 +21,7 @@ import getDaysInMonth from 'date-fns/getDaysInMonth'
 import toDate from 'date-fns/toDate'
 import parseISO from 'date-fns/parseISO'
 import parse from 'date-fns/parse'
+import startOfDay from 'date-fns/startOfDay'
 
 import { warn } from '../../shared/component-helper'
 
@@ -171,8 +172,8 @@ const isWithinSelectionCalc = (date, startDate, endDate) => {
 const isDisabledCalc = (date, minDate, maxDate) => {
   // isBefore and isAfter return false if comparison date is undefined, which is useful here in case minDate and maxDate aren't supplied
   return (
-    (minDate && isBefore(date, minDate)) ||
-    (maxDate && isAfter(date, maxDate))
+    (minDate && isBefore(date, startOfDay(minDate))) ||
+    (maxDate && isAfter(date, startOfDay(maxDate)))
   )
 }
 export { isDisabledCalc as isDisabled }

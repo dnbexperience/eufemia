@@ -13,5 +13,7 @@ showTabs: true
 | `pathFalsy`     | `string`     | _(optional)_ Given data context path must be falsy to show children.                                       |
 | `pathTrue`      | `string`     | _(optional)_ Given data context path must be true to show children.                                        |
 | `pathFalse`     | `string`     | _(optional)_ Given data context path must be false to show children.                                       |
+| `pathValue`     | `string`     | _(optional)_ Given data context path must match, as well as the `whenValue` value.                         |
+| `whenValue`     | `string`     | _(optional)_ The value to match. Should be used together with `pathValue`.                                 |
 | `inferData`     | `function`   | _(optional)_ Will be called to decide by external logic, and show/hide contents based on the return value. |
 | `children`      | `React.Node` | _(required)_ Contents.                                                                                     |

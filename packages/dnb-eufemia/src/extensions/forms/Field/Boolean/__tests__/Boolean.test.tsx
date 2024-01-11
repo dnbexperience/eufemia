@@ -1,4 +1,5 @@
 import React from 'react'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
@@ -84,6 +85,20 @@ describe('Field.Boolean', () => {
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
+
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Boolean
+          label="Label"
+          variant="checkbox"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
   })
 
   describe('variant: button', () => {
@@ -144,6 +159,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Boolean
+          label="Label"
+          variant="button"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 
@@ -213,6 +242,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Boolean
+          label="Label"
+          variant="checkbox-button"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 
@@ -297,6 +340,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Boolean
+          label="Label"
+          variant="buttons"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 })

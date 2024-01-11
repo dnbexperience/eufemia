@@ -10,10 +10,6 @@ import { AnchorAllProps } from '../../Anchor'
 
 const matchMedia = new MatchMediaMock()
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Breadcrumb', () => {
   it('renders without properties', () => {
     const props: BreadcrumbProps = {}

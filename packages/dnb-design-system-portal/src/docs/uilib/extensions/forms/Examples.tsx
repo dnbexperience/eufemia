@@ -6,7 +6,6 @@ import {
   StepsLayout,
   Field,
   Value,
-  Visibility,
   FieldBlock,
   useDataValue,
   DataContext,
@@ -22,8 +21,11 @@ export const CreateBasicFieldComponent = () => {
     >
       {() => {
         const MyCustomField = (props) => {
+          const fromInput = React.useCallback(({ value }) => value, [])
+
           const preparedProps = {
             ...props,
+            fromInput,
             validator: (value) => {
               return value === 'secret'
                 ? new Error('Do not reveal the secret!')
@@ -32,6 +34,7 @@ export const CreateBasicFieldComponent = () => {
           }
 
           const {
+            id,
             info,
             warning,
             error,
@@ -43,16 +46,16 @@ export const CreateBasicFieldComponent = () => {
 
           return (
             <FieldBlock
-              forId="id"
+              forId={id}
               label="What is the secret of the custom field?"
               info={info}
               warning={warning}
               error={error}
             >
               <Input
-                id="id"
+                id={id}
                 value={value}
-                on_change={({ value }) => handleChange(value)}
+                on_change={handleChange}
                 on_focus={handleFocus}
                 on_blur={handleBlur}
               />
@@ -152,7 +155,6 @@ export const BaseFieldComponents = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Card stack>
@@ -182,7 +184,6 @@ export const FeatureFields = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Card stack>
@@ -202,7 +203,6 @@ export const LayoutComponents = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Flex.Stack>
@@ -233,7 +233,6 @@ export const VisibilityBasedOnData = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Form.Handler
@@ -266,7 +265,7 @@ export const VisibilityBasedOnData = () => {
           variant="checkbox-button"
           label="More fields"
         />
-        <Visibility pathTrue="/advanced">
+        <Form.Visibility pathTrue="/advanced">
           <Flex.Stack>
             <Card stack>
               <Form.SubHeading>More information</Form.SubHeading>
@@ -276,7 +275,7 @@ export const VisibilityBasedOnData = () => {
               <Field.PhoneNumber value="+47 98765432" />
             </Card>
           </Flex.Stack>
-        </Visibility>
+        </Form.Visibility>
       </Form.Handler>
     </ComponentBox>
   )
@@ -288,7 +287,6 @@ export const UsingFormHandler = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Form.Handler
@@ -329,7 +327,6 @@ export const Validation = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Form.Handler
@@ -366,7 +363,6 @@ export const WithSteps = () => {
       scope={{
         StepsLayout,
         Value,
-        Visibility,
       }}
     >
       <Form.Handler

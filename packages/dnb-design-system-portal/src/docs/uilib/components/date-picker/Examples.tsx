@@ -51,6 +51,9 @@ export const DatePickerRange = () => (
       on_cancel={({ start_date, end_date }) => {
         console.log('on_cancel', start_date, end_date)
       }}
+      onBlur={({ start_date, end_date }) => {
+        console.log('onBlur', start_date, end_date)
+      }}
       shortcuts={[
         {
           title: 'Set date period',
@@ -96,6 +99,9 @@ export const DatePickerWithInput = () => (
       on_cancel={({ date }) => {
         console.log('on_cancel', date)
       }}
+      onBlur={({ date }) => {
+        console.log('onBlur', date)
+      }}
     />
   </ComponentBox>
 )
@@ -112,6 +118,9 @@ export const DatePickerTrigger = () => (
         }}
         on_show={({ date }) => {
           console.log('on_show', date)
+        }}
+        onBlur={({ start_date, end_date }) => {
+          console.log('onBlur', start_date, end_date)
         }}
       />
     </ComponentBox>
@@ -134,6 +143,9 @@ export const DatePickerHiddenNav = () => (
       }}
       on_hide={({ date }) => {
         console.log('on_hide', date)
+      }}
+      onBlur={({ date }) => {
+        console.log('onBlur', date)
       }}
     />
   </ComponentBox>

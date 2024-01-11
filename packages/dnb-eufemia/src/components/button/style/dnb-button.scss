@@ -26,6 +26,7 @@
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
+  --button-border-radius--control-button: 0.25rem;
 
   position: relative;
 
@@ -153,6 +154,12 @@
   &--has-text#{&}--icon-position-right#{&}--size-medium {
     padding-right: 0.5rem;
   }
+  &--control-before#{&}--size-medium {
+    line-height: var(--button-height);
+  }
+  &--control-after#{&}--size-medium {
+    line-height: var(--button-height);
+  }
 
   // size large
   &--size-large {
@@ -228,6 +235,15 @@
 
   &--stretch {
     width: 100%;
+  }
+
+  &--control-before {
+    border-radius: var(--button-border-radius--control-button) 0 0
+      var(--button-border-radius--control-button);
+  }
+  &--control-after {
+    border-radius: 0 var(--button-border-radius--control-button)
+      var(--button-border-radius--control-button) 0;
   }
 
   &--reset {

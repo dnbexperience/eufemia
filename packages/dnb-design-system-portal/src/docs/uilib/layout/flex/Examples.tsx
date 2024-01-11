@@ -53,7 +53,7 @@ export const colors = [
 export const HorizontalFlexItemResponsiveSize = () => {
   return (
     <ComponentBox
-      scope={{ colors, TestElement, Field }}
+      scope={{ colors, TestElement }}
       data-visual-test="flex-item-size"
     >
       <Flex.Container>

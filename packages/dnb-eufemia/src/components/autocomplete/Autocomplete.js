@@ -1867,7 +1867,7 @@ class AutocompleteInstance extends React.PureComponent {
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
       'aria-autocomplete': 'both', // list, both
-      'aria-controls': `${id}-ul`,
+      'aria-controls': isExpanded ? `${id}-ul` : undefined,
       'aria-haspopup': 'listbox',
       'aria-expanded': isExpanded, // is needed for semantics
       // 'aria-roledescription': 'autocomplete', // is not needed by now
@@ -1892,7 +1892,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     // Handling of activedescendant – required by NVDA
-    if (!hidden) {
+    if (isExpanded) {
       if (parseFloat(active_item) > -1) {
         inputParams[
           'aria-activedescendant'

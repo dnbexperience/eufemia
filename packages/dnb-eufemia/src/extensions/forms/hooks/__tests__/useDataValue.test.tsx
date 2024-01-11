@@ -469,7 +469,7 @@ describe('useDataValue', () => {
       })
 
       expect(toEvent).toHaveBeenCalledTimes(3)
-      expect(toEvent).toHaveBeenLastCalledWith(2)
+      expect(toEvent).toHaveBeenLastCalledWith(2, 'onBlur')
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(3)
@@ -485,7 +485,7 @@ describe('useDataValue', () => {
       })
 
       expect(toEvent).toHaveBeenCalledTimes(6)
-      expect(toEvent).toHaveBeenLastCalledWith(4)
+      expect(toEvent).toHaveBeenLastCalledWith(4, 'onBlur')
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(5)
@@ -546,54 +546,38 @@ describe('useDataValue', () => {
 
       expect(onChange).toHaveBeenCalledTimes(1)
     })
-  })
 
-  describe('manipulate string value', () => {
-    it('should capitalize value', () => {
-      const onBlur = jest.fn()
-      const onChange = jest.fn()
+    it('should call "transformValue"', () => {
+      const transformValue = jest.fn((v) => v + 1)
 
       const { result } = renderHook(() =>
         useDataValue({
-          value: 'foo',
-          capitalize: true,
-          onBlur,
-          onChange,
+          value: 1,
+          transformValue,
         })
       )
 
-      const { handleBlur, handleChange } = result.current
+      const { handleFocus, handleBlur, handleChange } = result.current
+
+      expect(transformValue).toHaveBeenCalledTimes(0)
 
       act(() => {
-        handleBlur()
-        handleChange('bar')
-      })
-
-      expect(onBlur).toHaveBeenLastCalledWith('Foo')
-      expect(onChange).toHaveBeenLastCalledWith('Bar')
-    })
-
-    it('should trim value', () => {
-      const onBlur = jest.fn()
-      const onChange = jest.fn()
-
-      const { result } = renderHook(() =>
-        useDataValue({
-          value: ' foo',
-          trim: true,
-          onBlur,
-          onChange,
-        })
-      )
-
-      const { handleBlur } = result.current
-
-      act(() => {
+        handleFocus()
+        handleChange(2)
         handleBlur()
       })
 
-      expect(onBlur).toHaveBeenLastCalledWith('foo')
-      expect(onChange).toHaveBeenLastCalledWith('foo')
+      expect(transformValue).toHaveBeenCalledTimes(1)
+      expect(transformValue).toHaveBeenLastCalledWith(2, 1)
+
+      act(() => {
+        handleFocus()
+        handleChange(4)
+        handleBlur()
+      })
+
+      expect(transformValue).toHaveBeenCalledTimes(2)
+      expect(transformValue).toHaveBeenLastCalledWith(4, 3)
     })
   })
 

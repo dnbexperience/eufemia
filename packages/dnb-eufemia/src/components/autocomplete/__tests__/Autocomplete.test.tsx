@@ -44,10 +44,6 @@ const mockData: DrawerListDataObjectUnion[] = [
 
 mockImplementationForDirectionObserver()
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-})
-
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
     render(
@@ -65,21 +61,26 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('has correct input HTML Element attributes', () => {
+  it('has correct attributes on input', () => {
     render(<Autocomplete data={mockData} opened {...mockProps} />)
 
-    const elem = document.querySelector('input')
+    const input = document.querySelector('input')
 
-    expect(elem.getAttribute('autocomplete')).toBe('off')
-    expect(elem.getAttribute('autocapitalize')).toBe('none')
-    expect(elem.getAttribute('spellcheck')).toBe('false')
-    expect(elem.getAttribute('autocorrect')).toBe('off')
-    expect(elem.getAttribute('role')).toBe('combobox')
-    expect(elem.getAttribute('aria-autocomplete')).toBe('both')
-    expect(elem.getAttribute('aria-haspopup')).toBe('listbox')
-    expect(elem.getAttribute('aria-controls')).toBe('autocomplete-id-ul')
-    expect(elem.getAttribute('aria-expanded')).toBe('true')
-    expect(elem.getAttribute('name')).toBe('autocomplete-id')
+    expect(input).toHaveAttribute('autocomplete', 'off')
+    expect(input).toHaveAttribute('autocapitalize', 'none')
+    expect(input).toHaveAttribute('spellcheck', 'false')
+    expect(input).toHaveAttribute('autocorrect', 'off')
+    expect(input).toHaveAttribute('role', 'combobox')
+    expect(input).toHaveAttribute('aria-autocomplete', 'both')
+    expect(input).toHaveAttribute('aria-haspopup', 'listbox')
+    expect(input).toHaveAttribute('aria-controls', 'autocomplete-id-ul')
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+    expect(input).toHaveAttribute('name', 'autocomplete-id')
+
+    keyDownOnInput(27) // esc
+
+    expect(input).not.toHaveAttribute('aria-controls')
+    expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('has correct options after filter', () => {
@@ -3119,12 +3120,12 @@ describe('Autocomplete markup', () => {
       no_animation: true,
       skip_portal: true,
     }
-    const CheckComponent = render(
+    const result = render(
       <Autocomplete {...snapshotProps} data={mockData} />
     )
 
     expect(
-      await axeComponent(CheckComponent, {
+      await axeComponent(result, {
         rules: {
           'aria-valid-attr-value': { enabled: false },
           'aria-required-children': { enabled: false },
@@ -3171,8 +3172,8 @@ const toggle = () => {
 }
 
 const closeAndReopen = () => {
-  // Close and open
-  fireEvent.blur(document.querySelector('.dnb-input__input'))
-  fireEvent.focus(document.querySelector('.dnb-input__input'))
-  fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+  const input = document.querySelector('.dnb-input__input')
+  fireEvent.blur(input)
+  fireEvent.focus(input)
+  fireEvent.mouseDown(input)
 }

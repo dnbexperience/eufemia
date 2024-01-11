@@ -754,12 +754,12 @@ describe('Pagination ARIA', () => {
       current_page: 2,
     }
 
-    const CheckComponent = render(<Pagination {...snapshotProps} />)
-    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+    const result = render(<Pagination {...snapshotProps} />)
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules for Infinity Scroller', async () => {
-    const CheckComponent = render(
+    const result = render(
       <Pagination
         mode="infinity"
         page_count={5}
@@ -768,7 +768,7 @@ describe('Pagination ARIA', () => {
       />
     )
     await wait(1)
-    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
 

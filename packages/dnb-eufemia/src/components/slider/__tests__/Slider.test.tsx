@@ -167,7 +167,6 @@ describe('Slider component', () => {
   describe('Tooltip', () => {
     const IS_TEST = globalThis.IS_TEST
     beforeEach(() => {
-      document.body.innerHTML = ''
       globalThis.IS_TEST = false
     })
     afterEach(() => {

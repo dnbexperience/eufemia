@@ -1,8 +1,10 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import { FormError } from '../../types'
+import userEvent from '@testing-library/user-event'
+import { useDataValue } from '../../hooks'
 
 describe('FieldBlock', () => {
   it('should forward HTML attributes', () => {
@@ -142,6 +144,34 @@ describe('FieldBlock', () => {
       'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Secondary Label')
+  })
+
+  it('click on label should set focus on input after value change', async () => {
+    const MockComponent = () => {
+      const fromInput = React.useCallback(({ value }) => value, [])
+      const { value, handleChange } = useDataValue({
+        value: '',
+        fromInput,
+      })
+
+      return (
+        <FieldBlock label="Label" forId="unique">
+          <Input id="unique" value={value} on_change={handleChange} />
+        </FieldBlock>
+      )
+    }
+
+    render(<MockComponent />)
+
+    const label = document.querySelector('label')
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, 'foo')
+    await userEvent.click(label)
+
+    await waitFor(() => {
+      expect(input).toHaveFocus()
+    })
   })
 
   it('should not use fieldset/legend elements when no label is given', () => {
