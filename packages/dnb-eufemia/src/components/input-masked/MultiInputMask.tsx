@@ -60,6 +60,14 @@ export type MultiInputMaskProps<T extends string> = {
    */
   onChange?: (values: MultiInputMaskValue<T>) => void
   /**
+   * Runs when the input lose focus. Has an object parameter with keys matching the id's defined in `inputs`. i.e. `{month: string, year: string}`
+   */
+  onBlur?: (values: MultiInputMaskValue<T>) => void
+  /**
+   * Runs when the input gains focus. Has an object parameter with keys matching the id's defined in `inputs`. i.e. `{month: string, year: string}`
+   */
+  onFocus?: (values: MultiInputMaskValue<T>) => void
+  /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText
@@ -77,7 +85,7 @@ export type MultiInputMaskProps<T extends string> = {
   suffix?: React.ReactNode
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
-  'onChange' | 'ref' | 'value' | 'label'
+  'onChange' | 'onFocus' | 'onBlur' | 'ref' | 'value' | 'label'
 > &
   SpacingProps
 
@@ -156,8 +164,16 @@ function MultiInputMask<T extends string>({
             delimiter={index !== inputs.length - 1 ? delimiter : undefined}
             onKeyDown={onKeyDown}
             onChange={onChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            onFocus={() => {
+              if (onFocus) {
+                onFocus(values)
+              }
+            }}
+            onBlur={() => {
+              if (onBlur) {
+                onBlur(values)
+              }
+            }}
             disabled={disabled}
             inputRef={getInputRef}
           />
