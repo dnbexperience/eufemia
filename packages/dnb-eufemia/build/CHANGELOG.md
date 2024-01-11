@@ -3,6 +3,42 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.17.0](https://github.com/dnbexperience/eufemia/compare/v10.16.0...v10.17.0) (2024-01-11)
+
+
+### :memo: Documentation
+
+* refactor custom field component docs and example ([#3193](https://github.com/dnbexperience/eufemia/issues/3193)) ([3871079](https://github.com/dnbexperience/eufemia/commit/387107984aeed4431fd3f87bbb800caf76c7499e))
+
+
+### :sparkles: Features
+
+* **Anchor:** blank target icon styling  ([#3172](https://github.com/dnbexperience/eufemia/issues/3172)) ([2ca216a](https://github.com/dnbexperience/eufemia/commit/2ca216aa4b37034d536361aca02752d9b035eda4))
+* **DatePicker:** add onFocus event ([#3188](https://github.com/dnbexperience/eufemia/issues/3188)) ([2062213](https://github.com/dnbexperience/eufemia/commit/2062213180f578e81f9b7fba1e06a3b437d6a9f7))
+* **Field.Number:** add step control functionality ([#3140](https://github.com/dnbexperience/eufemia/issues/3140)) ([a9e1697](https://github.com/dnbexperience/eufemia/commit/a9e16970612afdf20dcc6522b3b60f6813af044a))
+* **Form.Visibility:** add `pathValue` and `whenValue` ([#3206](https://github.com/dnbexperience/eufemia/issues/3206)) ([8a547ae](https://github.com/dnbexperience/eufemia/commit/8a547aeb5a1d9ad0815a8bf2e2f735b36ac38fe4))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** only set aria-controls attribute when expanded ([#3180](https://github.com/dnbexperience/eufemia/issues/3180)) ([a16a7ba](https://github.com/dnbexperience/eufemia/commit/a16a7ba1571be1371c099014704345bb5126049d))
+* **DatePicker:** add return object for onBlur ([#3178](https://github.com/dnbexperience/eufemia/issues/3178)) ([18b3889](https://github.com/dnbexperience/eufemia/commit/18b38895273c2a5cf8e8d1682e5d3cabee0bdab3))
+* **DatePicker:** fix bug where minDate set to today is disabled ([#3176](https://github.com/dnbexperience/eufemia/issues/3176)) ([ef65676](https://github.com/dnbexperience/eufemia/commit/ef65676336098a5fcf998df1c6dde7fcd86cefae))
+* **Dropdown:** correct aria-controls target element ([#3181](https://github.com/dnbexperience/eufemia/issues/3181)) ([bc26101](https://github.com/dnbexperience/eufemia/commit/bc261012cd5f5d1dc29ee047a1468328e3c5d28e))
+* **Field.Currency:** handle big numbers ([#3184](https://github.com/dnbexperience/eufemia/issues/3184)) ([b856a46](https://github.com/dnbexperience/eufemia/commit/b856a4699dbc4cf18777a1ebd6d7b361c0ff7e20)), closes [#3124](https://github.com/dnbexperience/eufemia/issues/3124) [#3185](https://github.com/dnbexperience/eufemia/issues/3185)
+* **Field.Number:** replace `rightAligned` prop with `align` ([#3175](https://github.com/dnbexperience/eufemia/issues/3175)) ([ba130ba](https://github.com/dnbexperience/eufemia/commit/ba130bab2dee27c07a7725e8487e12c0e3fe667d))
+* **FieldBlock:** ensure extra spacing of labels when on small screens ([#3187](https://github.com/dnbexperience/eufemia/issues/3187)) ([c86c857](https://github.com/dnbexperience/eufemia/commit/c86c857129efa9a7895526eb0abd8673a68b0948)), closes [#3102](https://github.com/dnbexperience/eufemia/issues/3102)
+* **FieldBlock:** label can be clicked after focusing input ([#3190](https://github.com/dnbexperience/eufemia/issues/3190)) ([95b37e7](https://github.com/dnbexperience/eufemia/commit/95b37e72a5eb74fa28c19b7bf4f7957901872974)), closes [#2979](https://github.com/dnbexperience/eufemia/issues/2979)
+* **Flex.Container:** add `Flex.withChildren` HOC for handling wrapped children with spacing ([#3200](https://github.com/dnbexperience/eufemia/issues/3200)) ([93df77c](https://github.com/dnbexperience/eufemia/commit/93df77caffd2349c0f94ee27b91a25d4ddd6743e))
+* **Flex.Container:** show line divider even when heading is present ([#3198](https://github.com/dnbexperience/eufemia/issues/3198)) ([d135b47](https://github.com/dnbexperience/eufemia/commit/d135b4719ef4dcdb485a845c64a1942555927f2b))
+* **Form.Visibility:** move Visibility to Form.Visibility ([#3205](https://github.com/dnbexperience/eufemia/issues/3205)) ([d3b766f](https://github.com/dnbexperience/eufemia/commit/d3b766f2dce48b82f3455713d191bb3c84917b3d))
+* **InputMasked:** correct cursor position when navigating using keyboard ([#3160](https://github.com/dnbexperience/eufemia/issues/3160)) ([9143b38](https://github.com/dnbexperience/eufemia/commit/9143b3847a1c9f5f4840b77f8ef63810c27a06ad))
+* **InputMasked:** extend reliability on cursor position correction ([#3194](https://github.com/dnbexperience/eufemia/issues/3194)) ([cbc27ac](https://github.com/dnbexperience/eufemia/commit/cbc27ac772ce85591f3d54147048f6e28535ab06)), closes [#3160](https://github.com/dnbexperience/eufemia/issues/3160)
+* **MultiInputMask:** enhance handling of right, left and backspace key usage ([#3192](https://github.com/dnbexperience/eufemia/issues/3192)) ([f3ce934](https://github.com/dnbexperience/eufemia/commit/f3ce934f29e77b15cababe01d1d5a86ed813598f))
+* **PhoneNumber:** show read outline on both fields in error state ([#3196](https://github.com/dnbexperience/eufemia/issues/3196)) ([16ed821](https://github.com/dnbexperience/eufemia/commit/16ed8214ec099ca4ddb4d21416031866f03a6daf))
+* **Textarea:** ensure correct height based on rows for Firefox browser ([#3207](https://github.com/dnbexperience/eufemia/issues/3207)) ([75f754e](https://github.com/dnbexperience/eufemia/commit/75f754e3058431eee108b54e18cc5bcb3ba74563))
+* **Visibility:** add support for being used in Flex.Container ([#3203](https://github.com/dnbexperience/eufemia/issues/3203)) ([7a72fa6](https://github.com/dnbexperience/eufemia/commit/7a72fa6abc28b600773974713915ed98c3b071e6))
+
 ## [10.16.0](https://github.com/dnbexperience/eufemia/compare/v10.15.1...v10.16.0) (2024-01-04)
 
 
