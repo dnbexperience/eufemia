@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "377bbb3330cad66ec174c1c2337734e4"
+    "revision": "090fee6161a20eb7edc9637baf67e0f2"
   },
   {
     "url": "500.html",
-    "revision": "f28c05d5ee34586e27e75b39769863f0"
+    "revision": "4700c3a66f58923553e911d010d1a91a"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "b03531f04ebcaa39cfc4c4c3a90b9f38"
+    "revision": "fb9e736b7a99817b8b451b3a24b510bc"
   },
   {
     "url": "commons.193a44cd3b14c700ede1.css"
@@ -53,26 +53,26 @@ self.__precacheManifest = [
     "url": "framework-c5df6d12579f33233478.js"
   },
   {
-    "url": "ui.15127ef9e9c8647fa86a.css"
+    "url": "ui.528a629336c9e2855e49.css"
   },
   {
-    "url": "sbanken.d30841a94da1fbb13ec0.css"
+    "url": "sbanken.fbaecf834149491b17f4.css"
   },
   {
-    "url": "eiendom.c2b79e5d9ef55978a369.css"
+    "url": "eiendom.f73bc98a98903f09099b.css"
   },
   {
-    "url": "aaa5778d-9a1eca75a4a4a3cfda98.js"
+    "url": "aaa5778d-bf2b21814f23c6c042a7.js"
   },
   {
-    "url": "app-b270ed3f1ed51cb2a131.js"
+    "url": "app-e094df816cf2d0b65315.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "c8626f343452b145df412cc97c9848af"
+    "revision": "df30ac0dbc38577e99c872267adb29d0"
   },
   {
-    "url": "webpack-runtime-ae97fa486b7dd744e24f.js"
+    "url": "webpack-runtime-336b7a1ce9baa4c07a57.js"
   },
   {
     "url": "manifest.webmanifest",
@@ -186,7 +186,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-b270ed3f1ed51cb2a131.js`))) {
+  if (!resources || !(await caches.match(`/app-e094df816cf2d0b65315.js`))) {
     return await fetch(event.request)
   }
 
