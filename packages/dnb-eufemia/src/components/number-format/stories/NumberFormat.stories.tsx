@@ -186,6 +186,14 @@ export const NumberFormatSandbox = () => {
               <NumberFormat value="18089212345" nin /> random
               identification number
             </P>
+            <P>
+              national identification number selectall disabled
+              <NumberFormat
+                value="18089212345"
+                nin
+                selectall={false}
+              />{' '}
+            </P>
           </Box>
         </Wrapper>
       </Provider>
