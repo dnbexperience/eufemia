@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
@@ -12,17 +12,40 @@ import { HelpButton } from '../../../../components'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
-export type ExpiryProps = FieldProps<string> & FieldHelpProps
+export type ExpiryProps = FieldHelpProps & FieldProps<string>
 
 function Expiry(props: ExpiryProps) {
   const sharedContext = useContext(SharedContext)
+  const translations = sharedContext?.translation.Forms
   const placeholders =
     sharedContext?.translation.DatePicker.placeholder_characters
+
+  const errorMessages = useMemo(
+    () => ({
+      required: translations.dateErrorRequired,
+      ...props.errorMessages,
+    }),
+    [translations, props.errorMessages]
+  )
+
+  const validateRequired = useCallback(
+    (value: string, { required, error }) => {
+      return required && !value ? error : undefined
+    },
+    []
+  )
+
+  const preparedProps: ExpiryProps = {
+    ...props,
+    errorMessages,
+    fromInput: toExpiryString,
+    validateRequired,
+  }
 
   const {
     id: propsId,
     className,
-    label = sharedContext?.translation.Forms.expiryLabel,
+    label = translations.expiryLabel,
     error,
     info,
     warning,
@@ -37,8 +60,7 @@ function Expiry(props: ExpiryProps) {
     handleBlur,
     handleChange,
   } = useDataValue({
-    ...props,
-    emptyValue: '',
+    ...preparedProps,
   })
 
   const expiry: ExpiryValue = {
@@ -70,7 +92,7 @@ function Expiry(props: ExpiryProps) {
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
         required={required}
-        onChange={(expiry) => handleChange(expiryToString(expiry))}
+        onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
         delimiter="/"
@@ -100,7 +122,7 @@ function Expiry(props: ExpiryProps) {
     </FieldBlock>
   )
 
-  function expiryToString(values: ExpiryValue) {
+  function toExpiryString(values: ExpiryValue) {
     return Object.values(values).join('')
   }
 

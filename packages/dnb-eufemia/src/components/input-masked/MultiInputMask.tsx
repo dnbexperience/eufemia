@@ -95,6 +95,8 @@ function MultiInputMask<T extends string>({
   stretch,
   inputMode,
   suffix,
+  onBlur,
+  onFocus,
   ...props
 }: MultiInputMaskProps<T>) {
   const [values, onChange] = useMultiInputValue({
@@ -154,6 +156,8 @@ function MultiInputMask<T extends string>({
             delimiter={index !== inputs.length - 1 ? delimiter : undefined}
             onKeyDown={onKeyDown}
             onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
             disabled={disabled}
             inputRef={getInputRef}
           />
@@ -243,6 +247,8 @@ function MultiInputMaskInput<T extends string>({
   inputRef,
   onKeyDown,
   onChange,
+  onBlur,
+  onFocus,
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const markupId = `${id}-${makeUniqueId()}`
@@ -268,7 +274,15 @@ function MultiInputMaskInput<T extends string>({
         aria-labelledby={`${markupId}__label`}
         ref={inputRef}
         onKeyDown={onKeyDown}
-        onFocus={onFocus}
+        onBlur={onBlur}
+        onFocus={({ target, ...event }) => {
+          target.focus()
+          target.select()
+
+          if (onFocus) {
+            onFocus({ target, ...event })
+          }
+        }}
         onChange={(event) => {
           onChange(
             id,
@@ -300,11 +314,6 @@ function MultiInputMaskInput<T extends string>({
 
   function removePlaceholder(value: string, placeholder: string) {
     return value.replace(RegExp(placeholder, 'gm'), '')
-  }
-
-  function onFocus({ target }: React.FocusEvent<HTMLInputElement>) {
-    target.focus()
-    target.select()
   }
 }
 
