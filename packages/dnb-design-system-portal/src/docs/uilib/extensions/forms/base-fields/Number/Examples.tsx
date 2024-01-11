@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Slider, Grid } from '@dnb/eufemia/src'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Slider, Grid, Flex } from '@dnb/eufemia/src'
+import { Field, Form, FormError } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
 export const Empty = () => {
@@ -106,72 +106,49 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox hideCode>
-      <h4 className="dnb-lead">Without step controls</h4>
-      <Field.Number
-        label="Default width (property omitted)"
-        value={123}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        label="Small"
-        value={123}
-        width="small"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        label="Medium"
-        value={123}
-        width="medium"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        label="Large"
-        value={123}
-        width="large"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        label="Stretch"
-        value={123}
-        width="stretch"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <h4 className="dnb-lead">With step controls</h4>
-      <Field.Number
-        showStepControls
-        label="Default width (property omitted)"
-        value={123}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        showStepControls
-        label="Small"
-        value={123}
-        width="small"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        showStepControls
-        label="Medium"
-        value={123}
-        width="medium"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        showStepControls
-        label="Large"
-        value={123}
-        width="large"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        showStepControls
-        label="Stretch"
-        value={123}
-        width="stretch"
-        onChange={(value) => console.log('onChange', value)}
-      />
+    <ComponentBox hideCode data-visual-test="number-widths">
+      <Flex.Stack>
+        <Form.SubHeading>Without step controls</Form.SubHeading>
+
+        <Field.Number
+          label="Default width (property omitted)"
+          value={1234}
+        />
+        <Field.Number label="Small" value={1234} width="small" />
+        <Field.Number label="Medium" value={1234} width="medium" />
+        <Field.Number label="Large" value={1234} width="large" />
+        <Field.Number label="Stretch" value={1234} width="stretch" />
+        <Form.SubHeading>With step controls</Form.SubHeading>
+        <Field.Number
+          showStepControls
+          label="Default width (property omitted)"
+          value={1234}
+        />
+        <Field.Number
+          showStepControls
+          label="Small"
+          value={1234}
+          width="small"
+        />
+        <Field.Number
+          showStepControls
+          label="Medium"
+          value={1234}
+          width="medium"
+        />
+        <Field.Number
+          showStepControls
+          label="Large"
+          value={1234}
+          width="large"
+        />
+        <Field.Number
+          showStepControls
+          label="Stretch"
+          value={1234}
+          width="stretch"
+        />
+      </Flex.Stack>
     </ComponentBox>
   )
 }

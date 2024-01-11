@@ -72,3 +72,16 @@ describe.each(['ui', 'sbanken'])('Number field for %s', (themeName) => {
     })
   })
 })
+
+describe('Field.Number', () => {
+  setupPageScreenshot({
+    url: '/uilib/extensions/forms/base-fields/Number',
+  })
+
+  it('have to match widths', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="number-widths"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

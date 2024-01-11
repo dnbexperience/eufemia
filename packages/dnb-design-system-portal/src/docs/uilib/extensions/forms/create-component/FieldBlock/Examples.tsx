@@ -53,9 +53,10 @@ export const Widths = () => {
   return (
     <ComponentBox
       scope={{ TestElement }}
+      hideCode
       data-visual-test="forms-field-block-widths"
     >
-      <Flex.Vertical align="stretch">
+      <Flex.Stack>
         <FieldBlock label="Default width (no width props)">
           <TestElement>Contents</TestElement>
         </FieldBlock>
@@ -108,7 +109,7 @@ export const Widths = () => {
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
-      </Flex.Vertical>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
