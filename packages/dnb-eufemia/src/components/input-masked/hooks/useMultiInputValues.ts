@@ -4,7 +4,7 @@ import {
   MultiInputMaskValue,
 } from '../MultiInputMask'
 
-type SteppedValuesHook<T extends string> = {
+type UseMultiInputValues<T extends string> = {
   inputs: MultiInputMaskProps<T>['inputs']
   defaultValues?: MultiInputMaskProps<T>['values']
   callback?: (values: MultiInputMaskProps<T>['values']) => void
@@ -14,7 +14,7 @@ export function useMultiInputValue<T extends string>({
   inputs,
   defaultValues,
   callback,
-}: SteppedValuesHook<T>) {
+}: UseMultiInputValues<T>) {
   const [values, setValues] = useState<MultiInputMaskValue<T>>(
     defaultValues ? defaultValues : createDefaultValues()
   )
