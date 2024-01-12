@@ -74,6 +74,65 @@ export const CreateBasicFieldComponent = () => {
   )
 }
 
+export const GettingStarted = () => {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        const existingData = {
+          companyName: 'DNB',
+          companyOrganizationNumber: '123456789',
+          postalAddressSelect: 'companyAddress',
+        }
+
+        function Component() {
+          const { data } = Form.useData('company-form')
+          console.log('State:', data)
+
+          return (
+            <Form.Handler
+              id="company-form"
+              data={existingData}
+              onChange={console.log}
+              onSubmit={console.log}
+            >
+              <Flex.Stack>
+                <Form.MainHeading>Bedrift</Form.MainHeading>
+                <Card spacing="medium">
+                  <Field.String
+                    path="/companyName"
+                    label="Bedriftens navn"
+                    required
+                  />
+                  <Field.OrganizationNumber
+                    path="/companyOrganizationNumber"
+                    required
+                  />
+                  <Field.Selection
+                    path="/postalAddressSelect"
+                    label="Ønsket sted for tilsendt post"
+                    variant="radio"
+                  >
+                    <Field.Option
+                      value="companyAddress"
+                      title="Samme som forretningsadresse"
+                    />
+                    <Field.Option value="other" title="Annet" />
+                  </Field.Selection>
+                </Card>
+                <Form.ButtonRow>
+                  <Form.SubmitButton />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <Component />
+      }}
+    </ComponentBox>
+  )
+}
+
 export const CreateComposedFieldComponent = () => {
   return (
     <ComponentBox

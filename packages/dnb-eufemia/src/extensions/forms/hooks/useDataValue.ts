@@ -155,7 +155,6 @@ export default function useDataValue<
     return undefined
   }, [
     props.value,
-    props.capitalize,
     inIterate,
     itemPath,
     dataContext.data,
@@ -369,7 +368,7 @@ export default function useDataValue<
   }, [dataContext.showAllErrors, showError])
 
   useEffect(() => {
-    if (path && props.value) {
+    if (path && typeof props.value !== 'undefined') {
       const hasValue = pointer.has(dataContext.data, path)
       const value = hasValue
         ? pointer.get(dataContext.data, path)

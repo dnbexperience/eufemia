@@ -20,13 +20,21 @@ Example using the [Form.Handler](/uilib/extensions/forms/extended-features/Form/
 
 ```jsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
-render(
-  <Form.Handler data={existingData} onSubmit={submitHandler}>
-    <Field.Email path="/email" />
-    <Value.Date path="/date" />
-    <Form.SubmitButton />
-  </Form.Handler>,
-)
+const existingData={
+  email: 'name@email.no'
+  date: '2024-01-01'
+}
+function Component() {
+  const { data } = Form.useData('unique')
+
+  return (
+    <Form.Handler id="unique" data={existingData} onSubmit={submitHandler}>
+      <Field.Email path="/email" />
+      <Value.Date path="/date" />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
 ```
 
 ### Schema validation

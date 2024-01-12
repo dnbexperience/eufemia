@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Set data outside of the form
+
+<Examples.Default />
+
+### Update the data outside of the form
+
+The update function `update('/count', (count) => count + 1)` has TypeScript support and returns the correct type for `count` (number).
+
+<Examples.Update />
+
+### Shared state without a Form.Handler
+
+<Examples.WithoutFormHandler />
