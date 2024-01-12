@@ -370,7 +370,7 @@ describe('Form.Handler', () => {
     const onSubmit = jest.fn()
 
     render(
-      <Form.Handler defaultData={{ foo: 'bar' }} onSubmit={onSubmit}>
+      <Form.Handler data={{ foo: 'bar' }} onSubmit={onSubmit}>
         <Field.String path="/other" value="include this" />
         <Form.SubmitButton />
       </Form.Handler>,

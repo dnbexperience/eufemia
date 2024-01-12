@@ -35,7 +35,10 @@ export const DropdownLabel = () => (
     <Field.Selection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-    />
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
   </ComponentBox>
 )
 
