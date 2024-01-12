@@ -287,6 +287,25 @@ describe('Field.PhoneNumber', () => {
     })
   })
 
+  it('should return correct value onChange event in data context', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <PhoneNumber path="/phone" />
+      </Form.Handler>
+    )
+
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number .dnb-input__input'
+    )
+
+    await userEvent.type(phoneElement, '9999')
+
+    expect(onChange).toHaveBeenCalledTimes(4)
+    expect(onChange).toHaveBeenLastCalledWith({ phone: '+47 9999' })
+  })
+
   it('should handle events correctly with initial value', async () => {
     const onChange = jest.fn()
     const onCountryCodeChange = jest.fn()
@@ -741,6 +760,20 @@ describe('Field.PhoneNumber', () => {
     )
 
     expect(phoneNumberInput).toHaveAttribute('inputmode', 'tel')
+  })
+
+  it('should render value from context', () => {
+    render(
+      <Form.Handler data={{ phoneNumber: '9999' }}>
+        <PhoneNumber path="/phoneNumber" />
+      </Form.Handler>
+    )
+
+    const phoneNumberInput = document.querySelector(
+      '.dnb-forms-field-phone-number__number .dnb-input__input'
+    )
+
+    expect(phoneNumberInput).toHaveValue('99 99 ​​ ​​')
   })
 
   describe('locale', () => {
