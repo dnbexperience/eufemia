@@ -287,6 +287,7 @@ describe('Field.Expiry', () => {
       ).not.toBeInTheDocument()
 
       await userEvent.keyboard('{Backspace}')
+      await userEvent.click(document.body)
 
       const formStatusText = document.querySelector(
         '.dnb-form-status__text'
