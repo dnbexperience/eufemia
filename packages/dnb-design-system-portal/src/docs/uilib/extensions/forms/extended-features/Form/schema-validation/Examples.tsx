@@ -19,10 +19,9 @@ export const DataSetSchema = () => {
           address: 'Prefilled address',
         }}
         schema={{
-          type: 'object',
           properties: {
-            name: { type: 'string', minLength: 2 },
-            address: { type: 'string', minLength: 3 },
+            name: { minLength: 2 },
+            address: { minLength: 3 },
           },
           required: ['name', 'address'],
         }}
