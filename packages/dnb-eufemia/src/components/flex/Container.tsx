@@ -161,6 +161,13 @@ function FlexContainer(props: Props) {
         spacing
     }
 
+    if (
+      React.isValidElement(previousChild) &&
+      previousChild?.type?.['_supportsSpacingProps'] === false
+    ) {
+      startSpacing = 0
+    }
+
     const space =
       direction === 'horizontal'
         ? { [start]: endSpacing, [end]: startSpacing }

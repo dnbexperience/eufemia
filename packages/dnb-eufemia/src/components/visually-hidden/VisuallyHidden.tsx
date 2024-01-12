@@ -57,6 +57,6 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   )
 }
 
-VisuallyHidden._supportsSpacingProps = true
+VisuallyHidden._supportsSpacingProps = false
 
 export default VisuallyHidden

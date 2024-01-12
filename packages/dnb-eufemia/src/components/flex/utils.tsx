@@ -56,11 +56,18 @@ export const isEufemiaElement = (element): boolean => {
 export const isSpacePropsComponent = (
   element: React.ReactNode
 ): boolean => {
-  return (
-    (React.isValidElement(element) &&
-      element?.type?.['_supportsSpacingProps'] === true) ||
-    isEufemiaElement(element)
-  )
+  if (
+    React.isValidElement(element) &&
+    typeof element?.type?.['_supportsSpacingProps'] === 'boolean'
+  ) {
+    return element?.type?.['_supportsSpacingProps']
+  }
+
+  if (isEufemiaElement(element)) {
+    return true
+  }
+
+  return undefined
 }
 
 export const renderWithSpacing = (
@@ -68,6 +75,10 @@ export const renderWithSpacing = (
   props: SpacingProps & { key?: string; className?: string }
 ) => {
   const takesSpaceProps = isSpacePropsComponent(element)
+
+  if (takesSpaceProps === false) {
+    return element
+  }
 
   return takesSpaceProps ? (
     React.cloneElement(element as React.ReactElement<unknown>, props)
