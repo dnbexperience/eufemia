@@ -245,6 +245,7 @@ function MultiInputMaskInput<T extends string>({
   onChange,
   ...attributes
 }: MultiInputMaskInputProps<T>) {
+  const shouldHighlight = !disabled && /\w+/.test(value)
   const markupId = `${id}-${makeUniqueId()}`
 
   return (
@@ -255,7 +256,7 @@ function MultiInputMaskInput<T extends string>({
         className={classnames(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
-          /\d+/.test(value) && 'dnb-multi-input-mask__input--highlight'
+          shouldHighlight && 'dnb-multi-input-mask__input--highlight'
         )}
         disabled={disabled}
         size={mask.length}
@@ -289,7 +290,7 @@ function MultiInputMaskInput<T extends string>({
           aria-hidden
           className={classnames(
             'dnb-multi-input-mask__delimiter',
-            value && 'dnb-multi-input-mask__delimiter--highlight'
+            shouldHighlight && 'dnb-multi-input-mask__delimiter--highlight'
           )}
         >
           {delimiter}
