@@ -180,7 +180,7 @@ function StringComponent(props: Props) {
     disabled: disabled,
     stretch: width !== undefined,
     inner_ref: innerRef,
-    status: error || hasError ? 'error' : undefined,
+    status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
 

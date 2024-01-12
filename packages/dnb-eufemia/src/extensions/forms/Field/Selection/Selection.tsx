@@ -22,7 +22,7 @@ interface IOption {
 }
 
 export type Props = FieldHelpProps &
-  FieldProps<string | number> & {
+  FieldProps<IOption['value']> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'button'
     clear?: boolean
@@ -252,7 +252,6 @@ function Selection(props: Props) {
             on_change={handleDropdownChange}
             on_show={handleShow}
             on_hide={handleHide}
-            {...pickSpacingProps(props)}
             stretch
           />
         </FieldBlock>

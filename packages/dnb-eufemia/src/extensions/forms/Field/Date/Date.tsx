@@ -96,7 +96,7 @@ function DateComponent(props: Props) {
         show_input={true}
         show_cancel_button={true}
         show_reset_button={true}
-        status={error || hasError ? 'error' : undefined}
+        status={hasError ? 'error' : undefined}
         suffix={
           help ? (
             <HelpButton title={help.title}>{help.contents}</HelpButton>
