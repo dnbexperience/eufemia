@@ -60,6 +60,14 @@ export type MultiInputMaskProps<T extends string> = {
    */
   onChange?: (values: MultiInputMaskValue<T>) => void
   /**
+   * Runs when the input gains focus. Has an object parameter with keys matching the id's defined in `inputs`. i.e. `{month: string, year: string}`
+   */
+  onFocus?: (values: MultiInputMaskValue<T>) => void
+  /**
+   * Runs when the input loses focus. Has an object parameter with keys matching the id's defined in `inputs`. i.e. `{month: string, year: string}`
+   */
+  onBlur?: (values: MultiInputMaskValue<T>) => void
+  /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText
@@ -77,7 +85,7 @@ export type MultiInputMaskProps<T extends string> = {
   suffix?: React.ReactNode
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
-  'onChange' | 'ref' | 'value' | 'label'
+  'onChange' | 'onFocus' | 'onBlur' | 'ref' | 'value' | 'label'
 > &
   SpacingProps
 
@@ -95,6 +103,8 @@ function MultiInputMask<T extends string>({
   stretch,
   inputMode,
   suffix,
+  onBlur,
+  onFocus,
   ...props
 }: MultiInputMaskProps<T>) {
   const [values, onChange] = useMultiInputValue({
@@ -154,6 +164,16 @@ function MultiInputMask<T extends string>({
             delimiter={index !== inputs.length - 1 ? delimiter : undefined}
             onKeyDown={onKeyDown}
             onChange={onChange}
+            onFocus={() => {
+              if (onFocus) {
+                onFocus(values)
+              }
+            }}
+            onBlur={() => {
+              if (onBlur) {
+                onBlur(values)
+              }
+            }}
             disabled={disabled}
             inputRef={getInputRef}
           />
@@ -243,6 +263,8 @@ function MultiInputMaskInput<T extends string>({
   inputRef,
   onKeyDown,
   onChange,
+  onBlur,
+  onFocus,
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const shouldHighlight = !disabled && /\w+/.test(value)
@@ -269,7 +291,15 @@ function MultiInputMaskInput<T extends string>({
         aria-labelledby={`${markupId}__label`}
         ref={inputRef}
         onKeyDown={onKeyDown}
-        onFocus={onFocus}
+        onBlur={onBlur}
+        onFocus={({ target, ...event }) => {
+          target.focus()
+          target.select()
+
+          if (onFocus) {
+            onFocus({ target, ...event })
+          }
+        }}
         onChange={(event) => {
           onChange(
             id,
@@ -301,11 +331,6 @@ function MultiInputMaskInput<T extends string>({
 
   function removePlaceholder(value: string, placeholder: string) {
     return value.replace(RegExp(placeholder, 'gm'), '')
-  }
-
-  function onFocus({ target }: React.FocusEvent<HTMLInputElement>) {
-    target.focus()
-    target.select()
   }
 }
 
