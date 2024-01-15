@@ -68,6 +68,7 @@ function SelectCountry(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     value,
     width = 'large',
@@ -189,6 +190,7 @@ function SelectCountry(props: Props) {
         on_change={handleCountryChange}
         on_type={onTypeHandler}
         stretch
+        status={hasError ? 'error' : undefined}
         show_submit_button
         suffix={
           help ? (

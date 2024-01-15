@@ -47,6 +47,7 @@ function Selection(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     help,
     emptyValue,
@@ -237,7 +238,7 @@ function Selection(props: Props) {
             portal_class="dnb-forms-field-selection__portal"
             title={placeholder}
             value={String(value ?? '')}
-            status={status && 'error'}
+            status={(hasError || status) && 'error'}
             disabled={disabled}
             data={data}
             suffix={

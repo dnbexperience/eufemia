@@ -34,6 +34,7 @@ function Toggle(props: Props) {
     info,
     warning,
     error,
+    hasError,
     handleChange,
   } = useDataValue(props)
 
@@ -83,7 +84,7 @@ function Toggle(props: Props) {
             label={label}
             checked={isOn}
             disabled={disabled}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             on_change={handleCheckboxChange}
             {...pickSpacingProps(props)}
           />
@@ -101,7 +102,7 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
           />
@@ -115,7 +116,7 @@ function Toggle(props: Props) {
               value={{
                 value: isOn ? 'on' : isOff ? 'off' : undefined,
                 onChange: handleToggleChange,
-                status: error ? 'error' : undefined,
+                status: hasError ? 'error' : undefined,
                 disabled,
               }}
             >
@@ -148,7 +149,7 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
           />

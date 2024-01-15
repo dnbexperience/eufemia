@@ -129,6 +129,7 @@ function PhoneNumber(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     width = 'large',
     help,
@@ -306,7 +307,7 @@ function PhoneNumber(props: Props) {
             }
             data={dataRef.current}
             value={countryCodeRef.current}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             disabled={disabled}
             on_focus={onFocusHandler}
             on_blur={handleBlur}
