@@ -9,6 +9,8 @@ import EventEmitter, {
  *
  * @param {string} id unique id, same as used in the "lined place"
  * @returns React Hook { data, update }
+ *
+ * @deprecated Please use useSharedState instead for new code
  */
 export const useEventEmitter = (id: EventEmitterId = null) => {
   const [, updateState] = React.useState(null)

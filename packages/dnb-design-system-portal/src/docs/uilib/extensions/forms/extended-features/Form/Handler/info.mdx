@@ -22,6 +22,19 @@ render(
 )
 ```
 
+The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+function Component() {
+  const { data } = Form.useData('unique')
+
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+More examples can be found in the [Form.useData](/uilib/extensions/forms/extended-features/Form/useData/) docs.
+
 ## Browser autofill
 
 You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/extensions/forms/base-fields/String/)-field will then get `autoComplete="on"`:
