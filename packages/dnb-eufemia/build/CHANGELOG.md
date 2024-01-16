@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.18.0](https://github.com/dnbexperience/eufemia/compare/v10.17.0...v10.18.0) (2024-01-16)
+
+
+### :sparkles: Features
+
+* **Form.useData:** add hook to get forms data outside of the context ([#3218](https://github.com/dnbexperience/eufemia/issues/3218)) ([58c77cd](https://github.com/dnbexperience/eufemia/commit/58c77cdbb7c29427bcee890607a3596970f55277))
+
+
+### :bug: Bug Fixes
+
+* **Expiry:** validation logic ([#3216](https://github.com/dnbexperience/eufemia/issues/3216)) ([beff8e8](https://github.com/dnbexperience/eufemia/commit/beff8e8ad4b9dc41daa0737e2d5ed6d2afcd7685))
+* **Field.Expiry:** correct disabled styling ([#3215](https://github.com/dnbexperience/eufemia/issues/3215)) ([2a0651a](https://github.com/dnbexperience/eufemia/commit/2a0651a82bf34248274fbc0e8d9abf6eac5fea76))
+* **Field.Number:** use default size ([#3229](https://github.com/dnbexperience/eufemia/issues/3229)) ([348f3cb](https://github.com/dnbexperience/eufemia/commit/348f3cb79eae0f4bc5929a6c2276489c352c0074))
+* **Field.PhoneNumber:** ensure data value is used when given ([#3222](https://github.com/dnbexperience/eufemia/issues/3222)) ([1e37cf6](https://github.com/dnbexperience/eufemia/commit/1e37cf6c3ecfcf30ea866a173ee026cf2d6890ec))
+* **NumberFormat:** setting selectall to false will no longer select all ([#3213](https://github.com/dnbexperience/eufemia/issues/3213)) ([ab5cea2](https://github.com/dnbexperience/eufemia/commit/ab5cea28fab36e21f79566209b038dc744fdb997))
+* **ToggleButton:** add checked disabled style ([#3224](https://github.com/dnbexperience/eufemia/issues/3224)) ([c3ea6a6](https://github.com/dnbexperience/eufemia/commit/c3ea6a6293903b2db73990714ee921dfc5644a96))
+* **VisuallyHidden:** remove flex support ([#3219](https://github.com/dnbexperience/eufemia/issues/3219)) ([2fd5c41](https://github.com/dnbexperience/eufemia/commit/2fd5c41e424b3d586f32e5767e51bcdc981bcc04))
+
 ## [10.17.0](https://github.com/dnbexperience/eufemia/compare/v10.16.0...v10.17.0) (2024-01-11)
 
 
