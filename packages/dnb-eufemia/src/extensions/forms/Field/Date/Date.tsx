@@ -61,8 +61,6 @@ function DateComponent(props: Props) {
     id,
     className,
     label,
-    labelDescription,
-    labelSecondary,
     value,
     help,
     info,
@@ -80,8 +78,6 @@ function DateComponent(props: Props) {
       className={classnames('dnb-forms-field-string', className)}
       forId={id}
       label={label ?? sharedContext?.translation.Forms.dateLabel}
-      labelDescription={labelDescription}
-      labelSecondary={labelSecondary}
       info={info}
       warning={warning}
       disabled={disabled}
