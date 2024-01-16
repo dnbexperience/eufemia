@@ -169,10 +169,6 @@ function NumberComponent(props: Props) {
     toInput,
     fromInput,
     transformValue,
-    size:
-      props.size !== 'small' && props.size !== 'large'
-        ? 'medium'
-        : props.size,
     width: props.width ?? 'medium',
   }
 
