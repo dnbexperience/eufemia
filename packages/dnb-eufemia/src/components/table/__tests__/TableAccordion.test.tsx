@@ -311,7 +311,10 @@ describe('TableAccordion', () => {
         <tbody>
           <Tr>
             <Td>
-              <input type="text" />
+              <label>
+                Label
+                <input type="text" />
+              </label>
               <button>button</button>
             </Td>
             <Td.AccordionContent>accordion content</Td.AccordionContent>
@@ -321,6 +324,7 @@ describe('TableAccordion', () => {
     )
 
     const trElement = document.querySelector('tr')
+    const labelElement = document.querySelector('label')
     const inputElem = trElement.querySelector('input')
     const buttonElem = trElement.querySelector('button')
 
@@ -345,6 +349,12 @@ describe('TableAccordion', () => {
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
 
     fireEvent.click(inputElem)
+
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+
+    fireEvent.click(labelElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -385,6 +395,22 @@ describe('TableAccordion', () => {
     )
 
     fireEvent.keyDown(inputElem, { keyCode: 32 }) // space
+
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+
+    jest
+      .spyOn(document, 'activeElement', 'get')
+      .mockReturnValue(labelElement)
+
+    fireEvent.keyDown(labelElement, { keyCode: 13 }) // enter
+
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+
+    fireEvent.keyDown(labelElement, { keyCode: 32 }) // space
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
