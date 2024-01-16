@@ -6,12 +6,12 @@ import React, {
   useReducer,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
-import { JSONSchema7 } from 'json-schema'
 import { ValidateFunction } from 'ajv'
 import ajv, { ajvErrorsToFormErrors } from '../../utils/ajv'
-import { FormError } from '../../types'
+import { FormError, JSONSchema } from '../../types'
 import useMountEffect from '../../hooks/useMountEffect'
 import useUpdateEffect from '../../hooks/useUpdateEffect'
+import { useSharedState } from '../../../../shared/helpers/useSharedState'
 import Context, { ContextState } from '../Context'
 
 /**
@@ -20,17 +20,22 @@ import Context, { ContextState } from '../Context'
  */
 import structuredClone from '@ungap/structured-clone'
 
+export type Path = string
+export type UpdateDataValue = (path: Path, data: unknown) => void
+
 export interface Props<Data extends JsonObject> {
+  /** Unique ID to communicate with the hook Form.useData */
+  id?: string
   /** Default source data, only used if no other source is available, and not leading to updates if changed after mount */
   defaultData?: Partial<Data>
   /** Dynamic source data used as both initial data, and updates internal data if changed after mount */
   data?: Partial<Data>
   /** JSON Schema for validating the data, like during input or after attempting submit */
-  schema?: JSONSchema7
+  schema?: JSONSchema
   /** Change handler for the whole data set */
   onChange?: (data: Data) => void
   /** Change handler for each value  */
-  onPathChange?: (path: string, value: any) => void
+  onPathChange?: (path: Path, value: any) => void
   /** Submit called, data was valid (if validation available) */
   onSubmit?: (
     data: Data,
@@ -54,17 +59,18 @@ export interface Props<Data extends JsonObject> {
 
 type PathList = string[]
 
-function addListPath(paths: PathList, path: string): PathList {
+function addListPath(paths: PathList, path: Path): PathList {
   return paths.includes(path) ? paths : paths.concat(path)
 }
 
-function removeListPath(paths: PathList, path: string): PathList {
+function removeListPath(paths: PathList, path: Path): PathList {
   return paths.filter((thisPath) => thisPath !== path)
 }
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>({
+  id,
   defaultData,
   data,
   schema,
@@ -111,6 +117,13 @@ export default function Provider<Data extends JsonObject>({
   const dataCacheRef = useRef<Partial<Data>>(data)
   // - Validator
   const ajvSchemaValidatorRef = useRef<ValidateFunction>()
+  // - Shared state
+  const sharedState = useSharedState(id, initialData)
+  useMemo(() => {
+    if (sharedState?.data && !initialData) {
+      internalDataRef.current = sharedState.data
+    }
+  }, [initialData, sharedState.data])
 
   const validateData = useCallback(() => {
     if (!ajvSchemaValidatorRef.current) {
@@ -164,25 +177,37 @@ export default function Provider<Data extends JsonObject>({
     []
   )
 
-  const updateDataValue = useCallback(
+  const updateDataValue: UpdateDataValue = useCallback(
     (path, value) => {
       if (!path) {
         return
       }
 
-      // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
-      const newData = structuredClone(
+      const givenData =
         path === '/'
           ? // When setting the root of the data, the whole data set should be the new value
             value
           : // For sub paths, use the the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
             internalDataRef.current ??
-              (path.match(isArrayJsonPointer) ? [] : {})
-      )
+            (path.match(isArrayJsonPointer) ? [] : {})
+
+      let newData = null
+      try {
+        // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
+        newData = structuredClone(givenData)
+      } catch (e) {
+        newData = givenData
+      }
 
       if (path !== '/') {
         pointer.set(newData as Data, path, value)
       }
+
+      if (id) {
+        sharedState.update?.(newData)
+      }
+
+      internalDataRef.current = newData
 
       if (sessionStorageId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(
@@ -191,16 +216,14 @@ export default function Provider<Data extends JsonObject>({
         )
       }
 
-      internalDataRef.current = newData
-
       forceUpdate()
 
       return newData
     },
-    [sessionStorageId]
+    [id, sessionStorageId, sharedState]
   )
 
-  const handlePathChange = useCallback(
+  const handlePathChange: UpdateDataValue = useCallback(
     (path, value) => {
       if (!path) {
         return
@@ -220,14 +243,14 @@ export default function Provider<Data extends JsonObject>({
   )
 
   // Mounted fields
-  const handleMountField = useCallback((path: string) => {
+  const handleMountField = useCallback((path: Path) => {
     mountedFieldPathsRef.current = addListPath(
       mountedFieldPathsRef.current,
       path
     )
   }, [])
 
-  const handleUnMountField = useCallback((path: string) => {
+  const handleUnMountField = useCallback((path: Path) => {
     mountedFieldPathsRef.current = removeListPath(
       mountedFieldPathsRef.current,
       path

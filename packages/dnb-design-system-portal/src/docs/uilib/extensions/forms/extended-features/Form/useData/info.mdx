@@ -1,0 +1,85 @@
+---
+showTabs: true
+---
+
+## Description
+
+With the `Form.useData` hook, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function Component() {
+  const { data } = Form.useData('unique')
+
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+You link them together via the `id` (string) property.
+
+## Initial data
+
+You decide where you want to provide the initial `data`. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook – or even in each Field, with the value property:
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const existingData = {
+  foo: 'bar',
+}
+
+function Component() {
+  const { data } = Form.useData('unique', existingData)
+
+  return (
+    <Form.Handler id="unique">
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
+}
+```
+
+When you're providing the initial data, it's important to make sure that React can remember this data. If it doesn't, React will treat the data as a new object every time it re-renders, which can lead to unnecessary comparisons and performance issues.
+
+You can use the useMemo hook to make sure React remembers the data:
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+function Component() {
+  const existingData = React.useMemo(
+    {
+      foo: 'bar',
+    },
+    [],
+  )
+
+  const { data } = Form.useData('unique-id', existingData)
+}
+```
+
+## Update data
+
+If you need to update the data, you can use the `update` method.
+
+It takes a path ([JSON Pointer](/uilib/extensions/forms/#what-is-a-json-pointer)) and a callback function. The callback function receives the existing value as the first argument, and the second argument is the path itself. The callback function must return the new value.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const existingData = {
+  foo: 'bar',
+}
+
+function Component() {
+  const { update } = Form.useData('unique' data={existingData})
+
+  useEffect(() => {
+    update('/foo', () => 'new value')
+    // or
+    update('/foo', (existingValue) => existingValue + 'new value')
+  }, [])
+}
+```
+
+The `update` function has TypeScript support and returns the correct type for `existingValue`.

@@ -1,13 +1,23 @@
+@import '../../../../../style/core/utilities.scss';
+
 .dnb-forms-field-array-selection {
-  &--options-layout-vertical &__options {
+  &--layout-vertical &__options {
     display: flex;
     flex-flow: column;
     row-gap: var(--spacing-x-small);
   }
 
-  &--options-layout-horizontal &__options {
+  &--layout-horizontal &__options {
     display: flex;
     flex-flow: row wrap;
     column-gap: var(--spacing-small);
+    row-gap: var(--spacing-x-small); // for when wrapped
+  }
+
+  @include allAbove(small) {
+    .dnb-forms-field-block--layout-horizontal .dnb-form-label {
+      line-height: 2.5rem;
+      margin-bottom: 0;
+    }
   }
 }

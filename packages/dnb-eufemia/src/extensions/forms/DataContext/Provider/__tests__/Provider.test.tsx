@@ -3,13 +3,13 @@ import {
   act,
   fireEvent,
   render,
+  renderHook,
   screen,
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Form, DataContext, Field } from '../../../'
+import { Form, DataContext, Field, JSONSchema } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String/String'
-import { JSONSchema7 } from 'json-schema'
 import nbNO from '../../../../../shared/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].Forms
@@ -555,7 +555,7 @@ describe('DataContext.Provider', () => {
 
     describe('schema validation', () => {
       it('should handle errors from inner components and outer provider interchangeably', async () => {
-        const schema: JSONSchema7 = {
+        const schema: JSONSchema = {
           type: 'object',
           properties: {
             txt: {
@@ -612,7 +612,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should show provided errorMessages based on outer schema validation with injected value', () => {
-        const schema: JSONSchema7 = {
+        const schema: JSONSchema = {
           type: 'object',
           properties: {
             val: {
@@ -638,7 +638,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show default errorMessages based on outer schema validation with injected value', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           val: {
@@ -664,7 +664,7 @@ describe('DataContext.Provider', () => {
     it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
       const onSubmitRequest = jest.fn()
 
-      const TestdataSchema: JSONSchema7 = {
+      const TestdataSchema: JSONSchema = {
         type: 'object',
         properties: {
           foo: { type: 'number', minimum: 3 },
@@ -714,7 +714,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           somekey: {
@@ -765,7 +765,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate correctly based on changes in provided schema', () => {
-      const schema1: JSONSchema7 = {
+      const schema1: JSONSchema = {
         type: 'object',
         properties: {
           somekey: {
@@ -773,7 +773,7 @@ describe('DataContext.Provider', () => {
           },
         },
       }
-      const schema2: JSONSchema7 = {
+      const schema2: JSONSchema = {
         type: 'object',
         properties: {
           somekey: {
@@ -818,6 +818,141 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
+  describe('useData', () => {
+    it('should set Provider data', () => {
+      renderHook((props = { foo: 'bar' }) => Form.useData('unique', props))
+
+      render(
+        <DataContext.Provider id="unique">
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+      expect(inputElement).toHaveValue('bar')
+    })
+
+    it('should update Provider data on hook rerender', () => {
+      const { rerender } = renderHook((props = { foo: 'bar' }) => {
+        return Form.useData('unique-a', props)
+      })
+
+      render(
+        <DataContext.Provider id="unique-a">
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('bar')
+
+      rerender({ foo: 'bar-changed' })
+
+      expect(inputElement).toHaveValue('bar-changed')
+    })
+
+    it('should only set data when Provider has no data given', () => {
+      renderHook((props = { foo: 'bar' }) =>
+        Form.useData('unique-b', props)
+      )
+
+      render(
+        <DataContext.Provider id="unique-b" data={{ foo: 'changed' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('changed')
+    })
+
+    it('should initially set data when Provider has no data', () => {
+      renderHook((props = { foo: 'bar' }) =>
+        Form.useData('unique-c', props)
+      )
+
+      const { rerender } = render(
+        <DataContext.Provider id="unique-c">
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('bar')
+
+      rerender(
+        <DataContext.Provider id="unique-c" data={{ foo: 'changed' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      expect(inputElement).toHaveValue('changed')
+    })
+
+    it('should return "update" mathod that lets you update the data', () => {
+      const props = { foo: 'bar' }
+      const { result } = renderHook(() => Form.useData('unique-d', props))
+      const { update } = result.current
+
+      render(
+        <DataContext.Provider id="unique-d">
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('bar')
+
+      act(() => {
+        update('/foo', (value) => {
+          return 'foo ' + value
+        })
+      })
+
+      expect(inputElement).toHaveValue('foo bar')
+    })
+
+    it('should rerender provider and its contents', async () => {
+      const existingData = { count: 1 }
+
+      const MockComponent = () => {
+        const { data, update } = Form.useData('update-id', existingData)
+
+        const increment = React.useCallback(() => {
+          update('/count', (count) => {
+            return count + 1
+          })
+        }, [update])
+
+        return (
+          <Form.Handler id="update-id">
+            <Field.Number path="/count" showStepControls />
+            <Form.SubmitButton
+              onClick={increment}
+              text={'Increment ' + data.count}
+            />
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('1')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+
+      expect(inputElement).toHaveValue('2')
     })
   })
 })

@@ -366,16 +366,16 @@ describe('Flex.Container', () => {
       const elements = document.querySelectorAll(
         '.dnb-flex-container > div'
       )
-      expect(elements[0].className).toBe(
+      expect(elements[0]).toHaveClass(
         'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
       )
-      expect(elements[1].className).toBe(
+      expect(elements[1]).toHaveClass(
         'dnb-space dnb-space__top--small dnb-space__bottom--zero'
       )
-      expect((elements[0].firstChild as HTMLElement).className).toBe(
+      expect(elements[0].firstChild as HTMLElement).toHaveClass(
         'test-item'
       )
-      expect((elements[1].firstChild as HTMLElement).className).toBe(
+      expect(elements[1].firstChild as HTMLElement).toHaveClass(
         'dnb-space__bottom--large test-item'
       )
     }
@@ -393,11 +393,32 @@ describe('Flex.Container', () => {
       const elements = document.querySelectorAll(
         '.dnb-flex-container > div'
       )
-      expect(elements[0].className).toBe(
+      expect(elements[0]).toHaveClass(
         'dnb-space__top--zero dnb-space__bottom--zero test-item'
       )
-      expect(elements[1].className).toBe(
+      expect(elements[1]).toHaveClass(
         'dnb-space__bottom--x-large dnb-space__top--small test-item'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
+      expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
+    }
+
+    {
+      TestComponent._supportsSpacingProps = false
+
+      rerender(
+        <Flex.Vertical>
+          <TestComponent />
+          <TestComponent bottom="x-large" />
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect(elements[0]).toHaveClass('test-item')
+      expect(elements[1]).toHaveClass(
+        'dnb-space__bottom--x-large test-item'
       )
       expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
       expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
@@ -431,12 +452,10 @@ describe('Flex.Container', () => {
         '.dnb-flex-container > div'
       )
       expect(elements).toHaveLength(1)
-      expect(elements[0].className).toBe(
+      expect(elements[0]).toHaveClass(
         'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
       )
-      expect((elements[0].firstChild as HTMLElement).className).toBe(
-        'wrapper'
-      )
+      expect(elements[0].firstChild as HTMLElement).toHaveClass('wrapper')
     }
 
     {

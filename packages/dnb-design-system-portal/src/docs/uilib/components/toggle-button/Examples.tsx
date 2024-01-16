@@ -122,7 +122,12 @@ export const ToggleButtonStatusMessages = () => (
 
 export const ToggleButtonDisabledGroup = () => (
   <ComponentBox data-visual-test="toggle-button-group-disabled">
-    <ToggleButton.Group label="Disabled Group" disabled variant="checkbox">
+    <ToggleButton.Group
+      label="Disabled Group"
+      disabled
+      value="first"
+      variant="checkbox"
+    >
       <ToggleButton text="First" value="first" />
       <ToggleButton text="Second" value="second" />
       <ToggleButton text="Third" value="third" checked />

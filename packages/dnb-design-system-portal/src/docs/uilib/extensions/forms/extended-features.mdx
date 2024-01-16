@@ -20,18 +20,30 @@ Example using the [Form.Handler](/uilib/extensions/forms/extended-features/Form/
 
 ```jsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
-render(
-  <Form.Handler data={existingData} onSubmit={submitHandler}>
-    <Field.Email path="/email" />
-    <Value.Date path="/date" />
-    <Form.SubmitButton />
-  </Form.Handler>,
-)
+const existingData={
+  email: 'name@email.no'
+  date: '2024-01-01'
+}
+function Component() {
+  const { data } = Form.useData('unique')
+
+  return (
+    <Form.Handler id="unique" data={existingData} onSubmit={submitHandler}>
+      <Field.Email path="/email" />
+      <Value.Date path="/date" />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
 ```
 
 ### Schema validation
 
-`Forms.Handler` supports [JSON Schema](https://json-schema.org/) validation. JSON Schema is a flexible standard that makes it possible to describe the data's structure and validation needs, both for the individual value, and more complex rules across the data set. Descriptions and examples of such validation can be found [on a separate page](/uilib/extensions/forms/extended-features/Form/schema-validation).
+Eufemia Forms does support [Ajv schema validator](https://ajv.js.org/) on both single fields and the whole data set – if needed.
+
+[JSON Schema](https://json-schema.org/) is a flexible standard that makes it possible to describe the data's structure and validation needs, both for the individual value, and more complex rules across the data set.
+
+Descriptions and examples of such validation can be found [on a separate page](/uilib/extensions/forms/extended-features/Form/schema-validation).
 
 ## [Data context](/uilib/extensions/forms/extended-features/DataContext/)
 

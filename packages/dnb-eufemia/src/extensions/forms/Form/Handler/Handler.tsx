@@ -31,6 +31,7 @@ export default function FormHandler<Data extends JsonObject>({
   ...rest
 }: ProviderProps<Data> & Omit<Props, keyof ProviderProps<Data>>) {
   const providerProps = {
+    id: rest.id,
     defaultData,
     data,
     schema,

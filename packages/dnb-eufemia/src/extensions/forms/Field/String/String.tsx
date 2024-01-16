@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useCallback } from 'react'
 import classnames from 'classnames'
-import { JSONSchema7 } from 'json-schema'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
@@ -9,7 +8,7 @@ import InputMasked, {
 import SharedContext from '../../../../shared/Context'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps } from '../../types'
+import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 
@@ -33,7 +32,6 @@ export type Props = FieldHelpProps &
     autoComplete?: HTMLInputElement['autocomplete']
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
-    characterCounter?: boolean
     mask?: InputMaskedProps['mask']
     // Validation
     minLength?: number
@@ -57,7 +55,7 @@ function StringComponent(props: Props) {
     }),
     [tr, props.errorMessages]
   )
-  const schema = useMemo<JSONSchema7>(
+  const schema = useMemo<JSONSchema>(
     () =>
       props.schema ?? {
         type: 'string',
@@ -129,8 +127,6 @@ function StringComponent(props: Props) {
     type,
     placeholder,
     label,
-    labelDescription,
-    labelSecondary,
     value,
     info,
     warning,
@@ -144,7 +140,6 @@ function StringComponent(props: Props) {
     clear,
     autoresize = true,
     autoresizeMaxRows = 6,
-    characterCounter,
     mask,
     width,
     handleFocus,
@@ -157,11 +152,6 @@ function StringComponent(props: Props) {
     [props.capitalize]
   )
 
-  const characterCounterElement = characterCounter
-    ? props.maxLength
-      ? `${value?.length ?? '0'}/${props.maxLength}`
-      : `${value?.length ?? '0'}`
-    : undefined
   const cn = classnames('dnb-forms-field-string__input', inputClassName)
 
   const sharedProps = {
@@ -180,7 +170,7 @@ function StringComponent(props: Props) {
     disabled: disabled,
     stretch: width !== undefined,
     inner_ref: innerRef,
-    status: error || hasError ? 'error' : undefined,
+    status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
 
@@ -190,8 +180,6 @@ function StringComponent(props: Props) {
       forId={id}
       layout={layout}
       label={label}
-      labelDescription={labelDescription}
-      labelSecondary={labelSecondary ?? characterCounterElement}
       info={info}
       warning={warning}
       disabled={disabled}

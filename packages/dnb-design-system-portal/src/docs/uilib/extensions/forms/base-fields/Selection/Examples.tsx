@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Button } from '@dnb/eufemia/src'
+import { Button, Flex } from '@dnb/eufemia/src'
 import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
 
 // Dropdown
@@ -35,7 +35,10 @@ export const DropdownLabel = () => (
     <Field.Selection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-    />
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
   </ComponentBox>
 )
 
@@ -137,51 +140,32 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox data-visual-test="selection-dropdown-widths">
-      <Field.Selection
-        label="Default width (property omitted)"
-        value="bar"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option value="foo" title="Foo!" />
-        <Field.Option value="bar" title="Baar!" />
-      </Field.Selection>
-      <Field.Selection
-        label="Small"
-        value="bar"
-        width="small"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option value="foo" title="Foo!" />
-        <Field.Option value="bar" title="Baar!" />
-      </Field.Selection>
-      <Field.Selection
-        label="Medium"
-        value="bar"
-        width="medium"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option value="foo" title="Foo!" />
-        <Field.Option value="bar" title="Baar!" />
-      </Field.Selection>
-      <Field.Selection
-        label="Large"
-        value="bar"
-        width="large"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option value="foo" title="Foo!" />
-        <Field.Option value="bar" title="Baar!" />
-      </Field.Selection>
-      <Field.Selection
-        label="Stretch"
-        value="bar"
-        width="stretch"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option value="foo" title="Foo!" />
-        <Field.Option value="bar" title="Baar!" />
-      </Field.Selection>
+    <ComponentBox hideCode data-visual-test="selection-dropdown-widths">
+      <Flex.Stack>
+        <Field.Selection
+          label="Default width (property omitted)"
+          value="bar"
+        >
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Small" value="bar" width="small">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Medium" value="bar" width="medium">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Large" value="bar" width="large">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Stretch" value="bar" width="stretch">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

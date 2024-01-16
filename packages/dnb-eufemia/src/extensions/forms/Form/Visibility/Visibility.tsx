@@ -39,13 +39,6 @@ function Visibility({
 }: Props) {
   const dataContext = useContext(DataContext.Context)
 
-  console.log(
-    'val',
-    pointer.has(dataContext.data, pathValue) &&
-      pointer.get(dataContext.data, pathValue),
-    whenValue
-  )
-
   if (visible === false) {
     return null
   }

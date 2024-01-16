@@ -4,8 +4,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PhoneNumber from '..'
 import { Provider } from '../../../../../shared'
-import { Form } from '../../..'
-import { JSONSchema7 } from 'json-schema'
+import { Form, JSONSchema } from '../../..'
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -285,6 +284,25 @@ describe('Field.PhoneNumber', () => {
       countryCode: '+41',
       phoneNumber: undefined,
     })
+  })
+
+  it('should return correct value onChange event in data context', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <PhoneNumber path="/phone" />
+      </Form.Handler>
+    )
+
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number .dnb-input__input'
+    )
+
+    await userEvent.type(phoneElement, '9999')
+
+    expect(onChange).toHaveBeenCalledTimes(4)
+    expect(onChange).toHaveBeenLastCalledWith({ phone: '+47 9999' })
   })
 
   it('should handle events correctly with initial value', async () => {
@@ -686,7 +704,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should validate schema', async () => {
-    const schema: JSONSchema7 = {
+    const schema: JSONSchema = {
       type: 'string',
       pattern: '^\\+47 [49]+',
     }
@@ -741,6 +759,20 @@ describe('Field.PhoneNumber', () => {
     )
 
     expect(phoneNumberInput).toHaveAttribute('inputmode', 'tel')
+  })
+
+  it('should render value from context', () => {
+    render(
+      <Form.Handler data={{ phoneNumber: '9999' }}>
+        <PhoneNumber path="/phoneNumber" />
+      </Form.Handler>
+    )
+
+    const phoneNumberInput = document.querySelector(
+      '.dnb-forms-field-phone-number__number .dnb-input__input'
+    )
+
+    expect(phoneNumberInput).toHaveValue('99 99 ​​ ​​')
   })
 
   describe('locale', () => {

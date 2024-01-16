@@ -8,6 +8,7 @@ breadcrumb:
     href: /uilib/extensions/forms/
 ---
 
+import * as Examples from './forms/Examples'
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import FormDiagram1 from 'Docs/uilib/extensions/forms/form-diagram-1.png'
 import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
@@ -66,6 +67,24 @@ render(
 )
 ```
 
+Use the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook to access or modify your form data outside of the form context within your application:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+function Component() {
+  const { data, update } = Form.useData('unique')
+
+  return (
+    <Form.Handler
+      id="unique"
+      ...
+    >
+      ...
+    </Form.Handler>
+  )
+}
+```
+
 ## Philosophy
 
 Eufemia Forms is:
@@ -88,8 +107,9 @@ In summary:
 
 - Ready to use data driven form components.
 - All functionality in all components can be controlled and overridden via props.
-- State management using the declarative [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) directive (i.e `path="/firstName"`).
-- Simple validation (like `minLength` on text fields) as well as [Ajv JSON schema validator](https://ajv.js.org/) support on both single fields and the whole data set.
+- State management using the declarative [JSON Pointer](/uilib/extensions/forms/#what-is-a-json-pointer) directive (i.e `path="/firstName"`).
+- State can be handled outside of the Form.Handler (Provider Context) with the [useData](/uilib/extensions/forms/extended-features/Form/useData) hook.
+- Simple validation (like `minLength` on text fields) as well as advanced and complex [Ajv](https://ajv.js.org/) JSON schema validator (Ajv is like Joi or Yup – check out [some examples](/uilib/extensions/forms/extended-features/#schema-validation)) support on both single fields and the whole data set.
 - Building blocks for [creating custom field components](/uilib/extensions/forms/create-component).
 - Static [value components](/uilib/extensions/forms/extended-features/Value/) for displaying data with proper formatting.
 
@@ -151,6 +171,10 @@ The data-driven [base field components](/uilib/extensions/forms/base-fields) are
 
 On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
 
+### Value components
+
+Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
 ### Layout
 
 When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.
@@ -162,13 +186,32 @@ When building your application forms, preferably use the following layout compon
 
 To build an entire form, there are surrounding components such as [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
 
-#### Related topics
+### State management
+
+The state management is done via the [JSON Pointer](/uilib/extensions/forms/#what-is-a-json-pointer) directive (i.e `path="/firstName"`). This is a standardized way of pointing to a specific part of a JavaScript/JSON object. The JSON Pointer is used to both read and write data, and is also used to validate the data.
+
+<Examples.GettingStarted />
+
+### What is a JSON Pointer?
+
+A [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) is a string of tokens separated by `/` characters, these tokens either specify keys in objects or indexes into arrays.
+
+```ts
+const data = {
+  foo: {
+    bar: [
+      {
+        baz: 'value',
+      },
+    ],
+  },
+}
+const pointer = '/foo/bar/0/baz' // points to 'value'
+```
+
+### Best Practices
 
 - [Best Practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
-
-### Value components
-
-Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
 
 ## Create your own components
 

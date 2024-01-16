@@ -22,7 +22,7 @@ interface IOption {
 }
 
 export type Props = FieldHelpProps &
-  FieldProps<string | number> & {
+  FieldProps<IOption['value']> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'button'
     clear?: boolean
@@ -40,8 +40,6 @@ function Selection(props: Props) {
     variant = 'dropdown',
     clear,
     label,
-    labelDescription,
-    labelSecondary,
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
@@ -109,8 +107,6 @@ function Selection(props: Props) {
     error,
     layout,
     label,
-    labelDescription,
-    labelSecondary,
   }
 
   const getStatus = useCallback(
@@ -252,7 +248,6 @@ function Selection(props: Props) {
             on_change={handleDropdownChange}
             on_show={handleShow}
             on_hide={handleHide}
-            {...pickSpacingProps(props)}
             stretch
           />
         </FieldBlock>

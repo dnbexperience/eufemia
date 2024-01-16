@@ -10,6 +10,7 @@ import {
   mockGetSelection,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
@@ -616,6 +617,23 @@ describe('NumberFormat component', () => {
       <Component value={-value} currency srLabel="Total:" />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should not select all if selectall is false', async () => {
+    render(<NumberFormat selectall={false} value={1234568} />)
+
+    const comp = document.querySelector('.dnb-number-format')
+    const number = document.querySelector('.dnb-number-format__visible')
+    const selection = document.querySelector(
+      '.dnb-number-format__selection'
+    )
+
+    expect(comp).not.toHaveClass('dnb-number-format--selectall')
+
+    await userEvent.click(number)
+
+    expect(comp).not.toHaveClass('dnb-number-format--selected')
+    expect(selection).toHaveTextContent('')
   })
 })
 

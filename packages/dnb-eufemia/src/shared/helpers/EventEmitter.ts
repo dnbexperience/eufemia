@@ -38,6 +38,11 @@ export type EventEmitterScopeObject = {
   data: EventEmitterData
 }
 
+/**
+ * Deprecated
+ *
+ * @deprecated Please use useSharedState instead for new code
+ */
 class EventEmitter {
   static createInstance(id: EventEmitterId) {
     return new EventEmitter(id)

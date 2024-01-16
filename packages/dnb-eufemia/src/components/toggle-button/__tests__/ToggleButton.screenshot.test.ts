@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
+describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
   describe('ToggleButton unchecked', () => {
     setupPageScreenshot({
       themeName,
@@ -111,5 +111,12 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+  })
+
+  it('have to match toggle-button in disabled state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="toggle-button-group-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
   })
 })

@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
-import { Checkbox, Button } from '../../../../components'
-import ButtonRow from '../../Form/ButtonRow'
+import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import Option from '../Option'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 
 interface IOption {
   title: string
@@ -28,10 +28,9 @@ function ArraySelection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     label,
-    labelDescription,
-    labelSecondary,
     value,
     error,
+    hasError,
     info,
     warning,
     disabled,
@@ -44,7 +43,7 @@ function ArraySelection(props: Props) {
     forId: id,
     className: classnames(
       'dnb-forms-field-array-selection',
-      `dnb-forms-field-array-selection--options-layout-${optionsLayout}`,
+      `dnb-forms-field-array-selection--layout-${optionsLayout}`,
       className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
@@ -53,8 +52,6 @@ function ArraySelection(props: Props) {
     error,
     layout,
     label,
-    labelDescription,
-    labelSecondary,
     ...pickSpacingProps(props),
   }
 
@@ -84,21 +81,21 @@ function ArraySelection(props: Props) {
     case 'button':
       return (
         <FieldBlock {...fieldBlockProps}>
-          <ButtonRow>
+          <ToggleButtonGroupContext.Provider
+            value={{
+              status: hasError ? 'error' : undefined,
+              disabled,
+            }}
+          >
             {options.map((option, i) => (
-              <Button
+              <ToggleButton
                 key={`option-${i}-${option.value}`}
-                id={id}
                 text={option.title}
-                on_click={option.handleSelect}
-                variant={
-                  value?.includes(option.value) ? undefined : 'secondary'
-                }
-                status={error ? 'error' : undefined}
-                disabled={disabled}
+                checked={value?.includes(option.value)}
+                on_change={option.handleSelect}
               />
             ))}
-          </ButtonRow>
+          </ToggleButtonGroupContext.Provider>
         </FieldBlock>
       )
     case 'checkbox':
@@ -112,6 +109,7 @@ function ArraySelection(props: Props) {
               checked={value?.includes(option.value)}
               disabled={disabled}
               on_change={option.handleSelect}
+              status={hasError ? 'error' : undefined}
             />
           ))}
         </FieldBlock>

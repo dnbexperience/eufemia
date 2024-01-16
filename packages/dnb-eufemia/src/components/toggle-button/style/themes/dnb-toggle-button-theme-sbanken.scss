@@ -24,7 +24,6 @@
 
     &[disabled] {
       @include fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
-      background-color: var(--sb-color-gray-light);
       color: var(--sb-color-gray-dark);
     }
 
@@ -55,6 +54,12 @@
 
   /* stylelint-disable no-descending-specificity */
   &--checked &__button {
+    &[disabled] {
+      @include fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
+      background-color: var(--sb-color-gray-light);
+      color: var(--sb-color-gray-dark);
+    }
+
     &:not([disabled]):not(:active) {
       background-color: var(--sb-color-violet);
       color: var(--sb-color-white);

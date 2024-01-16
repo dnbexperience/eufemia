@@ -115,6 +115,7 @@ function PhoneNumber(props: Props) {
   }
 
   const {
+    value,
     className,
     countryCodeFieldClassName,
     numberFieldClassName,
@@ -140,7 +141,6 @@ function PhoneNumber(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-    updateValue,
     onCountryCodeChange,
     onNumberChange,
     filterCountries = ccFilter !== 'Prioritized'
@@ -183,12 +183,6 @@ function PhoneNumber(props: Props) {
         : countryCodeRef.current || emptyValue,
       phoneNumber = numberRef.current || emptyValue,
     }) => {
-      /**
-       * To ensure, we actually call onChange every time the cc value changes,
-       * even if the value is undefined
-       */
-      updateValue('invalidate')
-
       handleChange(
         joinValue([countryCode, phoneNumber]),
         omitCountryCodeField
@@ -196,7 +190,7 @@ function PhoneNumber(props: Props) {
           : { countryCode, phoneNumber }
       )
     },
-    [omitCountryCodeField, emptyValue, updateValue, handleChange]
+    [omitCountryCodeField, emptyValue, handleChange]
   )
 
   /**
@@ -208,7 +202,7 @@ function PhoneNumber(props: Props) {
    * We then update countryCode and phoneNumber when value changes.
    */
   useMemo(() => {
-    const [countryCode, phoneNumber] = splitValue(props.value)
+    const [countryCode, phoneNumber] = splitValue(props.value || value)
     numberRef.current = phoneNumber
 
     if (lang !== langRef.current || !wasFilled.current) {
@@ -219,7 +213,7 @@ function PhoneNumber(props: Props) {
 
       updateCurrentDataSet()
     }
-  }, [props.value, lang, updateCurrentDataSet])
+  }, [value, props.value, lang, updateCurrentDataSet])
 
   const prevCountryCodeRef = React.useRef(countryCodeRef.current)
 

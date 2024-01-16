@@ -1730,6 +1730,10 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
 .dnb-toggle-button .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
   box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
 }
+.dnb-toggle-button--checked .dnb-toggle-button__button[disabled], .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled], .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] {
+  background-color: var(--color-mint-green);
+  color: var(--color-white);
+}
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active), .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active), .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active) {
   background-color: var(--color-emerald-green);
   color: var(--color-mint-green);

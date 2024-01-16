@@ -4,37 +4,41 @@ showTabs: true
 
 ## Description
 
-JSON Schema is a vocabulary for annotating and validating data in JavaScript. More about JSON Schema on [json-schema.org](https://json-schema.org/)
+JSON Schema is a vocabulary for annotating and validating data in js. More about JSON Schema on [json-schema.org](https://json-schema.org/)
 
 A schema can be used from the simplest description of the data type of a value:
 
-```JavaScript
+```js
 {
-  type: "string"
+  type: 'string'
 }
 ```
 
-```JSON
+Results in:
+
+```json
 "Foo"
 ```
 
 To an object with both rules for required fields and validation rules for single values:
 
-```JavaScript
+```js
 {
   type: "object",
   properties: {
-    txt: { type: 'string', minLength: 5 },
-    num: { type: 'number', maximum: 100 },
+    textField: { type: 'string', minLength: 5 },
+    numberField: { type: 'number', maximum: 100 },
   },
-  required: ['txt']
+  required: ['textField']
 }
 ```
 
-```JSON
+Results in:
+
+```json
 {
-  "txt": "abcde",
-  "num": 123
+  "textField": "abcde",
+  "numberField": 123
 }
 ```
 
@@ -56,24 +60,28 @@ Since a [DataContext](/uilib/extensions/forms/extended-features/DataContext/) (u
 </Form.Handler>
 ```
 
-```jsx
-const schema = {
-  type: 'object',
+vs.
+
+```tsx
+import { JSONSchema } from '@dnb/eufemia/extensions/forms'
+const schema: JSONSchema = {
   properties: {
-    name: { type: 'string', minLength: 3 },
+    name: { minLength: 3 },
     email: { type: 'string' },
-    birthyear: { type: 'number', minimum: 1900, maximum: 2023 }
+    birthyear: { minimum: 1900, maximum: 2023 },
   },
   required: ['name', 'email', 'birthyear'],
 }
 <Form.Handler data={user} schema={schema}>
-  <Field.String path="/name" label="Name"  />
+  <Field.String path="/name" label="Name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
 </Form.Handler>
 ```
 
 This makes it possible to create a uniform, testable description and requirements specification for the data, which can be tested independently of frontend code, and used across systems, e.g. frontend and backend.
+
+Also, note you can describe the schema without using the `type` property, as the type is inferred from schema type. More on that topic in the [Ajv docs](https://ajv.js.org/guide/typescript.html#utility-types-for-schemas).
 
 ### Complex schemas
 

@@ -1,14 +1,14 @@
-import { JSONSchema7 } from 'json-schema'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
   Form,
   DataContext,
   Field,
   Value,
+  JSONSchema,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Card, Flex } from '@dnb/eufemia/src'
 
-export const TestdataSchema: JSONSchema7 = {
+export const TestdataSchema: JSONSchema = {
   type: 'object',
   properties: {
     requiredString: { type: 'string' },

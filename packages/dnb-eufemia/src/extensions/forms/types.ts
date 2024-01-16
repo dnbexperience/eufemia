@@ -1,5 +1,7 @@
-import { JSONSchema7 } from 'json-schema'
-import { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../components/space/types'
+import type { JSONSchema7 as JSONSchema } from 'json-schema'
+
+export type { JSONSchema }
 
 type ValidationRule = string | string[]
 type MessageValues = Record<string, string>
@@ -163,10 +165,6 @@ export interface FieldProps<
   layout?: 'horizontal' | 'vertical'
   /** Main label text */
   label?: React.ReactNode
-  /** A more discreet text displayed beside the label (i.e for "(optional)") */
-  labelDescription?: React.ReactNode
-  /** Secondary information displayed at the end of the label line (i.e character counter) */
-  labelSecondary?: React.ReactNode
   /** Text showing in place of the value if no value is given */
   placeholder?: string
   autoComplete?:
@@ -181,7 +179,7 @@ export interface FieldProps<
   trim?: boolean
   // Validation
   required?: boolean
-  schema?: JSONSchema7
+  schema?: JSONSchema
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages

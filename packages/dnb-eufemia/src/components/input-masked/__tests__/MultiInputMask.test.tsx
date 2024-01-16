@@ -757,4 +757,52 @@ describe('MultiInputMask', () => {
     await test(month)
     await test(year)
   })
+
+  it('should support onFocus', async () => {
+    const onFocus = jest.fn()
+    render(<MultiInputMask {...defaultProps} onFocus={onFocus} />)
+
+    const day = document.querySelector('input')
+
+    await userEvent.type(day, '11012024')
+
+    expect(onFocus).toHaveBeenCalledTimes(3)
+
+    await userEvent.click(day)
+
+    expect(onFocus).toHaveBeenCalledTimes(4)
+    expect(onFocus).toHaveBeenCalledWith({
+      day: '11',
+      month: '01',
+      year: '2024',
+    })
+  })
+
+  it('should support onBlur', async () => {
+    const onBlur = jest.fn()
+    render(<MultiInputMask {...defaultProps} onBlur={onBlur} />)
+
+    const day = document.querySelector('input')
+
+    await userEvent.click(day)
+
+    expect(onBlur).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(document.body)
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+
+    await userEvent.type(day, '11012024')
+
+    expect(onBlur).toHaveBeenCalledTimes(3)
+
+    await userEvent.click(document.body)
+
+    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onBlur).toHaveBeenCalledWith({
+      day: '11',
+      month: '01',
+      year: '2024',
+    })
+  })
 })

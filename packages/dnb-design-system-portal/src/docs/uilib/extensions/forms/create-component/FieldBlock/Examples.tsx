@@ -53,9 +53,10 @@ export const Widths = () => {
   return (
     <ComponentBox
       scope={{ TestElement }}
+      hideCode
       data-visual-test="forms-field-block-widths"
     >
-      <Flex.Vertical align="stretch">
+      <Flex.Stack>
         <FieldBlock label="Default width (no width props)">
           <TestElement>Contents</TestElement>
         </FieldBlock>
@@ -108,41 +109,7 @@ export const Widths = () => {
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
-      </Flex.Vertical>
-    </ComponentBox>
-  )
-}
-
-export const WithDescription = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock label="Label text" labelDescription="Description text">
-        Input features goes here
-      </FieldBlock>
-    </ComponentBox>
-  )
-}
-
-export const WithSecondary = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock label="Label text" labelSecondary="Secondary text">
-        Input features goes here
-      </FieldBlock>
-    </ComponentBox>
-  )
-}
-
-export const WithDescriptionAndSecondary = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock
-        label="Label text"
-        labelDescription="Description text"
-        labelSecondary="42"
-      >
-        Input features goes here
-      </FieldBlock>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
