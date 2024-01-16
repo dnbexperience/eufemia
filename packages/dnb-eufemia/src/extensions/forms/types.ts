@@ -1,5 +1,7 @@
-import { JSONSchema7 } from 'json-schema'
-import { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../components/space/types'
+import type { JSONSchema7 as JSONSchema } from 'json-schema'
+
+export type { JSONSchema }
 
 type ValidationRule = string | string[]
 type MessageValues = Record<string, string>
@@ -181,7 +183,7 @@ export interface FieldProps<
   trim?: boolean
   // Validation
   required?: boolean
-  schema?: JSONSchema7
+  schema?: JSONSchema
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages

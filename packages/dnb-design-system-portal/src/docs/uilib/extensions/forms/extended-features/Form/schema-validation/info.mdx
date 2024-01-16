@@ -63,7 +63,8 @@ Since a [DataContext](/uilib/extensions/forms/extended-features/DataContext/) (u
 vs.
 
 ```tsx
-const schema = {
+import { JSONSchema } from '@dnb/eufemia/extensions/forms'
+const schema: JSONSchema = {
   properties: {
     name: { minLength: 3 },
     email: { type: 'string' },

@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useCallback } from 'react'
 import classnames from 'classnames'
-import { JSONSchema7 } from 'json-schema'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
@@ -9,7 +8,7 @@ import InputMasked, {
 import SharedContext from '../../../../shared/Context'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps } from '../../types'
+import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 
@@ -57,7 +56,7 @@ function StringComponent(props: Props) {
     }),
     [tr, props.errorMessages]
   )
-  const schema = useMemo<JSONSchema7>(
+  const schema = useMemo<JSONSchema>(
     () =>
       props.schema ?? {
         type: 'string',

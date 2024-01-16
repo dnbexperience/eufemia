@@ -2,8 +2,7 @@ import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import useDataValue from '../useDataValue'
 import { Provider } from '../../DataContext'
-import { JSONSchema7 } from 'json-schema'
-import { FieldBlock, FormError } from '../../Forms'
+import { FieldBlock, FormError, JSONSchema } from '../../Forms'
 
 describe('useDataValue', () => {
   it('should call external onChange based change callbacks', () => {
@@ -171,7 +170,7 @@ describe('useDataValue', () => {
     })
 
     it('should validate schema', async () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           txt: {
@@ -214,7 +213,7 @@ describe('useDataValue', () => {
     })
 
     it('should have correct validation order', async () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
         pattern: '^(throw-on-validator)$',
       }

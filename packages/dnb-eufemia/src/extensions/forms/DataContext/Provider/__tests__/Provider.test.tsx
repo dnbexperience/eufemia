@@ -8,9 +8,8 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Form, DataContext, Field } from '../../../'
+import { Form, DataContext, Field, JSONSchema } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String/String'
-import { JSONSchema7 } from 'json-schema'
 import nbNO from '../../../../../shared/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].Forms
@@ -556,7 +555,7 @@ describe('DataContext.Provider', () => {
 
     describe('schema validation', () => {
       it('should handle errors from inner components and outer provider interchangeably', async () => {
-        const schema: JSONSchema7 = {
+        const schema: JSONSchema = {
           type: 'object',
           properties: {
             txt: {
@@ -613,7 +612,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should show provided errorMessages based on outer schema validation with injected value', () => {
-        const schema: JSONSchema7 = {
+        const schema: JSONSchema = {
           type: 'object',
           properties: {
             val: {
@@ -639,7 +638,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show default errorMessages based on outer schema validation with injected value', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           val: {
@@ -665,7 +664,7 @@ describe('DataContext.Provider', () => {
     it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
       const onSubmitRequest = jest.fn()
 
-      const TestdataSchema: JSONSchema7 = {
+      const TestdataSchema: JSONSchema = {
         type: 'object',
         properties: {
           foo: { type: 'number', minimum: 3 },
@@ -715,7 +714,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           somekey: {
@@ -766,7 +765,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate correctly based on changes in provided schema', () => {
-      const schema1: JSONSchema7 = {
+      const schema1: JSONSchema = {
         type: 'object',
         properties: {
           somekey: {
@@ -774,7 +773,7 @@ describe('DataContext.Provider', () => {
           },
         },
       }
-      const schema2: JSONSchema7 = {
+      const schema2: JSONSchema = {
         type: 'object',
         properties: {
           somekey: {

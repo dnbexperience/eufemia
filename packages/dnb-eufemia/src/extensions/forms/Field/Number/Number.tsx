@@ -1,5 +1,4 @@
 import React, { useContext, useMemo, useCallback } from 'react'
-import { JSONSchema7 } from 'json-schema'
 import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
@@ -7,7 +6,7 @@ import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps } from '../../types'
+import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
@@ -77,7 +76,7 @@ function NumberComponent(props: Props) {
     }),
     [tr, props.errorMessages]
   )
-  const schema = useMemo<JSONSchema7>(
+  const schema = useMemo<JSONSchema>(
     () =>
       props.schema ?? {
         type: 'number',
