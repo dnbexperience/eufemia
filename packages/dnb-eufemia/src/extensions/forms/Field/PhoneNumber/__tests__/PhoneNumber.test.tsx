@@ -4,8 +4,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PhoneNumber from '..'
 import { Provider } from '../../../../../shared'
-import { Form } from '../../..'
-import { JSONSchema7 } from 'json-schema'
+import { Form, JSONSchema } from '../../..'
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -705,7 +704,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should validate schema', async () => {
-    const schema: JSONSchema7 = {
+    const schema: JSONSchema = {
       type: 'string',
       pattern: '^\\+47 [49]+',
     }

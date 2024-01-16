@@ -1,10 +1,9 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps } from '../../types'
+import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
-import { JSONSchema7 } from 'json-schema'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
@@ -28,7 +27,7 @@ function DateComponent(props: Props) {
     [tr, props.errorMessages]
   )
 
-  const schema = useMemo<JSONSchema7>(
+  const schema = useMemo<JSONSchema>(
     () =>
       props.schema ?? {
         type: 'string',

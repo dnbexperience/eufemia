@@ -6,10 +6,9 @@ import React, {
   useReducer,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
-import { JSONSchema7 } from 'json-schema'
 import { ValidateFunction } from 'ajv'
 import ajv, { ajvErrorsToFormErrors } from '../../utils/ajv'
-import { FormError } from '../../types'
+import { FormError, JSONSchema } from '../../types'
 import useMountEffect from '../../hooks/useMountEffect'
 import useUpdateEffect from '../../hooks/useUpdateEffect'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
@@ -32,7 +31,7 @@ export interface Props<Data extends JsonObject> {
   /** Dynamic source data used as both initial data, and updates internal data if changed after mount */
   data?: Partial<Data>
   /** JSON Schema for validating the data, like during input or after attempting submit */
-  schema?: JSONSchema7
+  schema?: JSONSchema
   /** Change handler for the whole data set */
   onChange?: (data: Data) => void
   /** Change handler for each value  */
