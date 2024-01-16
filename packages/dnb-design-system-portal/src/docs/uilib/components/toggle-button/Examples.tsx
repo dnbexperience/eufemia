@@ -42,6 +42,25 @@ export const ToggleButtonDefault = () => (
   </ComponentBox>
 )
 
+export const ToggleButtonDisabled = () => {
+  return (
+    <ComponentBox data-visual-test="toggle-button-group-disabled">
+      <ToggleButton.Group
+        label="ToggleButton Group"
+        value="first"
+        disabled
+        on_change={({ value }) => {
+          console.log('on_change', value)
+        }}
+      >
+        <ToggleButton text="First" value="first" />
+        <ToggleButton text="Second" value="second" />
+        <ToggleButton text="Third" value="third" />
+      </ToggleButton.Group>
+    </ComponentBox>
+  )
+}
+
 export const ToggleButtonMultiselect = () => (
   <ComponentBox data-visual-test="toggle-button-group-multiselect">
     <ToggleButton.Group

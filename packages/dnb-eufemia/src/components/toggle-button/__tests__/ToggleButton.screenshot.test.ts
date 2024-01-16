@@ -112,4 +112,18 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
+  describe('disabled', () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/toggle-button/demos',
+    })
+
+    it('have to match toggle-button in disabled state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="toggle-button-group-disabled"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 })
