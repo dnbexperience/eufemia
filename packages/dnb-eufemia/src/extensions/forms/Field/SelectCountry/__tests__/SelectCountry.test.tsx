@@ -3,7 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import SelectCountry, { Props } from '..'
 import { Provider } from '../../../../../shared'
-import { Form } from '../../..'
+import { Form, FormError } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -265,6 +265,17 @@ describe('Field.SelectCountry', () => {
 
     expect(inputElement.value).toBe('Danmark')
     expect(selectedItemElement().textContent).toBe('Danmark')
+  })
+
+  it('shold display read border on dropdown', () => {
+    const errorMessage = new FormError('Error message')
+    render(<SelectCountry error={errorMessage} />)
+
+    const input = document.querySelector('.dnb-autocomplete__input')
+    expect(input).toHaveClass('dnb-input__status--error')
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Error message')
   })
 
   it('should validate with ARIA rules', async () => {
