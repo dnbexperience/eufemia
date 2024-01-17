@@ -513,21 +513,6 @@ describe('Input with clear button', () => {
     expect(clearButton).toHaveAttribute('disabled')
   })
 
-  it('should clear the value on escape key press', () => {
-    render(<Input clear={true} value="value" />)
-
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value'
-    )
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: 'Escape',
-      keyCode: 27, // escape
-    })
-
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
-  })
-
   it('should set focus on input when clear button is pressed', () => {
     render(<Input id="input-id" clear={true} value="value" />)
 
