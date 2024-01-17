@@ -6,6 +6,12 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-textarea {
+  --textarea-border-color: var(--color-sea-green);
+  --textarea-border-color--hover: var(--color-emerald-green);
+  --textarea-border-color--disabled: var(--color-black-55);
+  --textarea-border-width: 0.0625rem;
+  --textarea-border-width--hover: 0.125rem;
+
   &__textarea {
     color: var(--color-black);
     background-color: var(--textarea-background-color);
@@ -23,7 +29,10 @@
 
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    @include fakeBorder(
+      var(--textarea-border-color--hover),
+      var(--textarea-border-width--hover)
+    );
   }
 
   // We may enable this in future – right now it's unclear
@@ -41,7 +50,11 @@
 
   &--disabled &__state,
   &__textarea[disabled] ~ &__state {
-    box-shadow: 0 0 0 0.0625rem var(--color-black-55);
+    @include fakeBorder(
+      var(--textarea-border-color--disabled),
+      var(--textarea-border-width),
+      inset
+    );
     background-color: var(--color-black-3);
   }
 
