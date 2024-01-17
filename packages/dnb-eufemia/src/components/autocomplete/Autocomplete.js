@@ -36,6 +36,7 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
+import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -246,11 +247,6 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    /**
-     * For internal use
-     */
-    ariaLiveDelay: PropTypes.number,
-
     on_show: PropTypes.func,
     on_type: PropTypes.func,
     on_focus: PropTypes.func,
@@ -331,8 +327,6 @@ export default class Autocomplete extends React.PureComponent {
     class: null,
     className: null,
     children: null,
-
-    ariaLiveDelay: null,
 
     on_show: null,
     on_hide: null,
@@ -467,7 +461,6 @@ class AutocompleteInstance extends React.PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._selectTimeout)
-    clearTimeout(this._ariaLiveUpdateTimeout)
     clearTimeout(this._focusTimeout)
     clearTimeout(this._blurTimeout)
   }
@@ -592,7 +585,6 @@ class AutocompleteInstance extends React.PureComponent {
     // Opens the drawer, also when pressing on the clear button
     if (this.state.hasFocus) {
       this.setVisible()
-      this.setAriaLiveUpdate()
     }
 
     return data
@@ -630,8 +622,6 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setState({
       cache_hash: value + this.countData(data),
     })
-
-    this.setAriaLiveUpdate()
 
     return data
   }
@@ -1662,42 +1652,26 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  setAriaLiveUpdate() {
+  getAriaLiveUpdate() {
     const { opened } = this.context.drawerList
-    const {
-      aria_live_options,
-      no_options,
-      ariaLiveDelay = 1000,
-    } = this._props
 
     // this is only to make a better screen reader ux
-    clearTimeout(this._ariaLiveUpdateTimeout)
     if (opened) {
-      this._ariaLiveUpdateTimeout = setTimeout(() => {
-        let newString = null
+      const { aria_live_options, no_options } = this._props
+      const count = this.countData()
 
-        const count = this.countData()
+      let newString = null
 
-        if (count > 0) {
-          newString = String(aria_live_options).replace('%s', count)
-        } else {
-          newString = no_options
-        }
+      if (count > 0) {
+        newString = String(aria_live_options).replace('%s', count)
+      } else {
+        newString = no_options
+      }
 
-        if (newString) {
-          this.setState({
-            ariaLiveUpdate: newString,
-            _listenForPropChanges: false,
-          })
-          this._ariaLiveUpdateTimeout = setTimeout(() => {
-            this.setState({
-              ariaLiveUpdate: null,
-              _listenForPropChanges: false,
-            })
-          }, 1000)
-        }
-      }, ariaLiveDelay) // so that the input gets read out first, and then the results
+      return newString
     }
+
+    return ''
   }
 
   getVoiceOverActiveItem(selected_sr) {
@@ -1709,19 +1683,14 @@ class AutocompleteInstance extends React.PureComponent {
     )
 
     return (
-      <span
-        hidden={!IS_MAC}
-        className="dnb-sr-only"
-        aria-live="assertive"
-        aria-atomic
-      >
+      <AriaLive hidden={!IS_MAC} priority="hight" delay={0}>
         {currentDataItem && (
           <>
             {active_item === selected_item ? <>{selected_sr} </> : null}
             <ItemContent>{currentDataItem}</ItemContent>
           </>
         )}
-      </span>
+      </AriaLive>
     )
   }
 
@@ -1804,7 +1773,6 @@ class AutocompleteInstance extends React.PureComponent {
       show_all, // eslint-disable-line
       aria_live_options, // eslint-disable-line
       disable_highlighting, // eslint-disable-line
-      ariaLiveDelay, // eslint-disable-line
 
       ...attributes
     } = props
@@ -1812,7 +1780,7 @@ class AutocompleteInstance extends React.PureComponent {
     const id = this._id
     const showStatus = getStatusState(status)
 
-    const { inputValue, visibleIndicator, ariaLiveUpdate } = this.state
+    const { inputValue, visibleIndicator } = this.state
 
     const { hidden, selected_item, active_item, direction, opened } =
       this.context.drawerList
@@ -2106,9 +2074,7 @@ class AutocompleteInstance extends React.PureComponent {
         {/* Add VoiceOver support to read the "selected" item */}
         {this.getVoiceOverActiveItem(selected_sr)}
 
-        <span className="dnb-sr-only" aria-live="assertive">
-          {ariaLiveUpdate}
-        </span>
+        <AriaLive priority="hight">{this.getAriaLiveUpdate()}</AriaLive>
       </span>
     )
   }
