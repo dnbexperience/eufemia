@@ -51,7 +51,7 @@ describe('FormRow component', () => {
     expect(document.querySelector('legend')).toBeInTheDocument()
   })
 
-  it('should using formset and legend by default', () => {
+  it('should not using formset and legend when no_fieldset is given', () => {
     render(<FormRow {...props} no_fieldset />)
     expect(document.querySelector('label')).toBeInTheDocument()
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()

@@ -238,7 +238,7 @@ describe('TableAccordion', () => {
     ).toBe('assertive')
   })
 
-  it('expanded accordion content content should contain aria-live announcement', () => {
+  it('expanded accordion content content should contain aria-live en-GB announcement', () => {
     const { rerender } = render(
       <Table accordion>
         <tbody>

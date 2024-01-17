@@ -75,18 +75,18 @@ describe('Tabs component', () => {
     )
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
-    expect(on_change).toBeCalledTimes(1)
-    expect(on_click).toBeCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_click).toHaveBeenCalledTimes(1)
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[2])
-    expect(on_change).toBeCalledTimes(2)
-    expect(on_click).toBeCalledTimes(2)
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_click).toHaveBeenCalledTimes(2)
 
     preventChange = true
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
-    expect(on_change).toBeCalledTimes(2)
-    expect(on_click).toBeCalledTimes(3)
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_click).toHaveBeenCalledTimes(3)
   })
 
   it('has working "on_focus" event handler', () => {
@@ -101,12 +101,12 @@ describe('Tabs component', () => {
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
       keyCode: 39, // right
     })
-    expect(on_focus).toBeCalledTimes(1)
+    expect(on_focus).toHaveBeenCalledTimes(1)
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
       keyCode: 39, // right
     })
-    expect(on_focus).toBeCalledTimes(2)
+    expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
   it('will use given tab_element', () => {

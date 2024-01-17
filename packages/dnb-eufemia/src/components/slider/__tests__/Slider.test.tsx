@@ -54,7 +54,7 @@ describe('Slider component', () => {
     const value = props.value as number
     expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
 
-    expect(props.on_change).toBeCalledTimes(1)
+    expect(props.on_change).toHaveBeenCalledTimes(1)
 
     expect(
       Array.from(document.querySelector('.dnb-form-label').classList)
@@ -351,7 +351,7 @@ describe('Slider component', () => {
 
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
 
     const changeObject = {
       // We may use new MouseEvent('mousedown', in future
@@ -367,7 +367,7 @@ describe('Slider component', () => {
       number: null,
       width: 100,
     }
-    expect(onChange).toBeCalledWith(changeObject)
+    expect(onChange).toHaveBeenCalledWith(changeObject)
   })
 
   it('return valid value if numberFormat was given', () => {
@@ -383,7 +383,7 @@ describe('Slider component', () => {
 
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
 
     const changeObject = {
       // We may use new MouseEvent('mousedown', in future
@@ -399,7 +399,7 @@ describe('Slider component', () => {
       number: '80,0 kr',
       width: 100,
     }
-    expect(onChange).toBeCalledWith(changeObject)
+    expect(onChange).toHaveBeenCalledWith(changeObject)
 
     expect(
       document
@@ -416,7 +416,7 @@ describe('Slider component', () => {
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0].value).toBe(80)
   })
 
@@ -449,7 +449,7 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      expect(onChange).toBeCalledTimes(1)
+      expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange.mock.calls[0][0].value).toEqual([20, 30, 80])
 
       resetMouseSimulation()
@@ -503,7 +503,7 @@ describe('Slider component', () => {
 
       expect(parseFloat(getRangeElement(2).value)).toBe(80)
 
-      expect(onChange).toBeCalledWith({
+      expect(onChange).toHaveBeenCalledWith({
         event: {
           height: 10,
           pageX: 80,
@@ -519,7 +519,7 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
-      expect(onChange).toBeCalledWith({
+      expect(onChange).toHaveBeenCalledWith({
         event: {
           height: 10,
           pageX: 10,

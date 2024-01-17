@@ -58,7 +58,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('08122023')
 
-    expect(onChange).toBeCalledTimes(8)
+    expect(onChange).toHaveBeenCalledTimes(8)
     expect(onChange.mock.calls[0][0]).toEqual({
       day: '0',
       month: '',
@@ -240,7 +240,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('11223333')
 
-    expect(onChange).toBeCalledTimes(8)
+    expect(onChange).toHaveBeenCalledTimes(8)
     expect(Object.keys(onChange.mock.calls[7][0])).toEqual([
       'day',
       'month',
@@ -295,7 +295,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('fst')
 
-    expect(onChange).toBeCalledTimes(3)
+    expect(onChange).toHaveBeenCalledTimes(3)
 
     const onChangeParamKeys = Object.keys(onChange.mock.calls[2][0])
     const valueKeys = Object.keys(values)

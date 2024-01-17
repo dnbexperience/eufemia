@@ -93,7 +93,7 @@ describe('TableContainer', () => {
     ).toBeInTheDocument()
   })
 
-  it('should handle empty/no table head and foot ', () => {
+  it('should handle empty/no table head and foot', () => {
     render(
       <TableContainer>
         <TableContainer.Body>

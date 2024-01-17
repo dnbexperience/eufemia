@@ -82,12 +82,9 @@ describe('Heading', () => {
       const element = document.querySelector('.dnb-h--large')
 
       expect(Array.from(element.classList)).toEqual(['dnb-h--large'])
-
-      if (Component.name === 'H') {
-        expect(element.tagName).toEqual('H1')
-      } else {
-        expect(element.tagName).toEqual(Component.name)
-      }
+      expect(element.tagName).toEqual(
+        Component.name === 'H' ? 'H1' : Component.name
+      )
     }
   )
 

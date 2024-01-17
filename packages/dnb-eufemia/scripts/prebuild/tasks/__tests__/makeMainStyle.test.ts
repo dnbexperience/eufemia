@@ -31,7 +31,7 @@ if (isCI) {
       global.console.error = jest.fn()
       const css = loadScss(null, { data: global.core[0] })
       expect(/^Error/.test(css)).toBe(false)
-      expect(global.console.error).toBeCalled()
+      expect(global.console.error).toHaveBeenCalled()
     })
 
     it('has to have correct core path to fonts', () => {

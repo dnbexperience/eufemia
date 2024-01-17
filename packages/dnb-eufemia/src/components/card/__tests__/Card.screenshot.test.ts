@@ -28,6 +28,7 @@ describe('Card', () => {
   })
 })
 
+// eslint-disable-next-line jest/no-identical-title
 describe('Card', () => {
   it('have to match border in small screen size', async () => {
     const screenshot = await makeScreenshot({
