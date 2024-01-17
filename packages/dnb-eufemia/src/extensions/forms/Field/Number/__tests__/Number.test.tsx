@@ -3,6 +3,7 @@ import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../../'
+import { FormError, FieldBlock } from '../../..'
 
 describe('Field.Number', () => {
   describe('props', () => {
@@ -109,6 +110,20 @@ describe('Field.Number', () => {
       render(<Field.Number error={new Error('This is what went wrong')} />)
       const element = document.querySelector('.dnb-input')
       expect(element.className).toContain('dnb-input__status--error')
+    })
+
+    it('shows error style in FieldBlock', () => {
+      const errorMessage = new FormError('Error message')
+      render(
+        <FieldBlock>
+          <Field.Number error={errorMessage} />
+        </FieldBlock>
+      )
+
+      const input = document.querySelector(
+        '.dnb-forms-field-number__input'
+      )
+      expect(input).toHaveClass('dnb-input__status--error')
     })
 
     it('formats with given thousandSeparator', () => {

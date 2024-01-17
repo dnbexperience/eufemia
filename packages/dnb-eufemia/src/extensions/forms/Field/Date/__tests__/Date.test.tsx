@@ -3,6 +3,7 @@ import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import Date from '..'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { FormError, FieldBlock } from '../../..'
 
 describe('Field.Date', () => {
   it('should render with props', () => {
@@ -88,5 +89,26 @@ describe('Field.Date', () => {
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
+  })
+
+  it('renders error', () => {
+    render(<Date error={new FormError('Error message')} />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Error message')
+
+    const input = document.querySelector('.dnb-date-picker')
+    expect(input).toHaveClass('dnb-date-picker__status--error')
+  })
+
+  it('shows error style in FieldBlock', () => {
+    render(
+      <FieldBlock>
+        <Date error={new FormError('Error message')} />
+      </FieldBlock>
+    )
+
+    const input = document.querySelector('.dnb-date-picker')
+    expect(input).toHaveClass('dnb-date-picker__status--error')
   })
 })

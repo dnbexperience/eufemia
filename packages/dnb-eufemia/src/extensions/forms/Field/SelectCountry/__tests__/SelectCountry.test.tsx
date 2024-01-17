@@ -3,7 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import SelectCountry, { Props } from '..'
 import { Provider } from '../../../../../shared'
-import { Form, FormError } from '../../..'
+import { Form, FormError, FieldBlock } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -267,15 +267,27 @@ describe('Field.SelectCountry', () => {
     expect(selectedItemElement().textContent).toBe('Danmark')
   })
 
-  it('shold display read border on dropdown', () => {
+  it('renders error', () => {
     const errorMessage = new FormError('Error message')
     render(<SelectCountry error={errorMessage} />)
 
-    const input = document.querySelector('.dnb-autocomplete__input')
-    expect(input).toHaveClass('dnb-input__status--error')
-
     const element = document.querySelector('.dnb-form-status')
     expect(element).toHaveTextContent('Error message')
+
+    const input = document.querySelector('.dnb-autocomplete__input')
+    expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  it('shows error style in FieldBlock', () => {
+    const errorMessage = new FormError('Error message')
+    render(
+      <FieldBlock>
+        <SelectCountry error={errorMessage} />
+      </FieldBlock>
+    )
+
+    const input = document.querySelector('.dnb-autocomplete__input')
+    expect(input).toHaveClass('dnb-input__status--error')
   })
 
   it('should validate with ARIA rules', async () => {

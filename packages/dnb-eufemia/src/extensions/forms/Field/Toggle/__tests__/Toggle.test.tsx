@@ -2,6 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Toggle, { Props } from '../Toggle'
+import { FormError, FieldBlock } from '../../..'
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
@@ -82,6 +83,45 @@ describe('Field.Toggle', () => {
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })
+
+      it('renders error', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            value="on"
+            error={errorMessage}
+          />
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent('Error message')
+
+        const input = document.querySelector('.dnb-toggle-button')
+        expect(input).toHaveClass('dnb-toggle-button__status--error')
+      })
+
+      it('shows error style in FieldBlock', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <FieldBlock>
+            <Toggle
+              valueOn="on"
+              valueOff="off"
+              variant="buttons"
+              value="on"
+              error={errorMessage}
+            />
+          </FieldBlock>
+        )
+
+        const input = document.querySelector('.dnb-toggle-button')
+        expect(input).toHaveClass('dnb-toggle-button__status--error')
+      })
     })
 
     describe('buttons', () => {
@@ -134,6 +174,51 @@ describe('Field.Toggle', () => {
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })
+
+      it('renders error', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            value="on"
+            error={errorMessage}
+          />
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent('Error message')
+
+        const [yesElement, noElement]: Array<HTMLButtonElement> =
+          Array.from(document.querySelectorAll('.dnb-toggle-button'))
+        expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
+        expect(noElement).toHaveClass('dnb-toggle-button__status--error')
+      })
+
+      it('shows error style in FieldBlock', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <FieldBlock>
+            <Toggle
+              label="Label"
+              valueOn="on"
+              valueOff="off"
+              variant="buttons"
+              value="on"
+              error={errorMessage}
+            />
+          </FieldBlock>
+        )
+
+        const [yesElement, noElement]: Array<HTMLButtonElement> =
+          Array.from(document.querySelectorAll('.dnb-toggle-button'))
+        expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
+        expect(noElement).toHaveClass('dnb-toggle-button__status--error')
+      })
     })
 
     describe('checkbox-button', () => {
@@ -183,6 +268,47 @@ describe('Field.Toggle', () => {
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })
+
+      it('renders error', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox-button"
+            value="on"
+            error={errorMessage}
+          />
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent('Error message')
+
+        const input = document.querySelector('.dnb-toggle-button')
+        expect(input).toHaveClass('dnb-toggle-button__status--error')
+      })
+
+      it('shows error style in FieldBlock', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <FieldBlock>
+            <Toggle
+              label="Label"
+              valueOn="on"
+              valueOff="off"
+              variant="checkbox-button"
+              value="on"
+              error={errorMessage}
+            />
+          </FieldBlock>
+        )
+
+        const input = document.querySelector('.dnb-toggle-button')
+        expect(input).toHaveClass('dnb-toggle-button__status--error')
+      })
     })
 
     describe('checkbox', () => {
@@ -229,6 +355,47 @@ describe('Field.Toggle', () => {
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('renders error', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            value="on"
+            error={errorMessage}
+          />
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent('Error message')
+
+        const input = document.querySelector('.dnb-checkbox')
+        expect(input).toHaveClass('dnb-checkbox__status--error')
+      })
+
+      it('shows error style in FieldBlock', () => {
+        const errorMessage = new FormError('Error message')
+
+        render(
+          <FieldBlock>
+            <Toggle
+              label="Label"
+              valueOn="on"
+              valueOff="off"
+              variant="checkbox"
+              value="on"
+              error={errorMessage}
+            />
+          </FieldBlock>
+        )
+
+        const input = document.querySelector('.dnb-checkbox')
+        expect(input).toHaveClass('dnb-checkbox__status--error')
       })
     })
   })

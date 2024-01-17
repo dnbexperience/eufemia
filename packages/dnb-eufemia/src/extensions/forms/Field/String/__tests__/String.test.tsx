@@ -10,6 +10,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import * as DataContext from '../../../DataContext'
 import * as Field from '../..'
+import { FieldBlock } from '../../..'
 
 export async function expectNever(callable: () => unknown): Promise<void> {
   await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
@@ -221,6 +222,16 @@ describe('Field.String', () => {
         expect(element.className).toContain('dnb-input__status--error')
       })
 
+      it('for basis input in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.String error={new Error('This is what went wrong')} />
+          </FieldBlock>
+        )
+        const element = document.querySelector('.dnb-input')
+        expect(element.className).toContain('dnb-input__status--error')
+      })
+
       it('for masked input', () => {
         render(
           <Field.String
@@ -232,12 +243,38 @@ describe('Field.String', () => {
         expect(element.className).toContain('dnb-input__status--error')
       })
 
+      it('for masked input in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.String
+              mask={[/\/d/]}
+              error={new Error('This is what went wrong')}
+            />
+          </FieldBlock>
+        )
+        const element = document.querySelector('.dnb-input-masked')
+        expect(element.className).toContain('dnb-input__status--error')
+      })
+
       it('for multiline input', () => {
         render(
           <Field.String
             multiline
             error={new Error('This is what went wrong')}
           />
+        )
+        const element = document.querySelector('.dnb-textarea')
+        expect(element.className).toContain('dnb-textarea__status--error')
+      })
+
+      it('for multiline in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.String
+              multiline
+              error={new Error('This is what went wrong')}
+            />
+          </FieldBlock>
         )
         const element = document.querySelector('.dnb-textarea')
         expect(element.className).toContain('dnb-textarea__status--error')
