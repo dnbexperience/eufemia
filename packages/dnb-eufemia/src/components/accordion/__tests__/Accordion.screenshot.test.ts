@@ -8,91 +8,6 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-const testAllStates = (description, testName) => {
-  describe(description, () => {
-    const style = { width: '20rem', height: '15rem' }
-    const selector = '[data-visual-test="' + testName + '"]'
-
-    it('expanded and closed', async () => {
-      const screenshot = await makeScreenshot({
-        style,
-        selector,
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    describe('expanded', () => {
-      const simulateSelector =
-        selector + ' .dnb-accordion:nth-of-type(1) .dnb-accordion__header'
-
-      it('hover', async () => {
-        const screenshot = await makeScreenshot({
-          style,
-          selector,
-          simulateSelector,
-          simulate: 'hover',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
-      it('active', async () => {
-        const screenshot = await makeScreenshot({
-          style,
-          selector,
-          simulateSelector,
-          simulate: 'active',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
-      it('focus', async () => {
-        const screenshot = await makeScreenshot({
-          style,
-          selector,
-          simulateSelector,
-          simulate: 'focus',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-    })
-
-    describe('closed', () => {
-      const simulateSelector =
-        selector + ' .dnb-accordion:nth-of-type(2) .dnb-accordion__header'
-
-      it('hover', async () => {
-        const screenshot = await makeScreenshot({
-          style,
-          selector,
-          simulateSelector,
-          simulate: 'hover',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
-      it('active', async () => {
-        const screenshot = await makeScreenshot({
-          style,
-          selector,
-          simulateSelector,
-          simulate: 'active',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
-      it('focus', async () => {
-        const screenshot = await makeScreenshot({
-          style,
-          selector,
-          simulateSelector,
-          simulate: 'focus',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-    })
-  })
-}
-
 describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
@@ -213,6 +128,91 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  testAllStates('with description', 'accordion-description')
-  testAllStates('variant filled', 'accordion-filled')
+  describe.each(['accordion-description', 'accordion-filled'])(
+    'Accordion for %s',
+    (testName) => {
+      const style = { width: '20rem', height: '15rem' }
+      const selector = `[data-visual-test="${testName}"]`
+
+      it('expanded and closed', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector,
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      describe('expanded', () => {
+        const simulateSelector =
+          selector +
+          ' .dnb-accordion:nth-of-type(1) .dnb-accordion__header'
+
+        it('hover', async () => {
+          const screenshot = await makeScreenshot({
+            style,
+            selector,
+            simulateSelector,
+            simulate: 'hover',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('active', async () => {
+          const screenshot = await makeScreenshot({
+            style,
+            selector,
+            simulateSelector,
+            simulate: 'active',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('focus', async () => {
+          const screenshot = await makeScreenshot({
+            style,
+            selector,
+            simulateSelector,
+            simulate: 'focus',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+      })
+
+      describe('closed', () => {
+        const simulateSelector =
+          selector +
+          ' .dnb-accordion:nth-of-type(2) .dnb-accordion__header'
+
+        it('hover', async () => {
+          const screenshot = await makeScreenshot({
+            style,
+            selector,
+            simulateSelector,
+            simulate: 'hover',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('active', async () => {
+          const screenshot = await makeScreenshot({
+            style,
+            selector,
+            simulateSelector,
+            simulate: 'active',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('focus', async () => {
+          const screenshot = await makeScreenshot({
+            style,
+            selector,
+            simulateSelector,
+            simulate: 'focus',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+      })
+    }
+  )
 })

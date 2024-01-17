@@ -1460,7 +1460,7 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  describe('should have correct values on input blur ', () => {
+  describe('should have correct values on input blur', () => {
     it('when no selection is made and "keep_value" and "keep_value_and_selection" is false', async () => {
       const on_change = jest.fn()
 
