@@ -18,6 +18,13 @@
     &--has-controls {
       background-color: #1c1b4e;
       border-radius: 3rem;
+
+      // There is no small size in Sbanken
+      .dnb-button.dnb-button--size-small {
+        --button-height--small: 2.5rem;
+        --button-width--small: 2.5rem;
+      }
+
       .dnb-input {
         position: relative;
         &::before,

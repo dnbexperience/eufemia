@@ -247,7 +247,7 @@ function NumberComponent(props: Props) {
     className: 'dnb-button--control-after',
     variant: 'secondary',
     icon: 'add',
-    size: convertInputSizeToButtonSize(size),
+    size: (size || 'small') as ButtonSize,
     tabIndex: -1,
     disabled: disabled || value >= maximum,
     onClick: () => {
@@ -265,6 +265,7 @@ function NumberComponent(props: Props) {
     ...increaseProps,
     className: 'dnb-button--control-before',
     icon: 'subtract',
+    size: (size || 'small') as ButtonSize,
     disabled: disabled || value <= minimum,
     onClick: () => {
       handleChange({
@@ -323,16 +324,6 @@ function NumberComponent(props: Props) {
       )}
     </FieldBlock>
   )
-}
-
-const convertInputSizeToButtonSize = (
-  inputSize: InputSize
-): ButtonSize => {
-  const buttonSize =
-    ['small', 'medium', 'large'].indexOf(inputSize as string) > -1
-      ? inputSize
-      : 'medium'
-  return buttonSize as ButtonSize
 }
 
 NumberComponent._supportsSpacingProps = true
