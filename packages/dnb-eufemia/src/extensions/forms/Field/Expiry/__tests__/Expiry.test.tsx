@@ -3,6 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../..'
+import { FormError, FieldBlock } from '../../..'
 
 describe('Field.Expiry', () => {
   beforeEach(() => {
@@ -310,5 +311,26 @@ describe('Field.Expiry', () => {
     const result = render(<Field.Expiry />)
 
     expect(await axeComponent(result)).toHaveNoViolations()
+  })
+
+  it('renders error', () => {
+    render(<Field.Expiry error={new FormError('Error message')} />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Error message')
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  it('shows error style in FieldBlock', () => {
+    render(
+      <FieldBlock>
+        <Field.Expiry error={new FormError('Error message')} />
+      </FieldBlock>
+    )
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).toHaveClass('dnb-input__status--error')
   })
 })

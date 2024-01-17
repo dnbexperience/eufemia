@@ -47,6 +47,7 @@ function Expiry(props: ExpiryProps) {
     className,
     label = translations.expiryLabel,
     error,
+    hasError,
     info,
     warning,
     help,
@@ -68,7 +69,13 @@ function Expiry(props: ExpiryProps) {
 
   const idRef = useRef(propsId || makeUniqueId()).current
 
-  const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
+  const status = hasError
+    ? 'error'
+    : warning
+    ? 'warn'
+    : info
+    ? 'info'
+    : null
 
   return (
     <FieldBlock

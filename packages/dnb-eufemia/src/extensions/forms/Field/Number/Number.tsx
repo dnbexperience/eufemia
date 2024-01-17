@@ -187,6 +187,7 @@ function NumberComponent(props: Props) {
     info,
     warning,
     error,
+    hasError,
     help,
     size,
     width,
@@ -228,7 +229,7 @@ function NumberComponent(props: Props) {
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
       disabled && 'dnb-forms-field-number__contents--is-disabled',
-      error && 'dnb-forms-field-number__contents--has-error'
+      hasError && 'dnb-forms-field-number__contents--has-error'
     ),
     forId: id,
     layout,
@@ -305,7 +306,7 @@ function NumberComponent(props: Props) {
     onBlur: handleBlur,
     onChange: handleChange,
     disabled,
-    status: error ? 'error' : undefined,
+    status: hasError ? 'error' : undefined,
     stretch: width !== undefined,
     suffix:
       help && !showStepControls ? (

@@ -3,6 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react'
 import ArraySelection from '../ArraySelection'
 import Option from '../../Option'
 import { FormError } from '../../../types'
+import { FieldBlock } from '../../..'
 
 describe('ArraySelection', () => {
   it('renders correctly', () => {
@@ -197,6 +198,110 @@ describe('ArraySelection', () => {
 
       expect(option1).toBeDisabled()
       expect(option2).toBeDisabled()
+    })
+  })
+
+  describe('checkbox', () => {
+    it('renders error', () => {
+      render(
+        <ArraySelection error={new FormError('Error message')}>
+          <Option value="A" title="Fooo!" />
+          <Option value="B" title="Baar!" />
+          <Option value="C" title="Bazz!" />
+          <Option value="D" title="Quxx!" />
+        </ArraySelection>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+      expect(element).toHaveTextContent('Error message')
+
+      const [optionA, optionB, optionC, optionD]: Array<HTMLElement> =
+        Array.from(document.querySelectorAll('.dnb-checkbox'))
+      expect(optionA).toHaveClass('dnb-checkbox__status--error')
+      expect(optionB).toHaveClass('dnb-checkbox__status--error')
+      expect(optionC).toHaveClass('dnb-checkbox__status--error')
+      expect(optionD).toHaveClass('dnb-checkbox__status--error')
+    })
+
+    it('shows error style in FieldBlock', () => {
+      render(
+        <FieldBlock>
+          <ArraySelection error={new FormError('Error message')}>
+            <Option value="A" title="Fooo!" />
+            <Option value="B" title="Baar!" />
+            <Option value="C" title="Bazz!" />
+            <Option value="D" title="Quxx!" />
+          </ArraySelection>
+        </FieldBlock>
+      )
+
+      const [optionA, optionB, optionC, optionD]: Array<HTMLElement> =
+        Array.from(document.querySelectorAll('.dnb-checkbox'))
+      expect(optionA).toHaveClass('dnb-checkbox__status--error')
+      expect(optionB).toHaveClass('dnb-checkbox__status--error')
+      expect(optionC).toHaveClass('dnb-checkbox__status--error')
+      expect(optionD).toHaveClass('dnb-checkbox__status--error')
+    })
+  })
+
+  describe('button', () => {
+    it('renders error', () => {
+      render(
+        <ArraySelection
+          variant="button"
+          error={new FormError('Error message')}
+        >
+          <Option value="A" title="Fooo!" />
+          <Option value="B" title="Baar!" />
+          <Option value="C" title="Bazz!" />
+          <Option value="D" title="Quxx!" />
+        </ArraySelection>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+      expect(element).toHaveTextContent('Error message')
+
+      const [
+        optionA,
+        optionB,
+        optionC,
+        optionD,
+      ]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-toggle-button')
+      )
+      expect(optionA).toHaveClass('dnb-toggle-button__status--error')
+      expect(optionB).toHaveClass('dnb-toggle-button__status--error')
+      expect(optionC).toHaveClass('dnb-toggle-button__status--error')
+      expect(optionD).toHaveClass('dnb-toggle-button__status--error')
+    })
+
+    it('shows error style in FieldBlock', () => {
+      render(
+        <FieldBlock>
+          <ArraySelection
+            variant="button"
+            error={new FormError('Error message')}
+          >
+            <Option value="A" title="Fooo!" />
+            <Option value="B" title="Baar!" />
+            <Option value="C" title="Bazz!" />
+            <Option value="D" title="Quxx!" />
+          </ArraySelection>
+        </FieldBlock>
+      )
+
+      const [
+        optionA,
+        optionB,
+        optionC,
+        optionD,
+      ]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-toggle-button')
+      )
+      expect(optionA).toHaveClass('dnb-toggle-button__status--error')
+      expect(optionB).toHaveClass('dnb-toggle-button__status--error')
+      expect(optionC).toHaveClass('dnb-toggle-button__status--error')
+      expect(optionD).toHaveClass('dnb-toggle-button__status--error')
     })
   })
 })
