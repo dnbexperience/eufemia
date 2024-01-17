@@ -28,6 +28,8 @@ function Toggle(props: Props) {
     variant,
     disabled,
     label,
+    labelDescription,
+    labelSecondary,
     textOn,
     textOff,
     value,
@@ -66,6 +68,8 @@ function Toggle(props: Props) {
     ...fieldBlockPropsWithoutLabel,
     layout,
     label,
+    labelDescription,
+    labelSecondary,
     disabled,
   }
 

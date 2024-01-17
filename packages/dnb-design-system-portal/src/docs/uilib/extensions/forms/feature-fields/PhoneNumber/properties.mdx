@@ -22,4 +22,7 @@ import DataValueReadwriteProperties from '../../data-value-readwrite-properties.
 | `width`                                 | `string` or `false` | _(optional)_ `large` for predefined standard width, `stretch` for fill available width.                                                                                                                                                                         |
 | [Space](/uilib/layout/space/properties) | Various             | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                           |
 
-<DataValueReadwriteProperties type="string" omit={['layout', 'label']} />
+<DataValueReadwriteProperties
+  type="string"
+  omit={['layout', 'label', 'labelDescription', 'labelSecondary']}
+/>

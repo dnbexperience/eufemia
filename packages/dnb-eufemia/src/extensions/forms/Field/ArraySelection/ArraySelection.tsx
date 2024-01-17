@@ -28,6 +28,8 @@ function ArraySelection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     label,
+    labelDescription,
+    labelSecondary,
     value,
     error,
     hasError,
@@ -52,6 +54,8 @@ function ArraySelection(props: Props) {
     error,
     layout,
     label,
+    labelDescription,
+    labelSecondary,
     ...pickSpacingProps(props),
   }
 

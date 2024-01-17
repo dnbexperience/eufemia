@@ -11,6 +11,8 @@ export type Props = Pick<
   | keyof ComponentProps
   | 'layout'
   | 'label'
+  | 'labelDescription'
+  | 'labelSecondary'
   | 'info'
   | 'warning'
   | 'error'
@@ -37,6 +39,8 @@ function FieldBlock(props: Props) {
     forId,
     layout = 'vertical',
     label,
+    labelDescription,
+    labelSecondary,
     asFieldset,
     info,
     warning,
@@ -164,7 +168,29 @@ function FieldBlock(props: Props) {
         {...rest}
       >
         <div className={gridClasses}>
-          {label && <FormLabel {...labelProps}>{label}</FormLabel>}
+          {labelDescription || labelSecondary ? (
+            <div className="dnb-forms-field-block__label">
+              {label || labelDescription ? (
+                <FormLabel {...labelProps}>
+                  {label}
+                  {labelDescription && (
+                    <span className="dnb-forms-field-block__label-description">
+                      {labelDescription}
+                    </span>
+                  )}
+                </FormLabel>
+              ) : (
+                <>&nbsp;</>
+              )}
+              {labelSecondary && (
+                <span className="dnb-forms-field-block__label-secondary">
+                  {labelSecondary}
+                </span>
+              )}
+            </div>
+          ) : (
+            label && <FormLabel {...labelProps}>{label}</FormLabel>
+          )}
 
           <div
             className={classnames(

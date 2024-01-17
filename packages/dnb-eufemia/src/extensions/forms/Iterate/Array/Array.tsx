@@ -36,6 +36,8 @@ function ArrayComponent(props: Props) {
     layout = 'vertical',
     placeholder,
     label,
+    labelDescription,
+    labelSecondary,
     path,
     value: arrayValue,
     info,
@@ -79,6 +81,8 @@ function ArrayComponent(props: Props) {
       className={classnames('dnb-forms-field-number', className)}
       layout={layout}
       label={label}
+      labelDescription={labelDescription}
+      labelSecondary={labelSecondary}
       info={info}
       warning={warning}
       error={error}
