@@ -13,7 +13,6 @@ import {
   CreateBasicFieldComponent,
   CreateComposedFieldComponent,
 } from './Examples'
-import UseDataValue from './create-component/useDataValue/info'
 
 # Create your own component
 
@@ -24,11 +23,12 @@ By using the building blocks for field components, you save development time, an
 ```jsx
 import {
   FieldBlock,
+  ValueBlock,
   useDataValue,
-  Iterate,
-  DataContext,
 } from '@dnb/eufemia/extensions/forms'
 ```
+
+<ListBasisAPIs />
 
 ## FieldBlock and useDataValue
 
@@ -46,9 +46,9 @@ This example shows a custom component. The `useDataValue` hook receives the prop
 
 ### The example explained
 
-Using these two form helpers in your field component triggers several automatic processes. These include timely validation checks, syncing value changes with the `DataContext`, coordinating error messages across multiple fields, and preventing premature error displays while the user is editing the field.
+Using these two form helpers in your field component triggers several automatic processes. These include timely validation checks, syncing value changes with the [DataContext](/uilib/extensions/forms/extended-features/DataContext/), coordinating error messages across multiple fields, and preventing premature error displays while the user is editing the field.
 
-Keep in mind, you can customize the behavior of `useDataValue` and other helper functions to make the component work exactly as you want.
+Keep in mind, you can customize the behavior of [useDataValue](/) and other helper functions to make the component work exactly as you want.
 
 ### Your own validation
 
@@ -79,13 +79,3 @@ These are the official sizes you can use when [creating your own form fields](/u
 ```
 
 You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and provide a `width` prop with a value of either `small`, `medium` or `large` and use it as a sized wrapper.
-
-## Components
-
-<ListBasisAPIs />
-
----
-
-## Hooks
-
-<UseDataValue />
