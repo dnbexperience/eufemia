@@ -12,6 +12,7 @@
 // import all the available components
 import Accordion from './accordion/Accordion'
 import Anchor from './anchor/Anchor'
+import AriaLive from './aria-live/AriaLive'
 import Autocomplete from './autocomplete/Autocomplete'
 import Avatar from './avatar/Avatar'
 import Badge from './badge/Badge'
@@ -66,6 +67,7 @@ import VisuallyHidden from './visually-hidden/VisuallyHidden'
 export {
   Accordion,
   Anchor,
+  AriaLive,
   Autocomplete,
   Avatar,
   Badge,
@@ -121,6 +123,7 @@ export const getComponents = () => {
   return {
     Accordion,
     Anchor,
+    AriaLive,
     Autocomplete,
     Avatar,
     Badge,
