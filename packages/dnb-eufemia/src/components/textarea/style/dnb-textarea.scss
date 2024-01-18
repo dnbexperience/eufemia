@@ -51,7 +51,11 @@
     right: -0.5rem;
 
     background-color: var(--color-white);
-    box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
+    @include fakeBorder(
+      var(--textarea-border-color),
+      var(--textarea-border-width),
+      inset
+    );
 
     border-radius: 0.25rem;
   }
