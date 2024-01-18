@@ -2,13 +2,12 @@ import React from 'react'
 import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import PhoneNumber from '..'
 import { Provider } from '../../../../../shared'
-import { Form, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema } from '../../..'
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
-    render(<PhoneNumber />)
+    render(<Field.PhoneNumber />)
 
     const codeElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -25,7 +24,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should use nb-NO by default', () => {
-    render(<PhoneNumber />)
+    render(<Field.PhoneNumber />)
 
     const codeElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -42,20 +41,20 @@ describe('Field.PhoneNumber', () => {
 
   it('should support disabled prop', () => {
     const { rerender } = render(
-      <PhoneNumber label="Disabled label" disabled />
+      <Field.PhoneNumber label="Disabled label" disabled />
     )
 
     const labelElement = () => document.querySelector('label')
 
     expect(labelElement()).toHaveAttribute('disabled')
 
-    rerender(<PhoneNumber label="Disabled label" />)
+    rerender(<Field.PhoneNumber label="Disabled label" />)
 
     expect(labelElement()).not.toHaveAttribute('disabled')
   })
 
   it('should only have a mask when +47 is given', async () => {
-    const { rerender } = render(<PhoneNumber value="999999990000" />)
+    const { rerender } = render(<Field.PhoneNumber value="999999990000" />)
 
     const codeElement = () =>
       document.querySelector(
@@ -73,7 +72,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(numberElement().value).toBe('99 99 99 99')
 
-    rerender(<PhoneNumber value="+41 99999999123456" />)
+    rerender(<Field.PhoneNumber value="+41 99999999123456" />)
 
     expect(codeElement().value).toBe('CH (+41)')
     expect(numberElement().value).toBe('999999991234')
@@ -84,13 +83,13 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should only have a placeholder when +47 is given', async () => {
-    const { rerender } = render(<PhoneNumber />)
+    const { rerender } = render(<Field.PhoneNumber />)
 
     expect(
       document.querySelector('.dnb-input__placeholder').textContent
     ).toBe('00 00 00 00')
 
-    rerender(<PhoneNumber value="+41" />)
+    rerender(<Field.PhoneNumber value="+41" />)
 
     expect(
       document.querySelector('.dnb-input__placeholder')
@@ -100,7 +99,7 @@ describe('Field.PhoneNumber', () => {
   it('should return correct value onFocus and onBlur event', async () => {
     const onFocus = jest.fn()
     const onBlur = jest.fn()
-    render(<PhoneNumber onFocus={onFocus} onBlur={onBlur} />)
+    render(<Field.PhoneNumber onFocus={onFocus} onBlur={onBlur} />)
 
     const phoneElement = document.querySelector(
       '.dnb-forms-field-phone-number__number input'
@@ -122,7 +121,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should have selected correct item', async () => {
-    render(<PhoneNumber />)
+    render(<Field.PhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -152,7 +151,7 @@ describe('Field.PhoneNumber', () => {
       }, [])
 
       return (
-        <PhoneNumber
+        <Field.PhoneNumber
           value={state}
           onFocus={onFocus}
           onCountryCodeChange={onCountryCodeChange}
@@ -221,7 +220,7 @@ describe('Field.PhoneNumber', () => {
     const onCountryCodeChange = jest.fn()
 
     render(
-      <PhoneNumber
+      <Field.PhoneNumber
         onChange={onChange}
         onCountryCodeChange={onCountryCodeChange}
         noAnimation
@@ -291,7 +290,7 @@ describe('Field.PhoneNumber', () => {
 
     render(
       <Form.Handler onChange={onChange}>
-        <PhoneNumber path="/phone" />
+        <Field.PhoneNumber path="/phone" />
       </Form.Handler>
     )
 
@@ -310,7 +309,7 @@ describe('Field.PhoneNumber', () => {
     const onCountryCodeChange = jest.fn()
 
     render(
-      <PhoneNumber
+      <Field.PhoneNumber
         onChange={onChange}
         onCountryCodeChange={onCountryCodeChange}
         value="+47 12"
@@ -371,7 +370,7 @@ describe('Field.PhoneNumber', () => {
     const onCountryCodeChange = jest.fn()
 
     render(
-      <PhoneNumber
+      <Field.PhoneNumber
         onChange={onChange}
         onCountryCodeChange={onCountryCodeChange}
         noAnimation
@@ -412,7 +411,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should support spacing props', () => {
-    render(<PhoneNumber top="2rem" />)
+    render(<Field.PhoneNumber top="2rem" />)
 
     const element = document.querySelector('.dnb-forms-field-phone-number')
     const attributes = Array.from(element.attributes).map(
@@ -432,7 +431,7 @@ describe('Field.PhoneNumber', () => {
   it('should support country code autofill', async () => {
     const onChange = jest.fn()
 
-    render(<PhoneNumber onChange={onChange} />)
+    render(<Field.PhoneNumber onChange={onChange} />)
 
     const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -465,7 +464,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should require one number', async () => {
-    render(<PhoneNumber required />)
+    render(<Field.PhoneNumber required />)
 
     const phoneElement = document.querySelector(
       '.dnb-forms-field-phone-number__number input'
@@ -487,7 +486,7 @@ describe('Field.PhoneNumber', () => {
   it('should handle "pattern" property', async () => {
     render(
       <Provider locale="en-GB">
-        <PhoneNumber required pattern="^[49]+" />
+        <Field.PhoneNumber required pattern="^[49]+" />
       </Provider>
     )
 
@@ -527,7 +526,7 @@ describe('Field.PhoneNumber', () => {
 
   it('should filter countries list with given filterCountries', () => {
     render(
-      <PhoneNumber
+      <Field.PhoneNumber
         filterCountries={({ regions }) => regions?.includes('Scandinavia')}
       />
     )
@@ -556,7 +555,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should by default sort prioritized countries on top', () => {
-    render(<PhoneNumber />)
+    render(<Field.PhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -579,7 +578,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should show only Scandinavian countries', () => {
-    render(<PhoneNumber countries="Scandinavia" />)
+    render(<Field.PhoneNumber countries="Scandinavia" />)
 
     const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -605,7 +604,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should sort prioritized countries on top', () => {
-    render(<PhoneNumber countries="Prioritized" />)
+    render(<Field.PhoneNumber countries="Prioritized" />)
 
     const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -631,7 +630,7 @@ describe('Field.PhoneNumber', () => {
     const onChange = jest.fn()
 
     const { rerender } = render(
-      <PhoneNumber omitCountryCodeField onChange={onChange} />
+      <Field.PhoneNumber omitCountryCodeField onChange={onChange} />
     )
 
     const numberElement = () =>
@@ -652,7 +651,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     rerender(
-      <PhoneNumber
+      <Field.PhoneNumber
         omitCountryCodeField
         value="+47 99999999"
         onChange={onChange}
@@ -685,7 +684,7 @@ describe('Field.PhoneNumber', () => {
   it('should validate when required', () => {
     render(
       <Form.Handler>
-        <PhoneNumber required />
+        <Field.PhoneNumber required />
         <Form.SubmitButton />
       </Form.Handler>
     )
@@ -709,7 +708,7 @@ describe('Field.PhoneNumber', () => {
       pattern: '^\\+47 [49]+',
     }
 
-    render(<PhoneNumber schema={schema} />)
+    render(<Field.PhoneNumber schema={schema} />)
 
     const numberElement = () =>
       document.querySelector(
@@ -732,7 +731,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should not validate initially when required and contry code is provided as a value', () => {
-    render(<PhoneNumber required value="+47" />)
+    render(<Field.PhoneNumber required value="+47" />)
 
     expect(
       document.querySelector('.dnb-form-status')
@@ -740,11 +739,13 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should execute validateInitially if required', () => {
-    const { rerender } = render(<PhoneNumber required validateInitially />)
+    const { rerender } = render(
+      <Field.PhoneNumber required validateInitially />
+    )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
-    rerender(<PhoneNumber validateInitially />)
+    rerender(<Field.PhoneNumber validateInitially />)
 
     expect(
       document.querySelector('.dnb-form-status')
@@ -752,7 +753,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('phone number input should have tel input mode', () => {
-    render(<PhoneNumber />)
+    render(<Field.PhoneNumber />)
 
     const phoneNumberInput = document.querySelector(
       '.dnb-forms-field-phone-number__number .dnb-input__input'
@@ -764,7 +765,7 @@ describe('Field.PhoneNumber', () => {
   it('should render value from context', () => {
     render(
       <Form.Handler data={{ phoneNumber: '9999' }}>
-        <PhoneNumber path="/phoneNumber" />
+        <Field.PhoneNumber path="/phoneNumber" />
       </Form.Handler>
     )
 
@@ -779,7 +780,7 @@ describe('Field.PhoneNumber', () => {
     it('should change locale', () => {
       const { rerender } = render(
         <Provider>
-          <PhoneNumber />
+          <Field.PhoneNumber />
         </Provider>
       )
 
@@ -798,7 +799,7 @@ describe('Field.PhoneNumber', () => {
 
       rerender(
         <Provider locale="en-GB">
-          <PhoneNumber />
+          <Field.PhoneNumber />
         </Provider>
       )
 
@@ -808,7 +809,7 @@ describe('Field.PhoneNumber', () => {
 
       rerender(
         <Provider locale="nb-NO">
-          <PhoneNumber />
+          <Field.PhoneNumber />
         </Provider>
       )
 
@@ -820,7 +821,7 @@ describe('Field.PhoneNumber', () => {
     it('should show search results based on locale', async () => {
       const { rerender } = render(
         <Provider>
-          <PhoneNumber />
+          <Field.PhoneNumber />
         </Provider>
       )
 
@@ -845,7 +846,7 @@ describe('Field.PhoneNumber', () => {
 
       rerender(
         <Provider locale="en-GB">
-          <PhoneNumber />
+          <Field.PhoneNumber />
         </Provider>
       )
 
@@ -857,7 +858,7 @@ describe('Field.PhoneNumber', () => {
 
       rerender(
         <Provider locale="nb-NO">
-          <PhoneNumber />
+          <Field.PhoneNumber />
         </Provider>
       )
 
@@ -870,7 +871,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<PhoneNumber value="12345678" />)
+    const result = render(<Field.PhoneNumber value="12345678" />)
 
     expect(await axeComponent(result)).toHaveNoViolations()
   })

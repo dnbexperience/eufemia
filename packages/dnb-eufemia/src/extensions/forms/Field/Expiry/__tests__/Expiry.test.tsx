@@ -2,8 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../..'
-import { FormError, FieldBlock } from '../../..'
+import { Field, FormError, FieldBlock } from '../../..'
 
 describe('Field.Expiry', () => {
   beforeEach(() => {

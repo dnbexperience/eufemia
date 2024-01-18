@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringField, { Props as StringFieldProps } from '../String'
 import SharedContext from '../../../../shared/Context'
 
-export type Props = StringComponentProps & {
+export type Props = StringFieldProps & {
   validate?: boolean
   omitMask?: boolean
 }
@@ -54,7 +54,7 @@ function BankAccountNumber(props: Props) {
     [omitMask]
   )
 
-  const stringComponentProps: Props = {
+  const StringFieldProps: Props = {
     ...props,
     className: 'dnb-forms-field-bank-account-number',
     pattern: props.pattern ?? (validate ? '^[0-9]{11}$' : undefined),
@@ -67,7 +67,7 @@ function BankAccountNumber(props: Props) {
     inputMode: 'numeric',
   }
 
-  return <StringComponent {...stringComponentProps} />
+  return <StringField {...StringFieldProps} />
 }
 
 BankAccountNumber._supportsSpacingProps = true

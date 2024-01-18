@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
-import * as Field from '../../../Field'
+import { Field } from '../../..'
 import * as DataContext from '../../../DataContext'
 
 describe('Iterate.Array', () => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Form, Field } from '../../..'
-import type { Props as StringProps } from '../../../Field/String'
+import type { Props as StringFieldProps } from '../../../Field/String'
 import userEvent from '@testing-library/user-event'
 
 describe('Form.Handler', () => {
@@ -195,7 +195,7 @@ describe('Form.Handler', () => {
     const onChange = jest.fn()
     const reset = jest.fn()
 
-    const MockComponent = (props: StringProps) => {
+    const MockComponent = (props: StringFieldProps) => {
       return <Field.String {...props} />
     }
 
@@ -232,7 +232,7 @@ describe('Form.Handler', () => {
     })
     const onChange = jest.fn()
 
-    const MockComponent = (props: StringProps) => {
+    const MockComponent = (props: StringFieldProps) => {
       return <Field.String {...props} />
     }
 

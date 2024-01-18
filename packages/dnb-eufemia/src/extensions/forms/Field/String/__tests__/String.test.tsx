@@ -10,8 +10,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import * as DataContext from '../../../DataContext'
-import * as Field from '../..'
-import { FieldBlock } from '../../..'
+import { Field, FieldBlock } from '../../..'
 
 async function expectNever(callable: () => unknown): Promise<void> {
   await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())

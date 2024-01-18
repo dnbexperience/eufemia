@@ -1,8 +1,9 @@
 import React, { useContext, useMemo } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringField, { Props as StringFieldProps } from '../String'
+
 import SharedContext from '../../../../shared/Context'
 
-export type Props = StringComponentProps & {
+export type Props = StringFieldProps & {
   omitMask?: boolean
   validate?: boolean
 }
@@ -43,7 +44,7 @@ function NationalIdentityNumber(props: Props) {
     [omitMask]
   )
 
-  const stringComponentProps: Props = {
+  const StringFieldProps: Props = {
     ...props,
     pattern:
       props.pattern ??
@@ -57,7 +58,7 @@ function NationalIdentityNumber(props: Props) {
     inputMode: 'numeric',
   }
 
-  return <StringComponent {...stringComponentProps} />
+  return <StringField {...StringFieldProps} />
 }
 
 NationalIdentityNumber._supportsSpacingProps = true

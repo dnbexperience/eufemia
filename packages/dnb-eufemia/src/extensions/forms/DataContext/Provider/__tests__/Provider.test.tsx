@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form, DataContext, Field, JSONSchema } from '../../../'
-import { Props as StringFieldProps } from '../../../Field/String/String'
+import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].Forms

@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringField, { Props as StringFieldProps } from '../String'
 import SharedContext from '../../../../shared/Context'
 
-export type Props = StringComponentProps
+export type Props = StringFieldProps
 
 function Email(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -17,7 +17,7 @@ function Email(props: Props) {
     [tr, props.errorMessages]
   )
 
-  const stringComponentProps: Props = {
+  const StringFieldProps: Props = {
     label: sharedContext?.translation.Forms.emailLabel,
     autoComplete: 'email',
     inputMode: 'email',
@@ -28,7 +28,7 @@ function Email(props: Props) {
     errorMessages,
   }
 
-  return <StringComponent {...stringComponentProps} />
+  return <StringField {...StringFieldProps} />
 }
 
 Email._supportsSpacingProps = true

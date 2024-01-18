@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringField, { Props as StringFieldProps } from '../String'
 import SharedContext from '../../../../shared/Context'
 
-export type Props = StringComponentProps & {
+export type Props = StringFieldProps & {
   validate?: boolean
   omitMask?: boolean
 }
@@ -29,7 +29,7 @@ function OrganizationNumber(props: Props) {
     [omitMask]
   )
 
-  const stringComponentProps: Props = {
+  const StringFieldProps: Props = {
     ...props,
     className: 'dnb-forms-field-organization-number',
     pattern: props.pattern ?? (validate ? '^[0-9]{9}$' : undefined),
@@ -42,7 +42,7 @@ function OrganizationNumber(props: Props) {
     inputMode: 'numeric',
   }
 
-  return <StringComponent {...stringComponentProps} />
+  return <StringField {...StringFieldProps} />
 }
 
 OrganizationNumber._supportsSpacingProps = true
