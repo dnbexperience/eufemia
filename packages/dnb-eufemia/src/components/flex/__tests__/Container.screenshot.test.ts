@@ -24,6 +24,27 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match bookend line', async () => {
+    const screenshot = await makeScreenshot({
+      url: '/uilib/layout/flex/container/demos',
+      selector:
+        '[data-visual-test="flex-container-line-framed"] .dnb-flex-container',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match wrapped bookend line', async () => {
+    const screenshot = await makeScreenshot({
+      url: '/uilib/layout/flex/container/demos',
+      pageViewport: {
+        width: 240,
+      },
+      selector:
+        '[data-visual-test="flex-container-line-framed"] .dnb-flex-container',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match field on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
