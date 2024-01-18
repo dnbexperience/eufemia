@@ -53,7 +53,7 @@ describe('useMediaQuery', () => {
     matchMedia?.destroy()
   })
 
-  it('should have valid strings inside render', () => {
+  it('should have valid strings inside render and rerender', () => {
     matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
 
     const { rerender } = render(
@@ -182,7 +182,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toBeCalledTimes(4)
+    expect(window.matchMedia).toHaveBeenCalledTimes(4)
     expect(resultA.current).toBe(true)
 
     jest
@@ -198,7 +198,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toBeCalledTimes(4)
+    expect(window.matchMedia).toHaveBeenCalledTimes(4)
     expect(resultB.current).toBe(false)
   })
 })

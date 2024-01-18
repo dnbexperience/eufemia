@@ -33,7 +33,7 @@ describe('useMedia', () => {
       window.matchMedia = matchMediaOriginal
     })
 
-    it('will return object with ', () => {
+    it('will return object with', () => {
       setMedia({ type: 'print' })
 
       const { result } = renderHook(useMedia, { wrapper })

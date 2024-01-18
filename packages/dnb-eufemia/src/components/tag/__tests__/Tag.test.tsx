@@ -410,14 +410,14 @@ describe('Tag', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Tag text="Tag" />)
-    expect(global.console.log).toBeCalled()
+    expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Tag text="Tag" hasLabel />)
-    expect(global.console.log).not.toBeCalled()
+    expect(global.console.log).not.toHaveBeenCalled()
   })
 
   it('renders a tag with className if className is provided', () => {

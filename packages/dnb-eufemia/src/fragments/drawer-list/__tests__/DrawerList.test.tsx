@@ -357,7 +357,7 @@ describe('DrawerList component', () => {
     keydown(32) // space
 
     await waitFor(() => {
-      expect(on_change).toBeCalledTimes(0)
+      expect(on_change).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -475,8 +475,8 @@ describe('DrawerList component', () => {
     // then open again
     keydown(32) // space
     await waitFor(() => {
-      expect(on_change).toBeCalledTimes(1)
-      expect(on_select).toBeCalledTimes(2)
+      expect(on_change).toHaveBeenCalledTimes(1)
+      expect(on_select).toHaveBeenCalledTimes(2)
     })
   })
 

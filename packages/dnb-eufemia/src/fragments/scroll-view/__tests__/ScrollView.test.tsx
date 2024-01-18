@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
 import ScrollView, { ScrollViewAllProps } from '../ScrollView'
-import { setResizeObserver } from './__mocks__/ResizeObserver'
+import { setResizeObserver } from './shared-mocks/ResizeObserver'
 
 describe('ScrollView', () => {
   it('renders with props as an object', () => {

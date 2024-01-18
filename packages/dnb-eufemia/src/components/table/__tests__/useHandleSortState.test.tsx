@@ -58,28 +58,6 @@ describe('useHandleSortState', () => {
     })
   })
 
-  it('should return false on active', () => {
-    const { result } = renderHook(useHandleSortState, {
-      initialProps: {
-        one: { active: false, direction: 'desc' },
-      },
-    })
-
-    expect(result.current).toEqual({
-      activeSortName: null,
-      sortHandler: {
-        one: expect.any(Function),
-      },
-      sortState: {
-        one: {
-          active: false,
-          reversed: true,
-          direction: 'desc',
-        },
-      },
-    })
-  })
-
   it('should return active with reverted direction', () => {
     const { result } = renderHook(useHandleSortState, {
       initialProps: {

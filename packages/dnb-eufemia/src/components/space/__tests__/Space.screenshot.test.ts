@@ -70,6 +70,7 @@ describe('Space', () => {
   })
 })
 
+// eslint-disable-next-line jest/no-identical-title
 describe('Space', () => {
   it('have to match inner spacing on "small" breakpoint', async () => {
     const screenshot = await makeScreenshot({

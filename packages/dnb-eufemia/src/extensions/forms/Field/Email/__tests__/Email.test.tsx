@@ -54,33 +54,6 @@ describe('Field.Email', () => {
     )
   })
 
-  it.only('should show errors if field is invalid on submit', async () => {
-    const onSubmit = jest.fn()
-
-    render(
-      <Form.Handler onSubmit={onSubmit}>
-        <Email required path="/email" />
-      </Form.Handler>
-    )
-
-    const input = document.querySelector('input')
-    await userEvent.type(input, 'user')
-
-    const form = document.querySelector('form')
-    fireEvent.submit(form)
-
-    expect(onSubmit).not.toHaveBeenCalled()
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
-
-    await userEvent.type(input, '@example.com')
-    fireEvent.submit(form)
-
-    expect(onSubmit).toHaveBeenLastCalledWith(
-      { email: 'user@example.com' },
-      expect.anything()
-    )
-  })
-
   it('should trim whitespaces', async () => {
     const onSubmit = jest.fn()
 

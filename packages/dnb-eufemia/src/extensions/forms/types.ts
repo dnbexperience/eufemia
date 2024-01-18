@@ -191,7 +191,7 @@ export interface FieldProps<
    * Should error messages based on validation be shown initially (from given value-prop or source data)
    * before the user interacts with the field?
    * @default false
-   * */
+   */
   validateInitially?: boolean
   /**
    * Should error messages be shown when touching (like focusing a field and blurring) without having changed

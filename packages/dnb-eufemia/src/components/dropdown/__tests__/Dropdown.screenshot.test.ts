@@ -129,112 +129,6 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  if (themeName === 'sbanken') {
-    it('have to match the closed dropdown', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match different sizes', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="dropdown-sizes"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match disabled state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="dropdown-disabled"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match tertiary variant disabled state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="dropdown-disabled-tertiary"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the dropdown with icon on left side', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="dropdown-left-icon"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the dropdown with status: error', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-status-error"] .dnb-dropdown__inner',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the dropdown with tertiary button', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__inner',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the dropdown as action menu', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-action_menu"] .dnb-dropdown__inner',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the closed dropdown with focus', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
-        simulateSelector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-        simulate: 'focus',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the closed dropdown with hover', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
-        simulateSelector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the dropdown items', async () => {
-      const screenshot = await makeScreenshot({
-        style: {
-          width: '14rem',
-        },
-        selector:
-          '[data-visual-test="dropdown-list"] .dnb-drawer-list__list',
-        simulateSelector:
-          '[data-visual-test="dropdown-list"] .dnb-drawer-list__option:nth-of-type(1)',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the dropdown button with ellipsis overflow', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-ellipsis"] .dnb-dropdown__inner',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  }
 })
 
 describe('Dropdown', () => {
@@ -262,6 +156,7 @@ describe('Dropdown', () => {
   })
 })
 
+// eslint-disable-next-line jest/no-identical-title
 describe('Dropdown', () => {
   it('have to match the dropdown action menu with custom items', async () => {
     const screenshot = await makeScreenshot({
@@ -289,6 +184,7 @@ describe('Dropdown', () => {
   })
 })
 
+// eslint-disable-next-line jest/no-identical-title
 describe('Dropdown', () => {
   it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await makeScreenshot({

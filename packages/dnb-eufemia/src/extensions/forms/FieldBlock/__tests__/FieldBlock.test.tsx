@@ -198,7 +198,7 @@ describe('FieldBlock', () => {
     expect(labelElements[4]).toBe(undefined)
   })
 
-  it('should use fieldset/legend elements when nested component has a label property', () => {
+  it('should use fieldset/legend elements when several components have a label property', () => {
     const { rerender } = render(
       <FieldBlock label="Legend">
         <MockComponent label="Label" />

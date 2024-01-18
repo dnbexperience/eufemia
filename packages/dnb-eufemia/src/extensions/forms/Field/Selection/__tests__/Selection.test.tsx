@@ -19,7 +19,7 @@ describe('Selection', () => {
       expect(screen.queryByText('Fooo')).not.toBeInTheDocument()
     })
 
-    it('renders selected option', () => {
+    it('renders selected option with number values', () => {
       render(
         <Field.Selection value="20">
           <Field.Option value="10" title="Ten" />

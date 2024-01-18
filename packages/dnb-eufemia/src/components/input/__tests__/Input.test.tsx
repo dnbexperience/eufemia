@@ -329,11 +329,11 @@ describe('Input component', () => {
 
     fireEvent.focus(document.querySelector('input'))
 
-    expect(select).toBeCalledTimes(0)
+    expect(select).toHaveBeenCalledTimes(0)
 
     await wait(1)
 
-    expect(select).toBeCalledTimes(1)
+    expect(select).toHaveBeenCalledTimes(1)
   })
 
   it('uses children as the value', () => {

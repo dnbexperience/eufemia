@@ -1,5 +1,4 @@
 !/*.js
-!/**/.eslintrc.js
 **/tests/**/*.js
 **/dist/**
 **/build/**

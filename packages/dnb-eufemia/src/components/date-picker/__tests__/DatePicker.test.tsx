@@ -256,7 +256,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('.dnb-date-picker--opened')
     ).toBeInTheDocument()
-    expect(on_change).toBeCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(1)
 
     // Now, test "close_on_select"
     fireEvent.click(
@@ -272,7 +272,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('.dnb-date-picker--opened')
     ).not.toBeInTheDocument()
-    expect(on_change).toBeCalledTimes(2)
+    expect(on_change).toHaveBeenCalledTimes(2)
   })
 
   it('has two calendar views', () => {
@@ -1024,10 +1024,10 @@ describe('DatePicker component', () => {
     }
 
     changeState()
-    expect(on_change).toBeCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(1)
 
     changeState()
-    expect(on_change).toBeCalledTimes(2)
+    expect(on_change).toHaveBeenCalledTimes(2)
   })
 
   it('will reset on setting value to null', () => {

@@ -73,7 +73,7 @@ describe('Badge', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Badge variant="notification" content="string" />)
-    expect(global.console.log).toBeCalled()
+    expect(global.console.log).toHaveBeenCalled()
   })
 
   it('does not warn when notification badge content is a number', () => {
@@ -82,28 +82,28 @@ describe('Badge', () => {
     render(
       <Badge variant="notification" content={1} label="Notifications:" />
     )
-    expect(global.console.log).not.toBeCalled()
+    expect(global.console.log).not.toHaveBeenCalled()
   })
 
   it('warns when Badge content is a number and is missing a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Badge content={1} />)
-    expect(global.console.log).toBeCalled()
+    expect(global.console.log).toHaveBeenCalled()
   })
 
   it('does not warn when Badge content is a string and label is missing', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Badge content="text" />)
-    expect(global.console.log).not.toBeCalled()
+    expect(global.console.log).not.toHaveBeenCalled()
   })
 
   it('does not warn when Badge content is a number and has a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Badge content="text" label="Notifications:" />)
-    expect(global.console.log).not.toBeCalled()
+    expect(global.console.log).not.toHaveBeenCalled()
   })
 
   it('should support spacing props', () => {

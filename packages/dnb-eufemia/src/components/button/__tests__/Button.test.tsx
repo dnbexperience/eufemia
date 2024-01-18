@@ -302,7 +302,7 @@ describe('Button component', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Button text="Button" variant="tertiary" />)
-    expect(global.console.log).toBeCalled()
+    expect(global.console.log).toHaveBeenCalled()
   })
 
   it('has no size when only setting text', () => {

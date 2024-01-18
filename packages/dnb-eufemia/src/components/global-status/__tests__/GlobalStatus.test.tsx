@@ -325,7 +325,7 @@ describe('GlobalStatus component', () => {
     ).toBe('height: 0px; visibility: hidden;')
   })
 
-  it('have to handle delayed interactions ', async () => {
+  it('have to handle delayed interactions', async () => {
     const FormField1 = () => {
       const [status, setStatus] = React.useState(null)
       return (
@@ -454,7 +454,7 @@ describe('GlobalStatus component', () => {
     )
   })
 
-  it('have to scroll to GlobalStatus ', async () => {
+  it('have to scroll to GlobalStatus', async () => {
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
     const offsetTop = 1000
@@ -486,7 +486,7 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(scrollTo).toBeCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledTimes(1)
     expect(scrollTo).toHaveBeenCalledWith({
       behavior: 'smooth',
       top: 0,
@@ -506,20 +506,20 @@ describe('GlobalStatus component', () => {
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
-    expect(scrollTo).toBeCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledTimes(1)
 
     // Open
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
-    expect(scrollTo).toBeCalledTimes(2)
+    expect(scrollTo).toHaveBeenCalledTimes(2)
     expect(scrollTo).toHaveBeenCalledWith({
       behavior: 'smooth',
       top: offsetTop,
     })
   })
 
-  it('have to close when esc key is pressed ', async () => {
+  it('have to close when esc key is pressed', async () => {
     const on_close = jest.fn()
     const on_hide = jest.fn()
 
@@ -557,13 +557,13 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(on_close).toBeCalledTimes(0)
+    expect(on_close).toHaveBeenCalledTimes(0)
 
     // Close with key
     keydown(27) // esc
 
-    expect(on_hide).toBeCalledTimes(1)
-    expect(on_close).toBeCalledTimes(1)
+    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('have to have height of auto value', async () => {
@@ -599,7 +599,7 @@ describe('GlobalStatus component', () => {
     ).toBe('height: auto;')
   })
 
-  it('have to be hidden after all messages are removed ', async () => {
+  it('have to be hidden after all messages are removed', async () => {
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
 

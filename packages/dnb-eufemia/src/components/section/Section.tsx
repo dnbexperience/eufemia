@@ -106,13 +106,16 @@ export type SectionProps = {
   innerRef?: React.RefObject<HTMLElement>
 
   /**
-   * @deprecated in v11 use "innerSpace" prop instead */
+   * @deprecated in v11 use "innerSpace" prop instead
+   */
   spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
   /**
-   * @deprecated in v11 use "background" prop instead */
+   * @deprecated in v11 use "background" prop instead
+   */
   style_type?: SectionStyleTypes | string
   /**
-   * @deprecated in v11 use "innerRef" prop instead */
+   * @deprecated in v11 use "innerRef" prop instead
+   */
   inner_ref?: React.RefObject<HTMLElement>
 }
 

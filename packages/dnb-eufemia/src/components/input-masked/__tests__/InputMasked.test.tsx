@@ -123,7 +123,7 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
-    expect(on_change).toBeCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(1)
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
     ).toBe('123 456 789,67')
@@ -605,7 +605,7 @@ describe('InputMasked component', () => {
 
     await wait(2) // because of the delayed requestAnimationFrame
 
-    expect(setSelectionRange).toBeCalledTimes(1)
+    expect(setSelectionRange).toHaveBeenCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(0, 0)
 
     render(
@@ -626,7 +626,7 @@ describe('InputMasked component', () => {
 
     await wait(2) // because of the delayed requestAnimationFrame
 
-    expect(setSelectionRange).toBeCalledTimes(2)
+    expect(setSelectionRange).toHaveBeenCalledTimes(2)
     expect(setSelectionRange).toHaveBeenCalledWith(8, 8)
   })
 
@@ -675,7 +675,7 @@ describe('InputMasked component', () => {
       selectionPosition,
       keyCode: 46, // delete
     })
-    expect(setSelectionRange).toBeCalledTimes(1)
+    expect(setSelectionRange).toHaveBeenCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(
       selectionPosition + 1,
       selectionPosition + 1
@@ -1041,7 +1041,7 @@ describe('InputMasked component as_number', () => {
     pressDotAndUseItAsComa({ value: '12 345,' })
 
     expect(elem.value).toBe('12 345,')
-    expect(setSelectionRange).toBeCalledTimes(1)
+    expect(setSelectionRange).toHaveBeenCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(7, 7)
   })
 

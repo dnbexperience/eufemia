@@ -131,16 +131,16 @@ describe('InputPassword component', () => {
     const Button = document.querySelector('button')
 
     fireEvent.click(Button)
-    expect(on_show_password).toBeCalledTimes(1)
-    expect(on_hide_password).not.toBeCalled()
+    expect(on_show_password).toHaveBeenCalledTimes(1)
+    expect(on_hide_password).not.toHaveBeenCalled()
 
     fireEvent.click(Button)
-    expect(on_show_password).toBeCalledTimes(1)
-    expect(on_hide_password).toBeCalledTimes(1)
+    expect(on_show_password).toHaveBeenCalledTimes(1)
+    expect(on_hide_password).toHaveBeenCalledTimes(1)
 
     fireEvent.click(Button)
-    expect(on_show_password).toBeCalledTimes(2)
-    expect(on_hide_password).toBeCalledTimes(1)
+    expect(on_show_password).toHaveBeenCalledTimes(2)
+    expect(on_hide_password).toHaveBeenCalledTimes(1)
   })
 
   it('should support spacing props', () => {

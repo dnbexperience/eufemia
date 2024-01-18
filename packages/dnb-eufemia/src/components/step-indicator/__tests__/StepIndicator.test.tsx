@@ -356,7 +356,7 @@ describe('StepIndicator in loose mode', () => {
 
     fireEvent.click(items[0].querySelector('button'))
 
-    expect(on_change).toBeCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].currentStep).toBe(0)
     expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
       'function'
@@ -600,7 +600,7 @@ describe('StepIndicator in strict mode', () => {
       screen.queryAllByRole('button')[0].click()
     })
 
-    expect(on_change).toBeCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(1)
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
     )

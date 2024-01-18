@@ -113,7 +113,7 @@ describe('Accordion component', () => {
     )
   })
 
-  it('supports an icon for expanded state ', () => {
+  it('supports an icon for expanded state', () => {
     render(
       <Accordion
         {...props}

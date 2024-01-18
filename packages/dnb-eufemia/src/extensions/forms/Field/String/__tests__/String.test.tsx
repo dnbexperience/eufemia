@@ -13,7 +13,7 @@ import * as DataContext from '../../../DataContext'
 import * as Field from '../..'
 import { FieldBlock } from '../../..'
 
-export async function expectNever(callable: () => unknown): Promise<void> {
+async function expectNever(callable: () => unknown): Promise<void> {
   await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
 }
 
@@ -873,7 +873,7 @@ describe('Field.String', () => {
       expect(await axeComponent(result)).toHaveNoViolations()
     })
 
-    it('should validate with ARIA rules', async () => {
+    it('should validate with ARIA rule for multiline', async () => {
       const result = render(
         <Field.String multiline label="Label" required validateInitially />
       )

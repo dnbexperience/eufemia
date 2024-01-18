@@ -285,14 +285,14 @@ describe('Linear ProgressIndicator component', () => {
 })
 
 describe('ProgressIndicator ARIA', () => {
-  it('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules on type circular', async () => {
     const Comp = render(
       <ProgressIndicator {...props} type="circular" progress={50} />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules on type linear', async () => {
     const Comp = render(
       <ProgressIndicator {...props} type="linear" progress={50} />
     )

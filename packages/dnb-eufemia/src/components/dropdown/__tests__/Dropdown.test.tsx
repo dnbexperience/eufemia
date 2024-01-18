@@ -852,14 +852,14 @@ describe('Dropdown component', () => {
     // 1. open the dropdown
     open()
 
-    expect(on_show).toBeCalledTimes(1)
+    expect(on_show).toHaveBeenCalledTimes(1)
     expect(on_show).toHaveBeenCalledWith({
       attributes: {},
       data: null,
       ulElement: null,
     })
 
-    expect(on_show_focus).toBeCalledTimes(1)
+    expect(on_show_focus).toHaveBeenCalledTimes(1)
     expect(on_show_focus.mock.calls[0][0].element).toBe(
       document.activeElement
     )
@@ -870,14 +870,14 @@ describe('Dropdown component', () => {
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
-    expect(on_hide).toBeCalledTimes(1)
+    expect(on_hide).toHaveBeenCalledTimes(1)
     expect(on_hide).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       event: new KeyboardEvent('keydown', {}),
       data: null,
     })
-    expect(on_hide_focus).toBeCalledTimes(1)
+    expect(on_hide_focus).toHaveBeenCalledTimes(1)
     expect(on_hide_focus.mock.calls[0][0].element).toBe(
       document.querySelector('.dnb-button')
     )
