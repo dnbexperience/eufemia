@@ -1,5 +1,8 @@
 export default {
   'nb-NO': {
+    Textarea: {
+      characterCounter: '%count av %max gjenstående tegn',
+    },
     TimelineItem: {
       alt_label_completed: 'Utført',
       alt_label_current: 'Nåværende',

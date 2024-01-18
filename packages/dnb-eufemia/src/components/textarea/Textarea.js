@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import AriaLive from '../aria-live/AriaLive'
 import {
   isTrue,
   makeUniqueId,
@@ -76,6 +77,7 @@ export default class Textarea extends React.PureComponent {
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    characterCounter: PropTypes.bool,
     autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     autoresize_max_rows: PropTypes.oneOfType([
       PropTypes.string,
@@ -128,6 +130,7 @@ export default class Textarea extends React.PureComponent {
     skeleton: null,
     autoresize: null,
     autoresize_max_rows: null,
+    characterCounter: null,
     textarea_class: null,
     class: null,
     textarea_attributes: null,
@@ -240,7 +243,6 @@ export default class Textarea extends React.PureComponent {
     const { value } = event.target
     this.setState({
       value,
-
       textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial',
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
@@ -334,6 +336,33 @@ export default class Textarea extends React.PureComponent {
   getLineHeight() {
     return parseFloat(getComputedStyle(this._ref.current).lineHeight) || 0
   }
+  getCounter = () => {
+    const { characterCounter, maxLength } = this.props
+
+    if (characterCounter !== true || !maxLength) {
+      return null
+    }
+
+    const { value, textareaState } = this.state
+    const count = (value || '').length
+
+    const message = this.context
+      .getTranslation(this.props)
+      .Textarea.characterCounter.replace('%count', count)
+      .replace('%max', maxLength)
+
+    return (
+      <>
+        <span className="dnb-textarea__counter">{message}</span>
+        <AriaLive
+          disabled={count > 0 && textareaState === 'virgin'}
+          delay={2000}
+        >
+          {message}
+        </AriaLive>
+      </>
+    )
+  }
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
@@ -367,9 +396,9 @@ export default class Textarea extends React.PureComponent {
       textarea_attributes,
       class: _className,
       className,
-
       autoresize,
       autoresize_max_rows, //eslint-disable-line
+      characterCounter, //eslint-disable-line
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
@@ -539,6 +568,8 @@ export default class Textarea extends React.PureComponent {
               </Suffix>
             )}
           </span>
+
+          {this.getCounter()}
         </span>
       </span>
     )

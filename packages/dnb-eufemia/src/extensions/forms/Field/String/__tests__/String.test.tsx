@@ -8,6 +8,7 @@ import {
   fireEvent,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Provider } from '../../../../../shared'
 import * as DataContext from '../../../DataContext'
 import * as Field from '../..'
 import { FieldBlock } from '../../..'
@@ -803,6 +804,48 @@ describe('Field.String', () => {
         ])
       })
     })
+  })
+
+  it('should render characterCounter', async () => {
+    const { rerender } = render(
+      <Provider>
+        <Field.String
+          multiline
+          maxLength={8}
+          characterCounter
+          value="foo"
+        />
+      </Provider>
+    )
+
+    const counter = document.querySelector('.dnb-textarea__counter')
+    const textarea = document.querySelector('textarea')
+    const ariaLive = document.querySelector('.dnb-aria-live')
+
+    expect(counter).toHaveTextContent('3 av 8 gjenstående tegn')
+    expect(ariaLive).toHaveTextContent('')
+
+    await userEvent.type(textarea, 'bar')
+
+    expect(counter).toHaveTextContent('6 av 8 gjenstående tegn')
+    expect(ariaLive).toHaveTextContent('6 av 8 gjenstående tegn')
+
+    rerender(
+      <Provider locale="en-GB">
+        <Field.String
+          multiline
+          maxLength={8}
+          characterCounter
+          value="foo"
+        />
+      </Provider>
+    )
+
+    expect(counter).toHaveTextContent('6 of 8 characters remaining')
+
+    await userEvent.type(textarea, 'baz')
+
+    expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
   })
 
   it('gets valid ref element', () => {

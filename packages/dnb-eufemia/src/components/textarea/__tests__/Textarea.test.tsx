@@ -296,6 +296,34 @@ describe('Textarea component', () => {
     expect(ref.current.tagName).toBe('TEXTAREA')
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
   })
+
+  it('should render characterCounter', async () => {
+    const { rerender } = render(
+      <Textarea maxLength={8} characterCounter value="foo" />
+    )
+
+    const counter = document.querySelector('.dnb-textarea__counter')
+    const textarea = document.querySelector('textarea')
+    const ariaLive = document.querySelector('.dnb-aria-live')
+
+    expect(counter).toHaveTextContent('3 av 8 gjenstående tegn')
+    expect(ariaLive).toHaveTextContent('')
+
+    await userEvent.type(textarea, 'bar')
+
+    expect(counter).toHaveTextContent('6 av 8 gjenstående tegn')
+    expect(ariaLive).toHaveTextContent('6 av 8 gjenstående tegn')
+
+    rerender(
+      <Textarea maxLength={8} characterCounter value="foo" lang="en-GB" />
+    )
+
+    expect(counter).toHaveTextContent('6 of 8 characters remaining')
+
+    await userEvent.type(textarea, 'baz')
+
+    expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
+  })
 })
 
 describe('Textarea scss', () => {
