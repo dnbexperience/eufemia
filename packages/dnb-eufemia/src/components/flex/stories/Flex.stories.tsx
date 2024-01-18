@@ -4,6 +4,7 @@
  */
 
 import { TestElement } from '../../../extensions/forms'
+import { Section } from '../../lib'
 import Flex from '../Flex'
 
 export default {
@@ -24,5 +25,24 @@ export function FlexWithChildren() {
       </Wrapper>
       <TestElement>FlexItem 4</TestElement>
     </Flex.Container>
+  )
+}
+
+const Item = () => (
+  <Flex.Stack divider="line" spacing="x-small">
+    <TestElement>FlexItem</TestElement>
+    <TestElement>FlexItem</TestElement>
+  </Flex.Stack>
+)
+
+export function FlexNested() {
+  return (
+    <Section innerSpace style={{ background: 'lightyellow' }}>
+      <Flex.Horizontal rowGap={false}>
+        <Item />
+        <Item />
+        <Item />
+      </Flex.Horizontal>
+    </Section>
   )
 }

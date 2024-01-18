@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
@@ -17,7 +17,7 @@ import type { End, Start } from './types'
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
-  rowGap?: 'small' | 'medium' | 'large' | true
+  rowGap?: 'small' | 'medium' | 'large' | boolean
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -180,6 +180,27 @@ function FlexContainer(props: Props) {
   })
 
   const n = 'dnb-flex-container'
+  const getRowGapClass = useCallback(() => {
+    if (rowGap === false) {
+      return
+    }
+
+    if (
+      rowGap === true ||
+      (!rowGap && wrap && direction === 'horizontal')
+    ) {
+      return `${n}--row-gap-small`
+    }
+
+    if (hasSizeProp && spacing) {
+      return `${n}--row-gap-${spacing}`
+    }
+
+    if (rowGap) {
+      return `${n}--row-gap-${rowGap}`
+    }
+  }, [direction, hasSizeProp, rowGap, spacing, wrap])
+
   const cn = classnames(
     'dnb-flex-container',
     direction && `${n}--direction-${direction}`,
@@ -188,7 +209,7 @@ function FlexContainer(props: Props) {
     alignSelf && `${n}--align-self-${alignSelf}`,
     spacing && `${n}--spacing-${spacing}`,
     wrap && `${n}--wrap`,
-    rowGap && `${n}--row-gap-${rowGap === true ? 'small' : rowGap}`,
+    getRowGapClass(),
     hasSizeProp && `${n}--has-size`,
     divider && `${n}--divider-${divider}`,
     className
