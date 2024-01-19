@@ -141,7 +141,11 @@ export default class DatePickerProvider extends React.PureComponent {
        * Because now we do not any more relay on auto "correction",
        * but rather return "is_valid_start_date=false"
        */
-      if (isTrue(props.correct_invalid_date)) {
+      if (
+        isTrue(props.correct_invalid_date) ||
+        typeof props.min_date !== 'undefined' ||
+        typeof props.max_date !== 'undefined'
+      ) {
         if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
           state.startDate = state.minDate
         }
