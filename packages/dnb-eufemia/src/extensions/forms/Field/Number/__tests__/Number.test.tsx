@@ -2,8 +2,7 @@ import React from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../../'
-import { FormError, FieldBlock } from '../../..'
+import { Field, FormError, FieldBlock } from '../../..'
 
 describe('Field.Number', () => {
   describe('props', () => {

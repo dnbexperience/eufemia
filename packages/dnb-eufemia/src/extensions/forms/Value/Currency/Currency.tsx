@@ -1,7 +1,7 @@
 import React from 'react'
-import NumberComponent, { Props as NumberComponentProps } from '../Number'
+import NumberValue, { Props as NumberValueProps } from '../Number'
 
-export type Props = NumberComponentProps
+export type Props = NumberValueProps
 
 function Currency(props: Props) {
   const numberProps: Props = {
@@ -10,7 +10,7 @@ function Currency(props: Props) {
     thousandSeparator: props.thousandSeparator ?? ' ',
     suffix: props.suffix ?? ' kr',
   }
-  return <NumberComponent {...numberProps} />
+  return <NumberValue {...numberProps} />
 }
 
 Currency._supportsSpacingProps = true

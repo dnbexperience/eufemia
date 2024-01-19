@@ -8,7 +8,7 @@ import {
 import classnames from 'classnames'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
-import Option from '../Option'
+import OptionField from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -129,7 +129,8 @@ function Selection(props: Props) {
     () =>
       React.Children.toArray(children)
         .filter(
-          (child) => React.isValidElement(child) && child.type === Option
+          (child) =>
+            React.isValidElement(child) && child.type === OptionField
         )
         .map((option: React.ReactElement) => {
           const {
@@ -193,7 +194,7 @@ function Selection(props: Props) {
 
     case 'dropdown': {
       const optionsData = React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.type === Option) {
+        if (React.isValidElement(child) && child.type === OptionField) {
           // Option components
           return child.props.text
             ? {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
-import * as Value from '../../'
+import { Value } from '../../..'
 
 describe('Value.String', () => {
   describe('props', () => {

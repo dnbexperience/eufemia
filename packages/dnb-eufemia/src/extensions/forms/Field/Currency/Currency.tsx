@@ -3,9 +3,9 @@ import classnames from 'classnames'
 import { Context } from '../../../../shared'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'
-import NumberComponent, { Props as NumberProps } from '../Number'
+import NumberField, { Props as NumberFieldProps } from '../Number'
 
-export type Props = NumberProps
+export type Props = NumberFieldProps
 
 function Currency(props: Props) {
   const context = React.useContext(Context)
@@ -18,7 +18,7 @@ function Currency(props: Props) {
   }
 
   return (
-    <NumberComponent
+    <NumberField
       {...preparedProps}
       className={classnames('dnb-forms-field-currency', props.className)}
     />

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringValue, { Props as StringValueProps } from '../String'
 import SharedContext from '../../../../shared/Context'
 
-export type Props = StringComponentProps
+export type Props = StringValueProps
 
 function DateComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -11,7 +11,7 @@ function DateComponent(props: Props) {
     ...props,
     label: props.label ?? sharedContext?.translation.Forms.dateLabel,
   }
-  return <StringComponent {...stringProps} />
+  return <StringValue {...stringProps} />
 }
 
 DateComponent._supportsSpacingProps = true

@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../../'
+import { Field } from '../../..'
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {

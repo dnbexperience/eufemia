@@ -3,9 +3,9 @@ import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
 import countries, { CountryType } from '../../constants/countries'
-import StringComponent, { Props as InputProps } from '../String'
-import { useDataValue } from '../../hooks'
+import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
+import { useDataValue } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
@@ -22,7 +22,7 @@ export type Props = FieldHelpProps &
     countryCodePlaceholder?: string
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
-    pattern?: InputProps['pattern']
+    pattern?: StringFieldProps['pattern']
     width?: 'large' | 'stretch'
     omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
@@ -322,7 +322,7 @@ function PhoneNumber(props: Props) {
           />
         )}
 
-        <StringComponent
+        <StringField
           className={classnames(
             'dnb-forms-field-phone-number__number',
             numberFieldClassName

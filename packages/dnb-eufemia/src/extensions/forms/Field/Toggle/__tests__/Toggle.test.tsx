@@ -1,18 +1,18 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Toggle, { Props } from '../Toggle'
-import { FormError, FieldBlock } from '../../..'
+import { Props } from '../Toggle'
+import { Field, FormError, FieldBlock } from '../../..'
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
     const props: Props = { valueOn: 'checked', valueOff: 'unchecked' }
-    render(<Toggle {...props} />)
+    render(<Field.Toggle {...props} />)
   })
 
   it('should support disabled prop', () => {
     const { rerender } = render(
-      <Toggle
+      <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
         label="Disabled label"
@@ -25,7 +25,7 @@ describe('Field.Toggle', () => {
     expect(labelElement()).toHaveAttribute('disabled')
 
     rerender(
-      <Toggle
+      <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
         label="Disabled label"
@@ -41,7 +41,7 @@ describe('Field.Toggle', () => {
         const onChange = jest.fn()
 
         render(
-          <Toggle
+          <Field.Toggle
             valueOn="on"
             valueOff="off"
             variant="button"
@@ -72,7 +72,7 @@ describe('Field.Toggle', () => {
 
       it('should validate with ARIA rules', async () => {
         const result = render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -88,7 +88,7 @@ describe('Field.Toggle', () => {
         const errorMessage = new FormError('Error message')
 
         render(
-          <Toggle
+          <Field.Toggle
             valueOn="on"
             valueOff="off"
             variant="buttons"
@@ -109,7 +109,7 @@ describe('Field.Toggle', () => {
 
         render(
           <FieldBlock>
-            <Toggle
+            <Field.Toggle
               valueOn="on"
               valueOff="off"
               variant="buttons"
@@ -129,7 +129,7 @@ describe('Field.Toggle', () => {
         const onChange = jest.fn()
 
         render(
-          <Toggle
+          <Field.Toggle
             valueOn="on"
             valueOff="off"
             variant="buttons"
@@ -163,7 +163,7 @@ describe('Field.Toggle', () => {
 
       it('should validate with ARIA rules', async () => {
         const result = render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -179,7 +179,7 @@ describe('Field.Toggle', () => {
         const errorMessage = new FormError('Error message')
 
         render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -203,7 +203,7 @@ describe('Field.Toggle', () => {
 
         render(
           <FieldBlock>
-            <Toggle
+            <Field.Toggle
               label="Label"
               valueOn="on"
               valueOff="off"
@@ -226,7 +226,7 @@ describe('Field.Toggle', () => {
         const onChange = jest.fn()
 
         render(
-          <Toggle
+          <Field.Toggle
             valueOn="on"
             valueOff="off"
             variant="checkbox-button"
@@ -257,7 +257,7 @@ describe('Field.Toggle', () => {
 
       it('should validate with ARIA rules', async () => {
         const result = render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -273,7 +273,7 @@ describe('Field.Toggle', () => {
         const errorMessage = new FormError('Error message')
 
         render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -295,7 +295,7 @@ describe('Field.Toggle', () => {
 
         render(
           <FieldBlock>
-            <Toggle
+            <Field.Toggle
               label="Label"
               valueOn="on"
               valueOff="off"
@@ -316,7 +316,7 @@ describe('Field.Toggle', () => {
         const onChange = jest.fn()
 
         render(
-          <Toggle
+          <Field.Toggle
             valueOn="on"
             valueOff="off"
             variant="checkbox"
@@ -345,7 +345,7 @@ describe('Field.Toggle', () => {
 
       it('should validate with ARIA rules', async () => {
         const result = render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -361,7 +361,7 @@ describe('Field.Toggle', () => {
         const errorMessage = new FormError('Error message')
 
         render(
-          <Toggle
+          <Field.Toggle
             label="Label"
             valueOn="on"
             valueOff="off"
@@ -383,7 +383,7 @@ describe('Field.Toggle', () => {
 
         render(
           <FieldBlock>
-            <Toggle
+            <Field.Toggle
               label="Label"
               valueOn="on"
               valueOff="off"
