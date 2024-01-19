@@ -11,8 +11,6 @@ import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import addYears from 'date-fns/addYears'
 import isValid from 'date-fns/isValid'
-import isAfter from 'date-fns/isAfter'
-import isBefore from 'date-fns/isBefore'
 import parseISO from 'date-fns/parseISO'
 
 import classnames from 'classnames'
@@ -188,13 +186,13 @@ export default class DatePickerInput extends React.PureComponent {
   callOnChange = ({ startDate, endDate, event }) => {
     const state = { changeMonthViews: true }
     if (typeof startDate !== 'undefined' && isValid(startDate)) {
-      state.startDate = this.getValidDate(startDate, event)
+      state.startDate = startDate
     }
     if (!this.props.isRange) {
       endDate = startDate
     }
     if (typeof endDate !== 'undefined' && isValid(endDate)) {
-      state.endDate = this.getValidDate(endDate, event)
+      state.endDate = endDate
     }
 
     this.context.updateState(state, () => {
@@ -205,24 +203,6 @@ export default class DatePickerInput extends React.PureComponent {
         this.context.callOnChangeHandler({ event })
       }
     })
-  }
-
-  getValidDate = (date) => {
-    const { minDate, maxDate } = this.context
-
-    if (!minDate || !maxDate) {
-      return date
-    }
-
-    if (isBefore(date, minDate)) {
-      return minDate
-    }
-
-    if (isAfter(date, maxDate)) {
-      return maxDate
-    }
-
-    return date
   }
 
   callOnType = ({ event }) => {
