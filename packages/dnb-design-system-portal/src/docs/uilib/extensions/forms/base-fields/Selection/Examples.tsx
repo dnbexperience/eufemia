@@ -21,7 +21,7 @@ export const DropdownEmpty = () => (
 export const DropdownPlaceholder = () => (
   <ComponentBox>
     <Field.Selection
-      placeholder="Select something...."
+      placeholder="Select something..."
       onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Foo!" />

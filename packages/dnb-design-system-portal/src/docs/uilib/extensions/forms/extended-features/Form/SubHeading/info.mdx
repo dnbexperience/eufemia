@@ -7,3 +7,19 @@ showTabs: true
 `Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.
 
 The used font-size is set to `large`.
+
+```jsx
+import { Flex, Card } from '@dnb/eufemia'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler onSubmit={submitHandler}>
+    <Flex.Stack>
+      <Form.MainHeading>Header</Form.MainHeading>
+      <Card>
+        <Form.SubHeading>Header</Form.SubHeading>
+        <Field.Email path="/dataPath" />
+      </Card>
+    </Flex.Stack>
+  </Form.Handler>,
+)
+```

@@ -6,6 +6,18 @@ showTabs: true
 
 `Iterate.Array` works in many ways similar to field-components. It has a `value`-prop that can receive an array or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All children components of `Iterate.Array` are rendered once per element the array-value consists of.
 
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Iterate.Array
+    label="Array label"
+    value={['Iron Man', 'Captain America', 'The Hulk']}
+  >
+    <Field.String itemPath="/" />
+  </Iterate.Array>,
+)
+```
+
 ### Individual values and dynamic paths
 
 Since `Iterate.Array` renders its children once per element, the field components inside must receive values based on the different elements in the array. This can be done in two ways:

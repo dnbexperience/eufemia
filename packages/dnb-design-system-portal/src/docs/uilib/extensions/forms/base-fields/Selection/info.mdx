@@ -7,3 +7,13 @@ showTabs: true
 `Field.Selection` is a component for selecting between options using a dropdown or similar user experiences.
 
 [Field.Option](/uilib/extensions/forms/base-fields/Option/) is a related component.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.Selection placeholder="Select something...">
+    <Field.Option value="foo" title="Foo!" />
+    <Field.Option value="bar" title="Baar!" />
+  </Field.Selection>,
+)
+```

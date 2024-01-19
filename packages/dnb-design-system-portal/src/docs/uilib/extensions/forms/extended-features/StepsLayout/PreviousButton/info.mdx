@@ -5,3 +5,12 @@ showTabs: true
 ## Description
 
 `StepsLayout.PreviousButton` connects to the `StepsContext` to move the user to the previous step when clicked.
+
+```jsx
+import { StepsContext, StepsLayout } from '@dnb/eufemia/extensions/forms'
+render(
+  <StepsContext.Provider>
+    <StepsLayout.PreviousButton />
+  </StepsContext.Provider>,
+)
+```
