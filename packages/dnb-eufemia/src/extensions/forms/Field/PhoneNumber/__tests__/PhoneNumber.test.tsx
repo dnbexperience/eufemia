@@ -1,9 +1,9 @@
 import React from 'react'
 import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
-import { Field, Form, JSONSchema } from '../../..'
+import { Field, Form, FormError, JSONSchema } from '../../..'
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -483,10 +483,10 @@ describe('Field.PhoneNumber', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should handle "pattern" property', async () => {
+  it('should handle simple "pattern" property', async () => {
     render(
       <Provider locale="en-GB">
-        <Field.PhoneNumber required pattern="^[49]+" />
+        <Field.PhoneNumber pattern="^\+47 [49]+" />
       </Provider>
     )
 
@@ -499,7 +499,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
     expect(document.querySelector('[role="alert"]').textContent).toContain(
-      'valid number'
+      'You must enter a valid number'
     )
 
     await userEvent.type(numberElement, '{Backspace>8}89')
@@ -522,6 +522,64 @@ describe('Field.PhoneNumber', () => {
     expect(
       document.querySelector('[role="alert"]')
     ).not.toBeInTheDocument()
+  })
+
+  it('should handle "pattern" property with country code', () => {
+    const props = {
+      validateInitially: true,
+      pattern:
+        '((?=\\+47)^\\+47 [49]\\d{7}$)|((?!\\+47)^\\+\\d{2} \\d{6})',
+    }
+    const { rerender } = render(
+      <Field.PhoneNumber value="+47 99999999" {...props} />
+    )
+
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
+
+    rerender(<Field.PhoneNumber value="+47 9999" {...props} />)
+
+    expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+
+    rerender(<Field.PhoneNumber value="+41 999999" {...props} />)
+
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
+
+    rerender(<Field.PhoneNumber value="+41 9999" {...props} />)
+
+    expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+  })
+
+  it('should handle "validator" property with country code', async () => {
+    const validator = jest.fn(() => {
+      return new FormError('some error')
+    })
+
+    render(
+      <Provider locale="en-GB">
+        <Field.PhoneNumber
+          validator={validator}
+          validateInitially
+          value="+41 9999"
+        />
+      </Provider>
+    )
+
+    expect(validator).toHaveBeenCalledTimes(1)
+    expect(validator).toHaveBeenCalledWith('+41 9999', {
+      pattern: 'You must enter a valid number',
+      required: 'You must enter a valid number',
+    })
+
+    await waitFor(() => {
+      expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
+      expect(
+        document.querySelector('[role="alert"]').textContent
+      ).toContain('some error')
+    })
   })
 
   it('should filter countries list with given filterCountries', () => {

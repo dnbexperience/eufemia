@@ -6,7 +6,7 @@ import countries, { CountryType } from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
@@ -103,12 +103,21 @@ function PhoneNumber(props: Props) {
     []
   )
 
+  const schema = useMemo<JSONSchema>(
+    () =>
+      props.schema ?? {
+        type: 'string',
+        pattern: props.pattern,
+      },
+    [props.schema, props.pattern]
+  )
   const defaultProps: Partial<Props> = {
+    schema,
     errorMessages,
   }
   const preparedProps: Props = {
-    ...defaultProps,
     ...props,
+    ...defaultProps,
     validateRequired,
     fromExternal,
     toEvent,
@@ -133,7 +142,6 @@ function PhoneNumber(props: Props) {
     disabled,
     width = 'large',
     help,
-    pattern,
     required,
     validateInitially,
     continuousValidation,
@@ -349,7 +357,6 @@ function PhoneNumber(props: Props) {
           width={omitCountryCodeField ? 'medium' : 'stretch'}
           help={help}
           required={required}
-          pattern={pattern}
           errorMessages={errorMessages}
           validateInitially={validateInitially}
           continuousValidation={continuousValidation}
