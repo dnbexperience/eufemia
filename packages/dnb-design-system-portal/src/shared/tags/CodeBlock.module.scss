@@ -8,6 +8,14 @@
   }
 }
 
+.whiteBackgroundStyle {
+  :global {
+    .example-box {
+      background-color: var(--color-white);
+    }
+  }
+}
+
 .toolbarStyle {
   position: absolute;
   z-index: 100; // over generally used z-indexes, like table rows

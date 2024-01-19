@@ -5,7 +5,11 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
+import Highlight, {
+  Language,
+  Prism,
+  defaultProps,
+} from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from '@dnb/eufemia/src/components'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
@@ -15,6 +19,7 @@ import {
   liveCodeEditorStyle,
   toolbarStyle,
   codeBlockStyle,
+  whiteBackgroundStyle,
 } from './CodeBlock.module.scss'
 import {
   LiveProvider,
@@ -27,18 +32,33 @@ import {
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
 import { ContextProps } from '@dnb/eufemia/src/shared/Context'
 
+export type CodeBlockProps = {
+  scope?: Record<string, unknown>
+  noInline?: boolean
+  hideToolbar?: boolean
+  hideCode?: boolean
+  hidePreview?: boolean
+  reactLive?: boolean
+  language?: Language
+  className?: string
+  background?: 'grid' | 'white'
+  children: string | React.ReactNode | (() => React.ReactNode)
+  tabMode?: 'focus' | 'indentation'
+  'data-visual-test'?: string
+}
+
 const CodeBlock = ({
   language,
   children: exampleCode,
   reactLive: isReactLive,
   ...props
-}) => {
+}: CodeBlockProps) => {
   const context = React.useContext(Context)
 
   if (!language) {
-    language =
-      (String(props && props.className).match(/language-(.*)$|\s/) ||
-        [])[1] || 'jsx'
+    language = ((String(props && props.className).match(
+      /language-(.*)$|\s/,
+    ) || [])[1] || 'jsx') as Language
   }
 
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
@@ -49,14 +69,14 @@ const CodeBlock = ({
           createSkeletonClass('code', context.skeleton),
         )}
       >
-        <LiveCode code={exampleCode} {...props} />
+        <LiveCode code={exampleCode as string} {...props} />
       </div>
     )
   } else {
     return (
       <Highlight
         {...defaultProps}
-        code={String(exampleCode).trim()}
+        code={exampleCode as string}
         language={language}
         theme={prismTheme}
       >
@@ -86,27 +106,12 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-export type LiveCodeProps = {
+type LiveCodeProps = {
   code: string
-  scope?: Record<string, unknown>
-  useRender?: boolean
   noFragments?: boolean
-  hideToolbar?: boolean
-  hideCode?: boolean
-  hidePreview?: boolean
-  language?: string
-  tabMode?: 'focus' | 'indentation'
-  'data-visual-test'?: string
-}
+} & Omit<CodeBlockProps, 'children'>
 
-type LiveCodeDefaultState = LiveCodeProps & {
-  language?: string
-}
-
-class LiveCode extends React.PureComponent<
-  LiveCodeProps,
-  LiveCodeDefaultState
-> {
+class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
   static contextType = Context
 
   context!: ContextProps
@@ -165,9 +170,10 @@ class LiveCode extends React.PureComponent<
   render() {
     const {
       scope = {},
-      useRender,
+      noInline,
       noFragments = true,
       language = 'jsx',
+      background,
 
       code: _code, // eslint-disable-line
       hideToolbar: _hideToolbar, // eslint-disable-line
@@ -188,16 +194,21 @@ class LiveCode extends React.PureComponent<
     }
 
     return (
-      <div className={liveCodeEditorStyle}>
+      <div
+        className={classnames(
+          liveCodeEditorStyle,
+          background && whiteBackgroundStyle,
+        )}
+      >
         <LiveProvider
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
           language={language}
           transformCode={(code: string) =>
-            !useRender && noFragments ? `<>${code}</>` : code
+            !noInline && noFragments ? `<>${code}</>` : code
           }
-          noInline={useRender}
+          noInline={noInline}
           {...props}
         >
           {!hidePreview && (
