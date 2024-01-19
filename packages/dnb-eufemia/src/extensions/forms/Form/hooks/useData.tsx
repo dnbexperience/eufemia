@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useReducer, useRef } from 'react'
 import pointer from 'json-pointer'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 import type { Path } from '../../DataContext/Provider'
@@ -30,34 +30,33 @@ export default function useData<Data>(
   data: Data = undefined
 ): UseDataReturn<Data> {
   const initialDataRef = useRef(data)
-  const sharedState = useSharedState<Data>(id, data)
+  const sharedStateRef = useRef(null)
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  sharedStateRef.current = useSharedState<Data>(id, data, forceUpdate)
 
-  const updatePath = useCallback<UseDataReturnUpdate<Data>>(
-    (path, fn) => {
-      const existingData = sharedState.data || ({} as Data)
-      const existingValue = pointer.has(existingData, path)
-        ? pointer.get(existingData, path)
-        : undefined
+  const updatePath = useCallback<UseDataReturnUpdate<Data>>((path, fn) => {
+    const existingData = sharedStateRef.current.data || ({} as Data)
+    const existingValue = pointer.has(existingData, path)
+      ? pointer.get(existingData, path)
+      : undefined
 
-      // get new value
-      const newValue = fn(existingValue)
+    // get new value
+    const newValue = fn(existingValue)
 
-      // update existing data
-      pointer.set(existingData, path, newValue)
+    // update existing data
+    pointer.set(existingData, path, newValue)
 
-      // update provider
-      sharedState.update?.(existingData)
-    },
-    [sharedState]
-  )
+    // update provider
+    sharedStateRef.current?.update?.(existingData)
+  }, [])
 
   // when initial data changes, update the shared state
   useEffect(() => {
     if (data && data !== initialDataRef.current) {
       initialDataRef.current = data
-      sharedState.update?.(data)
+      sharedStateRef.current?.update?.(data)
     }
-  }, [data, sharedState])
+  }, [data])
 
-  return { data: sharedState.data, update: updatePath }
+  return { data: sharedStateRef.current?.data, update: updatePath }
 }
