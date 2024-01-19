@@ -70,6 +70,10 @@ export interface DatePickerProps
    * To limit a date range to a maximum `end_date`. Defaults to `null`.
    */
   max_date?: DatePickerMaxDate;
+  /**
+   * Corrects the date input value if the user tries to set a date that is before or after `min_date` or `max_date`.
+   * Defaults to `false`.
+   */
   correct_invalid_date?: boolean;
   /**
    * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
