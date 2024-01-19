@@ -6,4 +6,14 @@ showTabs: true
 
 `Form.SubmitButton` connects to the [DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/) to submit the active state of the internal DataContext, triggering `onSubmit`.
 
-The default button type is `type="submit"`, ready to be used with the [Form.Element](/uilib/extensions/forms/extended-features/Form/Element)
+The default button type is `type="submit"`, ready to be used with the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler)
+
+```jsx
+render(
+  <Form.Handler>
+    <Form.ButtonRow>
+      <Form.SubmitButton />
+    </Form.ButtonRow>
+  </Form.Handler>,
+)
+```

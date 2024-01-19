@@ -11,9 +11,12 @@ The `Visibility` component makes it possible to show or hide components on the s
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(
-  <Form.Visibility pathTruthy="/dataPath">
-    show me when the data path value is truthy
-  </Form.Visibility>,
+  <>
+    <Field.Boolean path="/myState" />
+    <Form.Visibility pathTrue="/myState">
+      show me when the state value is true
+    </Form.Visibility>
+  </>,
 )
 ```
 

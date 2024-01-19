@@ -5,3 +5,13 @@ showTabs: true
 ## Description
 
 `Field.Option` is a part for building selection inputs with Field.Select.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.Selection>
+    <Field.Option value="foo" title="Foo!" />
+    <Field.Option value="bar" title="Baar!" />
+  </Field.Selection>,
+)
+```

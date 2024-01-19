@@ -5,3 +5,15 @@ showTabs: true
 ## Description
 
 `Form.ButtonRow` is a wrapper for horizontally separated buttons.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler onSubmit={submitHandler}>
+    ...
+    <Form.ButtonRow>
+      <Form.SubmitButton />
+    </Form.ButtonRow>
+  </Form.Handler>,
+)
+```

@@ -5,3 +5,23 @@ showTabs: true
 ## Description
 
 `DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.
+
+```tsx
+import { DataContext, Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler
+    data={{
+      foo: {
+        one: 1,
+        two: 2,
+      },
+      bar: 'Bar',
+    }}
+  >
+  <DataContext.At path="/foo">
+    <Field.Number path="/one" label="One" />
+    <Field.Number path="/two" label="Two" />
+  </DataContext.At>
+</Form.Handler><DataContext.At data={existingData}>...</DataContext.At>,
+)
+```
