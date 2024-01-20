@@ -70,12 +70,9 @@
     padding-left: 1rem;
   }
 
-  &__counter {
+  .dnb-text-counter {
     margin-top: 0.5rem;
     margin-left: -0.5rem;
-
-    font-size: var(--font-size-small);
-    color: var(--color-black-55);
   }
 
   &__textarea {

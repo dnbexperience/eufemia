@@ -12,6 +12,7 @@
 // import all the available components
 import DrawerList from './drawer-list/DrawerList'
 import ScrollView from './scroll-view/ScrollView'
+import TextCounter from './text-counter/TextCounter'
 
 // define / export all the available components
-export { DrawerList, ScrollView }
+export { DrawerList, ScrollView, TextCounter }

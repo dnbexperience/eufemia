@@ -1,7 +1,8 @@
 export default {
   'nb-NO': {
-    Textarea: {
-      characterCounter: '%count av %max gjenstående tegn',
+    TextCounter: {
+      characterDown: '%count av %max tegn gjenstår',
+      characterUp: 'Du har brukt %count av %max tegn',
     },
     TimelineItem: {
       alt_label_completed: 'Utført',
