@@ -182,36 +182,31 @@ describe('Flex.Container', () => {
       </Flex.Container>
     )
 
-    expect(children.length).toBe(7)
+    expect(children.length).toBe(5)
     expect(element).toHaveClass('dnb-flex-container--divider-line')
 
     expect(children[0]).toHaveClass('dnb-space__top--zero')
     expect(children[0]).toHaveClass('dnb-space__bottom--zero')
     expect(children[0]).toHaveClass('dnb-flex-item')
 
-    expect(children[1].tagName).toContain('DIV')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1].tagName).toContain('HR')
+    expect(children[1]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
 
-    expect(children[2].tagName).toContain('HR')
+    expect(children[2].tagName).toContain('DIV')
     expect(children[2]).toHaveClass(
-      'dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-space__top--zero dnb-hr'
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
     )
 
-    expect(children[3]).toHaveClass('dnb-space__top--small')
-    expect(children[3]).toHaveClass('dnb-space__bottom--zero')
-    expect(children[3]).toHaveClass('dnb-flex-item')
+    expect(children[3].tagName).toContain('HR')
+    expect(children[3]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
 
-    expect(children[4].tagName).toContain('DIV')
     expect(children[4]).toHaveClass('dnb-space__top--small')
-
-    expect(children[5].tagName).toContain('HR')
-    expect(children[5]).toHaveClass(
-      'dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-space__top--zero dnb-hr'
-    )
-
-    expect(children[6]).toHaveClass('dnb-space__top--small')
-    expect(children[6]).toHaveClass('dnb-space__bottom--zero')
-    expect(children[6]).toHaveClass('dnb-flex-item')
+    expect(children[4]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[4]).toHaveClass('dnb-flex-item')
   })
 
   it('should not add line divider below heading', () => {
@@ -226,27 +221,96 @@ describe('Flex.Container', () => {
     const element = document.querySelector('.dnb-flex-container')
     const children = element.children
 
-    expect(children.length).toBe(5)
+    expect(children.length).toBe(4)
     expect(element).toHaveClass('dnb-flex-container--divider-line')
 
     expect(children[0].tagName).toContain('H1')
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[0]).toHaveClass(
+      'dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large'
+    )
 
     expect(children[1].tagName).toContain('DIV')
     expect(children[1]).toHaveClass('dnb-space__top--small')
 
-    expect(children[2].tagName).toContain('DIV')
-    expect(children[2]).toHaveClass('dnb-space__top--small')
-
-    expect(children[3].tagName).toContain('HR')
-    expect(children[3]).toHaveClass(
-      'dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-space__top--zero dnb-hr'
+    expect(children[2].tagName).toContain('HR')
+    expect(children[2]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
     )
 
-    expect(children[4]).toHaveClass('dnb-space__top--small')
-    expect(children[4]).toHaveClass('dnb-space__bottom--zero')
-    expect(children[4]).toHaveClass('dnb-flex-item')
+    expect(children[3].tagName).toContain('DIV')
+    expect(children[3]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+  })
+
+  it('has correct classes when divider is line', () => {
+    render(
+      <Flex.Container direction="vertical" divider="line">
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    const children = element.children
+
+    expect(children.length).toBe(3)
+    expect(element).toHaveClass('dnb-flex-container--divider-line')
+
+    expect(children[0].tagName).toContain('DIV')
+    expect(children[0]).toHaveClass(
+      'dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item'
+    )
+
+    expect(children[1].tagName).toContain('HR')
+    expect(children[1]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[2].tagName).toContain('DIV')
+    expect(children[2]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+  })
+
+  it('has correct classes when divider is line-framed', () => {
+    render(
+      <Flex.Container direction="vertical" divider="line-framed">
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    const children = element.children
+
+    expect(children.length).toBe(5)
+    expect(element).toHaveClass('dnb-flex-container--divider-line-framed')
+
+    expect(children[0].tagName).toContain('HR')
+    expect(children[0]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--zero dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[1].tagName).toContain('DIV')
+    expect(children[1]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+
+    expect(children[2].tagName).toContain('HR')
+    expect(children[2]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[3].tagName).toContain('DIV')
+    expect(children[3]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+
+    expect(children[4].tagName).toContain('HR')
+    expect(children[4]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
   })
 
   it('should set spacing between children', () => {

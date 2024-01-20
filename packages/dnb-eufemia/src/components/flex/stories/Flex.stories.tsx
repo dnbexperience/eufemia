@@ -29,13 +29,13 @@ export function FlexWithChildren() {
 }
 
 const Item = () => (
-  <Flex.Stack divider="line" spacing="x-small">
+  <Flex.Stack divider="line-framed" spacing="x-small">
     <TestElement>FlexItem</TestElement>
     <TestElement>FlexItem</TestElement>
   </Flex.Stack>
 )
 
-export function FlexNested() {
+export function FlexBookend() {
   return (
     <Section innerSpace style={{ background: 'lightyellow' }}>
       <Flex.Horizontal rowGap={false}>
