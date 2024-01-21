@@ -971,8 +971,6 @@ describe('DataContext.Provider', () => {
         const id = React.useId()
         const { data, update } = Form.useData<{ count: number }>(id)
 
-        console.log('data', data)
-
         const increment = React.useCallback(() => {
           update('/count', (count) => {
             return count + 1
