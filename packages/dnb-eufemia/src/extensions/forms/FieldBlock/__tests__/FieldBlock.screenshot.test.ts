@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
-describe('FieldBlock', () => {
+describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/extensions/forms/create-component/FieldBlock/demos/',
   })
 
