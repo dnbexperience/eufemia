@@ -81,6 +81,7 @@ function Expiry(props: ExpiryProps) {
       forId={`${id}-input-month`}
       label={label}
       layout={layout}
+      labelDescription={labelDescription}
       info={info}
       warning={warning}
       error={error}
