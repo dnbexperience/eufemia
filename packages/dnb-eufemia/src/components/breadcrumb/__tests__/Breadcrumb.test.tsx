@@ -2,13 +2,10 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
 import { Provider } from '../../../shared'
-import MatchMediaMock from 'jest-matchmedia-mock'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
 import { AnchorAllProps } from '../../Anchor'
-
-const matchMedia = new MatchMediaMock()
 
 describe('Breadcrumb', () => {
   it('renders without properties', () => {
@@ -60,9 +57,7 @@ describe('Breadcrumb', () => {
     )
 
     expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-    expect(screen.queryByTestId(dataTestId).className).toMatch(
-      'dnb-button'
-    )
+    expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-button')
   })
 
   // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
@@ -81,7 +76,7 @@ describe('Breadcrumb', () => {
     )
 
     expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-    expect(screen.queryByTestId(dataTestId).className).toMatch(
+    expect(screen.queryByTestId(dataTestId)).toHaveClass(
       'dnb-breadcrumb__item__span'
     )
     expect(
@@ -178,13 +173,13 @@ describe('Breadcrumb', () => {
     )
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation')
+      document.querySelector('.dnb-breadcrumb__multiple')
     ).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation')
+      document.querySelector('.dnb-breadcrumb__multiple')
     ).not.toBeInTheDocument()
   })
 
@@ -224,8 +219,6 @@ describe('Breadcrumb', () => {
   })
 
   it('variant collapse opens the collapsed content on click', () => {
-    matchMedia.useMediaQuery('(max-width: 60em)')
-
     render(
       <Breadcrumb
         data={[
@@ -239,20 +232,18 @@ describe('Breadcrumb', () => {
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation')
+      document.querySelector('.dnb-breadcrumb__multiple')
     ).toBeDefined()
   })
 
   it('inherits skeleton prop from provider', () => {
-    const skeletonClassName = 'dnb-skeleton'
-
     render(
       <Provider skeleton>
         <Breadcrumb data={[{ onClick: jest.fn(), text: 'Page 1' }]} />
       </Provider>
     )
 
-    expect(screen.getByRole('button').className).toMatch(skeletonClassName)
+    expect(screen.getAllByRole('button')[0]).toHaveClass('dnb-skeleton')
   })
 
   it('should support spacing props', () => {
@@ -275,6 +266,7 @@ describe('Breadcrumb', () => {
     expect(attributes).toEqual(['aria-label', 'class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-breadcrumb',
+      'dnb-breadcrumb--variant-multiple',
       'dnb-space__top--large',
     ])
   })
@@ -365,29 +357,21 @@ describe('Breadcrumb', () => {
     })
 
     it('renders a skeleton if skeleton is true', () => {
-      const skeletonClassName = 'dnb-skeleton'
-
       render(
         <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
       )
 
-      expect(screen.getByRole('button').className).toMatch(
-        skeletonClassName
-      )
+      expect(screen.getByRole('button')).toHaveClass('dnb-skeleton')
     })
 
     it('inherits skeleton prop from provider', () => {
-      const skeletonClassName = 'dnb-skeleton'
-
       render(
         <Provider skeleton>
           <BreadcrumbItem onClick={jest.fn()} text="skeleton" />
         </Provider>
       )
 
-      expect(screen.getByRole('button').className).toMatch(
-        skeletonClassName
-      )
+      expect(screen.getByRole('button')).toHaveClass('dnb-skeleton')
     })
 
     it('forwards rest props like data-testid, etc, to the breadcrumb item button when interactive', () => {
@@ -398,9 +382,7 @@ describe('Breadcrumb', () => {
 
       expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
 
-      expect(screen.queryByTestId(dataTestId).className).toMatch(
-        'dnb-button'
-      )
+      expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-button')
     })
 
     // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
@@ -415,7 +397,7 @@ describe('Breadcrumb', () => {
       )
 
       expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-      expect(screen.queryByTestId(dataTestId).className).toMatch(
+      expect(screen.queryByTestId(dataTestId)).toHaveClass(
         'dnb-breadcrumb__item__span'
       )
       expect(
