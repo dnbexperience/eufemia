@@ -26,4 +26,11 @@ describe('FieldBlock', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match label description', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-field-block-label-description"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

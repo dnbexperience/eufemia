@@ -52,6 +52,7 @@ function Expiry(props: ExpiryProps) {
     help,
     disabled,
     value = '',
+    labelDescription,
     layout = 'vertical',
     ariaAttributes,
     handleFocus,

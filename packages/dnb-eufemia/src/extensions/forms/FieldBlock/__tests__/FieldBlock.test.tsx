@@ -116,6 +116,22 @@ describe('FieldBlock', () => {
     expect(labelElement.textContent).toBe('A Label')
   })
 
+  it('should render a "labelDescription"', () => {
+    render(
+      <FieldBlock labelDescription="A Label Description">
+        content
+      </FieldBlock>
+    )
+
+    const labelElement = document.querySelector('label')
+
+    expect(labelElement).toBeInTheDocument()
+    expect(labelElement.className).toBe(
+      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+    )
+    expect(labelElement.textContent).toBe('A Label Description')
+  })
+
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
       const fromInput = React.useCallback(({ value }) => value, [])
