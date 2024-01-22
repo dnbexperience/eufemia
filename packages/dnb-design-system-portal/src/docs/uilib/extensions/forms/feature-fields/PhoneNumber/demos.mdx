@@ -42,6 +42,12 @@ import * as Examples from './Examples'
 
 <Examples.ValidationRequired />
 
+### Validation - Pattern
+
+This pattern will strictly match Norwegian mobile numbers, which are defined as having a "+47" country code, followed by a number starting with 4 or 9, and exactly 7 more digits. If the country code is set to any other two-digit code, the pattern will match witch 6 digits after the country code.
+
+<Examples.ValidationPattern />
+
 <VisibleWhenVisualTest>
   <Examples.LongLabel />
 </VisibleWhenVisualTest>
