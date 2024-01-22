@@ -1,46 +1,52 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer } from 'react'
 
 type SharedStateId = string
 type Subscriber = () => void
 
 interface SharedStateInstance<Data> {
   data: Data
-  getSharedState: () => Data
-  updateSharedState: (newData: Partial<Data>) => void
-  subscribeToSharedState: (subscriber: Subscriber) => void
-  unsubscribeFromSharedState: (subscriber: Subscriber) => void
+  get: () => Data
+  set: (newData: Partial<Data>) => void
+  update: (newData: Partial<Data>) => void
+  subscribe: (subscriber: Subscriber) => void
+  unsubscribe: (subscriber: Subscriber) => void
 }
 
 const sharedStates: Record<SharedStateId, SharedStateInstance<any>> = {}
 
-export function getOrCreateSharedState<Data>(
+export function createSharedState<Data>(
   id: SharedStateId,
   initialData: Data
 ): SharedStateInstance<Data> {
   if (!sharedStates[id]) {
     let subscribers: Subscriber[] = []
 
-    const getSharedState = () => sharedStates[id].data
+    const get = () => sharedStates[id].data
 
-    const updateSharedState = (newData: Partial<Data>) => {
+    const set = (newData: Partial<Data>) => {
       sharedStates[id].data = { ...sharedStates[id].data, ...newData }
+    }
+
+    const update = (newData: Partial<Data>) => {
+      set(newData)
       subscribers.forEach((subscriber) => subscriber())
     }
 
-    const subscribeToSharedState = (subscriber: Subscriber) => {
+    const subscribe = (subscriber: Subscriber) => {
       subscribers.push(subscriber)
     }
 
-    const unsubscribeFromSharedState = (subscriber: Subscriber) => {
+    const unsubscribe = (subscriber: Subscriber) => {
       subscribers = subscribers.filter((sub) => sub !== subscriber)
     }
 
     sharedStates[id] = {
       data: initialData ? { ...initialData } : undefined,
-      getSharedState,
-      updateSharedState,
-      subscribeToSharedState,
-      unsubscribeFromSharedState,
+      get,
+      set,
+      update,
+      subscribe,
+      unsubscribe,
     } as SharedStateInstance<Data>
   } else if (
     sharedStates[id].data === undefined &&
@@ -54,23 +60,37 @@ export function getOrCreateSharedState<Data>(
 
 export function useSharedState<Data>(
   id: SharedStateId,
-  initialData: Data
+  initialData: Data = undefined,
+  onSet = null
 ) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
+
   const sharedState = useMemo(
-    () => id && getOrCreateSharedState<Data>(id, initialData),
+    () => id && createSharedState<Data>(id, initialData),
     [id, initialData]
   )
-  const [data, setData] = useState(sharedState?.getSharedState?.())
+  const sharedFunc = useMemo(
+    () => id && createSharedState(id + 'func', { onSet }),
+    [id, onSet]
+  )
 
   const update = useCallback(
     (newData: Data) => {
-      if (!id) {
-        return
+      if (id) {
+        sharedState.update(newData)
       }
-
-      sharedState?.updateSharedState?.(newData)
     },
     [id, sharedState]
+  )
+
+  const set = useCallback(
+    (newData: Data) => {
+      if (id && !sharedState.get()) {
+        sharedState.set(newData)
+        sharedFunc.get()?.onSet?.(newData)
+      }
+    },
+    [id, sharedState, sharedFunc]
   )
 
   useEffect(() => {
@@ -78,17 +98,19 @@ export function useSharedState<Data>(
       return
     }
 
-    const updateState = () => {
-      const existingData = sharedState.getSharedState()
-      setData(existingData)
-    }
-
-    sharedState.subscribeToSharedState(updateState)
+    sharedState.subscribe(forceUpdate)
 
     return () => {
-      sharedState.unsubscribeFromSharedState(updateState)
+      sharedState.unsubscribe(forceUpdate)
     }
   }, [id, sharedState])
 
-  return { data, update }
+  useEffect(() => {
+    // Set the onSet function in case it is not set yet
+    if (id && onSet && !sharedFunc.get()?.onSet) {
+      sharedFunc.set({ onSet })
+    }
+  }, [id, onSet, sharedFunc])
+
+  return { data: sharedState?.get?.(), update, set }
 }

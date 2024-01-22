@@ -91,6 +91,20 @@ describe('Form.useData', () => {
     expect(B.current.data).toEqual({ key: 'changed value' })
   })
 
+  it('should rerender when shared state calls "set"', () => {
+    const { result } = renderHook(() => useData('onSet'))
+
+    const { result: sharedState } = renderHook(() =>
+      useSharedState('onSet')
+    )
+
+    act(() => {
+      sharedState.current.set({ foo: 'bar' })
+    })
+
+    expect(result.current.data).toEqual({ foo: 'bar' })
+  })
+
   describe('with mock', () => {
     it('should call "set" with initialData on mount if data is not present', () => {
       const update = jest.fn()
