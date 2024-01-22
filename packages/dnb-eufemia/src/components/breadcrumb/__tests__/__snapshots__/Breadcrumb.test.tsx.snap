@@ -758,17 +758,27 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb__item__span__icon {
   margin-right: 0.5rem;
 }
-.dnb-breadcrumb__animation {
+.dnb-breadcrumb__multiple {
   display: flex;
   flex-direction: column;
   transition: height 400ms var(--easing-default);
 }
-.dnb-breadcrumb__animation .dnb-breadcrumb__item {
+.dnb-breadcrumb__multiple .dnb-breadcrumb__item {
   transition: transform 400ms var(--easing-default) calc(var(--delay) * 50ms);
   transform: translateX(-1rem);
 }
-.dnb-breadcrumb__animation.dnb-height-animation--parallax .dnb-breadcrumb__item {
+.dnb-breadcrumb__multiple.dnb-height-animation--parallax .dnb-breadcrumb__item {
   transform: translateX(0);
+}
+@media screen and (max-width: 60em) {
+  .dnb-breadcrumb__bar .dnb-breadcrumb__multiple {
+    display: none;
+  }
+}
+@media screen and (min-width: 60em) {
+  .dnb-breadcrumb--variant-multiple .dnb-breadcrumb__toggle {
+    display: none;
+  }
 }
 .dnb-breadcrumb__collapse {
   display: flex;
