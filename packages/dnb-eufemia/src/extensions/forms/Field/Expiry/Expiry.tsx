@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import { makeUniqueId } from '../../../../shared/component-helper'
+import React, { useCallback, useContext, useMemo } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -43,7 +42,7 @@ function Expiry(props: ExpiryProps) {
   }
 
   const {
-    id: propsId,
+    id,
     className,
     label = translations.expiryLabel,
     error,
@@ -54,7 +53,6 @@ function Expiry(props: ExpiryProps) {
     disabled,
     value = '',
     layout = 'vertical',
-    required,
     ariaAttributes,
     handleFocus,
     handleBlur,
@@ -68,8 +66,6 @@ function Expiry(props: ExpiryProps) {
     year: value?.substring(2, 4) ?? '',
   }
 
-  const idRef = useRef(propsId || makeUniqueId()).current
-
   const status = hasError
     ? 'error'
     : warning
@@ -81,6 +77,9 @@ function Expiry(props: ExpiryProps) {
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-expiry', className)}
+      forId={`${id}-input-month`}
+      label={label}
+      layout={layout}
       info={info}
       warning={warning}
       error={error}
@@ -88,14 +87,11 @@ function Expiry(props: ExpiryProps) {
     >
       <MultiInputMask
         stretch
-        id={`${idRef}__input`}
-        label={label}
-        labelDirection={layout}
+        id={`${id}-input`}
         values={expiry}
         status={status}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
-        required={required}
         onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}

@@ -90,6 +90,7 @@ export type MultiInputMaskProps<T extends string> = {
   SpacingProps
 
 function MultiInputMask<T extends string>({
+  id = makeUniqueId(),
   label,
   labelDirection = 'horizontal',
   inputs,
@@ -155,29 +156,35 @@ function MultiInputMask<T extends string>({
         status_state={statusState}
         suffix={suffix}
         stretch={stretch}
-        input_element={inputs.map((input, index) => (
-          <MultiInputMaskInput
-            key={input.id}
-            {...input}
-            inputMode={inputMode}
-            value={values[input.id]}
-            delimiter={index !== inputs.length - 1 ? delimiter : undefined}
-            onKeyDown={onKeyDown}
-            onChange={onChange}
-            onFocus={() => {
-              if (onFocus) {
-                onFocus(values)
+        input_element={inputs.map(({ id: inputId, ...rest }, index) => {
+          return (
+            <MultiInputMaskInput
+              key={inputId}
+              id={id}
+              inputId={inputId}
+              delimiter={
+                index !== inputs.length - 1 ? delimiter : undefined
               }
-            }}
-            onBlur={() => {
-              if (onBlur) {
-                onBlur(values)
-              }
-            }}
-            disabled={disabled}
-            inputRef={getInputRef}
-          />
-        ))}
+              disabled={disabled}
+              inputMode={inputMode}
+              onKeyDown={onKeyDown}
+              onChange={onChange}
+              onFocus={() => {
+                if (onFocus) {
+                  onFocus(values)
+                }
+              }}
+              onBlur={() => {
+                if (onBlur) {
+                  onBlur(values)
+                }
+              }}
+              getInputRef={getInputRef}
+              {...rest}
+              value={values[inputId]}
+            />
+          )
+        })}
       />
     </WrapperElement>
   )
@@ -195,12 +202,16 @@ function MultiInputMask<T extends string>({
   }
 
   // Utilities
-  function getInputRef(ref: any) {
+  function getInputRef(ref?: {
+    inputRef?: MutableRefObject<HTMLInputElement>
+  }) {
     const inputRef = ref?.inputRef
 
     if (inputRef && !inputRefs.current.includes(inputRef)) {
       inputRefs.current.push(inputRef)
     }
+
+    return inputRef
   }
 
   function getKeysToHandle() {
@@ -238,6 +249,7 @@ function MultiInputMask<T extends string>({
 type MultiInputMaskInputProps<T extends string> =
   MultiInputMaskInput<T> & {
     id: MultiInputMaskInput<T>['id']
+    inputId: MultiInputMaskInput<T>['id']
     label: MultiInputMaskInput<T>['label']
     value: string
     mask: MultiInputMaskInput<T>['mask']
@@ -249,18 +261,19 @@ type MultiInputMaskInputProps<T extends string> =
       id: string,
       placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
     ) => void
-    inputRef: any
+    getInputRef: () => MutableRefObject<HTMLInputElement>
   }
 
 function MultiInputMaskInput<T extends string>({
   id,
+  inputId,
   label,
   value,
   mask,
   placeholderCharacter,
   delimiter,
   disabled,
-  inputRef,
+  getInputRef,
   onKeyDown,
   onChange,
   onBlur,
@@ -268,13 +281,12 @@ function MultiInputMaskInput<T extends string>({
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const shouldHighlight = !disabled && /\w+/.test(value)
-  const markupId = `${id}-${makeUniqueId()}`
 
   return (
     <>
       <TextMask
-        id={`${markupId}__input`}
-        data-mask-id={id}
+        id={`${id}-${inputId}`}
+        data-mask-id={inputId}
         className={classnames(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
@@ -288,8 +300,8 @@ function MultiInputMaskInput<T extends string>({
         guide={true}
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
-        aria-labelledby={`${markupId}__label`}
-        ref={inputRef}
+        aria-labelledby={`${id}-${inputId}__label`}
+        ref={getInputRef}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         onFocus={({ target, ...event }) => {
@@ -302,15 +314,15 @@ function MultiInputMaskInput<T extends string>({
         }}
         onChange={(event) => {
           onChange(
-            id,
+            inputId,
             removePlaceholder(event.target.value, placeholderCharacter)
           )
         }}
         {...attributes}
       />
       <label
-        id={`${markupId}__label`}
-        htmlFor={`${markupId}__input`}
+        id={`${id}-${inputId}__label`}
+        htmlFor={`${id}-${inputId}`}
         hidden
       >
         {label}
