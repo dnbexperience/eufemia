@@ -26,12 +26,28 @@ export function CountCharactersUp() {
   )
 }
 
+export function CountCharactersExceeded() {
+  return (
+    <ComponentBox data-visual-test="text-counter-exceeded">
+      <TextCounter text="test" max={2} />
+    </ComponentBox>
+  )
+}
+
 export function CountCharactersInteractive() {
   return (
     <ComponentBox>
       {() => {
+        const text = 'Count me!'
+        const variant: TextCounterProps['variant'] = 'down'
+        const initialData = {
+          max: 10,
+          variant,
+          text,
+        }
+
         const Counter = () => {
-          const { data } = Form.useData('text-counter-up', initialData)
+          const { data } = Form.useData('text-counter', initialData)
           return (
             <Flex.Stack divider="line">
               <Flex.Vertical spacing="x-small">
@@ -59,15 +75,8 @@ export function CountCharactersInteractive() {
           )
         }
 
-        const variant: TextCounterProps['variant'] = 'down'
-        const initialData = {
-          max: 10,
-          variant,
-          text: 'Count me!',
-        }
-
         return (
-          <Form.Handler id="text-counter-up">
+          <Form.Handler id="text-counter">
             <Counter />
           </Form.Handler>
         )

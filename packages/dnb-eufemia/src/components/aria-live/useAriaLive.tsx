@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { AriaLiveAllProps } from './types'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -37,6 +37,7 @@ const priorityConfig: {
 
 export default function useAriaLive(props: AriaLiveAllProps) {
   const [announcement, setAnnouncement] = useState<React.ReactNode>('')
+  const timeoutRef = useRef(null)
 
   const {
     disabled = false,
@@ -56,21 +57,37 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     priorityConfig[props.priority || 'low']
   )
 
+  const showTextAnnouncement = delay > -1
+
   useEffect(() => {
-    if (delay > -1) {
+    if (showTextAnnouncement) {
       setAnnouncement('')
 
+      const isTest = process.env.NODE_ENV === 'test'
       const timer = setTimeout(
-        () => setAnnouncement(disabled ? '' : children),
-        (process.env.NODE_ENV === 'test' ? 0 : delay) ?? 1000
+        () => {
+          if (!disabled) {
+            setAnnouncement(children)
+          }
+
+          clearTimeout(timeoutRef.current)
+          timeoutRef.current = setTimeout(
+            () => setAnnouncement(''),
+            isTest ? 100 : delay + 1000
+          )
+        },
+        (isTest ? 0 : delay) ?? 1000
       )
 
-      return () => clearTimeout(timer)
+      return () => {
+        clearTimeout(timer)
+        clearTimeout(timeoutRef.current)
+      }
     }
-  }, [disabled, delay, children])
+  }, [delay, children, disabled, showTextAnnouncement])
 
   return {
-    'aria-live': !disabled ? politeness : 'off',
+    'aria-live': disabled && !showTextAnnouncement ? 'off' : politeness,
     'aria-atomic': atomic,
     'aria-relevant': relevant,
     className: classnames(
@@ -78,7 +95,7 @@ export default function useAriaLive(props: AriaLiveAllProps) {
       !showAnnouncement && 'dnb-sr-only',
       className
     ),
-    children: delay > -1 ? announcement : children,
+    children: showTextAnnouncement ? announcement : children,
     ...rest,
   }
 }

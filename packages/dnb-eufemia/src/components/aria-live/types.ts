@@ -1,4 +1,6 @@
 export type AriaLiveProps = {
+  element?: React.ElementType
+
   /**
    * The variant of the announcement. Can be 'text' or 'content'.
    */

@@ -1,6 +1,8 @@
 .dnb-text-counter {
-  &__message {
-    font-size: var(--font-size-small);
+  &.dnb-p {
     color: var(--color-black-55);
+  }
+  &--exceeded.dnb-p {
+    color: var(--color-fire-red);
   }
 }

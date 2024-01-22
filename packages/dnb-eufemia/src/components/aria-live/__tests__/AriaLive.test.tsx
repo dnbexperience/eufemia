@@ -110,6 +110,24 @@ describe('AriaLive', () => {
     expect(element).toHaveAttribute('data-test', 'test-data')
   })
 
+  it('should reset (remove) given message after a while', async () => {
+    render(
+      <AriaLive>
+        <p>Announcement</p>
+      </AriaLive>
+    )
+
+    const element = document.querySelector('.dnb-aria-live')
+
+    await waitFor(() => {
+      expect(element).toHaveTextContent('Announcement')
+    })
+
+    await waitFor(() => {
+      expect(element).toHaveTextContent('')
+    })
+  })
+
   it('should have dnb-sr-only class', () => {
     render(
       <AriaLive>
