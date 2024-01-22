@@ -3,6 +3,33 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.19.0](https://github.com/dnbexperience/eufemia/compare/v10.18.0...v10.19.0) (2024-01-22)
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** replace existing aria-live handling with the AriaLive component  ([#3258](https://github.com/dnbexperience/eufemia/issues/3258)) ([0ec06ca](https://github.com/dnbexperience/eufemia/commit/0ec06cad6f190bcf2ade94685da91160b66bdb01))
+* **Breadcrumb:** fix rehydration disturbance ([#3254](https://github.com/dnbexperience/eufemia/issues/3254)) ([dcf3a8b](https://github.com/dnbexperience/eufemia/commit/dcf3a8b18840114c90dd9b11ed0b7a914c79337a)), closes [#2762](https://github.com/dnbexperience/eufemia/issues/2762) [#2671](https://github.com/dnbexperience/eufemia/issues/2671)
+* **DrawerList:** update original data when data prop changes ([#3247](https://github.com/dnbexperience/eufemia/issues/3247)) ([d1b03c2](https://github.com/dnbexperience/eufemia/commit/d1b03c24b9feb9c616047b89c3ede60d53c11de0))
+* **Field:** show error state without error object if parent FieldBlock has error ([#3225](https://github.com/dnbexperience/eufemia/issues/3225)) ([35fe238](https://github.com/dnbexperience/eufemia/commit/35fe2386d5886ae23fd38636ae7908fb4b530b51)), closes [#2958](https://github.com/dnbexperience/eufemia/issues/2958)
+* **Flex.Container:** ensure rowGap=false has effect ([#3242](https://github.com/dnbexperience/eufemia/issues/3242)) ([e18ddfd](https://github.com/dnbexperience/eufemia/commit/e18ddfda8f204c8292b35bd8dd909ad475111d80))
+* **forms:** rename `contents` to `content` ([#3257](https://github.com/dnbexperience/eufemia/issues/3257)) ([2c9a397](https://github.com/dnbexperience/eufemia/commit/2c9a3975571e5bd8652f0fe40d5d93bebb67db4f))
+* **Input:** should not clear input value with escape key ([#3235](https://github.com/dnbexperience/eufemia/issues/3235)) ([979b3e3](https://github.com/dnbexperience/eufemia/commit/979b3e3306d9e00cabf15cac8ae0c231c86b4c81))
+* **PhoneNumber:** handle pattern, schema and validator with country code ([#3249](https://github.com/dnbexperience/eufemia/issues/3249)) ([ed115d5](https://github.com/dnbexperience/eufemia/commit/ed115d508f58008318a88ff2d0837b9076f3024a))
+* **Table.Accordion:** prevent accordion from opening on label click ([#3228](https://github.com/dnbexperience/eufemia/issues/3228)) ([ee5014f](https://github.com/dnbexperience/eufemia/commit/ee5014fd7eadfa0635cc2abd07ba5cc138bd4b92))
+* **Textarea:** correct outline to be inset ([#3237](https://github.com/dnbexperience/eufemia/issues/3237)) ([6433470](https://github.com/dnbexperience/eufemia/commit/64334705a9b5e947caef97237b114003ce2ee883))
+
+
+### :sparkles: Features
+
+* **AriaLive:** add new component ([#3217](https://github.com/dnbexperience/eufemia/issues/3217)) ([7c79a54](https://github.com/dnbexperience/eufemia/commit/7c79a54539f1b31b69dd312fdf066664c357ec3f))
+* **Flex:** add `line-framed` to divider ([#3244](https://github.com/dnbexperience/eufemia/issues/3244)) ([1aa3338](https://github.com/dnbexperience/eufemia/commit/1aa33382984a168b60d16d19928d12e639da3db4)), closes [#3242](https://github.com/dnbexperience/eufemia/issues/3242) [#3245](https://github.com/dnbexperience/eufemia/issues/3245)
+* **forms:** add labelDescription prop to fields (`labelSecondary` got removed) ([#3251](https://github.com/dnbexperience/eufemia/issues/3251)) ([00c278c](https://github.com/dnbexperience/eufemia/commit/00c278ca73b1e97415942dd1d18a349155d8e018)), closes [#3209](https://github.com/dnbexperience/eufemia/issues/3209) [#3252](https://github.com/dnbexperience/eufemia/issues/3252)
+* **NumberUtils.format:** Only return object if returnAria: true ([#3262](https://github.com/dnbexperience/eufemia/issues/3262)) ([ca4315f](https://github.com/dnbexperience/eufemia/commit/ca4315f604df347a1b81c658eac1a7cc237bac11))
+* **Section:** add support for backgroundColor=transparent ([#3255](https://github.com/dnbexperience/eufemia/issues/3255)) ([07e1545](https://github.com/dnbexperience/eufemia/commit/07e1545aabcd457e62de2f130f3f9b038318f4c7))
+* **Textarea:** add characterCounter ([#3210](https://github.com/dnbexperience/eufemia/issues/3210)) ([5c9dde9](https://github.com/dnbexperience/eufemia/commit/5c9dde938cf6d5eaf6eae3e924a07a48f81a7887)), closes [#3217](https://github.com/dnbexperience/eufemia/issues/3217)
+* **TextCounter:** add new fragment used in Textarea ([#3250](https://github.com/dnbexperience/eufemia/issues/3250)) ([3093c28](https://github.com/dnbexperience/eufemia/commit/3093c28700d6aec7b12de779e53a9b4c475c3cd0)), closes [#3210](https://github.com/dnbexperience/eufemia/issues/3210)
+
 ## [10.18.0](https://github.com/dnbexperience/eufemia/compare/v10.17.0...v10.18.0) (2024-01-16)
 
 
