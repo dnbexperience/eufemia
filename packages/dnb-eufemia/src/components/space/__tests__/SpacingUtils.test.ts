@@ -252,6 +252,48 @@ describe('createSpacingClasses', () => {
     expect(createSpacingClasses({ space: null })).toEqual([])
   })
 
+  it('should handle gracefully the space and top, right, bottom and left prop', () => {
+    expect(createSpacingClasses({ space: 0, left: 'small' })).toEqual([
+      'dnb-space__left--small',
+      'dnb-space__bottom--zero',
+      'dnb-space__right--zero',
+      'dnb-space__top--zero',
+    ])
+    expect(
+      createSpacingClasses({ space: 0, right: 'small small' })
+    ).toEqual([
+      'dnb-space__right--large',
+      'dnb-space__left--zero',
+      'dnb-space__bottom--zero',
+      'dnb-space__top--zero',
+    ])
+    expect(
+      createSpacingClasses({ space: 0, bottom: 'small small small' })
+    ).toEqual([
+      'dnb-space__bottom--x-large',
+      'dnb-space__left--zero',
+      'dnb-space__right--zero',
+      'dnb-space__top--zero',
+    ])
+    expect(createSpacingClasses({ space: 0, top: 'small small' })).toEqual(
+      [
+        'dnb-space__top--large',
+        'dnb-space__left--zero',
+        'dnb-space__bottom--zero',
+        'dnb-space__right--zero',
+      ]
+    )
+    expect(
+      createSpacingClasses({ space: { top: 'small' }, top: 'large' })
+    ).toEqual(['dnb-space__top--large'])
+    expect(
+      createSpacingClasses({
+        space: { right: 'small', left: 0 },
+        right: 'large',
+      })
+    ).toEqual(['dnb-space__right--large', 'dnb-space__left--zero'])
+  })
+
   it('should ignore innerSpace', () => {
     expect(createSpacingClasses({ innerSpace: 'large' })).toEqual([])
   })

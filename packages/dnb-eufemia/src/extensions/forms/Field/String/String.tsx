@@ -8,9 +8,10 @@ import InputMasked, {
 import SharedContext from '../../../../shared/Context'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
+import type { TextCounterProps } from '../../../../fragments/TextCounter'
+import type { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 
 interface ErrorMessages {
   required?: string
@@ -32,6 +33,7 @@ export type Props = FieldHelpProps &
     autoComplete?: HTMLInputElement['autocomplete']
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
+    characterCounter?: Omit<TextCounterProps, 'text'> | number
     mask?: InputMaskedProps['mask']
     // Validation
     minLength?: number
@@ -127,6 +129,7 @@ function StringComponent(props: Props) {
     type,
     placeholder,
     label,
+    labelDescription,
     value,
     info,
     warning,
@@ -140,8 +143,10 @@ function StringComponent(props: Props) {
     clear,
     autoresize = true,
     autoresizeMaxRows = 6,
+    characterCounter,
     mask,
     width,
+    ariaAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -162,12 +167,13 @@ function StringComponent(props: Props) {
     className: cn,
     placeholder: placeholder,
     suffix: help ? (
-      <HelpButton title={help.title}>{help.contents}</HelpButton>
+      <HelpButton title={help.title}>{help.content}</HelpButton>
     ) : undefined,
     on_focus: handleFocus,
     on_blur: handleBlur,
     on_change: handleChange,
-    disabled: disabled,
+    disabled,
+    ...ariaAttributes,
     stretch: width !== undefined,
     inner_ref: innerRef,
     status: hasError ? 'error' : undefined,
@@ -180,12 +186,13 @@ function StringComponent(props: Props) {
       forId={id}
       layout={layout}
       label={label}
+      labelDescription={labelDescription}
       info={info}
       warning={warning}
       disabled={disabled}
       error={error}
       width={width === 'stretch' ? width : undefined}
-      contentsWidth={width !== false ? width : undefined}
+      contentWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
       {multiline ? (
@@ -193,6 +200,7 @@ function StringComponent(props: Props) {
           {...sharedProps}
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
+          characterCounter={characterCounter}
         />
       ) : mask ? (
         <InputMasked

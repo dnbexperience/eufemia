@@ -259,13 +259,6 @@ describe('"processChildren" should', () => {
     expect(res).toMatch(children.join(''))
   })
 
-  it('return a joined string if we send in a children property with an array', () => {
-    const children = ['foo', 'bar', 123]
-    const props = { children }
-    const res = processChildren(props)
-    expect(res).toMatch(children.join(''))
-  })
-
   it('return a joined string if we send in a children property with as a function returning an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children: () => children }
@@ -351,13 +344,13 @@ describe('"dispatchCustomElementEvent" should', () => {
     const eventObject = {}
 
     dispatchCustomElementEvent(instance, 'my_event', eventObject)
-    expect(my_event).toBeCalledTimes(1)
-    expect(myEvent).toBeCalledTimes(1)
+    expect(my_event).toHaveBeenCalledTimes(1)
+    expect(myEvent).toHaveBeenCalledTimes(1)
 
     // dispatchCustomElementEvent(instance, 'my_event', eventObject)
     dispatchCustomElementEvent(instance, 'myEvent', eventObject)
-    expect(my_event).toBeCalledTimes(2)
-    expect(myEvent).toBeCalledTimes(2)
+    expect(my_event).toHaveBeenCalledTimes(2)
+    expect(myEvent).toHaveBeenCalledTimes(2)
   })
 
   it('emit an event and return its event properties, including custom properties', () => {
@@ -376,8 +369,8 @@ describe('"dispatchCustomElementEvent" should', () => {
     const eventObject = { event, data }
     dispatchCustomElementEvent(instance, 'my_event', eventObject)
 
-    expect(my_event).toBeCalledTimes(1)
-    expect(myEvent).toBeCalledTimes(1)
+    expect(my_event).toHaveBeenCalledTimes(1)
+    expect(myEvent).toHaveBeenCalledTimes(1)
 
     const eventResult = {
       data: {
@@ -386,8 +379,8 @@ describe('"dispatchCustomElementEvent" should', () => {
       event,
       isTrusted: false,
     }
-    expect(my_event).toBeCalledWith(eventResult)
-    expect(myEvent).toBeCalledWith(eventResult)
+    expect(my_event).toHaveBeenCalledWith(eventResult)
+    expect(myEvent).toHaveBeenCalledWith(eventResult)
   })
 
   it('call an event and return dataset properties as well "data-*" attributes', () => {

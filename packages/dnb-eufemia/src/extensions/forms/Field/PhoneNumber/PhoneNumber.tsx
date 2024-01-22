@@ -3,10 +3,10 @@ import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
 import countries, { CountryType } from '../../constants/countries'
-import StringComponent, { Props as InputProps } from '../String'
-import { useDataValue } from '../../hooks'
+import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { useDataValue } from '../../hooks'
+import { FieldHelpProps, FieldProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
@@ -22,7 +22,7 @@ export type Props = FieldHelpProps &
     countryCodePlaceholder?: string
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
-    pattern?: InputProps['pattern']
+    pattern?: StringFieldProps['pattern']
     width?: 'large' | 'stretch'
     omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
@@ -103,12 +103,21 @@ function PhoneNumber(props: Props) {
     []
   )
 
+  const schema = useMemo<JSONSchema>(
+    () =>
+      props.schema ?? {
+        type: 'string',
+        pattern: props.pattern,
+      },
+    [props.schema, props.pattern]
+  )
   const defaultProps: Partial<Props> = {
+    schema,
     errorMessages,
   }
   const preparedProps: Props = {
-    ...defaultProps,
     ...props,
+    ...defaultProps,
     validateRequired,
     fromExternal,
     toEvent,
@@ -129,10 +138,10 @@ function PhoneNumber(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     width = 'large',
     help,
-    pattern,
     required,
     validateInitially,
     continuousValidation,
@@ -306,7 +315,7 @@ function PhoneNumber(props: Props) {
             }
             data={dataRef.current}
             value={countryCodeRef.current}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             disabled={disabled}
             on_focus={onFocusHandler}
             on_blur={handleBlur}
@@ -321,7 +330,7 @@ function PhoneNumber(props: Props) {
           />
         )}
 
-        <StringComponent
+        <StringField
           className={classnames(
             'dnb-forms-field-phone-number__number',
             numberFieldClassName
@@ -348,7 +357,6 @@ function PhoneNumber(props: Props) {
           width={omitCountryCodeField ? 'medium' : 'stretch'}
           help={help}
           required={required}
-          pattern={pattern}
           errorMessages={errorMessages}
           validateInitially={validateInitially}
           continuousValidation={continuousValidation}

@@ -167,7 +167,7 @@ describe('Heading component', () => {
       '[h2] Heading #1'
     )
 
-    // expect(warn).toBeCalledTimes(2) // 2 because of StrictMode
+    // expect(warn). toHaveBeenCalledTimes(2) // 2 because of StrictMode
     expect(warn).toHaveBeenCalledWith(
       'Heading levels can only be changed by factor one! Got:',
       3,
@@ -186,7 +186,7 @@ describe('Heading component', () => {
       '[h4] Heading #1'
     )
     // still one time, same as we had earlier
-    expect(warn).toBeCalledTimes(1) // 2 because of StrictMode
+    expect(warn).toHaveBeenCalledTimes(1) // 2 because of StrictMode
   })
 
   it('have to have correct leveling after using setNextLevel', async () => {

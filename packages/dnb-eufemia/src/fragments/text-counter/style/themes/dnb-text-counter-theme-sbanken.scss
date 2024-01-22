@@ -1,0 +1,8 @@
+.dnb-text-counter {
+  &.dnb-p {
+    color: var(--sb-color-gray-dark);
+  }
+  &--exceeded.dnb-p {
+    color: var(--sb-color-red);
+  }
+}

@@ -30,6 +30,7 @@ export interface formatReturnValue {
 }
 export type formatValue = string | number;
 export type formatReturnType = formatReturnValue | formatValue;
+
 export interface formatOptionParams {
   /** can be "auto" */
   locale?: Locale;
@@ -80,10 +81,15 @@ export interface formatOptionParams {
   /** If an object should be returned, including the "aria" property */
   returnAria?: boolean;
 }
-export const format: (
+
+export function format(
+  value: formatValue,
+  options: formatOptionParams & { returnAria: true }
+): formatReturnValue;
+export function format(
   value: formatValue,
   options?: formatOptionParams
-) => formatReturnType;
+): formatValue;
 
 type cleanNumberOptions = {
   decimalSeparator?: string;

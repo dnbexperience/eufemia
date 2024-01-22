@@ -5,3 +5,22 @@ showTabs: true
 ## Description
 
 `StepsLayout` is a wrapper component for showing forms with a StepIndicator for navigation between several steps.
+
+```jsx
+import {
+  StepsLayout,
+  StepsContext,
+  Form,
+} from '@dnb/eufemia/extensions/forms'
+render(
+  <StepsContext.Provider>
+    <StepsLayout.Step>
+      <Form.MainHeading>Heading</Form.MainHeading>
+      <Card>
+        <P>Contents</P>
+      </Card>
+      <StepsLayout.NextButton />
+    </StepsLayout.Step>
+  </StepsContext.Provider>,
+)
+```

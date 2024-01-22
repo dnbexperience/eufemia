@@ -451,6 +451,7 @@ export const prepareDerivedState = (props, state) => {
       state.cache_hash = state.cache_hash + Date.now()
     }
     state.data = getData(props)
+    state.original_data = getData(props)
   }
 
   state.usePortal =

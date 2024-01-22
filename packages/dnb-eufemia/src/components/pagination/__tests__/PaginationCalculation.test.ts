@@ -61,72 +61,72 @@ describe('Pagination calculation helper', () => {
     expect(pages).toEqual([[1], [92, 93, 94, 95, 96, 97, 98, 99, 100]])
   })
 
-  it('should calculate pages 11', () => {
+  it('should calculate pages 12', () => {
     const pages = calculatePagination(1, 1)
     expect(pages).toEqual([[1]])
   })
 
-  it('should calculate pages 11', () => {
+  it('should calculate pages 13', () => {
     const pages = calculatePagination(2, 1)
     expect(pages).toEqual([[1, 2]])
   })
 
-  it('should calculate pages 12', () => {
+  it('should calculate pages 14', () => {
     const pages = calculatePagination(2, 2)
     expect(pages).toEqual([[1, 2]])
   })
 
-  it('should calculate pages 12', () => {
+  it('should calculate pages 15', () => {
     const pages = calculatePagination(3, 2)
     expect(pages).toEqual([[1, 2, 3]])
   })
 
-  it('should calculate pages 13', () => {
+  it('should calculate pages 16', () => {
     const pages = calculatePagination(4, 2)
     expect(pages).toEqual([[1, 2, 3, 4]])
   })
 
-  it('should calculate pages 14', () => {
+  it('should calculate pages 17', () => {
     const pages = calculatePagination(5, 2)
     expect(pages).toEqual([[1, 2, 3, 4, 5]])
   })
 
-  it('should calculate pages 15', () => {
+  it('should calculate pages 18', () => {
     const pages = calculatePagination(3, 3)
     expect(pages).toEqual([[1, 2, 3]])
   })
 
-  it('should calculate pages 16', () => {
+  it('should calculate pages 19', () => {
     const pages = calculatePagination(4, 3)
     expect(pages).toEqual([[1, 2, 3, 4]])
   })
 
-  it('should calculate pages 17', () => {
+  it('should calculate pages 20', () => {
     const pages = calculatePagination(5, 1)
     expect(pages).toEqual([[1, 2, 3, 4, 5]])
   })
 
-  it('should calculate pages 18', () => {
+  it('should calculate pages 21', () => {
     const pages = calculatePagination(6, 1)
     expect(pages).toEqual([[1, 2, 3, 4, 5, 6]])
   })
 
-  it('should calculate pages 19', () => {
+  it('should calculate pages 22', () => {
     const pages = calculatePagination(6, 6)
     expect(pages).toEqual([[1, 2, 3, 4, 5, 6]])
   })
 
-  it('should calculate pages 20', () => {
+  it('should calculate pages 23', () => {
     const pages = calculatePagination(7, 1)
     expect(pages).toEqual([[1, 2, 3, 4, 5, 6, 7]])
   })
 
-  it('should calculate pages 21', () => {
+  it('should calculate pages 24', () => {
     const pages = calculatePagination(7, 7)
     expect(pages).toEqual([[1, 2, 3, 4, 5, 6, 7]])
   })
 
-  it('should calculate pages 22', () => {
+  it('should calculate pages 25', () => {
     const pages = calculatePagination(7, 4)
     expect(pages).toEqual([[1, 2, 3, 4, 5, 6, 7]])
   })
@@ -136,17 +136,17 @@ describe('Pagination calculation helper', () => {
     expect(pages).toEqual([[1, 2, 3, 4], [10]])
   })
 
-  it('(small) should calculate pages 1', () => {
+  it('(small) should calculate pages 2', () => {
     const pages = calculatePagination(10, 1, true)
     expect(pages).toEqual([[1, 2, 3, 4], [10]])
   })
 
-  it('(small) should calculate pages 1', () => {
+  it('(small) should calculate pages 3', () => {
     const pages = calculatePagination(10, 4, true)
     expect(pages).toEqual([[1], [4, 5], [10]])
   })
 
-  it('(small) should calculate pages 1', () => {
+  it('(small) should calculate pages 4', () => {
     const pages = calculatePagination(10, 5, true)
     expect(pages).toEqual([[1], [5, 6], [10]])
   })

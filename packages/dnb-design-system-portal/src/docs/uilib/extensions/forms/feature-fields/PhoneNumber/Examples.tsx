@@ -60,7 +60,7 @@ export const WithHelp = () => {
         onChange={(...args) => console.log('onChange', ...args)}
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
         }}
       />
@@ -105,6 +105,19 @@ export const ValidationRequired = () => {
         label="Label text"
         onChange={(...args) => console.log('onChange', ...args)}
         required
+      />
+    </ComponentBox>
+  )
+}
+
+export const ValidationPattern = () => {
+  return (
+    <ComponentBox>
+      <Field.PhoneNumber
+        value="+47 12345678"
+        label="Label text"
+        onChange={(...args) => console.log('onChange', ...args)}
+        pattern="((?=\\+47)^\\+47 [49]\\d{7}$)|((?!\\+47)^\\+\\d{2} \\d{6})"
       />
     </ComponentBox>
   )

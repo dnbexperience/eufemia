@@ -603,6 +603,7 @@ button.dnb-button::-moz-focus-inner {
   --left: -100vw;
   --width: 100vw;
   --height: 100%;
+  --color-transparent: transparent;
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
 }

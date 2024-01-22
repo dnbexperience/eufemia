@@ -82,7 +82,7 @@ export const WithHelp = () => {
         label="Label text"
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'Here is what a team can do for you. . . . It allows you to help others do their best.',
         }}
         onChange={(value) => console.log('onChange', value)}
@@ -115,8 +115,18 @@ export const Widths = () => {
           value={1234}
         />
         <Field.Number label="Small" value={1234} width="small" />
-        <Field.Number label="Medium" value={1234} width="medium" />
-        <Field.Number label="Large" value={1234} width="large" />
+        <Field.Number
+          label="Medium (and medium size)"
+          value={1234}
+          width="medium"
+          size="medium"
+        />
+        <Field.Number
+          label="Large (and large size)"
+          value={1234}
+          width="large"
+          size="large"
+        />
         <Field.Number label="Stretch" value={1234} width="stretch" />
         <Form.SubHeading>With step controls</Form.SubHeading>
         <Field.Number
@@ -132,15 +142,17 @@ export const Widths = () => {
         />
         <Field.Number
           showStepControls
-          label="Medium"
+          label="Medium (and medium size)"
           value={1234}
           width="medium"
+          size="medium"
         />
         <Field.Number
           showStepControls
-          label="Large"
+          label="Large (and large size)"
           value={1234}
           width="large"
+          size="large"
         />
         <Field.Number
           showStepControls

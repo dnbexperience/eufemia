@@ -2,11 +2,11 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import OrganizationNumber from '../OrganizationNumber'
+import { Field } from '../../..'
 
 describe('Field.OrganizationNumber', () => {
   it('should have Norwegian mask', async () => {
-    render(<OrganizationNumber />)
+    render(<Field.OrganizationNumber />)
 
     const element = document.querySelector('input')
     await userEvent.type(element, '123456789')
@@ -14,7 +14,7 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should have medium width', () => {
-    render(<OrganizationNumber />)
+    render(<Field.OrganizationNumber />)
 
     const element = document.querySelector(
       '.dnb-forms-field-block__contents'
@@ -25,14 +25,14 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should have disabled autocomplete', () => {
-    render(<OrganizationNumber />)
+    render(<Field.OrganizationNumber />)
 
     const element = document.querySelector('input')
     expect(element.autocomplete).toBe('off')
   })
 
   it('should link for and label', () => {
-    render(<OrganizationNumber />)
+    render(<Field.OrganizationNumber />)
 
     const labelElement = document.querySelector('label')
     const inputElement = document.querySelector('input')
@@ -43,23 +43,41 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should have default label', () => {
-    render(<OrganizationNumber />)
+    render(<Field.OrganizationNumber />)
 
     const element = document.querySelector('label')
     expect(element.textContent).toBe('Organisasjonsnummer')
   })
 
   it('should have numeric input mode', () => {
-    render(<OrganizationNumber />)
+    render(<Field.OrganizationNumber />)
 
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<OrganizationNumber value="12345678" />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.OrganizationNumber required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.OrganizationNumber required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.OrganizationNumber required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

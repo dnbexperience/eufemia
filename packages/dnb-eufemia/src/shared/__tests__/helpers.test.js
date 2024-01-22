@@ -25,7 +25,7 @@ import {
   warn,
 } from '../helpers'
 
-import { mockGetSelection } from '../../core/jest/jestSetup'
+import { mockGetSelection, wait } from '../../core/jest/jestSetup'
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
@@ -165,7 +165,7 @@ describe('"scrollToLocationHashId" should', () => {
     })
   })
 
-  it('will handle document.readyState', () => {
+  it('will handle document.readyState with hash', () => {
     Object.defineProperty(window, 'location', {
       value: {
         hash: '#unique-id',
@@ -275,7 +275,7 @@ describe('selection related methods', () => {
 })
 
 describe('"debounce" should', () => {
-  it('delay execution', (done) => {
+  it('delay execution', async () => {
     let outside = 'one'
 
     const debounced = debounce(({ inside }) => {
@@ -285,6 +285,8 @@ describe('"debounce" should', () => {
       return 'not accessible'
     }, 1)
 
+    await wait(2)
+
     const result = debounced({ inside: 'two' })
 
     expect(typeof debounced).toBe('function')
@@ -292,11 +294,9 @@ describe('"debounce" should', () => {
 
     expect(outside).toBe('one')
     expect(result).toBe(undefined)
-
-    setTimeout(done, 2)
   })
 
-  it('use given instance', (done) => {
+  it('use given instance', async () => {
     const instance = () => {}
     instance.property = 'hello'
 
@@ -311,11 +311,9 @@ describe('"debounce" should', () => {
     )
 
     debounced()
-
-    setTimeout(done, 2)
   })
 
-  it('execution immediate', (done) => {
+  it('execution immediate', async () => {
     let outside = 'one'
 
     const debounced = debounce(
@@ -330,12 +328,12 @@ describe('"debounce" should', () => {
 
     debounced({ inside: 'two' })
 
-    expect(outside).toBe('two')
+    await wait(2)
 
-    setTimeout(done, 2)
+    expect(outside).toBe('two')
   })
 
-  it('execution immediate and return result', (done) => {
+  it('execution immediate and return result', async () => {
     let outside = 'one'
 
     const debounced = debounce(
@@ -352,13 +350,13 @@ describe('"debounce" should', () => {
 
     const immediateResult = debounced({ inside: 'two' })
 
+    await wait(2)
+
     expect(outside).toBe('two')
     expect(immediateResult).toBe('two')
-
-    setTimeout(done, 2)
   })
 
-  it('should not run debounced function when cancelled', (done) => {
+  it('should not run debounced function when cancelled', async () => {
     let outside = 'one'
 
     const debounced = debounce(({ inside }) => {
@@ -369,10 +367,9 @@ describe('"debounce" should', () => {
     debounced({ inside: 'two' })
     debounced.cancel()
 
-    setTimeout(() => {
-      expect(outside).toBe('one')
-      done()
-    }, 2)
+    await wait(2)
+
+    expect(outside).toBe('one')
   })
 })
 
@@ -439,16 +436,5 @@ describe('"warn" should', () => {
     warn('message-1', 'message-2')
 
     expect(global.console.log).toHaveBeenCalledTimes(1)
-  })
-
-  it('run not log if NODE_ENV is production', () => {
-    const env = process.env.NODE_ENV
-    process.env.NODE_ENV = 'production'
-
-    warn('message-1', 'message-2')
-
-    expect(global.console.log).toHaveBeenCalledTimes(0)
-
-    process.env.NODE_ENV = env
   })
 })

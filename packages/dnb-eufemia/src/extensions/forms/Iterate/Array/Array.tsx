@@ -36,6 +36,7 @@ function ArrayComponent(props: Props) {
     layout = 'vertical',
     placeholder,
     label,
+    labelDescription,
     path,
     value: arrayValue,
     info,
@@ -79,11 +80,12 @@ function ArrayComponent(props: Props) {
       className={classnames('dnb-forms-field-number', className)}
       layout={layout}
       label={label}
+      labelDescription={labelDescription}
       info={info}
       warning={warning}
       error={error}
       width={width}
-      contentsWidth={width !== false ? width : undefined}
+      contentWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
       <Flex.Container

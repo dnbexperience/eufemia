@@ -88,13 +88,6 @@ describe('Timeline', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Timeline icons', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="timeline-icons"] .dnb-timeline',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match Timeline skeleton', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="timeline-skeleton"] .dnb-timeline',

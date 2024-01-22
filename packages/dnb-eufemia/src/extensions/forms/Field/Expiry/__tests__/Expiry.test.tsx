@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../..'
+import { Field, FormError, FieldBlock } from '../../..'
 
 describe('Field.Expiry', () => {
   beforeEach(() => {
@@ -100,7 +100,7 @@ describe('Field.Expiry', () => {
 
     await userEvent.keyboard('1235')
 
-    expect(onChange).toBeCalledTimes(4)
+    expect(onChange).toHaveBeenCalledTimes(4)
     expect(onChange).toHaveBeenLastCalledWith('1235')
   })
 
@@ -295,7 +295,7 @@ describe('Field.Expiry', () => {
 
       expect(inputWrapper.classList).toContain('dnb-input__status--error')
       expect(formStatusText).toBeInTheDocument()
-      expect(formStatusText).toHaveTextContent('The value is required')
+      expect(formStatusText).toHaveTextContent('Du må angi en gyldig dato')
 
       await userEvent.type(input, '12')
 
@@ -306,9 +306,50 @@ describe('Field.Expiry', () => {
     })
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.Expiry />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Expiry label="Label" required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.Expiry required />)
+
+      const [month, year] = Array.from(document.querySelectorAll('input'))
+      expect(month).toHaveAttribute('aria-required', 'true')
+      expect(year).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Expiry required validateInitially />)
+
+      const [month, year] = Array.from(document.querySelectorAll('input'))
+      expect(month).toHaveAttribute('aria-invalid', 'true')
+      expect(year).toHaveAttribute('aria-invalid', 'true')
+    })
+  })
+
+  it('renders error', () => {
+    render(<Field.Expiry error={new FormError('Error message')} />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Error message')
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  it('shows error style in FieldBlock', () => {
+    render(
+      <FieldBlock>
+        <Field.Expiry error={new FormError('Error message')} />
+      </FieldBlock>
+    )
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).toHaveClass('dnb-input__status--error')
   })
 })

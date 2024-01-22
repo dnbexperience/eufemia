@@ -11,6 +11,7 @@ export type Props = Pick<
   | keyof ComponentProps
   | 'layout'
   | 'label'
+  | 'labelDescription'
   | 'info'
   | 'warning'
   | 'error'
@@ -24,7 +25,7 @@ export type Props = Pick<
   /** Width of outer block element */
   width?: false | 'small' | 'medium' | 'large' | 'stretch'
   /** Width of contents block, while label etc can be wider if space is available */
-  contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
+  contentWidth?: 'small' | 'medium' | 'large' | 'stretch'
   /** Typography size */
   size?: 'medium' | 'large'
 } & React.HTMLAttributes<HTMLDivElement>
@@ -37,13 +38,14 @@ function FieldBlock(props: Props) {
     forId,
     layout = 'vertical',
     label,
+    labelDescription,
     asFieldset,
     info,
     warning,
     error: errorProp,
     disabled,
     width,
-    contentsWidth,
+    contentWidth,
     size,
     contentClassName,
     children,
@@ -164,13 +166,30 @@ function FieldBlock(props: Props) {
         {...rest}
       >
         <div className={gridClasses}>
-          {label && <FormLabel {...labelProps}>{label}</FormLabel>}
+          {labelDescription ? (
+            <div className="dnb-forms-field-block__label">
+              {label || labelDescription ? (
+                <FormLabel {...labelProps}>
+                  {label}
+                  {labelDescription && (
+                    <span className="dnb-forms-field-block__label-description">
+                      {labelDescription}
+                    </span>
+                  )}
+                </FormLabel>
+              ) : (
+                <>&nbsp;</>
+              )}
+            </div>
+          ) : (
+            label && <FormLabel {...labelProps}>{label}</FormLabel>
+          )}
 
           <div
             className={classnames(
               'dnb-forms-field-block__contents',
-              contentsWidth !== undefined &&
-                `dnb-forms-field-block__contents--width-${contentsWidth}`,
+              contentWidth !== undefined &&
+                `dnb-forms-field-block__contents--width-${contentWidth}`,
               contentClassName
             )}
           >

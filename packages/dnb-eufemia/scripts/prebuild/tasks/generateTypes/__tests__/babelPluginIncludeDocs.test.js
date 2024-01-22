@@ -98,7 +98,7 @@ describe('babelPluginIncludeDocs', () => {
 
     expect(code).toMatchSnapshot()
 
-    expect(onComplete).toBeCalledTimes(1)
+    expect(onComplete).toHaveBeenCalledTimes(1)
     expect(collectProps).toMatchSnapshot()
   })
 })

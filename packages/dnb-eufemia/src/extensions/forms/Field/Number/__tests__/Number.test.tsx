@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../../'
+import { Field, FormError, FieldBlock } from '../../..'
 
 describe('Field.Number', () => {
   describe('props', () => {
@@ -109,6 +109,20 @@ describe('Field.Number', () => {
       render(<Field.Number error={new Error('This is what went wrong')} />)
       const element = document.querySelector('.dnb-input')
       expect(element.className).toContain('dnb-input__status--error')
+    })
+
+    it('shows error style in FieldBlock', () => {
+      const errorMessage = new FormError('Error message')
+      render(
+        <FieldBlock>
+          <Field.Number error={errorMessage} />
+        </FieldBlock>
+      )
+
+      const input = document.querySelector(
+        '.dnb-forms-field-number__input'
+      )
+      expect(input).toHaveClass('dnb-input__status--error')
     })
 
     it('formats with given thousandSeparator', () => {
@@ -388,29 +402,68 @@ describe('Field.Number', () => {
       expect(increaseButton).toHaveAttribute('aria-hidden', 'true')
     })
 
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Number
+            label="Label"
+            showStepControls
+            value={5}
+            maximum={20}
+            minimum={10}
+            step={5}
+            required
+            validateInitially
+          />
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.Number showStepControls required />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Number
+            showStepControls
+            value={1}
+            minimum={2}
+            validateInitially
+          />
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
+  })
+
+  describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.Number
-          label="Label"
-          showStepControls
-          value={5}
-          maximum={20}
-          minimum={10}
-          step={5}
-          required
-          validateInitially
-        />
+        <Field.Number label="Label" required validateInitially />
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
-  })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(
-      <Field.Number label="Label" required validateInitially />
-    )
+    it('should have aria-required', () => {
+      render(<Field.Number required />)
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Number value={1} minimum={2} validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

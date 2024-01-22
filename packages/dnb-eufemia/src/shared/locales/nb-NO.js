@@ -1,5 +1,11 @@
 export default {
   'nb-NO': {
+    TextCounter: {
+      characterDown: '%count av %max tegn gjenstår',
+      characterUp: 'Du har brukt %count av %max tegn',
+      characterExceeded:
+        'Du har brukt %count tegn mer enn maksgrensen på %max',
+    },
     TimelineItem: {
       alt_label_completed: 'Utført',
       alt_label_current: 'Nåværende',
@@ -179,6 +185,7 @@ export default {
       selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',
+      dateErrorRequired: 'Du må angi en gyldig dato',
       expiryLabel: 'Utløpsdato',
       emailErrorRequired: 'Du må fylle inn e-post',
       emailErrorPattern: 'Dette er ikke en gyldig e-postadresse',

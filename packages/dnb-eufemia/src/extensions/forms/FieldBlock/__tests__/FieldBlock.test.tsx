@@ -116,6 +116,22 @@ describe('FieldBlock', () => {
     expect(labelElement.textContent).toBe('A Label')
   })
 
+  it('should render a "labelDescription"', () => {
+    render(
+      <FieldBlock labelDescription="A Label Description">
+        content
+      </FieldBlock>
+    )
+
+    const labelElement = document.querySelector('label')
+
+    expect(labelElement).toBeInTheDocument()
+    expect(labelElement.className).toBe(
+      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+    )
+    expect(labelElement.textContent).toBe('A Label Description')
+  })
+
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
       const fromInput = React.useCallback(({ value }) => value, [])
@@ -198,7 +214,7 @@ describe('FieldBlock', () => {
     expect(labelElements[4]).toBe(undefined)
   })
 
-  it('should use fieldset/legend elements when nested component has a label property', () => {
+  it('should use fieldset/legend elements when several components have a label property', () => {
     const { rerender } = render(
       <FieldBlock label="Legend">
         <MockComponent label="Label" />
@@ -347,9 +363,9 @@ describe('FieldBlock', () => {
     )
   })
 
-  it('should support "contentsWidth" property', () => {
+  it('should support "contentWidth" property', () => {
     const { rerender } = render(
-      <FieldBlock contentsWidth="medium">content</FieldBlock>
+      <FieldBlock contentWidth="medium">content</FieldBlock>
     )
 
     const element = document.querySelector(
@@ -360,7 +376,7 @@ describe('FieldBlock', () => {
       'dnb-forms-field-block__contents--width-medium'
     )
 
-    rerender(<FieldBlock contentsWidth="large">content</FieldBlock>)
+    rerender(<FieldBlock contentWidth="large">content</FieldBlock>)
 
     expect(element.classList).toContain(
       'dnb-forms-field-block__contents--width-large'

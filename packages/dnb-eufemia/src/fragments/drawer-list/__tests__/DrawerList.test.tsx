@@ -9,6 +9,7 @@ import { act, render, screen, waitFor } from '@testing-library/react'
 import DrawerList, {
   DrawerListProps,
   DrawerListDataObjectUnion,
+  DrawerListData,
 } from '../DrawerList'
 
 import {
@@ -357,7 +358,7 @@ describe('DrawerList component', () => {
     keydown(32) // space
 
     await waitFor(() => {
-      expect(on_change).toBeCalledTimes(0)
+      expect(on_change).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -475,9 +476,67 @@ describe('DrawerList component', () => {
     // then open again
     keydown(32) // space
     await waitFor(() => {
-      expect(on_change).toBeCalledTimes(1)
-      expect(on_select).toBeCalledTimes(2)
+      expect(on_change).toHaveBeenCalledTimes(1)
+      expect(on_select).toHaveBeenCalledTimes(2)
     })
+  })
+
+  it('should update and correctly set selected item on data prop change', () => {
+    const data: Record<string, DrawerListData> = {
+      first: [
+        { selected_key: 'key_1', content: 'Content 1' },
+        { selected_key: 'key_2', content: 'Content 2' },
+        { selected_key: 'key_3', content: 'Content 3' },
+      ],
+      second: [
+        { selected_key: 'key_4', content: 'Content 4' },
+        { selected_key: 'key_5', content: 'Content 5' },
+      ],
+      third: [
+        { selected_key: 'key_6', content: 'Content 6' },
+        { selected_key: 'key_7', content: 'Content 7' },
+        { selected_key: 'key_8', content: 'Content 8' },
+      ],
+    }
+
+    const getSelectedItem = () =>
+      document.querySelector('.dnb-drawer-list__option--selected')
+
+    const { rerender } = render(
+      <DrawerList
+        opened
+        no_animation
+        data={data.first}
+        value={data.first[0].selected_key}
+        {...mockProps}
+      />
+    )
+
+    expect(getSelectedItem()).toHaveTextContent('Content 1')
+
+    rerender(
+      <DrawerList
+        opened
+        no_animation
+        data={data.second}
+        value={data.second[1].selected_key}
+        {...mockProps}
+      />
+    )
+
+    expect(getSelectedItem()).toHaveTextContent('Content 5')
+
+    rerender(
+      <DrawerList
+        opened
+        no_animation
+        data={data.third}
+        value={data.third[2].selected_key}
+        {...mockProps}
+      />
+    )
+
+    expect(getSelectedItem()).toHaveTextContent('Content 8')
   })
 
   it('has to return all additional attributes the event return', () => {

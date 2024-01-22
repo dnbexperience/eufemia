@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
-import Option from '../Option'
+import OptionField from '../Option'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { FieldProps } from '../../types'
@@ -28,6 +28,7 @@ function ArraySelection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     label,
+    labelDescription,
     value,
     error,
     hasError,
@@ -52,6 +53,7 @@ function ArraySelection(props: Props) {
     error,
     layout,
     label,
+    labelDescription,
     ...pickSpacingProps(props),
   }
 
@@ -59,7 +61,8 @@ function ArraySelection(props: Props) {
     () =>
       React.Children.toArray(children)
         .filter(
-          (child) => React.isValidElement(child) && child.type === Option
+          (child) =>
+            React.isValidElement(child) && child.type === OptionField
         )
         .map((option: React.ReactElement) => ({
           title: option.props.title ?? option.props.children,

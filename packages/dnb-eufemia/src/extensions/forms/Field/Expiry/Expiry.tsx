@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import { makeUniqueId } from '../../../../shared/component-helper'
+import React, { useCallback, useContext, useMemo } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -43,17 +42,19 @@ function Expiry(props: ExpiryProps) {
   }
 
   const {
-    id: propsId,
+    id,
     className,
     label = translations.expiryLabel,
     error,
+    hasError,
     info,
     warning,
     help,
     disabled,
     value = '',
+    labelDescription,
     layout = 'vertical',
-    required,
+    ariaAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -66,13 +67,21 @@ function Expiry(props: ExpiryProps) {
     year: value?.substring(2, 4) ?? '',
   }
 
-  const idRef = useRef(propsId || makeUniqueId()).current
-
-  const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
+  const status = hasError
+    ? 'error'
+    : warning
+    ? 'warn'
+    : info
+    ? 'info'
+    : null
 
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-expiry', className)}
+      forId={`${id}-input-month`}
+      label={label}
+      layout={layout}
+      labelDescription={labelDescription}
       info={info}
       warning={warning}
       error={error}
@@ -80,14 +89,11 @@ function Expiry(props: ExpiryProps) {
     >
       <MultiInputMask
         stretch
-        id={`${idRef}__input`}
-        label={label}
-        labelDirection={layout}
+        id={`${id}-input`}
         values={expiry}
         status={status}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
-        required={required}
         onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
@@ -100,6 +106,7 @@ function Expiry(props: ExpiryProps) {
             mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
+            ...ariaAttributes,
           },
           {
             id: 'year',
@@ -107,11 +114,12 @@ function Expiry(props: ExpiryProps) {
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
             autoComplete: 'cc-exp-year',
+            ...ariaAttributes,
           },
         ]}
         suffix={
           help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
+            <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
       />

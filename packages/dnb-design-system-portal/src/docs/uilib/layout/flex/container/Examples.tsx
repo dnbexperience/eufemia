@@ -219,3 +219,30 @@ export const WrappedWithChildren = () => {
     </ComponentBox>
   )
 }
+
+export const FramedLineDividers = () => {
+  return (
+    <ComponentBox
+      scope={{ TestElement }}
+      data-visual-test="flex-container-line-framed"
+      background="white" // will be enabled in related PR
+    >
+      {() => {
+        const Item = () => (
+          <Flex.Stack divider="line-framed" spacing="x-small">
+            <TestElement>FlexItem</TestElement>
+            <TestElement>FlexItem</TestElement>
+          </Flex.Stack>
+        )
+
+        return (
+          <Flex.Horizontal rowGap={false}>
+            <Item />
+            <Item />
+            <Item />
+          </Flex.Horizontal>
+        )
+      }}
+    </ComponentBox>
+  )
+}

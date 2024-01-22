@@ -180,13 +180,16 @@ function NumberComponent(props: Props) {
     layout,
     placeholder,
     label,
+    labelDescription,
     value,
     minimum = Number.MIN_SAFE_INTEGER,
     maximum = Number.MAX_SAFE_INTEGER,
     disabled,
+    ariaAttributes,
     info,
     warning,
     error,
+    hasError,
     help,
     size,
     width,
@@ -228,17 +231,18 @@ function NumberComponent(props: Props) {
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
       disabled && 'dnb-forms-field-number__contents--is-disabled',
-      error && 'dnb-forms-field-number__contents--has-error'
+      hasError && 'dnb-forms-field-number__contents--has-error'
     ),
     forId: id,
     layout,
     label,
+    labelDescription,
     info,
     warning,
     error,
     disabled,
     width: width === 'stretch' ? width : undefined,
-    contentsWidth: width !== false ? width : undefined,
+    contentWidth: width !== false ? width : undefined,
     ...pickSpacingProps(props),
   }
 
@@ -247,7 +251,7 @@ function NumberComponent(props: Props) {
     className: 'dnb-button--control-after',
     variant: 'secondary',
     icon: 'add',
-    size: convertInputSizeToButtonSize(size),
+    size: (size || 'small') as ButtonSize,
     tabIndex: -1,
     disabled: disabled || value >= maximum,
     onClick: () => {
@@ -265,6 +269,7 @@ function NumberComponent(props: Props) {
     ...increaseProps,
     className: 'dnb-button--control-before',
     icon: 'subtract',
+    size: (size || 'small') as ButtonSize,
     disabled: disabled || value <= minimum,
     onClick: () => {
       handleChange({
@@ -304,11 +309,12 @@ function NumberComponent(props: Props) {
     onBlur: handleBlur,
     onChange: handleChange,
     disabled,
-    status: error ? 'error' : undefined,
+    ...ariaAttributes,
+    status: hasError ? 'error' : undefined,
     stretch: width !== undefined,
     suffix:
       help && !showStepControls ? (
-        <HelpButton title={help.title}>{help.contents}</HelpButton>
+        <HelpButton title={help.title}>{help.content}</HelpButton>
       ) : undefined,
     ...ariaParams,
   }
@@ -319,20 +325,10 @@ function NumberComponent(props: Props) {
       <InputMasked {...inputProps} />
       {showStepControls && <Button {...increaseProps} />}
       {help && showStepControls && (
-        <HelpButton title={help.title}>{help.contents}</HelpButton>
+        <HelpButton title={help.title}>{help.content}</HelpButton>
       )}
     </FieldBlock>
   )
-}
-
-const convertInputSizeToButtonSize = (
-  inputSize: InputSize
-): ButtonSize => {
-  const buttonSize =
-    ['small', 'medium', 'large'].indexOf(inputSize as string) > -1
-      ? inputSize
-      : 'medium'
-  return buttonSize as ButtonSize
 }
 
 NumberComponent._supportsSpacingProps = true

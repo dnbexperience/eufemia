@@ -1,0 +1,60 @@
+## Quick start
+
+Field components can be used directly as they are, for example `Field.Email`:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Email />)
+```
+
+By building an entire form with components from Eufemia and Eufemia Forms, you save time and code:
+
+```jsx
+import { Card } from '@dnb/eufemia'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler
+    data={existingData}
+    onChange={...}
+    onSubmit={...}
+  >
+    <Card spacing="medium">
+      <Field.String
+        path="/companyName"
+        label="Bedriftens navn"
+        required
+      />
+      <Field.OrganizationNumber
+        path="/companyOrganizationNumber"
+        required
+      />
+      <Field.Selection
+        path="/postalAddressSelect"
+        label="Ønsket sted for tilsendt post"
+        variant="radio"
+      >
+        <Field.Option value="companyAddress" title="Samme som forretningsadresse" />
+        <Field.Option value="other" title="Annet" />
+      </Field.Selection>
+    </Card>
+  </Form.Handler>
+)
+```
+
+Use the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook to access or modify your form data outside of the form context within your application:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+function Component() {
+  const { data, update } = Form.useData('unique')
+
+  return (
+    <Form.Handler
+      id="unique"
+      ...
+    >
+      ...
+    </Form.Handler>
+  )
+}
+```

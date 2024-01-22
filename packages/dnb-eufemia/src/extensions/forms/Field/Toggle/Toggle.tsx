@@ -28,12 +28,15 @@ function Toggle(props: Props) {
     variant,
     disabled,
     label,
+    labelDescription,
     textOn,
     textOff,
     value,
     info,
     warning,
     error,
+    hasError,
+    ariaAttributes,
     handleChange,
   } = useDataValue(props)
 
@@ -66,6 +69,7 @@ function Toggle(props: Props) {
     ...fieldBlockPropsWithoutLabel,
     layout,
     label,
+    labelDescription,
     disabled,
   }
 
@@ -83,8 +87,9 @@ function Toggle(props: Props) {
             label={label}
             checked={isOn}
             disabled={disabled}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             on_change={handleCheckboxChange}
+            {...ariaAttributes}
             {...pickSpacingProps(props)}
           />
         </FieldBlock>
@@ -101,9 +106,10 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
+            {...ariaAttributes}
           />
         </FieldBlock>
       )
@@ -115,7 +121,7 @@ function Toggle(props: Props) {
               value={{
                 value: isOn ? 'on' : isOff ? 'off' : undefined,
                 onChange: handleToggleChange,
-                status: error ? 'error' : undefined,
+                status: hasError ? 'error' : undefined,
                 disabled,
               }}
             >
@@ -124,12 +130,14 @@ function Toggle(props: Props) {
                   textOn ?? sharedContext?.translation.Forms.booleanYes
                 }
                 value="on"
+                {...ariaAttributes}
               />
               <ToggleButton
                 text={
                   textOff ?? sharedContext?.translation.Forms.booleanNo
                 }
                 value="off"
+                {...ariaAttributes}
               />
             </ToggleButtonGroupContext.Provider>
           </ButtonRow>
@@ -148,9 +156,10 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
-            status={error ? 'error' : undefined}
+            status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
+            {...ariaAttributes}
           />
         </FieldBlock>
       )

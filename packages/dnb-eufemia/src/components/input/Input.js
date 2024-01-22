@@ -316,9 +316,6 @@ export default class Input extends React.PureComponent {
     if (event.key === 'Enter') {
       dispatchCustomElementEvent(this, 'on_submit', { value, event })
     }
-    if (isTrue(this.props.clear) && event.key === 'Escape') {
-      this.clearValue(event)
-    }
   }
   clearValue = (event) => {
     const previousValue = this.state.value

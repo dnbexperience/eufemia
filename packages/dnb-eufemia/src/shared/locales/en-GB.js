@@ -1,5 +1,11 @@
 export default {
   'en-GB': {
+    TextCounter: {
+      characterDown: '%count of %max characters remaining',
+      characterUp: 'You have used %count of %max characters',
+      characterExceeded:
+        'You have exceeded the limit by %count on %max characters',
+    },
     TimelineItem: {
       alt_label_completed: 'Complete',
       alt_label_current: 'Current',
@@ -181,6 +187,7 @@ export default {
       selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
+      dateErrorRequired: 'Du må angi en gyldig dato',
       expiryLabel: 'Expiry date',
       emailErrorRequired: 'You must enter an email',
       emailErrorPattern: 'This is not a valid email address',
@@ -205,8 +212,8 @@ export default {
       phoneNumberLabel: 'Mobile number',
       phoneNumberErrorRequired: 'You must enter a valid number',
       postalCodeLabel: 'Postalc.',
-      postalCodeErrorRequired: 'You must enter a postal code',
-      postalCodeErrorPattern: 'This is not a valid postal code',
+      postalCodeErrorRequired: 'You must enter a postcode',
+      postalCodeErrorPattern: 'This is not a valid postcode',
       cityLabel: 'City',
       cityErrorRequired: 'You must enter a city',
       selectCountryLabel: 'Country',

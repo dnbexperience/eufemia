@@ -58,7 +58,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('08122023')
 
-    expect(onChange).toBeCalledTimes(8)
+    expect(onChange).toHaveBeenCalledTimes(8)
     expect(onChange.mock.calls[0][0]).toEqual({
       day: '0',
       month: '',
@@ -107,39 +107,39 @@ describe('MultiInputMask', () => {
   })
 
   it('render inputs based on inputs prop', () => {
-    render(<MultiInputMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} id="given-id" />)
 
     const [first, second, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    expect(first.id).toMatch(new RegExp(/^day-id-\w+__input/))
+    expect(first.id).toBe('given-id-day')
     expect(first.tagName).toBe('INPUT')
 
-    expect(second.id).toMatch(new RegExp(/^month-id-\w+__input/))
+    expect(second.id).toBe('given-id-month')
     expect(second.tagName).toBe('INPUT')
 
-    expect(third.id).toMatch(new RegExp(/^year-id-\w+__input/))
+    expect(third.id).toBe('given-id-year')
     expect(third.tagName).toBe('INPUT')
   })
 
   it('should apply labels to input inputs', () => {
-    render(<MultiInputMask {...defaultProps} />)
+    render(<MultiInputMask {...defaultProps} id="given-id" />)
 
     const [first, second, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
     expect(first.nextElementSibling).toHaveTextContent('the day')
-    expect(first.labels[0].id).toMatch(new RegExp(/^day-id-\w+__label/))
+    expect(first.labels[0].id).toBe('given-id-day__label')
     expect(first.nextElementSibling.tagName).toBe('LABEL')
 
     expect(second.nextElementSibling).toHaveTextContent('the month')
-    expect(second.labels[0].id).toMatch(new RegExp(/^month-id-\w+__label/))
+    expect(second.labels[0].id).toBe('given-id-month__label')
     expect(second.nextElementSibling.tagName).toBe('LABEL')
 
     expect(third.nextElementSibling).toHaveTextContent('the year')
-    expect(third.labels[0].id).toMatch(new RegExp(/^year-id-\w+__label/))
+    expect(third.labels[0].id).toBe('given-id-year__label')
     expect(third.nextElementSibling.tagName).toBe('LABEL')
   })
 
@@ -240,7 +240,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('11223333')
 
-    expect(onChange).toBeCalledTimes(8)
+    expect(onChange).toHaveBeenCalledTimes(8)
     expect(Object.keys(onChange.mock.calls[7][0])).toEqual([
       'day',
       'month',
@@ -295,7 +295,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('fst')
 
-    expect(onChange).toBeCalledTimes(3)
+    expect(onChange).toHaveBeenCalledTimes(3)
 
     const onChangeParamKeys = Object.keys(onChange.mock.calls[2][0])
     const valueKeys = Object.keys(values)

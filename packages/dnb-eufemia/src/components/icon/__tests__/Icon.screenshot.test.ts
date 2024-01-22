@@ -62,6 +62,7 @@ describe('Icon', () => {
   })
 })
 
+// eslint-disable-next-line jest/no-identical-title
 describe('Icon', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/visual-tests',

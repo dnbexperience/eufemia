@@ -349,12 +349,7 @@ describe('Autocomplete component', () => {
 
   it('should update aria-live with results', async () => {
     render(
-      <Autocomplete
-        data={mockData}
-        show_submit_button
-        ariaLiveDelay={1}
-        {...mockProps}
-      />
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
 
     const inputElement = document.querySelector('.dnb-input__input')
@@ -482,7 +477,7 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('should update aria-live (for VoiceOver support) with selected item', () => {
+  it('should update aria-live (for VoiceOver support) with selected item', async () => {
     Object.defineProperty(helpers, 'IS_MAC', {
       value: true,
     })
@@ -493,46 +488,54 @@ describe('Autocomplete component', () => {
 
     toggle()
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('')
+    expect(document.querySelector('.dnb-aria-live').textContent).toBe('')
 
     // simulate changes
     keyDownOnInput(40) // down
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('AA c')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
+        'AA c'
+      )
+    })
 
     // simulate changes
     keyDownOnInput(40) // down
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('BB cc zethx')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
+        'BB cc zethx'
+      )
+    })
 
     // simulate changes
     keyDownOnInput(40) // down
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('CCcc')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
+        'CCcc'
+      )
+    })
 
     act(() => {
       dispatchKeyDown(13) // enter
     })
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('Valgt: CCcc')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
+        'Valgt: CCcc'
+      )
+    })
 
     // simulate changes
     toggle()
     keyDownOnInput(38) // up
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('BB cc zethx')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
+        'BB cc zethx'
+      )
+    })
 
     // eslint-disable-next-line
     Object.defineProperty(helpers, 'IS_MAC', {
@@ -542,9 +545,7 @@ describe('Autocomplete component', () => {
     // simulate changes
     keyDownOnInput(38) // up
 
-    expect(
-      document.querySelector('.dnb-sr-only:not([hidden])').textContent
-    ).toBe('')
+    expect(document.querySelector('.dnb-aria-live').textContent).toBe('')
   })
 
   it('can be used with regex chars', () => {
@@ -1460,7 +1461,7 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  describe('should have correct values on input blur ', () => {
+  describe('should have correct values on input blur', () => {
     it('when no selection is made and "keep_value" and "keep_value_and_selection" is false', async () => {
       const on_change = jest.fn()
 

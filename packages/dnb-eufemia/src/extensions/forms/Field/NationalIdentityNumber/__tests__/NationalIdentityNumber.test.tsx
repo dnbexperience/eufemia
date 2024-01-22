@@ -1,24 +1,27 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import NationalIdentityNumber, { Props } from '..'
-import { Form, FormError } from '../../..'
+import { Props } from '..'
+import { Field, Form, FormError } from '../../..'
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
     const props: Props = {}
-    render(<NationalIdentityNumber {...props} />)
+    render(<Field.NationalIdentityNumber {...props} />)
   })
 
   it('should have correct mask', () => {
     const { rerender } = render(
-      <NationalIdentityNumber value="12345678901234567890" />
+      <Field.NationalIdentityNumber value="12345678901234567890" />
     )
 
     const inputElement = document.querySelector('input')
     expect(inputElement.value).toBe('123456 78901')
 
     rerender(
-      <NationalIdentityNumber omitMask value="12345678901234567890" />
+      <Field.NationalIdentityNumber
+        omitMask
+        value="12345678901234567890"
+      />
     )
 
     expect(inputElement.value).toBe('12345678901')
@@ -27,7 +30,7 @@ describe('Field.NationalIdentityNumber', () => {
   it('should validate when required', () => {
     render(
       <Form.Handler>
-        <NationalIdentityNumber required />
+        <Field.NationalIdentityNumber required />
         <Form.SubmitButton />
       </Form.Handler>
     )
@@ -47,12 +50,12 @@ describe('Field.NationalIdentityNumber', () => {
 
   it('should execute validateInitially if required', () => {
     const { rerender } = render(
-      <NationalIdentityNumber required validateInitially />
+      <Field.NationalIdentityNumber required validateInitially />
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
-    rerender(<NationalIdentityNumber validateInitially />)
+    rerender(<Field.NationalIdentityNumber validateInitially />)
 
     expect(
       document.querySelector('.dnb-form-status')
@@ -66,7 +69,7 @@ describe('Field.NationalIdentityNumber', () => {
     })
 
     render(
-      <NationalIdentityNumber
+      <Field.NationalIdentityNumber
         value="123"
         required
         validator={validator}
@@ -88,7 +91,7 @@ describe('Field.NationalIdentityNumber', () => {
     const validator = jest.fn()
 
     render(
-      <NationalIdentityNumber
+      <Field.NationalIdentityNumber
         value="123"
         required
         validator={validator}
@@ -106,7 +109,7 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   it('should have numeric input mode', () => {
-    render(<NationalIdentityNumber />)
+    render(<Field.NationalIdentityNumber />)
 
     const input = document.querySelector('.dnb-input__input')
 

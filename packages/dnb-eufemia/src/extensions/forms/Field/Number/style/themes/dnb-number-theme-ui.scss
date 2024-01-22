@@ -12,4 +12,13 @@
   --number-control-button-color--active: var(--color-sea-green);
   --number-control-button--error: var(--color-fire-red);
   --number-control-button--error-contrast: var(--color-fire-red-8);
+
+  &__contents {
+    &--has-controls {
+      .dnb-button.dnb-button--size-small {
+        --button-height--small: 2rem;
+        --button-width--small: 2rem;
+      }
+    }
+  }
 }

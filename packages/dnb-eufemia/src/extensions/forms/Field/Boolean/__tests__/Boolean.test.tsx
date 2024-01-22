@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../../'
+import { Field } from '../../..'
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {
@@ -86,18 +86,40 @@ describe('Field.Boolean', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
 
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Field.Boolean
-          label="Label"
-          variant="checkbox"
-          value={false}
-          validateInitially
-          required
-        />
-      )
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Boolean
+            label="Label"
+            variant="checkbox"
+            validateInitially
+            required
+          />
+        )
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.Boolean label="Label" variant="checkbox" required />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="checkbox"
+            validateInitially
+            required
+          />
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 
@@ -161,18 +183,47 @@ describe('Field.Boolean', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
 
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Field.Boolean
-          label="Label"
-          variant="button"
-          value={false}
-          validateInitially
-          required
-        />
-      )
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Boolean
+            label="Label"
+            variant="button"
+            validateInitially
+            required
+          />
+        )
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+        expect(
+          await axeComponent(result, {
+            rules: {
+              // Because of aria-required is not allowed on buttons – but VO still reads it
+              'aria-allowed-attr': { enabled: false },
+            },
+          })
+        ).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.Boolean label="Label" variant="button" required />)
+
+        const button = document.querySelector('button')
+        expect(button).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="button"
+            validateInitially
+            required
+          />
+        )
+
+        const button = document.querySelector('button')
+        expect(button).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 
@@ -244,18 +295,53 @@ describe('Field.Boolean', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
 
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Field.Boolean
-          label="Label"
-          variant="checkbox-button"
-          value={false}
-          validateInitially
-          required
-        />
-      )
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Boolean
+            label="Label"
+            variant="checkbox-button"
+            validateInitially
+            required
+          />
+        )
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+        expect(
+          await axeComponent(result, {
+            rules: {
+              // Because of aria-required is not allowed on buttons – but VO still reads it
+              'aria-allowed-attr': { enabled: false },
+            },
+          })
+        ).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="checkbox-button"
+            required
+          />
+        )
+
+        const button = document.querySelector('button')
+        expect(button).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="checkbox-button"
+            validateInitially
+            required
+          />
+        )
+
+        const button = document.querySelector('button')
+        expect(button).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 
@@ -342,18 +428,53 @@ describe('Field.Boolean', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
 
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Field.Boolean
-          label="Label"
-          variant="buttons"
-          value={false}
-          validateInitially
-          required
-        />
-      )
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Boolean
+            label="Label"
+            variant="buttons"
+            validateInitially
+            required
+          />
+        )
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+        expect(
+          await axeComponent(result, {
+            rules: {
+              // Because of aria-required is not allowed on buttons – but VO still reads it
+              'aria-allowed-attr': { enabled: false },
+            },
+          })
+        ).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.Boolean label="Label" variant="buttons" required />)
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-required', 'true')
+        expect(second).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="buttons"
+            required
+            validateInitially
+          />
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-invalid', 'true')
+        expect(second).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 })

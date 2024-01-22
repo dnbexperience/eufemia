@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react'
 import Table from '../Table'
 import ScrollView, { TableScrollViewAllProps } from '../TableScrollView'
 import { BasicTable } from './TableMocks'
-import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/__mocks__/ResizeObserver'
+import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/shared-mocks/ResizeObserver'
 
 describe('Table.ScrollView', () => {
   it('renders with props as an object', () => {

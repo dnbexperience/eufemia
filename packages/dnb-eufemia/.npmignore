@@ -28,7 +28,6 @@ README.md
 .storybook
 .eslintignore
 .eslintrc
-.eslintrc.json
 .flowconfig
 .prettierrc
 .releaserc*

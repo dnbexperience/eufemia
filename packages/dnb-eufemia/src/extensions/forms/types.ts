@@ -165,6 +165,8 @@ export interface FieldProps<
   layout?: 'horizontal' | 'vertical'
   /** Main label text */
   label?: React.ReactNode
+  /** A more discreet text displayed beside the label */
+  labelDescription?: React.ReactNode
   /** Text showing in place of the value if no value is given */
   placeholder?: string
   autoComplete?:
@@ -191,7 +193,7 @@ export interface FieldProps<
    * Should error messages based on validation be shown initially (from given value-prop or source data)
    * before the user interacts with the field?
    * @default false
-   * */
+   */
   validateInitially?: boolean
   /**
    * Should error messages be shown when touching (like focusing a field and blurring) without having changed
@@ -229,7 +231,7 @@ export interface FieldProps<
 export interface FieldHelpProps {
   help?: {
     title?: string
-    contents?: string
+    content?: string
   }
 }
 

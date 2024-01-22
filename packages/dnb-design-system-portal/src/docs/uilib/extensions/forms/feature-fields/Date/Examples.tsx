@@ -51,7 +51,7 @@ export const WithHelp = () => {
         label="Label text"
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'Kindness and helping others will return to you when you least expect it, and maybe when you need it.',
         }}
         onChange={(value) => console.log('onChange', value)}

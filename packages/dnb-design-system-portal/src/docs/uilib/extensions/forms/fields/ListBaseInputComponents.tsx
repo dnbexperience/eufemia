@@ -44,6 +44,7 @@ export default function ListBaseInputComponents() {
     <ListSummaryFromEdges
       space={{ top: 'x-small' }}
       level={3}
+      size="medium"
       description=""
       edges={edges}
     />

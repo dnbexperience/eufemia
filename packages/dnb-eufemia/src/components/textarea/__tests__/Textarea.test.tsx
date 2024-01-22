@@ -296,6 +296,60 @@ describe('Textarea component', () => {
     expect(ref.current.tagName).toBe('TEXTAREA')
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
   })
+
+  it('should render characterCounter', async () => {
+    const { rerender } = render(
+      <Textarea characterCounter={{ max: 8 }} value="foo" />
+    )
+
+    const counter = document.querySelector('.dnb-text-counter')
+    const textarea = document.querySelector('textarea')
+    const ariaLive = document.querySelector('.dnb-aria-live')
+
+    expect(counter).toHaveTextContent('5 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('')
+
+    await userEvent.type(textarea, 'bar')
+
+    expect(counter).toHaveTextContent('2 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
+
+    rerender(
+      <Textarea characterCounter={{ max: 8 }} value="foo" lang="en-GB" />
+    )
+
+    expect(counter).toHaveTextContent('2 of 8 characters remaining')
+
+    await userEvent.type(textarea, 'baz')
+
+    expect(ariaLive).toHaveTextContent(
+      'You have exceeded the limit by 1 on 8 characters'
+    )
+
+    rerender(
+      <Textarea
+        characterCounter={{ max: 8, variant: 'down' }}
+        value="foo"
+        lang="en-GB"
+      />
+    )
+
+    expect(counter).toHaveTextContent(
+      'You have exceeded the limit by 1 on 8 characters'
+    )
+
+    rerender(
+      <Textarea
+        characterCounter={{ max: 8, variant: 'up' }}
+        value="foo"
+        lang="en-GB"
+      />
+    )
+
+    expect(counter).toHaveTextContent(
+      'You have exceeded the limit by 9 on 8 characters'
+    )
+  })
 })
 
 describe('Textarea scss', () => {

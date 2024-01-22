@@ -8,7 +8,7 @@ import {
 import classnames from 'classnames'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import SharedContext from '../../../../shared/Context'
-import Option from '../Option'
+import OptionField from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -40,6 +40,7 @@ function Selection(props: Props) {
     variant = 'dropdown',
     clear,
     label,
+    labelDescription,
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
@@ -47,10 +48,12 @@ function Selection(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     help,
     emptyValue,
     width = 'large',
+    ariaAttributes,
     setHasFocus,
     handleChange,
     children,
@@ -107,6 +110,7 @@ function Selection(props: Props) {
     error,
     layout,
     label,
+    labelDescription,
   }
 
   const getStatus = useCallback(
@@ -128,7 +132,8 @@ function Selection(props: Props) {
     () =>
       React.Children.toArray(children)
         .filter(
-          (child) => React.isValidElement(child) && child.type === Option
+          (child) =>
+            React.isValidElement(child) && child.type === OptionField
         )
         .map((option: React.ReactElement) => {
           const {
@@ -181,6 +186,7 @@ function Selection(props: Props) {
                   text={variant === 'button' ? title : undefined}
                   value={String(value ?? '')}
                   status={status}
+                  {...ariaAttributes}
                   {...rest}
                 />
               )
@@ -192,7 +198,7 @@ function Selection(props: Props) {
 
     case 'dropdown': {
       const optionsData = React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.type === Option) {
+        if (React.isValidElement(child) && child.type === OptionField) {
           // Option components
           return child.props.text
             ? {
@@ -237,12 +243,13 @@ function Selection(props: Props) {
             portal_class="dnb-forms-field-selection__portal"
             title={placeholder}
             value={String(value ?? '')}
-            status={status && 'error'}
+            status={(hasError || status) && 'error'}
             disabled={disabled}
+            {...ariaAttributes}
             data={data}
             suffix={
               help ? (
-                <HelpButton title={help.title}>{help.contents}</HelpButton>
+                <HelpButton title={help.title}>{help.content}</HelpButton>
               ) : undefined
             }
             on_change={handleDropdownChange}

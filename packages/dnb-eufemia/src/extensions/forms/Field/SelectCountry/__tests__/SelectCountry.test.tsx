@@ -1,20 +1,20 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import SelectCountry, { Props } from '..'
+import { Props } from '..'
 import { Provider } from '../../../../../shared'
-import { Form } from '../../..'
+import { Field, Form, FormError, FieldBlock } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
     const props: Props = {}
-    render(<SelectCountry {...props} />)
+    render(<Field.SelectCountry {...props} />)
   })
 
   it('should return correct value onChange event', () => {
     const onChange = jest.fn()
 
-    render(<SelectCountry onChange={onChange} />)
+    render(<Field.SelectCountry onChange={onChange} />)
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
@@ -59,7 +59,7 @@ describe('Field.SelectCountry', () => {
   it('should select matching country on type change to support autofill', async () => {
     const onChange = jest.fn()
 
-    render(<SelectCountry onChange={onChange} />)
+    render(<Field.SelectCountry onChange={onChange} />)
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
@@ -92,7 +92,7 @@ describe('Field.SelectCountry', () => {
 
   it('should filter countries list with given filterCountries', () => {
     render(
-      <SelectCountry
+      <Field.SelectCountry
         filterCountries={({ regions }) => regions?.includes('Scandinavia')}
       />
     )
@@ -120,7 +120,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should by default sort prioritized countries on top', () => {
-    render(<SelectCountry />)
+    render(<Field.SelectCountry />)
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
@@ -143,7 +143,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should show only Scandinavian countries', () => {
-    render(<SelectCountry countries="Scandinavia" />)
+    render(<Field.SelectCountry countries="Scandinavia" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
@@ -164,7 +164,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should sort prioritized countries on top', () => {
-    render(<SelectCountry countries="Prioritized" />)
+    render(<Field.SelectCountry countries="Prioritized" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
@@ -189,7 +189,7 @@ describe('Field.SelectCountry', () => {
   it('should validate when required', () => {
     render(
       <Form.Handler>
-        <SelectCountry required />
+        <Field.SelectCountry required />
         <Form.SubmitButton />
       </Form.Handler>
     )
@@ -209,12 +209,12 @@ describe('Field.SelectCountry', () => {
 
   it('should execute validateInitially if required', () => {
     const { rerender } = render(
-      <SelectCountry required validateInitially />
+      <Field.SelectCountry required validateInitially />
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
-    rerender(<SelectCountry validateInitially />)
+    rerender(<Field.SelectCountry validateInitially />)
 
     expect(
       document.querySelector('.dnb-form-status')
@@ -224,7 +224,7 @@ describe('Field.SelectCountry', () => {
   it('should change locale', async () => {
     const { rerender } = render(
       <Provider>
-        <SelectCountry value="NO" />
+        <Field.SelectCountry value="NO" />
       </Provider>
     )
 
@@ -244,7 +244,7 @@ describe('Field.SelectCountry', () => {
 
     rerender(
       <Provider locale="en-GB">
-        <SelectCountry value="NO" />
+        <Field.SelectCountry value="NO" />
       </Provider>
     )
 
@@ -257,7 +257,7 @@ describe('Field.SelectCountry', () => {
 
     rerender(
       <Provider locale="nb-NO">
-        <SelectCountry value="DK" />
+        <Field.SelectCountry value="DK" />
       </Provider>
     )
 
@@ -267,9 +267,50 @@ describe('Field.SelectCountry', () => {
     expect(selectedItemElement().textContent).toBe('Danmark')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<SelectCountry value="DK" />)
+  it('renders error', () => {
+    const errorMessage = new FormError('Error message')
+    render(<Field.SelectCountry error={errorMessage} />)
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Error message')
+
+    const input = document.querySelector('.dnb-autocomplete__input')
+    expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  it('shows error style in FieldBlock', () => {
+    const errorMessage = new FormError('Error message')
+    render(
+      <FieldBlock>
+        <Field.SelectCountry error={errorMessage} />
+      </FieldBlock>
+    )
+
+    const input = document.querySelector('.dnb-autocomplete__input')
+    expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.SelectCountry required validateInitially />
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.SelectCountry required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.SelectCountry required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

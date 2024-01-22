@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringValue, { Props as StringValueProps } from '../String'
 import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import SharedContext from '../../../../shared/Context'
 
-export type Props = StringComponentProps
+export type Props = StringValueProps
 
 function BankAccountNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -23,7 +23,7 @@ function BankAccountNumber(props: Props) {
         ban: true,
       }).toString(),
   }
-  return <StringComponent {...stringValueProps} />
+  return <StringValue {...stringValueProps} />
 }
 
 BankAccountNumber._supportsSpacingProps = true

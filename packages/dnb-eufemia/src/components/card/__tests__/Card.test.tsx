@@ -101,19 +101,17 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
     const children = element.children
 
-    expect(element.className).toContain(
-      'dnb-flex-container--divider-space'
-    )
+    expect(element).toHaveClass('dnb-flex-container--divider-space')
 
     expect(children.length).toBe(2)
 
     expect(children[0].tagName).toBe('P')
-    expect(children[0].className).toEqual(
+    expect(children[0]).toHaveClass(
       'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
     )
 
     expect(children[1].tagName).toBe('P')
-    expect(children[1].className).toContain('dnb-space__top--small')
+    expect(children[1]).toHaveClass('dnb-space__top--small')
   })
 
   it('should stack children divided by lines', () => {
@@ -127,24 +125,21 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
     const children = element.children
 
-    expect(element.className).toContain('dnb-flex-container--divider-line')
+    expect(element).toHaveClass('dnb-flex-container--divider-line')
 
-    expect(children.length).toBe(4)
-
-    expect(children[1].tagName).toBe('DIV')
-    expect(children[1].className).toContain('dnb-space__top--small')
-
-    expect(children[2].tagName).toBe('HR')
-    expect(children[2].className).toContain(
-      'dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-space__top--zero dnb-hr'
-    )
+    expect(children.length).toBe(3)
 
     expect(children[0].tagName).toBe('P')
-    expect(children[0].className).toEqual(
+    expect(children[0]).toHaveClass(
       'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
     )
-    expect(children[3].tagName).toBe('P')
-    expect(children[3].className).toEqual(
+    expect(children[1].tagName).toBe('HR')
+    expect(children[1]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[2].tagName).toBe('P')
+    expect(children[2]).toHaveClass(
       'dnb-p dnb-space__top--small dnb-space__bottom--zero'
     )
   })
@@ -158,9 +153,7 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(element.className).toContain(
-      'dnb-flex-container--direction-vertical'
-    )
+    expect(element).toHaveClass('dnb-flex-container--direction-vertical')
 
     rerender(
       <Card direction="horizontal">
@@ -168,9 +161,7 @@ describe('Card', () => {
       </Card>
     )
 
-    expect(element.className).toContain(
-      'dnb-flex-container--direction-horizontal'
-    )
+    expect(element).toHaveClass('dnb-flex-container--direction-horizontal')
   })
 
   it('should use section as default element', () => {
@@ -209,20 +200,18 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
     const children = element.children
 
-    expect(element.className).toContain(
-      'dnb-flex-container--spacing-small'
-    )
+    expect(element).toHaveClass('dnb-flex-container--spacing-small')
 
     expect(children.length).toBe(3)
 
-    expect(children[0].className).toContain('dnb-space__top--zero')
-    expect(children[0].className).toContain('dnb-space__bottom--zero')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
 
-    expect(children[1].className).toContain('dnb-space__top--small')
-    expect(children[1].className).toContain('dnb-space__bottom--zero')
+    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
 
-    expect(children[2].className).toContain('dnb-space__top--small')
-    expect(children[2].className).toContain('dnb-space__bottom--zero')
+    expect(children[2]).toHaveClass('dnb-space__top--small')
+    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
 
     rerender(
       <Card spacing="large">
@@ -232,18 +221,16 @@ describe('Card', () => {
       </Card>
     )
 
-    expect(element.className).toContain(
-      'dnb-flex-container--spacing-large'
-    )
+    expect(element).toHaveClass('dnb-flex-container--spacing-large')
 
-    expect(children[0].className).toContain('dnb-space__top--zero')
-    expect(children[0].className).toContain('dnb-space__bottom--zero')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
 
-    expect(children[1].className).toContain('dnb-space__top--large')
-    expect(children[1].className).toContain('dnb-space__bottom--zero')
+    expect(children[1]).toHaveClass('dnb-space__top--large')
+    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
 
-    expect(children[2].className).toContain('dnb-space__top--large')
-    expect(children[2].className).toContain('dnb-space__bottom--zero')
+    expect(children[2]).toHaveClass('dnb-space__top--large')
+    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
   })
 
   it('gets valid ref element', () => {

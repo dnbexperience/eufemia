@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form, DataContext, Field, JSONSchema } from '../../../'
-import { Props as StringFieldProps } from '../../../Field/String/String'
+import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].Forms
@@ -922,8 +922,11 @@ describe('DataContext.Provider', () => {
     it('should rerender provider and its contents', async () => {
       const existingData = { count: 1 }
 
+      let countRender = 0
+
       const MockComponent = () => {
-        const { data, update } = Form.useData('update-id', existingData)
+        const id = React.useId()
+        const { data, update } = Form.useData(id, existingData)
 
         const increment = React.useCallback(() => {
           update('/count', (count) => {
@@ -931,28 +934,139 @@ describe('DataContext.Provider', () => {
           })
         }, [update])
 
+        countRender++
+
         return (
-          <Form.Handler id="update-id">
-            <Field.Number path="/count" showStepControls />
-            <Form.SubmitButton
-              onClick={increment}
-              text={'Increment ' + data.count}
-            />
-          </Form.Handler>
+          <DataContext.Provider id={id}>
+            <Field.Number path="/count" />
+            <Form.SubmitButton onClick={increment} text={data.count} />
+          </DataContext.Provider>
         )
       }
 
       render(<MockComponent />)
 
       const inputElement = document.querySelector('input')
+      const buttonElement = document.querySelector('button')
 
       expect(inputElement).toHaveValue('1')
+      expect(buttonElement).toHaveTextContent('1')
+      expect(countRender).toBe(1)
 
       await userEvent.click(
         document.querySelector('.dnb-forms-submit-button')
       )
 
       expect(inputElement).toHaveValue('2')
+      expect(buttonElement).toHaveTextContent('2')
+      expect(countRender).toBe(2)
+    })
+
+    it('should return data given in the context provider after a rerender', async () => {
+      const existingData = { count: 1 }
+
+      let countRender = 0
+
+      const MockComponent = () => {
+        const id = React.useId()
+        const { data, update } = Form.useData<{ count: number }>(id)
+
+        const increment = React.useCallback(() => {
+          update('/count', (count) => {
+            return count + 1
+          })
+        }, [update])
+
+        countRender++
+
+        return (
+          <DataContext.Provider id={id} data={existingData}>
+            <Field.Number path="/count" />
+            <Form.SubmitButton onClick={increment} text={data?.count} />
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const inputElement = document.querySelector('input')
+      const buttonElement = document.querySelector('button')
+
+      expect(inputElement).toHaveValue('1')
+      expect(buttonElement).toHaveTextContent('1')
+      expect(countRender).toBe(2)
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+
+      expect(inputElement).toHaveValue('2')
+      expect(buttonElement).toHaveTextContent('2')
+      expect(countRender).toBe(3)
+    })
+
+    it('should update data via useEffect when data is given in useData', async () => {
+      const existingData = { count: 1 }
+
+      let countRender = 0
+
+      const MockComponent = () => {
+        const id = React.useId()
+        const { data, update } = Form.useData(id, existingData)
+
+        React.useEffect(() => {
+          update('/count', (count) => count + 1)
+        }, [update])
+
+        countRender++
+
+        return (
+          <DataContext.Provider id={id}>
+            <Field.Number path="/count" label={data?.count} />
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const inputElement = document.querySelector('input')
+      const labelElement = document.querySelector('label')
+
+      expect(inputElement).toHaveValue('2')
+      expect(labelElement).toHaveTextContent('2')
+      expect(countRender).toBe(2)
+    })
+
+    it('should update data via useEffect when data is given in the context provider', async () => {
+      const existingData = { count: 1 }
+
+      let countRender = 0
+
+      const MockComponent = () => {
+        const id = React.useId()
+        const { data, update } = Form.useData<{ count: number }>(id)
+
+        React.useEffect(() => {
+          update('/count', () => 123)
+        }, [update])
+
+        countRender++
+
+        return (
+          <DataContext.Provider id={id} data={existingData}>
+            <Field.Number path="/count" label={data?.count} />
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const inputElement = document.querySelector('input')
+      const labelElement = document.querySelector('label')
+
+      expect(inputElement).toHaveValue('123')
+      expect(labelElement).toHaveTextContent('123')
+      expect(countRender).toBe(3)
     })
   })
 })

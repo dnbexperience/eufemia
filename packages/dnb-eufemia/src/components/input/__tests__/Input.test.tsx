@@ -329,11 +329,11 @@ describe('Input component', () => {
 
     fireEvent.focus(document.querySelector('input'))
 
-    expect(select).toBeCalledTimes(0)
+    expect(select).toHaveBeenCalledTimes(0)
 
     await wait(1)
 
-    expect(select).toBeCalledTimes(1)
+    expect(select).toHaveBeenCalledTimes(1)
   })
 
   it('uses children as the value', () => {
@@ -511,21 +511,6 @@ describe('Input with clear button', () => {
     expect(document.querySelector('input').getAttribute('value')).toBe('')
     expect(clearButton.getAttribute('aria-hidden')).toBe('true')
     expect(clearButton).toHaveAttribute('disabled')
-  })
-
-  it('should clear the value on escape key press', () => {
-    render(<Input clear={true} value="value" />)
-
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value'
-    )
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: 'Escape',
-      keyCode: 27, // escape
-    })
-
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
   })
 
   it('should set focus on input when clear button is pressed', () => {

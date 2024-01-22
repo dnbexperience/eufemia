@@ -1,0 +1,86 @@
+---
+title: 'Getting started'
+description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
+order: 0
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Getting started
+    href: /uilib/extensions/forms/getting-started/
+---
+
+import * as Examples from './Examples'
+import QuickStart from './quick-start'
+
+# Getting started
+
+**Table of Contents**
+
+- [Quick start](#quick-start)
+- [Creating forms](#creating-forms)
+- [State management](#state-management)
+- [Field components](#field-components)
+- [Value components](#value-components)
+- [Layout](#layout)
+- [Best practices](#best-practices)
+- [Create your own components](#create-your-own-components)
+
+<QuickStart />
+
+The needed styles are included in the Eufemia core package via `dnb-ui-components`.
+
+### Creating forms
+
+To build an entire form, there are surrounding components such as [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+
+### State management
+
+The state management is done via the [JSON Pointer](#what-is-a-json-pointer) directive (i.e `path="/firstName"`). This is a standardized way of pointing to a specific part of a JavaScript/JSON object. The JSON Pointer is used to both read and write data, and is also used to validate the data.
+
+<Examples.GettingStarted />
+
+You find more details in the [useData](/uilib/extensions/forms/extended-features/Form/useData/) docs.
+
+### What is a JSON Pointer?
+
+A [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) is a string of tokens separated by `/` characters, these tokens either specify keys in objects or indexes into arrays.
+
+```ts
+const data = {
+  foo: {
+    bar: [
+      {
+        baz: 'value',
+      },
+    ],
+  },
+}
+const pointer = '/foo/bar/0/baz' // points to 'value'
+```
+
+### Field components
+
+The data-driven [base field components](/uilib/extensions/forms/base-fields) are named and structured according to the type of data they can display and produce based on the user's input and action in the interface.
+
+On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
+
+### Value components
+
+Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+### Layout
+
+When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.
+
+- [Flex](/uilib/layout/flex) layout component for easy and consistent application forms.
+- [Card](/uilib/components/card) for the default card outline of forms.
+
+### Best practices
+
+- [Best practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
+
+## Create your own components
+
+Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
+
+Read more about on how to [create your own component](/uilib/extensions/forms/create-component).

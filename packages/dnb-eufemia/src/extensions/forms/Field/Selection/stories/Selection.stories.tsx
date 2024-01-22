@@ -11,6 +11,8 @@ export function Selection() {
     <Card stack>
       <Field.Selection
         label="Label"
+        required
+        validateInitially
         onChange={(value) => console.log('onChange', value)}
       >
         <Field.Option value="foo" title="Foo!" />
@@ -19,6 +21,8 @@ export function Selection() {
 
       <Field.Selection
         label="Label"
+        required
+        validateInitially
         variant="radio"
         layout="horizontal"
         optionsLayout="horizontal"
@@ -35,6 +39,8 @@ export function Selection() {
 
       <Field.Selection
         label="Label"
+        required
+        validateInitially
         variant="button"
         layout="horizontal"
         optionsLayout="horizontal"

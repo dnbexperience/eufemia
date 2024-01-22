@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import StringComponent, { Props as StringComponentProps } from '../String'
+import StringValue, { Props as StringValueProps } from '../String'
 import SharedContext from '../../../../shared/Context'
 import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 
-export type Props = StringComponentProps
+export type Props = StringValueProps
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -23,7 +23,7 @@ function PhoneNumber(props: Props) {
         phone: true,
       }).toString(),
   }
-  return <StringComponent {...stringValueProps} />
+  return <StringValue {...stringValueProps} />
 }
 
 PhoneNumber._supportsSpacingProps = true

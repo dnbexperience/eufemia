@@ -1,0 +1,15 @@
+.dnb-text-counter {
+  .dnb-icon {
+    margin-right: 0;
+
+    font-size: 0;
+    transition:
+      margin 200ms var(--easing-default),
+      font-size 400ms var(--easing-default);
+  }
+  &--exceeded .dnb-icon {
+    margin-right: 0.5rem;
+
+    font-size: var(--font-size-basis--em);
+  }
+}

@@ -1,24 +1,28 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Option, { Props } from '..'
-import Selection from '../../Selection'
+import { Props } from '..'
+import { Field } from '../../..'
 
 describe('Field.Option', () => {
   const props: Props = {}
 
   it('should render with props', () => {
-    render(<Option {...props} />)
+    render(<Field.Option {...props} />)
+    const option = document.querySelector('[role="option"]')
+    expect(option).toBeInTheDocument()
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(
-      <Selection>
-        <Option value="foo" title="Foo!" />
-        <Option value="bar" title="Baar!" />
-      </Selection>
-    )
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Selection>
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
   })
 })

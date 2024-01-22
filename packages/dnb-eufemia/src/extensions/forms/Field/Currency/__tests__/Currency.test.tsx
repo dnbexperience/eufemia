@@ -1,14 +1,14 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Currency from '../Currency'
+import { Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
 describe('Field.Currency', () => {
   it('defaults to "kr" and use "NOK" when locale is en-GB', () => {
     const { rerender } = render(
       <Provider>
-        <Currency value={123} />
+        <Field.Currency value={123} />
       </Provider>
     )
 
@@ -16,7 +16,7 @@ describe('Field.Currency', () => {
 
     rerender(
       <Provider locale="en-GB">
-        <Currency value={123} />
+        <Field.Currency value={123} />
       </Provider>
     )
 
@@ -26,7 +26,7 @@ describe('Field.Currency', () => {
   it('placeholder should use correct currency format', () => {
     const { rerender } = render(
       <Provider>
-        <Currency />
+        <Field.Currency />
       </Provider>
     )
 
@@ -36,7 +36,7 @@ describe('Field.Currency', () => {
 
     rerender(
       <Provider locale="en-GB">
-        <Currency />
+        <Field.Currency />
       </Provider>
     )
 
@@ -48,9 +48,9 @@ describe('Field.Currency', () => {
   it('should align input correctly', () => {
     render(
       <>
-        <Currency value={123} align="left" />
-        <Currency value={123} align="center" />
-        <Currency value={123} align="right" />
+        <Field.Currency value={123} align="left" />
+        <Field.Currency value={123} align="center" />
+        <Field.Currency value={123} align="right" />
       </>
     )
 
@@ -61,16 +61,34 @@ describe('Field.Currency', () => {
   })
 
   it('should have decimal input mode', () => {
-    render(<Currency />)
+    render(<Field.Currency />)
 
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'decimal')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Currency label="Label" value={123} />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Currency label="Label" required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.Currency required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Currency required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 })

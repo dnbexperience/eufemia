@@ -171,6 +171,7 @@ export function useTableAccordion({
        * https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement
        */
       target.tagName !== 'INPUT' &&
+      target.tagName !== 'LABEL' &&
       /**
        * Let the user select text,
        * without triggering the accordion.

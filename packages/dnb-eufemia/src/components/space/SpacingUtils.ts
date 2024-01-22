@@ -176,7 +176,10 @@ export const createSpacingClasses = (
       typeof p.space === 'number' ||
       (typeof p.space === 'boolean' && p.space)
     ) {
-      p.top = p.right = p.bottom = p.left = p.space
+      p.left = p.left ?? p.space
+      p.bottom = p.bottom ?? p.space
+      p.right = p.right ?? p.space
+      p.top = p.top ?? p.space
     }
     if (typeof p.space === 'object') {
       for (const i in p.space) {

@@ -153,18 +153,6 @@ describe('buildQuery', () => {
     ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
-  it('should return reversed query string by given but shorten breakpoint type', () => {
-    expect(
-      buildQuery({
-        when: {
-          not: true,
-          min: 'small',
-          max: 'large',
-        },
-      })
-    ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
-  })
-
   it('should return not change the min value to zero if only a small min property was given', () => {
     expect(
       buildQuery({

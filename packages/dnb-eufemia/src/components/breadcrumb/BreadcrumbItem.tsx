@@ -20,6 +20,10 @@ import {
   filterProps,
 } from '../../shared/component-helper'
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 export type BreadcrumbItemProps = {
   /**
    * Text displaying the title of the item's corresponding page
@@ -116,11 +120,19 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     when: { max: 'medium' },
   })
 
-  let currentIcon =
-    icon || (variant === 'home' && homeIcon) || 'chevron_left'
-  if (theme?.name === 'sbanken') {
-    currentIcon = icon || determineSbankenIcon(variant, isSmallScreen)
-  }
+  const [currentIcon, setCurrentIcon] = React.useState(null)
+
+  useLayoutEffect(() => {
+    if (!icon && theme?.name === 'sbanken') {
+      const currentIcon = determineSbankenIcon(variant, isSmallScreen)
+      setCurrentIcon(currentIcon)
+    } else {
+      setCurrentIcon(
+        icon || (variant === 'home' && homeIcon) || 'chevron_left'
+      )
+    }
+  }, [icon, isSmallScreen, theme?.name, variant])
+
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive =
     (href || onClick || props.to) && variant !== 'current'
@@ -149,10 +161,12 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           // TODO: Consider deprecating passing down props to span in v11
           {...filterProps(props, (key) => !key.includes('-'))}
         >
-          <IconPrimary
-            icon={currentIcon}
-            className="dnb-breadcrumb__item__span__icon"
-          />
+          {currentIcon && (
+            <IconPrimary
+              icon={currentIcon}
+              className="dnb-breadcrumb__item__span__icon"
+            />
+          )}
           <P space="0">{currentText}</P>
         </span>
       )}

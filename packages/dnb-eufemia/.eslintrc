@@ -26,6 +26,7 @@
     "plugin:security/recommended"
   ],
   "plugins": [
+    "jest",
     "import",
     "prettier",
     "react",
@@ -160,6 +161,11 @@
         "react/prop-types": "off",
         "react/require-default-props": "off"
       }
+    },
+    {
+      "files": ["**/__tests__/**"],
+      "plugins": ["jest"],
+      "extends": ["plugin:jest/recommended"]
     }
   ]
 }

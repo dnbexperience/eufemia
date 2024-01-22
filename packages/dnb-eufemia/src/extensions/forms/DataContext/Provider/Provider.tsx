@@ -20,6 +20,10 @@ import Context, { ContextState } from '../Context'
  */
 import structuredClone from '@ungap/structured-clone'
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 export type Path = string
 export type UpdateDataValue = (path: Path, data: unknown) => void
 
@@ -118,12 +122,28 @@ export default function Provider<Data extends JsonObject>({
   // - Validator
   const ajvSchemaValidatorRef = useRef<ValidateFunction>()
   // - Shared state
-  const sharedState = useSharedState(id, initialData)
+  const sharedState = useSharedState<Data>(id)
   useMemo(() => {
-    if (sharedState?.data && !initialData) {
+    // Update the internal data set, if the shared state changes
+    if (id && sharedState?.data && !initialData) {
       internalDataRef.current = sharedState.data
     }
-  }, [initialData, sharedState.data])
+  }, [id, initialData, sharedState.data])
+  useLayoutEffect(() => {
+    // Update the shared state, if initialData is given
+    if (id && !sharedState?.data && initialData) {
+      sharedState.set?.(initialData)
+    }
+
+    // If the shared state changes, update the internal data set
+    if (
+      id &&
+      sharedState?.data &&
+      sharedState?.data !== internalDataRef.current
+    ) {
+      internalDataRef.current = sharedState?.data
+    }
+  }, [id, initialData, sharedState, sharedState?.data])
 
   const validateData = useCallback(() => {
     if (!ajvSchemaValidatorRef.current) {

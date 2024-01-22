@@ -61,6 +61,7 @@ function DateComponent(props: Props) {
     id,
     className,
     label,
+    labelDescription,
     value,
     help,
     info,
@@ -68,6 +69,7 @@ function DateComponent(props: Props) {
     error,
     hasError,
     disabled,
+    ariaAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -78,6 +80,7 @@ function DateComponent(props: Props) {
       className={classnames('dnb-forms-field-string', className)}
       forId={id}
       label={label ?? sharedContext?.translation.Forms.dateLabel}
+      labelDescription={labelDescription}
       info={info}
       warning={warning}
       disabled={disabled}
@@ -94,13 +97,14 @@ function DateComponent(props: Props) {
         status={hasError ? 'error' : undefined}
         suffix={
           help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
+            <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
         on_change={handleChange}
         on_reset={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        {...ariaAttributes}
         {...pickSpacingProps(props)}
       />
     </FieldBlock>

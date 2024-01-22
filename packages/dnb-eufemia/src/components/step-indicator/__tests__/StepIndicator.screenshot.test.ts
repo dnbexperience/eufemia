@@ -64,6 +64,7 @@ describe('StepIndicator', () => {
   })
 })
 
+// eslint-disable-next-line jest/no-identical-title
 describe('StepIndicator', () => {
   setupPageScreenshot({
     url: '/uilib/components/step-indicator/demos',

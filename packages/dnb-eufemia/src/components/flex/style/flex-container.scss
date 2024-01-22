@@ -88,17 +88,13 @@
     flex-wrap: wrap;
   }
 
-  &--row-gap-small,
-  &--has-size#{&}--spacing-small,
-  &--wrap#{&}--direction-horizontal {
+  &--row-gap-small {
     --gap: var(--spacing-small);
   }
-  &--row-gap-medium,
-  &--has-size#{&}--spacing-medium {
+  &--row-gap-medium {
     --gap: var(--spacing-medium);
   }
-  &--row-gap-large,
-  &--has-size#{&}--spacing-large {
+  &--row-gap-large {
     --gap: var(--spacing-large);
   }
 

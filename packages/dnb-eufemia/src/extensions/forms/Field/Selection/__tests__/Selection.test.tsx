@@ -1,8 +1,8 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { screen, render, within } from '@testing-library/react'
+import { screen, render, within, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as Field from '../../'
+import { Field } from '../../..'
 
 describe('Selection', () => {
   describe('props', () => {
@@ -19,7 +19,7 @@ describe('Selection', () => {
       expect(screen.queryByText('Fooo')).not.toBeInTheDocument()
     })
 
-    it('renders selected option', () => {
+    it('renders selected option with number values', () => {
       render(
         <Field.Selection value="20">
           <Field.Option value="10" title="Ten" />
@@ -190,15 +190,52 @@ describe('Selection', () => {
         expect(radioButtons[1]).not.toBeChecked()
       })
 
-      it('should validate with ARIA rules', async () => {
-        const result = render(
-          <Field.Selection variant="radio" value="bar">
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>
-        )
+      describe('ARIA', () => {
+        it('should validate with ARIA rules', async () => {
+          const result = render(
+            <Field.Selection
+              label="Label"
+              variant="radio"
+              required
+              validateInitially
+            >
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
 
-        expect(await axeComponent(result)).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
+        })
+
+        it('should have aria-required', () => {
+          render(
+            <Field.Selection variant="radio" value="bar" required>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('input')
+          )
+          expect(first).toHaveAttribute('aria-required', 'true')
+          expect(second).toHaveAttribute('aria-required', 'true')
+        })
+
+        it('should have aria-invalid', () => {
+          render(
+            <Field.Selection variant="radio" required validateInitially>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('input')
+          )
+          expect(first).toHaveAttribute('aria-invalid', 'true')
+          expect(second).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
 
@@ -278,17 +315,178 @@ describe('Selection', () => {
         expect(buttons[0].getAttribute('aria-pressed')).toBe('true')
         expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
       })
+
+      describe('ARIA', () => {
+        it('should validate with ARIA rules', async () => {
+          const result = render(
+            <Field.Selection
+              label="Label"
+              variant="button"
+              required
+              validateInitially
+            >
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          expect(
+            await axeComponent(result, {
+              rules: {
+                // Because of aria-required is not allowed on buttons – but VO still reads it
+                'aria-allowed-attr': { enabled: false },
+              },
+            })
+          ).toHaveNoViolations()
+        })
+
+        it('should have aria-required', () => {
+          render(
+            <Field.Selection variant="button" value="bar" required>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('button')
+          )
+          expect(first).toHaveAttribute('aria-required', 'true')
+          expect(second).toHaveAttribute('aria-required', 'true')
+        })
+
+        it('should have aria-invalid', () => {
+          render(
+            <Field.Selection variant="button" required validateInitially>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('button')
+          )
+          expect(first).toHaveAttribute('aria-invalid', 'true')
+          expect(second).toHaveAttribute('aria-invalid', 'true')
+        })
+      })
     })
 
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Field.Selection variant="button" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
-      )
+    describe('dropdown', () => {
+      const open = () =>
+        fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+      it('has no selected value by default', () => {
+        render(
+          <Field.Selection variant="dropdown">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        open()
+
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('false')
+        expect(options[1].getAttribute('aria-selected')).toBe('false')
+      })
+
+      it('renders selected option', () => {
+        render(
+          <Field.Selection variant="dropdown" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        open()
+
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('false')
+        expect(options[1].getAttribute('aria-selected')).toBe('true')
+      })
+
+      it('renders update selected option based on external value change', () => {
+        const { rerender } = render(
+          <Field.Selection variant="dropdown" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        rerender(
+          <Field.Selection variant="dropdown" value="foo">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        open()
+
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('true')
+        expect(options[1].getAttribute('aria-selected')).toBe('false')
+      })
+
+      describe('ARIA', () => {
+        it('should validate with ARIA rules', async () => {
+          const result = render(
+            <Field.Selection
+              label="Label"
+              variant="dropdown"
+              required
+              validateInitially
+            >
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          open()
+
+          expect(
+            await axeComponent(result, {
+              rules: {
+                // Because of aria-controls and aria-required is not allowed on buttons – but VO still reads it
+                'aria-allowed-attr': { enabled: false },
+                'aria-valid-attr-value': { enabled: false },
+              },
+            })
+          ).toHaveNoViolations()
+        })
+
+        it('should have aria-required', () => {
+          render(
+            <Field.Selection variant="dropdown" value="bar" required>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          const button = document.querySelector('button')
+
+          open()
+
+          expect(button).toHaveAttribute('aria-required', 'true')
+        })
+
+        it('should have aria-invalid', () => {
+          render(
+            <Field.Selection variant="dropdown" required validateInitially>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>
+          )
+
+          open()
+
+          const buttonElement = document.querySelector('button')
+          expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
+        })
+      })
     })
   })
 

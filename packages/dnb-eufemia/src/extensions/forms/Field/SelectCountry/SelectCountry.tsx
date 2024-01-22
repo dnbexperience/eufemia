@@ -68,10 +68,12 @@ function SelectCountry(props: Props) {
     info,
     warning,
     error,
+    hasError,
     disabled,
     value,
     width = 'large',
     help,
+    ariaAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -189,14 +191,16 @@ function SelectCountry(props: Props) {
         on_change={handleCountryChange}
         on_type={onTypeHandler}
         stretch
+        status={hasError ? 'error' : undefined}
         show_submit_button
         suffix={
           help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
+            <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
         autoComplete="country-name"
         no_animation={props.noAnimation}
+        {...ariaAttributes}
       />
     </FieldBlock>
   )

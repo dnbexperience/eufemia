@@ -210,7 +210,6 @@ export interface AutocompleteProps
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawer_class?: string;
-  ariaLiveDelay?: number;
   /**
    * Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.
    */

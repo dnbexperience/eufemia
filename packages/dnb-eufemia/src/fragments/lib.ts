@@ -12,10 +12,11 @@
 // import all the available fragments
 import DrawerList from './drawer-list/DrawerList'
 import ScrollView from './scroll-view/ScrollView'
+import TextCounter from './text-counter/TextCounter'
 
 // define / export all the available fragments
-export { DrawerList, ScrollView }
+export { DrawerList, ScrollView, TextCounter }
 
 export const getFragments = () => {
-  return { DrawerList, ScrollView }
+  return { DrawerList, ScrollView, TextCounter }
 }

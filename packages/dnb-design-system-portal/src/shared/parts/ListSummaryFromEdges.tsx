@@ -2,7 +2,10 @@ import React from 'react'
 import { Ul, Li } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import Anchor from '../tags/Anchor'
-import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import {
+  HeadingSize,
+  resetLevels,
+} from '@dnb/eufemia/src/components/Heading'
 import ReactMarkdown from 'react-markdown'
 import { basicComponents } from '../../shared/tags'
 import { SpacingProps } from '@dnb/eufemia/src/shared/types'
@@ -28,14 +31,16 @@ export type ListEdges = Array<ListEdge>
 type ListSummaryFromEdgesProps = {
   edges: ListEdges
   level?: HeadingLevel
+  size?: HeadingSize
   description?: string
   returnListItems?: boolean
 } & SpacingProps
 
 export default function ListSummaryFromEdges({
   edges,
-  level = null,
-  description: _description = null,
+  level = undefined,
+  size = undefined,
+  description: description = null,
   returnListItems = false,
   ...props
 }: ListSummaryFromEdgesProps) {
@@ -47,7 +52,7 @@ export default function ListSummaryFromEdges({
     (
       {
         node: {
-          frontmatter: { title, description },
+          frontmatter: { title, description: fmDescription },
           fields: { slug },
         },
       },
@@ -73,15 +78,16 @@ export default function ListSummaryFromEdges({
           <>
             <AutoLinkHeader
               level={level || 2}
+              size={size}
               useSlug={'/' + slug}
               title={title}
               {...props}
             >
               <Anchor href={'/' + slug}>{title}</Anchor>
             </AutoLinkHeader>
-            {(_description !== null ? _description : description) && (
+            {(description !== null ? description : fmDescription) && (
               <ReactMarkdown components={basicComponents}>
-                {_description !== null ? _description : description}
+                {description !== null ? description : fmDescription}
               </ReactMarkdown>
             )}
           </>

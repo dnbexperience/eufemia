@@ -1,0 +1,23 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+On the consumer side, we can use this custom component like so:
+
+```jsx
+<Form.Handler data={{ sliderValue: 50 }}>
+  <MySliderComponent
+    path="/sliderValue"
+    minimum={50}
+    maximum={80}
+    required
+    info="Info"
+  />
+</Form.Handler>
+```
+
+<Examples.CustomComponentExample />

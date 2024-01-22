@@ -8,10 +8,11 @@ import {
   fireEvent,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Provider } from '../../../../../shared'
 import * as DataContext from '../../../DataContext'
-import * as Field from '../..'
+import { Field, FieldBlock } from '../../..'
 
-export async function expectNever(callable: () => unknown): Promise<void> {
+async function expectNever(callable: () => unknown): Promise<void> {
   await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
 }
 
@@ -221,6 +222,16 @@ describe('Field.String', () => {
         expect(element.className).toContain('dnb-input__status--error')
       })
 
+      it('for basis input in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.String error={new Error('This is what went wrong')} />
+          </FieldBlock>
+        )
+        const element = document.querySelector('.dnb-input')
+        expect(element.className).toContain('dnb-input__status--error')
+      })
+
       it('for masked input', () => {
         render(
           <Field.String
@@ -232,12 +243,38 @@ describe('Field.String', () => {
         expect(element.className).toContain('dnb-input__status--error')
       })
 
+      it('for masked input in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.String
+              mask={[/\/d/]}
+              error={new Error('This is what went wrong')}
+            />
+          </FieldBlock>
+        )
+        const element = document.querySelector('.dnb-input-masked')
+        expect(element.className).toContain('dnb-input__status--error')
+      })
+
       it('for multiline input', () => {
         render(
           <Field.String
             multiline
             error={new Error('This is what went wrong')}
           />
+        )
+        const element = document.querySelector('.dnb-textarea')
+        expect(element.className).toContain('dnb-textarea__status--error')
+      })
+
+      it('for multiline in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.String
+              multiline
+              error={new Error('This is what went wrong')}
+            />
+          </FieldBlock>
         )
         const element = document.querySelector('.dnb-textarea')
         expect(element.className).toContain('dnb-textarea__status--error')
@@ -768,6 +805,54 @@ describe('Field.String', () => {
     })
   })
 
+  it('should render characterCounter', async () => {
+    const { rerender } = render(
+      <Provider>
+        <Field.String multiline characterCounter={8} value="foo" />
+      </Provider>
+    )
+
+    const counter = document.querySelector('.dnb-text-counter')
+    const textarea = document.querySelector('textarea')
+    const ariaLive = document.querySelector('.dnb-aria-live')
+
+    expect(counter).toHaveTextContent('5 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('')
+
+    await userEvent.type(textarea, 'bar')
+
+    expect(counter).toHaveTextContent('2 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
+
+    rerender(
+      <Provider locale="en-GB">
+        <Field.String multiline characterCounter={8} value="foo" />
+      </Provider>
+    )
+
+    expect(counter).toHaveTextContent('2 of 8 characters remaining')
+
+    await userEvent.type(textarea, 'baz')
+
+    expect(ariaLive).toHaveTextContent(
+      'You have exceeded the limit by 1 on 8 characters'
+    )
+
+    rerender(
+      <Provider locale="en-GB">
+        <Field.String
+          multiline
+          characterCounter={{ max: 8, variant: 'up' }}
+          value="foo"
+        />
+      </Provider>
+    )
+
+    expect(counter).toHaveTextContent(
+      'You have exceeded the limit by 9 on 8 characters'
+    )
+  })
+
   it('gets valid ref element', () => {
     const id = 'unique'
     let ref: React.RefObject<HTMLInputElement>
@@ -793,12 +878,60 @@ describe('Field.String', () => {
       expect(await axeComponent(result)).toHaveNoViolations()
     })
 
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Field.String multiline label="Label" required validateInitially />
+    it('should have aria-required', () => {
+      render(<Field.String required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(
+        <Field.String
+          value="abc"
+          schema={{ type: 'string', minLength: 6 }}
+          validateInitially
+        />
       )
 
-      expect(await axeComponent(result)).toHaveNoViolations()
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
+
+    describe('multiline', () => {
+      it('should validate with ARIA rule', async () => {
+        const result = render(
+          <Field.String
+            multiline
+            label="Label"
+            required
+            validateInitially
+          />
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.String multiline required />)
+
+        const textarea = document.querySelector('textarea')
+        expect(textarea).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.String
+            multiline
+            value="abc"
+            schema={{ type: 'string', minLength: 6 }}
+            validateInitially
+          />
+        )
+
+        const textarea = document.querySelector('textarea')
+        expect(textarea).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 })

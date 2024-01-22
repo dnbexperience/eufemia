@@ -659,13 +659,13 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('button#toggle'))
 
     await waitFor(() => {
-      expect(on_open).toBeCalledTimes(1)
+      expect(on_open).toHaveBeenCalledTimes(1)
     })
 
     fireEvent.click(document.querySelector('button#toggle'))
 
     await waitFor(() => {
-      expect(on_close).toBeCalledTimes(1)
+      expect(on_close).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -993,7 +993,7 @@ describe('Modal component', () => {
 
     expect(document.body).not.toHaveAttribute('style')
 
-    expect(addEventListener).toBeCalledTimes(2)
+    expect(addEventListener).toHaveBeenCalledTimes(2)
     expect(addEventListener).toHaveBeenCalledWith(
       'touchmove',
       expect.any(Function),
@@ -1018,7 +1018,7 @@ describe('Modal component', () => {
       'data-dnb-modal-active'
     )
 
-    expect(removeEventListener).toBeCalledTimes(2)
+    expect(removeEventListener).toHaveBeenCalledTimes(2)
     expect(removeEventListener).toHaveBeenCalledWith(
       'touchmove',
       expect.any(Function),

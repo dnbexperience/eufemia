@@ -398,6 +398,49 @@ describe('useDataValue', () => {
     })
   })
 
+  describe('ariaAttributes', () => {
+    it('should return false by default', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: undefined,
+          validateInitially: true,
+        })
+      )
+
+      expect(result.current.ariaAttributes).toEqual({})
+    })
+
+    it('should return true on required', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: undefined,
+          required: true,
+        })
+      )
+
+      expect(result.current.error).not.toBeInstanceOf(Error)
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-required': 'true',
+      })
+    })
+
+    it('should return true on required and invalid', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          value: undefined,
+          required: true,
+          validateInitially: true,
+        })
+      )
+
+      expect(result.current.error).toBeInstanceOf(Error)
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-invalid': 'true',
+        'aria-required': 'true',
+      })
+    })
+  })
+
   describe('value manipulation', () => {
     it('should call "fromInput" and "toInput"', () => {
       const fromInput = jest.fn((v) => v + 1)
