@@ -629,6 +629,143 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(true)
   })
 
+  it('has to auto-correct invalid min dates when min_date is given', async () => {
+    render(<DatePicker date="2024-02-02" min_date="2024-02-02" />)
+    const day = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const month = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0] as HTMLInputElement
+    const year = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0] as HTMLInputElement
+
+    // by default we have the corrected start day
+    expect(day).toHaveValue('02')
+
+    // try to type invalid day
+    await userEvent.type(day, '01')
+    expect(day).toHaveValue('02')
+
+    // then type valid day
+    await userEvent.type(day, '{Backspace>2}03')
+    expect(day).toHaveValue('03')
+
+    // expect default month to be 02
+    expect(month).toHaveValue('02')
+
+    // try to type invalid month
+    await userEvent.type(month, '01')
+    expect(month).toHaveValue('02')
+
+    // then type valid month
+    await userEvent.type(month, '{Backspace>2}03')
+    expect(month).toHaveValue('03')
+
+    // expect default year to be 2024
+    expect(year).toHaveValue('2024')
+
+    // try to type invalid year
+    await userEvent.type(year, '2023')
+    expect(year).toHaveValue('2024')
+
+    // then type valid year
+    await userEvent.type(year, '{Backspace>4}2025')
+    expect(year).toHaveValue('2025')
+  })
+
+  it('has to auto-correct invalid max dates when max_date is given', async () => {
+    render(<DatePicker date="2024-02-02" max_date="2024-02-02" />)
+    const day = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const month = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0] as HTMLInputElement
+    const year = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0] as HTMLInputElement
+
+    // by default we have the corrected start day
+    expect(day).toHaveValue('02')
+
+    // try to type invalid day
+    await userEvent.type(day, '03')
+    expect(day).toHaveValue('02')
+
+    // then type valid day
+    await userEvent.type(day, '{Backspace>2}01')
+    expect(day).toHaveValue('01')
+
+    // expect default month to be 02
+    expect(month).toHaveValue('02')
+
+    // try to type invalid month
+    await userEvent.type(month, '03')
+    expect(month).toHaveValue('02')
+
+    // then type valid month
+    await userEvent.type(month, '{Backspace>2}01')
+    expect(month).toHaveValue('01')
+
+    // expect default year to be 2024
+    expect(year).toHaveValue('2024')
+
+    // try to type invalid year
+    await userEvent.type(year, '2025')
+    expect(year).toHaveValue('2024')
+
+    // then type valid year
+    await userEvent.type(year, '{Backspace>4}2023')
+    expect(year).toHaveValue('2023')
+  })
+
+  it('should not auto-correct invalid min/max dates if correct_invalid_date is set to false', async () => {
+    render(
+      <DatePicker
+        date="2024-02-02"
+        min_date="2024-02-02"
+        max_date="2024-02-16"
+        correct_invalid_date={false}
+      />
+    )
+    const day = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const month = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0] as HTMLInputElement
+    const year = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0] as HTMLInputElement
+
+    // by default we have the corrected start day
+    expect(day).toHaveValue('02')
+
+    await userEvent.type(day, '01')
+    expect(day).toHaveValue('01')
+
+    await userEvent.type(day, '{Backspace>2}18')
+    expect(day).toHaveValue('18')
+
+    expect(month).toHaveValue('02')
+
+    await userEvent.type(month, '05')
+    expect(month).toHaveValue('05')
+
+    await userEvent.type(month, '{Backspace>2}01')
+    expect(month).toHaveValue('01')
+
+    expect(year).toHaveValue('2024')
+
+    await userEvent.type(year, '2026')
+    expect(year).toHaveValue('2026')
+
+    await userEvent.type(year, '{Backspace>4}2023')
+    expect(year).toHaveValue('2023')
+  })
+
   it('has a working min and max date limitation', () => {
     const on_type = jest.fn()
     const on_change = jest.fn()
