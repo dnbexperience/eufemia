@@ -549,7 +549,7 @@ export default class Textarea extends React.PureComponent {
 
           {characterCounter && maxLength > 0 && (
             <TextCounter
-              variant="down"
+              variant={characterCounter}
               text={value}
               max={maxLength}
               bypassAriaLive={textareaState === 'virgin'}

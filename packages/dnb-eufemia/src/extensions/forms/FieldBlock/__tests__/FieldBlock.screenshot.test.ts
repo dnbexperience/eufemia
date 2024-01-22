@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
-describe('FieldBlock', () => {
+describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/extensions/forms/create-component/FieldBlock/demos/',
   })
 
@@ -23,6 +24,13 @@ describe('FieldBlock', () => {
   it('have to match label size', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-field-block-label-size"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match label description', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-field-block-label-description"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

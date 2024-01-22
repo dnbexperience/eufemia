@@ -54,6 +54,10 @@ fieldset.dnb-forms-field-block {
     align-items: center;
   }
 
+  &__label-description {
+    margin-left: 0.3em;
+  }
+
   &__status {
     grid-area: status;
   }

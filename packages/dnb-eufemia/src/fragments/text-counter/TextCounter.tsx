@@ -43,10 +43,11 @@ export default function TextCounter(localProps: TextCounterProps) {
 
     return context
       .getTranslation(localProps)
-      .TextCounter[`character${toPascalCase(variant || 'down')}`].replace(
-        '%count',
-        String(count)
-      )
+      .TextCounter[
+        `character${toPascalCase(
+          /up|down/.test(String(variant)) ? variant : 'down'
+        )}`
+      ].replace('%count', String(count))
       .replace('%max', String(max))
   }, [variant, max, length, context, localProps])
 

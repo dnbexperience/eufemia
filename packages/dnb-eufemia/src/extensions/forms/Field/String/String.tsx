@@ -128,6 +128,7 @@ function StringComponent(props: Props) {
     type,
     placeholder,
     label,
+    labelDescription,
     value,
     info,
     warning,
@@ -184,6 +185,7 @@ function StringComponent(props: Props) {
       forId={id}
       layout={layout}
       label={label}
+      labelDescription={labelDescription}
       info={info}
       warning={warning}
       disabled={disabled}

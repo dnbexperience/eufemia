@@ -306,23 +306,23 @@ describe('Textarea component', () => {
     const textarea = document.querySelector('textarea')
     const ariaLive = document.querySelector('.dnb-aria-live')
 
-    expect(counter).toHaveTextContent('5 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent('3 av 8 tegn gjenstår')
     expect(ariaLive).toHaveTextContent('')
 
     await userEvent.type(textarea, 'bar')
 
-    expect(counter).toHaveTextContent('2 av 8 tegn gjenstår')
-    expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent('6 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('6 av 8 tegn gjenstår')
 
     rerender(
       <Textarea maxLength={8} characterCounter value="foo" lang="en-GB" />
     )
 
-    expect(counter).toHaveTextContent('2 of 8 characters remaining')
+    expect(counter).toHaveTextContent('6 of 8 characters remaining')
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent('0 of 8 characters remaining')
+    expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
   })
 })
 

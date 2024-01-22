@@ -114,6 +114,16 @@ export const Widths = () => {
   )
 }
 
+export const WithDescription = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-label-description">
+      <FieldBlock label="Label text" labelDescription="Description text">
+        Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
 export const GroupMultipleFields = () => {
   return (
     <ComponentBox>
