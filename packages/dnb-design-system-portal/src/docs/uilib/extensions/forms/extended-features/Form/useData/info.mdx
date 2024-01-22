@@ -72,7 +72,7 @@ const existingData = {
 }
 
 function Component() {
-  const { update } = Form.useData('unique' data={existingData})
+  const { update } = Form.useData('unique', (data = { existingData }))
 
   useEffect(() => {
     update('/foo', () => 'new value')

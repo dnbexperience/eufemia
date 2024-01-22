@@ -302,27 +302,41 @@ describe('Textarea component', () => {
       <Textarea characterCounter={{ max: 8 }} value="foo" />
     )
 
-    const counter = document.querySelector('.dnb-text-counter__message')
+    const counter = document.querySelector('.dnb-text-counter')
     const textarea = document.querySelector('textarea')
     const ariaLive = document.querySelector('.dnb-aria-live')
 
-    expect(counter).toHaveTextContent('3 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent('5 av 8 tegn gjenstår')
     expect(ariaLive).toHaveTextContent('')
 
     await userEvent.type(textarea, 'bar')
 
-    expect(counter).toHaveTextContent('6 av 8 tegn gjenstår')
-    expect(ariaLive).toHaveTextContent('6 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent('2 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
 
     rerender(
       <Textarea characterCounter={{ max: 8 }} value="foo" lang="en-GB" />
     )
 
-    expect(counter).toHaveTextContent('6 of 8 characters remaining')
+    expect(counter).toHaveTextContent('2 of 8 characters remaining')
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
+    expect(ariaLive).toHaveTextContent(
+      'You have exceeded the limit by 1 on 8 characters'
+    )
+
+    rerender(
+      <Textarea
+        characterCounter={{ max: 8, variant: 'down' }}
+        value="foo"
+        lang="en-GB"
+      />
+    )
+
+    expect(counter).toHaveTextContent(
+      'You have exceeded the limit by 1 on 8 characters'
+    )
 
     rerender(
       <Textarea
@@ -332,7 +346,9 @@ describe('Textarea component', () => {
       />
     )
 
-    expect(counter).toHaveTextContent('You have used 8 of 8 characters')
+    expect(counter).toHaveTextContent(
+      'You have exceeded the limit by 9 on 8 characters'
+    )
   })
 })
 

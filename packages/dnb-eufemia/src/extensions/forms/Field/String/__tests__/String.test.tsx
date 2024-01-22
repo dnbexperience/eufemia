@@ -816,13 +816,13 @@ describe('Field.String', () => {
     const textarea = document.querySelector('textarea')
     const ariaLive = document.querySelector('.dnb-aria-live')
 
-    expect(counter).toHaveTextContent('3 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent('5 av 8 tegn gjenstår')
     expect(ariaLive).toHaveTextContent('')
 
     await userEvent.type(textarea, 'bar')
 
-    expect(counter).toHaveTextContent('6 av 8 tegn gjenstår')
-    expect(ariaLive).toHaveTextContent('6 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent('2 av 8 tegn gjenstår')
+    expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
 
     rerender(
       <Provider locale="en-GB">
@@ -830,11 +830,13 @@ describe('Field.String', () => {
       </Provider>
     )
 
-    expect(counter).toHaveTextContent('6 of 8 characters remaining')
+    expect(counter).toHaveTextContent('2 of 8 characters remaining')
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
+    expect(ariaLive).toHaveTextContent(
+      'You have exceeded the limit by 1 on 8 characters'
+    )
 
     rerender(
       <Provider locale="en-GB">
@@ -846,7 +848,9 @@ describe('Field.String', () => {
       </Provider>
     )
 
-    expect(counter).toHaveTextContent('You have used 8 of 8 characters')
+    expect(counter).toHaveTextContent(
+      'You have exceeded the limit by 9 on 8 characters'
+    )
   })
 
   it('gets valid ref element', () => {
