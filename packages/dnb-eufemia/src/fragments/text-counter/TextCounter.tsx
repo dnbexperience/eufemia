@@ -1,66 +1,73 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import { toPascalCase } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import Space, { SpaceProps } from '../../components/Space'
 import AriaLive from '../../components/AriaLive'
-import type { LocaleProps } from '../../shared/types'
+import Icon from '../../components/icon/Icon'
+import { exclamation_triangle } from '../../icons'
+import type { LocaleProps, SpacingProps } from '../../shared/types'
+import P from '../../elements/P'
 
 export type TextCounterProps = {
   variant?: 'down' | 'up' | true
   text: string
   max: number
-  bypassAriaLive?: boolean
-} & React.HTMLAttributes<HTMLSpanElement> &
+} & React.HTMLAttributes<HTMLParagraphElement> &
   LocaleProps &
-  SpaceProps
+  SpacingProps
 
 export default function TextCounter(localProps: TextCounterProps) {
   const context = useContext(Context)
+
   const {
-    variant,
+    variant: _variant,
     text,
     max,
-    bypassAriaLive = false,
     className,
     locale, // eslint-disable-line
     ...rest
   } = localProps
 
+  const textRef = useRef(text)
+  const variant = /up|down/.test(String(_variant)) ? _variant : 'down'
   const length = (text || '').length
-
   const message = useMemo(() => {
     if (!(max > 0)) {
       return ''
     }
 
-    let count = variant === 'down' ? max - length : length
-    if (count > max) {
-      count = max
-    } else if (count < 0) {
-      count = 0
-    }
+    const count = variant === 'down' ? Math.abs(max - length) : length
+    const key = `character${
+      length > max ? 'Exceeded' : toPascalCase(variant)
+    }`
 
     return context
       .getTranslation(localProps)
-      .TextCounter[
-        `character${toPascalCase(
-          /up|down/.test(String(variant)) ? variant : 'down'
-        )}`
-      ].replace('%count', String(count))
+      .TextCounter[key].replace('%count', String(count))
       .replace('%max', String(max))
-  }, [variant, max, length, context, localProps])
+  }, [max, length, variant, context, localProps])
+
+  const bypassAria = useMemo(() => {
+    const bypass = textRef.current === text
+    textRef.current = text
+    return bypass
+  }, [text])
 
   return (
-    <Space
-      element="span"
-      className={classnames('dnb-text-counter', className)}
+    <P
+      size="small"
+      className={classnames(
+        'dnb-text-counter',
+        length > max && 'dnb-text-counter--exceeded',
+        className
+      )}
       {...rest}
     >
-      <span className="dnb-text-counter__message">{message}</span>
-      <AriaLive disabled={length > 0 && bypassAriaLive} delay={2000}>
+      <Icon icon={exclamation_triangle} />
+      {message}
+      <AriaLive element="span" disabled={bypassAria} delay={2000}>
         {message}
       </AriaLive>
-    </Space>
+    </P>
   )
 }

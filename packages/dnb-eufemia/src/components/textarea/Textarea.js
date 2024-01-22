@@ -550,9 +550,9 @@ export default class Textarea extends React.PureComponent {
 
           {characterCounter && (
             <TextCounter
+              top="x-small"
               text={value}
               max={characterCounter}
-              bypassAriaLive={textareaState === 'virgin'}
               lang={this.props.lang}
               locale={this.props.locale}
               {...characterCounter}

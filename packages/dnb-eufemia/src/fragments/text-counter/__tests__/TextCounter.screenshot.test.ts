@@ -27,4 +27,11 @@ describe.each(['ui', 'sbanken'])('TextCounter for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to character counter exceeded', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="text-counter-exceeded"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

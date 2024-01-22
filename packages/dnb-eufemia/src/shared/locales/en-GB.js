@@ -3,6 +3,8 @@ export default {
     TextCounter: {
       characterDown: '%count of %max characters remaining',
       characterUp: 'You have used %count of %max characters',
+      characterExceeded:
+        'You have exceeded the limit by %count on %max characters',
     },
     TimelineItem: {
       alt_label_completed: 'Complete',

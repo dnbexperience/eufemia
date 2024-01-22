@@ -184,7 +184,6 @@ button .dnb-form-status__text {
   padding-left: 1rem;
 }
 .dnb-textarea .dnb-text-counter {
-  margin-top: 0.5rem;
   margin-left: -0.5rem;
 }
 .dnb-textarea__textarea {
