@@ -56,7 +56,7 @@ export const WithHelp = () => {
         value="foo"
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'Take the time to help other people without expecting a reward or gratitude is definitely important in living an optimistic life.',
         }}
         onChange={(value) => console.log('onChange', value)}
@@ -393,7 +393,7 @@ export const MultipleWithHelp = () => {
         label="Label text"
         help={{
           title: 'Help is available',
-          contents: 'There is more happiness in giving than in receiving.',
+          content: 'There is more happiness in giving than in receiving.',
         }}
         multiline
         onChange={(value) => console.log('onChange', value)}

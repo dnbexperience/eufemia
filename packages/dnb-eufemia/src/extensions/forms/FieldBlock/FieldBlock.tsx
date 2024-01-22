@@ -24,7 +24,7 @@ export type Props = Pick<
   /** Width of outer block element */
   width?: false | 'small' | 'medium' | 'large' | 'stretch'
   /** Width of contents block, while label etc can be wider if space is available */
-  contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
+  contentWidth?: 'small' | 'medium' | 'large' | 'stretch'
   /** Typography size */
   size?: 'medium' | 'large'
 } & React.HTMLAttributes<HTMLDivElement>
@@ -43,7 +43,7 @@ function FieldBlock(props: Props) {
     error: errorProp,
     disabled,
     width,
-    contentsWidth,
+    contentWidth,
     size,
     contentClassName,
     children,
@@ -169,8 +169,8 @@ function FieldBlock(props: Props) {
           <div
             className={classnames(
               'dnb-forms-field-block__contents',
-              contentsWidth !== undefined &&
-                `dnb-forms-field-block__contents--width-${contentsWidth}`,
+              contentWidth !== undefined &&
+                `dnb-forms-field-block__contents--width-${contentWidth}`,
               contentClassName
             )}
           >

@@ -87,25 +87,25 @@ export const Widths = () => {
 
         <FieldBlock
           label="Small (affects contents only)"
-          contentsWidth="small"
+          contentWidth="small"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
           label="Medium (affects contents only)"
-          contentsWidth="medium"
+          contentWidth="medium"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
           label="Large (affects contents only)"
-          contentsWidth="large"
+          contentWidth="large"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
           label="Stretch (affects contents only)"
-          contentsWidth="stretch"
+          contentWidth="stretch"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>

@@ -195,7 +195,7 @@ function SelectCountry(props: Props) {
         show_submit_button
         suffix={
           help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
+            <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
         autoComplete="country-name"

@@ -60,7 +60,7 @@ export const WithHelp = () => {
         onChange={(...args) => console.log('onChange', ...args)}
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
         }}
       />

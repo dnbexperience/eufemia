@@ -95,7 +95,7 @@ function DateComponent(props: Props) {
         status={hasError ? 'error' : undefined}
         suffix={
           help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
+            <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
         on_change={handleChange}

@@ -64,7 +64,7 @@ export const WithHelp = () => {
         value="01017501234"
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'The more I help others to succeed, the more I succeed.',
         }}
         onChange={(value) => console.log('onChange', value)}
