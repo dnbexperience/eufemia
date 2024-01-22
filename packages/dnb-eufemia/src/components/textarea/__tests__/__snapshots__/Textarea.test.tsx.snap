@@ -183,11 +183,9 @@ button .dnb-form-status__text {
 .dnb-textarea__suffix.dnb-suffix {
   padding-left: 1rem;
 }
-.dnb-textarea__counter {
+.dnb-textarea .dnb-text-counter {
   margin-top: 0.5rem;
   margin-left: -0.5rem;
-  font-size: var(--font-size-small);
-  color: var(--color-black-55);
 }
 .dnb-textarea__textarea {
   position: relative;

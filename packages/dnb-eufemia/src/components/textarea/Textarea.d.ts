@@ -88,7 +88,7 @@ export interface TextareaProps
    */
   autoresize?: boolean;
   /**
-   * use `true` to show a character counter.
+   * Use `up` or `down` or `true` (down) to show a character counter. You need to set a `maxLength={number}` in order to show the counter.
    */
   characterCounter?: boolean;
   /**
