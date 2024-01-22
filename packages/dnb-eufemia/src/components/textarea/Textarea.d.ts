@@ -8,6 +8,7 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
+import type { TextCounterProps } from '../../fragments/TextCounter';
 export type TextareaSuffix =
   | string
   | ((...args: any[]) => any)
@@ -90,7 +91,7 @@ export interface TextareaProps
   /**
    * Use `up` or `down` or `true` (down) to show a character counter. You need to set a `maxLength={number}` in order to show the counter.
    */
-  characterCounter?: boolean;
+  characterCounter?: Omit<TextCounterProps, 'text'> | number;
   /**
    * Set a number to define how many rows the Textarea can auto grow.
    */

@@ -78,8 +78,11 @@ export default class Textarea extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     characterCounter: PropTypes.oneOfType([
-      PropTypes.oneOf(['down', 'up']),
-      PropTypes.bool,
+      PropTypes.shape({
+        max: PropTypes.number,
+        variant: PropTypes.oneOf(['down', 'up']),
+      }),
+      PropTypes.number,
     ]),
     autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     autoresize_max_rows: PropTypes.oneOfType([
@@ -374,7 +377,6 @@ export default class Textarea extends React.PureComponent {
       className,
       autoresize,
       characterCounter,
-      maxLength,
       autoresize_max_rows, //eslint-disable-line
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
@@ -405,7 +407,6 @@ export default class Textarea extends React.PureComponent {
       value: hasValue ? value : '',
       id,
       name: id,
-      maxLength,
       disabled: isTrue(disabled) || isTrue(skeleton),
       'aria-placeholder': placeholder,
       ...attributes,
@@ -547,14 +548,14 @@ export default class Textarea extends React.PureComponent {
             )}
           </span>
 
-          {characterCounter && maxLength > 0 && (
+          {characterCounter && (
             <TextCounter
-              variant={characterCounter}
               text={value}
-              max={maxLength}
+              max={characterCounter}
               bypassAriaLive={textareaState === 'virgin'}
               lang={this.props.lang}
               locale={this.props.locale}
+              {...characterCounter}
             />
           )}
         </span>

@@ -299,7 +299,7 @@ describe('Textarea component', () => {
 
   it('should render characterCounter', async () => {
     const { rerender } = render(
-      <Textarea maxLength={8} characterCounter value="foo" />
+      <Textarea characterCounter={{ max: 8 }} value="foo" />
     )
 
     const counter = document.querySelector('.dnb-text-counter__message')
@@ -315,7 +315,7 @@ describe('Textarea component', () => {
     expect(ariaLive).toHaveTextContent('6 av 8 tegn gjenstår')
 
     rerender(
-      <Textarea maxLength={8} characterCounter value="foo" lang="en-GB" />
+      <Textarea characterCounter={{ max: 8 }} value="foo" lang="en-GB" />
     )
 
     expect(counter).toHaveTextContent('6 of 8 characters remaining')
@@ -323,6 +323,16 @@ describe('Textarea component', () => {
     await userEvent.type(textarea, 'baz')
 
     expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
+
+    rerender(
+      <Textarea
+        characterCounter={{ max: 8, variant: 'up' }}
+        value="foo"
+        lang="en-GB"
+      />
+    )
+
+    expect(counter).toHaveTextContent('You have used 8 of 8 characters')
   })
 })
 

@@ -62,8 +62,7 @@ export const TextareaCharacterCounter = () => (
         autoresize
         value="Textarea value\nNewline"
         status="Message to the user"
-        characterCounter
-        maxLength={40}
+        characterCounter={40}
       />
     </ComponentBox>
   </Wrapper>

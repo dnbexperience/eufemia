@@ -8,9 +8,10 @@ import InputMasked, {
 import SharedContext from '../../../../shared/Context'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
+import type { TextCounterProps } from '../../../../fragments/TextCounter'
+import type { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
 
 interface ErrorMessages {
   required?: string
@@ -32,7 +33,7 @@ export type Props = FieldHelpProps &
     autoComplete?: HTMLInputElement['autocomplete']
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     autoresizeMaxRows?: number
-    characterCounter?: boolean
+    characterCounter?: Omit<TextCounterProps, 'text'> | number
     mask?: InputMaskedProps['mask']
     // Validation
     minLength?: number
@@ -200,7 +201,6 @@ function StringComponent(props: Props) {
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           characterCounter={characterCounter}
-          maxLength={characterCounter ? props.maxLength : undefined}
         />
       ) : mask ? (
         <InputMasked

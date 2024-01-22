@@ -808,12 +808,7 @@ describe('Field.String', () => {
   it('should render characterCounter', async () => {
     const { rerender } = render(
       <Provider>
-        <Field.String
-          multiline
-          maxLength={8}
-          characterCounter
-          value="foo"
-        />
+        <Field.String multiline characterCounter={8} value="foo" />
       </Provider>
     )
 
@@ -831,12 +826,7 @@ describe('Field.String', () => {
 
     rerender(
       <Provider locale="en-GB">
-        <Field.String
-          multiline
-          maxLength={8}
-          characterCounter
-          value="foo"
-        />
+        <Field.String multiline characterCounter={8} value="foo" />
       </Provider>
     )
 
@@ -845,6 +835,18 @@ describe('Field.String', () => {
     await userEvent.type(textarea, 'baz')
 
     expect(ariaLive).toHaveTextContent('8 of 8 characters remaining')
+
+    rerender(
+      <Provider locale="en-GB">
+        <Field.String
+          multiline
+          characterCounter={{ max: 8, variant: 'up' }}
+          value="foo"
+        />
+      </Provider>
+    )
+
+    expect(counter).toHaveTextContent('You have used 8 of 8 characters')
   })
 
   it('gets valid ref element', () => {
