@@ -165,7 +165,7 @@ function StringComponent(props: Props) {
     className: cn,
     placeholder: placeholder,
     suffix: help ? (
-      <HelpButton title={help.title}>{help.contents}</HelpButton>
+      <HelpButton title={help.title}>{help.content}</HelpButton>
     ) : undefined,
     on_focus: handleFocus,
     on_blur: handleBlur,
@@ -189,7 +189,7 @@ function StringComponent(props: Props) {
       disabled={disabled}
       error={error}
       width={width === 'stretch' ? width : undefined}
-      contentsWidth={width !== false ? width : undefined}
+      contentWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
       {multiline ? (

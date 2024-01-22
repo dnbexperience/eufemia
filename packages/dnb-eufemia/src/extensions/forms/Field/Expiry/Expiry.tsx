@@ -117,7 +117,7 @@ function Expiry(props: ExpiryProps) {
         ]}
         suffix={
           help ? (
-            <HelpButton title={help.title}>{help.contents}</HelpButton>
+            <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
       />

@@ -83,7 +83,7 @@ function ArrayComponent(props: Props) {
       warning={warning}
       error={error}
       width={width}
-      contentsWidth={width !== false ? width : undefined}
+      contentWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
       <Flex.Container

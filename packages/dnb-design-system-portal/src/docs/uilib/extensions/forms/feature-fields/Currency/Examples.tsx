@@ -56,7 +56,7 @@ export const WithHelp = () => {
         label="Amount"
         help={{
           title: 'Help is available',
-          contents:
+          content:
             'Helping others, without expecting anything in return is what true self-worth is all about.',
         }}
         onChange={(value) => console.log('onChange', value)}

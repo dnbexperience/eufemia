@@ -347,9 +347,9 @@ describe('FieldBlock', () => {
     )
   })
 
-  it('should support "contentsWidth" property', () => {
+  it('should support "contentWidth" property', () => {
     const { rerender } = render(
-      <FieldBlock contentsWidth="medium">content</FieldBlock>
+      <FieldBlock contentWidth="medium">content</FieldBlock>
     )
 
     const element = document.querySelector(
@@ -360,7 +360,7 @@ describe('FieldBlock', () => {
       'dnb-forms-field-block__contents--width-medium'
     )
 
-    rerender(<FieldBlock contentsWidth="large">content</FieldBlock>)
+    rerender(<FieldBlock contentWidth="large">content</FieldBlock>)
 
     expect(element.classList).toContain(
       'dnb-forms-field-block__contents--width-large'

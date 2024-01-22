@@ -229,7 +229,7 @@ export interface FieldProps<
 export interface FieldHelpProps {
   help?: {
     title?: string
-    contents?: string
+    content?: string
   }
 }
 

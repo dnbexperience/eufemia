@@ -247,7 +247,7 @@ function Selection(props: Props) {
             data={data}
             suffix={
               help ? (
-                <HelpButton title={help.title}>{help.contents}</HelpButton>
+                <HelpButton title={help.title}>{help.content}</HelpButton>
               ) : undefined
             }
             on_change={handleDropdownChange}

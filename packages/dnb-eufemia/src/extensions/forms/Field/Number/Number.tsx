@@ -240,7 +240,7 @@ function NumberComponent(props: Props) {
     error,
     disabled,
     width: width === 'stretch' ? width : undefined,
-    contentsWidth: width !== false ? width : undefined,
+    contentWidth: width !== false ? width : undefined,
     ...pickSpacingProps(props),
   }
 
@@ -312,7 +312,7 @@ function NumberComponent(props: Props) {
     stretch: width !== undefined,
     suffix:
       help && !showStepControls ? (
-        <HelpButton title={help.title}>{help.contents}</HelpButton>
+        <HelpButton title={help.title}>{help.content}</HelpButton>
       ) : undefined,
     ...ariaParams,
   }
@@ -323,7 +323,7 @@ function NumberComponent(props: Props) {
       <InputMasked {...inputProps} />
       {showStepControls && <Button {...increaseProps} />}
       {help && showStepControls && (
-        <HelpButton title={help.title}>{help.contents}</HelpButton>
+        <HelpButton title={help.title}>{help.content}</HelpButton>
       )}
     </FieldBlock>
   )
