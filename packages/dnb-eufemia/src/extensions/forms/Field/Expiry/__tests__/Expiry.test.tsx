@@ -295,7 +295,7 @@ describe('Field.Expiry', () => {
 
       expect(inputWrapper.classList).toContain('dnb-input__status--error')
       expect(formStatusText).toBeInTheDocument()
-      expect(formStatusText).toHaveTextContent('The value is required')
+      expect(formStatusText).toHaveTextContent('Du må angi en gyldig dato')
 
       await userEvent.type(input, '12')
 
@@ -306,10 +306,30 @@ describe('Field.Expiry', () => {
     })
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(<Field.Expiry />)
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Expiry label="Label" required validateInitially />
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.Expiry required />)
+
+      const [month, year] = Array.from(document.querySelectorAll('input'))
+      expect(month).toHaveAttribute('aria-required', 'true')
+      expect(year).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Expiry required validateInitially />)
+
+      const [month, year] = Array.from(document.querySelectorAll('input'))
+      expect(month).toHaveAttribute('aria-invalid', 'true')
+      expect(year).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 
   it('renders error', () => {

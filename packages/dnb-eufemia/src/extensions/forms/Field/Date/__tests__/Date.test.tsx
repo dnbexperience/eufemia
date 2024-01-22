@@ -88,6 +88,20 @@ describe('Field.Date', () => {
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
+
+    it('should have aria-required', () => {
+      render(<Field.Date required />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should have aria-invalid', () => {
+      render(<Field.Date required validateInitially />)
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
   })
 
   it('renders error', () => {

@@ -55,6 +55,7 @@ function Expiry(props: ExpiryProps) {
     value = '',
     layout = 'vertical',
     required,
+    ariaAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -107,6 +108,7 @@ function Expiry(props: ExpiryProps) {
             mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
+            ...ariaAttributes,
           },
           {
             id: 'year',
@@ -114,6 +116,7 @@ function Expiry(props: ExpiryProps) {
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
             autoComplete: 'cc-exp-year',
+            ...ariaAttributes,
           },
         ]}
         suffix={

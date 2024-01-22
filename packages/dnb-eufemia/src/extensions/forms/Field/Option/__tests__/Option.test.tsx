@@ -9,16 +9,20 @@ describe('Field.Option', () => {
 
   it('should render with props', () => {
     render(<Field.Option {...props} />)
+    const option = document.querySelector('[role="option"]')
+    expect(option).toBeInTheDocument()
   })
 
-  it('should validate with ARIA rules', async () => {
-    const result = render(
-      <Field.Selection>
-        <Field.Option value="foo" title="Foo!" />
-        <Field.Option value="bar" title="Baar!" />
-      </Field.Selection>
-    )
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Selection>
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+      )
 
-    expect(await axeComponent(result)).toHaveNoViolations()
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
   })
 })
