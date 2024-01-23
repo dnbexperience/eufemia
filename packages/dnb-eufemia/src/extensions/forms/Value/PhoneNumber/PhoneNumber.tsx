@@ -11,18 +11,21 @@ export type Props = StringValueProps
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
 
+  const label =
+    props.label ??
+    (props.inline
+      ? undefined
+      : sharedContext?.translation.Forms.phoneNumberLabel)
+  const prepare = (value) =>
+    format(cleanNumber(value), {
+      phone: true,
+    }).toString()
   const stringValueProps: Props = {
     ...props,
-    label:
-      props.label ??
-      (props.inline
-        ? undefined
-        : sharedContext?.translation.Forms.phoneNumberLabel),
-    prepare: (value) =>
-      format(cleanNumber(value), {
-        phone: true,
-      }).toString(),
+    label,
+    prepare,
   }
+
   return <StringValue {...stringValueProps} />
 }
 

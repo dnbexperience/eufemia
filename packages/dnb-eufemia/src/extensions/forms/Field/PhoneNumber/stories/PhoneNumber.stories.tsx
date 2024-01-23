@@ -1,17 +1,35 @@
 import React from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, FormError } from '../../..'
 import { Flex } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PhoneNumber',
 }
 
-const initialData = { phone: '+47 423456789' }
+const initialData = { phone: '+47 42345678' }
+
+const makeRequest = async (value) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(false)
+    }, 1000)
+  })
+}
+
+const validator = async (value) => {
+  // Delay the response
+  const isValid = await makeRequest(value)
+  if (!isValid) {
+    return new FormError('Invalid value', {
+      validationRule: 'required',
+    })
+  }
+}
 
 export function PhoneNumber() {
   const { update } = Form.useData('uniqueId')
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     update('/phone', () => '+41 123')
   }, [update])
 
@@ -19,10 +37,10 @@ export function PhoneNumber() {
     <Form.Handler id="uniqueId" data={initialData}>
       <Flex.Stack>
         <Field.PhoneNumber
-          pattern="((?=\+47)^\+47 [49]\d{7}$)|((?!\+47)^\+\d{2} \d{6})"
-          // pattern="^\+47 [49]+"
-          // required
-          // validateInitially
+          required
+          validator={validator}
+          // pattern="^\+41 [1]\d{2}$"
+          validateInitially
           path="/phone"
           onBlur={console.log}
           onFocus={console.log}
