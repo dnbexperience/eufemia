@@ -21,6 +21,8 @@ import QuickStart from './quick-start'
 - [State management](#state-management)
 - [Field components](#field-components)
 - [Value components](#value-components)
+- [Validation](#validation)
+- [Localization](#localization)
 - [Layout](#layout)
 - [Best practices](#best-practices)
 - [Create your own components](#create-your-own-components)
@@ -67,6 +69,117 @@ On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fi
 ### Value components
 
 Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+### Validation
+
+Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema` or `validator` property.
+
+#### required
+
+The required property is a boolean that indicates whether the field is required or not:
+
+```tsx
+render(<Field.PhoneNumber required />)
+```
+
+#### pattern
+
+The pattern property is a regular expression that the value of the field must match:
+
+```tsx
+render(<Field.PhoneNumber pattern="..." />)
+```
+
+#### schema
+
+The schema property is a JSON schema that the value of the field must match:
+
+```tsx
+const schema = {
+  pattern: '...',
+}
+render(<Field.PhoneNumber schema={schema} />)
+```
+
+#### validator
+
+The validator property is a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
+
+```tsx
+const validator = (value) => {
+  const isInvalid = new RegExp('...').test(value)
+  if (isInvalid) {
+    return new FormError('Invalid value', {
+      validationRule: 'pattern',
+    })
+  }
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+##### Error messages
+
+Return either `new Error` or `new FormError` with a `validationRule`, such as "pattern" or "required". This will display an existing and translated message from the `errorMessages` object.
+
+##### Async validator with a Promise
+
+Async validation is also supported. The validator function can return a promise that resolves to an error message:
+
+```tsx
+const validator = (value) => {
+  return new Promise((resolve, reject) => {
+    // Delay the response
+    resolve(new Error('Invalid value')) // Show this message
+  })
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+##### Async validator with async/await
+
+```tsx
+const validator = async (value) => {
+  const isInvalid = await makeRequest(value)
+  if (isInvalid) {
+    return new Error('Invalid value') // Show this message
+  }
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+### Localization
+
+In short, use the Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). This will ensure that the correct language is used for all the fields in your form.
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider locale="en-GB">
+    <Field.PhoneNumber />
+  </Provider>,
+)
+```
+
+In addition, you can customize the translations globally:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider
+    locales={{
+      'nb-NO': {
+        Forms: { phoneNumberLabel: 'Custom' },
+      },
+    }}
+  >
+    <Field.PhoneNumber />
+  </Provider>,
+)
+```
 
 ### Layout
 
