@@ -1,3 +1,5 @@
+@import '../../../style/core/utilities.scss';
+
 .dnb-card {
   &__heading {
     font-size: var(--font-size-basis);
@@ -6,5 +8,44 @@
 
   & + &__heading {
     margin-top: var(--spacing-small);
+  }
+
+  &.dnb-section {
+    background-color: var(--background-color);
+  }
+
+  @include allBelow(small) {
+    &.dnb-section::before {
+      left: -100vw;
+      right: -100vw;
+    }
+  }
+
+  // Show only one border (combined) when stacked
+  & + .dnb-card:not([class*='space__top']) {
+    @include allBelow(small) {
+      &::before {
+        top: var(--outline-width);
+      }
+      background: linear-gradient(
+          to left,
+          var(--background-color),
+          var(--background-color)
+        )
+        no-repeat 0 var(--outline-width); // with an offset
+    }
+  }
+
+  // Combine the two borers to one
+  .dnb-flex-container.dnb-flex-container--divider-space & + .dnb-card {
+    @include allBelow(small) {
+      // --gap: var(--outline-width);
+      margin-top: 0;
+
+      &::before {
+        top: var(--outline-width); // align background and outline
+        z-index: 0;
+      }
+    }
   }
 }

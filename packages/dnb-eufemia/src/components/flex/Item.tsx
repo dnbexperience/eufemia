@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
-import { omitSpacingProps, pickSpacingProps } from './utils'
 
 export type Sizes =
   | 1
@@ -54,8 +53,7 @@ function FlexItem(props: Props) {
     grow && 'dnb-flex-item--grow',
     shrink && 'dnb-flex-item--shrink',
     alignSelf && `dnb-flex-item--align-self-${alignSelf}`,
-    size && 'dnb-flex-item--responsive',
-    className
+    size && 'dnb-flex-item--responsive'
   )
 
   const spaceStyles = {} as React.CSSProperties
@@ -75,15 +73,11 @@ function FlexItem(props: Props) {
 
   if (Object.keys(spaceStyles).length) {
     return (
-      <Space
-        element={element}
-        className={cn}
-        style={{ ...spaceStyles, ...style }}
-        {...omitSpacingProps(rest)}
-      >
+      <Space element={element} className={cn} style={spaceStyles}>
         <Space
-          className="dnb-flex-item__spacer"
-          {...pickSpacingProps(rest)}
+          className={classnames('dnb-flex-item__spacer', className)}
+          style={style}
+          {...rest}
         >
           {children}
         </Space>
@@ -92,7 +86,12 @@ function FlexItem(props: Props) {
   }
 
   return (
-    <Space element={element} className={cn} style={style} {...rest}>
+    <Space
+      element={element}
+      className={classnames(cn, className)}
+      style={style}
+      {...rest}
+    >
       {children}
     </Space>
   )

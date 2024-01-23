@@ -56,11 +56,11 @@ describe('Card', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-flex-item',
+      'dnb-flex-item--align-self-stretch',
       'dnb-section',
       'dnb-section--default',
       'dnb-card',
       'custom-class',
-      'dnb-flex-item--align-self-stretch',
     ])
   })
 
@@ -73,9 +73,10 @@ describe('Card', () => {
     )
 
     const element = document.querySelector('.dnb-card')
+    const container = element.querySelector('.dnb-flex-container')
 
-    expect(element.childNodes).toHaveLength(2)
-    expect(element.textContent).toBe('ParagraphParagraph')
+    expect(container.childNodes).toHaveLength(2)
+    expect(container.textContent).toBe('ParagraphParagraph')
   })
 
   it('should have wrap={false} on a stack', () => {
@@ -87,7 +88,7 @@ describe('Card', () => {
     )
 
     const element = document.querySelector('.dnb-flex-container')
-    expect(element.className).not.toContain('dnb-flex-container--wrap')
+    expect(element).not.toHaveClass('dnb-flex-container--wrap')
   })
 
   it('should stack children divided by space', () => {
@@ -99,9 +100,10 @@ describe('Card', () => {
     )
 
     const element = document.querySelector('.dnb-card')
-    const children = element.children
+    const container = element.querySelector('.dnb-flex-container')
+    const children = container.children
 
-    expect(element).toHaveClass('dnb-flex-container--divider-space')
+    expect(container).toHaveClass('dnb-flex-container--divider-space')
 
     expect(children.length).toBe(2)
 
@@ -123,9 +125,10 @@ describe('Card', () => {
     )
 
     const element = document.querySelector('.dnb-card')
-    const children = element.children
+    const container = element.querySelector('.dnb-flex-container')
+    const children = container.children
 
-    expect(element).toHaveClass('dnb-flex-container--divider-line')
+    expect(container).toHaveClass('dnb-flex-container--divider-line')
 
     expect(children.length).toBe(3)
 
@@ -152,8 +155,9 @@ describe('Card', () => {
     )
 
     const element = document.querySelector('.dnb-card')
+    const container = element.querySelector('.dnb-flex-container')
 
-    expect(element).toHaveClass('dnb-flex-container--direction-vertical')
+    expect(container).toHaveClass('dnb-flex-container--direction-vertical')
 
     rerender(
       <Card direction="horizontal">
@@ -161,7 +165,9 @@ describe('Card', () => {
       </Card>
     )
 
-    expect(element).toHaveClass('dnb-flex-container--direction-horizontal')
+    expect(container).toHaveClass(
+      'dnb-flex-container--direction-horizontal'
+    )
   })
 
   it('should use section as default element', () => {
@@ -198,9 +204,10 @@ describe('Card', () => {
     )
 
     const element = document.querySelector('.dnb-card')
-    const children = element.children
+    const container = element.querySelector('.dnb-flex-container')
+    const children = container.children
 
-    expect(element).toHaveClass('dnb-flex-container--spacing-small')
+    expect(container).toHaveClass('dnb-flex-container--spacing-small')
 
     expect(children.length).toBe(3)
 
@@ -221,7 +228,7 @@ describe('Card', () => {
       </Card>
     )
 
-    expect(element).toHaveClass('dnb-flex-container--spacing-large')
+    expect(container).toHaveClass('dnb-flex-container--spacing-large')
 
     expect(children[0]).toHaveClass('dnb-space__top--zero')
     expect(children[0]).toHaveClass('dnb-space__bottom--zero')
