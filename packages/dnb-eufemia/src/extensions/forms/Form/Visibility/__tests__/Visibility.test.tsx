@@ -1,7 +1,11 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
+import { Field, Form } from '../../..'
+import { Flex } from '../../../../../components'
+import { P } from '../../../../../elements'
 
 describe('Visibility', () => {
   it('renders children when no props is given', () => {
@@ -171,5 +175,55 @@ describe('Visibility', () => {
       )
       expect(screen.queryByText('Child')).toBeNull()
     })
+  })
+
+  it('should be supported by Flex.Container', async () => {
+    render(
+      <Form.Handler>
+        <Flex.Stack>
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility pathTrue="/toggleValue">
+            <P>This is visible 1</P>
+            <P>This is visible 2</P>
+          </Form.Visibility>
+        </Flex.Stack>
+      </Form.Handler>
+    )
+
+    const checkbox = document.querySelector('input[type="checkbox"]')
+
+    expect(document.querySelectorAll('p')).toHaveLength(0)
+
+    await userEvent.click(checkbox)
+
+    expect(document.querySelectorAll('p')).toHaveLength(2)
+
+    const [first, second] = Array.from(document.querySelectorAll('p'))
+    expect(first).toHaveClass(
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+    )
+    expect(second).toHaveClass(
+      'dnb-p dnb-space__top--small dnb-space__bottom--zero'
+    )
+
+    const container = document.querySelector(
+      '.dnb-flex-container > .dnb-flex-container'
+    )
+    expect(container).toMatchInlineSnapshot(`
+      <section
+        class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+      >
+        <p
+          class="dnb-p dnb-space__top--zero dnb-space__bottom--zero"
+        >
+          This is visible 1
+        </p>
+        <p
+          class="dnb-p dnb-space__top--small dnb-space__bottom--zero"
+        >
+          This is visible 2
+        </p>
+      </section>
+    `)
   })
 })
