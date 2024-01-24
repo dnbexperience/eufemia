@@ -194,7 +194,7 @@ function FlexContainer(props: Props) {
   const n = 'dnb-flex-container'
   const getRowGapClass = useCallback(() => {
     if (rowGap === false) {
-      return
+      return `${n}--row-gap-off`
     }
 
     if (
