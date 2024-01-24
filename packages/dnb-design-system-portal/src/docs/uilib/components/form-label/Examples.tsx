@@ -53,7 +53,7 @@ export const WithHelp = () => (
           <FormLabel
             forId="with-help-1"
             help={{
-              contents: 'This is a very helpful text',
+              content: 'This is a very helpful text',
             }}
           >
             Horizontal label
@@ -66,7 +66,7 @@ export const WithHelp = () => (
             forId="with-help-2"
             vertical
             help={{
-              contents: 'Another very helpful text',
+              content: 'Another very helpful text',
             }}
           >
             Vertical label
@@ -91,7 +91,7 @@ export const WithHelpCustom = () => (
           <FormLabel
             forId="with-custom-help"
             help={{
-              contents: 'Peekaboo!',
+              content: 'Peekaboo!',
               contentId: 'help-content',
             }}
           >
