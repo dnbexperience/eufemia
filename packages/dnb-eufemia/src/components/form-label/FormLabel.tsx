@@ -101,11 +101,6 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       (typeof props.onClick === 'function' || forId)
   )
 
-  const [helpContentElement, setHelpContentElement] = useState(null)
-  useEffect(() => {
-    setHelpContentElement(document.getElementById(help?.selector))
-  }, [help])
-
   const isVertical = isTrue(vertical) || labelDirection === 'vertical'
 
   const params = {
