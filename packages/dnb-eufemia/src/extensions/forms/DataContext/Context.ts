@@ -5,6 +5,7 @@ type HandleSubmitProps = {
 }
 
 export interface ContextState {
+  hasContext: boolean
   /** The dataset for the form / form steps */
   data: any
   /** Should the form validate data before submitting? */
@@ -14,6 +15,7 @@ export interface ContextState {
   handlePathChange: (path: string, value: any) => void
   updateDataValue: (path: string, value: any) => void
   handleSubmit: (props?: HandleSubmitProps) => any
+  scrollToTop: () => void
   // Error status
   showAllErrors: boolean
   setShowAllErrors: (showAllErrors: boolean) => void
@@ -27,10 +29,12 @@ export interface ContextState {
 }
 
 export const defaultContextState: ContextState = {
+  hasContext: false,
   data: undefined,
   handlePathChange: () => null,
   updateDataValue: () => null,
   handleSubmit: () => null,
+  scrollToTop: () => null,
   showAllErrors: false,
   setShowAllErrors: () => null,
   mountedFieldPaths: [],

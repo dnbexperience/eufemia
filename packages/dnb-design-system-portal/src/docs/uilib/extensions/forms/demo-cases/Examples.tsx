@@ -1,4 +1,4 @@
-import { GlobalStatus, Section, Code, Card, Flex } from '@dnb/eufemia/src'
+import { Section, Code, Card, Flex } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
   Form,
@@ -8,14 +8,13 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const BecomeCorporateCustomer = () => {
-  const [data, setData] = React.useState({})
+  const { data } = Form.useData('example-form')
 
   return (
     <>
-      <GlobalStatus />
       <Form.Handler
+        id="example-form"
         data={data}
-        onChange={setData}
         onSubmit={(data) => console.log('onSubmit', data)}
       >
         <StepsLayout top scrollTopOnStepChange>

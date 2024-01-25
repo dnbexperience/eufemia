@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from 'react'
 import classnames from 'classnames'
 import { Space, StepIndicator } from '../../../components'
-import { makeUniqueId } from '../../../shared/component-helper'
+import { warn } from '../../../shared/component-helper'
 import { ComponentProps } from '../types'
 import DataContext from '../DataContext/Context'
 import Step, { Props as StepProps } from './Step'
@@ -9,6 +9,8 @@ import StepsContext from './StepsContext'
 import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
 import Buttons from './Buttons'
+import Provider from '../DataContext/Provider'
+import useId from '../hooks/useId'
 
 export type Props = ComponentProps & {
   id?: string
@@ -22,7 +24,7 @@ export type Props = ComponentProps & {
 function StepsLayout(props: Props) {
   const {
     className,
-    id = makeUniqueId(),
+    id: _id,
     mode = 'strict',
     scrollTopOnStepChange,
     initialActiveIndex = 0,
@@ -31,8 +33,13 @@ function StepsLayout(props: Props) {
     ...rest
   } = props
   const dataContext = useContext(DataContext)
+  const { hasContext, hasErrors, setShowAllErrors, scrollToTop } =
+    dataContext
+
   const [activeIndex, setActiveIndex] =
     useState<number>(initialActiveIndex)
+
+  const id = useId(_id)
 
   const handlePrevious = useCallback(() => {
     setActiveIndex((activeIndex) => {
@@ -40,23 +47,29 @@ function StepsLayout(props: Props) {
       return activeIndex - 1
     })
     if (scrollTopOnStepChange) {
-      window?.scrollTo({ top: 0, behavior: 'smooth' })
+      scrollToTop()
     }
-  }, [scrollTopOnStepChange, onStepChange])
+  }, [scrollTopOnStepChange, onStepChange, scrollToTop])
 
   const handleNext = useCallback(() => {
-    if (!dataContext.hasErrors()) {
+    if (!hasErrors()) {
       setActiveIndex((activeIndex) => {
         onStepChange?.(activeIndex + 1)
         return activeIndex + 1
       })
       if (scrollTopOnStepChange) {
-        window?.scrollTo({ top: 0, behavior: 'smooth' })
+        scrollToTop()
       }
     } else {
-      dataContext.setShowAllErrors(true)
+      setShowAllErrors(true)
     }
-  }, [dataContext, scrollTopOnStepChange, onStepChange])
+  }, [
+    hasErrors,
+    scrollTopOnStepChange,
+    onStepChange,
+    scrollToTop,
+    setShowAllErrors,
+  ])
 
   const stepIndicatorData = React.Children.map(children, (child) => {
     if (!React.isValidElement(child) || child.type !== Step) {
@@ -68,6 +81,15 @@ function StepsLayout(props: Props) {
   const handleChange = useCallback(({ current_step }) => {
     setActiveIndex(current_step)
   }, [])
+
+  if (!hasContext) {
+    warn('You may wrap StepsLayout in Form.Handler')
+    return (
+      <Provider>
+        <StepsLayout {...props} id={id} />
+      </Provider>
+    )
+  }
 
   return (
     <StepsContext.Provider

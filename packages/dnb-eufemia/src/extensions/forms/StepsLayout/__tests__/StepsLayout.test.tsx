@@ -1,6 +1,17 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import StepsLayout from '../StepsLayout'
+import { Field } from '../..'
+
+jest.mock('../../../../shared/component-helper', () => {
+  const original = jest.requireActual(
+    '../../../../shared/component-helper'
+  )
+  return {
+    ...original,
+    warn: jest.fn(),
+  }
+})
 
 describe('StepsLayout', () => {
   it('should have "strict" mode as the default mode', () => {
@@ -15,11 +26,11 @@ describe('StepsLayout', () => {
       </StepsLayout>
     )
 
-    const itemElements = document.querySelectorAll(
-      '.dnb-step-indicator__item'
+    const [first] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    expect(itemElements[0].querySelector('button')).toBeInTheDocument()
+    expect(first.querySelector('button')).toBeInTheDocument()
   })
 
   it('should call event listener onStepChange', () => {
@@ -41,16 +52,16 @@ describe('StepsLayout', () => {
       </StepsLayout>
     )
 
-    const itemElements = document.querySelectorAll(
-      '.dnb-step-indicator__item'
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    fireEvent.click(itemElements[1].querySelector('button'))
+    fireEvent.click(second.querySelector('button'))
     expect(document.querySelector('output').textContent).toBe('Step 2')
     expect(onChange).not.toHaveBeenCalledWith(2)
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    fireEvent.click(itemElements[0].querySelector('button'))
+    fireEvent.click(first.querySelector('button'))
     expect(document.querySelector('output').textContent).toBe('Step 1')
     expect(onChange).not.toHaveBeenCalledWith(1)
     expect(onChange).toHaveBeenCalledTimes(0)
@@ -99,16 +110,43 @@ describe('StepsLayout', () => {
     fireEvent.click(previousButton)
     expect(scrollTo).toHaveBeenCalledTimes(2)
 
-    const itemElements = document.querySelectorAll(
-      '.dnb-step-indicator__item'
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    fireEvent.click(itemElements[1].querySelector('button'))
+    fireEvent.click(second.querySelector('button'))
     expect(document.querySelector('output').textContent).toBe('Step 2')
     expect(scrollTo).toHaveBeenCalledTimes(2)
 
-    fireEvent.click(itemElements[0].querySelector('button'))
+    fireEvent.click(first.querySelector('button'))
     expect(document.querySelector('output').textContent).toBe('Step 1')
     expect(scrollTo).toHaveBeenCalledTimes(2)
+  })
+
+  it('should show remaining errors on step change', () => {
+    render(
+      <StepsLayout mode="loose" scrollTopOnStepChange>
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String required />
+          <StepsLayout.PreviousButton />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+          <StepsLayout.PreviousButton />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    const nextButton = document.querySelector('.dnb-forms-next-button')
+
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(nextButton)
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 })
