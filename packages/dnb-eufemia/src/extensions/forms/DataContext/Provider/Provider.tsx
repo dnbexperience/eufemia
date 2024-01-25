@@ -1,13 +1,10 @@
-import React, {
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-  useReducer,
-} from 'react'
+import React, { useRef, useMemo, useCallback, useReducer } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { ValidateFunction } from 'ajv'
-import ajv, { ajvErrorsToFormErrors } from '../../utils/ajv'
+import ajv, {
+  ajvErrorsToFormErrors,
+  replaceUndefinedWithEmptyString,
+} from '../../utils/ajv'
 import { FormError, JSONSchema } from '../../types'
 import useMountEffect from '../../hooks/useMountEffect'
 import useUpdateEffect from '../../hooks/useUpdateEffect'
@@ -119,9 +116,9 @@ export default function Provider<Data extends JsonObject>({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Partial<Data>>(initialData)
-  const dataCacheRef = useRef<Partial<Data>>(data)
+  const cacheRef = useRef({ data, schema })
   // - Validator
-  const ajvSchemaValidatorRef = useRef<ValidateFunction>()
+  const ajvValidatorRef = useRef<ValidateFunction>()
   // - Shared state
   const sharedState = useSharedState<Data>(id)
   useMemo(() => {
@@ -147,30 +144,25 @@ export default function Provider<Data extends JsonObject>({
   }, [id, initialData, sharedState, sharedState?.data])
 
   const validateData = useCallback(() => {
-    if (!ajvSchemaValidatorRef.current) {
+    if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
       return
     }
 
-    if (!ajvSchemaValidatorRef.current(internalDataRef.current)) {
+    // "undefined" is not allowed by Ajv, and null is not allowed by JSON Schema
+    const normalizedData = replaceUndefinedWithEmptyString(
+      internalDataRef.current
+    )
+    if (!ajvValidatorRef.current(normalizedData)) {
       // Errors found
-      const errors = ajvErrorsToFormErrors(
-        ajvSchemaValidatorRef.current.errors
-      )
+      const errors = ajvErrorsToFormErrors(ajvValidatorRef.current.errors)
       errorsRef.current = errors
     } else {
       errorsRef.current = undefined
     }
+
     forceUpdate()
   }, [])
-
-  useEffect(() => {
-    if (!schema) {
-      return
-    }
-    ajvSchemaValidatorRef.current = ajv.compile(schema)
-    validateData()
-  }, [schema, validateData])
 
   // Error handling
   const hasErrors = useCallback(
@@ -332,20 +324,38 @@ export default function Provider<Data extends JsonObject>({
   )
 
   useMountEffect(() => {
+    if (schema) {
+      ajvValidatorRef.current = ajv.compile(schema)
+    }
+
     // Validate the initial data
     validateData()
   })
 
   useUpdateEffect(() => {
+    let hadChanges = false
+
     // Update and validate changes to the external data set,
     // And avoid "resetting" the data with the originally given data (React.StrictMode)
-    if (data !== dataCacheRef.current) {
-      dataCacheRef.current = data
+    if (data !== cacheRef.current.data) {
       internalDataRef.current = data
+
+      hadChanges = true
+      cacheRef.current.data = data
     }
-    validateData()
-    forceUpdate()
-  }, [data, validateData, forceUpdate])
+
+    if (schema && schema !== cacheRef.current.schema) {
+      ajvValidatorRef.current = ajv.compile(schema)
+
+      hadChanges = true
+      cacheRef.current.schema = schema
+    }
+
+    if (hadChanges) {
+      validateData()
+      forceUpdate()
+    }
+  }, [data, schema, validateData, forceUpdate])
 
   return (
     <Context.Provider
@@ -355,6 +365,7 @@ export default function Provider<Data extends JsonObject>({
         ...rest,
         handlePathChange,
         updateDataValue,
+        validateData,
         handleSubmit,
         scrollToTop,
         errors: errorsRef.current,

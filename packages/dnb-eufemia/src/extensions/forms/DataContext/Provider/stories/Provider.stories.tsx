@@ -1,9 +1,10 @@
 import React from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, JSONSchema } from '../../..'
 import { Flex } from '../../../../../components'
+import Provider from '../Provider'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/useData',
+  title: 'Eufemia/Extensions/Forms/Provider',
 }
 
 const existingData = {
@@ -39,5 +40,52 @@ export function Hook() {
       <Component />
       <Component />
     </Flex.Vertical>
+  )
+}
+
+const initialSchema: JSONSchema = {
+  type: 'object',
+  properties: {
+    txt: {
+      type: 'string',
+      pattern: '^(one|two|three)$',
+    },
+  },
+}
+const initialData = {}
+
+export function Validation() {
+  return (
+    <Provider schema={initialSchema} data={initialData}>
+      <Flex.Vertical>
+        <Field.String path="/txt" validateInitially />
+
+        <Field.String
+          label="Field 1"
+          path="/foo"
+          errorMessages={{
+            required: 'Required string',
+          }}
+          required
+        />
+        <Field.String
+          label="Field 2"
+          value="abc"
+          minLength={5}
+          errorMessages={{
+            minLength: 'Min 5 chars',
+          }}
+        />
+        <Field.Number
+          label="Field 3"
+          errorMessages={{
+            required: 'Required number',
+          }}
+          required
+        />
+
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Flex.Vertical>
+    </Provider>
   )
 }

@@ -14,6 +14,7 @@ export interface ContextState {
   autoComplete?: boolean
   handlePathChange: (path: string, value: any) => void
   updateDataValue: (path: string, value: any) => void
+  validateData: () => void
   handleSubmit: (props?: HandleSubmitProps) => any
   scrollToTop: () => void
   // Error status
@@ -33,6 +34,7 @@ export const defaultContextState: ContextState = {
   data: undefined,
   handlePathChange: () => null,
   updateDataValue: () => null,
+  validateData: () => null,
   handleSubmit: () => null,
   scrollToTop: () => null,
   showAllErrors: false,

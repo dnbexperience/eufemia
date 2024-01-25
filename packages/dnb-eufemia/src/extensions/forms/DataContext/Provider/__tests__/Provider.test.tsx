@@ -39,7 +39,7 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByDisplayValue('changed')).not.toBeInTheDocument()
     })
 
-    it('should provide value from data and update based on changes', async () => {
+    it('should provide value from data and update based on changes', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>
           <Field.String path="/foo" />
@@ -53,15 +53,14 @@ describe('DataContext.Provider', () => {
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
-      await waitFor(() => {
-        expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
-        expect(
-          screen.queryByDisplayValue('original')
-        ).not.toBeInTheDocument()
-      })
+
+      expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
+      expect(
+        screen.queryByDisplayValue('original')
+      ).not.toBeInTheDocument()
     })
 
-    it('should handle path change', async () => {
+    it('should handle path change', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>
           <Field.String path="/foo" />
@@ -76,9 +75,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
-      })
+      expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
     })
 
     it('should call "onChange" on internal value change', () => {
@@ -554,7 +551,48 @@ describe('DataContext.Provider', () => {
     })
 
     describe('schema validation', () => {
-      it('should handle errors from inner components and outer provider interchangeably', async () => {
+      it('should handle errors when initial data is not given', () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            txt: {
+              type: 'string',
+              pattern: '^correct$',
+            },
+          },
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider schema={schema} data={undefined}>
+            <TestField path="/txt" />
+          </DataContext.Provider>
+        )
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider schema={schema} data={{}}>
+            <TestField path="/txt" />
+          </DataContext.Provider>
+        )
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider schema={schema} data={{ txt: 'wrong' }}>
+            <TestField path="/txt" />
+          </DataContext.Provider>
+        )
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider schema={schema} data={{ txt: 'correct' }}>
+            <TestField path="/txt" />
+          </DataContext.Provider>
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should handle errors from inner components and outer provider interchangeably', () => {
         const schema: JSONSchema = {
           type: 'object',
           properties: {
@@ -596,9 +634,7 @@ describe('DataContext.Provider', () => {
             <TestField path="/txt" maxLength={1} />
           </DataContext.Provider>
         )
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value back to one with no errors again
         rerender(
@@ -606,9 +642,7 @@ describe('DataContext.Provider', () => {
             <TestField path="/txt" maxLength={5} />
           </DataContext.Provider>
         )
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
       it('should show provided errorMessages based on outer schema validation with injected value', () => {
