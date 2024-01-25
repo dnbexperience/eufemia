@@ -11,6 +11,6 @@ const H6 = ({ size, ...props }: SharedHProps) => (
 )
 
 H6._isHeadingElement = true
-H._supportsSpacingProps = true
+H6._supportsSpacingProps = true
 
 export default H6
