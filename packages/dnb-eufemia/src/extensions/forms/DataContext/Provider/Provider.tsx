@@ -102,6 +102,7 @@ export default function Provider<Data extends JsonObject>({
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
+    forceUpdate()
   }, [])
   // - Errors reported by fields, based on their direct validation rules
   const valuesWithErrorRef = useRef<string[]>([])
@@ -277,6 +278,12 @@ export default function Provider<Data extends JsonObject>({
     )
   }, [])
 
+  const scrollToTop = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      window?.scrollTo?.({ top: 0, behavior: 'smooth' })
+    }
+  }, [])
+
   /**
    * Request to submit the whole form
    */
@@ -304,24 +311,23 @@ export default function Provider<Data extends JsonObject>({
           clearData,
         })
 
-        if (typeof window !== 'undefined') {
-          if (scrollTopOnSubmit) {
-            window?.scrollTo({ top: 0, behavior: 'smooth' })
-          }
+        if (scrollTopOnSubmit) {
+          scrollToTop()
         }
       } else {
-        showAllErrorsRef.current = true
+        setShowAllErrors(true)
         onSubmitRequest?.()
-        forceUpdate()
       }
       return internalDataRef.current
     },
     [
-      scrollTopOnSubmit,
       hasErrors,
       onSubmit,
-      onSubmitRequest,
+      scrollTopOnSubmit,
       sessionStorageId,
+      scrollToTop,
+      setShowAllErrors,
+      onSubmitRequest,
     ]
   )
 
@@ -344,11 +350,13 @@ export default function Provider<Data extends JsonObject>({
   return (
     <Context.Provider
       value={{
+        hasContext: true,
         data: internalDataRef.current,
         ...rest,
         handlePathChange,
         updateDataValue,
         handleSubmit,
+        scrollToTop,
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
         setShowAllErrors,
