@@ -195,7 +195,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
-    if (!isSmallScreen) {
+    if (!isSmallScreen && overrideIsCollapsed !== false) {
       setCollapse(true)
     }
   }, [isSmallScreen])
