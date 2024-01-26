@@ -1,11 +1,17 @@
 import React, { useRef, useMemo, useCallback, useReducer } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { ValidateFunction } from 'ajv'
-import ajv, {
+import {
+  Ajv,
+  makeAjvInstance,
   ajvErrorsToFormErrors,
   replaceUndefinedWithEmptyString,
 } from '../../utils/ajv'
-import { FormError, JSONSchema } from '../../types'
+import {
+  FormError,
+  CustomErrorMessagesWithPaths,
+  AllJSONSchemaVersions,
+} from '../../types'
 import useMountEffect from '../../hooks/useMountEffect'
 import useUpdateEffect from '../../hooks/useUpdateEffect'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
@@ -25,19 +31,41 @@ export type Path = string
 export type UpdateDataValue = (path: Path, data: unknown) => void
 
 export interface Props<Data extends JsonObject> {
-  /** Unique ID to communicate with the hook Form.useData */
+  /**
+   * Unique ID to communicate with the hook Form.useData
+   */
   id?: string
-  /** Default source data, only used if no other source is available, and not leading to updates if changed after mount */
+  /**
+   * Default source data, only used if no other source is available, and not leading to updates if changed after mount
+   */
   defaultData?: Partial<Data>
-  /** Dynamic source data used as both initial data, and updates internal data if changed after mount */
+  /**
+   * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+   */
   data?: Partial<Data>
-  /** JSON Schema for validating the data, like during input or after attempting submit */
-  schema?: JSONSchema
-  /** Change handler for the whole data set */
+  /**
+   * JSON Schema to validate the data against.
+   */
+  schema?: AllJSONSchemaVersions
+  /**
+   * Custom Ajv instance, if you want to use your own
+   */
+  ajvInstance?: Ajv
+  /**
+   * Custom error messages for the whole data set
+   */
+  errorMessages?: CustomErrorMessagesWithPaths
+  /**
+   * Change handler for the whole data set
+   */
   onChange?: (data: Data) => void
-  /** Change handler for each value  */
+  /**
+   * Change handler for each value
+   */
   onPathChange?: (path: Path, value: any) => void
-  /** Submit called, data was valid (if validation available) */
+  /**
+   * Submit called, data was valid (if validation available)
+   */
   onSubmit?: (
     data: Data,
     {
@@ -50,10 +78,17 @@ export interface Props<Data extends JsonObject> {
       clearData: () => void
     }
   ) => void
-  /** Submit was requested, but data was invalid */
+  /**
+   * Submit was requested, but data was invalid
+   */
   onSubmitRequest?: () => void
+  /**
+   * Scroll to top on submit
+   */
   scrollTopOnSubmit?: boolean
-  /** Key for caching the data in session storage */
+  /**
+   * Key for caching the data in session storage
+   */
   sessionStorageId?: string
   children: React.ReactNode
 }
@@ -81,6 +116,8 @@ export default function Provider<Data extends JsonObject>({
   onSubmitRequest,
   scrollTopOnSubmit,
   sessionStorageId,
+  ajvInstance,
+  errorMessages: contextErrorMessages,
   children,
   ...rest
 }: Props<Data>) {
@@ -92,7 +129,9 @@ export default function Provider<Data extends JsonObject>({
     )
   }
 
-  // State
+  // - Ajv
+  const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
+  // - Paths
   const mountedFieldPathsRef = useRef<string[]>([])
   // - Errors from provider validation (the whole data set)
   const errorsRef = useRef<Record<string, FormError> | undefined>()
@@ -153,7 +192,7 @@ export default function Provider<Data extends JsonObject>({
     const normalizedData = replaceUndefinedWithEmptyString(
       internalDataRef.current
     )
-    if (!ajvValidatorRef.current(normalizedData)) {
+    if (!ajvValidatorRef.current?.(normalizedData)) {
       // Errors found
       const errors = ajvErrorsToFormErrors(ajvValidatorRef.current.errors)
       errorsRef.current = errors
@@ -325,7 +364,7 @@ export default function Provider<Data extends JsonObject>({
 
   useMountEffect(() => {
     if (schema) {
-      ajvValidatorRef.current = ajv.compile(schema)
+      ajvValidatorRef.current = ajvRef.current?.compile(schema)
     }
 
     // Validate the initial data
@@ -345,7 +384,7 @@ export default function Provider<Data extends JsonObject>({
     }
 
     if (schema && schema !== cacheRef.current.schema) {
-      ajvValidatorRef.current = ajv.compile(schema)
+      ajvValidatorRef.current = ajvRef.current?.compile(schema)
 
       hadChanges = true
       cacheRef.current.schema = schema
@@ -376,6 +415,8 @@ export default function Provider<Data extends JsonObject>({
         handleUnMountField,
         hasErrors,
         setValueWithError,
+        ajvInstance: ajvRef.current,
+        contextErrorMessages,
       }}
     >
       {children}

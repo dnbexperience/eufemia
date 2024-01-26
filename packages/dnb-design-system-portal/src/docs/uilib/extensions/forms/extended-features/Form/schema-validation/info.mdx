@@ -44,7 +44,7 @@ Results in:
 
 ### Using schema with DataContext
 
-Since a [DataContext](/uilib/extensions/forms/extended-features/DataContext/) (used in isolation or through the use of [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/)) supports JSON Schema, these two examples will result in the same validation for the user:
+These two examples will result in the same validation for the user:
 
 ```jsx
 <Form.Handler data={user}>
@@ -64,6 +64,7 @@ vs.
 
 ```tsx
 import { JSONSchema } from '@dnb/eufemia/extensions/forms'
+
 const schema: JSONSchema = {
   properties: {
     name: { minLength: 3 },
@@ -72,6 +73,7 @@ const schema: JSONSchema = {
   },
   required: ['name', 'email', 'birthyear'],
 }
+
 <Form.Handler data={user} schema={schema}>
   <Field.String path="/name" label="Name" />
   <Field.Email path="/email" label="E-mail" />
@@ -82,6 +84,22 @@ const schema: JSONSchema = {
 This makes it possible to create a uniform, testable description and requirements specification for the data, which can be tested independently of frontend code, and used across systems, e.g. frontend and backend.
 
 Also, note you can describe the schema without using the `type` property, as the type is inferred from schema type. More on that topic in the [Ajv docs](https://ajv.js.org/guide/typescript.html#utility-types-for-schemas).
+
+### JSONSchema and TypeScript
+
+You can import the `JSONSchema` type from the `@dnb/eufemia/extensions/forms` package.
+
+```tsx
+import { JSONSchema } from '@dnb/eufemia/extensions/forms'
+```
+
+Its a shorthand for `JSONSchema7`.
+
+But you can also import the `JSONSchema4` or `JSONSchema7` types if needed:
+
+```tsx
+import { JSONSchema4, JSONSchema7 } from '@dnb/eufemia/extensions/forms'
+```
 
 ### Complex schemas
 
@@ -100,3 +118,149 @@ In addition to basic validation as in the example above, JSON Schema can be used
 - Reuse within the definition, such as one and the same object structure being used as a definition for several locations in a structure.
 
 To learn more about what is possible with the JSON Schema standard, see [json-schema.org](https://json-schema.org/).
+
+#### Custom Ajv instance and keywords
+
+You can provide your custom `validate` function with your own keywords to your schema. Below are two examples of how to do that.
+
+First, you need to install `ajv` and create your won instance of Ajv:
+
+```ts
+import Ajv from 'ajv'
+
+const ajv = new Ajv({
+  strict: true,
+  allErrors: true,
+})
+```
+
+Then you add your custom keyword to the Ajv instance:
+
+```ts
+import { JSONSchema4 } from '@dnb/eufemia/extensions/forms'
+
+// Add a custom keyword 'isEven'
+ajv.addKeyword({
+  keyword: 'isEven',
+  validate: (schema, value) => {
+    // Check if the number is even.
+    return value % 2 === 0
+  },
+})
+
+// Now we can use the 'isEven' keyword in our schema.
+const schema: JSONSchema4 = {
+  type: 'object',
+  properties: {
+    myKey: {
+      type: 'string',
+      isEven: true, // The number must be even.
+    },
+  },
+}
+```
+
+And finally add the Ajv instance to your form:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler schema={schema} ajvInstance={ajv}>
+    <Field.String path="/myKey" value="1" validateInitially />
+  </Form.Handler>,
+)
+```
+
+#### Custom Ajv keyword in a field
+
+Here is another example of a custom keyword, used in one field only:
+
+```tsx
+import Ajv from 'ajv'
+import { Form, Field, JSONSchema4 } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+  strict: true,
+  allErrors: true,
+})
+
+ajv.addKeyword({
+  keyword: 'notEmpty',
+  validate: (schema: JSONSchema4, value: string) => {
+    return value.length > 0
+  },
+})
+
+const schema: JSONSchema4 = {
+  type: 'string',
+  notEmpty: true, // The value must be more than one character.
+}
+
+render(
+  <Form.Handler ajvInstance={ajv}>
+    <Field.String
+      schema={schema}
+      path="/myKey"
+      value=""
+      validateInitially
+    />
+  </Form.Handler>,
+)
+```
+
+#### Custom error messages
+
+You can provide custom error message on four levels with the `errorMessages` prop:
+
+- On the schema level
+- On the Form.Handler (Provider) level
+- On the Form.Handler (Provider) level with a custom field path
+- On the field level
+
+The levels are prioritized in the order above, so the field level error message will overwrite all other levels.
+
+Here is an example of how to do that:
+
+```tsx
+import Ajv from 'ajv'
+import { Form, Field, JSONSchema4 } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+  strict: true,
+  allErrors: true,
+})
+
+ajv.addKeyword({
+  keyword: 'notEmpty',
+  validate: (schema: JSONSchema4, value: string) => {
+    return value.length > 0
+  },
+})
+
+const schema: JSONSchema4 = {
+  type: 'string',
+  notEmpty: true, // The value must be more than one character.
+  errorMessage: 'You can provide a custom message in the schema itself',
+}
+
+render(
+  <Form.Handler
+    ajvInstance={ajv}
+    errorMessages={{
+      notEmpty: 'Or on the provider',
+      '/myKey': {
+        notEmpty: 'Or on the provider for just one field',
+      },
+    }}
+  >
+    <Field.String
+      schema={schema}
+      path="/myKey"
+      value=""
+      validateInitially
+      errorMessages={{ notEmpty: 'Or on a single Field itself' }}
+    />
+  </Form.Handler>,
+)
+```

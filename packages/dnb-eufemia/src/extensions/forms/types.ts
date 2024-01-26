@@ -1,7 +1,9 @@
 import type { SpacingProps } from '../../components/space/types'
-import type { JSONSchema7 as JSONSchema } from 'json-schema'
+import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 
-export type { JSONSchema }
+export type * from 'json-schema'
+export type JSONSchema = JSONSchema7
+export type AllJSONSchemaVersions = JSONSchema4 | JSONSchema6 | JSONSchema7
 
 type ValidationRule = string | string[]
 type MessageValues = Record<string, string>
@@ -36,7 +38,21 @@ export class FormError extends Error {
   }
 }
 
-// Data value
+/**
+ * Accept any key, so custom message keys can be used
+ */
+export type CustomErrorMessages = Record<string, string>
+
+/**
+ * Accept any key, so custom message keys can be used
+ * including the path to the field the message is for
+ */
+export type CustomErrorMessagesWithPaths =
+  | CustomErrorMessages
+  | {
+      // eslint-disable-next-line no-unused-vars
+      [K in `/${string}`]?: CustomErrorMessages
+    }
 
 interface DefaultErrorMessages {
   required?: string
@@ -181,7 +197,7 @@ export interface FieldProps<
   trim?: boolean
   // Validation
   required?: boolean
-  schema?: JSONSchema
+  schema?: AllJSONSchemaVersions
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages

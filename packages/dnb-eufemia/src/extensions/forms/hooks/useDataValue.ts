@@ -9,7 +9,7 @@ import {
 import pointer from 'json-pointer'
 import { ValidateFunction } from 'ajv'
 import { errorChanged } from '../utils'
-import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
+import { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
@@ -95,6 +95,7 @@ export default function useDataValue<
     validateData: dataContextValidateData,
     setValueWithError: dataContextSetValueWithError,
     errors: dataContextErrors,
+    contextErrorMessages,
   } = dataContext ?? {}
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
@@ -188,17 +189,13 @@ export default function useDataValue<
   )
 
   const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
-  const errorMessagesRef = useRef(errorMessages)
-  useEffect(() => {
-    errorMessagesRef.current = errorMessages
-  }, [errorMessages])
   const validatorRef = useRef(validator)
-  useEffect(() => {
+  useUpdateEffect(() => {
     validatorRef.current = validator
   }, [validator])
 
   const schemaValidatorRef = useRef<ValidateFunction>(
-    schema ? ajv.compile(schema) : undefined
+    schema ? dataContext.ajvInstance?.compile(schema) : undefined
   )
 
   const showError = useCallback(() => {
@@ -211,6 +208,11 @@ export default function useDataValue<
     setShowFieldBlockError?.(path ?? id, false)
   }, [path, id, setShowFieldBlockError])
 
+  const errorMessagesRef = useRef(errorMessages)
+  useUpdateEffect(() => {
+    errorMessagesRef.current = errorMessages
+  }, [errorMessages])
+
   /**
    * Prepare error from validation logic with correct error messages based on props
    */
@@ -221,10 +223,29 @@ export default function useDataValue<
       }
 
       if (error instanceof FormError) {
-        const message =
-          (typeof error.validationRule === 'string' &&
-            errorMessagesRef.current?.[error.validationRule]) ||
-          error.message
+        let message = error.message
+
+        // if (typeof error.validationRule === 'string') {
+        //   if (errorMessages?.[error.validationRule]) {
+        //     message = errorMessages?.[error.validationRule]
+        //   } else {
+        //     message =
+        //       contextErrorMessages?.[path]?.[error.validationRule] ||
+        //       contextErrorMessages?.[error.validationRule] ||
+        //       message
+        //   }
+        // }
+
+        if (typeof error.validationRule === 'string') {
+          if (errorMessagesRef.current?.[error.validationRule]) {
+            message = errorMessagesRef.current?.[error.validationRule]
+          } else {
+            message =
+              contextErrorMessages?.[path]?.[error.validationRule] ||
+              contextErrorMessages?.[error.validationRule] ||
+              message
+          }
+        }
 
         const messageWithValues = Object.entries(
           error.messageValues ?? {}
@@ -237,7 +258,7 @@ export default function useDataValue<
 
       return error
     },
-    []
+    [path, contextErrorMessages]
   )
 
   /**
@@ -314,10 +335,10 @@ export default function useDataValue<
 
       // Validate by provided derivative validator
       if (validatorRef.current) {
-        const res = await validatorRef.current?.(
-          valueRef.current,
-          errorMessagesRef.current
-        )
+        const res = await validatorRef.current?.(valueRef.current, {
+          ...contextErrorMessages,
+          ...errorMessages,
+        })
         if (res instanceof Error) {
           throw res
         }
@@ -340,7 +361,9 @@ export default function useDataValue<
   ])
 
   useUpdateEffect(() => {
-    schemaValidatorRef.current = schema ? ajv.compile(schema) : undefined
+    schemaValidatorRef.current = schema
+      ? dataContext.ajvInstance?.compile(schema)
+      : undefined
     validateValue()
   }, [schema, validateValue])
 

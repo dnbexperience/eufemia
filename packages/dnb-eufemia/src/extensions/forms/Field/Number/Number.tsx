@@ -6,12 +6,17 @@ import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
+import {
+  FieldProps,
+  FieldHelpProps,
+  AllJSONSchemaVersions,
+  CustomErrorMessages,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 
-interface ErrorMessages {
+interface ErrorMessages extends CustomErrorMessages {
   required?: string
   schema?: string
   minimum?: string
@@ -76,7 +81,7 @@ function NumberComponent(props: Props) {
     }),
     [tr, props.errorMessages]
   )
-  const schema = useMemo<JSONSchema>(
+  const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
         type: 'number',

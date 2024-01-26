@@ -4,7 +4,11 @@ import pointer from 'json-pointer'
 import IterateElementContext from '../IterateElementContext'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps } from '../../types'
+import {
+  FieldProps,
+  FieldHelpProps,
+  CustomErrorMessages,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import {
   BasicProps as FlexContainerProps,
@@ -12,7 +16,7 @@ import {
 } from '../../../../components/flex/Container'
 import Flex from '../../../../components/flex/Flex'
 
-interface ErrorMessages {
+interface ErrorMessages extends CustomErrorMessages {
   required?: string
   schema?: string
 }
