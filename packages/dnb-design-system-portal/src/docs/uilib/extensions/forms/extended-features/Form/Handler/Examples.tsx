@@ -6,7 +6,7 @@ export const Default = () => {
   return (
     <ComponentBox>
       <Form.Handler
-        data={{ email: '' }}
+        data={{}}
         onSubmit={(data) => console.log('onSubmit', data)}
       >
         <Card spacing="medium">

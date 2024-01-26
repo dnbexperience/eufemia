@@ -66,7 +66,11 @@ describe('Field.Email', () => {
     const form = document.querySelector('form')
     fireEvent.submit(form)
 
-    expect(onSubmit).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { email: undefined },
+      expect.anything()
+    )
 
     const input = document.querySelector('input')
     await userEvent.type(input, ' user@example.com ')

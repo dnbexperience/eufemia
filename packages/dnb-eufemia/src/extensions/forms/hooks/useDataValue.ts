@@ -92,6 +92,7 @@ export default function useDataValue<
   const {
     handlePathChange: dataContextHandlePathChange,
     updateDataValue: dataContextUpdateDataValue,
+    validateData: dataContextValidateData,
     setValueWithError: dataContextSetValueWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
@@ -368,21 +369,31 @@ export default function useDataValue<
   }, [dataContext.showAllErrors, showError])
 
   useEffect(() => {
-    if (path && typeof props.value !== 'undefined') {
+    if (path) {
       const hasValue = pointer.has(dataContext.data, path)
-      const value = hasValue
+      const existingValue = hasValue
         ? pointer.get(dataContext.data, path)
         : undefined
+
       if (
         !hasValue ||
-        (props.value !== value && valueRef.current !== value)
+        (props.value !== existingValue &&
+          // Prevents an infinite loop by skipping the update if the value hasn't changed
+          valueRef.current !== existingValue)
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
         dataContextUpdateDataValue?.(path, props.value)
+        dataContextValidateData?.()
       }
     }
-  }, [dataContext.data, dataContextUpdateDataValue, path, props.value])
+  }, [
+    dataContext.data,
+    dataContextUpdateDataValue,
+    dataContextValidateData,
+    path,
+    props.value,
+  ])
 
   const handleError = useCallback(() => {
     if (

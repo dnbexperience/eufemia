@@ -9,6 +9,13 @@ const ajv = new Ajv({
 
 ajvErrors(ajv)
 
+/**
+ * Returns the instance path of the given Ajv error.
+ * If the error is of type 'required', it is considered an object error and the missing property is shown under the relevant field.
+ * If the error is of type 'errorMessage', it is a wrapped error and the instance path is found from the original error to avoid issues like required-errors pointing at the parent object.
+ * @param ajvError - The Ajv error object.
+ * @returns The instance path of the error.
+ */
 function getInstancePath(ajvError: ErrorObject): string {
   switch (ajvError.keyword) {
     case 'required': {
@@ -27,6 +34,13 @@ function getInstancePath(ajvError: ErrorObject): string {
   return ajvError.instancePath
 }
 
+/**
+ * Retrieves the validation rule from an AJV error object.
+ * If the error object has an 'errorMessage' keyword, it unwraps the original error
+ * to avoid issues like required-errors pointing at the parent object.
+ * @param ajvError - The AJV error object.
+ * @returns The validation rule.
+ */
 function getValidationRule(ajvError: ErrorObject): string {
   if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
@@ -36,6 +50,11 @@ function getValidationRule(ajvError: ErrorObject): string {
   return ajvError.keyword
 }
 
+/**
+ * Retrieves the message values from an AJV error object.
+ * @param ajvError The AJV error object.
+ * @returns The message values extracted from the error object.
+ */
 function getMessageValues(
   ajvError: ErrorObject
 ): FormError['messageValues'] {
@@ -62,6 +81,12 @@ function getMessageValues(
   }
 }
 
+/**
+ * Converts an AJV error object to a FormError object.
+ *
+ * @param ajvError - The AJV error object to convert.
+ * @returns The converted FormError object.
+ */
 function ajvErrorToFormError(ajvError: ErrorObject): FormError {
   const error = new FormError(ajvError.message ?? 'Unknown error', {
     validationRule: getValidationRule(ajvError),
@@ -73,7 +98,9 @@ function ajvErrorToFormError(ajvError: ErrorObject): FormError {
 }
 
 /**
- * Transform errors from ajv-validation into one error object (i.e for validating a flat value)
+ * Converts an array of Ajv errors to a single FormError.
+ * @param errors - An array of Ajv errors.
+ * @returns A single FormError or undefined if there are no errors.
  */
 export function ajvErrorsToOneFormError(
   errors?: ErrorObject[] | null
@@ -92,8 +119,8 @@ export function ajvErrorsToOneFormError(
 }
 
 /**
- *
- * @param errors Transform errors from ajv-validation into a record of errors (path as key, error as value)
+ * Transform errors from ajv-validation into a record of errors (path as key, error as value)
+ * @param errors
  * @returns
  */
 export const ajvErrorsToFormErrors = (
@@ -107,3 +134,29 @@ export const ajvErrorsToFormErrors = (
   }, {})
 
 export default ajv
+
+/**
+ * Replaces undefined values with an empty string in an object.
+ *
+ * @template Data - The type of the object.
+ * @param {Data} obj - The object to process.
+ * @returns {Data} - The processed object with undefined values replaced by empty strings.
+ */
+export function replaceUndefinedWithEmptyString<Data>(obj: Data): Data {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj
+  }
+
+  obj = Object.assign({}, obj)
+  const keys = Object.keys(obj)
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    const value = obj[key]
+
+    obj[key] =
+      value === undefined ? '' : replaceUndefinedWithEmptyString(value)
+  }
+
+  return obj
+}
