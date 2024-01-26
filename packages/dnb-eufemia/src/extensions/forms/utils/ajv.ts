@@ -154,29 +154,3 @@ export const ajvErrorsToFormErrors = (
     }
   }, {})
 }
-
-/**
- * Replaces undefined values with an empty string in an object.
- *
- * @template Data - The type of the object.
- * @param {Data} obj - The object to process.
- * @returns {Data} - The processed object with undefined values replaced by empty strings.
- */
-export function replaceUndefinedWithEmptyString<Data>(obj: Data): Data {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj
-  }
-
-  obj = Object.assign({}, obj)
-  const keys = Object.keys(obj)
-
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i]
-    const value = obj[key]
-
-    obj[key] =
-      value === undefined ? '' : replaceUndefinedWithEmptyString(value)
-  }
-
-  return obj
-}

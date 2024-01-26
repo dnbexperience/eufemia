@@ -12,6 +12,7 @@ import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
+import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useMountEffect from './useMountEffect'
@@ -79,6 +80,8 @@ export default function useDataValue<
   const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
+  const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
 
   const transformers = useRef({
     toInput,
@@ -208,10 +211,13 @@ export default function useDataValue<
     setShowFieldBlockError?.(path ?? id, false)
   }, [path, id, setShowFieldBlockError])
 
-  const errorMessagesRef = useRef(errorMessages)
-  useUpdateEffect(() => {
-    errorMessagesRef.current = errorMessages
-  }, [errorMessages])
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: tr.fieldErrorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, tr.fieldErrorRequired])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -326,7 +332,7 @@ export default function useDataValue<
       if (validatorRef.current) {
         const res = await validatorRef.current?.(valueRef.current, {
           ...contextErrorMessages,
-          ...errorMessages,
+          ...errorMessagesRef.current,
         })
         if (res instanceof Error) {
           throw res
@@ -346,7 +352,6 @@ export default function useDataValue<
     emptyValue,
     required,
     contextErrorMessages,
-    errorMessages,
     clearErrorState,
     persistErrorState,
   ])

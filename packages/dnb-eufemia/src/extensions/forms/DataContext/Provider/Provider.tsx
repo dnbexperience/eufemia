@@ -5,7 +5,6 @@ import {
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
-  replaceUndefinedWithEmptyString,
 } from '../../utils/ajv'
 import {
   FormError,
@@ -188,14 +187,11 @@ export default function Provider<Data extends JsonObject>({
       return
     }
 
-    // "undefined" is not allowed by Ajv, and null is not allowed by JSON Schema
-    const normalizedData = replaceUndefinedWithEmptyString(
-      internalDataRef.current
-    )
-    if (!ajvValidatorRef.current?.(normalizedData)) {
+    if (!ajvValidatorRef.current?.(internalDataRef.current)) {
       // Errors found
-      const errors = ajvErrorsToFormErrors(ajvValidatorRef.current.errors)
-      errorsRef.current = errors
+      errorsRef.current = ajvErrorsToFormErrors(
+        ajvValidatorRef.current.errors
+      )
     } else {
       errorsRef.current = undefined
     }
@@ -204,16 +200,22 @@ export default function Provider<Data extends JsonObject>({
   }, [])
 
   // Error handling
+  const hasFieldError = useCallback(
+    (path: string) =>
+      Boolean(
+        errorsRef.current?.[path] !== undefined ||
+          valuesWithErrorRef.current.includes(path)
+      ),
+    []
+  )
   const hasErrors = useCallback(
     () =>
       Boolean(
-        mountedFieldPathsRef.current.find(
-          (mountedFieldPath) =>
-            errorsRef.current?.[mountedFieldPath] !== undefined ||
-            valuesWithErrorRef.current.includes(mountedFieldPath)
+        mountedFieldPathsRef.current.find((mountedFieldPath) =>
+          hasFieldError(mountedFieldPath)
         )
       ),
-    []
+    [hasFieldError]
   )
 
   const setValueWithError = useCallback(
@@ -414,8 +416,10 @@ export default function Provider<Data extends JsonObject>({
         handleMountField,
         handleUnMountField,
         hasErrors,
+        hasFieldError,
         setValueWithError,
         ajvInstance: ajvRef.current,
+        schema,
         contextErrorMessages,
       }}
     >

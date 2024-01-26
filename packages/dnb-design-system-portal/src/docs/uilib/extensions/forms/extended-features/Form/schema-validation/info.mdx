@@ -95,13 +95,9 @@ import { JSONSchema } from '@dnb/eufemia/extensions/forms'
 
 Its a shorthand for `JSONSchema7`.
 
-But you can also import the `JSONSchema4` or `JSONSchema7` types if needed:
+You can also use the utility `JSONSchemaType` type, so you can validate your data types.
 
-```ts
-import { JSONSchema4, JSONSchema7 } from '@dnb/eufemia/extensions/forms'
-```
-
-You can also use the utility `JSONSchemaType` type, so you can validate your data types. This requires `strictNullChecks` in the `tsconfig` settings to be true.
+**NB:** This requires `strictNullChecks` in the `tsconfig` settings to be true.
 
 ```ts
 import { JSONSchemaType } from '@dnb/eufemia/extensions/forms'
@@ -157,8 +153,6 @@ const ajv = new Ajv({
 Then you add your custom keyword to the Ajv instance:
 
 ```ts
-import { JSONSchema4 } from '@dnb/eufemia/extensions/forms'
-
 // Add a custom keyword 'isEven'
 ajv.addKeyword({
   keyword: 'isEven',
@@ -169,7 +163,7 @@ ajv.addKeyword({
 })
 
 // Now we can use the 'isEven' keyword in our schema.
-const schema: JSONSchema4 = {
+const schema = {
   type: 'object',
   properties: {
     myKey: {
@@ -177,8 +171,10 @@ const schema: JSONSchema4 = {
       isEven: true, // The number must be even.
     },
   },
-}
+} as const
 ```
+
+Use `as const` to make sure the schema is not inferred as `JSONSchema7` but as a literal type.
 
 And finally add the Ajv instance to your form:
 
@@ -198,7 +194,7 @@ Here is another example of a custom keyword, used in one field only:
 
 ```tsx
 import { Ajv } from '@dnb/'
-import { Form, Field, JSONSchema4 } from '@dnb/eufemia/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const ajv = new Ajv({
   strict: true,
@@ -207,15 +203,15 @@ const ajv = new Ajv({
 
 ajv.addKeyword({
   keyword: 'notEmpty',
-  validate: (schema: JSONSchema4, value: string) => {
+  validate: (schema, value) => {
     return value.length > 0
   },
 })
 
-const schema: JSONSchema4 = {
+const schema = {
   type: 'string',
   notEmpty: true, // The value must be more than one character.
-}
+} as const
 
 render(
   <Form.Handler ajvInstance={ajv}>
@@ -231,45 +227,33 @@ render(
 
 #### Custom error messages
 
-You can provide custom error message on four levels with the `errorMessages` prop:
+When having a custom keyword, you can provide custom error message on four levels with the `errorMessage` or `errorMessages` prop:
 
-- On the schema level
-- On the Form.Handler (Provider) level
-- On the Form.Handler (Provider) level with a custom field path
-- On the field level
+1. On the schema level (for custom keywords only).
+2. On the Form.Handler (Provider) level.
+3. On the Form.Handler (Provider) level with a JSON Pointer path.
+4. On the field level.
 
 The levels are prioritized in the order above, so the field level error message will overwrite all other levels.
 
 Here is an example of how to do that:
 
 ```tsx
-import { Ajv } from '@dnb/'
-import { Form, Field, JSONSchema4 } from '@dnb/eufemia/extensions/forms'
-
-const ajv = new Ajv({
-  strict: true,
-  allErrors: true,
-})
-
-ajv.addKeyword({
-  keyword: 'notEmpty',
-  validate: (schema: JSONSchema4, value: string) => {
-    return value.length > 0
-  },
-})
-
-const schema: JSONSchema4 = {
+const schema = {
   type: 'string',
   notEmpty: true, // The value must be more than one character.
+  // Level 1
   errorMessage: 'You can provide a custom message in the schema itself',
-}
+} as const
 
 render(
   <Form.Handler
     ajvInstance={ajv}
     errorMessages={{
+      // Level 2
       notEmpty: 'Or on the provider',
       '/myKey': {
+        // Level 3
         notEmpty: 'Or on the provider for just one field',
       },
     }}
@@ -279,7 +263,10 @@ render(
       path="/myKey"
       value=""
       validateInitially
-      errorMessages={{ notEmpty: 'Or on a single Field itself' }}
+      errorMessages={{
+        // Level 4
+        notEmpty: 'Or on a single Field itself',
+      }}
     />
   </Form.Handler>,
 )

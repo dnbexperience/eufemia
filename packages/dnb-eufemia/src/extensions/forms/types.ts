@@ -1,14 +1,10 @@
 import type { SpacingProps } from '../../components/space/types'
-import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
+import type { JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
-export type AllJSONSchemaVersions =
-  | JSONSchema4
-  | JSONSchema6
-  | JSONSchema7
-  | JSONSchemaType<unknown>
+export type AllJSONSchemaVersions = JSONSchema7 | JSONSchemaType<unknown>
 export { JSONSchemaType }
 
 type ValidationRule = string | string[]
@@ -60,8 +56,9 @@ export type CustomErrorMessagesWithPaths =
       [K in `/${string}`]?: CustomErrorMessages
     }
 
-interface DefaultErrorMessages {
+export interface DefaultErrorMessages {
   required?: string
+  pattern?: string
 }
 
 export interface DataValueReadProps<Value = unknown> {
@@ -179,7 +176,7 @@ export type DataValueReadWriteComponentProps<
 export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string,
-  ErrorMessages extends { required?: string } = DefaultErrorMessages,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue> {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string

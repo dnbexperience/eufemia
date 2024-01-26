@@ -168,6 +168,7 @@ export default {
       stepNext: 'Neste',
       stepPrevious: 'Tilbake',
       contextSubmit: 'Send',
+      fieldErrorRequired: 'Dette feltet må fylles ut',
       inputErrorRequired: 'Dette feltet må fylles ut',
       inputErrorPattern: 'Verdien er ugyldig',
       stringInputErrorMinLength:

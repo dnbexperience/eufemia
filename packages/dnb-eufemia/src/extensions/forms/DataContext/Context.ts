@@ -1,6 +1,9 @@
 import React from 'react'
 import { Ajv, makeAjvInstance } from '../utils/ajv'
-import { CustomErrorMessagesWithPaths } from '../types'
+import {
+  AllJSONSchemaVersions,
+  CustomErrorMessagesWithPaths,
+} from '../types'
 
 type HandleSubmitProps = {
   formElement?: HTMLFormElement
@@ -28,14 +31,17 @@ export interface ContextState {
   handleUnMountField: (path: string) => void
   setValueWithError: (identifier: string, hasError: boolean) => void
   hasErrors: () => boolean
+  hasFieldError: (path: string) => boolean
   ajvInstance: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
+  schema: AllJSONSchemaVersions
   _isInsideFormElement?: boolean
 }
 
 export const defaultContextState: ContextState = {
   hasContext: false,
   data: undefined,
+  schema: undefined,
   handlePathChange: () => null,
   updateDataValue: () => null,
   validateData: () => null,
@@ -47,6 +53,7 @@ export const defaultContextState: ContextState = {
   handleMountField: () => null,
   handleUnMountField: () => null,
   hasErrors: () => false,
+  hasFieldError: () => false,
   setValueWithError: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,

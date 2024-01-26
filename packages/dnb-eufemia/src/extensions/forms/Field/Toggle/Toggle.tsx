@@ -19,6 +19,12 @@ export type Props = FieldProps<unknown> & {
 
 function Toggle(props: Props) {
   const sharedContext = useContext(SharedContext)
+
+  const preparedProps: Props = {
+    ...props,
+    errorMessages: props.errorMessages,
+  }
+
   const {
     id,
     className,
@@ -38,7 +44,7 @@ function Toggle(props: Props) {
     hasError,
     ariaAttributes,
     handleChange,
-  } = useDataValue(props)
+  } = useDataValue(preparedProps)
 
   const handleCheckboxChange = useCallback(
     ({ checked }) => {

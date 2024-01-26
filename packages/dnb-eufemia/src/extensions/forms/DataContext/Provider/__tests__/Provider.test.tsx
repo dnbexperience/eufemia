@@ -8,14 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  Form,
-  DataContext,
-  Field,
-  JSONSchema,
-  JSONSchema4,
-  Ajv,
-} from '../../../'
+import { Form, DataContext, Field, JSONSchema, Ajv } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'
 
@@ -558,42 +551,64 @@ describe('DataContext.Provider', () => {
     })
 
     describe('schema validation', () => {
-      it('should handle errors when initial data is not given', () => {
+      it('should handle errors when initial data is not given', async () => {
         const schema: JSONSchema = {
           type: 'object',
           properties: {
-            txt: {
+            myKey: {
               type: 'string',
               pattern: '^correct$',
             },
           },
+          required: ['myKey'],
         }
 
         const { rerender } = render(
           <DataContext.Provider schema={schema} data={undefined}>
-            <TestField path="/txt" />
+            <TestField path="/myKey" />
           </DataContext.Provider>
         )
-
         expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Dette feltet må fylles ut'
+        )
+
+        rerender(
+          <DataContext.Provider
+            schema={schema}
+            data={{ myKey: 'correct' }}
+          >
+            <TestField path="/myKey" />
+          </DataContext.Provider>
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         rerender(
           <DataContext.Provider schema={schema} data={{}}>
-            <TestField path="/txt" />
+            <TestField path="/myKey" />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Dette feltet må fylles ut'
+        )
 
         rerender(
-          <DataContext.Provider schema={schema} data={{ txt: 'wrong' }}>
-            <TestField path="/txt" />
+          <DataContext.Provider schema={schema} data={{ myKey: 'wrong' }}>
+            <TestField path="/myKey" />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Verdien er ugyldig'
+        )
 
         rerender(
-          <DataContext.Provider schema={schema} data={{ txt: 'correct' }}>
-            <TestField path="/txt" />
+          <DataContext.Provider
+            schema={schema}
+            data={{ myKey: 'correct' }}
+          >
+            <TestField path="/myKey" />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -603,15 +618,15 @@ describe('DataContext.Provider', () => {
         const schema: JSONSchema = {
           type: 'object',
           properties: {
-            txt: {
+            myKey: {
               type: 'string',
               pattern: '^(one|two|three)$',
             },
           },
         }
         const { rerender } = render(
-          <DataContext.Provider schema={schema} data={{ txt: 'one' }}>
-            <TestField path="/txt" />
+          <DataContext.Provider schema={schema} data={{ myKey: 'one' }}>
+            <TestField path="/myKey" />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -620,33 +635,33 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            data={{ txt: 'fooooooooo' }}
+            data={{ myKey: 'fooooooooo' }}
           >
-            <TestField path="/txt" maxLength={5} />
+            <TestField path="/myKey" maxLength={5} />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value so only provider has errors (ensuring removed field error does not remove provider error)
         rerender(
-          <DataContext.Provider schema={schema} data={{ txt: 'fooo' }}>
-            <TestField path="/txt" maxLength={5} />
+          <DataContext.Provider schema={schema} data={{ myKey: 'fooo' }}>
+            <TestField path="/myKey" maxLength={5} />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value so only field component has error
         rerender(
-          <DataContext.Provider schema={schema} data={{ txt: 'three' }}>
-            <TestField path="/txt" maxLength={1} />
+          <DataContext.Provider schema={schema} data={{ myKey: 'three' }}>
+            <TestField path="/myKey" maxLength={1} />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value back to one with no errors again
         rerender(
-          <DataContext.Provider schema={schema} data={{ txt: 'three' }}>
-            <TestField path="/txt" maxLength={5} />
+          <DataContext.Provider schema={schema} data={{ myKey: 'three' }}>
+            <TestField path="/myKey" maxLength={5} />
           </DataContext.Provider>
         )
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -869,12 +884,12 @@ describe('DataContext.Provider', () => {
 
       ajv.addKeyword({
         keyword: 'isEven',
-        validate: (schema: JSONSchema4, value: string) => {
+        validate: (schema: JSONSchema, value: string) => {
           return parseFloat(value) % 2 === 0
         },
       })
 
-      const schema: JSONSchema4 = {
+      const schema = {
         type: 'object',
         properties: {
           myKey: {
@@ -882,7 +897,7 @@ describe('DataContext.Provider', () => {
             isEven: true,
           },
         },
-      }
+      } as const
 
       expect(ajv.validate(schema, { myKey: '1' })).toBe(false)
 
@@ -912,16 +927,16 @@ describe('DataContext.Provider', () => {
 
       ajv.addKeyword({
         keyword: 'notEmpty',
-        validate: (schema: JSONSchema4, value: string) => {
+        validate: (schema: JSONSchema, value: string) => {
           return value.length > 0
         },
       })
 
-      const schema: JSONSchema4 = {
+      const schema = {
         type: 'string',
         notEmpty: true, // The value must be more than one character.
         errorMessage: 'message in schema',
-      }
+      } as const
 
       const { rerender } = render(
         <Form.Handler ajvInstance={ajv}>
