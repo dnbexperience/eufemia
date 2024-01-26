@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useCallback, useReducer } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
-import { ValidateFunction } from 'ajv'
+import { ValidateFunction } from 'ajv/dist/2020'
 import {
   Ajv,
   makeAjvInstance,

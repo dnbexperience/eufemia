@@ -1,7 +1,7 @@
-import ajvInstance, { ErrorObject } from 'ajv'
+import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
 import { FormError } from '../types'
-import type Ajv from 'ajv/dist/core'
+import type Ajv from 'ajv/dist/2020'
 
 export type AjvInstance = typeof ajvInstance
 export { ajvInstance, Ajv }
@@ -146,13 +146,14 @@ export function ajvErrorsToOneFormError(
  */
 export const ajvErrorsToFormErrors = (
   errors?: ErrorObject[] | null
-): Record<string, FormError> =>
-  (errors ?? []).reduce((errors, ajvError) => {
+): Record<string, FormError> => {
+  return (errors ?? []).reduce((errors, ajvError) => {
     return {
       ...errors,
       [getInstancePath(ajvError)]: ajvErrorToFormError(ajvError),
     }
   }, {})
+}
 
 /**
  * Replaces undefined values with an empty string in an object.

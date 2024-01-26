@@ -1,9 +1,15 @@
 import type { SpacingProps } from '../../components/space/types'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
+import type { JSONSchemaType } from 'ajv/dist/2020'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
-export type AllJSONSchemaVersions = JSONSchema4 | JSONSchema6 | JSONSchema7
+export type AllJSONSchemaVersions =
+  | JSONSchema4
+  | JSONSchema6
+  | JSONSchema7
+  | JSONSchemaType<unknown>
+export { JSONSchemaType }
 
 type ValidationRule = string | string[]
 type MessageValues = Record<string, string>

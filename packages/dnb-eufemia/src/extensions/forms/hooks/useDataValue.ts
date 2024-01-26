@@ -7,7 +7,7 @@ import {
   useReducer,
 } from 'react'
 import pointer from 'json-pointer'
-import { ValidateFunction } from 'ajv'
+import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
@@ -225,17 +225,6 @@ export default function useDataValue<
       if (error instanceof FormError) {
         let message = error.message
 
-        // if (typeof error.validationRule === 'string') {
-        //   if (errorMessages?.[error.validationRule]) {
-        //     message = errorMessages?.[error.validationRule]
-        //   } else {
-        //     message =
-        //       contextErrorMessages?.[path]?.[error.validationRule] ||
-        //       contextErrorMessages?.[error.validationRule] ||
-        //       message
-        //   }
-        // }
-
         if (typeof error.validationRule === 'string') {
           if (errorMessagesRef.current?.[error.validationRule]) {
             message = errorMessagesRef.current?.[error.validationRule]
@@ -356,6 +345,8 @@ export default function useDataValue<
     startProcess,
     emptyValue,
     required,
+    contextErrorMessages,
+    errorMessages,
     clearErrorState,
     persistErrorState,
   ])

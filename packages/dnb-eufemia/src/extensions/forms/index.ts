@@ -9,6 +9,7 @@ export * as Iterate from './Iterate'
 export { default as FieldBlock } from './FieldBlock'
 export { default as ValueBlock } from './ValueBlock'
 export { default as StepsLayout, StepsContext } from './StepsLayout'
+export { default as Ajv } from 'ajv/dist/2020'
 
 /**
  * Deprecated and will be removed in v11

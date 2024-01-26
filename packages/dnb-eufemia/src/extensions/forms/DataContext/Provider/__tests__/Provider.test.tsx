@@ -8,13 +8,13 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Ajv from 'ajv'
 import {
   Form,
   DataContext,
   Field,
   JSONSchema,
   JSONSchema4,
+  Ajv,
 } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'

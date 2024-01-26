@@ -89,7 +89,7 @@ Also, note you can describe the schema without using the `type` property, as the
 
 You can import the `JSONSchema` type from the `@dnb/eufemia/extensions/forms` package.
 
-```tsx
+```ts
 import { JSONSchema } from '@dnb/eufemia/extensions/forms'
 ```
 
@@ -97,8 +97,28 @@ Its a shorthand for `JSONSchema7`.
 
 But you can also import the `JSONSchema4` or `JSONSchema7` types if needed:
 
-```tsx
+```ts
 import { JSONSchema4, JSONSchema7 } from '@dnb/eufemia/extensions/forms'
+```
+
+You can also use the utility `JSONSchemaType` type, so you can validate your data types. This requires `strictNullChecks` in the `tsconfig` settings to be true.
+
+```ts
+import { JSONSchemaType } from '@dnb/eufemia/extensions/forms'
+
+type MyData = {
+  foo: number
+  bar?: string
+}
+
+const schema: JSONSchemaType<MyData> = {
+  type: 'object',
+  properties: {
+    foo: { type: 'integer' },
+    bar: { type: 'string', nullable: true },
+  },
+  required: ['foo'],
+}
 ```
 
 ### Complex schemas
@@ -123,10 +143,10 @@ To learn more about what is possible with the JSON Schema standard, see [json-sc
 
 You can provide your custom `validate` function with your own keywords to your schema. Below are two examples of how to do that.
 
-First, you need to install `ajv` and create your won instance of Ajv:
+First, you need to create your won instance of Ajv:
 
 ```ts
-import Ajv from 'ajv'
+import { Ajv } from '@dnb/eufemia/extensions/forms'
 
 const ajv = new Ajv({
   strict: true,
@@ -177,7 +197,7 @@ render(
 Here is another example of a custom keyword, used in one field only:
 
 ```tsx
-import Ajv from 'ajv'
+import { Ajv } from '@dnb/'
 import { Form, Field, JSONSchema4 } from '@dnb/eufemia/extensions/forms'
 
 const ajv = new Ajv({
@@ -223,7 +243,7 @@ The levels are prioritized in the order above, so the field level error message 
 Here is an example of how to do that:
 
 ```tsx
-import Ajv from 'ajv'
+import { Ajv } from '@dnb/'
 import { Form, Field, JSONSchema4 } from '@dnb/eufemia/extensions/forms'
 
 const ajv = new Ajv({
