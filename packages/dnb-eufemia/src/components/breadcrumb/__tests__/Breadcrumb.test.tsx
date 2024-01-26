@@ -274,7 +274,7 @@ describe('Breadcrumb', () => {
     ])
   })
 
-  it.only('should automatically collapse breadcrumb-collapse when screen changes to larger than medium', async () => {
+  it('should automatically collapse breadcrumb-collapse when screen changes to larger than medium', async () => {
     setMedia({ width: '40em' })
 
     render(
