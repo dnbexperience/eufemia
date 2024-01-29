@@ -45,6 +45,10 @@ Eufemia Forms does support [Ajv schema validator](https://ajv.js.org/) on both s
 
 Descriptions and examples of such validation can be found [on a separate page](/uilib/extensions/forms/extended-features/Form/schema-validation).
 
+You can also [create your own Ajv instance](/uilib/extensions/forms/extended-features/Form/schema-validation/#custom-ajv-instance-and-keywords) and pass it to your form.
+
+This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
+
 ## [Data context](/uilib/extensions/forms/extended-features/DataContext/)
 
 `DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.

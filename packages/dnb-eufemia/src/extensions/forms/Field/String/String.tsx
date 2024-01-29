@@ -11,9 +11,14 @@ import { useDataValue } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
-import type { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
+import type {
+  FieldProps,
+  FieldHelpProps,
+  CustomErrorMessages,
+  AllJSONSchemaVersions,
+} from '../../types'
 
-interface ErrorMessages {
+interface ErrorMessages extends CustomErrorMessages {
   required?: string
   schema?: string
   minLength?: string
@@ -57,7 +62,7 @@ function StringComponent(props: Props) {
     }),
     [tr, props.errorMessages]
   )
-  const schema = useMemo<JSONSchema>(
+  const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
         type: 'string',

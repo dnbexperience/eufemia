@@ -1,13 +1,34 @@
-import Ajv, { ErrorObject } from 'ajv'
+import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
 import { FormError } from '../types'
+import type Ajv from 'ajv/dist/2020'
 
-const ajv = new Ajv({
-  // If allErrors is off, ajv only give you the first error it finds
-  allErrors: true,
-})
+export type AjvInstance = typeof ajvInstance
+export { ajvInstance, Ajv }
 
-ajvErrors(ajv)
+/**
+ * Creates an instance of Ajv (Another JSON Schema Validator) with optional custom instance.
+ * If no instance is provided, a new instance of Ajv is created with the specified options.
+ * The created Ajv instance is enhanced with custom error handling.
+ *
+ * @param instance - Optional custom instance of Ajv.
+ * @returns The created or provided instance of Ajv.
+ */
+export function makeAjvInstance(instance?: Ajv) {
+  const ajv =
+    instance ||
+    new ajvInstance({
+      // If allErrors is off, Ajv only give you the first error it finds
+      allErrors: true,
+    })
+
+  if (!ajv['__ajvErrors__']) {
+    ajvErrors(ajv)
+    ajv['__ajvErrors__'] = true
+  }
+
+  return ajv
+}
 
 /**
  * Returns the instance path of the given Ajv error.
@@ -125,38 +146,11 @@ export function ajvErrorsToOneFormError(
  */
 export const ajvErrorsToFormErrors = (
   errors?: ErrorObject[] | null
-): Record<string, FormError> =>
-  (errors ?? []).reduce((errors, ajvError) => {
+): Record<string, FormError> => {
+  return (errors ?? []).reduce((errors, ajvError) => {
     return {
       ...errors,
       [getInstancePath(ajvError)]: ajvErrorToFormError(ajvError),
     }
   }, {})
-
-export default ajv
-
-/**
- * Replaces undefined values with an empty string in an object.
- *
- * @template Data - The type of the object.
- * @param {Data} obj - The object to process.
- * @returns {Data} - The processed object with undefined values replaced by empty strings.
- */
-export function replaceUndefinedWithEmptyString<Data>(obj: Data): Data {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj
-  }
-
-  obj = Object.assign({}, obj)
-  const keys = Object.keys(obj)
-
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i]
-    const value = obj[key]
-
-    obj[key] =
-      value === undefined ? '' : replaceUndefinedWithEmptyString(value)
-  }
-
-  return obj
 }

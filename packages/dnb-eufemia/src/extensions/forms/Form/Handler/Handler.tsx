@@ -21,6 +21,8 @@ export default function FormHandler<Data extends JsonObject>({
   defaultData,
   data,
   schema,
+  ajvInstance,
+  errorMessages,
   onChange,
   onPathChange,
   onSubmit,
@@ -35,6 +37,8 @@ export default function FormHandler<Data extends JsonObject>({
     defaultData,
     data,
     schema,
+    ajvInstance,
+    errorMessages,
     onChange,
     onPathChange,
     onSubmit: (...args) => {

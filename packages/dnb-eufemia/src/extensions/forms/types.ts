@@ -1,7 +1,11 @@
 import type { SpacingProps } from '../../components/space/types'
-import type { JSONSchema7 as JSONSchema } from 'json-schema'
+import type { JSONSchema7 } from 'json-schema'
+import type { JSONSchemaType } from 'ajv/dist/2020'
 
-export type { JSONSchema }
+export type * from 'json-schema'
+export type JSONSchema = JSONSchema7
+export type AllJSONSchemaVersions = JSONSchema7 | JSONSchemaType<unknown>
+export { JSONSchemaType }
 
 type ValidationRule = string | string[]
 type MessageValues = Record<string, string>
@@ -36,10 +40,25 @@ export class FormError extends Error {
   }
 }
 
-// Data value
+/**
+ * Accept any key, so custom message keys can be used
+ */
+export type CustomErrorMessages = Record<string, string>
 
-interface DefaultErrorMessages {
+/**
+ * Accept any key, so custom message keys can be used
+ * including the path to the field the message is for
+ */
+export type CustomErrorMessagesWithPaths =
+  | CustomErrorMessages
+  | {
+      // eslint-disable-next-line no-unused-vars
+      [K in `/${string}`]?: CustomErrorMessages
+    }
+
+export interface DefaultErrorMessages {
   required?: string
+  pattern?: string
 }
 
 export interface DataValueReadProps<Value = unknown> {
@@ -157,7 +176,7 @@ export type DataValueReadWriteComponentProps<
 export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string,
-  ErrorMessages extends { required?: string } = DefaultErrorMessages,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue> {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
@@ -181,7 +200,7 @@ export interface FieldProps<
   trim?: boolean
   // Validation
   required?: boolean
-  schema?: JSONSchema
+  schema?: AllJSONSchemaVersions
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages

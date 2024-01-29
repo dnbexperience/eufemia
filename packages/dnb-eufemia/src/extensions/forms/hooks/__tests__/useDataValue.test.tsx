@@ -1,5 +1,6 @@
 import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
+import SharedProvider from '../../../../shared/Provider'
 import useDataValue from '../useDataValue'
 import { Provider } from '../../DataContext'
 import { FieldBlock, FormError, JSONSchema } from '../../Forms'
@@ -763,5 +764,35 @@ describe('useDataValue', () => {
       expect(onFocus).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
+  })
+
+  it('should translate required error', () => {
+    const { result } = renderHook(
+      () =>
+        useDataValue({
+          validateInitially: true,
+          required: true,
+        }),
+      {
+        wrapper: ({ children }) => (
+          <SharedProvider
+            locale="en-GB"
+            locales={{
+              'en-GB': {
+                Forms: {
+                  fieldErrorRequired: 'new required error message',
+                },
+              },
+            }}
+          >
+            {children}
+          </SharedProvider>
+        ),
+      }
+    )
+
+    expect(result.current.error).toEqual(
+      new Error('new required error message')
+    )
   })
 })
