@@ -300,7 +300,7 @@ describe('Breadcrumb', () => {
     await userEvent.click(toggleButton())
 
     // Collapsable should be visible now
-    expect(collapseSection.children.length).toBe(1)
+    expect(collapseSection.children).toHaveLength(1)
 
     act(() => {
       setMedia({ width: '80em' })
