@@ -8,13 +8,34 @@ The `useDataValue` hook standardize handling of the value flow for a single cons
 
 ## How to use
 
-```ts
+```tsx
+import { useDataValue } from '@dnb/eufemia/extensions/forms'
 const { value } = useDataValue(componentProps)
 ```
 
 Advanced usage:
 
 ```tsx
+import {
+  useDataValue,
+  useErrorMessage,
+} from '@dnb/eufemia/extensions/forms'
+
+const sharedContext = useContext(SharedContext)
+const tr = sharedContext?.translation.Forms
+
+const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+  // Your default error messages
+  required: tr.inputErrorRequired,
+  pattern: tr.inputErrorPattern,
+})
+
+const preparedProps = {
+  errorMessages,
+  // Your component props
+  ...props,
+}
+
 const {
   // Return Parameters:
   value,
@@ -29,10 +50,7 @@ const {
 
   // Component Properties
   ...rest
-} = useDataValue({
-  // Your component props + internal props such as "required":
-  ...componentProps,
-})
+} = useDataValue(preparedProps)
 
 render(
   <Input

@@ -15,6 +15,7 @@ import {
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -69,18 +70,15 @@ function NumberComponent(props: Props) {
     showStepControls,
   } = props
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.inputErrorRequired,
-      minimum: tr.numberFieldErrorMinimum,
-      maximum: tr.numberFieldErrorMaximum,
-      exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
-      exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
-      multipleOf: tr.numberFieldErrorMultipleOf,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.inputErrorRequired,
+    minimum: tr.numberFieldErrorMinimum,
+    maximum: tr.numberFieldErrorMaximum,
+    exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
+    exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
+    multipleOf: tr.numberFieldErrorMultipleOf,
+  })
+
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {

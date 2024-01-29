@@ -21,7 +21,7 @@ import QuickStart from './quick-start'
 - [State management](#state-management)
 - [Field components](#field-components)
 - [Value components](#value-components)
-- [Validation](#validation)
+- [Validation and error handling](#validation-and-error-handling)
 - [Localization](#localization)
 - [Layout](#layout)
 - [Best practices](#best-practices)
@@ -70,7 +70,7 @@ On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fi
 
 Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
 
-### Validation
+### Validation and error handling
 
 Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
 
@@ -111,17 +111,13 @@ The validator property is a function that takes the current value of the field a
 const validator = (value) => {
   const isInvalid = new RegExp('...').test(value)
   if (isInvalid) {
-    return new FormError('Invalid value', {
-      validationRule: 'pattern',
-    })
+    return new Error('Invalid value message')
   }
 }
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
-##### Error messages
-
-Return either `new Error` or `new FormError` with a `validationRule`, such as "pattern" or "required". This will display an existing and translated message from the `errorMessages` object.
+You find more info about error messages in the [Error messages](/uilib/extensions/forms/extended-features/Form/error-messages/) docs.
 
 ##### Async validator with a Promise
 

@@ -17,6 +17,7 @@ import type {
   CustomErrorMessages,
   AllJSONSchemaVersions,
 } from '../../types'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -52,16 +53,13 @@ function StringComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.inputErrorRequired,
-      minLength: tr.stringInputErrorMinLength,
-      maxLength: tr.stringInputErrorMaxLength,
-      pattern: tr.inputErrorPattern,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.inputErrorRequired,
+    minLength: tr.stringInputErrorMinLength,
+    maxLength: tr.stringInputErrorMaxLength,
+    pattern: tr.inputErrorPattern,
+  })
+
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {

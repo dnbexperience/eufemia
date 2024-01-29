@@ -10,6 +10,7 @@ import countries, {
 import { useDataValue } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
 import FieldBlock from '../../FieldBlock'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -43,13 +44,9 @@ function SelectCountry(props: Props) {
   const tr = sharedContext?.translation.Forms
   const lang = sharedContext.locale?.split('-')[0]
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.selectCountryErrorRequired,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.selectCountryErrorRequired,
+  })
 
   const defaultProps: Partial<Props> = {
     errorMessages,

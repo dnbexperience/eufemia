@@ -550,6 +550,80 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
 
+    describe('error messages', () => {
+      it('should display custom pattern error message from provider', () => {
+        render(
+          <Form.Handler
+            errorMessages={{
+              pattern: 'pattern provider error',
+            }}
+          >
+            <Field.String
+              path="/myKey"
+              validateInitially
+              pattern="^correct$"
+              value="wrong"
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'pattern provider error'
+        )
+      })
+
+      it('should display custom pattern error message from provider with json pointer', () => {
+        render(
+          <Form.Handler
+            errorMessages={{
+              pattern: 'pattern provider error',
+              '/myKey': {
+                pattern: 'pattern provider myKey error',
+              },
+            }}
+          >
+            <Field.String
+              path="/myKey"
+              validateInitially
+              pattern="^correct$"
+              value="wrong"
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'pattern provider myKey error'
+        )
+      })
+
+      it('should display custom pattern error message from field', () => {
+        render(
+          <Form.Handler
+            errorMessages={{
+              pattern: 'pattern provider error',
+              '/myKey': {
+                pattern: 'pattern provider myKey error',
+              },
+            }}
+          >
+            <Field.String
+              path="/myKey"
+              validateInitially
+              pattern="^correct$"
+              value="wrong"
+              errorMessages={{
+                pattern: 'pattern field error',
+              }}
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'pattern field error'
+        )
+      })
+    })
+
     describe('schema validation', () => {
       it('should handle errors when initial data is not given', async () => {
         const schema: JSONSchema = {
