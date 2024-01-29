@@ -1,11 +1,31 @@
-@import '../../Field/style/field-sizes.scss';
+@use 'sass:map';
 @import '../../../../style/core/utilities.scss';
+@import '../../Field/style/field-sizes.scss';
+
+$breakpoints: map.merge(
+  $breakpoints,
+  (
+    'xx-small': 15em,
+  )
+);
+
+// Ensure inputs to not overflow on xx-small (defined above), but exclude e.g. Autocomplete
+.dnb-forms-field-string,
+.dnb-forms-field-number {
+  @include allBelow(xx-small) {
+    .dnb-input__shell {
+      width: 90%;
+    }
+  }
+}
 
 fieldset.dnb-forms-field-block {
   @include fieldsetReset(true);
 }
 
 .dnb-forms-field-block {
+  width: 100%;
+
   &__grid {
     display: grid;
 
@@ -64,6 +84,7 @@ fieldset.dnb-forms-field-block {
 
   &__contents {
     grid-area: contents;
+    width: 100%;
 
     &--width {
       &-stretch {

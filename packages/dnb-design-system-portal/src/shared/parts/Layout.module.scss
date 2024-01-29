@@ -199,7 +199,11 @@
 .mainStyle {
   width: 100%;
   min-height: 90vh;
-  padding: 0 2rem;
+  padding: 0 32px;
+
+  @include allBelow(small) {
+    padding: 0 16px;
+  }
 }
 
 .footerStyle {
