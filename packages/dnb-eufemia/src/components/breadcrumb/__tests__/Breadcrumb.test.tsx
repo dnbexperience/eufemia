@@ -307,7 +307,7 @@ describe('Breadcrumb', () => {
     })
 
     // Collapsable menu should auto-close when screen goes large
-    expect(collapseSection.children.length).toBe(0)
+    expect(collapseSection.children).toHaveLength(0)
   })
 
   describe('BreadcrumbItem', () => {
