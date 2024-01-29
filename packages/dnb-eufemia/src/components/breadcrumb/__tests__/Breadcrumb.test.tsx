@@ -295,7 +295,7 @@ describe('Breadcrumb', () => {
     )
 
     // Collapsable menu should not be visible before toggle click
-    expect(collapseSection.children.length).toBe(0)
+    expect(collapseSection.children).toHaveLength(0)
 
     await userEvent.click(toggleButton())
 
