@@ -37,7 +37,7 @@ export function makeAjvInstance(instance?: Ajv) {
  * @param ajvError - The Ajv error object.
  * @returns The instance path of the error.
  */
-function getInstancePath(ajvError: ErrorObject): string {
+export function getInstancePath(ajvError: ErrorObject): string {
   switch (ajvError.keyword) {
     case 'required': {
       // Required-errors are considered object errors by ajv, so they don't have instancePaths. We want to
@@ -62,7 +62,7 @@ function getInstancePath(ajvError: ErrorObject): string {
  * @param ajvError - The AJV error object.
  * @returns The validation rule.
  */
-function getValidationRule(ajvError: ErrorObject): string {
+export function getValidationRule(ajvError: ErrorObject): string {
   if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
     // to avoid issues like required-errors pointing at parent object.
@@ -76,10 +76,11 @@ function getValidationRule(ajvError: ErrorObject): string {
  * @param ajvError The AJV error object.
  * @returns The message values extracted from the error object.
  */
-function getMessageValues(
+export function getMessageValues(
   ajvError: ErrorObject
 ): FormError['messageValues'] {
   const validationRule = getValidationRule(ajvError)
+  // console.log('validationRule', validationRule)
 
   switch (validationRule) {
     case 'minLength':
@@ -108,7 +109,7 @@ function getMessageValues(
  * @param ajvError - The AJV error object to convert.
  * @returns The converted FormError object.
  */
-function ajvErrorToFormError(ajvError: ErrorObject): FormError {
+export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
   const error = new FormError(ajvError.message ?? 'Unknown error', {
     validationRule: getValidationRule(ajvError),
     // Keep the message values in the error object instead of injecting them into the message
