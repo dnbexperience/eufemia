@@ -231,14 +231,11 @@ export default function useDataValue<
       if (error instanceof FormError) {
         let message = error.message
 
-        if (typeof error.validationRule === 'string') {
-          if (errorMessagesRef.current?.[error.validationRule]) {
-            message = errorMessagesRef.current?.[error.validationRule]
-          } else {
-            message =
-              contextErrorMessages?.[path]?.[error.validationRule] ||
-              contextErrorMessages?.[error.validationRule] ||
-              message
+        const { validationRule } = error
+        if (typeof validationRule === 'string') {
+          const fieldMessage = errorMessagesRef.current?.[validationRule]
+          if (fieldMessage) {
+            message = fieldMessage
           }
         }
 
@@ -253,7 +250,7 @@ export default function useDataValue<
 
       return error
     },
-    [path, contextErrorMessages]
+    []
   )
 
   /**

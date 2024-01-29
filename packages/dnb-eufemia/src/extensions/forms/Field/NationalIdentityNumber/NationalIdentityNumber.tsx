@@ -2,6 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 
 import SharedContext from '../../../../shared/Context'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = StringFieldProps & {
   omitMask?: boolean
@@ -15,14 +16,11 @@ function NationalIdentityNumber(props: Props) {
 
   const { validate = true, omitMask } = props
 
-  const errorMessages = useMemo(
-    () => ({
-      required: errorMessage,
-      pattern: errorMessage,
-      ...props.errorMessages,
-    }),
-    [errorMessage, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: errorMessage,
+    pattern: errorMessage,
+  })
+
   const mask = useMemo(
     () =>
       omitMask

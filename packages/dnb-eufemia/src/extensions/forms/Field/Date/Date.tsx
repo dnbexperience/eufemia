@@ -11,6 +11,7 @@ import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = FieldHelpProps &
   FieldProps<string> & {
@@ -22,14 +23,10 @@ function DateComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.dateErrorRequired,
-      pattern: tr.inputErrorPattern,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.dateErrorRequired,
+    pattern: tr.inputErrorPattern,
+  })
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
