@@ -34,3 +34,10 @@ html {
 
   background: #fff;
 }
+
+/**
+* Hide "Preparing requested page" popup
+*/
+gatsby-qod {
+  opacity: 0;
+}
