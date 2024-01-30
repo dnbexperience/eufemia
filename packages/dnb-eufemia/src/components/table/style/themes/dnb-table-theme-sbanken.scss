@@ -19,8 +19,9 @@
 .dnb-table {
   text-align: left;
 
-  & thead {
-    border-bottom: var(--border);
+  thead + tbody .dnb-table__tr:first-child .dnb-table__td::after {
+    @include tableBorder();
+    border-top: var(--border);
   }
 
   &__th,
