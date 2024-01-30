@@ -306,7 +306,7 @@ describe('TableAccordion', () => {
                 Label
                 <input type="text" />
               </label>
-              <button>button</button>
+              <button id="test-button">button</button>
             </Td>
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
@@ -317,7 +317,7 @@ describe('TableAccordion', () => {
     const trElement = document.querySelector('tr')
     const labelElement = document.querySelector('label')
     const inputElem = trElement.querySelector('input')
-    const buttonElem = trElement.querySelector('button')
+    const buttonElem = trElement.querySelector('button#test-button')
 
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
@@ -408,6 +408,34 @@ describe('TableAccordion', () => {
     )
 
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+  })
+
+  it('tr should open on toggle button click', () => {
+    render(
+      <Table accordion>
+        <tbody>
+          <Tr>
+            <Td>Nothing</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr')
+    const toggleButtonElem = trElement.querySelector(
+      '.dnb-table__toggle-button button'
+    )
+
+    jest
+      .spyOn(document, 'activeElement', 'get')
+      .mockReturnValue(toggleButtonElem)
+
+    fireEvent.click(toggleButtonElem)
+
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--expanded'
+    )
   })
 
   it('chevron placement class should be set with accordionChevronPlacement', () => {

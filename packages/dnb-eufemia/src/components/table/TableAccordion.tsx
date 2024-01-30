@@ -156,22 +156,26 @@ export function useTableAccordion({
     setHover(false)
     setHadClick(false)
   }
-  function toggleOpenTr(event: MouseEvent) {
+  function toggleOpenTr(
+    event: MouseEvent,
+    allowInteractiveElement: boolean = false
+  ) {
     const target = event.target as HTMLElement
     if (
       /**
-       * Interactive elements to set activeElement on mouseDown,
-       * we we can check against it.
+       * Do not toggle if user clicked an interactive element (input, button, etc.).
+       * Interactive to set activeElement on mouseDown, we we can check against it.
        */
-      document.activeElement !== target &&
-      /**
-       * Safari on macOS needs this extra check:
-       *
-       * > For example, on macOS systems, elements that aren't text input elements are not typically focusable by default.
-       * https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement
-       */
-      target.tagName !== 'INPUT' &&
-      target.tagName !== 'LABEL' &&
+      ((document.activeElement !== target &&
+        /**
+         * Safari on macOS needs this extra check:
+         *
+         * > For example, on macOS systems, elements that aren't text input elements are not typically focusable by default.
+         * https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement
+         */
+        target.tagName !== 'INPUT' &&
+        target.tagName !== 'LABEL') ||
+        allowInteractiveElement) &&
       /**
        * Let the user select text,
        * without triggering the accordion.
@@ -202,7 +206,7 @@ export function TableAccordionToggleButton() {
         tabIndex={-1}
         aria-label={allProps?.accordionToggleButtonSR}
         aria-expanded={Boolean(trContext?.trIsOpen)}
-        on_click={trContext?.toggleOpenTr}
+        on_click={(event) => trContext?.toggleOpenTr(event, true)}
       />
     </span>
   )
