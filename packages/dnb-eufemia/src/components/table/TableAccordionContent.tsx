@@ -111,10 +111,10 @@ export default function TableAccordionContent(
       style={{ ...firstPaintStyle, ...style }}
       className={classnames(
         isInDOM && 'dnb-table__tr',
-        'dnb-table__tr__accordion_content',
-        isInDOM && 'dnb-table__tr__accordion_content--expanded',
-        isAnimating && 'dnb-table__tr__accordion_content--animating',
-        isVisibleParallax && 'dnb-table__tr__accordion_content--parallax',
+        'dnb-table__tr__accordion-content',
+        isInDOM && 'dnb-table__tr__accordion-content--expanded',
+        isAnimating && 'dnb-table__tr__accordion-content--animating',
+        isVisibleParallax && 'dnb-table__tr__accordion-content--parallax',
         className
       )}
       ref={trRef}
@@ -127,10 +127,10 @@ export default function TableAccordionContent(
       >
         {isInDOM && (
           <div
-            className="dnb-table__tr__accordion_content__inner"
+            className="dnb-table__tr__accordion-content__inner"
             ref={innerRef}
           >
-            <div className="dnb-table__tr__accordion_content__inner__spacing">
+            <div className="dnb-table__tr__accordion-content__inner__spacing">
               {children}
             </div>
           </div>

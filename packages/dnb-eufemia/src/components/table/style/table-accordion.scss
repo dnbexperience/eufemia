@@ -68,12 +68,12 @@
   }
 
   &__tr--has-accordion-content,
-  &__tr__accordion_content {
+  &__tr__accordion-content {
     position: relative;
     z-index: 2;
   }
   &__tr--has-accordion-content#{&}__tr--expanded,
-  &__tr__accordion_content {
+  &__tr__accordion-content {
     z-index: 3; // ensure borders are visible in certain states
   }
 
@@ -208,7 +208,7 @@
     @include tableAccordionDisabledColor();
   }
 
-  &__tr__accordion_content {
+  &__tr__accordion-content {
     @include IS_SAFARI_DESKTOP() {
       &[hidden] {
         /**
@@ -292,7 +292,7 @@
     }
   }
 
-  &__tr__accordion_content#{&}__tr &__td {
+  &__tr__accordion-content#{&}__tr &__td {
     background-color: var(--accordion-background);
 
     /**
@@ -329,7 +329,7 @@
       border-radius: 0 0 0.5rem 0;
     }
   }
-  &--outline tbody &__tr#{&}__tr__accordion_content:last-of-type &__td {
+  &--outline tbody &__tr#{&}__tr__accordion-content:last-of-type &__td {
     &,
     &::before,
     &::after {
@@ -344,7 +344,7 @@
 
   // prevent selection while animating – useful when user double-clicks
   // TODO: Our SASS version does not support :has – so we may use this in future
-  // &__tr--has-accordion-content:has(& + &__tr__accordion_content--animating) {
+  // &__tr--has-accordion-content:has(& + &__tr__accordion-content--animating) {
   //   user-select: none;
   // }
 

@@ -70,7 +70,7 @@ describe('TableAccordion', () => {
     expect(element.getAttribute('aria-hidden')).toBe('true')
     expect(element.getAttribute('hidden')).toBe('')
     expect(Array.from(element.classList)).toEqual([
-      'dnb-table__tr__accordion_content',
+      'dnb-table__tr__accordion-content',
     ])
   })
 
@@ -97,10 +97,10 @@ describe('TableAccordion', () => {
     expect(accordionElem.getAttribute('aria-hidden')).toBe('false')
     expect(accordionElem.getAttribute('role')).toBe('row')
     expect(Array.from(accordionElem.classList)).toEqual([
-      'dnb-table__tr__accordion_content',
+      'dnb-table__tr__accordion-content',
       'dnb-table__tr',
-      'dnb-table__tr__accordion_content--expanded',
-      'dnb-table__tr__accordion_content--parallax',
+      'dnb-table__tr__accordion-content--expanded',
+      'dnb-table__tr__accordion-content--parallax',
     ])
   })
 
@@ -196,11 +196,11 @@ describe('TableAccordion', () => {
     const element = accordionElem.querySelector('td')
 
     expect(
-      element.querySelector('div.dnb-table__tr__accordion_content__inner')
+      element.querySelector('div.dnb-table__tr__accordion-content__inner')
     ).toBeInTheDocument()
     expect(
       element.querySelector(
-        'div.dnb-table__tr__accordion_content__inner__spacing'
+        'div.dnb-table__tr__accordion-content__inner__spacing'
       )
     ).toBeInTheDocument()
   })
@@ -283,7 +283,7 @@ describe('TableAccordion', () => {
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
     expect(Array.from(accordionElem.classList)).toEqual([
-      'dnb-table__tr__accordion_content',
+      'dnb-table__tr__accordion-content',
     ])
 
     fireEvent.click(trElement)
@@ -292,7 +292,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).toContain(
-      'dnb-table__tr__accordion_content--expanded'
+      'dnb-table__tr__accordion-content--expanded'
     )
   })
 
@@ -601,7 +601,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).toContain(
-      'dnb-table__tr__accordion_content--expanded'
+      'dnb-table__tr__accordion-content--expanded'
     )
 
     // close
@@ -616,7 +616,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).not.toContain(
-      'dnb-table__tr__accordion_content--expanded'
+      'dnb-table__tr__accordion-content--expanded'
     )
   })
 
@@ -694,7 +694,7 @@ describe('TableAccordion', () => {
 
     const accordionElem1 = trElement1.nextSibling as HTMLTableRowElement
     expect(Array.from(accordionElem1.classList)).toContain(
-      'dnb-table__tr__accordion_content--expanded'
+      'dnb-table__tr__accordion-content--expanded'
     )
 
     const trElement2 = document.querySelectorAll('tr')[1]
@@ -704,7 +704,7 @@ describe('TableAccordion', () => {
 
     const accordionElem2 = trElement2.nextSibling as HTMLTableRowElement
     expect(Array.from(accordionElem2.classList)).not.toContain(
-      'dnb-table__tr__accordion_content--expanded'
+      'dnb-table__tr__accordion-content--expanded'
     )
   })
 
