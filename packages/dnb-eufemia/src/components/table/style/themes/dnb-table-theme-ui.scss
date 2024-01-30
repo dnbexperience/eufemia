@@ -127,7 +127,8 @@
   --outline: var(--outline-width) solid var(--color-black-8);
 
   html[data-visual-test] & {
-    --border: 0.0625rem solid blue;
-    --outline: 0.0625rem solid red;
+    --border: var(--border-width) solid blue;
+    --outline: var(--outline-width) solid red;
+    --accordion-border: var(--accordion-border-width) solid green;
   }
 }

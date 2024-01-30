@@ -109,4 +109,10 @@
   --outline: var(--outline-width) solid var(--sb-color-gray-light-2);
 
   background-color: var(--sb-color-white);
+
+  html[data-visual-test] & {
+    --border: var(--border-width) solid blue;
+    --outline: var(--outline-width) solid red;
+    --accordion-border: var(--accordion-border-width) solid green;
+  }
 }
