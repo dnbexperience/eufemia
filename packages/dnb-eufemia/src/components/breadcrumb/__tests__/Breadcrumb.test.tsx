@@ -1,11 +1,14 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, act } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
 import { AnchorAllProps } from '../../Anchor'
+import 'mock-match-media/jest-setup'
+import { setMedia } from 'mock-match-media'
 
 describe('Breadcrumb', () => {
   it('renders without properties', () => {
@@ -269,6 +272,42 @@ describe('Breadcrumb', () => {
       'dnb-breadcrumb--variant-multiple',
       'dnb-space__top--large',
     ])
+  })
+
+  it('should automatically collapse breadcrumb-collapse when screen changes to larger than medium', async () => {
+    setMedia({ width: '40em' })
+
+    render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+      />
+    )
+
+    const toggleButton = () =>
+      document.querySelector('.dnb-breadcrumb__toggle')
+
+    const collapseSection = document.querySelector(
+      '.dnb-breadcrumb__collapse'
+    )
+
+    // Collapsable menu should not be visible before toggle click
+    expect(collapseSection.children).toHaveLength(0)
+
+    await userEvent.click(toggleButton())
+
+    // Collapsable should be visible now
+    expect(collapseSection.children).toHaveLength(1)
+
+    act(() => {
+      setMedia({ width: '80em' })
+    })
+
+    // Collapsable menu should auto-close when screen goes large
+    expect(collapseSection.children).toHaveLength(0)
   })
 
   describe('BreadcrumbItem', () => {

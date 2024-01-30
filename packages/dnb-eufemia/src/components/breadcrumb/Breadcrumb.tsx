@@ -24,6 +24,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
+import { useMedia } from '../../shared'
 
 export type BreadcrumbProps = {
   /**
@@ -174,6 +175,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   const [isCollapsed, setCollapse] = useState(overrideIsCollapsed)
 
+  const { isLarge } = useMedia()
+
   let currentVariant = variant
   if (!variant) {
     if (items || data) {
@@ -186,6 +189,13 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   useEffect(() => {
     setCollapse(overrideIsCollapsed)
   }, [overrideIsCollapsed])
+
+  // Auto-collapse breadcrumbs if going from small screen to large screen.
+  useEffect(() => {
+    if (isLarge && overrideIsCollapsed !== false) {
+      setCollapse(true)
+    }
+  }, [isLarge])
 
   validateDOMAttributes(allProps, props)
 
