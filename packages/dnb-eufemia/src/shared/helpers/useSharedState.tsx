@@ -41,13 +41,17 @@ export function createSharedState<Data>(
     }
 
     sharedStates[id] = {
-      data: initialData ? { ...initialData } : undefined,
+      data: undefined,
       get,
       set,
       update,
       subscribe,
       unsubscribe,
     } as SharedStateInstance<Data>
+
+    if (initialData) {
+      set(initialData)
+    }
   } else if (
     sharedStates[id].data === undefined &&
     initialData !== undefined
@@ -70,7 +74,7 @@ export function useSharedState<Data>(
     [id, initialData]
   )
   const sharedFunc = useMemo(
-    () => id && createSharedState(id + 'func', { onSet }),
+    () => id && createSharedState(id + '-onSet', { onSet }),
     [id, onSet]
   )
 

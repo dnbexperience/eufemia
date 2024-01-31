@@ -106,7 +106,6 @@ function DateComponent(props: Props) {
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...ariaAttributes}
-        {...pickSpacingProps(props)}
       />
     </FieldBlock>
   )

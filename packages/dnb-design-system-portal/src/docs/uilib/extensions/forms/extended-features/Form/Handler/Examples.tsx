@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Form, Field, FieldBlock } from '@dnb/eufemia/src/extensions/forms'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Card, Flex, P, Section } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -96,4 +96,104 @@ export const Autofill = () => {
       </Form.Handler>
     </ComponentBox>
   )
+}
+
+export const FilterData = () => {
+  const id = 'disabled-fields'
+  return (
+    <ComponentBox scope={{ id, replaceUndefinedValues }}>
+      {() => {
+        const filterDataHandler = (path, value, props) => !props.disabled
+
+        const MyComponent = () => {
+          const { data } = Form.useData(id, {
+            disabled: false,
+            validate: false,
+            myField: 'Value',
+          })
+
+          return (
+            <Form.Handler
+              id={id}
+              onSubmit={(data) => console.log('onSubmit', data)}
+              filterData={filterDataHandler}
+            >
+              <Flex.Stack spacing="medium">
+                <Field.Boolean label="Disabled" path="/disabled" />
+                <Field.Boolean label="Validate" path="/validate" />
+                <Field.String
+                  label="My Field"
+                  path="/myField"
+                  required={data.validate}
+                  disabled={data.disabled}
+                />
+                <Form.ButtonRow>
+                  <Form.SubmitButton />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        const Output = () => {
+          const { filterData } = Form.useData(id)
+          const { hasErrors } = Form.useError(id)
+
+          return (
+            <Section
+              top
+              innerSpace
+              backgroundColor="sand-yellow"
+              breakout={false}
+            >
+              <output>
+                hasErrors: {JSON.stringify(hasErrors(), null, 2)}
+                <pre>
+                  {JSON.stringify(
+                    replaceUndefinedValues(filterData(filterDataHandler)),
+                    null,
+                    2,
+                  )}
+                </pre>
+              </output>
+            </Section>
+          )
+        }
+
+        return (
+          <>
+            <MyComponent />
+            <Output />
+          </>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+/**
+ * Replaces undefined values in an object with a specified replacement value.
+ * @param value - The value to check for undefined values.
+ * @param replaceWith - The value to replace undefined values with. Default is null.
+ * @returns The object with undefined values replaced.
+ */
+function replaceUndefinedValues(
+  value: unknown,
+  replaceWith = null,
+): unknown {
+  if (typeof value === 'undefined') {
+    return replaceWith
+  } else if (typeof value === 'object' && value !== replaceWith) {
+    return {
+      ...value,
+      ...Object.fromEntries(
+        Object.entries(value).map(([k, v]) => [
+          k,
+          replaceUndefinedValues(v),
+        ]),
+      ),
+    }
+  } else {
+    return value
+  }
 }

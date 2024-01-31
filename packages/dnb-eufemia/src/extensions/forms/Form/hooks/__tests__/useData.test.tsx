@@ -105,6 +105,18 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ foo: 'bar' })
   })
 
+  it('should return filterData function', () => {
+    const { result } = renderHook((props = { key: 'value' }) =>
+      useData('id-filterData', props)
+    )
+
+    expect(result.current).toEqual({
+      data: { key: 'value' },
+      update: expect.any(Function),
+      filterData: expect.any(Function),
+    })
+  })
+
   describe('with mock', () => {
     it('should call "set" with initialData on mount if data is not present', () => {
       const update = jest.fn()

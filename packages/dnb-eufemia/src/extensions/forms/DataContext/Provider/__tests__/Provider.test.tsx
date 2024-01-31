@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event'
 import { Form, DataContext, Field, JSONSchema, Ajv } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'
+import { FilterData } from '../Provider'
 
 const nb = nbNO['nb-NO'].Forms
 
@@ -113,7 +114,7 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenCalledWith({ fooBar: 'Second Value' })
+      expect(onChange).toHaveBeenLastCalledWith({ fooBar: 'Second Value' })
     })
 
     it('should update data context with initially given "value"', () => {
@@ -229,7 +230,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onPathChange).toHaveBeenCalledTimes(2)
-      expect(onPathChange).toHaveBeenCalledWith('/fooBar', 'Second Value')
+      expect(onPathChange).toHaveBeenLastCalledWith(
+        '/fooBar',
+        'Second Value'
+      )
     })
 
     it('should call "onSubmit" on submit', () => {
@@ -246,12 +250,12 @@ describe('DataContext.Provider', () => {
       )
 
       const inputElement = document.querySelector('input')
-      const submitElement = document.querySelector('button')
+      const submitButton = document.querySelector('button')
 
       fireEvent.change(inputElement, {
         target: { value: 'New Value' },
       })
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
@@ -272,13 +276,101 @@ describe('DataContext.Provider', () => {
       fireEvent.change(inputElement, {
         target: { value: 'Second Value' },
       })
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenCalledWith(
+      expect(onSubmit).toHaveBeenLastCalledWith(
         { fooBar: 'Second Value' },
         expect.anything()
       )
+    })
+
+    it('should filter data based in the given "filterData" property method', () => {
+      let filteredData = undefined
+      const onSubmit = jest.fn((data) => (filteredData = data))
+
+      const filterDataHandler: FilterData = jest.fn(
+        (path, value, props) => {
+          if (props.disabled === true) {
+            return false
+          }
+        }
+      )
+
+      const { rerender } = render(
+        <DataContext.Provider
+          onSubmit={onSubmit}
+          filterData={filterDataHandler}
+        >
+          <Field.String path="/foo" value="Include this value" />
+          <Field.String path="/bar" value="bar" />
+          <Form.SubmitButton>Submit</Form.SubmitButton>
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      fireEvent.click(submitButton)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { bar: 'bar', foo: 'Include this value' },
+        expect.anything()
+      )
+
+      expect(filterDataHandler).toHaveBeenCalledTimes(2)
+      expect(filterDataHandler).toHaveBeenNthCalledWith(
+        1,
+        '/foo',
+        'Include this value',
+        expect.anything()
+      )
+      expect(filterDataHandler).toHaveBeenNthCalledWith(
+        2,
+        '/bar',
+        'bar',
+        expect.anything()
+      )
+
+      rerender(
+        <DataContext.Provider
+          onSubmit={onSubmit}
+          filterData={filterDataHandler}
+        >
+          <Field.String path="/foo" value="Skip this value" disabled />
+          <Field.String path="/bar" value="bar value" />
+          <Form.SubmitButton>Submit</Form.SubmitButton>
+        </DataContext.Provider>
+      )
+
+      expect(filteredData).toEqual({
+        bar: 'bar',
+        foo: 'Include this value',
+      })
+
+      fireEvent.click(submitButton)
+
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { bar: 'bar value' },
+        expect.anything()
+      )
+
+      expect(filterDataHandler).toHaveBeenCalledTimes(4)
+      expect(filterDataHandler).toHaveBeenNthCalledWith(
+        3,
+        '/foo',
+        'Skip this value',
+        expect.anything()
+      )
+      expect(filterDataHandler).toHaveBeenNthCalledWith(
+        4,
+        '/bar',
+        'bar value',
+        expect.anything()
+      )
+
+      expect(filteredData).toEqual({ bar: 'bar value' })
     })
 
     it('should call "onSubmitRequest" on invalid submit', async () => {
@@ -295,13 +387,13 @@ describe('DataContext.Provider', () => {
       )
 
       const inputElement = document.querySelector('input')
-      const submitElement = document.querySelector('button')
+      const submitButton = document.querySelector('button')
 
       await waitFor(() => {
         fireEvent.change(inputElement, {
           target: { value: '1' },
         })
-        fireEvent.click(submitElement)
+        fireEvent.click(submitButton)
 
         expect(onSubmitRequest).toHaveBeenCalledTimes(1)
         expect(onSubmitRequest).toHaveBeenCalledWith()
@@ -321,10 +413,10 @@ describe('DataContext.Provider', () => {
         fireEvent.change(inputElement, {
           target: { value: '2' },
         })
-        fireEvent.click(submitElement)
+        fireEvent.click(submitButton)
 
         expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-        expect(onSubmitRequest).toHaveBeenCalledWith()
+        expect(onSubmitRequest).toHaveBeenLastCalledWith()
       })
     })
 
@@ -346,12 +438,12 @@ describe('DataContext.Provider', () => {
       )
 
       const inputElement = document.querySelector('input')
-      const submitElement = document.querySelector('button')
+      const submitButton = document.querySelector('button')
 
       fireEvent.change(inputElement, {
         target: { value: 'New Value' },
       })
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
@@ -374,15 +466,15 @@ describe('DataContext.Provider', () => {
       fireEvent.change(inputElement, {
         target: { value: 'Second Value' },
       })
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenCalledWith(
+      expect(onSubmit).toHaveBeenLastCalledWith(
         { fooBar: 'Second Value' },
         expect.anything()
       )
       expect(scrollTo).toHaveBeenCalledTimes(2)
-      expect(scrollTo).toHaveBeenCalledWith({
+      expect(scrollTo).toHaveBeenLastCalledWith({
         behavior: 'smooth',
         top: 0,
       })
@@ -504,7 +596,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      const submitElement = document.querySelector('button')
+      const submitButton = document.querySelector('button')
       const field2 = screen.queryByLabelText('Field 2')
 
       // Should not show any error messages before clicking submit when no fields has been touched
@@ -514,7 +606,7 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByText('Min 5 chars')).not.toBeInTheDocument()
       expect(screen.queryByText('Required number')).not.toBeInTheDocument()
 
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       // After clicking submit, all three fields should show errors
       expect(screen.queryAllByRole('alert').length).toEqual(3)
@@ -544,8 +636,8 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      const submitElement = document.querySelector('button')
-      fireEvent.click(submitElement)
+      const submitButton = document.querySelector('button')
+      fireEvent.click(submitButton)
 
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
@@ -553,7 +645,7 @@ describe('DataContext.Provider', () => {
     describe('error messages', () => {
       it('should display custom pattern error message from provider', () => {
         render(
-          <Form.Handler
+          <DataContext.Provider
             errorMessages={{
               pattern: 'pattern provider error',
             }}
@@ -564,7 +656,7 @@ describe('DataContext.Provider', () => {
               pattern="^correct$"
               value="wrong"
             />
-          </Form.Handler>
+          </DataContext.Provider>
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
@@ -574,7 +666,7 @@ describe('DataContext.Provider', () => {
 
       it('should display custom pattern error message from provider with json pointer', () => {
         render(
-          <Form.Handler
+          <DataContext.Provider
             errorMessages={{
               pattern: 'pattern provider error',
               '/myKey': {
@@ -588,7 +680,7 @@ describe('DataContext.Provider', () => {
               pattern="^correct$"
               value="wrong"
             />
-          </Form.Handler>
+          </DataContext.Provider>
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
@@ -598,7 +690,7 @@ describe('DataContext.Provider', () => {
 
       it('should display custom pattern error message from field', () => {
         render(
-          <Form.Handler
+          <DataContext.Provider
             errorMessages={{
               pattern: 'pattern provider error',
               '/myKey': {
@@ -615,7 +707,7 @@ describe('DataContext.Provider', () => {
                 pattern: 'pattern field error',
               }}
             />
-          </Form.Handler>
+          </DataContext.Provider>
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
@@ -765,6 +857,74 @@ describe('DataContext.Provider', () => {
 
         expect(screen.getByText('Minimum 7 chars.')).toBeInTheDocument()
       })
+
+      describe('disabled and readOnly', () => {
+        it('should skip required validation on disabled fields', () => {
+          const { rerender } = render(<TestField value="" required />)
+
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+          rerender(<TestField value="value" required disabled />)
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should skip schema validation on disabled fields', () => {
+          const schema: JSONSchema = {
+            type: 'object',
+            required: ['myField'],
+          }
+
+          const { rerender } = render(
+            <DataContext.Provider schema={schema}>
+              <TestField path="/myField" />
+            </DataContext.Provider>
+          )
+
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+          rerender(
+            <DataContext.Provider schema={schema}>
+              <TestField path="/myField" disabled />
+            </DataContext.Provider>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should skip required validation on readOnly fields', () => {
+          const { rerender } = render(<TestField value="" required />)
+
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+          rerender(<TestField value="value" required readOnly />)
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should skip schema validation on readOnly fields', () => {
+          const schema: JSONSchema = {
+            type: 'object',
+            required: ['myField'],
+          }
+
+          const { rerender } = render(
+            <DataContext.Provider schema={schema}>
+              <TestField path="/myField" />
+            </DataContext.Provider>
+          )
+
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+          rerender(
+            <DataContext.Provider schema={schema}>
+              <TestField path="/myField" readOnly />
+            </DataContext.Provider>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
     })
 
     it('should show default errorMessages based on outer schema validation with injected value', () => {
@@ -813,12 +973,12 @@ describe('DataContext.Provider', () => {
       )
 
       const inputElement = document.querySelector('input')
-      const submitElement = document.querySelector('button')
+      const submitButton = document.querySelector('button')
 
       fireEvent.change(inputElement, {
         target: { value: '1' },
       })
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onSubmitRequest).toHaveBeenCalledWith()
@@ -837,10 +997,10 @@ describe('DataContext.Provider', () => {
       fireEvent.change(inputElement, {
         target: { value: '2' },
       })
-      fireEvent.click(submitElement)
+      fireEvent.click(submitButton)
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-      expect(onSubmitRequest).toHaveBeenCalledWith()
+      expect(onSubmitRequest).toHaveBeenLastCalledWith()
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
@@ -1013,14 +1173,14 @@ describe('DataContext.Provider', () => {
       } as const
 
       const { rerender } = render(
-        <Form.Handler ajvInstance={ajv}>
+        <DataContext.Provider ajvInstance={ajv}>
           <Field.String
             schema={schema}
             path="/myKey"
             value=""
             validateInitially
           />
-        </Form.Handler>
+        </DataContext.Provider>
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -1028,7 +1188,7 @@ describe('DataContext.Provider', () => {
       )
 
       rerender(
-        <Form.Handler
+        <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
             notEmpty: 'message in provider',
@@ -1040,7 +1200,7 @@ describe('DataContext.Provider', () => {
             value=""
             validateInitially
           />
-        </Form.Handler>
+        </DataContext.Provider>
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -1048,7 +1208,7 @@ describe('DataContext.Provider', () => {
       )
 
       rerender(
-        <Form.Handler
+        <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
             notEmpty: 'message in provider',
@@ -1063,7 +1223,7 @@ describe('DataContext.Provider', () => {
             value=""
             validateInitially
           />
-        </Form.Handler>
+        </DataContext.Provider>
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -1071,7 +1231,7 @@ describe('DataContext.Provider', () => {
       )
 
       rerender(
-        <Form.Handler
+        <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
             notEmpty: 'message in provider',
@@ -1087,7 +1247,7 @@ describe('DataContext.Provider', () => {
             validateInitially
             errorMessages={{ notEmpty: 'message for just this field' }}
           />
-        </Form.Handler>
+        </DataContext.Provider>
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -1096,9 +1256,70 @@ describe('DataContext.Provider', () => {
     })
   })
 
+  it('should run filterData with correct data in onSubmit', () => {
+    const id = 'disabled-fields'
+    const filterDataHandler = jest.fn((path, value, props) => {
+      if (props.disabled === true) {
+        return false
+      }
+    })
+    const onSubmit = jest.fn()
+
+    const { rerender } = render(
+      <Form.Handler
+        id={id}
+        onSubmit={onSubmit}
+        filterData={filterDataHandler}
+      >
+        <Field.String path="/myField" disabled={true} value="foo" />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+    expect(filterDataHandler).toHaveBeenCalledTimes(1)
+    expect(filterDataHandler).toHaveBeenLastCalledWith(
+      '/myField',
+      'foo',
+      expect.objectContaining({
+        disabled: true,
+      })
+    )
+
+    rerender(
+      <Form.Handler
+        id={id}
+        onSubmit={onSubmit}
+        filterData={filterDataHandler}
+      >
+        <Field.String path="/myField" disabled={false} value="bar" />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { myField: 'bar' },
+      expect.anything()
+    )
+    expect(filterDataHandler).toHaveBeenCalledTimes(2)
+    expect(filterDataHandler).toHaveBeenLastCalledWith(
+      '/myField',
+      'bar',
+      expect.objectContaining({
+        disabled: false,
+      })
+    )
+  })
+
   describe('useData', () => {
     it('should set Provider data', () => {
-      renderHook((props = { foo: 'bar' }) => Form.useData('unique', props))
+      const props = { foo: 'bar' }
+      renderHook(() => Form.useData('unique', props))
 
       render(
         <DataContext.Provider id="unique">
@@ -1131,9 +1352,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should only set data when Provider has no data given', () => {
-      renderHook((props = { foo: 'bar' }) =>
-        Form.useData('unique-b', props)
-      )
+      const props = { foo: 'bar' }
+      renderHook(() => Form.useData('unique-b', props))
 
       render(
         <DataContext.Provider id="unique-b" data={{ foo: 'changed' }}>
@@ -1147,9 +1367,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should initially set data when Provider has no data', () => {
-      renderHook((props = { foo: 'bar' }) =>
-        Form.useData('unique-c', props)
-      )
+      const props = { foo: 'bar' }
+      renderHook(() => Form.useData('unique-c', props))
 
       const { rerender } = render(
         <DataContext.Provider id="unique-c">
@@ -1342,6 +1561,105 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('123')
       expect(labelElement).toHaveTextContent('123')
       expect(countRender).toBe(3)
+    })
+
+    it('should make filterData available in the hook', () => {
+      const id = 'disabled-fields-hook'
+      const filterDataHandler = jest.fn((path, value, props) => {
+        if (props.disabled === true) {
+          return false
+        }
+      })
+      const onSubmit = jest.fn()
+
+      const { result, rerender: rerenderHook } = renderHook(
+        (props = { myField: 'foo' }) => Form.useData(id, props)
+      )
+
+      const { rerender } = render(
+        <Form.Handler
+          id={id}
+          onSubmit={onSubmit}
+          filterData={filterDataHandler}
+        >
+          <Field.String path="/myField" disabled={true} />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      expect(result.current).toEqual({
+        data: { myField: 'foo' },
+        filterData: expect.any(Function),
+        update: expect.any(Function),
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+      expect(filterDataHandler).toHaveBeenCalledTimes(1)
+      expect(filterDataHandler).toHaveBeenLastCalledWith(
+        '/myField',
+        'foo',
+        expect.objectContaining({
+          disabled: true,
+        })
+      )
+
+      rerenderHook({ myField: 'bar' })
+
+      rerender(
+        <Form.Handler
+          id={id}
+          onSubmit={onSubmit}
+          filterData={filterDataHandler}
+        >
+          <Field.String path="/myField" disabled={false} />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(form)
+
+      expect(result.current).toEqual({
+        data: { myField: 'bar' },
+        filterData: expect.any(Function),
+        update: expect.any(Function),
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myField: 'bar' },
+        expect.anything()
+      )
+      expect(filterDataHandler).toHaveBeenCalledTimes(2)
+      expect(filterDataHandler).toHaveBeenLastCalledWith(
+        '/myField',
+        'bar',
+        expect.objectContaining({
+          disabled: false,
+        })
+      )
+
+      rerender(
+        <Form.Handler
+          id={id}
+          onSubmit={onSubmit}
+          filterData={filterDataHandler}
+        >
+          <Field.String path="/myField" disabled={true} />
+        </Form.Handler>
+      )
+
+      expect(result.current.data).toEqual({
+        myField: 'bar',
+      })
+      expect(result.current.filterData(filterDataHandler)).toEqual({})
+      expect(filterDataHandler).toHaveBeenCalledTimes(3)
+      expect(filterDataHandler).toHaveBeenLastCalledWith(
+        '/myField',
+        'bar',
+        expect.objectContaining({
+          disabled: true,
+        })
+      )
     })
   })
 })

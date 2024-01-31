@@ -196,6 +196,7 @@ export interface FieldProps<
   error?: Error | FormError
   hasError?: boolean
   disabled?: boolean
+  readOnly?: boolean
   capitalize?: boolean
   trim?: boolean
   // Validation

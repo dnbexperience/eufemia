@@ -74,6 +74,8 @@ export default function useDataValue<
     },
   } = props
 
+  const disabled = props.disabled ?? props.readOnly
+
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
@@ -97,9 +99,11 @@ export default function useDataValue<
     updateDataValue: dataContextUpdateDataValue,
     validateData: dataContextValidateData,
     setValueWithError: dataContextSetValueWithError,
+    setProps: dataContextSetProps,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
+
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
@@ -190,6 +194,9 @@ export default function useDataValue<
   const contextErrorRef = useRef<Error | FormError | undefined>(
     dataContextError
   )
+
+  // Put props into the surrounding data context
+  dataContextSetProps?.(identifier, props)
 
   const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
   const validatorRef = useRef(validator)
@@ -296,6 +303,14 @@ export default function useDataValue<
   const validateValue = useCallback(async () => {
     const isProcessActive = startProcess()
 
+    if (disabled) {
+      if (isProcessActive()) {
+        clearErrorState()
+      }
+      hideError()
+      return
+    }
+
     try {
       // Validate required
       const requiredError = transformers.current.validateRequired(
@@ -346,10 +361,12 @@ export default function useDataValue<
     }
   }, [
     startProcess,
+    disabled,
+    hideError,
+    clearErrorState,
     emptyValue,
     required,
     contextErrorMessages,
-    clearErrorState,
     persistErrorState,
   ])
 
@@ -399,7 +416,7 @@ export default function useDataValue<
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        dataContextUpdateDataValue?.(path, props.value)
+        dataContextUpdateDataValue?.(path, props.value, { disabled })
         dataContextValidateData?.()
       }
     }
@@ -407,6 +424,7 @@ export default function useDataValue<
     dataContext.data,
     dataContextUpdateDataValue,
     dataContextValidateData,
+    disabled,
     path,
     props.value,
   ])
@@ -493,7 +511,10 @@ export default function useDataValue<
       handleError()
 
       if (path) {
+        // setTimeout(() => {
         dataContextHandlePathChange?.(path, newValue)
+        // forceUpdate()
+        // }, 1e3)
       }
 
       forceUpdate()
@@ -590,6 +611,7 @@ export default function useDataValue<
     autoComplete:
       props.autoComplete ??
       (dataContext.autoComplete === true ? 'on' : 'off'),
+    disabled,
     ariaAttributes,
     dataContext,
     setHasFocus,

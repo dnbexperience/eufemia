@@ -211,6 +211,7 @@ function StringComponent(props: Props) {
           mask={mask}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
+          clear={clear}
         />
       ) : (
         <Input

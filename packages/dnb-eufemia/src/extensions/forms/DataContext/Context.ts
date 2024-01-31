@@ -5,6 +5,8 @@ import {
   CustomErrorMessagesWithPaths,
 } from '../types'
 
+export type Path = string
+
 type HandleSubmitProps = {
   formElement?: HTMLFormElement
 }
@@ -17,8 +19,12 @@ export interface ContextState {
   errors?: Record<string, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
   autoComplete?: boolean
-  handlePathChange: (path: string, value: any) => void
-  updateDataValue: (path: string, value: any) => void
+  handlePathChange: (path: Path, value: any) => void
+  updateDataValue: (
+    path: Path,
+    value: any,
+    props: { disabled: boolean }
+  ) => void
   validateData: () => void
   handleSubmit: (props?: HandleSubmitProps) => any
   scrollToTop: () => void
@@ -27,11 +33,12 @@ export interface ContextState {
   setShowAllErrors: (showAllErrors: boolean) => void
   // Mounted fields - Components telling the provider what fields is on screen at any time
   mountedFieldPaths: string[]
-  handleMountField: (path: string) => void
-  handleUnMountField: (path: string) => void
-  setValueWithError: (identifier: string, hasError: boolean) => void
+  handleMountField: (path: Path) => void
+  handleUnMountField: (path: Path) => void
+  setValueWithError: (path: Path, hasError: boolean) => void
+  setProps: (path: Path, props: any) => void
   hasErrors: () => boolean
-  hasFieldError: (path: string) => boolean
+  hasFieldError: (path: Path) => boolean
   ajvInstance: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
@@ -55,6 +62,7 @@ export const defaultContextState: ContextState = {
   hasErrors: () => false,
   hasFieldError: () => false,
   setValueWithError: () => null,
+  setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
   _isInsideFormElement: false,

@@ -89,3 +89,81 @@ export function Validation() {
     </Provider>
   )
 }
+
+const id = 'form-with-disabled'
+
+const filterDataHandler = (path, value, props) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+
+export const FilterData = () => {
+  const { hasErrors } = Form.useError(id)
+  const { data, filterData } = Form.useData(id, {
+    disabled: true,
+    validate: false,
+    myField: 'Value',
+  })
+
+  return (
+    <Form.Handler
+      id={id}
+      onSubmit={(data) => console.log('onSubmit', data)}
+      filterData={filterDataHandler}
+    >
+      <Flex.Stack spacing="medium">
+        <Field.Boolean label="Disabled" path="/disabled" />
+        <Field.Boolean label="Validate" path="/validate" />
+        <Field.String
+          label="My Field"
+          path="/myField"
+          required={data.validate}
+          disabled={data.disabled}
+          clear
+        />
+        <Form.ButtonRow>
+          <Form.SubmitButton />
+        </Form.ButtonRow>
+
+        <output>
+          hasErrors: {JSON.stringify(hasErrors(), null, 2)}
+          <pre>
+            {JSON.stringify(
+              replaceUndefinedValues(filterData(filterDataHandler)),
+              null,
+              2
+            )}
+          </pre>
+        </output>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+/**
+ * Replaces undefined values in an object with a specified replacement value.
+ * @param value - The value to check for undefined values.
+ * @param replaceWith - The value to replace undefined values with. Default is null.
+ * @returns The object with undefined values replaced.
+ */
+function replaceUndefinedValues(
+  value: unknown,
+  replaceWith = null
+): unknown {
+  if (typeof value === 'undefined') {
+    return replaceWith
+  } else if (typeof value === 'object' && value !== replaceWith) {
+    return {
+      ...value,
+      ...Object.fromEntries(
+        Object.entries(value).map(([k, v]) => [
+          k,
+          replaceUndefinedValues(v),
+        ])
+      ),
+    }
+  } else {
+    return value
+  }
+}

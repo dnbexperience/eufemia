@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react'
 import pointer from 'json-pointer'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import type { Path } from '../../DataContext/Provider'
+import type { Path } from '../../DataContext/Context'
+import type { FilterData, Props } from '../../DataContext/Provider'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
   ? Key extends keyof T
@@ -23,40 +24,81 @@ type UseDataReturnUpdate<Data> = <P extends Path>(
 type UseDataReturn<Data> = {
   data: Data
   update: UseDataReturnUpdate<Data>
+  filterData: (filterDataHandler: FilterData) => Partial<Data>
 }
 
 export default function useData<Data>(
   id: string,
-  data: Data = undefined
+  initialData: Data = undefined
 ): UseDataReturn<Data> {
-  const initialDataRef = useRef(data)
-  const sharedStateRef = useRef(null)
+  const sharedDataRef = useRef(null)
+  const sharedAttachmentsRef = useRef(null)
+  const hasMounted = useRef(false)
   const [, forceUpdate] = useReducer(() => ({}), {})
-  sharedStateRef.current = useSharedState<Data>(id, data, forceUpdate)
 
-  const updatePath = useCallback<UseDataReturnUpdate<Data>>((path, fn) => {
-    const existingData = sharedStateRef.current.data || ({} as Data)
-    const existingValue = pointer.has(existingData, path)
-      ? pointer.get(existingData, path)
-      : undefined
-
-    // get new value
-    const newValue = fn(existingValue)
-
-    // update existing data
-    pointer.set(existingData, path, newValue)
-
-    // update provider
-    sharedStateRef.current?.update?.(existingData)
+  useEffect(() => {
+    hasMounted.current = true
+    return () => {
+      hasMounted.current = false
+    }
   }, [])
 
-  // when initial data changes, update the shared state
-  useEffect(() => {
-    if (data && data !== initialDataRef.current) {
-      initialDataRef.current = data
-      sharedStateRef.current?.update?.(data)
+  const rerenderUseDataHook = useCallback(() => {
+    if (hasMounted.current) {
+      if (typeof window !== 'undefined') {
+        // Because we need to wait for the updated props of the fields to be in latest state
+        window.requestAnimationFrame(forceUpdate)
+      }
+    } else {
+      forceUpdate()
     }
-  }, [data])
+  }, [])
 
-  return { data: sharedStateRef.current?.data, update: updatePath }
+  sharedDataRef.current = useSharedState<Data>(
+    id,
+    initialData,
+    forceUpdate
+  )
+  sharedAttachmentsRef.current = useSharedState<{
+    filterDataHandler?: Props<Data>['filterData']
+    rerenderUseDataHook?: () => void
+  }>(id + '-attachments', { rerenderUseDataHook })
+
+  const updateHandler = useCallback<UseDataReturnUpdate<Data>>(
+    (path, fn) => {
+      const existingData = sharedDataRef.current.data || ({} as Data)
+      const existingValue = pointer.has(existingData, path)
+        ? pointer.get(existingData, path)
+        : undefined
+
+      // get new value
+      const newValue = fn(existingValue)
+
+      // update existing data
+      pointer.set(existingData, path, newValue)
+
+      // update provider
+      sharedDataRef.current?.update?.(existingData)
+    },
+    []
+  )
+
+  const filterData = useCallback<UseDataReturn<Data>['filterData']>(
+    (filter) => {
+      const data = sharedDataRef.current?.data
+      return (
+        sharedAttachmentsRef.current.data?.filterDataHandler?.(
+          data,
+          filter
+        ) || (() => data)
+      )
+    },
+    []
+  )
+
+  return {
+    data: sharedDataRef.current?.data,
+    update: updateHandler,
+    filterData,
+  }
 }

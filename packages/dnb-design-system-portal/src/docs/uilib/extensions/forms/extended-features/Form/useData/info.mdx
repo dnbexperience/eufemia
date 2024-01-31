@@ -83,3 +83,33 @@ function Component() {
 ```
 
 The `update` function has TypeScript support and returns the correct type for `existingValue`.
+
+## Filter data
+
+You can use the `filterData` method to filter your data.
+
+You simply give it the same kind of callback function as you would with the `Form.Handler` [filterData](/uilib/extensions/forms/extended-features/Form/Handler/demos/#filter-your-data) property method.
+
+The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+
+It returns the filtered form data.
+
+```tsx
+const filterDataHandler = (path, value, props) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+
+const Component = () => {
+  const { data, filterData } = Form.useData(id)
+
+  const filteredData = filterData(filterDataHandler)
+
+  return (
+    <Form.Handler id={id}>
+      <Field.String path="/foo" disabled />
+    </Form.Handler>
+  )
+}
+```
