@@ -4,10 +4,13 @@ showTabs: true
 
 ## Properties
 
-| Property                                | Type         | Description                                                                                                                            |
-| --------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `initialActiveIndex`                    | `number`     | _(optional)_ What step should show initially (defaults to 0 for the first one).                                                        |
-| `mode`                                  | `string`     | _(optional)_ How to show the steps. Inherited from [StepIndicator](/uilib/components/step-indicator/properties). Defaults to `strict`. |
-| `scrollTopOnStepChange`                 | `boolean`    | _(optional)_ True for the UI to scroll to the top of the page when navigating between steps.                                           |
-| `children`                              | `React.Node` | _(required)_ Contents ([Step](/uilib/extensions/forms/extended-features/StepsLayout/Step) components).                                 |
-| [Space](/uilib/layout/space/properties) | Various      | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                  |
+| Property                                | Type         | Description                                                                                                                                                                                     |
+| --------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `initialActiveIndex`                    | `number`     | _(optional)_ What step should show initially (defaults to 0 for the first one).                                                                                                                 |
+| `mode`                                  | `string`     | _(optional)_ How to show the steps. Inherited from [StepIndicator](/uilib/components/step-indicator/properties). Defaults to `strict`.                                                          |
+| `variant`                               | `string`     | _(optional)_ Sets the [StepIndicator](/uilib/components/step-indicator/) to be either `sidebar` or `drawer`. Defaults to `sidebar`.                                                             |
+| `noAnimation`                           | `boolan`     | _(optional)_ Determines if the height animation for step items and the drawer button will run. Inherited from [StepIndicator](/uilib/components/step-indicator/properties) Defaults to `false`. |
+| `sidebarId`                             | `string`     | _(required)_ Sets the id for `<StepIndicator.Sidebar />` Inherited from [StepIndicator](/uilib/components/step-indicator/properties).                                                           |
+| `scrollTopOnStepChange`                 | `boolean`    | _(optional)_ True for the UI to scroll to the top of the page when navigating between steps.                                                                                                    |
+| `children`                              | `React.Node` | _(required)_ Contents ([Step](/uilib/extensions/forms/extended-features/StepsLayout/Step) components).                                                                                          |
+| [Space](/uilib/layout/space/properties) | Various      | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                                                           |

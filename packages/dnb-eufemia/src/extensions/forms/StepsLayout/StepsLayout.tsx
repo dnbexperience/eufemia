@@ -21,7 +21,6 @@ export type Props = ComponentProps & {
   children: React.ReactNode
   variant?: 'sidebar' | 'drawer'
   noAnimation?: boolean
-  title?: string
   sidebarId?: string
 }
 
@@ -127,7 +126,6 @@ function StepsLayout(props: Props) {
                 ? sidebarId
                 : id
             }
-            title={title}
           />
         </aside>
         <div className="dnb-forms-steps-layout__contents">
