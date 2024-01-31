@@ -25,36 +25,18 @@ You decide where you want to provide the initial `data`. It can be done via the 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
-const existingData = {
+const initialData = {
   foo: 'bar',
 }
 
 function Component() {
-  const { data } = Form.useData('unique', existingData)
+  const { data } = Form.useData('unique', initialData)
 
   return (
     <Form.Handler id="unique">
       <Field.String path="/foo" />
     </Form.Handler>
   )
-}
-```
-
-When you're providing the initial data, it's important to make sure that React can remember this data. If it doesn't, React will treat the data as a new object every time it re-renders, which can lead to unnecessary comparisons and performance issues.
-
-You can use the useMemo hook to make sure React remembers the data:
-
-```jsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-function Component() {
-  const existingData = React.useMemo(
-    {
-      foo: 'bar',
-    },
-    [],
-  )
-
-  const { data } = Form.useData('unique-id', existingData)
 }
 ```
 
@@ -67,12 +49,12 @@ It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-const existingData = {
+const initialData = {
   foo: 'bar',
 }
 
 function Component() {
-  const { update } = Form.useData('unique', (data = { existingData }))
+  const { update } = Form.useData('unique', (data = { initialData }))
 
   useEffect(() => {
     update('/foo', () => 'new value')
@@ -83,6 +65,32 @@ function Component() {
 ```
 
 The `update` function has TypeScript support and returns the correct type for `existingValue`.
+
+## Replace the whole data set
+
+With the `set` method, you can replace the whole data set if needed.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const initialData = {
+  foo: 'bar',
+}
+
+function Component() {
+  const { data, set } = Form.useData('unique')
+
+  useEffect(() => {
+    set(initialData)
+  }, [])
+
+  return (
+    <Form.Handler id="unique">
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
+}
+```
 
 ## Filter data
 

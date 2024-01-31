@@ -8,6 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Form, DataContext, Field, JSONSchema, Ajv } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'
@@ -20,6 +21,12 @@ function TestField(props: StringFieldProps) {
 }
 
 describe('DataContext.Provider', () => {
+  let identifier: string
+
+  beforeEach(() => {
+    identifier = makeUniqueId()
+  })
+
   describe('props', () => {
     it('should provide value from defaultData but ignore changes', () => {
       const { rerender } = render(
@@ -1319,10 +1326,10 @@ describe('DataContext.Provider', () => {
   describe('useData', () => {
     it('should set Provider data', () => {
       const props = { foo: 'bar' }
-      renderHook(() => Form.useData('unique', props))
+      renderHook(() => Form.useData(identifier, props))
 
       render(
-        <DataContext.Provider id="unique">
+        <DataContext.Provider id={identifier}>
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
@@ -1331,13 +1338,13 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
     })
 
-    it('should update Provider data on hook rerender', () => {
-      const { rerender } = renderHook((props = { foo: 'bar' }) => {
-        return Form.useData('unique-a', props)
+    it('should update Provider data on hook "set" call', () => {
+      const { result } = renderHook((props = { foo: 'bar' }) => {
+        return Form.useData(identifier, props)
       })
 
       render(
-        <DataContext.Provider id="unique-a">
+        <DataContext.Provider id={identifier}>
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
@@ -1346,17 +1353,19 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('bar')
 
-      rerender({ foo: 'bar-changed' })
+      act(() => {
+        result.current.set({ foo: 'bar-changed' })
+      })
 
       expect(inputElement).toHaveValue('bar-changed')
     })
 
     it('should only set data when Provider has no data given', () => {
       const props = { foo: 'bar' }
-      renderHook(() => Form.useData('unique-b', props))
+      renderHook(() => Form.useData(identifier, props))
 
       render(
-        <DataContext.Provider id="unique-b" data={{ foo: 'changed' }}>
+        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
@@ -1368,10 +1377,10 @@ describe('DataContext.Provider', () => {
 
     it('should initially set data when Provider has no data', () => {
       const props = { foo: 'bar' }
-      renderHook(() => Form.useData('unique-c', props))
+      renderHook(() => Form.useData(identifier, props))
 
       const { rerender } = render(
-        <DataContext.Provider id="unique-c">
+        <DataContext.Provider id={identifier}>
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
@@ -1381,7 +1390,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
 
       rerender(
-        <DataContext.Provider id="unique-c" data={{ foo: 'changed' }}>
+        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
@@ -1391,11 +1400,11 @@ describe('DataContext.Provider', () => {
 
     it('should return "update" mathod that lets you update the data', () => {
       const props = { foo: 'bar' }
-      const { result } = renderHook(() => Form.useData('unique-d', props))
+      const { result } = renderHook(() => Form.useData(identifier, props))
       const { update } = result.current
 
       render(
-        <DataContext.Provider id="unique-d">
+        <DataContext.Provider id={identifier}>
           <Field.String path="/foo" />
         </DataContext.Provider>
       )
@@ -1413,14 +1422,56 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('foo bar')
     })
 
+    it('should return "set" mathod that lets you update the data', () => {
+      const props = { foo: 'bar' }
+      const { result } = renderHook(() => Form.useData(identifier, props))
+      const { set } = result.current
+
+      render(
+        <DataContext.Provider id={identifier}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('bar')
+
+      act(() => {
+        set({ foo: 'foo bar' })
+      })
+
+      expect(inputElement).toHaveValue('foo bar')
+    })
+
+    it('should initial data via the "set" method', () => {
+      const { result } = renderHook(() => Form.useData(identifier))
+      const { set } = result.current
+
+      render(
+        <DataContext.Provider id={identifier}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      expect(inputElement).toHaveValue('')
+
+      act(() => {
+        set({ foo: 'bar' })
+      })
+
+      expect(inputElement).toHaveValue('bar')
+    })
+
     it('should rerender provider and its contents', async () => {
       const existingData = { count: 1 }
 
       let countRender = 0
 
       const MockComponent = () => {
-        const id = React.useId()
-        const { data, update } = Form.useData(id, existingData)
+        const { data, update } = Form.useData(identifier, existingData)
 
         const increment = React.useCallback(() => {
           update('/count', (count) => {
@@ -1431,7 +1482,7 @@ describe('DataContext.Provider', () => {
         countRender++
 
         return (
-          <DataContext.Provider id={id}>
+          <DataContext.Provider id={identifier}>
             <Field.Number path="/count" />
             <Form.SubmitButton onClick={increment} text={data.count} />
           </DataContext.Provider>
@@ -1462,8 +1513,9 @@ describe('DataContext.Provider', () => {
       let countRender = 0
 
       const MockComponent = () => {
-        const id = React.useId()
-        const { data, update } = Form.useData<{ count: number }>(id)
+        const { data, update } = Form.useData<{ count: number }>(
+          identifier
+        )
 
         const increment = React.useCallback(() => {
           update('/count', (count) => {
@@ -1474,7 +1526,7 @@ describe('DataContext.Provider', () => {
         countRender++
 
         return (
-          <DataContext.Provider id={id} data={existingData}>
+          <DataContext.Provider id={identifier} data={existingData}>
             <Field.Number path="/count" />
             <Form.SubmitButton onClick={increment} text={data?.count} />
           </DataContext.Provider>
@@ -1505,8 +1557,7 @@ describe('DataContext.Provider', () => {
       let countRender = 0
 
       const MockComponent = () => {
-        const id = React.useId()
-        const { data, update } = Form.useData(id, existingData)
+        const { data, update } = Form.useData(identifier, existingData)
 
         React.useEffect(() => {
           update('/count', (count) => count + 1)
@@ -1515,7 +1566,7 @@ describe('DataContext.Provider', () => {
         countRender++
 
         return (
-          <DataContext.Provider id={id}>
+          <DataContext.Provider id={identifier}>
             <Field.Number path="/count" label={data?.count} />
           </DataContext.Provider>
         )
@@ -1537,8 +1588,9 @@ describe('DataContext.Provider', () => {
       let countRender = 0
 
       const MockComponent = () => {
-        const id = React.useId()
-        const { data, update } = Form.useData<{ count: number }>(id)
+        const { data, update } = Form.useData<{ count: number }>(
+          identifier
+        )
 
         React.useEffect(() => {
           update('/count', () => 123)
@@ -1547,7 +1599,7 @@ describe('DataContext.Provider', () => {
         countRender++
 
         return (
-          <DataContext.Provider id={id} data={existingData}>
+          <DataContext.Provider id={identifier} data={existingData}>
             <Field.Number path="/count" label={data?.count} />
           </DataContext.Provider>
         )
@@ -1572,8 +1624,8 @@ describe('DataContext.Provider', () => {
       })
       const onSubmit = jest.fn()
 
-      const { result, rerender: rerenderHook } = renderHook(
-        (props = { myField: 'foo' }) => Form.useData(id, props)
+      const { result } = renderHook((props = { myField: 'foo' }) =>
+        Form.useData(id, props)
       )
 
       const { rerender } = render(
@@ -1593,6 +1645,7 @@ describe('DataContext.Provider', () => {
         data: { myField: 'foo' },
         filterData: expect.any(Function),
         update: expect.any(Function),
+        set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
@@ -1605,7 +1658,9 @@ describe('DataContext.Provider', () => {
         })
       )
 
-      rerenderHook({ myField: 'bar' })
+      act(() => {
+        result.current.set({ myField: 'bar' })
+      })
 
       rerender(
         <Form.Handler
@@ -1623,6 +1678,7 @@ describe('DataContext.Provider', () => {
         data: { myField: 'bar' },
         filterData: expect.any(Function),
         update: expect.any(Function),
+        set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenLastCalledWith(

@@ -269,8 +269,8 @@ export default function Provider<Data extends JsonObject>({
   }>(id + '-attachments')
 
   const updateSharedData = sharedData.update
-  const setSharedData = sharedData.set
-  const updateAtachment = sharedAtachments.update
+  const extendSharedData = sharedData.extend
+  const extendAtachment = sharedAtachments.extend
   const rerenderUseDataHook = sharedAtachments.data?.rerenderUseDataHook
 
   useMemo(() => {
@@ -283,9 +283,9 @@ export default function Provider<Data extends JsonObject>({
   useLayoutEffect(() => {
     // Update the shared state, if initialData is given
     if (id && !sharedData.data && initialData) {
-      setSharedData?.(initialData)
+      extendSharedData?.(initialData)
     }
-  }, [id, initialData, setSharedData, sharedData.data])
+  }, [id, initialData, extendSharedData, sharedData.data])
 
   useLayoutEffect(() => {
     // If the shared state changes, update the internal data set
@@ -300,7 +300,7 @@ export default function Provider<Data extends JsonObject>({
 
   useLayoutEffect(() => {
     if (id) {
-      updateAtachment?.({ filterDataHandler, hasErrors })
+      extendAtachment?.({ filterDataHandler, hasErrors })
       if (filterData) {
         rerenderUseDataHook?.()
       }
@@ -311,7 +311,7 @@ export default function Provider<Data extends JsonObject>({
     rerenderUseDataHook,
     hasErrors,
     id,
-    updateAtachment,
+    extendAtachment,
   ])
 
   /**
