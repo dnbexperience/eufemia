@@ -19,11 +19,6 @@
 .dnb-table {
   text-align: left;
 
-  thead + tbody .dnb-table__tr:first-child .dnb-table__td::after {
-    @include tableBorder();
-    border-top: var(--border);
-  }
-
   &__th,
   & thead th {
     padding: 0.5rem 1.5rem 0.25rem;
@@ -40,6 +35,15 @@
   & tbody td,
   & tbody th {
     padding: 1rem 1.5rem;
+  }
+
+  thead + tbody .dnb-table__tr:first-child {
+    .dnb-table__th,
+    .dnb-table__td {
+      @include tableBorder() {
+        border-top: var(--border);
+      }
+    }
   }
 
   /* BUTTONS INSIDE TABLE */

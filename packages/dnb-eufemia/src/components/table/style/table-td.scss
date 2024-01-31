@@ -8,12 +8,13 @@
 .dnb-table {
   // table border
   &--border tbody &__td {
-    &::after {
-      @include tableBorder();
-
+    @include tableBorder() {
       border: var(--border);
-      border-right: none;
       border-bottom: none;
+    }
+
+    &:last-child::after {
+      border-right: none;
     }
   }
 
@@ -24,8 +25,7 @@
     &::after {
       border-radius: 0.5rem;
     }
-    &::after {
-      @include tableBorder();
+    @include tableOutline() {
       z-index: 3;
       border: var(--outline);
     }

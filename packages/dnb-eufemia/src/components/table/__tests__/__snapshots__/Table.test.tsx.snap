@@ -53,12 +53,16 @@ exports[`Table scss has to match style dependencies css 1`] = `
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -0.0625rem;
   bottom: 0;
   z-index: 1;
   pointer-events: none;
   top: -0.0625rem;
+  right: 0;
   border-top: var(--border);
+}
+.dnb-table--border > caption:not(.dnb-sr-only):last-child::after {
+  right: 0;
 }
 .dnb-table.dnb-skeleton > * {
   -webkit-text-fill-color: var(--skeleton-color);
@@ -264,11 +268,14 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -0.0625rem;
   bottom: 0;
   z-index: 1;
   pointer-events: none;
   border-top: var(--border);
+}
+.dnb-table--border tbody .dnb-table__th:last-child::after {
+  right: 0;
 }
 
 /*
@@ -288,13 +295,18 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -0.0625rem;
   bottom: 0;
   z-index: 1;
   pointer-events: none;
   border: var(--border);
-  border-right: none;
   border-bottom: none;
+}
+.dnb-table--border tbody .dnb-table__td:last-child::after {
+  right: 0;
+}
+.dnb-table--border tbody .dnb-table__td:last-child::after {
+  border-right: none;
 }
 .dnb-table--outline {
   position: relative;
@@ -550,6 +562,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td:not(:first-of-type)::after {
   border-left: none;
 }
+.dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td:not(:last-of-type)::after {
+  border-right: none;
+}
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) {
   outline: none;
 }
@@ -786,11 +801,14 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -0.0625rem;
   bottom: 0;
   z-index: 1;
   pointer-events: none;
   border-bottom: var(--border);
+}
+.dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td:last-child::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__th:last-child::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td:last-child::after {
+  right: 0;
 }
 
 .dnb-table__container {

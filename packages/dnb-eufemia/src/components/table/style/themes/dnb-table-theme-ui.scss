@@ -97,17 +97,17 @@
   /* stylelint-enable */
 
   // border
-  &:not(&--outline) > tbody > &__tr:last-of-type > &__td::after,
-  &:not(&--outline) > tbody > &__tr:last-of-type > &__th::after,
+  &:not(&--outline) > tbody > &__tr:last-of-type > &__td,
+  &:not(&--outline) > tbody > &__tr:last-of-type > &__th,
   &:not(&--outline)
     > tbody
     > &__tr#{&}__tr--has-accordion-content:not(
       #{&}__tr--expanded
     ):nth-last-child(2)
-    td::after {
-    @include tableBorder();
-
-    border-bottom: var(--border);
+    td {
+    @include tableBorder() {
+      border-bottom: var(--border);
+    }
   }
 }
 

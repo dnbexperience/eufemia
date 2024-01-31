@@ -45,9 +45,9 @@
   &--border > caption:not(.dnb-sr-only) {
     position: relative;
 
-    &::after {
-      @include tableBorder();
+    @include tableBorder() {
       top: -0.0625rem; // so we are behind the border-bottom (end of table)
+      right: 0;
       border-top: var(--border);
     }
   }

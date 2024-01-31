@@ -13,9 +13,7 @@
 
   // table border
   &--border tbody &__th {
-    &::after {
-      @include tableBorder();
-
+    @include tableBorder() {
       border-top: var(--border);
     }
   }

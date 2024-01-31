@@ -98,6 +98,9 @@
     .dnb-table--border & td:not(:first-of-type)::after {
       border-left: none;
     }
+    .dnb-table--border & td:not(:last-of-type)::after {
+      border-right: none;
+    }
   }
 
   &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled) {

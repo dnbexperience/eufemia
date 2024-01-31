@@ -6,8 +6,7 @@
 .dnb-table__container {
   position: relative;
 
-  &::after {
-    @include tableBorder();
+  @include tableOutline() {
     z-index: 3; // over sticky-header
     border: var(--outline);
   }
@@ -36,8 +35,7 @@
       }
 
       position: relative; // because of bottom border
-      &::after {
-        @include tableBorder();
+      @include tableOutline() {
         border-bottom: var(--border);
       }
 
