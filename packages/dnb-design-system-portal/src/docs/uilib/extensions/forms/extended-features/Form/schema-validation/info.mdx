@@ -85,6 +85,10 @@ This makes it possible to create a uniform, testable description and requirement
 
 Also, note you can describe the schema without using the `type` property, as the type is inferred from schema type. More on that topic in the [Ajv docs](https://ajv.js.org/guide/typescript.html#utility-types-for-schemas).
 
+### Fields which are disabled or read-only
+
+Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
+
 ### JSONSchema and TypeScript
 
 You can import the `JSONSchema` type from the `@dnb/eufemia/extensions/forms` package.

@@ -10,11 +10,12 @@ import {
   FormError,
   CustomErrorMessagesWithPaths,
   AllJSONSchemaVersions,
+  FieldProps,
 } from '../../types'
 import useMountEffect from '../../hooks/useMountEffect'
 import useUpdateEffect from '../../hooks/useUpdateEffect'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import Context, { ContextState } from '../Context'
+import Context, { ContextState, Path } from '../Context'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -26,8 +27,25 @@ import structuredClone from '@ungap/structured-clone'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
-export type Path = string
 export type UpdateDataValue = (path: Path, data: unknown) => void
+
+export type FilterData = (
+  path: Path,
+  value: any,
+  props: FieldProps
+) => boolean | undefined
+
+export type OnSubmitReturn = {
+  /** Will remove browser-side stored autocomplete data  */
+  resetForm: () => void
+  /** Will empty the whole internal data set of the form  */
+  clearData: () => void
+}
+
+export type OnSubmit<Data = JsonObject> = (
+  data: Partial<Data>,
+  { resetForm, clearData }: OnSubmitReturn
+) => void
 
 export interface Props<Data extends JsonObject> {
   /**
@@ -55,6 +73,10 @@ export interface Props<Data extends JsonObject> {
    */
   errorMessages?: CustomErrorMessagesWithPaths
   /**
+   * Filter the internal data context based on your criteria: `(path, value, props) => !props?.disabled`. It will iterate on each data entry.
+   */
+  filterData?: FilterData
+  /**
    * Change handler for the whole data set
    */
   onChange?: (data: Data) => void
@@ -65,18 +87,7 @@ export interface Props<Data extends JsonObject> {
   /**
    * Submit called, data was valid (if validation available)
    */
-  onSubmit?: (
-    data: Data,
-    {
-      resetForm,
-      clearData,
-    }: {
-      /** Will remove browser-side stored autocomplete data  */
-      resetForm: () => void
-      /** Will empty the whole internal data set of the form  */
-      clearData: () => void
-    }
-  ) => void
+  onSubmit?: OnSubmit
   /**
    * Submit was requested, but data was invalid
    */
@@ -116,6 +127,7 @@ export default function Provider<Data extends JsonObject>({
   scrollTopOnSubmit,
   sessionStorageId,
   ajvInstance,
+  filterData,
   errorMessages: contextErrorMessages,
   children,
   ...rest
@@ -139,8 +151,10 @@ export default function Provider<Data extends JsonObject>({
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
   }, [])
+
   // - Errors reported by fields, based on their direct validation rules
   const valuesWithErrorRef = useRef<string[]>([])
+
   // - Data
   const initialData = useMemo(() => {
     if (sessionStorageId && typeof window !== 'undefined') {
@@ -155,31 +169,9 @@ export default function Provider<Data extends JsonObject>({
   }, [])
   const internalDataRef = useRef<Partial<Data>>(initialData)
   const cacheRef = useRef({ data, schema })
+
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
-  // - Shared state
-  const sharedState = useSharedState<Data>(id)
-  useMemo(() => {
-    // Update the internal data set, if the shared state changes
-    if (id && sharedState?.data && !initialData) {
-      internalDataRef.current = sharedState.data
-    }
-  }, [id, initialData, sharedState.data])
-  useLayoutEffect(() => {
-    // Update the shared state, if initialData is given
-    if (id && !sharedState?.data && initialData) {
-      sharedState.set?.(initialData)
-    }
-
-    // If the shared state changes, update the internal data set
-    if (
-      id &&
-      sharedState?.data &&
-      sharedState?.data !== internalDataRef.current
-    ) {
-      internalDataRef.current = sharedState?.data
-    }
-  }, [id, initialData, sharedState, sharedState?.data])
 
   const validateData = useCallback(() => {
     if (!ajvValidatorRef.current) {
@@ -199,7 +191,7 @@ export default function Provider<Data extends JsonObject>({
     forceUpdate()
   }, [])
 
-  // Error handling
+  // - Error handling
   const hasFieldError = useCallback(
     (path: string) =>
       Boolean(
@@ -218,34 +210,129 @@ export default function Provider<Data extends JsonObject>({
     [hasFieldError]
   )
 
+  /**
+   * Sets the error state for a specific path
+   */
   const setValueWithError = useCallback(
-    (identifier: string, withError: boolean) => {
-      if (withError !== valuesWithErrorRef.current.includes(identifier)) {
+    (path: Path, withError: boolean) => {
+      if (withError !== valuesWithErrorRef.current.includes(path)) {
         // The boolean error state for the target value was changed
         valuesWithErrorRef.current = withError
-          ? addListPath(valuesWithErrorRef.current, identifier)
-          : removeListPath(valuesWithErrorRef.current, identifier)
+          ? addListPath(valuesWithErrorRef.current, path)
+          : removeListPath(valuesWithErrorRef.current, path)
         forceUpdate()
       }
     },
     []
   )
 
+  /**
+   * Filter the data set based on the filterData function
+   */
+  const filterDataHandler = useCallback(
+    (data: Data, filter = filterData) => {
+      if (filter) {
+        const filtered = { ...data }
+        Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
+          const exists = pointer.has(data, path)
+          const result = filter(
+            path,
+            exists ? pointer.get(data, path) : undefined,
+            props
+          )
+          if (result === false && exists) {
+            pointer.remove(filtered, path)
+          }
+        })
+
+        return filtered
+      }
+
+      return data
+    },
+    [filterData]
+  )
+  const fieldPropsRef = useRef<Record<string, FieldProps>>({})
+  const setProps = useCallback(
+    (path: Path, props: Record<string, unknown>) => {
+      fieldPropsRef.current[path] = props
+    },
+    []
+  )
+
+  // - Shared state
+  const sharedData = useSharedState<Data>(id)
+  const sharedAtachments = useSharedState<{
+    filterDataHandler?: Props<Data>['filterData']
+    hasErrors?: () => boolean
+    rerenderUseDataHook?: () => void
+  }>(id + '-attachments')
+
+  const updateSharedData = sharedData.update
+  const extendSharedData = sharedData.extend
+  const extendAtachment = sharedAtachments.extend
+  const rerenderUseDataHook = sharedAtachments.data?.rerenderUseDataHook
+
+  useMemo(() => {
+    // Update the internal data set, if the shared state changes
+    if (id && sharedData.data && !initialData) {
+      internalDataRef.current = sharedData.data
+    }
+  }, [id, initialData, sharedData.data])
+
+  useLayoutEffect(() => {
+    // Update the shared state, if initialData is given
+    if (id && !sharedData.data && initialData) {
+      extendSharedData?.(initialData)
+    }
+  }, [id, initialData, extendSharedData, sharedData.data])
+
+  useLayoutEffect(() => {
+    // If the shared state changes, update the internal data set
+    if (
+      id &&
+      sharedData.data &&
+      sharedData.data !== internalDataRef.current
+    ) {
+      internalDataRef.current = sharedData.data
+    }
+  }, [id, sharedData.data])
+
+  useLayoutEffect(() => {
+    if (id) {
+      extendAtachment?.({ filterDataHandler, hasErrors })
+      if (filterData) {
+        rerenderUseDataHook?.()
+      }
+    }
+  }, [
+    filterData,
+    filterDataHandler,
+    rerenderUseDataHook,
+    hasErrors,
+    id,
+    extendAtachment,
+  ])
+
+  /**
+   * Update the data set
+   */
   const updateDataValue: UpdateDataValue = useCallback(
     (path, value) => {
       if (!path) {
         return
       }
 
-      const givenData =
+      const givenData = (
         path === '/'
           ? // When setting the root of the data, the whole data set should be the new value
             value
           : // For sub paths, use the the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
             internalDataRef.current ??
             (path.match(isArrayJsonPointer) ? [] : {})
+      ) as Data
 
-      let newData = null
+      let newData: Data = null
       try {
         // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
         newData = structuredClone(givenData)
@@ -254,11 +341,14 @@ export default function Provider<Data extends JsonObject>({
       }
 
       if (path !== '/') {
-        pointer.set(newData as Data, path, value)
+        pointer.set(newData, path, value)
       }
 
       if (id) {
-        sharedState.update?.(newData)
+        updateSharedData?.(newData)
+        if (filterData) {
+          rerenderUseDataHook?.()
+        }
       }
 
       internalDataRef.current = newData
@@ -274,9 +364,18 @@ export default function Provider<Data extends JsonObject>({
 
       return newData
     },
-    [id, sessionStorageId, sharedState]
+    [
+      filterData,
+      id,
+      sessionStorageId,
+      rerenderUseDataHook,
+      updateSharedData,
+    ]
   )
 
+  /**
+   * Update the data set on user interaction
+   */
   const handlePathChange: UpdateDataValue = useCallback(
     (path, value) => {
       if (!path) {
@@ -296,7 +395,7 @@ export default function Provider<Data extends JsonObject>({
     [onPathChange, updateDataValue, onChange, validateData]
   )
 
-  // Mounted fields
+  // - Mounted fields
   const handleMountField = useCallback((path: Path) => {
     mountedFieldPathsRef.current = addListPath(
       mountedFieldPathsRef.current,
@@ -309,8 +408,12 @@ export default function Provider<Data extends JsonObject>({
       mountedFieldPathsRef.current,
       path
     )
+    if (fieldPropsRef.current?.[path]) {
+      delete fieldPropsRef.current[path]
+    }
   }, [])
 
+  // - Features
   const scrollToTop = useCallback(() => {
     if (typeof window !== 'undefined') {
       window?.scrollTo?.({ top: 0, behavior: 'smooth' })
@@ -339,7 +442,7 @@ export default function Provider<Data extends JsonObject>({
           forceUpdate()
         }
 
-        onSubmit?.(internalDataRef.current as Data, {
+        onSubmit?.(filterDataHandler(internalDataRef.current as Data), {
           resetForm,
           clearData,
         })
@@ -351,11 +454,13 @@ export default function Provider<Data extends JsonObject>({
         setShowAllErrors(true)
         onSubmitRequest?.()
       }
+
       return internalDataRef.current
     },
     [
       hasErrors,
       onSubmit,
+      filterDataHandler,
       scrollTopOnSubmit,
       sessionStorageId,
       scrollToTop,
@@ -363,6 +468,8 @@ export default function Provider<Data extends JsonObject>({
       onSubmitRequest,
     ]
   )
+
+  // - ajv validator routines
 
   useMountEffect(() => {
     if (schema) {
@@ -418,6 +525,7 @@ export default function Provider<Data extends JsonObject>({
         hasErrors,
         hasFieldError,
         setValueWithError,
+        setProps,
         ajvInstance: ajvRef.current,
         schema,
         contextErrorMessages,

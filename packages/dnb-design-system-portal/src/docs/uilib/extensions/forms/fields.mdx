@@ -22,17 +22,16 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 
 **Table of Contents**
 
-- [Categorized base components](#categorized-base-components)
-- [All base components](#all-base-components)
+- [Base fields](#base-fields)
 - [Feature fields](#feature-fields)
 - [More info](#more-info)
   - [Standardized properties](#standardized-properties)
   - [Controlled \& Uncontrolled](#controlled--uncontrolled)
   - [Creating custom field components](#creating-custom-field-components)
 
-## Categorized base components
+## Base fields
 
-The base components exists of several kinds, such as the:
+These components are data-driven React components – named and structured – according to the "type" of data they can display and produce, based on the user's input and action in the interface.
 
 - **input category** – which contains of field types that accept and produce values based on input from the user, such as text and numbers.
   <ListBaseInputComponents />
@@ -41,9 +40,11 @@ The base components exists of several kinds, such as the:
 - **toggle category** – which contains of field types that allow the user to toggle between two values, such as `true` and `false`:
   <ListBaseToggleComponents />
 
-## Feature components
+On top of these, a number of [feature fields](#feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
 
-[Feature fields](/uilib/extensions/forms/feature-fields/) builds on top of the base components to add more specific features targeting a given type of data.
+## Feature fields
+
+[Feature fields](/uilib/extensions/forms/feature-fields/) are built on top of the [base fields](#base-fields) (listed above) to add more specific features targeting a given type of data.
 
 ## More info
 

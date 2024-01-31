@@ -41,7 +41,22 @@ The state management is done via the [JSON Pointer](#what-is-a-json-pointer) dir
 
 <Examples.GettingStarted />
 
-You find more details in the [useData](/uilib/extensions/forms/extended-features/Form/useData/) docs.
+#### Filter data
+
+You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the `Form.Handler`.
+
+The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+
+```tsx
+const filterDataHandler = (path, value, props) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+render(<Form.Handler filterData={filterDataHandler} />)
+```
+
+Here is a working example of how to [filter data](/uilib/extensions/forms/extended-features/Form/Handler/demos/#filter-your-data).
 
 ### What is a JSON Pointer?
 
@@ -62,11 +77,7 @@ const pointer = '/foo/bar/0/baz' // points to 'value'
 
 ### Field components
 
-First; more details about Fields you find in the [What are fields?](/uilib/extensions/forms/fields/) section. But in short, the field components are the interactive components that the user can interact with.
-
-The data-driven [base field components](/uilib/extensions/forms/base-fields) are named and structured according to the type of data they can display and produce based on the user's input and action in the interface.
-
-On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
+In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/fields/) section.
 
 ### Value components
 
@@ -77,6 +88,10 @@ Beside the interactive [Field](/uilib/extensions/forms/fields/) components, ther
 Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
 
 In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema` or `validator` property.
+
+Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
+
+For monitoring your form for errors, you can use the [Form.useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
 
 #### required
 

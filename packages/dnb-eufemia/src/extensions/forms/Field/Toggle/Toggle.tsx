@@ -96,7 +96,6 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             on_change={handleCheckboxChange}
             {...ariaAttributes}
-            {...pickSpacingProps(props)}
           />
         </FieldBlock>
       )
