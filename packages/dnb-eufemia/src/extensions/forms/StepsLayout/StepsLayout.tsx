@@ -109,7 +109,13 @@ function StepsLayout(props: Props) {
         className={classnames('dnb-forms-steps-layout', className)}
         {...rest}
       >
-        <aside className="dnb-forms-steps-layout__sidebar">
+        <aside
+          className={classnames(
+            'dnb-forms-steps-layout__sidebar',
+            variant === 'drawer' &&
+              'dnb-forms-steps-layout__sidebar--drawer'
+          )}
+        >
           <StepIndicator.Sidebar sidebar_id={id} />
           <StepIndicator
             bottom
