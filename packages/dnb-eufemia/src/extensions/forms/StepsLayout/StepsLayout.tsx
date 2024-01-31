@@ -35,7 +35,6 @@ function StepsLayout(props: Props) {
     children,
     noAnimation = true,
     variant = 'sidebar',
-    title = '',
     sidebarId,
     ...rest
   } = props
