@@ -35,6 +35,13 @@
     text-align: left;
   }
 
+  &--outline > caption {
+    &,
+    &::after {
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+  }
+
   &--border > caption:not(.dnb-sr-only) {
     position: relative;
 

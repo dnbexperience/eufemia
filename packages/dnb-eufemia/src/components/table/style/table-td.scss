@@ -53,21 +53,23 @@
   // no thead, should have th in body
   /* stylelint-disable */
   &--outline tbody:first-child &__tr:first-of-type &__th,
-  &--outline > :not(thead) + tbody &__tr:first-of-type &__th {
+  &--outline > caption:first-child + tbody &__tr:first-of-type &__th {
     &::after {
       border-top: var(--outline);
     }
     &:first-of-type,
+    &:first-of-type::before,
     &:first-of-type::after {
       border-radius: 0.5rem 0 0 0;
     }
   }
   &--outline > tbody:first-child &__tr:first-of-type &__td,
-  &--outline > :not(thead) + tbody &__tr:first-of-type &__td {
+  &--outline > caption:first-child + tbody &__tr:first-of-type &__td {
     &::after {
       border-top: var(--outline);
     }
     &:last-of-type,
+    &:last-of-type::before,
     &:last-of-type::after {
       border-radius: 0 0.5rem 0 0;
     }
