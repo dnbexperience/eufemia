@@ -90,8 +90,8 @@ export function SliderInstance() {
           text={label}
           disabled={disabled}
           skeleton={skeleton}
-          label_direction={labelDirection}
-          sr_only={labelSrOnly}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
         />
       )}
 
