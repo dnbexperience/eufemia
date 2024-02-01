@@ -183,3 +183,15 @@ export const SliderVerticalWithSteps = () => (
     }}
   </ComponentBox>
 )
+
+export const SliderExampleMarker = () => (
+  <ComponentBox data-visual-test="slider-marker">
+    <Slider
+      min={0}
+      max={100}
+      value={50}
+      marker={{ value: 20, text: 'Default value' }}
+      label="Slider with marker"
+    />
+  </ComponentBox>
+)
