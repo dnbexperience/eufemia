@@ -14,6 +14,9 @@
   --slider-line-after: gray;
   --slider-line-before--disabled: dimgray;
   --slider-line-after--disabled: lightgray;
+  --slider-marker: var(--slider-line-before);
+  --slider-marker-height: var(--slider-thumb-size);
+  --slider-marker-width: 0.125rem;
 
   user-select: none; // Safari / Touch fix
   -webkit-touch-callout: none; // Safari / Touch fix
@@ -66,6 +69,42 @@
   &--vertical &__suffix {
     padding-left: 0;
     padding-top: 0.5rem;
+  }
+
+  &__marker {
+    position: absolute;
+    width: calc(var(--slider-marker-width) * 4);
+    height: calc(var(--slider-marker-height) * 0.75);
+    background-color: transparent;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      width: var(--slider-marker-width);
+      background-color: var(--slider-marker);
+    }
+  }
+
+  &--vertical &__marker {
+    top: auto;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: calc(var(--slider-marker-width) * 4);
+    width: calc(var(--slider-marker-height) * 0.75);
+    &::before {
+      width: auto;
+      height: var(--slider-marker-width);
+    }
   }
 
   &__track {
@@ -165,7 +204,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 3;
+    z-index: 4;
 
     display: flex;
     justify-content: center;
