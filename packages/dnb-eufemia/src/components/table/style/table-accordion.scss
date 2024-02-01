@@ -78,9 +78,9 @@
   }
 
   &__tr--has-accordion-content {
-    &:hover,
     &:active,
-    html[data-whatinput='keyboard'] &:focus {
+    html[data-whatinput='keyboard'] &:focus,
+    &:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
       z-index: 5; // over table outline border
     }
   }
@@ -94,11 +94,7 @@
   &__tr--has-accordion-content#{&}__tr--expanded {
     .dnb-table--border & td::after {
       border-bottom: none;
-    }
-    .dnb-table--border & td:not(:first-of-type)::after {
       border-left: none;
-    }
-    .dnb-table--border & td:not(:last-of-type)::after {
       border-right: none;
     }
   }
