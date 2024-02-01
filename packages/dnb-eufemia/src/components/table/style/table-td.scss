@@ -13,6 +13,10 @@
       border-bottom: none;
     }
 
+    &:first-child::after {
+      border-left: none;
+    }
+
     &:last-child::after {
       border-right: none;
     }
@@ -42,13 +46,6 @@
       border-left: var(--border);
     }
   }
-  &--outline tbody &__tr:last-of-type &__th ~ &__td:first-of-type {
-    &,
-    &::before,
-    &::after {
-      border-radius: 0;
-    }
-  }
 
   // no thead, should have th in body
   /* stylelint-disable */
@@ -57,21 +54,11 @@
     &::after {
       border-top: var(--outline);
     }
-    &:first-of-type,
-    &:first-of-type::before,
-    &:first-of-type::after {
-      border-radius: 0.5rem 0 0 0;
-    }
   }
   &--outline > tbody:first-child &__tr:first-of-type &__td,
   &--outline > caption:first-child + tbody &__tr:first-of-type &__td {
     &::after {
       border-top: var(--outline);
-    }
-    &:last-of-type,
-    &:last-of-type::before,
-    &:last-of-type::after {
-      border-radius: 0 0.5rem 0 0;
     }
   }
   &:not(&--outline)#{&}--border > tbody:first-child &__td:last-of-type,
@@ -80,6 +67,58 @@
       border-right: var(--border);
     }
   }
+
+  &--outline {
+    // first row must be rounded
+    thead:first-of-type,
+    tbody:first-child,
+    caption:first-child + tbody {
+      .dnb-table__tr:first-of-type {
+        .dnb-table__th,
+        .dnb-table__td {
+          &:first-child,
+          &:first-child::before,
+          &:first-child::after {
+            border-top-left-radius: 0.5rem;
+          }
+          &:last-child,
+          &:last-child::before,
+          &:last-child::after {
+            border-top-right-radius: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  //last row must be rounded
+  &--outline tbody:last-child {
+    .dnb-table__tr:last-child,
+    .dnb-table__tr--has-accordion-content:not(
+        .dnb-table__tr--expanded
+      ):nth-last-child(2) {
+      clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+
+      .dnb-table__th,
+      .dnb-table__td {
+        &:first-child {
+          &,
+          &::before,
+          &::after {
+            border-bottom-left-radius: 0.5rem;
+          }
+        }
+        &:last-child {
+          &,
+          &::before,
+          &::after {
+            border-bottom-right-radius: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
   /* stylelint-enable */
 
   // spacing

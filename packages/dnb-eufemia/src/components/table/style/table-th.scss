@@ -15,6 +15,7 @@
   &--border tbody &__th {
     @include tableBorder() {
       border-top: var(--border);
+      border-right: var(--border);
     }
   }
 
@@ -32,18 +33,6 @@
   //     border-right: var(--outline);
   //   }
   // }
-  // &--outline thead &__th:first-of-type {
-  //   &,
-  //   &::after {
-  //     border-radius: 0.5rem 0 0 0;
-  //   }
-  // }
-  // &--outline thead &__th:last-of-type {
-  //   &,
-  //   &::after {
-  //     border-radius: 0 0.5rem 0 0;
-  //   }
-  // }
   // &--outline tbody &__th:first-of-type::after {
   //   @include tableBorder();
 
@@ -54,10 +43,6 @@
   //     @include tableBorder();
 
   //     border-bottom: var(--outline);
-  //   }
-
-  //   &:first-of-type::after {
-  //     border-radius: 0 0 0 0.5rem;
   //   }
   // }
 }

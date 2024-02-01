@@ -35,10 +35,32 @@
     text-align: left;
   }
 
-  &--outline > caption {
-    &,
-    &::after {
-      border-radius: 0 0 0.5rem 0.5rem;
+  &--outline {
+    // add extra room in bottom for caption
+    // because firefox clip-path ignores caption
+    clip-path: inset(0 0 -10rem 0 round 0.5rem 0.5rem 0 0);
+    z-index: 1; // firefox places caption in from of table witout z-index
+
+    > caption {
+      &,
+      &::after {
+        border-radius: 0 0 0.5rem 0.5rem;
+      }
+      &:not(.dnb-sr-only) ~ tbody:last-child {
+        .dnb-table__tr:last-child,
+        .dnb-table__tr--has-accordion-content:nth-last-child(2) {
+          clip-path: none;
+
+          .dnb-table__th,
+          .dnb-table__td {
+            &,
+            &::before,
+            &::after {
+              border-radius: 0;
+            }
+          }
+        }
+      }
     }
   }
 
