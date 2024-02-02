@@ -5,17 +5,15 @@
   flex-flow: row wrap;
   column-gap: var(--spacing-medium);
 
+  &--drawer {
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+  }
+
   &__sidebar {
     flex: 0;
     margin-bottom: 2rem;
-
-    &--drawer {
-      .dnb-step-indicator-wrapper {
-        @include allAbove('small') {
-          min-width: 20rem;
-        }
-      }
-    }
   }
 
   &__contents {

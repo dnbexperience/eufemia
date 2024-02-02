@@ -106,16 +106,14 @@ function StepsLayout(props: Props) {
       }}
     >
       <Space
-        className={classnames('dnb-forms-steps-layout', className)}
+        className={classnames(
+          'dnb-forms-steps-layout',
+          variant === 'drawer' && 'dnb-forms-steps-layout--drawer',
+          className
+        )}
         {...rest}
       >
-        <aside
-          className={classnames(
-            'dnb-forms-steps-layout__sidebar',
-            variant === 'drawer' &&
-              'dnb-forms-steps-layout__sidebar--drawer'
-          )}
-        >
+        <aside className="dnb-forms-steps-layout__sidebar">
           <StepIndicator.Sidebar sidebar_id={id} />
           <StepIndicator
             bottom

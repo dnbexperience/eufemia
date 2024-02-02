@@ -38,9 +38,6 @@ describe('StepsLayout', () => {
   it('have to match drawer variant', async () => {
     const screenshot = await makeScreenshot({
       url,
-      pageViewport: {
-        width: 880,
-      },
       selector: '[data-visual-test="steps-layout-drawer"]',
     })
     expect(screenshot).toMatchImageSnapshot()
