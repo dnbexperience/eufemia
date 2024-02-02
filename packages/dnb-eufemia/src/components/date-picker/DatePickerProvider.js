@@ -136,28 +136,28 @@ export default class DatePickerProvider extends React.PureComponent {
           date_format,
         })
       }
+    }
 
-      /**
-       * Because now we do not any more relay on auto "correction",
-       * but rather return "is_valid_start_date=false"
-       */
-      if (
-        isTrue(props.correct_invalid_date) ||
-        ((typeof props.min_date !== 'undefined' ||
-          typeof props.max_date !== 'undefined') &&
-          props.correct_invalid_date !== false)
-      ) {
-        if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
-          state.startDate = state.minDate
-        }
-        if (isDisabled(state.endDate, state.minDate, state.maxDate)) {
-          // state.endDate is only used by the input if range is set to true.
-          // this is done to make max_date correction work if the input is not a range and only max_date is defined.
-          if (!props.range && !props.min_date) {
-            state.startDate = state.maxDate
-          } else {
-            state.endDate = state.maxDate
-          }
+    /**
+     * Because now we do not any more relay on auto "correction",
+     * but rather return "is_valid_start_date=false"
+     */
+    if (
+      isTrue(props.correct_invalid_date) ||
+      ((typeof props.min_date !== 'undefined' ||
+        typeof props.max_date !== 'undefined') &&
+        props.correct_invalid_date !== false)
+    ) {
+      if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
+        state.startDate = state.minDate
+      }
+      if (isDisabled(state.endDate, state.minDate, state.maxDate)) {
+        // state.endDate is only used by the input if range is set to true.
+        // this is done to make max_date correction work if the input is not a range and only max_date is defined.
+        if (!props.range && !props.min_date) {
+          state.startDate = state.maxDate
+        } else {
+          state.endDate = state.maxDate
         }
       }
     }
