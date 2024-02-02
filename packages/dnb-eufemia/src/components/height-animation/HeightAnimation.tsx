@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import classnames from 'classnames'
-import type { SpacingProps } from '../../shared/types'
 import {
   useHeightAnimation,
   useHeightAnimationOptions,
 } from './useHeightAnimation'
-import Space, { SpaceProps } from '../space/Space'
+import Space from '../space/Space'
 
-import type { DynamicElement } from '../../shared/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 export type HeightAnimationProps = {
   /**
@@ -23,10 +22,16 @@ export type HeightAnimationProps = {
   showOverflow?: boolean
 
   /**
-   * Set to `true` ensure the nested children content will be kept in the DOM.
+   * Defines the duration of the animation in milliseconds.
    * Default: 400
    */
   duration?: number
+
+  /**
+   * Defines the delay of the animation in milliseconds.
+   * Default: 0
+   */
+  delay?: number
 
   /**
    * Define a custom HTML Element.
@@ -45,52 +50,62 @@ export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
-export default function HeightAnimation({
+function HeightAnimation({
   open = true,
   animate = true,
   keepInDOM = false,
   showOverflow = false,
   element,
   duration,
+  delay,
   className,
   innerRef,
   children,
   onInit = null,
   onOpen = null,
+  onAnimationStart = null,
   onAnimationEnd = null,
   ...rest
 }: HeightAnimationAllProps) {
-  const ref = React.useRef<HTMLElement>()
-  const props = rest as SpaceProps
+  const elementRef = useRef<HTMLElement>()
+  const targetRef = innerRef || elementRef
 
-  const { isInDOM, isVisible, isVisibleParallax, isAnimating } =
-    useHeightAnimation(innerRef || ref, {
-      open,
-      animate,
-      children,
-      onInit,
-      onOpen,
-      onAnimationEnd,
-    })
+  const {
+    isInDOM,
+    isVisible,
+    isVisibleParallax,
+    isAnimating,
+    firstPaintStyle,
+  } = useHeightAnimation(targetRef, {
+    open,
+    animate,
+    children,
+    onInit,
+    onOpen,
+    onAnimationStart,
+    onAnimationEnd,
+  })
 
-  if (!isInDOM && !keepInDOM) {
+  if (!keepInDOM && !isInDOM && !isAnimating) {
     return null
   }
 
-  const style: React.CSSProperties = {}
   if (duration) {
-    style['--duration'] = `${duration}ms`
+    firstPaintStyle['--duration'] = `${duration}ms`
+  }
+  if (delay) {
+    firstPaintStyle['--delay'] = `${delay}ms`
   }
 
   return (
     <Space
-      innerRef={innerRef || ref}
+      innerRef={targetRef}
       element={element || 'div'}
       className={classnames(
         'dnb-height-animation',
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',
-        isVisibleParallax && 'dnb-height-animation--parallax',
+        animate && isVisibleParallax && 'dnb-height-animation--parallax',
         isAnimating && 'dnb-height-animation--animating',
         !isVisible &&
           !isAnimating &&
@@ -99,11 +114,15 @@ export default function HeightAnimation({
         showOverflow && 'dnb-height-animation--show-overflow',
         className
       )}
-      style={style}
+      style={{ ...firstPaintStyle, ...rest?.style }}
       aria-hidden={keepInDOM ? !open : undefined}
-      {...props}
+      {...rest}
     >
       {children}
     </Space>
   )
 }
+
+HeightAnimation._supportsSpacingProps = 'children'
+
+export default HeightAnimation

@@ -1,5 +1,3 @@
-import { warn } from '../../shared/component-helper'
-
 export type HeightAnimationOnStartStates =
   | 'opening'
   | 'closing'
@@ -29,31 +27,34 @@ export type HeightAnimationFromHeight = number
 export type HeightAnimationToHeight = number
 
 export default class HeightAnimation {
+  private state: Readonly<HeightAnimationStates>
   isInBrowser: boolean
-  state: HeightAnimationStates
-  onStartStack: HeightAnimationOnStartStack
-  onEndStack: HeightAnimationOnEndStack
-  events: HeightAnimationEvents
-  opts: HeightAnimationOptions
+  onStartStack: HeightAnimationOnStartStack = []
+  onEndStack: HeightAnimationOnEndStack = []
+  events: HeightAnimationEvents = []
+  opts: HeightAnimationOptions = { animate: true }
   elem: HeightAnimationElement
   reqId1: number
   reqId2: number
   resizeTimeout: NodeJS.Timeout
+  timeouts: NodeJS.Timeout[] = []
+  firstTime?: number = 0
+  startTime?: number = 0
+  duration?: number = 0
   isAnimating: boolean
   __currentHeight: number
-  onResize: () => void
 
   constructor(opts: HeightAnimationOptions = {}) {
     this.isInBrowser = typeof window !== 'undefined'
-    this.state = 'init'
-    this.onStartStack = []
-    this.onEndStack = []
-    this.events = []
-    this.opts = opts
+    this.setState('init')
+    this.setOptions(opts)
   }
 
-  // Private methods
-  _callOnStart() {
+  callAnimationStart() {
+    this.startTime = Date.now()
+    if (!this.firstTime) {
+      this.firstTime = this.startTime
+    }
     if (this.onStartStack) {
       this.onStartStack.forEach((fn) => {
         if (typeof fn === 'function') {
@@ -62,14 +63,14 @@ export default class HeightAnimation {
       })
     }
   }
-  _callOnEnd() {
+  callAnimationEnd() {
     this.isAnimating = false
 
     if (this.state !== 'opened') {
       delete this.__currentHeight
     }
 
-    this._removeEndEvents()
+    this.removeEndEvents()
 
     if (this.onEndStack) {
       this.onEndStack.forEach((fn) => {
@@ -79,50 +80,35 @@ export default class HeightAnimation {
       })
     }
   }
-  reset() {
-    this.state = 'init'
-    this.isAnimating = false
-    this._removeEndEvents()
-    this._restore()
-  }
-  _restore() {
-    if (this.elem.parentElement) {
-      this.elem.parentElement.style.position = ''
-    }
-    this.elem.style.position = ''
-    this.elem.style.visibility = ''
-    this.elem.style.height = '' // not sure about this
-    this.elem.style.width = ''
-  }
-  _addEndEvents(listener: HeightAnimationEventListener) {
-    this._removeEndEvents() // also, remove events on every open (but not on close!)
+  addEndEvent(listener: HeightAnimationEventListener) {
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
 
-    this.events.push(listener)
-    this.elem.addEventListener('transitionend', listener)
-  }
-  _removeEndEvents() {
-    if (!this.elem) {
-      return // stop here
+    const handleTransitionEnd = (e) => {
+      if (this.canFinish()) {
+        listener(e)
+      } else {
+        const delay = this.duration - (Date.now() - this.startTime)
+
+        if (delay === -1) {
+          listener(e)
+        } else {
+          this.timeouts.push(setTimeout(() => listener(e), delay))
+        }
+      }
     }
 
-    this.events.forEach((listener, i) => {
-      this.elem.removeEventListener('transitionend', listener)
-      this.events.splice(i, 1)
+    this.events.push(handleTransitionEnd)
+    this.elem?.addEventListener?.('transitionend', handleTransitionEnd)
+  }
+  removeEndEvents() {
+    this.events.forEach((listener) => {
+      this.elem?.removeEventListener?.('transitionend', listener)
     })
-  }
-  _emitTransitionEnd() {
-    try {
-      const event = new CustomEvent('transitionend')
-      this.elem.dispatchEvent(event)
-    } catch (e) {
-      warn(e)
-    }
+    this.events = []
   }
 
   // Public methods
   setElement(elem: HeightAnimationElement) {
-    this._removeEndEvents() // in case element gets set several times
-
     this.elem =
       elem ||
       (typeof document !== 'undefined' && document.createElement('div'))
@@ -131,54 +117,92 @@ export default class HeightAnimation {
     if (String(this.elem?.nodeName).toLowerCase() === 'td') {
       this.elem = this.elem.parentElement
     }
+
+    this.duration =
+      globalThis.animationDuration ??
+      (parseFloat(window.getComputedStyle(this.elem).transitionDuration) *
+        1000 ||
+        400) // The default duration
+  }
+  setState(state: HeightAnimationStates) {
+    this.state = Object.freeze(state)
+  }
+  setOptions(opts: HeightAnimationOptions) {
+    this.opts = Object.freeze({ ...this.opts, ...opts })
+  }
+  getOptions() {
+    return this.opts
   }
   remove() {
     this.stop()
-    this._removeEndEvents()
+    this.removeEndEvents()
+    this.setState('init')
     this.isAnimating = false
-    this.onStartStack = null
-    this.onEndStack = null
-    this.elem = null
-    this.state = 'init'
-    if (this.onResize && this.isInBrowser) {
-      clearTimeout(this.resizeTimeout)
-      window.removeEventListener('resize', this.onResize)
+    this.onEndStack = []
+    this.onStartStack = []
+    this.__currentHeight = undefined
+    this.elem = undefined
+  }
+  setAsOpen() {
+    if (this.state === 'opened') {
+      return
     }
+    this.setState('opening')
+    this.callAnimationStart()
+    this.setState('opened')
+    this.callAnimationEnd()
+  }
+  setAsClosed() {
+    if (this.state === 'closed') {
+      return
+    }
+    this.setState('closing')
+    this.callAnimationStart()
+    this.setState('closed')
+    this.callAnimationEnd()
   }
   getHeight() {
     return parseFloat(String(this.elem?.clientHeight)) || null
   }
-  getWidth() {
-    if (!this.isInBrowser) {
-      return null
+  firstPaintStyle() {
+    return {
+      position: 'absolute',
+      visibility: 'hidden',
+      opacity: '0', // prevents before/after elements to be visible
+      height: 'auto',
     }
-    return window.getComputedStyle(this.elem).width
   }
   getUnknownHeight() {
     if (!this.elem) {
       return null
     }
 
-    if (this.isAnimating && this.__currentHeight) {
+    if (this.isAnimating && typeof this.__currentHeight !== 'undefined') {
       return this.__currentHeight
     }
 
-    this.elem.style.width = this.getWidth()
+    const clonedElem = this.elem.cloneNode(true) as HTMLElement
+    this.elem.parentNode?.insertBefore(clonedElem, this.elem.nextSibling)
 
-    if (this.elem.parentElement) {
-      this.elem.parentElement.style.position = 'relative'
+    for (const key in this.firstPaintStyle) {
+      clonedElem.style[key] = this.firstPaintStyle[key]
     }
-    this.elem.style.position = 'absolute'
-    this.elem.style.visibility = 'hidden'
-    this.elem.style.height = 'auto'
+    clonedElem.style.height = 'auto'
 
-    this.__currentHeight = this.getHeight()
+    const height =
+      parseFloat(String(clonedElem.clientHeight)) ||
+      // data-height is used for mockup testing with "mockHeight"
+      parseFloat(clonedElem.getAttribute('data-height')) ||
+      null
 
-    this._restore()
+    clonedElem.parentNode?.removeChild(clonedElem)
 
-    return this.__currentHeight
+    if (height) {
+      this.__currentHeight = height
+    }
+
+    return height
   }
-
   onStart(fn: HeightAnimationOnStartCallback) {
     this.onStartStack.push(fn)
   }
@@ -187,53 +211,46 @@ export default class HeightAnimation {
   }
   start(
     fromHeight: HeightAnimationFromHeight,
-    toHeight: HeightAnimationToHeight,
-    { animate = true }: HeightAnimationOptions = {}
+    toHeight: HeightAnimationToHeight
   ) {
-    if (window?.location?.href?.includes('data-visual-test')) {
-      animate = false
+    if (
+      !this.elem ||
+      !(
+        this.isInBrowser &&
+        typeof window.requestAnimationFrame === 'function'
+      )
+    ) {
+      return
     }
 
-    if (
-      fromHeight === toHeight ||
-      animate === false ||
-      this.opts?.animate === false
-    ) {
-      this.elem.style.height = `${toHeight}px`
-
-      this._callOnStart()
-
-      this._emitTransitionEnd()
-
-      return // stop here
+    const opts = this.getOptions()
+    if (opts.animate === false) {
+      return
     }
 
-    if (
-      this.isInBrowser &&
-      typeof window.requestAnimationFrame === 'function'
-    ) {
-      this.stop()
+    this.isAnimating = true
 
-      this.isAnimating = true
+    // make the animation
+    this.reqId1 = window.requestAnimationFrame(() => {
+      if (!this.elem) {
+        return
+      }
 
-      // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
-      this._callOnStart()
+      this.elem.style.height = `${fromHeight}px`
 
-      // make the animation
-      this.reqId1 = window.requestAnimationFrame(() => {
+      this.reqId2 = window.requestAnimationFrame(() => {
         if (!this.elem) {
-          return // stop here
+          return
         }
 
-        this.elem.style.height = `${fromHeight}px`
-
-        this.reqId2 = window.requestAnimationFrame(() => {
-          this.elem.style.height = `${toHeight}px`
-        })
+        this.elem.style.height = `${toHeight}px`
       })
-    }
+    })
   }
   stop() {
+    this.timeouts.forEach((id) => clearTimeout(id))
+    this.timeouts = []
+
     if (
       this.isInBrowser &&
       typeof window.requestAnimationFrame === 'function'
@@ -242,101 +259,151 @@ export default class HeightAnimation {
       window.cancelAnimationFrame(this.reqId2)
     }
   }
-  /**
-   * Deprecated
-   * "adjustFrom" is only used by GlobalStatus.js
-   * it should be replaced with "useHeightAnimation"
-   */
-  adjustFrom(height: HeightAnimationFromHeight = null) {
-    if (!this.elem) {
+  open() {
+    if (
+      this.state === 'opened' ||
+      this.state === 'opening' ||
+      this.shouldBypassAnimation()
+    ) {
+      this.setAsOpen()
       return
     }
 
-    height = height || this.getHeight()
-    this.elem.style.height = `${height}px`
-    return height
+    this.setState('opening')
+    this.callAnimationStart()
+
+    const toHeight = this.getUnknownHeight()
+
+    this.addEndEvent((e) => {
+      if (e.target === e.currentTarget) {
+        this.setState('opened')
+        this.readjust()
+      }
+    })
+
+    this.start(0, toHeight)
+  }
+  close() {
+    if (
+      this.state === 'closed' ||
+      this.state === 'closing' ||
+      this.shouldBypassAnimation()
+    ) {
+      this.setAsClosed()
+      return
+    }
+
+    this.setState('closing')
+    this.callAnimationStart()
+
+    const fromHeight = this.getHeight()
+
+    this.addEndEvent((e) => {
+      if (e.target === e.currentTarget) {
+        if (this.elem) {
+          this.elem.style.visibility = 'hidden'
+          this.elem.style.overflowY = 'clip'
+        }
+        this.setState('closed')
+        this.callAnimationEnd()
+      }
+    })
+
+    this.start(fromHeight, 0)
   }
   adjustTo(
     fromHeight: HeightAnimationFromHeight = null,
-    toHeight: HeightAnimationToHeight = null,
-    { animate = true }: HeightAnimationOptions = {}
+    toHeight: HeightAnimationToHeight = null
   ) {
-    if (!this.elem) {
+    const opts = this.getOptions()
+
+    if (
+      !this.elem ||
+      opts.animate === false ||
+      this.state === 'opening' ||
+      this.state === 'closing'
+    ) {
       return
     }
 
-    if (fromHeight === null) {
+    if (fromHeight === 0 || fromHeight === null) {
       fromHeight = this.getHeight()
     }
     if (toHeight === null) {
       toHeight = this.getUnknownHeight()
     }
 
-    this._addEndEvents((e) => {
-      if (e.target === e.currentTarget) {
-        if (this.elem) {
-          this.elem.style.height = 'auto'
-        }
-
-        this.state = 'adjusted'
-        this._callOnEnd()
-      }
-    })
-
-    this.state = 'adjusting'
-    this.start(fromHeight, toHeight, { animate })
-  }
-  open({ animate = true }: HeightAnimationOptions = {}) {
-    if (
-      !this.elem ||
-      this.state === 'opened' ||
-      this.state === 'opening'
-    ) {
+    if (fromHeight === toHeight) {
+      this.setState('adjusted')
       return
     }
 
-    const height = this.getUnknownHeight()
+    this.setState('adjusting')
+    this.callAnimationStart()
 
-    this._addEndEvents((e) => {
-      if (e.target === e.currentTarget) {
+    this.addEndEvent((e) => {
+      if (this.state === 'adjusting' && e.target === e.currentTarget) {
         if (this.elem) {
           this.elem.style.height = 'auto'
         }
-
-        this.state = 'opened'
-        this._callOnEnd()
+        this.setState('adjusted')
+        this.callAnimationEnd()
       }
     })
 
-    this.state = 'opening'
-    this.start(0, height, { animate })
+    this.start(fromHeight, toHeight)
   }
-  close({ animate = true }: HeightAnimationOptions = {}) {
+  readjust() {
+    const endHeight = this.getHeight()
+
+    if (this.elem) {
+      this.elem.style.height = 'auto'
+    }
+
+    this.__currentHeight = undefined
+    const newHeight = this.getUnknownHeight()
+
+    // If the height has changed during the animation, we need to adjust it
+    if (endHeight !== newHeight) {
+      this.adjustTo(endHeight, newHeight)
+    } else {
+      this.callAnimationEnd()
+    }
+  }
+  /**
+   * Determines whether the animation can finish.
+   * Check for certain states and if the time passed is too short.
+   * With a so short first state change, we do not call animation end.
+   */
+  canFinish() {
+    return Boolean(
+      this.startTime &&
+        Date.now() - this.startTime >
+          (globalThis.animationDuration ?? this.duration)
+    )
+  }
+  /**
+   * Determines whether the animation should be bypassed.
+   * Check for certain states and if the time passed is too short to be correct.
+   * With a very short first state change, we skip animation.
+   */
+  shouldBypassAnimation() {
+    const opts = this.getOptions()
+
+    if (!this.elem || opts.animate === false) {
+      return true
+    }
+
     if (
-      !this.elem ||
-      this.state === 'closed' ||
-      this.state === 'closing'
+      this.isInBrowser &&
+      (globalThis.IS_TEST || globalThis.bypassTime === -1)
     ) {
-      return
+      return false
     }
 
-    let height = this.getHeight()
-    if (this.state === 'init') {
-      height = this.getUnknownHeight()
-    }
-
-    this._addEndEvents((e) => {
-      if (e.target === e.currentTarget) {
-        if (this.elem) {
-          this.elem.style.visibility = 'hidden'
-        }
-
-        this.state = 'closed'
-        this._callOnEnd()
-      }
-    })
-
-    this.state = 'closing'
-    this.start(height, 0, { animate })
+    return Boolean(
+      this.firstTime &&
+        Date.now() - this.firstTime < (globalThis.bypassTime ?? 100)
+    )
   }
 }
