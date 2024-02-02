@@ -252,21 +252,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
-}
-.dnb-form-status--hidden {
-  will-change: height, opacity, margin, padding;
-  width: 0;
-  height: 0;
-  opacity: 0;
-}
-.dnb-form-status--is-animating {
-  overflow: hidden;
-  width: auto;
-}
-.dnb-form-status--disappear, .dnb-form-status--hidden {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 .dnb-form-status__shell {
   display: flex;
@@ -317,9 +302,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status[hidden] {
   display: none;
-}
-.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
-  transition-duration: 1ms !important;
 }
 
 /*
@@ -731,30 +713,20 @@ button.dnb-button::-moz-focus-inner {
 /*
  * Utilities
  */
-.dnb-global-status {
-  --global-status-easing: var(--easing-default);
-}
 .dnb-global-status.dnb-section {
   display: block;
 }
 .dnb-global-status__shell {
   width: 100%;
-  opacity: 1;
-  will-change: height;
-  transition: height 800ms var(--global-status-easing), opacity 600ms var(--global-status-easing);
 }
-.dnb-global-status--hidden .dnb-global-status__shell {
-  height: 0;
-  opacity: 0;
+.dnb-global-status__shell.dnb-height-animation--hidden {
+  overflow-y: clip;
 }
-.dnb-global-status--no-animation .dnb-global-status__shell, html[data-visual-test] .dnb-global-status__shell {
-  transition-duration: 1ms !important;
+.dnb-global-status__shell .dnb-hr, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([class*=dnb-space__bottom]) {
+  margin: 0 0 0 1rem;
 }
-.dnb-global-status, .dnb-global-status--no-animation.dnb-global-status--visible {
-  display: flex;
-}
-.dnb-global-status--no-animation.dnb-global-status--hidden {
-  display: none;
+.dnb-global-status__shell .dnb-hr::after, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([class*=dnb-space__bottom])::after {
+  top: calc(var(--thickness) * -1);
 }
 .dnb-global-status__title {
   position: relative;
@@ -818,9 +790,6 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
-  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80);
-}
 .dnb-global-status__icon {
   font-size: 1rem;
 }
