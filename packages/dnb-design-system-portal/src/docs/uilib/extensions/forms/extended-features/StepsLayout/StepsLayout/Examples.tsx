@@ -45,10 +45,7 @@ export const Default = () => {
 
 export const Drawer = () => {
   return (
-    <ComponentBox
-      scope={{ StepsLayout }}
-      data-visual-test="steps-layout-drawer"
-    >
+    <ComponentBox scope={{ StepsLayout }}>
       <StepsLayout variant="drawer">
         <StepsLayout.Step title="Step 1">
           <Form.MainHeading>Heading</Form.MainHeading>
