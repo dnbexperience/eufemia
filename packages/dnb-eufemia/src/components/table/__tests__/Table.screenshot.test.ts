@@ -284,9 +284,6 @@ describe.each(['ui', 'sbanken'])(
         simulateSelector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
         simulate: 'active',
-        matchConfig: {
-          failureThreshold: 0.01, // locally as well
-        },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
