@@ -7,7 +7,6 @@ import React, {
   HTMLProps,
   useContext,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from 'react'
@@ -17,7 +16,7 @@ import {
   makeUniqueId,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
+import HeightAnimation from '../height-animation/HeightAnimation'
 import Button, { ButtonProps } from '../button/Button'
 import Icon, { IconIcon } from '../icon/Icon'
 import { WarnIcon, InfoIcon, ErrorIcon } from '../form-status/FormStatus'
@@ -98,13 +97,6 @@ function StepIndicatorItem({
     context.activeStep
   )
 
-  const heightAnim = useRef(
-    new HeightAnimationInstance({
-      animate:
-        context?.no_animation !== undefined ? context.no_animation : false,
-    })
-  ).current
-
   const ref = useRef(null)
 
   const thisReference = {
@@ -113,36 +105,12 @@ function StepIndicatorItem({
     onClickHandler,
   }
 
-  // Mount and Dismount
-  useEffect(() => {
-    heightAnim.setElement(ref.current)
-
-    return () => {
-      heightAnim.remove()
-    }
-  }, [])
-
   // Effect used to keep track of previous activeStep from context
   useEffect(() => {
     if (previousStep !== context.activeStep) {
       setPreviousStep(context.activeStep)
     }
-  }, [context.activeStep])
-
-  useLayoutEffect(() => {
-    const height = heightAnim.getHeight()
-
-    if (
-      previousStep !== context.activeStep &&
-      (props.currentItemNum === previousStep ||
-        props.currentItemNum === context.activeStep)
-    ) {
-      const toHeight = heightAnim.getUnknownHeight()
-      if (height !== toHeight) {
-        heightAnim.adjustTo(height, toHeight)
-      }
-    }
-  }, [previousStep, context.activeStep, heightAnim, props.currentItemNum])
+  }, [context.activeStep, previousStep])
 
   function onClickHandler({ event, item, currentItemNum }) {
     const params = {
@@ -194,7 +162,7 @@ function StepIndicatorItem({
     currentItemNum,
 
     title,
-    is_current,
+    is_current, // eslint-disable-line
     inactive,
     disabled,
     status,
@@ -352,7 +320,7 @@ export function StepItemButton({
       inner_ref={inner_ref}
       {...props}
     >
-      {children}
+      <HeightAnimation>{children}</HeightAnimation>
     </Button>
   )
 }
