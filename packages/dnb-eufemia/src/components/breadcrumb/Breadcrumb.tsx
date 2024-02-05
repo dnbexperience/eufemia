@@ -199,7 +199,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const innerSpacing = isTrue(spacing) ? 'small' : spacing
+  const innerSpace = isTrue(spacing) ? 'small' : spacing
 
   return (
     <nav
@@ -216,7 +216,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
       <Section
         className="dnb-breadcrumb__bar"
         style_type={styleType || 'transparent'}
-        spacing={innerSpacing}
+        innerSpace={innerSpace}
       >
         {currentVariant === 'single' ? (
           <Button
