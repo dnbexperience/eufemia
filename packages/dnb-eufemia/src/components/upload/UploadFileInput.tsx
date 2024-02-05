@@ -33,7 +33,7 @@ const UploadFileInput = () => {
   const accept = getAcceptedFileTypes(acceptedFileTypes)
 
   return (
-    <div>
+    <div className="dnb-upload__file-input-area">
       <Button
         top="medium"
         id={`${sharedId}-input`}

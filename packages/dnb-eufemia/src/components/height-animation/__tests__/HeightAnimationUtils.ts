@@ -1,25 +1,12 @@
 import { act } from '@testing-library/react'
 
 export function initializeTestSetup() {
-  // let sharedId = 0
-
   beforeEach(() => {
     globalThis.IS_TEST = false
     globalThis.readjustTime = 10
     globalThis.bypassTime = -1
     globalThis.animationDuration = -1
-
-    // window.requestAnimationFrame = jest.fn((callback) => {
-    //   return (sharedId = setTimeout(callback, 0))
-    // })
-    // window.cancelAnimationFrame = jest.fn((id) => {
-    //   clearTimeout(id)
-    // })
   })
-
-  // afterEach(() => {
-  //   clearTimeout(sharedId)
-  // })
 }
 
 export function simulateAnimationEnd(
