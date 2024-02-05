@@ -179,7 +179,6 @@ describe('Tabs component', () => {
       expect.arrayContaining([
         'dnb-tabs__content',
         'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--show-overflow',
       ])
     )
   })
@@ -256,7 +255,6 @@ describe('Tabs component', () => {
         'dnb-height-animation',
         'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
-        'dnb-height-animation--show-overflow',
       ])
     )
   })

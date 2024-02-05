@@ -1072,6 +1072,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         selected_key={selected_key}
         content_style={this.props.content_style}
         content_spacing={this.props.content_spacing}
+        animate={this.props.prerender}
       >
         {content}
       </ContentWrapper>

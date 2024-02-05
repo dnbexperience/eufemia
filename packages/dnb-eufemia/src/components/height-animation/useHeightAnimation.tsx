@@ -143,7 +143,7 @@ export function useHeightAnimation(
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useOpenClose({ open, instRef, isInitialRenderRef, targetRef })
-  useAdjust({ children, instRef, isInitialRenderRef })
+  useAdjust({ children, instRef, isInitialRenderRef, targetRef })
 
   /**
    * Returns the first paint style, to be used for the initial render,
@@ -167,7 +167,7 @@ export function useHeightAnimation(
   }
 }
 
-function useOpenClose({ open, instRef, targetRef, isInitialRenderRef }) {
+function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
   useLayoutEffect(() => {
     instRef.current.setElement(targetRef.current)
 
@@ -216,7 +216,7 @@ function useOpenClose({ open, instRef, targetRef, isInitialRenderRef }) {
   }, [isInitialRenderRef, isTest])
 }
 
-function useAdjust({ children, instRef, isInitialRenderRef }) {
+function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
   const fromHeight = useRef(0)
 
   const [timer] = useState(() => Date.now())
@@ -247,6 +247,12 @@ function useAdjust({ children, instRef, isInitialRenderRef }) {
 
   useLayoutEffect(() => {
     if (shouldAdjust()) {
+      /**
+       * In certain cases, the targetRef.current is outdated, so we need to set it again.
+       * E.g. in Tabs.js, when we switch tabs, the targetRef.current is not updated.
+       */
+      instRef.current.setElement(targetRef.current)
+
       /**
        * Ensure we don't have height, while we get the "toHeight" again.
        * We may move this inside of the HeightAnimationInstance class later,
