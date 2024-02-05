@@ -66,6 +66,8 @@ describe('Anchor element', () => {
   })
 
   it('should show tooltip on mouseover', () => {
+    globalThis.IS_TEST = true
+
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
@@ -79,6 +81,8 @@ describe('Anchor element', () => {
       document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
         .parentElement.classList
     ).toContain('dnb-tooltip--active')
+
+    globalThis.IS_TEST = false
   })
 
   it('has "__launch-icon" class when target is blank', () => {
