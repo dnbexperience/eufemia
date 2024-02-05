@@ -5,6 +5,11 @@ import FieldBlock from '../FieldBlock'
 import { FormError } from '../../types'
 import userEvent from '@testing-library/user-event'
 import { useDataValue } from '../../hooks'
+import {
+  initializeTestSetup,
+  runAnimation,
+  simulateAnimationEnd,
+} from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
 
 describe('FieldBlock', () => {
   it('should forward HTML attributes', () => {
@@ -393,6 +398,90 @@ describe('FieldBlock', () => {
     )
 
     expect(element.classList).toContain('custom-class')
+  })
+
+  describe('FormStatus with animation', () => {
+    initializeTestSetup()
+
+    beforeEach(() => {
+      process.env.NODE_ENV = 'development'
+    })
+
+    it('should have enabled animation', () => {
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).toHaveClass('dnb-height-animation--animating')
+
+      runAnimation()
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+    })
+
+    it('should animate on show and hide the message', () => {
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).toHaveClass('dnb-height-animation--animating')
+
+      simulateAnimationEnd()
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+
+      rerender(<FieldBlock>content</FieldBlock>)
+
+      expect(element).toHaveClass('dnb-height-animation--animating')
+
+      simulateAnimationEnd()
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    it('should disable animation when process.env.NODE_ENV is test', () => {
+      process.env.NODE_ENV = 'test'
+
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+    })
+
+    it('should disable animation when globalThis.IS_TEST is true', () => {
+      globalThis.IS_TEST = true
+
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+    })
   })
 })
 
