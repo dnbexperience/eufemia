@@ -19,6 +19,9 @@ export type Props = ComponentProps & {
   initialActiveIndex?: number
   onStepChange?: (index: number) => void
   children: React.ReactNode
+  variant?: 'sidebar' | 'drawer'
+  noAnimation?: boolean
+  sidebarId?: string
 }
 
 function StepsLayout(props: Props) {
@@ -30,6 +33,9 @@ function StepsLayout(props: Props) {
     initialActiveIndex = 0,
     onStepChange,
     children,
+    noAnimation = true,
+    variant = 'sidebar',
+    sidebarId,
     ...rest
   } = props
   const dataContext = useContext(DataContext)
@@ -100,7 +106,11 @@ function StepsLayout(props: Props) {
       }}
     >
       <Space
-        className={classnames('dnb-forms-steps-layout', className)}
+        className={classnames(
+          'dnb-forms-steps-layout',
+          variant === 'drawer' && 'dnb-forms-steps-layout--drawer',
+          className
+        )}
         {...rest}
       >
         <aside className="dnb-forms-steps-layout__sidebar">
@@ -110,10 +120,15 @@ function StepsLayout(props: Props) {
             current_step={activeIndex}
             data={stepIndicatorData}
             mode={mode}
-            no_animation
+            no_animation={noAnimation}
             on_change={handleChange}
-            sidebar_id={id}
-            title=""
+            sidebar_id={
+              variant === 'drawer' && !sidebarId
+                ? ''
+                : sidebarId
+                ? sidebarId
+                : id
+            }
           />
         </aside>
         <div className="dnb-forms-steps-layout__contents">

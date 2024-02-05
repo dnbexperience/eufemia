@@ -149,4 +149,46 @@ describe('StepsLayout', () => {
 
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
+
+  it('should support drawer variant', () => {
+    const { rerender } = render(
+      <StepsLayout variant="drawer">
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    const sidebar = document.querySelector(
+      '.dnb-forms-steps-layout__sidebar'
+    )
+
+    const stepTrigger = () =>
+      sidebar.querySelector('.dnb-step-indicator__trigger')
+
+    const stepsList = () =>
+      sidebar.querySelector('.dnb-step-indicator__list')
+
+    expect(stepTrigger()).toBeInTheDocument()
+    expect(stepsList()).not.toBeInTheDocument()
+
+    rerender(
+      <StepsLayout sidebarId="drawer-please">
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    expect(stepTrigger()).toBeInTheDocument()
+    expect(stepsList()).not.toBeInTheDocument()
+  })
 })
