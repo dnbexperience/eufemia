@@ -33,7 +33,6 @@ import {
 beforeAll(() => {
   window.PointerEvent = new CustomEvent('ontouchstart')
   navigator.maxTouchPoints = 2 // mocking touch
-  defineNavigator()
 
   jest.spyOn(global.console, 'log')
 })
@@ -56,7 +55,10 @@ describe('"isTouchDevice" should', () => {
 
 describe('"defineNavigator" should', () => {
   it('add "os" as an attribute to the HTML tag', () => {
+    window.IS_TEST = true
+    defineNavigator()
     expect(document.documentElement.getAttribute('data-os')).toBe('other')
+    window.IS_TEST = false
   })
 })
 
