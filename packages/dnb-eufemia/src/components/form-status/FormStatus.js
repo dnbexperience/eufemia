@@ -14,7 +14,7 @@ import {
   processChildren,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
+import HeightAnimation from '../height-animation/HeightAnimation'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -167,7 +167,7 @@ export default class FormStatus extends React.PureComponent {
     return state
   }
 
-  state = { id: null, keepContentInDom: null }
+  state = { id: null }
 
   constructor(props, context) {
     super(props)
@@ -200,27 +200,6 @@ export default class FormStatus extends React.PureComponent {
     )
 
     this._ref = React.createRef()
-
-    this._heightAnim = new HeightAnimationInstance({
-      animate: props.no_animation === false,
-
-      /** TODO: consider to enable animation by default */
-      // animate: !isTrue(props.no_animation),
-    })
-
-    this._heightAnim.onStart(() => {
-      this.setState({
-        isAnimating: true,
-        keepContentInDom: true,
-      })
-    })
-
-    this._heightAnim.onEnd(() => {
-      this.setState({
-        isAnimating: false,
-        keepContentInDom: isTrue(this.props.show),
-      })
-    })
   }
 
   init = () => {
@@ -228,6 +207,7 @@ export default class FormStatus extends React.PureComponent {
       this._globalStatus.isReady()
 
       this.updateWidth()
+      this.fillCache()
     }
   }
 
@@ -243,6 +223,23 @@ export default class FormStatus extends React.PureComponent {
     }
   }
 
+  fillCache() {
+    const shouldAnimate = this.shouldAnimate()
+
+    // Content
+    const content = shouldAnimate && FormStatus.getContent(this.props)
+    if (content && content !== this.contentCache) {
+      this.contentCache = content
+    }
+
+    // State
+    const state =
+      shouldAnimate && FormStatus.correctStatus(this.props.state)
+    if (state) {
+      this.stateCache = state
+    }
+  }
+
   componentWillUnmount() {
     this._isMounted = false
     const status_id = this.getStatusId()
@@ -251,7 +248,6 @@ export default class FormStatus extends React.PureComponent {
       window.removeEventListener('load', this.init)
       window.removeEventListener('resize', this.updateWidth)
     }
-    this._heightAnim.remove()
   }
 
   componentDidUpdate(prevProps) {
@@ -263,8 +259,7 @@ export default class FormStatus extends React.PureComponent {
       prevProps.show !== show ||
       prevProps.state !== state
     ) {
-      // ensure we update the content
-      this.setState({ keepContentInDom: false })
+      this.fillCache()
 
       if (state === 'error') {
         const status_id = this.getStatusId()
@@ -294,10 +289,6 @@ export default class FormStatus extends React.PureComponent {
 
       if (this.isReadyToGetVisible()) {
         this.updateWidth()
-        this._heightAnim.setElement(this._ref.current)
-        this._heightAnim.open()
-      } else {
-        this._heightAnim.close()
       }
     }
   }
@@ -318,6 +309,10 @@ export default class FormStatus extends React.PureComponent {
     }
   }
 
+  shouldAnimate() {
+    return this.props.no_animation === false
+  }
+
   isReadyToGetVisible(props = this.props) {
     return isTrue(props.show) && FormStatus.getContent(props)
       ? true
@@ -325,12 +320,6 @@ export default class FormStatus extends React.PureComponent {
   }
 
   render() {
-    const isReadyToGetVisible = this.isReadyToGetVisible()
-
-    if (!isReadyToGetVisible && !this.state.keepContentInDom) {
-      return null
-    }
-
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
@@ -343,17 +332,17 @@ export default class FormStatus extends React.PureComponent {
     )
 
     const {
-      show, // eslint-disable-line
       title,
       state: rawState,
       size,
       variant,
       className,
-      no_animation,
       stretch,
       class: _className,
       text_id,
 
+      show, // eslint-disable-line
+      no_animation, // eslint-disable-line
       label, // eslint-disable-line
       status_id, // eslint-disable-line
       globalStatus, // eslint-disable-line
@@ -368,7 +357,7 @@ export default class FormStatus extends React.PureComponent {
       ...rest
     } = props
 
-    const state = FormStatus.correctStatus(rawState)
+    const state = FormStatus.correctStatus(rawState) || this.stateCache
     const iconToRender = FormStatus.getIcon({
       state,
       icon,
@@ -376,15 +365,7 @@ export default class FormStatus extends React.PureComponent {
       theme: this.context?.theme?.name,
     })
 
-    const contentToRender =
-      this.state.keepContentInDom && this._cachedContent
-        ? this._cachedContent
-        : FormStatus.getContent(this.props)
-
-    // Add a cache, we use this during the "hide" period when animating
-    if (!this.state.isAnimating) {
-      this._cachedContent = contentToRender
-    }
+    const contentToRender = FormStatus.getContent(this.props)
 
     const hasStringContent =
       typeof contentToRender === 'string' && contentToRender.length > 0
@@ -392,17 +373,9 @@ export default class FormStatus extends React.PureComponent {
     const params = {
       className: classnames(
         'dnb-form-status',
-        `dnb-form-status--${state}`,
+        state && `dnb-form-status--${state}`,
         `dnb-form-status__size--${size}`,
         variant && `dnb-form-status__variant--${variant}`,
-        this.state.isAnimating && 'dnb-form-status--is-animating',
-        !isReadyToGetVisible &&
-          !this.state.keepContentInDom &&
-          'dnb-form-status--hidden',
-        !isReadyToGetVisible &&
-          this.state.keepContentInDom &&
-          'dnb-form-status--disappear',
-        isTrue(no_animation) && 'dnb-form-status--no-animation',
         stretch && 'dnb-form-status--stretch',
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
@@ -440,12 +413,21 @@ export default class FormStatus extends React.PureComponent {
     validateDOMAttributes(null, textParams)
 
     return (
-      <span {...params} ref={this._ref}>
+      <HeightAnimation
+        element="span"
+        open={this.isReadyToGetVisible()}
+        animate={this.shouldAnimate()}
+        duration={600}
+        {...params}
+        innerRef={this._ref}
+      >
         <span className="dnb-form-status__shell">
           {iconToRender}
-          <span {...textParams}>{contentToRender}</span>
+          <span {...textParams}>
+            {contentToRender || this.contentCache}
+          </span>
         </span>
-      </span>
+      </HeightAnimation>
     )
   }
 }
