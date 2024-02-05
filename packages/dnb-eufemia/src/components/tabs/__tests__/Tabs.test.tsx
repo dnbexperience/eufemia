@@ -255,7 +255,7 @@ describe('Tabs component', () => {
         'dnb-space',
         'dnb-height-animation',
         'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--parallax',
+        'dnb-height-animation--is-visible',
         'dnb-height-animation--show-overflow',
       ])
     )
