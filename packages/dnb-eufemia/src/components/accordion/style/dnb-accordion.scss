@@ -157,11 +157,6 @@
       width: 100%;
       margin-top: 1rem;
     }
-
-    // When "prerender" prop is true
-    &.dnb-height-animation--hidden &__inner {
-      display: none;
-    }
   }
 
   &-group--single-container {
