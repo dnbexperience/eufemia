@@ -27,19 +27,36 @@
   }
 
   & > caption {
+    position: relative;
     caption-side: bottom;
     padding: 0.5rem 0 0.5rem 1rem;
 
     font-size: var(--font-size-basis);
     background-color: var(--color-white);
     text-align: left;
+
+    @include tableBorder() {
+      top: -0.0625rem; // so we are behind the border-bottom (end of table)
+      right: 0;
+      border-top: var(--border);
+    }
   }
 
   &--outline {
+    position: relative;
     // add extra room in bottom for caption
     // because firefox clip-path ignores caption
     clip-path: inset(0 0 -10rem 0 round 0.5rem 0.5rem 0 0);
     z-index: 1; // firefox places caption in from of table witout z-index
+
+    &,
+    &::after {
+      border-radius: 0.5rem;
+    }
+    @include tableOutline() {
+      z-index: 3;
+      border: var(--outline);
+    }
 
     > caption {
       &,
@@ -61,16 +78,6 @@
           }
         }
       }
-    }
-  }
-
-  &--border > caption:not(.dnb-sr-only) {
-    position: relative;
-
-    @include tableBorder() {
-      top: -0.0625rem; // so we are behind the border-bottom (end of table)
-      right: 0;
-      border-top: var(--border);
     }
   }
 

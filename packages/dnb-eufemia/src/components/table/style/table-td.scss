@@ -7,67 +7,46 @@
 
 .dnb-table {
   // table border
-  &--border tbody &__td {
-    @include tableBorder() {
-      border: var(--border);
-      border-bottom: none;
+  &--border {
+    tbody {
+      .dnb-table__td,
+      .dnb-table__th {
+        @include tableBorder() {
+          border: var(--border);
+          border-bottom: none;
+        }
+        &:first-child::after {
+          border-left: none;
+        }
+        &:last-child::after {
+          border-right: none;
+        }
+      }
+
+      .dnb-table__tr:first-child {
+        .dnb-table__td,
+        .dnb-table__th {
+          &::after {
+            border-top: none;
+          }
+        }
+      }
     }
 
-    &:first-child::after {
-      border-left: none;
-    }
-
-    &:last-child::after {
-      border-right: none;
+    // Header underline
+    thead + tbody {
+      .dnb-table__tr:first-child {
+        .dnb-table__td,
+        .dnb-table__th {
+          &::after {
+            border-top: var(--border);
+          }
+        }
+      }
     }
   }
 
-  // table outline
-  &--outline {
-    position: relative;
-    &,
-    &::after {
-      border-radius: 0.5rem;
-    }
-    @include tableOutline() {
-      z-index: 3;
-      border: var(--outline);
-    }
-  }
-
-  // reset parts if a "th" is used before td (row header)
-  &--outline tbody &__tr &__th ~ &__td:first-of-type {
-    &:first-of-type::after {
-      border-left: none;
-    }
-  }
-  &--border tbody &__tr &__th ~ &__td:first-of-type {
-    &:first-of-type::after {
-      border-left: var(--border);
-    }
-  }
-
-  // no thead, should have th in body
   /* stylelint-disable */
-  &--outline tbody:first-child &__tr:first-of-type &__th,
-  &--outline > caption:first-child + tbody &__tr:first-of-type &__th {
-    &::after {
-      border-top: var(--outline);
-    }
-  }
-  &--outline > tbody:first-child &__tr:first-of-type &__td,
-  &--outline > caption:first-child + tbody &__tr:first-of-type &__td {
-    &::after {
-      border-top: var(--outline);
-    }
-  }
-  &:not(&--outline)#{&}--border > tbody:first-child &__td:last-of-type,
-  &:not(&--outline)#{&}--border > :not(thead) + tbody &__td:last-of-type {
-    &::after {
-      border-right: var(--border);
-    }
-  }
-
   &--outline {
     // first row must be rounded
     thead:first-of-type,

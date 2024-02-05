@@ -70,7 +70,6 @@
   &__tr--has-accordion-content,
   &__tr__accordion-content {
     position: relative;
-    z-index: 2;
   }
   &__tr--has-accordion-content#{&}__tr--expanded,
   &__tr__accordion-content {

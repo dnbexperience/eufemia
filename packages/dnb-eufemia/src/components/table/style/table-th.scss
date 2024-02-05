@@ -11,14 +11,6 @@
     align-items: flex-end; // bottom align help-button or other additional elements
   }
 
-  // table border
-  &--border tbody &__th {
-    @include tableBorder() {
-      border-top: var(--border);
-      border-right: var(--border);
-    }
-  }
-
   // &--outline thead &__th {
   //   &::after {
   //     @include tableBorder();
