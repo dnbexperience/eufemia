@@ -118,7 +118,7 @@ describe('FieldBlock', () => {
     const labelElement = document.querySelector('label')
 
     expect(labelElement).toBeInTheDocument()
-    expect(labelElement.textContent).toBe('A Label')
+    expect(labelElement).toHaveTextContent('A Label')
   })
 
   it('should render a "labelDescription"', () => {
@@ -131,10 +131,10 @@ describe('FieldBlock', () => {
     const labelElement = document.querySelector('label')
 
     expect(labelElement).toBeInTheDocument()
-    expect(labelElement.className).toBe(
+    expect(labelElement).toHaveClass(
       'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
-    expect(labelElement.textContent).toBe('A Label Description')
+    expect(labelElement).toHaveTextContent('A Label Description')
   })
 
   it('click on label should set focus on input after value change', async () => {
@@ -303,10 +303,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--info dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--info dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('Info')
+    expect(element).toHaveTextContent('Info')
   })
 
   it('should render a FormStatus when "warning" is given', () => {
@@ -315,10 +315,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--warn dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('Warning')
+    expect(element).toHaveTextContent('Warning')
   })
 
   it('should render a FormStatus when "error" is given', () => {
@@ -331,10 +331,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('Error message')
+    expect(element).toHaveTextContent('Error message')
   })
 
   it('should support "layout" property', () => {
