@@ -15,26 +15,26 @@
   //   &::after {
   //     @include tableBorder();
 
-  //     border-top: var(--outline);
+  //     border-top: var(--table-outline);
   //   }
 
   //   &:first-of-type::after {
-  //     border-left: var(--outline);
+  //     border-left: var(--table-outline);
   //   }
   //   &:last-of-type::after {
-  //     border-right: var(--outline);
+  //     border-right: var(--table-outline);
   //   }
   // }
   // &--outline tbody &__th:first-of-type::after {
   //   @include tableBorder();
 
-  //   border-left: var(--outline);
+  //   border-left: var(--table-outline);
   // }
   // &--outline tbody &__tr:last-of-type &__th {
   //   &::after {
   //     @include tableBorder();
 
-  //     border-bottom: var(--outline);
+  //     border-bottom: var(--table-outline);
   //   }
   // }
 }

@@ -41,7 +41,7 @@
     .dnb-table__td,
     .dnb-table__th {
       @include tableBorder() {
-        border-top: var(--border);
+        border-top: var(--table-border);
       }
     }
   }
@@ -104,20 +104,14 @@
 
 .dnb-table,
 .dnb-table__container {
-  --border-width: 0.0625rem;
-  --outline-width: 0.0625rem;
-
-  // table border
-  --border: var(--border-width) solid var(--sb-color-gray-light-2);
-
-  // table outline
-  --outline: var(--outline-width) solid var(--sb-color-gray-light-2);
+  --table-border-color: var(--sb-color-gray-light-2);
+  --table-outline-color: var(--sb-color-gray-light-2);
 
   background-color: var(--sb-color-white);
 
   html[data-visual-test] & {
-    --border: var(--border-width) solid blue;
-    --outline: var(--outline-width) solid red;
-    --accordion-border: var(--accordion-border-width) solid green;
+    --table-border-color: blue;
+    --table-outline-color: red;
+    --table-accordion-border-color: green;
   }
 }

@@ -8,12 +8,12 @@
 
   @include tableOutline() {
     z-index: 3; // over sticky-header
-    border: var(--outline);
+    border: var(--table-outline);
   }
 
   &,
   &::after {
-    border-radius: 0.5rem;
+    border-radius: var(--table-outline-radius);
   }
 
   &,
@@ -36,7 +36,7 @@
 
       position: relative; // because of bottom border
       @include tableOutline() {
-        border-bottom: var(--border);
+        border-bottom: var(--table-border);
       }
 
       /* stylelint-disable */
@@ -75,7 +75,9 @@
 
   .dnb-table__scroll-view {
     // Clip the native Scrollbar as per defined by UX
-    clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+    clip-path: inset(
+      0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
+    );
   }
 
   // Ensure our outline on bottom is not overlaying the scrollbar on webkit
@@ -83,7 +85,7 @@
   @supports (-webkit-appearance: none) and
     (not (-moz-appearance: meterbar)) {
     &::after {
-      bottom: calc(var(--outline-width) * -1);
+      bottom: calc(var(--table-outline-width) * -1);
     }
 
     // TODO: Our SASS version c support :has – so we may use this in future

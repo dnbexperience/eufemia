@@ -15,10 +15,11 @@
 }
 
 .dnb-table {
-  --accordion-background: var(--color-white);
-  --accordion-border-width: 0.0625rem;
-  --accordion-border: var(--accordion-border-width) solid
-    var(--color-black-20);
+  --table-accordion-background: var(--color-white);
+  --table-accordion-border-width: 0.0625rem;
+  --table-accordion-border-color: var(--color-black-20);
+  --table-accordion-border: var(--table-accordion-border-width) solid
+    var(--table-accordion-border-color);
 
   &__th#{&}__th__accordion-icon {
     &.dnb-table__th {
@@ -137,7 +138,7 @@
       :nth-last-child(2)
     )
     &__td::before {
-    bottom: -0.0625rem;
+    bottom: calc(var(--table-outline-width) * -1);
   }
 
   &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
@@ -167,7 +168,9 @@
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
       border-color: var(--color-emerald-green);
-      border-width: 0.0625rem; // TODO: we should have something like activeRingWidth
+      border-width: var(
+        --table-accordion-border-width
+      ); // TODO: we should have something like activeRingWidth
     }
   }
 
@@ -181,11 +184,11 @@
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
-    background-color: var(--accordion-background);
+    background-color: var(--table-accordion-background);
 
     &::before {
       border: none;
-      border-top: var(--accordion-border);
+      border-top: var(--table-accordion-border);
     }
   }
 
@@ -193,11 +196,11 @@
       &__tr--disabled
     ):not(:active):not(:hover) {
     @include whatInputNot('keyboard') {
-      background-color: var(--accordion-background);
+      background-color: var(--table-accordion-background);
 
       td::before {
         border: none;
-        border-top: var(--accordion-border);
+        border-top: var(--table-accordion-border);
       }
     }
   }
@@ -236,11 +239,11 @@
       top: auto;
       left: 0;
       right: 0;
-      bottom: calc(var(--accordion-border-width) * -1);
+      bottom: calc(var(--table-accordion-border-width) * -1);
 
       pointer-events: none;
 
-      border-bottom: var(--accordion-border);
+      border-bottom: var(--table-accordion-border);
     }
 
     // because, when table has --outline
@@ -291,7 +294,7 @@
   }
 
   &__tr__accordion-content#{&}__tr &__td {
-    background-color: var(--accordion-background);
+    background-color: var(--table-accordion-background);
 
     /**
       * Safari on iOS and macOS has problems on animating when vertical-align is baseline.

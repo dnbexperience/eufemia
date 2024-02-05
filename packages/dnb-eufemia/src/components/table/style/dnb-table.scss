@@ -6,6 +6,19 @@
 @import './table-mixins.scss';
 @import './table-header-buttons.scss';
 
+.dnb-table,
+.dnb-table__container {
+  // table border
+  --table-border-width: 0.0625rem;
+  --table-border: var(--table-border-width) solid var(--table-border-color);
+
+  // table outline
+  --table-outline-width: 0.0625rem;
+  --table-outline: var(--table-outline-width) solid
+    var(--table-outline-color);
+  --table-outline-radius: 0.5rem;
+}
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -36,9 +49,11 @@
     text-align: left;
 
     @include tableBorder() {
-      top: -0.0625rem; // so we are behind the border-bottom (end of table)
+      top: calc(
+        var(--table-border-width) * -1
+      ); // so we are behind the border-bottom (end of table)
       right: 0;
-      border-top: var(--border);
+      border-top: var(--table-border);
     }
   }
 
@@ -46,22 +61,27 @@
     position: relative;
     // add extra room in bottom for caption
     // because firefox clip-path ignores caption
-    clip-path: inset(0 0 -10rem 0 round 0.5rem 0.5rem 0 0);
+    clip-path: inset(
+      0 0 -10rem 0 round var(--table-outline-radius) var(
+          --table-outline-radius
+        ) 0 0
+    );
     z-index: 1; // firefox places caption in from of table witout z-index
 
     &,
     &::after {
-      border-radius: 0.5rem;
+      border-radius: var(--table-outline-radius);
     }
     @include tableOutline() {
       z-index: 3;
-      border: var(--outline);
+      border: var(--table-outline);
     }
 
     > caption {
       &,
       &::after {
-        border-radius: 0 0 0.5rem 0.5rem;
+        border-radius: 0 0 var(--table-outline-radius)
+          var(--table-outline-radius);
       }
       &:not(.dnb-sr-only) ~ tbody:last-child {
         .dnb-table__tr:last-child,
