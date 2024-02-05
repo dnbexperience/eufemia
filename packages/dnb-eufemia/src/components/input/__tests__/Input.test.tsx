@@ -396,15 +396,12 @@ describe('Input component', () => {
       />
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-form-status').classList)
-    ).toEqual([
-      'dnb-form-status',
-      'dnb-form-status--warn',
-      'dnb-form-status__size--default',
-      'dnb-form-status--stretch',
-      'dnb-form-status--has-content',
-    ])
+    expect(document.querySelector('.dnb-form-status')).toHaveClass(
+      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
+    )
+    expect(document.querySelector('.dnb-form-status')).toHaveClass(
+      'dnb-height-animation--is-visible dnb-height-animation--is-in-dom'
+    )
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
