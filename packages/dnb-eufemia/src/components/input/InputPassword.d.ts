@@ -10,7 +10,7 @@ export interface InputPasswordProps
 }
 
 /**
- * @deprecated use `Field.Password instead.`
+ * @deprecated in v11, use `Field.Password instead.`
  */
 export default class InputPassword extends React.Component<
   InputPasswordProps,
