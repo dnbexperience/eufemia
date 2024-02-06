@@ -18,7 +18,7 @@ function UploadFileList() {
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
 
-  if (files == null || files.length < 1) {
+  if (files === null || files.length < 1) {
     return null
   }
 

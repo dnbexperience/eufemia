@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 
 // Shared
@@ -72,10 +72,56 @@ const Upload = (localProps: UploadAllProps) => {
   const { files, setFiles, setInternalFiles, getExistingFile } =
     useUpload(id)
 
-  const filesRef = React.useRef<UploadFile[]>(files)
-  React.useEffect(() => {
-    filesRef.current = files
-  }) // keep our ref updated on every re-render
+  const onInputUpload = useCallback(
+    (newFiles: UploadFile[]) => {
+      const mergedFiles = [
+        ...files,
+        ...newFiles.map((fileItem) => {
+          const { file } = fileItem
+
+          const existingFile = getExistingFile(file, files)
+
+          fileItem.exists = Boolean(existingFile)
+          fileItem.id = fileItem.exists ? existingFile.id : makeUniqueId()
+
+          return fileItem
+        }),
+      ]
+
+      const verifiedFiles = verifyFiles(
+        mergedFiles.filter(({ exists }) => !exists),
+        {
+          fileMaxSize,
+          acceptedFileTypes,
+          errorUnsupportedFile,
+          errorLargeFile,
+        }
+      )
+
+      const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
+
+      setFiles(validFiles)
+      setInternalFiles(mergedFiles)
+
+      if (typeof onChange === 'function') {
+        onChange({ files: validFiles })
+      }
+
+      return validFiles
+    },
+    [
+      acceptedFileTypes,
+      errorLargeFile,
+      errorUnsupportedFile,
+      fileMaxSize,
+      files,
+      filesAmountLimit,
+      getExistingFile,
+      onChange,
+      setFiles,
+      setInternalFiles,
+    ]
+  )
 
   return (
     <UploadContext.Provider
@@ -99,44 +145,6 @@ const Upload = (localProps: UploadAllProps) => {
       </Provider>
     </UploadContext.Provider>
   )
-
-  function onInputUpload(newFiles: UploadFile[]) {
-    const files = filesRef.current
-    const mergedFiles = [
-      ...files,
-      ...newFiles.map((fileItem) => {
-        const { file } = fileItem
-
-        const existingFile = getExistingFile(file, files)
-
-        fileItem.exists = Boolean(existingFile)
-        fileItem.id = fileItem.exists ? existingFile.id : makeUniqueId()
-
-        return fileItem
-      }),
-    ]
-
-    const verifiedFiles = verifyFiles(
-      mergedFiles.filter(({ exists }) => !exists),
-      {
-        fileMaxSize,
-        acceptedFileTypes,
-        errorUnsupportedFile,
-        errorLargeFile,
-      }
-    )
-
-    const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
-
-    setFiles(validFiles)
-    setInternalFiles(mergedFiles)
-
-    if (typeof onChange === 'function') {
-      onChange({ files: validFiles })
-    }
-
-    return validFiles
-  }
 }
 
 Upload.useUpload = useUpload
