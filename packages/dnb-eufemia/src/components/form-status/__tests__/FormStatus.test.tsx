@@ -167,6 +167,24 @@ describe('FormStatus component', () => {
     ])
   })
 
+  it('should support "shellSpace" spacing props', () => {
+    const { rerender } = render(
+      <FormStatus shellSpace={{ top: '2rem' }}>test</FormStatus>
+    )
+
+    const element = document.querySelector('.dnb-form-status__shell')
+
+    expect(element).toHaveClass(
+      'dnb-form-status__shell dnb-space__top--large'
+    )
+
+    rerender(<FormStatus shellSpace="2rem">test</FormStatus>)
+
+    expect(element).toHaveClass(
+      'dnb-form-status__shell dnb-space__top--large dnb-space__bottom--large dnb-space__right--large dnb-space__left--large'
+    )
+  })
+
   it('cache content and update it', () => {
     const { rerender } = render(
       <FormStatus {...props} no_animation={false} />

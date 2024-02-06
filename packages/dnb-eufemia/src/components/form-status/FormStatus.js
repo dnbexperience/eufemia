@@ -338,6 +338,7 @@ export default class FormStatus extends React.PureComponent {
       variant,
       className,
       stretch,
+      shellSpace,
       class: _className,
       text_id,
 
@@ -406,6 +407,13 @@ export default class FormStatus extends React.PureComponent {
       id: !String(text_id).startsWith('null') ? text_id : null,
     }
 
+    const shellParams = {
+      className: classnames(
+        'dnb-form-status__shell',
+        createSpacingClasses({ space: shellSpace })
+      ),
+    }
+
     skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
@@ -421,7 +429,7 @@ export default class FormStatus extends React.PureComponent {
         {...params}
         innerRef={this._ref}
       >
-        <span className="dnb-form-status__shell">
+        <span {...shellParams}>
           {iconToRender}
           <span {...textParams}>
             {contentToRender || this.contentCache}
