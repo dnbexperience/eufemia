@@ -1,12 +1,12 @@
 /**
- * InputPassword Test
+ * Password Test
  *
  */
 
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import InputPassword, { InputPasswordProps } from '../InputPassword'
+import Password, { PasswordProps } from '../Password'
 
 import nbNO from '../../../../../shared/locales/nb-NO'
 import enGB from '../../../../../shared/locales/en-GB'
@@ -15,10 +15,10 @@ import { Provider } from '../../../../../shared'
 const nb = nbNO['nb-NO'].Input
 const en = enGB['en-GB'].Input
 
-describe('InputPassword component', () => {
+describe('Password component', () => {
   it('has correct type by default', () => {
-    const props: InputPasswordProps = {}
-    render(<InputPassword {...props} id="input" />)
+    const props: PasswordProps = {}
+    render(<Password {...props} id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('type')
@@ -26,7 +26,7 @@ describe('InputPassword component', () => {
   })
 
   it('has correct state after "focus" trigger', () => {
-    render(<InputPassword id="input" />)
+    render(<Password id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
 
@@ -36,13 +36,13 @@ describe('InputPassword component', () => {
   })
 
   it('has correct aria-label', () => {
-    const { rerender } = render(<InputPassword id="input" />)
+    const { rerender } = render(<Password id="input" />)
 
     expect(
       document.querySelector('button').getAttribute('aria-label')
     ).toBe(nb.show_password)
 
-    rerender(<InputPassword id="input" lang="en-GB" />)
+    rerender(<Password id="input" lang="en-GB" />)
 
     expect(
       document.querySelector('button').getAttribute('aria-label')
@@ -54,7 +54,7 @@ describe('InputPassword component', () => {
   })
 
   it('has aria-describedby and aria-controls', () => {
-    render(<InputPassword id="input" />)
+    render(<Password id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
     expect(
@@ -70,7 +70,7 @@ describe('InputPassword component', () => {
   })
 
   it('has correct aria-controls id', () => {
-    render(<InputPassword id="input" />)
+    render(<Password id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('id')
@@ -82,7 +82,7 @@ describe('InputPassword component', () => {
   })
 
   it('has a submit button which gets focus', () => {
-    render(<InputPassword />)
+    render(<Password />)
 
     const Button = document.querySelector('button')
     expect(Button).toBeInTheDocument()
@@ -96,7 +96,7 @@ describe('InputPassword component', () => {
   })
 
   it('can change the visibility of the password', () => {
-    render(<InputPassword />)
+    render(<Password />)
 
     const Button = document.querySelector('button')
     expect(Button).toBeInTheDocument()
@@ -122,7 +122,7 @@ describe('InputPassword component', () => {
     const on_show_password = jest.fn()
     const on_hide_password = jest.fn()
     render(
-      <InputPassword
+      <Password
         on_show_password={on_show_password}
         on_hide_password={on_hide_password}
       />
@@ -144,7 +144,7 @@ describe('InputPassword component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<InputPassword top="2rem" />)
+    render(<Password top="2rem" />)
 
     const element = document.querySelector('.dnb-input')
 
@@ -160,7 +160,7 @@ describe('InputPassword component', () => {
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ label_direction: 'vertical' }}>
-        <InputPassword label="Label" />
+        <Password label="Label" />
       </Provider>
     )
 
@@ -184,9 +184,9 @@ describe('InputPassword component', () => {
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {
-    const InputPasswordComp = render(
-      <InputPassword id="input" label="label" value="some value" />
+    const PasswordComp = render(
+      <Password id="input" label="label" value="some value" />
     )
-    expect(await axeComponent(InputPasswordComp)).toHaveNoViolations()
+    expect(await axeComponent(PasswordComp)).toHaveNoViolations()
   })
 })
