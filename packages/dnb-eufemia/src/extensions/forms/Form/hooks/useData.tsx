@@ -79,7 +79,7 @@ export default function useData<Data>(
   }>(id + '-attachments', { rerenderUseDataHook })
 
   const setHandler = useCallback((newData: Data) => {
-    sharedDataRef.current.set(newData)
+    sharedDataRef.current.update(newData)
   }, [])
 
   const updateHandler = useCallback<UseDataReturnUpdate<Data>>(
@@ -116,7 +116,7 @@ export default function useData<Data>(
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current.hadInitialData && initialData) {
-      sharedDataRef.current.set(initialData)
+      sharedDataRef.current.update(initialData)
     }
   })
 

@@ -21,7 +21,6 @@ export function HeightAnimationDefault() {
       {() => {
         const Example = () => {
           const [openState, setOpenState] = React.useState(false)
-          const [isOpen, setIsOpen] = React.useState(openState)
           const [contentState, setContentState] = React.useState(false)
 
           const onChangeHandler = ({ checked }) => {
@@ -39,7 +38,7 @@ export function HeightAnimationDefault() {
               </ToggleButton>
               <ToggleButton
                 checked={contentState || !openState}
-                disabled={!isOpen}
+                disabled={!openState}
                 on_change={({ checked }) => {
                   setContentState(checked)
                 }}
@@ -49,7 +48,7 @@ export function HeightAnimationDefault() {
               </ToggleButton>
 
               <Section style_type="lavender" top>
-                <HeightAnimation open={openState} onOpen={setIsOpen}>
+                <HeightAnimation open={openState}>
                   <Section spacing style_type="lavender">
                     <P space={0}>Your content</P>
                   </Section>
@@ -114,7 +113,6 @@ export function HeightAnimationKeepInDOM() {
       {() => {
         const Example = () => {
           const [openState, setOpenState] = React.useState(true)
-          const [isOpen, setIsOpen] = React.useState(openState)
           const [contentState, setContentState] = React.useState(false)
 
           const onChangeHandler = ({ checked }) => {
@@ -132,7 +130,7 @@ export function HeightAnimationKeepInDOM() {
               </ToggleButton>
               <ToggleButton
                 checked={contentState || !openState}
-                disabled={!isOpen}
+                disabled={!openState}
                 on_change={({ checked }) => {
                   setContentState(checked)
                 }}
@@ -146,7 +144,6 @@ export function HeightAnimationKeepInDOM() {
                   open={openState}
                   keepInDOM={true}
                   duration={1000}
-                  onOpen={setIsOpen}
                 >
                   <Section spacing style_type="lavender">
                     <P space={0}>Your content</P>

@@ -290,24 +290,25 @@ describe('Breadcrumb', () => {
     const toggleButton = () =>
       document.querySelector('.dnb-breadcrumb__toggle')
 
-    const collapseSection = document.querySelector(
-      '.dnb-breadcrumb__collapse'
-    )
+    const collapseSection = () =>
+      document.querySelector(
+        '.dnb-breadcrumb__collapse .dnb-breadcrumb__multiple'
+      )
 
     // Collapsable menu should not be visible before toggle click
-    expect(collapseSection.children).toHaveLength(0)
+    expect(collapseSection()).toBeNull()
 
     await userEvent.click(toggleButton())
 
     // Collapsable should be visible now
-    expect(collapseSection.children).toHaveLength(1)
+    expect(collapseSection()).toBeInTheDocument()
 
     act(() => {
       setMedia({ width: '80em' })
     })
 
     // Collapsable menu should auto-close when screen goes large
-    expect(collapseSection.children).toHaveLength(0)
+    expect(collapseSection()).toBeNull()
   })
 
   describe('BreadcrumbItem', () => {

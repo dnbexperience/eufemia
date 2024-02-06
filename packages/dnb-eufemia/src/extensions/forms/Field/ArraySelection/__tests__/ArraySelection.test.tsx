@@ -61,10 +61,10 @@ describe('ArraySelection', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('This is what is wrong...')
+    expect(element).toHaveTextContent('This is what is wrong...')
   })
 
   it('applies the correct layout class when layout prop is provided', () => {

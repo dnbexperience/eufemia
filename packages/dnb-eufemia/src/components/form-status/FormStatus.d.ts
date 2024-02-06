@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
-import type { SpacingProps } from '../space/types';
+import type { SpacingProps, SpaceTypeAll } from '../space/types';
 export type FormStatusText =
   | string
   | boolean
@@ -84,6 +84,10 @@ export interface FormStatusProps
    * The `role` attribute for accessibility, defaults to `alert`
    */
   role?: string;
+  /**
+   * The space above the shell element. Use the `space` object to set the space.
+   */
+  shellSpace?: SpaceTypeAll;
   className?: string;
   /**
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.

@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  render,
-  fireEvent,
-  createEvent,
-  act,
-} from '@testing-library/react'
-import {
-  testSetupInit,
-  simulateAnimationEnd,
-} from '../../height-animation/__tests__/HeightAnimationUtils'
+import { render, fireEvent, createEvent } from '@testing-library/react'
 import Table from '../Table'
 import Tr from '../TableTr'
 import Td from '../TableTd'
@@ -181,7 +172,7 @@ describe('TableAccordion', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['role', 'colspan', 'class', 'style'])
+    expect(attributes).toEqual(['role', 'colspan', 'class'])
     expect(Array.from(element.classList)).toContain('dnb-table__td')
     expect(element.getAttribute('colspan')).toBe('3')
     expect(element.getAttribute('role')).toBe('cell')
@@ -718,9 +709,6 @@ describe('TableAccordion', () => {
   })
 
   describe('events', () => {
-    // Needed to "simulateAnimationEnd"
-    testSetupInit()
-
     it('should emit onClick event', () => {
       const onClick = jest.fn()
       const trid = '123'
@@ -747,7 +735,7 @@ describe('TableAccordion', () => {
       expect(target.dataset.trid).toBe(trid)
     })
 
-    it('should emit onOpened event', async () => {
+    it('should emit onOpened event', () => {
       const onOpened = jest.fn()
 
       render(
@@ -765,27 +753,20 @@ describe('TableAccordion', () => {
 
       fireEvent.click(trElement)
 
-      act(() => {
-        simulateAnimationEnd(
-          document.querySelector(
-            '.dnb-table__tr__accordion_content__inner'
-          )
-        )
-
-        expect(onOpened).toHaveBeenCalledTimes(1)
-        expect(onOpened).toHaveBeenCalledWith({
-          target: expect.any(Element),
-        })
+      expect(onOpened).toHaveBeenCalledTimes(1)
+      expect(onOpened).toHaveBeenCalledWith({
+        target: expect.any(Element),
       })
     })
 
-    it('should emit onClosed event', async () => {
+    it('should emit onClosed event', () => {
       const onClosed = jest.fn()
+      const onOpened = jest.fn()
 
       render(
         <Table accordion>
           <tbody>
-            <Tr onClosed={onClosed}>
+            <Tr onOpened={onOpened} onClosed={onClosed}>
               <Td>content</Td>
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
@@ -798,18 +779,18 @@ describe('TableAccordion', () => {
       fireEvent.click(trElement)
       fireEvent.click(trElement)
 
-      act(() => {
-        simulateAnimationEnd(
-          document.querySelector(
-            '.dnb-table__tr__accordion_content__inner'
-          )
-        )
-
-        expect(onClosed).toHaveBeenCalledTimes(1)
-        expect(onClosed).toHaveBeenCalledWith({
-          target: expect.any(Element),
-        })
+      expect(onOpened).toHaveBeenCalledTimes(1)
+      expect(onOpened).toHaveBeenCalledWith({
+        target: expect.any(Element),
       })
+
+      expect(onClosed).toHaveBeenCalledTimes(1)
+
+      fireEvent.click(trElement)
+      fireEvent.click(trElement)
+
+      expect(onOpened).toHaveBeenCalledTimes(2)
+      expect(onClosed).toHaveBeenCalledTimes(2)
     })
   })
 })

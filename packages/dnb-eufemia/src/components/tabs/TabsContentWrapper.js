@@ -19,6 +19,7 @@ export default class ContentWrapper extends React.PureComponent {
       PropTypes.number,
     ]),
     content_style: PropTypes.string,
+    animate: PropTypes.bool,
     content_spacing: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -28,6 +29,7 @@ export default class ContentWrapper extends React.PureComponent {
   static defaultProps = {
     selected_key: null,
     content_style: null,
+    animate: null,
     content_spacing: true,
     children: null,
   }
@@ -66,6 +68,7 @@ export default class ContentWrapper extends React.PureComponent {
       children,
       selected_key: key,
       content_style,
+      animate,
       content_spacing,
       ...rest
     } = this.props
@@ -92,7 +95,6 @@ export default class ContentWrapper extends React.PureComponent {
 
     return (
       <HeightAnimation
-        showOverflow // in case there is a section used inside
         role="tabpanel"
         tabIndex="-1"
         id={`${id}-content`}
@@ -120,8 +122,9 @@ export default class ContentWrapper extends React.PureComponent {
             : null,
           createSpacingClasses(rest)
         )}
+        duration={600}
+        animate={animate === true}
         {...params}
-        animate={false}
       >
         {content}
       </HeightAnimation>

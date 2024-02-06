@@ -216,9 +216,6 @@ p > .dnb-icon {
   width: 100%;
   margin-top: 1rem;
 }
-.dnb-accordion__content.dnb-height-animation--hidden .dnb-accordion__content__inner {
-  display: none;
-}
 .dnb-accordion-group--single-container {
   transition: min-height 1s var(--accordion-easing);
 }

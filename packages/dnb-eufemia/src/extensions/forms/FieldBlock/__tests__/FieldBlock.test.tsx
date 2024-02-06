@@ -5,6 +5,11 @@ import FieldBlock from '../FieldBlock'
 import { FormError } from '../../types'
 import userEvent from '@testing-library/user-event'
 import { useDataValue } from '../../hooks'
+import {
+  initializeTestSetup,
+  runAnimation,
+  simulateAnimationEnd,
+} from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
 
 describe('FieldBlock', () => {
   it('should forward HTML attributes', () => {
@@ -113,7 +118,7 @@ describe('FieldBlock', () => {
     const labelElement = document.querySelector('label')
 
     expect(labelElement).toBeInTheDocument()
-    expect(labelElement.textContent).toBe('A Label')
+    expect(labelElement).toHaveTextContent('A Label')
   })
 
   it('should render a "labelDescription"', () => {
@@ -126,10 +131,10 @@ describe('FieldBlock', () => {
     const labelElement = document.querySelector('label')
 
     expect(labelElement).toBeInTheDocument()
-    expect(labelElement.className).toBe(
+    expect(labelElement).toHaveClass(
       'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
-    expect(labelElement.textContent).toBe('A Label Description')
+    expect(labelElement).toHaveTextContent('A Label Description')
   })
 
   it('click on label should set focus on input after value change', async () => {
@@ -298,10 +303,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--info dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--info dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('Info')
+    expect(element).toHaveTextContent('Info')
   })
 
   it('should render a FormStatus when "warning" is given', () => {
@@ -310,10 +315,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--warn dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('Warning')
+    expect(element).toHaveTextContent('Warning')
   })
 
   it('should render a FormStatus when "error" is given', () => {
@@ -326,10 +331,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element.className).toBe(
-      'dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-space__top--x-small dnb-form-status--has-content'
+    expect(element).toHaveClass(
+      'dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content'
     )
-    expect(element.textContent).toBe('Error message')
+    expect(element).toHaveTextContent('Error message')
   })
 
   it('should support "layout" property', () => {
@@ -393,6 +398,90 @@ describe('FieldBlock', () => {
     )
 
     expect(element.classList).toContain('custom-class')
+  })
+
+  describe('FormStatus with animation', () => {
+    initializeTestSetup()
+
+    beforeEach(() => {
+      process.env.NODE_ENV = 'development'
+    })
+
+    it('should have enabled animation', () => {
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).toHaveClass('dnb-height-animation--animating')
+
+      runAnimation()
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+    })
+
+    it('should animate on show and hide the message', () => {
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).toHaveClass('dnb-height-animation--animating')
+
+      simulateAnimationEnd()
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+
+      rerender(<FieldBlock>content</FieldBlock>)
+
+      expect(element).toHaveClass('dnb-height-animation--animating')
+
+      simulateAnimationEnd()
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    it('should disable animation when process.env.NODE_ENV is test', () => {
+      process.env.NODE_ENV = 'test'
+
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+    })
+
+    it('should disable animation when globalThis.IS_TEST is true', () => {
+      globalThis.IS_TEST = true
+
+      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+      rerender(
+        <FieldBlock error={new FormError('Error message')}>
+          content
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-form-status')
+
+      expect(element).not.toHaveClass('dnb-height-animation--animating')
+    })
   })
 })
 

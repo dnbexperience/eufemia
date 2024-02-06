@@ -2,7 +2,8 @@ import { act, render } from '@testing-library/react'
 import useUpload from './../useUpload'
 import React, { useEffect } from 'react'
 import { createMockFile } from './testHelpers'
-import EventEmitter from '../../../shared/helpers/EventEmitter'
+import { createSharedState } from '../../../shared/helpers/useSharedState'
+import { UploadFile } from '../types'
 
 describe('useUpload', () => {
   afterEach(() => {
@@ -63,7 +64,7 @@ describe('useUpload', () => {
     })
   })
 
-  it('use the event emitter to store a file', () => {
+  it('use the shared state to store a file', () => {
     const mockFile = {
       file: createMockFile('fileName.png', 100, 'image/png'),
     }
@@ -79,12 +80,14 @@ describe('useUpload', () => {
 
     render(<MockComponents />)
 
-    const emitter = EventEmitter.createInstance(id)
-    const emitterFiles = emitter.get().files
-    expect(emitterFiles).toEqual([mockFile])
+    const sharedState = createSharedState<{
+      files?: UploadFile[]
+    }>(id)
+    const sharedStateFiles = sharedState.get().files
+    expect(sharedStateFiles).toEqual([mockFile])
   })
 
-  it('use the event emitter to return a file', () => {
+  it('use the event shared state to return a file', () => {
     const mockFile = {
       file: createMockFile('fileName.png', 100, 'image/png'),
     }
@@ -102,9 +105,9 @@ describe('useUpload', () => {
       return <div />
     }
 
-    const emitter = EventEmitter.createInstance(id)
-    const emitterData = { files: [mockFile] }
-    emitter.update(emitterData)
+    const sharedState = createSharedState(id)
+    const sharedStateData = { files: [mockFile] }
+    sharedState.update(sharedStateData)
 
     render(<MockComponents />)
 

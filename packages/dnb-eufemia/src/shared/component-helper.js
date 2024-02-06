@@ -27,14 +27,6 @@ export { getPreviousSibling, warn }
 
 init()
 
-if (
-  typeof process !== 'undefined' &&
-  process.env.NODE_ENV === 'test' &&
-  typeof window !== 'undefined'
-) {
-  window.IS_TEST = true
-}
-
 // run component helper functions
 whatInput.specificKeys([9])
 defineNavigator()

@@ -196,22 +196,27 @@ function FieldBlock(props: Props) {
             {children}
           </div>
 
-          {stateStatus && (
-            <div className="dnb-forms-field-block__status">
-              <FormStatus
-                state={stateStatus}
-                id={forId ? `${forId}-form-status` : undefined}
-                text={
-                  error?.message ||
-                  (state instanceof Error && state.message) ||
-                  (state instanceof FormError && state.message) ||
-                  state?.toString()
-                }
-                label={label as string}
-                space={{ top: 'x-small' }}
-              />
-            </div>
-          )}
+          <div className="dnb-forms-field-block__status">
+            <FormStatus
+              state={stateStatus}
+              id={forId ? `${forId}-form-status` : undefined}
+              text={
+                error?.message ||
+                (state instanceof Error && state.message) ||
+                (state instanceof FormError && state.message) ||
+                state?.toString()
+              }
+              label={label as string}
+              no_animation={
+                process.env.NODE_ENV === 'test'
+                  ? true
+                  : // We may enable animation in the future
+                  typeof globalThis !== 'undefined'
+                  ? globalThis.IS_TEST === true
+                  : false
+              }
+            />
+          </div>
         </div>
       </Space>
     </FieldBlockContext.Provider>

@@ -1,4 +1,4 @@
-import { useEventEmitter } from '../../shared/component-helper'
+import { useSharedState } from '../../shared/helpers/useSharedState'
 import type { UploadFile } from './types'
 
 export type useUploadReturn = {
@@ -13,14 +13,17 @@ export type useUploadReturn = {
  * Use together with Upload with the same id to manage the files from outside the component.
  */
 function useUpload(id: string): useUploadReturn {
-  const { data, update } = useEventEmitter(id)
+  const { data, extend } = useSharedState<{
+    files?: UploadFile[]
+    internalFiles?: UploadFile[]
+  }>(id)
 
   const setFiles = (files: UploadFile[]) => {
-    update({ files })
+    extend({ files })
   }
 
   const setInternalFiles = (internalFiles: UploadFile[]) => {
-    update({ internalFiles })
+    extend({ internalFiles })
   }
 
   const files = data?.files || []

@@ -6,38 +6,26 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-global-status {
-  --global-status-easing: var(--easing-default);
-
   &.dnb-section {
     display: block;
   }
 
   &__shell {
     width: 100%;
-    opacity: 1;
 
-    will-change: height;
-    transition:
-      height 800ms var(--global-status-easing),
-      opacity 600ms var(--global-status-easing);
-  }
+    &.dnb-height-animation--hidden {
+      // Ensure Section is not overflowing with its after/before pseudo elements
+      overflow-y: clip;
+    }
 
-  &--hidden &__shell {
-    height: 0;
-    opacity: 0;
-  }
+    .dnb-hr,
+    .dnb-spacing & .dnb-hr:not([class*='dnb-space__bottom']) {
+      margin: 0 0 0 1rem;
 
-  &--no-animation &__shell,
-  html[data-visual-test] &__shell {
-    transition-duration: 1ms !important;
-  }
-
-  &,
-  &--no-animation#{&}--visible {
-    display: flex;
-  }
-  &--no-animation#{&}--hidden {
-    display: none;
+      &::after {
+        top: calc(var(--thickness) * -1);
+      }
+    }
   }
 
   &__title {
