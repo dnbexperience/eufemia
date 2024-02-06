@@ -28,10 +28,38 @@ export type PasswordProps = Omit<
   'ref' | 'size'
 > &
   InputProps & {
+    /**
+     * Aria label used for password visibility toggle-button when password is visible.
+     */
+    showPasswordLabel?: string
+    /**
+     * Aria label used for password visibility toggle-button when password is hidden.
+     */
+    hidePasswordLabel?: string
+    /**
+     * Fires when the input toggles to show the password.
+     */
+    onShowPassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    /**
+     * Fires when the input toggles to hide the password.
+     */
+    onHidePassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    /**
+     * @deprecated in v11, use `showPasswordLabel` instead.
+     */
     show_password?: string
+    /**
+     * @deprecated in v11, use `hidePasswordLabel` instead.
+     */
     hide_password?: string
-    on_show_password?: (...args: any[]) => any
-    on_hide_password?: (...args: any[]) => any
+    /**
+     * @deprecated in v11, use `onShowPassword` instead.
+     */
+    on_show_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    /**
+     * @deprecated in v11, use `onHidePassword` instead.
+     */
+    on_hide_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
   }
 
 const defaultProps = {
@@ -81,7 +109,7 @@ function Password(externalProps: PasswordProps) {
     context.getTranslation(props).Input,
     // Deprecated – can be removed in v11
     pickFormElementProps(context?.FormRow),
-    pickFormElementProps(context?.formElement),
+    pickFormElementProps(context?.formElement)
     context.Input
   )
 
@@ -91,6 +119,9 @@ function Password(externalProps: PasswordProps) {
     props,
     id + '-submit-button'
   )
+
+  const { showPasswordLabel, hidePasswordLabel } =
+    getAriaLabel(extendedProps)
 
   return (
     <Input
@@ -105,11 +136,7 @@ function Password(externalProps: PasswordProps) {
           type="button"
           variant="secondary"
           aria-controls={id}
-          aria-label={
-            hidden
-              ? extendedProps.show_password
-              : extendedProps.hide_password
-          }
+          aria-label={hidden ? showPasswordLabel : hidePasswordLabel}
           icon={
             extendedProps.size === 'large'
               ? hidden
@@ -130,6 +157,27 @@ function Password(externalProps: PasswordProps) {
       }
     />
   )
+  // Can be removed with v11
+  function getAriaLabel(props: PasswordProps) {
+    const {
+      show_password,
+      hide_password,
+      showPasswordLabel,
+      hidePasswordLabel,
+    } = props
+    console.log('props', props)
+    const ariaLabels = { showPasswordLabel, hidePasswordLabel }
+
+    if (show_password) {
+      ariaLabels['showPasswordLabel'] = show_password
+    }
+
+    if (hide_password) {
+      ariaLabels['hidePasswordLabel'] = hide_password
+    }
+    console.log('ariaLabels', ariaLabels)
+    return ariaLabels
+  }
 }
 
 export default Password
