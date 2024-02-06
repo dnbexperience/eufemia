@@ -91,31 +91,6 @@ describe('useSharedState', () => {
     expect(result.current.data).toBeUndefined()
   })
 
-  it('should call onChange when extend is called from another hook', () => {
-    const onChange = jest.fn()
-
-    const { result: resultA } = renderHook(() =>
-      useSharedState(identifier)
-    )
-    const { result: resultB } = renderHook(() =>
-      useSharedState(identifier, undefined, onChange)
-    )
-    const { result: resultC } = renderHook(() =>
-      useSharedState(identifier)
-    )
-
-    act(() => {
-      resultA.current.extend({ foo: 'bar' })
-    })
-
-    expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith({ foo: 'bar' })
-
-    expect(resultA.current.data).toEqual(undefined)
-    expect(resultB.current.data).toEqual(undefined)
-    expect(resultC.current.data).toEqual(undefined)
-  })
-
   it('should call onChange when set is called from another hook', () => {
     const onChange = jest.fn()
 
@@ -131,6 +106,35 @@ describe('useSharedState', () => {
 
     act(() => {
       resultA.current.set({ foo: 'bar' })
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({ foo: 'bar' })
+
+    expect(resultA.current.data).toEqual(undefined)
+    expect(resultB.current.data).toEqual(undefined)
+    expect(resultC.current.data).toEqual(undefined)
+
+    expect(resultA.current.get()).toEqual({ foo: 'bar' })
+    expect(resultB.current.get()).toEqual({ foo: 'bar' })
+    expect(resultC.current.get()).toEqual({ foo: 'bar' })
+  })
+
+  it('should call onChange when extend is called from another hook', () => {
+    const onChange = jest.fn()
+
+    const { result: resultA } = renderHook(() =>
+      useSharedState(identifier)
+    )
+    const { result: resultB } = renderHook(() =>
+      useSharedState(identifier, undefined, onChange)
+    )
+    const { result: resultC } = renderHook(() =>
+      useSharedState(identifier)
+    )
+
+    act(() => {
+      resultA.current.extend({ foo: 'bar' })
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)

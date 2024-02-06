@@ -76,6 +76,7 @@ export function useSharedState<Data>(
   }, [id, onChange, sharedFunc])
 
   return {
+    get: sharedState?.get,
     data: sharedState?.get?.(),
     hadInitialData: sharedState?.hadInitialData,
     update,
@@ -108,7 +109,7 @@ const sharedStates: Record<SharedStateId, SharedStateInstance<any>> = {}
  */
 export function createSharedState<Data>(
   id: SharedStateId,
-  initialData: Data
+  initialData?: Data
 ): SharedStateInstance<Data> {
   if (!sharedStates[id]) {
     let subscribers: Subscriber[] = []
@@ -117,11 +118,11 @@ export function createSharedState<Data>(
 
     const extend = (newData: Data) => {
       sharedStates[id].data = { ...sharedStates[id].data, ...newData }
+      subscribers.forEach((subscriber) => subscriber())
     }
 
     const set = (newData: Partial<Data>) => {
       sharedStates[id].data = { ...newData }
-      subscribers.forEach((subscriber) => subscriber())
     }
 
     const update = (newData: Partial<Data>) => {
