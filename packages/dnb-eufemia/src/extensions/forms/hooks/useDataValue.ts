@@ -20,24 +20,6 @@ import useUpdateEffect from './useUpdateEffect'
 import useProcessManager from './useProcessManager'
 import useId from './useId'
 
-interface ReturnAdditional<Value> {
-  id: string
-  value: Value
-  error: Error | FormError | undefined
-  hasError: boolean
-  dataContext: ContextState
-  ariaAttributes: {
-    'aria-invalid'?: 'true' | 'false'
-    'aria-required'?: 'true' | 'false'
-  }
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
-  handleFocus: () => void
-  handleBlur: () => void
-  handleChange: FieldProps<unknown>['onChange']
-  updateValue: (value: Value) => void
-  forceUpdate: () => void
-}
-
 export default function useDataValue<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
@@ -621,4 +603,52 @@ export default function useDataValue<
     updateValue,
     forceUpdate,
   }
+}
+
+interface ReturnAdditional<Value> {
+  id: string
+  name: string
+  value: Value
+  error: Error | FormError | undefined
+  autoComplete: HTMLInputElement['autocomplete']
+  disabled: boolean
+  hasError: boolean
+  isChanged: boolean
+  dataContext: ContextState
+  ariaAttributes: {
+    'aria-invalid'?: 'true' | 'false'
+    'aria-required'?: 'true' | 'false'
+  }
+  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  handleFocus: () => void
+  handleBlur: () => void
+  handleChange: FieldProps<unknown>['onChange']
+  updateValue: (value: Value) => void
+  forceUpdate: () => void
+}
+
+export function omitDataValueProps<
+  OmittedProps extends ReturnAdditional<unknown>,
+>(props: OmittedProps) {
+  // Do not include typical HTML attributes
+  const {
+    name,
+    error,
+    hasError,
+    isChanged,
+    autoComplete,
+    ariaAttributes,
+    dataContext,
+    setHasFocus,
+    handleFocus,
+    handleBlur,
+    handleChange,
+    updateValue,
+    forceUpdate,
+    ...restProps
+  } = props
+  return Object.freeze(restProps) as Omit<
+    OmittedProps,
+    keyof ReturnAdditional<unknown>
+  >
 }

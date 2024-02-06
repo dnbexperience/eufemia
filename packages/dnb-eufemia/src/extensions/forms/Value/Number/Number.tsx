@@ -1,56 +1,43 @@
 import React from 'react'
-import { formatNumber } from '../../utils'
+import classnames from 'classnames'
 import ValueBlock from '../../ValueBlock'
-import { useDataValue } from '../../hooks'
+import useDataValue, { omitDataValueProps } from '../../hooks/useDataValue'
 import { ValueProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/flex/utils'
+import {
+  omitSpacingProps,
+  pickSpacingProps,
+} from '../../../../components/flex/utils'
+import NumberFormat, {
+  NumberFormatProps,
+} from '../../../../components/NumberFormat'
+import {
+  ToCamelCase,
+  convertCamelCaseProps,
+} from '../../../../shared/helpers/withCamelCaseProps'
 
-export type Props = ValueProps<number> & {
-  // Formatting
-  thousandSeparator?: string | true
-  decimalSymbol?: string
-  decimalLimit?: number
-  prefix?: string
-  suffix?: string
-}
+export type Props = ValueProps<number> & ToCamelCase<NumberFormatProps>
 
-function NumberComponent(props: Props) {
-  const {
-    className,
-    label,
-    placeholder,
-    value,
-    inline,
-    showEmpty,
-    thousandSeparator,
-    decimalSymbol,
-    decimalLimit,
-    prefix,
-    suffix,
-  } = useDataValue(props)
+function NumberValue(props: Props) {
+  const { className, label, placeholder, inline, showEmpty, ...rest } =
+    useDataValue(props)
+
+  const numberFormatProps = convertCamelCaseProps(
+    omitSpacingProps(omitDataValueProps(rest)) as NumberFormatProps
+  )
 
   return (
     <ValueBlock
-      className={className}
+      className={classnames('dnb-forms-value-number', className)}
       label={label}
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
-      {...pickSpacingProps(props)}
+      {...pickSpacingProps(rest)}
     >
-      {value !== undefined
-        ? formatNumber(value, {
-            thousandSeparator:
-              thousandSeparator === true ? ' ' : thousandSeparator,
-            decimalSymbol,
-            decimalLimit,
-            prefix,
-            suffix,
-          })
-        : null}
+      {rest.value && <NumberFormat {...numberFormatProps} />}
     </ValueBlock>
   )
 }
 
-NumberComponent._supportsSpacingProps = true
-export default NumberComponent
+NumberValue._supportsSpacingProps = true
+export default NumberValue

@@ -35,8 +35,6 @@ export type Props = FieldHelpProps &
     mask?: InputMaskedProps['mask']
     step?: number
     // Formatting
-    thousandSeparator?: string | true
-    decimalSymbol?: string
     decimalLimit?: number
     prefix?: string
     suffix?: string
@@ -62,8 +60,6 @@ function NumberComponent(props: Props) {
     percent,
     mask,
     step = 1,
-    thousandSeparator,
-    decimalSymbol,
     decimalLimit = 12,
     prefix,
     suffix,
@@ -129,40 +125,31 @@ function NumberComponent(props: Props) {
   )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
+    const mask_options = { prefix, suffix, decimalLimit }
+
     if (currency) {
       return {
         as_currency: currency,
+        mask_options,
       }
     }
+
     if (percent) {
       return {
         as_percent: percent,
+        mask_options,
       }
     }
+
     // Custom mask based on props
     return {
       as_number: true,
       mask,
       number_mask: {
-        decimalLimit,
-        decimalSymbol,
-        includeThousandsSeparator: thousandSeparator !== undefined,
-        thousandsSeparatorSymbol:
-          thousandSeparator === true ? ' ' : thousandSeparator,
-        prefix,
-        suffix,
+        ...mask_options,
       },
     }
-  }, [
-    currency,
-    percent,
-    mask,
-    decimalLimit,
-    decimalSymbol,
-    thousandSeparator,
-    prefix,
-    suffix,
-  ])
+  }, [currency, decimalLimit, mask, percent, prefix, suffix])
 
   const preparedProps: Props = {
     ...props,
