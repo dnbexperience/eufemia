@@ -226,4 +226,39 @@ describe('Visibility', () => {
       </section>
     `)
   })
+
+  it('should have "height-animation" wrapper when animate is true', async () => {
+    render(
+      <Provider data={{ myPath: 'checked' }}>
+        <Visibility pathValue="/myPath" whenValue="checked" animate>
+          Child
+        </Visibility>
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-height-animation')
+
+    expect(element).toBeInTheDocument()
+    expect(element).toHaveClass(
+      'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
+    )
+  })
+
+  it('should use given "element"', () => {
+    render(
+      <Provider data={{ myPath: 'checked' }}>
+        <Visibility
+          pathValue="/myPath"
+          whenValue="checked"
+          animate
+          element="span"
+        >
+          Child
+        </Visibility>
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-height-animation')
+    expect(element.tagName).toBe('SPAN')
+  })
 })

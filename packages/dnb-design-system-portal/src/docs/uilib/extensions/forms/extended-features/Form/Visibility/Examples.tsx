@@ -18,7 +18,7 @@ export const BooleanExample = () => {
             path="/toggleValue"
             value={false}
           />
-          <Form.Visibility pathTrue="/toggleValue">
+          <Form.Visibility pathTrue="/toggleValue" animate>
             <TestElement>Item 1</TestElement>
             <TestElement>Item 2</TestElement>
           </Form.Visibility>
@@ -40,7 +40,11 @@ export const PathValue = () => {
           path="/toggleValue"
           value="unchecked"
         />
-        <Form.Visibility pathValue="/toggleValue" whenValue="checked">
+        <Form.Visibility
+          pathValue="/toggleValue"
+          whenValue="checked"
+          animate
+        >
           <P>This is visible</P>
         </Form.Visibility>
       </Form.Handler>
@@ -66,7 +70,7 @@ export const InferData = () => {
             <Form.Handler id="example-form">
               <Flex.Stack>
                 <Field.Boolean path="/toggleValue" label="Check me" />
-                <Form.Visibility inferData={inferDataFunc}>
+                <Form.Visibility inferData={inferDataFunc} animate>
                   <P>This is visible</P>
                 </Form.Visibility>
               </Flex.Stack>
