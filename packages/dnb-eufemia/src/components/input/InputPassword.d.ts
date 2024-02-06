@@ -8,6 +8,10 @@ export interface InputPasswordProps
   on_show_password?: (...args: any[]) => any;
   on_hide_password?: (...args: any[]) => any;
 }
+
+/**
+ * @deprecated use `Field.Password instead.`
+ */
 export default class InputPassword extends React.Component<
   InputPasswordProps,
   any
