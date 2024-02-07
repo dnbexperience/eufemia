@@ -15,7 +15,6 @@ import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 import { useDataValue, useErrorMessage } from '../../Forms'
 
-import { pickSpacingProps } from '../../../../components/flex/utils'
 import { InputProps, SubmitButton } from '../../../../components/Input'
 import { dispatchCustomElementEvent } from '../../../../shared/component-helper'
 import IconView from '../../../../icons/view'
@@ -113,7 +112,6 @@ function Password(props: PasswordProps) {
       value={value}
       hasError={hasError}
       {...dataValueProps}
-      {...pickSpacingProps(props)}
       submitElement={
         <SubmitButton
           id={id + '-submit-button'}
