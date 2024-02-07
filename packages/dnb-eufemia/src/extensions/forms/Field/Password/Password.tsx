@@ -64,13 +64,7 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   on_hide_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const defaultProps = {
-  ...Input.defaultProps,
-}
-
-function Password(externalProps: PasswordProps) {
-  const props = { ...defaultProps, ...externalProps }
-
+function Password(props: PasswordProps) {
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
@@ -78,6 +72,7 @@ function Password(externalProps: PasswordProps) {
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.passwordRequired,
+    pattern: translations.passwordErrorPattern,
   })
 
   const preparedProps: PasswordProps = {
@@ -85,23 +80,8 @@ function Password(externalProps: PasswordProps) {
     errorMessages,
   }
 
-  const {
-    id,
-    className,
-    label,
-    labelDescription,
-    value,
-    help,
-    info,
-    warning,
-    error,
-    hasError,
-    disabled,
-    ariaAttributes,
-    handleFocus,
-    handleBlur,
-    handleChange,
-  } = useDataValue(preparedProps)
+  const { id, label, className, hasError, disabled, ...dataValueProps } =
+    useDataValue(preparedProps)
 
   const ref = useRef<ElementRef<'input'>>(props.innerRef?.current ?? null)
 
@@ -122,21 +102,11 @@ function Password(externalProps: PasswordProps) {
       id={id}
       className={classnames('dnb-forms-field-password', className)}
       label={label ?? sharedContext?.translation.Forms.passwordLabel}
-      labelDescription={labelDescription}
-      info={info}
-      warning={warning}
-      disabled={disabled}
-      error={error}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      value={value}
-      help={help}
-      hasError={hasError}
       type={hidden ? 'password' : 'text'}
       innerRef={ref}
       aria-describedby={id + '-submit-button'}
-      {...ariaAttributes}
+      hasError={hasError}
+      {...dataValueProps}
       {...pickSpacingProps(props)}
       submitElement={
         <SubmitButton
@@ -207,5 +177,4 @@ function Password(externalProps: PasswordProps) {
 
 export default Password
 
-Password._formElement = true
 Password._supportsSpacingProps = true
