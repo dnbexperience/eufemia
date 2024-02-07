@@ -1,6 +1,6 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Props } from '..'
 import { Field } from '../../..'
@@ -10,6 +10,8 @@ const props: Props = { postalCode: {}, city: {} }
 describe('Field.PostalCodeAndCity', () => {
   it('should render with props', () => {
     render(<Field.PostalCodeAndCity {...props} />)
+    expect(screen.getByLabelText('Postnr.')).toBeInTheDocument()
+    expect(screen.getByLabelText('Sted')).toBeInTheDocument()
   })
 
   it('postal code should only allow four numbers', async () => {
@@ -34,6 +36,34 @@ describe('Field.PostalCodeAndCity', () => {
     )
 
     expect(postalCodeInput).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  it('should show single error message and have error modifier on two inputs', () => {
+    const { rerender } = render(<Field.PostalCodeAndCity {...props} />)
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+    expect(
+      document.querySelectorAll('.dnb-input__status--error')
+    ).toHaveLength(0)
+
+    rerender(
+      <Field.PostalCodeAndCity
+        {...props}
+        error={new Error('Single error message')}
+      />
+    )
+
+    expect(screen.queryAllByRole('alert')).toHaveLength(1)
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      'Single error message'
+    )
+
+    // Red border on two inputs
+    expect(
+      document.querySelectorAll('.dnb-input__status--error')
+    ).toHaveLength(2)
   })
 
   describe('ARIA', () => {

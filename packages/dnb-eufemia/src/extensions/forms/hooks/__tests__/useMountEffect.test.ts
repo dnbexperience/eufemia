@@ -17,4 +17,19 @@ describe('useMountEffect', () => {
     rerender()
     expect(effect).toHaveBeenCalledTimes(1)
   })
+
+  it('should call unmount', () => {
+    let wasUnmounted = false
+    const effect = jest.fn(() => {
+      return () => {
+        wasUnmounted = true
+      }
+    })
+    const { unmount } = renderHook(() => useMountEffect(effect))
+
+    expect(wasUnmounted).toBeFalsy()
+    unmount()
+    expect(effect).toHaveBeenCalledTimes(1)
+    expect(wasUnmounted).toBeTruthy()
+  })
 })

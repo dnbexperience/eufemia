@@ -6,6 +6,7 @@ import {
 } from '../types'
 
 export type Path = string
+export type Identifier = string
 
 type HandleSubmitProps = {
   formElement?: HTMLFormElement

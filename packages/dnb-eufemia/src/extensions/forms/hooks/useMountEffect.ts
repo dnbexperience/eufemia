@@ -5,7 +5,7 @@ import { useEffect, EffectCallback } from 'react'
  */
 export default function useMountEffect(callback: EffectCallback) {
   useEffect((...args) => {
-    callback(...args)
+    return callback(...args)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

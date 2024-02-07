@@ -107,16 +107,6 @@ export interface Props<Data extends JsonObject> {
   children: React.ReactNode
 }
 
-type PathList = string[]
-
-function addListPath(paths: PathList, path: Path): PathList {
-  return paths.includes(path) ? paths : paths.concat(path)
-}
-
-function removeListPath(paths: PathList, path: Path): PathList {
-  return paths.filter((thisPath) => thisPath !== path)
-}
-
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>({
@@ -147,7 +137,7 @@ export default function Provider<Data extends JsonObject>({
   // - Ajv
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
   // - Paths
-  const mountedFieldPathsRef = useRef<string[]>([])
+  const mountedFieldPathsRef = useRef<Path[]>([])
   // - Errors from provider validation (the whole data set)
   const errorsRef = useRef<Record<string, FormError> | undefined>()
   const showAllErrorsRef = useRef<boolean>(false)
@@ -157,7 +147,7 @@ export default function Provider<Data extends JsonObject>({
   }, [])
 
   // - Errors reported by fields, based on their direct validation rules
-  const valuesWithErrorRef = useRef<string[]>([])
+  const valuesWithErrorRef = useRef<Path[]>([])
 
   // - Data
   const initialData = useMemo(() => {
@@ -196,23 +186,17 @@ export default function Provider<Data extends JsonObject>({
   }, [])
 
   // - Error handling
-  const hasFieldError = useCallback(
-    (path: string) =>
-      Boolean(
-        errorsRef.current?.[path] !== undefined ||
-          valuesWithErrorRef.current.includes(path)
-      ),
-    []
-  )
-  const hasErrors = useCallback(
-    () =>
-      Boolean(
-        mountedFieldPathsRef.current.find((mountedFieldPath) =>
-          hasFieldError(mountedFieldPath)
-        )
-      ),
-    [hasFieldError]
-  )
+  const hasFieldError = useCallback((path: Path) => {
+    return Boolean(
+      errorsRef.current?.[path] !== undefined ||
+        valuesWithErrorRef.current.includes(path)
+    )
+  }, [])
+  const hasErrors = useCallback(() => {
+    return Boolean(
+      mountedFieldPathsRef.current.find((path) => hasFieldError(path))
+    )
+  }, [hasFieldError])
 
   /**
    * Sets the error state for a specific path
@@ -266,7 +250,7 @@ export default function Provider<Data extends JsonObject>({
 
   // - Shared state
   const sharedData = useSharedState<Data>(id)
-  const sharedAtachments = useSharedState<{
+  const sharedAttachments = useSharedState<{
     filterDataHandler?: Props<Data>['filterData']
     hasErrors?: () => boolean
     rerenderUseDataHook?: () => void
@@ -274,8 +258,8 @@ export default function Provider<Data extends JsonObject>({
 
   const updateSharedData = sharedData.update
   const extendSharedData = sharedData.extend
-  const extendAtachment = sharedAtachments.extend
-  const rerenderUseDataHook = sharedAtachments.data?.rerenderUseDataHook
+  const extendAttachment = sharedAttachments.extend
+  const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
 
   useMemo(() => {
     // Update the internal data set, if the shared state changes
@@ -298,13 +282,18 @@ export default function Provider<Data extends JsonObject>({
       sharedData.data &&
       sharedData.data !== internalDataRef.current
     ) {
-      internalDataRef.current = sharedData.data
+      internalDataRef.current = {
+        ...internalDataRef.current,
+        ...sharedData.data,
+      }
+
+      forceUpdate()
     }
   }, [id, sharedData.data])
 
   useLayoutEffect(() => {
     if (id) {
-      extendAtachment?.({ filterDataHandler, hasErrors })
+      extendAttachment?.({ filterDataHandler, hasErrors })
       if (filterData) {
         rerenderUseDataHook?.()
       }
@@ -315,7 +304,7 @@ export default function Provider<Data extends JsonObject>({
     rerenderUseDataHook,
     hasErrors,
     id,
-    extendAtachment,
+    extendAttachment,
   ])
 
   /**
@@ -538,4 +527,14 @@ export default function Provider<Data extends JsonObject>({
       {children}
     </Context.Provider>
   )
+}
+
+type PathList = string[]
+
+function addListPath(paths: PathList, path: Path): PathList {
+  return paths.includes(path) ? paths : paths.concat(path)
+}
+
+function removeListPath(paths: PathList, path: Path): PathList {
+  return paths.filter((thisPath) => thisPath !== path)
 }

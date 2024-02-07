@@ -32,7 +32,7 @@ function ValueBlock(props: Props) {
       {label && (
         <FormLabel
           className="dnb-forms-value-block__label"
-          label_direction={inline ? 'horizontal' : 'vertical'}
+          labelDirection={inline ? 'horizontal' : 'vertical'}
         >
           {label}
         </FormLabel>

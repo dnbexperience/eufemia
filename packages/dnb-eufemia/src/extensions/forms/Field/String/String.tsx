@@ -6,6 +6,7 @@ import InputMasked, {
   InputMaskedProps,
 } from '../../../../components/InputMasked'
 import SharedContext from '../../../../shared/Context'
+import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -51,6 +52,7 @@ export type Props = FieldHelpProps &
   }
 
 function StringComponent(props: Props) {
+  const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
@@ -118,7 +120,9 @@ function StringComponent(props: Props) {
     fromInput,
     toEvent,
     transformValue,
-    width: props.width ?? 'large',
+    width:
+      props.width ??
+      (fieldBlockContext?.composition ? 'stretch' : 'large'),
   }
 
   const {
@@ -179,27 +183,34 @@ function StringComponent(props: Props) {
     on_change: handleChange,
     disabled,
     ...ariaAttributes,
-    stretch: width !== undefined,
+    stretch: Boolean(
+      width !== undefined || fieldBlockContext?.composition
+    ),
     inner_ref: innerRef,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
 
+  const fieldBlockProps = {
+    className: classnames('dnb-forms-field-string', className),
+    forId: id,
+    layout,
+    label,
+    labelDescription,
+    info,
+    warning,
+    error,
+    disabled,
+    width:
+      width === 'stretch' || fieldBlockContext?.composition
+        ? width
+        : undefined,
+    contentWidth: width !== false ? width : undefined,
+    ...pickSpacingProps(props),
+  }
+
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-string', className)}
-      forId={id}
-      layout={layout}
-      label={label}
-      labelDescription={labelDescription}
-      info={info}
-      warning={warning}
-      disabled={disabled}
-      error={error}
-      width={width === 'stretch' ? width : undefined}
-      contentWidth={width !== false ? width : undefined}
-      {...pickSpacingProps(props)}
-    >
+    <FieldBlock {...fieldBlockProps}>
       {multiline ? (
         <Textarea
           {...sharedProps}

@@ -1338,10 +1338,40 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
     })
 
+    it('should set Provider data when sessionStorageId was given', () => {
+      window.sessionStorage.setItem(
+        'session-id',
+        JSON.stringify({
+          foo: 'bar',
+        })
+      )
+
+      render(
+        <DataContext.Provider
+          id={identifier}
+          sessionStorageId="session-id"
+        >
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const { result } = renderHook(() =>
+        Form.useData(identifier, { other: 'value' })
+      )
+
+      const inputElement = document.querySelector('input')
+      expect(inputElement).toHaveValue('bar')
+
+      expect(result.current.data).toEqual({ foo: 'bar', other: 'value' })
+      expect(window.sessionStorage.getItem('session-id')).toBe(
+        '{"foo":"bar"}'
+      )
+    })
+
     it('should update Provider data on hook "set" call', () => {
-      const { result } = renderHook((props = { foo: 'bar' }) => {
-        return Form.useData(identifier, props)
-      })
+      const { result } = renderHook(() =>
+        Form.useData(identifier, { foo: 'bar' })
+      )
 
       render(
         <DataContext.Provider id={identifier}>
@@ -1360,19 +1390,56 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar-changed')
     })
 
-    it('should only set data when Provider has no data given', () => {
-      const props = { foo: 'bar' }
-      renderHook(() => Form.useData(identifier, props))
+    it('should merge data when Provider has data', () => {
+      renderHook(() => Form.useData(identifier, { foo: 'changed' }))
 
       render(
-        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'has data', other: 'data' }}
+        >
           <Field.String path="/foo" />
+          <Field.String path="/other" />
         </DataContext.Provider>
       )
 
-      const inputElement = document.querySelector('input')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
 
-      expect(inputElement).toHaveValue('changed')
+      expect(first).toHaveValue('changed')
+      expect(second).toHaveValue('data')
+    })
+
+    it('should use data only from the first hook render', () => {
+      const { result } = renderHook(() =>
+        Form.useData(identifier, { foo: 'first data set' })
+      )
+
+      render(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'has data', other: 'data' }}
+        >
+          <Field.String path="/foo" />
+          <Field.String path="/other" />
+        </DataContext.Provider>
+      )
+
+      renderHook(() => Form.useData(identifier, { foo: 'changed' }))
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('first data set')
+
+      act(() => {
+        result.current.set({ foo: 'changed' })
+      })
+
+      expect(first).toHaveValue('changed')
+      expect(second).toHaveValue('data')
     })
 
     it('should initially set data when Provider has no data', () => {

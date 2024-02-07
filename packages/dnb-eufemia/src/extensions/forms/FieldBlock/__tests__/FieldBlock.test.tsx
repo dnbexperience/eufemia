@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import { FormError } from '../../types'
@@ -10,6 +10,10 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
+import { Field } from '../..'
+
+import nbNO from '../../../../shared/locales/nb-NO'
+const nb = nbNO['nb-NO'].Forms
 
 describe('FieldBlock', () => {
   it('should forward HTML attributes', () => {
@@ -297,46 +301,6 @@ describe('FieldBlock', () => {
     )
   })
 
-  it('should render a FormStatus when "info" is given', () => {
-    render(<FieldBlock info="Info">content</FieldBlock>)
-
-    const element = document.querySelector('.dnb-form-status')
-
-    expect(element).toBeInTheDocument()
-    expect(element).toHaveClass(
-      'dnb-form-status--info dnb-form-status__size--default dnb-form-status--has-content'
-    )
-    expect(element).toHaveTextContent('Info')
-  })
-
-  it('should render a FormStatus when "warning" is given', () => {
-    render(<FieldBlock warning="Warning">content</FieldBlock>)
-
-    const element = document.querySelector('.dnb-form-status')
-
-    expect(element).toBeInTheDocument()
-    expect(element).toHaveClass(
-      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--has-content'
-    )
-    expect(element).toHaveTextContent('Warning')
-  })
-
-  it('should render a FormStatus when "error" is given', () => {
-    render(
-      <FieldBlock error={new FormError('Error message')}>
-        content
-      </FieldBlock>
-    )
-
-    const element = document.querySelector('.dnb-form-status')
-
-    expect(element).toBeInTheDocument()
-    expect(element).toHaveClass(
-      'dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content'
-    )
-    expect(element).toHaveTextContent('Error message')
-  })
-
   it('should support "layout" property', () => {
     render(<FieldBlock layout="horizontal">content</FieldBlock>)
 
@@ -400,87 +364,734 @@ describe('FieldBlock', () => {
     expect(element.classList).toContain('custom-class')
   })
 
-  describe('FormStatus with animation', () => {
-    initializeTestSetup()
+  it('should set hasError on provider', () => {
+    let hasNestedError = false
+    const MockComponent = (props) => {
+      const { hasError } = useDataValue(props)
+      hasNestedError = hasError
+      return null
+    }
 
-    beforeEach(() => {
-      process.env.NODE_ENV = 'development'
+    const { rerender } = render(
+      <FieldBlock error={new FormError('FieldBlock error')}>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(hasNestedError).toBeTruthy()
+
+    rerender(
+      <FieldBlock>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(hasNestedError).toBeFalsy()
+  })
+
+  describe('FieldBlock with status', () => {
+    const blockError = 'FieldBlock error'
+    const blockWarning = 'FieldBlock warning'
+    const blockInfo = 'FieldBlock info'
+    const firstError = 'First error'
+    const firstWarning = 'First warning'
+    const firstInfo = 'First info'
+    const secondError = 'Second error'
+    const secondWarning = 'Second warning'
+    const secondInfo = 'Second info'
+
+    describe('info prop', () => {
+      it('should render a FormStatus correctly', () => {
+        render(<FieldBlock info={blockInfo}>content</FieldBlock>)
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toBeInTheDocument()
+        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-height-animation--is-visible')
+        expect(element).toHaveTextContent(blockInfo)
+      })
     })
 
-    it('should have enabled animation', () => {
-      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+    describe('warning prop', () => {
+      it('should render a FormStatus correctly', () => {
+        render(<FieldBlock warning={blockWarning}>content</FieldBlock>)
 
-      rerender(
-        <FieldBlock error={new FormError('Error message')}>
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toBeInTheDocument()
+        expect(element).toHaveClass('dnb-form-status--warn')
+        expect(element).toHaveClass('dnb-height-animation--is-visible')
+        expect(element).toHaveTextContent(blockWarning)
+      })
+    })
+
+    describe('error prop', () => {
+      it('should render a FormStatus correctly', () => {
+        render(
+          <FieldBlock error={new FormError(blockError)}>
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toBeInTheDocument()
+        expect(element).toHaveClass('dnb-form-status--error')
+        expect(element).toHaveClass('dnb-height-animation--is-visible')
+        expect(element).toHaveTextContent(blockError)
+      })
+    })
+
+    describe('Composition', () => {
+      it('should display both error messages with summary in one status', () => {
+        render(
+          <FieldBlock composition>
+            <Field.String error={new Error(firstError)} />
+            <Field.Number error={new Error(secondError)} />
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent(
+          nb.fieldErrorSummary + firstError + secondError
+        )
+
+        const ul = document.querySelector('ul')
+        expect(ul.previousSibling).toHaveTextContent(nb.fieldErrorSummary)
+
+        const [first, second] = Array.from(ul.querySelectorAll('li'))
+        expect(first).toHaveTextContent(firstError)
+        expect(second).toHaveTextContent(secondError)
+      })
+
+      it('should show identical messages once, initially', () => {
+        render(
+          <FieldBlock composition>
+            <Field.String error={new Error(firstError)} />
+            <Field.Number error={new Error(firstError)} />
+          </FieldBlock>
+        )
+
+        const status = document.querySelector('.dnb-form-status')
+        const ul = document.querySelector('ul')
+
+        expect(ul).toBeNull()
+        expect(status).toHaveTextContent(firstError)
+      })
+
+      it('should show identical messages once, interactively', async () => {
+        render(
+          <FieldBlock composition>
+            <Field.String
+              required
+              warning={firstWarning}
+              info={firstInfo}
+            />
+            <Field.Number
+              required
+              warning={firstWarning}
+              info={firstInfo}
+            />
+          </FieldBlock>
+        )
+
+        const [firstInput, secondInput] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        {
+          const statuses = Array.from(
+            document.querySelectorAll('.dnb-form-status')
+          )
+          const [warningStatus, infoStatus] = statuses
+
+          expect(statuses).toHaveLength(2)
+          expect(warningStatus).toHaveTextContent(firstWarning)
+          expect(infoStatus).toHaveTextContent(firstInfo)
+        }
+
+        await userEvent.type(firstInput, 'x{Backspace}')
+        fireEvent.blur(firstInput)
+
+        {
+          const statuses = Array.from(
+            document.querySelectorAll('.dnb-form-status')
+          )
+          const [errorStatus, warningStatus, infoStatus] = statuses
+
+          expect(statuses).toHaveLength(3)
+          expect(errorStatus).toHaveTextContent(nb.inputErrorRequired)
+          expect(warningStatus).toHaveTextContent(firstWarning)
+          expect(infoStatus).toHaveTextContent(firstInfo)
+        }
+
+        await userEvent.type(firstInput, 'x')
+        await userEvent.type(secondInput, '1{Backspace}')
+        fireEvent.blur(secondInput)
+
+        {
+          const statuses = Array.from(
+            document.querySelectorAll('.dnb-form-status')
+          )
+          const [errorStatus, warningStatus, infoStatus] = statuses
+
+          expect(statuses).toHaveLength(3)
+          expect(errorStatus).toHaveTextContent(nb.inputErrorRequired)
+          expect(warningStatus).toHaveTextContent(firstWarning)
+          expect(infoStatus).toHaveTextContent(firstInfo)
+        }
+
+        await userEvent.type(secondInput, '1')
+
+        {
+          const statuses = Array.from(
+            document.querySelectorAll('.dnb-form-status')
+          )
+          const [warningStatus, infoStatus] = statuses
+
+          expect(statuses).toHaveLength(2)
+          expect(warningStatus).toHaveTextContent(firstWarning)
+          expect(infoStatus).toHaveTextContent(firstInfo)
+        }
+      })
+
+      it('should have display both error, warning and info messages', () => {
+        render(
+          <FieldBlock composition>
+            <Field.String
+              error={new Error(firstError)}
+              warning={firstWarning}
+              info={firstInfo}
+            />
+            <Field.Number
+              error={new Error(secondError)}
+              warning={secondWarning}
+              info={secondInfo}
+            />
+          </FieldBlock>
+        )
+
+        const [error, warning, info] = Array.from(
+          document.querySelectorAll('.dnb-form-status')
+        )
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + firstError + secondError
+        )
+        expect(warning).toHaveTextContent(
+          nb.fieldStateSummary + firstWarning + secondWarning
+        )
+        expect(info).toHaveTextContent(
+          nb.fieldStateSummary + firstInfo + secondInfo
+        )
+      })
+
+      it('should combine nested FieldBlock messages', () => {
+        render(
+          <FieldBlock
+            error={new Error(blockError)}
+            warning={blockWarning}
+            info={blockInfo}
+            composition
+          >
+            <Field.String
+              error={new Error(firstError)}
+              warning={firstWarning}
+              info={firstInfo}
+            />
+            <Field.Number
+              error={new Error(secondError)}
+              warning={secondWarning}
+              info={secondInfo}
+            />
+          </FieldBlock>
+        )
+
+        const [error, warning, info] = Array.from(
+          document.querySelectorAll('.dnb-form-status')
+        )
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        expect(warning).toHaveTextContent(
+          nb.fieldStateSummary +
+            blockWarning +
+            firstWarning +
+            secondWarning
+        )
+        expect(info).toHaveTextContent(
+          nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+        )
+      })
+
+      it('should show nested FieldBlock error initially for the first input', () => {
+        render(
+          <FieldBlock
+            error={new Error(blockError)}
+            warning={blockWarning}
+            info={blockInfo}
+            composition
+          >
+            <Field.String
+              warning={firstWarning}
+              info={firstInfo}
+              required
+              validateInitially
+            />
+            <Field.Number
+              warning={secondWarning}
+              info={secondInfo}
+              required
+            />
+          </FieldBlock>
+        )
+
+        const [error, warning, info] = Array.from(
+          document.querySelectorAll('.dnb-form-status')
+        )
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + nb.inputErrorRequired
+        )
+        expect(warning).toHaveTextContent(
+          nb.fieldStateSummary +
+            blockWarning +
+            firstWarning +
+            secondWarning
+        )
+        expect(info).toHaveTextContent(
+          nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+        )
+      })
+
+      it('should show nested FieldBlock error initially for the second input', () => {
+        render(
+          <FieldBlock
+            error={new Error(blockError)}
+            warning={blockWarning}
+            info={blockInfo}
+            composition
+          >
+            <Field.String
+              warning={firstWarning}
+              info={firstInfo}
+              required
+            />
+            <Field.Number
+              warning={secondWarning}
+              info={secondInfo}
+              required
+              validateInitially
+            />
+          </FieldBlock>
+        )
+
+        const [error, warning, info] = Array.from(
+          document.querySelectorAll('.dnb-form-status')
+        )
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + nb.inputErrorRequired
+        )
+        expect(warning).toHaveTextContent(
+          nb.fieldStateSummary +
+            blockWarning +
+            firstWarning +
+            secondWarning
+        )
+        expect(info).toHaveTextContent(
+          nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+        )
+      })
+
+      it('should handle all statuses together with interactive statuses', async () => {
+        render(
+          <FieldBlock
+            error={new Error(blockError)}
+            warning={blockWarning}
+            info={blockInfo}
+            composition
+          >
+            <Field.String
+              error={new Error(firstError)}
+              warning={firstWarning}
+              info={firstInfo}
+              required
+            />
+            <Field.Number
+              error={new Error(secondError)}
+              warning={secondWarning}
+              info={secondInfo}
+              required
+            />
+          </FieldBlock>
+        )
+
+        const [error, warning, info] = Array.from(
+          document.querySelectorAll('.dnb-form-status')
+        )
+
+        const toHaveWarningAndInfo = () => {
+          expect(warning).toHaveTextContent(
+            nb.fieldStateSummary +
+              blockWarning +
+              firstWarning +
+              secondWarning
+          )
+          expect(info).toHaveTextContent(
+            nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+          )
+        }
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        const [firstInput, secondInput] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        // 1. Check the "first" input
+        await userEvent.type(firstInput, 'x')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(firstInput, '{Backspace}')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        fireEvent.blur(firstInput)
+
+        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary +
+            blockError +
+            nb.inputErrorRequired +
+            firstError +
+            secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(firstInput, 'x')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+
+        fireEvent.blur(firstInput)
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        // 2. Check the "second" input
+        await userEvent.type(secondInput, '1')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(secondInput, '{Backspace}')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        fireEvent.blur(secondInput)
+
+        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary +
+            blockError +
+            firstError +
+            nb.inputErrorRequired +
+            secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(secondInput, '1')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+
+        fireEvent.blur(secondInput)
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+      })
+
+      it('should handle correct aria-describedby', async () => {
+        render(
+          <FieldBlock
+            error={new Error(blockError)}
+            warning={blockWarning}
+            info={blockInfo}
+            composition
+          >
+            <Field.String
+              error={new Error(firstError)}
+              warning={firstWarning}
+              info={firstInfo}
+              required
+            />
+            <Field.Number
+              error={new Error(secondError)}
+              warning={secondWarning}
+              info={secondInfo}
+              required
+            />
+          </FieldBlock>
+        )
+
+        const [error, warning, info] = Array.from(
+          document.querySelectorAll('.dnb-form-status')
+        )
+
+        const toHaveWarningAndInfo = () => {
+          expect(warning).toHaveTextContent(
+            nb.fieldStateSummary +
+              blockWarning +
+              firstWarning +
+              secondWarning
+          )
+          expect(info).toHaveTextContent(
+            nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+          )
+        }
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        const [firstInput, secondInput] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        // 1. Check the "first" input
+        await userEvent.type(firstInput, 'x')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(firstInput, '{Backspace}')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        fireEvent.blur(firstInput)
+
+        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary +
+            blockError +
+            nb.inputErrorRequired +
+            firstError +
+            secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(firstInput, 'x')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+
+        fireEvent.blur(firstInput)
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        // 2. Check the "second" input
+        await userEvent.type(secondInput, '1')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(secondInput, '{Backspace}')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+
+        fireEvent.blur(secondInput)
+
+        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary +
+            blockError +
+            firstError +
+            nb.inputErrorRequired +
+            secondError
+        )
+        toHaveWarningAndInfo()
+
+        await userEvent.type(secondInput, '1')
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+
+        fireEvent.blur(secondInput)
+
+        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(
+          nb.fieldErrorSummary + blockError + firstError + secondError
+        )
+        toHaveWarningAndInfo()
+      })
+    })
+
+    describe('FormStatus with animation', () => {
+      initializeTestSetup()
+
+      beforeEach(() => {
+        process.env.NODE_ENV = 'development'
+      })
+
+      it('should have enabled animation', () => {
+        const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+        rerender(
+          <FieldBlock error={new FormError(blockError)}>
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toHaveClass('dnb-height-animation--animating')
+
+        runAnimation()
+
+        expect(element).not.toHaveClass('dnb-height-animation--animating')
+      })
+
+      it('should animate on show and hide the message', () => {
+        const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+        rerender(
+          <FieldBlock error={new FormError(blockError)}>
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toHaveClass('dnb-height-animation--animating')
+
+        simulateAnimationEnd()
+
+        expect(element).not.toHaveClass('dnb-height-animation--animating')
+
+        rerender(<FieldBlock>content</FieldBlock>)
+
+        expect(element).toHaveClass('dnb-height-animation--animating')
+
+        simulateAnimationEnd()
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      it('should disable animation when process.env.NODE_ENV is test', () => {
+        process.env.NODE_ENV = 'test'
+
+        const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+        rerender(
+          <FieldBlock error={new FormError(blockError)}>
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).not.toHaveClass('dnb-height-animation--animating')
+      })
+
+      it('should disable animation when globalThis.IS_TEST is true', () => {
+        globalThis.IS_TEST = true
+
+        const { rerender } = render(<FieldBlock>content</FieldBlock>)
+
+        rerender(
+          <FieldBlock error={new FormError(blockError)}>
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).not.toHaveClass('dnb-height-animation--animating')
+      })
+    })
+
+    it('should use given id for aria-describedby and else forId', () => {
+      const { rerender } = render(
+        <FieldBlock id="unique" error={new Error(firstError)}>
           content
         </FieldBlock>
       )
 
-      const element = document.querySelector('.dnb-form-status')
-
-      expect(element).toHaveClass('dnb-height-animation--animating')
-
-      runAnimation()
-
-      expect(element).not.toHaveClass('dnb-height-animation--animating')
-    })
-
-    it('should animate on show and hide the message', () => {
-      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+      const status = document.querySelector('.dnb-form-status')
+      expect(status).toHaveAttribute('id', 'unique-form-status--error')
 
       rerender(
-        <FieldBlock error={new FormError('Error message')}>
+        <FieldBlock forId="forId" error={new Error(firstError)}>
           content
         </FieldBlock>
       )
 
-      const element = document.querySelector('.dnb-form-status')
-
-      expect(element).toHaveClass('dnb-height-animation--animating')
-
-      simulateAnimationEnd()
-
-      expect(element).not.toHaveClass('dnb-height-animation--animating')
-
-      rerender(<FieldBlock>content</FieldBlock>)
-
-      expect(element).toHaveClass('dnb-height-animation--animating')
-
-      simulateAnimationEnd()
-
-      expect(document.querySelector('.dnb-form-status')).toBeNull()
-    })
-
-    it('should disable animation when process.env.NODE_ENV is test', () => {
-      process.env.NODE_ENV = 'test'
-
-      const { rerender } = render(<FieldBlock>content</FieldBlock>)
+      expect(status).toHaveAttribute('id', 'forId-form-status--error')
 
       rerender(
-        <FieldBlock error={new FormError('Error message')}>
+        <FieldBlock
+          id="unique"
+          forId="forId"
+          error={new Error(firstError)}
+        >
           content
         </FieldBlock>
       )
 
-      const element = document.querySelector('.dnb-form-status')
-
-      expect(element).not.toHaveClass('dnb-height-animation--animating')
-    })
-
-    it('should disable animation when globalThis.IS_TEST is true', () => {
-      globalThis.IS_TEST = true
-
-      const { rerender } = render(<FieldBlock>content</FieldBlock>)
-
-      rerender(
-        <FieldBlock error={new FormError('Error message')}>
-          content
-        </FieldBlock>
-      )
-
-      const element = document.querySelector('.dnb-form-status')
-
-      expect(element).not.toHaveClass('dnb-height-animation--animating')
+      expect(status).toHaveAttribute('id', 'unique-form-status--error')
     })
   })
 })

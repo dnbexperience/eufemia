@@ -26,7 +26,6 @@
 
   &__contents {
     display: flex;
-    align-items: center;
 
     &--has-controls {
       border-radius: 0.25rem;
@@ -51,6 +50,10 @@
       }
 
       .dnb-input {
+        &__input {
+          align-items: center;
+        }
+
         &__shell {
           border-radius: 0;
           box-shadow: none;
