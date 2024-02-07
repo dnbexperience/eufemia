@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+import DataValueWriteEvents from 'Docs/uilib/extensions/forms/data-value-write-events.mdx'
+
+## Events
+
+<DataValueWriteEvents />
+
+## Password visibility events
+
+| Event            | Description                                                                   |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `onShowPassword` | _(optional)_ Will be called when the user toggles the password to be visible. |
+| `onHidePassword` | _(optional)_ Will be called when the user toggles the password to be hidden.  |
+
+### Argument value
+
+The password visibility event values comes in the shape of an `React.MouseEvent<HTMLButtonElement>`, that contains a `value` property with the `input` value.
