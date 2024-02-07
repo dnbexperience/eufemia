@@ -3,65 +3,66 @@
  *
  */
 
-import React, { useContext, useRef, useState, ElementRef } from 'react'
+import React, {
+  useContext,
+  useRef,
+  useState,
+  ElementRef,
+  MutableRefObject,
+} from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
-import {
-  FieldBlock,
-  FieldHelpProps,
-  FieldProps,
-  useDataValue,
-  useErrorMessage,
-} from '../../Forms'
+import StringField, { Props as StringFieldProps } from '../String'
+import { useDataValue, useErrorMessage } from '../../Forms'
 
-import type { InputProps } from '../../../../components/Input'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import Input, { SubmitButton } from '../../../../components/Input'
-import { pickFormElementProps } from '../../../../shared/helpers/filterValidProps'
-import {
-  extendPropsWithContext,
-  convertStatusToStateOnly,
-  combineDescribedBy,
-  dispatchCustomElementEvent,
-} from '../../../../shared/component-helper'
+import Input, {
+  InputProps,
+  SubmitButton,
+} from '../../../../components/Input'
+import { dispatchCustomElementEvent } from '../../../../shared/component-helper'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
-import { HelpButton } from '../../../../components'
 
-export type PasswordProps = Omit<
-  React.HTMLProps<HTMLElement>,
-  'ref' | 'size'
-> &
-  InputProps &
-  FieldHelpProps &
-  FieldProps<string> & {
-    /**
-     * Fires when the input toggles to show the password.
-     */
-    onShowPassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
-    /**
-     * Fires when the input toggles to hide the password.
-     */
-    onHidePassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
-    /**
-     * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowPasswordLabel` instead.
-     */
-    show_password?: string
-    /**
-     * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHidePasswordLabel` instead.
-     */
-    hide_password?: string
-    /**
-     * @deprecated in v11, use `onShowPassword` instead.
-     */
-    on_show_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
-    /**
-     * @deprecated in v11, use `onHidePassword` instead.
-     */
-    on_hide_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
-  }
+export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
+  /**
+   * Fires when the input toggles to show the password.
+   */
+  onShowPassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  /**
+   * Fires when the input toggles to hide the password.
+   */
+  onHidePassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  /**
+   * The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size="2" then it will be forwarded as the input element attribute.
+   */
+  size?: InputProps['size']
+  /**
+   */
+  lang?: InputProps['lang']
+  /**
+   * ElememntRef used passed on to the password input element.
+   */
+  innerRef?: MutableRefObject<HTMLInputElement>
+  /**
+   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowPasswordLabel` instead.
+   */
+  show_password?: string
+  /**
+   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHidePasswordLabel` instead.
+   */
+  hide_password?: string
+  /**
+   * @deprecated in v11, use `onShowPassword` instead.
+   */
+  on_show_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  /**
+   * @deprecated in v11, use `onHidePassword` instead.
+   */
+  on_hide_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
 
 const defaultProps = {
   ...Input.defaultProps,
@@ -73,18 +74,15 @@ function Password(externalProps: PasswordProps) {
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
-
   const translations = sharedContext.getTranslation(props).Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.dateErrorRequired,
+    required: translations.passwordRequired,
   })
 
   const preparedProps: PasswordProps = {
     ...props,
     errorMessages,
-    fromInput: (event: React.KeyboardEvent<HTMLInputElement>) =>
-      event.currentTarget.value,
   }
 
   const {
@@ -105,8 +103,9 @@ function Password(externalProps: PasswordProps) {
     handleChange,
   } = useDataValue(preparedProps)
 
-  const ref = useRef<ElementRef<'input'>>(props.inner_ref?.current ?? null)
+  const ref = useRef<ElementRef<'input'>>(props.innerRef?.current ?? null)
 
+  // used in toggleVisibility, for dispatchCustomElementEvent.
   const componentReference = {
     props,
     context: sharedContext,
@@ -116,89 +115,57 @@ function Password(externalProps: PasswordProps) {
     toggleVisibility,
   }
 
-  // use only the props from context, who are available here anyway
-  const extendedProps = extendPropsWithContext(
-    props,
-    defaultProps,
-    { skeleton: sharedContext?.skeleton },
-    sharedContext.getTranslation(props).Forms,
-    // Deprecated – can be removed in v11
-    pickFormElementProps(sharedContext?.FormRow),
-    pickFormElementProps(sharedContext?.formElement),
-    sharedContext.Input
-  )
-
-  const params = { id }
-
-  params['aria-describedby'] = combineDescribedBy(
-    props,
-    id + '-submit-button'
-  )
-
-  // Filter out password visibility handlers to prevent console warning about unknown event handler property .
-  const { onShowPassword, onHidePassword, ...forwardedProps } = props
-
   const ariaLabels = getAriaLabel()
 
   return (
-    <FieldBlock
+    <StringField
+      id={id}
       className={classnames('dnb-forms-field-password', className)}
-      forId={id}
       label={label ?? sharedContext?.translation.Forms.passwordLabel}
       labelDescription={labelDescription}
       info={info}
       warning={warning}
       disabled={disabled}
       error={error}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      value={value}
+      help={help}
+      hasError={hasError}
+      type={hidden ? 'password' : 'text'}
+      innerRef={ref}
+      aria-describedby={id + '-submit-button'}
+      {...ariaAttributes}
       {...pickSpacingProps(props)}
-    >
-      <Input
-        {...forwardedProps}
-        {...params}
-        className="dnb-input--password"
-        type={hidden ? 'password' : 'text'}
-        value={value}
-        inner_ref={ref}
-        suffix={
-          help ? (
-            <HelpButton title={help.title}>{help.content}</HelpButton>
-          ) : undefined
-        }
-        status={hasError ? 'error' : undefined}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        {...ariaAttributes}
-        submit_element={
-          <SubmitButton
-            id={id + '-submit-button'}
-            type="button"
-            variant="secondary"
-            aria-controls={id}
-            aria-label={
-              hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
-            }
-            icon={
-              extendedProps.size === 'large'
-                ? hidden
-                  ? IconViewMedium
-                  : IconViewOffMedium
-                : hidden
-                ? IconView
-                : IconViewOff
-            }
-            skeleton={extendedProps.skeleton}
-            status={convertStatusToStateOnly(
-              extendedProps.status,
-              extendedProps.status_state
-            )}
-            status_state={extendedProps.status_state}
-            onClick={toggleVisibility}
-          />
-        }
-      />
-    </FieldBlock>
+      submitElement={
+        <SubmitButton
+          id={id + '-submit-button'}
+          type="button"
+          variant="secondary"
+          aria-controls={id}
+          aria-label={
+            hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
+          }
+          icon={
+            props.size === 'large'
+              ? hidden
+                ? IconViewMedium
+                : IconViewOffMedium
+              : hidden
+              ? IconView
+              : IconViewOff
+          }
+          skeleton={sharedContext.skeleton}
+          status={hasError ? 'error' : undefined}
+          status_state={hasError ? 'error' : undefined}
+          disabled={disabled}
+          onClick={toggleVisibility}
+        />
+      }
+    />
   )
+
   function toggleVisibility(event: React.MouseEvent<HTMLButtonElement>) {
     setHidden((hidden) => {
       dispatchCustomElementEvent(

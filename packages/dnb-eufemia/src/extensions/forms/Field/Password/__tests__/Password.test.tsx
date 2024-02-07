@@ -155,16 +155,16 @@ describe('Password component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Password top="2rem" />)
+    render(<Password top="large" />)
 
-    const element = document.querySelector('.dnb-input')
+    const element = document.querySelector('.dnb-forms-field-password')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-input',
-      'dnb-form-component',
+      'dnb-space',
       'dnb-space__top--large',
-      'dnb-input--password',
-      'dnb-input--has-submit-element',
+      'dnb-forms-field-block',
+      'dnb-forms-field-string',
+      'dnb-forms-field-password',
     ])
   })
 
@@ -188,9 +188,11 @@ describe('Password component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
       'dnb-form-component',
+      'dnb-forms-field-string__input',
       'dnb-input--password',
       'dnb-input--has-submit-element',
       'dnb-input--vertical',
+      'dnb-input--stretch',
     ])
   })
 
