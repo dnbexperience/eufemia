@@ -3,9 +3,9 @@
  *
  */
 
-import { Field } from '../../extensions/forms'
+import Password from '../../extensions/forms/Field/Password'
 
-const InputPassword = Field.Password
+const InputPassword = Password
 
 export default InputPassword
 
