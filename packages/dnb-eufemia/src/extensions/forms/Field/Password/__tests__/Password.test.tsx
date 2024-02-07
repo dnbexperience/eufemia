@@ -6,14 +6,15 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Password, { PasswordProps } from '../Password'
 
 import nbNO from '../../../../../shared/locales/nb-NO'
 import enGB from '../../../../../shared/locales/en-GB'
 import { Provider } from '../../../../../shared'
 
-const nb = nbNO['nb-NO'].Input
-const en = enGB['en-GB'].Input
+const nb = nbNO['nb-NO'].Forms
+const en = enGB['en-GB'].Forms
 
 describe('Password component', () => {
   it('has correct type by default', () => {
@@ -35,22 +36,32 @@ describe('Password component', () => {
     ).toBe('focus')
   })
 
-  it('has correct aria-label', () => {
+  it('has correct aria-label', async () => {
     const { rerender } = render(<Password id="input" />)
 
-    expect(
-      document.querySelector('button').getAttribute('aria-label')
-    ).toBe(nb.show_password)
+    const button = document.querySelector('button')
+
+    expect(button.getAttribute('aria-label')).toBe(
+      nb.passwordShowPasswordLabel
+    )
+
+    await userEvent.click(button)
+
+    expect(button.getAttribute('aria-label')).toBe(
+      nb.passwordHidePasswordLabel
+    )
 
     rerender(<Password id="input" lang="en-GB" />)
 
-    expect(
-      document.querySelector('button').getAttribute('aria-label')
-    ).toBe(en.show_password)
+    expect(button.getAttribute('aria-label')).toBe(
+      en.passwordHidePasswordLabel
+    )
 
-    expect(
-      document.querySelector('button').getAttribute('aria-label')
-    ).toBe(en.show_password)
+    await userEvent.click(button)
+
+    expect(button.getAttribute('aria-label')).toBe(
+      en.passwordShowPasswordLabel
+    )
   })
 
   it('has aria-describedby and aria-controls', () => {
