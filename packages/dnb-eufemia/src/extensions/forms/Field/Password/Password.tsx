@@ -5,14 +5,20 @@
 
 import React, { useContext, useRef, useState, ElementRef } from 'react'
 import classnames from 'classnames'
-import Context from '../../../../shared/Context'
+import SharedContext from '../../../../shared/Context'
+import {
+  FieldBlock,
+  FieldHelpProps,
+  FieldProps,
+  useDataValue,
+  useErrorMessage,
+} from '../../Forms'
 
 import type { InputProps } from '../../../../components/Input'
-
+import { pickSpacingProps } from '../../../../components/flex/utils'
 import Input, { SubmitButton } from '../../../../components/Input'
 import { pickFormElementProps } from '../../../../shared/helpers/filterValidProps'
 import {
-  makeUniqueId,
   extendPropsWithContext,
   convertStatusToStateOnly,
   combineDescribedBy,
@@ -22,12 +28,15 @@ import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
+import { HelpButton } from '../../../../components'
 
 export type PasswordProps = Omit<
   React.HTMLProps<HTMLElement>,
   'ref' | 'size'
 > &
-  InputProps & {
+  InputProps &
+  FieldHelpProps &
+  FieldProps<string> & {
     /**
      * Fires when the input toggles to show the password.
      */
@@ -63,14 +72,44 @@ function Password(externalProps: PasswordProps) {
 
   const [hidden, setHidden] = useState<boolean>(true)
 
-  const context = useContext(Context)
+  const sharedContext = useContext(SharedContext)
+
+  const translations = sharedContext.getTranslation(props).Forms
+
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: translations.dateErrorRequired,
+  })
+
+  const preparedProps: PasswordProps = {
+    ...props,
+    errorMessages,
+    fromInput: (event: React.KeyboardEvent<HTMLInputElement>) =>
+      event.currentTarget.value,
+  }
+
+  const {
+    id,
+    className,
+    label,
+    labelDescription,
+    value,
+    help,
+    info,
+    warning,
+    error,
+    hasError,
+    disabled,
+    ariaAttributes,
+    handleFocus,
+    handleBlur,
+    handleChange,
+  } = useDataValue(preparedProps)
 
   const ref = useRef<ElementRef<'input'>>(props.inner_ref?.current ?? null)
-  const id = props.id || makeUniqueId() // cause we need an id anyway
 
   const componentReference = {
     props,
-    context,
+    context: sharedContext,
     state: { hidden },
     ref,
     id,
@@ -81,12 +120,12 @@ function Password(externalProps: PasswordProps) {
   const extendedProps = extendPropsWithContext(
     props,
     defaultProps,
-    { skeleton: context?.skeleton },
-    context.getTranslation(props).Forms,
+    { skeleton: sharedContext?.skeleton },
+    sharedContext.getTranslation(props).Forms,
     // Deprecated – can be removed in v11
-    pickFormElementProps(context?.FormRow),
-    pickFormElementProps(context?.formElement),
-    context.Input
+    pickFormElementProps(sharedContext?.FormRow),
+    pickFormElementProps(sharedContext?.formElement),
+    sharedContext.Input
   )
 
   const params = { id }
@@ -102,40 +141,63 @@ function Password(externalProps: PasswordProps) {
   const ariaLabels = getAriaLabel()
 
   return (
-    <Input
-      {...forwardedProps}
-      {...params}
-      className={classnames('dnb-input--password', props.className)}
-      type={hidden ? 'password' : 'text'}
-      inner_ref={ref}
-      submit_element={
-        <SubmitButton
-          id={id + '-submit-button'}
-          type="button"
-          variant="secondary"
-          aria-controls={id}
-          aria-label={
-            hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
-          }
-          icon={
-            extendedProps.size === 'large'
-              ? hidden
-                ? IconViewMedium
-                : IconViewOffMedium
-              : hidden
-              ? IconView
-              : IconViewOff
-          }
-          skeleton={extendedProps.skeleton}
-          status={convertStatusToStateOnly(
-            extendedProps.status,
-            extendedProps.status_state
-          )}
-          status_state={extendedProps.status_state}
-          onClick={toggleVisibility}
-        />
-      }
-    />
+    <FieldBlock
+      className={classnames('dnb-forms-field-password', className)}
+      forId={id}
+      label={label ?? sharedContext?.translation.Forms.passwordLabel}
+      labelDescription={labelDescription}
+      info={info}
+      warning={warning}
+      disabled={disabled}
+      error={error}
+      {...pickSpacingProps(props)}
+    >
+      <Input
+        {...forwardedProps}
+        {...params}
+        className="dnb-input--password"
+        type={hidden ? 'password' : 'text'}
+        value={value}
+        inner_ref={ref}
+        suffix={
+          help ? (
+            <HelpButton title={help.title}>{help.content}</HelpButton>
+          ) : undefined
+        }
+        status={hasError ? 'error' : undefined}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        {...ariaAttributes}
+        submit_element={
+          <SubmitButton
+            id={id + '-submit-button'}
+            type="button"
+            variant="secondary"
+            aria-controls={id}
+            aria-label={
+              hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
+            }
+            icon={
+              extendedProps.size === 'large'
+                ? hidden
+                  ? IconViewMedium
+                  : IconViewOffMedium
+                : hidden
+                ? IconView
+                : IconViewOff
+            }
+            skeleton={extendedProps.skeleton}
+            status={convertStatusToStateOnly(
+              extendedProps.status,
+              extendedProps.status_state
+            )}
+            status_state={extendedProps.status_state}
+            onClick={toggleVisibility}
+          />
+        }
+      />
+    </FieldBlock>
   )
   function toggleVisibility(event: React.MouseEvent<HTMLButtonElement>) {
     setHidden((hidden) => {
@@ -156,7 +218,7 @@ function Password(externalProps: PasswordProps) {
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   function getAriaLabel() {
     const { passwordShowPasswordLabel, passwordHidePasswordLabel } =
-      context.getTranslation(props).Forms
+      translations
 
     const { show_password, hide_password } = props
 
