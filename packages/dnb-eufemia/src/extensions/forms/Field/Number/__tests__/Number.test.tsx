@@ -3,6 +3,7 @@ import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, FormError, FieldBlock } from '../../..'
+import { Provider } from '../../../../../shared'
 
 describe('Field.Number', () => {
   describe('props', () => {
@@ -35,11 +36,11 @@ describe('Field.Number', () => {
         },
       })
 
-      expect(input).toHaveValue(String(Number.MIN_SAFE_INTEGER - 1))
+      expect(input).toHaveValue('-9 007 199 254 740 992')
 
       fireEvent.blur(input)
 
-      expect(input).toHaveValue(String(Number.MIN_SAFE_INTEGER))
+      expect(input).toHaveValue('-9 007 199 254 740 991')
     })
 
     it('corrects maximum number', () => {
@@ -53,11 +54,11 @@ describe('Field.Number', () => {
         },
       })
 
-      expect(input).toHaveValue(String(Number.MAX_SAFE_INTEGER + 1))
+      expect(input).toHaveValue('9 007 199 254 740 992')
 
       fireEvent.blur(input)
 
-      expect(input).toHaveValue(String(Number.MAX_SAFE_INTEGER))
+      expect(input).toHaveValue('9 007 199 254 740 991')
     })
 
     it('should support disabled prop', () => {
@@ -125,38 +126,79 @@ describe('Field.Number', () => {
       expect(input).toHaveClass('dnb-input__status--error')
     })
 
-    it('formats with given thousandSeparator', () => {
-      const { rerender } = render(
-        <Field.Number value={12345} thousandSeparator=" " />
-      )
-      expect(screen.getByDisplayValue('12 345')).toBeInTheDocument()
-      rerender(<Field.Number value={12345} thousandSeparator="x" />)
-      expect(screen.getByDisplayValue('12x345')).toBeInTheDocument()
+    describe('percent', () => {
+      it('formats with percent', () => {
+        render(<Field.Number value={12345} percent />)
+        expect(document.querySelector('input')).toHaveValue('12 345 %')
+      })
+
+      it('formats with percent and decimalLimit', () => {
+        render(
+          <Field.Number value={1234.56789} percent decimalLimit={2} />
+        )
+        expect(document.querySelector('input')).toHaveValue('1 234,56 %')
+      })
     })
 
-    it('formats with given decimalSymbol', () => {
-      render(<Field.Number value={97531.2468} decimalSymbol=":" />)
-      expect(screen.getByDisplayValue('97531:2468')).toBeInTheDocument()
+    describe('currency', () => {
+      it('formats with currency', () => {
+        render(<Field.Number value={12345} currency />)
+        expect(document.querySelector('input')).toHaveValue('12 345 kr')
+      })
+
+      it('formats with currency and decimalLimit', () => {
+        render(
+          <Field.Number value={1234.56789} currency decimalLimit={2} />
+        )
+        expect(document.querySelector('input')).toHaveValue('1 234,56 kr')
+      })
+
+      it('formats in different locale', () => {
+        render(
+          <Provider locale="en-GB">
+            <Field.Number value={1234.56789} currency decimalLimit={2} />
+          </Provider>
+        )
+        expect(document.querySelector('input')).toHaveValue('1 234.56 NOK')
+      })
+
+      it('formats in other currency', () => {
+        render(<Field.Number value={-1234} currency="CHF" />)
+        expect(document.querySelector('input')).toHaveValue('-1 234 CHF')
+      })
     })
 
-    it('formats with percent', () => {
-      render(<Field.Number value={12345} percent />)
-      expect(document.querySelector('input')).toHaveValue('12 345 %')
+    describe('prefix and suffix', () => {
+      it('formats with prefix', () => {
+        render(<Field.Number value={12345} currency prefix="prefix " />)
+        expect(document.querySelector('input')).toHaveValue(
+          'prefix 12 345 kr'
+        )
+      })
+
+      it('formats with suffix', () => {
+        render(<Field.Number value={12345} suffix=" suffix" />)
+        expect(document.querySelector('input')).toHaveValue(
+          '12 345 suffix'
+        )
+      })
     })
 
-    it('formats with same decimal limit', () => {
-      render(<Field.Number value={42.51} decimalLimit={2} />)
-      expect(screen.getByDisplayValue('42,51')).toBeInTheDocument()
-    })
+    describe('decimalLimit', () => {
+      it('formats with same decimal limit', () => {
+        render(<Field.Number value={42.51} decimalLimit={2} />)
+        expect(screen.getByDisplayValue('42,51')).toBeInTheDocument()
+      })
 
-    it('formats with smaller decimal limit', () => {
-      render(<Field.Number value={5876.789} decimalLimit={2} />)
-      expect(document.querySelector('input')).toHaveValue('5876,78')
-    })
+      it('formats with smaller decimal limit', () => {
+        render(<Field.Number value={5876.789} decimalLimit={2} />)
+        expect(document.querySelector('input')).toHaveValue('5 876,78')
+      })
 
-    it('formats with higher decimal limit', () => {
-      render(<Field.Number value={123.456} decimalLimit={4} />)
-      expect(screen.getByDisplayValue('123,456')).toBeInTheDocument()
+      it('formats with higher decimal limit', () => {
+        render(<Field.Number value={123.456} decimalLimit={4} />)
+        expect(screen.getByDisplayValue('123,456')).toBeInTheDocument()
+      })
     })
 
     it('should align input correctly', () => {
