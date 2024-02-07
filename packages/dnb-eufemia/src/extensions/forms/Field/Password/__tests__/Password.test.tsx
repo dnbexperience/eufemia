@@ -202,4 +202,28 @@ describe('Password component', () => {
     )
     expect(await axeComponent(PasswordComp)).toHaveNoViolations()
   })
+
+  it('should allow changing visibility-toggle aria-labels using the Provider', async () => {
+    render(
+      <Provider
+        locales={{
+          'nb-NO': {
+            Forms: {
+              passwordShowPasswordLabel: 'Show it!',
+              passwordHidePasswordLabel: 'Hide it!',
+            },
+          },
+        }}
+      >
+        <Password />
+      </Provider>
+    )
+    const button = document.querySelector('.dnb-button--input-button')
+
+    expect(button).toHaveAttribute('aria-label', 'Show it!')
+
+    await userEvent.click(button)
+
+    expect(button).toHaveAttribute('aria-label', 'Hide it!')
+  })
 })
