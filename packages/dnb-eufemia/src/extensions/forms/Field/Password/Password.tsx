@@ -13,7 +13,6 @@ import React, {
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
-import { useDataValue, useErrorMessage } from '../../Forms'
 
 import { InputProps, SubmitButton } from '../../../../components/Input'
 import { dispatchCustomElementEvent } from '../../../../shared/component-helper'
@@ -21,6 +20,8 @@ import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
+import useErrorMessage from '../../hooks/useErrorMessage'
+import useDataValue from '../../hooks/useDataValue'
 
 export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
