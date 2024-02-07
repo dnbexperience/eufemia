@@ -10,7 +10,12 @@ import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Field,
+  Value,
+  Form,
+  FieldBlock,
+} from '@dnb/eufemia/src/extensions/forms'
 
 if (!globalThis.ComponentBoxMemo) {
   globalThis.ComponentBoxMemo = {}
@@ -33,6 +38,7 @@ function ComponentBox(props: CodeBlockProps) {
         Provider,
         FieldBlock,
         Field,
+        Value,
         Form,
         styled,
         React,

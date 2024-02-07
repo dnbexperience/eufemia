@@ -18,6 +18,13 @@ function Component() {
 
 You link them together via the `id` (string) property.
 
+TypeScript support:
+
+```tsx
+type Data = { foo: string }
+const { data } = Form.useData<Data>('unique')
+```
+
 ## Initial data
 
 You decide where you want to provide the initial `data`. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook – or even in each Field, with the value property:
