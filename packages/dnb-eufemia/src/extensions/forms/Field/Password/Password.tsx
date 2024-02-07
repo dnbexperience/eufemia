@@ -40,10 +40,11 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
    */
   size?: InputProps['size']
   /**
+   * Sets the language used for aria-label translations. Defaults to `Provider` `locale`.
    */
   lang?: InputProps['lang']
   /**
-   * ElememntRef used passed on to the password input element.
+   * ElememntRef passed on to the password input element.
    */
   innerRef?: MutableRefObject<HTMLInputElement>
   /**
