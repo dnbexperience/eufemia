@@ -8,13 +8,28 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const BecomeCorporateCustomer = () => {
-  const { data } = Form.useData('example-form')
+  const Output = () => {
+    const { data } = Form.useData('example-form', {
+      website: 'www.dnb.no',
+    })
+
+    return (
+      <Section
+        element="output"
+        innerSpace
+        backgroundColor="sand-yellow"
+        top
+        bottom="large"
+      >
+        JSON Output: <Code>{JSON.stringify(data, null, 4)}</Code>
+      </Section>
+    )
+  }
 
   return (
     <>
       <Form.Handler
         id="example-form"
-        data={data}
         onSubmit={(data) => console.log('onSubmit', data)}
       >
         <StepsLayout top scrollTopOnStepChange>
@@ -162,15 +177,7 @@ export const BecomeCorporateCustomer = () => {
         </StepsLayout>
       </Form.Handler>
 
-      <Section
-        element="output"
-        innerSpace
-        backgroundColor="sand-yellow"
-        top
-        bottom="large"
-      >
-        JSON Output: <Code>{JSON.stringify(data, null, 4)}</Code>
-      </Section>
+      <Output />
     </>
   )
 }
