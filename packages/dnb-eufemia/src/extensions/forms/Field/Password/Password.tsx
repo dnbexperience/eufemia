@@ -184,14 +184,13 @@ function Password(externalProps: PasswordProps) {
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   function getAriaLabel() {
-    const { passwordShowPasswordLabel, passwordHidePasswordLabel } =
-      translations
+    const { passwordShowLabel, passwordHideLabel } = translations
 
     const { show_password, hide_password } = props
 
     const ariaLabels = {
-      showPassword: passwordShowPasswordLabel,
-      hidePassword: passwordHidePasswordLabel,
+      showPassword: passwordShowLabel,
+      hidePassword: passwordHideLabel,
     }
 
     if (show_password) {
