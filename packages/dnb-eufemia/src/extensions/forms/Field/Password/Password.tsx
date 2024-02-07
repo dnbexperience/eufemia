@@ -16,10 +16,7 @@ import StringField, { Props as StringFieldProps } from '../String'
 import { useDataValue, useErrorMessage } from '../../Forms'
 
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import Input, {
-  InputProps,
-  SubmitButton,
-} from '../../../../components/Input'
+import { InputProps, SubmitButton } from '../../../../components/Input'
 import { dispatchCustomElementEvent } from '../../../../shared/component-helper'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
