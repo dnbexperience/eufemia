@@ -215,6 +215,7 @@ export default {
       selectCountryLabel: 'Land',
       selectCountryPlaceholder: 'Velg et land',
       selectCountryErrorRequired: 'Du må velge et land',
+      passwordLabel: 'Passord',
       passwordShowPasswordLabel: 'Vis passord',
       passwordHidePasswordLabel: 'Skjul passord',
     },

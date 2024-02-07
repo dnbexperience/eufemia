@@ -218,6 +218,7 @@ export default {
       selectCountryLabel: 'Country',
       selectCountryPlaceholder: 'Select a country',
       selectCountryErrorRequired: 'You must select a country',
+      passwordLabel: 'Password',
       passwordShowPasswordLabel: 'Show password',
       passwordHidePasswordLabel: 'Hide password',
     },
