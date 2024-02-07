@@ -153,7 +153,7 @@ function Password(externalProps: PasswordProps) {
     }
   }
 
-  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible
+  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   function getAriaLabel() {
     const { passwordShowPasswordLabel, passwordHidePasswordLabel } =
       context.getTranslation(props).Forms
