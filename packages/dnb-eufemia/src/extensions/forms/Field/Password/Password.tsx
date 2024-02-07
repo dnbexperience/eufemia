@@ -80,8 +80,15 @@ function Password(props: PasswordProps) {
     errorMessages,
   }
 
-  const { id, label, className, hasError, disabled, ...dataValueProps } =
-    useDataValue(preparedProps)
+  const {
+    id,
+    label,
+    className,
+    hasError,
+    disabled,
+    value,
+    ...dataValueProps
+  } = useDataValue(preparedProps)
 
   const ref = useRef<ElementRef<'input'>>(props.innerRef?.current ?? null)
 
@@ -105,6 +112,7 @@ function Password(props: PasswordProps) {
       type={hidden ? 'password' : 'text'}
       innerRef={ref}
       aria-describedby={id + '-submit-button'}
+      value={value}
       hasError={hasError}
       {...dataValueProps}
       {...pickSpacingProps(props)}
@@ -141,7 +149,7 @@ function Password(props: PasswordProps) {
       dispatchCustomElementEvent(
         componentReference,
         hidden ? 'onShowPassword' : 'onHidePassword',
-        { event }
+        { event, value }
       )
 
       return !hidden
