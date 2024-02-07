@@ -29,14 +29,6 @@ export type PasswordProps = Omit<
 > &
   InputProps & {
     /**
-     * Aria label used for password visibility toggle-button when password is visible.
-     */
-    showPasswordLabel?: string
-    /**
-     * Aria label used for password visibility toggle-button when password is hidden.
-     */
-    hidePasswordLabel?: string
-    /**
      * Fires when the input toggles to show the password.
      */
     onShowPassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -45,11 +37,11 @@ export type PasswordProps = Omit<
      */
     onHidePassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
     /**
-     * @deprecated in v11, use `showPasswordLabel` instead.
+     * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowPasswordLabel` instead.
      */
     show_password?: string
     /**
-     * @deprecated in v11, use `hidePasswordLabel` instead.
+     * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHidePasswordLabel` instead.
      */
     hide_password?: string
     /**
@@ -85,31 +77,15 @@ function Password(externalProps: PasswordProps) {
     toggleVisibility,
   }
 
-  function toggleVisibility(event: React.MouseEvent<HTMLButtonElement>) {
-    setHidden((hidden) => {
-      dispatchCustomElementEvent(
-        componentReference,
-        hidden ? 'on_show_password' : 'on_hide_password',
-        { event }
-      )
-
-      return !hidden
-    })
-
-    if (ref.current) {
-      ref.current.focus()
-    }
-  }
-
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
     props,
     defaultProps,
     { skeleton: context?.skeleton },
-    context.getTranslation(props).Input,
+    context.getTranslation(props).Forms,
     // Deprecated – can be removed in v11
     pickFormElementProps(context?.FormRow),
-    pickFormElementProps(context?.formElement)
+    pickFormElementProps(context?.formElement),
     context.Input
   )
 
@@ -120,12 +96,14 @@ function Password(externalProps: PasswordProps) {
     id + '-submit-button'
   )
 
-  const { showPasswordLabel, hidePasswordLabel } =
-    getAriaLabel(extendedProps)
+  // Filter out password visibility handlers to prevent console warning about unknown event handler property .
+  const { onShowPassword, onHidePassword, ...forwardedProps } = props
+
+  const ariaLabels = getAriaLabel()
 
   return (
     <Input
-      {...props}
+      {...forwardedProps}
       {...params}
       className={classnames('dnb-input--password', props.className)}
       type={hidden ? 'password' : 'text'}
@@ -136,7 +114,9 @@ function Password(externalProps: PasswordProps) {
           type="button"
           variant="secondary"
           aria-controls={id}
-          aria-label={hidden ? showPasswordLabel : hidePasswordLabel}
+          aria-label={
+            hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
+          }
           icon={
             extendedProps.size === 'large'
               ? hidden
@@ -157,25 +137,42 @@ function Password(externalProps: PasswordProps) {
       }
     />
   )
-  // Can be removed with v11
-  function getAriaLabel(props: PasswordProps) {
-    const {
-      show_password,
-      hide_password,
-      showPasswordLabel,
-      hidePasswordLabel,
-    } = props
-    console.log('props', props)
-    const ariaLabels = { showPasswordLabel, hidePasswordLabel }
+  function toggleVisibility(event: React.MouseEvent<HTMLButtonElement>) {
+    setHidden((hidden) => {
+      dispatchCustomElementEvent(
+        componentReference,
+        hidden ? 'onShowPassword' : 'onHidePassword',
+        { event }
+      )
+
+      return !hidden
+    })
+
+    if (ref.current) {
+      ref.current.focus()
+    }
+  }
+
+  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible
+  function getAriaLabel() {
+    const { passwordShowPasswordLabel, passwordHidePasswordLabel } =
+      context.getTranslation(props).Forms
+
+    const { show_password, hide_password } = props
+
+    const ariaLabels = {
+      showPassword: passwordShowPasswordLabel,
+      hidePassword: passwordHidePasswordLabel,
+    }
 
     if (show_password) {
-      ariaLabels['showPasswordLabel'] = show_password
+      ariaLabels['showPassword'] = show_password
     }
 
     if (hide_password) {
-      ariaLabels['hidePasswordLabel'] = hide_password
+      ariaLabels['hidePassword'] = hide_password
     }
-    console.log('ariaLabels', ariaLabels)
+
     return ariaLabels
   }
 }
