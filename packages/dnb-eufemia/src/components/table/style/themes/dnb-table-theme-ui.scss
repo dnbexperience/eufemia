@@ -96,18 +96,13 @@
   }
   /* stylelint-enable */
 
-  // border
-  &:not(&--outline) > tbody > &__tr:last-of-type > &__td::after,
-  &:not(&--outline) > tbody > &__tr:last-of-type > &__th::after,
-  &:not(&--outline)
-    > tbody
-    > &__tr#{&}__tr--has-accordion-content:not(
-      #{&}__tr--expanded
-    ):nth-last-child(2)
-    td::after {
-    @include tableBorder();
+  // bottom border
+  &:not(&--outline) > tbody {
+    position: relative;
 
-    border-bottom: var(--border);
+    @include tableBorder() {
+      border-bottom: var(--table-border);
+    }
   }
 }
 
@@ -117,17 +112,12 @@
 
 .dnb-table,
 .dnb-table__container {
-  --border-width: 0.0625rem;
-  --outline-width: 0.0625rem;
-
-  // table border
-  --border: var(--border-width) solid var(--color-black-8);
-
-  // table outline
-  --outline: var(--outline-width) solid var(--color-black-8);
+  --table-border-color: var(--color-black-8);
+  --table-outline-color: var(--color-black-8);
 
   html[data-visual-test] & {
-    --border: 0.0625rem solid blue;
-    --outline: 0.0625rem solid red;
+    --table-border-color: blue;
+    --table-outline-color: red;
+    --table-accordion-border-color: green;
   }
 }

@@ -1,13 +1,30 @@
 @import '../../../style/core/utilities.scss';
 
-@mixin tableBorder {
+@mixin tableBorderHelper($offset: -0.0625rem) {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: $offset;
   bottom: 0;
   z-index: 1;
 
   pointer-events: none;
+}
+
+@mixin tableBorder {
+  &::after {
+    @include tableBorderHelper(-0.0625rem);
+    @content;
+  }
+  &:last-child::after {
+    right: 0;
+  }
+}
+
+@mixin tableOutline {
+  &::after {
+    @include tableBorderHelper(0);
+    @content;
+  }
 }
