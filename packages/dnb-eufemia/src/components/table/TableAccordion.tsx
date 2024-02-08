@@ -4,12 +4,12 @@ import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'
 import Th from './TableTh'
 import Td from './TableTd'
-import TableContext from './TableContext'
+import { TableAccordionContext, TableContext } from './TableContext'
 import keycode from 'keycode'
 import { hasSelectedText } from '../../shared/helpers'
 import { TableTrProps } from './TableTr'
 
-import TableAccordionContent, { TrContext } from './TableAccordionContent'
+import TableAccordionContent from './TableAccordionContent'
 import type { TableAccordionContentProps } from './TableAccordionContent'
 
 export function useTableAccordion({
@@ -102,7 +102,7 @@ export function useTableAccordion({
   }
 
   return (
-    <TrContext.Provider
+    <TableAccordionContext.Provider
       value={{
         toggleOpenTr,
         trIsOpen,
@@ -129,7 +129,7 @@ export function useTableAccordion({
         {content}
       </tr>
       {accordionContent}
-    </TrContext.Provider>
+    </TableAccordionContext.Provider>
   )
 
   function onKeydownHandler(event: KeyboardEvent) {
@@ -191,7 +191,7 @@ export function useTableAccordion({
 }
 
 export function TableAccordionToggleButton() {
-  const trContext = React.useContext(TrContext)
+  const tableAccordionContext = React.useContext(TableAccordionContext)
   const allProps = React.useContext(TableContext)?.allProps
   const iconSize =
     allProps.size === 'medium' || allProps.size === 'small'
@@ -205,8 +205,10 @@ export function TableAccordionToggleButton() {
         className="dnb-sr-only"
         tabIndex={-1}
         aria-label={allProps?.accordionToggleButtonSR}
-        aria-expanded={Boolean(trContext?.trIsOpen)}
-        on_click={(event) => trContext?.toggleOpenTr(event, true)}
+        aria-expanded={Boolean(tableAccordionContext?.trIsOpen)}
+        on_click={(event) =>
+          tableAccordionContext?.toggleOpenTr(event, true)
+        }
       />
     </span>
   )

@@ -5,6 +5,6 @@
 
 import React from 'react'
 
-const TableContext = React.createContext(null)
+export const TableContext = React.createContext(null)
 
-export default TableContext
+export const TableAccordionContext = React.createContext(null)

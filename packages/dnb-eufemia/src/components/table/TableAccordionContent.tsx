@@ -2,9 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import classnames from 'classnames'
 import { useHeightAnimation } from '../height-animation/useHeightAnimation'
 import { getClosestScrollViewElement } from '../../shared/component-helper'
-import TableContext from './TableContext'
-
-export const TrContext = React.createContext(null)
+import { TableAccordionContext, TableContext } from './TableContext'
 
 export type TableAccordionContentProps = {
   /**
@@ -39,12 +37,12 @@ export default function TableAccordionContent(
   } = componentProps
 
   const allProps = React.useContext(TableContext)?.allProps
-  const trContext = React.useContext(TrContext)
+  const tableAccordionContext = React.useContext(TableAccordionContext)
   const innerRef = React.useRef<HTMLDivElement>(null)
   const trRef = React.useRef<HTMLTableRowElement>(null)
   const [ariaLive, setAriaLive] = React.useState(null)
 
-  const open = Boolean(expanded || trContext?.trIsOpen)
+  const open = Boolean(expanded || tableAccordionContext?.trIsOpen)
 
   const scrollViewHandler = useCallback(
     (clip = open) => {
@@ -73,28 +71,30 @@ export default function TableAccordionContent(
       const event = { target: trRef.current }
       switch (state) {
         case 'opened':
-          trContext.onOpened?.(event)
+          tableAccordionContext.onOpened?.(event)
           break
 
         case 'closed':
-          trContext.onClosed?.(event)
+          tableAccordionContext.onClosed?.(event)
           break
       }
 
       scrollViewHandler(false)
     },
-    [scrollViewHandler, trContext]
+    [scrollViewHandler, tableAccordionContext]
   )
 
   const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
     useHeightAnimation(innerRef, {
       open,
-      animate: Boolean(!noAnimation && !trContext?.noAnimation),
+      animate: Boolean(
+        !noAnimation && !tableAccordionContext?.noAnimation
+      ),
       onOpen,
       onAnimationEnd,
     })
 
-  const countTds = trContext?.countTds || colSpan
+  const countTds = tableAccordionContext?.countTds || colSpan
 
   return (
     <tr
