@@ -435,8 +435,8 @@ describe.each(['sbanken'])(
         ...defaults,
         style: {
           width: '35rem',
-          height: '20rem',
         },
+        recalculateHeightAfterSimulate: true,
         selector: '[data-visual-test="table-accordion-rows"]',
         simulate: [
           {
