@@ -3,6 +3,46 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.20.0](https://github.com/dnbexperience/eufemia/compare/v10.19.0...v10.20.0) (2024-02-08)
+
+
+### :memo: Documentation
+
+* **forms:** add docs about localisation and validation ([#3266](https://github.com/dnbexperience/eufemia/issues/3266)) ([29fd613](https://github.com/dnbexperience/eufemia/commit/29fd61327d0ad9965717149a08ae5a857738ea43)), closes [#3164](https://github.com/dnbexperience/eufemia/issues/3164)
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** remove unneeded css due to the HeightAnimation renewal ([7859fe7](https://github.com/dnbexperience/eufemia/commit/7859fe7d88aa44cddcbe8bda953251978c71c6ff))
+* **Breadcrumb:** fix icon render issue ([4c2e514](https://github.com/dnbexperience/eufemia/commit/4c2e5143efd9de02c31813a2fd74f1b46f98c4c2))
+* **DatePicker:** make return object have corrected value ([#3296](https://github.com/dnbexperience/eufemia/issues/3296)) ([2205977](https://github.com/dnbexperience/eufemia/commit/2205977715cebf6cd25c5b3c79743dea30b487e7))
+* **Flex.Container:** enhance children parsing to support fragments and wrappers with `withChildren` ([#3272](https://github.com/dnbexperience/eufemia/issues/3272)) ([f23bd2e](https://github.com/dnbexperience/eufemia/commit/f23bd2ef51e81bd9207322f7d044f239b528d3ec))
+* **forms:** correct supported props for Field.Number and Value.Number ([#3304](https://github.com/dnbexperience/eufemia/issues/3304)) ([f55f9f8](https://github.com/dnbexperience/eufemia/commit/f55f9f8f30d4aa5d985cbb0e55f36eb80e732dfa))
+* **forms:** enhance validation/submit handling ([#3280](https://github.com/dnbexperience/eufemia/issues/3280)) ([35804db](https://github.com/dnbexperience/eufemia/commit/35804db1949f6573dd0593c3edc602a01cce3e8c))
+* **forms:** support 200% in font-size ([#3284](https://github.com/dnbexperience/eufemia/issues/3284)) ([d1dd8a5](https://github.com/dnbexperience/eufemia/commit/d1dd8a51f7d56057701f85ae34a596c449f8c64c))
+* **FormStatus:** use HeightAnimation component instead of hook to reduce code ([dd669d0](https://github.com/dnbexperience/eufemia/commit/dd669d002594c24365fddac5851f32daabeee36c))
+* **forms:** validate schema when given data structure not matches ([#3282](https://github.com/dnbexperience/eufemia/issues/3282)) ([b596ec3](https://github.com/dnbexperience/eufemia/commit/b596ec35c95ccfec90a56c01f94d9e05e4b60063)), closes [#3273](https://github.com/dnbexperience/eufemia/issues/3273)
+* **GlobalStatus:** use HeightAnimation component instead of hook to reduce code ([391f14d](https://github.com/dnbexperience/eufemia/commit/391f14ddc8d52aeeebb640c38cc5a0793da504cd))
+* **HeightAnimation:** avoid animation when not needed ([93ba1f5](https://github.com/dnbexperience/eufemia/commit/93ba1f54dab6f168c5a86f3138985273542b9882))
+* **StepIndicator:** use HeightAnimation component instead of hook to reduce code ([a69e3e9](https://github.com/dnbexperience/eufemia/commit/a69e3e9bcd4d2affb50c7661614fbf9a8f50c274))
+* **StepsLayout:** ensure space between step indicator and content ([#3281](https://github.com/dnbexperience/eufemia/issues/3281)) ([55793ad](https://github.com/dnbexperience/eufemia/commit/55793ad3fbb36f91bbd8be0d4be1134c25d0c6b6))
+* **Table:** fix animation flickering ([75a6aab](https://github.com/dnbexperience/eufemia/commit/75a6aaba2097dd2374a3a2bf397d61df912cdcac))
+* **Tabs:** animate when `prerender` is enabled ([6036b36](https://github.com/dnbexperience/eufemia/commit/6036b3662300da03ee012f446dd38f2ac607c9b3))
+* **Upload:** make it work in React.StrictMode ([0625f21](https://github.com/dnbexperience/eufemia/commit/0625f21693646da50e063833941be888d0267f5a))
+
+
+### :sparkles: Features
+
+* **Card:** enhance flexibility and support horizontal Cards in Flex and Grid ([#3267](https://github.com/dnbexperience/eufemia/issues/3267)) ([f3b9d6e](https://github.com/dnbexperience/eufemia/commit/f3b9d6eae2424c73d072eb515009fc9ca932a4cb))
+* **Form.Visibility:** add animate property ([#3302](https://github.com/dnbexperience/eufemia/issues/3302)) ([f22a3e9](https://github.com/dnbexperience/eufemia/commit/f22a3e9df06d7baecd47b212215397498b9de8f6))
+* **FormLabel:** add shellSpace property for inner margin spacing ([455c92f](https://github.com/dnbexperience/eufemia/commit/455c92fa55a1242dc9b1d3b14915296c508ff0f1))
+* **forms:** add filterData to `Form.Handler` and ignore disabled fields for validation ([#3290](https://github.com/dnbexperience/eufemia/issues/3290)) ([6e7513b](https://github.com/dnbexperience/eufemia/commit/6e7513bb192468a85d4f52d9be787e9112dac52b))
+* **forms:** add setData and getData handlers ([#3305](https://github.com/dnbexperience/eufemia/issues/3305)) ([b260677](https://github.com/dnbexperience/eufemia/commit/b260677d71e9f0493f2fd426d98f30dbe8f8b542))
+* **forms:** add support for a custom Ajv instance ([#3283](https://github.com/dnbexperience/eufemia/issues/3283)) ([6617c09](https://github.com/dnbexperience/eufemia/commit/6617c09f78ea6cf010f76aac993953c1064784dd)), closes [#3282](https://github.com/dnbexperience/eufemia/issues/3282) [#3276](https://github.com/dnbexperience/eufemia/issues/3276)
+* **forms:** enable animation for status messages (experimental) ([2f1df47](https://github.com/dnbexperience/eufemia/commit/2f1df47ab6a42a80e92dc3e6ce4eaffafbe69554))
+* **forms:** extend the possibilities on how to set error messages ([#3285](https://github.com/dnbexperience/eufemia/issues/3285)) ([1b66941](https://github.com/dnbexperience/eufemia/commit/1b6694125e23f6668357dc11aa3a8e60c96dc140))
+* **StepsLayout:** add drawer variant ([#3288](https://github.com/dnbexperience/eufemia/issues/3288)) ([d713f4f](https://github.com/dnbexperience/eufemia/commit/d713f4f8beb020efd6563efacdb053009c081eb7))
+
 ## [10.19.0](https://github.com/dnbexperience/eufemia/compare/v10.18.0...v10.19.0) (2024-01-22)
 
 
