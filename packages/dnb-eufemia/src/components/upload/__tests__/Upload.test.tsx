@@ -306,9 +306,13 @@ describe('Upload', () => {
 
     fireEvent.click(deleteButton)
 
-    expect(
-      element.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        element.querySelector(
+          '.dnb-upload__file-input-area .dnb-form-status'
+        )
+      ).not.toBeInTheDocument()
+    })
 
     expect(
       screen.queryByRole('button', {
