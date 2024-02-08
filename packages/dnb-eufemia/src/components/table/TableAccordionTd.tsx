@@ -4,7 +4,7 @@ import { useHeightAnimation } from '../height-animation/useHeightAnimation'
 import { getClosestScrollViewElement } from '../../shared/component-helper'
 import { TableAccordionContext, TableContext } from './TableContext'
 
-export type TableAccordionContentProps = {
+export type TableAccordionTdProps = {
   /**
    * Set to true to expanded the content on initial render
    */
@@ -22,8 +22,8 @@ export type TableAccordionContentProps = {
   colSpan?: number
 }
 
-export default function TableAccordionContent(
-  componentProps: TableAccordionContentProps &
+export default function TableAccordionTd(
+  componentProps: TableAccordionTdProps &
     React.TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {

@@ -9,8 +9,8 @@ import keycode from 'keycode'
 import { hasSelectedText } from '../../shared/helpers'
 import { TableTrProps } from './TableTr'
 
-import TableAccordionContent from './TableAccordionContent'
-import type { TableAccordionContentProps } from './TableAccordionContent'
+import TableAccordionTd from './TableAccordionTd'
+import type { TableAccordionTdProps } from './TableAccordionTd'
 
 export function useTableAccordion({
   children,
@@ -50,8 +50,8 @@ export function useTableAccordion({
    * Handle Accordion Content
    */
   const accordionContent = content.find((element: React.ReactElement) => {
-    return element.type === TableAccordionContent
-  }) as React.ReactElement<TableAccordionContentProps>
+    return element.type === TableAccordionTd
+  }) as React.ReactElement<TableAccordionTdProps>
   const hasAccordionContent = React.isValidElement(accordionContent)
   const countTds = hasAccordionContent
     ? children.filter((element: React.ReactElement) => {
@@ -74,7 +74,7 @@ export function useTableAccordion({
     content = content.filter((element) => {
       const hasContent =
         (element as React.ReactElement<TableTrProps>).type ===
-        TableAccordionContent
+        TableAccordionTd
       return !hasContent
     })
 
