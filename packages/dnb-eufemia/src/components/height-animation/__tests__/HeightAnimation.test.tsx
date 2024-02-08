@@ -11,13 +11,13 @@ import {
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
 
-initializeTestSetup()
-
 describe('HeightAnimation', () => {
+  initializeTestSetup()
+
   it('should be open by default', () => {
     render(<HeightAnimation>visible content</HeightAnimation>)
 
-    expect(getElement().textContent).toBe('visible content')
+    expect(getElement()).toHaveTextContent('visible content')
     expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
     expect(getElement()).not.toHaveAttribute('style')
   })
@@ -341,5 +341,35 @@ describe('HeightAnimation', () => {
     expect(element).not.toHaveClass('dnb-height-animation--animating')
 
     globalThis.IS_TEST = false
+  })
+})
+
+describe('HeightAnimation without initializeTestSetup()', () => {
+  beforeEach(() => {
+    globalThis.IS_TEST = false
+  })
+  afterEach(() => {
+    globalThis.IS_TEST = undefined
+    window.requestAnimationFrame = undefined
+  })
+
+  it('should open without animation', () => {
+    window.requestAnimationFrame = jest.fn((callback) =>
+      setTimeout(callback, 0)
+    )
+
+    const { rerender } = render(
+      <HeightAnimation open={false}>visible content</HeightAnimation>
+    )
+
+    expect(getElement()).toBeNull()
+
+    rerender(
+      <HeightAnimation open={true}>visible content</HeightAnimation>
+    )
+
+    expect(getElement()).toHaveTextContent('visible content')
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
   })
 })

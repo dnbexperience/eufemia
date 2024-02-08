@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -189,22 +189,20 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
     typeof globalThis.IS_TEST === 'undefined'
 
   useLayoutEffect(() => {
-    if (!targetRef.current || !isInitialRenderRef.current) {
-      if (open) {
-        instRef.current.open()
-      } else {
-        instRef.current.close()
-      }
+    if (open) {
+      instRef.current.open()
+    } else {
+      instRef.current.close()
+    }
 
-      // For testing purposes, we need to trigger the transitionend event
-      if (isTest) {
-        const event = new CustomEvent('transitionend')
-        targetRef.current?.dispatchEvent(event)
-      }
+    // For testing purposes, we need to trigger the transitionend event
+    if (isTest) {
+      const event = new CustomEvent('transitionend')
+      targetRef.current?.dispatchEvent(event)
     }
   }, [open, instRef, isInitialRenderRef, targetRef, isTest])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const run = () => {
       isInitialRenderRef.current = false
     }
