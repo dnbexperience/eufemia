@@ -442,11 +442,6 @@ describe.each(['sbanken'])(
           {
             action: 'click',
             selector:
-              '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
-          },
-          {
-            action: 'click',
-            selector:
               '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:first-child',
           },
         ],
