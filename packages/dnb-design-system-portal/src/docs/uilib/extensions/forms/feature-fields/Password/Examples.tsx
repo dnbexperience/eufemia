@@ -130,11 +130,3 @@ export const Pattern = () => {
     </ComponentBox>
   )
 }
-
-export const LongLabel = () => {
-  return (
-    <ComponentBox data-visual-test="phone-number-long-label">
-      <Field.Password label="Telefon/mobilnummer with long label" />
-    </ComponentBox>
-  )
-}
