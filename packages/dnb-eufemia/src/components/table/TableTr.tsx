@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { useTableAccordion } from './TableAccordion'
 import { TableTdProps } from './TableTd'
 import { TableContext } from './TableContext'
+import TableAccordionTr from './TableAccordionTr'
 
 export type TableTrProps = {
   /**
@@ -190,3 +191,5 @@ export function useHandleOddEven({ children }) {
     setRerenderAlias({})
   }
 }
+
+Tr.AccordionContent = TableAccordionTr

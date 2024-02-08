@@ -3,8 +3,9 @@ import classnames from 'classnames'
 import { useHeightAnimation } from '../height-animation/useHeightAnimation'
 import { getClosestScrollViewElement } from '../../shared/component-helper'
 import { TableAccordionContext, TableContext } from './TableContext'
+import Td from './TableTd'
 
-export type TableAccordionTdProps = {
+export type TableAccordionTrProps = {
   /**
    * Set to true to expanded the content on initial render
    */
@@ -15,15 +16,10 @@ export type TableAccordionTdProps = {
    * Default: false
    */
   noAnimation?: boolean
-
-  /**
-   * Overwrite the internal collected colSpan (add +1)
-   */
-  colSpan?: number
 }
 
-export default function TableAccordionTd(
-  componentProps: TableAccordionTdProps &
+export default function TableAccordionTr(
+  componentProps: TableAccordionTrProps &
     React.TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {
@@ -31,7 +27,6 @@ export default function TableAccordionTd(
     noAnimation = null,
     className,
     children,
-    colSpan = 100,
     style,
     ...props
   } = componentProps
@@ -94,7 +89,15 @@ export default function TableAccordionTd(
       onAnimationEnd,
     })
 
-  const countTds = tableAccordionContext?.countTds || colSpan
+  const expandColumn = (
+    <Td>
+      <span className="dnb-sr-only">
+        <span aria-live="assertive">
+          {isInDOM && ariaLive ? allProps?.accordionMoreContentSR : null}
+        </span>
+      </span>
+    </Td>
+  )
 
   return (
     <tr
@@ -112,7 +115,6 @@ export default function TableAccordionTd(
       className={classnames(
         isInDOM && 'dnb-table__tr',
         'dnb-table__tr__accordion-content',
-        'dnb-table__tr__accordion-content--single',
         isInDOM && 'dnb-table__tr__accordion-content--expanded',
         isAnimating && 'dnb-table__tr__accordion-content--animating',
         isVisibleParallax && 'dnb-table__tr__accordion-content--parallax',
@@ -121,27 +123,9 @@ export default function TableAccordionTd(
       ref={trRef}
       {...props}
     >
-      <td
-        role={isInDOM ? 'cell' : undefined} // remove the "role", because the parent role is removed as well
-        colSpan={countTds}
-        className="dnb-table__td"
-      >
-        {isInDOM && (
-          <div
-            className="dnb-table__tr__accordion-content__inner"
-            ref={innerRef}
-          >
-            <div className="dnb-table__tr__accordion-content__inner__spacing">
-              {children}
-            </div>
-          </div>
-        )}
-        <span className="dnb-sr-only">
-          <span aria-live="assertive">
-            {isInDOM && ariaLive ? allProps?.accordionMoreContentSR : null}
-          </span>
-        </span>
-      </td>
+      {allProps.accordionChevronPlacement !== 'end' && expandColumn}
+      {isInDOM && children}
+      {allProps.accordionChevronPlacement === 'end' && expandColumn}
     </tr>
   )
 }

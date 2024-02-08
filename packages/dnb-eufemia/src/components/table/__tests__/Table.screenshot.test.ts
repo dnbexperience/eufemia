@@ -351,3 +351,107 @@ describe.each(['ui', 'sbanken'])(
     })
   }
 )
+
+describe.each(['sbanken'])(
+  'Table with accordion rows for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/table',
+    })
+
+    it('have to match default state', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion-rows"] .dnb-table',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match hover state on first row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion-rows"]',
+        simulateSelector:
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:first-child',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match hover state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion-rows"]',
+        simulateSelector:
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match focus state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion-rows"]',
+        simulateSelector:
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match active state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion-rows"]',
+        simulateSelector:
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+        simulate: 'active',
+        matchConfig: {
+          failureThreshold: 0.01, // locally as well
+        },
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match expanded state on first row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+          height: '20rem',
+        },
+        selector: '[data-visual-test="table-accordion-rows"]',
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+          },
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:first-child',
+          },
+        ],
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)

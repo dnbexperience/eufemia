@@ -18,6 +18,7 @@ import {
   TableSizeSmall,
   PaginationTable,
   TableAccordion,
+  TableAccordionRow,
   TablesInOneContainer,
   VariantCombinations,
 } from 'Docs/uilib/components/table/Examples'
@@ -62,9 +63,17 @@ A `small` sized table is only for special circumstances, where a lot of data nee
   This example is not yet fully supported using the Sbanken theme.
 </VisibilityByTheme>
 
-The second example uses both a `border` and an `outline`.
+The second table uses both a `border` and an `outline`.
 
 <TableAccordion />
+
+<VisibilityByTheme visible="sbanken">
+
+It's also possible to expand more regular table rows
+
+<TableAccordionRow />
+
+</VisibilityByTheme>
 
 ### Table with sticky header
 

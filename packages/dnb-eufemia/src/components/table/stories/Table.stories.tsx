@@ -15,6 +15,7 @@ import TableContainer from '../TableContainer'
 
 import { H2, P, Anchor, Dl, Lead } from '../../..'
 import { Button, ToggleButton, NumberFormat, Avatar } from '../../'
+import _TableAccordionRows from './TableAccordionRows'
 import shopping_cart from '../../../icons/shopping_cart'
 import useHandleSortState from '../useHandleSortState'
 
@@ -630,6 +631,8 @@ export const TableAccordion = () => {
     </main>
   )
 }
+
+export const TableAccordionRows = () => <_TableAccordionRows />
 
 export function TableSort() {
   const { sortState, sortHandler } = useHandleSortState({

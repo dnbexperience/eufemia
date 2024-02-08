@@ -220,6 +220,35 @@
       }
     }
 
+    &__inner {
+      overflow: hidden;
+      will-change: height;
+      transition: height 400ms var(--easing-default);
+
+      &__spacing {
+        padding: 1rem;
+
+        transform: translateY(-10px);
+        transition: transform 500ms var(--easing-default);
+      }
+
+      position: relative;
+    }
+    &--parallax &__inner {
+      &__spacing {
+        transform: translateY(0);
+        html[data-visual-test] & {
+          transition: none;
+        }
+      }
+    }
+
+    &--expanded > td.dnb-table__td {
+      background-color: var(--color-white);
+    }
+  }
+
+  &__tr__accordion-content--single {
     td {
       padding: 0 !important; // medium and small size sets padding – but we never want a padding on this td
 
@@ -256,29 +285,6 @@
       border-top: none;
     }
 
-    &__inner {
-      overflow: hidden;
-      will-change: height;
-      transition: height 400ms var(--easing-default);
-
-      &__spacing {
-        padding: 1rem;
-
-        transform: translateY(-10px);
-        transition: transform 500ms var(--easing-default);
-      }
-
-      position: relative;
-    }
-    &--parallax &__inner {
-      &__spacing {
-        transform: translateY(0);
-        html[data-visual-test] & {
-          transition: none;
-        }
-      }
-    }
-
     > td.dnb-table__td {
       padding: 0;
 
@@ -286,10 +292,6 @@
       .dnb-dl dt {
         margin: 0;
       }
-    }
-
-    &--expanded > td.dnb-table__td {
-      background-color: var(--color-white);
     }
   }
 

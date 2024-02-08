@@ -71,6 +71,7 @@ describe('TableAccordion', () => {
     expect(element.getAttribute('hidden')).toBe('')
     expect(Array.from(element.classList)).toEqual([
       'dnb-table__tr__accordion-content',
+      'dnb-table__tr__accordion-content--single',
     ])
   })
 
@@ -98,6 +99,7 @@ describe('TableAccordion', () => {
     expect(accordionElem.getAttribute('role')).toBe('row')
     expect(Array.from(accordionElem.classList)).toEqual([
       'dnb-table__tr__accordion-content',
+      'dnb-table__tr__accordion-content--single',
       'dnb-table__tr',
       'dnb-table__tr__accordion-content--expanded',
       'dnb-table__tr__accordion-content--parallax',
@@ -284,6 +286,7 @@ describe('TableAccordion', () => {
 
     expect(Array.from(accordionElem.classList)).toEqual([
       'dnb-table__tr__accordion-content',
+      'dnb-table__tr__accordion-content--single',
     ])
 
     fireEvent.click(trElement)

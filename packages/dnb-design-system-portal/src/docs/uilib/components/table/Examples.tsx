@@ -795,6 +795,58 @@ export const TableAccordion = () => (
   </ComponentBox>
 )
 
+export const TableAccordionRow = () => (
+  <ComponentBox data-visual-test="table-accordion-rows">
+    <Table accordion outline border>
+      <thead>
+        <Tr>
+          <Th>Column A</Th>
+          <Th>Column B</Th>
+          <Th>Column C</Th>
+          <Th>Column D</Th>
+        </Tr>
+      </thead>
+
+      <tbody>
+        <Tr>
+          <Td>Row 1</Td>
+          <Td>Row 1</Td>
+          <Td>Row 1</Td>
+          <Td>Row 1</Td>
+
+          <Tr.AccordionContent>
+            <Td>Expanded 1.1</Td>
+            <Td>Expanded 1.1</Td>
+            <Td>Expanded 1.1</Td>
+            <Td>Expanded 1.1</Td>
+          </Tr.AccordionContent>
+
+          <Tr.AccordionContent>
+            <Td>Expanded 1.2</Td>
+            <Td>Expanded 1.2</Td>
+            <Td>Expanded 1.2</Td>
+            <Td>Expanded 1.2</Td>
+          </Tr.AccordionContent>
+        </Tr>
+
+        <Tr>
+          <Td>Row 2</Td>
+          <Td>Row 2</Td>
+          <Td>Row 2</Td>
+          <Td>Row 2</Td>
+
+          <Tr.AccordionContent>
+            <Td>Expanded 2.1</Td>
+            <Td>Expanded 2.1</Td>
+            <Td>Expanded 2.1</Td>
+            <Td>Expanded 2.1</Td>
+          </Tr.AccordionContent>
+        </Tr>
+      </tbody>
+    </Table>
+  </ComponentBox>
+)
+
 export const TableSticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
     globalThis?.location?.href,
