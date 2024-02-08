@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import { useHeightAnimation } from '../height-animation/useHeightAnimation'
 import { getClosestScrollViewElement } from '../../shared/component-helper'
@@ -39,27 +39,22 @@ export default function TableAccordionTr(
 
   const open = Boolean(expanded || tableAccordionContext?.trIsOpen)
 
-  const scrollViewHandler = useCallback(
-    (clip = open) => {
-      const scollView = getClosestScrollViewElement(
-        trRef.current
-      ) as HTMLElement
-      if (scollView instanceof HTMLElement) {
-        scollView.style.overflow = clip ? 'clip' : ''
-      }
-    },
-    [open]
-  )
-
-  useEffect(() => {
-    if (open) {
-      scrollViewHandler()
+  const scrollViewHandler = useCallback((clip: boolean) => {
+    const scollView = getClosestScrollViewElement(
+      trRef.current
+    ) as HTMLElement
+    if (scollView instanceof HTMLElement) {
+      scollView.style.overflow = clip ? 'clip' : ''
     }
-  }, [open, scrollViewHandler])
+  }, [])
 
   const onOpen = useCallback((state) => {
     setAriaLive(state ? true : null)
   }, [])
+
+  const onAnimationStart = useCallback(() => {
+    scrollViewHandler(true)
+  }, [scrollViewHandler])
 
   const onAnimationEnd = useCallback(
     (state) => {
@@ -86,6 +81,7 @@ export default function TableAccordionTr(
         !noAnimation && !tableAccordionContext?.noAnimation
       ),
       onOpen,
+      onAnimationStart,
       onAnimationEnd,
     })
 
