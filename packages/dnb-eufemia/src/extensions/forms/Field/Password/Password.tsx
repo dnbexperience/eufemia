@@ -4,6 +4,7 @@ import React, {
   useState,
   ElementRef,
   MutableRefObject,
+  useCallback,
 } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
@@ -93,7 +94,25 @@ function Password(props: PasswordProps) {
     toggleVisibility,
   }
 
-  const ariaLabels = getAriaLabel()
+  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
+  const ariaLabels = useCallback(() => {
+    const { passwordShowLabel, passwordHideLabel } = translations
+
+    const ariaLabels = {
+      showPassword: passwordShowLabel,
+      hidePassword: passwordHideLabel,
+    }
+
+    if (props.show_password) {
+      ariaLabels['showPassword'] = props.show_password
+    }
+
+    if (props.hide_password) {
+      ariaLabels['hidePassword'] = props.hide_password
+    }
+
+    return ariaLabels
+  }, [props.show_password, props.hide_password, translations])
 
   return (
     <StringField
@@ -149,28 +168,6 @@ function Password(props: PasswordProps) {
     if (ref.current) {
       ref.current.focus()
     }
-  }
-
-  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
-  function getAriaLabel() {
-    const { passwordShowLabel, passwordHideLabel } = translations
-
-    const { show_password, hide_password } = props
-
-    const ariaLabels = {
-      showPassword: passwordShowLabel,
-      hidePassword: passwordHideLabel,
-    }
-
-    if (show_password) {
-      ariaLabels['showPassword'] = show_password
-    }
-
-    if (hide_password) {
-      ariaLabels['hidePassword'] = hide_password
-    }
-
-    return ariaLabels
   }
 }
 
