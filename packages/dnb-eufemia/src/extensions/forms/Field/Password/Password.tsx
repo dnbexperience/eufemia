@@ -112,6 +112,7 @@ function Password(props: PasswordProps) {
       aria-describedby={id + '-submit-button'}
       value={value}
       hasError={hasError}
+      disabled={disabled}
       {...dataValueProps}
       submitElement={
         <SubmitButton
