@@ -7,6 +7,12 @@ export function initializeTestSetup() {
     globalThis.bypassTime = -1
     globalThis.animationDuration = -1
   })
+  afterEach(() => {
+    globalThis.IS_TEST = undefined
+    globalThis.readjustTime = undefined
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
+  })
 }
 
 export function simulateAnimationEnd(
