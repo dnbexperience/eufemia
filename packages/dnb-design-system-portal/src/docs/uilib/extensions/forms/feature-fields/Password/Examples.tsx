@@ -89,10 +89,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox
-      scope={{ FormError }}
-      data-visual-test="phone-number-error"
-    >
+    <ComponentBox scope={{ FormError }}>
       <Field.Password
         value="your-birthday"
         label="Label text"
