@@ -37,7 +37,11 @@ describe('Password component', () => {
   })
 
   it('has correct aria-label', async () => {
-    const { rerender } = render(<Password id="input" />)
+    const { rerender } = render(
+      <Provider>
+        <Password />
+      </Provider>
+    )
 
     const button = document.querySelector('button')
 
@@ -47,7 +51,11 @@ describe('Password component', () => {
 
     expect(button.getAttribute('aria-label')).toBe(nb.passwordHideLabel)
 
-    rerender(<Password id="input" lang="en-GB" />)
+    rerender(
+      <Provider locale="en-GB">
+        <Password />
+      </Provider>
+    )
 
     expect(button.getAttribute('aria-label')).toBe(en.passwordHideLabel)
 

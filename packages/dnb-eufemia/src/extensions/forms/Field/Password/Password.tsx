@@ -32,10 +32,6 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
    */
   size?: InputProps['size']
   /**
-   * Sets the language used for aria-label translations. Defaults to `Provider` `locale`.
-   */
-  lang?: InputProps['lang']
-  /**
    * ElememntRef passed on to the password input element.
    */
   innerRef?: MutableRefObject<HTMLInputElement>
@@ -61,7 +57,7 @@ function Password(props: PasswordProps) {
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
-  const translations = sharedContext.getTranslation(props).Forms
+  const translations = sharedContext.translation.Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.passwordRequired,
