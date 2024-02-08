@@ -43,7 +43,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox data-visual-test="phone-number-label">
+    <ComponentBox>
       <Field.Password
         label="Label text"
         value="password123"
