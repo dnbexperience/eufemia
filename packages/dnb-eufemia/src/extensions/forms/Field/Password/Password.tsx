@@ -1,8 +1,3 @@
-/**
- * Web Input Component
- *
- */
-
 import React, {
   useContext,
   useRef,
