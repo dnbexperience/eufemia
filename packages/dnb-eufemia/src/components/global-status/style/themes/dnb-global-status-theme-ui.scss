@@ -6,16 +6,6 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-global-status {
-  &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
-    box-shadow:
-      99vw 0 0 0 currentcolor,
-      198vw 0 0 0 currentcolor,
-      297vw 0 0 0 currentcolor,
-      396vw 0 0 0 currentcolor,
-      0 0.0625rem 0 0 var(--color-black-80),
-      100vw 0.0625rem 0 0 var(--color-black-80);
-  }
-
   &__icon {
     font-size: 1rem;
   }

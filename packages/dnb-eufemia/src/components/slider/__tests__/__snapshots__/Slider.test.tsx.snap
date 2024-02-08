@@ -252,21 +252,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
-}
-.dnb-form-status--hidden {
-  will-change: height, opacity, margin, padding;
-  width: 0;
-  height: 0;
-  opacity: 0;
-}
-.dnb-form-status--is-animating {
-  overflow: hidden;
-  width: auto;
-}
-.dnb-form-status--disappear, .dnb-form-status--hidden {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 .dnb-form-status__shell {
   display: flex;
@@ -317,9 +302,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status[hidden] {
   display: none;
-}
-.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
-  transition-duration: 1ms !important;
 }
 
 /*
@@ -768,21 +750,6 @@ legend.dnb-form-label {
   --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
-}
-.dnb-form-status--hidden {
-  will-change: height, opacity, margin, padding;
-  width: 0;
-  height: 0;
-  opacity: 0;
-}
-.dnb-form-status--is-animating {
-  overflow: hidden;
-  width: auto;
-}
-.dnb-form-status--disappear, .dnb-form-status--hidden {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 .dnb-form-status__shell {
   display: flex;
@@ -833,9 +800,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status[hidden] {
   display: none;
-}
-.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
-  transition-duration: 1ms !important;
 }
 
 /*

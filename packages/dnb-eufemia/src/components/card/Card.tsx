@@ -1,18 +1,19 @@
 import React from 'react'
 import classnames from 'classnames'
 import Flex from '../flex/Flex'
-import { SectionParams } from '../section/Section'
+import { SectionParams, SectionProps } from '../section/Section'
 
-import type { Props as FlexContainerProps } from '../flex/Container'
-import type { Props as FlexItemProps } from '../flex/Item'
+import type { BasicProps as FlexContainerProps } from '../flex/Container'
+import type { BasicProps as FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
+import { SpaceProps } from '../Space'
 
-export type Props = Omit<
-  FlexContainerProps & FlexItemProps,
-  'ref' | 'wrap'
-> & {
-  stack?: boolean
-}
+export type Props = FlexContainerProps &
+  FlexItemProps & {
+    stack?: boolean
+  } & SpaceProps &
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size'>
+
 function Card(props: Props) {
   const {
     className,
@@ -22,6 +23,7 @@ function Card(props: Props) {
     innerSpace,
     alignSelf = 'stretch',
     divider = 'space',
+    rowGap,
     children,
     ...rest
   } = props
@@ -42,7 +44,6 @@ function Card(props: Props) {
 
   const params = SectionParams({
     className: classnames('dnb-card', className),
-    backgroundColor: 'white',
     breakout: trueWhenSmall,
     roundedCorner: falseWhenSmall,
     outline: true,
@@ -53,25 +54,23 @@ function Card(props: Props) {
         medium: basisSpace,
         large: basisSpace,
       } as SpaceTypeMedia),
-    children,
-    ...rest,
+    ...(rest as SectionProps),
   })
 
-  if (stack || direction || spacing) {
-    return (
+  return (
+    <Flex.Item alignSelf={alignSelf} element="section" {...params}>
       <Flex.Container
         direction={direction ?? 'vertical'}
         divider={divider}
-        wrap={false}
-        spacing={spacing}
         alignSelf={alignSelf}
-        element="section"
-        {...params}
-      />
-    )
-  }
-
-  return <Flex.Item alignSelf={alignSelf} element="section" {...params} />
+        wrap={!stack}
+        spacing={stack ? 'small' : spacing || false}
+        rowGap={rowGap || false}
+      >
+        {children}
+      </Flex.Container>
+    </Flex.Item>
+  )
 }
 
 Card._supportsSpacingProps = true

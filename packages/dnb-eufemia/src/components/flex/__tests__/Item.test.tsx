@@ -195,11 +195,21 @@ describe('Flex.Item', () => {
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--size--default: 7; background: blue;'
+        '--size--default: 7;'
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--size--default: 5; background: red;'
+        '--size--default: 5;'
       )
+      expect(
+        getFlexItem(0)
+          .querySelector('.dnb-flex-item__spacer')
+          .getAttribute('style')
+      ).toBe('background: blue;')
+      expect(
+        getFlexItem(1)
+          .querySelector('.dnb-flex-item__spacer')
+          .getAttribute('style')
+      ).toBe('background: red;')
     })
 
     it('should set correct spacing', () => {

@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import SharedContext from '../../../../shared/Context'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = StringFieldProps & {
   validate?: boolean
@@ -13,14 +14,11 @@ function OrganizationNumber(props: Props) {
 
   const { validate = true, omitMask } = props
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.organizationNumberErrorRequired,
-      pattern: tr.organizationNumberErrorPattern,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.organizationNumberErrorRequired,
+    pattern: tr.organizationNumberErrorPattern,
+  })
+
   const mask = useMemo(
     () =>
       omitMask

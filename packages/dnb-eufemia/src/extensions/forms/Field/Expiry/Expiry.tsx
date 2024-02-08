@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -8,6 +8,7 @@ import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
@@ -19,13 +20,9 @@ function Expiry(props: ExpiryProps) {
   const placeholders =
     sharedContext?.translation.DatePicker.placeholder_characters
 
-  const errorMessages = useMemo(
-    () => ({
-      required: translations.dateErrorRequired,
-      ...props.errorMessages,
-    }),
-    [translations, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: translations.dateErrorRequired,
+  })
 
   const validateRequired = useCallback(
     (value: string, { required, error }) => {
@@ -58,9 +55,7 @@ function Expiry(props: ExpiryProps) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue({
-    ...preparedProps,
-  })
+  } = useDataValue(preparedProps)
 
   const expiry: ExpiryValue = {
     month: ensureValidMonth(value?.substring(0, 2)),

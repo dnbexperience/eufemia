@@ -246,7 +246,7 @@ describe('Upload', () => {
         (attr) => attr.name
       )
 
-      expect(attributes).toEqual(['class', 'style'])
+      expect(attributes).toEqual(['class'])
       expect(Array.from(element.classList)).toEqual(
         expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
       )
@@ -292,6 +292,9 @@ describe('Upload', () => {
       })
     )
 
+    const [firstItem] = Array.from(element.querySelectorAll('li'))
+    const deleteButton = firstItem.querySelector('button')
+
     expect(result.current.files.length).toBe(1)
     expect(result.current.files).toEqual([
       { file: file1, id: expect.any(String), exists: false },
@@ -301,15 +304,15 @@ describe('Upload', () => {
     ).toBeInTheDocument()
     expect(result.current.internalFiles.length).toBe(3)
 
-    const deleteButton = screen.queryByRole('button', {
-      name: nb.deleteButton,
-    })
-
     fireEvent.click(deleteButton)
 
-    expect(
-      element.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        element.querySelector(
+          '.dnb-upload__file-input-area .dnb-form-status'
+        )
+      ).not.toBeInTheDocument()
+    })
 
     expect(
       screen.queryByRole('button', {

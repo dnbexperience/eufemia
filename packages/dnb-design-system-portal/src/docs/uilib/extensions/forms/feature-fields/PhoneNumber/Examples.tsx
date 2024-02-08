@@ -114,10 +114,10 @@ export const ValidationPattern = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        value="+47 12345678"
+        value="+41 123"
         label="Label text"
         onChange={(...args) => console.log('onChange', ...args)}
-        pattern="((?=\\+47)^\\+47 [49]\\d{7}$)|((?!\\+47)^\\+\\d{2} \\d{6})"
+        pattern="^\\+41 [1]\\d{2}$"
       />
     </ComponentBox>
   )

@@ -8,12 +8,17 @@ const UploadStatus = () => {
   const context = React.useContext(UploadContext)
 
   const { id, filesAmountLimit, errorAmountLimit } = context
-
   const { internalFiles } = useUpload(id)
+  const open = internalFiles.length > filesAmountLimit
 
   return (
-    <HeightAnimation open={internalFiles.length > filesAmountLimit}>
-      <FormStatus top stretch>
+    <HeightAnimation
+      open={open}
+      delay={
+        500 /* delay the animation to avoid flickering while each file animates */
+      }
+    >
+      <FormStatus shellSpace={{ top: 'small' }} stretch>
         {String(errorAmountLimit).replace(
           '%amount',
           String(filesAmountLimit)

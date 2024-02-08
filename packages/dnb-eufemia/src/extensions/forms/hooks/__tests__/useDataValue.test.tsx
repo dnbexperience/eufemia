@@ -1,5 +1,6 @@
 import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
+import SharedProvider from '../../../../shared/Provider'
 import useDataValue from '../useDataValue'
 import { Provider } from '../../DataContext'
 import { FieldBlock, FormError, JSONSchema } from '../../Forms'
@@ -141,17 +142,14 @@ describe('useDataValue', () => {
 
   describe('with local validation', () => {
     it('should return error when validator callback return error', async () => {
-      const { result, rerender } = renderHook(
-        (props) => useDataValue(props),
-        {
-          initialProps: {
-            validator: () => new Error('This is wrong...'),
-            value: 'foo',
-            validateInitially: true,
-            continuousValidation: true,
-          },
-        }
-      )
+      const { result, rerender } = renderHook(useDataValue, {
+        initialProps: {
+          validator: () => new Error('This is wrong...'),
+          value: 'foo',
+          validateInitially: true,
+          continuousValidation: true,
+        },
+      })
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
@@ -248,7 +246,7 @@ describe('useDataValue', () => {
         path: '/foo',
       }
 
-      const { result } = renderHook((props) => useDataValue(props), {
+      const { result } = renderHook(useDataValue, {
         initialProps,
       })
 
@@ -394,6 +392,46 @@ describe('useDataValue', () => {
       )
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
+      })
+    })
+
+    describe('disabled and readOnly', () => {
+      it('should skip validation when disabled is given', async () => {
+        const { result, rerender } = renderHook(useDataValue, {
+          initialProps: {
+            path: '/foo',
+            value: '',
+            required: true,
+            validateInitially: true,
+          },
+        })
+
+        expect(result.current.error).toBeInstanceOf(Error)
+
+        rerender({
+          disabled: true,
+        } as any)
+
+        expect(result.current.error).toBeUndefined()
+      })
+
+      it('should skip validation when readOnly is given', async () => {
+        const { result, rerender } = renderHook(useDataValue, {
+          initialProps: {
+            path: '/foo',
+            value: '',
+            required: true,
+            validateInitially: true,
+          },
+        })
+
+        expect(result.current.error).toBeInstanceOf(Error)
+
+        rerender({
+          readOnly: true,
+        } as any)
+
+        expect(result.current.error).toBeUndefined()
       })
     })
   })
@@ -763,5 +801,35 @@ describe('useDataValue', () => {
       expect(onFocus).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
+  })
+
+  it('should translate required error', () => {
+    const { result } = renderHook(
+      () =>
+        useDataValue({
+          validateInitially: true,
+          required: true,
+        }),
+      {
+        wrapper: ({ children }) => (
+          <SharedProvider
+            locale="en-GB"
+            locales={{
+              'en-GB': {
+                Forms: {
+                  fieldErrorRequired: 'new required error message',
+                },
+              },
+            }}
+          >
+            {children}
+          </SharedProvider>
+        ),
+      }
+    )
+
+    expect(result.current.error).toEqual(
+      new Error('new required error message')
+    )
   })
 })

@@ -1,94 +1,35 @@
-/**
- * HeightAnimation.test Tests
- *
- */
-
 import React from 'react'
-import { render, act, fireEvent, waitFor } from '@testing-library/react'
-import ToggleButton from '../../ToggleButton'
-import HeightAnimation, {
-  HeightAnimationAllProps,
-  HeightAnimationProps,
-} from '../HeightAnimation'
+import { render } from '@testing-library/react'
+import HeightAnimation from '../HeightAnimation'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 import {
-  testSetupInit,
+  getElement,
+  initializeTestSetup,
+  mockHeight,
+  nextAnimationFrame,
+  runAnimation,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
-import { wait } from '../../../core/jest/jestSetup'
-
-testSetupInit()
-
-const getStates = () => {
-  const classes = document.querySelector('.dnb-height-animation')
-    ?.classList
-  return classes ? Array.from(classes) : []
-}
 
 describe('HeightAnimation', () => {
-  const Component = ({
-    open = false,
-    animate = true,
-    element = 'div',
-    children,
-    ...rest
-  }: Partial<HeightAnimationProps>) => {
-    const [openState, setOpenState] = React.useState(open)
+  initializeTestSetup()
 
-    const onChangeHandler = ({ checked }) => {
-      setOpenState(checked)
-    }
+  it('should be open by default', () => {
+    render(<HeightAnimation>visible content</HeightAnimation>)
 
-    React.useEffect(() => {
-      setOpenState(open)
-    }, [open])
-
-    const props = rest as HeightAnimationAllProps
-
-    return (
-      <>
-        <ToggleButton checked={openState} on_change={onChangeHandler}>
-          Toggle me
-        </ToggleButton>
-
-        <section>
-          <HeightAnimation
-            open={openState}
-            element={element} // Optional
-            animate={animate} // Optional
-            {...props}
-          >
-            <p className="content-element">
-              your content <>{children}</>
-            </p>
-          </HeightAnimation>
-        </section>
-      </>
-    )
-  }
-
-  it('should be closed by default', () => {
-    render(<Component />)
-    expect(
-      document.querySelector('.dnb-height-animation--is-visible')
-    ).not.toBeInTheDocument()
+    expect(getElement()).toHaveTextContent('visible content')
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).not.toHaveAttribute('style')
   })
 
-  it('should use given span element', () => {
-    render(<Component open animate={false} element="span" />)
-    expect(
-      document.querySelector('span.dnb-height-animation--is-visible')
-    ).not.toBeInTheDocument()
-  })
-
-  it('should have element in DOM when open property is true', () => {
-    const { rerender } = render(<Component />)
+  it('should have element in DOM when open property get true', () => {
+    const { rerender } = render(<HeightAnimation open={false} />)
 
     expect(
       document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
-    rerender(<Component open />)
+    rerender(<HeightAnimation open />)
 
     expect(
       document.querySelector('.dnb-height-animation--is-visible')
@@ -96,357 +37,339 @@ describe('HeightAnimation', () => {
   })
 
   it('should set duration', () => {
-    render(<Component open duration={1000} />)
-
-    expect(
-      document.querySelector('.dnb-height-animation').getAttribute('style')
-    ).toBe('--duration: 1000ms; height: auto;')
-  })
-
-  it('should be open by default', () => {
-    render(<HeightAnimation>visible content</HeightAnimation>)
-
-    expect(
-      document.querySelector('.dnb-height-animation').textContent
-    ).toBe('visible content')
-    expect(
-      document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-height-animation').getAttribute('style')
-    ).toBe('height: auto;')
-  })
-
-  it('should have element in DOM when open property is true (using ToggleButton)', () => {
-    render(<Component />)
+    render(<HeightAnimation duration={1000} />)
 
     expect(
       document.querySelector('.dnb-height-animation')
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(document.querySelector('button'))
-
-    act(() => {
-      expect(
-        document.querySelector('.dnb-height-animation--is-visible')
-      ).toBeInTheDocument()
-    })
+    ).toHaveAttribute('style', '--duration: 1000ms;')
   })
 
-  it('should adjust height when content changes', async () => {
-    const { rerender } = render(<Component />)
+  it('should set delay', () => {
+    render(<HeightAnimation delay={1000} />)
 
     expect(
       document.querySelector('.dnb-height-animation')
-    ).not.toBeInTheDocument()
-
-    rerender(<Component open />)
-
-    const element = document.querySelector('.dnb-height-animation')
-    act(() => {
-      simulateAnimationEnd()
-    })
-
-    expect(
-      document.querySelector('.dnb-height-animation').getAttribute('style')
-    ).toBe('height: auto;')
-
-    rerender(<Component open>123</Component>)
-
-    await waitFor(() => {
-      expect(
-        document
-          .querySelector('.dnb-height-animation')
-          .getAttribute('style')
-      ).toBe('height: 0px;')
-    })
-
-    jest
-      .spyOn(element, 'clientHeight', 'get')
-      .mockImplementationOnce(() => 100)
-
-    rerender(<Component open>456</Component>)
-
-    await waitFor(() => {
-      expect(
-        document
-          .querySelector('.dnb-height-animation')
-          .getAttribute('style')
-      ).toBe('height: 100px;')
-    })
+    ).toHaveAttribute('style', '--delay: 1000ms;')
   })
 
-  it('should call onOpen', () => {
-    const onOpen = jest.fn()
-    const { rerender } = render(<Component onOpen={onOpen} />)
+  it('should adjust height when content changes', () => {
+    globalThis.readjustTime = 1
 
-    expect(
-      document.querySelector('.dnb-height-animation')
-    ).not.toBeInTheDocument()
-
-    rerender(<Component open />)
-
-    act(() => {
-      simulateAnimationEnd()
-      expect(onOpen).toHaveBeenCalledTimes(1)
-      expect(onOpen).toHaveBeenCalledWith(true)
-    })
-
-    rerender(<Component open={false} />)
-
-    act(() => {
-      simulateAnimationEnd()
-      expect(onOpen).toHaveBeenCalledTimes(2)
-      expect(onOpen).toHaveBeenCalledWith(false)
-    })
-  })
-
-  it('should call onAnimationEnd', () => {
-    const onAnimationEnd = jest.fn()
     const { rerender } = render(
-      <Component onAnimationEnd={onAnimationEnd} />
+      <HeightAnimation open={false}>123</HeightAnimation>
     )
 
     expect(
       document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
-    rerender(<Component open />)
+    rerender(<HeightAnimation open>123</HeightAnimation>)
 
-    act(() => {
-      simulateAnimationEnd()
-      expect(onAnimationEnd).toHaveBeenCalledTimes(1)
-      expect(onAnimationEnd).toHaveBeenCalledWith('opened')
-    })
+    runAnimation()
 
-    rerender(<Component open={false} />)
+    expect(getElement()).toBeInTheDocument()
+    expect(getElement()).toHaveAttribute('style', 'height: auto;')
 
-    act(() => {
-      simulateAnimationEnd()
-      expect(onAnimationEnd).toHaveBeenCalledWith('closed')
-    })
+    mockHeight(100)
+    mockHeight(200)
+
+    rerender(<HeightAnimation open>456</HeightAnimation>)
+
+    nextAnimationFrame()
+    expect(getElement()).toHaveAttribute('style', 'height: 100px;')
+
+    nextAnimationFrame()
+    expect(getElement()).toHaveAttribute('style', 'height: 200px;')
+
+    simulateAnimationEnd()
+    expect(getElement()).toHaveAttribute('style', 'height: auto;')
+  })
+
+  it('should call onOpen', () => {
+    const onOpen = jest.fn()
+    const { rerender } = render(
+      <HeightAnimation open={false} onOpen={onOpen} />
+    )
+
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenLastCalledWith(false)
+
+    rerender(<HeightAnimation open />)
+
+    simulateAnimationEnd()
+
+    expect(onOpen).toHaveBeenCalledTimes(2)
+    expect(onOpen).toHaveBeenLastCalledWith(true)
+
+    rerender(<HeightAnimation open={false} />)
+
+    simulateAnimationEnd()
+
+    expect(onOpen).toHaveBeenCalledTimes(3)
+    expect(onOpen).toHaveBeenLastCalledWith(false)
+  })
+
+  it('should call onAnimationEnd', () => {
+    const onAnimationEnd = jest.fn()
+    const { rerender } = render(
+      <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />
+    )
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+    rerender(<HeightAnimation open={true} />)
+
+    simulateAnimationEnd()
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(1)
+    expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
+
+    rerender(<HeightAnimation open={false} />)
+
+    simulateAnimationEnd()
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(2)
+    expect(onAnimationEnd).toHaveBeenLastCalledWith('closed')
   })
 
   it('should call onInit', () => {
     const onInit = jest.fn()
-    const { rerender } = render(<Component onInit={onInit} />)
+    const { rerender } = render(
+      <HeightAnimation onInit={onInit} open={false} />
+    )
 
-    expect(
-      document.querySelector('.dnb-height-animation')
-    ).not.toBeInTheDocument()
+    expect(onInit).toHaveBeenCalledTimes(1)
+    expect(onInit).toHaveBeenCalledWith(
+      expect.any(HeightAnimationInstance)
+    )
 
-    rerender(<Component open />)
+    rerender(<HeightAnimation open={true} />)
 
-    act(() => {
-      simulateAnimationEnd()
-      expect(onInit).toHaveBeenCalledTimes(1)
-      expect(onInit).toHaveBeenCalledWith(
-        expect.any(HeightAnimationInstance)
+    expect(onInit).toHaveBeenCalledTimes(1)
+  })
+
+  it('should set height style to auto', () => {
+    const { rerender } = render(<HeightAnimation open={false} />)
+
+    rerender(<HeightAnimation open />)
+
+    expect(getElement()).toHaveAttribute('style', '')
+
+    runAnimation()
+
+    expect(getElement()).toHaveAttribute('style', 'height: auto;')
+  })
+
+  describe('keepInDOM', () => {
+    it('should have content in DOM when keepInDOM is true', () => {
+      const { rerender } = render(
+        <HeightAnimation keepInDOM>
+          <span className="content">content</span>
+        </HeightAnimation>
       )
+
+      expect(document.querySelector('.content')).toBeInTheDocument()
+      expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+
+      rerender(
+        <HeightAnimation keepInDOM open={false}>
+          <span className="content">content</span>
+        </HeightAnimation>
+      )
+
+      expect(document.querySelector('.content')).toBeInTheDocument()
+
+      rerender(
+        <HeightAnimation keepInDOM open>
+          <span className="content">content</span>
+        </HeightAnimation>
+      )
+
+      expect(document.querySelector('.content')).toBeInTheDocument()
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+
+      simulateAnimationEnd()
+
+      expect(getElement()).not.toHaveClass(
+        'dnb-height-animation--animating'
+      )
+      expect(getElement()).toHaveClass('dnb-height-animation--is-in-dom')
+      expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
     })
 
-    rerender(<Component open={false} />)
+    it('should set aria-hidden when closed and keepInDOM is true', () => {
+      const { rerender } = render(
+        <HeightAnimation open={false} keepInDOM />
+      )
 
-    act(() => {
+      expect(getElement()).toHaveAttribute('aria-hidden', 'true')
+
+      rerender(<HeightAnimation keepInDOM open />)
+
       simulateAnimationEnd()
-      expect(onInit).toHaveBeenCalledTimes(1)
+
+      expect(getElement()).toHaveAttribute('aria-hidden', 'false')
+
+      rerender(<HeightAnimation keepInDOM open={false} />)
+
+      simulateAnimationEnd()
+
+      expect(getElement()).toHaveAttribute('aria-hidden', 'true')
+
+      rerender(<HeightAnimation keepInDOM={false} open />)
+
+      simulateAnimationEnd()
+
+      expect(getElement()).not.toHaveAttribute('aria-hidden')
+    })
+
+    it('should set className "hidden" when closed and keepInDOM is true', () => {
+      const { rerender } = render(
+        <HeightAnimation open={false} keepInDOM />
+      )
+
+      expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+
+      rerender(<HeightAnimation open={true} keepInDOM />)
+
+      simulateAnimationEnd()
+
+      expect(getElement()).toHaveClass('dnb-height-animation--is-in-dom')
+      expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+
+      rerender(<HeightAnimation open={false} keepInDOM />)
+
+      simulateAnimationEnd()
+
+      expect(getElement()).toHaveClass('dnb-height-animation--hidden')
     })
   })
 
-  it('should have content in DOM when keepInDOM is true', () => {
-    const { rerender } = render(<Component keepInDOM />)
+  it('should set custom style', () => {
+    render(<HeightAnimation style={{ color: 'red' }} />)
 
-    expect(
-      document.querySelector('.dnb-height-animation')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-height-animation--is-visible')
-    ).not.toBeInTheDocument()
-
-    rerender(<Component keepInDOM open />)
-
-    expect(
-      document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeInTheDocument()
-
-    rerender(<Component keepInDOM open={false} />)
-
-    act(() => {
-      const element = document.querySelector('.dnb-height-animation')
-
-      expect(element.getAttribute('style')).toBe('')
-
-      simulateAnimationEnd()
-
-      expect(element.getAttribute('style')).toBe('visibility: hidden;')
-    })
-  })
-
-  it('should set height style to auto', async () => {
-    const { rerender } = render(<Component />)
-
-    rerender(<Component open />)
-
-    await act(async () => {
-      const element = document.querySelector('.dnb-height-animation')
-
-      expect(element.getAttribute('style')).toBe('')
-
-      await wait(1)
-
-      expect(element.getAttribute('style')).toBe('height: 0px;')
-
-      simulateAnimationEnd()
-
-      expect(element.getAttribute('style')).toBe('height: auto;')
-    })
-  })
-
-  it('should set aria-hidden when closed and keepInDOM is true', () => {
-    const { rerender } = render(<Component keepInDOM />)
-
-    const getElem = () => document.querySelector('.dnb-height-animation')
-
-    expect(getElem().getAttribute('aria-hidden')).toBe('true')
-
-    rerender(<Component keepInDOM open />)
-
-    act(() => {
-      simulateAnimationEnd()
-
-      expect(getElem().getAttribute('aria-hidden')).toBe('false')
-    })
-
-    rerender(<Component keepInDOM open={false} />)
-
-    act(() => {
-      simulateAnimationEnd()
-
-      expect(getElem().getAttribute('aria-hidden')).toBe('true')
-      expect(getElem().getAttribute('style')).toBe(
-        'height: auto; visibility: hidden;'
-      )
-    })
-
-    rerender(<Component keepInDOM={false} open />)
-
-    act(() => {
-      simulateAnimationEnd()
-
-      expect(getElem().getAttribute('aria-hidden')).toBe(null)
-    })
-  })
-
-  it('should set className "hidden" when closed and keepInDOM is true', () => {
-    render(<Component keepInDOM />)
-
-    const getClasses = () =>
-      Array.from(
-        document.querySelector('.dnb-height-animation')?.classList || []
-      )
-
-    expect(getClasses()).toEqual([
-      'dnb-space',
-      'dnb-height-animation',
-      'dnb-height-animation--hidden',
-    ])
-
-    fireEvent.click(document.querySelector('button'))
-
-    act(simulateAnimationEnd)
-
-    act(() => {
-      expect(getClasses()).toEqual(
-        expect.arrayContaining([
-          'dnb-height-animation--is-in-dom',
-          'dnb-height-animation--is-visible',
-        ])
-      )
-    })
-
-    fireEvent.click(document.querySelector('button'))
-
-    act(simulateAnimationEnd)
-
-    act(() => {
-      expect(getClasses()).toEqual(
-        expect.arrayContaining(['dnb-height-animation--hidden'])
-      )
-    })
+    expect(getElement()).toHaveAttribute('style', 'color: red;')
   })
 
   it('should act with different states through the animation transition', () => {
-    render(<Component />)
+    const { rerender } = render(<HeightAnimation keepInDOM />)
 
-    act(() => {
-      expect(getStates()).toEqual([])
-    })
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
 
-    fireEvent.click(document.querySelector('button'))
+    runAnimation() // even there should be not animation
 
-    act(() => {
-      expect(getStates()).toEqual([
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-visible',
-        'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--parallax',
-        'dnb-height-animation--animating',
-      ])
-    })
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
 
-    fireEvent.click(document.querySelector('button'))
+    mockHeight(100)
+    rerender(<HeightAnimation open={false} keepInDOM />)
 
-    act(() => {
-      expect(getStates()).toEqual([
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-visible',
-        'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--animating',
-      ])
-    })
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
 
-    act(simulateAnimationEnd)
+    runAnimation()
 
-    act(() => {
-      expect(getStates()).toEqual([])
-    })
+    expect(getElement()).not.toHaveClass(
+      'dnb-height-animation--is-visible'
+    )
+    expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+
+    mockHeight(150)
+    rerender(<HeightAnimation open={true} keepInDOM />)
+
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
+
+    runAnimation()
+
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('should only set "--is-in-dom" when animation is disabled', () => {
-    render(<Component animate={false} />)
+  it('should have correct classes when animation is disabled', () => {
+    const { rerender } = render(
+      <HeightAnimation animate={false} keepInDOM />
+    )
 
-    fireEvent.click(document.querySelector('button'))
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
 
-    act(() => {
-      expect(getStates()).toEqual([
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
-      ])
-    })
+    rerender(<HeightAnimation open={false} animate={false} keepInDOM />)
 
-    fireEvent.click(document.querySelector('button'))
-
-    act(() => {
-      expect(getStates()).toEqual([])
-    })
+    expect(getElement()).not.toHaveClass(
+      'dnb-height-animation--is-visible'
+    )
+    expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
+    expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
+    expect(getElement()).toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('should not animate when global.IS_TEST is true', () => {
-    global.IS_TEST = true
+  it('should have constant of _supportsSpacingProps="children"', () => {
+    expect(HeightAnimation._supportsSpacingProps).toBe('children')
+  })
 
-    const { rerender } = render(<Component />)
+  it('should use given "element"', () => {
+    render(<HeightAnimation element="span" />)
 
-    rerender(<Component open />)
+    expect(getElement().tagName).toBe('SPAN')
+  })
 
-    act(() => {
-      expect(getStates()).toEqual([
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
-      ])
-    })
+  it('should not animate when globalThis.IS_TEST is true', () => {
+    globalThis.IS_TEST = true
+
+    const { rerender } = render(<HeightAnimation />)
+
+    const element = document.querySelector('.dnb-height-animation')
+
+    rerender(<HeightAnimation open={false} />)
+
+    expect(element).not.toHaveClass('dnb-height-animation--animating')
+
+    globalThis.IS_TEST = false
+  })
+})
+
+describe('HeightAnimation without initializeTestSetup()', () => {
+  beforeEach(() => {
+    globalThis.IS_TEST = false
+  })
+  afterEach(() => {
+    globalThis.IS_TEST = undefined
+    window.requestAnimationFrame = undefined
+  })
+
+  it('should open without animation', () => {
+    window.requestAnimationFrame = jest.fn((callback) =>
+      setTimeout(callback, 0)
+    )
+
+    const { rerender } = render(
+      <HeightAnimation open={false}>visible content</HeightAnimation>
+    )
+
+    expect(getElement()).toBeNull()
+
+    rerender(
+      <HeightAnimation open={true}>visible content</HeightAnimation>
+    )
+
+    expect(getElement()).toHaveTextContent('visible content')
+    expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
+    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
   })
 })

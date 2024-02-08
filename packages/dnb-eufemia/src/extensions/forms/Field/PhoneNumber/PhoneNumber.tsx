@@ -6,7 +6,11 @@ import countries, { CountryType } from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldHelpProps, FieldProps, JSONSchema } from '../../types'
+import {
+  FieldHelpProps,
+  FieldProps,
+  AllJSONSchemaVersions,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
@@ -14,6 +18,7 @@ import {
   getCountryData,
   makeCountryFilterSet,
 } from '../SelectCountry'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -72,14 +77,10 @@ function PhoneNumber(props: Props) {
   const langRef = React.useRef(lang)
   const wasFilled = React.useRef(false)
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.phoneNumberErrorRequired,
-      pattern: tr.phoneNumberErrorRequired,
-      ...props?.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.phoneNumberErrorRequired,
+    pattern: tr.phoneNumberErrorRequired,
+  })
 
   const validateRequired = useCallback(
     (value: string, { required, isChanged, error }) => {
@@ -103,7 +104,7 @@ function PhoneNumber(props: Props) {
     []
   )
 
-  const schema = useMemo<JSONSchema>(
+  const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
         type: 'string',

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import classnames from 'classnames'
 import { useHeightAnimation } from '../height-animation/useHeightAnimation'
+import { getClosestScrollViewElement } from '../../shared/component-helper'
 import TableContext from './TableContext'
 
 export const TrContext = React.createContext(null)
@@ -33,6 +34,7 @@ export default function TableAccordionContent(
     className,
     children,
     colSpan = 100,
+    style,
     ...props
   } = componentProps
 
@@ -42,28 +44,55 @@ export default function TableAccordionContent(
   const trRef = React.useRef<HTMLTableRowElement>(null)
   const [ariaLive, setAriaLive] = React.useState(null)
 
-  const { isInDOM, isAnimating, isVisibleParallax } = useHeightAnimation(
-    innerRef,
-    {
-      open: Boolean(expanded || trContext?.trIsOpen),
-      animate: Boolean(!noAnimation && !trContext?.noAnimation),
-      onOpen: (state) => {
-        setAriaLive(state ? true : null)
-      },
-      onAnimationEnd: (state) => {
-        const event = { target: trRef.current }
-        switch (state) {
-          case 'opened':
-            trContext.onOpened?.(event)
-            break
+  const open = Boolean(expanded || trContext?.trIsOpen)
 
-          case 'closed':
-            trContext.onClosed?.(event)
-            break
-        }
-      },
-    }
+  const scrollViewHandler = useCallback(
+    (clip = open) => {
+      const scollView = getClosestScrollViewElement(
+        trRef.current
+      ) as HTMLElement
+      if (scollView instanceof HTMLElement) {
+        scollView.style.overflow = clip ? 'clip' : ''
+      }
+    },
+    [open]
   )
+
+  useEffect(() => {
+    if (open) {
+      scrollViewHandler()
+    }
+  }, [open, scrollViewHandler])
+
+  const onOpen = useCallback((state) => {
+    setAriaLive(state ? true : null)
+  }, [])
+
+  const onAnimationEnd = useCallback(
+    (state) => {
+      const event = { target: trRef.current }
+      switch (state) {
+        case 'opened':
+          trContext.onOpened?.(event)
+          break
+
+        case 'closed':
+          trContext.onClosed?.(event)
+          break
+      }
+
+      scrollViewHandler(false)
+    },
+    [scrollViewHandler, trContext]
+  )
+
+  const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
+    useHeightAnimation(innerRef, {
+      open,
+      animate: Boolean(!noAnimation && !trContext?.noAnimation),
+      onOpen,
+      onAnimationEnd,
+    })
 
   const countTds = trContext?.countTds || colSpan
 
@@ -79,6 +108,7 @@ export default function TableAccordionContent(
       aria-hidden={!isInDOM} // NVDA and VoiceOver needs "aria-hidden" to remove it from the accessibility tree
       hidden={isInDOM ? undefined : true} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "tr" element)
       role={isInDOM ? 'row' : undefined} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "role" element)
+      style={{ ...firstPaintStyle, ...style }}
       className={classnames(
         isInDOM && 'dnb-table__tr',
         'dnb-table__tr__accordion_content',
@@ -107,9 +137,7 @@ export default function TableAccordionContent(
         )}
         <span className="dnb-sr-only">
           <span aria-live="assertive">
-            {isInDOM && !ariaLive
-              ? allProps?.accordionMoreContentSR
-              : null}
+            {isInDOM && ariaLive ? allProps?.accordionMoreContentSR : null}
           </span>
         </span>
       </td>

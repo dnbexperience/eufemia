@@ -11,9 +11,15 @@ import { useDataValue } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
-import type { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
+import type {
+  FieldProps,
+  FieldHelpProps,
+  CustomErrorMessages,
+  AllJSONSchemaVersions,
+} from '../../types'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
-interface ErrorMessages {
+interface ErrorMessages extends CustomErrorMessages {
   required?: string
   schema?: string
   minLength?: string
@@ -47,17 +53,14 @@ function StringComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.inputErrorRequired,
-      minLength: tr.stringInputErrorMinLength,
-      maxLength: tr.stringInputErrorMaxLength,
-      pattern: tr.inputErrorPattern,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
-  const schema = useMemo<JSONSchema>(
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.inputErrorRequired,
+    minLength: tr.stringInputErrorMinLength,
+    maxLength: tr.stringInputErrorMaxLength,
+    pattern: tr.inputErrorPattern,
+  })
+
+  const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
         type: 'string',
@@ -208,6 +211,7 @@ function StringComponent(props: Props) {
           mask={mask}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
+          clear={clear}
         />
       ) : (
         <Input

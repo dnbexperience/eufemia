@@ -6,12 +6,18 @@ import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
+import {
+  FieldProps,
+  FieldHelpProps,
+  AllJSONSchemaVersions,
+  CustomErrorMessages,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
-interface ErrorMessages {
+interface ErrorMessages extends CustomErrorMessages {
   required?: string
   schema?: string
   minimum?: string
@@ -29,8 +35,6 @@ export type Props = FieldHelpProps &
     mask?: InputMaskedProps['mask']
     step?: number
     // Formatting
-    thousandSeparator?: string | true
-    decimalSymbol?: string
     decimalLimit?: number
     prefix?: string
     suffix?: string
@@ -56,27 +60,22 @@ function NumberComponent(props: Props) {
     percent,
     mask,
     step = 1,
-    thousandSeparator,
-    decimalSymbol,
     decimalLimit = 12,
     prefix,
     suffix,
     showStepControls,
   } = props
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.inputErrorRequired,
-      minimum: tr.numberFieldErrorMinimum,
-      maximum: tr.numberFieldErrorMaximum,
-      exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
-      exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
-      multipleOf: tr.numberFieldErrorMultipleOf,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
-  const schema = useMemo<JSONSchema>(
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.inputErrorRequired,
+    minimum: tr.numberFieldErrorMinimum,
+    maximum: tr.numberFieldErrorMaximum,
+    exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
+    exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
+    multipleOf: tr.numberFieldErrorMultipleOf,
+  })
+
+  const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
         type: 'number',
@@ -126,40 +125,31 @@ function NumberComponent(props: Props) {
   )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
+    const mask_options = { prefix, suffix, decimalLimit }
+
     if (currency) {
       return {
         as_currency: currency,
+        mask_options,
       }
     }
+
     if (percent) {
       return {
         as_percent: percent,
+        mask_options,
       }
     }
+
     // Custom mask based on props
     return {
       as_number: true,
       mask,
       number_mask: {
-        decimalLimit,
-        decimalSymbol,
-        includeThousandsSeparator: thousandSeparator !== undefined,
-        thousandsSeparatorSymbol:
-          thousandSeparator === true ? ' ' : thousandSeparator,
-        prefix,
-        suffix,
+        ...mask_options,
       },
     }
-  }, [
-    currency,
-    percent,
-    mask,
-    decimalLimit,
-    decimalSymbol,
-    thousandSeparator,
-    prefix,
-    suffix,
-  ])
+  }, [currency, decimalLimit, mask, percent, prefix, suffix])
 
   const preparedProps: Props = {
     ...props,

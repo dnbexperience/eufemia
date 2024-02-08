@@ -218,11 +218,37 @@ describe('Flex.Container', () => {
       </Flex.Container>
     )
 
-    const element = document.querySelector('.dnb-flex-container')
-    const children = element.children
+    const container = document.querySelector('.dnb-flex-container')
+    expect(container).toMatchInlineSnapshot(`
+      <div
+        class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
+      >
+        <h1
+          class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
+        >
+          Heading
+        </h1>
+        <div
+          class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
+        >
+          Flex
+        </div>
+        <hr
+          class="dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr"
+        />
+        <div
+          class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
+        >
+          Flex
+        </div>
+      </div>
+    `)
+
+    expect(container).toHaveClass('dnb-flex-container--divider-line')
+
+    const children = container.children
 
     expect(children.length).toBe(4)
-    expect(element).toHaveClass('dnb-flex-container--divider-line')
 
     expect(children[0].tagName).toContain('H1')
     expect(children[0]).toHaveClass(
@@ -399,222 +425,302 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__right--zero')
   })
 
-  it('should not add a wrapper when _supportsSpacingProps is given', () => {
-    const { rerender } = render(<></>)
+  describe('_supportsSpacingProps', () => {
+    beforeEach(() => {
+      document.body.innerHTML = ''
+    })
 
-    const TestComponent = (props: SpaceProps) => {
-      const cn = createSpacingClasses(props)
-      cn.push('test-item')
-      return <div className={cn.join(' ')}>content</div>
+    const getMocks = () => {
+      const Wrapper = ({ children }) => {
+        return <div className="wrapper">{children}</div>
+      }
+      Wrapper._supportsSpacingProps = undefined
+
+      const TestComponent = (props: SpaceProps) => {
+        const cn = createSpacingClasses(props)
+        cn.push('test-item')
+        return <div className={cn.join(' ')}>content</div>
+      }
+      TestComponent._supportsSpacingProps = undefined
+
+      const { rerender } = render(<></>)
+
+      return { rerender, Wrapper, TestComponent }
     }
 
-    {
+    it('should wrap TestComponent with Space', () => {
+      const { rerender, TestComponent } = getMocks()
+
       rerender(
         <Flex.Vertical>
           <TestComponent />
-          <TestComponent bottom="large" />
+          <TestComponent />
+          <TestComponent top="large" />
         </Flex.Vertical>
       )
 
-      const elements = document.querySelectorAll(
-        '.dnb-flex-container > div'
-      )
-      expect(elements[0]).toHaveClass(
-        'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-      )
-      expect(elements[1]).toHaveClass(
-        'dnb-space dnb-space__top--small dnb-space__bottom--zero'
-      )
-      expect(elements[0].firstChild as HTMLElement).toHaveClass(
-        'test-item'
-      )
-      expect(elements[1].firstChild as HTMLElement).toHaveClass(
-        'dnb-space__bottom--large test-item'
-      )
-    }
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <div
+            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            <div
+              class="test-item"
+            >
+              content
+            </div>
+          </div>
+          <div
+            class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+          >
+            <div
+              class="test-item"
+            >
+              content
+            </div>
+          </div>
+          <div
+            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+          >
+            content
+          </div>
+        </div>
+      `)
 
-    {
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__top"]')
+      ).toHaveLength(3)
+      expect(
+        document.querySelectorAll('.dnb-space__top--zero')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('.dnb-space__top--small')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('.dnb-space__top--large')
+      ).toHaveLength(1)
+    })
+
+    it('should with _supportsSpacingProps=true not wrap with extra Space', () => {
+      const { rerender, TestComponent } = getMocks()
+
       TestComponent._supportsSpacingProps = true
 
       rerender(
         <Flex.Vertical>
           <TestComponent />
-          <TestComponent bottom="x-large" />
-        </Flex.Vertical>
-      )
-
-      const elements = document.querySelectorAll(
-        '.dnb-flex-container > div'
-      )
-      expect(elements[0]).toHaveClass(
-        'dnb-space__top--zero dnb-space__bottom--zero test-item'
-      )
-      expect(elements[1]).toHaveClass(
-        'dnb-space__bottom--x-large dnb-space__top--small test-item'
-      )
-      expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
-      expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
-    }
-
-    {
-      TestComponent._supportsSpacingProps = false
-
-      rerender(
-        <Flex.Vertical>
           <TestComponent />
-          <TestComponent bottom="x-large" />
+          <TestComponent top="large" />
         </Flex.Vertical>
       )
 
-      const elements = document.querySelectorAll(
-        '.dnb-flex-container > div'
-      )
-      expect(elements[0]).toHaveClass('test-item')
-      expect(elements[1]).toHaveClass(
-        'dnb-space__bottom--x-large test-item'
-      )
-      expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
-      expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
-    }
-  })
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <div
+            class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+          >
+            content
+          </div>
+          <div
+            class="dnb-space__top--small dnb-space__bottom--zero test-item"
+          >
+            content
+          </div>
+          <div
+            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+          >
+            content
+          </div>
+        </div>
+      `)
 
-  it('should transform children if _supportsSpacingProps="children" is given', () => {
-    const { rerender } = render(<></>)
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__top"]')
+      ).toHaveLength(3)
+      expect(
+        document.querySelectorAll('.dnb-space__top--zero')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('.dnb-space__top--small')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('.dnb-space__top--large')
+      ).toHaveLength(1)
+    })
 
-    const Wrapper = ({ children }) => {
-      return <div className="wrapper">{children}</div>
-    }
+    it('should with _supportsSpacingProps=children wrap the children of Wrapper with a new Flex.Container and use the same props', () => {
+      const { rerender, Wrapper, TestComponent } = getMocks()
 
-    const TestComponent = (props: SpaceProps) => {
-      const cn = createSpacingClasses(props)
-      cn.push('test-item')
-      return <div className={cn.join(' ')}>content</div>
-    }
-
-    {
-      rerender(
-        <Flex.Vertical>
-          <Wrapper>
-            <TestComponent />
-            <TestComponent top="large" />
-          </Wrapper>
-        </Flex.Vertical>
-      )
-
-      const elements = document.querySelectorAll(
-        '.dnb-flex-container > div'
-      )
-      expect(elements).toHaveLength(1)
-      expect(elements[0]).toHaveClass(
-        'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-      )
-      expect(elements[0].firstChild as HTMLElement).toHaveClass('wrapper')
-    }
-
-    {
+      TestComponent._supportsSpacingProps = true
       Wrapper._supportsSpacingProps = 'children'
 
       rerender(
         <Flex.Vertical>
           <Wrapper>
             <TestComponent />
+            <TestComponent />
             <TestComponent top="large" />
           </Wrapper>
         </Flex.Vertical>
       )
 
-      {
-        const elements = Array.from(
-          document.querySelectorAll('.dnb-flex-container > div')
-        )
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <div
+            class="wrapper"
+          >
+            <div
+              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+            >
+              <div
+                class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+              >
+                content
+              </div>
+              <div
+                class="dnb-space__top--small dnb-space__bottom--zero test-item"
+              >
+                content
+              </div>
+              <div
+                class="dnb-space__top--large dnb-space__bottom--zero test-item"
+              >
+                content
+              </div>
+            </div>
+          </div>
+        </div>
+      `)
 
-        expect(elements).toHaveLength(3)
-        expect(elements[0]).toHaveClass(
-          'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-        )
-        expect(elements[1]).toHaveClass(
-          'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-        )
-        expect(elements[2]).toHaveClass(
-          'dnb-space dnb-space__top--large dnb-space__bottom--zero'
-        )
-      }
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(2)
+      expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__top"]')
+      ).toHaveLength(4)
+      expect(
+        document.querySelectorAll('.dnb-space__top--zero')
+      ).toHaveLength(2)
+      expect(
+        document.querySelectorAll('.dnb-space__top--small')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('.dnb-space__top--large')
+      ).toHaveLength(1)
+    })
 
-      {
-        const elements = Array.from(
-          document.querySelectorAll('.dnb-flex-container > div > div')
-        )
+    it('should with _supportsSpacingProps=children wrap the children inside the Wrapper', () => {
+      const { rerender, Wrapper } = getMocks()
 
-        expect(elements).toHaveLength(3)
-        expect(elements[0]).toHaveClass('wrapper')
-        expect(elements[1]).toHaveClass('test-item')
-        expect(elements[2]).toHaveClass('test-item')
-      }
-
-      {
-        const elements = Array.from(
-          document.querySelectorAll('.dnb-flex-container')
-        )
-
-        expect(elements).toHaveLength(2)
-      }
-
-      {
-        const elements = Array.from(
-          document.querySelectorAll(
-            'body > div > .dnb-flex-container > div'
-          )
-        )
-
-        expect(elements).toHaveLength(1)
-        expect(elements[0]).toHaveClass(
-          'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-        )
-      }
-    }
-
-    {
-      TestComponent._supportsSpacingProps = true
+      Wrapper._supportsSpacingProps = 'children'
 
       rerender(
         <Flex.Vertical>
           <Wrapper>
-            <TestComponent />
-            <TestComponent top="x-large" />
+            Content A <p>Content B</p>
           </Wrapper>
         </Flex.Vertical>
       )
 
-      {
-        const elements = Array.from(
-          document.querySelectorAll(
-            'body > div > .dnb-flex-container > div'
-          )
-        )
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <div
+            class="wrapper"
+          >
+            <div
+              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+            >
+              <div
+                class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+              >
+                Content A 
+              </div>
+              <div
+                class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+              >
+                <p>
+                  Content B
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `)
 
-        expect(elements).toHaveLength(1)
-        expect(elements[0]).toHaveClass(
-          'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-        )
-      }
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(2)
+      expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__"]')
+      ).toHaveLength(3)
+    })
 
-      {
-        const elements = Array.from(
-          document.querySelectorAll('.dnb-flex-container > div')
-        )
+    it('should handle fragments like _supportsSpacingProps=children', () => {
+      const { rerender, Wrapper, TestComponent } = getMocks()
 
-        expect(elements).toHaveLength(3)
-        expect(elements[0]).toHaveClass(
-          'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
-        )
-        expect(elements[1]).toHaveClass(
-          'dnb-space__top--zero dnb-space__bottom--zero test-item'
-        )
-        expect(elements[2]).toHaveClass(
-          'dnb-space__top--x-large dnb-space__bottom--zero test-item'
-        )
-      }
-    }
+      Wrapper._supportsSpacingProps = 'children'
+
+      rerender(
+        <Flex.Vertical>
+          <>
+            Content A <p>Content B</p>
+            <TestComponent top="large" />
+          </>
+        </Flex.Vertical>
+      )
+
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <div
+            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            Content A 
+          </div>
+          <div
+            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            <p>
+              Content B
+            </p>
+          </div>
+          <div
+            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+          >
+            content
+          </div>
+        </div>
+      `)
+
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__"]')
+      ).toHaveLength(3)
+    })
   })
 
   it('should set custom element', () => {

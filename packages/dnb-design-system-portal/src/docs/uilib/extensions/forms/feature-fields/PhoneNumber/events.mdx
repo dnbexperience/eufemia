@@ -8,6 +8,8 @@ import DataValueWriteEvents from 'Docs/uilib/extensions/forms/data-value-write-e
 
 <DataValueWriteEvents />
 
-### Argument value
+### Info about arguments
 
-The argument value returned by the event handlers is a string where the country code and phonenumber is seperated by a space, e.g. `+47 9123457`. If the `omitCountryCodeField` is set to `true`, then only the phonenumber will be used, so the argument would be `9123457` without the leading country code.
+The first argument value returned by the event handlers is a string where the country code and phone-number is separated by a space, e.g. `+47 9123457`. If the `omitCountryCodeField` is set to `true`, then only the phone-number will be used, so the argument would be `9123457` without the leading country code.
+
+The second parameter is an object: `{ countryCode, phoneNumber }`.

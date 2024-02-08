@@ -43,3 +43,15 @@ Countries are sorted in alphabetically order with some prioritized countries on 
 - Sweden
 - Denmark
 - Finland
+
+## Validation
+
+By default it has no validation. But you can enable it by giving a `required`, `pattern`, `schema` or `validator` property with the needed validation. More about validation in the [Getting Started](/uilib/extensions/forms/getting-started/#validation) section.
+
+### Norwegian mobile numbers
+
+E.g. the following pattern will strictly match Norwegian mobile numbers, which are defined as having a "+47" country code, followed by a number starting with 4 or 9, and exactly 7 more digits. If the country code is set to any other two-digit code, the pattern will match witch 6 digits after the country code.
+
+```jsx
+<Field.PhoneNumber pattern="((?=\+47)^\+47 [49]\d{7}$)|((?!\+47)^\+\d{2} \d{6})" />
+```

@@ -6,10 +6,26 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-height-animation {
-  transition: height var(--duration, 400ms) var(--easing-default);
+  --height-animation: height var(--duration, 400ms) var(--easing-default)
+    var(--delay, 0ms);
+
+  will-change: height;
+  transition: var(--height-animation);
+
+  html[data-visual-test] & {
+    transition: none;
+  }
 
   &--animating {
-    overflow: hidden;
+    overflow-y: hidden;
+
+    @supports (overflow-y: clip) {
+      overflow-y: clip;
+    }
+  }
+
+  &--hidden {
+    display: none;
   }
 
   &--show-overflow {

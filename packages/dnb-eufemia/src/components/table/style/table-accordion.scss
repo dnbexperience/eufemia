@@ -54,7 +54,7 @@
 
     .dnb-icon {
       color: var(--color-sea-green);
-      transition: transform 500ms var(--accordion-easing);
+      transition: transform 500ms var(--easing-default);
     }
   }
   &__tr--has-accordion-content#{&}__tr--no-animation
@@ -258,13 +258,13 @@
     &__inner {
       overflow: hidden;
       will-change: height;
-      transition: height 400ms var(--accordion-easing);
+      transition: height 400ms var(--easing-default);
 
       &__spacing {
         padding: 1rem;
 
         transform: translateY(-10px);
-        transition: transform 500ms var(--accordion-easing);
+        transition: transform 500ms var(--easing-default);
       }
 
       position: relative;
@@ -272,6 +272,9 @@
     &--parallax &__inner {
       &__spacing {
         transform: translateY(0);
+        html[data-visual-test] & {
+          transition: none;
+        }
       }
     }
 

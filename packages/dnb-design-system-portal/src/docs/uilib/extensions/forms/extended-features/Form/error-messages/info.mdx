@@ -1,0 +1,152 @@
+---
+showTabs: true
+---
+
+## Description
+
+Error messages in Eufemia Forms are used to provide feedback to users when there are issues with their input.
+
+## Error object
+
+Use `new Error` with a message to display a custom error message.
+
+```tsx
+render(<Field.PhoneNumber error={new Error('Show this message')} />)
+```
+
+Or in case of a validator:
+
+```tsx
+const validator = (value) => {
+  // Your validation logic
+  return new Error('Show this message')
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+### FormError object
+
+Use `new FormError` with a message to display an existing and translated error message.
+
+The `validationRule` is used to identify the error message to display.
+
+- `required` - Displayed when the field is required and the user has not provided a value.
+- `pattern` - Displayed when the user has provided a value that does not match the pattern.
+
+```tsx
+import { FormError, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.PhoneNumber
+    error={
+      new FormError('Invalid value', {
+        validationRule: 'pattern',
+      })
+    }
+  />,
+)
+```
+
+Here is how you can provide validation rules, or even overwrite existing ones:
+
+```tsx
+render(
+  <Form.Handler
+    errorMessages={{
+      pattern: 'Display me, instead of the default message',
+    }}
+  >
+    ...
+  </Form.Handler>,
+)
+```
+
+For one field only:
+
+```tsx
+render(
+  <Field.PhoneNumber
+    errorMessages={{
+      pattern: 'Display me, instead of the default message',
+    }}
+  />,
+)
+```
+
+## Localization of error messages
+
+You can also provide localized error messages:
+
+```tsx
+render(
+  <Form.Handler
+    errorMessages={{
+      'en-GB': {
+        pattern: 'Display me, instead of the default message',
+      },
+      'nb-NO': {
+        pattern: 'Vis meg i stedet for standardmeldingen',
+      },
+    }}
+  >
+    ...
+  </Form.Handler>,
+)
+```
+
+In addition, you can customize the translations globally:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider
+    locales={{
+      'nb-NO': {
+        Forms: { inputErrorPattern: 'Custom pattern error' },
+      },
+    }}
+  >
+    <Form.Handler>
+      <Field.String pattern="^([a-z]+)$" value="123" validateInitially />
+    </Form.Handler>
+  </Provider>,
+)
+```
+
+## Levels of `errorMessages`
+
+You can provide custom error message different levels with the `errorMessages` prop:
+
+1. On the Form.Handler (Provider) level.
+2. On the Form.Handler (Provider) level with a JSON Pointer path.
+3. On the field level.
+
+The levels are prioritized in the order above, so the field level error message will overwrite all other levels.
+
+Here is an example of how to do expose a custom error message for the `pattern` validation rule on all levels:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    errorMessages={{
+      // Level 1
+      pattern: 'Or on the provider',
+      '/myKey': {
+        // Level 2
+        pattern: 'Or on the provider for just one field',
+      },
+    }}
+  >
+    <Field.String
+      path="/myKey"
+      errorMessages={{
+        // Level 3
+        pattern: 'Or on a single Field itself',
+      }}
+      ...
+    />
+  </Form.Handler>,
+)
+```

@@ -80,7 +80,7 @@ const determineSbankenIcon: IconIcon = (
 ) => {
   switch (variant) {
     case 'home':
-      return homeIcon
+      return 'home-icon'
     case 'single':
     case 'collapse':
       return 'chevron_left'
@@ -120,16 +120,17 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     when: { max: 'medium' },
   })
 
-  const [currentIcon, setCurrentIcon] = React.useState(null)
+  const [currentIcon, setCurrentIcon] =
+    React.useState<IconIcon>('chevron_left')
 
   useLayoutEffect(() => {
     if (!icon && theme?.name === 'sbanken') {
-      const currentIcon = determineSbankenIcon(variant, isSmallScreen)
-      setCurrentIcon(currentIcon)
+      const icon = determineSbankenIcon(variant, isSmallScreen)
+      setCurrentIcon(icon)
     } else {
-      setCurrentIcon(
-        icon || (variant === 'home' && homeIcon) || 'chevron_left'
-      )
+      if (variant !== 'home') {
+        setCurrentIcon(icon ?? 'chevron_left')
+      }
     }
   }, [icon, isSmallScreen, theme?.name, variant])
 
@@ -137,6 +138,11 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   const isInteractive =
     (href || onClick || props.to) && variant !== 'current'
   const style = { '--delay': String(itemNr) } as React.CSSProperties
+
+  const iconToUse =
+    variant === 'home' || currentIcon === 'home-icon'
+      ? homeIcon
+      : currentIcon
 
   return (
     <li
@@ -148,7 +154,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
         <Button
           variant="tertiary"
           href={href}
-          icon={currentIcon}
+          icon={iconToUse}
           icon_position="left"
           on_click={onClick}
           text={currentText}
@@ -161,12 +167,10 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           // TODO: Consider deprecating passing down props to span in v11
           {...filterProps(props, (key) => !key.includes('-'))}
         >
-          {currentIcon && (
-            <IconPrimary
-              icon={currentIcon}
-              className="dnb-breadcrumb__item__span__icon"
-            />
-          )}
+          <IconPrimary
+            icon={iconToUse}
+            className="dnb-breadcrumb__item__span__icon"
+          />
           <P space="0">{currentText}</P>
         </span>
       )}

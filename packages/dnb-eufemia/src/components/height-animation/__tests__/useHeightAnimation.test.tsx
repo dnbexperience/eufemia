@@ -1,13 +1,7 @@
-/**
- * useHeightAnimation Tests
- *
- */
-
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import classnames from 'classnames'
 import {
   render,
-  act,
   fireEvent,
   renderHook,
   waitFor,
@@ -17,31 +11,24 @@ import {
   useHeightAnimation,
   useHeightAnimationOptions,
 } from '../useHeightAnimation'
-import { wait } from '../../../core/jest/jestSetup'
+import {
+  simulateAnimationEnd,
+  initializeTestSetup,
+  nextAnimationFrame,
+  getElement,
+  mockHeight,
+} from './HeightAnimationUtils'
 
-beforeEach(() => {
-  global.IS_TEST = false
-
-  window.requestAnimationFrame = jest.fn((callback) => {
-    return setTimeout(callback, 0)
-  })
-  window.cancelAnimationFrame = jest.fn((id) => {
-    clearTimeout(id)
-    return id
-  })
-})
-
-const getStates = () =>
-  Array.from(document.querySelector('.wrapper-element').classList)
+initializeTestSetup()
 
 describe('useHeightAnimation', () => {
   const AnimatedContent = ({
     open = false,
     animate = true,
   }: useHeightAnimationOptions) => {
-    const animationElement = React.useRef()
+    const element = React.useRef()
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
-      useHeightAnimation(animationElement, {
+      useHeightAnimation(element, {
         open,
         animate,
       })
@@ -52,23 +39,23 @@ describe('useHeightAnimation', () => {
           'wrapper-element',
           isInDOM && 'is-in-dom',
           isVisible && 'is-visible',
-          isVisibleParallax && 'is-in-parallax',
+          isVisibleParallax && 'is-parallax',
           isOpen && 'is-open'
         )}
       >
-        <div ref={animationElement} className="animation-element">
+        <div ref={element} className="dnb-height-animation">
           <div className="content">content</div>
         </div>
       </div>
     )
   }
 
-  const Component = ({ open = false, animate = true }) => {
-    const [openState, setOpenState] = React.useState(open)
+  const MockComponent = ({ open = false, animate = true }) => {
+    const [openState, setOpenState] = useState(open)
 
-    const onChangeHandler = ({ checked }) => {
+    const onChangeHandler = useCallback(({ checked }) => {
       setOpenState(checked)
-    }
+    }, [])
 
     return (
       <>
@@ -82,118 +69,128 @@ describe('useHeightAnimation', () => {
   }
 
   it('should be closed by default', () => {
-    render(<Component />)
+    render(<MockComponent />)
     expect(document.querySelector('.is-in-dom')).not.toBeInTheDocument()
   })
 
   it('should have element in DOM when open property is true', () => {
-    const { rerender } = render(<Component />)
+    const { rerender } = render(<MockComponent />)
 
     expect(document.querySelector('.is-in-dom')).not.toBeInTheDocument()
 
-    rerender(<Component open />)
+    rerender(<MockComponent open />)
 
     expect(document.querySelector('.is-in-dom')).toBeInTheDocument()
   })
 
-  it('should set height style to auto', async () => {
-    const { rerender } = render(<Component />)
+  it('should set correct heights during the animation cycle', () => {
+    const { rerender } = render(<MockComponent />)
 
-    rerender(<Component open />)
+    mockHeight(200)
 
-    await act(async () => {
-      const element = document.querySelector('.animation-element')
+    expect(getElement()).not.toHaveAttribute('style')
 
-      expect(element.getAttribute('style')).toBe('')
+    rerender(<MockComponent open />)
 
-      await wait(1)
+    expect(getElement()).not.toHaveAttribute('style')
 
-      expect(element.getAttribute('style')).toBe('height: 0px;')
+    nextAnimationFrame()
 
-      simulateAnimationEnd()
+    expect(getElement()).toHaveAttribute('style', 'height: 0px;')
 
-      expect(element.getAttribute('style')).toBe('height: auto;')
-    })
+    nextAnimationFrame()
+
+    expect(getElement()).toHaveAttribute('style', 'height: 200px;')
+
+    simulateAnimationEnd()
+
+    expect(getElement()).toHaveAttribute('style', 'height: auto;')
+
+    mockHeight(100)
+
+    rerender(<MockComponent open={false} />)
+
+    expect(getElement()).toHaveAttribute('style', 'height: auto;')
+
+    nextAnimationFrame()
+
+    expect(getElement()).toHaveAttribute('style', 'height: 100px;')
+
+    nextAnimationFrame()
+
+    expect(getElement()).toHaveAttribute('style', 'height: 0px;')
+
+    simulateAnimationEnd()
+
+    expect(getElement()).toHaveAttribute(
+      'style',
+      'height: 0px; visibility: hidden; overflow-y: clip;'
+    )
   })
 
-  it('should act with different states through the animation transition', async () => {
-    render(<Component />)
+  it('should act with different states through the animation transition', () => {
+    render(<MockComponent />)
 
-    expect(getStates()).toEqual(['wrapper-element'])
+    const element = document.querySelector('.wrapper-element')
 
-    act(() => {
-      fireEvent.click(document.querySelector('button'))
-    })
-    await waitFor(() => {
-      expect(getStates()).toEqual([
-        'wrapper-element',
-        'is-in-dom',
-        'is-visible',
-        'is-in-parallax',
-      ])
-    })
+    expect(element).toHaveAttribute('class', 'wrapper-element')
 
-    act(() => {
-      simulateAnimationEnd()
-    })
-    await waitFor(() => {
-      expect(getStates()).toEqual([
-        'wrapper-element',
-        'is-in-dom',
-        'is-visible',
-        'is-in-parallax',
-        'is-open',
-      ])
-    })
+    fireEvent.click(document.querySelector('button'))
 
-    act(() => {
-      fireEvent.click(document.querySelector('button'))
-    })
-    await waitFor(() => {
-      expect(getStates()).toEqual([
-        'wrapper-element',
-        'is-in-dom',
-        'is-visible',
-        'is-open',
-      ])
-    })
+    expect(element).toHaveAttribute(
+      'class',
+      'wrapper-element is-in-dom is-visible is-parallax'
+    )
 
-    act(() => {
-      simulateAnimationEnd()
-    })
-    await waitFor(() => {
-      expect(getStates()).toEqual(['wrapper-element'])
-    })
+    simulateAnimationEnd()
+
+    expect(element).toHaveAttribute(
+      'class',
+      'wrapper-element is-in-dom is-visible is-parallax is-open'
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    expect(element).toHaveAttribute(
+      'class',
+      'wrapper-element is-in-dom is-visible is-open'
+    )
+
+    simulateAnimationEnd()
+
+    expect(element).toHaveAttribute('class', 'wrapper-element')
   })
 
   it('should only set isInDOM when animation is disabled', async () => {
-    render(<Component animate={false} />)
+    render(<MockComponent animate={false} />)
 
-    act(() => {
-      fireEvent.click(document.querySelector('button'))
-    })
+    const element = document.querySelector('.wrapper-element')
+
+    fireEvent.click(document.querySelector('button'))
+
     await waitFor(() => {
-      expect(getStates()).toEqual(['wrapper-element', 'is-in-dom'])
+      expect(element).toHaveClass('wrapper-element')
+      expect(element).toHaveClass('is-in-dom')
     })
 
-    act(() => {
-      fireEvent.click(document.querySelector('button'))
-    })
+    fireEvent.click(document.querySelector('button'))
+
     await waitFor(() => {
-      expect(getStates()).toEqual(['wrapper-element'])
+      expect(element).toHaveClass('wrapper-element')
     })
   })
 
-  it('should not animate when global.IS_TEST is true', async () => {
-    global.IS_TEST = true
+  it('should not animate when globalThis.IS_TEST is true', () => {
+    globalThis.IS_TEST = true
 
-    const { rerender } = render(<Component />)
+    const { rerender } = render(<MockComponent />)
 
-    rerender(<Component open />)
+    rerender(<MockComponent open />)
 
-    await wait(1)
+    const element = document.querySelector('.wrapper-element')
 
-    expect(getStates()).toEqual(['wrapper-element', 'is-in-dom'])
+    expect(element).toHaveClass('wrapper-element')
+    expect(element).toHaveClass('is-in-dom')
   })
 
   it('should be open by default', () => {
@@ -203,6 +200,7 @@ describe('useHeightAnimation', () => {
     const { result } = renderHook(() => useHeightAnimation(ref))
 
     expect(result.current).toEqual({
+      firstPaintStyle: {},
       isAnimating: false,
       isInDOM: true,
       isOpen: true,
@@ -221,6 +219,7 @@ describe('useHeightAnimation', () => {
     )
 
     expect(result.current).toEqual({
+      firstPaintStyle: {},
       isAnimating: false,
       isInDOM: false,
       isOpen: false,
@@ -229,11 +228,48 @@ describe('useHeightAnimation', () => {
       open: false,
     })
   })
-})
 
-function simulateAnimationEnd(
-  element: Element = document.querySelector('.animation-element')
-) {
-  const event = new CustomEvent('transitionend')
-  element.dispatchEvent(event)
-}
+  it('should call onAnimationEnd on open', () => {
+    globalThis.IS_TEST = undefined
+
+    const onAnimationEnd = jest.fn()
+    const current: HTMLDivElement = document.createElement('div')
+    const ref: React.RefObject<HTMLDivElement> = { current }
+
+    const { rerender } = renderHook(
+      ({ open }) => useHeightAnimation(ref, { open, onAnimationEnd }),
+      {
+        initialProps: { open: false },
+      }
+    )
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+    rerender({ open: true })
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(1)
+    expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
+  })
+
+  it('should call onAnimationEnd on close', () => {
+    globalThis.IS_TEST = undefined
+
+    const onAnimationEnd = jest.fn()
+    const current: HTMLDivElement = document.createElement('div')
+    const ref: React.RefObject<HTMLDivElement> = { current }
+
+    const { rerender } = renderHook(
+      ({ open }) => useHeightAnimation(ref, { open, onAnimationEnd }),
+      {
+        initialProps: { open: true },
+      }
+    )
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+    rerender({ open: false })
+
+    expect(onAnimationEnd).toHaveBeenCalledTimes(1)
+    expect(onAnimationEnd).toHaveBeenLastCalledWith('closed')
+  })
+})

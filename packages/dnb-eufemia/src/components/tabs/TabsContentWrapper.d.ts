@@ -19,6 +19,10 @@ export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
    */
   content_style?: SectionStyleTypes | SectionVariants;
   /**
+   * Enable animation between tab switches.
+   */
+  animate?: boolean;
+  /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
    */
   content_spacing?: SectionSpacing;

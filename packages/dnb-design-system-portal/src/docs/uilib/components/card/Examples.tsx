@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Card, Flex, Grid, H2, P } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -15,6 +15,80 @@ export const Default = () => {
           vitae metus.
         </P>
       </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithGrid = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-grid">
+      <Grid.Container
+        columns={{
+          small: 1,
+          medium: 3,
+          large: 3,
+        }}
+        columnGap="small"
+      >
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>
+            Pariatur officia sit adipisicing pariatur commodo enim do quis
+          </P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+      </Grid.Container>
+    </ComponentBox>
+  )
+}
+
+export const WithFlex = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-flex">
+      <Flex.Container>
+        <Card
+          size={{
+            small: 'auto',
+            medium: 4,
+            large: 4,
+          }}
+          stack
+        >
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+        <Card
+          size={{
+            small: 'auto',
+            medium: 4,
+            large: 4,
+          }}
+          stack
+        >
+          <H2>Heading</H2>
+          <P>
+            Pariatur officia sit adipisicing pariatur commodo enim do quis
+          </P>
+        </Card>
+        <Card
+          size={{
+            small: 'auto',
+            medium: 4,
+            large: 4,
+          }}
+          stack
+        >
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+      </Flex.Container>
     </ComponentBox>
   )
 }

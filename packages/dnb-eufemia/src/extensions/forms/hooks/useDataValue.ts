@@ -7,35 +7,18 @@ import {
   useReducer,
 } from 'react'
 import pointer from 'json-pointer'
-import { ValidateFunction } from 'ajv'
+import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
-import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
+import { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
+import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useMountEffect from './useMountEffect'
 import useUpdateEffect from './useUpdateEffect'
 import useProcessManager from './useProcessManager'
 import useId from './useId'
-
-interface ReturnAdditional<Value> {
-  id: string
-  value: Value
-  error: Error | FormError | undefined
-  hasError: boolean
-  dataContext: ContextState
-  ariaAttributes: {
-    'aria-invalid'?: 'true' | 'false'
-    'aria-required'?: 'true' | 'false'
-  }
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
-  handleFocus: () => void
-  handleBlur: () => void
-  handleChange: FieldProps<unknown>['onChange']
-  updateValue: (value: Value) => void
-  forceUpdate: () => void
-}
 
 export default function useDataValue<
   Value = unknown,
@@ -73,12 +56,16 @@ export default function useDataValue<
     },
   } = props
 
+  const disabled = props.disabled ?? props.readOnly
+
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
   const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
+  const sharedContext = useContext(SharedContext)
+  const tr = sharedContext?.translation.Forms
 
   const transformers = useRef({
     toInput,
@@ -92,9 +79,13 @@ export default function useDataValue<
   const {
     handlePathChange: dataContextHandlePathChange,
     updateDataValue: dataContextUpdateDataValue,
+    validateData: dataContextValidateData,
     setValueWithError: dataContextSetValueWithError,
+    setProps: dataContextSetProps,
     errors: dataContextErrors,
+    contextErrorMessages,
   } = dataContext ?? {}
+
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
@@ -186,18 +177,17 @@ export default function useDataValue<
     dataContextError
   )
 
+  // Put props into the surrounding data context
+  dataContextSetProps?.(identifier, props)
+
   const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
-  const errorMessagesRef = useRef(errorMessages)
-  useEffect(() => {
-    errorMessagesRef.current = errorMessages
-  }, [errorMessages])
   const validatorRef = useRef(validator)
-  useEffect(() => {
+  useUpdateEffect(() => {
     validatorRef.current = validator
   }, [validator])
 
   const schemaValidatorRef = useRef<ValidateFunction>(
-    schema ? ajv.compile(schema) : undefined
+    schema ? dataContext.ajvInstance?.compile(schema) : undefined
   )
 
   const showError = useCallback(() => {
@@ -210,6 +200,14 @@ export default function useDataValue<
     setShowFieldBlockError?.(path ?? id, false)
   }, [path, id, setShowFieldBlockError])
 
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: tr.fieldErrorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, tr.fieldErrorRequired])
+
   /**
    * Prepare error from validation logic with correct error messages based on props
    */
@@ -220,10 +218,15 @@ export default function useDataValue<
       }
 
       if (error instanceof FormError) {
-        const message =
-          (typeof error.validationRule === 'string' &&
-            errorMessagesRef.current?.[error.validationRule]) ||
-          error.message
+        let message = error.message
+
+        const { validationRule } = error
+        if (typeof validationRule === 'string') {
+          const fieldMessage = errorMessagesRef.current?.[validationRule]
+          if (fieldMessage) {
+            message = fieldMessage
+          }
+        }
 
         const messageWithValues = Object.entries(
           error.messageValues ?? {}
@@ -282,6 +285,14 @@ export default function useDataValue<
   const validateValue = useCallback(async () => {
     const isProcessActive = startProcess()
 
+    if (disabled) {
+      if (isProcessActive()) {
+        clearErrorState()
+      }
+      hideError()
+      return
+    }
+
     try {
       // Validate required
       const requiredError = transformers.current.validateRequired(
@@ -313,10 +324,10 @@ export default function useDataValue<
 
       // Validate by provided derivative validator
       if (validatorRef.current) {
-        const res = await validatorRef.current?.(
-          valueRef.current,
-          errorMessagesRef.current
-        )
+        const res = await validatorRef.current?.(valueRef.current, {
+          ...contextErrorMessages,
+          ...errorMessagesRef.current,
+        })
         if (res instanceof Error) {
           throw res
         }
@@ -332,14 +343,19 @@ export default function useDataValue<
     }
   }, [
     startProcess,
+    disabled,
+    hideError,
+    clearErrorState,
     emptyValue,
     required,
-    clearErrorState,
+    contextErrorMessages,
     persistErrorState,
   ])
 
   useUpdateEffect(() => {
-    schemaValidatorRef.current = schema ? ajv.compile(schema) : undefined
+    schemaValidatorRef.current = schema
+      ? dataContext.ajvInstance?.compile(schema)
+      : undefined
     validateValue()
   }, [schema, validateValue])
 
@@ -368,21 +384,32 @@ export default function useDataValue<
   }, [dataContext.showAllErrors, showError])
 
   useEffect(() => {
-    if (path && typeof props.value !== 'undefined') {
+    if (path) {
       const hasValue = pointer.has(dataContext.data, path)
-      const value = hasValue
+      const existingValue = hasValue
         ? pointer.get(dataContext.data, path)
         : undefined
+
       if (
         !hasValue ||
-        (props.value !== value && valueRef.current !== value)
+        (props.value !== existingValue &&
+          // Prevents an infinite loop by skipping the update if the value hasn't changed
+          valueRef.current !== existingValue)
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        dataContextUpdateDataValue?.(path, props.value)
+        dataContextUpdateDataValue?.(path, props.value, { disabled })
+        dataContextValidateData?.()
       }
     }
-  }, [dataContext.data, dataContextUpdateDataValue, path, props.value])
+  }, [
+    dataContext.data,
+    dataContextUpdateDataValue,
+    dataContextValidateData,
+    disabled,
+    path,
+    props.value,
+  ])
 
   const handleError = useCallback(() => {
     if (
@@ -466,7 +493,10 @@ export default function useDataValue<
       handleError()
 
       if (path) {
+        // setTimeout(() => {
         dataContextHandlePathChange?.(path, newValue)
+        // forceUpdate()
+        // }, 1e3)
       }
 
       forceUpdate()
@@ -563,6 +593,7 @@ export default function useDataValue<
     autoComplete:
       props.autoComplete ??
       (dataContext.autoComplete === true ? 'on' : 'off'),
+    disabled,
     ariaAttributes,
     dataContext,
     setHasFocus,
@@ -572,4 +603,52 @@ export default function useDataValue<
     updateValue,
     forceUpdate,
   }
+}
+
+interface ReturnAdditional<Value> {
+  id: string
+  name: string
+  value: Value
+  error: Error | FormError | undefined
+  autoComplete: HTMLInputElement['autocomplete']
+  disabled: boolean
+  hasError: boolean
+  isChanged: boolean
+  dataContext: ContextState
+  ariaAttributes: {
+    'aria-invalid'?: 'true' | 'false'
+    'aria-required'?: 'true' | 'false'
+  }
+  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  handleFocus: () => void
+  handleBlur: () => void
+  handleChange: FieldProps<unknown>['onChange']
+  updateValue: (value: Value) => void
+  forceUpdate: () => void
+}
+
+export function omitDataValueProps<
+  OmittedProps extends ReturnAdditional<unknown>,
+>(props: OmittedProps) {
+  // Do not include typical HTML attributes
+  const {
+    name,
+    error,
+    hasError,
+    isChanged,
+    autoComplete,
+    ariaAttributes,
+    dataContext,
+    setHasFocus,
+    handleFocus,
+    handleBlur,
+    handleChange,
+    updateValue,
+    forceUpdate,
+    ...restProps
+  } = props
+  return Object.freeze(restProps) as Omit<
+    OmittedProps,
+    keyof ReturnAdditional<unknown>
+  >
 }

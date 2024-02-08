@@ -1,0 +1,192 @@
+import { renderHook, act } from '@testing-library/react'
+import { makeUniqueId } from '../../../../../shared/component-helper'
+import useData from '../useData'
+
+describe('Form.useData', () => {
+  let identifier: string
+
+  beforeEach(() => {
+    identifier = makeUniqueId()
+  })
+
+  it('should return undefined by default', () => {
+    const { result } = renderHook(() => useData(identifier))
+    expect(result.current.data).toEqual(undefined)
+  })
+
+  it('should return "update" mathod that lets you update the data', () => {
+    const props = { key: 'value' }
+    const { result } = renderHook(() => useData(identifier, props))
+
+    expect(result.current.data).toEqual({ key: 'value' })
+
+    act(() => {
+      result.current.update('/key', (value) => {
+        return 'changed ' + value
+      })
+    })
+
+    expect(result.current.data).toEqual({ key: 'changed value' })
+  })
+
+  it('should sync two hooks by using "update"', () => {
+    const props = { key: 'value' }
+
+    const { result: A } = renderHook(() => useData(identifier))
+    const { result: B } = renderHook(() => useData(identifier, props))
+
+    expect(A.current.data).toEqual({ key: 'value' })
+    expect(B.current.data).toEqual({ key: 'value' })
+
+    act(() => {
+      B.current.update('/key', (value) => {
+        return 'changed ' + value
+      })
+    })
+
+    expect(A.current.data).toEqual({ key: 'changed value' })
+    expect(B.current.data).toEqual({ key: 'changed value' })
+  })
+
+  it('should rerender when shared state calls "set"', () => {
+    const { result: A } = renderHook(() => useData(identifier))
+    const { result: B } = renderHook(() => useData(identifier))
+
+    act(() => {
+      B.current.set({ foo: 'bar' })
+    })
+
+    expect(A.current.data).toEqual({ foo: 'bar' })
+  })
+
+  describe('initial data', () => {
+    it('should set data if no initial data is given', () => {
+      const { result } = renderHook(() => useData(identifier))
+
+      expect(result.current.data).toEqual(undefined)
+
+      act(() => {
+        result.current.update('/key', () => {
+          return 'changed value'
+        })
+      })
+
+      expect(result.current.data).toEqual({ key: 'changed value' })
+    })
+
+    it('should return initial data if data is not present', () => {
+      const { result } = renderHook((props = { key: 'value' }) =>
+        useData(identifier, props)
+      )
+
+      expect(result.current.data).toEqual({ key: 'value' })
+    })
+
+    it('should use the first initial data if is present', () => {
+      const { result: A } = renderHook(
+        (props = { key: 'existingValue' }) => useData(identifier, props)
+      )
+
+      const { result: B } = renderHook((props = { key: 'value' }) =>
+        useData(identifier, props)
+      )
+
+      expect(A.current.data).toEqual({ key: 'existingValue' })
+      expect(B.current.data).toEqual({ key: 'existingValue' })
+    })
+
+    it('should have initial data on second hook when the first sets it', () => {
+      const { result: A } = renderHook(() =>
+        useData(identifier, { initial: 'data' })
+      )
+      const { result: B } = renderHook(() => useData(identifier))
+
+      expect(A.current.data).toEqual({ initial: 'data' })
+      expect(B.current.data).toEqual({ initial: 'data' })
+    })
+
+    it('should have initial data on first hook when the second sets it', () => {
+      const { result: A } = renderHook(() => useData(identifier))
+      const { result: B } = renderHook(() =>
+        useData(identifier, { initial: 'data' })
+      )
+
+      expect(A.current.data).toEqual({ initial: 'data' })
+      expect(B.current.data).toEqual({ initial: 'data' })
+    })
+  })
+
+  it('should update data on second hook when using "set"', () => {
+    const { result: A } = renderHook(() =>
+      useData(identifier, { initial: 'data' })
+    )
+    const { result: B } = renderHook(() => useData(identifier))
+
+    expect(A.current.data).toEqual({ initial: 'data' })
+
+    act(() => {
+      B.current.set({ foo: 'bar' })
+    })
+
+    expect(A.current.data).toEqual({ foo: 'bar' })
+  })
+
+  it('should replace data with "set"', () => {
+    type Data = {
+      initial?: string
+      foo?: string
+      baz?: string
+    }
+
+    const { result: A } = renderHook(() => useData(identifier))
+    const { result: B } = renderHook(() =>
+      useData<Data>(identifier, { initial: 'data' })
+    )
+
+    expect(A.current.data).toEqual({ initial: 'data' })
+    expect(B.current.data).toEqual({ initial: 'data' })
+
+    // Change A
+    act(() => {
+      A.current.set({ foo: 'bar' })
+    })
+
+    expect(A.current.data).toEqual({ foo: 'bar' })
+    expect(B.current.data).toEqual({ foo: 'bar' })
+
+    act(() => {
+      A.current.set({ baz: 'new' })
+    })
+
+    expect(A.current.data).toEqual({ baz: 'new' })
+    expect(B.current.data).toEqual({ baz: 'new' })
+
+    // Change B
+    act(() => {
+      B.current.set({ foo: 'bar' })
+    })
+
+    expect(A.current.data).toEqual({ foo: 'bar' })
+    expect(B.current.data).toEqual({ foo: 'bar' })
+
+    act(() => {
+      B.current.set({ baz: 'new' })
+    })
+
+    expect(A.current.data).toEqual({ baz: 'new' })
+    expect(B.current.data).toEqual({ baz: 'new' })
+  })
+
+  it('should return filterData function', () => {
+    const { result } = renderHook((props = { key: 'value' }) =>
+      useData(identifier, props)
+    )
+
+    expect(result.current).toEqual({
+      data: { key: 'value' },
+      update: expect.any(Function),
+      set: expect.any(Function),
+      filterData: expect.any(Function),
+    })
+  })
+})

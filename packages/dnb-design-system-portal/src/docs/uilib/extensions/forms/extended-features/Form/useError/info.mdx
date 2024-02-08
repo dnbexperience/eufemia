@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Description
+
+With the `Form.useError` hook, you can monitor your form errors outside of the form itself.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function Component() {
+  const { hasErrors } = Form.useError('unique')
+
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+You link them together via the `id` (string) property.

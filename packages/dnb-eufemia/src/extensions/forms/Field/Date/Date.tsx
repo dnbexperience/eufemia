@@ -1,12 +1,17 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
 import { useDataValue } from '../../hooks'
-import { FieldProps, FieldHelpProps, JSONSchema } from '../../types'
+import {
+  FieldProps,
+  FieldHelpProps,
+  AllJSONSchemaVersions,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = FieldHelpProps &
   FieldProps<string> & {
@@ -18,16 +23,12 @@ function DateComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.dateErrorRequired,
-      pattern: tr.inputErrorPattern,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.dateErrorRequired,
+    pattern: tr.inputErrorPattern,
+  })
 
-  const schema = useMemo<JSONSchema>(
+  const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
         type: 'string',
@@ -105,7 +106,6 @@ function DateComponent(props: Props) {
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...ariaAttributes}
-        {...pickSpacingProps(props)}
       />
     </FieldBlock>
   )

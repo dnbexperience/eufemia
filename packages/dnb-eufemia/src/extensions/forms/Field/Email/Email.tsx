@@ -1,6 +1,7 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import SharedContext from '../../../../shared/Context'
+import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = StringFieldProps
 
@@ -8,14 +9,10 @@ function Email(props: Props) {
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
-  const errorMessages = useMemo(
-    () => ({
-      required: tr.emailErrorRequired,
-      pattern: tr.emailErrorPattern,
-      ...props.errorMessages,
-    }),
-    [tr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
+    required: tr.emailErrorRequired,
+    pattern: tr.emailErrorPattern,
+  })
 
   const StringFieldProps: Props = {
     label: sharedContext?.translation.Forms.emailLabel,

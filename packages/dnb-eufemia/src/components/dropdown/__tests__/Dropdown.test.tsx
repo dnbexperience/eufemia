@@ -182,15 +182,9 @@ describe('Dropdown component', () => {
       />
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-form-status').classList)
-    ).toEqual([
-      'dnb-form-status',
-      'dnb-form-status--warn',
-      'dnb-form-status__size--default',
-      'dnb-form-status--stretch',
-      'dnb-form-status--has-content',
-    ])
+    expect(document.querySelector('.dnb-form-status')).toHaveClass(
+      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content'
+    )
   })
 
   it('will stay open when keep_open and a selection is made', () => {

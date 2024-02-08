@@ -1,0 +1,24 @@
+---
+showTabs: true
+---
+
+## Description
+
+With the `Form.setData` hook, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+Form.setData('unique', { foo: 'bar' })
+
+function Component() {
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+You link them together via the `id` (string) property.
+
+Related helpers:
+
+- [getData](/uilib/extensions/forms/extended-features/Form/getData/)
+- [useData](/uilib/extensions/forms/extended-features/Form/useData/)

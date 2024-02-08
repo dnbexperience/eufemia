@@ -21,6 +21,8 @@ import QuickStart from './quick-start'
 - [State management](#state-management)
 - [Field components](#field-components)
 - [Value components](#value-components)
+- [Validation and error handling](#validation-and-error-handling)
+- [Localization](#localization)
 - [Layout](#layout)
 - [Best practices](#best-practices)
 - [Create your own components](#create-your-own-components)
@@ -39,7 +41,22 @@ The state management is done via the [JSON Pointer](#what-is-a-json-pointer) dir
 
 <Examples.GettingStarted />
 
-You find more details in the [useData](/uilib/extensions/forms/extended-features/Form/useData/) docs.
+#### Filter data
+
+You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the `Form.Handler`.
+
+The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+
+```tsx
+const filterDataHandler = (path, value, props) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+render(<Form.Handler filterData={filterDataHandler} />)
+```
+
+Here is a working example of how to [filter data](/uilib/extensions/forms/extended-features/Form/Handler/demos/#filter-your-data).
 
 ### What is a JSON Pointer?
 
@@ -60,13 +77,122 @@ const pointer = '/foo/bar/0/baz' // points to 'value'
 
 ### Field components
 
-The data-driven [base field components](/uilib/extensions/forms/base-fields) are named and structured according to the type of data they can display and produce based on the user's input and action in the interface.
-
-On top of these, a number of [feature fields](/uilib/extensions/forms/feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
+In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/fields/) section.
 
 ### Value components
 
 Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+### Validation and error handling
+
+Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema` or `validator` property.
+
+Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
+
+For monitoring your form for errors, you can use the [Form.useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
+
+#### required
+
+The required property is a boolean that indicates whether the field is required or not:
+
+```tsx
+render(<Field.PhoneNumber required />)
+```
+
+#### pattern
+
+The pattern property is a regular expression that the value of the field must match:
+
+```tsx
+render(<Field.PhoneNumber pattern="..." />)
+```
+
+#### schema
+
+The schema property is a JSON schema that the value of the field must match:
+
+```tsx
+const schema = {
+  pattern: '...',
+}
+render(<Field.PhoneNumber schema={schema} />)
+```
+
+#### validator
+
+The validator property is a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
+
+```tsx
+const validator = (value) => {
+  const isInvalid = new RegExp('...').test(value)
+  if (isInvalid) {
+    return new Error('Invalid value message')
+  }
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+You can find more info about error messages in the [Error messages](/uilib/extensions/forms/extended-features/Form/error-messages/) docs.
+
+##### Async validator with a Promise
+
+Async validation is also supported. The validator function can return a promise that resolves to an error message:
+
+```tsx
+const validator = (value) => {
+  return new Promise((resolve, reject) => {
+    // Delay the response
+    resolve(new Error('Invalid value')) // Show this message
+  })
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+##### Async validator with async/await
+
+```tsx
+const validator = async (value) => {
+  const isInvalid = await makeRequest(value)
+  if (isInvalid) {
+    return new Error('Invalid value') // Show this message
+  }
+}
+render(<Field.PhoneNumber validator={validator} />)
+```
+
+### Localization
+
+In short, use the Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). This will ensure that the correct language is used for all the fields in your form.
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider locale="en-GB">
+    <Field.PhoneNumber />
+  </Provider>,
+)
+```
+
+In addition, you can customize the translations globally:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider
+    locales={{
+      'nb-NO': {
+        Forms: { phoneNumberLabel: 'Custom' },
+      },
+    }}
+  >
+    <Field.PhoneNumber />
+  </Provider>,
+)
+```
 
 ### Layout
 

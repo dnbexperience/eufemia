@@ -4,19 +4,14 @@
  */
 
 import classnames from 'classnames'
-import React, {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from 'react'
+import React, { useContext, useRef } from 'react'
 import Button, { ButtonProps } from '../button/Button'
 import chevron_icon from '../../icons/chevron_right_medium'
 import {
   validateDOMAttributes,
   combineDescribedBy,
 } from '../../shared/component-helper'
-import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
+import HeightAnimation from '../height-animation/HeightAnimation'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
@@ -40,28 +35,6 @@ function StepIndicatorTriggerButton(
   const context = useContext(StepIndicatorContext)
 
   const buttonRef = useRef(props?.inner_ref || null)
-
-  const heightAnim = useRef(
-    new HeightAnimationInstance({
-      animate: !context?.no_animation,
-    })
-  ).current
-
-  useEffect(() => {
-    heightAnim.setElement(buttonRef.current)
-
-    return () => {
-      heightAnim.remove()
-    }
-  }, [])
-
-  // Adjust height
-  useLayoutEffect(() => {
-    const height = heightAnim.getHeight()
-    const toHeight = heightAnim.getUnknownHeight()
-
-    heightAnim.adjustTo(height, toHeight)
-  }, [context.activeStep, heightAnim])
 
   const item = context.data[context.activeStep || 0]
   const label = context.stepsLabel
@@ -129,7 +102,9 @@ function StepIndicatorTriggerButton(
           number={(context.activeStep || 0) + 1}
           hide_numbers={context.hide_numbers}
         >
-          {(typeof item === 'string' ? item : item && item.title) || ''}
+          <HeightAnimation>
+            {(typeof item === 'string' ? item : item && item.title) || ''}
+          </HeightAnimation>
         </StepItemWrapper>
       </Button>
     </div>

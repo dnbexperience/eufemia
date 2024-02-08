@@ -26,17 +26,53 @@ describe('Card', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match grid', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="layout-card-grid"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match flex', async () => {
+    const screenshot = await makeScreenshot({
+      addWrapper: false,
+      selector:
+        '[data-visual-test="layout-card-flex"] .dnb-flex-container',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
-// eslint-disable-next-line jest/no-identical-title
-describe('Card', () => {
-  it('have to match border in small screen size', async () => {
+describe('Card small screen', () => {
+  const params = {
+    pageViewport: {
+      width: 400,
+    },
+    url: '/uilib/components/card/demos',
+  }
+  it('have to match border', async () => {
     const screenshot = await makeScreenshot({
-      pageViewport: {
-        width: 400,
-      },
-      url: '/uilib/components/card/demos',
+      ...params,
       selector: '[data-visual-test="layout-card-border"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match grid', async () => {
+    const screenshot = await makeScreenshot({
+      ...params,
+      selector: '[data-visual-test="layout-card-grid"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match flex', async () => {
+    const screenshot = await makeScreenshot({
+      ...params,
+      addWrapper: false,
+      selector:
+        '[data-visual-test="layout-card-flex"] .dnb-flex-container',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

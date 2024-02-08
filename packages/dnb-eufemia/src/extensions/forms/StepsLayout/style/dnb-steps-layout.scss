@@ -5,8 +5,15 @@
   flex-flow: row wrap;
   column-gap: var(--spacing-medium);
 
+  &--drawer {
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+  }
+
   &__sidebar {
     flex: 0;
+    margin-bottom: 2rem;
   }
 
   &__contents {

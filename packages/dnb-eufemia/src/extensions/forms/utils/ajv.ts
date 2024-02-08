@@ -1,15 +1,43 @@
-import Ajv, { ErrorObject } from 'ajv'
+import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
 import { FormError } from '../types'
+import type Ajv from 'ajv/dist/2020'
 
-const ajv = new Ajv({
-  // If allErrors is off, ajv only give you the first error it finds
-  allErrors: true,
-})
+export type AjvInstance = typeof ajvInstance
+export { ajvInstance, Ajv }
 
-ajvErrors(ajv)
+/**
+ * Creates an instance of Ajv (Another JSON Schema Validator) with optional custom instance.
+ * If no instance is provided, a new instance of Ajv is created with the specified options.
+ * The created Ajv instance is enhanced with custom error handling.
+ *
+ * @param instance - Optional custom instance of Ajv.
+ * @returns The created or provided instance of Ajv.
+ */
+export function makeAjvInstance(instance?: Ajv) {
+  const ajv =
+    instance ||
+    new ajvInstance({
+      // If allErrors is off, Ajv only give you the first error it finds
+      allErrors: true,
+    })
 
-function getInstancePath(ajvError: ErrorObject): string {
+  if (!ajv['__ajvErrors__']) {
+    ajvErrors(ajv)
+    ajv['__ajvErrors__'] = true
+  }
+
+  return ajv
+}
+
+/**
+ * Returns the instance path of the given Ajv error.
+ * If the error is of type 'required', it is considered an object error and the missing property is shown under the relevant field.
+ * If the error is of type 'errorMessage', it is a wrapped error and the instance path is found from the original error to avoid issues like required-errors pointing at the parent object.
+ * @param ajvError - The Ajv error object.
+ * @returns The instance path of the error.
+ */
+export function getInstancePath(ajvError: ErrorObject): string {
   switch (ajvError.keyword) {
     case 'required': {
       // Required-errors are considered object errors by ajv, so they don't have instancePaths. We want to
@@ -27,7 +55,14 @@ function getInstancePath(ajvError: ErrorObject): string {
   return ajvError.instancePath
 }
 
-function getValidationRule(ajvError: ErrorObject): string {
+/**
+ * Retrieves the validation rule from an AJV error object.
+ * If the error object has an 'errorMessage' keyword, it unwraps the original error
+ * to avoid issues like required-errors pointing at the parent object.
+ * @param ajvError - The AJV error object.
+ * @returns The validation rule.
+ */
+export function getValidationRule(ajvError: ErrorObject): string {
   if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
     // to avoid issues like required-errors pointing at parent object.
@@ -36,10 +71,16 @@ function getValidationRule(ajvError: ErrorObject): string {
   return ajvError.keyword
 }
 
-function getMessageValues(
+/**
+ * Retrieves the message values from an AJV error object.
+ * @param ajvError The AJV error object.
+ * @returns The message values extracted from the error object.
+ */
+export function getMessageValues(
   ajvError: ErrorObject
 ): FormError['messageValues'] {
   const validationRule = getValidationRule(ajvError)
+  // console.log('validationRule', validationRule)
 
   switch (validationRule) {
     case 'minLength':
@@ -62,7 +103,13 @@ function getMessageValues(
   }
 }
 
-function ajvErrorToFormError(ajvError: ErrorObject): FormError {
+/**
+ * Converts an AJV error object to a FormError object.
+ *
+ * @param ajvError - The AJV error object to convert.
+ * @returns The converted FormError object.
+ */
+export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
   const error = new FormError(ajvError.message ?? 'Unknown error', {
     validationRule: getValidationRule(ajvError),
     // Keep the message values in the error object instead of injecting them into the message
@@ -73,7 +120,9 @@ function ajvErrorToFormError(ajvError: ErrorObject): FormError {
 }
 
 /**
- * Transform errors from ajv-validation into one error object (i.e for validating a flat value)
+ * Converts an array of Ajv errors to a single FormError.
+ * @param errors - An array of Ajv errors.
+ * @returns A single FormError or undefined if there are no errors.
  */
 export function ajvErrorsToOneFormError(
   errors?: ErrorObject[] | null
@@ -92,18 +141,17 @@ export function ajvErrorsToOneFormError(
 }
 
 /**
- *
- * @param errors Transform errors from ajv-validation into a record of errors (path as key, error as value)
+ * Transform errors from ajv-validation into a record of errors (path as key, error as value)
+ * @param errors
  * @returns
  */
 export const ajvErrorsToFormErrors = (
   errors?: ErrorObject[] | null
-): Record<string, FormError> =>
-  (errors ?? []).reduce((errors, ajvError) => {
+): Record<string, FormError> => {
+  return (errors ?? []).reduce((errors, ajvError) => {
     return {
       ...errors,
       [getInstancePath(ajvError)]: ajvErrorToFormError(ajvError),
     }
   }, {})
-
-export default ajv
+}

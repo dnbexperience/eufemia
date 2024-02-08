@@ -1,4 +1,4 @@
-import { GlobalStatus, Section, Code, Card, Flex } from '@dnb/eufemia/src'
+import { Section, Code, Card, Flex } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
   Form,
@@ -8,14 +8,28 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const BecomeCorporateCustomer = () => {
-  const [data, setData] = React.useState({})
+  const Output = () => {
+    const { data } = Form.useData('example-form', {
+      website: 'www.dnb.no',
+    })
+
+    return (
+      <Section
+        element="output"
+        innerSpace
+        backgroundColor="sand-yellow"
+        top
+        bottom="large"
+      >
+        JSON Output: <Code>{JSON.stringify(data, null, 4)}</Code>
+      </Section>
+    )
+  }
 
   return (
     <>
-      <GlobalStatus />
       <Form.Handler
-        data={data}
-        onChange={setData}
+        id="example-form"
         onSubmit={(data) => console.log('onSubmit', data)}
       >
         <StepsLayout top scrollTopOnStepChange>
@@ -163,15 +177,7 @@ export const BecomeCorporateCustomer = () => {
         </StepsLayout>
       </Form.Handler>
 
-      <Section
-        element="output"
-        innerSpace
-        backgroundColor="sand-yellow"
-        top
-        bottom="large"
-      >
-        JSON Output: <Code>{JSON.stringify(data, null, 4)}</Code>
-      </Section>
+      <Output />
     </>
   )
 }

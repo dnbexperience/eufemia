@@ -75,6 +75,20 @@ describe('Heading', () => {
   )
 
   it.each(headings)(
+    '%s should have _isHeadingElement',
+    ({ component: Component }) => {
+      expect(Component._isHeadingElement).toBe(true)
+    }
+  )
+
+  it.each(headings)(
+    '%s should have _supportsSpacingProps',
+    ({ component: Component }) => {
+      expect(Component._supportsSpacingProps).toBe(true)
+    }
+  )
+
+  it.each(headings)(
     '%s should use given size prop and keep element name',
     ({ component: Component }) => {
       render(<Component size="large" />)

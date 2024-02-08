@@ -18,6 +18,13 @@ function Component() {
 
 You link them together via the `id` (string) property.
 
+TypeScript support:
+
+```tsx
+type Data = { foo: string }
+const { data } = Form.useData<Data>('unique')
+```
+
 ## Initial data
 
 You decide where you want to provide the initial `data`. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook – or even in each Field, with the value property:
@@ -25,36 +32,18 @@ You decide where you want to provide the initial `data`. It can be done via the 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
-const existingData = {
+const initialData = {
   foo: 'bar',
 }
 
 function Component() {
-  const { data } = Form.useData('unique', existingData)
+  const { data } = Form.useData('unique', initialData)
 
   return (
     <Form.Handler id="unique">
       <Field.String path="/foo" />
     </Form.Handler>
   )
-}
-```
-
-When you're providing the initial data, it's important to make sure that React can remember this data. If it doesn't, React will treat the data as a new object every time it re-renders, which can lead to unnecessary comparisons and performance issues.
-
-You can use the useMemo hook to make sure React remembers the data:
-
-```jsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-function Component() {
-  const existingData = React.useMemo(
-    {
-      foo: 'bar',
-    },
-    [],
-  )
-
-  const { data } = Form.useData('unique-id', existingData)
 }
 ```
 
@@ -67,12 +56,12 @@ It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-const existingData = {
+const initialData = {
   foo: 'bar',
 }
 
 function Component() {
-  const { update } = Form.useData('unique' data={existingData})
+  const { update } = Form.useData('unique', (data = { initialData }))
 
   useEffect(() => {
     update('/foo', () => 'new value')
@@ -83,3 +72,59 @@ function Component() {
 ```
 
 The `update` function has TypeScript support and returns the correct type for `existingValue`.
+
+## Replace the whole data set
+
+With the `set` method, you can replace the whole data set if needed.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const initialData = {
+  foo: 'bar',
+}
+
+function Component() {
+  const { data, set } = Form.useData('unique')
+
+  useEffect(() => {
+    set(initialData)
+  }, [])
+
+  return (
+    <Form.Handler id="unique">
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
+}
+```
+
+## Filter data
+
+You can use the `filterData` method to filter your data.
+
+You simply give it the same kind of callback function as you would with the `Form.Handler` [filterData](/uilib/extensions/forms/extended-features/Form/Handler/demos/#filter-your-data) property method.
+
+The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+
+It returns the filtered form data.
+
+```tsx
+const filterDataHandler = (path, value, props) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+
+const Component = () => {
+  const { data, filterData } = Form.useData(id)
+
+  const filteredData = filterData(filterDataHandler)
+
+  return (
+    <Form.Handler id={id}>
+      <Field.String path="/foo" disabled />
+    </Form.Handler>
+  )
+}
+```

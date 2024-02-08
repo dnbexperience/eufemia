@@ -7,9 +7,9 @@ function Currency(props: Props) {
   const numberProps: Props = {
     ...props,
     label: props.label,
-    thousandSeparator: props.thousandSeparator ?? ' ',
-    suffix: props.suffix ?? ' kr',
+    currency: props.currency ?? true,
   }
+
   return <NumberValue {...numberProps} />
 }
 

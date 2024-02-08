@@ -88,6 +88,9 @@
     flex-wrap: wrap;
   }
 
+  &--row-gap-off {
+    --gap: 0;
+  }
   &--row-gap-small {
     --gap: var(--spacing-small);
   }
