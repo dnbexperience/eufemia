@@ -69,7 +69,8 @@ function Password(props: PasswordProps) {
   })
 
   const preparedProps: PasswordProps = {
-    ...props,
+    // deprecated – the convert can be removed in v12
+    ...convertSnakeCaseProps(props),
     errorMessages,
   }
 
