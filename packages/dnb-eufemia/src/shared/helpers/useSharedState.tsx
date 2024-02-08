@@ -77,7 +77,7 @@ export function useSharedState<Data>(
 
   return {
     get: sharedState?.get,
-    data: sharedState?.get?.(),
+    data: sharedState?.get?.() as Data,
     hadInitialData: sharedState?.hadInitialData,
     update,
     set,

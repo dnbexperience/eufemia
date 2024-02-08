@@ -1,0 +1,62 @@
+---
+showTabs: true
+---
+
+## Description
+
+With the `Form.getData` hook, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function Component() {
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+
+// Later, when there is data available
+const { data } = Form.getData('unique')
+```
+
+You link them together via the `id` (string) property.
+
+TypeScript support:
+
+```tsx
+type Data = { foo: string }
+const { data } = Form.getData<Data>('unique')
+```
+
+Related helpers:
+
+- [setData](/uilib/extensions/forms/extended-features/Form/setData/)
+- [useData](/uilib/extensions/forms/extended-features/Form/useData/)
+
+## Filter data
+
+You can use the `filterData` method to filter your data.
+
+You simply give it the same kind of callback function as you would with the `Form.Handler` [filterData](/uilib/extensions/forms/extended-features/Form/Handler/demos/#filter-your-data) property method.
+
+The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+
+It returns the filtered form data.
+
+```tsx
+const Component = () => {
+  return (
+    <Form.Handler id={id}>
+      <Field.String path="/foo" disabled />
+    </Form.Handler>
+  )
+}
+
+const filterDataHandler = (path, value, props) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+
+// Later, when there is data available
+const { data, filterData } = Form.getData(id)
+const filteredData = filterData(filterDataHandler)
+```

@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Button, Flex } from '@dnb/eufemia/src'
+import { Button, Flex, Section } from '@dnb/eufemia/src'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
 
 export function Default() {
@@ -92,6 +92,44 @@ export function WithoutFormHandler() {
             <Component />
           </Flex.Vertical>
         )
+      }}
+    </ComponentBox>
+  )
+}
+
+export function FilterData() {
+  return (
+    <ComponentBox>
+      {() => {
+        const filterDataHandler = (path, value, props) => {
+          if (value === 'removed') {
+            return false
+          }
+        }
+
+        const Component = () => {
+          const { data, filterData } = Form.useData('filter-data')
+
+          return (
+            <>
+              <Form.Handler id="filter-data">
+                <Flex.Stack>
+                  <Field.String path="/foo" value="bar" />
+                  <Field.String path="/baz" value="removed" />
+
+                  <Section backgroundColor="sand-yellow" innerSpace>
+                    <pre>{JSON.stringify(data)}</pre>
+                    <pre>
+                      {JSON.stringify(filterData(filterDataHandler))}
+                    </pre>
+                  </Section>
+                </Flex.Stack>
+              </Form.Handler>
+            </>
+          )
+        }
+
+        return <Component />
       }}
     </ComponentBox>
   )

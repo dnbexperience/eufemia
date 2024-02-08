@@ -5,7 +5,10 @@ import {
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import type { Path } from '../../DataContext/Context'
-import type { FilterData, Props } from '../../DataContext/Provider'
+import type {
+  FilterData,
+  FilterDataHandler,
+} from '../../DataContext/Provider'
 import { useMountEffect } from '../../hooks'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
@@ -32,6 +35,11 @@ type UseDataReturn<Data> = {
   filterData: (filterDataHandler: FilterData) => Partial<Data>
 }
 
+type SharedAttachment<Data> = {
+  rerenderUseDataHook: () => void
+  filterDataHandler?: FilterDataHandler<Data>
+}
+
 /**
  * Custom hook that provides form data management functionality.
  *
@@ -44,8 +52,10 @@ export default function useData<Data>(
   id: SharedStateId,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
-  const sharedDataRef = useRef(null)
-  const sharedAttachmentsRef = useRef(null)
+  const sharedDataRef =
+    useRef<ReturnType<typeof useSharedState<Data>>>(null)
+  const sharedAttachmentsRef =
+    useRef<ReturnType<typeof useSharedState<SharedAttachment<Data>>>>(null)
   const hasMounted = useRef(false)
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -73,10 +83,10 @@ export default function useData<Data>(
     forceUpdate
   )
 
-  sharedAttachmentsRef.current = useSharedState<{
-    filterDataHandler?: Props<Data>['filterData']
-    rerenderUseDataHook?: () => void
-  }>(id + '-attachments', { rerenderUseDataHook })
+  sharedAttachmentsRef.current = useSharedState<SharedAttachment<Data>>(
+    id + '-attachments',
+    { rerenderUseDataHook }
+  )
 
   const setHandler = useCallback((newData: Data) => {
     sharedDataRef.current.update(newData)
@@ -104,11 +114,9 @@ export default function useData<Data>(
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
     (filter) => {
       const data = sharedDataRef.current.data
-      return (
-        sharedAttachmentsRef.current.data?.filterDataHandler?.(
-          data,
-          filter
-        ) || (() => data)
+      return sharedAttachmentsRef.current.data?.filterDataHandler?.(
+        data,
+        filter
       )
     },
     []

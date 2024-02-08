@@ -29,6 +29,10 @@ const useLayoutEffect =
 
 export type UpdateDataValue = (path: Path, data: unknown) => void
 
+export type FilterDataHandler<Data> = (
+  data: Data,
+  filter: FilterData
+) => Partial<Data>
 export type FilterData = (
   path: Path,
   value: any,
