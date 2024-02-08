@@ -17,6 +17,7 @@ import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useDataValue from '../../hooks/useDataValue'
+import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
 
 export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
