@@ -43,13 +43,13 @@ describe('Password component', () => {
       </Provider>
     )
 
-    const button = document.querySelector('button')
+    const button = () => document.querySelector('button')
 
-    expect(button.getAttribute('aria-label')).toBe(nb.passwordShowLabel)
+    expect(button().getAttribute('aria-label')).toBe(nb.passwordShowLabel)
 
-    await userEvent.click(button)
+    await userEvent.click(button())
 
-    expect(button.getAttribute('aria-label')).toBe(nb.passwordHideLabel)
+    expect(button().getAttribute('aria-label')).toBe(nb.passwordHideLabel)
 
     rerender(
       <Provider locale="en-GB">
@@ -57,11 +57,11 @@ describe('Password component', () => {
       </Provider>
     )
 
-    expect(button.getAttribute('aria-label')).toBe(en.passwordHideLabel)
+    expect(button().getAttribute('aria-label')).toBe(en.passwordHideLabel)
 
-    await userEvent.click(button)
+    await userEvent.click(button())
 
-    expect(button.getAttribute('aria-label')).toBe(en.passwordShowLabel)
+    expect(button().getAttribute('aria-label')).toBe(en.passwordShowLabel)
   })
 
   it('has aria-describedby and aria-controls', () => {
@@ -106,18 +106,20 @@ describe('Password component', () => {
     ).toBe('focus')
   })
 
-  it('can change the visibility of the password', () => {
+  it('can change the visibility of the password', async () => {
     render(<Password />)
 
-    const Button = document.querySelector('button')
-    expect(Button).toBeInTheDocument()
+    const button = () => document.querySelector('button')
 
-    fireEvent.click(Button)
+    expect(button()).toBeInTheDocument()
+
+    await userEvent.click(button())
+
     expect(
       document.querySelector('.dnb-input__input').getAttribute('type')
     ).toBe('text')
 
-    fireEvent.click(Button)
+    await userEvent.click(button())
     expect(
       document.querySelector('.dnb-input__input').getAttribute('type')
     ).toBe('password')
@@ -129,9 +131,10 @@ describe('Password component', () => {
     ).not.toBe('focus')
   })
 
-  it('events gets triggered on interaction', () => {
+  it('events gets triggered on interaction', async () => {
     const on_show_password = jest.fn()
     const on_hide_password = jest.fn()
+
     render(
       <Password
         on_show_password={on_show_password}
@@ -139,17 +142,17 @@ describe('Password component', () => {
       />
     )
 
-    const Button = document.querySelector('button')
+    const button = () => document.querySelector('button')
 
-    fireEvent.click(Button)
+    await userEvent.click(button())
     expect(on_show_password).toHaveBeenCalledTimes(1)
     expect(on_hide_password).not.toHaveBeenCalled()
 
-    fireEvent.click(Button)
+    await userEvent.click(button())
     expect(on_show_password).toHaveBeenCalledTimes(1)
     expect(on_hide_password).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(Button)
+    await userEvent.click(button())
     expect(on_show_password).toHaveBeenCalledTimes(2)
     expect(on_hide_password).toHaveBeenCalledTimes(1)
   })
@@ -218,12 +221,13 @@ describe('Password component', () => {
         <Password />
       </Provider>
     )
-    const button = document.querySelector('.dnb-button--input-button')
+    const button = () =>
+      document.querySelector('.dnb-button--input-button')
 
-    expect(button).toHaveAttribute('aria-label', 'Show it!')
+    expect(button()).toHaveAttribute('aria-label', 'Show it!')
 
-    await userEvent.click(button)
+    await userEvent.click(button())
 
-    expect(button).toHaveAttribute('aria-label', 'Hide it!')
+    expect(button()).toHaveAttribute('aria-label', 'Hide it!')
   })
 })
