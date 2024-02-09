@@ -200,10 +200,10 @@ describe('Password component', () => {
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {
-    const PasswordComp = render(
+    const result = render(
       <Password id="input" label="label" value="some value" />
     )
-    expect(await axeComponent(PasswordComp)).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 
   it('should allow changing visibility-toggle aria-labels using the Provider', async () => {
