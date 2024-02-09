@@ -95,7 +95,7 @@ function Password(props: PasswordProps) {
   }
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
-  const ariaLabels = useCallback(() => {
+  const getAriaLabel = useCallback(() => {
     const { passwordShowLabel, passwordHideLabel } = translations
 
     const ariaLabels = {
@@ -113,6 +113,8 @@ function Password(props: PasswordProps) {
 
     return ariaLabels
   }, [props.show_password, props.hide_password, translations])
+
+  const ariaLabels = getAriaLabel()
 
   return (
     <StringField
