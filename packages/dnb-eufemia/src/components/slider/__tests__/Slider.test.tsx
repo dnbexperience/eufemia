@@ -107,14 +107,6 @@ describe('Slider component', () => {
     )
   })
 
-  it('should support marker', async () => {
-    render(<Slider {...props} marker={{ value: 30 }} />)
-
-    const sliderElement = document.querySelector('.dnb-slider')
-
-    expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
-  })
-
   it('has correct value on mouse move', () => {
     render(<Slider {...props} />)
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
@@ -350,8 +342,83 @@ describe('Slider component', () => {
         'dnb-tooltip--active',
       ])
     })
+  })
 
-    it('shows Tooltip when given a marker with text', async () => {
+  describe('Slider with marker', () => {
+    it('should render marker in horizontal direction', () => {
+      const { rerender } = render(
+        <Slider {...props} marker={{ value: 30 }} />
+      )
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
+
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+      expect(markerElement).toHaveAttribute('style', 'left: 30%;')
+
+      rerender(<Slider {...props} />)
+
+      expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
+    })
+
+    it('should render marker in vertical direction', () => {
+      const { rerender } = render(
+        <Slider {...props} marker={{ value: 30 }} vertical />
+      )
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
+
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+      expect(markerElement).toHaveAttribute('style', 'top: 70%;')
+
+      rerender(<Slider {...props} />)
+
+      expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
+    })
+
+    it('should have html attributes to make it accessible', () => {
+      const { rerender } = render(
+        <Slider {...props} marker={{ value: 30 }} />
+      )
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+      expect(markerElement).toHaveAttribute('style', 'left: 30%;')
+      expect(markerElement).toHaveAttribute('aria-label', '30')
+      expect(markerElement).toHaveAttribute('tabIndex', '0')
+
+      rerender(<Slider {...props} marker={{ value: 120 }} />)
+
+      expect(markerElement).toHaveAttribute('style', 'left: 100%;')
+      expect(markerElement).toHaveAttribute('aria-label', '120')
+    })
+
+    it('shows Tooltip with info', async () => {
+      const marker = { value: 30 }
+      render(<Slider {...props} marker={marker} />)
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+
+      fireEvent.mouseEnter(markerElement)
+
+      await wait(300)
+
+      const tooltipElement = getTooltipElements(0)
+      expect(tooltipElement).toHaveClass('dnb-tooltip--active')
+      expect(tooltipElement).toHaveTextContent('30')
+    })
+
+    it('shows Tooltip with  text', async () => {
       const marker = { value: 30, text: 'Here is the text' }
       render(<Slider {...props} marker={marker} />)
 
@@ -365,14 +432,7 @@ describe('Slider component', () => {
       await wait(300)
 
       const tooltipElement = getTooltipElements(0)
-      expect(Array.from(tooltipElement.classList)).toEqual([
-        'dnb-tooltip',
-        'dnb-tooltip--active',
-      ])
-      const textElement = tooltipElement.querySelector(
-        '.dnb-tooltip__content'
-      )
-      expect(textElement.innerHTML).toBe(marker.text)
+      expect(tooltipElement).toHaveTextContent(marker.text)
     })
   })
 
