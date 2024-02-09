@@ -66,8 +66,8 @@ function Password(props: PasswordProps) {
   const translations = sharedContext.translation.Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.passwordRequired,
-    pattern: translations.passwordErrorPattern,
+    required: translations.inputErrorRequired,
+    pattern: translations.inputErrorPattern,
   })
 
   const preparedProps: PasswordProps = {

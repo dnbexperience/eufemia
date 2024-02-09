@@ -219,8 +219,6 @@ export default {
       selectCountryPlaceholder: 'Select a country',
       selectCountryErrorRequired: 'You must select a country',
       passwordLabel: 'Password',
-      passwordRequired: 'You must fill out the password',
-      passwordErrorPattern: 'You must enter a valid password',
       passwordShowLabel: 'Show password',
       passwordHideLabel: 'Hide password',
     },
