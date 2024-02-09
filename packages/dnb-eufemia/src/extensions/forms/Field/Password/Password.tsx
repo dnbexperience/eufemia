@@ -38,11 +38,11 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
    */
   innerRef?: MutableRefObject<HTMLInputElement>
   /**
-   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowPasswordLabel` instead.
+   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowLabel` instead.
    */
   show_password?: string
   /**
-   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHidePasswordLabel` instead.
+   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHideLabel` instead.
    */
   hide_password?: string
   /**
