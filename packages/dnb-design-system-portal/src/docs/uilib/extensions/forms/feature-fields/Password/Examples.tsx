@@ -1,20 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
 
-export const Empty = () => {
-  return (
-    <ComponentBox>
-      <Field.Password
-        onFocus={(value) => console.log('onFocus', value)}
-        onBlur={(value) => console.log('onBlur', value)}
-        onChange={(value) => console.log('onChange', value)}
-        onHidePassword={(event) => console.log('onHidePassword', event)}
-        onShowPassword={(event) => console.log('onShowPassword', event)}
-      />
-    </ComponentBox>
-  )
-}
-
 export const Placeholder = () => {
   return (
     <ComponentBox>
