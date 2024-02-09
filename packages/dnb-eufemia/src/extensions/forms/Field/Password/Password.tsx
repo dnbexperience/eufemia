@@ -11,7 +11,6 @@ import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 
 import { InputProps, SubmitButton } from '../../../../components/Input'
-import { dispatchCustomElementEvent } from '../../../../shared/component-helper'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
@@ -20,15 +19,20 @@ import useErrorMessage from '../../hooks/useErrorMessage'
 import useDataValue from '../../hooks/useDataValue'
 import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
 
+export type PasswordVisibilityEvent =
+  React.MouseEvent<HTMLButtonElement> & {
+    value: string
+  }
+
 export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
    * Fires when the input toggles to show the password.
    */
-  onShowPassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  onShowPassword?: (event: PasswordVisibilityEvent) => void
   /**
    * Fires when the input toggles to hide the password.
    */
-  onHidePassword?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  onHidePassword?: (event: PasswordVisibilityEvent) => void
   /**
    * The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size="2" then it will be forwarded as the input element attribute.
    */
@@ -48,11 +52,11 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
    * @deprecated in v11, use `onShowPassword` instead.
    */
-  on_show_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  on_show_password?: (event: PasswordVisibilityEvent) => void
   /**
    * @deprecated in v11, use `onHidePassword` instead.
    */
-  on_hide_password?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  on_hide_password?: (event: PasswordVisibilityEvent) => void
 }
 
 function Password(props: PasswordProps) {
@@ -84,15 +88,25 @@ function Password(props: PasswordProps) {
 
   const ref = useRef<ElementRef<'input'>>(props.innerRef?.current ?? null)
 
-  // used in toggleVisibility, for dispatchCustomElementEvent.
-  // const componentReference = {
-  //   props,
-  //   context: sharedContext,
-  //   state: { hidden },
-  //   ref,
-  //   id,
-  //   toggleVisibility,
-  // }
+  const toggleVisibility = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const { onShowPassword, onHidePassword } =
+        convertSnakeCaseProps(props)
+
+      setHidden((hidden) => {
+        hidden
+          ? onShowPassword?.({ ...event, value })
+          : onHidePassword?.({ ...event, value })
+
+        return !hidden
+      })
+
+      if (ref.current) {
+        ref.current.focus()
+      }
+    },
+    [value, props]
+  )
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   const getAriaLabel = useCallback(() => {
@@ -113,25 +127,6 @@ function Password(props: PasswordProps) {
 
     return ariaLabels
   }, [props.show_password, props.hide_password, translations])
-
-  const toggleVisibility = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      setHidden((hidden) => {
-        dispatchCustomElementEvent(
-          { props, context: sharedContext, state: { hidden }, ref, id },
-          hidden ? 'onShowPassword' : 'onHidePassword',
-          { event, value }
-        )
-
-        return !hidden
-      })
-
-      if (ref.current) {
-        ref.current.focus()
-      }
-    },
-    [value, props, sharedContext, ref, id]
-  )
 
   const ariaLabels = getAriaLabel()
 
