@@ -5,14 +5,7 @@ import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
 import { makeUniqueId } from '../../shared/component-helper'
 
-type HelpButtonContentProps = {
-  isOpen: boolean
-  contentElement: Element
-  children: React.ReactNode | string
-  id: string
-}
-
-export default function HelpButtonInline(props: HelpButtonProps) {
+export function HelpButtonInline(props: HelpButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [contentElement, setContentElement] = useState(null)
 
@@ -43,24 +36,31 @@ export default function HelpButtonInline(props: HelpButtonProps) {
         id={baseId.current}
       />
       {contentElement && (
-        <HelpButtonContent
+        <HelpButtonInlineContent
           isOpen={isOpen}
           contentElement={contentElement}
           id={contentId}
         >
           {children}
-        </HelpButtonContent>
+        </HelpButtonInlineContent>
       )}
     </>
   )
 }
 
-function HelpButtonContent({
+export type HelpButtonInlineContentProps = {
+  isOpen: boolean
+  contentElement: Element
+  children: React.ReactNode | string
+  id: string
+}
+
+export function HelpButtonInlineContent({
   isOpen,
   contentElement,
   children,
   id,
-}: HelpButtonContentProps) {
+}: HelpButtonInlineContentProps) {
   return ReactDOM.createPortal(
     <span id={id}>
       <HeightAnimation open={isOpen}>

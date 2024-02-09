@@ -7,7 +7,10 @@ import React from 'react'
 import Context from '../../shared/Context'
 import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
-import HelpButtonInline from './HelpButtonInline'
+import {
+  HelpButtonInline,
+  HelpButtonInlineContent,
+} from './HelpButtonInline'
 import type { ButtonProps } from '../button/Button'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
@@ -48,10 +51,12 @@ export default function HelpButton(localProps: HelpButtonProps) {
   }
 
   if (displayMethod === 'inline') {
+    console.log(props)
     return <HelpButtonInline {...params}>{children}</HelpButtonInline>
   }
 
   return <Dialog triggerAttributes={params}>{children}</Dialog>
 }
 
+HelpButton.Content = HelpButtonInlineContent
 HelpButton._supportsSpacingProps = true
