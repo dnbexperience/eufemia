@@ -1,48 +1,43 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { makeUniqueId } from '../../shared/component-helper'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp } from './SliderHelpers'
-import Span from '../../elements/Span'
+import { clamp, getFormattedNumber } from './SliderHelpers'
 import Tooltip from '../tooltip/Tooltip'
 
 export default function SliderMarker() {
   const { isReverse, isVertical, allProps } = useSliderProps()
-  const { marker, min, max } = allProps
+  const { marker, min, max, numberFormat } = allProps
+
+  const { value, text } = marker
+  const getParams = useCallback(() => {
+    const markerId = `slider-marker-${makeUniqueId()}`
+    const { number, aria } = getFormattedNumber(value, numberFormat || {})
+
+    let percent = clamp(((value - min) * 100) / (max - min))
+    if (isReverse) {
+      percent = 100 - percent
+    }
+
+    const params = {
+      id: markerId,
+      'aria-label': aria,
+      tabIndex: 0,
+      style: {
+        [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
+      },
+      children: (
+        <Tooltip targetSelector={`#${markerId}`}>{text || number}</Tooltip>
+      ),
+    }
+
+    return params
+  }, [isReverse, isVertical, max, min, numberFormat, text, value])
+
   if (!marker || !marker?.value) {
     return null
   }
 
-  const { value, text } = marker
-  let percent = clamp(((value - min) * 100) / (max - min))
-  if (isReverse) {
-    percent = 100 - percent
-  }
+  const params = getParams()
 
-  const style = {
-    [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
-  }
-
-  if (!text) {
-    return (
-      <Span
-        style={style}
-        className="dnb-slider__marker"
-        aria-label="Marker"
-      />
-    )
-  }
-
-  const markerId = `slider-marker-${makeUniqueId()}`
-  return (
-    <>
-      <Span
-        id={markerId}
-        style={style}
-        className="dnb-slider__marker"
-        role="tooltip"
-        aria-label={marker.text}
-      />
-      <Tooltip targetSelector={`#${markerId}`}>{text}</Tooltip>
-    </>
-  )
+  return <mark className="dnb-slider__marker" {...params} />
 }
