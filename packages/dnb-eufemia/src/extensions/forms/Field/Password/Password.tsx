@@ -116,6 +116,44 @@ function Password(props: PasswordProps) {
 
   const ariaLabels = getAriaLabel()
 
+  const ToggleVisibilityButton = useCallback(
+    () => (
+      <SubmitButton
+        id={id + '-submit-button'}
+        type="button"
+        variant="secondary"
+        aria-controls={id}
+        aria-label={
+          hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
+        }
+        icon={
+          props.size === 'large'
+            ? hidden
+              ? IconViewMedium
+              : IconViewOffMedium
+            : hidden
+            ? IconView
+            : IconViewOff
+        }
+        skeleton={sharedContext.skeleton}
+        status={hasError ? 'error' : undefined}
+        status_state={hasError ? 'error' : undefined}
+        disabled={disabled}
+        onClick={toggleVisibility}
+      />
+    ),
+    [
+      id,
+      hidden,
+      sharedContext.skeleton,
+      hasError,
+      disabled,
+      props.size,
+      toggleVisibility,
+      ariaLabels,
+    ]
+  )
+
   return (
     <StringField
       id={id}
@@ -128,31 +166,7 @@ function Password(props: PasswordProps) {
       hasError={hasError}
       disabled={disabled}
       {...dataValueProps}
-      submitElement={
-        <SubmitButton
-          id={id + '-submit-button'}
-          type="button"
-          variant="secondary"
-          aria-controls={id}
-          aria-label={
-            hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
-          }
-          icon={
-            props.size === 'large'
-              ? hidden
-                ? IconViewMedium
-                : IconViewOffMedium
-              : hidden
-              ? IconView
-              : IconViewOff
-          }
-          skeleton={sharedContext.skeleton}
-          status={hasError ? 'error' : undefined}
-          status_state={hasError ? 'error' : undefined}
-          disabled={disabled}
-          onClick={toggleVisibility}
-        />
-      }
+      submitElement={<ToggleVisibilityButton />}
     />
   )
 
