@@ -179,8 +179,8 @@ function Password(props: PasswordProps) {
       value={value}
       hasError={hasError}
       disabled={disabled}
-      {...dataValueProps}
       submitElement={<ToggleVisibilityButton />}
+      {...dataValueProps}
     />
   )
 }
