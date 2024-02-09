@@ -85,14 +85,14 @@ function Password(props: PasswordProps) {
   const ref = useRef<ElementRef<'input'>>(props.innerRef?.current ?? null)
 
   // used in toggleVisibility, for dispatchCustomElementEvent.
-  const componentReference = {
-    props,
-    context: sharedContext,
-    state: { hidden },
-    ref,
-    id,
-    toggleVisibility,
-  }
+  // const componentReference = {
+  //   props,
+  //   context: sharedContext,
+  //   state: { hidden },
+  //   ref,
+  //   id,
+  //   toggleVisibility,
+  // }
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   const getAriaLabel = useCallback(() => {
@@ -113,6 +113,25 @@ function Password(props: PasswordProps) {
 
     return ariaLabels
   }, [props.show_password, props.hide_password, translations])
+
+  const toggleVisibility = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setHidden((hidden) => {
+        dispatchCustomElementEvent(
+          { props, context: sharedContext, state: { hidden }, ref, id },
+          hidden ? 'onShowPassword' : 'onHidePassword',
+          { event, value }
+        )
+
+        return !hidden
+      })
+
+      if (ref.current) {
+        ref.current.focus()
+      }
+    },
+    [value, props, sharedContext, ref, id]
+  )
 
   const ariaLabels = getAriaLabel()
 
@@ -169,22 +188,6 @@ function Password(props: PasswordProps) {
       submitElement={<ToggleVisibilityButton />}
     />
   )
-
-  function toggleVisibility(event: React.MouseEvent<HTMLButtonElement>) {
-    setHidden((hidden) => {
-      dispatchCustomElementEvent(
-        componentReference,
-        hidden ? 'onShowPassword' : 'onHidePassword',
-        { event, value }
-      )
-
-      return !hidden
-    })
-
-    if (ref.current) {
-      ref.current.focus()
-    }
-  }
 }
 
 export default Password
