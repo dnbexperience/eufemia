@@ -8,4 +8,9 @@
   --slider-line-after: var(--color-mint-green-50);
   --slider-line-before--disabled: var(--color-sea-green-30);
   --slider-line-after--disabled: var(--color-mint-green-25);
+
+  &__marker:hover,
+  &__marker:focus-within {
+    background-color: var(--color-emerald-green);
+  }
 }

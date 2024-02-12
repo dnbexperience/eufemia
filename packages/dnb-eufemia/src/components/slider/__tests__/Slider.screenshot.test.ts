@@ -77,4 +77,16 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match slider with marker', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem', 'padding-top': '2rem' },
+      selector: '[data-visual-test="slider-marker"] .dnb-slider__wrapper',
+      simulateSelector:
+        '[data-visual-test="slider-marker"] .dnb-slider__marker',
+      simulate: 'hover',
+      waitAfterSimulate: 300,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

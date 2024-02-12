@@ -37,6 +37,35 @@ const FixedSizeWrapper = styled.div`
   margin-bottom: 1rem;
 `
 
+export function Marker() {
+  return (
+    <>
+      <Slider
+        marker={{ value: 50 }}
+        label="Label with some text"
+        labelDirection="vertical"
+        min={-40}
+        max={100}
+        stretch
+        numberFormat={(value) => format(value, { currency: 'USD' })}
+        tooltip
+      />
+      <div style={{ height: '20rem' }}>
+        <Slider
+          marker={{ value: 50, text: 'Custom text' }}
+          label="Label with some text"
+          labelDirection="vertical"
+          min={-40}
+          max={100}
+          stretch
+          tooltip
+          vertical
+        />
+      </div>
+    </>
+  )
+}
+
 export function NegativeValues() {
   const [value, setValue] = React.useState<Array<number>>([-20, 50])
 

@@ -8,4 +8,8 @@
   --slider-line-after: var(--sb-color-gray-light);
   --slider-line-before--disabled: var(--sb-color-gray);
   --slider-line-after--disabled: var(--sb-color-gray-light);
+
+  &__marker :hover {
+    background-color: var(--sb-color-violet);
+  }
 }

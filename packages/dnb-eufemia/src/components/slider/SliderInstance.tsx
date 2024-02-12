@@ -24,6 +24,7 @@ import {
   SliderTrackBefore,
   SliderTrackAfter,
 } from './SliderTrack'
+import SliderMarker from './SliderMarker'
 import { SliderThumb } from './SliderThumb'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
@@ -54,6 +55,7 @@ export function SliderInstance() {
     skeleton,
     disabled,
     className,
+    marker,
   } = allProps
 
   const mainParams = {
@@ -88,8 +90,8 @@ export function SliderInstance() {
           text={label}
           disabled={disabled}
           skeleton={skeleton}
-          label_direction={labelDirection}
-          sr_only={labelSrOnly}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
         />
       )}
 
@@ -112,6 +114,7 @@ export function SliderInstance() {
           {showButtons && (isReverse ? addButton : subtractButton)}
 
           <SliderMainTrack>
+            {marker && <SliderMarker />}
             <SliderThumb />
             <SliderTrackBefore />
             <SliderTrackAfter />
