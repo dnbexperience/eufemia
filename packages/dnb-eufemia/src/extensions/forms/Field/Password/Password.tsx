@@ -15,8 +15,6 @@ import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
-import useErrorMessage from '../../hooks/useErrorMessage'
-import useDataValue from '../../hooks/useDataValue'
 import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
 
 export type PasswordVisibilityEvent =
@@ -59,39 +57,31 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   on_hide_password?: (event: PasswordVisibilityEvent) => void
 }
 
-function Password(props: PasswordProps) {
+function Password({
+  id,
+  className,
+  innerRef,
+  value,
+  label,
+  disabled,
+  size,
+  ...externalProps
+}: PasswordProps) {
+  const props = convertSnakeCaseProps(externalProps)
+
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
   const translations = sharedContext.translation.Forms
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.inputErrorRequired,
-    pattern: translations.inputErrorPattern,
-  })
-
-  const preparedProps: PasswordProps = {
-    // deprecated – the convert can be removed in v12
-    ...convertSnakeCaseProps(props),
-    errorMessages,
-  }
-
-  const {
-    id,
-    label,
-    className,
-    hasError,
-    disabled,
-    value,
-    ...dataValueProps
-  } = useDataValue(preparedProps)
-
-  const ref = useRef<ElementRef<'input'>>(props.innerRef?.current ?? null)
+  const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
 
   const toggleVisibility = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       const { onShowPassword, onHidePassword } =
         convertSnakeCaseProps(props)
+
+      const value = ref.current.value
 
       setHidden((hidden) => {
         hidden
@@ -105,7 +95,7 @@ function Password(props: PasswordProps) {
         ref.current.focus()
       }
     },
-    [value, props]
+    [props]
   )
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
@@ -130,8 +120,8 @@ function Password(props: PasswordProps) {
 
   const ariaLabels = getAriaLabel()
 
-  const ToggleVisibilityButton = useCallback(
-    () => (
+  const ToggleVisibilityButton = useCallback(() => {
+    return (
       <SubmitButton
         id={id + '-submit-button'}
         type="button"
@@ -141,7 +131,7 @@ function Password(props: PasswordProps) {
           hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
         }
         icon={
-          props.size === 'large'
+          size === 'large'
             ? hidden
               ? IconViewMedium
               : IconViewOffMedium
@@ -149,24 +139,21 @@ function Password(props: PasswordProps) {
             ? IconView
             : IconViewOff
         }
-        skeleton={sharedContext.skeleton}
-        status={hasError ? 'error' : undefined}
-        status_state={hasError ? 'error' : undefined}
+        // status={hasError ? 'error' : undefined}
         disabled={disabled}
+        skeleton={sharedContext.skeleton}
         onClick={toggleVisibility}
       />
-    ),
-    [
-      id,
-      hidden,
-      sharedContext.skeleton,
-      hasError,
-      disabled,
-      props.size,
-      toggleVisibility,
-      ariaLabels,
-    ]
-  )
+    )
+  }, [
+    id,
+    hidden,
+    sharedContext.skeleton,
+    disabled,
+    size,
+    toggleVisibility,
+    ariaLabels,
+  ])
 
   return (
     <StringField
@@ -174,13 +161,12 @@ function Password(props: PasswordProps) {
       className={classnames('dnb-forms-field-password', className)}
       label={label ?? sharedContext?.translation.Forms.passwordLabel}
       type={hidden ? 'password' : 'text'}
+      value={value}
       innerRef={ref}
       aria-describedby={id + '-submit-button'}
-      value={value}
-      hasError={hasError}
-      disabled={disabled}
       submitElement={<ToggleVisibilityButton />}
-      {...dataValueProps}
+      disabled={disabled}
+      {...props}
     />
   )
 }
