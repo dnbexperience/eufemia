@@ -51,12 +51,16 @@ export default function HelpButton(localProps: HelpButtonProps) {
   }
 
   if (displayMethod === 'inline') {
-    console.log(props)
+    // console.log(props)
     return <HelpButtonInline {...params}>{children}</HelpButtonInline>
   }
 
   return <Dialog triggerAttributes={params}>{children}</Dialog>
 }
 
+// HelpButton.Content = ({ id }) => {
+//   console.log('id', id)
+//   return <span id={id} />
+// }
 HelpButton.Content = HelpButtonInlineContent
 HelpButton._supportsSpacingProps = true

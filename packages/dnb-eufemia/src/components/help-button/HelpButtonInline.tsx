@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
@@ -22,20 +22,26 @@ export function HelpButtonInline(props: HelpButtonProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contentContainerId])
 
+  const onClickHandler = useCallback(
+    ({ event }) => {
+      event.preventDefault()
+      setIsOpen(!isOpen)
+    },
+    [isOpen]
+  )
+
   return (
     <>
       <HelpButtonInstance
         className="dnb-help-button--inline"
-        on_click={() => {
-          setIsOpen((open) => !open)
-        }}
+        on_click={onClickHandler}
         icon={isOpen ? 'close' : rest.icon}
         aria-controls={contentId}
         size={rest.size || 'small'}
         {...rest}
         id={baseId.current}
       />
-      {contentElement && (
+      {/* {contentElement && !contentId && (
         <HelpButtonInlineContent
           isOpen={isOpen}
           contentElement={contentElement}
@@ -43,7 +49,7 @@ export function HelpButtonInline(props: HelpButtonProps) {
         >
           {children}
         </HelpButtonInlineContent>
-      )}
+      )} */}
     </>
   )
 }

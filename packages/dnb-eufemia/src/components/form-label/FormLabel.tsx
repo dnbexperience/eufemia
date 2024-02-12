@@ -126,33 +126,31 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
 
-  const labelContent = (
+  return help ? (
+    // <span
+    //   className={classnames(
+    //     'dnb-form-label__wrapper',
+    //     isVertical && `dnb-form-label__wrapper--vertical`,
+    //     isTrue(srOnly) && 'dnb-sr-only'
+    //   )}
+    //   >
+    //   </span>
     <>
-      <Element {...params}>{content}</Element>
-      {help && (
+      <Element {...params}>
+        {content}
         <HelpButton
+          left="x-small"
           title={help.title}
           displayMethod="inline"
           contentId={help.contentId}
         >
           {help.content}
         </HelpButton>
-      )}
+      </Element>
+      <HelpButton.Content id={help.contentId} />
     </>
-  )
-
-  return help && isVertical ? (
-    <div
-      className={classnames(
-        'dnb-form-label-wrapper',
-        isVertical && `dnb-form-label-wrapper--vertical`,
-        isTrue(srOnly) && 'dnb-sr-only'
-      )}
-    >
-      {labelContent}
-    </div>
   ) : (
-    <>{labelContent}</>
+    <Element {...params}>{content}</Element>
   )
 }
 

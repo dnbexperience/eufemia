@@ -48,9 +48,12 @@
   }
 }
 
-.dnb-form-label-wrapper {
-  display: inline-block;
+.dnb-form-label__wrapper {
+  display: inline-flex;
+  align-items: flex-end;
+
   margin-right: 1rem;
+
   .dnb-form-label {
     margin-right: 0.5rem;
   }
