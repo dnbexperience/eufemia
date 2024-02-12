@@ -104,6 +104,16 @@ export const InfoCardCentered = () => (
   </ComponentBox>
 )
 
+export const InfoCardWithoutDropShadow = () => (
+  <ComponentBox>
+    <InfoCard
+      text="This is a description of some information or a tip that will inform the user of something that will help them."
+      title="Title of your info/tip"
+      dropShadow={false}
+    />
+  </ComponentBox>
+)
+
 export const InfoCardCustomImage = () => (
   <ComponentBox data-visual-test="info-card-custom-image">
     <InfoCard
