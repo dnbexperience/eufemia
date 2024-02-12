@@ -143,17 +143,28 @@ describe('Password component', () => {
     )
 
     const button = () => document.querySelector('button')
+    const input = () => document.querySelector('input')
 
+    await userEvent.type(input(), 'password123')
     await userEvent.click(button())
     expect(on_show_password).toHaveBeenCalledTimes(1)
+    expect(on_show_password).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'password123' })
+    )
     expect(on_hide_password).not.toHaveBeenCalled()
 
     await userEvent.click(button())
     expect(on_show_password).toHaveBeenCalledTimes(1)
     expect(on_hide_password).toHaveBeenCalledTimes(1)
+    expect(on_hide_password).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'password123' })
+    )
 
     await userEvent.click(button())
     expect(on_show_password).toHaveBeenCalledTimes(2)
+    expect(on_show_password).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'password123' })
+    )
     expect(on_hide_password).toHaveBeenCalledTimes(1)
   })
 
