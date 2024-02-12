@@ -19,9 +19,6 @@ exports[`Switch scss has to match style dependencies css 1`] = `
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -37,9 +34,6 @@ exports[`Switch scss has to match style dependencies css 1`] = `
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;

@@ -19,9 +19,6 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -37,9 +34,6 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -617,9 +611,6 @@ button.dnb-button::-moz-focus-inner {
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -635,9 +626,6 @@ button.dnb-button::-moz-focus-inner {
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -1006,9 +994,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -1024,9 +1009,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;

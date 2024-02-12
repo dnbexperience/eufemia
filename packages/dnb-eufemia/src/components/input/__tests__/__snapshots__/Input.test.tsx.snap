@@ -788,9 +788,6 @@ html[data-visual-test] .dnb-tooltip--hide {
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -806,9 +803,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
