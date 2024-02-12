@@ -572,6 +572,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   --table-accordion-icon-color: var(--color-sea-green);
   --table-accordion-icon-color--active: var(--color-emerald-green);
   --table-accordion-icon-color--disabled: var(--color-sea-green-30);
+  --table-accordion-outline-color: var(--color-emerald-green);
+  --table-accordion-outline-width: var(--focus-ring-width);
+  --table-accordion-outline-background--active: var(--color-pistachio);
 }
 .dnb-table__th.dnb-table__th__accordion-icon.dnb-table__th {
   padding: 0;
@@ -632,7 +635,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   z-index: 3;
   inset: 0;
   pointer-events: none;
-  border: var(--focus-ring-width) solid transparent;
+  border: var(--table-accordion-outline-width) solid transparent;
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:first-of-type)::before {
   border-left: none;
@@ -644,7 +647,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-tabl
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
-  border-color: var(--color-emerald-green);
+  border-color: var(--table-accordion-outline-color);
 }
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__accordion-icon .dnb-icon {
   color: var(--table-accordion-icon-color--active);
@@ -658,7 +661,8 @@ html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-tabl
 html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
   top: 0;
   bottom: 0;
-  border-color: var(--color-emerald-green);
+  border-color: var(--focus-ring-color);
+  border-width: var(--focus-ring-width);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
   left: 0;
@@ -668,11 +672,11 @@ html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content.dnb-table__t
 }
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active:hover td::before,
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
-  border-color: var(--color-emerald-green);
+  border-color: var(--table-accordion-outline-color);
   border-width: var(--table-accordion-border-width);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
-  background-color: var(--color-pistachio);
+  background-color: var(--table-accordion-outline-background--active);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__accordion-icon .dnb-icon {
   color: var(--table-accordion-icon-color--active);

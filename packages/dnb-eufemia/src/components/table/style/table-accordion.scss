@@ -25,6 +25,10 @@
   --table-accordion-icon-color: var(--color-sea-green);
   --table-accordion-icon-color--active: var(--color-emerald-green);
   --table-accordion-icon-color--disabled: var(--color-sea-green-30);
+  // Outline
+  --table-accordion-outline-color: var(--color-emerald-green);
+  --table-accordion-outline-width: var(--focus-ring-width);
+  --table-accordion-outline-background--active: var(--color-pistachio);
 
   &__th#{&}__th__accordion-icon {
     &.dnb-table__th {
@@ -119,7 +123,7 @@
 
       // Here we use border to support Safari v16 on macOS
       // but also to only have a border on specific sides
-      border: var(--focus-ring-width) solid transparent;
+      border: var(--table-accordion-outline-width) solid transparent;
     }
     td:not(:first-of-type)::before {
       border-left: none;
@@ -130,7 +134,7 @@
 
     @include hover() {
       td::before {
-        border-color: var(--color-emerald-green);
+        border-color: var(--table-accordion-outline-color);
       }
 
       @include tableAccordionActiveColor();
@@ -158,7 +162,8 @@
       @include whatInput(keyboard) {
         top: 0;
         bottom: 0;
-        border-color: var(--color-emerald-green);
+        border-color: var(--focus-ring-color);
+        border-width: var(--focus-ring-width);
       }
     }
     td:first-of-type::before {
@@ -172,7 +177,7 @@
   &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active {
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
-      border-color: var(--color-emerald-green);
+      border-color: var(--table-accordion-outline-color);
       border-width: var(
         --table-accordion-border-width
       ); // TODO: we should have something like activeRingWidth
@@ -180,7 +185,7 @@
   }
 
   &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active &__td {
-    background-color: var(--color-pistachio);
+    background-color: var(--table-accordion-outline-background--active);
 
     @include tableAccordionActiveColor();
   }
