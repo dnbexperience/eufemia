@@ -797,7 +797,7 @@ export const TableAccordion = () => (
 
 export const TableAccordionRow = () => (
   <ComponentBox data-visual-test="table-accordion-rows">
-    <Table accordion outline border>
+    <Table accordion accordionChevronPlacement="end">
       <thead>
         <Tr>
           <Th>Column A</Th>

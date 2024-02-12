@@ -106,6 +106,12 @@
 .dnb-table__container {
   --table-border-color: var(--sb-color-gray-light-2);
   --table-outline-color: var(--sb-color-gray-light-2);
+  --table-accordion-border-color: var(--sb-color-gray-light-2);
+  --table-accordion-header-background: var(--sb-color-gray-light-2);
+  // Icon
+  --table-accordion-icon-color: var(--sb-color-text);
+  --table-accordion-icon-color--active: var(--sb-color-violet);
+  --table-accordion-icon-color--disabled: var(--sb-color-gray-dark-2);
 
   background-color: var(--sb-color-white);
 

@@ -5,21 +5,26 @@
 
 @mixin tableAccordionActiveColor {
   .dnb-table__td__accordion-icon .dnb-icon {
-    color: var(--color-emerald-green);
+    color: var(--table-accordion-icon-color--active);
   }
 }
 @mixin tableAccordionDisabledColor {
   .dnb-table__td__accordion-icon .dnb-icon {
-    color: var(--color-sea-green-30);
+    color: var(--table-accordion-icon-color--disabled);
   }
 }
 
 .dnb-table {
   --table-accordion-background: var(--color-white);
+  --table-accordion-header-background: var(--color-white);
   --table-accordion-border-width: 0.0625rem;
   --table-accordion-border-color: var(--color-black-20);
   --table-accordion-border: var(--table-accordion-border-width) solid
     var(--table-accordion-border-color);
+  // Icon
+  --table-accordion-icon-color: var(--color-sea-green);
+  --table-accordion-icon-color--active: var(--color-emerald-green);
+  --table-accordion-icon-color--disabled: var(--color-sea-green-30);
 
   &__th#{&}__th__accordion-icon {
     &.dnb-table__th {
@@ -54,7 +59,7 @@
     justify-content: center;
 
     .dnb-icon {
-      color: var(--color-sea-green);
+      color: var(--table-accordion-icon-color);
       transition: transform 500ms var(--easing-default);
     }
   }
@@ -184,7 +189,7 @@
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
-    background-color: var(--table-accordion-background);
+    background-color: var(--table-accordion-header-background);
 
     &::before {
       border: none;
@@ -196,7 +201,7 @@
       &__tr--disabled
     ):not(:active):not(:hover) {
     @include whatInputNot('keyboard') {
-      background-color: var(--table-accordion-background);
+      background-color: var(--table-accordion-header-background);
 
       td::before {
         border: none;
@@ -243,8 +248,16 @@
       }
     }
 
-    &--expanded > td.dnb-table__td {
-      background-color: var(--color-white);
+    &--expanded {
+      > td.dnb-table__td {
+        background-color: var(--color-white);
+      }
+
+      + .dnb-table__tr--has-accordion-content .dnb-table__td {
+        @include tableBorder() {
+          border-top: var(--table-accordion-border);
+        }
+      }
     }
   }
 
