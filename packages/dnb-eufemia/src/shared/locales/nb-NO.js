@@ -99,8 +99,6 @@ export default {
     Input: {
       submit_button_title: 'Send knapp',
       clear_button_title: 'Nullstill',
-      show_password: 'Vis passord',
-      hide_password: 'Skjul passord',
     },
     Pagination: {
       button_title: 'Side %s',
@@ -217,6 +215,9 @@ export default {
       selectCountryLabel: 'Land',
       selectCountryPlaceholder: 'Velg et land',
       selectCountryErrorRequired: 'Du må velge et land',
+      passwordLabel: 'Passord',
+      passwordShowLabel: 'Vis passord',
+      passwordHideLabel: 'Skjul passord',
     },
   },
 }

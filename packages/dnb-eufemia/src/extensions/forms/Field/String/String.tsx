@@ -41,6 +41,7 @@ export type Props = FieldHelpProps &
     autoresizeMaxRows?: number
     characterCounter?: Omit<TextCounterProps, 'text'> | number
     mask?: InputMaskedProps['mask']
+    submitElement?: InputProps['submit_element']
     // Validation
     minLength?: number
     maxLength?: number
@@ -153,6 +154,7 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    submitElement,
   } = useDataValue(preparedProps)
 
   const transformInstantly = useCallback(
@@ -181,6 +183,10 @@ function StringComponent(props: Props) {
     inner_ref: innerRef,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
+  }
+
+  if (props['aria-describedby']) {
+    sharedProps['aria-describedby'] = props['aria-describedby']
   }
 
   return (
@@ -220,6 +226,7 @@ function StringComponent(props: Props) {
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
           clear={clear}
+          submit_element={submitElement}
         />
       )}
     </FieldBlock>

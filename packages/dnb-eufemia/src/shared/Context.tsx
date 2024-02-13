@@ -40,6 +40,7 @@ import type { ModalProps } from '../components/modal/types'
 import type { AccordionProps } from '../components/Accordion'
 import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
+import type { InputProps } from '../components/Input'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
@@ -75,6 +76,7 @@ export type ContextComponents = {
   Accordion?: Partial<AccordionProps>
   StepIndicator?: Partial<StepIndicatorProps>
   FormLabel?: Partial<FormLabelProps>
+  Input?: Partial<InputProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>

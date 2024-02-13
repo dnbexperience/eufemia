@@ -221,14 +221,6 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match password input', async () => {
-    const screenshot = await makeScreenshot({
-      ...extend('input-password'),
-      selector: '[data-visual-test="input-password"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match text align with icon', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-align'),

@@ -66,4 +66,8 @@ We don't think this has been used for anything other than passing down `data-tes
 We recommend to [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`.
 For more context, take a look in this [PR](https://github.com/dnbexperience/eufemia/pull/2798).
 
-_June, 1. 2023_
+## Moved InputPassword to Field.Password
+
+The `InputPassword` component has been moved to `Field.Password`, and is now a part of Eufemia Forms. Change your import statement from `import InputPassword from '@dnb/eufemia/components/input/InputPassword'` to `import { Field } from '@dnb/eufemia/extensions/forms'`.
+
+_February, 6. 2024_

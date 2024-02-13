@@ -103,8 +103,6 @@ export default {
     Input: {
       submit_button_title: 'Submit button',
       clear_button_title: 'Clear value',
-      show_password: 'Show password',
-      hide_password: 'Hide password',
     },
     Pagination: {
       button_title: 'Page %s',
@@ -220,6 +218,9 @@ export default {
       selectCountryLabel: 'Country',
       selectCountryPlaceholder: 'Select a country',
       selectCountryErrorRequired: 'You must select a country',
+      passwordLabel: 'Password',
+      passwordShowLabel: 'Show password',
+      passwordHideLabel: 'Hide password',
     },
   },
 }

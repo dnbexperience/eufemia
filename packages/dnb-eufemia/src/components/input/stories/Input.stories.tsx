@@ -16,7 +16,7 @@ import {
   GlobalStatus,
   Flex,
 } from '../..'
-import InputPassword from '../InputPassword'
+
 import { format } from '../../number-format/NumberUtils'
 import { FieldBlock, Form } from '../../../extensions/forms'
 import { Provider } from '../../../shared'
@@ -284,21 +284,7 @@ export const InputSandbox = () => {
             />
           </form>
         </Box>
-        <Box>
-          <InputPassword
-            label="Label:"
-            placeholder="A placeholder text"
-            on_change={({ value }) => {
-              console.log('on_change:', value)
-            }}
-            on_show_password={() => {
-              console.log('on_show_password')
-            }}
-            on_hide_password={() => {
-              console.log('on_hide_password')
-            }}
-          />
-        </Box>
+
         {/* <Box>
           <Input
             clear
