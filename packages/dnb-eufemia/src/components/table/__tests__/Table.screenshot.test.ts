@@ -352,7 +352,7 @@ describe.each(['ui', 'sbanken'])(
   }
 )
 
-describe.each(['sbanken'])(
+describe.each(['ui', 'sbanken'])(
   'Table with accordion rows for %s',
   (themeName) => {
     setupPageScreenshot({
