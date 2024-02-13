@@ -796,7 +796,7 @@ export const TableAccordion = () => (
 )
 
 export const TableAccordionRow = () => (
-  <ComponentBox data-visual-test="table-accordion-rows">
+  <ComponentBox hideCode data-visual-test="table-accordion-rows">
     <Table accordion accordionChevronPlacement="end">
       <thead>
         <Tr>
@@ -840,6 +840,20 @@ export const TableAccordionRow = () => (
             <Td>Expanded 2.1</Td>
             <Td>Expanded 2.1</Td>
             <Td>Expanded 2.1</Td>
+          </Tr.AccordionContent>
+
+          <Tr.AccordionContent>
+            <Td>Expanded 2.2</Td>
+            <Td>Expanded 2.2</Td>
+            <Td>Expanded 2.2</Td>
+            <Td>Expanded 2.2</Td>
+          </Tr.AccordionContent>
+
+          <Tr.AccordionContent>
+            <Td>Expanded 2.3</Td>
+            <Td>Expanded 2.3</Td>
+            <Td>Expanded 2.3</Td>
+            <Td>Expanded 2.3</Td>
           </Tr.AccordionContent>
         </Tr>
       </tbody>

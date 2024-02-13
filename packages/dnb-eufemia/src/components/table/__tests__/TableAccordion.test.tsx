@@ -123,6 +123,7 @@ describe('TableAccordion', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-table__tr',
       'dnb-table__tr--odd',
+      'dnb-table__tr--last',
       'dnb-table__tr--has-accordion-content',
       'dnb-table__tr--no-animation',
     ])
@@ -668,6 +669,7 @@ describe('TableAccordion', () => {
     expect(Array.from(trElement.classList)).toEqual([
       'dnb-table__tr',
       'dnb-table__tr--odd',
+      'dnb-table__tr--last',
       'dnb-table__tr--has-accordion-content',
     ])
 

@@ -141,13 +141,11 @@
     }
   }
 
-  &--outline
+  &--border
     tbody
-    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(
-      :nth-last-child(2)
-    )
+    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(&__tr--last)
     &__td::before {
-    bottom: calc(var(--table-outline-width) * -1);
+    bottom: calc(var(--table-border-width) * -1);
   }
 
   &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
@@ -160,8 +158,6 @@
     ):not(:hover):focus {
     td::before {
       @include whatInput(keyboard) {
-        top: 0;
-        bottom: 0;
         border-color: var(--focus-ring-color);
         border-width: var(--focus-ring-width);
       }

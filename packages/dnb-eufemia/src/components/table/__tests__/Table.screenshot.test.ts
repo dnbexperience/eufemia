@@ -298,7 +298,7 @@ describe.each(['ui', 'sbanken'])(
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
         simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -313,7 +313,7 @@ describe.each(['ui', 'sbanken'])(
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
         simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -328,7 +328,7 @@ describe.each(['ui', 'sbanken'])(
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
         simulate: 'active',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -393,7 +393,7 @@ describe.each(['sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content.dnb-table__tr--last',
         simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -407,7 +407,7 @@ describe.each(['sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content.dnb-table__tr--last',
         simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -421,7 +421,7 @@ describe.each(['sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:nth-last-child(2)',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content.dnb-table__tr--last',
         simulate: 'active',
         matchConfig: {
           failureThreshold: 0.01, // locally as well

@@ -85,7 +85,7 @@
       }
       &:not(.dnb-sr-only) ~ tbody:last-child {
         .dnb-table__tr:last-child,
-        .dnb-table__tr--has-accordion-content:nth-last-child(2) {
+        .dnb-table__tr--has-accordion-content.dnb-table__tr--last {
           clip-path: none;
 
           .dnb-table__th,

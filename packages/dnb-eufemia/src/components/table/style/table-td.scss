@@ -75,7 +75,7 @@
     .dnb-table__tr:last-child,
     .dnb-table__tr--has-accordion-content:not(
         .dnb-table__tr--expanded
-      ):nth-last-child(2) {
+      ).dnb-table__tr--last {
       clip-path: inset(
         0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
       );
