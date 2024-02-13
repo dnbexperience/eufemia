@@ -282,7 +282,7 @@ export default class DatePickerProvider extends React.PureComponent {
   }
 
   getReturnObject = ({ event = null, ...rest } = {}) => {
-    const { startDate, endDate } = { ...this.state, ...rest }
+    const { startDate, endDate, partialStartDate, partialEndDate } = { ...this.state, ...rest }
     const attributes = this.props.attributes || {}
     const returnFormat = correctV1Format(this.props.return_format)
     const startDateIsValid = Boolean(startDate && isValid(startDate))
@@ -304,12 +304,15 @@ export default class DatePickerProvider extends React.PureComponent {
         end_date: endDateIsValid ? format(endDate, returnFormat) : null,
         is_valid_start_date: startDateIsValid,
         is_valid_end_date: endDateIsValid,
+        partial_start_date: partialStartDate,
+        partial_end_date: partialEndDate,
       }
     } else {
       ret = {
         event,
         attributes,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
+        partial_start_date: partialStartDate,
         is_valid: startDateIsValid,
       }
     }

@@ -91,6 +91,8 @@ export default class DatePickerInput extends React.PureComponent {
   state = {
     _listenForPropChanges: true,
     focusState: 'virgin',
+    partialStartDate: '',
+    partialEndDate:''
   }
 
   constructor(props) {
@@ -218,10 +220,17 @@ export default class DatePickerInput extends React.PureComponent {
 
     // Get the typed dates, so we can ...
     let { startDate, endDate } = getDates()
-
+    // Get the partial dates, so we can know if something was typed or not in an optional date field
+    const partialStartDate = startDate;
+    const partialEndDate = endDate;
+    this.setState({
+      ...this.state,
+      partialStartDate,
+      partialEndDate,
+    })
     startDate = parseISO(startDate)
     endDate = parseISO(endDate)
-
+    
     // ... check if they were valid
     if (!isValid(startDate)) {
       startDate = null
@@ -234,6 +243,8 @@ export default class DatePickerInput extends React.PureComponent {
       startDate,
       endDate,
       event,
+      partialStartDate,
+      partialEndDate
     })
 
     // Now, lets correct
@@ -241,9 +252,9 @@ export default class DatePickerInput extends React.PureComponent {
       returnObject.is_valid === false ||
       returnObject.is_valid_start_date === false ||
       returnObject.is_valid_end_date === false
-    ) {
-      const { startDate, endDate } = getDates()
-
+      ) {
+        const { startDate, endDate } = getDates()
+        
       const typedDates = this.props.isRange
         ? {
             start_date: startDate,
@@ -335,8 +346,10 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   onBlurHandler = (event) => {
+    const {partialStartDate, partialEndDate} = this.state;
     this.focusMode = null
     this.setState({
+      ...this.state,
       focusState: 'blur',
       _listenForPropChanges: false,
     })
@@ -344,7 +357,7 @@ export default class DatePickerInput extends React.PureComponent {
     if (this.props.onBlur) {
       this.props.onBlur({
         ...event,
-        ...this.context.getReturnObject({ event }),
+        ...this.context.getReturnObject({ event, partialStartDate, partialEndDate }),
       })
     }
   }
