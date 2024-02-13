@@ -284,7 +284,18 @@ describe('InfoCard', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-info-card',
       'dnb-space__top--large',
+      'dnb-info-card--shadow',
     ])
+  })
+
+  it('renders the drop shadow if dropShadow is true', () => {
+    const shadowClassName = 'dnb-info-card--shadow'
+
+    render(<InfoCard dropShadow text="drop-shadow" />)
+
+    expect(document.querySelector('.dnb-info-card').className).toMatch(
+      shadowClassName
+    )
   })
 
   it('should not contain heading element', () => {
