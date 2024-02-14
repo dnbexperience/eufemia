@@ -587,10 +587,10 @@ export default function useDataValue<
   )
 
   if (error && !ariaAttributes['aria-invalid']) {
-    ariaAttributes['aria-invalid'] = Boolean(error)
+    ariaAttributes['aria-invalid'] = `${Boolean(error)}`
   }
   if (required && !ariaAttributes['aria-required']) {
-    ariaAttributes['aria-required'] = required
+    ariaAttributes['aria-required'] = `${required}`
   }
 
   return {
