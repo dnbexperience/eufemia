@@ -17,10 +17,8 @@ export const Password = () => {
       />
       <Provider locale="no-NB">
         <Field.Password
-          // showPasswordLabel="Showing that passy"
-          // hidePasswordLabel="Hiding that passy"
-          // hide_password="Hiding"
-          // show_password="Showing"
+          hide_password="Hiding"
+          show_password="Showing"
           onChange={(e) => console.log('onChange', e)}
           onFocus={(e) => console.log('onBlur', e)}
           onBlur={(e) => console.log('onFocus', e)}
@@ -32,10 +30,8 @@ export const Password = () => {
       </Provider>
       <Provider locale="en-GB">
         <Field.Password
-          // showPasswordLabel="Showing that passy"
-          // hidePasswordLabel="Hiding that passy"
-          // hide_password="Hiding"
-          // show_password="Showing"
+          hide_password="Hiding"
+          show_password="Showing"
           onChange={(e) => console.log('onChange', e)}
           onFocus={(e) => console.log('onBlur', e)}
           onBlur={(e) => console.log('onFocus', e)}

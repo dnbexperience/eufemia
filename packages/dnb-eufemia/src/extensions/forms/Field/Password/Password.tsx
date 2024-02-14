@@ -67,7 +67,8 @@ function Password({
   size,
   ...externalProps
 }: PasswordProps) {
-  const props = convertSnakeCaseProps(externalProps)
+  // Object freeze used to prevent mutation of show_password and hide_password props. Freeze and convertToSnakeCase can be removed in v11.
+  const props = convertSnakeCaseProps(Object.freeze(externalProps))
 
   const [hidden, setHidden] = useState<boolean>(true)
 
@@ -107,16 +108,20 @@ function Password({
       hidePassword: passwordHideLabel,
     }
 
-    if (props.show_password) {
-      ariaLabels['showPassword'] = props.show_password
+    if (externalProps.show_password) {
+      ariaLabels['showPassword'] = externalProps.show_password
     }
 
-    if (props.hide_password) {
-      ariaLabels['hidePassword'] = props.hide_password
+    if (externalProps.hide_password) {
+      ariaLabels['hidePassword'] = externalProps.hide_password
     }
 
     return ariaLabels
-  }, [props.show_password, props.hide_password, translations])
+  }, [
+    externalProps.show_password,
+    externalProps.hide_password,
+    translations,
+  ])
 
   const ariaLabels = getAriaLabel()
 
