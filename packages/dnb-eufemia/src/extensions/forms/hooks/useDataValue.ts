@@ -5,6 +5,7 @@ import {
   useCallback,
   useMemo,
   useReducer,
+  AriaAttributes,
 } from 'react'
 import pointer from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
@@ -574,12 +575,22 @@ export default function useDataValue<
     ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
     : undefined
 
-  const ariaAttributes = {}
-  if (error) {
-    ariaAttributes['aria-invalid'] = String(Boolean(error))
+  const ariaAttributes = Object.keys(props).reduce<AriaAttributes>(
+    (attributes, key) => {
+      if (!key.startsWith('aria-')) {
+        return attributes
+      }
+      attributes[key] = props[key]
+      return attributes
+    },
+    {}
+  )
+
+  if (error && !ariaAttributes['aria-invalid']) {
+    ariaAttributes['aria-invalid'] = `${Boolean(error)}`
   }
-  if (required) {
-    ariaAttributes['aria-required'] = String(required)
+  if (required && !ariaAttributes['aria-required']) {
+    ariaAttributes['aria-required'] = `${required}`
   }
 
   return {
@@ -615,10 +626,7 @@ interface ReturnAdditional<Value> {
   hasError: boolean
   isChanged: boolean
   dataContext: ContextState
-  ariaAttributes: {
-    'aria-invalid'?: 'true' | 'false'
-    'aria-required'?: 'true' | 'false'
-  }
+  ariaAttributes: AriaAttributes
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
