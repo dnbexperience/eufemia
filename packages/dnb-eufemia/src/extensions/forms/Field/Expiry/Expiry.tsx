@@ -73,6 +73,7 @@ function Expiry(props: ExpiryProps) {
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-expiry', className)}
+      id={id}
       forId={`${id}-input-month`}
       label={label}
       layout={layout}
