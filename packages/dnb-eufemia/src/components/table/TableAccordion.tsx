@@ -158,7 +158,7 @@ export function useTableAccordion({
   }
   function toggleOpenTr(
     event: MouseEvent,
-    allowInteractiveElement: boolean = false
+    allowInteractiveElement = false
   ) {
     const target = event.target as HTMLElement
     if (
