@@ -5,7 +5,6 @@
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 import { rootElement, pageElement } from './src/core/PortalProviders'
-import ReactDOM from 'react-dom/client'
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
@@ -15,15 +14,6 @@ function setIsTest(location) {
   if (location && location.href.includes('data-visual-test')) {
     globalThis.IS_TEST = true
     document.documentElement.setAttribute('data-visual-test', 'true')
-  }
-}
-
-export const replaceHydrateFunction = () => {
-  // Added to solve the following errors, which prevented us from running screenshot tests
-  // https://github.com/gatsbyjs/gatsby/discussions/36232
-  return (element: React.ReactElement, container: HTMLElement) => {
-    const root = ReactDOM.createRoot(container)
-    root.render(element)
   }
 }
 
