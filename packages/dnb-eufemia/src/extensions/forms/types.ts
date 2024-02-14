@@ -1,6 +1,7 @@
 import type { SpacingProps } from '../../components/space/types'
 import type { JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
+import { AriaAttributes } from 'react'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -177,7 +178,8 @@ export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-> extends DataValueReadWriteComponentProps<Value, EmptyValue> {
+> extends DataValueReadWriteComponentProps<Value, EmptyValue>,
+    AriaAttributes {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
   name?: string

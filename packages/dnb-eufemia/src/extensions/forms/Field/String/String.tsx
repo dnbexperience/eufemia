@@ -185,10 +185,6 @@ function StringComponent(props: Props) {
     value: transformInstantly(value?.toString() ?? ''),
   }
 
-  if (props['aria-describedby']) {
-    sharedProps['aria-describedby'] = props['aria-describedby']
-  }
-
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-string', className)}
