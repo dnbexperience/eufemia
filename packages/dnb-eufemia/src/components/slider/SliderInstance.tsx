@@ -24,7 +24,6 @@ import {
   SliderTrackBefore,
   SliderTrackAfter,
 } from './SliderTrack'
-import SliderMarker from './SliderMarker'
 import { SliderThumb } from './SliderThumb'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
@@ -55,7 +54,7 @@ export function SliderInstance() {
     skeleton,
     disabled,
     className,
-    marker,
+    extensions,
   } = allProps
 
   const mainParams = {
@@ -114,7 +113,13 @@ export function SliderInstance() {
           {showButtons && (isReverse ? addButton : subtractButton)}
 
           <SliderMainTrack>
-            {marker && <SliderMarker />}
+            {extensions &&
+              Object.entries(extensions).map(
+                ([key, { instance, ...options }]) => {
+                  const Element = instance as React.ElementType
+                  return <Element key={key} {...options} />
+                }
+              )}
             <SliderThumb />
             <SliderTrackBefore />
             <SliderTrackAfter />

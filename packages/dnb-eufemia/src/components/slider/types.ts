@@ -20,10 +20,11 @@ export type onChangeEventProps = {
   number?: formatReturnType | null
   event?: Event
 }
-export type MarkerProps = {
-  value: number
-  text?: string
-}
+
+export type SliderExtensions = Record<
+  string,
+  { instance: React.ElementType; [key: string]: unknown }
+>
 
 export type SliderProps = IncludeSnakeCase<{
   /** prepends the Form Label component. If no ID is provided, a random ID is created. */
@@ -72,8 +73,8 @@ export type SliderProps = IncludeSnakeCase<{
   /** the steps the slider takes on changing the value. Defaults to `null`. */
   step?: number
 
-  /** sets a vertical marker on the slider marking a given value. If provided, will show given text in a tooltip  */
-  marker?: MarkerProps
+  /** makes it possible to display overlays with other functionality such as a marker on the slider marking a given value. */
+  extensions: SliderExtensions
 
   /** show the slider vertically. Defaults to `false`. */
   vertical?: boolean

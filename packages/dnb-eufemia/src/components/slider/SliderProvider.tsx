@@ -98,7 +98,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     skeleton,
     max, // eslint-disable-line
     min, // eslint-disable-line
-    marker,
+    extensions, // eslint-disable-line
     disabled,
     className, // eslint-disable-line
     id, // eslint-disable-line

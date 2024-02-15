@@ -4,11 +4,15 @@ import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
 import Tooltip from '../tooltip/Tooltip'
 
-export default function SliderMarker() {
-  const { isReverse, isVertical, allProps } = useSliderProps()
-  const { marker, min, max, numberFormat } = allProps
+type SliderMarkerProps = {
+  value: number
+  text: React.ReactNode
+}
 
-  const { value, text } = marker
+export default function SliderMarker({ value, text }: SliderMarkerProps) {
+  const { isReverse, isVertical, allProps } = useSliderProps()
+  const { min, max, numberFormat } = allProps
+
   const getParams = useCallback(() => {
     const markerId = `slider-marker-${makeUniqueId()}`
     const { number, aria } = getFormattedNumber(value, numberFormat || {})
@@ -33,7 +37,7 @@ export default function SliderMarker() {
     return params
   }, [isReverse, isVertical, max, min, numberFormat, text, value])
 
-  if (!marker || !marker?.value) {
+  if (!value) {
     return null
   }
 
