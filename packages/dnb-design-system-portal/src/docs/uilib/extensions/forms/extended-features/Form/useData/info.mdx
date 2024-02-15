@@ -9,10 +9,12 @@ With the `Form.useData` hook, you can manage your form data outside of the form 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function Component() {
-  const { data } = Form.useData('unique')
-
+function ComponentA() {
   return <Form.Handler id="unique">...</Form.Handler>
+}
+
+function ComponentB() {
+  const { data } = Form.useData('unique')
 }
 ```
 
@@ -27,19 +29,30 @@ const { data } = Form.useData<Data>('unique')
 
 ## Initial data
 
-You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook – or even in each Field, with the value property.
+You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/extended-features/Form/setData/) method – or even in each Field, with the value property.
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
-function Component() {
-  const { data } = Form.useData('unique', { foo: 'bar' })
-
+const initialData = { foo: 'bar' }
+function ComponentA() {
   return (
-    <Form.Handler id="unique">
+    <Form.Handler id="unique" data={initialData}>
       <Field.String path="/foo" />
     </Form.Handler>
   )
+}
+
+function ComponentB() {
+  Form.useData('unique', { foo: 'bar' })
+}
+
+function ComponentC() {
+  const { set } = Form.useData('unique')
+
+  useEffect(() => {
+    set({ foo: 'bar' })
+  }, [])
 }
 ```
 

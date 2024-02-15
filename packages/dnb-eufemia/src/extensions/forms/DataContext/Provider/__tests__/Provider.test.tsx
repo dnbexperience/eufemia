@@ -1117,7 +1117,7 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
 
-    it('should accecpt custom ajv instance', async () => {
+    it('should accept custom ajv instance', async () => {
       const ajv = new Ajv({
         strict: true,
         allErrors: true,
@@ -1160,7 +1160,7 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
-    it('should accecpt custom ajv instance with custom error messages', () => {
+    it('should accept custom ajv instance with custom error messages', () => {
       const ajv = new Ajv({
         strict: true,
         allErrors: true,
@@ -1338,6 +1338,29 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
     })
 
+    it('should contain data on first render, when nested', () => {
+      const initialData = { foo: 'bar' }
+      const nestedMockData = []
+
+      const NestedMock = () => {
+        const { data } = Form.useData(identifier)
+        nestedMockData.push(data)
+        return <Field.String path="/foo" />
+      }
+
+      render(
+        <DataContext.Provider id={identifier} data={initialData}>
+          <NestedMock />
+        </DataContext.Provider>
+      )
+
+      expect(nestedMockData).toHaveLength(1)
+      expect(nestedMockData[0]).toEqual(initialData)
+
+      const inputElement = document.querySelector('input')
+      expect(inputElement).toHaveValue('bar')
+    })
+
     it('should set Provider data when sessionStorageId was given', () => {
       window.sessionStorage.setItem(
         'session-id',
@@ -1443,8 +1466,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should initially set data when Provider has no data', () => {
-      const props = { foo: 'bar' }
-      renderHook(() => Form.useData(identifier, props))
+      renderHook(() => Form.useData(identifier, { foo: 'bar' }))
 
       const { rerender } = render(
         <DataContext.Provider id={identifier}>
@@ -1465,9 +1487,10 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('changed')
     })
 
-    it('should return "update" mathod that lets you update the data', () => {
-      const props = { foo: 'bar' }
-      const { result } = renderHook(() => Form.useData(identifier, props))
+    it('should return "update" method that lets you update the data', () => {
+      const { result } = renderHook(() =>
+        Form.useData(identifier, { foo: 'bar' })
+      )
       const { update } = result.current
 
       render(
@@ -1490,8 +1513,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should return "set" mathod that lets you update the data', () => {
-      const props = { foo: 'bar' }
-      const { result } = renderHook(() => Form.useData(identifier, props))
+      const { result } = renderHook(() =>
+        Form.useData(identifier, { foo: 'bar' })
+      )
       const { set } = result.current
 
       render(
@@ -1532,7 +1556,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
     })
 
-    it('should rerender provider and its contents', async () => {
+    it('should rerender provider and its contents', () => {
       const existingData = { count: 1 }
 
       let countRender = 0
@@ -1556,7 +1580,7 @@ describe('DataContext.Provider', () => {
         )
       }
 
-      render(<MockComponent />)
+      const { rerender } = render(<MockComponent />)
 
       const inputElement = document.querySelector('input')
       const buttonElement = document.querySelector('button')
@@ -1565,18 +1589,68 @@ describe('DataContext.Provider', () => {
       expect(buttonElement).toHaveTextContent('1')
       expect(countRender).toBe(1)
 
-      await userEvent.click(
-        document.querySelector('.dnb-forms-submit-button')
-      )
+      fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
 
       expect(inputElement).toHaveValue('2')
       expect(buttonElement).toHaveTextContent('2')
       expect(countRender).toBe(2)
+
+      rerender(<MockComponent />)
+
+      fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
+
+      expect(inputElement).toHaveValue('3')
+      expect(buttonElement).toHaveTextContent('3')
+      expect(countRender).toBe(4)
     })
 
-    it('should return data given in the context provider after a rerender', async () => {
-      const existingData = { count: 1 }
+    it('should not get overwritten by a Provider rerender', () => {
+      let countRender = 0
 
+      const MockComponent = () => {
+        const { data, set } = Form.useData<{ count: number }>(identifier, {
+          count: 1,
+        })
+
+        const increment = React.useCallback(() => {
+          set({ count: data?.count + 1 })
+        }, [data.count, set])
+
+        countRender++
+
+        return (
+          <DataContext.Provider id={identifier} data={{ count: 0 }}>
+            <Field.Number path="/count" />
+            <Form.SubmitButton onClick={increment} text={data?.count} />
+          </DataContext.Provider>
+        )
+      }
+
+      const { rerender } = render(<MockComponent />)
+
+      const inputElement = document.querySelector('input')
+      const buttonElement = document.querySelector('button')
+
+      expect(inputElement).toHaveValue('1')
+      expect(buttonElement).toHaveTextContent('1')
+      expect(countRender).toBe(1)
+
+      fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
+
+      expect(inputElement).toHaveValue('2')
+      expect(buttonElement).toHaveTextContent('2')
+      expect(countRender).toBe(2)
+
+      rerender(<MockComponent />)
+
+      fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
+
+      expect(inputElement).toHaveValue('3')
+      expect(buttonElement).toHaveTextContent('3')
+      expect(countRender).toBe(4)
+    })
+
+    it('should return data given in the context provider after a rerender', () => {
       let countRender = 0
 
       const MockComponent = () => {
@@ -1593,7 +1667,7 @@ describe('DataContext.Provider', () => {
         countRender++
 
         return (
-          <DataContext.Provider id={identifier} data={existingData}>
+          <DataContext.Provider id={identifier} data={{ count: 1 }}>
             <Field.Number path="/count" />
             <Form.SubmitButton onClick={increment} text={data?.count} />
           </DataContext.Provider>
@@ -1609,9 +1683,7 @@ describe('DataContext.Provider', () => {
       expect(buttonElement).toHaveTextContent('1')
       expect(countRender).toBe(2)
 
-      await userEvent.click(
-        document.querySelector('.dnb-forms-submit-button')
-      )
+      fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
 
       expect(inputElement).toHaveValue('2')
       expect(buttonElement).toHaveTextContent('2')
@@ -1619,12 +1691,10 @@ describe('DataContext.Provider', () => {
     })
 
     it('should update data via useEffect when data is given in useData', async () => {
-      const existingData = { count: 1 }
-
       let countRender = 0
 
       const MockComponent = () => {
-        const { data, update } = Form.useData(identifier, existingData)
+        const { data, update } = Form.useData(identifier, { count: 1 })
 
         React.useEffect(() => {
           update('/count', (count) => count + 1)
@@ -1650,9 +1720,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should update data via useEffect when data is given in the context provider', async () => {
-      const existingData = { count: 1 }
-
       let countRender = 0
+      const initialData = { count: 1 }
 
       const MockComponent = () => {
         const { data, update } = Form.useData<{ count: number }>(
@@ -1666,7 +1735,7 @@ describe('DataContext.Provider', () => {
         countRender++
 
         return (
-          <DataContext.Provider id={identifier} data={existingData}>
+          <DataContext.Provider id={identifier} data={initialData}>
             <Field.Number path="/count" label={data?.count} />
           </DataContext.Provider>
         )
