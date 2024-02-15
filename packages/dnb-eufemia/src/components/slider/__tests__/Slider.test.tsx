@@ -64,7 +64,7 @@ describe('Slider component', () => {
       document
         .querySelector('.dnb-slider__button-helper')
         .getAttribute('aria-valuetext')
-    ).toBe('80 norske kroner')
+    ).toBe('80 kroner')
   })
 
   it('should support spacing props', () => {
@@ -153,14 +153,12 @@ describe('Slider component', () => {
 
     fireEvent.click(addElem)
     expect(parseFloat(getButtonHelper().value)).toBe(80)
-    expect(addElem.getAttribute('aria-label')).toBe(
-      'Øk (80,0 norske kroner)'
-    )
+    expect(addElem.getAttribute('aria-label')).toBe('Øk (80,0 kroner)')
 
     fireEvent.click(subtractElem)
     expect(parseFloat(getButtonHelper().value)).toBe(70)
     expect(subtractElem.getAttribute('aria-label')).toBe(
-      'Reduser (70,0 norske kroner)'
+      'Reduser (70,0 kroner)'
     )
   })
 
@@ -497,7 +495,7 @@ describe('Slider component', () => {
       document
         .querySelector('.dnb-slider__button-helper')
         .getAttribute('aria-valuetext')
-    ).toBe('80,0 norske kroner')
+    ).toBe('80,0 kroner')
   })
 
   it('will not emit onChange with same value twice', () => {

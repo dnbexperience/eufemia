@@ -213,7 +213,12 @@ export const format = (
     if (currency_position) {
       formatter = currencyPositionFormatter(
         formatter,
-        ({ value }) => (currencySuffix = value.trim()),
+        ({ value }) => {
+          return (currencySuffix = alignCurrencySymbol(
+            value.trim(),
+            currency_display
+          ))
+        },
         currency_position
       )
     }
@@ -452,6 +457,21 @@ const prepareMinus = (display, locale) => {
 }
 
 /**
+ * Aligns the currency symbol in the output based on the currency display option.
+ * "norske kroner" ("Norwegian kroner") will be changed to "kroner" if the currency display option is set to "name".
+ *
+ * @param {string} output - The output string containing the currency symbol.
+ * @param {string} currencyDisplay - The currency display option ('name' or 'symbol').
+ * @returns {string} The aligned output string.
+ */
+function alignCurrencySymbol(output, currencyDisplay) {
+  if (currencyDisplay === 'name') {
+    output = output.replace(/(nor[^\s]+)\s(\w+)/i, '$2')
+  }
+  return output
+}
+
+/**
  * Enhance VoiceOver support on mobile devices
  * Numbers under 99.999 are read out correctly, but only if we remove the spaces
  * Potential we could also check for locale: && /no|nb|nn/.test(locale)
@@ -504,18 +524,14 @@ export const formatNumber = (
     }
 
     if (formatter) {
-      return replaceNaNWithDash(
-        formatToParts({ number, locale, options })
-          .map(formatter)
-          .reduce((acc, { value }) => acc + value, '')
-      )
+      number = formatToParts({ number, locale, options })
+        .map(formatter)
+        .reduce((acc, { value }) => acc + value, '')
     } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
     ) {
-      return replaceNaNWithDash(
-        parseFloat(number).toLocaleString(locale, options)
-      )
+      number = parseFloat(number).toLocaleString(locale, options)
     }
   } catch (e) {
     warn(
@@ -527,7 +543,10 @@ export const formatNumber = (
       e
     )
   }
-  return replaceNaNWithDash(number)
+
+  return replaceNaNWithDash(
+    alignCurrencySymbol(number, options.currencyDisplay)
+  )
 }
 
 function replaceNaNWithDash(number) {
@@ -990,20 +1009,20 @@ export function useCopyWithNotice() {
 /**
  * Will return currency display value based on navigator/browser and locale
  *
- * @property {string} currency_display (optional) code, name, symbol or narrowSymbol
+ * @property {string} currencyDisplay (optional) code, name, symbol or narrowSymbol
  * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @returns {string} a separator symbol
  */
 export function getFallbackCurrencyDisplay(
   locale = null,
-  currency_display = null
+  currencyDisplay = null
 ) {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
-  if (!currency_display && (!locale || /(no|nb|nn)$/i.test(locale))) {
-    currency_display = 'narrowSymbol'
+  if (!currencyDisplay && (!locale || /(no|nb|nn)$/i.test(locale))) {
+    currencyDisplay = 'narrowSymbol'
   }
 
-  return currency_display || CURRENCY_DISPLAY // code, name, symbol
+  return currencyDisplay || CURRENCY_DISPLAY // code, name, symbol
 }
 
 /**
@@ -1046,30 +1065,33 @@ export function getThousandsSeparator(locale = null) {
  *
  * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @property {string} currency (optional) a given currency
- * @property {currencyDisplay} currencyDisplay (optional) what currency display
+ * @property {string} display (optional) what currency display
+ * @property {number} number (optional) only to define if it should be formatted in singular or plural
  * @returns {string} a currency symbol
  */
 export function getCurrencySymbol(
   locale = null,
   currency = null,
-  currencyDisplay = null
+  display = null,
+  number = 2
 ) {
   if (!currency) {
     currency = CURRENCY
   }
-  return (
+
+  const currencyDisplay = getFallbackCurrencyDisplay(locale, display)
+
+  return alignCurrencySymbol(
     formatToParts({
-      number: 1,
+      number,
       locale,
       options: {
         style: 'currency',
         currency,
-        currencyDisplay: getFallbackCurrencyDisplay(
-          locale,
-          currencyDisplay
-        ),
+        currencyDisplay,
       },
-    }).find(({ type }) => type === 'currency')?.value || currency
+    }).find(({ type }) => type === 'currency')?.value || currency,
+    currencyDisplay
   )
 }
 

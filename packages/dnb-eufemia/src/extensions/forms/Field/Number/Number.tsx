@@ -31,6 +31,7 @@ export type Props = FieldHelpProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
+    currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
     percent?: InputMaskedProps['as_percent']
     mask?: InputMaskedProps['mask']
     step?: number
@@ -57,6 +58,7 @@ function NumberComponent(props: Props) {
 
   const {
     currency,
+    currencyDisplay,
     percent,
     mask,
     step = 1,
@@ -131,6 +133,9 @@ function NumberComponent(props: Props) {
       return {
         as_currency: currency,
         mask_options,
+        currency_mask: {
+          currencyDisplay,
+        },
       }
     }
 
@@ -149,7 +154,15 @@ function NumberComponent(props: Props) {
         ...mask_options,
       },
     }
-  }, [currency, decimalLimit, mask, percent, prefix, suffix])
+  }, [
+    currency,
+    currencyDisplay,
+    decimalLimit,
+    mask,
+    percent,
+    prefix,
+    suffix,
+  ])
 
   const preparedProps: Props = {
     ...props,
