@@ -445,6 +445,7 @@ describe('Infinity scroller', () => {
       ].textContent
     ).toBe('page-40')
 
+    await waitForComponent()
     await intersect()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(40)
