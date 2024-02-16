@@ -138,10 +138,6 @@ const makeScreenshot = async ({
     await page.waitForTimeout(headlessTimeout)
   }
 
-  if (simulate && simulate === 'active') {
-    await page.mouse.up() // reset mouse.down() for subsequent tests
-  }
-
   if (delaySimulation > 0) {
     await page.waitForTimeout(delaySimulation)
   }
@@ -153,6 +149,10 @@ const makeScreenshot = async ({
   })
 
   await page.mouse.move(0, 0)
+
+  if (simulate && simulate === 'active') {
+    await page.mouse.up() // reset mouse.down() after move (to avoid a click) for subsequent tests
+  }
 
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
