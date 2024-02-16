@@ -9,13 +9,13 @@ import { isTrue } from '../component-helper'
  * @param excludeKeys object with keys that should be excluded
  * @returns filtered properties
  */
-export function filterValidProps<Props>(
-  props: Props,
+export function filterValidProps<T extends Record<string, unknown>>(
+  props: T | any,
   validKeys?: Record<string, unknown>,
   excludeKeys?: Record<string, unknown>
-) {
-  const res = {} as Props,
-    o = Object.prototype.hasOwnProperty
+): T {
+  const res = {}
+  const o = Object.prototype.hasOwnProperty
 
   for (const key in props) {
     if (
@@ -26,7 +26,7 @@ export function filterValidProps<Props>(
     }
   }
 
-  return res
+  return res as T
 }
 
 /**

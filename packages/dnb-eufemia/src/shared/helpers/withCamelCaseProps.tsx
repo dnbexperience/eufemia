@@ -111,7 +111,8 @@ export function convertCamelCaseProps<P>(props: P) {
  * Disclaimer: Be careful using these with required props
  * - ToCamelCase makes the required snake_case props also required in camelCase
  * - ToCamelCasePartial removes required for the camelCase props
- *
+ * - ToCamelCaseFlat is like ToCamelCase, but it will not convert nested objects for performance boost
+ * - ToCamelCasePartialFlat is like ToCamelCasePartial, but it will not convert nested objects for performance boost
  */
 export type ToCamelCasePartial<T> = Partial<ToCamelCase<T>>
 export type ToCamelCase<T> = T extends object
@@ -126,3 +127,11 @@ type ConvertSnakeToCamelCase<S extends string> =
   S extends `${infer T}_${infer U}`
     ? `${T}${Capitalize<ConvertSnakeToCamelCase<U>>}`
     : S
+
+type ConvertObjectKeysToCamelCase<T> = {
+  [K in keyof T as ConvertSnakeToCamelCase<K & string>]: T[K]
+}
+export type ToCamelCaseFlat<T> = T extends object
+  ? ConvertObjectKeysToCamelCase<T>
+  : T
+export type ToCamelCasePartialFlat<T> = Partial<ToCamelCaseFlat<T>>
