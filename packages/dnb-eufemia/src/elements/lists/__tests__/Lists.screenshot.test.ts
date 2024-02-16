@@ -57,6 +57,14 @@ describe('List', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match dl grid list', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '35rem' },
+      selector: '[data-visual-test="lists-dl-grid"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match lists reset', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-reset"]',

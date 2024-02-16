@@ -20,7 +20,7 @@ describe('Dl', () => {
 
   it('should support spacing props', () => {
     render(
-      <Dl top="medium" direction="horizontal">
+      <Dl top="medium" layout="horizontal">
         <Dl.Item top="medium">
           <Dt top="medium">Term</Dt>
           <Dd top="medium">Description</Dd>
@@ -31,7 +31,7 @@ describe('Dl', () => {
     const element = document.querySelector('.dnb-dl')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-dl__direction--horizontal',
+      'dnb-dl__layout--horizontal',
       'dnb-space__top--medium',
       'dnb-dl',
     ])
@@ -51,7 +51,7 @@ describe('Dl', () => {
   describe('in horizontal direction', () => {
     it('should validate with ARIA rules', async () => {
       const Component = render(
-        <Dl direction="horizontal">
+        <Dl layout="horizontal">
           <Dl.Item>
             <Dt>Term</Dt>
             <Dd>Description</Dd>
@@ -67,7 +67,7 @@ describe('Dl', () => {
 
     it('should have aria-hidden on item', async () => {
       render(
-        <Dl direction="horizontal">
+        <Dl layout="horizontal">
           <Dl.Item>
             <Dt>Term</Dt>
             <Dd>Description</Dd>
