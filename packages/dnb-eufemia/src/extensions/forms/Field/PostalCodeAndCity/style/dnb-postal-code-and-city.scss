@@ -1,17 +1,6 @@
 @import '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-postal-code-and-city {
-  &__fields {
-    display: flex;
-    flex-flow: row;
-    column-gap: var(--spacing-small);
-
-    @include allBelow(x-small) {
-      row-gap: var(--spacing-x-small);
-      flex-flow: column;
-    }
-  }
-
   &__postal-code {
     flex: 0 5rem;
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, renderHook, waitFor } from '@testing-library/react'
+import { act, render, renderHook, waitFor } from '@testing-library/react'
 import SharedProvider from '../../../../shared/Provider'
 import useDataValue from '../useDataValue'
 import { Provider } from '../../DataContext'
@@ -217,7 +217,7 @@ describe('useDataValue', () => {
       }
 
       const initialProps = {
-        require: true,
+        required: true,
 
         // Step 1.
         validateRequired: (value: string) => {
@@ -437,6 +437,33 @@ describe('useDataValue', () => {
   })
 
   describe('ariaAttributes', () => {
+    it('should forward custom aria attributes', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          'aria-label': 'custom attribute',
+        })
+      )
+
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-label': 'custom attribute',
+      })
+    })
+
+    it('should combine attributes', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({
+          id: 'unique',
+          error: new Error('error'),
+          'aria-describedby': 'existing-id',
+        })
+      )
+
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-describedby': 'existing-id unique-form-status--error',
+        'aria-invalid': 'true',
+      })
+    })
+
     it('should return false by default', async () => {
       const { result } = renderHook(() =>
         useDataValue({
@@ -465,6 +492,7 @@ describe('useDataValue', () => {
     it('should return true on required and invalid', async () => {
       const { result } = renderHook(() =>
         useDataValue({
+          id: 'unique',
           value: undefined,
           required: true,
           validateInitially: true,
@@ -473,6 +501,52 @@ describe('useDataValue', () => {
 
       expect(result.current.error).toBeInstanceOf(Error)
       expect(result.current.ariaAttributes).toEqual({
+        'aria-invalid': 'true',
+        'aria-required': 'true',
+        'aria-describedby': 'unique-form-status--error',
+      })
+    })
+
+    it('should return aria-describedby', async () => {
+      const { result, rerender } = renderHook(
+        (props) => useDataValue(props),
+        {
+          initialProps: {},
+        }
+      )
+
+      expect(result.current.ariaAttributes).toEqual({})
+
+      rerender({ info: 'info' })
+
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-describedby': expect.stringMatching(/id-.*-form-status/),
+      })
+
+      rerender({ warning: 'warning' })
+
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-describedby': expect.stringMatching(/id-.*-form-status/),
+      })
+
+      rerender({ error: new Error('error') })
+
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-describedby': expect.stringMatching(/id-.*-form-status/),
+      })
+
+      rerender({})
+
+      expect(result.current.ariaAttributes).toEqual({})
+    })
+
+    it('should combine all aria', async () => {
+      const { result } = renderHook(() =>
+        useDataValue({ error: new Error('error'), required: true })
+      )
+
+      expect(result.current.ariaAttributes).toEqual({
+        'aria-describedby': expect.stringMatching(/id-.*-form-status/),
         'aria-invalid': 'true',
         'aria-required': 'true',
       })
@@ -801,6 +875,31 @@ describe('useDataValue', () => {
       expect(onFocus).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
+  })
+
+  it('should return "hasError" when outer FieldBlocks as error', () => {
+    let hasOuterError = false
+    const MockComponent = (props) => {
+      const { hasError } = useDataValue(props)
+      hasOuterError = hasError
+      return null
+    }
+
+    const { rerender } = render(
+      <FieldBlock error={new FormError('Error message')}>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(hasOuterError).toBeTruthy()
+
+    rerender(
+      <FieldBlock>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(hasOuterError).toBeFalsy()
   })
 
   it('should translate required error', () => {

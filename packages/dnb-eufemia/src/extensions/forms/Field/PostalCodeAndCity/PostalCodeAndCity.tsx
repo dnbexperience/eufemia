@@ -28,51 +28,46 @@ function PostalCodeAndCity(props: Props) {
       )}
       {...fieldBlockProps}
       width={width}
+      composition
     >
-      <div
+      <StringField
+        {...postalCode}
+        pattern={postalCode.pattern ?? '^[0-9]{4}$'}
+        mask={[/\d/, /\d/, /\d/, /\d/]}
         className={classnames(
-          'dnb-forms-field-postal-code-and-city__fields'
+          'dnb-forms-field-postal-code-and-city__postal-code',
+          postalCode.className
         )}
-      >
-        <StringField
-          {...postalCode}
-          pattern={postalCode.pattern ?? '^[0-9]{4}$'}
-          mask={[/\d/, /\d/, /\d/, /\d/]}
-          className={classnames(
-            'dnb-forms-field-postal-code-and-city__postal-code',
-            postalCode.className
-          )}
-          label={
-            postalCode.label ??
-            sharedContext?.translation.Forms.postalCodeLabel
-          }
-          errorMessages={{
-            required:
-              sharedContext?.translation.Forms.postalCodeErrorRequired,
-            pattern:
-              sharedContext?.translation.Forms.postalCodeErrorPattern,
-            ...postalCode.errorMessages,
-          }}
-          placeholder={postalCode.placeholder ?? '0000'}
-          width={false}
-          inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
-          inputMode="numeric"
-        />
-        <StringField
-          {...city}
-          className={classnames(
-            'dnb-forms-field-postal-code-and-city__city',
-            city.className
-          )}
-          label={city.label ?? sharedContext?.translation.Forms.cityLabel}
-          errorMessages={{
-            required: sharedContext?.translation.Forms.cityErrorRequired,
-            ...city.errorMessages,
-          }}
-          width="stretch"
-          help={help}
-        />
-      </div>
+        label={
+          postalCode.label ??
+          sharedContext?.translation.Forms.postalCodeLabel
+        }
+        errorMessages={{
+          required:
+            sharedContext?.translation.Forms.postalCodeErrorRequired,
+          pattern: sharedContext?.translation.Forms.postalCodeErrorPattern,
+          ...postalCode.errorMessages,
+        }}
+        placeholder={postalCode.placeholder ?? '0000'}
+        width={false}
+        // width="small"
+        inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
+        inputMode="numeric"
+      />
+      <StringField
+        {...city}
+        className={classnames(
+          'dnb-forms-field-postal-code-and-city__city',
+          city.className
+        )}
+        label={city.label ?? sharedContext?.translation.Forms.cityLabel}
+        errorMessages={{
+          required: sharedContext?.translation.Forms.cityErrorRequired,
+          ...city.errorMessages,
+        }}
+        width="stretch"
+        help={help}
+      />
     </FieldBlock>
   )
 }

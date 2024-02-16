@@ -3,6 +3,7 @@ import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
+import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
@@ -52,6 +53,7 @@ export type Props = FieldHelpProps &
   }
 
 function NumberComponent(props: Props) {
+  const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
@@ -158,7 +160,9 @@ function NumberComponent(props: Props) {
     toInput,
     fromInput,
     transformValue,
-    width: props.width ?? 'medium',
+    width:
+      props.width ??
+      (fieldBlockContext?.composition ? 'stretch' : 'medium'),
   }
 
   const {
@@ -231,7 +235,10 @@ function NumberComponent(props: Props) {
     warning,
     error,
     disabled,
-    width: width === 'stretch' ? width : undefined,
+    width:
+      width === 'stretch' || fieldBlockContext?.composition
+        ? width
+        : undefined,
     contentWidth: width !== false ? width : undefined,
     ...pickSpacingProps(props),
   }
@@ -289,7 +296,7 @@ function NumberComponent(props: Props) {
       `dnb-input--${size}`,
       inputClassName
     ),
-    step,
+    step: showStepControls ? step : undefined,
     placeholder,
     value,
     align: showStepControls ? 'center' : align,
@@ -301,7 +308,9 @@ function NumberComponent(props: Props) {
     disabled,
     ...ariaAttributes,
     status: hasError ? 'error' : undefined,
-    stretch: width !== undefined,
+    stretch: Boolean(
+      width !== undefined || fieldBlockContext?.composition
+    ),
     suffix:
       help && !showStepControls ? (
         <HelpButton title={help.title}>{help.content}</HelpButton>

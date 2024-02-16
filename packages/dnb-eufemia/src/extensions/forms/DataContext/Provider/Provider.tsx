@@ -107,16 +107,6 @@ export interface Props<Data extends JsonObject> {
   children: React.ReactNode
 }
 
-type PathList = string[]
-
-function addListPath(paths: PathList, path: Path): PathList {
-  return paths.includes(path) ? paths : paths.concat(path)
-}
-
-function removeListPath(paths: PathList, path: Path): PathList {
-  return paths.filter((thisPath) => thisPath !== path)
-}
-
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>({
@@ -147,7 +137,7 @@ export default function Provider<Data extends JsonObject>({
   // - Ajv
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
   // - Paths
-  const mountedFieldPathsRef = useRef<string[]>([])
+  const mountedFieldPathsRef = useRef<Path[]>([])
   // - Errors from provider validation (the whole data set)
   const errorsRef = useRef<Record<string, FormError> | undefined>()
   const showAllErrorsRef = useRef<boolean>(false)
@@ -157,10 +147,10 @@ export default function Provider<Data extends JsonObject>({
   }, [])
 
   // - Errors reported by fields, based on their direct validation rules
-  const valuesWithErrorRef = useRef<string[]>([])
+  const valuesWithErrorRef = useRef<Path[]>([])
 
   // - Data
-  const initialData = useMemo(() => {
+  const initialData = useMemo<Data>(() => {
     if (sessionStorageId && typeof window !== 'undefined') {
       const sessionDataJSON =
         window.sessionStorage?.getItem(sessionStorageId)
@@ -172,12 +162,10 @@ export default function Provider<Data extends JsonObject>({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Partial<Data>>(initialData)
-  const cacheRef = useRef({ data, schema })
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
-
-  const validateData = useCallback(() => {
+  const validateDataNow = useCallback(() => {
     if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
       return
@@ -191,28 +179,29 @@ export default function Provider<Data extends JsonObject>({
     } else {
       errorsRef.current = undefined
     }
-
-    forceUpdate()
   }, [])
+  const validateData = useCallback(() => {
+    if (!ajvValidatorRef.current) {
+      // No schema-based validator. Assume data is valid.
+      return
+    }
+
+    validateDataNow()
+    forceUpdate()
+  }, [validateDataNow])
 
   // - Error handling
-  const hasFieldError = useCallback(
-    (path: string) =>
-      Boolean(
-        errorsRef.current?.[path] !== undefined ||
-          valuesWithErrorRef.current.includes(path)
-      ),
-    []
-  )
-  const hasErrors = useCallback(
-    () =>
-      Boolean(
-        mountedFieldPathsRef.current.find((mountedFieldPath) =>
-          hasFieldError(mountedFieldPath)
-        )
-      ),
-    [hasFieldError]
-  )
+  const hasFieldError = useCallback((path: Path) => {
+    return Boolean(
+      errorsRef.current?.[path] !== undefined ||
+        valuesWithErrorRef.current.includes(path)
+    )
+  }, [])
+  const hasErrors = useCallback(() => {
+    return Boolean(
+      mountedFieldPathsRef.current.find((path) => hasFieldError(path))
+    )
+  }, [hasFieldError])
 
   /**
    * Sets the error state for a specific path
@@ -266,7 +255,7 @@ export default function Provider<Data extends JsonObject>({
 
   // - Shared state
   const sharedData = useSharedState<Data>(id)
-  const sharedAtachments = useSharedState<{
+  const sharedAttachments = useSharedState<{
     filterDataHandler?: Props<Data>['filterData']
     hasErrors?: () => boolean
     rerenderUseDataHook?: () => void
@@ -274,37 +263,91 @@ export default function Provider<Data extends JsonObject>({
 
   const updateSharedData = sharedData.update
   const extendSharedData = sharedData.extend
-  const extendAtachment = sharedAtachments.extend
-  const rerenderUseDataHook = sharedAtachments.data?.rerenderUseDataHook
+  const extendAttachment = sharedAttachments.extend
+  const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
 
-  useMemo(() => {
-    // Update the internal data set, if the shared state changes
-    if (id && sharedData.data && !initialData) {
-      internalDataRef.current = sharedData.data
+  const cacheRef = useRef({
+    data,
+    schema,
+    shared: sharedData.data,
+    hasUsedInitialData: false,
+  })
+
+  const countRef = useRef(0)
+  if (countRef.current++ > 100) {
+    throw new Error('countRef.current: ' + countRef.current)
+  }
+
+  internalDataRef.current = useMemo(() => {
+    // Update the shared state, if initialData is given and no shared state is available
+    if (id && initialData && !sharedData.data) {
+      sharedData.update(initialData)
     }
-  }, [id, initialData, sharedData.data])
+
+    // Merge both internal data and the shared state, if it both where given
+    if (
+      id &&
+      initialData &&
+      sharedData.data &&
+      cacheRef.current.shared === sharedData.data &&
+      internalDataRef.current === initialData
+    ) {
+      return {
+        ...internalDataRef.current,
+        ...sharedData.data,
+      }
+    }
+
+    // Use shared state if no initial and initial data, and the shared state exists
+    if (
+      id &&
+      !initialData &&
+      !internalDataRef.current &&
+      sharedData.data &&
+      cacheRef.current.shared === sharedData.data
+    ) {
+      return sharedData.data
+    }
+
+    // Merge the internal data with the shared state, if the shared was updated and not the same as internal data
+    if (
+      id &&
+      sharedData.data &&
+      cacheRef.current.shared !== sharedData.data &&
+      sharedData.data !== internalDataRef.current
+    ) {
+      cacheRef.current.shared = sharedData.data
+      return {
+        ...internalDataRef.current,
+        ...sharedData.data,
+      }
+    }
+
+    // When external data has changed, update the internal data
+    if (data !== cacheRef.current.data) {
+      cacheRef.current.data = data
+      return data
+    }
+
+    return internalDataRef.current
+  }, [id, data, initialData, sharedData])
 
   useLayoutEffect(() => {
-    // Update the shared state, if initialData is given
-    if (id && !sharedData.data && initialData) {
+    // Set the shared state, if initialData was given
+    if (id && initialData && !sharedData.data) {
       extendSharedData?.(initialData)
     }
   }, [id, initialData, extendSharedData, sharedData.data])
 
-  useLayoutEffect(() => {
-    // If the shared state changes, update the internal data set
-    if (
-      id &&
-      sharedData.data &&
-      sharedData.data !== internalDataRef.current
-    ) {
-      internalDataRef.current = sharedData.data
-    }
-  }, [id, sharedData.data])
+  useMemo(() => {
+    validateDataNow()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [internalDataRef.current]) // run validation when internal data has changed
 
   useLayoutEffect(() => {
     if (id) {
-      extendAtachment?.({ filterDataHandler, hasErrors })
+      extendAttachment?.({ filterDataHandler, hasErrors })
       if (filterData) {
         rerenderUseDataHook?.()
       }
@@ -315,7 +358,7 @@ export default function Provider<Data extends JsonObject>({
     rerenderUseDataHook,
     hasErrors,
     id,
-    extendAtachment,
+    extendAttachment,
   ])
 
   /**
@@ -485,29 +528,14 @@ export default function Provider<Data extends JsonObject>({
   })
 
   useUpdateEffect(() => {
-    let hadChanges = false
-
-    // Update and validate changes to the external data set,
-    // And avoid "resetting" the data with the originally given data (React.StrictMode)
-    if (data !== cacheRef.current.data) {
-      internalDataRef.current = data
-
-      hadChanges = true
-      cacheRef.current.data = data
-    }
-
     if (schema && schema !== cacheRef.current.schema) {
+      cacheRef.current.schema = schema
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
 
-      hadChanges = true
-      cacheRef.current.schema = schema
-    }
-
-    if (hadChanges) {
       validateData()
       forceUpdate()
     }
-  }, [data, schema, validateData, forceUpdate])
+  }, [schema, validateData, forceUpdate])
 
   return (
     <Context.Provider
@@ -538,4 +566,14 @@ export default function Provider<Data extends JsonObject>({
       {children}
     </Context.Provider>
   )
+}
+
+type PathList = string[]
+
+function addListPath(paths: PathList, path: Path): PathList {
+  return paths.includes(path) ? paths : paths.concat(path)
+}
+
+function removeListPath(paths: PathList, path: Path): PathList {
+  return paths.filter((thisPath) => thisPath !== path)
 }

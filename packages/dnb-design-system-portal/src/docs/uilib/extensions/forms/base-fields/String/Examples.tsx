@@ -192,7 +192,7 @@ export const Warning = () => {
         value="foo"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
-        warning={new FormError("I'm warning you...")}
+        warning="I'm warning you..."
       />
     </ComponentBox>
   )

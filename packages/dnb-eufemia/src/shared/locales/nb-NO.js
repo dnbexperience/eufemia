@@ -166,6 +166,8 @@ export default {
       stepNext: 'Neste',
       stepPrevious: 'Tilbake',
       contextSubmit: 'Send',
+      fieldStateSummary: 'Oppsummering:',
+      fieldErrorSummary: 'Feil som må rettes:',
       fieldErrorRequired: 'Dette feltet må fylles ut',
       inputErrorRequired: 'Dette feltet må fylles ut',
       inputErrorPattern: 'Verdien er ugyldig',

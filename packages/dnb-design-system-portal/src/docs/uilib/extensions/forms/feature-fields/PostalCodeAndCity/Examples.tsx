@@ -52,7 +52,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="postal-code-and-city-label">
       <Field.PostalCodeAndCity
         postalCode={{
           label: 'Pnr.',
@@ -109,7 +109,10 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox
+      scope={{ FormError }}
+      data-visual-test="postal-code-and-city-error"
+    >
       <Field.PostalCodeAndCity
         postalCode={{}}
         city={{}}
@@ -128,6 +131,21 @@ export const ValidationRequired = () => {
         }}
         city={{
           required: true,
+        }}
+      />
+    </ComponentBox>
+  )
+}
+
+export const LongLabel = () => {
+  return (
+    <ComponentBox data-visual-test="postal-code-and-city-long-label">
+      <Field.PostalCodeAndCity
+        postalCode={{
+          label: 'With a very long label',
+        }}
+        city={{
+          label: 'With a very long label',
         }}
       />
     </ComponentBox>

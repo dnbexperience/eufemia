@@ -40,14 +40,13 @@ export function CountCharactersInteractive() {
       {() => {
         const text = 'Count me!'
         const variant: TextCounterProps['variant'] = 'down'
-        const initialData = {
-          max: 10,
-          variant,
-          text,
-        }
 
         const Counter = () => {
-          const { data } = Form.useData('text-counter', initialData)
+          const { data } = Form.useData('text-counter', {
+            max: 10,
+            variant,
+            text,
+          })
           return (
             <Flex.Stack divider="line">
               <Flex.Vertical spacing="x-small">

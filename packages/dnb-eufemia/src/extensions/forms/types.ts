@@ -193,8 +193,8 @@ export interface FieldProps<
   autoComplete?:
     | HTMLInputElement['autocomplete']
     | HTMLTextAreaElement['autocomplete']
-  info?: Error | FormError | string
-  warning?: Error | FormError | string
+  info?: React.ReactNode
+  warning?: React.ReactNode
   error?: Error | FormError
   hasError?: boolean
   disabled?: boolean

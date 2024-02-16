@@ -130,17 +130,9 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    expect(first.nextElementSibling).toHaveTextContent('the day')
-    expect(first.labels[0].id).toBe('given-id-day__label')
-    expect(first.nextElementSibling.tagName).toBe('LABEL')
-
-    expect(second.nextElementSibling).toHaveTextContent('the month')
-    expect(second.labels[0].id).toBe('given-id-month__label')
-    expect(second.nextElementSibling.tagName).toBe('LABEL')
-
-    expect(third.nextElementSibling).toHaveTextContent('the year')
-    expect(third.labels[0].id).toBe('given-id-year__label')
-    expect(third.nextElementSibling.tagName).toBe('LABEL')
+    expect(first).toHaveAttribute('aria-label', 'the day')
+    expect(second).toHaveAttribute('aria-label', 'the month')
+    expect(third).toHaveAttribute('aria-label', 'the year')
   })
 
   it('should show legend based on label prop', () => {
@@ -448,27 +440,27 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    expect(first.labels[0].nextElementSibling).toHaveTextContent('/')
-    expect(second.labels[0].nextElementSibling).toHaveTextContent('/')
-    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+    expect(first.nextElementSibling).toHaveTextContent('/')
+    expect(second.nextElementSibling).toHaveTextContent('/')
+    expect(third.nextElementSibling).not.toBeInTheDocument()
 
     rerender(<MultiInputMask {...defaultProps} delimiter="-" />)
 
-    expect(first.labels[0].nextElementSibling).toHaveTextContent('-')
-    expect(second.labels[0].nextElementSibling).toHaveTextContent('-')
-    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+    expect(first.nextElementSibling).toHaveTextContent('-')
+    expect(second.nextElementSibling).toHaveTextContent('-')
+    expect(third.nextElementSibling).not.toBeInTheDocument()
 
     rerender(<MultiInputMask {...defaultProps} delimiter="." />)
 
-    expect(first.labels[0].nextElementSibling).toHaveTextContent('.')
-    expect(second.labels[0].nextElementSibling).toHaveTextContent('.')
-    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+    expect(first.nextElementSibling).toHaveTextContent('.')
+    expect(second.nextElementSibling).toHaveTextContent('.')
+    expect(third.nextElementSibling).not.toBeInTheDocument()
 
     rerender(<MultiInputMask {...defaultProps} />)
 
-    expect(first.labels[0].nextElementSibling).toBe(second)
-    expect(second.labels[0].nextElementSibling).toBe(third)
-    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+    expect(first.nextElementSibling).toBe(second)
+    expect(second.nextElementSibling).toBe(third)
+    expect(third.nextElementSibling).not.toBeInTheDocument()
   })
 
   it('should show error state', () => {

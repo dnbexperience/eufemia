@@ -12,7 +12,7 @@ It shows surrounding elements through properties from `FieldProps` like `label` 
 
 It can also be used to group multiple inner FieldBlock components, composing status (error) messages together as one component.
 
-```jsx
+```tsx
 import { FieldBlock } from '@dnb/eufemia/extensions/forms'
 
 const YourFieldComponent = () => {
@@ -26,5 +26,32 @@ const YourFieldComponent = () => {
   )
 }
 ```
+
+## Composition fields
+
+When you create a field that contains of several existing fields, it will be a so called "composition field".
+
+You can use `composition={true}` to wrap the fields together horizontally:
+
+```tsx
+import { FieldBlock, Field } from '@dnb/eufemia/extensions/forms'
+
+const YourFieldComponent = () => {
+  return (
+    <FieldBlock label="Legend" error="Error at the bottom" composition>
+      <Field.String />
+      <Field.String />
+    </FieldBlock>
+  )
+}
+```
+
+Some working examples with actual `width` handling in the demos below.
+
+When each field inside your composition is horizontally aligned for larger screens, they will wrap to a vertical layout for smaller screens.
+
+If each of the fields have a label, the labels should ideally be top aligned. But when one of the labels contain more text than fits into one line, the fields will be bottom aligned.
+
+In the demo section you find an [example](#composition-field-with-error) on how to handle form states.
 
 <Demos />

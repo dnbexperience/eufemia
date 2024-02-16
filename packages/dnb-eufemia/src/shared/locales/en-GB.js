@@ -168,6 +168,8 @@ export default {
       stepNext: 'Next',
       stepPrevious: 'Back',
       contextSubmit: 'Send',
+      fieldStateSummary: 'Summary:',
+      fieldErrorSummary: 'Please correct the following errors:',
       fieldErrorRequired: 'This field is required',
       inputErrorRequired: 'This field is required',
       inputErrorPattern: 'The value is invalid',

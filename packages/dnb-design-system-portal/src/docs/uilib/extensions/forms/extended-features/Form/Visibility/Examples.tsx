@@ -56,11 +56,10 @@ export const InferData = () => {
   return (
     <ComponentBox>
       {() => {
-        const initialData = {
-          toggleValue: false,
-        }
         const MyComponent = () => {
-          const { data } = Form.useData('example-form', initialData)
+          const { data } = Form.useData('example-form', {
+            toggleValue: false,
+          })
           const inferDataFunc = React.useCallback(
             () => data.toggleValue,
             [data.toggleValue],

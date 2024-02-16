@@ -4,15 +4,17 @@ showTabs: true
 
 ## Description
 
-With the `Form.useData` hook, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
+With the `Form.useData` hook, you can manage your form data outside of the form component itself. This is beneficial when you need to utilize the form data in other places within your application:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function Component() {
-  const { data } = Form.useData('unique')
-
+function ComponentA() {
   return <Form.Handler id="unique">...</Form.Handler>
+}
+
+function ComponentB() {
+  const { data } = Form.useData('unique')
 }
 ```
 
@@ -27,23 +29,30 @@ const { data } = Form.useData<Data>('unique')
 
 ## Initial data
 
-You decide where you want to provide the initial `data`. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook – or even in each Field, with the value property:
+You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/extended-features/Form/setData/) method – or even in each Field, with the value property.
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
-const initialData = {
-  foo: 'bar',
-}
-
-function Component() {
-  const { data } = Form.useData('unique', initialData)
-
+const initialData = { foo: 'bar' }
+function ComponentA() {
   return (
-    <Form.Handler id="unique">
+    <Form.Handler id="unique" data={initialData}>
       <Field.String path="/foo" />
     </Form.Handler>
   )
+}
+
+function ComponentB() {
+  Form.useData('unique', { foo: 'bar' })
+}
+
+function ComponentC() {
+  const { set } = Form.useData('unique')
+
+  useEffect(() => {
+    set({ foo: 'bar' })
+  }, [])
 }
 ```
 
@@ -56,12 +65,8 @@ It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-const initialData = {
-  foo: 'bar',
-}
-
 function Component() {
-  const { update } = Form.useData('unique', (data = { initialData }))
+  const { update } = Form.useData('unique', { foo: 'bar' })
 
   useEffect(() => {
     update('/foo', () => 'new value')
@@ -73,22 +78,18 @@ function Component() {
 
 The `update` function has TypeScript support and returns the correct type for `existingValue`.
 
-## Replace the whole data set
+## Extend the whole data set
 
-With the `set` method, you can replace the whole data set if needed.
+With the `set` method, you can extend the data set. Existing data paths will be overwritten.
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-const initialData = {
-  foo: 'bar',
-}
 
 function Component() {
   const { data, set } = Form.useData('unique')
 
   useEffect(() => {
-    set(initialData)
+    set({ foo: 'bar' })
   }, [])
 
   return (

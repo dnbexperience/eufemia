@@ -13,10 +13,12 @@ import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
 import { Context, ContextState } from '../DataContext'
+import { combineDescribedBy } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useMountEffect from './useMountEffect'
+import useUnmountEffect from './useUnmountEffect'
 import useUpdateEffect from './useUpdateEffect'
 import useProcessManager from './useProcessManager'
 import useId from './useId'
@@ -30,6 +32,8 @@ export default function useDataValue<
     itemPath,
     emptyValue,
     required,
+    info,
+    warning,
     error: errorProp,
     errorMessages,
     onFocus,
@@ -90,8 +94,8 @@ export default function useDataValue<
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
-    setError: setFieldBlockError,
-    setShowError: setShowFieldBlockError,
+    setFieldState: setFieldBlockState,
+    showFieldError: showFieldBlockError,
   } = fieldBlockContext ?? {}
   const inIterate = Boolean(iterateElementContext)
   const {
@@ -193,13 +197,13 @@ export default function useDataValue<
 
   const showError = useCallback(() => {
     showErrorRef.current = true
-    setShowFieldBlockError?.(path ?? id, true)
-  }, [path, id, setShowFieldBlockError])
+    showFieldBlockError?.(identifier, true)
+  }, [showFieldBlockError, identifier])
 
   const hideError = useCallback(() => {
     showErrorRef.current = false
-    setShowFieldBlockError?.(path ?? id, false)
-  }, [path, id, setShowFieldBlockError])
+    showFieldBlockError?.(identifier, false)
+  }, [showFieldBlockError, identifier])
 
   const errorMessagesRef = useRef(null)
   errorMessagesRef.current = useMemo(() => {
@@ -246,6 +250,7 @@ export default function useDataValue<
   /**
    * Based on validation, update error state, locally and relevant surrounding contexts
    */
+  const stateId = useId()
   const persistErrorState = useCallback(
     (errorArg: FormError | undefined) => {
       const error = prepareError(errorArg)
@@ -261,17 +266,24 @@ export default function useDataValue<
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
       dataContextSetValueWithError?.(identifier, Boolean(error))
 
-      setFieldBlockError?.(path ?? id, error)
+      setFieldBlockState?.({
+        stateId,
+        identifier,
+        type: 'error',
+        state: error,
+        showInitially: Boolean(inFieldBlock && validateInitially),
+      })
+
       forceUpdate()
     },
     [
-      path,
-      identifier,
-      id,
+      stateId,
       prepareError,
       dataContextSetValueWithError,
-      setFieldBlockError,
-      forceUpdate,
+      identifier,
+      setFieldBlockState,
+      inFieldBlock,
+      validateInitially,
     ]
   )
 
@@ -494,10 +506,7 @@ export default function useDataValue<
       handleError()
 
       if (path) {
-        // setTimeout(() => {
         dataContextHandlePathChange?.(path, newValue)
-        // forceUpdate()
-        // }, 1e3)
       }
 
       forceUpdate()
@@ -553,21 +562,54 @@ export default function useDataValue<
   )
 
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
-
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)
 
     validateValue()
+  })
+  useUnmountEffect(() => {
+    dataContext?.handleUnMountField(identifier)
+  })
 
-    if (showErrorInitially) {
-      showError()
-    }
+  // Set the error in the field block context if this field is inside a field block
+  useMountEffect(() => {
+    if (inFieldBlock) {
+      if (errorProp) {
+        setFieldBlockState?.({
+          identifier,
+          type: 'error',
+          state: errorProp,
+          showInitially: true,
+          show: true,
+        })
+      }
+      if (warning) {
+        setFieldBlockState?.({
+          identifier,
+          type: 'warning',
+          state: warning,
+          showInitially: true,
+          show: true,
+        })
+      }
+      if (info) {
+        setFieldBlockState?.({
+          identifier,
+          type: 'info',
+          state: info,
+          showInitially: true,
+          show: true,
+        })
+      }
 
-    return () => {
-      // Unmount procedure
-      dataContext?.handleUnMountField(identifier)
+      return () => {
+        // Unmount procedure
+        if (fieldBlockContext.mountedFieldsRef) {
+          fieldBlockContext.mountedFieldsRef.current[identifier] = true
+        }
+      }
     }
   })
 
@@ -575,22 +617,53 @@ export default function useDataValue<
     ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
     : undefined
 
-  const ariaAttributes = Object.keys(props).reduce<AriaAttributes>(
-    (attributes, key) => {
-      if (!key.startsWith('aria-')) {
-        return attributes
-      }
-      attributes[key] = props[key]
-      return attributes
-    },
-    {}
-  )
+  const hasError =
+    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
 
-  if (error && !ariaAttributes['aria-invalid']) {
-    ariaAttributes['aria-invalid'] = `${Boolean(error)}`
+  // - Handle ariaAttributes
+  const ariaAttributes = useMemo(() => {
+    return Object.keys(props).reduce<AriaAttributes>((acc, cur) => {
+      if (!cur.startsWith('aria-')) {
+        return acc
+      }
+      acc[cur] = props[cur]
+      return acc
+    }, {})
+  }, [props])
+  if (error) {
+    ariaAttributes['aria-invalid'] = error ? 'true' : 'false'
   }
-  if (required && !ariaAttributes['aria-required']) {
-    ariaAttributes['aria-required'] = `${required}`
+  if (required) {
+    ariaAttributes['aria-required'] = required ? 'true' : 'false'
+  }
+  if (inFieldBlock) {
+    // Mount the field in the field block context
+    if (fieldBlockContext.mountedFieldsRef) {
+      fieldBlockContext.mountedFieldsRef.current[identifier] = true
+    }
+
+    // Check if there are any state IDs to be added to the aria-describedby attribute
+    const stateIds = fieldBlockContext.fieldStateIdsRef?.current
+
+    if (stateIds) {
+      ariaAttributes['aria-describedby'] = combineDescribedBy(
+        props,
+        [
+          error && stateIds.error,
+          warning && stateIds.warning,
+          info && stateIds.info,
+        ].filter(Boolean)
+      )
+    }
+  } else {
+    ariaAttributes['aria-describedby'] = combineDescribedBy(
+      props,
+      [
+        (error || errorProp) && `${id}-form-status--error`,
+        warning && `${id}-form-status--warning`,
+        info && `${id}-form-status--info`,
+      ].filter(Boolean)
+    )
   }
 
   return {
@@ -598,8 +671,10 @@ export default function useDataValue<
     id,
     name: props.name || props.path?.replace('/', '') || id,
     value: transformers.current.toInput(valueRef.current),
+    info: !inFieldBlock ? info : undefined,
+    warning: !inFieldBlock ? warning : undefined,
     error: !inFieldBlock ? error : undefined,
-    hasError: Boolean(error),
+    hasError,
     isChanged: changedRef.current,
     autoComplete:
       props.autoComplete ??
@@ -640,19 +715,19 @@ export function omitDataValueProps<
 >(props: OmittedProps) {
   // Do not include typical HTML attributes
   const {
-    name,
-    error,
-    hasError,
-    isChanged,
-    autoComplete,
-    ariaAttributes,
-    dataContext,
-    setHasFocus,
-    handleFocus,
-    handleBlur,
-    handleChange,
-    updateValue,
-    forceUpdate,
+    name, // eslint-disable-line
+    error, // eslint-disable-line
+    hasError, // eslint-disable-line
+    isChanged, // eslint-disable-line
+    autoComplete, // eslint-disable-line
+    ariaAttributes, // eslint-disable-line
+    dataContext, // eslint-disable-line
+    setHasFocus, // eslint-disable-line
+    handleFocus, // eslint-disable-line
+    handleBlur, // eslint-disable-line
+    handleChange, // eslint-disable-line
+    updateValue, // eslint-disable-line
+    forceUpdate, // eslint-disable-line
     ...restProps
   } = props
   return Object.freeze(restProps) as Omit<

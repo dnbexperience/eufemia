@@ -124,7 +124,7 @@ export default function useData<Data>(
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current.hadInitialData && initialData) {
-      sharedDataRef.current.update(initialData)
+      sharedDataRef.current.extend(initialData)
     }
   })
 

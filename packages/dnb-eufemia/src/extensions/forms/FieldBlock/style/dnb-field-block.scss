@@ -83,6 +83,10 @@ fieldset.dnb-forms-field-block {
     .dnb-form-status__shell {
       margin-top: 0.5rem; // set margin-top on shell, so we can animate the height
     }
+
+    @include allBelow(xx-small) {
+      width: 90%;
+    }
   }
 
   &__contents {
@@ -102,6 +106,28 @@ fieldset.dnb-forms-field-block {
         }
         &-large {
           width: var(--forms-field-width--large);
+        }
+      }
+    }
+
+    &__composition {
+      &--vertical {
+        display: flex;
+        flex-flow: column;
+        row-gap: var(--spacing-small);
+      }
+
+      &--horizontal {
+        display: flex;
+        flex-flow: row;
+        column-gap: var(--spacing-small);
+
+        @include allAbove(x-small) {
+          align-items: flex-end;
+        }
+        @include allBelow(x-small) {
+          row-gap: var(--spacing-x-small);
+          flex-flow: column;
         }
       }
     }

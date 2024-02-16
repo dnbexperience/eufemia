@@ -7,6 +7,7 @@ import { Field, FormError, FieldBlock } from '../../..'
 describe('Field.Date', () => {
   it('should render with props', () => {
     render(<Field.Date />)
+    expect(screen.getByLabelText('Dato')).toBeInTheDocument()
   })
 
   it('should show required warning', async () => {
