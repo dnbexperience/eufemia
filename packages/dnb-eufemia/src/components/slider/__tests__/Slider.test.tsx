@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
-import Slider from '../Slider'
+import Slider, { SliderMarker } from '../Slider'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
@@ -345,7 +345,10 @@ describe('Slider component', () => {
   describe('Slider with marker', () => {
     it('should render marker in horizontal direction', () => {
       const { rerender } = render(
-        <Slider {...props} marker={{ value: 30 }} />
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 30 } }}
+        />
       )
 
       const sliderElement = document.querySelector('.dnb-slider')
@@ -363,7 +366,11 @@ describe('Slider component', () => {
 
     it('should render marker in vertical direction', () => {
       const { rerender } = render(
-        <Slider {...props} marker={{ value: 30 }} vertical />
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 30 } }}
+          vertical
+        />
       )
 
       const sliderElement = document.querySelector('.dnb-slider')
@@ -381,7 +388,10 @@ describe('Slider component', () => {
 
     it('should have html attributes to make it accessible', () => {
       const { rerender } = render(
-        <Slider {...props} marker={{ value: 30 }} />
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 30 } }}
+        />
       )
 
       const sliderElement = document.querySelector('.dnb-slider')
@@ -392,15 +402,20 @@ describe('Slider component', () => {
       expect(markerElement).toHaveAttribute('aria-label', '30')
       expect(markerElement).toHaveAttribute('tabIndex', '0')
 
-      rerender(<Slider {...props} marker={{ value: 120 }} />)
+      rerender(
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 120 } }}
+        />
+      )
 
       expect(markerElement).toHaveAttribute('style', 'left: 100%;')
       expect(markerElement).toHaveAttribute('aria-label', '120')
     })
 
     it('shows Tooltip with info', async () => {
-      const marker = { value: 30 }
-      render(<Slider {...props} marker={marker} />)
+      const marker = { instance: SliderMarker, value: 30 }
+      render(<Slider {...props} extensions={{ marker }} />)
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(
@@ -417,8 +432,12 @@ describe('Slider component', () => {
     })
 
     it('shows Tooltip with  text', async () => {
-      const marker = { value: 30, text: 'Here is the text' }
-      render(<Slider {...props} marker={marker} />)
+      const marker = {
+        instance: SliderMarker,
+        value: 30,
+        text: 'Here is the text',
+      }
+      render(<Slider {...props} extensions={{ marker }} />)
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(

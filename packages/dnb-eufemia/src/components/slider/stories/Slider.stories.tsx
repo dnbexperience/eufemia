@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { Slider, ToggleButton, Input, FormLabel, Flex } from '../../'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
+import SliderMarker from '../SliderMarker'
 
 export default {
   title: 'Eufemia/Components/Slider',
@@ -41,7 +42,12 @@ export function Marker() {
   return (
     <>
       <Slider
-        marker={{ value: 50 }}
+        extensions={{
+          marker: {
+            instance: SliderMarker,
+            value: 50,
+          },
+        }}
         label="Label with some text"
         labelDirection="vertical"
         min={-40}
@@ -52,7 +58,13 @@ export function Marker() {
       />
       <div style={{ height: '20rem' }}>
         <Slider
-          marker={{ value: 50, text: 'Custom text' }}
+          extensions={{
+            marker: {
+              instance: SliderMarker,
+              value: 50,
+              text: 'Custom text',
+            },
+          }}
           label="Label with some text"
           labelDirection="vertical"
           min={-40}
