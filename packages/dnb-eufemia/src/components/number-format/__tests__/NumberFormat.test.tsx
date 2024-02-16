@@ -76,7 +76,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678,99 norske kroner')
+    ).toBe('-12 345 678,99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency decimals={0} value={12345} />)
@@ -97,7 +97,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678.99 Norwegian kroner')
+    ).toBe('-12 345 678.99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency locale="en" decimals={0} value={12345} />)
@@ -187,7 +187,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678,99 norske kroner')
+    ).toBe('-12 345 678,99 kroner')
 
     rerender(
       <Component
@@ -204,7 +204,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678.99 Norwegian kroner')
+    ).toBe('-12 345 678.99 kroner')
 
     rerender(
       <Component
@@ -246,7 +246,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678,99 norske kroner')
+    ).toBe('-12 345 678,99 kroner')
 
     rerender(
       <Component
@@ -263,7 +263,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678.99 Norwegian kroner')
+    ).toBe('-12 345 678.99 kroner')
 
     rerender(
       <Component
@@ -302,7 +302,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12345,95 norske kroner')
+    ).toBe('-12345,95 kroner')
   })
 
   it('have to match currency with no decimals', () => {
@@ -314,7 +314,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12346 norske kroner')
+    ).toBe('-12346 kroner')
   })
 
   it('have to match phone number', () => {
@@ -678,7 +678,7 @@ describe('NumberFormat compact', () => {
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,35 millioner norske kroner')
+    ).toBe('-12,35 millioner kroner')
   })
 
   it('have to match currency based compact number with custom currency_display', () => {
@@ -692,11 +692,11 @@ describe('NumberFormat compact', () => {
       />
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,346 millioner norske kroner'
+      '-12,346 millioner kroner'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,346 millioner norske kroner')
+    ).toBe('-12,346 millioner kroner')
   })
 
   it('have to hide currency code on falsy currency_display', () => {
@@ -709,7 +709,7 @@ describe('NumberFormat compact', () => {
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-1234,00 norske kroner')
+    ).toBe('-1234,00 kroner')
 
     rerender(<Component currency currency_display="" value={-1234567} />)
 
@@ -732,7 +732,7 @@ describe('NumberFormat compact', () => {
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,3457 millioner norske kroner')
+    ).toBe('-12,3457 millioner kroner')
   })
 
   describe('en-GB', () => {
@@ -780,7 +780,7 @@ describe('NumberFormat compact', () => {
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
-      ).toBe('-12.35 million Norwegian kroner')
+      ).toBe('-12.35 million kroner')
     })
   })
 
@@ -880,7 +880,7 @@ describe('NumberFormat component with provider', () => {
       </Provider>
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '12 345 678.99 Norwegian kroner'
+      '12 345 678.99 kroner'
     )
   })
 })

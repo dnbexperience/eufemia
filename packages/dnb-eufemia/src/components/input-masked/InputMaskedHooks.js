@@ -36,6 +36,10 @@ import {
   invisibleSpace,
 } from './InputMaskedUtils'
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 /**
  * Takes all component properties and filters out all internal used properties
  *
@@ -217,11 +221,11 @@ export const useInputElement = () => {
   const refHook = React.useRef()
   const ref = (!isFn && inner_ref) || refHook
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (isFn) {
       inner_ref?.(ref.current)
     }
-  }, [ref.current])
+  }, [inner_ref, isFn, ref])
 
   // Create the actual input element
   const inputElementRef = React.useRef(<input ref={ref} />)
@@ -462,8 +466,7 @@ const useNumberMaskParams = () => {
   }
 
   let { number_mask, currency_mask, mask_options } = props
-
-  const { as_number, as_percent, as_currency } = props
+  const { as_number, as_percent, as_currency, value } = props
 
   mask_options = fromJSON(mask_options)
   number_mask = isTrue(number_mask) ? {} : fromJSON(number_mask)
@@ -491,7 +494,9 @@ const useNumberMaskParams = () => {
         thousandsSeparatorSymbol,
         currency: getCurrencySymbol(
           locale,
-          typeof as_currency === 'string' ? as_currency : null
+          typeof as_currency === 'string' ? as_currency : null,
+          currency_mask?.currencyDisplay,
+          value
         ),
       })
     }

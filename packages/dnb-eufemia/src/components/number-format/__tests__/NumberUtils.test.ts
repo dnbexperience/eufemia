@@ -278,7 +278,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format(number, { currency: true, returnAria: true })
     ).toMatchObject({
-      aria: '-123 456 789,56 norske kroner',
+      aria: '-123 456 789,56 kroner',
       cleanedValue: '-123456789,56 kr',
       locale: 'nb-NO',
       number: '-123 456 789,56 kr',
@@ -296,7 +296,7 @@ describe('Currency format with dirty number', () => {
         clean_copy_value: true,
       })
     ).toMatchObject({
-      aria: '-123 456 789,56 norske kroner',
+      aria: '-123 456 789,56 kroner',
       cleanedValue: '−123456789,56',
       locale: 'nb-NO',
       number: '-123 456 789,56 kr',
@@ -424,14 +424,14 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         currency_display: 'name',
       })
-    ).toBe('norske kroner -123 456 789,50')
+    ).toBe('kroner -123 456 789,50')
     expect(
       format(number, {
         currency: true,
         currency_position: 'after',
         currency_display: 'name',
       })
-    ).toBe('-123 456 789,50 norske kroner')
+    ).toBe('-123 456 789,50 kroner')
   })
 })
 

@@ -12,7 +12,9 @@ describe('Field.Currency', () => {
       </Provider>
     )
 
-    expect(document.querySelector('input').value).toBe('123 kr')
+    const input = document.querySelector('input')
+
+    expect(input).toHaveValue('123 kr')
 
     rerender(
       <Provider locale="en-GB">
@@ -20,7 +22,7 @@ describe('Field.Currency', () => {
       </Provider>
     )
 
-    expect(document.querySelector('input').value).toBe('123 NOK')
+    expect(input).toHaveValue('123 NOK')
   })
 
   it('placeholder should use correct currency format', () => {
@@ -43,6 +45,60 @@ describe('Field.Currency', () => {
     expect(
       document.querySelector('.dnb-input__placeholder').textContent
     ).toBe('NOK')
+
+    rerender(<Field.Currency currencyDisplay="name" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('kroner')
+  })
+
+  it('should support "currencyDisplay"', () => {
+    const { rerender } = render(
+      <Provider>
+        <Field.Currency value={1234} currencyDisplay="name" />
+      </Provider>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveValue('1 234 kroner')
+
+    rerender(
+      <Provider>
+        <Field.Currency value={1} currencyDisplay="name" />
+      </Provider>
+    )
+
+    expect(input).toHaveValue('1 krone')
+
+    rerender(
+      <Provider locale="en-GB">
+        <Field.Currency value={1234} currencyDisplay="name" />
+      </Provider>
+    )
+
+    expect(input).toHaveValue('1 234 kroner')
+
+    rerender(
+      <Provider locale="ch-DE">
+        <Field.Currency value={1234} currencyDisplay="name" />
+      </Provider>
+    )
+
+    expect(input).toHaveValue('1,234 kroner')
+
+    rerender(
+      <Provider>
+        <Field.Currency
+          value={1234}
+          currency="SEK"
+          currencyDisplay="name"
+        />
+      </Provider>
+    )
+
+    expect(input).toHaveValue('1 234 svenske kroner')
   })
 
   it('should align input correctly', () => {

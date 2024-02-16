@@ -25,14 +25,13 @@ const InputMasked = (props) => {
     }
   }
 
-  const contextAndProps = React.useCallback(
-    extendPropsWithContext(
+  const contextAndProps = React.useMemo(() => {
+    return extendPropsWithContext(
       props,
       InputMasked.defaultProps,
       context?.InputMasked
-    ),
-    [props, InputMasked.defaultProps, context?.InputMasked]
-  )
+    )
+  }, [context?.InputMasked, props])
 
   return (
     <InputMaskedContext.Provider

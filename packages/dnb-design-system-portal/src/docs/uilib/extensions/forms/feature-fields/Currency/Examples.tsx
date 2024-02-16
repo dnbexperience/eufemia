@@ -28,6 +28,7 @@ export const Label = () => {
     <ComponentBox>
       <Field.Currency
         label="Amount"
+        currencyDisplay="name"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
