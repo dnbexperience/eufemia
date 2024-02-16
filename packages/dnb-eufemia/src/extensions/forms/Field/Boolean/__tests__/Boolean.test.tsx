@@ -1,8 +1,8 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { screen, render, waitFor } from '@testing-library/react'
+import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field } from '../../..'
+import { DataContext, Field, Form } from '../../..'
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {
@@ -395,6 +395,96 @@ describe('Field.Boolean', () => {
       expect(element.className).toContain(
         'dnb-toggle-button__status--error'
       )
+    })
+
+    it('should change value when path value changes', () => {
+      const { rerender } = render(
+        <DataContext.Provider data={{ isTrue: true }}>
+          <Field.Boolean variant="buttons" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-toggle-button__button')
+      )
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'true')
+      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+
+      rerender(
+        <DataContext.Provider data={{ isTrue: false }}>
+          <Field.Boolean variant="buttons" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
+      expect(noElement).toHaveAttribute('aria-pressed', 'true')
+    })
+
+    it('should reset both buttons via rerender when undefined was given', () => {
+      const { rerender } = render(
+        <DataContext.Provider data={{ isTrue: true }}>
+          <Field.Boolean variant="buttons" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-toggle-button__button')
+      )
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'true')
+      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+
+      rerender(
+        <DataContext.Provider data={{ isTrue: undefined }}>
+          <Field.Boolean variant="buttons" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
+      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+    })
+
+    it('should reset both buttons via useData update when undefined was given', () => {
+      const MockComponent = () => {
+        const { update } = Form.useData('unique')
+
+        return (
+          <Form.Handler id="unique" data={{}}>
+            <Field.Boolean variant="buttons" path="/isTrue" />
+            <Form.SubmitButton
+              onClick={() => update('/isTrue', () => undefined)}
+            />
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const resetButton = document.querySelector(
+        '.dnb-forms-submit-button'
+      )
+      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-toggle-button__button')
+      )
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
+      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+
+      fireEvent.click(yesElement)
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'true')
+      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+
+      fireEvent.click(noElement)
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
+      expect(noElement).toHaveAttribute('aria-pressed', 'true')
+
+      fireEvent.click(resetButton)
+
+      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
+      expect(noElement).toHaveAttribute('aria-pressed', 'false')
     })
 
     it('should show error when no value is given', () => {
