@@ -37,7 +37,7 @@ const UploadInfo = () => {
       <Dl
         top="small"
         bottom={0}
-        direction="horizontal"
+        layout="horizontal"
         className="dnb-upload__condition-list"
       >
         {prettyfiedAcceptedFileFormats && (

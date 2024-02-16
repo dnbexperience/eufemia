@@ -12,6 +12,11 @@ export type DlProps = {
   /**
    * Use "true" to horizontally align both the term and the description
    */
+  layout?: 'vertical' | 'horizontal' | 'grid'
+
+  /**
+   * @deprecated Use layout instead
+   */
   direction?: 'vertical' | 'horizontal'
 }
 
@@ -19,11 +24,11 @@ export type DlAllProps = DlProps &
   React.AllHTMLAttributes<HTMLDListElement> &
   ElementProps
 
-const Dl = ({ direction, ...props }: DlAllProps) => {
-  if (direction) {
+const Dl = ({ direction, layout, ...props }: DlAllProps) => {
+  if (layout || direction) {
     props.className = classnames(
       props.className,
-      `dnb-dl__direction--${direction}`
+      `dnb-dl__layout--${layout || direction}`
     )
   }
   return <E as="dl" {...props} skeleton={false} />

@@ -144,7 +144,7 @@
 
   // Inline
   @include allAbove(small) {
-    &__direction--horizontal {
+    &__layout--horizontal {
       // We can not use gap: 0.5rem because of our wrapper "__item"
       display: flex;
       flex-wrap: wrap;
@@ -170,9 +170,32 @@
     }
 
     dd#{&}__item {
+      display: none;
       flex-basis: 100%; // ensures we always break to a new line, no matter what the available space is
       height: 0;
       margin: 0;
+    }
+
+    &__layout--grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      column-gap: 2rem;
+      row-gap: 1rem;
+
+      /* stylelint-disable */
+      & dt {
+        max-width: 15ch;
+      }
+      & dd {
+        max-width: 30ch;
+        align-self: end;
+      }
+      & dt,
+      & dd,
+      & dd ~ dt {
+        margin: 0;
+      }
+      /* stylelint-enable */
     }
   }
 }
