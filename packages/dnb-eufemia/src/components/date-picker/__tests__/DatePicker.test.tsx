@@ -23,7 +23,7 @@ import {
   getCalendar,
   makeDayObject,
 } from '../DatePickerCalc'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
 describe('DatePicker component', () => {
@@ -2000,6 +2000,38 @@ describe('Custom text for buttons', () => {
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
         .textContent
     ).toBe('Maybe')
+  })
+
+  it('should support tabIndex for button and input', () => {
+    render(<DatePicker tabIndex={-1} show_input />)
+
+    const button = document.querySelector('button')
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(button).toHaveAttribute('tabindex', '-1')
+    expect(day).toHaveAttribute('tabindex', '-1')
+    expect(month).toHaveAttribute('tabindex', '-1')
+    expect(year).toHaveAttribute('tabindex', '-1')
+  })
+
+  it('should support tooltip for button', async () => {
+    render(<DatePicker tooltip="Tooltip content" />)
+
+    const button = document.querySelector('button')
+
+    expect(
+      document.querySelector('.dnb-tooltip--active')
+    ).not.toBeInTheDocument()
+
+    await userEvent.hover(button)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
   })
 })
 
