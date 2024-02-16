@@ -36,3 +36,12 @@ export type DynamicElement<
 > = keyof JSX.IntrinsicElements | React.FunctionComponent<P>
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
+
+export type DocTableProperties = Record<
+  string,
+  {
+    type: string | string[]
+    doc: string
+    status: 'optional' | 'internal' | 'required'
+  }
+>
