@@ -69,6 +69,7 @@ const makeScreenshot = async ({
   wrapperStyle = null,
   measureElement = null,
   matchConfig = null,
+  recalculateHeightAfterSimulate = false,
 } = {}) => {
   await makePageReady({
     page,
@@ -112,6 +113,14 @@ const makeScreenshot = async ({
     waitAfterSimulate,
     waitBeforeSimulate,
   })
+
+  if (recalculateHeightAfterSimulate) {
+    await handleWrapperHeightChange({
+      page,
+      selector,
+      element,
+    })
+  }
 
   await handleMeasureOfElement({
     page,
@@ -625,6 +634,26 @@ async function handleWrapper({
   }
 
   return element
+}
+
+async function handleWrapperHeightChange({ page, selector, element }) {
+  const { height } = await element.boundingBox()
+
+  await page.evaluate(
+    ({ selector, height }) => {
+      const element = document.querySelector(selector)
+      const wrapperElement = element.closest('[data-visual-test-wrapper]')
+
+      if (wrapperElement) {
+        wrapperElement.style.height = `${height + 32}px`
+      }
+      return wrapperElement
+    },
+    {
+      selector,
+      height,
+    }
+  )
 }
 
 module.exports.loadImage = async (imagePath) =>
