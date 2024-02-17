@@ -52,9 +52,10 @@ describe('Field.String', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders label', () => {
+    it('renders label once', () => {
       render(<Field.String label="The label" />)
       expect(screen.getByLabelText('The label')).toBeInTheDocument()
+      expect(document.querySelectorAll('label')).toHaveLength(1)
     })
 
     it('does not render placeholder when value is given', () => {
@@ -64,6 +65,55 @@ describe('Field.String', () => {
       expect(
         screen.queryByText('placeholder-text')
       ).not.toBeInTheDocument()
+    })
+
+    it('support Input props such as "keepPlaceholder"', () => {
+      render(<Field.String keepPlaceholder />)
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input--keep-placeholder'
+      )
+    })
+
+    it('support Input props such as "size"', () => {
+      render(<Field.String size="large" />)
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input--large'
+      )
+    })
+
+    it('support Input props such as "align"', () => {
+      render(<Field.String align="right" />)
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input__align--right'
+      )
+    })
+
+    it('support Textarea props such as "autoresizeMaxRows"', async () => {
+      render(
+        <Field.String
+          multiline
+          autoresize
+          rows={1}
+          autoresizeMaxRows={4}
+        />
+      )
+
+      const elem = document.querySelector('textarea')
+
+      const style = {
+        lineHeight: String(1.5 * 16),
+      } as CSSStyleDeclaration
+
+      jest
+        .spyOn(window, 'getComputedStyle')
+        .mockImplementation(() => style)
+
+      jest
+        .spyOn(elem, 'scrollHeight', 'get')
+        .mockImplementation(() => 1.5 * 32)
+
+      await userEvent.type(elem, 'a')
+      expect(elem.style.height).toBe('48px')
     })
 
     it('should support disabled prop', () => {

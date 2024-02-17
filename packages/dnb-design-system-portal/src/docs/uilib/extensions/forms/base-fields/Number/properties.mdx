@@ -2,33 +2,16 @@
 showTabs: true
 ---
 
-import DataValueReadwriteProperties from '../../data-value-readwrite-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { numberProperties } from '@dnb/eufemia/src/extensions/forms/Field/Number/NumberDocs'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
-### Component-specific props
+### Field-specific props
 
-currency_display
+<PropertiesTable props={numberProperties} />
 
-| Property                                | Type                  | Description                                                                                                                                                     |
-| --------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `decimalLimit`                          | `number`              | _(optional)_ Max number of decimals. Values with more decimals will be rounded. Defaults to `12`.                                                               |
-| `prefix`                                | `string`              | _(optional)_ Text added before the value input.                                                                                                                 |
-| `suffix`                                | `string`              | _(optional)_ Text added after the value input.                                                                                                                  |
-| `percent`                               | `boolean`             | _(optional)_ Format a number as percentage.                                                                                                                     |
-| `currency`                              | `boolean` or `string` | _(optional)_ Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.                                                         |
-| `minimum`                               | `number`              | _(optional)_ Validation for inclusive minimum number value (greater than or equal). Defaults to `Number.MIN_SAFE_INTEGER`.                                      |
-| `maximum`                               | `number`              | _(optional)_ Validation for inclusive maximum number value (less than or equal). Defaults to `Number.MAX_SAFE_INTEGER`.                                         |
-| `exclusiveMinimum`                      | `number`              | _(optional)_ Validation for exclusive minimum number value (greater than).                                                                                      |
-| `exclusiveMaximum`                      | `number`              | _(optional)_ Validation for exclusive maximum number value (less than).                                                                                         |
-| `multipleOf`                            | `number`              | _(optional)_ Validation that requires the number to be a multiple of given value.                                                                               |
-| `width`                                 | `string` or `false`   | _(optional)_ `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.       |
-| `size`                                  | `string` or `number`  | _(optional)_ Size of the input field, see Input's properties for available options. Accepts, but will not forward `number` values as input's element attribute. |
-| `align`                                 | `string`              | _(optional)_ Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.                                                       |
-| `help`                                  | `object`              | _(optional)_ Provide a help button. Object consisting of `title` and `content`.                                                                                 |
-| `autoComplete`                          | `on` or `string`      | _(optional)_ For HTML `autocomplete` [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete).                                   |
-| `step`                                  | `number`              | _(optional)_ Determines step granularity when in/decreasing value input through step controls buttons or arrow keys.                                            |
-| `showStepControls`                      | `boolean`             | _(optional)_ Show buttons that in/decreases value input by the step value.                                                                                      |
-| [Space](/uilib/layout/space/properties) | Various               | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                           |
+### General props
 
-<DataValueReadwriteProperties type="number" />
+<PropertiesTable props={fieldProperties} valueType="number" />

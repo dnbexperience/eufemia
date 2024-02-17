@@ -74,7 +74,7 @@
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
     "reset": "rm -rf ./node_modules ./build",
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
-    "start": "storybook dev -s / -p 8002 --ci --no-version-updates",
+    "start": "storybook dev -s / -p 8002 --ci --no-version-updates --disable-telemetry",
     "test": "yarn jest",
     "test:auto-generated-types": "yarn jest ./postTypeGeneration.test.ts --ci --testPathIgnorePatterns=[]",
     "test:ci": "yarn jest --ci",

@@ -37,7 +37,7 @@ export type DynamicElement<
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
 
-export type DocTableProperties = Record<
+export type PropertiesTableProps = Record<
   string,
   {
     type: string | string[]

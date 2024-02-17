@@ -60,7 +60,7 @@ describe('FieldBlock', () => {
 
   it('should support heading size prop', () => {
     const { rerender } = render(
-      <FieldBlock label="Label" size="medium">
+      <FieldBlock label="Label" labelSize="medium">
         content
       </FieldBlock>
     )
@@ -70,7 +70,7 @@ describe('FieldBlock', () => {
     )
 
     rerender(
-      <FieldBlock label="Label" size="large">
+      <FieldBlock label="Label" labelSize="large">
         content
       </FieldBlock>
     )
