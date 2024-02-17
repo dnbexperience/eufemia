@@ -14,7 +14,11 @@ import {
   toSnakeCase,
 } from '../../../../src/shared/component-helper'
 
-const ROOT_DIR = path.resolve(
+const TS_ROOT_DIR = path.resolve(
+  path.dirname(require.resolve('@dnb/eufemia/package.json')),
+  'src/'
+)
+const MDX_ROOT_DIR = path.resolve(
   path.dirname(require.resolve('dnb-design-system-portal/package.json')),
   'src/docs/uilib'
 )
@@ -68,8 +72,10 @@ function extractPathParts({ file }) {
 
 export async function fetchPropertiesFromDocs({
   file, // Component file
-  docsDir = ROOT_DIR, // The dir, where the docs are placed
-  findFiles = ['properties.mdx', 'events.mdx'], // type of .md files to look for
+  tsDocsDir = TS_ROOT_DIR, // The dir, where the TS docs are placed
+  mdxDocsDir = MDX_ROOT_DIR, // The dir, where the MDX docs are placed
+  findMdxFiles = ['properties.mdx', 'events.mdx'], // type of .mdx files to look for
+  findTsFiles = ['{componentName}Docs.ts'], // type of .ts files to look for
 } = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating docs for types')
@@ -81,24 +87,55 @@ export async function fetchPropertiesFromDocs({
         file,
       })
 
-    const markdownFiles = findFiles.map((filename) => {
-      let file = path.resolve(docsDir, groupDir, componentDir, filename)
+    const tsDocsFiles = findTsFiles
+      .map((filename) => {
+        filename = filename.replace('{componentName}', componentName)
+        const filePath = path.resolve(
+          tsDocsDir,
+          groupDir,
+          componentDir,
+          filename
+        )
+
+        if (fs.existsSync(filePath)) {
+          return filePath
+        }
+
+        // try without componentDir
+        if (!fs.existsSync(file)) {
+          return path.resolve(tsDocsDir, groupDir, filename)
+        }
+        // and try without groupDir as well
+        if (!fs.existsSync(file)) {
+          return path.resolve(tsDocsDir, filename)
+        }
+      })
+      .filter(Boolean)
+      .map((file) => {
+        return {
+          file,
+        }
+      })
+
+    const mdxDocsFiles = findMdxFiles.map((filename) => {
+      let file = path.resolve(mdxDocsDir, groupDir, componentDir, filename)
 
       // try without componentDir
       if (!fs.existsSync(file)) {
-        file = path.resolve(docsDir, groupDir, filename)
+        file = path.resolve(mdxDocsDir, groupDir, filename)
       }
       // and try without groupDir as well
       if (!fs.existsSync(file)) {
-        file = path.resolve(docsDir, filename)
+        file = path.resolve(mdxDocsDir, filename)
       }
 
       return { file }
     })
 
     return await extractorFactory({
-      markdownFiles,
-      docsDir,
+      tsDocsFiles,
+      mdxDocsFiles,
+      mdxDocsDir,
       componentName,
       unsureSituation,
     })
@@ -109,13 +146,14 @@ export async function fetchPropertiesFromDocs({
 }
 
 async function extractorFactory({
-  markdownFiles,
-  docsDir = ROOT_DIR,
+  tsDocsFiles,
+  mdxDocsFiles,
+  mdxDocsDir = MDX_ROOT_DIR,
   componentName,
   unsureSituation = false,
 }) {
   const collections = await asyncForEach(
-    markdownFiles,
+    mdxDocsFiles,
     async ({ file }) => {
       if (!fs.existsSync(file)) {
         return null
@@ -168,7 +206,7 @@ async function extractorFactory({
           if (propName.includes('<a')) {
             const href = /href="([^"]+)"/g.exec(propName)[1]
             if (href[0] === '/') {
-              const dir = path.resolve(docsDir, '../')
+              const dir = path.resolve(mdxDocsDir, '../')
               const filename = href
                 .replace(/^\//, '')
                 .replace(path.extname(href), '')
@@ -179,12 +217,13 @@ async function extractorFactory({
 
               if (fs.existsSync(file)) {
                 const { docs: subCollections } = await extractorFactory({
-                  markdownFiles: [
+                  // tsDocsFiles, // Not implemented yet
+                  mdxDocsFiles: [
                     {
                       file,
                     },
                   ],
-                  docsDir,
+                  mdxDocsDir,
                   componentName,
                 })
 
@@ -246,6 +285,31 @@ async function extractorFactory({
       return collection
     }
   )
+
+  if (tsDocsFiles?.length > 0) {
+    const tsDocs = await asyncForEach(tsDocsFiles, async ({ file }) => {
+      const content = await require(file)
+      const collection = Object.entries(content).reduce(
+        (acc, [key, value]) => {
+          if (key.includes('Properties') || key.includes('Events')) {
+            acc = Object.entries(value).reduce((acc, [key, value]) => {
+              if (!key.includes('[')) {
+                acc[key] = value.doc
+              }
+              return acc
+            }, {})
+          }
+
+          return acc
+        },
+        {}
+      )
+
+      return collection
+    })
+
+    collections.push(...tsDocs)
+  }
 
   const docs = collections
     .filter(Boolean)

@@ -37,7 +37,7 @@ export interface InputProps
    */
   type?: string;
   /**
-   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute.
+   * The sizes you can choose is `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.
    */
   size?: InputSize;
   /**
@@ -62,7 +62,7 @@ export interface InputProps
    */
   status?: FormStatusText;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
@@ -79,7 +79,7 @@ export interface InputProps
    */
   input_state?: string;
   /**
-   * Defaults to `off`. Set to `on` or any of <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete">allowed `attributes`</a>. Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.
+   * Defaults to `off`. Set to `on` or any of [allowed `attributes`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete). Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.
    */
   autocomplete?: string;
   /**
@@ -88,7 +88,7 @@ export interface InputProps
   submit_button_title?: string;
   clear_button_title?: string;
   /**
-   * The placeholder which shows up once the input value is empty
+   * The placeholder which shows up once the input value is empty.
    */
   placeholder?: string;
   /**
@@ -126,11 +126,11 @@ export interface InputProps
    */
   input_class?: string;
   /**
-   * Provide the Input element with any attributes by using an Object `input_attributes={{size:&#39;2&#39;}}` or a JSON Object `input_attributes=&#39;{"size":"2"}&#39;`. "NB:" Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
+   * Provide the Input element with any attributes by using an Object `input_attributes={{size:'2'}}` or a JSON Object `input_attributes='{"size":"2"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
    */
   input_attributes?: InputInputAttributes;
   /**
-   * <em>(internal)</em> by providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.
+   * By providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.
    */
   input_element?: InputInputElement;
   /**
@@ -151,7 +151,7 @@ export interface InputProps
   inner_ref?: React.Ref;
   readOnly?: boolean;
   /**
-   * <em>(internal)</em> by providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
+   * By providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
    */
   inner_element?: React.ReactNode;
   /**
@@ -222,7 +222,7 @@ export interface SubmitButtonProps
    */
   status?: FormStatusText;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**

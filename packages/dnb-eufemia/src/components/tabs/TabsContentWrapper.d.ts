@@ -18,9 +18,6 @@ export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   content_style?: SectionStyleTypes | SectionVariants;
-  /**
-   * Enable animation between tab switches.
-   */
   animate?: boolean;
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.

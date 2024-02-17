@@ -60,7 +60,7 @@ export interface TextareaProps
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
@@ -68,7 +68,7 @@ export interface TextareaProps
    */
   suffix?: TextareaSuffix;
   /**
-   * The placeholder which shows up once the Textarea value is empty
+   * The placeholder which shows up once the Textarea value is empty.
    */
   placeholder?: string;
   /**
@@ -89,7 +89,7 @@ export interface TextareaProps
    */
   autoresize?: boolean;
   /**
-   * Use `up` or `down` or `true` (down) to show a character counter. You need to set a `maxLength={number}` in order to show the counter.
+   * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
    */
   characterCounter?: Omit<TextCounterProps, 'text'> | number;
   /**
@@ -97,19 +97,13 @@ export interface TextareaProps
    */
   autoresize_max_rows?: TextareaAutoresizeMaxRows;
   class?: string;
-  /**
-   * In case we have to set a custom Textarea class.
-   */
   textarea_class?: string;
-  /**
-   * Provide the Textarea element with any attributes by using an Object `textarea_attributes={{size:&#39;2&#39;}}` or a JSON Object `textarea_attributes=&#39;{"size":"2"}&#39;`. "NB:" Keep in mind, that also every not listed component property will be sent along and set as a Textarea element attribute.
-   */
   textarea_attributes?: TextareaTextareaAttributes;
   readOnly?: boolean;
   rows?: TextareaRows;
   cols?: TextareaCols;
   /**
-   * By providing a React.ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   inner_ref?: React.Ref;
   className?: string;

@@ -52,6 +52,9 @@ export interface DatePickerInputProps
   showInput?: boolean;
   onChange?: (...args: any[]) => any;
   onSubmit?: (...args: any[]) => any;
+  /**
+   * Will be called once the input gets focus.
+   */
   onFocus?: (...args: any[]) => any;
 }
 export default class DatePickerInput extends React.Component<
