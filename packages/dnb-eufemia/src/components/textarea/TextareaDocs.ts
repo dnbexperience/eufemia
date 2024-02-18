@@ -1,6 +1,6 @@
-import { DocTableProperties } from '../../shared/types'
+import { PropertiesTableProps } from '../../shared/types'
 
-export const textareaProperties: DocTableProperties = {
+export const textareaProperties: PropertiesTableProps = {
   value: {
     doc: 'The content value of the Textarea.',
     type: 'string',

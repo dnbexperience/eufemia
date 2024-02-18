@@ -695,7 +695,9 @@ interface ReturnAdditional<Value> {
   id: string
   name: string
   value: Value
-  error: Error | FormError | undefined
+  error: FieldProps<unknown>['error']
+  warning: FieldProps<unknown>['warning']
+  info: FieldProps<unknown>['info']
   autoComplete: HTMLInputElement['autocomplete']
   disabled: boolean
   hasError: boolean
@@ -717,6 +719,8 @@ export function omitDataValueProps<
   const {
     name, // eslint-disable-line
     error, // eslint-disable-line
+    warning, // eslint-disable-line
+    info, // eslint-disable-line
     hasError, // eslint-disable-line
     isChanged, // eslint-disable-line
     autoComplete, // eslint-disable-line

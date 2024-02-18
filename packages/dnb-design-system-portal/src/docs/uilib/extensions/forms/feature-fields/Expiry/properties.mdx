@@ -2,8 +2,11 @@
 showTabs: true
 ---
 
-import DataValueReadwriteProperties from '../../data-value-readwrite-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
-<DataValueReadwriteProperties type="string" />
+### General props
+
+<PropertiesTable props={fieldProperties} />

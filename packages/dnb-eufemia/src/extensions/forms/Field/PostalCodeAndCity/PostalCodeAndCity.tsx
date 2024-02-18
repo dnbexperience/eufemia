@@ -50,7 +50,6 @@ function PostalCodeAndCity(props: Props) {
         }}
         placeholder={postalCode.placeholder ?? '0000'}
         width={false}
-        // width="small"
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
       />

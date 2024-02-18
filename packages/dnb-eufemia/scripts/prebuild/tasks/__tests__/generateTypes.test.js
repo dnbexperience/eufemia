@@ -10,15 +10,15 @@ jest.setTimeout(30e3)
 
 describe('generateTypes', () => {
   it('has to match PrimaryComponent snapshot', async () => {
-    const docsDir = nodePath.resolve(
+    const mdxDocsDir = nodePath.resolve(
       __dirname,
       '../generateTypes/__tests__',
       '__mocks__'
     )
-    const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
+    const file = nodePath.resolve(mdxDocsDir, 'PrimaryComponent.js')
     const [{ destFile, definitionContent }] = await createTypes([file], {
       isTest: true,
-      docsDir,
+      mdxDocsDir,
       findFiles: ['PrimaryComponent.mdx'],
     })
 
@@ -27,15 +27,15 @@ describe('generateTypes', () => {
   })
 
   it('has to match SecondaryComponent snapshot', async () => {
-    const docsDir = nodePath.resolve(
+    const mdxDocsDir = nodePath.resolve(
       __dirname,
       '../generateTypes/__tests__',
       '__mocks__'
     )
-    const file = nodePath.resolve(docsDir, 'SecondaryComponent.js')
+    const file = nodePath.resolve(mdxDocsDir, 'SecondaryComponent.js')
     const [{ destFile, definitionContent }] = await createTypes([file], {
       isTest: true,
-      docsDir,
+      mdxDocsDir,
       findFiles: ['SecondaryComponent.mdx'],
     })
 

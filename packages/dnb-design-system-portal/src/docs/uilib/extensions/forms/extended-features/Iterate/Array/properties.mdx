@@ -2,13 +2,18 @@
 showTabs: true
 ---
 
-import StandardProperties from '../../../data-value-readwrite-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
-<StandardProperties type="array" />
+### Field-specific props
 
-| Property                                       | Type    | Description                                                           |
-| ---------------------------------------------- | ------- | --------------------------------------------------------------------- |
-| [FlexContainer](/uilib/layout/flex/container/) | Various | _(optional)_ All Flex.Container properties.                           |
-| [Space](/uilib/layout/space/properties)        | Various | _(optional)_ Spacing properties like `top` or `bottom` are supported. |
+| Property                                       | Type    | Description                                 |
+| ---------------------------------------------- | ------- | ------------------------------------------- |
+| `value`                                        | `array` | _(optional)_ The data to process.           |
+| [FlexContainer](/uilib/layout/flex/container/) | Various | _(optional)_ All Flex.Container properties. |
+
+### General props
+
+<PropertiesTable props={fieldProperties} />

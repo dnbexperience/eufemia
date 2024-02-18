@@ -1,6 +1,6 @@
-import { DocTableProperties } from '../../shared/types'
+import { PropertiesTableProps } from '../../shared/types'
 
-export const inputMaskedProperties: DocTableProperties = {
+export const inputMaskedProperties: PropertiesTableProps = {
   as_number: {
     doc: 'Set to `true` to automatically set a number mask based on the given or inherited locale.',
     type: 'boolean',

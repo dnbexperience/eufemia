@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown'
 import styled from '@emotion/styled'
 import { Code, Table, Td, Th, Tr } from '@dnb/eufemia/src'
-import { DocTableProperties } from '@dnb/eufemia/src/shared/types'
+import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { toCamelCase } from '@dnb/eufemia/src/shared/component-helper'
 import { basicComponents } from '../tags'
 import Copy from '../tags/Copy'
@@ -16,16 +16,31 @@ const StyledTable = styled(Table)`
   }
 `
 
-export default function DocTable({
+export default function PropertiesTable({
   props,
+  valueType = 'string',
   camelCase,
+  omit,
 }: {
-  props: DocTableProperties
+  props: PropertiesTableProps
+  valueType?: unknown
   camelCase?: boolean
+  omit?: string[]
 }) {
   const keys = Object.keys(props)
   const tableRows = Object.entries(props).map(
     ([key, { type, doc, status }]) => {
+      if (omit && omit.includes(key)) {
+        return null
+      }
+
+      if (
+        typeof type === 'string' &&
+        String(type).includes('{valueType}')
+      ) {
+        type = valueType as string
+      }
+
       return (
         <Tr key={key}>
           <Td>

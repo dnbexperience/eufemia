@@ -193,7 +193,10 @@ export const LabelSize = () => (
     <Form.Handler>
       <Flex.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
-        <FieldBlock label="Legend with medium heading size" size="medium">
+        <FieldBlock
+          label="Legend with medium heading size"
+          labelSize="medium"
+        >
           <Field.String
             label="Label with a long text that goes beyond the field"
             width="medium"

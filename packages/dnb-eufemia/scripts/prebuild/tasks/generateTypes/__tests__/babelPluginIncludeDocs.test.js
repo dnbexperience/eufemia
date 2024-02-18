@@ -15,8 +15,8 @@ import { isCI } from 'repo-utils'
 jest.setTimeout(isCI ? 30e3 : 10e3)
 
 describe('babelPluginIncludeDocs', () => {
-  const docsDir = nodePath.resolve(__dirname, '__mocks__')
-  const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
+  const mdxDocsDir = nodePath.resolve(__dirname, '__mocks__')
+  const file = nodePath.resolve(mdxDocsDir, 'PrimaryComponent.js')
 
   async function runIncludeDocsTestSuite({
     sourceDir,
@@ -25,7 +25,7 @@ describe('babelPluginIncludeDocs', () => {
   }) {
     const { docs } = await fetchPropertiesFromDocs({
       file,
-      docsDir,
+      mdxDocsDir,
       findFiles: ['PrimaryComponent.mdx'],
     })
 
@@ -56,7 +56,7 @@ describe('babelPluginIncludeDocs', () => {
   it('has to match docs snapshot', async () => {
     const { docs } = await fetchPropertiesFromDocs({
       file,
-      docsDir,
+      mdxDocsDir,
       findFiles: ['PrimaryComponent.mdx'],
     })
     expect(docs).toMatchSnapshot()

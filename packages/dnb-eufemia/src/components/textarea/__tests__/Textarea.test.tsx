@@ -199,26 +199,20 @@ describe('Textarea component', () => {
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 16)
-    userEvent.type(elem, 'a')
-    await waitFor(() => {
-      expect(elem.style.height).toBe('24px')
-    })
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('24px')
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 32)
-    userEvent.type(elem, 'a')
-    await waitFor(() => {
-      expect(elem.style.height).toBe('48px')
-    })
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('48px')
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 2000)
-    userEvent.type(elem, 'a')
-    await waitFor(() => {
-      expect(elem.style.height).toBe('96px')
-    })
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('96px')
   })
 
   it('should support spacing props', () => {

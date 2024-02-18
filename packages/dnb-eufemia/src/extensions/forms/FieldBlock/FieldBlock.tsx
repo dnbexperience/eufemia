@@ -56,7 +56,7 @@ export type Props = Pick<
   contentWidth?: 'small' | 'medium' | 'large' | 'stretch'
   contentClassName?: string
   /** Typography size */
-  size?: 'medium' | 'large'
+  labelSize?: 'medium' | 'large'
   children: React.ReactNode
 } & React.HTMLAttributes<HTMLDivElement>
 
@@ -77,7 +77,7 @@ function FieldBlock(props: Props) {
     disabled,
     width,
     contentWidth,
-    size,
+    labelSize,
     contentClassName,
     children,
     ...rest
@@ -342,7 +342,7 @@ function FieldBlock(props: Props) {
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,
     space: { top: 0, bottom: 'x-small' },
-    size,
+    size: labelSize,
     disabled,
   }
 
