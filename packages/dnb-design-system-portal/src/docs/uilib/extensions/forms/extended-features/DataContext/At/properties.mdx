@@ -2,10 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { AtProperties } from '@dnb/eufemia/src/extensions/forms//DataContext/At/AtDocs'
+
 ## Properties
 
-| Property   | Type         | Description                                                                                                                                                   |
-| ---------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `children` | `React.Node` | _(optional)_ Features with given path as root for the DataContext.                                                                                            |
-| `path`     | `string`     | _(optional)_ JSON Pointer path to where in the outer DataContext source to point at.                                                                          |
-| `iterate`  | `boolean`    | _(optional)_ True to iterate elements at given path based on the source data, including the index in the outer path, instead of just rendering children once. |
+<PropertiesTable props={AtProperties} />

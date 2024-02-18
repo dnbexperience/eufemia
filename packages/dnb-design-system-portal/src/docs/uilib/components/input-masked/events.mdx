@@ -2,12 +2,12 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { InputMaskedEvents } from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
+
 ## Events
 
-| Events                                  | Description                                                                                                                                                                      |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change`                             | _(optional)_ will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`. |
-| [Input](/uilib/components/input/events) | _(optional)_ all `Input` events are supported.                                                                                                                                   |
+<PropertiesTable props={InputMaskedEvents} />
 
 **NB:** `numberValue` is returned as a float value and is only returned if the createNumberMask is used by either using `number_mask`, `currency_mask`, `as_number` or `as_currency`.
 

@@ -4,21 +4,21 @@ export const SubmitButtonProperties: PropertiesTableProps = {
   showIndicator: {
     doc: 'Show the submit indicator.',
     type: 'boolean',
-    status: 'required',
+    state: 'required',
   },
   children: {
     doc: 'Button text.',
     type: 'React.Node',
-    status: 'required',
+    state: 'required',
   },
   '[Button](/uilib/components/button/properties)': {
     doc: 'All button properties.',
     type: 'Various',
-    status: 'optional',
+    state: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
-    status: 'optional',
+    state: 'optional',
   },
 }

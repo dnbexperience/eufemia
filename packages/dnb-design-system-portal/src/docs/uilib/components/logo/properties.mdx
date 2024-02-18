@@ -2,15 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { LogoProperties } from '@dnb/eufemia/src/components/logo/LogoDocs'
+
 ## Properties
 
-| Properties                              | Description                                                                                                                                                                                                |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `brand`                                 | _(optional)_ define which brand's logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`.                                                                                                                 |
-| `variant`                               | _(optional)_ define the logo variant, if there is more than one variant of a brand's logo. Currently the only option other than default is a `compact` variant of the Sbanken logo. Defaults to `default`. |
-| `size`                                  | _(optional)_ define the size of the logo. Sets the height. The width will be calculated by the ratio. Also, `inherit` will use the inherited height. Defaults to `auto`.                                   |
-| `color`                                 | _(optional)_ define the color of the logo.                                                                                                                                                                 |
-| `inherit_color`                         | _(optional)_ set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.                                                                                                 |
-| `width`                                 | _(optional)_ define either the width of the logo.                                                                                                                                                          |
-| `height`                                | _(optional)_ or define the height of the logo.                                                                                                                                                             |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                      |
+<PropertiesTable props={LogoProperties} />

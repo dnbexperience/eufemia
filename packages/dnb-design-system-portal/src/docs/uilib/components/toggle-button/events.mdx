@@ -2,14 +2,18 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  ToggleButtonEvents,
+  ToggleButtonGroupEvents,
+} from '@dnb/eufemia/src/components/toggle-button/ToggleButtonDocs'
+
+## Events
+
 ## `ToggleButton` events
 
-| Events      | Description                                                                                                              |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `on_change` | _(optional)_ will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`. |
+<PropertiesTable props={ToggleButtonEvents} />
 
 ## `ToggleButton.Group` events
 
-| Events      | Description                                                                                                                                                                                              |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true. |
+<PropertiesTable props={ToggleButtonGroupEvents} />

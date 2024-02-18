@@ -3,10 +3,15 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { ExpiryProperties } from '@dnb/eufemia/src/extensions/forms/Field/Expiry/ExpiryDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
+### Field-specific props
+
+<PropertiesTable props={ExpiryProperties} />
+
 ### General props
 
-<PropertiesTable props={fieldProperties} />
+<PropertiesTable props={FieldProperties} />

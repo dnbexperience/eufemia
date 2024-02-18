@@ -3,17 +3,15 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { OrganizationNumberProperties } from '@dnb/eufemia/src/extensions/forms/Field/OrganizationNumber/OrganizationNumberDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
 ### Field-specific props
 
-| Property   | Type      | Description                                                                     |
-| ---------- | --------- | ------------------------------------------------------------------------------- |
-| `validate` | `boolean` | _(optional)_ Using this prop you can disable the default validation.            |
-| `help`     | `object`  | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
+<PropertiesTable props={OrganizationNumberProperties} />
 
 ### General props
 
-<PropertiesTable props={fieldProperties} />
+<PropertiesTable props={FieldProperties} />
