@@ -7,7 +7,6 @@ import {
 } from '../../../../components'
 import classnames from 'classnames'
 import { makeUniqueId } from '../../../../shared/component-helper'
-import SharedContext from '../../../../shared/Context'
 import OptionField from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
@@ -30,7 +29,6 @@ export type Props = FieldHelpProps &
   }
 
 function Selection(props: Props) {
-  const sharedContext = useContext(SharedContext)
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
 
   const {
