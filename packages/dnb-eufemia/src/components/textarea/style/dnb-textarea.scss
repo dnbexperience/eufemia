@@ -78,7 +78,7 @@
     position: relative;
     z-index: 2;
 
-    // To prevent textarea element respect padding and margins on smaller screens
+    // To prevent textarea element from going outside of boundaries on smaller screens
     width: 100%;
 
     @include textareaStyleCommon();
