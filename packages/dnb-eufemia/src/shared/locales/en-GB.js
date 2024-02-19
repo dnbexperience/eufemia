@@ -185,7 +185,6 @@ export default {
         'The value must be less than {exclusiveMaximum}',
       numberFieldErrorMultipleOf:
         'The value must be a multiple of {multipleOf}',
-      selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
       dateErrorRequired: 'Du må angi en gyldig dato',
