@@ -176,6 +176,7 @@ button .dnb-form-status__text {
 .dnb-textarea__textarea {
   position: relative;
   z-index: 2;
+  width: 100%;
   cursor: auto;
   border: none;
   margin: 0;
