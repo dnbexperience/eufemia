@@ -67,41 +67,6 @@ export const DropdownLabelAndOptionSelected = () => (
   </ComponentBox>
 )
 
-export const WithClearButton = () => (
-  <ComponentBox>
-    {() => {
-      const Example = () => {
-        const [value, setValue] = React.useState('bar')
-        const handleChange = React.useCallback(
-          (value) => {
-            console.log('onChange', value)
-            setValue(value)
-          },
-          [setValue],
-        )
-        return (
-          <>
-            <Field.Selection
-              value={value}
-              label="Label text"
-              onChange={handleChange}
-              clear
-            >
-              <Field.Option value="foo" title="Foo!" />
-              <Field.Option value="bar" title="Baar!" />
-            </Field.Selection>
-            <pre>
-              VALUE: {value === undefined ? <em>undefined</em> : value}
-            </pre>
-          </>
-        )
-      }
-
-      return <Example />
-    }}
-  </ComponentBox>
-)
-
 export const WithHelp = () => {
   return (
     <ComponentBox data-visual-test="selection-dropdown-help">
@@ -287,7 +252,6 @@ export const DropdownValidationRequired = () => (
       onFocus={(value) => console.log('onFocus', value)}
       onBlur={(value) => console.log('onBlur', value)}
       required
-      clear
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />

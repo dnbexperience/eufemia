@@ -183,7 +183,6 @@ export default {
         'Verdien må være mindre enn {exclusiveMaximum}',
       numberFieldErrorMultipleOf:
         'Verdien må være et multiplum av {multipleOf}',
-      selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',
       dateErrorRequired: 'Du må angi en gyldig dato',

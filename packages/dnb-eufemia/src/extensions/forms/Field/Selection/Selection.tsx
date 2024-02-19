@@ -25,7 +25,6 @@ export type Props = FieldHelpProps &
   FieldProps<IOption['value']> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'button'
-    clear?: boolean
     optionsLayout?: 'horizontal' | 'vertical'
     width?: 'small' | 'medium' | 'large' | 'stretch'
   }
@@ -38,7 +37,6 @@ function Selection(props: Props) {
     id,
     className,
     variant = 'dropdown',
-    clear,
     label,
     labelDescription,
     layout = 'vertical',
@@ -221,19 +219,6 @@ function Selection(props: Props) {
           content: child,
         }
       })
-      const data = [
-        clear
-          ? {
-              selectedKey: clearValue,
-              content: (
-                <em>
-                  {sharedContext?.translation.Forms.selectionClearSelected}
-                </em>
-              ),
-            }
-          : undefined,
-        ...(optionsData ?? []),
-      ].filter(Boolean)
 
       return (
         <FieldBlock {...fieldBlockProps} width={width}>
@@ -246,7 +231,7 @@ function Selection(props: Props) {
             status={(hasError || status) && 'error'}
             disabled={disabled}
             {...ariaAttributes}
-            data={data}
+            data={optionsData}
             suffix={
               help ? (
                 <HelpButton title={help.title}>{help.content}</HelpButton>
