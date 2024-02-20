@@ -4,8 +4,8 @@ import { Flex } from '@dnb/eufemia/src'
 
 export const Size = () => {
   return (
-    <ComponentBox data-visual-test="form-theme-size">
-      <Form.Theme size="medium">
+    <ComponentBox data-visual-test="form-appearance-size">
+      <Form.Appearance size="medium">
         <Form.Handler>
           <Flex.Stack>
             <Field.String label="String" value="Foo" />
@@ -39,25 +39,25 @@ export const Size = () => {
             </Form.ButtonRow>
           </Flex.Stack>
         </Form.Handler>
-      </Form.Theme>
+      </Form.Appearance>
     </ComponentBox>
   )
 }
 
 export const NestedSize = () => {
   return (
-    <ComponentBox data-visual-test="form-theme-size-nested">
-      <Form.Theme size="medium">
+    <ComponentBox data-visual-test="form-appearance-size-nested">
+      <Form.Appearance size="medium">
         <Form.Handler>
           <Flex.Stack>
             <Field.String label="Medium" value="Foo" />
 
-            <Form.Theme size="large">
+            <Form.Appearance size="large">
               <Field.String label="Large" value="Bar" />
-            </Form.Theme>
+            </Form.Appearance>
           </Flex.Stack>
         </Form.Handler>
-      </Form.Theme>
+      </Form.Appearance>
     </ComponentBox>
   )
 }

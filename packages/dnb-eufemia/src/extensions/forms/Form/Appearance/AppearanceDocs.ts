@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
-export const FormThemeProperties: PropertiesTableProps = {
+export const FormAppearanceProperties: PropertiesTableProps = {
   size: {
     doc: 'The sizes you can choose is `medium` and `large`.',
     type: 'string',

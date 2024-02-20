@@ -3,12 +3,12 @@ import { Field, Form } from '../../..'
 import { Flex } from '../../../../../components'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/Theme',
+  title: 'Eufemia/Extensions/Forms/Appearance',
 }
 
-export function ThemeSize() {
+export function AppearanceSize() {
   return (
-    <Form.Theme size="medium">
+    <Form.Appearance size="medium">
       <Form.Handler>
         <Flex.Stack>
           <Field.String label="String" value="Foo" />
@@ -42,6 +42,6 @@ export function ThemeSize() {
           </Form.ButtonRow>
         </Flex.Stack>
       </Form.Handler>
-    </Form.Theme>
+    </Form.Appearance>
   )
 }

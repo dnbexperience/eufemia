@@ -2,13 +2,13 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { Form, Field } from '../../..'
 
-describe('Form.Theme', () => {
+describe('Form.Appearance', () => {
   describe('size', () => {
     it('String', () => {
       const { rerender } = render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.String />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -16,9 +16,9 @@ describe('Form.Theme', () => {
       )
 
       rerender(
-        <Form.Theme size="large">
+        <Form.Appearance size="large">
           <Field.String />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -28,9 +28,9 @@ describe('Form.Theme', () => {
 
     it('Number', () => {
       const { rerender } = render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.Number />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -38,9 +38,9 @@ describe('Form.Theme', () => {
       )
 
       rerender(
-        <Form.Theme size="large">
+        <Form.Appearance size="large">
           <Field.Number />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -50,9 +50,9 @@ describe('Form.Theme', () => {
 
     it('Date', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.Date />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-date-picker')).toHaveClass(
@@ -62,9 +62,9 @@ describe('Form.Theme', () => {
 
     it('Email', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.Email />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -74,9 +74,9 @@ describe('Form.Theme', () => {
 
     it('Currency', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.Currency />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -86,9 +86,9 @@ describe('Form.Theme', () => {
 
     it('NationalIdentityNumber', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.NationalIdentityNumber />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -98,9 +98,9 @@ describe('Form.Theme', () => {
 
     it('OrganizationNumber', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.OrganizationNumber />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -110,9 +110,9 @@ describe('Form.Theme', () => {
 
     it('Password', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.Password />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -122,9 +122,9 @@ describe('Form.Theme', () => {
 
     it('PhoneNumber', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.PhoneNumber />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
@@ -137,9 +137,9 @@ describe('Form.Theme', () => {
 
     it('PostalCodeAndCity', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.PostalCodeAndCity postalCode={{}} city={{}} />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       const [postalCode, city] = Array.from(
@@ -151,9 +151,9 @@ describe('Form.Theme', () => {
 
     it('SelectCountry', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.SelectCountry />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
@@ -163,9 +163,9 @@ describe('Form.Theme', () => {
 
     it('Expiry', () => {
       render(
-        <Form.Theme size="medium">
+        <Form.Appearance size="medium">
           <Field.Expiry />
-        </Form.Theme>
+        </Form.Appearance>
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(

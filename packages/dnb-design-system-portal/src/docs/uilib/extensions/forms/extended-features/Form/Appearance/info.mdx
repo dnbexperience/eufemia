@@ -4,11 +4,11 @@ showTabs: true
 
 ## Description
 
-`Form.Theme` is a provider for theming form fields.
+`Form.Appearance` is a provider for theming form fields.
 
 For now, it only provides theming of sizes of input fields, including Autocomplete and Dropdown. See example below.
 
-You can nest `Form.Theme` to provide different themes for different parts of the form.
+You can nest `Form.Appearance` to provide different themes for different parts of the form.
 
 **BETA:** The sizes are not 100% finalised and may change to be officially approved by UX through an RFC.
 
@@ -17,11 +17,11 @@ You can nest `Form.Theme` to provide different themes for different parts of the
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(
-  <Form.Theme size="medium">
+  <Form.Appearance size="medium">
     <Form.Input />
-    <Form.Theme size="large">
+    <Form.Appearance size="large">
       <Form.Input />
-    </Form.Theme>
-  </Form.Theme>,
+    </Form.Appearance>
+  </Form.Appearance>,
 )
 ```

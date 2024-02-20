@@ -6,7 +6,7 @@ export type Props = {
   children: React.ReactNode
 }
 
-function FormTheme({ children, size = null, ...rest }: Props) {
+function FormAppearance({ children, size = null, ...rest }: Props) {
   return (
     <Provider
       Input={{ size }}
@@ -20,4 +20,4 @@ function FormTheme({ children, size = null, ...rest }: Props) {
   )
 }
 
-export default FormTheme
+export default FormAppearance
