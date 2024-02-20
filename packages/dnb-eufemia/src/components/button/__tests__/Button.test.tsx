@@ -7,8 +7,9 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Button, { ButtonOnClick, ButtonProps } from '../Button'
 import IconPrimary from '../../IconPrimary'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'
+import userEvent from '@testing-library/user-event'
 
 const props: ButtonProps = {
   href: 'href',
@@ -313,6 +314,24 @@ describe('Button component', () => {
     expect(
       document.querySelector('.dnb-button--size-large')
     ).not.toBeInTheDocument()
+  })
+
+  it('should show tooltip on hover', async () => {
+    render(<Button text="Button" tooltip="Tooltip content" />)
+
+    const button = document.querySelector('button')
+
+    expect(
+      document.querySelector('.dnb-tooltip--active')
+    ).not.toBeInTheDocument()
+
+    await userEvent.hover(button)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
   })
 })
 

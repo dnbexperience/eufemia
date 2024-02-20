@@ -33,7 +33,11 @@ type DatePickerEvent<T extends T> = T & {
   end_date?: string;
 };
 export interface DatePickerProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref', 'onBlur'>,
+  extends Omit<
+      React.HTMLProps<HTMLButtonElement | HTMLInputElement>,
+      'ref',
+      'onBlur'
+    >,
     SpacingProps {
   id?: string;
   title?: string;
@@ -213,6 +217,11 @@ export interface DatePickerProps
    * To open the date-picker by default. Defaults to `false`.
    */
   opened?: boolean;
+  /**
+   * Provide a short Tooltip content that shows up on the picker button.
+   */
+  tooltip?: React.ReactNode;
+  tabIndex?: number;
   prevent_close?: boolean;
   no_animation?: boolean;
   direction?: DatePickerDirection;
