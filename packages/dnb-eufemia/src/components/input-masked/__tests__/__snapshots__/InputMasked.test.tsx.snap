@@ -1309,6 +1309,9 @@ html[data-visual-test] .dnb-input__input {
 .dnb-multi-input-mask__input.dnb-input__input:last-of-type {
   padding-right: 0.5rem;
 }
+.dnb-input--medium .dnb-multi-input-mask__input.dnb-input__input, .dnb-input--large .dnb-multi-input-mask__input.dnb-input__input {
+  padding: 0 0.25rem;
+}
 
 .dnb-multi-input-mask {
   width: fit-content;

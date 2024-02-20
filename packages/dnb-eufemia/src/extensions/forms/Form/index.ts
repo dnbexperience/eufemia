@@ -1,5 +1,6 @@
 export { default as Handler } from './Handler'
 export { default as Element } from './Element'
+export { default as Appearance } from './Appearance'
 export { default as SubmitButton } from './SubmitButton'
 export { default as ButtonRow } from './ButtonRow'
 export { default as MainHeading } from './MainHeading'
