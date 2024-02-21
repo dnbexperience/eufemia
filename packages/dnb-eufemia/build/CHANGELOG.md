@@ -3,6 +3,33 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.21.0](https://github.com/dnbexperience/eufemia/compare/v10.20.0...v10.21.0) (2024-02-21)
+
+
+### :bug: Bug Fixes
+
+* **Field.Boolean:** make it possible to reset the value by providing `undefined` ([#3319](https://github.com/dnbexperience/eufemia/issues/3319)) ([ee545ad](https://github.com/dnbexperience/eufemia/commit/ee545ad35803dd9be868fce9838b92cdde0aeef5))
+* **Form.useData:** provide data on first render ([2b38ee7](https://github.com/dnbexperience/eufemia/commit/2b38ee762adb1499cb386fb555af4818992763dc)), closes [#3313](https://github.com/dnbexperience/eufemia/issues/3313)
+* **FormLabel:** make labels selectable (accessible) ([#3311](https://github.com/dnbexperience/eufemia/issues/3311)) ([dbb8415](https://github.com/dnbexperience/eufemia/commit/dbb8415b113b0663e3be677e26e64aafad6beb08))
+* **Table:** refactor and bug fixes ([#3294](https://github.com/dnbexperience/eufemia/issues/3294)) ([281b2d3](https://github.com/dnbexperience/eufemia/commit/281b2d3b96f14397003d708293a550ca24d01d71))
+* **Textarea:** make element shrink and stay inside boundaries on smaller screen sizes ([#3329](https://github.com/dnbexperience/eufemia/issues/3329)) ([6e5eb2d](https://github.com/dnbexperience/eufemia/commit/6e5eb2d0cec27a5a8c0dddd5016d3ef15c19490f))
+
+
+### :sparkles: Features
+
+* **DatePicker:** add support for tooltip and tabIndex ([#3323](https://github.com/dnbexperience/eufemia/issues/3323)) ([1a048ee](https://github.com/dnbexperience/eufemia/commit/1a048ee0b9949507ed4227c80818915d031b0135))
+* **Dl:** add grid layout to definition lists ([85fb33d](https://github.com/dnbexperience/eufemia/commit/85fb33d8ed452634b77f68e5d7d3b3b21af413ba))
+* **Field.String:** add support for all input and textarea properties in camelCase ([#3321](https://github.com/dnbexperience/eufemia/issues/3321)) ([0789d76](https://github.com/dnbexperience/eufemia/commit/0789d769d0a4d915fa2e9144e27f63d196d34625)), closes [#3322](https://github.com/dnbexperience/eufemia/issues/3322)
+* **FieldBlock:** enhance support for composition fields ([53f5113](https://github.com/dnbexperience/eufemia/commit/53f51132fed6b52af78062da6d9e87e6b076a763))
+* **FieldBlock:** enhance support for composition fields ([#3306](https://github.com/dnbexperience/eufemia/issues/3306)) ([7c5b236](https://github.com/dnbexperience/eufemia/commit/7c5b2362794fd4f8c2e034607f23efdd7baedd31))
+* **Form.Appearance:** add theme to control size of input fields ([#3325](https://github.com/dnbexperience/eufemia/issues/3325)) ([632574b](https://github.com/dnbexperience/eufemia/commit/632574bc156e09082c55a6c0a41ebd9b4b66ee06))
+* **forms:** add `Value.SummaryList` to make accessible form summaries ([1a61b65](https://github.com/dnbexperience/eufemia/commit/1a61b65a72215a7146a14578d6b8f06a0a643bf2))
+* **forms:** add `Value.SummaryList` to make accessible form summaries ([#3320](https://github.com/dnbexperience/eufemia/issues/3320)) ([6d795a7](https://github.com/dnbexperience/eufemia/commit/6d795a77887abdca87e6d952bcbd90c90a15238a))
+* **InfoCard:** add optional dropShadow-prop ([#3312](https://github.com/dnbexperience/eufemia/issues/3312)) ([1b76cc4](https://github.com/dnbexperience/eufemia/commit/1b76cc4a2f0c6b2642159ece0e79599716aecc97))
+* **NumberFormat:** align currency display of "name" to be displayed without Norwegian ([#3317](https://github.com/dnbexperience/eufemia/issues/3317)) ([2d8b8cf](https://github.com/dnbexperience/eufemia/commit/2d8b8cf58e65aee1cda297d5c75e169b5f95f694))
+* **Password:** move `InputPassword` to `Field.Password` ([#3300](https://github.com/dnbexperience/eufemia/issues/3300)) ([32f5463](https://github.com/dnbexperience/eufemia/commit/32f546317004e1f98e876fed6d9ca9f8147b6bf5))
+* **Slider:** Add marker functionality ([#3295](https://github.com/dnbexperience/eufemia/issues/3295)) ([acb1143](https://github.com/dnbexperience/eufemia/commit/acb11432f7f525b29bb173e0c7453404876ff416))
+
 ## [10.20.0](https://github.com/dnbexperience/eufemia/compare/v10.19.0...v10.20.0) (2024-02-08)
 
 
