@@ -9,6 +9,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import { Slider, HelpButton, Input, Flex } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
+import { SliderMarker } from '@dnb/eufemia/src/components/slider/Slider'
 
 export const SliderExampleDefault = () => (
   <ComponentBox data-visual-test="slider-default">
@@ -181,5 +182,23 @@ export const SliderVerticalWithSteps = () => (
         </VerticalWrapper>
       )
     }}
+  </ComponentBox>
+)
+
+export const SliderExampleMarker = () => (
+  <ComponentBox data-visual-test="slider-marker" scope={{ SliderMarker }}>
+    <Slider
+      min={0}
+      max={100}
+      value={50}
+      extensions={{
+        marker: {
+          instance: SliderMarker,
+          value: 20,
+          text: 'Default value',
+        },
+      }}
+      label="Slider with marker"
+    />
   </ComponentBox>
 )

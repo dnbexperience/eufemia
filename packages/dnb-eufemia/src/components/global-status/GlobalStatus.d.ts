@@ -53,7 +53,7 @@ export interface GlobalStatusProps
    */
   icon_size?: IconSize;
   /**
-   * Defines the visual appearance of the status. There are two main statuses `error` and `info`. The default status is `error`.
+   * Defines the visual appearance of the status. There are two main statuses `error`, `warning`, `info` and `success`. The default status is `error`.
    */
   state?: GlobalStatusState;
   /**

@@ -46,7 +46,7 @@ export type NumberFormatProps = {
    */
   currency?: NumberFormatCurrency;
   /**
-   * Use either empty/false to hide the sign/name or use `code` (NOK), `name` (norske kroner) , `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.
+   * Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner) , `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.
    */
   currency_display?:
     | 'code'
@@ -136,11 +136,9 @@ export type NumberFormatProps = {
    */
   skeleton?: SkeletonShow;
 };
-
 export type NumberFormatAllProps = NumberFormatProps &
   Omit<React.HTMLProps<HTMLElement>, 'prefix'> &
   SpacingProps;
-
 export default class NumberFormat extends React.Component<
   NumberFormatAllProps,
   any

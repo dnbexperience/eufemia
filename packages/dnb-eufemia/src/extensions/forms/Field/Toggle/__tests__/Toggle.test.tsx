@@ -202,6 +202,37 @@ describe('Field.Toggle', () => {
         expect(onChange).toHaveBeenLastCalledWith('on')
       })
 
+      it('should reset both buttons when value is "undefined"', () => {
+        const { rerender } = render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            value="on"
+          />
+        )
+
+        const [yesElement, noElement]: Array<HTMLButtonElement> =
+          Array.from(
+            document.querySelectorAll('.dnb-toggle-button__button')
+          )
+
+        expect(yesElement).toHaveAttribute('aria-pressed', 'true')
+        expect(noElement).toHaveAttribute('aria-pressed', 'false')
+
+        rerender(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            value={undefined}
+          />
+        )
+
+        expect(yesElement).toHaveAttribute('aria-pressed', 'false')
+        expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      })
+
       describe('ARIA', () => {
         it('should validate with ARIA rules', async () => {
           const result = render(

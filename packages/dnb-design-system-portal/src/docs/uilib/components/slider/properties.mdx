@@ -30,4 +30,24 @@ showTabs: true
 | `globalStatusId`                        | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                                                                                                                                                                                                                                                  |
 | `suffix`                                | _(optional)_ text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component.                                                                                                                                                                                                                |
 | `skeleton`                              | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                                                                                                                                                                                                                                                |
+| `extensions`                            | _(optional)_ makes it possible to display overlays with other functionality such as a marker on the slider marking a given value.                                                                                                                                                                                                                                                  |
 | [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                                                                                                                                              |
+
+## Extensions
+
+A Slider Extension should be an object with the following properties:
+
+```tsx
+import Slider, { SliderMarker } from '@dnb/eufemia/components/Slider'
+
+rende(
+  <Slider
+    extensions={{
+      marker: {
+        instance: SliderMarker,
+        value: 50,
+      },
+    }}
+  />,
+)
+```

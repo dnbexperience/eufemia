@@ -642,37 +642,54 @@ export function TableSort() {
     },
   })
 
-  interface Column1 {
+  interface Row {
     name: string
     minAmount: number
   }
 
-  const product1: Column1 = { name: 'cab', minAmount: 1 }
-  const product2: Column1 = { name: 'abc', minAmount: 3 }
-  const product3: Column1 = { name: 'bac', minAmount: 2 }
+  const product1: Row = { name: 'cab', minAmount: 1 }
+  const product2: Row = { name: 'abc', minAmount: 3 }
+  const product3: Row = { name: 'bac', minAmount: 2 }
 
   const mockData = [product1, product2, product3]
 
-  const [sortedColumn1, setColumn1Data] =
-    React.useState<Column1[]>(mockData)
+  const [sortedRows, setRowData] = React.useState<Row[]>(mockData)
 
   React.useEffect(() => {
     switch (sortState.column1.direction) {
       case 'asc':
-        setColumn1Data([...mockData].sort(compareAsc))
+        setRowData([...mockData].sort(compareAsc))
         break
 
       case 'desc':
-        setColumn1Data([...mockData].sort(compareDesc))
+        setRowData([...mockData].sort(compareDesc))
         break
 
       default:
       case 'off':
-        setColumn1Data(mockData)
+        setRowData(mockData)
         break
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column1.direction])
+
+  React.useEffect(() => {
+    switch (sortState.column2.direction) {
+      case 'asc':
+        setRowData([...mockData].sort((a, b) => a.minAmount - b.minAmount))
+        break
+
+      case 'desc':
+        setRowData([...mockData].sort((a, b) => b.minAmount - a.minAmount))
+        break
+
+      default:
+      case 'off':
+        setRowData(mockData)
+        break
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortState.column2.direction])
 
   return (
     <Table>
@@ -700,7 +717,7 @@ export function TableSort() {
         </Tr>
       </thead>
       <tbody>
-        {sortedColumn1.map((product) => (
+        {sortedRows.map((product) => (
           <Tr key={product.minAmount}>
             <Td>{product.name}</Td>
             <Td>{product.minAmount}</Td>
@@ -710,11 +727,11 @@ export function TableSort() {
     </Table>
   )
 
-  function compareDesc(a: Column1, b: Column1) {
+  function compareDesc(a: Row, b: Row) {
     return b.name.localeCompare(a.name)
   }
 
-  function compareAsc(a: Column1, b: Column1) {
+  function compareAsc(a: Row, b: Row) {
     return a.name.localeCompare(b.name)
   }
 }

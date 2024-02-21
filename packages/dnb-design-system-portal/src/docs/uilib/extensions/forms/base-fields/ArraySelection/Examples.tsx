@@ -116,7 +116,7 @@ export const CheckboxInfo = () => (
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      info={new FormError('FYI')}
+      info="FYI"
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -131,7 +131,7 @@ export const CheckboxWarning = () => (
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      warning={new FormError("I'm warning you...")}
+      warning="I'm warning you..."
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -277,7 +277,7 @@ export const ButtonInfo = () => (
       variant="button"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      info={new FormError('FYI')}
+      info="FYI"
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -293,7 +293,7 @@ export const ButtonWarning = () => (
       variant="button"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      warning={new FormError("I'm warning you...")}
+      warning="I'm warning you..."
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />

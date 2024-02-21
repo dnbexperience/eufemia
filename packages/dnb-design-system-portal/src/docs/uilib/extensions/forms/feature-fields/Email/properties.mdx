@@ -2,15 +2,18 @@
 showTabs: true
 ---
 
-import DataValueReadwriteProperties from '../../data-value-readwrite-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
-### Component-specific props
+### Field-specific props
 
-| Property                                | Type     | Description                                                                     |
-| --------------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| `help`                                  | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
-| [Space](/uilib/layout/space/properties) | Various  | _(optional)_ Spacing properties like `top` or `bottom` are supported.           |
+| Property                                      | Type     | Description                                                                     |
+| --------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| `help`                                        | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
+| `[Input](/uilib/components/input/properties)` | Various  | _(optional)_ All `Input` properties are supported.                              |
 
-<DataValueReadwriteProperties type="string" />
+### General props
+
+<PropertiesTable props={fieldProperties} />

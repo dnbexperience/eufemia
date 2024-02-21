@@ -104,11 +104,11 @@ describe('Value.Number', () => {
         document
           .querySelector('.dnb-number-format span[id]')
           .getAttribute('data-text')
-      ).toBe('-12 345,68 norske kroner')
+      ).toBe('-12 345,68 kroner')
     })
 
     it('formats with different locale', () => {
-      render(
+      const { rerender } = render(
         <Provider locale="en-GB">
           <Value.Number
             value={-12345.6789}
@@ -121,12 +121,32 @@ describe('Value.Number', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('Norwegian kroner -12 345.68')
+      ).toHaveTextContent('kroner -12 345.68')
       expect(
         document
           .querySelector('.dnb-number-format span[id]')
           .getAttribute('data-text')
-      ).toBe('-12 345.68 Norwegian kroner')
+      ).toBe('-12 345.68 kroner')
+
+      rerender(
+        <Provider locale="en-GB">
+          <Value.Number
+            value={-12345.6789}
+            currency="SEK"
+            currencyPosition="before"
+            currencyDisplay="name"
+          />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('Swedish kronor -12 345.68')
+      expect(
+        document
+          .querySelector('.dnb-number-format span[id]')
+          .getAttribute('data-text')
+      ).toBe('-12 345.68 Swedish kronor')
     })
   })
 })

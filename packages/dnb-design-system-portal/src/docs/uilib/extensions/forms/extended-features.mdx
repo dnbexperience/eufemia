@@ -8,9 +8,11 @@ breadcrumb:
     href: /uilib/extensions/forms/extended-features/
 ---
 
+import ListComponents from 'Docs/uilib/extensions/forms/extended-features/Form/ListComponents'
+
 # Extended features
 
-Forms is a flexible set of building blocks for form functionality. Besides field components and data display, it consists of more complex functionality for surrounding processes such as data flow, validation and building UI.
+Eufemia Forms is a flexible set of building blocks for form functionality. Besides field components and data display, it consists of more complex functionality for surrounding processes such as data flow, validation and building UI.
 
 ## [Form](/uilib/extensions/forms/extended-features/Form)
 
@@ -37,6 +39,8 @@ function Component() {
 }
 ```
 
+<ListComponents size="small" />
+
 ### Validation and error handling
 
 You can provide [custom logic](/uilib/extensions/forms/getting-started/#validation-and-error-handling) and texts to handle and display error messages. More details about error messages can be found [on a separate page](/uilib/extensions/forms/extended-features/Form/error-messages).
@@ -53,9 +57,9 @@ You can also [create your own Ajv instance](/uilib/extensions/forms/extended-fea
 
 This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
 
-## [Data context](/uilib/extensions/forms/extended-features/DataContext/)
+## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
 
-`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
+FieldBlock is a wrapper component for grouping fields together. It can be used to create a layout for fields, and it can also be used to create a field that consists of several subfields, so called [composition fields](/uilib/extensions/forms/create-component/FieldBlock#composition-fields).
 
 ## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
 
@@ -77,6 +81,10 @@ render(
 ## [Value](/uilib/extensions/forms/extended-features/Value/)
 
 Value components are in practice like a field component whose value cannot be changed. They can be displayed with or without a label, and they format the value based on given rules. They can also connect to the surrounding [DataContext](/uilib/extensions/forms/extended-features/DataContext/).
+
+## [Data context](/uilib/extensions/forms/extended-features/DataContext/)
+
+`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
 
 ## [Iterate](/uilib/extensions/forms/extended-features/Iterate/)
 

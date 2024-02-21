@@ -300,7 +300,7 @@ function MultiInputMaskInput<T extends string>({
         guide={true}
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
-        aria-labelledby={`${id}-${inputId}__label`}
+        aria-label={label}
         ref={getInputRef}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
@@ -320,13 +320,6 @@ function MultiInputMaskInput<T extends string>({
         }}
         {...attributes}
       />
-      <label
-        id={`${id}-${inputId}__label`}
-        htmlFor={`${id}-${inputId}`}
-        hidden
-      >
-        {label}
-      </label>
       {delimiter && (
         <span
           aria-hidden

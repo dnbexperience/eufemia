@@ -2,11 +2,12 @@
 showTabs: true
 ---
 
-import DataValueReadwriteProperties from '../../data-value-readwrite-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
-### Component-specific props
+### Field-specific props
 
 | Property                                | Type                | Description                                                                                                                                                                                                                                                     |
 | --------------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,7 +23,9 @@ import DataValueReadwriteProperties from '../../data-value-readwrite-properties.
 | `width`                                 | `string` or `false` | _(optional)_ `large` for predefined standard width, `stretch` for fill available width.                                                                                                                                                                         |
 | [Space](/uilib/layout/space/properties) | Various             | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                           |
 
-<DataValueReadwriteProperties
-  type="string"
+### General props
+
+<PropertiesTable
+  props={fieldProperties}
   omit={['layout', 'label', 'labelDescription']}
 />

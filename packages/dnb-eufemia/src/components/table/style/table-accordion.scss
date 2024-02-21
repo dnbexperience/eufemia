@@ -15,10 +15,11 @@
 }
 
 .dnb-table {
-  --accordion-background: var(--color-white);
-  --accordion-border-width: 0.0625rem;
-  --accordion-border: var(--accordion-border-width) solid
-    var(--color-black-20);
+  --table-accordion-background: var(--color-white);
+  --table-accordion-border-width: 0.0625rem;
+  --table-accordion-border-color: var(--color-black-20);
+  --table-accordion-border: var(--table-accordion-border-width) solid
+    var(--table-accordion-border-color);
 
   &__th#{&}__th__accordion-icon {
     &.dnb-table__th {
@@ -68,19 +69,18 @@
   }
 
   &__tr--has-accordion-content,
-  &__tr__accordion_content {
+  &__tr__accordion-content {
     position: relative;
-    z-index: 2;
   }
   &__tr--has-accordion-content#{&}__tr--expanded,
-  &__tr__accordion_content {
+  &__tr__accordion-content {
     z-index: 3; // ensure borders are visible in certain states
   }
 
   &__tr--has-accordion-content {
-    &:hover,
     &:active,
-    html[data-whatinput='keyboard'] &:focus {
+    html[data-whatinput='keyboard'] &:focus,
+    &:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
       z-index: 5; // over table outline border
     }
   }
@@ -94,9 +94,8 @@
   &__tr--has-accordion-content#{&}__tr--expanded {
     .dnb-table--border & td::after {
       border-bottom: none;
-    }
-    .dnb-table--border & td:not(:first-of-type)::after {
       border-left: none;
+      border-right: none;
     }
   }
 
@@ -139,7 +138,7 @@
       :nth-last-child(2)
     )
     &__td::before {
-    bottom: -0.0625rem;
+    bottom: calc(var(--table-outline-width) * -1);
   }
 
   &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
@@ -169,7 +168,9 @@
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
       border-color: var(--color-emerald-green);
-      border-width: 0.0625rem; // TODO: we should have something like activeRingWidth
+      border-width: var(
+        --table-accordion-border-width
+      ); // TODO: we should have something like activeRingWidth
     }
   }
 
@@ -183,11 +184,11 @@
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
-    background-color: var(--accordion-background);
+    background-color: var(--table-accordion-background);
 
     &::before {
       border: none;
-      border-top: var(--accordion-border);
+      border-top: var(--table-accordion-border);
     }
   }
 
@@ -195,11 +196,11 @@
       &__tr--disabled
     ):not(:active):not(:hover) {
     @include whatInputNot('keyboard') {
-      background-color: var(--accordion-background);
+      background-color: var(--table-accordion-background);
 
       td::before {
         border: none;
-        border-top: var(--accordion-border);
+        border-top: var(--table-accordion-border);
       }
     }
   }
@@ -208,7 +209,7 @@
     @include tableAccordionDisabledColor();
   }
 
-  &__tr__accordion_content {
+  &__tr__accordion-content {
     @include IS_SAFARI_DESKTOP() {
       &[hidden] {
         /**
@@ -238,11 +239,11 @@
       top: auto;
       left: 0;
       right: 0;
-      bottom: calc(var(--accordion-border-width) * -1);
+      bottom: calc(var(--table-accordion-border-width) * -1);
 
       pointer-events: none;
 
-      border-bottom: var(--accordion-border);
+      border-bottom: var(--table-accordion-border);
     }
 
     // because, when table has --outline
@@ -292,8 +293,8 @@
     }
   }
 
-  &__tr__accordion_content#{&}__tr &__td {
-    background-color: var(--accordion-background);
+  &__tr__accordion-content#{&}__tr &__td {
+    background-color: var(--table-accordion-background);
 
     /**
       * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
@@ -303,40 +304,6 @@
     vertical-align: top;
   }
 
-  &--outline
-    tbody
-    &__tr#{&}__tr--has-accordion-content:not(
-      #{&}__tr--expanded
-    ):nth-last-child(2)
-    &__td:first-of-type {
-    &,
-    &::before,
-    &::after {
-      border-radius: 0 0 0 0.5rem;
-    }
-  }
-  &--outline tbody &__tr:last-of-type &__td:last-of-type,
-  &--outline
-    tbody
-    &__tr#{&}__tr--has-accordion-content:not(
-      #{&}__tr--expanded
-    ):nth-last-child(2)
-    &__td:last-of-type {
-    &,
-    &::before,
-    &::after {
-      // stylelint-disable-next-line
-      border-radius: 0 0 0.5rem 0;
-    }
-  }
-  &--outline tbody &__tr#{&}__tr__accordion_content:last-of-type &__td {
-    &,
-    &::before,
-    &::after {
-      border-radius: 0 0 0.5rem 0.5rem;
-    }
-  }
-
   // stylelint-disable-next-line
   &__tr--has-accordion-content:not(&__tr--disabled) {
     cursor: pointer;
@@ -344,7 +311,7 @@
 
   // prevent selection while animating – useful when user double-clicks
   // TODO: Our SASS version does not support :has – so we may use this in future
-  // &__tr--has-accordion-content:has(& + &__tr__accordion_content--animating) {
+  // &__tr--has-accordion-content:has(& + &__tr__accordion-content--animating) {
   //   user-select: none;
   // }
 

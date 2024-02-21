@@ -2,16 +2,20 @@
 showTabs: true
 ---
 
-import DataValueReadwriteProperties from '../../data-value-readwrite-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
-### Component-specific props
+### Field-specific props
 
-| Property                                | Type     | Description                                                                     |
-| --------------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| `currency`                              | `string` | _(optional)_ Currency to show the value in. I.e `NOK` or `USD`.                 |
-| `help`                                  | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
-| [Space](/uilib/layout/space/properties) | Various  | _(optional)_ Spacing properties like `top` or `bottom` are supported.           |
+| Property                                              | Type     | Description                                                                     |
+| ----------------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| `currency`                                            | `string` | _(optional)_ Currency to show the value in. I.e `NOK` or `USD`.                 |
+| `currencyDisplay`                                     | `string` | _(optional)_ Can be `code`, `symbol`, `narrowSymbol` or `name` (kroner).        |
+| `help`                                                | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
+| [Number](/uilib/extensions/forms/base-fields/Number/) | Various  | _(optional)_ All Number properties.                                             |
 
-<DataValueReadwriteProperties type="number" />
+### General props
+
+<PropertiesTable props={fieldProperties} valueType="number" />

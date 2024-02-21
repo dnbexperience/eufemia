@@ -124,7 +124,7 @@ function Toggle(props: Props) {
           <ButtonRow bottom="x-small">
             <ToggleButtonGroupContext.Provider
               value={{
-                value: isOn ? 'on' : isOff ? 'off' : undefined,
+                value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
                 onChange: handleToggleChange,
                 status: hasError ? 'error' : undefined,
                 disabled,

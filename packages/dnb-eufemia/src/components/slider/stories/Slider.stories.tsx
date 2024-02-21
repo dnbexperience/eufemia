@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { Slider, ToggleButton, Input, FormLabel, Flex } from '../../'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
+import SliderMarker from '../SliderMarker'
 
 export default {
   title: 'Eufemia/Components/Slider',
@@ -36,6 +37,46 @@ const FixedSizeWrapper = styled.div`
   height: 20rem;
   margin-bottom: 1rem;
 `
+
+export function Marker() {
+  return (
+    <>
+      <Slider
+        extensions={{
+          marker: {
+            instance: SliderMarker,
+            value: 50,
+          },
+        }}
+        label="Label with some text"
+        labelDirection="vertical"
+        min={-40}
+        max={100}
+        stretch
+        numberFormat={(value) => format(value, { currency: 'USD' })}
+        tooltip
+      />
+      <div style={{ height: '20rem' }}>
+        <Slider
+          extensions={{
+            marker: {
+              instance: SliderMarker,
+              value: 50,
+              text: 'Custom text',
+            },
+          }}
+          label="Label with some text"
+          labelDirection="vertical"
+          min={-40}
+          max={100}
+          stretch
+          tooltip
+          vertical
+        />
+      </div>
+    </>
+  )
+}
 
 export function NegativeValues() {
   const [value, setValue] = React.useState<Array<number>>([-20, 50])

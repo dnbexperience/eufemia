@@ -6,6 +6,19 @@
 @import './table-mixins.scss';
 @import './table-header-buttons.scss';
 
+.dnb-table,
+.dnb-table__container {
+  // table border
+  --table-border-width: 0.0625rem;
+  --table-border: var(--table-border-width) solid var(--table-border-color);
+
+  // table outline
+  --table-outline-width: 0.0625rem;
+  --table-outline: var(--table-outline-width) solid
+    var(--table-outline-color);
+  --table-outline-radius: 0.5rem;
+}
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -27,21 +40,64 @@
   }
 
   & > caption {
+    position: relative;
     caption-side: bottom;
     padding: 0.5rem 0 0.5rem 1rem;
 
     font-size: var(--font-size-basis);
     background-color: var(--color-white);
     text-align: left;
+
+    @include tableBorder() {
+      top: calc(
+        var(--table-border-width) * -1
+      ); // so we are behind the border-bottom (end of table)
+      right: 0;
+      border-top: var(--table-border);
+    }
   }
 
-  &--border > caption:not(.dnb-sr-only) {
+  &--outline {
     position: relative;
+    // add extra room in bottom for caption
+    // because firefox clip-path ignores caption
+    clip-path: inset(
+      0 0 -10rem 0 round var(--table-outline-radius) var(
+          --table-outline-radius
+        ) 0 0
+    );
+    z-index: 1; // firefox places caption in from of table witout z-index
 
+    &,
     &::after {
-      @include tableBorder();
-      top: -0.0625rem; // so we are behind the border-bottom (end of table)
-      border-top: var(--border);
+      border-radius: var(--table-outline-radius);
+    }
+    @include tableOutline() {
+      z-index: 3;
+      border: var(--table-outline);
+    }
+
+    > caption {
+      &,
+      &::after {
+        border-radius: 0 0 var(--table-outline-radius)
+          var(--table-outline-radius);
+      }
+      &:not(.dnb-sr-only) ~ tbody:last-child {
+        .dnb-table__tr:last-child,
+        .dnb-table__tr--has-accordion-content:nth-last-child(2) {
+          clip-path: none;
+
+          .dnb-table__th,
+          .dnb-table__td {
+            &,
+            &::before,
+            &::after {
+              border-radius: 0;
+            }
+          }
+        }
+      }
     }
   }
 

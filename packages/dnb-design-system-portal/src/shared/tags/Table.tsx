@@ -14,7 +14,7 @@ const StyledTable = styled(TableElement)`
   }
 `
 
-export function OmitTableProperties({ children, ...rest }) {
+export function OmitTableProperties({ children }) {
   const omitProperties = globalThis.omitTableProperties || []
 
   return recursiveMap(children, (child: React.ReactElement) => {

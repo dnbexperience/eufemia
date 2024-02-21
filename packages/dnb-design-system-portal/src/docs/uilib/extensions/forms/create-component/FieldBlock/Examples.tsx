@@ -124,27 +124,24 @@ export const WithDescription = () => {
   )
 }
 
-export const GroupMultipleFields = () => {
-  return (
-    <ComponentBox>
-      <FieldBlock label="Label text" info="For your information">
-        <Flex.Horizontal>
-          <Field.String width="small" minLength={3} />
-          <Field.Number minimum={10} />
-        </Flex.Horizontal>
-      </FieldBlock>
-    </ComponentBox>
-  )
-}
-
 export const CombineErrorMessages = () => {
   return (
-    <ComponentBox>
-      <FieldBlock>
-        <Flex.Horizontal>
-          <Field.Number width="small" label="Num" minimum={100} />
-          <Field.String width="medium" label="Txt" minLength={5} />
-        </Flex.Horizontal>
+    <ComponentBox data-visual-test="forms-field-block-combined-errors">
+      <FieldBlock composition>
+        <Field.Number
+          width="small"
+          label="Number"
+          value={99}
+          minimum={100}
+          validateInitially
+        />
+        <Field.String
+          width="medium"
+          label="Text"
+          value="Text"
+          minLength={5}
+          validateInitially
+        />
       </FieldBlock>
     </ComponentBox>
   )
@@ -192,20 +189,57 @@ export const HorizontalAutoSize = () => {
 }
 
 export const LabelSize = () => (
-  <ComponentBox
-    scope={{ Form, Field, FieldBlock }}
-    data-visual-test="forms-field-block-label-size"
-  >
+  <ComponentBox data-visual-test="forms-field-block-label-size">
     <Form.Handler>
       <Flex.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
-        <FieldBlock label="Legend with medium heading size" size="medium">
-          <Flex.Horizontal>
-            <Field.String label="Label A" width="medium" />
-            <Field.String label="Label B" width="medium" />
-          </Flex.Horizontal>
+        <FieldBlock
+          label="Legend with medium heading size"
+          labelSize="medium"
+        >
+          <Field.String
+            label="Label with a long text that goes beyond the field"
+            width="medium"
+          />
         </FieldBlock>
       </Flex.Stack>
     </Form.Handler>
   </ComponentBox>
 )
+
+export const Composition = () => (
+  <ComponentBox data-visual-test="forms-field-block-composition">
+    <FieldBlock info="Info at the bottom" composition width="large">
+      <Field.String label="Field A with a long label" width="medium" />
+      <Field.String label="Field B" width="stretch" />
+    </FieldBlock>
+  </ComponentBox>
+)
+
+export const CompositionError = () => (
+  <ComponentBox data-visual-test="forms-field-block-composition-error">
+    <FieldBlock
+      error={new Error('Error at the bottom')}
+      composition
+      width="large"
+    >
+      <Field.String label="Field A" width="stretch" />
+      <Field.String label="Field B with a long label" width="medium" />
+    </FieldBlock>
+  </ComponentBox>
+)
+
+export const CompositionMultipleStatuses = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-composition-statuses">
+      <FieldBlock label="Label text" composition info="FieldBlock info">
+        <Field.String
+          width="small"
+          minLength={3}
+          warning="Warning message"
+        />
+        <Field.Number minimum={10} info="Field info" />
+      </FieldBlock>
+    </ComponentBox>
+  )
+}

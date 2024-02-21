@@ -271,8 +271,19 @@ html[data-visual-test] .dnb-tooltip--hide {
 button .dnb-form-status__text {
   cursor: inherit;
 }
+.dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
+}
+.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+  padding-left: 1rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -702,9 +713,6 @@ html[data-visual-test] .dnb-tooltip--hide {
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -720,9 +728,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -769,8 +774,19 @@ legend.dnb-form-label {
 button .dnb-form-status__text {
   cursor: inherit;
 }
+.dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
+}
+.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+  padding-left: 1rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -818,6 +834,9 @@ button .dnb-form-status__text {
   --slider-line-after: gray;
   --slider-line-before--disabled: dimgray;
   --slider-line-after--disabled: lightgray;
+  --slider-marker: var(--slider-line-before);
+  --slider-marker-height: calc(var(--slider-thumb-size) * 0.75);
+  --slider-marker-width: 0.125rem;
   user-select: none;
   -webkit-touch-callout: none;
   display: flex;
@@ -855,6 +874,44 @@ button .dnb-form-status__text {
 .dnb-slider--vertical .dnb-slider__suffix {
   padding-left: 0;
   padding-top: 0.5rem;
+}
+.dnb-slider__marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  margin: auto;
+  width: var(--slider-marker-width);
+  height: var(--slider-marker-height);
+  background-color: var(--slider-marker);
+}
+.dnb-slider__marker:focus {
+  outline: none;
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-slider__marker:focus {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-slider__marker::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: scale(10, 1);
+}
+.dnb-slider--vertical .dnb-slider__marker {
+  top: auto;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  height: var(--slider-marker-width);
+  width: var(--slider-marker-height);
+}
+.dnb-slider--vertical .dnb-slider__marker::before {
+  transform: scale(1, 10);
 }
 .dnb-slider__track {
   touch-action: none;
@@ -922,7 +979,7 @@ button .dnb-form-status__text {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   justify-content: center;
   transform: translate3d(-50%, 0, 0);
@@ -1010,7 +1067,7 @@ html[data-whatinput=keyboard] .dnb-slider__button-helper:not(:disabled):focus ~ 
     margin-bottom: 0.5rem;
   }
 }
-.dnb-slider.dnb-skeleton .dnb-slider__line, .dnb-slider.dnb-skeleton .dnb-slider__state--disabled .dnb-slider__line {
+.dnb-slider.dnb-skeleton .dnb-slider__line, .dnb-slider.dnb-skeleton .dnb-slider__marker, .dnb-slider.dnb-skeleton .dnb-slider__state--disabled .dnb-slider__line {
   background-color: var(--skeleton-color);
 }
 .dnb-slider.dnb-skeleton .dnb-slider__track::before, .dnb-slider.dnb-skeleton .dnb-slider__track::after, .dnb-slider.dnb-skeleton .dnb-slider__state--disabled.dnb-slider__track::before, .dnb-slider.dnb-skeleton .dnb-slider__state--disabled.dnb-slider__track::after {

@@ -34,8 +34,19 @@
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
 
+    .dnb-ul,
     .dnb-anchor {
       font-size: inherit;
+    }
+    .dnb-ul:not([class*='dnb-space__left']) {
+      padding-left: 1rem;
+    }
+    .dnb-spacing & .dnb-ul:not([class*='dnb-space__bottom']) {
+      .dnb-li {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      margin-bottom: 0.5rem;
     }
 
     white-space: normal;

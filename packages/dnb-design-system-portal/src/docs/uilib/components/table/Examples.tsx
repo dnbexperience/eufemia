@@ -1042,3 +1042,188 @@ export const TablesInOneContainer = () => (
     </TableContainer>
   </ComponentBox>
 )
+
+export const VariantCombinations = () => {
+  const ContentVariants = () => (
+    <>
+      <div data-visual-test="table-combinations-default">
+        <CaptionVariants title="Regular content: ">
+          <ContentRegular />
+        </CaptionVariants>
+      </div>
+      <div data-visual-test="table-combinations-no-header">
+        <CaptionVariants title="No header: ">
+          <ContentNoHeader />
+        </CaptionVariants>
+      </div>
+      <div data-visual-test="table-combinations-row-header">
+        <CaptionVariants title="Row headers: ">
+          <ContentRowHeaders />
+        </CaptionVariants>
+      </div>
+      <div data-visual-test="table-combinations-spanning">
+        <CaptionVariants title="Spanning: ">
+          <ContentSpanning />
+        </CaptionVariants>
+      </div>
+      <div data-visual-test="table-combinations-row-header-spanning">
+        <CaptionVariants title="Row headers spanning: ">
+          <ContentRowHeadersSpanning />
+        </CaptionVariants>
+      </div>
+    </>
+  )
+
+  const CaptionVariants = ({ title, children }) => (
+    <>
+      <TableVariants title={title + 'With caption: '}>
+        <caption>Caption</caption>
+        {children}
+      </TableVariants>
+
+      <TableVariants title={title + 'No caption: '}>
+        {children}
+      </TableVariants>
+    </>
+  )
+  const TableVariants = ({ title, children }) => (
+    <>
+      {title + 'Basic'}
+      <Table>{children}</Table>
+      {title + 'Border'}
+      <Table border>{children}</Table>
+      {title + 'Outline'}
+      <Table outline>{children}</Table>
+      {title + 'Border and outline'}
+      <Table border outline>
+        {children}
+      </Table>
+    </>
+  )
+
+  const ContentRegular = () => (
+    <>
+      <thead>
+        <Tr>
+          <Th>Th A</Th>
+          <Th>Th B</Th>
+          <Th>Th C</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        <Tr>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+        </Tr>
+        <Tr>
+          <Td>Td 2</Td>
+          <Td>Td 2</Td>
+          <Td>Td 2</Td>
+        </Tr>
+        <Tr>
+          <Td>Td 3</Td>
+          <Td>Td 3</Td>
+          <Td>Td 3</Td>
+        </Tr>
+      </tbody>
+    </>
+  )
+
+  const ContentNoHeader = () => (
+    <>
+      <tbody>
+        <Tr>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+        </Tr>
+        <Tr>
+          <Td>Td 2</Td>
+          <Td>Td 2</Td>
+          <Td>Td 2</Td>
+        </Tr>
+        <Tr>
+          <Td>Td 3</Td>
+          <Td>Td 3</Td>
+          <Td>Td 3</Td>
+        </Tr>
+      </tbody>
+    </>
+  )
+
+  const ContentRowHeaders = () => (
+    <>
+      <tbody>
+        <Tr>
+          <Th>Th 1</Th>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+        </Tr>
+        <Tr>
+          <Th>Th 2</Th>
+          <Td>Td 2</Td>
+          <Td>Td 2</Td>
+        </Tr>
+        <Tr>
+          <Th>Th 3</Th>
+          <Td>Td 3</Td>
+          <Td>Td 3</Td>
+        </Tr>
+      </tbody>
+    </>
+  )
+
+  const ContentSpanning = () => (
+    <>
+      <thead>
+        <Tr>
+          <Th colSpan={2}>Th A</Th>
+          <Th>Th B</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        <Tr>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+          <Td rowSpan={2}>Td 1</Td>
+        </Tr>
+        <Tr>
+          <Td rowSpan={2}>Td 2</Td>
+          <Td>Td 2</Td>
+        </Tr>
+        <Tr>
+          <Td>Td 3</Td>
+          <Td>Td 3</Td>
+        </Tr>
+      </tbody>
+    </>
+  )
+
+  const ContentRowHeadersSpanning = () => (
+    <>
+      <tbody>
+        <Tr>
+          <Th rowSpan={2}>Th 1</Th>
+          <Td>Td 1</Td>
+          <Td>Td 1</Td>
+        </Tr>
+        <Tr>
+          <Td>Td 2</Td>
+          <Td>Td 2</Td>
+        </Tr>
+        <Tr>
+          <Th colSpan={2}>Th 3</Th>
+
+          <Td>Td 3</Td>
+        </Tr>
+      </tbody>
+    </>
+  )
+
+  return (
+    <ComponentBox scope={{ ContentVariants }}>
+      <ContentVariants />
+    </ComponentBox>
+  )
+}

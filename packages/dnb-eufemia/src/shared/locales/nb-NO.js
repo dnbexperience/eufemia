@@ -99,8 +99,6 @@ export default {
     Input: {
       submit_button_title: 'Send knapp',
       clear_button_title: 'Nullstill',
-      show_password: 'Vis passord',
-      hide_password: 'Skjul passord',
     },
     Pagination: {
       button_title: 'Side %s',
@@ -168,6 +166,8 @@ export default {
       stepNext: 'Neste',
       stepPrevious: 'Tilbake',
       contextSubmit: 'Send',
+      fieldStateSummary: 'Oppsummering:',
+      fieldErrorSummary: 'Feil som må rettes:',
       fieldErrorRequired: 'Dette feltet må fylles ut',
       inputErrorRequired: 'Dette feltet må fylles ut',
       inputErrorPattern: 'Verdien er ugyldig',
@@ -183,7 +183,6 @@ export default {
         'Verdien må være mindre enn {exclusiveMaximum}',
       numberFieldErrorMultipleOf:
         'Verdien må være et multiplum av {multipleOf}',
-      selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',
       dateErrorRequired: 'Du må angi en gyldig dato',
@@ -217,6 +216,9 @@ export default {
       selectCountryLabel: 'Land',
       selectCountryPlaceholder: 'Velg et land',
       selectCountryErrorRequired: 'Du må velge et land',
+      passwordLabel: 'Passord',
+      passwordShowLabel: 'Vis passord',
+      passwordHideLabel: 'Skjul passord',
     },
   },
 }

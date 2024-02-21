@@ -14,7 +14,11 @@ function Currency(props: Props) {
     currency: props.currency ?? CURRENCY,
     placeholder:
       props.placeholder ??
-      getCurrencySymbol(context?.locale, props.currency),
+      getCurrencySymbol(
+        context?.locale,
+        props.currency,
+        props.currencyDisplay
+      ),
   }
 
   return (

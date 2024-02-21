@@ -523,6 +523,7 @@ export default class DatePicker extends React.PureComponent {
       submit_button_text,
       cancel_button_text,
       reset_button_text,
+      tooltip,
 
       hide_navigation: _hide_navigation, // eslint-disable-line
       return_format: _return_format, // eslint-disable-line
@@ -572,6 +573,8 @@ export default class DatePicker extends React.PureComponent {
     const submitParams = {
       ['aria-expanded']: opened,
       ref: this._submitButtonRef,
+      tabIndex: props.tabIndex,
+      tooltip,
     }
     const selectedDateTitle = this.formatSelectedDateTitle()
 

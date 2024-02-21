@@ -89,51 +89,6 @@ describe('Selection', () => {
       expect(screen.getByText('Select something')).toBeInTheDocument()
     })
 
-    it('sends undefined out when selecting the clear-option', async () => {
-      const onChange = jest.fn()
-      render(
-        <Field.Selection onChange={onChange} clear>
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
-      )
-      // Open the menu
-      const selectionButton = screen.getByRole('button')
-      await userEvent.click(selectionButton)
-      // Click the second option, which should be the "foo" option if the clear-option is the first one
-      const options1 = screen.queryAllByRole('option')
-      await userEvent.click(options1[1])
-
-      expect(onChange.mock.calls).toHaveLength(1)
-      expect(onChange.mock.calls[0][0]).toEqual('foo')
-
-      // Then reopen the menu and click the first option, which should be the clear-option, providing undefined
-      await userEvent.click(selectionButton)
-      const options2 = screen.queryAllByRole('option')
-      await userEvent.click(options2[0])
-
-      expect(onChange.mock.calls).toHaveLength(2)
-      expect(onChange.mock.calls[1][0]).toEqual(undefined)
-    })
-
-    it('should send the provided emptyValue when clicking the clear option', async () => {
-      const onChange = jest.fn()
-      render(
-        <Field.Selection onChange={onChange} emptyValue="nothing" clear>
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
-      )
-      // Open the menu
-      const selectionButton = screen.getByRole('button')
-      await userEvent.click(selectionButton)
-      const options = screen.queryAllByRole('option')
-      await userEvent.click(options[0])
-
-      expect(onChange.mock.calls).toHaveLength(1)
-      expect(onChange.mock.calls[0][0]).toEqual('nothing')
-    })
-
     it('precede option children over title', async () => {
       render(
         <Field.Selection>

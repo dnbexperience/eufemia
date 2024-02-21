@@ -85,7 +85,7 @@ export interface FormStatusProps
    */
   role?: string;
   /**
-   * The space above the shell element. Use the `space` object to set the space.
+   * Use it to set an inner margin. It supports the same props as `space`. Useful for animation.
    */
   shellSpace?: SpaceTypeAll;
   className?: string;

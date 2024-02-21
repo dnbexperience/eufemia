@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
-import Slider from '../Slider'
+import Slider, { SliderMarker } from '../Slider'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
@@ -64,7 +64,7 @@ describe('Slider component', () => {
       document
         .querySelector('.dnb-slider__button-helper')
         .getAttribute('aria-valuetext')
-    ).toBe('80 norske kroner')
+    ).toBe('80 kroner')
   })
 
   it('should support spacing props', () => {
@@ -153,14 +153,12 @@ describe('Slider component', () => {
 
     fireEvent.click(addElem)
     expect(parseFloat(getButtonHelper().value)).toBe(80)
-    expect(addElem.getAttribute('aria-label')).toBe(
-      'Øk (80,0 norske kroner)'
-    )
+    expect(addElem.getAttribute('aria-label')).toBe('Øk (80,0 kroner)')
 
     fireEvent.click(subtractElem)
     expect(parseFloat(getButtonHelper().value)).toBe(70)
     expect(subtractElem.getAttribute('aria-label')).toBe(
-      'Reduser (70,0 norske kroner)'
+      'Reduser (70,0 kroner)'
     )
   })
 
@@ -344,6 +342,117 @@ describe('Slider component', () => {
     })
   })
 
+  describe('Slider with marker', () => {
+    it('should render marker in horizontal direction', () => {
+      const { rerender } = render(
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 30 } }}
+        />
+      )
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
+
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+      expect(markerElement).toHaveAttribute('style', 'left: 30%;')
+
+      rerender(<Slider {...props} />)
+
+      expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
+    })
+
+    it('should render marker in vertical direction', () => {
+      const { rerender } = render(
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 30 } }}
+          vertical
+        />
+      )
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
+
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+      expect(markerElement).toHaveAttribute('style', 'top: 70%;')
+
+      rerender(<Slider {...props} />)
+
+      expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
+    })
+
+    it('should have html attributes to make it accessible', () => {
+      const { rerender } = render(
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 30 } }}
+        />
+      )
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+      expect(markerElement).toHaveAttribute('style', 'left: 30%;')
+      expect(markerElement).toHaveAttribute('aria-label', '30')
+      expect(markerElement).toHaveAttribute('tabIndex', '0')
+
+      rerender(
+        <Slider
+          {...props}
+          extensions={{ marker: { instance: SliderMarker, value: 120 } }}
+        />
+      )
+
+      expect(markerElement).toHaveAttribute('style', 'left: 100%;')
+      expect(markerElement).toHaveAttribute('aria-label', '120')
+    })
+
+    it('shows Tooltip with info', async () => {
+      const marker = { instance: SliderMarker, value: 30 }
+      render(<Slider {...props} extensions={{ marker }} />)
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+
+      fireEvent.mouseEnter(markerElement)
+
+      await wait(300)
+
+      const tooltipElement = getTooltipElements(0)
+      expect(tooltipElement).toHaveClass('dnb-tooltip--active')
+      expect(tooltipElement).toHaveTextContent('30')
+    })
+
+    it('shows Tooltip with  text', async () => {
+      const marker = {
+        instance: SliderMarker,
+        value: 30,
+        text: 'Here is the text',
+      }
+      render(<Slider {...props} extensions={{ marker }} />)
+
+      const sliderElement = document.querySelector('.dnb-slider')
+      const markerElement = sliderElement.querySelector(
+        '.dnb-slider__marker'
+      )
+
+      fireEvent.mouseEnter(markerElement)
+
+      await wait(300)
+
+      const tooltipElement = getTooltipElements(0)
+      expect(tooltipElement).toHaveTextContent(marker.text)
+    })
+  })
+
   it('has events that return a correct value', () => {
     const onChange = jest.fn()
 
@@ -405,7 +514,7 @@ describe('Slider component', () => {
       document
         .querySelector('.dnb-slider__button-helper')
         .getAttribute('aria-valuetext')
-    ).toBe('80,0 norske kroner')
+    ).toBe('80,0 kroner')
   })
 
   it('will not emit onChange with same value twice', () => {

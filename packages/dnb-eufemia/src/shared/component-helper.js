@@ -685,8 +685,14 @@ export function combineLabelledBy(...params) {
 export function combineDescribedBy(...params) {
   return combineAriaBy('aria-describedby', params)
 }
+export function combineDetails(...params) {
+  return combineAriaBy('aria-details', params)
+}
 function combineAriaBy(type, params) {
   params = params.map((cur) => {
+    if (Array.isArray(cur)) {
+      return cur.join(' ')
+    }
     if (cur && params.includes(cur[type])) {
       return null
     }

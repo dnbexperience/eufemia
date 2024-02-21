@@ -24,7 +24,7 @@ describe('useNumberFormat', () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        aria: '1 234,00 norske kroner',
+        aria: '1 234,00 kroner',
         cleanedValue: '1234,00 kr',
         locale: 'nb-NO',
         number: '1 234,00 kr',

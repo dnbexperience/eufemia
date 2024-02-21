@@ -12,6 +12,9 @@ import type { SliderAllProps } from './types'
 
 export * from './types'
 
+// Export the extensions
+export { default as SliderMarker } from './SliderMarker'
+
 function Slider(localProps: SliderAllProps) {
   return (
     <SliderProvider {...localProps}>

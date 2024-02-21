@@ -68,7 +68,7 @@ export const Autofill = () => {
             <Flex.Horizontal>
               <Field.String
                 label="Street"
-                width="medium"
+                width="stretch"
                 path="/streetName"
                 required
               />

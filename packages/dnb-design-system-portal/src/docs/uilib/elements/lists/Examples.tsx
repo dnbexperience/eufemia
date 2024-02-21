@@ -29,7 +29,25 @@ export const DefinitionListExample = () => (
 
 export const DefinitionListHorizontalExample = () => (
   <ComponentBox hideCode data-visual-test="lists-dl-horizontal">
-    <Dl direction="horizontal">
+    <Dl layout="horizontal">
+      <Dl.Item>
+        <Dt>Term</Dt>
+        <Dd>Description</Dd>
+      </Dl.Item>
+      <Dl.Item>
+        <Dt>A term with several words</Dt>
+        <Dd>
+          Description with several words lorem nulla mi posuere cubilia vel
+          vulputate
+        </Dd>
+      </Dl.Item>
+    </Dl>
+  </ComponentBox>
+)
+
+export const DefinitionListGridExample = () => (
+  <ComponentBox hideCode data-visual-test="lists-dl-grid">
+    <Dl layout="grid">
       <Dl.Item>
         <Dt>Term</Dt>
         <Dd>Description</Dd>

@@ -10,14 +10,15 @@ describe('useId', () => {
   })
 
   it('should return id from React.useId', () => {
-    jest.spyOn(React, 'useId').mockImplementation(() => 'test')
+    jest.spyOn(React, 'useId').mockImplementation(() => ':test:')
     const { result } = renderHook(() => useId())
-    expect(result.current).toBe('test')
+    expect(result.current).toBe('id-test')
   })
 
   it('should return id from makeUniqueId', () => {
-    jest.spyOn(helper, 'makeUniqueId').mockImplementation(() => 'test')
+    jest.spyOn(React, 'useId').mockImplementation(undefined)
+    jest.spyOn(helper, 'makeUniqueId').mockImplementation(() => 'random')
     const { result } = renderHook(() => useId())
-    expect(result.current).toBe('test')
+    expect(result.current).toBe('random')
   })
 })

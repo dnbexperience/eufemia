@@ -54,6 +54,7 @@ export function SliderInstance() {
     skeleton,
     disabled,
     className,
+    extensions,
   } = allProps
 
   const mainParams = {
@@ -88,8 +89,8 @@ export function SliderInstance() {
           text={label}
           disabled={disabled}
           skeleton={skeleton}
-          label_direction={labelDirection}
-          sr_only={labelSrOnly}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
         />
       )}
 
@@ -112,6 +113,13 @@ export function SliderInstance() {
           {showButtons && (isReverse ? addButton : subtractButton)}
 
           <SliderMainTrack>
+            {extensions &&
+              Object.entries(extensions).map(
+                ([key, { instance, ...options }]) => {
+                  const Element = instance as React.ElementType
+                  return <Element key={key} {...options} />
+                }
+              )}
             <SliderThumb />
             <SliderTrackBefore />
             <SliderTrackAfter />

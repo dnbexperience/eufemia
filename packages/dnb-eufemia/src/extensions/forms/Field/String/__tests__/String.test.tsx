@@ -52,9 +52,10 @@ describe('Field.String', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders label', () => {
+    it('renders label once', () => {
       render(<Field.String label="The label" />)
       expect(screen.getByLabelText('The label')).toBeInTheDocument()
+      expect(document.querySelectorAll('label')).toHaveLength(1)
     })
 
     it('does not render placeholder when value is given', () => {
@@ -64,6 +65,55 @@ describe('Field.String', () => {
       expect(
         screen.queryByText('placeholder-text')
       ).not.toBeInTheDocument()
+    })
+
+    it('support Input props such as "keepPlaceholder"', () => {
+      render(<Field.String keepPlaceholder />)
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input--keep-placeholder'
+      )
+    })
+
+    it('support Input props such as "size"', () => {
+      render(<Field.String size="large" />)
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input--large'
+      )
+    })
+
+    it('support Input props such as "align"', () => {
+      render(<Field.String align="right" />)
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input__align--right'
+      )
+    })
+
+    it('support Textarea props such as "autoresizeMaxRows"', async () => {
+      render(
+        <Field.String
+          multiline
+          autoresize
+          rows={1}
+          autoresizeMaxRows={4}
+        />
+      )
+
+      const elem = document.querySelector('textarea')
+
+      const style = {
+        lineHeight: String(1.5 * 16),
+      } as CSSStyleDeclaration
+
+      jest
+        .spyOn(window, 'getComputedStyle')
+        .mockImplementation(() => style)
+
+      jest
+        .spyOn(elem, 'scrollHeight', 'get')
+        .mockImplementation(() => 1.5 * 32)
+
+      await userEvent.type(elem, 'a')
+      expect(elem.style.height).toBe('48px')
     })
 
     it('should support disabled prop', () => {
@@ -932,6 +982,185 @@ describe('Field.String', () => {
         const textarea = document.querySelector('textarea')
         expect(textarea).toHaveAttribute('aria-invalid', 'true')
       })
+    })
+  })
+
+  describe('info prop', () => {
+    it('should link FormStatus correctly', () => {
+      render(<Field.String info="Info message" />)
+
+      const input = document.querySelector('input')
+      const describedBy = input.getAttribute('aria-describedby')
+
+      const ids = document.querySelectorAll(`#${describedBy}`)
+      expect(ids).toHaveLength(1)
+      expect(ids[0]).toBeInTheDocument()
+      expect(ids[0]).toHaveClass('dnb-form-status--info')
+      expect(ids[0]).toHaveTextContent('Info message')
+    })
+  })
+
+  describe('warning prop', () => {
+    it('should link FormStatus correctly', () => {
+      render(<Field.String warning="Warning message" />)
+
+      const input = document.querySelector('input')
+      const describedBy = input.getAttribute('aria-describedby')
+
+      const ids = document.querySelectorAll(`#${describedBy}`)
+      expect(ids).toHaveLength(1)
+      expect(ids[0]).toBeInTheDocument()
+      expect(ids[0]).toHaveClass('dnb-form-status--warn')
+      expect(ids[0]).toHaveTextContent('Warning message')
+    })
+  })
+
+  describe('error prop', () => {
+    it('should link FormStatus correctly', () => {
+      render(<Field.String error={new Error('Error message')} />)
+
+      const input = document.querySelector('input')
+      const describedBy = input.getAttribute('aria-describedby')
+
+      const ids = document.querySelectorAll(`#${describedBy}`)
+      const [status] = Array.from(ids)
+
+      expect(ids).toHaveLength(1)
+      expect(status).toBeInTheDocument()
+      expect(status).toHaveClass('dnb-form-status--error')
+      expect(status).toHaveTextContent('Error message')
+    })
+  })
+
+  describe('useDataValue and FieldBlock', () => {
+    const inputError = 'StatusMessage error'
+    const inputWarning = 'StatusMessage warning'
+    const inputInfo = 'StatusMessage info'
+
+    it('should handle aria-describedby', async () => {
+      render(
+        <Field.String
+          id="unique"
+          error={new Error('error')}
+          warning="warning"
+          info="info"
+          required
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveAttribute(
+        'aria-describedby',
+        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('.dnb-form-status')
+      )
+
+      expect(first).toHaveAttribute('id', 'unique-form-status--error')
+      expect(second).toHaveAttribute('id', 'unique-form-status--warning')
+      expect(third).toHaveAttribute('id', 'unique-form-status--info')
+
+      expect(
+        document.querySelectorAll('#unique-form-status--error')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('#unique-form-status--warning')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('#unique-form-status--info')
+      ).toHaveLength(1)
+
+      await userEvent.type(input, 'x')
+
+      expect(
+        document.querySelectorAll('#unique-form-status--error')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('#unique-form-status--warning')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('#unique-form-status--info')
+      ).toHaveLength(1)
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveAttribute(
+        'aria-describedby',
+        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+      )
+    })
+
+    it('should handle FormStatus ids', () => {
+      render(
+        <Field.String
+          id="unique"
+          error={new Error('error')}
+          warning="warning"
+          info="info"
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveAttribute(
+        'aria-describedby',
+        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('.dnb-form-status')
+      )
+
+      expect(first).toHaveAttribute('id', 'unique-form-status--error')
+      expect(second).toHaveAttribute('id', 'unique-form-status--warning')
+      expect(third).toHaveAttribute('id', 'unique-form-status--info')
+
+      expect(
+        document.querySelectorAll('#unique-form-status--error')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('#unique-form-status--warning')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('#unique-form-status--info')
+      ).toHaveLength(1)
+    })
+
+    it('should handle status messages', async () => {
+      render(
+        <Field.String
+          id="unique"
+          error={new Error(inputError)}
+          warning={inputWarning}
+          info={inputInfo}
+          required
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('.dnb-form-status')
+      )
+
+      expect(first).toHaveTextContent(inputError)
+      expect(second).toHaveTextContent(inputWarning)
+      expect(third).toHaveTextContent(inputInfo)
+
+      await userEvent.type(input, 'x')
+
+      expect(first).toHaveTextContent(inputError)
+      expect(second).toHaveTextContent(inputWarning)
+      expect(third).toHaveTextContent(inputInfo)
+
+      fireEvent.blur(input)
+
+      expect(first).toHaveTextContent(inputError)
+      expect(second).toHaveTextContent(inputWarning)
+      expect(third).toHaveTextContent(inputInfo)
     })
   })
 })

@@ -143,10 +143,67 @@ describe('StepsLayout', () => {
 
     const nextButton = document.querySelector('.dnb-forms-next-button')
 
+    expect(document.querySelector('output')).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeNull()
 
     fireEvent.click(nextButton)
 
+    expect(document.querySelector('output')).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
+  it('should show error on navigating back and forth', () => {
+    render(
+      <StepsLayout>
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String />
+          <StepsLayout.PreviousButton />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+          <Field.String path="/foo" required />
+          <StepsLayout.PreviousButton />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 3">
+          <output>Step 3</output>
+          <StepsLayout.PreviousButton />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    const output = () => document.querySelector('output')
+    const nextButton = () =>
+      document.querySelector('.dnb-forms-next-button')
+    const previousButton = () =>
+      document.querySelector('.dnb-forms-previous-button')
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    fireEvent.click(previousButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 

@@ -14,6 +14,9 @@
   --slider-line-after: gray;
   --slider-line-before--disabled: dimgray;
   --slider-line-after--disabled: lightgray;
+  --slider-marker: var(--slider-line-before);
+  --slider-marker-height: calc(var(--slider-thumb-size) * 0.75);
+  --slider-marker-width: 0.125rem;
 
   user-select: none; // Safari / Touch fix
   -webkit-touch-callout: none; // Safari / Touch fix
@@ -66,6 +69,45 @@
   &--vertical &__suffix {
     padding-left: 0;
     padding-top: 0.5rem;
+  }
+
+  &__marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    margin: auto;
+    width: var(--slider-marker-width);
+    height: var(--slider-marker-height);
+    background-color: var(--slider-marker);
+
+    &:focus {
+      outline: none; // we show a Tooltip instead
+      @include focusRing();
+    }
+
+    // Larger bounding area
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform: scale(10, 1);
+    }
+  }
+
+  &--vertical &__marker {
+    top: auto;
+    right: 0;
+    bottom: auto;
+    left: 0;
+
+    height: var(--slider-marker-width);
+    width: var(--slider-marker-height);
+
+    &::before {
+      transform: scale(1, 10);
+    }
   }
 
   &__track {
@@ -165,7 +207,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 3;
+    z-index: 4;
 
     display: flex;
     justify-content: center;
@@ -283,6 +325,7 @@
   }
 
   &.dnb-skeleton &__line,
+  &.dnb-skeleton &__marker,
   &.dnb-skeleton &__state--disabled &__line {
     background-color: var(--skeleton-color);
   }

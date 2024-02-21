@@ -186,6 +186,52 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match all combinations default', async () => {
+    const selector = '[data-visual-test="table-combinations-default"]'
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match all combinations with no header', async () => {
+    const selector = '[data-visual-test="table-combinations-no-header"]'
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match all combinations with row header', async () => {
+    const selector = '[data-visual-test="table-combinations-row-header"]'
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match all combinations with spanning', async () => {
+    const selector = '[data-visual-test="table-combinations-spanning"]'
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match all combinations with spanning row headers', async () => {
+    const selector =
+      '[data-visual-test="table-combinations-row-header-spanning"]'
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(
@@ -293,8 +339,8 @@ describe.each(['ui', 'sbanken'])(
         ...defaults,
         style: {
           width: '35rem',
-          height: '20rem',
         },
+        recalculateHeightAfterSimulate: true,
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
         simulateSelector:

@@ -271,8 +271,19 @@ html[data-visual-test] .dnb-tooltip--hide {
 button .dnb-form-status__text {
   cursor: inherit;
 }
+.dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
+}
+.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+  padding-left: 1rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -788,9 +799,6 @@ html[data-visual-test] .dnb-tooltip--hide {
  * FormLabel component
  *
  */
-/*
- * Utilities
- */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -806,9 +814,6 @@ html[data-visual-test] .dnb-tooltip--hide {
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
-}
-.dnb-form-label[for]:not([disabled]) {
-  user-select: none;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -855,8 +860,19 @@ legend.dnb-form-label {
 button .dnb-form-status__text {
   cursor: inherit;
 }
+.dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
+}
+.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+  padding-left: 1rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;

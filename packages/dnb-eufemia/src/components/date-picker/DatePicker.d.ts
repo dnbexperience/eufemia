@@ -32,9 +32,12 @@ type DatePickerEvent<T extends T> = T & {
   start_date?: string;
   end_date?: string;
 };
-
 export interface DatePickerProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref', 'onBlur'>,
+  extends Omit<
+      React.HTMLProps<HTMLButtonElement | HTMLInputElement>,
+      'ref',
+      'onBlur'
+    >,
     SpacingProps {
   id?: string;
   title?: string;
@@ -71,8 +74,7 @@ export interface DatePickerProps
    */
   max_date?: DatePickerMaxDate;
   /**
-   * Corrects the date input value if the user tries to set a date that is before or after `min_date` or `max_date`.
-   * Defaults to `false`.
+   * Corrects the input date value to be the same as either `min_date` or `max_date`, when the user types in a date that is either before or after one of these. Defaults to `false`.
    */
   correct_invalid_date?: boolean;
   /**
@@ -215,6 +217,11 @@ export interface DatePickerProps
    * To open the date-picker by default. Defaults to `false`.
    */
   opened?: boolean;
+  /**
+   * Provide a short Tooltip content that shows up on the picker button.
+   */
+  tooltip?: React.ReactNode;
+  tabIndex?: number;
   prevent_close?: boolean;
   no_animation?: boolean;
   direction?: DatePickerDirection;
@@ -261,7 +268,7 @@ export interface DatePickerProps
    */
   onFocus?: (event: React.FocusEventHandler<HTMLInputElement>) => void;
   /**
-   * Will be called once the input loses focus.
+   * Will be called once the input lose focus.
    */
   onBlur?: (
     event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>

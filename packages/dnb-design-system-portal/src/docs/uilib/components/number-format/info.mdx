@@ -24,7 +24,8 @@ Good reasons for why we have this is to:
 - Bank account number e.g. <code className="dnb-code"><NumberFormat ban value="20001234567" /></code>
 - National identification number e.g. <code className="dnb-code"><NumberFormat nin value="18089212345" /></code>
 - Organization number e.g. <code className="dnb-code"><NumberFormat org value="123456789" /></code>
-- Compact (shorten) numbers e.g. <code className="dnb-code"><NumberFormat compact value="123456" decimals={1} /></code>
+- Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat compact value="12345678" decimals={1} /></code>
+- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat compact="long" currency currency_display="name" value="12345678" decimals={1} /></code>
 
 ### Defaults
 
@@ -32,6 +33,13 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 
 - Locale: `nb-NO`
 - Currency: `NOK`
+
+#### Norwegian kroner
+
+When the currency format is set to `currency_display="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
+
+- Norwegian currency: <code className="dnb-code"><NumberFormat currency currency_display="name" value="1234.90" /></code>
+- Swedish currency: <code className="dnb-code"><NumberFormat currency="SEK" currency_display="name" value="1234.90" /></code>
 
 #### Not available
 
@@ -95,7 +103,7 @@ You can use the `format` method without using a React Component or React Hook.
 
 **Heads up:** If you do so, keep in mind, you will have to ensure all the accessibility enhancements the component offers. For that you can use the `aria` field:
 
-```js
+```ts
 import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
 
 // By using returnAria you get an object
@@ -115,7 +123,7 @@ The `format` method will accept the same [properties](/uilib/components/number-f
 
 Also, you may check out the related tests **NumberFormat > cleanNumber** in the source code to find more examples.
 
-```js
+```ts
 import { cleanNumber } from '@dnb/eufemia/components/number-format/NumberUtils'
 
 const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678

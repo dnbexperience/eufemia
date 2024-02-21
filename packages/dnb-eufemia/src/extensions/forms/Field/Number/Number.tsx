@@ -3,6 +3,7 @@ import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
+import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
@@ -31,6 +32,7 @@ export type Props = FieldHelpProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
+    currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
     percent?: InputMaskedProps['as_percent']
     mask?: InputMaskedProps['mask']
     step?: number
@@ -52,11 +54,13 @@ export type Props = FieldHelpProps &
   }
 
 function NumberComponent(props: Props) {
+  const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
   const tr = sharedContext?.translation.Forms
 
   const {
     currency,
+    currencyDisplay,
     percent,
     mask,
     step = 1,
@@ -131,6 +135,9 @@ function NumberComponent(props: Props) {
       return {
         as_currency: currency,
         mask_options,
+        currency_mask: {
+          currencyDisplay,
+        },
       }
     }
 
@@ -149,7 +156,15 @@ function NumberComponent(props: Props) {
         ...mask_options,
       },
     }
-  }, [currency, decimalLimit, mask, percent, prefix, suffix])
+  }, [
+    currency,
+    currencyDisplay,
+    decimalLimit,
+    mask,
+    percent,
+    prefix,
+    suffix,
+  ])
 
   const preparedProps: Props = {
     ...props,
@@ -158,15 +173,17 @@ function NumberComponent(props: Props) {
     toInput,
     fromInput,
     transformValue,
-    width: props.width ?? 'medium',
+    width:
+      props.width ??
+      (fieldBlockContext?.composition ? 'stretch' : 'medium'),
   }
 
   const {
     id,
     name,
     className,
-    autoComplete,
     inputClassName,
+    autoComplete,
     layout,
     placeholder,
     label,
@@ -231,7 +248,10 @@ function NumberComponent(props: Props) {
     warning,
     error,
     disabled,
-    width: width === 'stretch' ? width : undefined,
+    width:
+      width === 'stretch' || fieldBlockContext?.composition
+        ? width
+        : undefined,
     contentWidth: width !== false ? width : undefined,
     ...pickSpacingProps(props),
   }
@@ -289,7 +309,7 @@ function NumberComponent(props: Props) {
       `dnb-input--${size}`,
       inputClassName
     ),
-    step,
+    step: showStepControls ? step : undefined,
     placeholder,
     value,
     align: showStepControls ? 'center' : align,
@@ -301,7 +321,9 @@ function NumberComponent(props: Props) {
     disabled,
     ...ariaAttributes,
     status: hasError ? 'error' : undefined,
-    stretch: width !== undefined,
+    stretch: Boolean(
+      width !== undefined || fieldBlockContext?.composition
+    ),
     suffix:
       help && !showStepControls ? (
         <HelpButton title={help.title}>{help.content}</HelpButton>

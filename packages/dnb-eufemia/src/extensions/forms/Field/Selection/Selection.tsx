@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useCallback } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import {
   ToggleButton,
   Dropdown,
@@ -7,7 +7,6 @@ import {
 } from '../../../../components'
 import classnames from 'classnames'
 import { makeUniqueId } from '../../../../shared/component-helper'
-import SharedContext from '../../../../shared/Context'
 import OptionField from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
@@ -25,20 +24,17 @@ export type Props = FieldHelpProps &
   FieldProps<IOption['value']> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'button'
-    clear?: boolean
     optionsLayout?: 'horizontal' | 'vertical'
     width?: 'small' | 'medium' | 'large' | 'stretch'
   }
 
 function Selection(props: Props) {
-  const sharedContext = useContext(SharedContext)
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
 
   const {
     id,
     className,
     variant = 'dropdown',
-    clear,
     label,
     labelDescription,
     layout = 'vertical',
@@ -221,19 +217,6 @@ function Selection(props: Props) {
           content: child,
         }
       })
-      const data = [
-        clear
-          ? {
-              selectedKey: clearValue,
-              content: (
-                <em>
-                  {sharedContext?.translation.Forms.selectionClearSelected}
-                </em>
-              ),
-            }
-          : undefined,
-        ...(optionsData ?? []),
-      ].filter(Boolean)
 
       return (
         <FieldBlock {...fieldBlockProps} width={width}>
@@ -246,7 +229,7 @@ function Selection(props: Props) {
             status={(hasError || status) && 'error'}
             disabled={disabled}
             {...ariaAttributes}
-            data={data}
+            data={optionsData}
             suffix={
               help ? (
                 <HelpButton title={help.title}>{help.content}</HelpButton>

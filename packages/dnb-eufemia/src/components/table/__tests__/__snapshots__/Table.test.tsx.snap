@@ -19,6 +19,16 @@ exports[`Table scss has to match style dependencies css 1`] = `
 * Button mixins
 *
 */
+.dnb-table,
+.dnb-table__container {
+  --table-border-width: 0.0625rem;
+  --table-border: var(--table-border-width) solid var(--table-border-color);
+  --table-outline-width: 0.0625rem;
+  --table-outline: var(--table-outline-width) solid
+    var(--table-outline-color);
+  --table-outline-radius: 0.5rem;
+}
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -36,16 +46,38 @@ exports[`Table scss has to match style dependencies css 1`] = `
   white-space: nowrap;
 }
 .dnb-table > caption {
+  position: relative;
   caption-side: bottom;
   padding: 0.5rem 0 0.5rem 1rem;
   font-size: var(--font-size-basis);
   background-color: var(--color-white);
   text-align: left;
 }
-.dnb-table--border > caption:not(.dnb-sr-only) {
-  position: relative;
+.dnb-table > caption::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: -0.0625rem;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  top: calc(var(--table-border-width) * -1);
+  right: 0;
+  border-top: var(--table-border);
 }
-.dnb-table--border > caption:not(.dnb-sr-only)::after {
+.dnb-table > caption:last-child::after {
+  right: 0;
+}
+.dnb-table--outline {
+  position: relative;
+  clip-path: inset(0 0 -10rem 0 round var(--table-outline-radius) var(--table-outline-radius) 0 0);
+  z-index: 1;
+}
+.dnb-table--outline, .dnb-table--outline::after {
+  border-radius: var(--table-outline-radius);
+}
+.dnb-table--outline::after {
   content: "";
   position: absolute;
   top: 0;
@@ -54,8 +86,27 @@ exports[`Table scss has to match style dependencies css 1`] = `
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-  top: -0.0625rem;
-  border-top: var(--border);
+  z-index: 3;
+  border: var(--table-outline);
+}
+.dnb-table--outline > caption, .dnb-table--outline > caption::after {
+  border-radius: 0 0 var(--table-outline-radius) var(--table-outline-radius);
+}
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) {
+  clip-path: none;
+}
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__th, .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__th::before, .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__th::after,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__td,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__td::before,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__td::after,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__th,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__th::before,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__th::after,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__td,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__td::before,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__td::after {
+  border-radius: 0;
 }
 .dnb-table.dnb-skeleton > * {
   -webkit-text-fill-color: var(--skeleton-color);
@@ -256,17 +307,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   display: flex;
   align-items: flex-end;
 }
-.dnb-table--border tbody .dnb-table__th::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  pointer-events: none;
-  border-top: var(--border);
-}
 
 /*
 * Table component
@@ -280,60 +320,102 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   /* stylelint-disable */
   /* stylelint-enable */
 }
-.dnb-table--border tbody .dnb-table__td::after {
+.dnb-table--border tbody .dnb-table__td::after,
+.dnb-table--border tbody .dnb-table__th::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -0.0625rem;
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-  border: var(--border);
-  border-right: none;
+  border: var(--table-border);
   border-bottom: none;
 }
-.dnb-table--outline {
-  position: relative;
-}
-.dnb-table--outline, .dnb-table--outline::after {
-  border-radius: 0.5rem;
-}
-.dnb-table--outline::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
+.dnb-table--border tbody .dnb-table__td:last-child::after,
+.dnb-table--border tbody .dnb-table__th:last-child::after {
   right: 0;
-  bottom: 0;
-  z-index: 1;
-  pointer-events: none;
-  z-index: 3;
-  border: var(--outline);
 }
-.dnb-table--outline tbody .dnb-table__tr .dnb-table__th ~ .dnb-table__td:first-of-type:first-of-type::after {
+.dnb-table--border tbody .dnb-table__td:first-child::after,
+.dnb-table--border tbody .dnb-table__th:first-child::after {
   border-left: none;
 }
-.dnb-table--border tbody .dnb-table__tr .dnb-table__th ~ .dnb-table__td:first-of-type:first-of-type::after {
-  border-left: var(--border);
+.dnb-table--border tbody .dnb-table__td:last-child::after,
+.dnb-table--border tbody .dnb-table__th:last-child::after {
+  border-right: none;
 }
-.dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::after {
-  border-radius: 0;
+.dnb-table--border tbody .dnb-table__tr:first-child .dnb-table__td::after,
+.dnb-table--border tbody .dnb-table__tr:first-child .dnb-table__th::after {
+  border-top: none;
 }
-.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after {
-  border-top: var(--outline);
+.dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__td::after,
+.dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th::after {
+  border-top: var(--table-border);
 }
-.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-of-type, .dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-of-type::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-of-type, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-of-type::after {
-  border-radius: 0.5rem 0 0 0;
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:first-child, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:first-child::before, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:first-child::after,
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:first-child,
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:first-child::before,
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:first-child::after,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-child,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-child::before,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-child::after,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:first-child,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:first-child::before,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:first-child::after,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-child,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-child::before,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-child::after,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:first-child,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:first-child::before,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:first-child::after {
+  border-top-left-radius: var(--table-outline-radius);
 }
-.dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
-  border-top: var(--outline);
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:last-child, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:last-child::before, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:last-child::after,
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:last-child,
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:last-child::before,
+.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:last-child::after,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:last-child,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:last-child::before,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:last-child::after,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-child,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-child::before,
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-child::after,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__th:last-child,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__th:last-child::before,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__th:last-child::after,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-child,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-child::before,
+.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-child::after {
+  border-top-right-radius: var(--table-outline-radius);
 }
-.dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-of-type, .dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-of-type::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-of-type, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-of-type::after {
-  border-radius: 0 0.5rem 0 0;
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
+  clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));
 }
-.dnb-table:not(.dnb-table--outline).dnb-table--border > tbody:first-child .dnb-table__td:last-of-type::after, .dnb-table:not(.dnb-table--outline).dnb-table--border > :not(thead) + tbody .dnb-table__td:last-of-type::after {
-  border-right: var(--border);
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:first-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:first-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:first-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-child::after {
+  border-bottom-left-radius: var(--table-outline-radius);
+}
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:last-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:last-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-child::after {
+  border-bottom-right-radius: var(--table-outline-radius);
 }
 .dnb-table__td--no-spacing,
 .dnb-table td.dnb-table__td--no-spacing {
@@ -358,12 +440,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr--odd {
   background-color: var(--color-white);
-}
-.dnb-table--outline thead .dnb-table__tr:first-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
-  clip-path: inset(0 0 -1rem 0 round 0.5rem 0.5rem 0 0);
-}
-.dnb-table--outline tbody .dnb-table__tr:last-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
-  clip-path: inset(0 round 0 0 0.5rem 0.5rem);
 }
 
 /*
@@ -416,10 +492,10 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   z-index: 1;
   pointer-events: none;
   z-index: 3;
-  border: var(--outline);
+  border: var(--table-outline);
 }
 .dnb-table__container, .dnb-table__container::after {
-  border-radius: 0.5rem;
+  border-radius: var(--table-outline-radius);
 }
 .dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
   display: flex;
@@ -445,7 +521,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-  border-bottom: var(--border);
+  border-bottom: var(--table-border);
 }
 .dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
 .dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
@@ -471,11 +547,11 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   min-height: 1rem;
 }
 .dnb-table__container .dnb-table__scroll-view {
-  clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+  clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));
 }
 @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
   .dnb-table__container::after {
-    bottom: calc(var(--outline-width) * -1);
+    bottom: calc(var(--table-outline-width) * -1);
   }
 }
 .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
@@ -487,10 +563,11 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 *
 */
 .dnb-table {
-  --accordion-background: var(--color-white);
-  --accordion-border-width: 0.0625rem;
-  --accordion-border: var(--accordion-border-width) solid
-    var(--color-black-20);
+  --table-accordion-background: var(--color-white);
+  --table-accordion-border-width: 0.0625rem;
+  --table-accordion-border-color: var(--color-black-20);
+  --table-accordion-border: var(--table-accordion-border-width) solid
+    var(--table-accordion-border-color);
 }
 .dnb-table__th.dnb-table__th__accordion-icon.dnb-table__th {
   padding: 0;
@@ -525,14 +602,13 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__tr--has-accordion-content.dnb-table__tr--no-animation .dnb-table__toggle-button .dnb-icon, html[data-visual-test] .dnb-table__tr--has-accordion-content .dnb-table__toggle-button .dnb-icon {
   transition: none !important;
 }
-.dnb-table__tr--has-accordion-content, .dnb-table__tr__accordion_content {
+.dnb-table__tr--has-accordion-content, .dnb-table__tr__accordion-content {
   position: relative;
-  z-index: 2;
 }
-.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded, .dnb-table__tr__accordion_content {
+.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded, .dnb-table__tr__accordion-content {
   z-index: 3;
 }
-.dnb-table__tr--has-accordion-content:hover, .dnb-table__tr--has-accordion-content:active, html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content:focus {
+.dnb-table__tr--has-accordion-content:active, html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content:focus, .dnb-table__tr--has-accordion-content:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
   z-index: 5;
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded .dnb-table__toggle-button .dnb-icon {
@@ -540,9 +616,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 .dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td::after {
   border-bottom: none;
-}
-.dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td:not(:first-of-type)::after {
   border-left: none;
+  border-right: none;
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) {
   outline: none;
@@ -571,7 +646,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-tabl
   color: var(--color-emerald-green);
 }
 .dnb-table--outline tbody .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):not(:nth-last-child(2)) .dnb-table__td::before {
-  bottom: -0.0625rem;
+  bottom: calc(var(--table-outline-width) * -1);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
   background-color: var(--color-white);
@@ -590,7 +665,7 @@ html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content.dnb-table__t
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active:hover td::before,
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
   border-color: var(--color-emerald-green);
-  border-width: 0.0625rem;
+  border-width: var(--table-accordion-border-width);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
   background-color: var(--color-pistachio);
@@ -599,24 +674,24 @@ html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-tabl
   color: var(--color-emerald-green);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
-  background-color: var(--accordion-background);
+  background-color: var(--table-accordion-background);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
   border: none;
-  border-top: var(--accordion-border);
+  border-top: var(--table-accordion-border);
 }
 html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
-  background-color: var(--accordion-background);
+  background-color: var(--table-accordion-background);
 }
 html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) td::before {
   border: none;
-  border-top: var(--accordion-border);
+  border-top: var(--table-accordion-border);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--disabled .dnb-table__td__accordion-icon .dnb-icon {
   color: var(--color-sea-green-30);
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-table__tr__accordion_content[hidden] {
+  .dnb-table__tr__accordion-content[hidden] {
     /**
     * By reverting the display from "none" to "block",
     * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
@@ -624,76 +699,67 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-ta
     display: block;
   }
 }
-.dnb-table__tr__accordion_content td {
+.dnb-table__tr__accordion-content td {
   padding: 0 !important;
   width: calc(100% - 3.5rem);
 }
-.dnb-table__size--medium .dnb-table__tr__accordion_content td {
+.dnb-table__size--medium .dnb-table__tr__accordion-content td {
   width: calc(100% - 3rem);
 }
-.dnb-table__size--small .dnb-table__tr__accordion_content td {
+.dnb-table__size--small .dnb-table__tr__accordion-content td {
   width: calc(100% - 2.5rem);
 }
-.dnb-table__tr__accordion_content td::before {
+.dnb-table__tr__accordion-content td::before {
   content: "";
   position: absolute;
   top: auto;
   left: 0;
   right: 0;
-  bottom: calc(var(--accordion-border-width) * -1);
+  bottom: calc(var(--table-accordion-border-width) * -1);
   pointer-events: none;
-  border-bottom: var(--accordion-border);
+  border-bottom: var(--table-accordion-border);
 }
-.dnb-table--outline .dnb-table__tr__accordion_content:last-of-type td::before {
+.dnb-table--outline .dnb-table__tr__accordion-content:last-of-type td::before {
   border-bottom: none;
 }
-.dnb-table--border .dnb-table__tr__accordion_content td::after {
+.dnb-table--border .dnb-table__tr__accordion-content td::after {
   border-top: none;
 }
-.dnb-table__tr__accordion_content__inner {
+.dnb-table__tr__accordion-content__inner {
   overflow: hidden;
   will-change: height;
   transition: height 400ms var(--easing-default);
   position: relative;
 }
-.dnb-table__tr__accordion_content__inner__spacing {
+.dnb-table__tr__accordion-content__inner__spacing {
   padding: 1rem;
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
 }
-.dnb-table__tr__accordion_content--parallax .dnb-table__tr__accordion_content__inner__spacing {
+.dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
   transform: translateY(0);
 }
-html[data-visual-test] .dnb-table__tr__accordion_content--parallax .dnb-table__tr__accordion_content__inner__spacing {
+html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
   transition: none;
 }
-.dnb-table__tr__accordion_content > td.dnb-table__td {
+.dnb-table__tr__accordion-content > td.dnb-table__td {
   padding: 0;
 }
-.dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl,
-.dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl dt {
+.dnb-table__tr__accordion-content > td.dnb-table__td .dnb-dl,
+.dnb-table__tr__accordion-content > td.dnb-table__td .dnb-dl dt {
   margin: 0;
 }
-.dnb-table__tr__accordion_content--expanded > td.dnb-table__td {
+.dnb-table__tr__accordion-content--expanded > td.dnb-table__td {
   background-color: var(--color-white);
 }
-.dnb-table__tr__accordion_content.dnb-table__tr .dnb-table__td {
-  background-color: var(--accordion-background);
+.dnb-table__tr__accordion-content.dnb-table__tr .dnb-table__td {
+  background-color: var(--table-accordion-background);
   /**
     * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
     * What happens is that the td is not 0, even the content inside is 0. With vertical top, we omit that.
     * But we do not need baseline in this tr > td, so we reset it.
     */
   vertical-align: top;
-}
-.dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type::after {
-  border-radius: 0 0 0 0.5rem;
-}
-.dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::after, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type::after {
-  border-radius: 0 0 0.5rem 0;
-}
-.dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td::after {
-  border-radius: 0 0 0.5rem 0.5rem;
 }
 .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--disabled) {
   cursor: pointer;
@@ -775,16 +841,22 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__th::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
+.dnb-table:not(.dnb-table--outline) > tbody {
+  position: relative;
+}
+.dnb-table:not(.dnb-table--outline) > tbody::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -0.0625rem;
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-  border-bottom: var(--border);
+  border-bottom: var(--table-border);
+}
+.dnb-table:not(.dnb-table--outline) > tbody:last-child::after {
+  right: 0;
 }
 
 .dnb-table__container {
@@ -793,14 +865,13 @@ exports[`Table scss have to match default theme snapshot 1`] = `
 
 .dnb-table,
 .dnb-table__container {
-  --border-width: 0.0625rem;
-  --outline-width: 0.0625rem;
-  --border: var(--border-width) solid var(--color-black-8);
-  --outline: var(--outline-width) solid var(--color-black-8);
+  --table-border-color: var(--color-black-8);
+  --table-outline-color: var(--color-black-8);
 }
 html[data-visual-test] .dnb-table,
 html[data-visual-test] .dnb-table__container {
-  --border: 0.0625rem solid blue;
-  --outline: 0.0625rem solid red;
+  --table-border-color: blue;
+  --table-outline-color: red;
+  --table-accordion-border-color: green;
 }"
 `;

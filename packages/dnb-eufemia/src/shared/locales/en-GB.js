@@ -103,8 +103,6 @@ export default {
     Input: {
       submit_button_title: 'Submit button',
       clear_button_title: 'Clear value',
-      show_password: 'Show password',
-      hide_password: 'Hide password',
     },
     Pagination: {
       button_title: 'Page %s',
@@ -170,6 +168,8 @@ export default {
       stepNext: 'Next',
       stepPrevious: 'Back',
       contextSubmit: 'Send',
+      fieldStateSummary: 'Summary:',
+      fieldErrorSummary: 'Please correct the following errors:',
       fieldErrorRequired: 'This field is required',
       inputErrorRequired: 'This field is required',
       inputErrorPattern: 'The value is invalid',
@@ -185,7 +185,6 @@ export default {
         'The value must be less than {exclusiveMaximum}',
       numberFieldErrorMultipleOf:
         'The value must be a multiple of {multipleOf}',
-      selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
       dateLabel: 'Date',
       dateErrorRequired: 'Du må angi en gyldig dato',
@@ -220,6 +219,9 @@ export default {
       selectCountryLabel: 'Country',
       selectCountryPlaceholder: 'Select a country',
       selectCountryErrorRequired: 'You must select a country',
+      passwordLabel: 'Password',
+      passwordShowLabel: 'Show password',
+      passwordHideLabel: 'Hide password',
     },
   },
 }

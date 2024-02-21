@@ -61,9 +61,7 @@ describe('ArraySelection', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toBeInTheDocument()
-    expect(element).toHaveClass(
-      'dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content'
-    )
+    expect(element).toHaveClass('dnb-form-status--error')
     expect(element).toHaveTextContent('This is what is wrong...')
   })
 

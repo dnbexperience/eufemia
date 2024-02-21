@@ -35,6 +35,11 @@ export interface InfoCardProps {
    */
   centered?: boolean
   /**
+   * Determines whether to display a drop shadow around the card.
+   * Default: true
+   */
+  dropShadow?: boolean
+  /**
    * Replace the default icon with custom icon.
    * Default: Lightbulb (icon)
    */
@@ -102,6 +107,7 @@ export type InfoCardAllProps = InfoCardProps &
 
 export const defaultProps = {
   centered: false,
+  dropShadow: true,
   skeleton: false,
   icon: LightbulbIcon,
 }
@@ -118,6 +124,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   const {
     alt,
     centered,
+    dropShadow,
     title,
     skeleton,
     className,
@@ -146,6 +153,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
       className={classnames(
         'dnb-info-card',
         centered && 'dnb-info-card--centered',
+        dropShadow && 'dnb-info-card--shadow',
         spacingClasses,
         className
       )}
