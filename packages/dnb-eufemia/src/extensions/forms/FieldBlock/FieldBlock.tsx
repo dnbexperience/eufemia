@@ -7,7 +7,8 @@ import React, {
   useEffect,
 } from 'react'
 import classnames from 'classnames'
-import SharedContext from '../../../shared/Context'
+import { Context } from '../DataContext/'
+
 import FieldBlockContext, {
   StateWithMessage,
   StatesWithMessages,
@@ -462,8 +463,8 @@ function CombineMessages({
   type: StateTypes
   messages: Array<StateWithMessage>
 }) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const context = useContext(Context)
+  const translations = context.translations.field
 
   if (messages.length === 1) {
     return <>{messages[0].message}</>
@@ -471,7 +472,9 @@ function CombineMessages({
 
   return (
     <>
-      {type === 'error' ? tr.fieldErrorSummary : tr.fieldStateSummary}
+      {type === 'error'
+        ? translations.error.summary
+        : translations.stateSummary}
       <Ul>
         {messages.map(({ message }, i) => {
           return <Li key={i}>{message}</Li>

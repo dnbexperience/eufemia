@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useCallback } from 'react'
 import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
+import { Context } from '../../DataContext/'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
@@ -55,8 +56,9 @@ export type Props = FieldHelpProps &
 
 function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
+  const context = useContext(Context)
   const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const translations = { ...context.translations }
 
   const {
     currency,
@@ -71,12 +73,12 @@ function NumberComponent(props: Props) {
   } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.inputErrorRequired,
-    minimum: tr.numberFieldErrorMinimum,
-    maximum: tr.numberFieldErrorMaximum,
-    exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
-    exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
-    multipleOf: tr.numberFieldErrorMultipleOf,
+    required: translations.input.error.required,
+    minimum: translations.numberField.error.minimum,
+    maximum: translations.numberField.error.maximum,
+    exclusiveMinimum: translations.numberField.error.exclusiveMinimum,
+    exclusiveMaximum: translations.numberField.error.exclusiveMaximum,
+    multipleOf: translations.numberField.error.multipleOf,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

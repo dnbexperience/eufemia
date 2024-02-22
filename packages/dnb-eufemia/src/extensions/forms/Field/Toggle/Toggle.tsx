@@ -6,7 +6,7 @@ import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 
 export type Props = FieldProps<unknown> & {
@@ -18,7 +18,8 @@ export type Props = FieldProps<unknown> & {
 }
 
 function Toggle(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const translations = context.translations.boolean
 
   const preparedProps: Props = {
     ...props,
@@ -106,8 +107,8 @@ function Toggle(props: Props) {
             id={id}
             text={
               isOn
-                ? textOn ?? sharedContext?.translation.Forms.booleanYes
-                : textOff ?? sharedContext?.translation.Forms.booleanNo
+                ? textOn ?? translations.yes
+                : textOff ?? translations.no
             }
             checked={isOn}
             disabled={disabled}
@@ -131,16 +132,12 @@ function Toggle(props: Props) {
               }}
             >
               <ToggleButton
-                text={
-                  textOn ?? sharedContext?.translation.Forms.booleanYes
-                }
+                text={textOn ?? translations.yes}
                 value="on"
                 {...htmlAttributes}
               />
               <ToggleButton
-                text={
-                  textOff ?? sharedContext?.translation.Forms.booleanNo
-                }
+                text={textOff ?? translations.no}
                 value="off"
                 {...htmlAttributes}
               />
@@ -156,8 +153,8 @@ function Toggle(props: Props) {
             variant="checkbox"
             text={
               isOn
-                ? textOn ?? sharedContext?.translation.Forms.booleanYes
-                : textOff ?? sharedContext?.translation.Forms.booleanNo
+                ? textOn ?? translations.yes
+                : textOff ?? translations.no
             }
             checked={isOn}
             disabled={disabled}

@@ -1,15 +1,16 @@
 import React, { useContext } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext'
 
 export type Props = StringValueProps
 
 function DateComponent(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const translations = context.translations.date
 
   const stringProps: Props = {
     ...props,
-    label: props.label ?? sharedContext?.translation.Forms.dateLabel,
+    label: props.label ?? translations.label,
   }
   return <StringValue {...stringProps} />
 }

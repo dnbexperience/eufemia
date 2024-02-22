@@ -7,7 +7,7 @@ import {
   AllJSONSchemaVersions,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
@@ -20,12 +20,12 @@ export type Props = FieldHelpProps &
   }
 
 function DateComponent(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const context = useContext(Context)
+  const translations = context.translations
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.dateErrorRequired,
-    pattern: tr.inputErrorPattern,
+    required: translations.date.error.required,
+    pattern: translations.input.error.required,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
@@ -80,7 +80,7 @@ function DateComponent(props: Props) {
     <FieldBlock
       className={classnames('dnb-forms-field-string', className)}
       forId={id}
-      label={label ?? sharedContext?.translation.Forms.dateLabel}
+      label={label ?? tr.date.label}
       labelDescription={labelDescription}
       info={info}
       warning={warning}

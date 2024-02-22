@@ -1,12 +1,12 @@
 import React, { useContext, useMemo, useCallback } from 'react'
 import classnames from 'classnames'
+import { Context } from '../../DataContext'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
 } from '../../../../components/InputMasked'
 import { TextareaProps } from '../../../../components/Textarea'
-import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -70,14 +70,14 @@ export type Props = FieldHelpProps &
 
 function StringComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const context = useContext(Context)
+  const translations = context.translations
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.inputErrorRequired,
-    minLength: tr.stringInputErrorMinLength,
-    maxLength: tr.stringInputErrorMaxLength,
-    pattern: tr.inputErrorPattern,
+    required: translations.input.error.required,
+    minLength: translations.stringInput.error.minLength,
+    maxLength: translations.stringInput.error.maxLength,
+    pattern: translations.input.error.pattern,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

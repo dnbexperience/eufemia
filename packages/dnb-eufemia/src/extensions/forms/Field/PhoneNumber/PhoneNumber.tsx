@@ -12,7 +12,7 @@ import {
   AllJSONSchemaVersions,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 import {
   CountryFilterSet,
   getCountryData,
@@ -67,9 +67,9 @@ const defaultMask = [
 ]
 
 function PhoneNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
-  const lang = sharedContext.locale?.split('-')[0]
+  const context = useContext(Context)
+  const translations = context.translations
+  const lang = context.locale?.split('-')[0]
 
   const countryCodeRef = React.useRef(props?.emptyValue)
   const numberRef = React.useRef(props?.emptyValue)
@@ -78,8 +78,8 @@ function PhoneNumber(props: Props) {
   const wasFilled = React.useRef(false)
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.phoneNumberErrorRequired,
-    pattern: tr.phoneNumberErrorRequired,
+    required: translations.phoneNumber.error.required,
+    pattern: translations.phoneNumber.error.required,
   })
 
   const validateRequired = useCallback(
@@ -132,7 +132,7 @@ function PhoneNumber(props: Props) {
     countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
-    label = sharedContext?.translation.Forms.phoneNumberLabel,
+    label = translations.phoneNumber.label,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
@@ -310,10 +310,7 @@ function PhoneNumber(props: Props) {
             mode="async"
             placeholder={countryCodePlaceholder}
             label_direction="vertical"
-            label={
-              countryCodeLabel ??
-              sharedContext?.translation.Forms.countryCodeLabel
-            }
+            label={countryCodeLabel ?? translations.countryCode.label}
             data={dataRef.current}
             value={countryCodeRef.current}
             status={hasError ? 'error' : undefined}

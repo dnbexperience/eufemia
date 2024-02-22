@@ -1,21 +1,21 @@
 import React, { useContext } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = StringFieldProps
 
 function Email(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const context = useContext(Context)
+  const translations = context.translations.email
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.emailErrorRequired,
-    pattern: tr.emailErrorPattern,
+    required: translations.error.required,
+    pattern: translations.error.pattern,
   })
 
   const StringFieldProps: Props = {
-    label: sharedContext?.translation.Forms.emailLabel,
+    label: translations.label,
     autoComplete: 'email',
     inputMode: 'email',
     pattern:

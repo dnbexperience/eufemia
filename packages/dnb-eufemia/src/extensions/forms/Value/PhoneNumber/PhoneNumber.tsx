@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext'
 import {
   format,
   cleanNumber,
@@ -9,13 +9,11 @@ import {
 export type Props = StringValueProps
 
 function PhoneNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const transaltions = context.translations.phoneNumber
 
   const label =
-    props.label ??
-    (props.inline
-      ? undefined
-      : sharedContext?.translation.Forms.phoneNumberLabel)
+    props.label ?? (props.inline ? undefined : transaltions.label)
   const prepare = (value) =>
     format(cleanNumber(value), {
       phone: true,

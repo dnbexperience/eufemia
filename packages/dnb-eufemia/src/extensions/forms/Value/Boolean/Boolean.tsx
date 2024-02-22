@@ -3,12 +3,14 @@ import ValueBlock from '../../ValueBlock'
 import { useFieldProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext'
 
 export type Props = ValueProps<boolean>
 
 function BooleanComponent(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const transaltions = context.translations.boolean
+
   const { className, label, placeholder, showEmpty, value, inline } =
     useFieldProps(props)
 
@@ -23,8 +25,8 @@ function BooleanComponent(props: Props) {
     >
       {value === true || value === false
         ? value === true
-          ? sharedContext?.translation.Forms.booleanYes
-          : sharedContext?.translation.Forms.booleanNo
+          ? transaltions.yes
+          : transaltions.no
         : null}
     </ValueBlock>
   )

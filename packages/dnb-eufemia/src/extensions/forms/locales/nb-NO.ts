@@ -92,7 +92,7 @@ export default {
         pattern: 'Dette er ikke et gyldig bankkontonummer',
       },
     },
-    phoneNumbe: {
+    phoneNumber: {
       label: 'Mobilnummer',
       error: {
         required: 'Du må fylle inn et gyldig nummer',

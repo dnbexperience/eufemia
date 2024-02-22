@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 import { Autocomplete, HelpButton } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import countries, {
@@ -40,12 +40,12 @@ export type Props = FieldHelpProps &
   }
 
 function SelectCountry(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
-  const lang = sharedContext.locale?.split('-')[0]
+  const context = useContext(Context)
+  const translations = context.translations.selectCountry
+  const lang = context.locale?.split('-')[0]
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.selectCountryErrorRequired,
+    required: translations.error.required,
   })
 
   const defaultProps: Partial<Props> = {
@@ -58,9 +58,8 @@ function SelectCountry(props: Props) {
 
   const {
     className,
-    placeholder = sharedContext?.translation.Forms
-      .selectCountryPlaceholder,
-    label = sharedContext?.translation.Forms.selectCountryLabel,
+    placeholder = translations.placeholder,
+    label = translations.label,
     countries: ccFilter = 'Prioritized',
     info,
     warning,

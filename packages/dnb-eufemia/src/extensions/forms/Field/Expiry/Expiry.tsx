@@ -1,4 +1,5 @@
 import React, { useCallback, useContext } from 'react'
+import { Context } from '../../DataContext/'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -15,13 +16,14 @@ type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 export type ExpiryProps = FieldHelpProps & FieldProps<string>
 
 function Expiry(props: ExpiryProps) {
+  const context = useContext(Context)
   const sharedContext = useContext(SharedContext)
-  const translations = sharedContext?.translation.Forms
+  const translations = context.translations
   const placeholders =
     sharedContext?.translation.DatePicker.placeholder_characters
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.dateErrorRequired,
+    required: translations.date.error.required,
   })
 
   const validateRequired = useCallback(
@@ -41,7 +43,7 @@ function Expiry(props: ExpiryProps) {
   const {
     id,
     className,
-    label = translations.expiryLabel,
+    label = translations.expiry.label,
     error,
     hasError,
     info,

@@ -7,6 +7,7 @@ import React, {
   useCallback,
 } from 'react'
 import classnames from 'classnames'
+import { Context } from '../../DataContext/'
 import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 
@@ -72,8 +73,9 @@ function Password({
 
   const [hidden, setHidden] = useState<boolean>(true)
 
+  const context = useContext(Context)
   const sharedContext = useContext(SharedContext)
-  const translations = sharedContext.translation.Forms
+  const translations = context.translations.password
 
   const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
 
@@ -101,11 +103,9 @@ function Password({
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   const getAriaLabel = useCallback(() => {
-    const { passwordShowLabel, passwordHideLabel } = translations
-
     const ariaLabels = {
-      showPassword: passwordShowLabel,
-      hidePassword: passwordHideLabel,
+      showPassword: translations.ariaLabel.show,
+      hidePassword: translations.ariaLabel.hide,
     }
 
     if (externalProps.show_password) {
@@ -164,7 +164,7 @@ function Password({
     <StringField
       id={id}
       className={classnames('dnb-forms-field-password', className)}
-      label={label ?? sharedContext?.translation.Forms.passwordLabel}
+      label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}
       innerRef={ref}

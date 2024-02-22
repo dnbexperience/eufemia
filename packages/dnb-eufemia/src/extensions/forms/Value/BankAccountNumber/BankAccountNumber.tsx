@@ -4,20 +4,17 @@ import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext'
 
 export type Props = StringValueProps
 
 function BankAccountNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const translations = context.translations.bankAccountNumber
 
   const stringValueProps: Props = {
     ...props,
-    label:
-      props.label ??
-      (props.inline
-        ? undefined
-        : sharedContext?.translation.Forms.bankAccountNumberLabel),
+    label: props.label ?? (props.inline ? undefined : translations.label),
     prepare: (value) =>
       format(cleanNumber(value), {
         ban: true,

@@ -95,7 +95,7 @@ export default {
         pattern: 'This is not a valid bank account number',
       },
     },
-    phoneNumbe: {
+    phoneNumber: {
       label: 'Mobile number',
       error: {
         required: 'You must enter a valid number',

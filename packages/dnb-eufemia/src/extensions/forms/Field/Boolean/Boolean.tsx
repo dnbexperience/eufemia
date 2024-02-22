@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import ToggleField, { Props as ToggleFieldProps } from '../Toggle'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 
 export type Props = Omit<
   ToggleFieldProps,
@@ -11,15 +11,17 @@ export type Props = Omit<
 }
 
 function BooleanComponent(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
   const { trueText, falseText, ...restProps } = props
+  const translations = context.translations.boolean
+
   return (
     <ToggleField
       {...restProps}
       valueOn={true}
       valueOff={false}
-      textOn={trueText ?? sharedContext?.translation.Forms.booleanYes}
-      textOff={falseText ?? sharedContext?.translation.Forms.booleanNo}
+      textOn={trueText ?? translations.yes}
+      textOff={falseText ?? translations.no}
     />
   )
 }

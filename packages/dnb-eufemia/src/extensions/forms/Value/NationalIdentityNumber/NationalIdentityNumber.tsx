@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext'
 import {
   format,
   cleanNumber,
@@ -9,15 +9,12 @@ import {
 export type Props = StringValueProps
 
 function NationalIdentityNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const translations = context.translations.nationalIdentityNumber
 
   const stringValueProps: Props = {
     ...props,
-    label:
-      props.label ??
-      (props.inline
-        ? undefined
-        : sharedContext?.translation.Forms.nationalIdentityNumberLabel),
+    label: props.label ?? (props.inline ? undefined : translations.label),
     prepare: (value) =>
       format(cleanNumber(value), {
         nin: true,

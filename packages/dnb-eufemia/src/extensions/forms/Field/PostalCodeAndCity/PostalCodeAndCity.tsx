@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import { FieldHelpProps } from '../../types'
@@ -10,7 +10,8 @@ export type Props = FieldHelpProps &
   Record<'postalCode' | 'city', StringFieldProps>
 
 function PostalCodeAndCity(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const context = useContext(Context)
+  const translations = context.translations
 
   const {
     postalCode = {},
@@ -38,14 +39,10 @@ function PostalCodeAndCity(props: Props) {
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCode.className
         )}
-        label={
-          postalCode.label ??
-          sharedContext?.translation.Forms.postalCodeLabel
-        }
+        label={postalCode.label ?? translations.postalCode.label}
         errorMessages={{
-          required:
-            sharedContext?.translation.Forms.postalCodeErrorRequired,
-          pattern: sharedContext?.translation.Forms.postalCodeErrorPattern,
+          required: translations.postalCode.error.required,
+          pattern: translations.postalCode.error.pattern,
           ...postalCode.errorMessages,
         }}
         placeholder={postalCode.placeholder ?? '0000'}
@@ -60,9 +57,9 @@ function PostalCodeAndCity(props: Props) {
           'dnb-forms-field-postal-code-and-city__city',
           city.className
         )}
-        label={city.label ?? sharedContext?.translation.Forms.cityLabel}
+        label={city.label ?? translations.city.label}
         errorMessages={{
-          required: sharedContext?.translation.Forms.cityErrorRequired,
+          required: translations.city.error.required,
           ...city.errorMessages,
         }}
         width="stretch"

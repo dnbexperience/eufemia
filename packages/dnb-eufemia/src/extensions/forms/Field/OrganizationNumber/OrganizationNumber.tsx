@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import SharedContext from '../../../../shared/Context'
+import { Context } from '../../DataContext/'
 import useErrorMessage from '../../hooks/useErrorMessage'
 
 export type Props = StringFieldProps & {
@@ -9,14 +9,14 @@ export type Props = StringFieldProps & {
 }
 
 function OrganizationNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const context = useContext(Context)
+  const translations = context.translations.organizationNumber
 
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.organizationNumberErrorRequired,
-    pattern: tr.organizationNumberErrorPattern,
+    required: translations.error.required,
+    pattern: translations.error.pattern,
   })
 
   const mask = useMemo(
@@ -31,9 +31,7 @@ function OrganizationNumber(props: Props) {
     ...props,
     className: 'dnb-forms-field-organization-number',
     pattern: props.pattern ?? (validate ? '^[0-9]{9}$' : undefined),
-    label:
-      props.label ??
-      sharedContext?.translation.Forms.organizationNumberLabel,
+    label: props.label ?? translations.label,
     errorMessages,
     mask,
     width: props.width ?? 'medium',
