@@ -1,65 +1,132 @@
 export default {
   'en-GB': {
-    Forms: {
-      booleanYes: 'Yes',
-      booleanNo: 'No',
-      stepNext: 'Next',
-      stepPrevious: 'Back',
-      contextSubmit: 'Send',
-      fieldStateSummary: 'Summary:',
-      fieldErrorSummary: 'Please correct the following errors:',
-      fieldErrorRequired: 'This field is required',
-      inputErrorRequired: 'This field is required',
-      inputErrorPattern: 'The value is invalid',
-      stringInputErrorMinLength:
-        'The value cannot be shorter than {minLength} characters',
-      stringInputErrorMaxLength:
-        'The value cannot be longer than {maxLength} characters',
-      numberFieldErrorMinimum: 'The value must be at lest {minimum}',
-      numberFieldErrorMaximum: 'The value must be a maximum of {maximum}',
-      numberFieldErrorExclusiveMinimum:
-        'The value must be greater than {exclusiveMinimum}',
-      numberFieldErrorExclusiveMaximum:
-        'The value must be less than {exclusiveMaximum}',
-      numberFieldErrorMultipleOf:
-        'The value must be a multiple of {multipleOf}',
-      countryCodeLabel: 'Country code',
-      dateLabel: 'Date',
-      dateErrorRequired: 'Du må angi en gyldig dato',
-      expiryLabel: 'Expiry date',
-      emailErrorRequired: 'You must enter an email',
-      emailErrorPattern: 'This is not a valid email address',
-      emailLabel: 'Email',
-      firstNameLabel: 'First name',
-      firstNameErrorRequired: 'You must enter a first name',
-      lastNameLabel: 'Surname',
-      lastNameErrorRequired: 'You must enter a surname',
-      nationalIdentityNumberLabel: 'National identity number (11 digits)',
-      nationalIdentityNumberErrorRequired:
-        'Invalid national identity number. Enter a valid 11-digit number.',
-      organizationNumberLabel: 'Organization number',
-      organizationNumberErrorRequired:
-        'You must enter an organization number',
-      organizationNumberErrorPattern:
-        'This is not a valid organization number',
-      bankAccountNumberLabel: 'Bank account',
-      bankAccountNumberErrorRequired:
-        'You must enter a bank account number',
-      bankAccountNumberErrorPattern:
-        'This is not a valid bank account number',
-      phoneNumberLabel: 'Mobile number',
-      phoneNumberErrorRequired: 'You must enter a valid number',
-      postalCodeLabel: 'Postalc.',
-      postalCodeErrorRequired: 'You must enter a postcode',
-      postalCodeErrorPattern: 'This is not a valid postcode',
-      cityLabel: 'City',
-      cityErrorRequired: 'You must enter a city',
-      selectCountryLabel: 'Country',
-      selectCountryPlaceholder: 'Select a country',
-      selectCountryErrorRequired: 'You must select a country',
-      passwordLabel: 'Password',
-      passwordShowLabel: 'Show password',
-      passwordHideLabel: 'Hide password',
+    boolean: {
+      yes: 'Yes',
+      no: 'No',
+    },
+    step: {
+      next: 'Next',
+      previous: 'Back',
+    },
+    context: {
+      submit: 'Send',
+    },
+    field: {
+      stateSummary: 'Summary:',
+      error: {
+        summary: 'Please correct the following errors:',
+        required: 'This field is required',
+      },
+    },
+    input: {
+      error: {
+        required: 'This field is required',
+        pattern: 'The value is invalid',
+      },
+    },
+    stringInput: {
+      error: {
+        minLength:
+          'The value cannot be shorter than {minLength} characters',
+        maxLength:
+          'The value cannot be longer than {maxLength} characters',
+      },
+    },
+    numberField: {
+      error: {
+        minimum: 'The value must be at lest {minimum}',
+        maximum: 'The value must be a maximum of {maximum}',
+        exclusiveMinimum:
+          'The value must be greater than {exclusiveMinimum}',
+        exclusiveMaximum: 'The value must be less than {exclusiveMaximum}',
+        multipleOf: 'The value must be a multiple of {multipleOf}',
+      },
+    },
+    countryCode: {
+      label: 'Country code',
+    },
+    date: {
+      label: 'Date',
+      error: {
+        required: 'You must provide a valid date',
+      },
+    },
+    expiry: {
+      label: 'Expiry date',
+    },
+    email: {
+      label: 'Email',
+      error: {
+        required: 'You must enter an email',
+        pattern: 'This is not a valid email address',
+      },
+    },
+    firstName: {
+      label: 'First name',
+      error: {
+        required: 'You must enter a first name',
+      },
+    },
+    lastName: {
+      label: 'Surname',
+      error: {
+        required: 'You must enter a surname',
+      },
+    },
+    nationalIdentityNumber: {
+      label: 'National identity number (11 digits)',
+      error: {
+        required:
+          'Invalid national identity number. Enter a valid 11-digit number',
+      },
+    },
+
+    organizationNumber: {
+      label: 'Organization number',
+      error: {
+        required: 'You must enter an organization number',
+        pattern: 'This is not a valid organization number',
+      },
+    },
+    bankAccountNumber: {
+      label: 'Bank account',
+      error: {
+        required: 'You must enter a bank account number',
+        pattern: 'This is not a valid bank account number',
+      },
+    },
+    phoneNumbe: {
+      label: 'Mobile number',
+      error: {
+        required: 'You must enter a valid number',
+      },
+    },
+    postalCode: {
+      label: 'Postc.',
+      error: {
+        required: 'You must enter a postcode',
+        pattern: 'This is not a valid postcode',
+      },
+    },
+    city: {
+      label: 'City',
+      error: {
+        required: 'You must enter a city',
+      },
+    },
+    selectCountry: {
+      label: 'Country',
+      placeholder: 'Select a country',
+      error: {
+        required: 'You must select a country',
+      },
+    },
+    password: {
+      label: 'Password',
+      ariaLabel: {
+        show: 'Show password',
+        hide: 'Hide password',
+      },
     },
   },
 }
