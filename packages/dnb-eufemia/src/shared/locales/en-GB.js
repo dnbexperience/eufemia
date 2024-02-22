@@ -167,7 +167,7 @@ export default {
       booleanNo: 'No',
       stepNext: 'Next',
       stepPrevious: 'Back',
-      contextSubmit: 'Send',
+      submitLabel: 'Send',
       fieldStateSummary: 'Summary:',
       fieldErrorSummary: 'Please correct the following errors:',
       fieldErrorRequired: 'This field is required',

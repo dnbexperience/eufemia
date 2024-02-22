@@ -81,8 +81,6 @@ describe('Form.SubmitButton', () => {
       'dnb-button--has-text',
       'dnb-forms-submit-button',
       'custom-class',
-      'dnb-button--icon-position-left',
-      'dnb-button--has-icon',
     ])
   })
 
@@ -102,5 +100,23 @@ describe('Form.SubmitButton', () => {
 
     expect(attributes).toEqual(['class', 'type', 'aria-label'])
     expect(buttonElement.getAttribute('aria-label')).toBe('Aria Label')
+  })
+
+  it('should show submit indicator when showIndicator is true', async () => {
+    const { rerender } = render(<Form.SubmitButton showIndicator />)
+
+    const buttonElement = document.querySelector('button')
+
+    expect(
+      buttonElement.querySelector(
+        '.dnb-form-submit-indicator--state-pending'
+      )
+    ).toBeTruthy()
+
+    rerender(<Form.SubmitButton />)
+
+    expect(
+      document.querySelector('.dnb-form-submit-indicator--state-pending')
+    ).toBeNull()
   })
 })

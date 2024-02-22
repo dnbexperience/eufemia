@@ -165,7 +165,7 @@ export default {
       booleanNo: 'Nei',
       stepNext: 'Neste',
       stepPrevious: 'Tilbake',
-      contextSubmit: 'Send',
+      submitLabel: 'Send',
       fieldStateSummary: 'Oppsummering:',
       fieldErrorSummary: 'Feil som må rettes:',
       fieldErrorRequired: 'Dette feltet må fylles ut',
