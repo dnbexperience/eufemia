@@ -48,11 +48,7 @@ export const AdvancedAsyncBehavior = () => {
 
           return (
             <>
-              <Form.Handler
-                onSubmit={submitHandler}
-                // enableAsyncBehavior={false}
-                data={initialData}
-              >
+              <Form.Handler onSubmit={submitHandler} data={initialData}>
                 <Card stack>
                   <Field.String
                     label="Field A (onBlurValidator)"
@@ -220,9 +216,7 @@ export const WithinOtherComponents = () => {
     <ComponentBox>
       <Form.Handler>
         <Flex.Horizontal align="center">
-          <Form.SubmitButton
-          // showIndicator // enableAsyncBehavior <-- will be supported in another PR
-          />
+          <Form.SubmitButton showIndicator />
           <Button variant="secondary" icon="chevron_right">
             Secondary
             <Form.SubmitIndicator state="pending" />

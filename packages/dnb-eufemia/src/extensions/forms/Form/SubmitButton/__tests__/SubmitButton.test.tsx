@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { Form, Field } from '../../..'
+import { Provider } from '../../../../../shared'
 
 describe('Form.SubmitButton', () => {
   it('should call "onSubmit" on form element', () => {
@@ -84,6 +85,50 @@ describe('Form.SubmitButton', () => {
     ])
   })
 
+  it('should have default text', () => {
+    render(<Form.SubmitButton />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button).toHaveTextContent('Send')
+  })
+
+  it('should use en-GB text', () => {
+    render(
+      <Provider locale="en-GB">
+        <Form.SubmitButton />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button).toHaveTextContent('Send')
+  })
+
+  it('should support custom text', () => {
+    render(<Form.SubmitButton text="Custom" />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button).toHaveTextContent('Custom')
+  })
+
+  it('should be primary variant', () => {
+    render(<Form.SubmitButton />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button).toHaveClass('dnb-button--primary')
+  })
+
+  it('should have no icon', () => {
+    render(<Form.SubmitButton />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button.querySelector('.dnb-icon')).toBeNull()
+  })
+
   it('should forward custom HTML props', () => {
     render(
       <Form.Element>
@@ -100,5 +145,23 @@ describe('Form.SubmitButton', () => {
 
     expect(attributes).toEqual(['class', 'type', 'aria-label'])
     expect(buttonElement.getAttribute('aria-label')).toBe('Aria Label')
+  })
+
+  it('should show submit indicator when showIndicator is true', async () => {
+    const { rerender } = render(<Form.SubmitButton showIndicator />)
+
+    const buttonElement = document.querySelector('button')
+
+    expect(
+      buttonElement.querySelector(
+        '.dnb-form-submit-indicator--state-pending'
+      )
+    ).toBeTruthy()
+
+    rerender(<Form.SubmitButton />)
+
+    expect(
+      document.querySelector('.dnb-form-submit-indicator--state-pending')
+    ).toBeNull()
   })
 })
