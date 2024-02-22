@@ -81,6 +81,8 @@ describe('Form.SubmitButton', () => {
       'dnb-button--has-text',
       'dnb-forms-submit-button',
       'custom-class',
+      'dnb-button--icon-position-left',
+      'dnb-button--has-icon',
     ])
   })
 
