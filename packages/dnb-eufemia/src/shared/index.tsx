@@ -3,24 +3,14 @@
  *
  */
 
-import Context from './Context'
-import Provider from './Provider'
-import Theme from './Theme'
-import type { ThemeNames } from './Theme'
-import useTheme from './useTheme'
-import VisibilityByTheme from './VisibilityByTheme'
-import MediaQuery from './MediaQuery'
-import useMediaQuery from './useMediaQuery'
-import useMedia from './useMedia'
+export { default as Context } from './Context'
+export { default as Provider } from './Provider'
+export { default as Theme } from './Theme'
+export { default as useTheme } from './useTheme'
+export { default as VisibilityByTheme } from './VisibilityByTheme'
+export { default as MediaQuery } from './MediaQuery'
+export { default as useMediaQuery } from './useMediaQuery'
+export { default as useMedia } from './useMedia'
+export { useLocale } from './useLocale'
 
-export {
-  Context,
-  Provider,
-  Theme,
-  ThemeNames,
-  useTheme,
-  VisibilityByTheme,
-  MediaQuery,
-  useMediaQuery,
-  useMedia,
-}
+export type { ThemeNames } from './Theme'
