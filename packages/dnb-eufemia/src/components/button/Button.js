@@ -191,6 +191,8 @@ export default class Button extends React.PureComponent {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
+      this.context?.theme?.onDarkBackground &&
+        `dnb-button--on-dark-background`,
       icon && `dnb-button--icon-position-${icon_position}`,
       isTrue(stretch) && 'dnb-button--stretch',
       icon && iconSize && `dnb-button--icon-size-${iconSize}`,

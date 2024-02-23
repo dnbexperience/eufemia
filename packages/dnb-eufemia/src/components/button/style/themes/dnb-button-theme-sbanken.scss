@@ -46,6 +46,10 @@
   );
   --button-secondary-border--disabled: var(--sb-color-gray-light);
 
+  // tertiary
+  --button-tertiary-color: var(--sb-color-violet);
+  --button-tertiary-border: var(--sb-color-violet);
+
   border: none;
 
   &#{&}--has-text#{&}--size-large {
@@ -167,7 +171,7 @@
     --button-tertiary-text-bottom--icon: 0.5rem;
     --button-tertiary-text-top--icon: 0;
 
-    color: var(--sb-color-violet);
+    color: var(--button-tertiary-color);
     background-color: transparent;
 
     .dnb-button__text::after {
@@ -219,7 +223,7 @@
     @include hover() {
       // underline
       &:not(:focus-visible) .dnb-button__text::after {
-        color: var(--sb-color-violet);
+        color: var(--button-tertiary-border);
         transition: none;
       }
 
@@ -229,24 +233,36 @@
         @include focus-tertiary();
       }
     }
-
-    @include active() {
-      // underline
-      .dnb-button__text::after {
-        color: var(--sb-color-violet);
-      }
-    }
-
     @include focus-visible() {
       @include focus-tertiary();
-      // underline
-      .dnb-button__text::after {
-        visibility: hidden;
-      }
     }
 
     &[disabled] {
       color: var(--sb-color-gray-dark);
     }
+  }
+  &--on-dark-background {
+    // primary
+    --button-primary-color: var(--sb-color-text);
+    --button-primary-color--hover: var(--sb-color-purple-alternative);
+    --button-primary-color--active: var(--sb-color-purple-alternative);
+    --button-primary-background: var(--sb-color-green);
+    --button-primary-background--hover: var(--sb-color-violet-light-2);
+    --button-primary-background--active: var(--sb-color-violet-light-3);
+
+    // secondary
+    --button-secondary-color: var(--sb-color-white);
+    --button-secondary-color--hover: var(--sb-color-purple-alternative);
+    --button-secondary-color--active: var(--sb-color-purple-alternative);
+    --button-secondary-background: transparent;
+    --button-secondary-background--hover: var(--sb-color-violet-light-2);
+    --button-secondary-background--active: var(--sb-color-violet-light-3);
+    --button-secondary-border--default: var(--sb-color-green);
+    --button-secondary-border--hover: var(--sb-color-violet-light);
+    --button-secondary-border--active: var(--sb-color-violet-light);
+
+    // tertiary
+    --button-tertiary-color: var(--sb-color-white);
+    --button-tertiary-border: var(--sb-color-green);
   }
 }

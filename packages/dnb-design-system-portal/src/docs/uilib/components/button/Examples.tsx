@@ -7,7 +7,8 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary } from '@dnb/eufemia/src'
-import { VisibilityByTheme } from '@dnb/eufemia/src/shared'
+import { VisibilityByTheme, ThemeProvider } from '@dnb/eufemia/src/shared'
+import styled from '@emotion/styled'
 
 export const ButtonPrimary = () => (
   <ComponentBox>
@@ -524,3 +525,36 @@ export const TertiaryButtonAlignment = () => {
     </ComponentBox>
   )
 }
+
+const DarkBackground = styled.div`
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--sb-color-purple);
+`
+
+export const ButtonOnDarkBackground = () => (
+  <ComponentBox hideCode scope={{ ThemeProvider, DarkBackground }}>
+    <DarkBackground>
+      <ThemeProvider onDarkBackground>
+        <Button data-visual-test="button-primary-on-dark">
+          Primary button
+        </Button>
+        <Button
+          data-visual-test="button-secondary-on-dark"
+          variant="secondary"
+        >
+          Secondary button
+        </Button>
+        <Button
+          data-visual-test="button-tertiary-on-dark"
+          variant="tertiary"
+          icon_position="left"
+          icon="chevron_left"
+        >
+          Tertiary button
+        </Button>
+      </ThemeProvider>
+    </DarkBackground>
+  </ComponentBox>
+)
