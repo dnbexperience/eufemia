@@ -174,7 +174,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <div
+      <span
         className={classnames(
           'dnb-progress-indicator__circular',
           size && `dnb-progress-indicator__circular--${size}`,
@@ -211,7 +211,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
             ref={this._refLight}
           />
         )}
-      </div>
+      </span>
     )
   }
 }

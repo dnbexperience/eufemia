@@ -87,14 +87,14 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <div
+      <span
         className={classnames(
           'dnb-progress-indicator__linear',
           size && `dnb-progress-indicator__linear--${size}`
         )}
         {...params}
       >
-        <div
+        <span
           className={classnames(
             'dnb-progress-indicator__linear__bar',
             hasProgressValue &&
@@ -105,14 +105,14 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
           style={hasProgressValue ? { transform } : {}}
         />
         {!hasProgressValue && (
-          <div
+          <span
             className={classnames(
               'dnb-progress-indicator__linear__bar',
               'dnb-progress-indicator__linear__bar2-animation'
             )}
           />
         )}
-      </div>
+      </span>
     )
   }
 }

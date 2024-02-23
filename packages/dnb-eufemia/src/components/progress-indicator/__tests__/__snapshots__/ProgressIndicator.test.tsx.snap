@@ -46,10 +46,13 @@ exports[`ProgressIndicator scss has to match style dependencies css 1`] = `
 }
 
 .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
-  margin: 0 1rem;
+  padding-left: 1rem;
+}
+.dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
+  padding-left: 0.5rem;
 }
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
-  margin-top: 0.5rem;
+  padding-top: 0.5rem;
 }
 .dnb-progress-indicator__circular {
   position: relative;
