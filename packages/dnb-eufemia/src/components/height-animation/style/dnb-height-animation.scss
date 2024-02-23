@@ -12,8 +12,9 @@
   will-change: height;
   transition: var(--height-animation);
 
-  html[data-visual-test] & {
-    transition: none;
+  html[data-visual-test] &,
+  html[data-visual-test] & * {
+    transition: none !important;
   }
 
   &--animating {
