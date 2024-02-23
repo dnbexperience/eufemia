@@ -6,8 +6,9 @@
 import React from 'react'
 
 import { Field, Form } from '../../../extensions/forms'
-import { Card, Flex } from '../../'
+import { Card, Flex, Grid } from '../../'
 import { Wrapper, Box } from 'storybook-utils/helpers'
+import { H2, P } from '../../../elements'
 
 export default {
   title: 'Eufemia/Components/Card',
@@ -157,5 +158,35 @@ export function CardWithHeading() {
       <Field.PhoneNumber />
       <Field.Email />
     </Card>
+  )
+}
+
+export const WithGrid = () => {
+  return (
+    <div style={{}}>
+      <Grid.Container
+        columns={{
+          small: 1,
+          medium: 3,
+          large: 3,
+        }}
+        columnGap="small"
+      >
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>
+            Pariatur officia sit adipisicing pariatur commodo enim do quis
+          </P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+      </Grid.Container>
+    </div>
   )
 }
