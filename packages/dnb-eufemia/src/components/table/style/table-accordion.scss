@@ -21,10 +21,12 @@
   --table-accordion-border-color: var(--color-black-20);
   --table-accordion-border: var(--table-accordion-border-width) solid
     var(--table-accordion-border-color);
+
   // Icon
   --table-accordion-icon-color: var(--color-sea-green);
   --table-accordion-icon-color--active: var(--color-emerald-green);
   --table-accordion-icon-color--disabled: var(--color-sea-green-30);
+
   // Outline
   --table-accordion-outline-color: var(--color-emerald-green);
   --table-accordion-outline-width: var(--focus-ring-width);

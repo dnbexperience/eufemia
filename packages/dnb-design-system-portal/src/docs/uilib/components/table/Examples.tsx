@@ -797,67 +797,69 @@ export const TableAccordion = () => (
 
 export const TableAccordionRow = () => (
   <ComponentBox hideCode data-visual-test="table-accordion-rows">
-    <Table accordion accordionChevronPlacement="end">
-      <thead>
-        <Tr>
-          <Th>Column A</Th>
-          <Th>Column B</Th>
-          <Th>Column C</Th>
-          <Th>Column D</Th>
-        </Tr>
-      </thead>
+    <Table.ScrollView>
+      <Table accordion accordionChevronPlacement="end">
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+            <Th>Column C</Th>
+            <Th>Column D</Th>
+          </Tr>
+        </thead>
 
-      <tbody>
-        <Tr>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
+        <tbody>
+          <Tr>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
 
-          <Tr.AccordionContent>
-            <Td>Expanded 1.1</Td>
-            <Td>Expanded 1.1</Td>
-            <Td>Expanded 1.1</Td>
-            <Td>Expanded 1.1</Td>
-          </Tr.AccordionContent>
+            <Tr.AccordionContent>
+              <Td>Expanded 1.1</Td>
+              <Td>Expanded 1.1</Td>
+              <Td>Expanded 1.1</Td>
+              <Td>Expanded 1.1</Td>
+            </Tr.AccordionContent>
 
-          <Tr.AccordionContent>
-            <Td>Expanded 1.2</Td>
-            <Td>Expanded 1.2</Td>
-            <Td>Expanded 1.2</Td>
-            <Td>Expanded 1.2</Td>
-          </Tr.AccordionContent>
-        </Tr>
+            <Tr.AccordionContent>
+              <Td>Expanded 1.2</Td>
+              <Td>Expanded 1.2</Td>
+              <Td>Expanded 1.2</Td>
+              <Td>Expanded 1.2</Td>
+            </Tr.AccordionContent>
+          </Tr>
 
-        <Tr>
-          <Td>Row 2</Td>
-          <Td>Row 2</Td>
-          <Td>Row 2</Td>
-          <Td>Row 2</Td>
+          <Tr>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
 
-          <Tr.AccordionContent>
-            <Td>Expanded 2.1</Td>
-            <Td>Expanded 2.1</Td>
-            <Td>Expanded 2.1</Td>
-            <Td>Expanded 2.1</Td>
-          </Tr.AccordionContent>
+            <Tr.AccordionContent>
+              <Td>Expanded 2.1</Td>
+              <Td>Expanded 2.1</Td>
+              <Td>Expanded 2.1</Td>
+              <Td>Expanded 2.1</Td>
+            </Tr.AccordionContent>
 
-          <Tr.AccordionContent>
-            <Td>Expanded 2.2</Td>
-            <Td>Expanded 2.2</Td>
-            <Td>Expanded 2.2</Td>
-            <Td>Expanded 2.2</Td>
-          </Tr.AccordionContent>
+            <Tr.AccordionContent>
+              <Td>Expanded 2.2</Td>
+              <Td>Expanded 2.2</Td>
+              <Td>Expanded 2.2</Td>
+              <Td>Expanded 2.2</Td>
+            </Tr.AccordionContent>
 
-          <Tr.AccordionContent>
-            <Td>Expanded 2.3</Td>
-            <Td>Expanded 2.3</Td>
-            <Td>Expanded 2.3</Td>
-            <Td>Expanded 2.3</Td>
-          </Tr.AccordionContent>
-        </Tr>
-      </tbody>
-    </Table>
+            <Tr.AccordionContent>
+              <Td>Expanded 2.3</Td>
+              <Td>Expanded 2.3</Td>
+              <Td>Expanded 2.3</Td>
+              <Td>Expanded 2.3</Td>
+            </Tr.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
   </ComponentBox>
 )
 
