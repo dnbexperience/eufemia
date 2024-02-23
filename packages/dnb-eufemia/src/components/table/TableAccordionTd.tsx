@@ -1,21 +1,10 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import classnames from 'classnames'
-import { useHeightAnimation } from '../height-animation/useHeightAnimation'
-import { getClosestScrollViewElement } from '../../shared/component-helper'
+import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableAccordionContext, TableContext } from './TableContext'
+import { TableAccordionTrProps } from './TableAccordionTr'
 
 export type TableAccordionTdProps = {
-  /**
-   * Set to true to expanded the content on initial render
-   */
-  expanded?: boolean
-
-  /**
-   * Set to true to skip animation
-   * Default: false
-   */
-  noAnimation?: boolean
-
   /**
    * Overwrite the internal collected colSpan (add +1)
    */
@@ -24,6 +13,7 @@ export type TableAccordionTdProps = {
 
 export default function TableAccordionTd(
   componentProps: TableAccordionTdProps &
+    TableAccordionTrProps &
     React.TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {
@@ -40,56 +30,18 @@ export default function TableAccordionTd(
   const tableAccordionContext = React.useContext(TableAccordionContext)
   const innerRef = React.useRef<HTMLDivElement>(null)
   const trRef = React.useRef<HTMLTableRowElement>(null)
-  const [ariaLive, setAriaLive] = React.useState(null)
-
-  const open = Boolean(expanded || tableAccordionContext?.trIsOpen)
-
-  const scrollViewHandler = useCallback((clip: boolean) => {
-    const scollView = getClosestScrollViewElement(
-      trRef.current
-    ) as HTMLElement
-    if (scollView instanceof HTMLElement) {
-      scollView.style.overflow = clip ? 'clip' : ''
-    }
-  }, [])
-
-  const onOpen = useCallback((state) => {
-    setAriaLive(state ? true : null)
-  }, [])
-
-  const onAnimationStart = useCallback(() => {
-    scrollViewHandler(true)
-  }, [scrollViewHandler])
-
-  const onAnimationEnd = useCallback(
-    (state) => {
-      const event = { target: trRef.current }
-      switch (state) {
-        case 'opened':
-          tableAccordionContext.onOpened?.(event)
-          break
-
-        case 'closed':
-          tableAccordionContext.onClosed?.(event)
-          break
-      }
-
-      scrollViewHandler(false)
-    },
-    [scrollViewHandler, tableAccordionContext]
-  )
-
-  const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
-    useHeightAnimation(innerRef, {
-      open,
-      animate: Boolean(
-        !noAnimation && !tableAccordionContext?.noAnimation
-      ),
-      onOpen,
-      onAnimationStart,
-      onAnimationEnd,
-    })
-
+  const {
+    ariaLive,
+    isInDOM,
+    isAnimating,
+    isVisibleParallax,
+    firstPaintStyle,
+  } = useTableAnimationHandler({
+    innerRef,
+    trRef,
+    expanded,
+    noAnimation,
+  })
   const countTds = tableAccordionContext?.countTds || colSpan
 
   return (
