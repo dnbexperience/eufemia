@@ -5,9 +5,12 @@
 
 .dnb-form-label {
   display: inline-block;
-
-  width: auto;
   padding: 0;
+
+  // Clickable labels should not have width larger than the text
+  &[for] {
+    width: fit-content;
+  }
 
   text-align: left;
   vertical-align: baseline;

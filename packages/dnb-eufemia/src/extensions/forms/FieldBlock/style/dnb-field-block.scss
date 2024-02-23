@@ -28,7 +28,9 @@ fieldset.dnb-forms-field-block {
 
   &__grid {
     display: grid;
+  }
 
+  &--layout-vertical &__grid {
     @include formLabelWrap();
   }
 

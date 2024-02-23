@@ -45,4 +45,18 @@ describe.each(['ui', 'sbanken'])('FormLabel for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match fix-content width', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="form-label-vertical"] label',
+      style: {
+        'background-color': 'yellow',
+      },
+      wrapperStyle: {
+        display: 'block',
+        width: '20rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
