@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import React, { StrictMode, createRef, useContext } from 'react'
 import {
   act,
   fireEvent,
@@ -13,6 +13,7 @@ import { Form, DataContext, Field, JSONSchema, Ajv } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../../../shared/locales/nb-NO'
 import { FilterData } from '../Provider'
+import { ContextState } from '../../Context'
 
 const nb = nbNO['nb-NO'].Forms
 
@@ -396,12 +397,12 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const submitButton = document.querySelector('button')
 
-      await waitFor(() => {
-        fireEvent.change(inputElement, {
-          target: { value: '1' },
-        })
-        fireEvent.click(submitButton)
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
+      })
+      fireEvent.click(submitButton)
 
+      await waitFor(() => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(1)
         expect(onSubmitRequest).toHaveBeenCalledWith()
       })
@@ -416,18 +417,216 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      await waitFor(() => {
-        fireEvent.change(inputElement, {
-          target: { value: '2' },
-        })
-        fireEvent.click(submitButton)
+      fireEvent.change(inputElement, {
+        target: { value: '2' },
+      })
+      fireEvent.click(submitButton)
 
+      await waitFor(() => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(2)
         expect(onSubmitRequest).toHaveBeenLastCalledWith()
       })
     })
 
-    it('should scroll on top when "scrollTopOnSubmit" is true', () => {
+    describe('async submit', () => {
+      it('should emit onSubmitComplete with data value and return value when submit is completed', async () => {
+        const onSubmit = async () => {
+          return 'Return value'
+        }
+        const onSubmitComplete = jest.fn()
+
+        render(
+          <DataContext.Provider
+            data={{ foo: 'bar' }}
+            onSubmit={onSubmit}
+            onSubmitComplete={onSubmitComplete}
+          >
+            <Field.String path="/foo" value="Value" />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        await userEvent.type(inputElement, ' changed')
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(onSubmitComplete).toHaveBeenCalledTimes(1)
+          expect(onSubmitComplete).toHaveBeenCalledWith(
+            { foo: 'Value changed' },
+            'Return value'
+          )
+        })
+      })
+
+      const UseContext = ({
+        result,
+      }: {
+        result: React.MutableRefObject<ContextState>
+      }) => {
+        result.current = useContext(DataContext.Context)
+        return null
+      }
+
+      it('should set "formState" to "pending" when "validator" is async', async () => {
+        const result = createRef<ContextState>()
+        const onSubmit = () => {
+          return 'Not async'
+        }
+        const asyncValidator = async () => {
+          return new Error('My error')
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <UseContext result={result} />
+            <Field.String validator={asyncValidator} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const submitButton = document.querySelector('button')
+
+        expect(result.current.formState).toBeUndefined()
+
+        fireEvent.click(submitButton)
+
+        expect(result.current.formState).toBe('pending')
+
+        await waitFor(() => {
+          expect(result.current.formState).toBeUndefined()
+        })
+
+        const syncValidator = () => {
+          return new Error('My error')
+        }
+
+        rerender(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <UseContext result={result} />
+            <Field.String validator={syncValidator} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        expect(result.current.formState).toBeUndefined()
+
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(result.current.formState).toBeUndefined()
+        })
+      })
+
+      it('should set "formState" to "pending" when "onBlurValidator" is async', async () => {
+        const result = createRef<ContextState>()
+        const onSubmit = () => {
+          return 'Not async'
+        }
+        const asyncValidator = async () => {
+          return new Error('My error')
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <UseContext result={result} />
+            <Field.String onBlurValidator={asyncValidator} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const submitButton = document.querySelector('button')
+
+        expect(result.current.formState).toBeUndefined()
+
+        fireEvent.click(submitButton)
+
+        expect(result.current.formState).toBe('pending')
+
+        await waitFor(() => {
+          expect(result.current.formState).toBeUndefined()
+        })
+
+        const syncValidator = () => {
+          return new Error('My error')
+        }
+
+        rerender(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <UseContext result={result} />
+            <Field.String onBlurValidator={syncValidator} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        expect(result.current.formState).toBeUndefined()
+
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(result.current.formState).toBeUndefined()
+        })
+      })
+
+      it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
+        const result = createRef<ContextState>()
+        const onSubmit = async () => {
+          return 'async'
+        }
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <UseContext result={result} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const submitButton = document.querySelector('button')
+
+        expect(result.current.formState).toBeUndefined()
+
+        fireEvent.click(submitButton)
+
+        expect(result.current.formState).toBe('pending')
+
+        await waitFor(() => {
+          expect(result.current.formState).toBeUndefined()
+        })
+      })
+
+      it('should show submit indicator during submit when "enableAsyncBehavior" is true', async () => {
+        const result = createRef<ContextState>()
+        const onSubmit = () => {
+          return 'Not async'
+        }
+
+        render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            enableAsyncBehavior={true}
+          >
+            <UseContext result={result} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const submitButton = document.querySelector('button')
+
+        expect(result.current.formState).toBeUndefined()
+
+        fireEvent.click(submitButton)
+
+        expect(result.current.formState).toBe('pending')
+
+        await waitFor(() => {
+          expect(result.current.formState).toBeUndefined()
+        })
+      })
+    })
+
+    it('should scroll on top when "scrollTopOnSubmit" is true', async () => {
       const onSubmit = jest.fn()
       const scrollTo = jest.fn()
 
@@ -457,7 +656,9 @@ describe('DataContext.Provider', () => {
         { foo: 'New Value' },
         expect.anything()
       )
-      expect(scrollTo).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(scrollTo).toHaveBeenCalledTimes(1)
+      })
 
       rerender(
         <DataContext.Provider
@@ -480,10 +681,12 @@ describe('DataContext.Provider', () => {
         { fooBar: 'Second Value' },
         expect.anything()
       )
-      expect(scrollTo).toHaveBeenCalledTimes(2)
-      expect(scrollTo).toHaveBeenLastCalledWith({
-        behavior: 'smooth',
-        top: 0,
+      await waitFor(() => {
+        expect(scrollTo).toHaveBeenCalledTimes(2)
+        expect(scrollTo).toHaveBeenLastCalledWith({
+          behavior: 'smooth',
+          top: 0,
+        })
       })
     })
   })
@@ -615,12 +818,14 @@ describe('DataContext.Provider', () => {
 
       fireEvent.click(submitButton)
 
-      // After clicking submit, all three fields should show errors
-      expect(screen.queryAllByRole('alert').length).toEqual(3)
+      await waitFor(() => {
+        // After clicking submit, all three fields should show errors
+        expect(screen.queryAllByRole('alert').length).toEqual(3)
 
-      expect(screen.getByText('Required string')).toBeInTheDocument()
-      expect(screen.getByText('Min 5 chars')).toBeInTheDocument()
-      expect(screen.getByText('Required number')).toBeInTheDocument()
+        expect(screen.getByText('Required string')).toBeInTheDocument()
+        expect(screen.getByText('Min 5 chars')).toBeInTheDocument()
+        expect(screen.getByText('Required number')).toBeInTheDocument()
+      })
 
       // Writing in one field should remove that error, while keeping the others visible
       await act(async () => {
@@ -961,7 +1166,7 @@ describe('DataContext.Provider', () => {
     it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
       const onSubmitRequest = jest.fn()
 
-      const TestdataSchema: JSONSchema = {
+      const Schema: JSONSchema = {
         type: 'object',
         properties: {
           foo: { type: 'number', minimum: 3 },
@@ -972,7 +1177,7 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider
           data={{ foo: 'original' }}
           onSubmitRequest={onSubmitRequest}
-          schema={TestdataSchema}
+          schema={Schema}
         >
           <Field.Number path="/foo" />
           <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -994,7 +1199,7 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider
           data={{ foo: 'changed' }}
           onSubmitRequest={onSubmitRequest}
-          schema={TestdataSchema}
+          schema={Schema}
         >
           <Field.Number path="/fooBar" required />
           <Form.SubmitButton>Submit</Form.SubmitButton>

@@ -1,8 +1,9 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import type { Props as StringFieldProps } from '../../../Field/String'
 import userEvent from '@testing-library/user-event'
+import { wait } from '../../../../../core/jest/jestSetup'
 
 describe('Form.Handler', () => {
   it('should call "onSubmit"', () => {
@@ -366,7 +367,7 @@ describe('Form.Handler', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
-  it('should include values from fields in data, without any change', async () => {
+  it('should include values from fields in data, without any change', () => {
     const onSubmit = jest.fn()
 
     render(
@@ -384,5 +385,381 @@ describe('Form.Handler', () => {
       { foo: 'bar', other: 'include this' },
       expect.anything()
     )
+  })
+
+  it('should show error message given in onSubmit', async () => {
+    const onSubmit = jest.fn(() => {
+      throw new Error('Form error')
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit} aria-labelledby="custom-id">
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toHaveTextContent('Form error')
+    })
+  })
+
+  it('should have error message that is connected with aria-labelledby', async () => {
+    const onSubmit = jest.fn(() => {
+      throw new Error('Form error')
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit} aria-labelledby="custom-id">
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+    await userEvent.click(buttonElement)
+
+    const form = screen.getByRole('form')
+    const id = screen.queryByRole('alert').getAttribute('id')
+
+    expect(id).toEqual(expect.stringMatching(/id-.*-form-status/))
+    expect(form).toHaveAttribute(
+      'aria-labelledby',
+      expect.stringMatching(/custom-id/)
+    )
+    expect(form).toHaveAttribute('aria-labelledby')
+    expect(screen.queryByRole('alert')).toHaveTextContent('Form error')
+  })
+
+  it('should disable form elements during submit indicator when formStatus is pending', () => {
+    const onSubmit = async () => null
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String value="Value" />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+    const inputElement = document.querySelector('input')
+
+    fireEvent.click(buttonElement)
+
+    expect(buttonElement).toBeDisabled()
+    expect(inputElement).toBeDisabled()
+  })
+
+  it('should not disable form elements during on async validator handling', async () => {
+    const onSubmit = async () => null
+    const asyncValidator = async () => {
+      return null
+    }
+
+    const { rerender } = render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String value="Value" onBlurValidator={asyncValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+    const inputElement = document.querySelector('input')
+
+    await userEvent.type(inputElement, '1')
+    fireEvent.blur(inputElement)
+
+    expect(inputElement).toBeDisabled()
+    expect(buttonElement).not.toBeDisabled()
+
+    rerender(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String value="Value" validator={asyncValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    await userEvent.type(inputElement, '2')
+
+    expect(inputElement).not.toBeDisabled()
+    expect(buttonElement).not.toBeDisabled()
+  })
+
+  it('should abort async submit when onSubmit returns error', async () => {
+    const onSubmit = jest.fn(async () => {
+      await wait(1)
+
+      return new Error('Error message')
+    })
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        enableAsyncBehavior
+        minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+      >
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    fireEvent.click(buttonElement)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+
+    expect(
+      document.querySelector('.dnb-form-submit-indicator--state-pending')
+    ).toBeTruthy()
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    expect(screen.queryByRole('alert')).toHaveTextContent('Error message')
+
+    expect(
+      document.querySelector('.dnb-form-submit-indicator--state-pending')
+    ).toBeNull()
+  })
+
+  it('should abort async submit onSubmit using asyncBehaviorTimeout', async () => {
+    const onSubmit = jest.fn(async () => null)
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        enableAsyncBehavior
+        minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+        asyncBehaviorTimeout={1}
+      >
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    fireEvent.click(buttonElement)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+
+    expect(
+      document.querySelector('.dnb-form-submit-indicator--state-pending')
+    ).toBeTruthy()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeNull()
+    })
+  })
+
+  it('should call onSubmit and onSubmitComplete on async submit call', async () => {
+    const onSubmit = jest.fn()
+    const onSubmitComplete = jest.fn()
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        onSubmitComplete={onSubmitComplete}
+        enableAsyncBehavior
+      >
+        <Field.String value="bar" path="/foo" />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'bar' },
+        {
+          clearData: expect.any(Function),
+          resetForm: expect.any(Function),
+        }
+      )
+
+      expect(onSubmitComplete).toHaveBeenCalledTimes(1)
+      expect(onSubmitComplete).toHaveBeenCalledWith(
+        { foo: 'bar' },
+        undefined
+      )
+    })
+  })
+
+  it('should call onSubmit and onSubmitComplete with async validator', async () => {
+    const onSubmit = jest.fn()
+    const onSubmitComplete = jest.fn()
+
+    const asyncValidator = async () => {
+      return null
+    }
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        onSubmitComplete={onSubmitComplete}
+        enableAsyncBehavior
+      >
+        <Field.String value="bar" path="/foo" validator={asyncValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'bar' },
+        {
+          clearData: expect.any(Function),
+          resetForm: expect.any(Function),
+        }
+      )
+
+      expect(onSubmitComplete).toHaveBeenCalledTimes(1)
+      expect(onSubmitComplete).toHaveBeenCalledWith(
+        { foo: 'bar' },
+        undefined
+      )
+    })
+  })
+
+  it('should not call async validator when field is not mounted anymore', async () => {
+    const onSubmit = jest.fn()
+    const asyncValidator = jest.fn(async () => {
+      return null
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit} enableAsyncBehavior>
+        <Field.String value="bar" path="/foo" validator={asyncValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { foo: 'bar' },
+        {
+          clearData: expect.any(Function),
+          resetForm: expect.any(Function),
+        }
+      )
+
+      expect(asyncValidator).toHaveBeenCalledTimes(1)
+      expect(asyncValidator).toHaveBeenCalledWith('bar', {
+        maxLength: expect.any(String),
+        minLength: expect.any(String),
+        pattern: expect.any(String),
+        required: expect.any(String),
+      })
+    })
+  })
+
+  it('should accept custom minimumAsyncBehaviorTimevalue', async () => {
+    const onSubmit = async () => null
+
+    render(
+      <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={2}>
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    fireEvent.click(buttonElement)
+
+    expect(buttonElement).toBeDisabled()
+
+    await wait(4)
+
+    expect(buttonElement).toBeDisabled()
+
+    await waitFor(() => {
+      expect(buttonElement).not.toBeDisabled()
+    })
+  })
+
+  describe('SubmitIndicator', () => {
+    it('should show SubmitIndicator when formStatus is pending', async () => {
+      const onSubmit = async () => null
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeTruthy()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeNull()
+      })
+    })
+
+    it('should show SubmitIndicator when enableAsyncBehavior is true', async () => {
+      const onSubmit = () => null // not async
+
+      render(
+        <Form.Handler onSubmit={onSubmit} enableAsyncBehavior={true}>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeTruthy()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeNull()
+      })
+    })
+
+    it('should not show SubmitIndicator when enableAsyncBehavior is false, even when onSubmit is async', async () => {
+      const onSubmit = async () => null
+
+      render(
+        <Form.Handler onSubmit={onSubmit} enableAsyncBehavior={false}>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeNull()
+    })
   })
 })

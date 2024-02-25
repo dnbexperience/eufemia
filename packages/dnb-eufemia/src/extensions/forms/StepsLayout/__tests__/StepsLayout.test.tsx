@@ -1,7 +1,9 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import StepsLayout from '../StepsLayout'
-import { Field } from '../..'
+import { Field, Form } from '../..'
+import userEvent from '@testing-library/user-event'
+import { wait } from '../../../../core/jest/jestSetup'
 
 jest.mock('../../../../shared/component-helper', () => {
   const original = jest.requireActual(
@@ -14,6 +16,19 @@ jest.mock('../../../../shared/component-helper', () => {
 })
 
 describe('StepsLayout', () => {
+  const previousButton = () => {
+    return document.querySelector('.dnb-forms-previous-button')
+  }
+  const nextButton = () => {
+    return document.querySelector('.dnb-forms-next-button')
+  }
+  const submitButton = () => {
+    return document.querySelector('.dnb-forms-submit-button')
+  }
+  const output = () => {
+    return document.querySelector('output')
+  }
+
   it('should have "strict" mode as the default mode', () => {
     render(
       <StepsLayout>
@@ -21,26 +36,26 @@ describe('StepsLayout', () => {
           <StepsLayout.NextButton />
         </StepsLayout.Step>
         <StepsLayout.Step title="Step 2">
-          <StepsLayout.NextButton />
+          <StepsLayout.PreviousButton />
         </StepsLayout.Step>
       </StepsLayout>
     )
 
-    const [first] = Array.from(
+    const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    expect(first.querySelector('button')).toBeInTheDocument()
+    expect(firstStep.querySelector('.dnb-button').tagName).toBe('BUTTON')
+    expect(secondStep.querySelector('.dnb-button').tagName).toBe('SPAN')
   })
 
-  it('should call event listener onStepChange', () => {
-    const onChange = jest.fn()
+  it('should call event listener onStepChange', async () => {
+    const onStepChange = jest.fn()
 
     render(
-      <StepsLayout onStepChange={onChange} mode="loose">
+      <StepsLayout onStepChange={onStepChange} mode="loose">
         <StepsLayout.Step title="Step 1">
           <output>Step 1</output>
-          <StepsLayout.PreviousButton />
           <StepsLayout.NextButton />
         </StepsLayout.Step>
 
@@ -52,40 +67,42 @@ describe('StepsLayout', () => {
       </StepsLayout>
     )
 
-    const [first, second] = Array.from(
+    const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    fireEvent.click(second.querySelector('button'))
-    expect(document.querySelector('output').textContent).toBe('Step 2')
-    expect(onChange).not.toHaveBeenCalledWith(2)
-    expect(onChange).toHaveBeenCalledTimes(0)
+    fireEvent.click(secondStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 2')
+    expect(onStepChange).toHaveBeenCalledTimes(0)
 
-    fireEvent.click(first.querySelector('button'))
-    expect(document.querySelector('output').textContent).toBe('Step 1')
-    expect(onChange).not.toHaveBeenCalledWith(1)
-    expect(onChange).toHaveBeenCalledTimes(0)
+    fireEvent.click(firstStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 1')
+    expect(onStepChange).toHaveBeenCalledTimes(0)
 
-    const nextButton = document.querySelector('.dnb-forms-next-button')
-    fireEvent.click(nextButton)
-    expect(onChange).toHaveBeenCalledWith(1)
-    expect(nextButton).not.toBeInTheDocument()
+    fireEvent.click(nextButton())
+    expect(nextButton()).not.toBeDisabled()
 
-    const previousButton = document.querySelector(
-      '.dnb-forms-previous-button'
-    )
-    fireEvent.click(previousButton)
-    expect(onChange).toHaveBeenCalledWith(1)
-    expect(previousButton).not.toBeInTheDocument()
-    expect(onChange).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
+      expect(previousButton()).not.toBeInTheDocument()
+    })
+
+    fireEvent.click(previousButton())
+    expect(previousButton()).not.toBeDisabled()
+
+    await waitFor(() => {
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+      expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
+      expect(previousButton()).not.toBeInTheDocument()
+    })
   })
 
-  it('should scroll to top on step change when scrollTopOnStepChange is true', () => {
+  it('should scroll to top on step change when scrollTopOnStepChange is true', async () => {
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     render(
-      <StepsLayout mode="loose" scrollTopOnStepChange>
+      <StepsLayout scrollTopOnStepChange>
         <StepsLayout.Step title="Step 1">
           <output>Step 1</output>
           <StepsLayout.PreviousButton />
@@ -100,26 +117,28 @@ describe('StepsLayout', () => {
       </StepsLayout>
     )
 
-    const nextButton = document.querySelector('.dnb-forms-next-button')
-    fireEvent.click(nextButton)
-    expect(scrollTo).toHaveBeenCalledTimes(1)
+    fireEvent.click(nextButton())
 
-    const previousButton = document.querySelector(
-      '.dnb-forms-previous-button'
-    )
-    fireEvent.click(previousButton)
-    expect(scrollTo).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
 
-    const [first, second] = Array.from(
+    fireEvent.click(previousButton())
+
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(2)
+    })
+
+    const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    fireEvent.click(second.querySelector('button'))
-    expect(document.querySelector('output').textContent).toBe('Step 2')
+    fireEvent.click(secondStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 2')
     expect(scrollTo).toHaveBeenCalledTimes(2)
 
-    fireEvent.click(first.querySelector('button'))
-    expect(document.querySelector('output').textContent).toBe('Step 1')
+    fireEvent.click(firstStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 1')
     expect(scrollTo).toHaveBeenCalledTimes(2)
   })
 
@@ -141,23 +160,21 @@ describe('StepsLayout', () => {
       </StepsLayout>
     )
 
-    const nextButton = document.querySelector('.dnb-forms-next-button')
-
-    expect(document.querySelector('output')).toHaveTextContent('Step 1')
+    expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeNull()
 
-    fireEvent.click(nextButton)
+    fireEvent.click(nextButton())
 
-    expect(document.querySelector('output')).toHaveTextContent('Step 1')
+    expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
-  it('should show error on navigating back and forth', () => {
+  it('should show error on navigating back and forth', async () => {
     render(
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
           <output>Step 1</output>
-          <Field.String />
+          <Field.String path="/something" />
           <StepsLayout.PreviousButton />
           <StepsLayout.NextButton />
         </StepsLayout.Step>
@@ -177,34 +194,98 @@ describe('StepsLayout', () => {
       </StepsLayout>
     )
 
-    const output = () => document.querySelector('output')
-    const nextButton = () =>
-      document.querySelector('.dnb-forms-next-button')
-    const previousButton = () =>
-      document.querySelector('.dnb-forms-previous-button')
-
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeNull()
 
     fireEvent.click(nextButton())
 
-    expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toBeNull()
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
 
     fireEvent.click(nextButton())
 
-    expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
 
     fireEvent.click(previousButton())
 
-    expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
 
     fireEvent.click(nextButton())
 
-    expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+    fireEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 3')
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+  })
+
+  it('should show error on navigating back and forth in loose mode', async () => {
+    render(
+      <StepsLayout mode="loose">
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String path="/something" />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+          <Field.String path="/foo" required />
+          <StepsLayout.NextButton />
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    const [firstStep, secondStep] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(secondStep.querySelector('button'))
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+
+    // Show the error message
+    fireEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    fireEvent.click(firstStep.querySelector('button'))
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+
+    fireEvent.click(secondStep.querySelector('button'))
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
   })
 
   it('should support drawer variant', () => {
@@ -247,5 +328,383 @@ describe('StepsLayout', () => {
 
     expect(stepTrigger()).toBeInTheDocument()
     expect(stepsList()).not.toBeInTheDocument()
+  })
+
+  describe('async step change', () => {
+    it('should handle async onStepChange', async () => {
+      const onStepChange = async () => {
+        await wait(1)
+      }
+
+      render(
+        <StepsLayout onStepChange={onStepChange}>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      fireEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(previousButton()).not.toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(previousButton()).toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+    })
+
+    it('should handle async onSubmit', async () => {
+      const onSubmit = async () => {
+        await wait(1)
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <StepsLayout>
+            <StepsLayout.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.ButtonRow>
+                <StepsLayout.PreviousButton />
+                <StepsLayout.NextButton />
+              </Form.ButtonRow>
+            </StepsLayout.Step>
+
+            <StepsLayout.Step title="Step 2">
+              <output>Step 2</output>
+              <Form.ButtonRow>
+                <StepsLayout.PreviousButton />
+                <Form.SubmitButton />
+              </Form.ButtonRow>
+            </StepsLayout.Step>
+          </StepsLayout>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      fireEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(previousButton()).not.toBeDisabled()
+        expect(submitButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(previousButton()).not.toBeDisabled()
+      expect(submitButton()).not.toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(previousButton()).toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+      })
+
+      fireEvent.click(submitButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(previousButton()).toBeDisabled()
+      expect(submitButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(previousButton()).not.toBeDisabled()
+        expect(submitButton()).not.toBeDisabled()
+      })
+    })
+
+    it('should handle async validator', async () => {
+      const asyncValidator = async () => {
+        await wait(1)
+        return null
+      }
+
+      render(
+        <StepsLayout>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String value="Value" validator={asyncValidator} />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.String required />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      fireEvent.click(nextButton())
+
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(previousButton()).not.toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(previousButton()).not.toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(previousButton()).toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+    })
+
+    it('should handle async validator with error', async () => {
+      const asyncValidator = async (value: string) => {
+        await wait(1)
+
+        if (value !== 'valid') {
+          return new Error('Error message')
+        }
+      }
+
+      render(
+        <StepsLayout>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String validator={asyncValidator} />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.String required />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryAllByRole('alert')).toHaveLength(0)
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      fireEvent.click(nextButton())
+
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(screen.queryAllByRole('alert')).toHaveLength(1)
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Error message'
+        )
+        expect(previousButton()).toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      await userEvent.type(document.querySelector('input'), 'valid')
+
+      fireEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryAllByRole('alert')).toHaveLength(0)
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryAllByRole('alert')).toHaveLength(0)
+        expect(previousButton()).not.toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+    })
+
+    it('should handle async onBlurValidator', async () => {
+      const asyncValidator = async () => {
+        await wait(1)
+        return null
+      }
+
+      render(
+        <StepsLayout>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String value="Value" onBlurValidator={asyncValidator} />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.String required />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      fireEvent.click(nextButton())
+
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(previousButton()).not.toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(previousButton()).not.toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(previousButton()).toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+    })
+
+    it('should handle async onBlurValidator with error', async () => {
+      const asyncValidator = async (value: string) => {
+        await wait(1)
+
+        if (value !== 'valid') {
+          return new Error('Error message')
+        }
+      }
+
+      render(
+        <StepsLayout>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String onBlurValidator={asyncValidator} />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.String required />
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryAllByRole('alert')).toHaveLength(0)
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).not.toBeDisabled()
+
+      fireEvent.click(nextButton())
+
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(screen.queryAllByRole('alert')).toHaveLength(1)
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Error message'
+        )
+        expect(previousButton()).toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      await userEvent.type(document.querySelector('input'), 'valid')
+
+      fireEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryAllByRole('alert')).toHaveLength(0)
+      expect(previousButton()).toBeDisabled()
+      expect(nextButton()).toBeDisabled()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryAllByRole('alert')).toHaveLength(0)
+        expect(previousButton()).not.toBeDisabled()
+        expect(nextButton()).not.toBeDisabled()
+      })
+    })
   })
 })

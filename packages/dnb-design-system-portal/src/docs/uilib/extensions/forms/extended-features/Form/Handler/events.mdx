@@ -2,8 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { HandlerEvents } from '@dnb/eufemia/src/extensions/forms/Form/Handler/HandlerDocs'
+
 ## Events
 
-| Property                                                                                                  | Description                             |
-| --------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| All [DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/events) events. | _(optional)_ events such as `onSubmit`. |
+<PropertiesTable props={HandlerEvents} />

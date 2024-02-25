@@ -31,9 +31,12 @@ import {
   ComponentProps,
   FieldProps,
   FormError,
+  SubmitState,
   Identifier,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
+import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
+import { createSharedState } from '../../../shared/helpers/useSharedState'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -59,6 +62,8 @@ export type Props = Pick<
   /** Width of contents block, while label etc can be wider if space is available */
   contentWidth?: 'small' | 'medium' | 'large' | 'stretch'
   contentClassName?: string
+  /** To show the SubmitIndicator during async validation */
+  fieldState?: SubmitState
   /** Typography size */
   labelSize?: 'medium' | 'large'
   children: React.ReactNode
@@ -67,6 +72,7 @@ export type Props = Pick<
 function FieldBlock(props: Props) {
   const nestedFieldBlockContext = useContext(FieldBlockContext)
 
+  const sharedData = createSharedState<Props>(props.forId || props.id)
   const {
     className,
     forId,
@@ -78,6 +84,7 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error: errorProp,
+    fieldState,
     disabled,
     width,
     contentWidth,
@@ -85,7 +92,7 @@ function FieldBlock(props: Props) {
     contentClassName,
     children,
     ...rest
-  } = props
+  } = Object.assign({}, sharedData.data, props)
 
   const blockId = useId(props.id)
   const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
@@ -367,24 +374,20 @@ function FieldBlock(props: Props) {
         {...rest}
       >
         <div className={gridClasses}>
-          {labelDescription ? (
-            <div className="dnb-forms-field-block__label">
-              {label || labelDescription ? (
-                <FormLabel {...labelProps}>
+          <LabelDescription labelDescription={labelDescription}>
+            {(label || labelDescription) && (
+              <FormLabel {...labelProps}>
+                <SubmitIndicator state={fieldState}>
                   {label}
                   {labelDescription && (
                     <span className="dnb-forms-field-block__label-description">
                       {labelDescription}
                     </span>
                   )}
-                </FormLabel>
-              ) : (
-                <>&nbsp;</>
-              )}
-            </div>
-          ) : (
-            label && <FormLabel {...labelProps}>{label}</FormLabel>
-          )}
+                </SubmitIndicator>
+              </FormLabel>
+            )}
+          </LabelDescription>
 
           <div className="dnb-forms-field-block__status">
             <FormStatus {...statusContent?.error} />
@@ -470,6 +473,13 @@ function CombineMessages({
       </Ul>
     </>
   )
+}
+
+function LabelDescription({ labelDescription, children }) {
+  if (!labelDescription) {
+    return children
+  }
+  return <div className="dnb-forms-field-block__label">{children}</div>
 }
 
 function getMessage(item: Partial<StateWithMessage>): StateMessage {

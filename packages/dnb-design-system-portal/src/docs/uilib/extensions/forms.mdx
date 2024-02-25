@@ -30,11 +30,12 @@ import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
 
 Eufemia Forms is:
 
-- A framework for building features
+- A framework for building form features
 - Flexibility by design
 - Data-driven API
 - Standardized data handling
-- Loosely coupled components
+- Loosely coupled components and building blocks
+- Focus on superior user experience, accessibility, and usability
 
 Eufemia Forms is a set of building blocks for form functionality. Components are built on an API with standardized sets of props that make it easier to combine with surrounding data flow, and not least to create your own components that work well together with the ready-made components in Eufemia Forms.
 
@@ -47,13 +48,15 @@ Eufemia Forms consists of reusable components for data input, data display and s
 In summary:
 
 - Ready to use data driven form components.
+- Three shakeable structure. Unused code will not be included in the production bundle.
 - All functionality in all components can be controlled and overridden via props.
 - State management using the declarative [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) directive (i.e `path="/firstName"`).
 - State can be handled outside of the Form.Handler (Provider Context) with the [useData](/uilib/extensions/forms/extended-features/Form/useData) hook.
 - Simple validation (like `minLength` on text fields) as well as advanced and complex [Ajv](https://ajv.js.org/) JSON schema validator (Ajv is like Joi or Yup – check out [some examples](/uilib/extensions/forms/extended-features/#schema-validation)) support on both single fields and the whole data set.
-- Building blocks for [creating custom field components](/uilib/extensions/forms/create-component).
-- Static [value components](/uilib/extensions/forms/extended-features/Value/) for displaying data with proper formatting.
+- Async form submission and validation support.
 - Theming of sizes with [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/).
+- Static [value components](/uilib/extensions/forms/extended-features/Value/) for displaying data with proper formatting.
+- Building blocks for [creating custom field components](/uilib/extensions/forms/create-component).
 
 ### Basic field usage
 

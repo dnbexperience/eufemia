@@ -138,13 +138,13 @@ You can find more info about error messages in the [Error messages](/uilib/exten
 
 ##### Async validator with a Promise
 
-Async validation is also supported. The validator function can return a promise that resolves to an error message:
+Async validation is also supported. The validator function can return a promise that resolves to an error message, which is shown below the field:
 
 ```tsx
 const validator = (value) => {
   return new Promise((resolve, reject) => {
     // Delay the response
-    resolve(new Error('Invalid value')) // Show this message
+    resolve(new Error('Invalid value')) // Show this message below the field
   })
 }
 render(<Field.PhoneNumber validator={validator} />)
@@ -152,13 +152,31 @@ render(<Field.PhoneNumber validator={validator} />)
 
 ##### Async validator with async/await
 
+In this example, we use the `async` and `await` keywords to make the code more readable. Also, we use `onBlurValidator` to only validate the field when the user leaves the field:
+
 ```tsx
 const validator = async (value) => {
   const isInvalid = await makeRequest(value)
   if (isInvalid) {
-    return new Error('Invalid value') // Show this message
+    return new Error('Invalid value') // Show this message below the field
   }
 }
+render(<Field.PhoneNumber onBlurValidator={validator} />)
+```
+
+##### Async validator with debounce
+
+When using async validation, it's a good idea to debounce the validation function to avoid unnecessary requests. This can be done by using the [debounceAsync](/uilib/helpers/functions/#debounce) helper function:
+
+```tsx
+import { debounceAsync } from '@dnb/eufemia/shared/helpers'
+
+const validator = debounceAsync(async function myValidator(value) {
+  const isInvalid = await makeRequest(value)
+  if (isInvalid) {
+    return new Error('Invalid value') // Show this message below the field
+  }
+})
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
@@ -200,6 +218,8 @@ When building your application forms, preferably use the following layout compon
 
 - [Flex](/uilib/layout/flex) layout component for easy and consistent application forms.
 - [Card](/uilib/components/card) for the default card outline of forms.
+
+For changing sizes of e.g. input fields, you may have a look at [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/).
 
 ### Best practices
 

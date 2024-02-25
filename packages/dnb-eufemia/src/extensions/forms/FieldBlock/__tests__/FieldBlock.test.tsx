@@ -444,6 +444,18 @@ describe('FieldBlock', () => {
     })
 
     describe('Composition', () => {
+      it('should not display error messages initially', () => {
+        render(
+          <FieldBlock composition>
+            <Field.String required />
+            <Field.String required />
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toBeNull()
+      })
+
       it('should display both error messages with summary in one status', () => {
         render(
           <FieldBlock composition>

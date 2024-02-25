@@ -11,7 +11,12 @@ import pointer from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
-import { FormError, FieldProps, AdditionalEventArgs } from '../types'
+import {
+  FormError,
+  FieldProps,
+  AdditionalEventArgs,
+  SubmitState,
+} from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
@@ -22,6 +27,8 @@ import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useProcessManager from './useProcessManager'
+import { useSharedState } from '../../../shared/helpers/useSharedState'
+import { isAsync } from '../../../shared/helpers/isAsync'
 
 export default function useDataValue<
   Value = unknown,
@@ -86,7 +93,7 @@ export default function useDataValue<
     handlePathChange: dataContextHandlePathChange,
     updateDataValue: dataContextUpdateDataValue,
     validateData: dataContextValidateData,
-    setValueWithError: dataContextSetValueWithError,
+    setFieldState: dataContextSetFieldState,
     setProps: dataContextSetProps,
     errors: dataContextErrors,
     contextErrorMessages,
@@ -193,9 +200,25 @@ export default function useDataValue<
   useUpdateEffect(() => {
     validatorRef.current = validator
   }, [validator])
+  const onBlurValidatorRef = useRef(onBlurValidator)
+  useUpdateEffect(() => {
+    onBlurValidatorRef.current = onBlurValidator
+  }, [onBlurValidator])
 
   const schemaValidatorRef = useRef<ValidateFunction>(
     schema ? dataContext.ajvInstance?.compile(schema) : undefined
+  )
+
+  const fieldStateRef = useRef<SubmitState>()
+  const setFieldState = useCallback(
+    (state: SubmitState) => {
+      fieldStateRef.current = state
+      dataContextSetFieldState(identifier, state)
+      if (!validateInitially) {
+        forceUpdate()
+      }
+    },
+    [dataContextSetFieldState, identifier, validateInitially]
   )
 
   const showError = useCallback(() => {
@@ -207,6 +230,13 @@ export default function useDataValue<
     showErrorRef.current = false
     showFieldBlockError?.(identifier, false)
   }, [showFieldBlockError, identifier])
+
+  const error = showErrorRef.current
+    ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+    : undefined
+
+  const hasError =
+    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
 
   const errorMessagesRef = useRef(null)
   errorMessagesRef.current = useMemo(() => {
@@ -267,7 +297,7 @@ export default function useDataValue<
       localErrorRef.current = error
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-      dataContextSetValueWithError?.(identifier, Boolean(error))
+      dataContextSetFieldState?.(identifier, error ? 'error' : undefined)
 
       setFieldBlockState?.({
         stateId,
@@ -282,7 +312,7 @@ export default function useDataValue<
     [
       stateId,
       prepareError,
-      dataContextSetValueWithError,
+      dataContextSetFieldState,
       identifier,
       setFieldBlockState,
       inFieldBlock,
@@ -293,6 +323,77 @@ export default function useDataValue<
   const clearErrorState = useCallback(
     () => persistErrorState(undefined),
     [persistErrorState]
+  )
+
+  const callValidator = useCallback(async () => {
+    const runAsync = isAsync(validatorRef.current)
+
+    if (runAsync) {
+      setFieldState('pending')
+    }
+
+    const opts = {
+      ...contextErrorMessages,
+      ...errorMessagesRef.current,
+    }
+
+    // Run the validator with await regardless (for jest.fn() to work as expected)
+    const result = await validatorRef.current?.(valueRef.current, opts)
+
+    persistErrorState(result as Error)
+
+    if (runAsync) {
+      setFieldState(result instanceof Error ? 'error' : 'complete')
+    }
+
+    // Because its a better UX to show the error when the validation is async/delayed
+    if (continuousValidation || runAsync) {
+      // Because we first need to throw the error to be able to display it, we delay the showError call
+      window.requestAnimationFrame(() => {
+        showError()
+        forceUpdate()
+      })
+    }
+
+    return result
+  }, [
+    contextErrorMessages,
+    continuousValidation,
+    persistErrorState,
+    setFieldState,
+    showError,
+  ])
+
+  const callOnBlurValidator = useCallback(
+    async ({ valueOverride = null } = {}) => {
+      // External blur validators makes it possible to validate values but not on every character change in case of
+      // expensive validation calling external services etc.
+
+      // Since the validator can return either a synchronous result or an asynchronous
+      const value = transformers.current.toEvent(
+        valueOverride ?? valueRef.current,
+        'onBlurValidator'
+      )
+
+      const runAsync = isAsync(onBlurValidatorRef.current)
+
+      if (runAsync) {
+        setFieldState('pending')
+      }
+
+      // Run the onBlurValidator with await regardless (for jest.fn() to work as expected)
+      const result = await onBlurValidatorRef.current(value)
+
+      persistErrorState(result as Error)
+
+      if (runAsync) {
+        setFieldState(result instanceof Error ? 'error' : 'complete')
+      }
+
+      showError()
+      forceUpdate()
+    },
+    [persistErrorState, setFieldState, showError]
   )
 
   /**
@@ -306,6 +407,7 @@ export default function useDataValue<
         clearErrorState()
       }
       hideError()
+      setFieldState(undefined)
       return
     }
 
@@ -339,13 +441,14 @@ export default function useDataValue<
       }
 
       // Validate by provided derivative validator
-      if (validatorRef.current) {
-        const res = await validatorRef.current?.(valueRef.current, {
-          ...contextErrorMessages,
-          ...errorMessagesRef.current,
-        })
-        if (res instanceof Error) {
-          throw res
+      if (
+        validatorRef.current &&
+        (changedRef.current || validateInitially)
+      ) {
+        const result = await callValidator()
+
+        if (result instanceof Error) {
+          throw result
         }
       }
 
@@ -364,67 +467,9 @@ export default function useDataValue<
     clearErrorState,
     emptyValue,
     required,
-    contextErrorMessages,
+    validateInitially,
+    callValidator,
     persistErrorState,
-  ])
-
-  useUpdateEffect(() => {
-    schemaValidatorRef.current = schema
-      ? dataContext.ajvInstance?.compile(schema)
-      : undefined
-    validateValue()
-  }, [schema, validateValue])
-
-  useUpdateEffect(() => {
-    // Error or removed error for this field from the surrounding data context (by path)
-    valueRef.current = externalValue
-    validateValue()
-    forceUpdate()
-  }, [externalValue, validateValue])
-
-  useEffect(() => {
-    const error = prepareError(dataContextError)
-    if (errorChanged(error, contextErrorRef.current)) {
-      contextErrorRef.current = error
-      forceUpdate()
-    }
-  }, [dataContextError, prepareError])
-
-  useEffect(() => {
-    if (dataContext.showAllErrors) {
-      // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
-      // something else that should lead to showing the user all errors.
-      showError()
-      forceUpdate()
-    }
-  }, [dataContext.showAllErrors, showError])
-
-  useEffect(() => {
-    if (path) {
-      const hasValue = pointer.has(dataContext.data, path)
-      const existingValue = hasValue
-        ? pointer.get(dataContext.data, path)
-        : undefined
-
-      if (
-        !hasValue ||
-        (props.value !== existingValue &&
-          // Prevents an infinite loop by skipping the update if the value hasn't changed
-          valueRef.current !== existingValue)
-      ) {
-        // Update the data context when a pointer not exists,
-        // but was given initially.
-        dataContextUpdateDataValue?.(path, props.value, { disabled })
-        dataContextValidateData?.()
-      }
-    }
-  }, [
-    dataContext.data,
-    dataContextUpdateDataValue,
-    dataContextValidateData,
-    disabled,
-    path,
-    props.value,
   ])
 
   const handleError = useCallback(() => {
@@ -443,7 +488,7 @@ export default function useDataValue<
   }, [continuousValidation, hideError, showError])
 
   const setHasFocus = useCallback(
-    (hasFocus: boolean, valueOverride?: Value) => {
+    async (hasFocus: boolean, valueOverride?: Value) => {
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
@@ -467,30 +512,18 @@ export default function useDataValue<
           return
         }
 
-        // External blur validators makes it possible to validate values but not on every character change in case of
-        // expensive validation calling external services etc.
-        if (typeof onBlurValidator === 'function') {
-          // Since the validator can return either a synchronous result or an asynchronous
-          const value = transformers.current.toEvent(
-            valueOverride ?? valueRef.current,
-            'onBlurValidator'
-          )
-          Promise.resolve(onBlurValidator(value)).then(persistErrorState)
+        if (typeof onBlurValidatorRef.current === 'function') {
+          await callOnBlurValidator({ valueOverride })
         }
 
         // Since the user left the field, show error (if any)
-        showError()
-        forceUpdate()
+        if (fieldStateRef.current !== 'pending') {
+          showError()
+          forceUpdate()
+        }
       }
     },
-    [
-      onBlur,
-      onBlurValidator,
-      onFocus,
-      persistErrorState,
-      showError,
-      validateUnchanged,
-    ]
+    [callOnBlurValidator, onBlur, onFocus, showError, validateUnchanged]
   )
 
   const updateValue = useCallback(
@@ -536,9 +569,9 @@ export default function useDataValue<
         currentValue
       )
 
-      updateValue(newValue)
-
       changedRef.current = true
+
+      updateValue(newValue)
 
       const value = transformers.current.toEvent(newValue, 'onChange')
       onChange?.apply(
@@ -574,6 +607,87 @@ export default function useDataValue<
   })
   useUnmountEffect(() => {
     dataContext?.handleUnMountField(identifier)
+  })
+
+  useUpdateEffect(() => {
+    schemaValidatorRef.current = schema
+      ? dataContext.ajvInstance?.compile(schema)
+      : undefined
+    validateValue()
+  }, [schema, validateValue])
+
+  useUpdateEffect(() => {
+    // Error or removed error for this field from the surrounding data context (by path)
+    valueRef.current = externalValue
+    validateValue()
+    forceUpdate()
+  }, [externalValue, validateValue])
+
+  useEffect(() => {
+    const error = prepareError(dataContextError)
+    if (errorChanged(error, contextErrorRef.current)) {
+      contextErrorRef.current = error
+      forceUpdate()
+    }
+  }, [dataContextError, prepareError])
+
+  useEffect(() => {
+    if (path) {
+      const hasValue = pointer.has(dataContext.data, path)
+      const existingValue = hasValue
+        ? pointer.get(dataContext.data, path)
+        : undefined
+
+      if (
+        !hasValue ||
+        (props.value !== existingValue &&
+          // Prevents an infinite loop by skipping the update if the value hasn't changed
+          valueRef.current !== existingValue)
+      ) {
+        // Update the data context when a pointer not exists,
+        // but was given initially.
+        dataContextUpdateDataValue?.(path, props.value, { disabled })
+        dataContextValidateData?.()
+      }
+    }
+  }, [
+    dataContext.data,
+    dataContextUpdateDataValue,
+    dataContextValidateData,
+    disabled,
+    path,
+    props.value,
+  ])
+
+  useEffect(() => {
+    if (dataContext.showAllErrors) {
+      // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
+      // something else that should lead to showing the user all errors.
+      showError()
+      forceUpdate()
+    }
+  }, [dataContext.showAllErrors, showError])
+
+  useEffect(() => {
+    if (
+      dataContext.formState === 'pending' &&
+      (validatorRef.current || onBlurValidatorRef.current)
+    ) {
+      hideError()
+      forceUpdate()
+    }
+  }, [dataContext.formState, hideError])
+
+  // Validate/call validator functions during submit of the form
+  useMountEffect(() => {
+    dataContext?.setEventListener?.(identifier, 'onSubmit', () => {
+      if (typeof validatorRef.current === 'function') {
+        callValidator()
+      }
+      if (typeof onBlurValidatorRef.current === 'function') {
+        callOnBlurValidator()
+      }
+    })
   })
 
   // Set the error in the field block context if this field is inside a field block
@@ -615,13 +729,6 @@ export default function useDataValue<
       }
     }
   })
-
-  const error = showErrorRef.current
-    ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-    : undefined
-
-  const hasError =
-    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
 
   // - Handle ariaAttributes
   const ariaAttributes = useMemo(() => {
@@ -669,44 +776,67 @@ export default function useDataValue<
     )
   }
 
-  return {
-    ...props,
-    id,
-    name: props.name || props.path?.replace('/', '') || id,
-    value: transformers.current.toInput(valueRef.current),
+  const fieldState = fieldStateRef.current
+  const fieldBLockProps = {
+    /** Documented APIs */
     info: !inFieldBlock ? info : undefined,
     warning: !inFieldBlock ? warning : undefined,
     error: !inFieldBlock ? error : undefined,
-    hasError,
-    disabled,
+
+    /** HTML Attributes */
+    disabled:
+      onBlurValidator && fieldState === 'pending' ? true : disabled,
+
+    /** Internal */
+    fieldState,
+  }
+
+  const sharedData = useSharedState(id)
+  sharedData.set(fieldBLockProps)
+
+  return {
+    ...props,
+    ...fieldBLockProps,
+
+    /** HTML Attributes */
+    name: props.name || props.path?.replace('/', '') || id,
     autoComplete:
       props.autoComplete ??
-      (dataContext.autoComplete === true ? 'on' : 'off'),
+      (dataContext.autoComplete === true ? 'on' : undefined),
 
-    // Return additional hook related props (ReturnAdditional)
+    /** Documented APIs */
+    id,
+    value: transformers.current.toInput(valueRef.current),
+    hasError,
     isChanged: changedRef.current,
     ariaAttributes,
-    dataContext,
     setHasFocus,
     handleFocus,
     handleBlur,
     handleChange,
     updateValue,
     forceUpdate,
+
+    /** Internal */
+    dataContext,
   }
 }
 
-interface ReturnAdditional<Value> {
+export interface ReturnAdditional<Value> {
+  /** Documented APIs */
   value: Value
   isChanged: boolean
   ariaAttributes: AriaAttributes
-  dataContext: ContextState
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: FieldProps<Value>['onChange']
   updateValue: (value: Value) => void
   forceUpdate: () => void
+
+  /** Internal */
+  dataContext: ContextState
+  fieldState: SubmitState
 }
 
 export function omitDataValueProps<
@@ -714,21 +844,27 @@ export function omitDataValueProps<
 >(props: Props) {
   // Do not include typical HTML attributes
   const {
+    /** Documented APIs */
     name, // eslint-disable-line
     error, // eslint-disable-line
     warning, // eslint-disable-line
     info, // eslint-disable-line
     hasError, // eslint-disable-line
     isChanged, // eslint-disable-line
-    autoComplete, // eslint-disable-line
     ariaAttributes, // eslint-disable-line
-    dataContext, // eslint-disable-line
     setHasFocus, // eslint-disable-line
     handleFocus, // eslint-disable-line
     handleBlur, // eslint-disable-line
     handleChange, // eslint-disable-line
     updateValue, // eslint-disable-line
     forceUpdate, // eslint-disable-line
+
+    /** HTML Attributes */
+    autoComplete, // eslint-disable-line
+
+    /** Internal */
+    dataContext, // eslint-disable-line
+    fieldState, // eslint-disable-line
     ...restProps
   } = props
 

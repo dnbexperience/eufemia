@@ -275,3 +275,5 @@ export interface ValueProps<Value>
 
 export type Path = string
 export type Identifier = string
+export type SubmitState = 'pending' | 'complete' | 'error' | 'abort'
+export type OnSubmitReturn = void | Error | Promise<void | Error> | unknown

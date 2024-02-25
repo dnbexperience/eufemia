@@ -23,15 +23,21 @@ function PreviousButton(props: Props) {
   } = props
   const stepsContext = useContext(StepsContext)
 
+  const params: Props = {}
+  if (stepsContext.activeIndex === 0) {
+    params.disabled = true
+  }
+
   return (
     <ButtonRow>
       <Button
-        {...props}
         className={classnames('dnb-forms-previous-button', className)}
         onClick={stepsContext?.handlePrevious}
         variant={variant}
         icon_position={icon_position}
         icon={icon}
+        {...params}
+        {...props}
       >
         {children}
       </Button>

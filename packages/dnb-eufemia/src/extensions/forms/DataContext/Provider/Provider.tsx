@@ -1,4 +1,10 @@
-import React, { useRef, useMemo, useCallback, useReducer } from 'react'
+import React, {
+  useRef,
+  useMemo,
+  useCallback,
+  useReducer,
+  useEffect,
+} from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import {
@@ -11,12 +17,16 @@ import {
   CustomErrorMessagesWithPaths,
   AllJSONSchemaVersions,
   FieldProps,
+  SubmitState,
   Path,
+  OnSubmitReturn,
 } from '../../types'
+import SharedProvider from '../../../../shared/Provider'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import Context, { ContextState } from '../Context'
+import { isAsync } from '../../../../shared/helpers/isAsync'
+import Context, { ContextState, EventListenerCall } from '../Context'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -40,7 +50,7 @@ export type FilterData = (
   props: FieldProps
 ) => boolean | undefined
 
-export type OnSubmitReturn = {
+export type OnSubmitParams = {
   /** Will remove browser-side stored autocomplete data  */
   resetForm: () => void
   /** Will empty the whole internal data set of the form  */
@@ -49,8 +59,8 @@ export type OnSubmitReturn = {
 
 export type OnSubmit<Data = JsonObject> = (
   data: Partial<Data>,
-  { resetForm, clearData }: OnSubmitReturn
-) => void
+  { resetForm, clearData }: OnSubmitParams
+) => OnSubmitReturn
 
 export interface Props<Data extends JsonObject> {
   /**
@@ -98,6 +108,22 @@ export interface Props<Data extends JsonObject> {
    */
   onSubmitRequest?: () => void
   /**
+   * Will be called when the onSubmit is finished and had not errors
+   */
+  onSubmitComplete?: (data: Data, result: Error | unknown) => void
+  /**
+   * Show submit indicator during submit. All form elements will be disabled during the submit.
+   */
+  enableAsyncBehavior?: boolean
+  /**
+   * Minimum time to display the submit indicator.
+   */
+  minimumAsyncBehaviorTime?: number
+  /**
+   * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
+   */
+  asyncBehaviorTimeout?: number
+  /**
    * Scroll to top on submit
    */
   scrollTopOnSubmit?: boolean
@@ -119,7 +145,11 @@ export default function Provider<Data extends JsonObject>({
   onPathChange,
   onSubmit,
   onSubmitRequest,
+  onSubmitComplete,
   scrollTopOnSubmit,
+  enableAsyncBehavior,
+  minimumAsyncBehaviorTime,
+  asyncBehaviorTimeout,
   sessionStorageId,
   ajvInstance,
   filterData,
@@ -128,6 +158,7 @@ export default function Provider<Data extends JsonObject>({
   ...rest
 }: Props<Data>) {
   const [, forceUpdate] = useReducer(() => ({}), {})
+
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
     console.error(
@@ -137,18 +168,32 @@ export default function Provider<Data extends JsonObject>({
 
   // - Ajv
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
+
   // - Paths
   const mountedFieldPathsRef = useRef<Path[]>([])
+
   // - Errors from provider validation (the whole data set)
-  const errorsRef = useRef<Record<string, FormError> | undefined>()
+  const errorsRef = useRef<Record<Path, FormError> | undefined>()
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
   }, [])
+  const submitErrorRef = useRef<FormError | undefined>()
+  const setSubmitError = useCallback((error: FormError) => {
+    submitErrorRef.current = error
+    forceUpdate()
+  }, [])
 
-  // - Errors reported by fields, based on their direct validation rules
-  const valuesWithErrorRef = useRef<Path[]>([])
+  // - Progress
+  const formStateRef = useRef<SubmitState>()
+  const setFormState = useCallback((formState: SubmitState) => {
+    formStateRef.current = formState
+    forceUpdate()
+  }, [])
+
+  // - States (e.g. error) reported by fields, based on their direct validation rules
+  const fieldStateRef = useRef<Record<Path, SubmitState>>({})
 
   // - Data
   const initialData = useMemo<Data>(() => {
@@ -192,28 +237,36 @@ export default function Provider<Data extends JsonObject>({
   }, [validateDataNow])
 
   // - Error handling
-  const hasFieldError = useCallback((path: Path) => {
-    return Boolean(
-      errorsRef.current?.[path] !== undefined ||
-        valuesWithErrorRef.current.includes(path)
-    )
-  }, [])
+  const checkFieldStateFor = useCallback(
+    (path: Path, state: SubmitState = 'error') => {
+      return Boolean(
+        (state === 'error' &&
+          errorsRef.current?.[path] instanceof Error) ||
+          fieldStateRef.current[path] === state
+      )
+    },
+    []
+  )
+  const hasFieldState = useCallback(
+    (state: SubmitState) => {
+      return mountedFieldPathsRef.current.some((path) => {
+        return checkFieldStateFor(path, state)
+      })
+    },
+    [checkFieldStateFor]
+  )
   const hasErrors = useCallback(() => {
-    return Boolean(
-      mountedFieldPathsRef.current.find((path) => hasFieldError(path))
-    )
-  }, [hasFieldError])
+    return hasFieldState('error')
+  }, [hasFieldState])
 
   /**
    * Sets the error state for a specific path
    */
-  const setValueWithError = useCallback(
-    (path: Path, withError: boolean) => {
-      if (withError !== valuesWithErrorRef.current.includes(path)) {
-        // The boolean error state for the target value was changed
-        valuesWithErrorRef.current = withError
-          ? addListPath(valuesWithErrorRef.current, path)
-          : removeListPath(valuesWithErrorRef.current, path)
+  const setFieldState = useCallback(
+    (path: Path, fieldState: SubmitState) => {
+      if (fieldState !== fieldStateRef.current[path]) {
+        // The state for the target value was changed
+        fieldStateRef.current[path] = fieldState
         forceUpdate()
       }
     },
@@ -246,7 +299,7 @@ export default function Provider<Data extends JsonObject>({
     },
     [filterData]
   )
-  const fieldPropsRef = useRef<Record<string, FieldProps>>({})
+  const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       fieldPropsRef.current[path] = props
@@ -258,7 +311,8 @@ export default function Provider<Data extends JsonObject>({
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<{
     filterDataHandler?: Props<Data>['filterData']
-    hasErrors?: () => boolean
+    hasErrors?: ContextState['hasErrors']
+    setShowAllErrors?: ContextState['setShowAllErrors']
     rerenderUseDataHook?: () => void
   }>(id + '-attachments')
 
@@ -345,18 +399,23 @@ export default function Provider<Data extends JsonObject>({
 
   useLayoutEffect(() => {
     if (id) {
-      extendAttachment?.({ filterDataHandler, hasErrors })
+      extendAttachment?.({
+        filterDataHandler,
+        hasErrors,
+        setShowAllErrors,
+      })
       if (filterData) {
         rerenderUseDataHook?.()
       }
     }
   }, [
+    extendAttachment,
     filterData,
     filterDataHandler,
-    rerenderUseDataHook,
     hasErrors,
     id,
-    extendAttachment,
+    rerenderUseDataHook,
+    setShowAllErrors,
   ])
 
   /**
@@ -465,53 +524,165 @@ export default function Provider<Data extends JsonObject>({
     }
   }, [])
 
+  const onSubmitContinueRef = useRef<() => void>(null)
+
   /**
-   * Request to submit the whole form
+   * Shared logic dedicated to submit the whole form
    */
-  const handleSubmit = useCallback<ContextState['handleSubmit']>(
-    ({ formElement = null } = {}) => {
-      if (!hasErrors()) {
-        const resetForm = () => {
-          formElement?.reset?.()
+  const handleSubmitCall = useCallback<ContextState['handleSubmitCall']>(
+    async ({
+      originalHandler,
+      onSubmit,
+      omitSubmitCall,
+      omitCheckErrors,
+    }) => {
+      setSubmitError(undefined)
 
-          if (typeof window !== 'undefined') {
-            if (sessionStorageId) {
-              window.sessionStorage.removeItem(sessionStorageId)
-            }
+      const hasError = omitCheckErrors ? false : hasErrors()
+
+      // Just call the submit listeners "once", and not on the retry/recall
+      if (!omitSubmitCall) {
+        // Call all submit listeners callbacks (e.g. to validate fields)
+        eventListenersRef.current.forEach(({ path, type, callback }) => {
+          if (
+            type === 'onSubmit' &&
+            mountedFieldPathsRef.current.includes(path)
+          ) {
+            callback({ hasError })
           }
-
-          forceUpdate() // in order to fill "empty fields" again with their internal states
-        }
-        const clearData = () => {
-          internalDataRef.current = {}
-          forceUpdate()
-        }
-
-        onSubmit?.(filterDataHandler(internalDataRef.current as Data), {
-          resetForm,
-          clearData,
         })
+      }
 
-        if (scrollTopOnSubmit) {
-          scrollToTop()
+      const asyncBehaviorIsEnabled =
+        enableAsyncBehavior ??
+        (isAsync(originalHandler) || hasFieldState('pending'))
+
+      if (asyncBehaviorIsEnabled) {
+        setFormState('pending')
+      }
+
+      if (!hasError && !hasFieldState('pending')) {
+        let result: OnSubmitReturn
+
+        try {
+          result = await onSubmit({ asyncBehaviorIsEnabled })
+
+          if (result instanceof Error) {
+            throw result
+          }
+        } catch (error) {
+          setSubmitError(error)
+          setFormState('error')
+        }
+
+        if (asyncBehaviorIsEnabled && !submitErrorRef.current) {
+          setFormState('complete')
         }
       } else {
-        setShowAllErrors(true)
+        if (asyncBehaviorIsEnabled) {
+          window.requestAnimationFrame(() => {
+            setFormState(undefined)
+          })
+        }
+
+        if (!omitSubmitCall) {
+          // Add a event listener to continue the submit after the pending state is resolved
+          onSubmitContinueRef.current = () => {
+            window.requestAnimationFrame(() => {
+              handleSubmitCall({
+                originalHandler,
+                onSubmit,
+                omitSubmitCall: true,
+              })
+            })
+          }
+        }
+
         onSubmitRequest?.()
+
+        setShowAllErrors(true)
       }
 
       return internalDataRef.current
     },
     [
+      setSubmitError,
       hasErrors,
-      onSubmit,
-      filterDataHandler,
-      scrollTopOnSubmit,
-      sessionStorageId,
-      scrollToTop,
+      hasFieldState,
+      enableAsyncBehavior,
+      setFormState,
       setShowAllErrors,
       onSubmitRequest,
     ]
+  )
+
+  /**
+   * Request to submit the whole form
+   */
+  const handleSubmit = useCallback<ContextState['handleSubmit']>(
+    async ({ formElement = null } = {}) => {
+      handleSubmitCall({
+        originalHandler: onSubmit,
+        onSubmit: async () => {
+          const args = filterDataHandler(internalDataRef.current as Data)
+          const opts = {
+            resetForm: () => {
+              formElement?.reset?.()
+
+              if (typeof window !== 'undefined') {
+                if (sessionStorageId) {
+                  window.sessionStorage.removeItem(sessionStorageId)
+                }
+              }
+
+              forceUpdate() // in order to fill "empty fields" again with their internal states
+            },
+            clearData: () => {
+              internalDataRef.current = {}
+              forceUpdate()
+            },
+          }
+
+          const result = await onSubmit(args, opts)
+
+          onSubmitComplete?.(args, result)
+
+          if (scrollTopOnSubmit) {
+            scrollToTop()
+          }
+
+          return result
+        },
+      })
+    },
+    [
+      filterDataHandler,
+      handleSubmitCall,
+      onSubmit,
+      onSubmitComplete,
+      scrollToTop,
+      scrollTopOnSubmit,
+      sessionStorageId,
+    ]
+  )
+
+  // Collect listeners to be called during form submit
+  const eventListenersRef = useRef<Array<EventListenerCall>>([])
+  const setEventListener = useCallback(
+    (
+      path: EventListenerCall['path'],
+      type: EventListenerCall['type'],
+      callback: EventListenerCall['callback']
+    ) => {
+      if (
+        !eventListenersRef.current.some(
+          ({ path: p, callback: c }) => p === path && c === callback
+        )
+      ) {
+        eventListenersRef.current.push({ path, type, callback })
+      }
+    },
+    []
   )
 
   // - ajv validator routines
@@ -535,33 +706,61 @@ export default function Provider<Data extends JsonObject>({
     }
   }, [schema, validateData, forceUpdate])
 
+  if (onSubmitContinueRef.current && !hasFieldState('pending')) {
+    onSubmitContinueRef.current?.()
+    onSubmitContinueRef.current = null
+  }
+
+  const { bufferedFormState: formState } = useFormStatusBuffer({
+    formState: formStateRef.current,
+    waitFor: hasFieldState('pending'),
+    minimumAsyncBehaviorTime,
+    asyncBehaviorTimeout,
+  })
+
+  const submitError = submitErrorRef.current
+  const disabled = rest?.['disabled'] ?? formState === 'pending'
+
   return (
     <Context.Provider
       value={{
-        hasContext: true,
-        data: internalDataRef.current,
-        ...rest,
+        /** Method */
         handlePathChange,
-        updateDataValue,
-        validateData,
         handleSubmit,
-        scrollToTop,
-        errors: errorsRef.current,
-        showAllErrors: showAllErrorsRef.current,
-        setShowAllErrors,
-        mountedFieldPaths: mountedFieldPathsRef.current,
         handleMountField,
         handleUnMountField,
-        hasErrors,
-        hasFieldError,
-        setValueWithError,
+        handleSubmitCall,
+        setFormState,
+        setShowAllErrors,
+        setEventListener,
+        setFieldState,
         setProps,
-        ajvInstance: ajvRef.current,
+        hasErrors,
+        hasFieldState,
+        checkFieldStateFor,
+        validateData,
+        updateDataValue,
+        scrollToTop,
+
+        /** State handling */
         schema,
+        disabled,
+        formState,
+        submitError,
         contextErrorMessages,
+        hasContext: true,
+        errors: errorsRef.current,
+        showAllErrors: showAllErrorsRef.current,
+        mountedFieldPaths: mountedFieldPathsRef.current,
+        ajvInstance: ajvRef.current,
+
+        data: internalDataRef.current,
+        ...rest,
       }}
     >
-      {children}
+      <SharedProvider formElement={{ disabled }}>
+        {children}
+      </SharedProvider>
     </Context.Provider>
   )
 }
@@ -574,4 +773,118 @@ function addListPath(paths: PathList, path: Path): PathList {
 
 function removeListPath(paths: PathList, path: Path): PathList {
   return paths.filter((thisPath) => thisPath !== path)
+}
+
+type FormStatusBufferProps = {
+  minimumAsyncBehaviorTime?: Props<unknown>['minimumAsyncBehaviorTime']
+  asyncBehaviorTimeout?: Props<unknown>['asyncBehaviorTimeout']
+  formState: ContextState['formState']
+  waitFor: boolean
+}
+
+function useFormStatusBuffer(props: FormStatusBufferProps) {
+  const {
+    formState,
+    waitFor,
+    minimumAsyncBehaviorTime,
+    asyncBehaviorTimeout,
+  } = props || {}
+
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const stateRef = useRef<SubmitState>()
+  const nowRef = useRef<number | null>(null)
+  const timeoutRef = useRef<{
+    complete?: NodeJS.Timeout | null
+    reset?: NodeJS.Timeout | null
+    timeout?: NodeJS.Timeout | null
+  }>({})
+
+  const setState = useCallback(
+    (state: SubmitState) => {
+      stateRef.current = state
+      forceUpdate()
+    },
+    [forceUpdate]
+  )
+
+  const clear = useCallback(() => {
+    for (const key in timeoutRef.current) {
+      clearTimeout(timeoutRef.current[key])
+    }
+  }, [])
+
+  const hadCompleteRef = useRef(false)
+
+  useEffect(() => {
+    // This offset is used to calculate the delay,
+    // which ensures that the form state is displayed for at least minimumAsyncBehaviorTime duration.
+    // If the form was 'pending' for less than minimumAsyncBehaviorTime,
+    // the delay will be the remaining time to reach minimumAsyncBehaviorTime.
+    const isTest = process.env.NODE_ENV === 'test'
+    const minimum =
+      minimumAsyncBehaviorTime ??
+      // make it testable
+      (isTest ? 1 : 1000)
+
+    if (stateRef.current && formState === 'error') {
+      clear()
+      setState(undefined)
+      return
+    }
+
+    if (formState === 'abort') {
+      clear()
+      setState('abort')
+
+      timeoutRef.current.reset = setTimeout(() => {
+        nowRef.current = 0
+        setState(undefined)
+      }, minimum)
+      return
+    }
+
+    if (formState === 'complete') {
+      hadCompleteRef.current = true
+    }
+
+    if (formState === 'pending') {
+      clear()
+      nowRef.current = Date.now()
+      hadCompleteRef.current = false
+      setState('pending')
+    } else if (stateRef.current === 'pending') {
+      const offset = Math.max(Date.now() - nowRef.current)
+      const delay = isTest ? minimum : Math.max(minimum - offset, 0)
+
+      if (!waitFor) {
+        timeoutRef.current.complete = setTimeout(() => {
+          if (hadCompleteRef.current) {
+            setState('complete')
+          }
+        }, delay)
+
+        timeoutRef.current.reset = setTimeout(() => {
+          nowRef.current = 0
+          setState(undefined)
+          clear()
+        }, delay + minimum)
+      }
+
+      timeoutRef.current.timeout = setTimeout(() => {
+        nowRef.current = 0
+        setState(undefined)
+      }, asyncBehaviorTimeout ?? 30000)
+    }
+
+    return clear
+  }, [
+    clear,
+    minimumAsyncBehaviorTime,
+    formState,
+    setState,
+    waitFor,
+    asyncBehaviorTimeout,
+  ])
+
+  return { bufferedFormState: stateRef.current }
 }
