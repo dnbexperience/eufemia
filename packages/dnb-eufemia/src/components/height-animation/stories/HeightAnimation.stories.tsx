@@ -87,3 +87,66 @@ const StyledSection = styled(Section)`
     transform: translateY(0);
   }
 `
+
+export function HeightAnimationKeepInDOM() {
+  const Example = () => {
+    const [openState, setOpenState] = React.useState(true)
+    const [contentState, setContentState] = React.useState(false)
+
+    const onChangeHandler = ({ checked }) => {
+      setOpenState(checked)
+    }
+
+    // console.log('contentState', contentState)
+
+    return (
+      <>
+        <ToggleButton
+          checked={openState}
+          on_change={onChangeHandler}
+          right
+        >
+          Open/close
+        </ToggleButton>
+        <ToggleButton
+          checked={contentState || !openState}
+          disabled={!openState}
+          on_change={({ checked }) => {
+            setContentState(checked)
+          }}
+          space={{ top: true, bottom: true }}
+        >
+          Change height inside
+        </ToggleButton>
+
+        <StyledSection style_type="lavender" top>
+          <HeightAnimation
+            open={openState}
+            // keepInDOM={true}
+            duration={1000}
+          >
+            <Section spacing style_type="lavender">
+              <P space={0}>Your content</P>
+            </Section>
+            {contentState && <P space={0}>More content</P>}
+          </HeightAnimation>
+        </StyledSection>
+      </>
+    )
+  }
+
+  const StyledSection = styled(Section)`
+    .content-element {
+      transition: transform 1s var(--easing-default);
+      transform: translateY(-2rem);
+
+      padding: 4rem 0;
+    }
+
+    .dnb-height-animation--parallax .content-element {
+      transform: translateY(0);
+    }
+  `
+
+  return <Example />
+}

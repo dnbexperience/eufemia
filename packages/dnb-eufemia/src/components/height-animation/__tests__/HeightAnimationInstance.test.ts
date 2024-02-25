@@ -1,3 +1,4 @@
+import { wait } from '../../../core/jest/jestSetup'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 import {
   simulateAnimationEnd,
@@ -37,6 +38,20 @@ describe('HeightAnimationInstance', () => {
     expect(inst.elem).toBeUndefined()
   })
 
+  it('firstPaintStyle should have these properties', () => {
+    const inst = new HeightAnimationInstance()
+    expect(inst.firstPaintStyle).toEqual({
+      height: 'auto',
+      opacity: '0',
+      visibility: 'hidden',
+    })
+    expect(inst.firstPaintStyle).not.toEqual(
+      expect.objectContaining({
+        position: 'absolute',
+      })
+    )
+  })
+
   it('getHeight should return height', () => {
     const inst = new HeightAnimationInstance()
     inst.setElement(element)
@@ -46,55 +61,115 @@ describe('HeightAnimationInstance', () => {
     expect(inst.getHeight()).toBe(100)
   })
 
-  it('getUnknownHeight should return proper height', () => {
-    const inst = new HeightAnimationInstance()
-    inst.setElement(element)
+  describe('getUnknownHeight', () => {
+    it('should return proper height', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
 
-    mockHeight(100, element)
+      mockHeight(100, element)
 
-    expect(inst.getUnknownHeight()).toBe(100)
-  })
+      expect(inst.getUnknownHeight()).toBe(100)
+    })
 
-  it('open should call getUnknownHeight', () => {
-    const inst = new HeightAnimationInstance()
+    it('should create a cloned element', async () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
 
-    jest.spyOn(inst, 'getUnknownHeight').mockImplementation(jest.fn())
+      mockHeight(100, element)
 
-    inst.setElement(element)
-    inst.setState('closed')
-    inst.open()
+      const addedNodes = []
+      const removedNodes = []
 
-    expect(inst.getUnknownHeight).toHaveBeenCalledTimes(1)
-  })
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            if (mutation.removedNodes?.length) {
+              removedNodes.push(mutation.removedNodes)
+            }
+            if (mutation.addedNodes?.length) {
+              addedNodes.push(mutation.addedNodes)
+            }
+          }
+        }
+      })
 
-  it('getUnknownHeight should use cached height during animation', () => {
-    const inst = new HeightAnimationInstance()
+      observer.observe(document.body, {
+        childList: true,
+      })
 
-    mockHeight(100, element)
+      inst.getUnknownHeight()
 
-    expect(inst.__currentHeight).toBe(undefined)
-    expect(inst.isAnimating).toBe(undefined)
+      await wait(1)
 
-    inst.setElement(element)
-    inst.setState('closed')
-    inst.open()
+      observer.disconnect()
 
-    expect(inst.isAnimating).toBe(true)
-    expect(inst.__currentHeight).toBe(100)
+      expect(addedNodes).toHaveLength(1)
+      expect(removedNodes).toHaveLength(1)
+    })
 
-    mockHeight(200, element)
+    it('should create a cloned element with firstPaintStyle styles', async () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
 
-    inst.getUnknownHeight()
+      mockHeight(100, element)
 
-    expect(inst.__currentHeight).toBe(100)
+      const styles = []
 
-    delete inst.elem
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            if (mutation.addedNodes?.length) {
+              styles.push(mutation.addedNodes[0])
+            }
+          }
+        }
+      })
 
-    expect(inst.getUnknownHeight()).toBe(null)
+      observer.observe(document.body, {
+        childList: true,
+      })
 
-    inst.callAnimationEnd()
+      inst.getUnknownHeight()
 
-    expect(inst.__currentHeight).toBe(undefined)
+      await wait(1)
+
+      observer.disconnect()
+
+      expect(styles).toHaveLength(1)
+      expect(styles[0].getAttribute('style')).toBe(
+        'visibility: hidden; opacity: 0; height: auto; width: auto; position: absolute;'
+      )
+    })
+
+    it('should use cached height during animation', () => {
+      const inst = new HeightAnimationInstance()
+
+      mockHeight(100, element)
+
+      expect(inst.__currentHeight).toBe(undefined)
+      expect(inst.isAnimating).toBe(undefined)
+
+      inst.setElement(element)
+      inst.setState('closed')
+      inst.open()
+
+      expect(inst.isAnimating).toBe(true)
+      expect(inst.__currentHeight).toBe(100)
+
+      mockHeight(200, element)
+
+      inst.getUnknownHeight()
+
+      expect(inst.__currentHeight).toBe(100)
+
+      delete inst.elem
+
+      expect(inst.getUnknownHeight()).toBe(null)
+
+      inst.callAnimationEnd()
+
+      expect(inst.__currentHeight).toBe(undefined)
+    })
   })
 
   describe('start', () => {
@@ -146,6 +221,83 @@ describe('HeightAnimationInstance', () => {
       expect(onStart).toHaveBeenCalledTimes(0)
       expect(onEnd).toHaveBeenCalledTimes(0)
     })
+
+    it('should call stop', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      jest.spyOn(inst, 'stop').mockImplementation(jest.fn())
+      inst.start(100, 200)
+
+      expect(inst.stop).toHaveBeenCalledTimes(1)
+    })
+
+    it('should set reqId1 and reqId2', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      inst.start(100, 200)
+
+      expect(inst.reqId1).toBe(1)
+      expect(inst.reqId2).toBeUndefined()
+
+      nextAnimationFrame()
+
+      expect(inst.reqId1).toBe(1)
+      expect(inst.reqId2).toBe(1)
+    })
+
+    it('should set height style', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      inst.start(100, 200)
+
+      expect(inst.elem.style.height).toBe('')
+
+      nextAnimationFrame()
+
+      expect(inst.elem.style.height).toBe('100px')
+
+      nextAnimationFrame()
+
+      expect(inst.elem.style.height).toBe('200px')
+    })
+
+    it('should set not height style when element is missing', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+      const elem = inst.elem
+
+      inst.start(100, 200)
+
+      expect(elem.style.height).toBe('')
+
+      nextAnimationFrame()
+
+      expect(elem.style.height).toBe('100px')
+
+      inst.elem = undefined // here we remove the element during the second animation frame
+      nextAnimationFrame()
+
+      expect(elem.style.height).toBe('100px')
+    })
+
+    it('should not run when element is not set', () => {
+      const inst = new HeightAnimationInstance()
+      inst.start(100, 200)
+      expect(inst.reqId1).toBeUndefined()
+      expect(inst.reqId2).toBeUndefined()
+    })
+
+    it('should set isAnimating to true', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      inst.start(100, 200)
+
+      expect(inst.isAnimating).toBe(true)
+    })
   })
 
   describe('open', () => {
@@ -153,7 +305,19 @@ describe('HeightAnimationInstance', () => {
       globalThis.bypassTime = 1
     })
 
-    it('should call setAsOpen when criterias are met', () => {
+    it('should call getUnknownHeight', () => {
+      const inst = new HeightAnimationInstance()
+
+      jest.spyOn(inst, 'getUnknownHeight').mockImplementation(jest.fn())
+
+      inst.setElement(element)
+      inst.setState('closed')
+      inst.open()
+
+      expect(inst.getUnknownHeight).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call setAsOpen when criteria are met', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
@@ -256,7 +420,7 @@ describe('HeightAnimationInstance', () => {
       globalThis.bypassTime = 1
     })
 
-    it('should call setAsClosed when criterias are met', () => {
+    it('should call setAsClosed when criteria are met', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 

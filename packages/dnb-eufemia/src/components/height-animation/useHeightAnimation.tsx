@@ -154,7 +154,7 @@ export function useHeightAnimation(
   const firstPaintStyle = ((open &&
     !isVisible &&
     !isAnimating &&
-    instRef.current?.firstPaintStyle()) ||
+    instRef.current?.firstPaintStyle) ||
     {}) as React.CSSProperties
   const isInDOM = open || isVisible
 
@@ -170,6 +170,11 @@ export function useHeightAnimation(
 }
 
 function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
+  const isTest =
+    typeof process !== 'undefined' &&
+    process.env.NODE_ENV === 'test' &&
+    typeof globalThis.IS_TEST === 'undefined'
+
   useLayoutEffect(() => {
     instRef.current.setElement(targetRef.current)
 
@@ -182,19 +187,12 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
       } else {
         instRef.current.setAsClosed()
       }
-    }
-  }, [open, targetRef, instRef, isInitialRenderRef])
-
-  const isTest =
-    typeof process !== 'undefined' &&
-    process.env.NODE_ENV === 'test' &&
-    typeof globalThis.IS_TEST === 'undefined'
-
-  useLayoutEffect(() => {
-    if (open) {
-      instRef.current.open()
     } else {
-      instRef.current.close()
+      if (open) {
+        instRef.current.open()
+      } else {
+        instRef.current.close()
+      }
     }
 
     // For testing purposes, we need to trigger the transitionend event
@@ -202,7 +200,7 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
       const event = new CustomEvent('transitionend')
       targetRef.current?.dispatchEvent(event)
     }
-  }, [open, instRef, isInitialRenderRef, targetRef, isTest])
+  }, [open, targetRef, instRef, isInitialRenderRef, isTest])
 
   useLayoutEffect(() => {
     const run = () => {

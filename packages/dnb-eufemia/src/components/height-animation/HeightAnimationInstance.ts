@@ -44,6 +44,12 @@ export default class HeightAnimation {
   isAnimating: boolean
   __currentHeight: number
 
+  firstPaintStyle = {
+    visibility: 'hidden',
+    opacity: '0', // prevents before/after elements to be visible
+    height: 'auto',
+  }
+
   constructor(opts: HeightAnimationOptions = {}) {
     this.isInBrowser = typeof window !== 'undefined'
     this.setState('init')
@@ -164,14 +170,6 @@ export default class HeightAnimation {
   getHeight() {
     return parseFloat(String(this.elem?.clientHeight)) || null
   }
-  firstPaintStyle() {
-    return {
-      position: 'absolute',
-      visibility: 'hidden',
-      opacity: '0', // prevents before/after elements to be visible
-      height: 'auto',
-    }
-  }
   getUnknownHeight() {
     if (!this.elem) {
       return null
@@ -181,13 +179,15 @@ export default class HeightAnimation {
       return this.__currentHeight
     }
 
+    const width = this.elem.clientWidth
     const clonedElem = this.elem.cloneNode(true) as HTMLElement
     this.elem.parentNode?.insertBefore(clonedElem, this.elem.nextSibling)
 
     for (const key in this.firstPaintStyle) {
       clonedElem.style[key] = this.firstPaintStyle[key]
     }
-    clonedElem.style.height = 'auto'
+    clonedElem.style.width = width ? `${String(width)}px` : 'auto' // set width because of the "position: absolute"
+    clonedElem.style.position = 'absolute' // not a part of the "firstPaintStyle"
 
     const height =
       parseFloat(String(clonedElem.clientHeight)) ||
@@ -228,6 +228,7 @@ export default class HeightAnimation {
       return
     }
 
+    this.stop()
     this.isAnimating = true
 
     // make the animation
@@ -275,7 +276,7 @@ export default class HeightAnimation {
     const toHeight = this.getUnknownHeight()
 
     this.addEndEvent((e) => {
-      if (e.target === e.currentTarget) {
+      if (e.target === e.currentTarget || !e.currentTarget) {
         this.setState('opened')
         this.readjust()
       }
@@ -299,7 +300,7 @@ export default class HeightAnimation {
     const fromHeight = this.getHeight()
 
     this.addEndEvent((e) => {
-      if (e.target === e.currentTarget) {
+      if (e.target === e.currentTarget || !e.currentTarget) {
         if (this.elem) {
           this.elem.style.visibility = 'hidden'
           this.elem.style.overflowY = 'clip'
@@ -342,7 +343,10 @@ export default class HeightAnimation {
     this.callAnimationStart()
 
     this.addEndEvent((e) => {
-      if (this.state === 'adjusting' && e.target === e.currentTarget) {
+      if (
+        this.state === 'adjusting' &&
+        (e.target === e.currentTarget || !e.currentTarget)
+      ) {
         if (this.elem) {
           this.elem.style.height = 'auto'
         }
