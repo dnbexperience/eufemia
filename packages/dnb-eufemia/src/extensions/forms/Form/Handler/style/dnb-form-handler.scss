@@ -1,0 +1,11 @@
+@import '../../../../../style/core/utilities.scss';
+
+.dnb-form-submit-indicator__alignment {
+  .dnb-card + .dnb-forms-button-row + & {
+    @include allAbove(small) {
+      &:not([class*='space__left']) {
+        margin-left: var(--spacing-medium);
+      }
+    }
+  }
+}
