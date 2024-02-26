@@ -55,9 +55,9 @@ export type BreadcrumbProps = {
 
   /**
    * The variant of the component.
-   * Default: When children and data is not defined, it defaults to "single". If they are defined, the variant depends on the viewport.
+   * Default: When children and data is not defined, it defaults to "single". "responsive" if they are defined.
    */
-  variant?: 'default' | 'single' | 'multiple' | 'collapse'
+  variant?: 'responsive' | 'single' | 'multiple' | 'collapse'
 
   /**
    * Handle the click event on 'single'/'collapse'
@@ -128,7 +128,6 @@ export type BreadcrumbProps = {
 
 export const defaultProps = {
   skeleton: false,
-  variant: 'default',
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
@@ -179,8 +178,10 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   const { isLarge } = useMedia()
 
   let currentVariant = variant
-  if (variant === 'default') {
-    if (!items && !data) {
+  if (!variant) {
+    if (items || data) {
+      currentVariant = 'responsive'
+    } else {
       currentVariant = 'single'
     }
   }
@@ -257,7 +258,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
         )}
       </Section>
 
-      {(currentVariant === 'collapse' || currentVariant === 'default') && (
+      {(currentVariant === 'collapse' ||
+        currentVariant === 'responsive') && (
         <Section
           variant={collapsedStyleType}
           className="dnb-breadcrumb__collapse"

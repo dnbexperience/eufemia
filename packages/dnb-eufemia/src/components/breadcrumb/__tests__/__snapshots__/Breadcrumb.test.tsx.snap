@@ -769,12 +769,12 @@ html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
   transition: none;
 }
 @media screen and (max-width: 60em) {
-  .dnb-breadcrumb--variant-default .dnb-breadcrumb__bar .dnb-breadcrumb__multiple {
+  .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__bar .dnb-breadcrumb__multiple {
     display: none;
   }
 }
 @media screen and (min-width: 60em) {
-  .dnb-breadcrumb--variant-default .dnb-breadcrumb__toggle {
+  .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__toggle {
     display: none;
   }
 }
