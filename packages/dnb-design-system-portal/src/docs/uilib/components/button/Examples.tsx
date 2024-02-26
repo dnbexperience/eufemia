@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary } from '@dnb/eufemia/src'
-import { VisibilityByTheme, ThemeProvider } from '@dnb/eufemia/src/shared'
+import { VisibilityByTheme, Theme } from '@dnb/eufemia/src/shared'
 import styled from '@emotion/styled'
 
 export const ButtonPrimary = () => (
@@ -526,17 +526,17 @@ export const TertiaryButtonAlignment = () => {
   )
 }
 
-const DarkBackground = styled.div`
+const AreaWithDarkBackground = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem;
   background-color: var(--sb-color-purple);
 `
-
-export const ButtonOnDarkBackground = () => (
-  <ComponentBox hideCode scope={{ ThemeProvider, DarkBackground }}>
-    <DarkBackground>
-      <ThemeProvider onDarkBackground>
+export const ButtonHasDarkBackground = () => (
+  <ComponentBox hideCode scope={{ AreaWithDarkBackground, Theme }}>
+    <AreaWithDarkBackground>
+      <Theme.Provider hasDarkBackground>
         <Button data-visual-test="button-primary-on-dark">
           Primary button
         </Button>
@@ -554,7 +554,7 @@ export const ButtonOnDarkBackground = () => (
         >
           Tertiary button
         </Button>
-      </ThemeProvider>
-    </DarkBackground>
+      </Theme.Provider>
+    </AreaWithDarkBackground>
   </ComponentBox>
 )

@@ -5,7 +5,7 @@
 
 import Context from './Context'
 import Provider from './Provider'
-import Theme, { ThemeProvider } from './Theme'
+import Theme from './Theme'
 import type { ThemeNames } from './Theme'
 import useTheme from './useTheme'
 import VisibilityByTheme from './VisibilityByTheme'
@@ -17,7 +17,6 @@ export {
   Context,
   Provider,
   Theme,
-  ThemeProvider,
   ThemeNames,
   useTheme,
   VisibilityByTheme,

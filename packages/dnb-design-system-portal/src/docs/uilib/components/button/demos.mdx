@@ -17,7 +17,7 @@ import {
   ButtonSignal,
   ButtonSignalLarge,
   ButtonIcon,
-  ButtonOnDarkBackground,
+  ButtonHasDarkBackground,
 } from 'Docs/uilib/components/button/Examples'
 
 ## Demos
@@ -94,11 +94,11 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 
 <VisibilityByTheme visible="sbanken">
 
-### Button on dark button
+### Button on dark background
 
-When placing the button on a dark background wrap the content of the dark section with `<ThemeProvider onDarkBackground>`
+When placing the button on a dark background wrap the content of the dark section with `<Theme.Provider hasDarkBackground>`
 to get the correct styles.
 
-<ButtonOnDarkBackground />
+<ButtonHasDarkBackground />
 
 </VisibilityByTheme>
