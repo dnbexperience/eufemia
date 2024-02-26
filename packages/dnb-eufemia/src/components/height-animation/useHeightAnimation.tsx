@@ -111,7 +111,9 @@ export function useHeightAnimation(
           break
       }
 
-      onAnimationStart?.(state)
+      if (!isInitialRenderRef.current) {
+        onAnimationStart?.(state)
+      }
     })
 
     instRef.current.onEnd((state: HeightAnimationOnEndTypes) => {

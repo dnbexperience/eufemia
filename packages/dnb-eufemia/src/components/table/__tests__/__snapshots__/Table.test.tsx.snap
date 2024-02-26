@@ -93,19 +93,19 @@ exports[`Table scss has to match style dependencies css 1`] = `
   border-radius: 0 0 var(--table-outline-radius) var(--table-outline-radius);
 }
 .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) {
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last {
   clip-path: none;
 }
 .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__th, .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__th::before, .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__th::after,
 .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__td,
 .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__td::before,
 .dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr:last-child .dnb-table__td::after,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__th,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__th::before,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__th::after,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__td,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__td::before,
-.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content:nth-last-child(2) .dnb-table__td::after {
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last .dnb-table__th,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last .dnb-table__th::before,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last .dnb-table__th::after,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last .dnb-table__td,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last .dnb-table__td::before,
+.dnb-table--outline > caption:not(.dnb-sr-only) ~ tbody:last-child .dnb-table__tr--has-accordion-content.dnb-table__tr--last .dnb-table__td::after {
   border-radius: 0;
 }
 .dnb-table.dnb-skeleton > * {
@@ -390,31 +390,31 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-top-right-radius: var(--table-outline-radius);
 }
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last {
   clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));
 }
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::after,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child::before,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child::after,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:first-child,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:first-child::before,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:first-child::after,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-child,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-child::before,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-child::after {
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:first-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:first-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:first-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:first-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:first-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:first-child::after {
   border-bottom-left-radius: var(--table-outline-radius);
 }
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child::after,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child::before,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child::after,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:last-child,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:last-child::before,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__th:last-child::after,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-child,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-child::before,
-.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-child::after {
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:last-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:last-child::after,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child::after {
   border-bottom-right-radius: var(--table-outline-radius);
 }
 .dnb-table__td--no-spacing,
@@ -564,10 +564,17 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 */
 .dnb-table {
   --table-accordion-background: var(--color-white);
+  --table-accordion-header-background: var(--color-white);
   --table-accordion-border-width: 0.0625rem;
   --table-accordion-border-color: var(--color-black-20);
   --table-accordion-border: var(--table-accordion-border-width) solid
     var(--table-accordion-border-color);
+  --table-accordion-icon-color: var(--color-sea-green);
+  --table-accordion-icon-color--active: var(--color-emerald-green);
+  --table-accordion-icon-color--disabled: var(--color-sea-green-30);
+  --table-accordion-outline-color: var(--color-emerald-green);
+  --table-accordion-outline-width: var(--focus-ring-width);
+  --table-accordion-outline-background--active: var(--color-pistachio);
 }
 .dnb-table__th.dnb-table__th__accordion-icon.dnb-table__th {
   padding: 0;
@@ -596,7 +603,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   justify-content: center;
 }
 .dnb-table__tr--has-accordion-content .dnb-table__toggle-button .dnb-icon {
-  color: var(--color-sea-green);
+  color: var(--table-accordion-icon-color);
   transition: transform 500ms var(--easing-default);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--no-animation .dnb-table__toggle-button .dnb-icon, html[data-visual-test] .dnb-table__tr--has-accordion-content .dnb-table__toggle-button .dnb-icon {
@@ -628,7 +635,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   z-index: 3;
   inset: 0;
   pointer-events: none;
-  border: var(--focus-ring-width) solid transparent;
+  border: var(--table-accordion-outline-width) solid transparent;
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:first-of-type)::before {
   border-left: none;
@@ -640,21 +647,20 @@ html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-tabl
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
-  border-color: var(--color-emerald-green);
+  border-color: var(--table-accordion-outline-color);
 }
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__accordion-icon .dnb-icon {
-  color: var(--color-emerald-green);
+  color: var(--table-accordion-icon-color--active);
 }
-.dnb-table--outline tbody .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):not(:nth-last-child(2)) .dnb-table__td::before {
-  bottom: calc(var(--table-outline-width) * -1);
+.dnb-table--border tbody .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):not(.dnb-table__tr--last) .dnb-table__td::before {
+  bottom: calc(var(--table-border-width) * -1);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
   background-color: var(--color-white);
 }
 html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
-  top: 0;
-  bottom: 0;
-  border-color: var(--color-emerald-green);
+  border-color: var(--focus-ring-color);
+  border-width: var(--focus-ring-width);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
   left: 0;
@@ -664,31 +670,31 @@ html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content.dnb-table__t
 }
 html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active:hover td::before,
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
-  border-color: var(--color-emerald-green);
+  border-color: var(--table-accordion-outline-color);
   border-width: var(--table-accordion-border-width);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
-  background-color: var(--color-pistachio);
+  background-color: var(--table-accordion-outline-background--active);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__accordion-icon .dnb-icon {
-  color: var(--color-emerald-green);
+  color: var(--table-accordion-icon-color--active);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
-  background-color: var(--table-accordion-background);
+  background-color: var(--table-accordion-header-background);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
   border: none;
   border-top: var(--table-accordion-border);
 }
 html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
-  background-color: var(--table-accordion-background);
+  background-color: var(--table-accordion-header-background);
 }
 html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) td::before {
   border: none;
   border-top: var(--table-accordion-border);
 }
 .dnb-table__tr--has-accordion-content.dnb-table__tr--disabled .dnb-table__td__accordion-icon .dnb-icon {
-  color: var(--color-sea-green-30);
+  color: var(--table-accordion-icon-color--disabled);
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-table__tr__accordion-content[hidden] {
@@ -698,32 +704,6 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-ta
     */
     display: block;
   }
-}
-.dnb-table__tr__accordion-content td {
-  padding: 0 !important;
-  width: calc(100% - 3.5rem);
-}
-.dnb-table__size--medium .dnb-table__tr__accordion-content td {
-  width: calc(100% - 3rem);
-}
-.dnb-table__size--small .dnb-table__tr__accordion-content td {
-  width: calc(100% - 2.5rem);
-}
-.dnb-table__tr__accordion-content td::before {
-  content: "";
-  position: absolute;
-  top: auto;
-  left: 0;
-  right: 0;
-  bottom: calc(var(--table-accordion-border-width) * -1);
-  pointer-events: none;
-  border-bottom: var(--table-accordion-border);
-}
-.dnb-table--outline .dnb-table__tr__accordion-content:last-of-type td::before {
-  border-bottom: none;
-}
-.dnb-table--border .dnb-table__tr__accordion-content td::after {
-  border-top: none;
 }
 .dnb-table__tr__accordion-content__inner {
   overflow: hidden;
@@ -742,15 +722,55 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-ta
 html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
   transition: none;
 }
-.dnb-table__tr__accordion-content > td.dnb-table__td {
-  padding: 0;
-}
-.dnb-table__tr__accordion-content > td.dnb-table__td .dnb-dl,
-.dnb-table__tr__accordion-content > td.dnb-table__td .dnb-dl dt {
-  margin: 0;
-}
 .dnb-table__tr__accordion-content--expanded > td.dnb-table__td {
   background-color: var(--color-white);
+}
+.dnb-table__tr__accordion-content--expanded + .dnb-table__tr--has-accordion-content .dnb-table__td::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: -0.0625rem;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-top: var(--table-accordion-border);
+}
+.dnb-table__tr__accordion-content--expanded + .dnb-table__tr--has-accordion-content .dnb-table__td:last-child::after {
+  right: 0;
+}
+.dnb-table__tr__accordion-content--single td {
+  padding: 0 !important;
+  width: calc(100% - 3.5rem);
+}
+.dnb-table__size--medium .dnb-table__tr__accordion-content--single td {
+  width: calc(100% - 3rem);
+}
+.dnb-table__size--small .dnb-table__tr__accordion-content--single td {
+  width: calc(100% - 2.5rem);
+}
+.dnb-table__tr__accordion-content--single td::before {
+  content: "";
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--table-accordion-border-width) * -1);
+  pointer-events: none;
+  border-bottom: var(--table-accordion-border);
+}
+.dnb-table--outline .dnb-table__tr__accordion-content--single:last-of-type td::before {
+  border-bottom: none;
+}
+.dnb-table--border .dnb-table__tr__accordion-content--single td::after {
+  border-top: none;
+}
+.dnb-table__tr__accordion-content--single > td.dnb-table__td {
+  padding: 0;
+}
+.dnb-table__tr__accordion-content--single > td.dnb-table__td .dnb-dl,
+.dnb-table__tr__accordion-content--single > td.dnb-table__td .dnb-dl dt {
+  margin: 0;
 }
 .dnb-table__tr__accordion-content.dnb-table__tr .dnb-table__td {
   background-color: var(--table-accordion-background);

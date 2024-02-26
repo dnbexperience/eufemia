@@ -1,31 +1,19 @@
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import classnames from 'classnames'
-import { useHeightAnimation } from '../height-animation/useHeightAnimation'
-import { getClosestScrollViewElement } from '../../shared/component-helper'
-import TableContext from './TableContext'
+import useTableAnimationHandler from './useTableAnimationHandler'
+import { TableAccordionContext, TableContext } from './TableContext'
+import { TableAccordionTrProps } from './TableAccordionTr'
 
-export const TrContext = React.createContext(null)
-
-export type TableAccordionContentProps = {
-  /**
-   * Set to true to expanded the content on initial render
-   */
-  expanded?: boolean
-
-  /**
-   * Set to true to skip animation
-   * Default: false
-   */
-  noAnimation?: boolean
-
+export type TableAccordionTdProps = {
   /**
    * Overwrite the internal collected colSpan (add +1)
    */
   colSpan?: number
 }
 
-export default function TableAccordionContent(
-  componentProps: TableAccordionContentProps &
+export default function TableAccordionTd(
+  componentProps: TableAccordionTdProps &
+    TableAccordionTrProps &
     React.TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {
@@ -39,62 +27,22 @@ export default function TableAccordionContent(
   } = componentProps
 
   const allProps = React.useContext(TableContext)?.allProps
-  const trContext = React.useContext(TrContext)
+  const tableAccordionContext = React.useContext(TableAccordionContext)
   const innerRef = React.useRef<HTMLDivElement>(null)
   const trRef = React.useRef<HTMLTableRowElement>(null)
-  const [ariaLive, setAriaLive] = React.useState(null)
-
-  const open = Boolean(expanded || trContext?.trIsOpen)
-
-  const scrollViewHandler = useCallback(
-    (clip = open) => {
-      const scollView = getClosestScrollViewElement(
-        trRef.current
-      ) as HTMLElement
-      if (scollView instanceof HTMLElement) {
-        scollView.style.overflow = clip ? 'clip' : ''
-      }
-    },
-    [open]
-  )
-
-  useEffect(() => {
-    if (open) {
-      scrollViewHandler()
-    }
-  }, [open, scrollViewHandler])
-
-  const onOpen = useCallback((state) => {
-    setAriaLive(state ? true : null)
-  }, [])
-
-  const onAnimationEnd = useCallback(
-    (state) => {
-      const event = { target: trRef.current }
-      switch (state) {
-        case 'opened':
-          trContext.onOpened?.(event)
-          break
-
-        case 'closed':
-          trContext.onClosed?.(event)
-          break
-      }
-
-      scrollViewHandler(false)
-    },
-    [scrollViewHandler, trContext]
-  )
-
-  const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
-    useHeightAnimation(innerRef, {
-      open,
-      animate: Boolean(!noAnimation && !trContext?.noAnimation),
-      onOpen,
-      onAnimationEnd,
-    })
-
-  const countTds = trContext?.countTds || colSpan
+  const {
+    ariaLive,
+    isInDOM,
+    isAnimating,
+    isVisibleParallax,
+    firstPaintStyle,
+  } = useTableAnimationHandler({
+    innerRef,
+    trRef,
+    expanded,
+    noAnimation,
+  })
+  const countTds = tableAccordionContext?.countTds || colSpan
 
   return (
     <tr
@@ -112,6 +60,7 @@ export default function TableAccordionContent(
       className={classnames(
         isInDOM && 'dnb-table__tr',
         'dnb-table__tr__accordion-content',
+        'dnb-table__tr__accordion-content--single',
         isInDOM && 'dnb-table__tr__accordion-content--expanded',
         isAnimating && 'dnb-table__tr__accordion-content--animating',
         isVisibleParallax && 'dnb-table__tr__accordion-content--parallax',

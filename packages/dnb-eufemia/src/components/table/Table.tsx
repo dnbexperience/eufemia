@@ -9,7 +9,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import ScrollView from './TableScrollView'
-import TableContext from './TableContext'
+import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'
 
 import type { StickyTableHeaderProps } from './TableStickyHeader'

@@ -5,21 +5,32 @@
 
 @mixin tableAccordionActiveColor {
   .dnb-table__td__accordion-icon .dnb-icon {
-    color: var(--color-emerald-green);
+    color: var(--table-accordion-icon-color--active);
   }
 }
 @mixin tableAccordionDisabledColor {
   .dnb-table__td__accordion-icon .dnb-icon {
-    color: var(--color-sea-green-30);
+    color: var(--table-accordion-icon-color--disabled);
   }
 }
 
 .dnb-table {
   --table-accordion-background: var(--color-white);
+  --table-accordion-header-background: var(--color-white);
   --table-accordion-border-width: 0.0625rem;
   --table-accordion-border-color: var(--color-black-20);
   --table-accordion-border: var(--table-accordion-border-width) solid
     var(--table-accordion-border-color);
+
+  // Icon
+  --table-accordion-icon-color: var(--color-sea-green);
+  --table-accordion-icon-color--active: var(--color-emerald-green);
+  --table-accordion-icon-color--disabled: var(--color-sea-green-30);
+
+  // Outline
+  --table-accordion-outline-color: var(--color-emerald-green);
+  --table-accordion-outline-width: var(--focus-ring-width);
+  --table-accordion-outline-background--active: var(--color-pistachio);
 
   &__th#{&}__th__accordion-icon {
     &.dnb-table__th {
@@ -54,7 +65,7 @@
     justify-content: center;
 
     .dnb-icon {
-      color: var(--color-sea-green);
+      color: var(--table-accordion-icon-color);
       transition: transform 500ms var(--easing-default);
     }
   }
@@ -114,7 +125,7 @@
 
       // Here we use border to support Safari v16 on macOS
       // but also to only have a border on specific sides
-      border: var(--focus-ring-width) solid transparent;
+      border: var(--table-accordion-outline-width) solid transparent;
     }
     td:not(:first-of-type)::before {
       border-left: none;
@@ -125,20 +136,18 @@
 
     @include hover() {
       td::before {
-        border-color: var(--color-emerald-green);
+        border-color: var(--table-accordion-outline-color);
       }
 
       @include tableAccordionActiveColor();
     }
   }
 
-  &--outline
+  &--border
     tbody
-    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(
-      :nth-last-child(2)
-    )
+    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(&__tr--last)
     &__td::before {
-    bottom: calc(var(--table-outline-width) * -1);
+    bottom: calc(var(--table-border-width) * -1);
   }
 
   &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
@@ -151,9 +160,8 @@
     ):not(:hover):focus {
     td::before {
       @include whatInput(keyboard) {
-        top: 0;
-        bottom: 0;
-        border-color: var(--color-emerald-green);
+        border-color: var(--focus-ring-color);
+        border-width: var(--focus-ring-width);
       }
     }
     td:first-of-type::before {
@@ -167,7 +175,7 @@
   &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active {
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
-      border-color: var(--color-emerald-green);
+      border-color: var(--table-accordion-outline-color);
       border-width: var(
         --table-accordion-border-width
       ); // TODO: we should have something like activeRingWidth
@@ -175,7 +183,7 @@
   }
 
   &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active &__td {
-    background-color: var(--color-pistachio);
+    background-color: var(--table-accordion-outline-background--active);
 
     @include tableAccordionActiveColor();
   }
@@ -184,7 +192,7 @@
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
-    background-color: var(--table-accordion-background);
+    background-color: var(--table-accordion-header-background);
 
     &::before {
       border: none;
@@ -196,7 +204,7 @@
       &__tr--disabled
     ):not(:active):not(:hover) {
     @include whatInputNot('keyboard') {
-      background-color: var(--table-accordion-background);
+      background-color: var(--table-accordion-header-background);
 
       td::before {
         border: none;
@@ -220,6 +228,43 @@
       }
     }
 
+    &__inner {
+      overflow: hidden;
+      will-change: height;
+      transition: height 400ms var(--easing-default);
+
+      &__spacing {
+        padding: 1rem;
+
+        transform: translateY(-10px);
+        transition: transform 500ms var(--easing-default);
+      }
+
+      position: relative;
+    }
+    &--parallax &__inner {
+      &__spacing {
+        transform: translateY(0);
+        html[data-visual-test] & {
+          transition: none;
+        }
+      }
+    }
+
+    &--expanded {
+      > td.dnb-table__td {
+        background-color: var(--color-white);
+      }
+
+      + .dnb-table__tr--has-accordion-content .dnb-table__td {
+        @include tableBorder() {
+          border-top: var(--table-accordion-border);
+        }
+      }
+    }
+  }
+
+  &__tr__accordion-content--single {
     td {
       padding: 0 !important; // medium and small size sets padding – but we never want a padding on this td
 
@@ -256,29 +301,6 @@
       border-top: none;
     }
 
-    &__inner {
-      overflow: hidden;
-      will-change: height;
-      transition: height 400ms var(--easing-default);
-
-      &__spacing {
-        padding: 1rem;
-
-        transform: translateY(-10px);
-        transition: transform 500ms var(--easing-default);
-      }
-
-      position: relative;
-    }
-    &--parallax &__inner {
-      &__spacing {
-        transform: translateY(0);
-        html[data-visual-test] & {
-          transition: none;
-        }
-      }
-    }
-
     > td.dnb-table__td {
       padding: 0;
 
@@ -286,10 +308,6 @@
       .dnb-dl dt {
         margin: 0;
       }
-    }
-
-    &--expanded > td.dnb-table__td {
-      background-color: var(--color-white);
     }
   }
 
