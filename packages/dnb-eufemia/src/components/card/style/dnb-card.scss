@@ -16,8 +16,18 @@
 
   @include allBelow(small) {
     &.dnb-section::before {
-      left: -100vw;
-      right: -100vw;
+      left: var(--left);
+
+      --outline: 99vw 0 0 0 var(--background-color),
+        198vw 0 0 0 var(--background-color),
+        297vw 0 0 0 var(--background-color),
+        396vw 0 0 0 var(--background-color),
+        0 var(--outline-width) 0 0 var(--outline-color),
+        99vw var(--outline-width) 0 0 var(--outline-color),
+        0 calc(var(--outline-width) * -1) 0 0 var(--outline-color),
+        99vw calc(var(--outline-width) * -1) 0 0 var(--outline-color),
+        198vw var(--outline-width) 0 0 var(--outline-color),
+        198vw calc(var(--outline-width) * -1) 0 0 var(--outline-color);
     }
   }
 
