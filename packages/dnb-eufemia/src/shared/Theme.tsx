@@ -71,8 +71,9 @@ export default function Theme(themeProps: ThemeAllProps) {
 }
 
 Theme.Provider = ({ element, ...themeProps }: ThemeAllProps) => {
-  return <Theme {...themeProps} element={element || false} />
+  return <Theme {...themeProps} element={false} />
 }
+Theme.Provider['_supportsSpacingProps'] = 'children'
 
 export function ThemeWrapper({
   children,
