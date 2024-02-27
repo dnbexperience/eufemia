@@ -1801,7 +1801,7 @@ describe('DatePicker component', () => {
     )
 
     await userEvent.click(firstInput)
-    fireEvent.change(firstInput, {target: {value: 12}})
+    fireEvent.change(firstInput, { target: { value: 12 } })
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     expect(document.activeElement).toBe(firstInput)
@@ -1819,7 +1819,7 @@ describe('DatePicker component', () => {
     )
     await userEvent.click(secondInput)
 
-    fireEvent.change(secondInput, {target: {value: 11}})
+    fireEvent.change(secondInput, { target: { value: 11 } })
 
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(document.activeElement).toBe(secondInput)
@@ -1829,13 +1829,12 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(secondInput)
     expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: secondInput, partial_start_date: 'yyyy-11-12' })
+      expect.objectContaining({
+        target: secondInput,
+        partial_start_date: 'yyyy-11-12',
+      })
     )
   })
-
-
-
-
 
   it('should have todays date enabled in calendar if minDate is today', async () => {
     const minDate = new Date()
