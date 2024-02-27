@@ -6,8 +6,16 @@
   column-gap: var(--spacing-small);
 
   .dnb-card + & {
-    &:not([class*='space__left']) {
-      @include allAbove(small) {
+    &:not([class*='space__top']) {
+      margin-top: var(--spacing-small);
+
+      .dnb-button[class*='space__top'] {
+        margin-top: 0;
+      }
+    }
+
+    @include allAbove(small) {
+      &:not([class*='space__left']) {
         margin-left: var(--spacing-medium);
       }
     }
