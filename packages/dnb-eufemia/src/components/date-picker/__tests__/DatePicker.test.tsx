@@ -1772,7 +1772,10 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(firstInput)
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: firstInput, date: '2024-01-05' })
+      expect.objectContaining({
+        target: firstInput,
+        date: '2024-01-05',
+      })
     )
 
     await userEvent.click(secondInput)
@@ -1788,6 +1791,51 @@ describe('DatePicker component', () => {
       expect.objectContaining({ target: secondInput, date: '2024-01-05' })
     )
   })
+
+  it('should fire blur event with partially typed dates when input loses focus', async () => {
+    const onBlur = jest.fn()
+    render(<DatePicker show_input onBlur={onBlur} date="" />)
+
+    const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-input__input')
+    )
+
+    await userEvent.click(firstInput)
+    fireEvent.change(firstInput, {target: {value: 12}})
+    expect(onBlur).toHaveBeenCalledTimes(0)
+
+    expect(document.activeElement).toBe(firstInput)
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(firstInput)
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: firstInput,
+        date: null,
+        partial_start_date: 'yyyy-mm-12',
+      })
+    )
+    await userEvent.click(secondInput)
+
+    fireEvent.change(secondInput, {target: {value: 11}})
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(secondInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(secondInput)
+    expect(onBlur).toHaveBeenCalledTimes(2)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({ target: secondInput, partial_start_date: 'yyyy-11-12' })
+    )
+  })
+
+
+
+
 
   it('should have todays date enabled in calendar if minDate is today', async () => {
     const minDate = new Date()
