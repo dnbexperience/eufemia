@@ -16,7 +16,7 @@ export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
 export type DarkMode = boolean
-export type HasDarkBackground = boolean
+export type DarkBackground = boolean
 
 export type ThemeProps = {
   name?: ThemeNames
@@ -25,7 +25,7 @@ export type ThemeProps = {
   propMapping?: PropMapping
   contrastMode?: ContrastMode
   darkMode?: DarkMode
-  hasDarkBackground?: HasDarkBackground
+  darkBackground?: DarkBackground
   element?: DynamicElement | false
 }
 
@@ -43,7 +43,7 @@ export default function Theme(themeProps: ThemeAllProps) {
     propMapping,
     contrastMode,
     darkMode,
-    hasDarkBackground,
+    darkBackground,
     ...restProps
   } = themeProps
 
@@ -55,7 +55,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       propMapping,
       contrastMode,
       darkMode,
-      hasDarkBackground,
+      darkBackground,
     },
     null,
     context?.theme

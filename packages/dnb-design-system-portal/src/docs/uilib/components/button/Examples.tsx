@@ -536,7 +536,7 @@ const AreaWithDarkBackground = styled.div`
 export const ButtonHasDarkBackground = () => (
   <ComponentBox hideCode scope={{ AreaWithDarkBackground, Theme }}>
     <AreaWithDarkBackground>
-      <Theme.Provider hasDarkBackground>
+      <Theme.Provider darkBackground>
         <Button data-visual-test="button-primary-on-dark">
           Primary button
         </Button>
