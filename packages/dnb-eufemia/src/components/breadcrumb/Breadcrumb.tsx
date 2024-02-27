@@ -55,9 +55,9 @@ export type BreadcrumbProps = {
 
   /**
    * The variant of the component.
-   * Default: When children and data is not defined, it defaults to "single". If they are defined, the variant depends on the viewport.
+   * Default: When children and data is not defined, it defaults to "single". "responsive" if they are defined.
    */
-  variant?: 'single' | 'multiple' | 'collapse'
+  variant?: 'responsive' | 'single' | 'multiple' | 'collapse'
 
   /**
    * Handle the click event on 'single'/'collapse'
@@ -180,7 +180,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   let currentVariant = variant
   if (!variant) {
     if (items || data) {
-      currentVariant = 'multiple'
+      currentVariant = 'responsive'
     } else {
       currentVariant = 'single'
     }
@@ -229,20 +229,22 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
           />
         ) : (
           <>
-            <Button
-              className="dnb-breadcrumb__toggle"
-              text={backToText}
-              variant="tertiary"
-              icon="chevron_left"
-              icon_position="left"
-              onClick={
-                onClick ||
-                (() => {
-                  setCollapse(!isCollapsed)
-                })
-              }
-              aria-expanded={!isCollapsed}
-            />
+            {currentVariant !== 'multiple' && (
+              <Button
+                className="dnb-breadcrumb__toggle"
+                text={backToText}
+                variant="tertiary"
+                icon="chevron_left"
+                icon_position="left"
+                onClick={
+                  onClick ||
+                  (() => {
+                    setCollapse(!isCollapsed)
+                  })
+                }
+                aria-expanded={!isCollapsed}
+              />
+            )}
 
             {currentVariant !== 'collapse' && (
               <BreadcrumbMultiple
@@ -256,17 +258,20 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
         )}
       </Section>
 
-      <Section
-        variant={collapsedStyleType}
-        className="dnb-breadcrumb__collapse"
-      >
-        <BreadcrumbMultiple
-          data={data}
-          items={items}
-          isCollapsed={isCollapsed}
-          noAnimation={noAnimation}
-        />
-      </Section>
+      {(currentVariant === 'collapse' ||
+        currentVariant === 'responsive') && (
+        <Section
+          variant={collapsedStyleType}
+          className="dnb-breadcrumb__collapse"
+        >
+          <BreadcrumbMultiple
+            data={data}
+            items={items}
+            isCollapsed={isCollapsed}
+            noAnimation={noAnimation}
+          />
+        </Section>
+      )}
     </nav>
   )
 }

@@ -16,8 +16,8 @@ export const BreadcrumbSingle = () => (
   </ComponentBox>
 )
 
-export const BreadcrumbMultipleData = () => (
-  <ComponentBox data-visual-test="breadcrumb-multiple">
+export const BreadcrumbDefault = () => (
+  <ComponentBox data-visual-test="breadcrumb-default">
     {() => {
       // You can also import pages from a store and only do a remapping
       const pages = [
@@ -44,8 +44,8 @@ export const BreadcrumbMultipleData = () => (
   </ComponentBox>
 )
 
-export const BreadcrumbMultiple = () => (
-  <ComponentBox data-visual-test="breadcrumb-multiple-children">
+export const BreadcrumbChildren = () => (
+  <ComponentBox data-visual-test="breadcrumb-children">
     <Breadcrumb spacing>
       <Breadcrumb.Item
         onClick={() => {
@@ -70,7 +70,7 @@ export const BreadcrumbMultiple = () => (
   </ComponentBox>
 )
 
-export const BreadcrumbVariants = () => (
+export const BreadcrumbCollapse = () => (
   <ComponentBox data-visual-test="breadcrumb-collapse">
     {() => {
       const pages = [
@@ -88,16 +88,13 @@ export const BreadcrumbVariants = () => (
         },
       ]
 
-      return (
-        // Try changing variant here
-        <Breadcrumb variant="collapse" data={pages} spacing />
-      )
+      return <Breadcrumb variant="collapse" data={pages} spacing />
     }}
   </ComponentBox>
 )
 
-export const BreadcrumbCollapseOpen = () => (
-  <ComponentBox data-visual-test="breadcrumb-collapse-open">
+export const BreadcrumbMultiple = () => (
+  <ComponentBox data-visual-test="breadcrumb-multiple">
     {() => {
       const pages = [
         {
@@ -112,16 +109,13 @@ export const BreadcrumbCollapseOpen = () => (
           text: 'Components',
           href: '/uilib/components',
         },
+        {
+          text: 'Breadcrumbs',
+          href: '/uilib/components/breadcrumbs',
+        },
       ]
 
-      return (
-        <Breadcrumb
-          variant="collapse"
-          data={pages}
-          isCollapsed={false}
-          spacing
-        />
-      )
+      return <Breadcrumb variant="multiple" data={pages} spacing />
     }}
   </ComponentBox>
 )

@@ -3,46 +3,45 @@ showTabs: true
 ---
 
 import {
+  BreadcrumbDefault,
+  BreadcrumbChildren,
   BreadcrumbSingle,
+  BreadcrumbCollapse,
   BreadcrumbMultiple,
-  BreadcrumbMultipleData,
-  BreadcrumbVariants,
-  BreadcrumbCollapseOpen,
 } from 'Docs/uilib/components/breadcrumb/Examples'
 
 ## Demos
 
-### Multiple Breadcrumb (recommended)
+### Breadcrumb
 
-To ensure the correct use of the Breadcrumb, we recommend passing down pages as a variable to `data`. If you have other specific cases, check out how to customize with [children in Multiple Breadcrumb](/uilib/components/breadcrumb/#multiple-breadcrumb-with-children).
+To ensure the correct use of the Breadcrumb, we recommend passing down pages as a variable to `data`. If you have other specific cases, check out how to customize with [children in Breadcrumb](/uilib/components/breadcrumb/#pages-as-child-components).
 
-<BreadcrumbMultipleData />
-
-Some extra functionality is provided to this variant:
+<BreadcrumbDefault />
 
 - The first item, `Home`, gets assigned a home icon and an appropriate text label based on the current locale.
 - The last item in pages will be static text, corresponding to the current page.
-- Another variant, `collapse`, appears for small screens.
+- Breadcumb will collapse on small screens
+
+### Pages as child components
+
+For customizing the Breadcrumb to fit your needs, you can add each page as a child component.
+
+<BreadcrumbChildren />
 
 ### Single Breadcrumb
 
-When you only want a single button for `back`, this variant is recommended and default when neither `data` nor `children` is present.
+When you only want a single button for `back`.
 
 <BreadcrumbSingle />
 
-### Multiple Breadcrumb with children
+This can also be forced using the `variant="single"` prop.
 
-For customizing the Breadcrumb to fit your needs, this variant can be utilized.
+### Always be collapsed (`variant="collapse"`)
+
+Expands when user clicks
+
+<BreadcrumbCollapse />
+
+### Never collapse (`variant="multiple"`)
 
 <BreadcrumbMultiple />
-
-### Setting property 'variant'
-
-Property variant is by default set based on the combination of children and data properties, and also screen size.
-If you want to override this property, pass in the prop `variant` to be either `single`, `multiple`, or `collapse`.
-
-<BreadcrumbVariants />
-
-### Setting property 'variant' and overriding 'isCollapsed'
-
-<BreadcrumbCollapseOpen />

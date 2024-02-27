@@ -59,13 +59,21 @@
     transform: translateX(0);
   }
 
-  &__bar &__multiple {
+  /* stylelint-disable no-descending-specificity, no-duplicate-selectors */
+  &__multiple &__item {
+    html[data-visual-test] & {
+      transition: none;
+    }
+  }
+  /* stylelint-enable */
+
+  &--variant-responsive &__bar &__multiple {
     @include allBelow(medium) {
       display: none;
     }
   }
 
-  &--variant-multiple &__toggle {
+  &--variant-responsive &__toggle {
     @include allAbove(medium) {
       display: none;
     }
