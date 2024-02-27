@@ -1,9 +1,10 @@
 /**
  * Global helpers
  *
- * NB: Do not import other deps in this file.
- * Just to have things clean and one directional.
  */
+
+// For backward compatibility
+export { debounce, debounceAsync } from './helpers/debounce'
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
@@ -233,84 +234,6 @@ export function scrollToLocationHashId({
       warn('Error on scrollToLocationHashId:', e)
     }
   }
-}
-
-/**
- * More or less classical debounce function
- *
- * Calling this function will return a new function, that, as long as it continues to be invoked, will not
- * be triggered. The function will be called after it stops being called for
- * N milliseconds. If `immediate` is passed, trigger the function on the
- * leading edge, instead of the trailing.
- *
- * @param {function} func The function to execute
- * @param {number} wait The time (milliseconds) before the first given function executes, if the returned one, not got called
- * @param {object} options The options object
- * @property {boolean} immediate If true, the function will execute immediately. Defaults to false
- * @property {instance} instance Defines the instance "this" to use on the executed function
- * @returns The function to invalidate the execution
- */
-export function debounce(
-  func,
-  wait = 250,
-  { immediate = false, instance = null } = {}
-) {
-  let timeout
-  let recall
-
-  const cancel = () => clearTimeout(timeout)
-
-  // This is the function that is actually executed when
-  // the DOM event is triggered.
-  function executedFunction(...args) {
-    // Store the instance of this and any
-    // parameters passed to executedFunction
-    let inst = this
-
-    // console.log('instance', instance)
-
-    if (typeof recall === 'function') {
-      recall()
-    }
-
-    // The function to be called after
-    // the debounce time has elapsed
-    const later = () => {
-      // null timeout to indicate the debounce ended
-      timeout = null
-
-      // Call function now if you did not on the leading end
-      if (!immediate) {
-        recall = func.apply(instance || inst, args)
-      }
-    }
-
-    // Determine if you should call the function
-    // on the leading or trail end
-    const callNow = immediate && !timeout
-
-    // This will reset the waiting every function execution.
-    // This is the step that prevents the function from
-    // being executed because it will never reach the
-    // inside of the previous setTimeout
-    clearTimeout(timeout)
-
-    // Restart the debounce waiting period.
-    // setTimeout returns a truthy value (it differs in web vs node)
-    timeout = setTimeout(later, wait)
-
-    // Call immediately if you're dong a leading
-    // end execution
-    if (callNow) {
-      recall = func.apply(instance || inst, args)
-    }
-
-    return recall
-  }
-
-  executedFunction.cancel = cancel
-
-  return executedFunction
 }
 
 export function insertElementBeforeSelection(elem) {

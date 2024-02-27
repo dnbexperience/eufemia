@@ -15,7 +15,6 @@ import {
   hasSelectedText,
   getSelectedText,
   insertElementBeforeSelection,
-  debounce,
   isEdge,
   isiOS,
   isSafari,
@@ -25,7 +24,7 @@ import {
   warn,
 } from '../helpers'
 
-import { mockGetSelection, wait } from '../../core/jest/jestSetup'
+import { mockGetSelection } from '../../core/jest/jestSetup'
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
@@ -271,105 +270,6 @@ describe('selection related methods', () => {
       window.getSelection().getRangeAt(1).getElement() instanceof
         HTMLElement
     ).toBe(true)
-  })
-})
-
-describe('"debounce" should', () => {
-  it('delay execution', async () => {
-    let outside = 'one'
-
-    const debounced = debounce(({ inside }) => {
-      outside = inside
-      expect(outside).toBe('two')
-
-      return 'not accessible'
-    }, 1)
-
-    await wait(2)
-
-    const result = debounced({ inside: 'two' })
-
-    expect(typeof debounced).toBe('function')
-    expect(typeof debounced.cancel).toBe('function')
-
-    expect(outside).toBe('one')
-    expect(result).toBe(undefined)
-  })
-
-  it('use given instance', async () => {
-    const instance = () => {}
-    instance.property = 'hello'
-
-    const debounced = debounce(
-      // Needs to be a function (so we can use "this")
-      function () {
-        expect(this).toBe(instance)
-        expect(this.property).toBe(instance.property)
-      },
-      1,
-      { instance }
-    )
-
-    debounced()
-  })
-
-  it('execution immediate', async () => {
-    let outside = 'one'
-
-    const debounced = debounce(
-      ({ inside }) => {
-        expect(outside).toBe('one')
-        outside = inside
-        expect(outside).toBe('two')
-      },
-      1,
-      { immediate: true }
-    )
-
-    debounced({ inside: 'two' })
-
-    await wait(2)
-
-    expect(outside).toBe('two')
-  })
-
-  it('execution immediate and return result', async () => {
-    let outside = 'one'
-
-    const debounced = debounce(
-      ({ inside }) => {
-        expect(outside).toBe('one')
-        outside = inside
-        expect(outside).toBe('two')
-
-        return inside
-      },
-      1,
-      { immediate: true }
-    )
-
-    const immediateResult = debounced({ inside: 'two' })
-
-    await wait(2)
-
-    expect(outside).toBe('two')
-    expect(immediateResult).toBe('two')
-  })
-
-  it('should not run debounced function when cancelled', async () => {
-    let outside = 'one'
-
-    const debounced = debounce(({ inside }) => {
-      expect(outside).toBe('one')
-      outside = inside
-      expect(outside).toBe('two')
-    }, 1)
-    debounced({ inside: 'two' })
-    debounced.cancel()
-
-    await wait(2)
-
-    expect(outside).toBe('one')
   })
 })
 
