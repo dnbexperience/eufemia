@@ -90,6 +90,27 @@
     line-height: inherit; // Safari fix
   }
 
+  // &__shell::after {
+  //   content: '';
+
+  //   position: absolute;
+  //   inset: 1px;
+
+  //   width: 100%;
+  //   height: auto;
+
+  //   background-image: repeating-linear-gradient(
+  //     -45deg,
+  //     var(--color-black-20) 1px 2px,
+  //     transparent 0 6px
+  //   );
+  //   background-repeat: repeat;
+  //   background-size: 100%;
+
+  //   clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  //   animation: skeletonLinearAnimation 1.5s linear infinite 100ms;
+  // }
+
   &__placeholder {
     pointer-events: none;
 

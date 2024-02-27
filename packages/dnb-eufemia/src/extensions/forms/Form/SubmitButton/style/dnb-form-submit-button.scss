@@ -1,0 +1,27 @@
+// .dnb-forms-submit-button {
+//   .dnb-progress-indicator {
+//     --progress-indicator-circular-background-color: var(--color-white);
+//     --progress-indicator-circular-bar-color: var(--color-sea-green-30);
+//   }
+
+//   .dnb-progress-indicator__circular {
+//     width: 0;
+//     align-self: center;
+//   }
+
+//   &[disabled] .dnb-progress-indicator__circular {
+//     transition: width 0.5s var(--easing-default);
+//     animation: forms-submit-button 1s var(--easing-default) 200ms forwards;
+//     transform: translateX(-0.25rem);
+//   }
+// }
+
+// @keyframes forms-submit-button {
+//   0% {
+//     width: 0;
+//   }
+
+//   100% {
+//     width: 1.5rem;
+//   }
+// }
