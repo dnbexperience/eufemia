@@ -29,3 +29,6 @@ yarn-error.log*
 # enviroment
 .env
 .env.*
+
+# IDE
+.idea
