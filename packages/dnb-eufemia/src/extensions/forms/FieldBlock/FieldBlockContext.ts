@@ -1,6 +1,5 @@
 import React from 'react'
-import { FieldProps } from '../types'
-import type { Identifier } from '../DataContext/Context'
+import type { FieldProps, Identifier } from '../types'
 
 export type FieldErrorIdsRef = Record<StateTypes, string>
 export type MountedFieldsRef = Record<Identifier, boolean>

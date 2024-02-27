@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useReducer, useRef } from 'react'
+import { useCallback, useReducer, useRef } from 'react'
 import pointer from 'json-pointer'
 import {
   SharedStateId,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import type { Path } from '../../DataContext/Context'
+import type { Path } from '../../types'
 import type {
   FilterData,
   FilterDataHandler,
@@ -56,26 +56,7 @@ export default function useData<Data>(
     useRef<ReturnType<typeof useSharedState<Data>>>(null)
   const sharedAttachmentsRef =
     useRef<ReturnType<typeof useSharedState<SharedAttachment<Data>>>>(null)
-  const hasMounted = useRef(false)
   const [, forceUpdate] = useReducer(() => ({}), {})
-
-  useEffect(() => {
-    hasMounted.current = true
-    return () => {
-      hasMounted.current = false
-    }
-  }, [])
-
-  const rerenderUseDataHook = useCallback(() => {
-    if (hasMounted.current) {
-      if (typeof window !== 'undefined') {
-        // Because we need to wait for the updated props of the fields to be in latest state
-        window.requestAnimationFrame(forceUpdate)
-      }
-    } else {
-      forceUpdate()
-    }
-  }, [])
 
   sharedDataRef.current = useSharedState<Data>(
     id,
@@ -85,7 +66,7 @@ export default function useData<Data>(
 
   sharedAttachmentsRef.current = useSharedState<SharedAttachment<Data>>(
     id + '-attachments',
-    { rerenderUseDataHook }
+    { rerenderUseDataHook: forceUpdate }
   )
 
   const setHandler = useCallback((newData: Data) => {

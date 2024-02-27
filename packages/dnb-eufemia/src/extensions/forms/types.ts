@@ -272,3 +272,6 @@ export interface ValueProps<Value>
   /** Prepare value for display (regardless of source like props or data context) */
   prepare?: (external: Value | undefined) => string
 }
+
+export type Path = string
+export type Identifier = string

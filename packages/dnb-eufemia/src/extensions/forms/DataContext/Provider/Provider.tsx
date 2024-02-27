@@ -11,11 +11,12 @@ import {
   CustomErrorMessagesWithPaths,
   AllJSONSchemaVersions,
   FieldProps,
+  Path,
 } from '../../types'
 import useMountEffect from '../../hooks/useMountEffect'
 import useUpdateEffect from '../../hooks/useUpdateEffect'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import Context, { ContextState, Path } from '../Context'
+import Context, { ContextState } from '../Context'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -273,13 +274,10 @@ export default function Provider<Data extends JsonObject>({
     hasUsedInitialData: false,
   })
 
-  const countRef = useRef(0)
-  if (countRef.current++ > 100) {
-    throw new Error('countRef.current: ' + countRef.current)
-  }
-
   internalDataRef.current = useMemo(() => {
-    // Update the shared state, if initialData is given and no shared state is available
+    // NB: "sharedData.data" is only available on a rerender.
+    // Update the shared state, if initialData is given and no shared state is available.
+    // We do almost the same later in a useLayoutEffect, but we need to do it here as well, so we set the data as early as possible.
     if (id && initialData && !sharedData.data) {
       sharedData.update(initialData)
     }
@@ -330,7 +328,7 @@ export default function Provider<Data extends JsonObject>({
     }
 
     return internalDataRef.current
-  }, [id, data, initialData, sharedData])
+  }, [data, id, initialData, sharedData])
 
   useLayoutEffect(() => {
     // Set the shared state, if initialData was given
