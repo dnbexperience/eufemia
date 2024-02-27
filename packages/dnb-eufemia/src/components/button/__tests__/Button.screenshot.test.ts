@@ -310,6 +310,42 @@ describe.each(['sbanken'])('Button for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  describe.each(['primary', 'secondary', 'tertiary'])(
+    'on dark background %s',
+    (variant) => {
+      it('default', async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="button-${variant}-on-dark"]`,
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('hover', async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="button-${variant}-on-dark"]`,
+          simulate: 'hover',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('active', async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="button-${variant}-on-dark"]`,
+          simulate: 'active',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('focus', async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="button-${variant}-on-dark"]`,
+          simulate: 'focus',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    }
+  )
 })
 
 describe.each(['ui'])('Button for %s', (themeName) => {

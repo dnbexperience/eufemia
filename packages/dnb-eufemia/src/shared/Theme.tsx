@@ -16,6 +16,7 @@ export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
 export type DarkMode = boolean
+export type DarkBackground = boolean
 
 export type ThemeProps = {
   name?: ThemeNames
@@ -24,6 +25,7 @@ export type ThemeProps = {
   propMapping?: PropMapping
   contrastMode?: ContrastMode
   darkMode?: DarkMode
+  darkBackground?: DarkBackground
   element?: DynamicElement | false
 }
 
@@ -41,6 +43,7 @@ export default function Theme(themeProps: ThemeAllProps) {
     propMapping,
     contrastMode,
     darkMode,
+    darkBackground,
     ...restProps
   } = themeProps
 
@@ -52,6 +55,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       propMapping,
       contrastMode,
       darkMode,
+      darkBackground,
     },
     null,
     context?.theme
@@ -65,6 +69,11 @@ export default function Theme(themeProps: ThemeAllProps) {
     </Provider>
   )
 }
+
+Theme.Provider = ({ element, ...themeProps }: ThemeAllProps) => {
+  return <Theme {...themeProps} element={false} />
+}
+Theme.Provider['_supportsSpacingProps'] = 'children'
 
 export function ThemeWrapper({
   children,

@@ -797,6 +797,8 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
     --button-secondary-border--default
   );
   --button-secondary-border--disabled: var(--sb-color-gray-light);
+  --button-tertiary-color: var(--sb-color-violet);
+  --button-tertiary-border: var(--sb-color-violet);
   border: none;
 }
 .dnb-button.dnb-button--has-text.dnb-button--size-large.dnb-button--primary, .dnb-button.dnb-button--has-text.dnb-button--size-large.dnb-button--secondary {
@@ -912,7 +914,7 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
   --button-tertiary-underline-bottom: -0.5rem;
   --button-tertiary-text-bottom--icon: 0.5rem;
   --button-tertiary-text-top--icon: 0;
-  color: var(--sb-color-violet);
+  color: var(--button-tertiary-color);
   background-color: transparent;
 }
 .dnb-button--tertiary .dnb-button__text::after {
@@ -939,7 +941,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(:focus-visible) .dnb-button__text::after {
-  color: var(--sb-color-violet);
+  color: var(--button-tertiary-border);
   transition: none;
 }
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text) {
@@ -969,12 +971,6 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):no
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text) > * {
   z-index: 2;
 }
-.dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
-  color: var(--sb-color-violet);
-}
 html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
@@ -1003,11 +999,27 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disab
 html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) > * {
   z-index: 2;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text::after {
-  visibility: hidden;
-}
 .dnb-button--tertiary[disabled] {
   color: var(--sb-color-gray-dark);
+}
+.dnb-button--on-dark-background {
+  --button-primary-color: var(--sb-color-text);
+  --button-primary-color--hover: var(--sb-color-purple-alternative);
+  --button-primary-color--active: var(--sb-color-purple-alternative);
+  --button-primary-background: var(--sb-color-green);
+  --button-primary-background--hover: var(--sb-color-violet-light-2);
+  --button-primary-background--active: var(--sb-color-violet-light-3);
+  --button-secondary-color: var(--sb-color-white);
+  --button-secondary-color--hover: var(--sb-color-purple-alternative);
+  --button-secondary-color--active: var(--sb-color-purple-alternative);
+  --button-secondary-background: transparent;
+  --button-secondary-background--hover: var(--sb-color-violet-light-2);
+  --button-secondary-background--active: var(--sb-color-violet-light-3);
+  --button-secondary-border--default: var(--sb-color-green);
+  --button-secondary-border--hover: var(--sb-color-violet-light);
+  --button-secondary-border--active: var(--sb-color-violet-light);
+  --button-tertiary-color: var(--sb-color-white);
+  --button-tertiary-border: var(--sb-color-green);
 }"
 `;
 

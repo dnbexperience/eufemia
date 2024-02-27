@@ -17,6 +17,7 @@ import {
   ButtonSignal,
   ButtonSignalLarge,
   ButtonIcon,
+  ButtonHasDarkBackground,
 } from 'Docs/uilib/components/button/Examples'
 
 ## Demos
@@ -90,3 +91,14 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 <ButtonErrorState />
 
 </VisibleWhenVisualTest>
+
+<VisibilityByTheme visible="sbanken">
+
+### Button on dark background
+
+When placing the button on a dark background wrap the content of the dark section with `<Theme.Provider darkBackground>`
+to get the correct styles.
+
+<ButtonHasDarkBackground />
+
+</VisibilityByTheme>
