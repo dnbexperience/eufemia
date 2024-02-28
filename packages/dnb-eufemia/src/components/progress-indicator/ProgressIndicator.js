@@ -124,9 +124,9 @@ export default class ProgressIndicator extends React.PureComponent {
       class: _className,
       children,
       title,
-      progress: _progress, //eslint-disable-line
-      visible: _visible, //eslint-disable-line
-      complete: _complete, //eslint-disable-line
+      progress: _progress, // eslint-disable-line
+      visible: _visible, // eslint-disable-line
+      complete: _complete, // eslint-disable-line
       ...attributes
     } = props
 
@@ -142,13 +142,14 @@ export default class ProgressIndicator extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <div
+      <span
         className={classnames(
           'dnb-progress-indicator',
           visible && 'dnb-progress-indicator--visible',
           complete && 'dnb-progress-indicator--complete',
           type === 'linear' && 'dnb-progress-indicator--full-width',
           label_direction && `dnb-progress-indicator--${label_direction}`,
+          size && `dnb-progress-indicator--${size}`,
           isTrue(no_animation) && 'dnb-progress-indicator--no-animation',
           createSpacingClasses(props),
           className,
@@ -179,11 +180,11 @@ export default class ProgressIndicator extends React.PureComponent {
           />
         )}
         {indicatorLabel && (
-          <div className="dnb-progress-indicator__label">
-            <p className="dnb-p">{indicatorLabel}</p>
-          </div>
+          <span className="dnb-progress-indicator__label dnb-p">
+            {indicatorLabel}
+          </span>
         )}
-      </div>
+      </span>
     )
   }
 }
