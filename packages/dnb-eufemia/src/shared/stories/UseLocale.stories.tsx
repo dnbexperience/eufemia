@@ -7,8 +7,7 @@ import React, { useState } from 'react'
 
 import { Button, H2, P } from '../..'
 
-import { useLocale } from '../useLocale'
-import type { Locale } from '../useLocale'
+import { useLocale, type TranslationLocale } from '../useLocale'
 import Provider from '../Provider'
 import { ButtonRow } from '../../extensions/forms/Form'
 
@@ -17,7 +16,7 @@ export default {
 }
 
 export const UseLocale = () => {
-  const [locale, setLocale] = useState<Locale>('nb-NO')
+  const [locale, setLocale] = useState<TranslationLocale>('nb-NO')
 
   return (
     <>
