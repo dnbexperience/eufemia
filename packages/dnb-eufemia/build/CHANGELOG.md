@@ -3,6 +3,33 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.22.0](https://github.com/dnbexperience/eufemia/compare/v10.21.0...v10.22.0) (2024-02-28)
+
+
+### :memo: Documentation
+
+* **GlobalStatus:** update number of statuses ([#3334](https://github.com/dnbexperience/eufemia/issues/3334)) ([092aa25](https://github.com/dnbexperience/eufemia/commit/092aa259f0d180c188f8035d0c88ed9185e51292))
+
+
+### :bug: Bug Fixes
+
+* **Blockquote:** Reduce padding-bottom for tablet and desktop (Sbanken) ([#3340](https://github.com/dnbexperience/eufemia/issues/3340)) ([af0d901](https://github.com/dnbexperience/eufemia/commit/af0d901fd0ef9c16370a3a180fce2e1a7b5f4b43))
+* **Breadcrumb:** variant multiple no longer same as default ([#3345](https://github.com/dnbexperience/eufemia/issues/3345)) ([ac708e0](https://github.com/dnbexperience/eufemia/commit/ac708e0ad92b63bfad90daa7b4b9c3ff0f9fe0e1))
+* **Card:** fix overflow/scroll issue on small screen widths ([#3341](https://github.com/dnbexperience/eufemia/issues/3341)) ([a0d4a10](https://github.com/dnbexperience/eufemia/commit/a0d4a101f3508a06d1badd7178be5aad57032fc4))
+* **Form.ButtonRow:** add support for correct auto placement below a Card ([#3337](https://github.com/dnbexperience/eufemia/issues/3337)) ([ced0bd7](https://github.com/dnbexperience/eufemia/commit/ced0bd76e8f888c22e046a3888728f46f17fb6bd))
+* **Form.useData:** add support for StrictMode ([#3348](https://github.com/dnbexperience/eufemia/issues/3348)) ([d905e54](https://github.com/dnbexperience/eufemia/commit/d905e54dab83b67a531de3d756e77a39c95ce810))
+* **FormLabel:** align width to fit content instead of being stretched 100% on clickable labels ([#3338](https://github.com/dnbexperience/eufemia/issues/3338)) ([c7f1a4a](https://github.com/dnbexperience/eufemia/commit/c7f1a4a21a6d66540de4944a632797094fbea5dc))
+* **HeightAnimation:** enhance calculation of height ([#3335](https://github.com/dnbexperience/eufemia/issues/3335)) ([e1a9859](https://github.com/dnbexperience/eufemia/commit/e1a98590a9278f9f7e7956f3865f315208a88de9))
+* **ProgressIndicator:** align label spacing when size is `small` and use span instead of divs to support inline elements ([#3344](https://github.com/dnbexperience/eufemia/issues/3344)) ([196bc7f](https://github.com/dnbexperience/eufemia/commit/196bc7fae184c5a9177a38893556bbd23b2c3b48))
+
+
+### :sparkles: Features
+
+* **Button, Theme:** style on dark background ([#3339](https://github.com/dnbexperience/eufemia/issues/3339)) ([29e6549](https://github.com/dnbexperience/eufemia/commit/29e654922cb0faeed384ae363ef33b5031370d17))
+* **debounceAsync:** add async debounce function support ([#3343](https://github.com/dnbexperience/eufemia/issues/3343)) ([9759275](https://github.com/dnbexperience/eufemia/commit/9759275aab427876a2ecaf3d362254febb6f64cc))
+* **Table:** accordion multiple rows and Sbanken styling ([#3289](https://github.com/dnbexperience/eufemia/issues/3289)) ([e7b7c5f](https://github.com/dnbexperience/eufemia/commit/e7b7c5fcc1d527c5d343ce5590c9afc838326d5f))
+* **TypeScript:** upgrade internal TypeScript version with a few alignments ([#3350](https://github.com/dnbexperience/eufemia/issues/3350)) ([047f81a](https://github.com/dnbexperience/eufemia/commit/047f81a7e0d33c3d5ad6b84a5aa1b9b3054e0937))
+
 ## [10.21.0](https://github.com/dnbexperience/eufemia/compare/v10.20.0...v10.21.0) (2024-02-21)
 
 
