@@ -83,8 +83,8 @@ export function SliderInstance() {
   return (
     <span {...mainParams}>
       {label && (
-        // do not use "for_id" as the ID element is not a fo
         <FormLabel
+          forId={`${id}-thumb-0`}
           id={id + '-label'}
           text={label}
           disabled={disabled}

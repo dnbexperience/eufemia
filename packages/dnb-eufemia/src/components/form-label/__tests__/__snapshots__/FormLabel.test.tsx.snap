@@ -30,6 +30,9 @@ exports[`FormLabel scss has to match style dependencies css 1`] = `
   margin-right: 0;
   margin-bottom: 0.5rem;
 }
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
 .dnb-form-label[disabled] {
   cursor: not-allowed;
 }
@@ -46,11 +49,5 @@ exports[`FormLabel scss have to match default theme snapshot 1`] = `
  */
 .dnb-form-label {
   color: var(--color-black-80);
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label--interactive:hover {
-  color: var(--color-sea-green);
 }"
 `;
