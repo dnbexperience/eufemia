@@ -196,7 +196,7 @@ export default class Input extends React.Component<InputProps, any> {
   render(): JSX.Element;
 }
 export interface SubmitButtonProps
-  extends React.HTMLProps<HTMLInputElement> {
+  extends React.HTMLProps<HTMLButtonElement> {
   id?: string;
   /**
    * The content value of the input.
