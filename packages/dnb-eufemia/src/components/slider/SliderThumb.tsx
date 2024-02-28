@@ -127,54 +127,54 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const elemRef = React.useRef<HTMLElement>()
 
   return (
-    <>
-      <span className="dnb-slider__thumb" style={style}>
-        <input
-          type="range"
-          className="dnb-slider__button-helper"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          disabled={disabled}
-          onChange={onHelperChangeHandler}
-          onFocus={onHelperFocusHandler}
-          onMouseDown={onThumbMouseDownHandler}
-          onMouseUp={onThumbMouseUpHandler}
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={value}
-          aria-valuetext={aria ? aria : undefined}
-          aria-orientation={isVertical ? 'vertical' : 'horizontal'}
-          data-index={currentIndex}
-          {...helperParams}
-        />
+    <span className="dnb-slider__thumb" style={style}>
+      <input
+        id={`${id}-thumb-${currentIndex}`}
+        type="range"
+        className="dnb-slider__button-helper"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        disabled={disabled}
+        onChange={onHelperChangeHandler}
+        onFocus={onHelperFocusHandler}
+        onMouseDown={onThumbMouseDownHandler}
+        onMouseUp={onThumbMouseUpHandler}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        aria-valuetext={aria ? aria : undefined}
+        aria-orientation={isVertical ? 'vertical' : 'horizontal'}
+        data-index={currentIndex}
+        {...helperParams}
+      />
 
-        <Button
-          element="span"
-          type="" // avoid getting type="button"
-          variant="secondary"
-          disabled={disabled}
-          skeleton={skeleton}
-          innerRef={elemRef}
-          {...thumbParams}
-        />
+      <Button
+        id={`${id}-button-${currentIndex}`}
+        element="span"
+        type="" // avoid getting type="button"
+        variant="secondary"
+        disabled={disabled}
+        skeleton={skeleton}
+        innerRef={elemRef}
+        {...thumbParams}
+      />
 
-        {tooltip && (
-          <Tooltip
-            key={`group-${currentIndex}`}
-            targetElement={elemRef}
-            active={Boolean(showTooltip || alwaysShowTooltip)}
-            showDelay={1}
-            hideDelay={300}
-          >
-            {number || value}
-            {
-              shouldAnimate /* Use "shouldAnimate" only in order to update the position after the thumb animation */
-            }
-          </Tooltip>
-        )}
-      </span>
-    </>
+      {tooltip && (
+        <Tooltip
+          key={`group-${currentIndex}`}
+          targetElement={elemRef}
+          active={Boolean(showTooltip || alwaysShowTooltip)}
+          showDelay={1}
+          hideDelay={300}
+        >
+          {number || value}
+          {
+            shouldAnimate /* Use "shouldAnimate" only in order to update the position after the thumb animation */
+          }
+        </Tooltip>
+      )}
+    </span>
   )
 }

@@ -5,12 +5,4 @@
 
 .dnb-form-label {
   color: var(--color-black-80);
-
-  &--interactive {
-    cursor: pointer;
-
-    &:hover {
-      color: var(--color-sea-green);
-    }
-  }
 }

@@ -27,6 +27,10 @@
     margin-bottom: 0.5rem;
   }
 
+  &--interactive {
+    cursor: pointer;
+  }
+
   &[disabled] {
     cursor: not-allowed;
   }

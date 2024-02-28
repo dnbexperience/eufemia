@@ -92,10 +92,11 @@ export default function FormLabel(localProps: FormLabelAllProps) {
 
   const content = text || children
 
-  const isInteractive =
+  const isInteractive = Boolean(
     !props.disabled &&
-    !srOnly &&
-    (typeof props.onClick === 'function' || forId)
+      !srOnly &&
+      (typeof props.onClick === 'function' || forId)
+  )
 
   const params = {
     className: classnames(
