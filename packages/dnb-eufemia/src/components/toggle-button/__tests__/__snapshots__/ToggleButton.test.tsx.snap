@@ -37,6 +37,9 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
   margin-right: 0;
   margin-bottom: 0.5rem;
 }
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
 .dnb-form-label[disabled] {
   cursor: not-allowed;
 }
@@ -642,6 +645,9 @@ button.dnb-button::-moz-focus-inner {
   margin-right: 0;
   margin-bottom: 0.5rem;
 }
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
 .dnb-form-label[disabled] {
   cursor: not-allowed;
 }
@@ -1037,6 +1043,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
+}
+.dnb-form-label--interactive {
+  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;

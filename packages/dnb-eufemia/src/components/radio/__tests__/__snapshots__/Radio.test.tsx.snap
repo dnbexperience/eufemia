@@ -37,6 +37,9 @@ exports[`Radio scss has to match style dependencies css 1`] = `
   margin-right: 0;
   margin-bottom: 0.5rem;
 }
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
 .dnb-form-label[disabled] {
   cursor: not-allowed;
 }

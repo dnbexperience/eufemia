@@ -824,6 +824,9 @@ html[data-visual-test] .dnb-tooltip--hide {
   margin-right: 0;
   margin-bottom: 0.5rem;
 }
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
 .dnb-form-label[disabled] {
   cursor: not-allowed;
 }
@@ -1947,6 +1950,9 @@ button.dnb-button::-moz-focus-inner {
   display: block;
   margin-right: 0;
   margin-bottom: 0.5rem;
+}
+.dnb-form-label--interactive {
+  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
