@@ -218,11 +218,11 @@ describe('Field.String', () => {
 
     it('renders autoComplete', () => {
       const { rerender } = render(
-        <Field.String autoComplete="firstName" />
+        <Field.String autoComplete="given-name" />
       )
       expect(
         document.querySelector('input').getAttribute('autocomplete')
-      ).toBe('firstName')
+      ).toBe('given-name')
 
       rerender(
         <Field.String path="/firstName" autoComplete="family-name" />

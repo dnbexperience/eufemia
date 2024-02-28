@@ -4,13 +4,18 @@ import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'
 import Th from './TableTh'
 import Td from './TableTd'
-import TableContext from './TableContext'
+import { TableAccordionContext, TableContext } from './TableContext'
 import keycode from 'keycode'
 import { hasSelectedText } from '../../shared/helpers'
-import { TableTrProps } from './TableTr'
 
-import TableAccordionContent, { TrContext } from './TableAccordionContent'
-import type { TableAccordionContentProps } from './TableAccordionContent'
+import TableAccordionTd from './TableAccordionTd'
+import TableAccordionTr from './TableAccordionTr'
+import type { TableAccordionTdProps } from './TableAccordionTd'
+import type { TableAccordionTrProps } from './TableAccordionTr'
+
+type TableAccordionContentProps =
+  | TableAccordionTdProps
+  | TableAccordionTrProps
 
 export function useTableAccordion({
   children,
@@ -40,24 +45,31 @@ export function useTableAccordion({
   const [trIsHover, setHover] = React.useState(false)
   const [trHadClick, setHadClick] = React.useState(false)
 
-  let content = React.Children.toArray(children)
-
   if (!tableContext?.allProps?.accordion) {
     return null
   }
 
+  let headerContent = React.Children.toArray(children)
+
+  const addExpandIcon = (icon) => {
+    if (tableContext.allProps.accordionChevronPlacement === 'end') {
+      headerContent.push(icon)
+    } else {
+      headerContent.unshift(icon)
+    }
+  }
   /**
    * Handle Accordion Content
    */
-  const accordionContent = content.find((element: React.ReactElement) => {
-    return element.type === TableAccordionContent
-  }) as React.ReactElement<TableAccordionContentProps>
-  const hasAccordionContent = React.isValidElement(accordionContent)
-  const countTds = hasAccordionContent
-    ? children.filter((element: React.ReactElement) => {
-        return element.type === Td // TODO: We may need to include this in future --> || component.type === Td.MainCell
-      }).length + 1 // +1 because we push the TableAccordionToggleButton
-    : null
+  const accordionContent = headerContent.filter(
+    (element: React.ReactElement) => {
+      return isAccordionElement(element)
+    }
+  ) as React.ReactElement<TableAccordionContentProps>[]
+
+  const hasAccordionContent =
+    accordionContent.length !== 0 &&
+    accordionContent.every((element) => React.isValidElement(element))
 
   const trParams =
     !disabled && hasAccordionContent
@@ -71,38 +83,35 @@ export function useTableAccordion({
 
   if (hasAccordionContent) {
     // Remove the AccordionContent, and use it outside of the tr
-    content = content.filter((element) => {
-      const hasContent =
-        (element as React.ReactElement<TableTrProps>).type ===
-        TableAccordionContent
-      return !hasContent
+    headerContent = headerContent.filter((element: React.ReactElement) => {
+      return !isAccordionElement(element)
     })
 
-    const tdElem = <TableTdAccordionIcon key="td-icon" />
-
-    if (tableContext.allProps.accordionChevronPlacement === 'end') {
-      content.push(tdElem)
-    } else {
-      content.unshift(tdElem)
-    }
-  } else if (tableContext?.allProps?.accordion) {
-    const isTh = content.some((element) => {
-      return (element as React.ReactElement<TableTrProps>).type === Th
-    })
-
-    if (isTh) {
-      const thElem = <TableThAccordionIcon key="th-icon" />
-
-      if (tableContext.allProps.accordionChevronPlacement === 'end') {
-        content.push(thElem)
-      } else {
-        content.unshift(thElem)
-      }
-    }
+    addExpandIcon(
+      <Td className="dnb-table__td__accordion-icon" key="td-icon">
+        <TableAccordionToggleButton />
+      </Td>
+    )
+  } else if (isTableHead(headerContent)) {
+    addExpandIcon(
+      <Th
+        aria-hidden
+        className="dnb-table__th__accordion-icon"
+        key="th-icon"
+      >
+        <div>{tableContext?.allProps?.accordionToggleButtonSR}</div>
+      </Th>
+    )
   }
 
+  const countTds = hasAccordionContent
+    ? headerContent.filter((element: React.ReactElement) => {
+        return element.type === Td // TODO: We may need to include this in future --> || component.type === Td.MainCell
+      }).length
+    : null
+
   return (
-    <TrContext.Provider
+    <TableAccordionContext.Provider
       value={{
         toggleOpenTr,
         trIsOpen,
@@ -126,10 +135,10 @@ export function useTableAccordion({
         {...trParams}
         {...props}
       >
-        {content}
+        {headerContent}
       </tr>
       {accordionContent}
-    </TrContext.Provider>
+    </TableAccordionContext.Provider>
   )
 
   function onKeydownHandler(event: KeyboardEvent) {
@@ -191,7 +200,7 @@ export function useTableAccordion({
 }
 
 export function TableAccordionToggleButton() {
-  const trContext = React.useContext(TrContext)
+  const tableAccordionContext = React.useContext(TableAccordionContext)
   const allProps = React.useContext(TableContext)?.allProps
   const iconSize =
     allProps.size === 'medium' || allProps.size === 'small'
@@ -205,26 +214,17 @@ export function TableAccordionToggleButton() {
         className="dnb-sr-only"
         tabIndex={-1}
         aria-label={allProps?.accordionToggleButtonSR}
-        aria-expanded={Boolean(trContext?.trIsOpen)}
-        on_click={(event) => trContext?.toggleOpenTr(event, true)}
+        aria-expanded={Boolean(tableAccordionContext?.trIsOpen)}
+        on_click={(event) =>
+          tableAccordionContext?.toggleOpenTr(event, true)
+        }
       />
     </span>
   )
 }
 
-function TableThAccordionIcon() {
-  const tableContext = React.useContext(TableContext)
-  return (
-    <Th aria-hidden className="dnb-table__th__accordion-icon">
-      <div>{tableContext?.allProps?.accordionToggleButtonSR}</div>
-    </Th>
-  )
-}
+const isAccordionElement = (element: React.ReactElement) =>
+  element.type === TableAccordionTd || element.type === TableAccordionTr
 
-function TableTdAccordionIcon() {
-  return (
-    <Td className="dnb-table__td__accordion-icon">
-      <TableAccordionToggleButton />
-    </Td>
-  )
-}
+const isTableHead = (children: React.ReactNode[]) =>
+  children.some((element: React.ReactElement) => element.type === Th)

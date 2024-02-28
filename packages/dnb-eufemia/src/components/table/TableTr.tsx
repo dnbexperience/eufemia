@@ -2,7 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 import { useTableAccordion } from './TableAccordion'
 import { TableTdProps } from './TableTd'
-import TableContext from './TableContext'
+import { TableContext } from './TableContext'
+import TableAccordionTr from './TableAccordionTr'
 
 export type TableTrProps = {
   /**
@@ -81,11 +82,14 @@ export default function Tr(
     ...props
   } = componentProps
 
-  const { currentVariant } = useHandleTrVariant({ variant })
+  const { currentVariant, isLast } = useHandleTrVariant({
+    variant,
+  })
 
   const className = classnames(
     'dnb-table__tr',
     currentVariant && `dnb-table__tr--${currentVariant}`,
+    isLast && 'dnb-table__tr--last',
     noWrap && 'dnb-table--no-wrap',
     _className
   )
@@ -158,9 +162,11 @@ function useHandleTrVariant({ variant }) {
   if (!currentVariant) {
     currentVariant = count % 2 ? 'odd' : 'even'
   }
-
+  const isLast =
+    typeof countRef !== 'undefined' && countRef.count === count
   return {
     currentVariant,
+    isLast,
   }
 }
 
@@ -190,3 +196,5 @@ export function useHandleOddEven({ children }) {
     setRerenderAlias({})
   }
 }
+
+Tr.AccordionContent = TableAccordionTr

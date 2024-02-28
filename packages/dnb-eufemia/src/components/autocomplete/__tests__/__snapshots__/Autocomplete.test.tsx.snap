@@ -808,7 +808,6 @@ html[data-visual-test] .dnb-tooltip--hide {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -816,6 +815,9 @@ html[data-visual-test] .dnb-tooltip--hide {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -1930,7 +1932,6 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -1938,6 +1939,9 @@ button.dnb-button::-moz-focus-inner {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -2369,10 +2373,13 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 
 .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
-  margin: 0 1rem;
+  padding-left: 1rem;
+}
+.dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
+  padding-left: 0.5rem;
 }
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
-  margin-top: 0.5rem;
+  padding-top: 0.5rem;
 }
 .dnb-progress-indicator__circular {
   position: relative;

@@ -808,7 +808,6 @@ html[data-visual-test] .dnb-tooltip--hide {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -816,6 +815,9 @@ html[data-visual-test] .dnb-tooltip--hide {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -1844,7 +1846,6 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -1852,6 +1853,9 @@ button.dnb-button::-moz-focus-inner {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -2447,7 +2451,6 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -2455,6 +2458,9 @@ button.dnb-button::-moz-focus-inner {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -2841,7 +2847,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -2849,6 +2854,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -3495,7 +3503,6 @@ button .dnb-form-status__text {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -3503,6 +3510,9 @@ button .dnb-form-status__text {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;

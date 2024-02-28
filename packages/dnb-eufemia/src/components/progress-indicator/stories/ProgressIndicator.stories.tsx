@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import { ProgressIndicator } from '../..'
+import { Button, ProgressIndicator } from '../..'
 
 export default {
   title: 'Eufemia/Components/ProgressIndicator',
@@ -36,6 +36,13 @@ export const ProgressIndicatorSandbox = () => (
       <ProgressIndicatorCircular />
     </Box>
   </Wrapper>
+)
+
+export const ProgressIndicatorLabel = () => (
+  <>
+    <Button>Button</Button>
+    <ProgressIndicator left size="small" show_label progress={60} />
+  </>
 )
 
 const ProgressIndicatorCircular = () => {

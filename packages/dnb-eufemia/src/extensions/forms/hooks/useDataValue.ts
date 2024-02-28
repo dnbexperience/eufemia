@@ -12,7 +12,7 @@ import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import { FormError, FieldProps, AdditionalEventArgs } from '../types'
-import { Context, ContextState } from '../DataContext'
+import { Context as DataContext, ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
@@ -26,7 +26,7 @@ import useId from './useId'
 export default function useDataValue<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
->(props: Props): Props & ReturnAdditional<Value> {
+>(props: Props): Props & FieldProps<Value> & ReturnAdditional<Value> {
   const {
     path,
     itemPath,
@@ -66,7 +66,7 @@ export default function useDataValue<
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
-  const dataContext = useContext(Context)
+  const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
   const sharedContext = useContext(SharedContext)
@@ -675,11 +675,13 @@ export default function useDataValue<
     warning: !inFieldBlock ? warning : undefined,
     error: !inFieldBlock ? error : undefined,
     hasError,
-    isChanged: changedRef.current,
+    disabled,
     autoComplete:
       props.autoComplete ??
       (dataContext.autoComplete === true ? 'on' : 'off'),
-    disabled,
+
+    // Return additional hook related props (ReturnAdditional)
+    isChanged: changedRef.current,
     ariaAttributes,
     dataContext,
     setHasFocus,
@@ -692,29 +694,21 @@ export default function useDataValue<
 }
 
 interface ReturnAdditional<Value> {
-  id: string
-  name: string
   value: Value
-  error: FieldProps<unknown>['error']
-  warning: FieldProps<unknown>['warning']
-  info: FieldProps<unknown>['info']
-  autoComplete: HTMLInputElement['autocomplete']
-  disabled: boolean
-  hasError: boolean
   isChanged: boolean
-  dataContext: ContextState
   ariaAttributes: AriaAttributes
+  dataContext: ContextState
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
-  handleChange: FieldProps<unknown>['onChange']
+  handleChange: FieldProps<Value>['onChange']
   updateValue: (value: Value) => void
   forceUpdate: () => void
 }
 
 export function omitDataValueProps<
-  OmittedProps extends ReturnAdditional<unknown>,
->(props: OmittedProps) {
+  Props extends FieldProps<unknown> & ReturnAdditional<unknown>,
+>(props: Props) {
   // Do not include typical HTML attributes
   const {
     name, // eslint-disable-line
@@ -734,8 +728,6 @@ export function omitDataValueProps<
     forceUpdate, // eslint-disable-line
     ...restProps
   } = props
-  return Object.freeze(restProps) as Omit<
-    OmittedProps,
-    keyof ReturnAdditional<unknown>
-  >
+
+  return restProps
 }

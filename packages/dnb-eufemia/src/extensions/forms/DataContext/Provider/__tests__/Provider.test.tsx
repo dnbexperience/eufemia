@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
 import {
   act,
   fireEvent,
@@ -137,7 +137,7 @@ describe('DataContext.Provider', () => {
           <Field.String path="/foo" value="include this" />
           <Form.SubmitButton />
         </DataContext.Provider>,
-        { wrapper: React.StrictMode }
+        { wrapper: StrictMode }
       )
 
       const element = document.querySelector('input')
@@ -1323,7 +1323,7 @@ describe('DataContext.Provider', () => {
     )
   })
 
-  describe('useData', () => {
+  describe('with useData', () => {
     it('should set Provider data', () => {
       const props = { foo: 'bar' }
       renderHook(() => Form.useData(identifier, props))
@@ -1359,6 +1359,95 @@ describe('DataContext.Provider', () => {
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
+    })
+
+    it('should contain data on first render, when nested and in side car', () => {
+      const initialData = { foo: 'bar' }
+      const sidecarMockData = []
+      const nestedMockData = []
+
+      const SidecarMock = () => {
+        const { data } = Form.useData(identifier)
+        sidecarMockData.push(data)
+        return <Field.String path="/foo" />
+      }
+
+      const NestedMock = () => {
+        const { data } = Form.useData(identifier)
+        nestedMockData.push(data)
+        return <Field.String path="/foo" />
+      }
+
+      render(
+        <>
+          <SidecarMock />
+          <DataContext.Provider id={identifier} data={initialData}>
+            <NestedMock />
+          </DataContext.Provider>
+        </>
+      )
+
+      expect(sidecarMockData).toHaveLength(2)
+      expect(sidecarMockData).toEqual([undefined, initialData])
+
+      expect(nestedMockData).toHaveLength(1)
+      expect(nestedMockData).toEqual([initialData])
+
+      const [sidecar, nested] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(sidecar).toHaveValue('') // Because the field is outside of the context
+      expect(nested).toHaveValue('bar')
+    })
+
+    it('should support StrictMode', async () => {
+      const initialData = { foo: 'bar' }
+      const sidecarMockData = []
+      const nestedMockData = []
+
+      const SidecarMock = () => {
+        const { data } = Form.useData(identifier)
+        sidecarMockData.push(data)
+        return <Field.String path="/foo" />
+      }
+
+      const NestedMock = () => {
+        const { data } = Form.useData(identifier)
+        nestedMockData.push(data)
+        return <Field.String path="/foo" />
+      }
+
+      render(
+        <>
+          <SidecarMock />
+          <DataContext.Provider id={identifier} data={initialData}>
+            <NestedMock />
+          </DataContext.Provider>
+        </>,
+        { wrapper: StrictMode }
+      )
+
+      expect(sidecarMockData).toHaveLength(4)
+      expect(sidecarMockData).toEqual([
+        undefined,
+        undefined,
+        initialData,
+        initialData,
+      ])
+
+      expect(nestedMockData).toHaveLength(4)
+      expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
+        initialData,
+        initialData,
+      ])
+
+      const [sidecar, nested] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(sidecar).toHaveValue('') // Because the field is outside of the context
+      expect(nested).toHaveValue('bar')
     })
 
     it('should set Provider data when sessionStorageId was given', () => {
@@ -1512,7 +1601,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('foo bar')
     })
 
-    it('should return "set" mathod that lets you update the data', () => {
+    it('should return "set" method that lets you update the data', () => {
       const { result } = renderHook(() =>
         Form.useData(identifier, { foo: 'bar' })
       )
@@ -1690,7 +1779,7 @@ describe('DataContext.Provider', () => {
       expect(countRender).toBe(3)
     })
 
-    it('should update data via useEffect when data is given in useData', async () => {
+    it('should update data via useEffect when data is given in useData', () => {
       let countRender = 0
 
       const MockComponent = () => {

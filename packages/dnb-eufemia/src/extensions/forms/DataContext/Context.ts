@@ -3,10 +3,8 @@ import { Ajv, makeAjvInstance } from '../utils/ajv'
 import {
   AllJSONSchemaVersions,
   CustomErrorMessagesWithPaths,
+  Path,
 } from '../types'
-
-export type Path = string
-export type Identifier = string
 
 type HandleSubmitProps = {
   formElement?: HTMLFormElement

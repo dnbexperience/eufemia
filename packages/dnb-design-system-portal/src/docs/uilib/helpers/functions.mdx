@@ -246,7 +246,6 @@ const debounced = debounce(
   wait = 250, // milliseconds
   {
     immediate = false, // execute the debounceFunc on the leading end
-    instance = null // function or class instance for "this"
   } = {},
 )
 
@@ -254,6 +253,35 @@ debounced({ foo: 'bar'}) // delay the execution – again
 
 debounced.cancel() // optional, cancel the execution
 ```
+
+Async example:
+
+```js
+import { debounceAsync } from '@dnb/eufemia/shared/helpers'
+
+async function debounceFunc({ foo }) {
+  // optionally, add a cancel event (wasCanceled is a "function" to check later if it was canceled)
+  const wasCanceled = this.addCancelEvent(myCancelMethod)
+
+  await wait(1000) // do something async
+}
+
+const myCancelMethod = () => {
+  console.log('canceled')
+}
+
+const debounced = debounceAsync(
+  debounceFunc,
+  (wait = 250), // milliseconds
+)
+
+debounceAsync({ foo: 'bar' }) // delay the execution – again
+
+debounced.cancel() // optional, cancel the execution
+debounced.addCancelEvent(myCancelMethod) // alternatively, you can add the cancel event like so
+```
+
+In order to use `this.addCancelEvent` you need to use a `function()`, and not an arrow function.
 
 ### copyToClipboard
 

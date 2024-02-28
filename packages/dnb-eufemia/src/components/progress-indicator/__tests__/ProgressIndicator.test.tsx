@@ -142,6 +142,54 @@ describe('Circular ProgressIndicator component', () => {
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(title)
   })
+
+  it('should support spacing props', () => {
+    render(
+      <ProgressIndicator type="circular" progress={1} top="2rem" hidden />
+    )
+
+    const indicator = document.querySelector('.dnb-progress-indicator')
+    expect(Array.from(indicator.classList)).toEqual([
+      'dnb-progress-indicator',
+      'dnb-space__top--large',
+      'dnb-progress-indicator--visible',
+      'dnb-progress-indicator--horizontal',
+      'dnb-progress-indicator--default',
+    ])
+  })
+
+  it('should support custom attributes', () => {
+    render(
+      <ProgressIndicator type="circular" progress={1} top="2rem" hidden />
+    )
+
+    const indicator = document.querySelector('.dnb-progress-indicator')
+    const attributes = Array.from(indicator.attributes).map(
+      (attr) => attr.name
+    )
+    expect(attributes).toEqual(['class', 'hidden'])
+  })
+
+  it('should use span elements', () => {
+    const { container } = render(
+      <ProgressIndicator type="circular" progress={1} show_label />
+    )
+
+    expect(container.querySelectorAll('div')).toHaveLength(0)
+    expect(container.querySelectorAll('span')).toHaveLength(3)
+  })
+
+  it('should use span for label element', () => {
+    // Because it does not have any advantages over a label element (VoiceOver does not read it as a label)
+
+    const { container } = render(
+      <ProgressIndicator type="circular" progress={1} show_label />
+    )
+
+    expect(
+      container.querySelector('.dnb-progress-indicator__label').tagName
+    ).toBe('SPAN')
+  })
 })
 
 describe('Linear ProgressIndicator component', () => {
@@ -282,19 +330,78 @@ describe('Linear ProgressIndicator component', () => {
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(title)
   })
+
+  it('should support spacing props', () => {
+    render(
+      <ProgressIndicator type="linear" progress={1} top="2rem" hidden />
+    )
+
+    const indicator = document.querySelector('.dnb-progress-indicator')
+    expect(Array.from(indicator.classList)).toEqual([
+      'dnb-progress-indicator',
+      'dnb-space__top--large',
+      'dnb-progress-indicator--visible',
+      'dnb-progress-indicator--horizontal',
+      'dnb-progress-indicator--default',
+      'dnb-progress-indicator--full-width',
+    ])
+  })
+
+  it('should support custom attributes', () => {
+    render(
+      <ProgressIndicator type="linear" progress={1} top="2rem" hidden />
+    )
+
+    const indicator = document.querySelector('.dnb-progress-indicator')
+    const attributes = Array.from(indicator.attributes).map(
+      (attr) => attr.name
+    )
+    expect(attributes).toEqual(['class', 'hidden'])
+  })
+
+  it('should use span elements', () => {
+    const { container } = render(
+      <ProgressIndicator type="linear" progress={1} show_label />
+    )
+
+    expect(container.querySelectorAll('div')).toHaveLength(0)
+    expect(container.querySelectorAll('span')).toHaveLength(4)
+  })
+
+  it('should use span for label element', () => {
+    // Because it does not have any advantages over a label element (VoiceOver does not read it as a label)
+
+    const { container } = render(
+      <ProgressIndicator type="linear" progress={1} show_label />
+    )
+
+    expect(
+      container.querySelector('.dnb-progress-indicator__label').tagName
+    ).toBe('SPAN')
+  })
 })
 
 describe('ProgressIndicator ARIA', () => {
   it('should validate with ARIA rules on type circular', async () => {
     const Comp = render(
-      <ProgressIndicator {...props} type="circular" progress={50} />
+      <ProgressIndicator
+        {...props}
+        type="circular"
+        progress={50}
+        show_label
+      />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules on type linear', async () => {
     const Comp = render(
-      <ProgressIndicator {...props} type="linear" progress={50} />
+      <ProgressIndicator
+        {...props}
+        type="linear"
+        progress={50}
+        show_label
+      />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

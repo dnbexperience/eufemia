@@ -18,6 +18,7 @@ import {
   TableSizeSmall,
   PaginationTable,
   TableAccordion,
+  TableAccordionRow,
   TablesInOneContainer,
   VariantCombinations,
 } from 'Docs/uilib/components/table/Examples'
@@ -56,15 +57,19 @@ A `small` sized table is only for special circumstances, where a lot of data nee
 
 <TableSizeSmall />
 
-### Table with accordion rows
+### Table with accordion
 
-<VisibilityByTheme visible="sbanken">
-  This example is not yet fully supported using the Sbanken theme.
-</VisibilityByTheme>
+##### Expand a single container
 
-The second example uses both a `border` and an `outline`.
+The second table uses both a `border` and an `outline`.
 
 <TableAccordion />
+
+##### Expand additional rows
+
+It's also possible to use accordion to expand the table with more rows.
+
+<TableAccordionRow />
 
 ### Table with sticky header
 

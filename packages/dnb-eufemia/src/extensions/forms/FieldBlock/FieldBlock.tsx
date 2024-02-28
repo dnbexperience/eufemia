@@ -19,7 +19,6 @@ import FieldBlockContext, {
   StatusContent,
   FieldBlockContextProps,
 } from './FieldBlockContext'
-import { Identifier } from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
@@ -27,7 +26,12 @@ import {
   findElementInChildren,
 } from '../../../shared/component-helper'
 import useId from '../hooks/useId'
-import { ComponentProps, FieldProps, FormError } from '../types'
+import {
+  ComponentProps,
+  FieldProps,
+  FormError,
+  Identifier,
+} from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import useUnmountEffect from '../hooks/useUnmountEffect'
 

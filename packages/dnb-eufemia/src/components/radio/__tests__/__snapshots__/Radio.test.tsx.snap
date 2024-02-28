@@ -21,7 +21,6 @@ exports[`Radio scss has to match style dependencies css 1`] = `
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -29,6 +28,9 @@ exports[`Radio scss has to match style dependencies css 1`] = `
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;

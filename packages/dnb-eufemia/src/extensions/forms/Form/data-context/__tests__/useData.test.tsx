@@ -14,7 +14,7 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual(undefined)
   })
 
-  it('should return "update" mathod that lets you update the data', () => {
+  it('should return "update" method that lets you update the data', () => {
     const props = { key: 'value' }
     const { result } = renderHook(() => useData(identifier, props))
 

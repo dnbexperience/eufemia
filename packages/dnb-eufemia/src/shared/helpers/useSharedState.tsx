@@ -1,4 +1,15 @@
-import { useCallback, useEffect, useMemo, useReducer } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
+import useMounted from '../../extensions/forms/hooks/useMounted'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type SharedStateId = string
 
@@ -17,14 +28,41 @@ export function useSharedState<Data>(
   onChange = null
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
+  const hasMounted = useMounted()
+  const waitForMountedRef = useRef(false)
 
-  const sharedState = useMemo(
-    () => id && createSharedState<Data>(id, initialData),
-    [id, initialData]
-  )
-  const sharedFunc = useMemo(
-    () => id && createSharedState(id + '-onChange', { onChange }),
-    [id, onChange]
+  const forceRerender = useCallback(() => {
+    if (hasMounted.current) {
+      forceUpdate()
+    } else {
+      waitForMountedRef.current = true
+    }
+  }, [hasMounted])
+
+  useLayoutEffect(() => {
+    if (waitForMountedRef.current) {
+      forceUpdate()
+    }
+  }, [])
+
+  const sharedState = useMemo(() => {
+    if (id) {
+      return createSharedState<Data>(id, initialData)
+    }
+  }, [id, initialData])
+  const sharedAttachment = useMemo(() => {
+    if (id) {
+      return createSharedState(id + '-oc', { onChange })
+    }
+  }, [id, onChange])
+
+  const sync = useCallback(
+    (newData: Data) => {
+      if (id) {
+        sharedAttachment.data?.onChange?.(newData)
+      }
+    },
+    [id, sharedAttachment]
   )
 
   const update = useCallback(
@@ -40,40 +78,40 @@ export function useSharedState<Data>(
     (newData: Data) => {
       if (id) {
         sharedState.set(newData)
-        sharedFunc.get()?.onChange?.(newData)
+        sync(newData)
       }
     },
-    [id, sharedState, sharedFunc]
+    [id, sharedState, sync]
   )
 
   const extend = useCallback(
     (newData: Data) => {
       if (id) {
         sharedState.extend(newData)
-        sharedFunc.get()?.onChange?.(newData)
+        sync(newData)
       }
     },
-    [id, sharedState, sharedFunc]
+    [id, sharedState, sync]
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!id) {
       return
     }
 
-    sharedState.subscribe(forceUpdate)
+    sharedState.subscribe(forceRerender)
 
     return () => {
-      sharedState.unsubscribe(forceUpdate)
+      sharedState.unsubscribe(forceRerender)
     }
-  }, [id, sharedState])
+  }, [forceRerender, id, onChange, sharedState])
 
   useEffect(() => {
     // Set the onChange function in case it is not set yet
-    if (id && onChange && !sharedFunc.get()?.onChange) {
-      sharedFunc.set({ onChange })
+    if (id && onChange && !sharedAttachment.data?.onChange) {
+      sharedAttachment.set({ onChange })
     }
-  }, [id, onChange, sharedFunc])
+  }, [id, onChange, sharedAttachment])
 
   return {
     get: sharedState?.get,
@@ -82,6 +120,7 @@ export function useSharedState<Data>(
     update,
     set,
     extend,
+    sync,
   }
 }
 

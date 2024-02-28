@@ -44,11 +44,14 @@
   }
 
   &--horizontal &__label {
-    margin: 0 1rem;
+    padding-left: 1rem;
+  }
+  &--horizontal#{&}--small &__label {
+    padding-left: 0.5rem;
   }
 
   &--vertical &__label {
-    margin-top: 0.5rem;
+    padding-top: 0.5rem;
   }
 
   // circular variant

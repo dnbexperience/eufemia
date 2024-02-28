@@ -668,7 +668,6 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-form-label {
   display: inline-block;
-  width: auto;
   padding: 0;
   text-align: left;
   vertical-align: baseline;
@@ -676,6 +675,9 @@ button.dnb-button::-moz-focus-inner {
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
+}
+.dnb-form-label[for] {
+  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;

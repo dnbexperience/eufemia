@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import TableAccordionContent from './TableAccordionContent'
+import TableAccordionTd from './TableAccordionTd'
 
 export type TableTdProps = {
   /**
@@ -45,4 +45,4 @@ export default function Td(
   )
 }
 
-Td.AccordionContent = TableAccordionContent
+Td.AccordionContent = TableAccordionTd
