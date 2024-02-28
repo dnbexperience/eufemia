@@ -11,18 +11,19 @@ import NumberFormat, {
   NumberFormatProps,
 } from '../../../../components/NumberFormat'
 import {
-  ToCamelCase,
+  IncludeCamelCase,
   convertCamelCaseProps,
 } from '../../../../shared/helpers/withCamelCaseProps'
 
-export type Props = ValueProps<number> & ToCamelCase<NumberFormatProps>
+export type Props = ValueProps<number> &
+  IncludeCamelCase<NumberFormatProps>
 
 function NumberValue(props: Props) {
   const { className, label, placeholder, inline, showEmpty, ...rest } =
     useDataValue(props)
 
   const numberFormatProps = convertCamelCaseProps(
-    omitSpacingProps(omitDataValueProps(rest)) as NumberFormatProps
+    omitDataValueProps(omitSpacingProps(rest))
   )
 
   return (

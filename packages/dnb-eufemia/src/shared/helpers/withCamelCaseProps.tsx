@@ -82,6 +82,13 @@ export function classWithCamelCaseProps<
   return Derived
 }
 
+/**
+ * Converts camel case props to snake case props.
+ *
+ * @template P - The type of the props object.
+ * @param {P} props - The props object to convert.
+ * @returns {P} - The converted props object.
+ */
 export function convertCamelCaseProps<P>(props: P) {
   const isFrozen = Object.isFrozen(props)
   const newProps = isFrozen ? { ...props } : props

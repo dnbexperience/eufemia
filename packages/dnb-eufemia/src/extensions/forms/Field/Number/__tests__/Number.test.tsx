@@ -77,11 +77,11 @@ describe('Field.Number', () => {
 
     it('renders autoComplete', () => {
       const { rerender } = render(
-        <Field.Number autoComplete="postalCode" />
+        <Field.Number autoComplete="postal-code" />
       )
       expect(
         document.querySelector('input').getAttribute('autocomplete')
-      ).toBe('postalCode')
+      ).toBe('postal-code')
 
       rerender(<Field.Number path="/postalCode" autoComplete="tel" />)
       expect(document.querySelector('input').getAttribute('name')).toBe(
