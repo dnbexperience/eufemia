@@ -87,11 +87,14 @@ export const HelpButtonInlineCustom = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
       <div>
         <span style={{ marginRight: '0.5rem' }}>Label</span>
-        <HelpButton displayMethod="inline" contentId="help-content">
-          Peekaboo!
-        </HelpButton>
+        <HelpButton displayMethod="inline" contentId="help-content" />
       </div>
-      <div id="help-content">I'd like my help content over here</div>
+      <div>
+        <span>I'd like my help content over here</span>
+        <HelpButton.Content contentId="help-content">
+          Peekaboo 2.0!
+        </HelpButton.Content>
+      </div>
     </div>
   </ComponentBox>
 )

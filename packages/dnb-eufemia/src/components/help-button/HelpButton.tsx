@@ -38,7 +38,7 @@ export default function HelpButton(localProps: HelpButtonProps) {
     params.icon = 'question'
   }
 
-  if (!children) {
+  if (!children && displayMethod !== 'inline') {
     return <HelpButtonInstance {...params} />
   }
 
@@ -51,16 +51,15 @@ export default function HelpButton(localProps: HelpButtonProps) {
   }
 
   if (displayMethod === 'inline') {
-    // console.log(props)
     return <HelpButtonInline {...params}>{children}</HelpButtonInline>
   }
 
   return <Dialog triggerAttributes={params}>{children}</Dialog>
 }
 
-// HelpButton.Content = ({ id }) => {
-//   console.log('id', id)
-//   return <span id={id} />
-// }
-HelpButton.Content = HelpButtonInlineContent
+HelpButton.Content = ({ contentId, children }) => (
+  <HelpButtonInlineContent contentId={contentId}>
+    {children}
+  </HelpButtonInlineContent>
+)
 HelpButton._supportsSpacingProps = true

@@ -1,78 +1,65 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useRef } from 'react'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
 import { makeUniqueId } from '../../shared/component-helper'
+import { useSharedState } from '../../shared/helpers/useSharedState'
 
-export function HelpButtonInline(props: HelpButtonProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [contentElement, setContentElement] = useState(null)
+export type HelpButtonInlineSharedStateDataProps = {
+  isOpen: boolean
+}
 
-  const { contentId: contentContainerId, children, ...rest } = props
+export function HelpButtonInline({
+  contentId,
+  children,
+  ...rest
+}: HelpButtonProps) {
+  const id = useRef(contentId ? contentId : makeUniqueId())
 
-  const baseId = useRef(rest.id ? rest.id : makeUniqueId())
-  const contentId = `${baseId.current}-content`
+  const { data, update } =
+    useSharedState<HelpButtonInlineSharedStateDataProps>(id.current, {
+      isOpen: false,
+    })
 
-  useEffect(() => {
-    const element = document.getElementById(contentContainerId)
-      ? document.getElementById(contentContainerId)
-      : document.getElementById(baseId.current)?.parentElement
-    setContentElement(element)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentContainerId])
-
-  const onClickHandler = useCallback(
-    ({ event }) => {
-      event.preventDefault()
-      setIsOpen(!isOpen)
-    },
-    [isOpen]
-  )
+  const onClickHandler = ({ event }) => {
+    event.preventDefault()
+    update({ isOpen: !data.isOpen })
+  }
 
   return (
     <>
       <HelpButtonInstance
         className="dnb-help-button--inline"
         on_click={onClickHandler}
-        icon={isOpen ? 'close' : rest.icon}
-        aria-controls={contentId}
+        icon={data.isOpen ? 'close' : rest.icon}
+        aria-controls={`${id.current}-content`}
         size={rest.size || 'small'}
         {...rest}
-        id={baseId.current}
+        id={id.current}
       />
-      {/* {contentElement && !contentId && (
-        <HelpButtonInlineContent
-          isOpen={isOpen}
-          contentElement={contentElement}
-          id={contentId}
-        >
+      {!contentId && (
+        <HelpButtonInlineContent contentId={id.current}>
           {children}
         </HelpButtonInlineContent>
-      )} */}
+      )}
     </>
   )
 }
 
 export type HelpButtonInlineContentProps = {
-  isOpen: boolean
-  contentElement: Element
+  contentId: string
   children: React.ReactNode | string
-  id: string
 }
 
 export function HelpButtonInlineContent({
-  isOpen,
-  contentElement,
+  contentId,
   children,
-  id,
 }: HelpButtonInlineContentProps) {
-  return ReactDOM.createPortal(
-    <span id={id}>
-      <HeightAnimation open={isOpen}>
-        <div className="dnb-help-button-content">{children}</div>
-      </HeightAnimation>
-    </span>,
-    contentElement
+  const { data } =
+    useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
+  return (
+    <HeightAnimation id={`${contentId}-content`} open={data.isOpen}>
+      <div className="dnb-help-button-content">{children}</div>
+    </HeightAnimation>
   )
 }
