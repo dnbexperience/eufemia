@@ -5,6 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import styled from '@emotion/styled'
 import { Radio, HelpButton } from '@dnb/eufemia/src'
 import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
 
@@ -183,3 +184,17 @@ export const RadioExampleError = () => (
     </ComponentBox>
   </>
 )
+
+export const RadioBoundingArea = () => (
+  <ShowBoundingArea>
+    <ComponentBox data-visual-test="radio-bounding">
+      <Radio label="Radio button" checked />
+    </ComponentBox>
+  </ShowBoundingArea>
+)
+
+const ShowBoundingArea = styled.div`
+  .dnb-radio__input {
+    opacity: 0.5;
+  }
+`
