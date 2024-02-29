@@ -6,6 +6,7 @@ import enGB from './locales/en-GB'
 import enUS from './locales/en-US'
 import { LOCALE as defaultLocale } from './defaults'
 
+// Should we maybe remove this an just rely on the SharedContext translations?
 const locales = {
   ...noNB,
   ...enGB,
