@@ -44,6 +44,8 @@
   --checkbox-color-background-on--error: red;
   --checkbox-color-background--error-contrast: lavenderblush;
   --checkbox-color-border--error: red;
+  // Bounding box
+  --checkbox-bounding--medium: 1.75, 1.75;
 
   display: inline-flex;
   flex-direction: column;
@@ -149,11 +151,16 @@
     padding: 0;
 
     border: 0;
+
+    // Larger bounding box
+    transform: scale(var(--checkbox-bounding--medium));
   }
 
   &--large &__input {
     width: var(--checkbox-width--large);
     height: var(--checkbox-height--large);
+
+    transform: scale(1); // reset scale
   }
 
   &__input:not([disabled]) {

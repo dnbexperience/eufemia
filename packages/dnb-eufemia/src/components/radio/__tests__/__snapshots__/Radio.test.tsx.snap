@@ -170,6 +170,8 @@ button .dnb-form-status__text {
   --radio-color-background-on--error-hover: lavenderblush;
   --radio-color-dot-on--error-hover: lavenderblush;
   --radio-focus-ring-width--error: var(--focus-ring-width);
+  --radio-bounding--medium: 1.75, 1.5;
+  --radio-bounding--large: 1.25, 1.12;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -247,10 +249,12 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin: 0;
   padding: 0;
   border: 0;
+  transform: scale(var(--radio-bounding--medium));
 }
 .dnb-radio--large .dnb-radio__input {
   width: var(--radio-width--large);
   height: var(--radio-height--large);
+  transform: scale(var(--radio-bounding--large));
 }
 .dnb-radio__input:not([disabled]) {
   cursor: pointer;
