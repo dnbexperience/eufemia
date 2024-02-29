@@ -24,12 +24,8 @@ import * as Examples from 'Docs/uilib/components/form-label/Examples'
 
 ### With inline help button
 
-Using the help property, FormLabel has support for inline display of help content.
+FormLabel has support for inline display of help content through the `help` property. <br/>
+Given the `content` property, the HelpButton will show the help content in the adjacent element.<br/>
+Otherwise, it is required to provide a `HelpButton.Content` element using the same `contentId`, containing the desired content.
 
 <Examples.WithHelp />
-
-### With inline help button and custom content selector
-
-In cases where the default help content positioning does not suffice, the help prop accepts identifier of a custom DOM element to display the content in.
-
-<Examples.WithHelpCustom />

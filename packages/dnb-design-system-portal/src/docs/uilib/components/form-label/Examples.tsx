@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { FormLabel, Checkbox, Switch } from '@dnb/eufemia/src'
+import { FormLabel, Checkbox, Switch, HelpButton } from '@dnb/eufemia/src'
 
 export const Default = () => (
   <ComponentBox data-visual-test="form-label-default">
@@ -52,11 +52,13 @@ export const WithHelp = () => (
         <div>
           <FormLabel
             forId="with-help-1"
+            vertical
             help={{
-              content: 'This is a very helpful text',
+              contentId: 'with-help-1-element',
+              content: 'Very helpful text',
             }}
           >
-            Horizontal label
+            Vertical label
           </FormLabel>
           <Checkbox id="with-help-1" label="Checkbox" />
         </div>
@@ -64,44 +66,16 @@ export const WithHelp = () => (
         <div>
           <FormLabel
             forId="with-help-2"
-            vertical
             help={{
-              content: 'Another very helpful text',
+              contentId: 'with-help-2-element',
             }}
           >
-            Vertical label
+            Horizontal label
           </FormLabel>
           <Checkbox id="with-help-2" label="Checkbox" />
-        </div>
-      </div>
-    </form>
-  </ComponentBox>
-)
-
-export const WithHelpCustom = () => (
-  <ComponentBox>
-    <form>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-        }}
-      >
-        <div>
-          <FormLabel
-            forId="with-custom-help"
-            help={{
-              content: 'Peekaboo!',
-              contentId: 'help-content',
-            }}
-          >
-            Field label
-          </FormLabel>
-          <Checkbox id="with-custom-help" label="Checkbox" />
-        </div>
-        <div>No help here</div>
-        <div id="help-content">
-          This is where content will be displayed
+          <HelpButton.Content contentId="with-help-2-element">
+            Another very helpful text
+          </HelpButton.Content>
         </div>
       </div>
     </form>

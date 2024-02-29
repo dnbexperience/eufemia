@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useMemo } from 'react'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
@@ -14,10 +14,12 @@ export function HelpButtonInline({
   children,
   ...rest
 }: HelpButtonProps) {
-  const id = useRef(contentId ? contentId : makeUniqueId())
+  const controlId = useMemo(() => {
+    return contentId ? contentId : makeUniqueId()
+  }, [contentId])
 
   const { data, update } =
-    useSharedState<HelpButtonInlineSharedStateDataProps>(id.current, {
+    useSharedState<HelpButtonInlineSharedStateDataProps>(controlId, {
       isOpen: false,
     })
 
@@ -32,13 +34,14 @@ export function HelpButtonInline({
         className="dnb-help-button--inline"
         on_click={onClickHandler}
         icon={data.isOpen ? 'close' : rest.icon}
-        aria-controls={`${id.current}-content`}
+        aria-controls={`${controlId}-content`}
         size={rest.size || 'small'}
         {...rest}
-        id={id.current}
+        id={controlId}
       />
+      {/* If contentId is not given, we expect the content element to be rendered elsewhere */}
       {!contentId && (
-        <HelpButtonInlineContent contentId={id.current}>
+        <HelpButtonInlineContent contentId={controlId}>
           {children}
         </HelpButtonInlineContent>
       )}
@@ -48,7 +51,7 @@ export function HelpButtonInline({
 
 export type HelpButtonInlineContentProps = {
   contentId: string
-  children: React.ReactNode | string
+  children?: React.ReactNode | string
 }
 
 export function HelpButtonInlineContent({

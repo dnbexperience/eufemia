@@ -10,6 +10,7 @@ import HelpButtonInstance from './HelpButtonInstance'
 import {
   HelpButtonInline,
   HelpButtonInlineContent,
+  HelpButtonInlineContentProps,
 } from './HelpButtonInline'
 import type { ButtonProps } from '../button/Button'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -57,7 +58,10 @@ export default function HelpButton(localProps: HelpButtonProps) {
   return <Dialog triggerAttributes={params}>{children}</Dialog>
 }
 
-HelpButton.Content = ({ contentId, children }) => (
+HelpButton.Content = ({
+  contentId,
+  children,
+}: HelpButtonInlineContentProps) => (
   <HelpButtonInlineContent contentId={contentId}>
     {children}
   </HelpButtonInlineContent>

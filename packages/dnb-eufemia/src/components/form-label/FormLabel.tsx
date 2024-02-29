@@ -127,14 +127,6 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   validateDOMAttributes(localProps, params)
 
   return help ? (
-    // <span
-    //   className={classnames(
-    //     'dnb-form-label__wrapper',
-    //     isVertical && `dnb-form-label__wrapper--vertical`,
-    //     isTrue(srOnly) && 'dnb-sr-only'
-    //   )}
-    //   >
-    //   </span>
     <>
       <Element {...params}>
         {content}
@@ -143,11 +135,13 @@ export default function FormLabel(localProps: FormLabelAllProps) {
           title={help.title}
           displayMethod="inline"
           contentId={help.contentId}
-        >
-          {help.content}
-        </HelpButton>
+        />
       </Element>
-      <HelpButton.Content id={help.contentId} />
+      {help.content && (
+        <HelpButton.Content contentId={help.contentId}>
+          {help.content}
+        </HelpButton.Content>
+      )}
     </>
   ) : (
     <Element {...params}>{content}</Element>

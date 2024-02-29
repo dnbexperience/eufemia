@@ -5,8 +5,17 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-
-import { HelpButton, Input, Dl, Dt, Dd, Dialog } from '@dnb/eufemia/src'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
+import {
+  HelpButton,
+  Input,
+  Dl,
+  Dt,
+  Dd,
+  Dialog,
+  Flex,
+  Card,
+} from '@dnb/eufemia/src'
 
 export const HelpButtonDefaultExample = () => (
   <ComponentBox data-visual-test="help-button-default">
@@ -84,17 +93,27 @@ export const HelpButtonInline = () => (
 
 export const HelpButtonInlineCustom = () => (
   <ComponentBox>
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-      <div>
-        <span style={{ marginRight: '0.5rem' }}>Label</span>
-        <HelpButton displayMethod="inline" contentId="help-content" />
-      </div>
-      <div>
-        <span>I'd like my help content over here</span>
-        <HelpButton.Content contentId="help-content">
-          Peekaboo 2.0!
-        </HelpButton.Content>
-      </div>
-    </div>
+    <Card>
+      <Flex.Container>
+        <Flex.Item size={12}>
+          <HelpButton
+            displayMethod="inline"
+            contentId="help-content-control-id"
+          />
+        </Flex.Item>
+        <Flex.Item>
+          <Field.Email />
+          <HelpButton.Content contentId="help-content-control-id">
+            This field only accepts valid emails
+          </HelpButton.Content>
+        </Flex.Item>
+        <Flex.Item>
+          <Field.Number label="Antall" />
+          <HelpButton.Content contentId="help-content-control-id">
+            In this field you need to type numbers
+          </HelpButton.Content>
+        </Flex.Item>
+      </Flex.Container>
+    </Card>
   </ComponentBox>
 )
