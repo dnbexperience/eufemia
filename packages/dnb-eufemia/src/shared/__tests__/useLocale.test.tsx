@@ -58,4 +58,24 @@ describe('Translation', () => {
 
     expect(resultUS.current).toEqual(enUS['en-US'])
   })
+
+  it(`should retrieve specified component translations`, () => {
+    const { result } = renderHook(
+      () =>
+        useLocale({ components: ['DatePicker', 'GlobalError', 'Tag'] }),
+      {
+        wrapper: ({ children }) => (
+          <StrictMode>
+            <Provider>{children}</Provider>
+          </StrictMode>
+        ),
+      }
+    )
+
+    expect(result.current).toEqual({
+      DatePicker: nbNO[defaultLocale].DatePicker,
+      GlobalError: nbNO[defaultLocale].GlobalError,
+      Tag: nbNO[defaultLocale].Tag,
+    })
+  })
 })

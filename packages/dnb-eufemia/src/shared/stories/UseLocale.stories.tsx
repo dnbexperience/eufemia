@@ -22,6 +22,7 @@ export const UseLocale = () => {
     <>
       <Provider locale={locale}>
         <Locale />
+        <LocaleComponents />
         <ButtonRow>
           <Button onClick={() => setLocale('nb-NO')}>no-NB</Button>
           <Button onClick={() => setLocale('en-GB')}>en-GB</Button>
@@ -36,4 +37,19 @@ const Locale = () => {
   const translation = useLocale()
 
   return <P>{translation.DatePicker.mask_placeholder}</P>
+}
+
+const LocaleComponents = () => {
+  const translations = useLocale({
+    components: ['Autocomplete', 'Breadcrumb'],
+  })
+
+  console.log('Only autocomplete translations here', translations)
+
+  return (
+    <>
+      <P>{translations.Autocomplete.title}</P>
+      <P>{translations.Breadcrumb.navText}</P>
+    </>
+  )
 }

@@ -13,14 +13,28 @@ const locales = {
 }
 
 export type TranslationLocale = keyof typeof locales
+export type TranslationComponents =
+  keyof (typeof locales)[TranslationLocale]
 
-export function useLocale() {
+type UseLocaleProps = {
+  components?: TranslationComponents[]
+}
+
+export function useLocale({ components = [] }: UseLocaleProps = {}) {
   const sharedContext = useContext(SharedContext)
 
-  const translations = useMemo(
-    () => locales[sharedContext?.locale ?? defaultLocale],
-    [sharedContext.locale]
-  )
+  const translations = useMemo(() => {
+    const translations = locales[sharedContext?.locale ?? defaultLocale]
+
+    return components?.length <= 0
+      ? translations
+      : // Create a new translation object based on provided component
+        components.reduce((componentTranslations, component) => {
+          componentTranslations[component] = translations[component]
+
+          return componentTranslations
+        }, {})
+  }, [sharedContext.locale, components])
 
   return translations
 }
