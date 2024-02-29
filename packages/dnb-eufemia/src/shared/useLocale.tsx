@@ -20,6 +20,7 @@ type UseLocaleProps = {
   components?: TranslationComponents[]
 }
 
+// TODO: Specify return type
 export function useLocale({ components = [] }: UseLocaleProps = {}) {
   const sharedContext = useContext(SharedContext)
 
@@ -28,7 +29,7 @@ export function useLocale({ components = [] }: UseLocaleProps = {}) {
 
     return components?.length <= 0
       ? translations
-      : // Create a new translation object based on provided component
+      : // Create a new translation object based on components prop
         components.reduce((componentTranslations, component) => {
           componentTranslations[component] = translations[component]
 
