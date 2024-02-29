@@ -54,7 +54,7 @@
 
         // underline
         &::after {
-          right: 1rem;
+          right: 0;
         }
       }
 
@@ -137,6 +137,9 @@
         &--tertiary.dnb-button--icon-position-right {
           padding-right: 0.5rem;
 
+          .dnb-button__icon {
+            margin-left: -0.5rem;
+          }
           .dnb-button__text {
             padding-right: 0;
 

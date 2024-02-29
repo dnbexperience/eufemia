@@ -226,6 +226,10 @@
     padding: 0;
   }
 
+  .dnb-button--tertiary {
+    padding: 0;
+  }
+
   .dnb-button--tertiary:focus::before {
     left: 0 !important;
     right: 0 !important;
