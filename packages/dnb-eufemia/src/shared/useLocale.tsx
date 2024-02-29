@@ -30,10 +30,10 @@ export function useLocale({ components = [] }: UseLocaleProps = {}) {
     return components?.length <= 0
       ? translations
       : // Create a new translation object based on components prop
-        components.reduce((componentTranslations, component) => {
-          componentTranslations[component] = translations[component]
+        components.reduce((specifiedTranslations, component) => {
+          specifiedTranslations[component] = translations[component]
 
-          return componentTranslations
+          return specifiedTranslations
         }, {})
   }, [sharedContext.locale, components])
 
