@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react'
 
-import { Button, H2, P } from '../..'
+import { Button, P } from '../..'
 
 import { useLocale, type TranslationLocale } from '../useLocale'
 import Provider from '../Provider'
@@ -21,12 +21,7 @@ export const UseLocale = () => {
   return (
     <>
       <Provider locale={locale}>
-        <DefaultLocale />
-        <NOLocale />
-        <GBLocale />
-        <USLocale />
-        <hr />
-        <SharedContextLocale />
+        <Locale />
         <ButtonRow>
           <Button onClick={() => setLocale('nb-NO')}>no-NB</Button>
           <Button onClick={() => setLocale('en-GB')}>en-GB</Button>
@@ -37,37 +32,8 @@ export const UseLocale = () => {
   )
 }
 
-const DefaultLocale = () => {
+const Locale = () => {
   const translation = useLocale()
 
   return <P>{translation.DatePicker.mask_placeholder}</P>
-}
-
-const NOLocale = () => {
-  const translation = useLocale('nb-NO')
-
-  return <P>{translation.DatePicker.mask_placeholder}</P>
-}
-
-const GBLocale = () => {
-  const translation = useLocale('en-GB')
-
-  return <P>{translation.DatePicker.mask_placeholder}</P>
-}
-
-const USLocale = () => {
-  const translation = useLocale('en-US')
-
-  return <P>{translation.DatePicker.mask_placeholder}</P>
-}
-
-const SharedContextLocale = () => {
-  const translation = useLocale()
-
-  return (
-    <>
-      <H2>I should change based on context locale!</H2>
-      <P>{translation.DatePicker.mask_placeholder}</P>
-    </>
-  )
 }
