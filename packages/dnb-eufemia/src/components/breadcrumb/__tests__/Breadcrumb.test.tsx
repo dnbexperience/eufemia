@@ -1,5 +1,11 @@
 import React from 'react'
-import { fireEvent, render, screen, act } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  act,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
 import { Provider } from '../../../shared'
@@ -274,7 +280,7 @@ describe('Breadcrumb', () => {
     ])
   })
 
-  it('should automatically collapse breadcrumb-collapse when screen changes to larger than medium', async () => {
+  it('should automatically collapse when screen changes to larger than medium', async () => {
     setMedia({ width: '40em' })
 
     render(
@@ -308,7 +314,9 @@ describe('Breadcrumb', () => {
     })
 
     // Collapsable menu should auto-close when screen goes large
-    expect(collapseSection()).toBeNull()
+    await waitFor(() => {
+      expect(collapseSection()).toBeNull()
+    })
   })
 
   describe('BreadcrumbItem', () => {
