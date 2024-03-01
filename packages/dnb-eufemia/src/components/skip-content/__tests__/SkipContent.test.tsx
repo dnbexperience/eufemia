@@ -239,11 +239,13 @@ describe('SkipContent.Return', () => {
 
     await waitFor(() => {
       expect(document.activeElement.tagName).toBe('BUTTON')
+      expect(section.querySelector('.dnb-button')).not.toBeInTheDocument()
+      expect(
+        // First parent is HeightAnimation, second is span.dnb-skip-content
+        document.activeElement.parentElement.parentElement.getAttribute(
+          'id'
+        )
+      ).toBe('unique-id--alias')
     })
-    expect(section.querySelector('.dnb-button')).not.toBeInTheDocument()
-    expect(
-      // First parent is HeightAnimation, second is span.dnb-skip-content
-      document.activeElement.parentElement.parentElement.getAttribute('id')
-    ).toBe('unique-id--alias')
   })
 })
