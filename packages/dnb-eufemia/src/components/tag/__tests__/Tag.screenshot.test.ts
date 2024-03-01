@@ -52,17 +52,17 @@ describe('Tag', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-})
 
-describe('Clickable tag', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/tag/visual-tests/clickable-tag',
-  })
-  it('have to match a clickable Tag', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="tag-clickable"] .dnb-tag',
+  describe('have to match', () => {
+    setupPageScreenshot({
+      url: '/uilib/components/tag/visual-tests/clickable-tag',
     })
+    it('a clickable Tag', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="tag-clickable"] .dnb-tag',
+      })
 
-    expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 })
