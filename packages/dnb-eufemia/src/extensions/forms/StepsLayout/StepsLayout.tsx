@@ -10,7 +10,7 @@ import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
 import Buttons from './Buttons'
 import Provider from '../DataContext/Provider'
-import useId from '../hooks/useId'
+import useId from '../../../shared/helpers/useId'
 
 export type Props = ComponentProps & {
   id?: string

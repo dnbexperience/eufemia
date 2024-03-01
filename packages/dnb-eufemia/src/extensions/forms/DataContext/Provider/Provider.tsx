@@ -13,8 +13,8 @@ import {
   FieldProps,
   Path,
 } from '../../types'
-import useMountEffect from '../../hooks/useMountEffect'
-import useUpdateEffect from '../../hooks/useUpdateEffect'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 import Context, { ContextState } from '../Context'
 

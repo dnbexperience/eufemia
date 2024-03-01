@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeUniqueId } from '../../../shared/component-helper'
+import { makeUniqueId } from '../component-helper'
 
 export default function useId(customId?: string) {
   const id = React?.useId?.()
