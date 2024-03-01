@@ -1,51 +1,26 @@
 import { useContext, useMemo } from 'react'
-import SharedContext from './Context'
+import SharedContext, { Translation, TranslationLocale } from './Context'
+import defaultLocales from './locales'
 
-import noNB from './locales/nb-NO'
-import enGB from './locales/en-GB'
-import enUS from './locales/en-US'
-import { LOCALE as defaultLocale } from './defaults'
+export function useLocale(
+  locales?: Translation | Partial<Record<TranslationLocale, Translation>>
+): Translation {
+  const { locale, translation } = useContext(SharedContext)
 
-// Should we maybe remove this an just rely on the SharedContext translations?
-const locales = {
-  ...noNB,
-  ...enGB,
-  ...enUS,
-}
+  return useMemo(() => {
+    let tr = translation
 
-export type TranslationLocale = keyof typeof locales
-export type TranslationComponents =
-  keyof (typeof locales)[TranslationLocale]
-
-type UseLocaleProps<T extends readonly TranslationComponents[]> = {
-  components?: [...T]
-}
-
-type UseLocaleReturn<T extends readonly TranslationComponents[]> = {
-  [Key in T[number]]: (typeof locales)[TranslationLocale][Key]
-}
-
-export function useLocale<T extends readonly TranslationComponents[]>({
-  components,
-}: UseLocaleProps<T> = {}): UseLocaleReturn<T> {
-  const sharedContext = useContext(SharedContext)
-
-  const translations = useMemo(() => {
-    const translations = locales[sharedContext?.locale ?? defaultLocale]
-
-    if (components === undefined) {
-      return translations
+    if (locales) {
+      if (Object.keys(defaultLocales).some((locale) => locales[locale])) {
+        if (locales[locale]) {
+          tr = locales[locale]
+        }
+      }
+      for (const key in locales) {
+        tr[key] = { ...translation[key], ...locales[key] }
+      }
     }
 
-    return components?.length <= 0
-      ? translations
-      : // Create a new translation object based on components prop
-        components.reduce((specifiedTranslations, component) => {
-          specifiedTranslations[component] = translations[component]
-
-          return specifiedTranslations
-        }, {} as UseLocaleReturn<T>)
-  }, [sharedContext.locale, components])
-
-  return translations
+    return tr
+  }, [locale, locales, translation])
 }

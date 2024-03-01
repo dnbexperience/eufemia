@@ -7,8 +7,9 @@ import React, { useState } from 'react'
 
 import { Button, P } from '../..'
 
-import { useLocale, type TranslationLocale } from '../useLocale'
+import { useLocale } from '../useLocale'
 import Provider from '../Provider'
+import type { Locale } from '../Context'
 import { ButtonRow } from '../../extensions/forms/Form'
 
 export default {
@@ -16,17 +17,22 @@ export default {
 }
 
 export const UseLocale = () => {
-  const [locale, setLocale] = useState<TranslationLocale>('nb-NO')
+  const [count, increment] = useState(0)
+  const [locale, setLocale] = useState<Locale>('nb-NO')
 
   return (
     <>
+      {count}
       <Provider locale={locale}>
         <Locale />
         <LocaleComponents />
         <ButtonRow>
           <Button onClick={() => setLocale('nb-NO')}>no-NB</Button>
           <Button onClick={() => setLocale('en-GB')}>en-GB</Button>
-          <Button onClick={() => setLocale('en-US')}>en-US</Button>
+          <Button onClick={() => increment((c) => c + 1)}>
+            increment
+          </Button>
+          {/* <Button onClick={() => setLocale('en-US')}>en-US</Button> */}
         </ButtonRow>
       </Provider>
     </>
@@ -39,15 +45,41 @@ const Locale = () => {
   return <P>{translation.DatePicker.mask_placeholder}</P>
 }
 
-const LocaleComponents = () => {
-  const translations = useLocale({
-    components: ['Autocomplete', 'Breadcrumb'],
-  })
+const tr = {
+  Autocomplete: {
+    title: 'Autocomplete',
+  },
+  Breadcrumb: {
+    navText: 'Breadcrumb',
+  },
+}
 
-  console.log(
-    'Only autocomplete and Breadcrumb translations here',
-    translations
-  )
+const LocaleComponents = () => {
+  const translations = useLocale(tr)
+
+  // const translations = useLocale({
+  //   'nb-NO': {
+  //     Autocomplete: {
+  //       title: 'Autocomplete',
+  //     },
+  //     Breadcrumb: {
+  //       navText: 'Breadcrumb',
+  //     },
+  //   },
+  //   'en-GB': {
+  //     Autocomplete: {
+  //       title: 'Autocomplete2',
+  //     },
+  //     Breadcrumb: {
+  //       navText: 'Breadcrumb2',
+  //     },
+  //   },
+  // })
+
+  // console.log(
+  //   'Only autocomplete and Breadcrumb translations here',
+  //   translations
+  // )
 
   return (
     <>

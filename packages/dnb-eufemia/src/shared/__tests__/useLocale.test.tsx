@@ -3,7 +3,7 @@
  *
  */
 
-import React, { StrictMode } from 'react'
+import React from 'react'
 import { renderHook } from '@testing-library/react'
 import { useLocale } from '../useLocale'
 import Provider from '../Provider'
@@ -11,17 +11,12 @@ import Provider from '../Provider'
 // Translations
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
-import enUS from '../locales/en-US'
 import { LOCALE as defaultLocale } from '../defaults'
 
-describe('Translation', () => {
-  it(`should default to ${defaultLocale} if no locale is specified in context`, () => {
+describe('useLocale', () => {
+  it('should default to nb-NO if no locale is specified in context', () => {
     const { result } = renderHook(() => useLocale(), {
-      wrapper: ({ children }) => (
-        <StrictMode>
-          <Provider>{children}</Provider>
-        </StrictMode>
-      ),
+      wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
 
     expect(result.current).toEqual(nbNO[defaultLocale])
@@ -30,9 +25,7 @@ describe('Translation', () => {
   it('should inherit locale from shared context', () => {
     const { result: resultGB } = renderHook(() => useLocale(), {
       wrapper: ({ children }) => (
-        <StrictMode>
-          <Provider locale="en-GB">{children}</Provider>
-        </StrictMode>
+        <Provider locale="en-GB">{children}</Provider>
       ),
     })
 
@@ -40,42 +33,57 @@ describe('Translation', () => {
 
     const { result: resultNO } = renderHook(() => useLocale(), {
       wrapper: ({ children }) => (
-        <StrictMode>
-          <Provider locale="nb-NO">{children}</Provider>
-        </StrictMode>
+        <Provider locale="nb-NO">{children}</Provider>
       ),
     })
 
     expect(resultNO.current).toEqual(nbNO['nb-NO'])
-
-    const { result: resultUS } = renderHook(() => useLocale(), {
-      wrapper: ({ children }) => (
-        <StrictMode>
-          <Provider locale="en-US">{children}</Provider>
-        </StrictMode>
-      ),
-    })
-
-    expect(resultUS.current).toEqual(enUS['en-US'])
   })
 
-  it(`should retrieve specified component translations`, () => {
-    const { result } = renderHook(
-      () =>
-        useLocale({ components: ['DatePicker', 'GlobalError', 'Tag'] }),
+  it('should extend translation', () => {
+    const extendedLocale = {
+      DatePicker: {
+        mask_placeholder: 'Custom placeholder',
+      },
+    }
+
+    const { result } = renderHook(() => useLocale(extendedLocale), {
+      wrapper: Provider,
+    })
+
+    expect(result.current.DatePicker).toMatchObject(
+      extendedLocale.DatePicker
+    )
+  })
+
+  it('should extend translation inside locale key', () => {
+    const extendedLocale = {
+      'nb-NO': {
+        DatePicker: {
+          mask_placeholder: 'Custom placeholder',
+        },
+      },
+    }
+
+    const { result } = renderHook(() => useLocale(extendedLocale), {
+      wrapper: Provider,
+    })
+
+    expect(result.current.DatePicker).toMatchObject(
+      extendedLocale['nb-NO'].DatePicker
+    )
+
+    const { result: resultGB } = renderHook(
+      () => useLocale(extendedLocale),
       {
         wrapper: ({ children }) => (
-          <StrictMode>
-            <Provider>{children}</Provider>
-          </StrictMode>
+          <Provider locale="en-GB">{children}</Provider>
         ),
       }
     )
 
-    expect(result.current).toEqual({
-      DatePicker: nbNO[defaultLocale].DatePicker,
-      GlobalError: nbNO[defaultLocale].GlobalError,
-      Tag: nbNO[defaultLocale].Tag,
-    })
+    expect(resultGB.current.DatePicker).not.toMatchObject(
+      extendedLocale['nb-NO'].DatePicker
+    )
   })
 })
