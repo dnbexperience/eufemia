@@ -12,6 +12,7 @@ import Password, { PasswordProps } from '../Password'
 import nbNO from '../../../../../shared/locales/nb-NO'
 import enGB from '../../../../../shared/locales/en-GB'
 import { Provider } from '../../../../../shared'
+import { Locales } from '../../../../../shared/Context'
 
 const nb = nbNO['nb-NO'].Forms
 const en = enGB['en-GB'].Forms
@@ -218,17 +219,17 @@ describe('Password component', () => {
   })
 
   it('should allow changing visibility-toggle aria-labels using the Provider', async () => {
+    const tr: Locales = {
+      'nb-NO': {
+        Forms: {
+          passwordShowLabel: 'Show it!',
+          passwordHideLabel: 'Hide it!',
+        },
+      },
+    }
+
     render(
-      <Provider
-        locales={{
-          'nb-NO': {
-            Forms: {
-              passwordShowLabel: 'Show it!',
-              passwordHideLabel: 'Hide it!',
-            },
-          },
-        }}
-      >
+      <Provider locales={tr}>
         <Password />
       </Provider>
     )

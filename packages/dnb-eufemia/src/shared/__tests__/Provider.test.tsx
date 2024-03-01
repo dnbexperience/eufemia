@@ -9,7 +9,7 @@ import ToggleButton from '../../components/toggle-button/ToggleButton'
 
 import Context, {
   ContextProps,
-  TranslationConsumer,
+  TranslationFlat,
   Locales,
 } from '../Context'
 import Provider, { ProviderProps } from '../Provider'
@@ -19,10 +19,10 @@ describe('Provider', () => {
   const title_nb = 'Tekst'
   const title_gb = 'Text'
 
-  const nbNO: TranslationConsumer = {
+  const nbNO: TranslationFlat = {
     'HelpButton.title': title_nb,
   }
-  const enGB: TranslationConsumer = {
+  const enGB: TranslationFlat = {
     'HelpButton.title': title_gb,
   }
 
