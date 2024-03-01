@@ -66,6 +66,7 @@ function PostalCodeAndCity(props: Props) {
           ...city.errorMessages,
         }}
         width="stretch"
+        autoComplete="address-level2"
         help={help}
       />
     </FieldBlock>
