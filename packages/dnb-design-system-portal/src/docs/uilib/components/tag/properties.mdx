@@ -15,6 +15,9 @@ showTabs: true
 | `className`                             | _(optional)_ Custom className for the component root.                                                                                                                                                           |
 | [Space](/uilib/layout/space/properties) | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                                                                           |
 | `omitOnKeyUpDeleteEvent`                | _(optional)_ Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys. Defaults to `false`.                                                                            |
+| `onClick`                               | _(optional)_ Callback on click. Turns tag into clickable variant.                                                                                                                                               |
+| `onAdd`                                 | _(optional)_ Callback on click. Overrides `onClick`. Turns tag into addable variant.                                                                                                                            |
+| `onRemove`                              | _(optional)_ Callback on click. Overrides `onClick` and `onAdd`. Turns tag into removable variant.                                                                                                              |
 
 ### `Tag.Group` properties
 
