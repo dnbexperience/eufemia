@@ -17,16 +17,25 @@ export type TranslationLocale = keyof typeof locales
 export type TranslationComponents =
   keyof (typeof locales)[TranslationLocale]
 
-type UseLocaleProps = {
-  components?: TranslationComponents[]
+type UseLocaleProps<T extends readonly TranslationComponents[]> = {
+  components?: [...T]
 }
 
-// TODO: Specify return type
-export function useLocale({ components = [] }: UseLocaleProps = {}) {
+type UseLocaleReturn<T extends readonly TranslationComponents[]> = {
+  [Key in T[number]]: (typeof locales)[TranslationLocale][Key]
+}
+
+export function useLocale<T extends readonly TranslationComponents[]>({
+  components,
+}: UseLocaleProps<T> = {}): UseLocaleReturn<T> {
   const sharedContext = useContext(SharedContext)
 
   const translations = useMemo(() => {
     const translations = locales[sharedContext?.locale ?? defaultLocale]
+
+    if (components === undefined) {
+      return translations
+    }
 
     return components?.length <= 0
       ? translations
@@ -35,7 +44,7 @@ export function useLocale({ components = [] }: UseLocaleProps = {}) {
           specifiedTranslations[component] = translations[component]
 
           return specifiedTranslations
-        }, {})
+        }, {} as UseLocaleReturn<T>)
   }, [sharedContext.locale, components])
 
   return translations

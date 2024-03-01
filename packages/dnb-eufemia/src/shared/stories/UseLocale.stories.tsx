@@ -44,7 +44,10 @@ const LocaleComponents = () => {
     components: ['Autocomplete', 'Breadcrumb'],
   })
 
-  console.log('Only autocomplete translations here', translations)
+  console.log(
+    'Only autocomplete and Breadcrumb translations here',
+    translations
+  )
 
   return (
     <>
