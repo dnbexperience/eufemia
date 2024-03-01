@@ -5,7 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import useMounted from '../../extensions/forms/hooks/useMounted'
+import useMounted from './useMounted'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =

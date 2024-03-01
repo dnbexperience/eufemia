@@ -4,12 +4,12 @@ import {
   SharedStateId,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
 import type {
   FilterData,
   FilterDataHandler,
 } from '../../DataContext/Provider'
-import { useMountEffect } from '../../hooks'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
   ? Key extends keyof T
