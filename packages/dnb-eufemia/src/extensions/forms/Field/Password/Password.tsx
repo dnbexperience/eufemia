@@ -36,7 +36,7 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
    */
   size?: InputProps['size']
   /**
-   * ElememntRef passed on to the password input element.
+   * ElementRef passed on to the password input element.
    */
   innerRef?: MutableRefObject<HTMLInputElement>
   /**

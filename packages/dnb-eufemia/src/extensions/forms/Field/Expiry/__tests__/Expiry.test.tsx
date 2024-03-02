@@ -25,7 +25,7 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('35')
   })
 
-  it('should hande value as undefined', () => {
+  it('should handle value as undefined', () => {
     render(<Field.Expiry value={undefined} />)
 
     const monthInput = document.querySelectorAll('input')[0]
@@ -35,7 +35,7 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('åå')
   })
 
-  it('should hande value as null', () => {
+  it('should handle value as null', () => {
     render(<Field.Expiry value={null} />)
 
     const monthInput = document.querySelectorAll('input')[0]

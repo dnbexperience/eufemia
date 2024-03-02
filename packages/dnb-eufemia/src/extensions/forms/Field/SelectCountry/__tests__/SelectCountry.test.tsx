@@ -24,7 +24,7 @@ describe('Field.SelectCountry', () => {
     expect(inputElement.value).toEqual('')
 
     fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, { target: { value: 'Norg' } })
+    fireEvent.change(inputElement, { target: { value: 'Norge' } })
     fireEvent.click(firstItemElement())
 
     expect(onChange).toHaveBeenLastCalledWith('NO', {

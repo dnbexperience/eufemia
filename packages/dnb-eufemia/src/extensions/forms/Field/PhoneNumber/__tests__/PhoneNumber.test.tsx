@@ -784,7 +784,7 @@ describe('Field.PhoneNumber', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should not validate initially when required and contry code is provided as a value', () => {
+  it('should not validate initially when required and country code is provided as a value', () => {
     render(<Field.PhoneNumber required value="+47" />)
 
     expect(
