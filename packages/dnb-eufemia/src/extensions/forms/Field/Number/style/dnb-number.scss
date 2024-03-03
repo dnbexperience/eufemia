@@ -28,25 +28,52 @@
     display: flex;
 
     &--has-controls {
-      border-radius: 0.25rem;
-      @include fakeBorder(
-        var(--number-control-button-border-color),
-        0.0625rem
-      );
-      @include hover() {
-        @include fakeBorder(
-          var(--number-control-button-border-color),
-          0.125rem
-        );
-      }
+      // Outdated state handling
+      // border-radius: 0.25rem;
+      // @include fakeBorder(
+      //   var(--number-control-button-border-color),
+      //   0.0625rem
+      // );
+      // @include hover() {
+      //   @include fakeBorder(
+      //     var(--number-control-button-border-color),
+      //     0.125rem
+      //   );
+      // }
 
-      &:focus-within {
-        html[data-whatinput='keyboard'] & {
-          @include fakeBorder(
-            var(--number-control-button-border-color--focus),
-            var(--number-control-button-border-width--focus)
-          );
-        }
+      // &:focus-within {
+      //   html[data-whatinput='keyboard'] & {
+      //     @include fakeBorder(
+      //       var(--number-control-button-border-color--focus),
+      //       var(--number-control-button-border-width--focus)
+      //     );
+      //   }
+      // }
+
+      // .dnb-input {
+      //   &__input {
+      //     align-items: center;
+      //   }
+
+      //   &__shell {
+      //     border-radius: 0;
+      //     box-shadow: none;
+      //     @include hover() {
+      //       box-shadow: none;
+      //     }
+      //   }
+      //   &:not([data-input-state='disabled']):not(:active) {
+      //     // Focus
+      //     &[data-input-state='focus'] {
+      //       .dnb-input__shell {
+      //         @include removeFocusRing();
+      //       }
+      //     }
+      //   }
+      // }
+
+      &:focus-within .dnb-input__border--root {
+        --border: var(--border--focus);
       }
 
       .dnb-input {
@@ -54,19 +81,11 @@
           align-items: center;
         }
 
-        &__shell {
-          border-radius: 0;
-          box-shadow: none;
-          @include hover() {
-            box-shadow: none;
-          }
-        }
-        &:not([data-input-state='disabled']):not(:active) {
-          // Focus
-          &[data-input-state='focus'] {
-            .dnb-input__shell {
-              @include removeFocusRing();
-            }
+        .dnb-input__border {
+          &,
+          &:hover,
+          &:focus {
+            --border: none;
           }
         }
       }

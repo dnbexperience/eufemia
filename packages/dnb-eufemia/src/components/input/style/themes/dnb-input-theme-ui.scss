@@ -53,19 +53,52 @@
     background-color: var(--color-black-3);
   }
 
-  &:not([data-input-state='disabled']) &__shell:hover,
-  &:not([data-input-state='disabled']):hover &__shell {
-    @include fakeBorder(
-      var(--input-border-color--hover),
-      var(--input-border-width--focus)
-    );
-  }
+  // Outdated state handling
+  // &:not([data-input-state='disabled']) &__shell:hover,
+  // &:not([data-input-state='disabled']):hover &__shell {
+  //   @include fakeBorder(
+  //     var(--input-border-color--hover),
+  //     var(--input-border-width--focus)
+  //   );
+  // }
+  // &[data-input-state='focus']:not([data-input-state='disabled']) &__shell {
+  //   @include fakeBorder(
+  //     var(--input-border-color--focus),
+  //     var(--input-border-width--focus)
+  //   );
+  // }
 
-  &[data-input-state='focus']:not([data-input-state='disabled']) &__shell {
-    @include fakeBorder(
-      var(--input-border-color--focus),
-      var(--input-border-width--focus)
-    );
+  // Handling of states
+  &__border {
+    // Tokens
+    --input-border-color: var(--color-sea-green);
+    --input-border-color--hover: var(--color-sea-green);
+    --input-border-color--focus: var(--color-emerald-green);
+    --input-border-color--disabled: var(--color-black-55);
+    --input-border-radius: 0.25rem;
+    --input-border-width: 0.0625rem;
+    --input-border-width--focus: 0.125rem;
+
+    // Border
+    --border--normal: 0 0 0 var(--input-border-width)
+      var(--input-border-color);
+    --border--hover: 0 0 0 var(--input-border-width--focus)
+      var(--input-border-color);
+    --border--focus: 0 0 0 var(--input-border-width--focus)
+      var(--input-border-color);
+    --border: var(--border--normal);
+
+    display: flex;
+    box-shadow: var(--border);
+    border-radius: var(--input-border-radius);
+  }
+  &__border:hover,
+  &__border.hover {
+    --border: var(--border--hover);
+  }
+  &__border:focus-within,
+  &__border.focus {
+    --border: var(--border--focus);
   }
 
   // with status_state = "error"

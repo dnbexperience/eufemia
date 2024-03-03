@@ -76,20 +76,4 @@
       }
     }
   }
-
-  .dnb-input__shell:focus-within {
-    box-shadow: 0 0 0 var(--input-border-width--focus)
-      var(--input-border-color--hover);
-  }
-}
-
-.dnb-multi-input-mask__legend {
-  &--horizontal.dnb-form-label {
-    display: contents;
-  }
-
-  &:not([disabled]):hover ~ .dnb-multi-input-mask .dnb-input__shell {
-    box-shadow: 0 0 0 var(--input-border-width--focus)
-      var(--input-border-color--hover);
-  }
 }

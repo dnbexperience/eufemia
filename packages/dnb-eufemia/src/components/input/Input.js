@@ -481,6 +481,7 @@ export default class Input extends React.PureComponent {
     const shellParams = {
       className: classnames(
         'dnb-input__shell',
+        'dnb-input__border',
         createSkeletonClass('shape', skeleton, this.context)
       ),
     }

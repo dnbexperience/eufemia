@@ -331,14 +331,26 @@ function NumberComponent(props: Props) {
     ...ariaParams,
   }
 
+  if (showStepControls) {
+    return (
+      <FieldBlock {...fieldBlockProps} asFieldset={false}>
+        <span className="dnb-input__border dnb-input__border--root">
+          {<Button {...decreaseProps} />}
+          <InputMasked {...inputProps} />
+          {<Button {...increaseProps} />}
+        </span>
+        {help && (
+          <HelpButton left="x-small" title={help.title}>
+            {help.content}
+          </HelpButton>
+        )}
+      </FieldBlock>
+    )
+  }
+
   return (
     <FieldBlock {...fieldBlockProps} asFieldset={false}>
-      {showStepControls && <Button {...decreaseProps} />}
       <InputMasked {...inputProps} />
-      {showStepControls && <Button {...increaseProps} />}
-      {help && showStepControls && (
-        <HelpButton title={help.title}>{help.content}</HelpButton>
-      )}
     </FieldBlock>
   )
 }
