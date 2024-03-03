@@ -151,37 +151,56 @@ export type ContextProps = ContextComponents & {
    */
   setCurrentLocale?: (locale: Locale) => void
 
-  // -- For internal use --
+  /**
+   * Set a custom translation in the Provider
+   */
   locales?: Locales
+
+  // -- For internal use --
   __context__?: Record<string, unknown>
   updateTranslation?: (locale: Locale, translation: Translation) => void
   getTranslation?: (props: GetTranslationProps) => Translation
 }
 
 export type GetTranslationProps = Partial<{
-  lang?: Locale
+  lang?: Locale | HTMLElement['lang']
   locale?: Locale
 }>
 
-export type Locale = string | 'nb-NO' | 'en-GB' | 'en-US'
-export type ComponentTranslationsName = string | keyof ContextComponents
+export type AnyLocale = string
+export type Locale = AnyLocale | Partial<TranslationLocale> | 'en-US'
+export type ComponentTranslationsName = keyof ContextComponents | string
 export type ComponentTranslation = string
-export type ComponentTranslations = Record<string, ComponentTranslation>
-export type Locales = Record<Locale, Translation | TranslationConsumer>
-export type Translation = Record<
-  /**
-   * Support only "HelpButton"
-   */
-  ComponentTranslationsName,
-  ComponentTranslations
+export type Locales = Partial<
+  Record<Locale, Translation | TranslationFlat>
 >
-export type TranslationConsumer = Record<
-  /**
-   * Support "HelpButton.title"
-   */
-  ComponentTranslationsName,
-  ComponentTranslation | ComponentTranslations
+export type TranslationDefaultLocales = typeof defaultLocales
+export type TranslationLocale = keyof TranslationDefaultLocales
+export type TranslationKeys =
+  keyof TranslationDefaultLocales[TranslationLocale]
+export type TranslationValues =
+  TranslationDefaultLocales[TranslationLocale]
+
+/**
+ * E.g. "HelpButton: { title: '...' }"
+ */
+export type Translation = DeepPartial<
+  TranslationDefaultLocales[TranslationLocale]
 >
+
+/**
+ * E.g. "HelpButton.title"
+ */
+export type TranslationFlat = Record<
+  ComponentTranslationsName,
+  TranslationKeys | ComponentTranslation
+>
+
+type DeepPartial<T> = T extends object
+  ? {
+      [K in keyof T]?: DeepPartial<T[K]>
+    }
+  : T
 
 export function prepareContext<Props>(
   props: ContextProps = {}
@@ -205,15 +224,15 @@ export function prepareContext<Props>(
    * }
    */
   if (locales[key]) {
-    locales[key] = destruct(locales[key], translation)
+    locales[key] = destruct(locales[key] as TranslationFlat, translation)
   }
 
   const context = {
     // We may use that in future
-    updateTranslation: (locale: string, translation: Translation) => {
+    updateTranslation: (locale, translation) => {
       context.translation = context.locales[locale] = translation
     },
-    getTranslation: (props: GetTranslationProps) => {
+    getTranslation: (props) => {
       if (props) {
         const lang = props.lang || props.locale
         if (lang && context.locales[lang] && lang !== key) {
@@ -239,7 +258,7 @@ export function prepareContext<Props>(
   return context
 }
 
-function handleLocaleFallbacks(locale: Locale, locales: Locales) {
+function handleLocaleFallbacks(locale: Locale | string, locales: Locales) {
   if (!locales[locale]) {
     if (locale === 'en' || locale.split('-')[0] === 'en') {
       return 'en-GB'
@@ -260,9 +279,9 @@ const Context = React.createContext<ContextProps>(
 export default Context
 
 function destruct(
-  source: TranslationConsumer,
+  source: TranslationFlat,
   validKeys: Record<string, unknown>
-): TranslationConsumer {
+): TranslationFlat {
   for (const k in source) {
     if (String(k).includes('.')) {
       const list = k.split('.')
