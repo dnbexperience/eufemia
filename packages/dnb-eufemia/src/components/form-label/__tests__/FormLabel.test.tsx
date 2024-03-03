@@ -188,6 +188,108 @@ describe('FormLabel component', () => {
     expect(ref.current.tagName).toBe('LABEL')
   })
 
+  describe('nested', () => {
+    it('gets valid ref element', () => {
+      let refA: React.RefObject<HTMLInputElement>
+      let refB: React.RefObject<HTMLInputElement>
+
+      function MockComponent() {
+        refA = React.useRef()
+        refB = React.useRef()
+        return (
+          <FormLabel
+            innerRef={refA}
+            text={
+              <FormLabel element="legend" innerRef={refB}>
+                content
+              </FormLabel>
+            }
+          />
+        )
+      }
+
+      render(<MockComponent />)
+
+      expect(refA.current).toBeUndefined()
+      expect(refB.current instanceof HTMLLegendElement).toBe(true)
+      expect(refB.current.tagName).toBe('LEGEND')
+    })
+
+    it('should use correct element', () => {
+      render(
+        <FormLabel
+          className="original"
+          text={
+            <FormLabel element="legend" className="nested">
+              content
+            </FormLabel>
+          }
+        />
+      )
+
+      const elements = document.querySelectorAll('.dnb-form-label')
+      expect(elements).toHaveLength(1)
+
+      const element = elements[0]
+      expect(element.tagName).toBe('LEGEND')
+    })
+
+    it('should contain correct content', () => {
+      render(
+        <FormLabel
+          text={<FormLabel text="nested">use "text" instead</FormLabel>}
+        />
+      )
+
+      const elements = document.querySelectorAll('.dnb-form-label')
+      expect(elements).toHaveLength(1)
+
+      const element = elements[0]
+      expect(element).toHaveTextContent('nested')
+    })
+
+    it('should contain correct className', () => {
+      render(
+        <FormLabel
+          className="original"
+          text={<FormLabel className="nested">content</FormLabel>}
+        />
+      )
+
+      const elements = document.querySelectorAll('.dnb-form-label')
+      expect(elements).toHaveLength(1)
+
+      const element = elements[0]
+      expect(element).toHaveClass(
+        'dnb-form-label dnb-space__right--small nested'
+      )
+    })
+
+    it('should update label content', () => {
+      const { rerender } = render(<FormLabel text="My awesome label" />)
+
+      const label = () => document.querySelector('.dnb-form-label')
+
+      expect(label()).toHaveTextContent('My awesome label')
+
+      rerender(<FormLabel text="New label" />)
+
+      expect(label()).toHaveTextContent('New label')
+    })
+
+    it('should update legend', () => {
+      const { rerender } = render(<FormLabel element="legend" />)
+
+      const label = () => document.querySelector('.dnb-form-label')
+
+      expect(label().tagName).toBe('LEGEND')
+
+      rerender(<FormLabel />)
+
+      expect(label().tagName).toBe('LABEL')
+    })
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(
       <FormLabel title="Title" text="Label" forId="input" />
