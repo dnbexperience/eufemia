@@ -52,6 +52,7 @@ function PostalCodeAndCity(props: Props) {
         width={false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
+        autoComplete="postal-code"
       />
       <StringField
         {...city}
@@ -65,6 +66,7 @@ function PostalCodeAndCity(props: Props) {
           ...city.errorMessages,
         }}
         width="stretch"
+        autoComplete="address-level2"
         help={help}
       />
     </FieldBlock>
