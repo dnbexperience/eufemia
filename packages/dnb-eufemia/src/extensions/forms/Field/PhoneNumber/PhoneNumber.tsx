@@ -71,8 +71,8 @@ function PhoneNumber(props: Props) {
   const tr = sharedContext?.translation.Forms
   const lang = sharedContext.locale?.split('-')[0]
 
-  const countryCodeRef = React.useRef(null)
-  const numberRef = React.useRef(null)
+  const countryCodeRef = React.useRef(props?.emptyValue)
+  const numberRef = React.useRef(props?.emptyValue)
   const dataRef = React.useRef(null)
   const langRef = React.useRef(lang)
   const wasFilled = React.useRef(false)
@@ -338,7 +338,7 @@ function PhoneNumber(props: Props) {
           )}
           type="tel"
           autoComplete="tel-national"
-          emptyValue=""
+          emptyValue={emptyValue}
           layout="vertical"
           label={label}
           placeholder={
