@@ -67,7 +67,7 @@ export function WithoutFormHandler() {
 
         const Component = () => {
           const { data, update } = Form.useData(
-            'idependent-id',
+            'independent-id',
             existingData,
           )
 

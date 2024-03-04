@@ -66,7 +66,7 @@
           --table-outline-radius
         ) 0 0
     );
-    z-index: 1; // firefox places caption in from of table witout z-index
+    z-index: 1; // firefox places caption in from of table without z-index
 
     &,
     &::after {

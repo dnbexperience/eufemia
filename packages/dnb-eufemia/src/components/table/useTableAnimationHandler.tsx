@@ -6,7 +6,7 @@ import { TableAccordionContext } from './TableContext'
 
 export type useTableAnimationHandlerProps = {
   /**
-   * Ref to <div> inside the <tr> element being exapanded/collapsed
+   * Ref to <div> inside the <tr> element being expanded/collapsed
    */
   innerRef: React.MutableRefObject<HTMLDivElement>
   /**
@@ -27,11 +27,11 @@ export function useTableAnimationHandler({
 
   const scrollViewHandler = useCallback(
     (clip: boolean) => {
-      const scollView = getClosestScrollViewElement(
+      const scrollView = getClosestScrollViewElement(
         trRef.current
       ) as HTMLElement
-      if (scollView instanceof HTMLElement) {
-        scollView.style.overflow = clip ? 'clip' : ''
+      if (scrollView instanceof HTMLElement) {
+        scrollView.style.overflow = clip ? 'clip' : ''
       }
     },
     [trRef]

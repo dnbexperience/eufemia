@@ -2,7 +2,7 @@ import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { P } from '@dnb/eufemia/src'
 import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
-export const WithLableAndEmpty = () => {
+export const WithLabelAndEmpty = () => {
   return (
     <ComponentBox scope={{ Value }}>
       <Value.Number label="Label text" showEmpty />

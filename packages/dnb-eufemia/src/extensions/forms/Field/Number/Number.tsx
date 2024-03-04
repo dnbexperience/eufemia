@@ -296,7 +296,7 @@ function NumberComponent(props: Props) {
     role: 'spinbutton',
     'aria-valuemin': String(minimum),
     'aria-valuemax': String(maximum),
-    'aria-valuenow': String(value), // without it, VO will read an invlaid value
+    'aria-valuenow': String(value), // without it, VO will read an invalid value
     'aria-valuetext': String(value), // without it, VO will read %
   }
 

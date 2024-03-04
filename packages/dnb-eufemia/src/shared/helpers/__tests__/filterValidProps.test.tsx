@@ -74,7 +74,7 @@ describe('filterValidProps', () => {
     })
   })
 
-  it('should prepeare FormElement direction', () => {
+  it('should prepare FormElement direction', () => {
     const verticalTrue = prepareFormElementContext({ vertical: true })
 
     expect(verticalTrue).toEqual({
