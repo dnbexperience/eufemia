@@ -316,7 +316,6 @@ export default function Provider<Data extends JsonObject>({
     rerenderUseDataHook?: () => void
   }>(id + '-attachments')
 
-  const updateSharedData = sharedData.update
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
@@ -449,7 +448,7 @@ export default function Provider<Data extends JsonObject>({
       }
 
       if (id) {
-        updateSharedData?.(newData)
+        extendSharedData?.(newData)
         if (filterData) {
           rerenderUseDataHook?.()
         }
@@ -469,11 +468,11 @@ export default function Provider<Data extends JsonObject>({
       return newData
     },
     [
-      filterData,
       id,
       sessionStorageId,
+      extendSharedData,
+      filterData,
       rerenderUseDataHook,
-      updateSharedData,
     ]
   )
 
@@ -749,12 +748,14 @@ export default function Provider<Data extends JsonObject>({
         submitError,
         contextErrorMessages,
         hasContext: true,
+        data: internalDataRef.current,
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
         mountedFieldPaths: mountedFieldPathsRef.current,
         ajvInstance: ajvRef.current,
 
-        data: internalDataRef.current,
+        /** Additional */
+        id,
         ...rest,
       }}
     >

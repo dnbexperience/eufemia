@@ -87,7 +87,7 @@ export default function useData<Data>(
       pointer.set(existingData, path, newValue)
 
       // update provider
-      sharedDataRef.current.update(existingData)
+      sharedDataRef.current.extend(existingData)
     },
     []
   )

@@ -12,6 +12,7 @@ By building an entire form with components from Eufemia and Eufemia Forms, you s
 ```jsx
 import { Card } from '@dnb/eufemia'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
 render(
   <Form.Handler
     data={existingData}
@@ -45,18 +46,18 @@ Use the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook 
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
-function Component() {
-  const { data, update } = Form.useData('unique')
 
-  return (
-    <Form.Handler
-      id="unique"
-      ...
-    >
-      ...
-    </Form.Handler>
-  )
+function MyForm() {
+  return <Form.Handler id="unique">...</Form.Handler>
 }
+
+function OtherComponent() {
+  const { data, update } = Form.useData('unique')
+  // Use the data or update the data
+}
+
+// Or use the Form.setData method when ever you need to
+Form.setData('unique', { companyName: 'DNB' })
 ```
 
 ### Async form handling

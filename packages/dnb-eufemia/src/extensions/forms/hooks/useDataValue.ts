@@ -27,7 +27,10 @@ import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useProcessManager from './useProcessManager'
-import { useSharedState } from '../../../shared/helpers/useSharedState'
+import {
+  createSharedState,
+  useSharedState,
+} from '../../../shared/helpers/useSharedState'
 import { isAsync } from '../../../shared/helpers/isAsync'
 
 export default function useDataValue<
@@ -90,11 +93,11 @@ export default function useDataValue<
   })
 
   const {
-    handlePathChange: dataContextHandlePathChange,
-    updateDataValue: dataContextUpdateDataValue,
-    validateData: dataContextValidateData,
-    setFieldState: dataContextSetFieldState,
-    setProps: dataContextSetProps,
+    handlePathChange: handlePathChangeInDataContext,
+    updateDataValue: updateDataValueInDataContext,
+    validateData: validateDataInDataContext,
+    setFieldState: setFieldStateInDataContext,
+    setProps: setPropsInDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
@@ -193,7 +196,7 @@ export default function useDataValue<
   )
 
   // Put props into the surrounding data context
-  dataContextSetProps?.(identifier, props)
+  setPropsInDataContext?.(identifier, props)
 
   const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
   const validatorRef = useRef(validator)
@@ -213,12 +216,12 @@ export default function useDataValue<
   const setFieldState = useCallback(
     (state: SubmitState) => {
       fieldStateRef.current = state
-      dataContextSetFieldState(identifier, state)
+      setFieldStateInDataContext(identifier, state)
       if (!validateInitially) {
         forceUpdate()
       }
     },
-    [dataContextSetFieldState, identifier, validateInitially]
+    [setFieldStateInDataContext, identifier, validateInitially]
   )
 
   const showError = useCallback(() => {
@@ -297,7 +300,7 @@ export default function useDataValue<
       localErrorRef.current = error
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-      dataContextSetFieldState?.(identifier, error ? 'error' : undefined)
+      setFieldStateInDataContext?.(identifier, error ? 'error' : undefined)
 
       setFieldBlockState?.({
         stateId,
@@ -312,7 +315,7 @@ export default function useDataValue<
     [
       stateId,
       prepareError,
-      dataContextSetFieldState,
+      setFieldStateInDataContext,
       identifier,
       setFieldBlockState,
       inFieldBlock,
@@ -542,12 +545,12 @@ export default function useDataValue<
       handleError()
 
       if (path) {
-        dataContextHandlePathChange?.(path, newValue)
+        handlePathChangeInDataContext?.(path, newValue)
       }
 
       forceUpdate()
     },
-    [dataContextHandlePathChange, handleError, path, validateValue]
+    [handlePathChangeInDataContext, handleError, path, validateValue]
   )
 
   const handleChange = useCallback(
@@ -633,27 +636,48 @@ export default function useDataValue<
 
   useEffect(() => {
     if (path) {
+      let value = props.value
+
+      // First, look for existing data in the context
       const hasValue = pointer.has(dataContext.data, path)
       const existingValue = hasValue
         ? pointer.get(dataContext.data, path)
         : undefined
 
+      // If no data where found in the dataContext, look for shared data
+      if (
+        dataContext.id &&
+        !hasValue &&
+        typeof existingValue === 'undefined' &&
+        typeof value === 'undefined'
+      ) {
+        const sharedState = createSharedState(dataContext.id)
+        const hasValue = pointer.has(sharedState.data, path)
+        if (hasValue) {
+          const sharedValue = pointer.get(sharedState.data, path)
+          if (sharedValue) {
+            value = sharedValue
+          }
+        }
+      }
+
       if (
         !hasValue ||
-        (props.value !== existingValue &&
+        (value !== existingValue &&
           // Prevents an infinite loop by skipping the update if the value hasn't changed
           valueRef.current !== existingValue)
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        dataContextUpdateDataValue?.(path, props.value, { disabled })
-        dataContextValidateData?.()
+        updateDataValueInDataContext?.(path, value, { disabled })
+        validateDataInDataContext?.()
       }
     }
   }, [
     dataContext.data,
-    dataContextUpdateDataValue,
-    dataContextValidateData,
+    dataContext.id,
+    updateDataValueInDataContext,
+    validateDataInDataContext,
     disabled,
     path,
     props.value,

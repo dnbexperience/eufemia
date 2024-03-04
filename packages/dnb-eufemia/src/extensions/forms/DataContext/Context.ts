@@ -5,6 +5,7 @@ import {
   CustomErrorMessagesWithPaths,
   SubmitState,
   Path,
+  Identifier,
 } from '../types'
 
 type HandleSubmitProps = {
@@ -18,6 +19,7 @@ export type EventListenerCall = {
 }
 
 export interface ContextState {
+  id?: Identifier
   hasContext: boolean
   /** The dataset for the form / form steps */
   data: any
