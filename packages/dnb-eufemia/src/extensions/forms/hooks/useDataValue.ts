@@ -57,6 +57,7 @@ export default function useDataValue<
           (typeof emptyValue === 'undefined' && value === ''))
           ? error
           : undefined
+
       return res
     },
   } = props
@@ -126,7 +127,7 @@ export default function useDataValue<
   }, [path, id])
 
   const externalValue = useMemo(() => {
-    if (props.value !== undefined) {
+    if (props.value !== emptyValue) {
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
       return transformers.current.fromExternal(props.value)
     }
@@ -139,7 +140,7 @@ export default function useDataValue<
 
       return pointer.has(iterateElementValue, itemPath)
         ? pointer.get(iterateElementValue, itemPath)
-        : undefined
+        : emptyValue
     }
 
     if (dataContext.data && path) {
@@ -150,11 +151,13 @@ export default function useDataValue<
 
       return pointer.has(dataContext.data, path)
         ? pointer.get(dataContext.data, path)
-        : undefined
+        : emptyValue
     }
-    return undefined
+
+    return emptyValue
   }, [
     props.value,
+    emptyValue,
     inIterate,
     itemPath,
     dataContext.data,
