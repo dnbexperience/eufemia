@@ -1,4 +1,4 @@
-import React, { StrictMode, createRef, useContext } from 'react'
+import React, { StrictMode, createRef, useContext, useEffect } from 'react'
 import {
   act,
   fireEvent,
@@ -2253,8 +2253,12 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(nestedMockData).toHaveLength(1)
-      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData).toHaveLength(3)
+      expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
+        initialData,
+      ])
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
@@ -2286,17 +2290,73 @@ describe('DataContext.Provider', () => {
         </>
       )
 
-      expect(sidecarMockData).toHaveLength(2)
-      expect(sidecarMockData).toEqual([undefined, initialData])
+      expect(sidecarMockData).toHaveLength(3)
+      expect(sidecarMockData).toEqual([
+        undefined,
+        initialData,
+        initialData,
+      ])
 
-      expect(nestedMockData).toHaveLength(1)
-      expect(nestedMockData).toEqual([initialData])
+      expect(nestedMockData).toHaveLength(2)
+      expect(nestedMockData).toEqual([initialData, initialData])
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')
       )
       expect(sidecar).toHaveValue('') // Because the field is outside of the context
       expect(nested).toHaveValue('bar')
+    })
+
+    it('should be able to update data from side car', async () => {
+      const sidecarMockData = []
+      const nestedMockData = []
+
+      const SidecarMock = () => {
+        const { data, update } = Form.useData(identifier)
+
+        useEffect(() => {
+          update('/fieldA', () => 'updated A')
+          update('/fieldB', () => 'updated B')
+        }, [update])
+
+        sidecarMockData.push(data)
+        return null
+      }
+
+      const NestedMock = () => {
+        const { data } = Form.useData(identifier)
+        nestedMockData.push(data)
+        return <Field.String path="/fieldB" />
+      }
+
+      render(
+        <>
+          <SidecarMock />
+          <DataContext.Provider id={identifier}>
+            <Field.String path="/fieldA" />
+            <NestedMock />
+          </DataContext.Provider>
+        </>
+      )
+
+      expect(sidecarMockData).toHaveLength(2)
+      expect(sidecarMockData).toEqual([
+        undefined,
+        { fieldA: 'updated A', fieldB: 'updated B' },
+      ])
+
+      expect(nestedMockData).toHaveLength(2)
+      expect(nestedMockData).toEqual([
+        undefined,
+        { fieldA: 'updated A', fieldB: 'updated B' },
+      ])
+
+      const [sidecar, nested] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(sidecar).toHaveValue('updated A')
+      expect(nested).toHaveValue('updated B')
     })
 
     it('should support StrictMode', async () => {

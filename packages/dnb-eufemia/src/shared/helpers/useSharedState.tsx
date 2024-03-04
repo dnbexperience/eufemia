@@ -39,7 +39,7 @@ export function useSharedState<Data>(
     }
   }, [hasMounted])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (waitForMountedRef.current) {
       forceUpdate()
     }
@@ -155,11 +155,6 @@ export function createSharedState<Data>(
 
     const get = () => sharedStates[id].data
 
-    const extend = (newData: Data) => {
-      sharedStates[id].data = { ...sharedStates[id].data, ...newData }
-      subscribers.forEach((subscriber) => subscriber())
-    }
-
     const set = (newData: Partial<Data>) => {
       sharedStates[id].data = { ...newData }
     }
@@ -169,8 +164,15 @@ export function createSharedState<Data>(
       subscribers.forEach((subscriber) => subscriber())
     }
 
+    const extend = (newData: Data) => {
+      sharedStates[id].data = { ...sharedStates[id].data, ...newData }
+      subscribers.forEach((subscriber) => subscriber())
+    }
+
     const subscribe = (subscriber: Subscriber) => {
-      subscribers.push(subscriber)
+      if (!subscribers.includes(subscriber)) {
+        subscribers.push(subscriber)
+      }
     }
 
     const unsubscribe = (subscriber: Subscriber) => {
