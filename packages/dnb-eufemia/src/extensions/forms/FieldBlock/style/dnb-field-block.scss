@@ -134,11 +134,4 @@ fieldset.dnb-forms-field-block {
       }
     }
   }
-
-  .dnb-form-label:hover ~ &__contents .dnb-input__shell {
-    @include fakeBorder(
-      var(--input-border-color--hover),
-      var(--input-border-width--focus)
-    );
-  }
 }
