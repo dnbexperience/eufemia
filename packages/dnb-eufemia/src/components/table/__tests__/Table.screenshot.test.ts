@@ -43,6 +43,13 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
   }
+})
+
+describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/table/demos',
+  })
 
   it('have to match the default choice of table styles', async () => {
     const screenshot = await makeScreenshot({
