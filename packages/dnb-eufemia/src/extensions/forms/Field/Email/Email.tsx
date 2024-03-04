@@ -1,13 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import { Context } from '../../DataContext/'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = StringFieldProps
 
 function Email(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations.email
+  const translations = useLocale().Forms.email
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.error.required,

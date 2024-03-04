@@ -1,15 +1,14 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ValueBlock from '../../ValueBlock'
 import { useFieldProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { Context } from '../../DataContext'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = ValueProps<boolean>
 
 function BooleanComponent(props: Props) {
-  const context = useContext(Context)
-  const transaltions = context.translations.boolean
+  const transaltions = useLocale().Forms.boolean
 
   const { className, label, placeholder, showEmpty, value, inline } =
     useFieldProps(props)

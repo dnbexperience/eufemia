@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import {
@@ -7,11 +7,11 @@ import {
   AllJSONSchemaVersions,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { Context } from '../../DataContext/'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = FieldHelpProps &
   FieldProps<string> & {
@@ -20,8 +20,7 @@ export type Props = FieldHelpProps &
   }
 
 function DateComponent(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations
+  const translations = useLocale().Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.date.error.required,
@@ -80,7 +79,7 @@ function DateComponent(props: Props) {
     <FieldBlock
       className={classnames('dnb-forms-field-string', className)}
       forId={id}
-      label={label ?? tr.date.label}
+      label={label ?? translations.date.label}
       labelDescription={labelDescription}
       info={info}
       warning={warning}

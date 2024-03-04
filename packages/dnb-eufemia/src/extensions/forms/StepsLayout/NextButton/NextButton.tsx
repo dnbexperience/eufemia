@@ -2,16 +2,15 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
 import { ButtonProps } from '../../../../components/button/Button'
-import { Context } from '../../DataContext'
 import StepsContext from '../StepsContext'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = ComponentProps & ButtonProps
 
 function NextButton(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations.step
+  const translations = useLocale().Forms.step
 
   const {
     className,

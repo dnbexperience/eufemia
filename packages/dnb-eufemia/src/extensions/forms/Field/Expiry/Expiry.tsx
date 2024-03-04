@@ -1,6 +1,4 @@
-import React, { useCallback, useContext } from 'react'
-import { Context } from '../../DataContext/'
-import SharedContext from '../../../../shared/Context'
+import React, { useCallback } from 'react'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
@@ -10,17 +8,16 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
 export type ExpiryProps = FieldHelpProps & FieldProps<string>
 
 function Expiry(props: ExpiryProps) {
-  const context = useContext(Context)
-  const sharedContext = useContext(SharedContext)
-  const translations = context.translations
-  const placeholders =
-    sharedContext?.translation.DatePicker.placeholder_characters
+  const { Forms, DatePicker } = useLocale()
+  const translations = { ...Forms, DatePicker }
+  const placeholders = translations.DatePicker.placeholder_characters
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.date.error.required,
@@ -100,7 +97,7 @@ function Expiry(props: ExpiryProps) {
         inputs={[
           {
             id: 'month',
-            label: sharedContext?.translation.DatePicker['month'],
+            label: translations.DatePicker['month'],
             mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
@@ -108,7 +105,7 @@ function Expiry(props: ExpiryProps) {
           },
           {
             id: 'year',
-            label: sharedContext?.translation.DatePicker['year'],
+            label: translations.DatePicker['year'],
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
             autoComplete: 'cc-exp-year',

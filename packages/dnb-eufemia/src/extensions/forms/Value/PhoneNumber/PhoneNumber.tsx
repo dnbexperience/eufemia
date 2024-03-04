@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import { Context } from '../../DataContext'
 import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = StringValueProps
 
 function PhoneNumber(props: Props) {
-  const context = useContext(Context)
-  const transaltions = context.translations.phoneNumber
+  const transaltions = useLocale().Forms.phoneNumber
 
   const label =
     props.label ?? (props.inline ? undefined : transaltions.label)

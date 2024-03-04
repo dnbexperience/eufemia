@@ -1,17 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classnames from 'classnames'
-import { Context } from '../../DataContext/'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import { FieldHelpProps } from '../../types'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
   Record<'postalCode' | 'city', StringFieldProps>
 
 function PostalCodeAndCity(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations
+  const translations = useLocale().Forms
 
   const {
     postalCode = {},

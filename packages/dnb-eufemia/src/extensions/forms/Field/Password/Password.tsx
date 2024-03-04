@@ -7,7 +7,6 @@ import React, {
   useCallback,
 } from 'react'
 import classnames from 'classnames'
-import { Context } from '../../DataContext/'
 import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 
@@ -17,6 +16,7 @@ import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
 import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type PasswordVisibilityEvent =
   React.MouseEvent<HTMLButtonElement> & {
@@ -73,9 +73,8 @@ function Password({
 
   const [hidden, setHidden] = useState<boolean>(true)
 
-  const context = useContext(Context)
   const sharedContext = useContext(SharedContext)
-  const translations = context.translations.password
+  const translations = useLocale().Forms.password
 
   const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
 

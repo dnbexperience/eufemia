@@ -1,7 +1,8 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import { Context } from '../../DataContext/'
+
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = StringFieldProps & {
   validate?: boolean
@@ -9,8 +10,7 @@ export type Props = StringFieldProps & {
 }
 
 function BankAccountNumber(props: Props) {
-  const context = useContext(SharedContext)
-  const translations = context.translation.bankAccountNumber
+  const translations = useLocale().Forms.bankAccountNumber
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {

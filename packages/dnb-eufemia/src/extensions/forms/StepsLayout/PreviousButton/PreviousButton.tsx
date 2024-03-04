@@ -3,15 +3,14 @@ import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/button/Button'
-import { Context } from '../../DataContext'
 import StepsContext from '../StepsContext'
 import ButtonRow from '../../Form/ButtonRow'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = ComponentProps & ButtonProps
 
 function PreviousButton(props: Props) {
-  const context = useContext(Context)
-  const transaltions = context.translations.step
+  const transaltions = useLocale().Forms.step
 
   const {
     className,

@@ -7,7 +7,6 @@ import React, {
   useEffect,
 } from 'react'
 import classnames from 'classnames'
-import { Context } from '../DataContext/'
 
 import FieldBlockContext, {
   StateWithMessage,
@@ -463,8 +462,7 @@ function CombineMessages({
   type: StateTypes
   messages: Array<StateWithMessage>
 }) {
-  const context = useContext(Context)
-  const translations = context.translations.field
+  const translations = useLocale().Forms.field
 
   if (messages.length === 1) {
     return <>{messages[0].message}</>

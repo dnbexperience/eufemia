@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useCallback } from 'react'
 import classnames from 'classnames'
-import { Context } from '../../DataContext'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
@@ -20,6 +19,7 @@ import type {
   AllJSONSchemaVersions,
 } from '../../types'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -70,8 +70,7 @@ export type Props = FieldHelpProps &
 
 function StringComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
-  const context = useContext(Context)
-  const translations = context.translations
+  const translations = useLocale().Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.input.error.required,

@@ -1,7 +1,7 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import { Context } from '../../DataContext/'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = StringFieldProps & {
   validate?: boolean
@@ -9,8 +9,7 @@ export type Props = StringFieldProps & {
 }
 
 function OrganizationNumber(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations.organizationNumber
+  const translations = useLocale().Forms.organizationNumber
 
   const { validate = true, omitMask } = props
 

@@ -2,7 +2,6 @@ import React, { useContext, useMemo, useCallback } from 'react'
 import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
-import { Context } from '../../DataContext/'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
@@ -18,6 +17,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -56,9 +56,8 @@ export type Props = FieldHelpProps &
 
 function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
-  const context = useContext(Context)
   const sharedContext = useContext(SharedContext)
-  const translations = { ...context.translations }
+  const translations = useLocale().Forms
 
   const {
     currency,

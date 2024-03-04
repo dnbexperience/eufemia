@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import { Context } from '../../DataContext'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = StringValueProps
 
 function BankAccountNumber(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations.bankAccountNumber
+  const translations = useLocale().Forms.bankAccountNumber
 
   const stringValueProps: Props = {
     ...props,

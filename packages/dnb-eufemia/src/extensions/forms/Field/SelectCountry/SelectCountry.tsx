@@ -11,6 +11,7 @@ import { useFieldProps } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -41,7 +42,7 @@ export type Props = FieldHelpProps &
 
 function SelectCountry(props: Props) {
   const context = useContext(Context)
-  const translations = context.translations.selectCountry
+  const translations = useLocale().Forms.selectCountry
   const lang = context.locale?.split('-')[0]
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {

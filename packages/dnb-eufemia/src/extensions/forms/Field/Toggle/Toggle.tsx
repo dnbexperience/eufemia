@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import ButtonRow from '../../Form/ButtonRow'
@@ -6,8 +6,8 @@ import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { Context } from '../../DataContext'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
+import { useLocale } from '../../../../shared/useLocale'
 
 export type Props = FieldProps<unknown> & {
   valueOn: unknown
@@ -18,8 +18,7 @@ export type Props = FieldProps<unknown> & {
 }
 
 function Toggle(props: Props) {
-  const context = useContext(Context)
-  const translations = context.translations.boolean
+  const translations = useLocale().Forms.boolean
 
   const preparedProps: Props = {
     ...props,
