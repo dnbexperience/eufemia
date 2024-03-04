@@ -18,7 +18,7 @@ export type Props = FieldProps<unknown> & {
 }
 
 function Toggle(props: Props) {
-  const translations = useLocale().Forms.boolean
+  const translations = useLocale().Forms.Boolean
 
   const preparedProps: Props = {
     ...props,

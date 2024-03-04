@@ -5,7 +5,7 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = StringValueProps
 
 function Email(props: Props) {
-  const translations = useLocale().Forms.email
+  const translations = useLocale().Forms.Email
 
   const stringProps: Props = {
     ...props,

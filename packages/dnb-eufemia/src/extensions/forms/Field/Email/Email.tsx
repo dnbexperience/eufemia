@@ -6,11 +6,11 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = StringFieldProps
 
 function Email(props: Props) {
-  const translations = useLocale().Forms.email
+  const translations = useLocale().Forms.Email
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.error.required,
-    pattern: translations.error.pattern,
+    required: translations.errorRequired,
+    pattern: translations.errorPattern,
   })
 
   const StringFieldProps: Props = {

@@ -462,7 +462,7 @@ function CombineMessages({
   type: StateTypes
   messages: Array<StateWithMessage>
 }) {
-  const translations = useLocale().Forms.field
+  const translations = useLocale().Forms.Field
 
   if (messages.length === 1) {
     return <>{messages[0].message}</>
@@ -471,7 +471,7 @@ function CombineMessages({
   return (
     <>
       {type === 'error'
-        ? translations.error.summary
+        ? translations.errorSummary
         : translations.stateSummary}
       <Ul>
         {messages.map(({ message }, i) => {

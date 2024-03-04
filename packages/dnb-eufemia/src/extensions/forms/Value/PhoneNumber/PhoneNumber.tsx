@@ -9,7 +9,7 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = StringValueProps
 
 function PhoneNumber(props: Props) {
-  const transaltions = useLocale().Forms.phoneNumber
+  const transaltions = useLocale().Forms.PhoneNumber
 
   const label =
     props.label ?? (props.inline ? undefined : transaltions.label)

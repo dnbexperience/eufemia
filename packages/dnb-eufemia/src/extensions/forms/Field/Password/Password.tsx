@@ -74,7 +74,7 @@ function Password({
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
-  const translations = useLocale().Forms.password
+  const translations = useLocale().Forms.Password
 
   const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
 
@@ -103,8 +103,8 @@ function Password({
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   const getAriaLabel = useCallback(() => {
     const ariaLabels = {
-      showPassword: translations.ariaLabel.show,
-      hidePassword: translations.ariaLabel.hide,
+      showPassword: translations.ariaLabelShow,
+      hidePassword: translations.ariaLabelHide,
     }
 
     if (externalProps.show_password) {

@@ -163,135 +163,104 @@ export default {
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
     },
+
     Forms: {
-      boolean: {
+      Boolean: {
         yes: 'Yes',
         no: 'No',
       },
-      step: {
+      Step: {
         next: 'Next',
         previous: 'Back',
       },
-      context: {
+      Context: {
         submit: 'Send',
       },
-      field: {
+      Field: {
         stateSummary: 'Summary:',
-        error: {
-          summary: 'Please correct the following errors:',
-          required: 'This field is required',
-        },
+        errorSummary: 'Please correct the following errors:',
+        errorRequired: 'This field is required',
+        errorPattern: 'The value is invalid',
       },
-      input: {
-        error: {
-          required: 'This field is required',
-          pattern: 'The value is invalid',
-        },
+      Input: {
+        errorRequired: 'This field is required',
+        errorPattern: 'The value is invalid',
       },
-      stringInput: {
-        error: {
-          minLength:
-            'The value cannot be shorter than {minLength} characters',
-          maxLength:
-            'The value cannot be longer than {maxLength} characters',
-        },
+      StringInput: {
+        errorMinLength:
+          'The value cannot be shorter than {minLength} characters',
+        errorMaxLength:
+          'The value cannot be longer than {maxLength} characters',
       },
-      numberField: {
-        error: {
-          minimum: 'The value must be at lest {minimum}',
-          maximum: 'The value must be a maximum of {maximum}',
-          exclusiveMinimum:
-            'The value must be greater than {exclusiveMinimum}',
-          exclusiveMaximum:
-            'The value must be less than {exclusiveMaximum}',
-          multipleOf: 'The value must be a multiple of {multipleOf}',
-        },
+      NumberField: {
+        errorMinimum: 'The value must be at least {minimum}',
+        errorMaximum: 'The value must be a maximum of {maximum}',
+        errorExclusiveMinimum:
+          'The value must be greater than {exclusiveMinimum}',
+        errorExclusiveMaximum:
+          'The value must be less than {exclusiveMaximum}',
+        errorMultipleOf: 'The value must be a multiple of {multipleOf}',
       },
-      countryCode: {
+      CountryCode: {
         label: 'Country code',
       },
-      date: {
+      Date: {
         label: 'Date',
-        error: {
-          required: 'You must provide a valid date',
-        },
+        errorRequired: 'You must provide a valid date',
       },
-      expiry: {
+      Expiry: {
         label: 'Expiry date',
       },
-      email: {
+      Email: {
         label: 'Email',
-        error: {
-          required: 'You must enter an email',
-          pattern: 'This is not a valid email address',
-        },
+        errorRequired: 'You must enter an email',
+        errorPattern: 'This is not a valid email address',
       },
-      firstName: {
+      FirstName: {
         label: 'First name',
-        error: {
-          required: 'You must enter a first name',
-        },
+        errorRequired: 'You must enter a first name',
       },
-      lastName: {
+      LastName: {
         label: 'Surname',
-        error: {
-          required: 'You must enter a surname',
-        },
+        errorRequired: 'You must enter a surname',
       },
-      nationalIdentityNumber: {
+      NationalIdentityNumber: {
         label: 'National identity number (11 digits)',
-        error: {
-          required:
-            'Invalid national identity number. Enter a valid 11-digit number',
-        },
+        errorRequired:
+          'Invalid national identity number. Enter a valid 11-digit number',
       },
-
-      organizationNumber: {
+      OrganizationNumber: {
         label: 'Organization number',
-        error: {
-          required: 'You must enter an organization number',
-          pattern: 'This is not a valid organization number',
-        },
+        errorRequired: 'You must enter an organization number',
+        errorPattern: 'This is not a valid organization number',
       },
-      bankAccountNumber: {
+      BankAccountNumber: {
         label: 'Bank account',
-        error: {
-          required: 'You must enter a bank account number',
-          pattern: 'This is not a valid bank account number',
-        },
+        errorRequired: 'You must enter a bank account number',
+        errorPattern: 'This is not a valid bank account number',
       },
-      phoneNumber: {
+      PhoneNumber: {
         label: 'Mobile number',
-        error: {
-          required: 'You must enter a valid number',
-        },
+        errorRequired: 'You must enter a valid number',
       },
-      postalCode: {
+      PostalCode: {
         label: 'Postc.',
-        error: {
-          required: 'You must enter a postcode',
-          pattern: 'This is not a valid postcode',
-        },
+        errorRequired: 'You must enter a postcode',
+        errorPattern: 'This is not a valid postcode',
       },
-      city: {
+      City: {
         label: 'City',
-        error: {
-          required: 'You must enter a city',
-        },
+        errorRequired: 'You must enter a city',
       },
-      selectCountry: {
+      SelectCountry: {
         label: 'Country',
         placeholder: 'Select a country',
-        error: {
-          required: 'You must select a country',
-        },
+        errorRequired: 'You must select a country',
       },
-      password: {
+      Password: {
         label: 'Password',
-        ariaLabel: {
-          show: 'Show password',
-          hide: 'Hide password',
-        },
+        ariaLabelShow: 'Show password',
+        ariaLabelHide: 'Hide password',
       },
     },
   },

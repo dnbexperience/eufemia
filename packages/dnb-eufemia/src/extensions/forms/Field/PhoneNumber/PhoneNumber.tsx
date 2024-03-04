@@ -79,8 +79,8 @@ function PhoneNumber(props: Props) {
   const wasFilled = React.useRef(false)
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.phoneNumber.error.required,
-    pattern: translations.phoneNumber.error.required,
+    required: translations.PhoneNumber.errorRequired,
+    pattern: translations.PhoneNumber.errorRequired,
   })
 
   const validateRequired = useCallback(
@@ -133,7 +133,7 @@ function PhoneNumber(props: Props) {
     countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
-    label = translations.phoneNumber.label,
+    label = translations.PhoneNumber.label,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
@@ -311,7 +311,7 @@ function PhoneNumber(props: Props) {
             mode="async"
             placeholder={countryCodePlaceholder}
             label_direction="vertical"
-            label={countryCodeLabel ?? translations.countryCode.label}
+            label={countryCodeLabel ?? translations.CountryCode.label}
             data={dataRef.current}
             value={countryCodeRef.current}
             status={hasError ? 'error' : undefined}

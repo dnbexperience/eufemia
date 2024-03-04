@@ -162,132 +162,101 @@ export default {
       fileListAriaLabel: 'opplastede filer',
     },
     Forms: {
-      boolean: {
+      Boolean: {
         yes: 'Ja',
         no: 'Nei',
       },
-      step: {
+      Step: {
         next: 'Neste',
         previous: 'Tilbake',
       },
-      context: {
+      Context: {
         submit: 'Send',
       },
-      field: {
+      Field: {
         stateSummary: 'Oppsummering:',
-        error: {
-          summary: 'Feil som må rettes:',
-          required: 'Dette feltet må fylles ut',
-        },
+        errorSummary: 'Feil som må rettes:',
+        errorRequired: 'Dette feltet må fylles ut',
       },
-      input: {
-        error: {
-          required: 'Dette feltet må fylles ut',
-          pattern: 'Verdien er ugyldig',
-        },
+      Input: {
+        errorRequired: 'Dette feltet må fylles ut',
+        errorPattern: 'Verdien er ugyldig',
       },
-      stringInput: {
-        error: {
-          minLength: 'Verdien kan ikke være kortere enn {minLength} tegn',
-          maxLength: 'Verdien kan ikke være lengre enn {maxLength} tegn',
-        },
+      StringInput: {
+        errorMinLength:
+          'Verdien kan ikke være kortere enn {minLength} tegn',
+        errorMaxLength:
+          'Verdien kan ikke være lengre enn {maxLength} tegn',
       },
-      numberField: {
-        error: {
-          minimum: 'Verdien må være minst {minimum}',
-          maximum: 'Verdien må være maksimalt {maximum}',
-          exclusiveMinimum:
-            'Verdien må være større enn {exclusiveMinimum}',
-          exclusiveMaximum:
-            'Verdien må være mindre enn {exclusiveMaximum}',
-          multipleOf: 'Verdien må være et multiplum av {multipleOf}',
-        },
+      NumberField: {
+        errorMinimum: 'Verdien må være minst {minimum}',
+        errorMaximum: 'Verdien må være maksimalt {maximum}',
+        errorExclusiveMinimum:
+          'Verdien må være større enn {exclusiveMinimum}',
+        errorExclusiveMaximum:
+          'Verdien må være mindre enn {exclusiveMaximum}',
+        errorMultipleOf: 'Verdien må være et multiplum av {multipleOf}',
       },
-      countryCode: {
+      CountryCode: {
         label: 'Landskode',
       },
-      date: {
+      Date: {
         label: 'Dato',
-        error: {
-          required: 'Du må angi en gyldig dato',
-        },
+        errorRequired: 'Du må angi en gyldig dato',
       },
-      expiry: {
+      Expiry: {
         label: 'Utløpsdato',
       },
-      email: {
+      Email: {
         label: 'E-post',
-        error: {
-          required: 'Du må fylle inn e-post',
-          pattern: 'Dette er ikke en gyldig e-postadresse',
-        },
+        errorRequired: 'Du må fylle inn e-post',
+        errorPattern: 'Dette er ikke en gyldig e-postadresse',
       },
-      firstName: {
+      FirstName: {
         label: 'Fornavn',
-        error: {
-          required: 'Du må fylle inn fornavn',
-        },
+        errorRequired: 'Du må fylle inn fornavn',
       },
-      lastName: {
+      LastName: {
         label: 'Etternavn',
-        error: {
-          required: 'Du må fylle inn etternavn',
-        },
+        errorRequired: 'Du må fylle inn etternavn',
       },
-      nationalIdentityNumber: {
+      NationalIdentityNumber: {
         label: 'Fødselsnummer (11 siffer)',
-        error: {
-          required:
-            'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
-        },
+        errorRequired:
+          'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
       },
-
-      organizationNumber: {
+      OrganizationNumber: {
         label: 'Organisasjonsnummer',
-        error: {
-          required: 'Du må fylle inn et organisasjonsnummer',
-          pattern: 'Dette er ikke et gyldig organisasjonsnummer',
-        },
+        errorRequired: 'Du må fylle inn et organisasjonsnummer',
+        errorPattern: 'Dette er ikke et gyldig organisasjonsnummer',
       },
-      bankAccountNumber: {
+      BankAccountNumber: {
         label: 'Bankkonto',
-        error: {
-          required: 'Du må fylle inn et bankkontonummer',
-          pattern: 'Dette er ikke et gyldig bankkontonummer',
-        },
+        errorRequired: 'Du må fylle inn et bankkontonummer',
+        errorPattern: 'Dette er ikke et gyldig bankkontonummer',
       },
-      phoneNumber: {
+      PhoneNumber: {
         label: 'Mobilnummer',
-        error: {
-          required: 'Du må fylle inn et gyldig nummer',
-        },
+        errorRequired: 'Du må fylle inn et gyldig nummer',
       },
-      postalCode: {
+      PostalCode: {
         label: 'Postnr.',
-        error: {
-          required: 'Du må fylle inn et postnummer',
-          pattern: 'Dette er ikke et gyldig postnummer',
-        },
+        errorRequired: 'Du må fylle inn et postnummer',
+        errorPattern: 'Dette er ikke et gyldig postnummer',
       },
-      city: {
+      City: {
         label: 'Sted',
-        error: {
-          required: 'Du må fylle inn et sted',
-        },
+        errorRequired: 'Du må fylle inn et sted',
       },
-      selectCountry: {
+      SelectCountry: {
         label: 'Land',
         placeholder: 'Velg et land',
-        error: {
-          required: 'Du må velge et land',
-        },
+        errorRequired: 'Du må velge et land',
       },
-      password: {
+      Password: {
         label: 'Passord',
-        ariaLabel: {
-          show: 'Vis passord',
-          hide: 'Skjul passord',
-        },
+        ariaLabelShow: 'Vis passord',
+        ariaLabelHide: 'Skjul passord',
       },
     },
   },

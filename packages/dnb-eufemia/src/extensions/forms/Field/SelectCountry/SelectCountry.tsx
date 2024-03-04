@@ -42,11 +42,11 @@ export type Props = FieldHelpProps &
 
 function SelectCountry(props: Props) {
   const context = useContext(Context)
-  const translations = useLocale().Forms.selectCountry
+  const translations = useLocale().Forms.SelectCountry
   const lang = context.locale?.split('-')[0]
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.error.required,
+    required: translations.errorRequired,
   })
 
   const defaultProps: Partial<Props> = {

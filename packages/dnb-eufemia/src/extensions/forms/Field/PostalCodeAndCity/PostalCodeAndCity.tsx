@@ -38,10 +38,10 @@ function PostalCodeAndCity(props: Props) {
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCode.className
         )}
-        label={postalCode.label ?? translations.postalCode.label}
+        label={postalCode.label ?? translations.PostalCode.label}
         errorMessages={{
-          required: translations.postalCode.error.required,
-          pattern: translations.postalCode.error.pattern,
+          required: translations.PostalCode.errorRequired,
+          pattern: translations.PostalCode.errorPattern,
           ...postalCode.errorMessages,
         }}
         placeholder={postalCode.placeholder ?? '0000'}
@@ -56,9 +56,9 @@ function PostalCodeAndCity(props: Props) {
           'dnb-forms-field-postal-code-and-city__city',
           city.className
         )}
-        label={city.label ?? translations.city.label}
+        label={city.label ?? translations.City.label}
         errorMessages={{
-          required: translations.city.error.required,
+          required: translations.City.errorRequired,
           ...city.errorMessages,
         }}
         width="stretch"

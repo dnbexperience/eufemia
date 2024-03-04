@@ -72,12 +72,12 @@ function NumberComponent(props: Props) {
   } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.input.error.required,
-    minimum: translations.numberField.error.minimum,
-    maximum: translations.numberField.error.maximum,
-    exclusiveMinimum: translations.numberField.error.exclusiveMinimum,
-    exclusiveMaximum: translations.numberField.error.exclusiveMaximum,
-    multipleOf: translations.numberField.error.multipleOf,
+    required: translations.Input.errorRequired,
+    minimum: translations.NumberField.errorMinimum,
+    maximum: translations.NumberField.errorMaximum,
+    exclusiveMinimum: translations.NumberField.errorExclusiveMinimum,
+    exclusiveMaximum: translations.NumberField.errorExclusiveMaximum,
+    multipleOf: translations.NumberField.errorMultipleOf,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

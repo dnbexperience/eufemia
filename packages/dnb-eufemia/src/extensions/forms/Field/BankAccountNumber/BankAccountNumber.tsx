@@ -10,12 +10,12 @@ export type Props = StringFieldProps & {
 }
 
 function BankAccountNumber(props: Props) {
-  const translations = useLocale().Forms.bankAccountNumber
+  const translations = useLocale().Forms.BankAccountNumber
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.error.required,
-    pattern: translations.error.pattern,
+    required: translations.errorRequired,
+    pattern: translations.errorPattern,
   })
   const mask = useMemo(
     () =>

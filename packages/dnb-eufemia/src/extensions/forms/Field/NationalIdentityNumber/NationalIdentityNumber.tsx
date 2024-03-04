@@ -10,8 +10,8 @@ export type Props = StringFieldProps & {
 }
 
 function NationalIdentityNumber(props: Props) {
-  const translations = useLocale().Forms.nationalIdentityNumber
-  const errorMessage = translations.error.required
+  const translations = useLocale().Forms.NationalIdentityNumber
+  const errorMessage = translations.errorRequired
 
   const { validate = true, omitMask } = props
 

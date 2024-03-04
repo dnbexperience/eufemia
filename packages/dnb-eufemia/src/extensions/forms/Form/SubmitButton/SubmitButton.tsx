@@ -16,7 +16,7 @@ export type Props = {
   Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 
 function SubmitButton(props: Props) {
-  const translations = useLocale().Forms.context
+  const translations = useLocale().Forms.Context
 
   const { className, showIndicator, children, text, ...rest } = props
 

@@ -8,7 +8,7 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = ValueProps<boolean>
 
 function BooleanComponent(props: Props) {
-  const transaltions = useLocale().Forms.boolean
+  const transaltions = useLocale().Forms.Boolean
 
   const { className, label, placeholder, showEmpty, value, inline } =
     useFieldProps(props)

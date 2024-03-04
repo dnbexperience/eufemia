@@ -12,7 +12,7 @@ export type Props = Omit<
 
 function BooleanComponent(props: Props) {
   const { trueText, falseText, ...restProps } = props
-  const translations = useLocale().Forms.boolean
+  const translations = useLocale().Forms.Boolean
 
   return (
     <ToggleField

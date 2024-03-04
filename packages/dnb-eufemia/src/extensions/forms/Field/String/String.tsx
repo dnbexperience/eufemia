@@ -73,10 +73,10 @@ function StringComponent(props: Props) {
   const translations = useLocale().Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.input.error.required,
-    minLength: translations.stringInput.error.minLength,
-    maxLength: translations.stringInput.error.maxLength,
-    pattern: translations.input.error.pattern,
+    required: translations.Input.errorRequired,
+    minLength: translations.StringInput.errorMinLength,
+    maxLength: translations.StringInput.errorMaxLength,
+    pattern: translations.Input.errorPattern,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

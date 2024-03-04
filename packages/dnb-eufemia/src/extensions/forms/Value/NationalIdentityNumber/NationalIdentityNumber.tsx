@@ -9,7 +9,7 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = StringValueProps
 
 function NationalIdentityNumber(props: Props) {
-  const translations = useLocale().Forms.nationalIdentityNumber
+  const translations = useLocale().Forms.NationalIdentityNumber
 
   const stringValueProps: Props = {
     ...props,

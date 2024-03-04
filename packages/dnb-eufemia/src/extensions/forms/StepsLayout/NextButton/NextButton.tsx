@@ -10,7 +10,7 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = ComponentProps & ButtonProps
 
 function NextButton(props: Props) {
-  const translations = useLocale().Forms.step
+  const translations = useLocale().Forms.Step
 
   const {
     className,

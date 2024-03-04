@@ -20,7 +20,7 @@ function Expiry(props: ExpiryProps) {
   const placeholders = translations.DatePicker.placeholder_characters
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.date.error.required,
+    required: translations.Date.errorRequired,
   })
 
   const validateRequired = useCallback(
@@ -40,7 +40,7 @@ function Expiry(props: ExpiryProps) {
   const {
     id,
     className,
-    label = translations.expiry.label,
+    label = translations.Expiry.label,
     error,
     hasError,
     info,

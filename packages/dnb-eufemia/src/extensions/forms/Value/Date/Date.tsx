@@ -5,7 +5,7 @@ import { useLocale } from '../../../../shared/useLocale'
 export type Props = StringValueProps
 
 function DateComponent(props: Props) {
-  const translations = useLocale().Forms.date
+  const translations = useLocale().Forms.Date
 
   const stringProps: Props = {
     ...props,

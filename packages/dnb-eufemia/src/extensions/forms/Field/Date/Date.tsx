@@ -23,8 +23,8 @@ function DateComponent(props: Props) {
   const translations = useLocale().Forms
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.date.error.required,
-    pattern: translations.input.error.required,
+    required: translations.Date.errorRequired,
+    pattern: translations.Input.errorRequired,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
@@ -79,7 +79,7 @@ function DateComponent(props: Props) {
     <FieldBlock
       className={classnames('dnb-forms-field-string', className)}
       forId={id}
-      label={label ?? translations.date.label}
+      label={label ?? translations.Date.label}
       labelDescription={labelDescription}
       info={info}
       warning={warning}

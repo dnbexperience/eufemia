@@ -9,13 +9,13 @@ export type Props = StringFieldProps & {
 }
 
 function OrganizationNumber(props: Props) {
-  const translations = useLocale().Forms.organizationNumber
+  const translations = useLocale().Forms.OrganizationNumber
 
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.error.required,
-    pattern: translations.error.pattern,
+    required: translations.errorRequired,
+    pattern: translations.errorPattern,
   })
 
   const mask = useMemo(
