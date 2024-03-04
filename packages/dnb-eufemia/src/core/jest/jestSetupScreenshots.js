@@ -577,15 +577,11 @@ async function handleWrapper({
     )
 
     // get the height we want to have on the wrapper
-    const { height, y } = await element.boundingBox()
-
-    // prevent 1px height rounding error by moving wrapper to a whole numbered coordinate
-    var yDecimals = y.toString().split('.')[1] || 0
+    const { height } = await element.boundingBox()
 
     // build the styles
     const style = makeStyles({
       background,
-      top: `0.${yDecimals}px`,
       height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
       ...(wrapperStyle ? wrapperStyle : {}),
     })
