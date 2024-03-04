@@ -688,6 +688,9 @@ html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover:not([disa
   --tag-icon-fill-color: var(--tag-icon-color);
   --tag-icon-stroke-color: var(--color-white);
 }
+.dnb-tag--addable svg {
+  transform: rotate(45deg);
+}
 .dnb-tag--removable {
   --tag-icon-fill-color: var(--color-white);
   --tag-icon-stroke-color: var(--tag-icon-color);
