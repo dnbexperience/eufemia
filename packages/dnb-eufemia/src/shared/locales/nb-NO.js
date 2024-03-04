@@ -136,6 +136,7 @@ export default {
     },
     Tag: {
       removeIconTitle: 'Fjern',
+      addIconTitle: 'Legg til',
     },
     Table: {
       accordionToggleButtonSR: 'Vis mer innhold',

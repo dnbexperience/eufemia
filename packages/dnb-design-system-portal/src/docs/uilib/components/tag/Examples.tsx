@@ -15,13 +15,25 @@ import { Tag } from '@dnb/eufemia/src'
 export const TagInteractable = () => (
   <ComponentBox data-visual-test="tag-interactable">
     <Tag.Group label="Interactable tags">
-      <Tag data-visual-test="tag-clickable" onClick={() => 'click'}>
+      <Tag
+        data-visual-test="tag-clickable"
+        variant="clickable"
+        onClick={() => 'click'}
+      >
         Clickable
       </Tag>
-      <Tag data-visual-test="tag-addable" onAdd={() => 'click'}>
+      <Tag
+        data-visual-test="tag-addable"
+        variant="addable"
+        onClick={() => 'click'}
+      >
         Addable
       </Tag>
-      <Tag data-visual-test="tag-removable" onDelete={() => 'click'}>
+      <Tag
+        data-visual-test="tag-removable"
+        variant="removable"
+        onClick={() => 'click'}
+      >
         Removable
       </Tag>
     </Tag.Group>
@@ -88,7 +100,8 @@ export const TagMultipleRemovable = () => (
                 <Tag
                   key={tag.key}
                   text={tag.text}
-                  onDelete={handleDelete(tag)}
+                  variant="removable"
+                  onClick={handleDelete(tag)}
                 />
               )
             })}
