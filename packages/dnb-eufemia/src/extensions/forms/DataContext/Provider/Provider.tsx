@@ -127,10 +127,7 @@ export interface Props<Data extends JsonObject> {
    * Key for caching the data in session storage
    */
   sessionStorageId?: string
-  /**
-   * Determines what language the translations should use.
-   */
-  locale?: 'nb-NO' | 'en-GB' | 'en-US'
+
   children: React.ReactNode
 }
 
