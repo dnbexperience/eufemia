@@ -3,17 +3,35 @@
 *
 */
 
-@mixin deleteIcon(
-  $fillColor: var(--color-sea-green),
-  $strokeColor: var(--color-white)
-) {
+@mixin tagIcon($fillColor, $strokeColor, $borderColor) {
+  --tag-icon-fill: #{$fillColor};
+  --tag-icon-stroke: #{$strokeColor};
+
+  @include focus-visible() {
+    --tag-icon-fill: #{$strokeColor};
+    --tag-icon-stroke: #{$fillColor};
+  }
+
+  @include hover() {
+    --tag-icon-fill: #{$strokeColor};
+    --tag-icon-stroke: #{$fillColor};
+  }
+
+  @include active() {
+    --tag-icon-fill: #{$strokeColor};
+    --tag-icon-stroke: #{$fillColor};
+  }
+
   svg {
+    border-radius: 50%;
+    outline: 0.0625rem solid $borderColor;
+    outline-offset: -0.0625rem;
     .dnb-icon-close-circle-path {
-      fill: $fillColor;
+      fill: var(--tag-icon-fill);
     }
 
     .dnb-icon-close-cross-path {
-      stroke: $strokeColor;
+      stroke: var(--tag-icon-stroke);
     }
   }
 }
