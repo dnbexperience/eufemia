@@ -4,46 +4,12 @@
  */
 
 import {
-  // isCI,
+  isCI,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 const defaults = { wrapperStyle: { margin: '0 !important' } } // because of ScrollView overflow
-
-// describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
-//   setupPageScreenshot({
-//     themeName,
-//     url: '/uilib/components/table/demos',
-//   })
-
-//   // This test is fragile and should be run first as other simulations do influence this one
-//   if (!isCI) {
-//     it('have to match sticky header', async () => {
-//       const selector = '[data-visual-test="table-sticky"]'
-//       const screenshot = await makeScreenshot({
-//         ...defaults,
-//         style: {
-//           width: '30rem',
-//         },
-//         selector,
-//         waitAfterSimulate: 100, // same delay as the resize dispatch
-//         executeBeforeSimulate: () => {
-//           const element = document.querySelector(
-//             '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
-//           )
-//           element.scrollIntoView({
-//             behavior: 'auto',
-//           })
-
-//           // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
-//           setTimeout(() => window.dispatchEvent(new Event('resize')), 100) // A needed delay in order to activate the resize simulation
-//         },
-//       })
-//       expect(screenshot).toMatchImageSnapshot()
-//     })
-//   }
-// })
 
 describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
   setupPageScreenshot({
@@ -239,6 +205,43 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  // This test is fragile and should re-load the page to not be influenced by other simulations
+  if (!isCI) {
+    describe('have to match', () => {
+      setupPageScreenshot({
+        themeName,
+        url: '/uilib/components/table/demos',
+      })
+
+      it('sticky header', async () => {
+        const selector = '[data-visual-test="table-sticky"]'
+        const screenshot = await makeScreenshot({
+          ...defaults,
+          style: {
+            width: '30rem',
+          },
+          selector,
+          waitAfterSimulate: 100, // same delay as the resize dispatch
+          executeBeforeSimulate: () => {
+            const element = document.querySelector(
+              '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
+            )
+            element.scrollIntoView({
+              behavior: 'auto',
+            })
+
+            // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
+            setTimeout(
+              () => window.dispatchEvent(new Event('resize')),
+              100
+            ) // A needed delay in order to activate the resize simulation
+          },
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    })
+  }
 })
 
 describe.each(['ui', 'sbanken'])(
