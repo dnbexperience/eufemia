@@ -17,10 +17,6 @@
       padding-right: 0.5rem;
     }
 
-    &.dnb-button--size-small.dnb-button--has-icon {
-      padding-left: 0;
-    }
-
     .dnb-button__text {
       font-size: var(--font-size-x-small);
       transform: none;
@@ -85,14 +81,6 @@
           var(--color-sea-green-30)
         );
       }
-
-      .dnb-button__text {
-        padding-left: 0.5rem;
-      }
-    }
-
-    &.dnb-button--size-small.dnb-button--has-icon {
-      padding-right: 0;
     }
   }
 

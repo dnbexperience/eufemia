@@ -318,12 +318,15 @@ button .dnb-form-status__text {
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
-  --button-border-radius: calc(var(--button-height) / 2);
 }
 
 .dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
+  --button-icon-size--small: 0.75rem;
+  --button-icon-size--medium: 1.5rem;
+  --button-icon-size--large: 2rem;
+  --button-icon-gutter: 0.5rem;
   --button-width: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
@@ -333,10 +336,18 @@ button .dnb-form-status__text {
   --button-height--large: 3rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius--small: calc(var(--button-height--small) / 2);
-  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
-  --button-border-radius--large: calc(var(--button-height--large) / 2);
+  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: 0.25rem;
+  --button-padding-left: 0;
+  --button-padding-right: 0;
+  --button-padding-icon: 1rem;
+  --button-padding--default: 1.5rem;
+  --button-padding--small: 1rem;
+  --button-padding--medium: 1rem;
+  --button-padding--large: 2rem;
+  --button-icon-margin-top: 0;
+  --button-icon-margin-left: 0;
+  --button-icon-margin-right: 0;
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -348,7 +359,7 @@ button .dnb-form-status__text {
   justify-content: center;
   width: var(--button-width);
   height: auto;
-  padding: 0;
+  padding: 0 var(--button-padding-right) 0 var(--button-padding-left);
   border: none;
   border-radius: var(--button-border-radius);
   text-align: left;
@@ -388,50 +399,28 @@ button .dnb-form-status__text {
   background-color: transparent;
   border-radius: var(--button-border-radius);
 }
-.dnb-button--has-text {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
 .dnb-button--size-small {
+  --button-height: var(--button-height--small);
   width: var(--button-width--small);
   font-size: var(--button-font-size-small);
-  border-radius: var(--button-border-radius--small);
-}
-.dnb-button--size-small, .dnb-core-style .dnb-button--size-small {
-  line-height: var(--button-height--small);
 }
 .dnb-button--size-small .dnb-button__text {
   margin: 0;
 }
 .dnb-button--has-text.dnb-button--size-small {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
-  padding-left: 0.5rem;
-}
-.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
-  padding-right: 0.5rem;
+  --button-padding-left: var(--button-padding--small);
+  --button-padding-right: var(--button-padding--small);
 }
 .dnb-button--size-medium {
+  --button-height: var(--button-height--medium);
   width: var(--button-width--medium);
-  border-radius: var(--button-border-radius--medium);
-}
-.dnb-button--size-medium, .dnb-core-style .dnb-button--size-medium {
-  line-height: var(--button-height--medium);
 }
 .dnb-button--size-medium .dnb-button__text {
   margin: 0;
 }
 .dnb-button--has-text.dnb-button--size-medium {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
-  padding-left: 0.5rem;
-}
-.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
-  padding-right: 0.5rem;
+  --button-padding-left: var(--button-padding--medium);
+  --button-padding-right: var(--button-padding--medium);
 }
 .dnb-button--control-before.dnb-button--size-medium {
   line-height: var(--button-height);
@@ -440,33 +429,38 @@ button .dnb-form-status__text {
   line-height: var(--button-height);
 }
 .dnb-button--size-large {
+  --button-height: var(--button-height--large);
+  --button-padding-icon: 1.5rem;
   width: var(--button-width--large);
-  border-radius: var(--button-border-radius--large);
-}
-.dnb-button--size-large, .dnb-core-style .dnb-button--size-large {
-  line-height: var(--button-height--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
-  padding-left: 1rem;
-}
-.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
-  padding-right: 1rem;
+  --button-padding-left: var(--button-padding--large);
+  --button-padding-right: var(--button-padding--large);
 }
 .dnb-button--has-text {
+  --button-padding-left: var(--button-padding--default);
+  --button-padding-right: var(--button-padding--default);
   width: auto;
 }
-.dnb-button--has-text .dnb-button__icon {
-  margin: 0 calc(var(--button-icon-size) / 2);
+.dnb-button__icon {
+  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--has-text.dnb-button--icon-position-left {
-  padding-left: 0.5rem;
+  --button-padding-left: var(--button-padding-icon);
+  --button-icon-margin-right: var(--button-icon-gutter);
 }
 .dnb-button--has-text.dnb-button--icon-position-right {
-  padding-right: 0.5rem;
+  --button-padding-right: var(--button-padding-icon);
+  --button-icon-margin-left: var(--button-icon-gutter);
+}
+.dnb-button--icon-size-small {
+  --button-icon-size: var(--button-icon-size--small);
+}
+.dnb-button--icon-size-medium {
+  --button-icon-size: var(--button-icon-size--medium);
+}
+.dnb-button--icon-size-large {
+  --button-icon-size: var(--button-icon-size--large);
 }
 .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
   order: 2;
@@ -586,8 +580,16 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
   --button-tertiary-focus-left: -0.5rem;
   --button-tertiary-focus-right: -0.5rem;
   --button-tertiary-focus-overflow--icon-top: -0.5rem;
+  --button-tertiary-underline-left: var(
+    --button-tertiary-underline-overflow
+  );
+  --button-tertiary-underline-right: var(
+    --button-tertiary-underline-overflow
+  );
   --button-tertiary-underline-overflow: 0;
-  --button-tertiary-underline-overflow--icon: -0.5rem;
+  --button-tertiary-underline-overflow--icon: calc(
+    (var(--button-icon-gutter) + var(--button-icon-size)) * -1
+  );
 }
 .dnb-button--tertiary .dnb-button__text {
   position: relative;
@@ -607,8 +609,8 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
   bottom: -0.0625rem;
   color: transparent;
   transition: color 250ms ease-in-out;
-  left: var(--button-tertiary-underline-overflow);
-  right: var(--button-tertiary-underline-overflow);
+  left: var(--button-tertiary-underline-left);
+  right: var(--button-tertiary-underline-right);
 }
 [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
   transition: none;
@@ -665,27 +667,14 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   visibility: hidden;
 }
 .dnb-button--tertiary.dnb-button--has-text {
-  padding-left: 0;
-  padding-right: 0;
+  --button-padding-left: 0;
+  --button-padding-right: 0;
+  --button-icon-margin-top: calc(
+    (var(--button-height) - var(--button-icon-size)) / 2
+  );
 }
 .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
   align-self: flex-start;
-  margin-top: calc(var(--button-height) / 2 - 0.5rem);
-}
-.dnb-button--tertiary.dnb-button--has-text .dnb-button__icon.dnb-icon--medium {
-  margin-top: calc(var(--button-height) / 2 - 0.75rem);
-}
-.dnb-button--tertiary.dnb-button--has-text .dnb-button__icon.dnb-icon--large {
-  margin-top: calc(var(--button-height) / 2 - 1rem);
-}
-.dnb-button--tertiary.dnb-button--has-text.dnb-button--size-large .dnb-button__icon {
-  margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
-}
-.dnb-button--tertiary.dnb-button--has-text.dnb-button--size-medium .dnb-button__icon {
-  margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
-}
-.dnb-button--tertiary.dnb-button--has-text.dnb-button--size-small .dnb-button__icon {
-  margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top {
   --button-tertiary-focus-left: var(
@@ -699,10 +688,9 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
-  padding: 0;
+  --button-icon-margin-top: 0.5rem;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text .dnb-button__icon {
-  margin-top: 0.5rem;
   align-self: center;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
@@ -717,47 +705,22 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   order: 3;
   height: 0;
 }
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-size-medium, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-size-large {
+  --button-tertiary-underline-overflow--icon: var(
+    --button-tertiary-underline-overflow
+  );
+}
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left {
   --button-tertiary-focus-right: -1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text {
-  padding-left: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
-  left: var(--button-tertiary-underline-overflow--icon);
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
-  margin-right: -0.5rem;
-  margin-left: 0;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text {
-  padding-left: 0;
-  margin-left: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text::after {
-  left: 0;
+  --button-tertiary-underline-left: var(
+    --button-tertiary-underline-overflow--icon
+  );
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
   --button-tertiary-focus-left: -1rem;
-  /* stylelint-disable */
-  /* stylelint-enable */
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text {
-  padding-right: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text::after {
-  right: var(--button-tertiary-underline-overflow--icon);
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
-  margin-left: -0.5rem;
-  margin-right: 0;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text {
-  padding-right: 0;
-  margin-right: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text::after {
-  right: 0;
+  --button-tertiary-underline-right: var(
+    --button-tertiary-underline-overflow--icon
+  );
 }
 .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text) {
   --button-tertiary-focus-left: 0;
@@ -770,6 +733,7 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
 .dnb-button {
   --button-background--focus: var(--sb-color-blue-light-3);
   --button-border-radius--control-button: 3rem;
+  --button-padding--large: 1.5rem;
   --button-primary-shadow: var(--sb-shadow-medium);
   --button-primary-shadow--hover: var(--sb-shadow-medium);
   --button-primary-color: var(--sb-color-white);
@@ -801,15 +765,8 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   --button-tertiary-border: var(--sb-color-violet);
   border: none;
 }
-.dnb-button.dnb-button--has-text.dnb-button--size-large.dnb-button--primary, .dnb-button.dnb-button--has-text.dnb-button--size-large.dnb-button--secondary {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-.dnb-button.dnb-button--has-text.dnb-button--size-large.dnb-button--icon-position-right {
-  padding-right: 0.5rem;
-}
-.dnb-button.dnb-button--has-text.dnb-button--size-large.dnb-button--icon-position-left {
-  padding-left: 0.5rem;
+.dnb-button--has-text.dnb-button--size-large {
+  --button-padding-icon: 1rem;
 }
 .dnb-button--primary {
   color: var(--button-primary-color);
@@ -910,7 +867,13 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
 .dnb-button--tertiary {
   --button-tertiary-focus-overflow--icon-top: 0;
   --button-tertiary-underline-overflow: -0.5rem;
-  --button-tertiary-underline-overflow--icon: -1rem;
+  --button-tertiary-underline-overflow--icon: calc(
+    (
+        var(--button-icon-gutter) + var(--button-icon-size) - var(
+            --button-tertiary-underline-overflow
+          )
+      ) * -1
+  );
   --button-tertiary-underline-bottom: -0.5rem;
   --button-tertiary-text-bottom--icon: 0.5rem;
   --button-tertiary-text-top--icon: 0;
@@ -922,8 +885,12 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
   bottom: var(--button-tertiary-underline-bottom);
 }
 .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-top {
-  padding-left: calc(var(--button-tertiary-underline-overflow) * -1);
-  padding-right: calc(var(--button-tertiary-underline-overflow) * -1);
+  --button-padding-left: calc(
+    var(--button-tertiary-underline-overflow) * -1
+  );
+  --button-padding-right: calc(
+    var(--button-tertiary-underline-overflow) * -1
+  );
 }
 .dnb-button--tertiary.dnb-button--has-text.dnb-button--icon-position-top .dnb-button__text {
   margin-top: var(--button-tertiary-text-top--icon);
@@ -933,7 +900,6 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
 .dnb-button--tertiary.dnb-button--size-large {
   --button-tertiary-underline-bottom: -0.75rem;
   --button-tertiary-underline-overflow: -1.5rem;
-  --button-tertiary-underline-overflow--icon: -1.5rem;
   --button-tertiary-text-bottom--icon: 0.75rem;
   --button-tertiary-text-top--icon: 0.25rem;
 }
@@ -1046,8 +1012,16 @@ exports[`Button scss has to match theme css for ui 1`] = `
   --button-tertiary-focus-left: -0.5rem;
   --button-tertiary-focus-right: -0.5rem;
   --button-tertiary-focus-overflow--icon-top: -0.5rem;
+  --button-tertiary-underline-left: var(
+    --button-tertiary-underline-overflow
+  );
+  --button-tertiary-underline-right: var(
+    --button-tertiary-underline-overflow
+  );
   --button-tertiary-underline-overflow: 0;
-  --button-tertiary-underline-overflow--icon: -0.5rem;
+  --button-tertiary-underline-overflow--icon: calc(
+    (var(--button-icon-gutter) + var(--button-icon-size)) * -1
+  );
 }
 .dnb-button--tertiary .dnb-button__text {
   position: relative;
@@ -1067,8 +1041,8 @@ exports[`Button scss has to match theme css for ui 1`] = `
   bottom: -0.0625rem;
   color: transparent;
   transition: color 250ms ease-in-out;
-  left: var(--button-tertiary-underline-overflow);
-  right: var(--button-tertiary-underline-overflow);
+  left: var(--button-tertiary-underline-left);
+  right: var(--button-tertiary-underline-right);
 }
 [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
   transition: none;
@@ -1125,27 +1099,14 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   visibility: hidden;
 }
 .dnb-button--tertiary.dnb-button--has-text {
-  padding-left: 0;
-  padding-right: 0;
+  --button-padding-left: 0;
+  --button-padding-right: 0;
+  --button-icon-margin-top: calc(
+    (var(--button-height) - var(--button-icon-size)) / 2
+  );
 }
 .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
   align-self: flex-start;
-  margin-top: calc(var(--button-height) / 2 - 0.5rem);
-}
-.dnb-button--tertiary.dnb-button--has-text .dnb-button__icon.dnb-icon--medium {
-  margin-top: calc(var(--button-height) / 2 - 0.75rem);
-}
-.dnb-button--tertiary.dnb-button--has-text .dnb-button__icon.dnb-icon--large {
-  margin-top: calc(var(--button-height) / 2 - 1rem);
-}
-.dnb-button--tertiary.dnb-button--has-text.dnb-button--size-large .dnb-button__icon {
-  margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
-}
-.dnb-button--tertiary.dnb-button--has-text.dnb-button--size-medium .dnb-button__icon {
-  margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
-}
-.dnb-button--tertiary.dnb-button--has-text.dnb-button--size-small .dnb-button__icon {
-  margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top {
   --button-tertiary-focus-left: var(
@@ -1159,10 +1120,9 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
-  padding: 0;
+  --button-icon-margin-top: 0.5rem;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text .dnb-button__icon {
-  margin-top: 0.5rem;
   align-self: center;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
@@ -1177,47 +1137,22 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   order: 3;
   height: 0;
 }
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-size-medium, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-size-large {
+  --button-tertiary-underline-overflow--icon: var(
+    --button-tertiary-underline-overflow
+  );
+}
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left {
   --button-tertiary-focus-right: -1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text {
-  padding-left: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
-  left: var(--button-tertiary-underline-overflow--icon);
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
-  margin-right: -0.5rem;
-  margin-left: 0;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text {
-  padding-left: 0;
-  margin-left: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text::after {
-  left: 0;
+  --button-tertiary-underline-left: var(
+    --button-tertiary-underline-overflow--icon
+  );
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
   --button-tertiary-focus-left: -1rem;
-  /* stylelint-disable */
-  /* stylelint-enable */
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text {
-  padding-right: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text::after {
-  right: var(--button-tertiary-underline-overflow--icon);
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
-  margin-left: -0.5rem;
-  margin-right: 0;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text {
-  padding-right: 0;
-  margin-right: 1rem;
-}
-.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text::after {
-  right: 0;
+  --button-tertiary-underline-right: var(
+    --button-tertiary-underline-overflow--icon
+  );
 }
 .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text) {
   --button-tertiary-focus-left: 0;
@@ -1381,7 +1316,7 @@ html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):
 }
 .dnb-button--secondary:not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
   width: calc(var(--button-width--large) - 0.5rem);
-  line-height: calc(var(--button-height--large) - 0.5rem);
+  line-height: calc(var(--button-height) - 0.5rem);
 }
 .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before, .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after {
   box-shadow: none;

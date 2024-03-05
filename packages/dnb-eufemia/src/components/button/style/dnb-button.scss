@@ -8,12 +8,15 @@
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
-  --button-border-radius: calc(var(--button-height) / 2);
 }
 
 .dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
+  --button-icon-size--small: 0.75rem;
+  --button-icon-size--medium: 1.5rem;
+  --button-icon-size--large: 2rem;
+  --button-icon-gutter: 0.5rem;
   --button-width: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
@@ -23,10 +26,18 @@
   --button-height--large: 3rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius--small: calc(var(--button-height--small) / 2);
-  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
-  --button-border-radius--large: calc(var(--button-height--large) / 2);
+  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: 0.25rem;
+  --button-padding-left: 0;
+  --button-padding-right: 0;
+  --button-padding-icon: 1rem;
+  --button-padding--default: 1.5rem;
+  --button-padding--small: 1rem;
+  --button-padding--medium: 1rem;
+  --button-padding--large: 2rem;
+  --button-icon-margin-top: 0;
+  --button-icon-margin-left: 0;
+  --button-icon-margin-right: 0;
 
   position: relative;
 
@@ -50,7 +61,7 @@
 
   width: var(--button-width);
   height: auto;
-  padding: 0;
+  padding: 0 var(--button-padding-right) 0 var(--button-padding-left);
 
   border: none;
   border-radius: var(--button-border-radius);
@@ -99,60 +110,31 @@
     border-radius: var(--button-border-radius);
   }
 
-  &--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
   // size small
   &--size-small {
+    --button-height: var(--button-height--small);
     width: var(--button-width--small);
     font-size: var(--button-font-size-small);
-    border-radius: var(--button-border-radius--small);
-
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--button-height--small);
-    }
   }
   &--size-small &__text {
     margin: 0;
   }
   &--has-text#{&}--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  &--has-text#{&}--icon-position-left#{&}--size-small {
-    padding-left: 0.5rem;
-  }
-  &--has-text#{&}--icon-position-right#{&}--size-small {
-    padding-right: 0.5rem;
+    --button-padding-left: var(--button-padding--small);
+    --button-padding-right: var(--button-padding--small);
   }
 
   // size medium
   &--size-medium {
+    --button-height: var(--button-height--medium);
     width: var(--button-width--medium);
-    border-radius: var(--button-border-radius--medium);
-
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--button-height--medium);
-    }
   }
   &--size-medium &__text {
     margin: 0;
   }
   &--has-text#{&}--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  &--has-text#{&}--icon-position-left#{&}--size-medium {
-    padding-left: 0.5rem;
-  }
-  &--has-text#{&}--icon-position-right#{&}--size-medium {
-    padding-right: 0.5rem;
+    --button-padding-left: var(--button-padding--medium);
+    --button-padding-right: var(--button-padding--medium);
   }
   &--control-before#{&}--size-medium {
     line-height: var(--button-height);
@@ -163,40 +145,45 @@
 
   // size large
   &--size-large {
+    --button-height: var(--button-height--large);
+    --button-padding-icon: 1.5rem;
     width: var(--button-width--large);
-    border-radius: var(--button-border-radius--large);
-
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--button-height--large);
-    }
   }
   &--has-text#{&}--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-  &--has-text#{&}--icon-position-left#{&}--size-large {
-    padding-left: 1rem;
-  }
-  &--has-text#{&}--icon-position-right#{&}--size-large {
-    padding-right: 1rem;
+    --button-padding-left: var(--button-padding--large);
+    --button-padding-right: var(--button-padding--large);
   }
 
   // size default
 
   /* stylelint-disable-next-line */
   &--has-text {
+    --button-padding-left: var(--button-padding--default);
+    --button-padding-right: var(--button-padding--default);
     width: auto;
   }
-  &--has-text &__icon {
-    margin: 0 calc(var(--button-icon-size) / 2);
+  &__icon {
+    margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0
+      var(--button-icon-margin-left);
   }
   &--has-text#{&}--icon-position-left {
-    padding-left: 0.5rem;
+    --button-padding-left: var(--button-padding-icon);
+    --button-icon-margin-right: var(--button-icon-gutter);
   }
   &--has-text#{&}--icon-position-right {
-    padding-right: 0.5rem;
+    --button-padding-right: var(--button-padding-icon);
+    --button-icon-margin-left: var(--button-icon-gutter);
+  }
+
+  // Icon sizes
+  &--icon-size-small {
+    --button-icon-size: var(--button-icon-size--small);
+  }
+  &--icon-size-medium {
+    --button-icon-size: var(--button-icon-size--medium);
+  }
+  &--icon-size-large {
+    --button-icon-size: var(--button-icon-size--large);
   }
 
   // Default -- icon set to right side
