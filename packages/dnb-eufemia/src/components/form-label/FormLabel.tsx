@@ -148,7 +148,11 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
 
-  return <Element {...params}>{content}</Element>
+  return (
+    <Element {...params}>
+      <span className="dnb-form-label__bounding">{content}</span>
+    </Element>
+  )
 }
 
 FormLabel._formElement = true

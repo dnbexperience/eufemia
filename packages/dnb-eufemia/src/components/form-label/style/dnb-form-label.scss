@@ -4,6 +4,8 @@
  */
 
 .dnb-form-label {
+  --form-label-bounding: 0.75rem;
+
   display: inline-block;
   padding: 0;
 
@@ -33,6 +35,13 @@
 
   &[disabled] {
     cursor: not-allowed;
+  }
+
+  &[for] &__bounding {
+    border: var(--form-label-bounding) solid transparent;
+    border-left: none;
+    border-right: none;
+    margin: calc(var(--form-label-bounding) * -1) 0;
   }
 }
 
