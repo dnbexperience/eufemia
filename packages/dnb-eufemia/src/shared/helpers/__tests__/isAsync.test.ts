@@ -45,4 +45,8 @@ describe('isAsync', () => {
 
     expect(isAsync(IAmSync)).toBeTruthy()
   })
+
+  it('should return false is no function was given', () => {
+    expect(isAsync(undefined)).toBeFalsy()
+  })
 })
