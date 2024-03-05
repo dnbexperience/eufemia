@@ -1,0 +1,73 @@
+@import '../../../../../style/core/utilities.scss';
+
+.dnb-form-submit-indicator {
+  display: inline;
+
+  &__dots {
+    font-weight: var(--font-weight-bold);
+    font-size: 0;
+    line-height: 1em;
+
+    transition: font-size 800ms var(--easing-default);
+
+    span {
+      padding-left: 0.125em;
+      color: var(--dots-color, currentColor);
+
+      &:nth-of-type(1) {
+        padding-left: 0.25em;
+        animation-delay: 50ms;
+      }
+      &:nth-of-type(2) {
+        animation-delay: 200ms;
+      }
+      &:nth-of-type(3) {
+        animation-delay: 400ms;
+      }
+
+      opacity: 0.2;
+
+      animation-name: submit-indicator-dots;
+      animation-iteration-count: infinite;
+      animation-duration: 1.3s;
+      animation-delay: 200ms; // to get a nicer fade in
+
+      html[data-visual-test] & {
+        animation: none;
+      }
+    }
+
+    &::before {
+      content: ' '; // To ensure we can "wrap" with "--inline-wrap"
+    }
+  }
+
+  &--state-pending &__dots {
+    font-size: 1em;
+  }
+  &--inline-wrap &__dots {
+    display: flex;
+
+    i:nth-of-type(1) {
+      padding-left: 0;
+    }
+  }
+}
+
+@keyframes submit-indicator-dots {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
