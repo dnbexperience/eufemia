@@ -3,6 +3,7 @@ showTabs: true
 ---
 
 import {
+  AnchorBasicUse,
   AnchorExampleInSection,
   AnchorExampleStates,
   AnchorExampleHelperClasses,
@@ -10,38 +11,30 @@ import {
   AnchorTargetBlank,
   AnchorProtocol,
   AnchorExampleHeadings,
-  AnchorSbankenRegular,
-  AnchorSbankenGoto,
-  AnchorSbankenInline,
   AnchorLegacyUsage,
   AnchorExampleHelperContrastVariations,
 } from 'Docs/uilib/components/anchor/Examples'
 
-<VisibilityByTheme visible="sbanken">
-
-## Demos (Sbanken)
-
-### Regular link (Sbanken)
-
-<AnchorSbankenRegular />
-
-### Goto link (Sbanken)
-
-<AnchorSbankenGoto />
-
-### Link in text (Sbanken)
-
-In the rare cases where the link is used in text then add the class `.dnb-anchor--inline` to get the correct styling.
-
-<AnchorSbankenInline />
-
-</VisibilityByTheme>
-
 ## Demos
 
-### Anchor states
+### Basic usage
 
-<AnchorExampleStates />
+The basic use of `<Anchor>` is identical to the `<a>` tag.
+
+<AnchorBasicUse />
+
+### With icon
+
+Icons can be added with the `icon` and `iconPosition` props. Normally by sending in the name if an icon, but it is also possible to send in html/react code (normally for custom svg).
+
+<VisibilityByTheme visible="sbanken">
+  For Sbanken, links with icons have a slightly different styling that is
+  not intended to be used in a regular paragraph. The class
+  `.dnb-anchor--inline` can be used to force default styling even if there
+  is an icon.
+</VisibilityByTheme>
+
+<AnchorExampleIcons />
 
 ### Additional Anchor helper classes
 
@@ -55,12 +48,6 @@ To force a specific state of style, use the following classes to do so:
 - `.dnb-anchor--no-style` <a href="/uilib/components/anchor" className="dnb-anchor dnb-anchor--no-style">No Style</a>
 - `.dnb-anchor--no-hover` <a href="/uilib/components/anchor" className="dnb-anchor dnb-anchor--no-hover">No Hover</a>
 - `.dnb-anchor--no-underline` <a href="/uilib/components/anchor" className="dnb-anchor dnb-anchor--no-underline">No Underline</a>
-
-### Anchor with icons
-
-Icons can be added with the `icon` and `iconPosition` props. Normally by sending in the name if an icon, but it is also possible to send in html/react code (normally for custom svg).
-
-<AnchorExampleIcons />
 
 ### Anchor with `target="_blank"`
 
@@ -81,6 +68,7 @@ Unless the href contains `:mailto`, `:tel` or `:sms`.
 <AnchorExampleInSection />
 
 <VisibleWhenVisualTest>
+  <AnchorExampleStates />
   <AnchorLegacyUsage />
   <AnchorExampleHelperContrastVariations />
 </VisibleWhenVisualTest>

@@ -35,6 +35,18 @@ const ContrastExample = styled(Example)`
   background-color: var(--color-ocean-green);
 `
 
+export const AnchorBasicUse = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="anchor-basic">
+      <P>
+        This is a regular paragraph with a{' '}
+        <Anchor href="https://dnb.no/">link to a website</Anchor> in the
+        middle of some text.
+      </P>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AnchorExampleInSection = () => (
   <Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
@@ -53,7 +65,7 @@ export const AnchorExampleInSection = () => (
 export const AnchorExampleStates = () => (
   <Wrapper>
     <ComponentBox scope={{ Example }} data-visual-test="anchor-states">
-      <Example data-visual-test="anchor-default">
+      <Example>
         <Anchor href="/uilib/components/anchor">Default Style</Anchor>
       </Example>
       <Example>
@@ -224,15 +236,15 @@ export const AnchorExampleIcons = () => (
       <Example data-visual-test="anchor-icon-right">
         <Anchor
           href="/uilib/components/anchor"
-          icon="chevron_right"
+          icon="arrow_right"
           iconPosition="right"
         >
-          Anchor with Icon right
+          Anchor with icon right
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-icon-left">
-        <Anchor href="/uilib/components/anchor" icon="question">
-          Anchor with Icon left
+        <Anchor href="/uilib/components/anchor" icon="chevron_right">
+          Anchor with icon left
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-icon-node">
@@ -240,12 +252,12 @@ export const AnchorExampleIcons = () => (
           href="/uilib/components/anchor"
           icon={<IconPrimary icon="question" />}
         >
-          Anchor with Icon left using a html/react element
+          Anchor with icon left using a html/react element
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-paragraph">
         <P>
-          text
+          A text paragraph with an
           {' '}
           <Anchor
             href="/uilib/components/anchor"
@@ -253,10 +265,10 @@ export const AnchorExampleIcons = () => (
             iconPosition="right"
             className="dnb-anchor--inline"
           >
-            Inside a Paragraph
+            anchor with icon
           </Anchor>
           {' '}
-          text
+          in it.
         </P>
       </Example>
     </ComponentBox>
@@ -343,110 +355,6 @@ export const AnchorExampleHeadings = () => (
           </Anchor>{' '}
           H2
         </H2>
-      </Example>
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const AnchorSbankenRegular = () => (
-  <Wrapper>
-    <ComponentBox hideCode scope={{ Example }}>
-      <Example>
-        <Anchor href="/uilib/components/anchor" icon="chevron_right">
-          Default
-        </Anchor>
-      </Example>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="chevron_right"
-          className="dnb-anchor--hover"
-        >
-          Hover
-        </Anchor>
-      </Example>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="chevron_right"
-          className="dnb-anchor--active"
-        >
-          Active
-        </Anchor>
-      </Example>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="chevron_right"
-          className="dnb-anchor--focus"
-        >
-          Focus
-        </Anchor>
-      </Example>
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const AnchorSbankenGoto = () => (
-  <Wrapper>
-    <ComponentBox hideCode scope={{ Example }}>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="arrow_right"
-          iconPosition="right"
-        >
-          Default
-        </Anchor>
-      </Example>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="arrow_right"
-          iconPosition="right"
-          className="dnb-anchor--hover"
-        >
-          Hover
-        </Anchor>
-      </Example>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="arrow_right"
-          iconPosition="right"
-          className="dnb-anchor--active"
-        >
-          Active
-        </Anchor>
-      </Example>
-      <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="arrow_right"
-          iconPosition="right"
-          className="dnb-anchor--focus"
-        >
-          Focus
-        </Anchor>
-      </Example>
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const AnchorSbankenInline = () => (
-  <Wrapper>
-    <ComponentBox hideCode scope={{ Example }}>
-      <Example data-visual-test="anchor-inline">
-        <P>
-          A paragraph with an{' '}
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--inline"
-          >
-            inline anchor
-          </Anchor>{' '}
-          uses a different styling.
-        </P>
       </Example>
     </ComponentBox>
   </Wrapper>
