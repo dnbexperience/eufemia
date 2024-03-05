@@ -1,3 +1,5 @@
+import { isAsync } from './isAsync'
+
 /**
  * Debounces a function to be executed after a specified wait time.
  *
@@ -85,10 +87,25 @@ export function debounce(
     return recall
   }
 
-  executedFunction.cancel = cancel
-  executedFunction.addCancelEvent = addCancelEvent
+  // Sync
+  function syncFunction(...args) {
+    return executedFunction(...args)
+  }
+  syncFunction.cancel = cancel
+  syncFunction.addCancelEvent = addCancelEvent
 
-  return executedFunction
+  // Async return
+  async function asyncFunction(...args) {
+    return executedFunction(...args)
+  }
+  asyncFunction.cancel = cancel
+  asyncFunction.addCancelEvent = addCancelEvent
+
+  if (isAsync(debouncedFunction)) {
+    return asyncFunction
+  }
+
+  return syncFunction
 }
 
 /**
