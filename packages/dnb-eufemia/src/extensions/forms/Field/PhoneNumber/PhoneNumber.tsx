@@ -2,7 +2,10 @@ import React, { useMemo, useContext, useCallback } from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
-import countries, { CountryType } from '../../constants/countries'
+import countries, {
+  type CountryLang,
+  type CountryType,
+} from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -12,7 +15,7 @@ import {
   AllJSONSchemaVersions,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { Context } from '../../DataContext/'
+import SharedContext from '../../../../shared/Context'
 import {
   CountryFilterSet,
   getCountryData,
@@ -68,9 +71,9 @@ const defaultMask = [
 ]
 
 function PhoneNumber(props: Props) {
-  const context = useContext(Context)
+  const sharedContext = useContext(SharedContext)
   const translations = useLocale().Forms
-  const lang = context.locale?.split('-')[0]
+  const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const countryCodeRef = React.useRef(props?.emptyValue)
   const numberRef = React.useRef(props?.emptyValue)

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { Context } from '../../DataContext/'
+import SharedContext from '../../../../shared/Context'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'
 import NumberField, { Props as NumberFieldProps } from '../Number'
@@ -8,14 +8,15 @@ import NumberField, { Props as NumberFieldProps } from '../Number'
 export type Props = NumberFieldProps
 
 function Currency(props: Props) {
-  const context = useContext(Context)
+  const sharedContext = useContext(SharedContext)
+
   const preparedProps = {
     ...props,
     currency: props.currency ?? CURRENCY,
     placeholder:
       props.placeholder ??
       getCurrencySymbol(
-        context?.locale,
+        sharedContext?.locale,
         props.currency,
         props.currencyDisplay
       ),

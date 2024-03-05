@@ -463,11 +463,11 @@ describe('FieldBlock', () => {
 
         const element = document.querySelector('.dnb-form-status')
         expect(element).toHaveTextContent(
-          nb.fieldErrorSummary + firstError + secondError
+          nb.Field.errorSummary + firstError + secondError
         )
 
         const ul = document.querySelector('ul')
-        expect(ul.previousSibling).toHaveTextContent(nb.fieldErrorSummary)
+        expect(ul.previousSibling).toHaveTextContent(nb.Field.errorSummary)
 
         const [first, second] = Array.from(ul.querySelectorAll('li'))
         expect(first).toHaveTextContent(firstError)
@@ -530,7 +530,7 @@ describe('FieldBlock', () => {
           const [errorStatus, warningStatus, infoStatus] = statuses
 
           expect(statuses).toHaveLength(3)
-          expect(errorStatus).toHaveTextContent(nb.inputErrorRequired)
+          expect(errorStatus).toHaveTextContent(nb.Input.errorRequired)
           expect(warningStatus).toHaveTextContent(firstWarning)
           expect(infoStatus).toHaveTextContent(firstInfo)
         }
@@ -546,7 +546,7 @@ describe('FieldBlock', () => {
           const [errorStatus, warningStatus, infoStatus] = statuses
 
           expect(statuses).toHaveLength(3)
-          expect(errorStatus).toHaveTextContent(nb.inputErrorRequired)
+          expect(errorStatus).toHaveTextContent(nb.Input.errorRequired)
           expect(warningStatus).toHaveTextContent(firstWarning)
           expect(infoStatus).toHaveTextContent(firstInfo)
         }
@@ -585,13 +585,13 @@ describe('FieldBlock', () => {
           document.querySelectorAll('.dnb-form-status')
         )
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + firstError + secondError
+          nb.Field.errorSummary + firstError + secondError
         )
         expect(warning).toHaveTextContent(
-          nb.fieldStateSummary + firstWarning + secondWarning
+          nb.Field.stateSummary + firstWarning + secondWarning
         )
         expect(info).toHaveTextContent(
-          nb.fieldStateSummary + firstInfo + secondInfo
+          nb.Field.stateSummary + firstInfo + secondInfo
         )
       })
 
@@ -620,16 +620,16 @@ describe('FieldBlock', () => {
           document.querySelectorAll('.dnb-form-status')
         )
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         expect(warning).toHaveTextContent(
-          nb.fieldStateSummary +
+          nb.Field.stateSummary +
             blockWarning +
             firstWarning +
             secondWarning
         )
         expect(info).toHaveTextContent(
-          nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+          nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
         )
       })
 
@@ -659,16 +659,16 @@ describe('FieldBlock', () => {
           document.querySelectorAll('.dnb-form-status')
         )
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + nb.inputErrorRequired
+          nb.Field.errorSummary + blockError + nb.Input.errorRequired
         )
         expect(warning).toHaveTextContent(
-          nb.fieldStateSummary +
+          nb.Field.stateSummary +
             blockWarning +
             firstWarning +
             secondWarning
         )
         expect(info).toHaveTextContent(
-          nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+          nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
         )
       })
 
@@ -698,16 +698,16 @@ describe('FieldBlock', () => {
           document.querySelectorAll('.dnb-form-status')
         )
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + nb.inputErrorRequired
+          nb.Field.errorSummary + blockError + nb.Input.errorRequired
         )
         expect(warning).toHaveTextContent(
-          nb.fieldStateSummary +
+          nb.Field.stateSummary +
             blockWarning +
             firstWarning +
             secondWarning
         )
         expect(info).toHaveTextContent(
-          nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+          nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
         )
       })
 
@@ -740,19 +740,19 @@ describe('FieldBlock', () => {
 
         const toHaveWarningAndInfo = () => {
           expect(warning).toHaveTextContent(
-            nb.fieldStateSummary +
+            nb.Field.stateSummary +
               blockWarning +
               firstWarning +
               secondWarning
           )
           expect(info).toHaveTextContent(
-            nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+            nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
           )
         }
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
@@ -763,27 +763,27 @@ describe('FieldBlock', () => {
         // 1. Check the "first" input
         await userEvent.type(firstInput, 'x')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         await userEvent.type(firstInput, '{Backspace}')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         fireEvent.blur(firstInput)
 
-        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary +
+          nb.Field.errorSummary +
             blockError +
-            nb.inputErrorRequired +
+            nb.Input.errorRequired +
             firstError +
             secondError
         )
@@ -791,60 +791,60 @@ describe('FieldBlock', () => {
 
         await userEvent.type(firstInput, 'x')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
 
         fireEvent.blur(firstInput)
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         // 2. Check the "second" input
         await userEvent.type(secondInput, '1')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         await userEvent.type(secondInput, '{Backspace}')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         fireEvent.blur(secondInput)
 
-        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary +
+          nb.Field.errorSummary +
             blockError +
             firstError +
-            nb.inputErrorRequired +
+            nb.Input.errorRequired +
             secondError
         )
         toHaveWarningAndInfo()
 
         await userEvent.type(secondInput, '1')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
 
         fireEvent.blur(secondInput)
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
       })
@@ -878,19 +878,19 @@ describe('FieldBlock', () => {
 
         const toHaveWarningAndInfo = () => {
           expect(warning).toHaveTextContent(
-            nb.fieldStateSummary +
+            nb.Field.stateSummary +
               blockWarning +
               firstWarning +
               secondWarning
           )
           expect(info).toHaveTextContent(
-            nb.fieldStateSummary + blockInfo + firstInfo + secondInfo
+            nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
           )
         }
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
@@ -901,27 +901,27 @@ describe('FieldBlock', () => {
         // 1. Check the "first" input
         await userEvent.type(firstInput, 'x')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         await userEvent.type(firstInput, '{Backspace}')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         fireEvent.blur(firstInput)
 
-        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary +
+          nb.Field.errorSummary +
             blockError +
-            nb.inputErrorRequired +
+            nb.Input.errorRequired +
             firstError +
             secondError
         )
@@ -929,60 +929,60 @@ describe('FieldBlock', () => {
 
         await userEvent.type(firstInput, 'x')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
 
         fireEvent.blur(firstInput)
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         // 2. Check the "second" input
         await userEvent.type(secondInput, '1')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         await userEvent.type(secondInput, '{Backspace}')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
 
         fireEvent.blur(secondInput)
 
-        expect(error).toHaveTextContent(nb.inputErrorRequired)
+        expect(error).toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary +
+          nb.Field.errorSummary +
             blockError +
             firstError +
-            nb.inputErrorRequired +
+            nb.Input.errorRequired +
             secondError
         )
         toHaveWarningAndInfo()
 
         await userEvent.type(secondInput, '1')
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
 
         fireEvent.blur(secondInput)
 
-        expect(error).not.toHaveTextContent(nb.inputErrorRequired)
+        expect(error).not.toHaveTextContent(nb.Input.errorRequired)
         expect(error).toHaveTextContent(
-          nb.fieldErrorSummary + blockError + firstError + secondError
+          nb.Field.errorSummary + blockError + firstError + secondError
         )
         toHaveWarningAndInfo()
       })

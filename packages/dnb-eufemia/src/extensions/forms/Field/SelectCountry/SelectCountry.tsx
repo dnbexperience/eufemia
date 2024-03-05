@@ -1,11 +1,12 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
-import { Context } from '../../DataContext/'
+import SharedContext from '../../../../shared/Context'
 import { Autocomplete, HelpButton } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import countries, {
   prioritizedCountries,
-  CountryType,
+  type CountryType,
+  type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
@@ -41,9 +42,9 @@ export type Props = FieldHelpProps &
   }
 
 function SelectCountry(props: Props) {
-  const context = useContext(Context)
+  const sharedContext = useContext(SharedContext)
   const translations = useLocale().Forms.SelectCountry
-  const lang = context.locale?.split('-')[0]
+  const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.errorRequired,
@@ -204,7 +205,7 @@ function SelectCountry(props: Props) {
 }
 
 type GetCountryData = {
-  lang?: string
+  lang?: CountryLang
   filter?: Props['filterCountries']
   sort?: Extract<CountryFilterSet, 'Prioritized'>
   makeObject?: (
@@ -218,7 +219,7 @@ type GetCountryData = {
 }
 
 export function getCountryData({
-  lang = 'no',
+  lang = 'nb',
   filter = null,
   sort = null,
   makeObject = (country: CountryType, lang: string) => {

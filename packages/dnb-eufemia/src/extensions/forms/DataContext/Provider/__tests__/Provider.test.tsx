@@ -2210,7 +2210,7 @@ describe('DataContext.Provider', () => {
 
       expect(
         screen.getByText(
-          nb.stringInputErrorMinLength.replace('{minLength}', '486')
+          nb.StringInput.errorMinLength.replace('{minLength}', '486')
         )
       ).toBeInTheDocument()
     })

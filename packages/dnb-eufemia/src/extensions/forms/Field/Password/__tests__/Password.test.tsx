@@ -46,11 +46,15 @@ describe('Password component', () => {
 
     const button = () => document.querySelector('button')
 
-    expect(button().getAttribute('aria-label')).toBe(nb.passwordShowLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      nb.Password.ariaLabelShow
+    )
 
     await userEvent.click(button())
 
-    expect(button().getAttribute('aria-label')).toBe(nb.passwordHideLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      nb.Password.ariaLabelHide
+    )
 
     rerender(
       <Provider locale="en-GB">
@@ -58,11 +62,15 @@ describe('Password component', () => {
       </Provider>
     )
 
-    expect(button().getAttribute('aria-label')).toBe(en.passwordHideLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      en.Password.ariaLabelHide
+    )
 
     await userEvent.click(button())
 
-    expect(button().getAttribute('aria-label')).toBe(en.passwordShowLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      en.Password.ariaLabelShow
+    )
   })
 
   it('has aria-describedby and aria-controls', () => {
@@ -222,8 +230,10 @@ describe('Password component', () => {
     const tr: Locales = {
       'nb-NO': {
         Forms: {
-          passwordShowLabel: 'Show it!',
-          passwordHideLabel: 'Hide it!',
+          Password: {
+            ariaLabelShow: 'Show it!',
+            ariaLabelHide: 'Hide it!',
+          },
         },
       },
     }

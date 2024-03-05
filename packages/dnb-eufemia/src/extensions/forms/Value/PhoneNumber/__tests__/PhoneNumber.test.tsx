@@ -28,7 +28,7 @@ describe('Value.PhoneNumber', () => {
       <Provider
         locales={{
           'nb-NO': {
-            Forms: { phoneNumberLabel: 'Custom' },
+            Forms: { PhoneNumber: { label: 'Custom' } },
           },
         }}
       >
