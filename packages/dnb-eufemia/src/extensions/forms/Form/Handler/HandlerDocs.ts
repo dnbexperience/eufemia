@@ -1,0 +1,46 @@
+import { PropertiesTableProps } from '../../../../shared/types'
+import {
+  ProviderEvents,
+  ProviderProperties,
+} from '../../DataContext/Provider/ProviderDocs'
+
+export const HandlerProperties: PropertiesTableProps = {
+  ...ProviderProperties,
+  disabled: {
+    doc: 'Will disable all nested form fields.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  autoComplete: {
+    doc: 'Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+  '[DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/properties)':
+    {
+      doc: 'Provider properties such as `data`.',
+      type: 'Various',
+      status: 'optional',
+    },
+  '[Form Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attributes)':
+    {
+      doc: 'All supported form element attributes.',
+      type: 'string',
+      status: 'optional',
+    },
+}
+
+export const HandlerEvents: PropertiesTableProps = {
+  ...ProviderEvents,
+  '[DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/events)':
+    {
+      doc: 'events such as `onSubmit`.',
+      type: 'function',
+      status: 'optional',
+    },
+}

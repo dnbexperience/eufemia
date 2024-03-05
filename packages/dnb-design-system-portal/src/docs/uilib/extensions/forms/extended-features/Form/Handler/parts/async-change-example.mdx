@@ -1,0 +1,24 @@
+You can return parameters from inside the `onChange` event handler. This way you can display more related information, such as an error or an object with these keys:
+
+```ts
+// Async event handler
+const onChange = debounceAsync(async function (data) {
+  try {
+    await makeRequest(data)
+  } catch (error) {
+    return error
+  }
+
+  // Optionally, you can return an object with these keys, depending your needs
+  return {
+    info: 'Info message',
+    warning: 'Warning message',
+
+    // and either an error
+    error: new Error('Error message'),
+
+    // or success (when used for autosave)
+    success: 'saved',
+  } as const
+})
+```

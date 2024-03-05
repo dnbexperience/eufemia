@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import React, { StrictMode, createRef, useContext } from 'react'
 import {
   act,
   fireEvent,
@@ -9,11 +9,22 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Form, DataContext, Field, JSONSchema, Ajv } from '../../../'
+import {
+  Form,
+  DataContext,
+  Field,
+  JSONSchema,
+  Ajv,
+  OnChange,
+  OnChangeValue,
+} from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
-import nbNO from '../../../../../shared/locales/nb-NO'
 import { FilterData } from '../Provider'
+import { ContextState } from '../../Context'
+import { debounceAsync } from '../../../../../shared/helpers/debounce'
+import { wait } from '../../../../../core/jest/jestSetup'
 
+import nbNO from '../../../../../shared/locales/nb-NO'
 const nb = nbNO['nb-NO'].Forms
 
 function TestField(props: StringFieldProps) {
@@ -202,8 +213,8 @@ describe('DataContext.Provider', () => {
       expect(onChange).toHaveBeenCalledWith([{ foo: 'New Value' }])
     })
 
-    it('should call "onPathChange" on path change', () => {
-      const onPathChange = jest.fn()
+    it('should call async "onPathChange" on path change', () => {
+      const onPathChange = jest.fn(async () => null)
 
       const { rerender } = render(
         <DataContext.Provider
@@ -380,7 +391,7 @@ describe('DataContext.Provider', () => {
       expect(filteredData).toEqual({ bar: 'bar value' })
     })
 
-    it('should call "onSubmitRequest" on invalid submit', async () => {
+    it('should call "onSubmitRequest" on invalid submit', () => {
       const onSubmitRequest = jest.fn()
 
       const { rerender } = render(
@@ -396,15 +407,13 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const submitButton = document.querySelector('button')
 
-      await waitFor(() => {
-        fireEvent.change(inputElement, {
-          target: { value: '1' },
-        })
-        fireEvent.click(submitButton)
-
-        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-        expect(onSubmitRequest).toHaveBeenCalledWith()
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
       })
+      fireEvent.click(submitButton)
+
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledWith()
 
       rerender(
         <DataContext.Provider
@@ -416,70 +425,958 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      await waitFor(() => {
-        fireEvent.change(inputElement, {
-          target: { value: '2' },
-        })
-        fireEvent.click(submitButton)
+      fireEvent.change(inputElement, {
+        target: { value: '2' },
+      })
+      fireEvent.click(submitButton)
 
-        expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-        expect(onSubmitRequest).toHaveBeenLastCalledWith()
+      expect(onSubmitRequest).toHaveBeenCalledTimes(2)
+      expect(onSubmitRequest).toHaveBeenLastCalledWith()
+    })
+  })
+
+  describe('async submit', () => {
+    let log: jest.SpyInstance
+    beforeEach(() => {
+      const originalConsoleLog = console.log
+      log = jest.spyOn(console, 'log').mockImplementation((...message) => {
+        if (!message[0].includes('Eufemia')) {
+          originalConsoleLog(...message)
+        }
       })
     })
+    afterEach(() => {
+      log.mockRestore()
+    })
 
-    it('should scroll on top when "scrollTopOnSubmit" is true', () => {
-      const onSubmit = jest.fn()
-      const scrollTo = jest.fn()
+    const UseContext = ({
+      result,
+    }: {
+      result: React.MutableRefObject<ContextState>
+    }) => {
+      result.current = useContext(DataContext.Context)
+      return null
+    }
 
-      jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    it('should emit onSubmitComplete with data state object and return value when submit is completed', async () => {
+      const onSubmit = async () => {
+        return { status: 'pending' } as const
+      }
+      const onSubmitComplete = jest.fn(async () => null)
 
-      const { rerender } = render(
+      render(
         <DataContext.Provider
-          data={{ foo: 'original' }}
           onSubmit={onSubmit}
-          scrollTopOnSubmit
+          onSubmitComplete={onSubmitComplete}
         >
           <Field.String path="/foo" value="Value" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
       const inputElement = document.querySelector('input')
       const submitButton = document.querySelector('button')
 
-      fireEvent.change(inputElement, {
-        target: { value: 'New Value' },
-      })
+      await userEvent.type(inputElement, ' changed')
       fireEvent.click(submitButton)
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith(
-        { foo: 'New Value' },
-        expect.anything()
-      )
-      expect(scrollTo).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(onSubmitComplete).toHaveBeenCalledTimes(1)
+        expect(onSubmitComplete).toHaveBeenCalledWith(
+          { foo: 'Value changed' },
+          { status: 'pending' }
+        )
+      })
+    })
 
-      rerender(
+    it('should keep form in pending state when onSubmitComplete returns status of pending', async () => {
+      const onSubmit = async () => {
+        return { info: 'Info message' } as const
+      }
+      const onSubmitComplete = jest.fn(async () => {
+        return { status: 'pending' } as const
+      })
+
+      render(
         <DataContext.Provider
-          data={{ fooBar: 'changed' }}
           onSubmit={onSubmit}
-          scrollTopOnSubmit
+          onSubmitComplete={onSubmitComplete}
         >
-          <Field.String path="/fooBar" value="Rerendered Value" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Field.String path="/foo" />
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
-      fireEvent.change(inputElement, {
-        target: { value: 'Second Value' },
-      })
+      const submitButton = document.querySelector('button')
+      const indicator = submitButton.querySelector(
+        '.dnb-form-submit-indicator'
+      )
+
       fireEvent.click(submitButton)
 
-      expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { fooBar: 'Second Value' },
-        expect.anything()
+      await waitFor(() => {
+        expect(submitButton).toBeDisabled()
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+      })
+
+      await waitFor(() => {
+        expect(submitButton).toBeDisabled()
+        expect(onSubmitComplete).toHaveBeenCalledTimes(1)
+        expect(onSubmitComplete).toHaveBeenCalledWith(
+          { foo: undefined },
+          { info: 'Info message' }
+        )
+      })
+
+      await waitFor(() => {
+        expect(submitButton).toBeDisabled()
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+      })
+    })
+
+    it('should evaluate long validator and onBlurValidator before continue with async onSubmit', async () => {
+      const eventsStart = []
+      const eventsEnd = []
+
+      const onSubmit = async () => {
+        eventsStart.push('onSubmit')
+
+        await wait(1)
+
+        eventsEnd.push('onSubmit')
+      }
+
+      const onChangeForm: OnChange<{ myField: string }> = async () => {
+        eventsStart.push('onChangeForm')
+
+        await wait(2)
+
+        eventsEnd.push('onChangeForm')
+      }
+
+      const onChangeField: OnChangeValue = async () => {
+        eventsStart.push('onChangeField')
+
+        await wait(3)
+
+        eventsEnd.push('onChangeField')
+      }
+
+      const validator = async () => {
+        eventsStart.push('validator')
+
+        await wait(10)
+
+        eventsEnd.push('validator')
+      }
+
+      const onBlurValidator = async () => {
+        eventsStart.push('onBlurValidator')
+
+        await wait(20)
+
+        eventsEnd.push('onBlurValidator')
+      }
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit} onChange={onChangeForm}>
+          <Field.String
+            value="vali"
+            path="/myField"
+            validator={validator}
+            onBlurValidator={onBlurValidator}
+            onChange={onChangeField}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
       )
+
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+
+      await userEvent.type(input, 'd')
+
+      expect(eventsStart).toEqual([
+        'validator',
+        'onChangeForm',
+        'onChangeField',
+      ])
+
+      await userEvent.click(button)
+
+      await wait(100)
+
+      expect(eventsStart).toEqual([
+        'validator',
+        'onChangeForm',
+        'onChangeField',
+        'onBlurValidator',
+        'validator',
+        'onBlurValidator',
+        'onSubmit',
+      ])
+      expect(eventsEnd).toEqual([
+        'validator',
+        'onChangeForm',
+        'onChangeField',
+        'onBlurValidator',
+        'validator',
+        'onBlurValidator',
+        'onSubmit',
+      ])
+    })
+
+    it('should evaluate sync validation, such as required, before continue with async validation', async () => {
+      const onSubmit = jest.fn(async () => {
+        return { info: 'Info message' } as const
+      })
+      const validator = jest.fn(async (value) => {
+        if (value === 'validator-error') {
+          return new Error('validator-error')
+        }
+      })
+      const onBlurValidator = jest.fn(async (value) => {
+        if (value === 'onBlurValidator-error') {
+          return new Error('onBlurValidator-error')
+        }
+      })
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit}>
+          <Field.String
+            path="/foo"
+            validator={validator}
+            onBlurValidator={onBlurValidator}
+            required
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+      const input = document.querySelector('input')
+      const indicator = submitButton.querySelector(
+        '.dnb-form-submit-indicator'
+      )
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled()
+        expect(indicator).not.toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'validator-error' },
+      })
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled()
+        expect(indicator).not.toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toHaveTextContent('validator-error')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onBlurValidator-error' },
+      })
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled()
+        expect(indicator).not.toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toBeNull()
+      })
+
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenCalledTimes(2)
+      })
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenCalledTimes(2)
+      })
+
+      await waitFor(() => {
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toHaveTextContent('onBlurValidator-error')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'valid value' },
+      })
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled()
+        expect(indicator).not.toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toBeNull()
+      })
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      expect(validator).toHaveBeenCalledTimes(3)
+    })
+
+    it('should set "formState" to "pending" when "validator" is async', async () => {
+      const result = createRef<ContextState>()
+      const validator = async () => {
+        return new Error('My error')
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider>
+          <UseContext result={result} />
+          <Field.String validator={validator} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      expect(result.current.formState).toBeUndefined()
+
+      fireEvent.click(submitButton)
+
+      expect(result.current.formState).toBe('pending')
+
+      await waitFor(() => {
+        expect(result.current.formState).toBeUndefined()
+      })
+
+      const syncValidator = () => {
+        return new Error('My error')
+      }
+
+      rerender(
+        <DataContext.Provider>
+          <UseContext result={result} />
+          <Field.String validator={syncValidator} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      expect(result.current.formState).toBeUndefined()
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(result.current.formState).toBeUndefined()
+      })
+    })
+
+    it('should set "formState" to "pending" when "onBlurValidator" is async', async () => {
+      const result = createRef<ContextState>()
+      const onBlurValidator = async () => {
+        return new Error('My error')
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider>
+          <UseContext result={result} />
+          <Field.String onBlurValidator={onBlurValidator} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      expect(result.current.formState).toBeUndefined()
+
+      fireEvent.click(submitButton)
+
+      expect(result.current.formState).toBe('pending')
+
+      await waitFor(() => {
+        expect(result.current.formState).toBeUndefined()
+      })
+
+      const syncValidator = () => {
+        return new Error('My error')
+      }
+
+      rerender(
+        <DataContext.Provider>
+          <UseContext result={result} />
+          <Field.String onBlurValidator={syncValidator} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      expect(result.current.formState).toBeUndefined()
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(result.current.formState).toBeUndefined()
+      })
+    })
+
+    it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
+      const result = createRef<ContextState>()
+      const onSubmit = async () => null
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit}>
+          <UseContext result={result} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      expect(result.current.formState).toBeUndefined()
+
+      fireEvent.click(submitButton)
+
+      expect(result.current.formState).toBe('pending')
+
+      await waitFor(() => {
+        expect(result.current.formState).toBeUndefined()
+      })
+    })
+
+    it('should show submit indicator during submit when "onSubmit" is used', async () => {
+      const result = createRef<ContextState>()
+      const onSubmit = async () => null
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit}>
+          <UseContext result={result} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      expect(result.current.formState).toBeUndefined()
+
+      fireEvent.click(submitButton)
+
+      expect(result.current.formState).toBe('pending')
+
+      await waitFor(() => {
+        expect(result.current.formState).toBeUndefined()
+      })
+    })
+  })
+
+  describe('async change', () => {
+    it('should not disable form elements on changes', async () => {
+      const onChange: OnChange = async () => null
+
+      render(
+        <DataContext.Provider onChange={onChange}>
+          <Field.String label="My label" path="/myField" />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const button = document.querySelector('button')
+      const input = document.querySelector('input')
+
+      await userEvent.click(button)
+      await userEvent.type(input, '123')
+
+      expect(button).not.toBeDisabled()
+      expect(input).not.toBeDisabled()
+    })
+
+    it('should show indicator on label while pending', async () => {
+      const onChange: OnChange = async () => {
+        return null
+      }
+
+      render(
+        <DataContext.Provider onChange={onChange}>
+          <Field.String label="My label" path="/myField" />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const indicator = document.querySelector(
+        'label .dnb-form-submit-indicator'
+      )
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: '123' },
+      })
+
+      expect(indicator).toHaveTextContent('My label...')
+      expect(indicator).toHaveClass(
+        'dnb-form-submit-indicator--state-pending'
+      )
+
+      await waitFor(() => {
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-complete'
+        )
+      })
+    })
+
+    it('should show success indicator on label when success returned', async () => {
+      const onChange: OnChange = async () => {
+        return { success: 'saved' } as const
+      }
+
+      render(
+        <DataContext.Provider onChange={onChange}>
+          <Field.String label="My label" path="/myField" />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const indicator = document.querySelector(
+        'label .dnb-form-submit-indicator'
+      )
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: '123' },
+      })
+
+      expect(indicator).toHaveTextContent('My label...')
+      expect(indicator).toHaveClass(
+        'dnb-form-submit-indicator--state-pending'
+      )
+
+      await waitFor(() => {
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-success'
+        )
+      })
+    })
+
+    it('should fulfill first the form event before the field event', async () => {
+      const events = []
+
+      const onChangeForm: OnChange = async () => {
+        events.push('onChangeForm')
+      }
+      const onChangeField: OnChangeValue = async () => {
+        events.push('onChangeField')
+      }
+
+      render(
+        <DataContext.Provider onChange={onChangeForm}>
+          <Field.String
+            label="My label"
+            path="/myField"
+            onChange={onChangeField}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: '123' },
+      })
+
+      await waitFor(() => {
+        expect(events).toEqual(['onChangeForm', 'onChangeField'])
+      })
+    })
+
+    it('should show error on the field from the event return when complete', async () => {
+      const onChangeForm: OnChange = async ({ myField }) => {
+        if (myField === 'onChangeForm-error') {
+          return Error('onChangeForm-error')
+        }
+      }
+      const onChangeField: OnChangeValue = async (value) => {
+        if (value === 'onChangeField-error') {
+          return Error('onChangeField-error')
+        }
+      }
+
+      render(
+        <DataContext.Provider onChange={onChangeForm}>
+          <Field.String
+            label="My label"
+            path="/myField"
+            onChange={onChangeField}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onChangeForm-error' },
+      })
+
+      await waitFor(() => {
+        const status = document.querySelector(
+          '.dnb-forms-field-block [role="alert"]'
+        )
+        expect(status).toHaveTextContent('onChangeForm-error')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onChangeField-error' },
+      })
+
+      await waitFor(() => {
+        const status = document.querySelector(
+          '.dnb-forms-field-block [role="alert"]'
+        )
+        expect(status).toHaveTextContent('onChangeField-error')
+      })
+    })
+
+    it('should show status message on the field from the event return when complete', async () => {
+      const onChangeForm: OnChange = async ({ myField }) => {
+        if (myField === 'onChangeForm-info') {
+          return { info: 'onChangeForm-info' }
+        }
+      }
+      const onChangeField: OnChangeValue = async (value) => {
+        if (value === 'onChangeField-warning') {
+          return { warning: 'onChangeField-warning' }
+        }
+      }
+
+      render(
+        <DataContext.Provider onChange={onChangeForm}>
+          <Field.String
+            label="My label"
+            path="/myField"
+            onChange={onChangeField}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onChangeForm-info' },
+      })
+
+      await waitFor(() => {
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toHaveTextContent('onChangeForm-info')
+        expect(status).toHaveClass('dnb-form-status--info')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onChangeField-warning' },
+      })
+
+      await waitFor(() => {
+        const status = document.querySelector(
+          '.dnb-forms-field-block .dnb-form-status'
+        )
+        expect(status).toHaveTextContent('onChangeField-warning')
+        expect(status).toHaveClass('dnb-form-status--warn')
+      })
+    })
+
+    it('should show all status messages on the field from the event return when complete', async () => {
+      const onChangeForm: OnChange = async ({ myField }) => {
+        return {
+          info: 'onChangeForm-info',
+          error:
+            myField === 'onChangeForm-error' &&
+            Error('onChangeForm-error'),
+        }
+      }
+      const onChangeField: OnChangeValue = async (value) => {
+        return {
+          warning: 'onChangeField-warning',
+          error:
+            value === 'onChangeField-error' &&
+            Error('onChangeField-error'),
+        }
+      }
+
+      render(
+        <DataContext.Provider onChange={onChangeForm}>
+          <Field.String
+            label="My label"
+            path="/myField"
+            onChange={onChangeField}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onChangeForm-error' },
+      })
+
+      await waitFor(() => {
+        const statusMessages = document
+          .querySelector('.dnb-forms-field-block')
+          .querySelectorAll('.dnb-form-status')
+        expect(statusMessages).toHaveLength(2)
+        expect(statusMessages[0]).toHaveTextContent('onChangeForm-error')
+        expect(statusMessages[1]).toHaveTextContent('onChangeForm-info')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'onChangeField-error' },
+      })
+
+      await waitFor(() => {
+        const statusMessages = document
+          .querySelector('.dnb-forms-field-block')
+          .querySelectorAll('.dnb-form-status')
+        expect(statusMessages).toHaveLength(3)
+        expect(statusMessages[0]).toHaveTextContent('onChangeField-error')
+        expect(statusMessages[1]).toHaveTextContent(
+          'onChangeField-warning'
+        )
+        expect(statusMessages[2]).toHaveTextContent('onChangeForm-info')
+      })
+    })
+
+    it('should fulfill async validator before the form and field event', async () => {
+      const onChangeForm: OnChange = async ({ myField }) => {
+        return {
+          info: 'onChangeForm-info',
+          error:
+            myField === 'onChangeForm-error' &&
+            Error('onChangeForm-error'),
+        }
+      }
+      const onChangeField: OnChangeValue = async (value) => {
+        return {
+          warning: 'onChangeField-warning',
+          error:
+            value === 'onChangeField-error' &&
+            Error('onChangeField-error'),
+        }
+      }
+      const validator = debounceAsync(async (value) => {
+        if (value === 'invalid') {
+          return Error('My error')
+        }
+      })
+
+      render(
+        <DataContext.Provider onChange={onChangeForm}>
+          <Field.String
+            label="My label"
+            path="/myField"
+            onChange={onChangeField}
+            validator={validator}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'invalid' },
+      })
+
+      await waitFor(() => {
+        const statusMessages = document
+          .querySelector('.dnb-forms-field-block')
+          .querySelectorAll('.dnb-form-status')
+        expect(statusMessages).toHaveLength(1)
+        expect(statusMessages[0]).toHaveTextContent('My error')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: 'valid' },
+      })
+
+      await waitFor(() => {
+        const statusMessages = document
+          .querySelector('.dnb-forms-field-block')
+          .querySelectorAll('.dnb-form-status')
+        expect(statusMessages).toHaveLength(2)
+        expect(statusMessages[0]).toHaveTextContent(
+          'onChangeField-warning'
+        )
+        expect(statusMessages[1]).toHaveTextContent('onChangeForm-info')
+      })
+    })
+
+    it('should show indicator during all async operations', async () => {
+      const events = []
+
+      const validator = debounceAsync(async () => {
+        await wait(1)
+        events.push('validator')
+      })
+      const onChangeForm: OnChange = async () => {
+        await wait(2)
+        events.push('onChangeForm')
+      }
+      const onChangeField: OnChangeValue = async () => {
+        await wait(3)
+        events.push('onChangeField')
+      }
+
+      render(
+        <DataContext.Provider onChange={onChangeForm}>
+          <Field.String
+            label="My label"
+            path="/myField"
+            onChange={onChangeField}
+            validator={validator}
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const indicator = document.querySelector(
+        'label .dnb-form-submit-indicator'
+      )
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: '123' },
+      })
+
+      await waitFor(() => {
+        expect(indicator).toHaveTextContent('My label...')
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+      })
+
+      await waitFor(() => {
+        expect(events).toEqual(['validator'])
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+      })
+
+      await waitFor(() => {
+        expect(events).toEqual(['validator', 'onChangeForm'])
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-pending'
+        )
+      })
+
+      await waitFor(() => {
+        expect(events).toEqual([
+          'validator',
+          'onChangeForm',
+          'onChangeField',
+        ])
+        expect(indicator).toHaveClass(
+          'dnb-form-submit-indicator--state-complete'
+        )
+      })
+    })
+  })
+
+  it('should scroll on top when "scrollTopOnSubmit" is true', async () => {
+    const onSubmit = jest.fn()
+    const scrollTo = jest.fn()
+
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    const { rerender } = render(
+      <DataContext.Provider
+        data={{ foo: 'original' }}
+        onSubmit={onSubmit}
+        scrollTopOnSubmit
+      >
+        <Field.String path="/foo" value="Value" />
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </DataContext.Provider>
+    )
+
+    const inputElement = document.querySelector('input')
+    const submitButton = document.querySelector('button')
+
+    fireEvent.change(inputElement, {
+      target: { value: 'New Value' },
+    })
+    fireEvent.click(submitButton)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
+      { foo: 'New Value' },
+      expect.anything()
+    )
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
+
+    rerender(
+      <DataContext.Provider
+        data={{ fooBar: 'changed' }}
+        onSubmit={onSubmit}
+        scrollTopOnSubmit
+      >
+        <Field.String path="/fooBar" value="Rerendered Value" />
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </DataContext.Provider>
+    )
+
+    fireEvent.change(inputElement, {
+      target: { value: 'Second Value' },
+    })
+    fireEvent.click(submitButton)
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { fooBar: 'Second Value' },
+      expect.anything()
+    )
+    await waitFor(() => {
       expect(scrollTo).toHaveBeenCalledTimes(2)
       expect(scrollTo).toHaveBeenLastCalledWith({
         behavior: 'smooth',
@@ -615,12 +1512,14 @@ describe('DataContext.Provider', () => {
 
       fireEvent.click(submitButton)
 
-      // After clicking submit, all three fields should show errors
-      expect(screen.queryAllByRole('alert').length).toEqual(3)
+      await waitFor(() => {
+        // After clicking submit, all three fields should show errors
+        expect(screen.queryAllByRole('alert').length).toEqual(3)
 
-      expect(screen.getByText('Required string')).toBeInTheDocument()
-      expect(screen.getByText('Min 5 chars')).toBeInTheDocument()
-      expect(screen.getByText('Required number')).toBeInTheDocument()
+        expect(screen.getByText('Required string')).toBeInTheDocument()
+        expect(screen.getByText('Min 5 chars')).toBeInTheDocument()
+        expect(screen.getByText('Required number')).toBeInTheDocument()
+      })
 
       // Writing in one field should remove that error, while keeping the others visible
       await act(async () => {
@@ -743,7 +1642,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'Dette feltet må fylles ut'
+          nb.inputErrorRequired
         )
 
         rerender(
@@ -763,7 +1662,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'Dette feltet må fylles ut'
+          nb.inputErrorRequired
         )
 
         rerender(
@@ -961,7 +1860,7 @@ describe('DataContext.Provider', () => {
     it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
       const onSubmitRequest = jest.fn()
 
-      const TestdataSchema: JSONSchema = {
+      const Schema: JSONSchema = {
         type: 'object',
         properties: {
           foo: { type: 'number', minimum: 3 },
@@ -972,7 +1871,7 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider
           data={{ foo: 'original' }}
           onSubmitRequest={onSubmitRequest}
-          schema={TestdataSchema}
+          schema={Schema}
         >
           <Field.Number path="/foo" />
           <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -994,7 +1893,7 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider
           data={{ foo: 'changed' }}
           onSubmitRequest={onSubmitRequest}
-          schema={TestdataSchema}
+          schema={Schema}
         >
           <Field.Number path="/fooBar" required />
           <Form.SubmitButton>Submit</Form.SubmitButton>

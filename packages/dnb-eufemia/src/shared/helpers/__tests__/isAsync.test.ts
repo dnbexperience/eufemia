@@ -46,6 +46,24 @@ describe('isAsync', () => {
     expect(isAsync(IAmAsync)).toBeTruthy()
   })
 
+  it('should not support functions with a promise', () => {
+    expect(
+      isAsync(() => {
+        return new Promise(() => null)
+      })
+    ).toBeFalsy()
+
+    expect(
+      isAsync(function () {
+        return new Promise(() => null)
+      })
+    ).toBeFalsy()
+  })
+
+  it('should return false is no function was given', () => {
+    expect(isAsync(undefined)).toBeFalsy()
+  })
+
   it('should return true if the situation is unclear', () => {
     function IAmSync() {
       return null
@@ -55,9 +73,5 @@ describe('isAsync', () => {
     })
 
     expect(isAsync(IAmSync)).toBeTruthy()
-  })
-
-  it('should return false is no function was given', () => {
-    expect(isAsync(undefined)).toBeFalsy()
   })
 })

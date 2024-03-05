@@ -197,4 +197,24 @@ describe('Form.SubmitButton', () => {
       'Vennligst vent ...'
     )
   })
+
+  it('should support custom text with submit indicator', () => {
+    const { rerender } = render(<Form.SubmitButton text="Save" />)
+
+    const buttonElement = document.querySelector('button')
+    const indicatorElement = buttonElement.querySelector(
+      '.dnb-form-submit-indicator'
+    )
+
+    expect(indicatorElement).not.toHaveClass(
+      'dnb-form-submit-indicator--state-pending'
+    )
+
+    rerender(<Form.SubmitButton text="Save" showIndicator />)
+
+    expect(buttonElement).toHaveTextContent('Save...')
+    expect(indicatorElement).toHaveClass(
+      'dnb-form-submit-indicator--state-pending'
+    )
+  })
 })

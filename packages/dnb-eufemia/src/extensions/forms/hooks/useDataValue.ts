@@ -11,7 +11,14 @@ import pointer from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
-import { FormError, FieldProps, AdditionalEventArgs } from '../types'
+import {
+  FormError,
+  FieldProps,
+  AdditionalEventArgs,
+  SubmitState,
+  EventReturnWithStateObjectAndSuccess,
+  EventStateObjectWithSuccess,
+} from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
@@ -22,6 +29,22 @@ import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useProcessManager from './useProcessManager'
+import {
+  createSharedState,
+  useSharedState,
+} from '../../../shared/helpers/useSharedState'
+import { isAsync } from '../../../shared/helpers/isAsync'
+
+type SubmitStateWithValidating = SubmitState | 'validating'
+type AsyncProcesses =
+  | 'validator'
+  | 'onBlurValidator'
+  | 'onChangeLocal'
+  | 'onChangeContext'
+type AsyncProcessesBuffer = {
+  fulfill: () => void
+  hasAsyncProcesses: () => boolean
+}
 
 export default function useDataValue<
   Value = unknown,
@@ -83,14 +106,15 @@ export default function useDataValue<
   })
 
   const {
-    handlePathChange: dataContextHandlePathChange,
-    updateDataValue: dataContextUpdateDataValue,
-    validateData: dataContextValidateData,
-    setValueWithError: dataContextSetValueWithError,
-    setProps: dataContextSetProps,
+    handlePathChange: handlePathChangeDataContext,
+    updateDataValue: updateDataValueDataContext,
+    validateData: validateDataDataContext,
+    setFieldState: setFieldStateDataContext,
+    setProps: setPropsDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
+  const onChangeContext = dataContext?.props?.onChange
 
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
@@ -185,17 +209,99 @@ export default function useDataValue<
     dataContextError
   )
 
+  // - Async behavior
+  const asyncBehaviorIsEnabled = useMemo(() => {
+    return isAsync(onChange) || isAsync(onChangeContext)
+  }, [onChangeContext, onChange])
+  const validatedWithValue = useRef<Value>()
+  const changeEventResultRef = useRef<EventStateObjectWithSuccess>(null)
+  const currentAsyncProcessRef = useRef<AsyncProcesses>(null)
+  const setCurrentAsyncProcess = useCallback((name: AsyncProcesses) => {
+    currentAsyncProcessRef.current = name
+  }, [])
+
+  // When both an async onChange and async validators are used,
+  // we buffer the onChange calls to avoid race conditions.
+  const asyncBufferRef = useRef<
+    Record<AsyncProcesses, AsyncProcessesBuffer> | Record<string, unknown>
+  >({})
+
+  for (const key in asyncBufferRef.current) {
+    const { fulfill, hasAsyncProcesses } = (asyncBufferRef.current[key] ||
+      {}) as AsyncProcessesBuffer
+    if (hasAsyncProcesses?.() === false) {
+      delete asyncBufferRef.current[key]
+      if (typeof fulfill === 'function') {
+        window.requestAnimationFrame(fulfill)
+      }
+    }
+  }
+
+  const eventPool = useRef({
+    validator: null,
+    onBlurValidator: null,
+    onChangeContext: null,
+    onChangeLocal: null,
+  })
+
+  const addToPool = useCallback(
+    (name: keyof typeof eventPool.current, fn, runAsync) => {
+      if (!eventPool.current[name]) {
+        eventPool.current[name] = { fn, runAsync }
+      }
+    },
+    []
+  )
+
+  const runPool = useCallback(async (cb = null) => {
+    for (const key in eventPool.current) {
+      if (!eventPool.current[key] || eventPool.current[key].pending) {
+        continue
+      }
+
+      const { fn, runAsync } = eventPool.current[key] || {}
+      if (fn) {
+        eventPool.current[key].pending = true
+        eventPool.current[key] = null
+
+        if (runAsync) {
+          await fn()
+        } else {
+          fn()
+        }
+      }
+    }
+
+    cb?.()
+  }, [])
+
   // Put props into the surrounding data context
-  dataContextSetProps?.(identifier, props)
+  setPropsDataContext?.(identifier, props)
 
   const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
   const validatorRef = useRef(validator)
   useUpdateEffect(() => {
     validatorRef.current = validator
   }, [validator])
+  const onBlurValidatorRef = useRef(onBlurValidator)
+  useUpdateEffect(() => {
+    onBlurValidatorRef.current = onBlurValidator
+  }, [onBlurValidator])
 
   const schemaValidatorRef = useRef<ValidateFunction>(
     schema ? dataContext.ajvInstance?.compile(schema) : undefined
+  )
+
+  const fieldStateRef = useRef<SubmitStateWithValidating>()
+  const setFieldState = useCallback(
+    (state: SubmitStateWithValidating) => {
+      fieldStateRef.current = state
+      setFieldStateDataContext(identifier, resolveValidatingState(state))
+      if (!validateInitially) {
+        forceUpdate()
+      }
+    },
+    [setFieldStateDataContext, identifier, validateInitially]
   )
 
   const showError = useCallback(() => {
@@ -207,6 +313,17 @@ export default function useDataValue<
     showErrorRef.current = false
     showFieldBlockError?.(identifier, false)
   }, [showFieldBlockError, identifier])
+
+  const error = showErrorRef.current
+    ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+    : undefined
+  const hasVisibleError =
+    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
+  const hasError = useCallback(() => {
+    return Boolean(
+      errorProp ?? localErrorRef.current ?? contextErrorRef.current
+    )
+  }, [errorProp])
 
   const errorMessagesRef = useRef(null)
   errorMessagesRef.current = useMemo(() => {
@@ -267,13 +384,13 @@ export default function useDataValue<
       localErrorRef.current = error
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-      dataContextSetValueWithError?.(identifier, Boolean(error))
+      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
 
       setFieldBlockState?.({
         stateId,
         identifier,
         type: 'error',
-        state: error,
+        content: error,
         showInitially: Boolean(inFieldBlock && validateInitially),
       })
 
@@ -282,7 +399,7 @@ export default function useDataValue<
     [
       stateId,
       prepareError,
-      dataContextSetValueWithError,
+      setFieldStateDataContext,
       identifier,
       setFieldBlockState,
       inFieldBlock,
@@ -293,6 +410,89 @@ export default function useDataValue<
   const clearErrorState = useCallback(
     () => persistErrorState(undefined),
     [persistErrorState]
+  )
+
+  const callValidator = useCallback(async () => {
+    if (typeof validatorRef.current !== 'function') {
+      return
+    }
+
+    const runAsync = isAsync(validatorRef.current)
+
+    if (runAsync) {
+      setCurrentAsyncProcess('validator')
+      setFieldState('validating')
+      hideError()
+    }
+
+    const opts = {
+      ...contextErrorMessages,
+      ...errorMessagesRef.current,
+    }
+
+    // Run async regardless to support Promise based validators
+    const result = await validatorRef.current(valueRef.current, opts)
+
+    persistErrorState(result as Error)
+
+    if (runAsync) {
+      setFieldState(result instanceof Error ? 'error' : 'complete')
+    }
+
+    // Because its a better UX to show the error when the validation is async/delayed
+    if (continuousValidation || runAsync) {
+      // Because we first need to throw the error to be able to display it, we delay the showError call
+      window.requestAnimationFrame(() => {
+        showError()
+        forceUpdate()
+      })
+    }
+
+    return result
+  }, [
+    contextErrorMessages,
+    continuousValidation,
+    hideError,
+    persistErrorState,
+    setCurrentAsyncProcess,
+    setFieldState,
+    showError,
+  ])
+
+  const callOnBlurValidator = useCallback(
+    async ({ valueOverride = null } = {}) => {
+      if (typeof onBlurValidatorRef.current !== 'function') {
+        return
+      }
+      // External blur validators makes it possible to validate values but not on every character change in case of
+      // expensive validation calling external services etc.
+
+      // Since the validator can return either a synchronous result or an asynchronous
+      const value = transformers.current.toEvent(
+        valueOverride ?? valueRef.current,
+        'onBlurValidator'
+      )
+
+      const runAsync = isAsync(onBlurValidatorRef.current)
+
+      if (runAsync) {
+        setCurrentAsyncProcess('onBlurValidator')
+        setFieldState('validating')
+      }
+
+      // Run async regardless to support Promise based validators
+      const result = await onBlurValidatorRef.current(value)
+
+      persistErrorState(result as Error)
+
+      if (runAsync) {
+        setFieldState(result instanceof Error ? 'error' : 'complete')
+      }
+
+      showError()
+      forceUpdate()
+    },
+    [persistErrorState, setCurrentAsyncProcess, setFieldState, showError]
   )
 
   /**
@@ -306,22 +506,24 @@ export default function useDataValue<
         clearErrorState()
       }
       hideError()
-      return
+      setFieldState(undefined)
+      return // stop here
     }
+
+    const value = valueRef.current
+    changeEventResultRef.current = null
+    validatedWithValue.current = null
 
     try {
       // Validate required
-      const requiredError = transformers.current.validateRequired(
-        valueRef.current,
-        {
-          emptyValue,
-          required,
-          isChanged: changedRef.current,
-          error: new FormError('The value is required', {
-            validationRule: 'required',
-          }),
-        }
-      )
+      const requiredError = transformers.current.validateRequired(value, {
+        emptyValue,
+        required,
+        isChanged: changedRef.current,
+        error: new FormError('The value is required', {
+          validationRule: 'required',
+        }),
+      })
       if (requiredError instanceof Error) {
         throw requiredError
       }
@@ -329,8 +531,8 @@ export default function useDataValue<
       // Validate by provided JSON Schema for this value
       if (
         schemaValidatorRef.current &&
-        valueRef.current !== undefined &&
-        !schemaValidatorRef.current(valueRef.current)
+        value !== undefined &&
+        !schemaValidatorRef.current(value)
       ) {
         const error = ajvErrorsToOneFormError(
           schemaValidatorRef.current.errors
@@ -339,19 +541,22 @@ export default function useDataValue<
       }
 
       // Validate by provided derivative validator
-      if (validatorRef.current) {
-        const res = await validatorRef.current?.(valueRef.current, {
-          ...contextErrorMessages,
-          ...errorMessagesRef.current,
-        })
-        if (res instanceof Error) {
-          throw res
+      if (
+        validatorRef.current &&
+        (changedRef.current || validateInitially)
+      ) {
+        const result = await callValidator()
+
+        if (result instanceof Error) {
+          throw result
         }
       }
 
       if (isProcessActive()) {
         clearErrorState()
       }
+
+      validatedWithValue.current = value
     } catch (error: unknown) {
       if (isProcessActive()) {
         persistErrorState(error as Error)
@@ -361,70 +566,13 @@ export default function useDataValue<
     startProcess,
     disabled,
     hideError,
+    setFieldState,
     clearErrorState,
     emptyValue,
     required,
-    contextErrorMessages,
+    validateInitially,
+    callValidator,
     persistErrorState,
-  ])
-
-  useUpdateEffect(() => {
-    schemaValidatorRef.current = schema
-      ? dataContext.ajvInstance?.compile(schema)
-      : undefined
-    validateValue()
-  }, [schema, validateValue])
-
-  useUpdateEffect(() => {
-    // Error or removed error for this field from the surrounding data context (by path)
-    valueRef.current = externalValue
-    validateValue()
-    forceUpdate()
-  }, [externalValue, validateValue])
-
-  useEffect(() => {
-    const error = prepareError(dataContextError)
-    if (errorChanged(error, contextErrorRef.current)) {
-      contextErrorRef.current = error
-      forceUpdate()
-    }
-  }, [dataContextError, prepareError])
-
-  useEffect(() => {
-    if (dataContext.showAllErrors) {
-      // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
-      // something else that should lead to showing the user all errors.
-      showError()
-      forceUpdate()
-    }
-  }, [dataContext.showAllErrors, showError])
-
-  useEffect(() => {
-    if (path) {
-      const hasValue = pointer.has(dataContext.data, path)
-      const existingValue = hasValue
-        ? pointer.get(dataContext.data, path)
-        : undefined
-
-      if (
-        !hasValue ||
-        (props.value !== existingValue &&
-          // Prevents an infinite loop by skipping the update if the value hasn't changed
-          valueRef.current !== existingValue)
-      ) {
-        // Update the data context when a pointer not exists,
-        // but was given initially.
-        dataContextUpdateDataValue?.(path, props.value, { disabled })
-        dataContextValidateData?.()
-      }
-    }
-  }, [
-    dataContext.data,
-    dataContextUpdateDataValue,
-    dataContextValidateData,
-    disabled,
-    path,
-    props.value,
   ])
 
   const handleError = useCallback(() => {
@@ -443,7 +591,7 @@ export default function useDataValue<
   }, [continuousValidation, hideError, showError])
 
   const setHasFocus = useCallback(
-    (hasFocus: boolean, valueOverride?: Value) => {
+    async (hasFocus: boolean, valueOverride?: Value) => {
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
@@ -467,34 +615,175 @@ export default function useDataValue<
           return
         }
 
-        // External blur validators makes it possible to validate values but not on every character change in case of
-        // expensive validation calling external services etc.
-        if (typeof onBlurValidator === 'function') {
-          // Since the validator can return either a synchronous result or an asynchronous
-          const value = transformers.current.toEvent(
-            valueOverride ?? valueRef.current,
-            'onBlurValidator'
-          )
-          Promise.resolve(onBlurValidator(value)).then(persistErrorState)
-        }
+        addToPool(
+          'onBlurValidator',
+          async () => await callOnBlurValidator({ valueOverride }),
+          isAsync(onBlurValidatorRef.current)
+        )
 
-        // Since the user left the field, show error (if any)
-        showError()
-        forceUpdate()
+        await runPool(() => {
+          // Since the user left the field, show error (if any)
+          showError()
+          forceUpdate()
+        })
       }
     },
     [
+      addToPool,
+      callOnBlurValidator,
       onBlur,
-      onBlurValidator,
       onFocus,
-      persistErrorState,
+      runPool,
       showError,
       validateUnchanged,
     ]
   )
 
+  // Await an async operation to run after criteria are fulfilled
+  const yieldAsyncProcess = useCallback(
+    async ({
+      name,
+      waitFor,
+      withValidatedValueOf,
+    }: {
+      name: 'onChangeLocal' | 'onChangeContext' | 'onSubmitContext'
+      waitFor: Array<{
+        processName?: AsyncProcesses
+        withStates: Array<SubmitStateWithValidating>
+      }>
+      withValidatedValueOf?: Value
+    }) => {
+      return new Promise<void>((resolve) => {
+        const fulfill = () => {
+          if (
+            typeof withValidatedValueOf === 'undefined' ||
+            // If the value has changed during the async process, we don't want to resolve anymore
+            withValidatedValueOf === validatedWithValue.current
+          ) {
+            resolve()
+          }
+        }
+
+        const hasAsyncProcesses = () => {
+          return waitFor.some(({ processName, withStates }) => {
+            return (
+              (processName
+                ? processName === currentAsyncProcessRef.current
+                : true) &&
+              withStates.some((state) => {
+                return state === fieldStateRef.current
+              })
+            )
+          })
+        }
+
+        if (hasAsyncProcesses() === true) {
+          asyncBufferRef.current[name] = { fulfill, hasAsyncProcesses }
+        } else {
+          fulfill()
+          setFieldState('pending')
+        }
+      })
+    },
+    [setFieldState]
+  )
+
+  const handleChangeEventResult = useCallback(async () => {
+    const result: EventStateObjectWithSuccess =
+      changeEventResultRef.current
+
+    if (typeof result?.error !== 'undefined') {
+      localErrorRef.current = result.error
+      showError()
+    }
+    if (typeof result?.warning !== 'undefined') {
+      warningRef.current = result.warning
+    }
+    if (typeof result?.info !== 'undefined') {
+      infoRef.current = result.info
+    }
+
+    if (asyncBehaviorIsEnabled) {
+      await yieldAsyncProcess({
+        name: 'onSubmitContext',
+        waitFor: [{ withStates: ['validating'] }],
+      })
+    }
+
+    if (result?.success === 'saved') {
+      setFieldState('success')
+    } else if (result?.error) {
+      setFieldState('error')
+    } else if (asyncBehaviorIsEnabled) {
+      setFieldState('complete')
+    }
+  }, [asyncBehaviorIsEnabled, setFieldState, showError, yieldAsyncProcess])
+
+  const setEventResult = useCallback(
+    (result: EventReturnWithStateObjectAndSuccess) => {
+      if (result instanceof Error) {
+        result = { error: result }
+      }
+      changeEventResultRef.current = {
+        ...changeEventResultRef.current,
+        ...result,
+      } as EventStateObjectWithSuccess
+
+      handleChangeEventResult()
+    },
+    [handleChangeEventResult]
+  )
+
+  const callOnChangeContext = useCallback(async () => {
+    if (asyncBehaviorIsEnabled) {
+      await yieldAsyncProcess({
+        name: 'onChangeContext',
+        withValidatedValueOf: valueRef.current,
+        waitFor: [
+          {
+            processName: 'validator',
+            withStates: ['validating', 'error'],
+          },
+          {
+            processName: 'onBlurValidator',
+            withStates: ['validating', 'error'],
+          },
+        ],
+      })
+    }
+
+    if (path) {
+      if (isAsync(onChangeContext)) {
+        setCurrentAsyncProcess('onChangeContext')
+        setEventResult(
+          (await handlePathChangeDataContext?.(
+            path,
+            valueRef.current
+          )) as EventReturnWithStateObjectAndSuccess
+        )
+      } else {
+        setEventResult(
+          handlePathChangeDataContext?.(
+            path,
+            valueRef.current
+          ) as EventReturnWithStateObjectAndSuccess
+        )
+      }
+    }
+
+    forceUpdate()
+  }, [
+    asyncBehaviorIsEnabled,
+    path,
+    yieldAsyncProcess,
+    onChangeContext,
+    setCurrentAsyncProcess,
+    setEventResult,
+    handlePathChangeDataContext,
+  ])
+
   const updateValue = useCallback(
-    (newValue: Value) => {
+    async (newValue: Value) => {
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
@@ -503,64 +792,126 @@ export default function useDataValue<
 
       valueRef.current = newValue
 
-      // Always validate the value immediately when it is changed
-      validateValue()
+      addToPool('validator', validateValue, isAsync(validatorRef.current))
 
-      handleError()
+      addToPool(
+        'onChangeContext',
+        callOnChangeContext,
+        isAsync(onChangeContext)
+      )
 
-      if (path) {
-        dataContextHandlePathChange?.(path, newValue)
-      }
-
-      forceUpdate()
+      await runPool(() => {
+        handleError()
+      })
     },
-    [dataContextHandlePathChange, handleError, path, validateValue]
+    [
+      addToPool,
+      callOnChangeContext,
+      handleError,
+      onChangeContext,
+      runPool,
+      validateValue,
+    ]
   )
 
   const handleChange = useCallback(
-    (
+    async (
       argFromInput: Value,
       additionalArgs: AdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
-      let newValue = transformers.current.fromInput(argFromInput)
+      const fromInput = transformers.current.fromInput(argFromInput)
 
-      if (newValue === currentValue) {
+      if (fromInput === currentValue) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
       }
 
-      newValue = transformers.current.transformValue(
-        newValue,
+      const transformedValue = transformers.current.transformValue(
+        fromInput,
         currentValue
       )
 
-      updateValue(newValue)
-
+      // Must be set before validation
       changedRef.current = true
 
-      const value = transformers.current.toEvent(newValue, 'onChange')
-      onChange?.apply(
-        this,
-        typeof additionalArgs !== 'undefined'
+      if (asyncBehaviorIsEnabled) {
+        hideError()
+        await updateValue(transformedValue)
+      } else {
+        updateValue(transformedValue)
+      }
+
+      const getArgs = (): [Value] | [Value, AdditionalEventArgs] => {
+        const value = transformers.current.toEvent(
+          valueRef.current,
+          'onChange'
+        )
+
+        return typeof additionalArgs !== 'undefined'
           ? [value, additionalArgs]
           : [value]
-      )
-
-      if (itemPath) {
-        const iterateValuePath = `/${iterateElementIndex}${
-          itemPath && itemPath !== '/' ? itemPath : ''
-        }`
-        handleIterateElementChange?.(iterateValuePath, newValue)
       }
+
+      if (isAsync(onChange)) {
+        addToPool(
+          'onChangeLocal',
+          async () => {
+            const args = getArgs()
+
+            await yieldAsyncProcess({
+              name: 'onChangeLocal',
+              withValidatedValueOf: args[0],
+              waitFor: [
+                {
+                  processName: 'validator',
+                  withStates: ['validating', 'error'],
+                },
+                {
+                  processName: 'onBlurValidator',
+                  withStates: ['validating', 'error'],
+                },
+                {
+                  processName: 'onChangeContext',
+                  withStates: ['pending', 'error'],
+                },
+              ],
+            })
+
+            setCurrentAsyncProcess('onChangeLocal')
+
+            // If the value has changed during the async process, we don't want to call the onChange anymore
+            setEventResult(await onChange?.apply(this, args))
+          },
+          true
+        )
+      } else {
+        setEventResult(onChange?.apply(this, getArgs()))
+      }
+
+      await runPool(() => {
+        if (itemPath) {
+          const iterateValuePath = `/${iterateElementIndex}${
+            itemPath && itemPath !== '/' ? itemPath : ''
+          }`
+          handleIterateElementChange?.(iterateValuePath, valueRef.current)
+        }
+      })
     },
     [
-      updateValue,
-      onChange,
+      addToPool,
+      asyncBehaviorIsEnabled,
+      handleIterateElementChange,
+      hideError,
       itemPath,
       iterateElementIndex,
-      handleIterateElementChange,
+      onChange,
+      runPool,
+      setCurrentAsyncProcess,
+      setEventResult,
+      updateValue,
+      yieldAsyncProcess,
     ]
   )
 
@@ -576,6 +927,121 @@ export default function useDataValue<
     dataContext?.handleUnMountField(identifier)
   })
 
+  useUpdateEffect(() => {
+    schemaValidatorRef.current = schema
+      ? dataContext.ajvInstance?.compile(schema)
+      : undefined
+    validateValue()
+  }, [schema, validateValue])
+
+  useUpdateEffect(() => {
+    // Error or removed error for this field from the surrounding data context (by path)
+    if (valueRef.current !== externalValue) {
+      valueRef.current = externalValue
+      validateValue()
+    }
+    forceUpdate()
+  }, [externalValue, validateValue])
+
+  useEffect(() => {
+    const error = prepareError(dataContextError)
+    if (errorChanged(error, contextErrorRef.current)) {
+      contextErrorRef.current = error
+      forceUpdate()
+    }
+  }, [dataContextError, prepareError])
+
+  useEffect(() => {
+    if (path) {
+      let value = props.value
+
+      // First, look for existing data in the context
+      const hasValue = pointer.has(dataContext.data, path)
+      const existingValue = hasValue
+        ? pointer.get(dataContext.data, path)
+        : undefined
+
+      // If no data where found in the dataContext, look for shared data
+      if (
+        dataContext.id &&
+        !hasValue &&
+        typeof existingValue === 'undefined' &&
+        typeof value === 'undefined'
+      ) {
+        const sharedState = createSharedState(dataContext.id)
+        const hasValue = pointer.has(sharedState.data, path)
+        if (hasValue) {
+          const sharedValue = pointer.get(sharedState.data, path)
+          if (sharedValue) {
+            value = sharedValue
+          }
+        }
+      }
+
+      if (
+        !hasValue ||
+        (value !== existingValue &&
+          // Prevents an infinite loop by skipping the update if the value hasn't changed
+          valueRef.current !== existingValue)
+      ) {
+        // Update the data context when a pointer not exists,
+        // but was given initially.
+        updateDataValueDataContext?.(path, value)
+        validateDataDataContext?.()
+      }
+    }
+  }, [
+    dataContext.data,
+    dataContext.id,
+    path,
+    props.value,
+    updateDataValueDataContext,
+    validateDataDataContext,
+  ])
+
+  useEffect(() => {
+    if (dataContext.showAllErrors) {
+      // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
+      // something else that should lead to showing the user all errors.
+      showError()
+      forceUpdate()
+    }
+  }, [dataContext.showAllErrors, showError])
+
+  useEffect(() => {
+    if (
+      dataContext.formState === 'pending' &&
+      (validatorRef.current || onBlurValidatorRef.current)
+    ) {
+      hideError()
+      forceUpdate()
+    }
+  }, [dataContext.formState, hideError])
+
+  const onSubmitHandler = useCallback(async () => {
+    if (hasError()) {
+      return // stop here
+    }
+
+    addToPool('validator', callValidator, isAsync(validatorRef.current))
+    addToPool(
+      'onBlurValidator',
+      callOnBlurValidator,
+      isAsync(onBlurValidatorRef.current)
+    )
+
+    await runPool()
+  }, [addToPool, callOnBlurValidator, callValidator, hasError, runPool])
+
+  // Validate/call validator functions during submit of the form
+  useMountEffect(() => {
+    dataContext?.setFieldEventListener?.(
+      identifier,
+      'onSubmit',
+      onSubmitHandler
+    )
+  })
+
   // Set the error in the field block context if this field is inside a field block
   useMountEffect(() => {
     if (inFieldBlock) {
@@ -583,7 +1049,7 @@ export default function useDataValue<
         setFieldBlockState?.({
           identifier,
           type: 'error',
-          state: errorProp,
+          content: errorProp,
           showInitially: true,
           show: true,
         })
@@ -592,7 +1058,7 @@ export default function useDataValue<
         setFieldBlockState?.({
           identifier,
           type: 'warning',
-          state: warning,
+          content: warning,
           showInitially: true,
           show: true,
         })
@@ -601,7 +1067,7 @@ export default function useDataValue<
         setFieldBlockState?.({
           identifier,
           type: 'info',
-          state: info,
+          content: info,
           showInitially: true,
           show: true,
         })
@@ -616,12 +1082,13 @@ export default function useDataValue<
     }
   })
 
-  const error = showErrorRef.current
-    ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-    : undefined
-
-  const hasError =
-    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
+  const infoRef = useRef<React.ReactNode>(info)
+  const warningRef = useRef<React.ReactNode>(warning)
+  useUpdateEffect(() => {
+    infoRef.current = info
+    warningRef.current = warning
+    forceUpdate()
+  }, [info, warning])
 
   // - Handle ariaAttributes
   const ariaAttributes = useMemo(() => {
@@ -669,44 +1136,73 @@ export default function useDataValue<
     )
   }
 
+  const fieldBlockProps = {
+    /** Documented APIs */
+    info: !inFieldBlock ? infoRef.current : undefined,
+    warning: !inFieldBlock ? warningRef.current : undefined,
+    error: !inFieldBlock ? error : undefined,
+
+    /** HTML Attributes */
+    disabled:
+      onBlurValidator &&
+      currentAsyncProcessRef.current === 'onBlurValidator' &&
+      fieldStateRef.current === 'validating'
+        ? true
+        : disabled,
+
+    /** Internal */
+    fieldState: resolveValidatingState(fieldStateRef.current),
+  }
+
+  const sharedData = useSharedState(id)
+  sharedData.set(fieldBlockProps)
+
   return {
     ...props,
-    id,
+    ...fieldBlockProps,
+
+    /** HTML Attributes */
     name: props.name || props.path?.replace('/', '') || id,
-    value: transformers.current.toInput(valueRef.current),
-    info: !inFieldBlock ? info : undefined,
-    warning: !inFieldBlock ? warning : undefined,
-    error: !inFieldBlock ? error : undefined,
-    hasError,
-    disabled,
     autoComplete:
       props.autoComplete ??
-      (dataContext.autoComplete === true ? 'on' : 'off'),
+      (dataContext.autoComplete === true ? 'on' : undefined),
 
-    // Return additional hook related props (ReturnAdditional)
+    /** Documented APIs */
+    id,
+    value: transformers.current.toInput(valueRef.current),
+    hasError: hasVisibleError,
     isChanged: changedRef.current,
     ariaAttributes,
-    dataContext,
     setHasFocus,
     handleFocus,
     handleBlur,
     handleChange,
     updateValue,
     forceUpdate,
+
+    /** Internal */
+    dataContext,
   }
 }
 
-interface ReturnAdditional<Value> {
+export interface ReturnAdditional<Value> {
+  /** Documented APIs */
   value: Value
   isChanged: boolean
   ariaAttributes: AriaAttributes
-  dataContext: ContextState
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
-  handleChange: FieldProps<Value>['onChange']
+  handleChange: (
+    value: Value,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   updateValue: (value: Value) => void
   forceUpdate: () => void
+
+  /** Internal */
+  dataContext: ContextState
+  fieldState: SubmitState
 }
 
 export function omitDataValueProps<
@@ -714,23 +1210,33 @@ export function omitDataValueProps<
 >(props: Props) {
   // Do not include typical HTML attributes
   const {
+    /** Documented APIs */
     name, // eslint-disable-line
     error, // eslint-disable-line
     warning, // eslint-disable-line
     info, // eslint-disable-line
     hasError, // eslint-disable-line
     isChanged, // eslint-disable-line
-    autoComplete, // eslint-disable-line
     ariaAttributes, // eslint-disable-line
-    dataContext, // eslint-disable-line
     setHasFocus, // eslint-disable-line
     handleFocus, // eslint-disable-line
     handleBlur, // eslint-disable-line
     handleChange, // eslint-disable-line
     updateValue, // eslint-disable-line
     forceUpdate, // eslint-disable-line
+
+    /** HTML Attributes */
+    autoComplete, // eslint-disable-line
+
+    /** Internal */
+    dataContext, // eslint-disable-line
+    fieldState, // eslint-disable-line
     ...restProps
   } = props
 
   return restProps
+}
+
+function resolveValidatingState(state: SubmitStateWithValidating) {
+  return state === 'validating' ? 'pending' : state
 }

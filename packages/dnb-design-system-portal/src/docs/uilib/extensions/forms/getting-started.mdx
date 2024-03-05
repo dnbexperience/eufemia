@@ -11,6 +11,8 @@ breadcrumb:
 
 import * as Examples from './Examples'
 import QuickStart from './quick-start'
+import AsyncStateReturnExample from './extended-features/Form/Handler/parts/async-state-return-example.mdx'
+import AsyncChangeExample from './extended-features/Form/Handler/parts/async-change-example.mdx'
 
 # Getting started
 
@@ -21,6 +23,7 @@ import QuickStart from './quick-start'
 - [State management](#state-management)
 - [Field components](#field-components)
 - [Value components](#value-components)
+- [Async form behavior](#async-form-behavior)
 - [Validation and error handling](#validation-and-error-handling)
 - [Localization](#localization)
 - [Layout](#layout)
@@ -29,11 +32,11 @@ import QuickStart from './quick-start'
 
 <QuickStart />
 
-The needed styles are included in the Eufemia core package via `dnb-ui-components`.
-
 ### Creating forms
 
-To build an entire form, there are surrounding components such as [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+
+The needed styles are included in the Eufemia core package via `dnb-ui-components`.
 
 ### State management
 
@@ -82,6 +85,60 @@ In short, field components are interactive components that the user can interact
 ### Value components
 
 Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+### Async form behavior
+
+This feature allows you to perform asynchronous operations such as fetching data from an API – without additional state management.
+
+You can enable async form submit behavior on the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) by using:
+
+```tsx
+render(<Form.Handler onSubmit={async () => {}}>...</Form.Handler>)
+```
+
+It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/extended-features/Form/Handler/demos/)).
+
+When using [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout/) you can use in addition:
+
+```tsx
+render(<StepsLayout onStepChange={async () => {}}>...</StepsLayout>)
+```
+
+It will disable all fields and show an indicator on the [NextButton](/uilib/extensions/forms/extended-features/StepsLayout/NextButton/) while the **step** is pending ([examples](/uilib/extensions/forms/extended-features/StepsLayout/StepsLayout/demos/)).
+
+#### onChange and autosave
+
+You can use an async function for the `onChange` event handler, either on the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler):
+
+```tsx
+render(<Form.Handler onChange={async () => {}}>...</Form.Handler>)
+```
+
+or on every [field](/uilib/extensions/forms/fields/):
+
+```tsx
+render(<Field.PhoneNumber path="/myField" onChange={async () => {}} />)
+```
+
+They can be used in combination as well – including [async validator](/#async-validation) functions.
+
+When the user makes a value change, it will show an indicator on the corresponding field label.
+
+This feature can not only be used for autosave, but for any other real-time async operations.
+
+<AsyncChangeExample />
+
+The `info`, `warning` and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/uilib/components/form-status)), depending where it is used. While the `success` will be displayed on the label of the field that initiated the `onChange` event.
+
+#### Async field validation
+
+A similar indicator behavior will occur when using async functions for field validation, such as `validator` or `onBlurValidation`, your form will exhibit async behavior. This means that the validation needs to be successfully completed before the form can be submitted.
+
+More info about async validation can be found in the [async validation](/#async-validation) section.
+
+#### State handling in async operations
+
+<AsyncStateReturnExample />
 
 ### Validation and error handling
 
@@ -136,29 +193,43 @@ render(<Field.PhoneNumber validator={validator} />)
 
 You can find more info about error messages in the [Error messages](/uilib/extensions/forms/extended-features/Form/error-messages/) docs.
 
-##### Async validator with a Promise
+##### Async validation
 
-Async validation is also supported. The validator function can return a promise that resolves to an error message:
+Async validation is also supported. The validator function can return a promise (async/await) that resolves to an error message.
 
-```tsx
-const validator = (value) => {
-  return new Promise((resolve, reject) => {
-    // Delay the response
-    resolve(new Error('Invalid value')) // Show this message
-  })
-}
-render(<Field.PhoneNumber validator={validator} />)
-```
-
-##### Async validator with async/await
+In this example we use `onBlurValidator` to only validate the field when the user leaves the field:
 
 ```tsx
 const validator = async (value) => {
-  const isInvalid = await makeRequest(value)
-  if (isInvalid) {
-    return new Error('Invalid value') // Show this message
+  try {
+    const isInvalid = await makeRequest(value)
+    if (isInvalid) {
+      return new Error('Invalid value') // Show this message below the field
+    }
+  } catch (error) {
+    return error
   }
 }
+render(<Field.PhoneNumber onBlurValidator={validator} />)
+```
+
+##### Async validator with debounce
+
+While when using async validation on every keystroke, it's a good idea to debounce the validation function to avoid unnecessary requests. This can be done by using the [debounceAsync](/uilib/helpers/functions/#debounce) helper function:
+
+```tsx
+import { debounceAsync } from '@dnb/eufemia/shared/helpers'
+
+const validator = debounceAsync(async function myValidator(value) {
+  try {
+    const isInvalid = await makeRequest(value)
+    if (isInvalid) {
+      return new Error('Invalid value') // Show this message below the field
+    }
+  } catch (error) {
+    return error
+  }
+})
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
@@ -166,7 +237,7 @@ render(<Field.PhoneNumber validator={validator} />)
 
 In short, use the Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). This will ensure that the correct language is used for all the fields in your form.
 
-```jsx
+```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
@@ -178,7 +249,7 @@ render(
 
 In addition, you can customize the translations globally:
 
-```jsx
+```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
@@ -200,6 +271,8 @@ When building your application forms, preferably use the following layout compon
 
 - [Flex](/uilib/layout/flex) layout component for easy and consistent application forms.
 - [Card](/uilib/components/card) for the default card outline of forms.
+
+For changing sizes of e.g. input fields, you may have a look at [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/).
 
 ### Best practices
 
