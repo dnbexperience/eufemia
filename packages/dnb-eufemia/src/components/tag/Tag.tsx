@@ -140,7 +140,7 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     }
   }
 
-  const addIcon = variant === 'addable' || variant === 'removable'
+  const addIcon = variant === 'removable' || variant === 'addable'
   const isInteractive = variant !== 'default'
   const spacingClasses = createSpacingClasses(props)
   const tagClassNames = classnames(
