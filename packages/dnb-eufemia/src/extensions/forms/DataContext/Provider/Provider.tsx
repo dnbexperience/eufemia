@@ -127,7 +127,6 @@ export interface Props<Data extends JsonObject> {
    * Key for caching the data in session storage
    */
   sessionStorageId?: string
-
   children: React.ReactNode
 }
 
