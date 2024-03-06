@@ -12,8 +12,36 @@ import {
 } from '@dnb/eufemia/src/icons'
 import { Tag } from '@dnb/eufemia/src'
 
+export const TagInteractable = () => (
+  <ComponentBox data-visual-test="tag-interactable">
+    <Tag.Group label="Interactable tags">
+      <Tag
+        data-visual-test="tag-clickable"
+        variant="clickable"
+        onClick={() => 'click'}
+      >
+        Clickable
+      </Tag>
+      <Tag
+        data-visual-test="tag-addable"
+        variant="addable"
+        onClick={() => 'click'}
+      >
+        Addable
+      </Tag>
+      <Tag
+        data-visual-test="tag-removable"
+        variant="removable"
+        onClick={() => 'click'}
+      >
+        Removable
+      </Tag>
+    </Tag.Group>
+  </ComponentBox>
+)
+
 export const TagDefault = () => (
-  <ComponentBox data-visual-test="tag-default">
+  <ComponentBox hideCode data-visual-test="tag-default">
     <Tag.Group label="Payment types">
       <Tag>Digipost</Tag>
       <Tag>AvtaleGiro</Tag>
@@ -23,6 +51,7 @@ export const TagDefault = () => (
 
 export const TagWithIcon = () => (
   <ComponentBox
+    hideCode
     data-visual-test="tag-icon"
     scope={{ EInvoice, AInvoice, DigiPost }}
   >
@@ -30,19 +59,6 @@ export const TagWithIcon = () => (
       <Tag icon={AInvoice} text="AvtaleGiro" />
       <Tag icon={EInvoice} text="eFaktura" />
       <Tag icon={DigiPost} text="DigiPost" />
-    </Tag.Group>
-  </ComponentBox>
-)
-
-export const TagRemovable = () => (
-  <ComponentBox data-visual-test="tag-removable">
-    <Tag.Group label="Files">
-      <Tag
-        text="Eufemia.tsx"
-        onDelete={() => {
-          console.log('I was deleted!')
-        }}
-      />
     </Tag.Group>
   </ComponentBox>
 )
@@ -84,7 +100,8 @@ export const TagMultipleRemovable = () => (
                 <Tag
                   key={tag.key}
                   text={tag.text}
-                  onDelete={handleDelete(tag)}
+                  variant="removable"
+                  onClick={handleDelete(tag)}
                 />
               )
             })}

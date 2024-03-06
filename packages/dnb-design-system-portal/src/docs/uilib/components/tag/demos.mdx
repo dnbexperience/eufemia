@@ -3,9 +3,9 @@ showTabs: true
 ---
 
 import {
+  TagInteractable,
   TagDefault,
   TagWithIcon,
-  TagRemovable,
   TagMultipleRemovable,
   TagInline,
   TagSkeleton,
@@ -15,22 +15,31 @@ import {
 
 ### Tag
 
-To ensure the correct use of the Tags, we require using a `Tag.Group` with `Tag`-components as children. <br/>
-The required `label`-property in `Tag.Group` will ensure the correct use of accessibility for screen readers. <br/>
-See more examples below.
+To ensure the correct use of the Tags, we require using a `<Tag.Group>` with `<Tag>`-components as children.
+The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
+
+<TagInteractable />
+
+- **Clickable tag:** Use the `onClick`-prop to make a tag clickable.
+- **Addable tag:** Use the `onAdd`-prop to make a tag addable. Adds `onClick`-event to the underlying
+  `<Button>`-component. Does not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
+- **Removable tag:** Use the `onDelete`-prop to make a tag removable. Adds `onClick`-event to the underlying
+  `<Button>`-component. Does not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
+
+### Non-interactive tag
+
+- Not interactable
+- Can have icon
+
+Non-interactable tags are simply made by skipping all callback props, and are the only type that can have an icon.
 
 <TagDefault />
 
-### Tag with icon
+### Non-interactive tag with icon
 
 <TagWithIcon />
 
-### Removable tag
-
-Use the `onDelete`-prop to make a tag removable. A removable tag supports adds a `onClick`-event to the underlying `Button`-component. <br/>
-Removable tags will not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
-
-<TagRemovable />
+## Usage examples
 
 ### Multiple removable tags
 

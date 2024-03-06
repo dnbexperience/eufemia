@@ -15,8 +15,8 @@
 }
 
 @mixin buttonHover(
-  $color,
-  $background-color,
+  $color: null,
+  $background-color: null,
   $border-color: var(--color-emerald-green),
   $enable-touch: null
 ) {
@@ -39,7 +39,7 @@
   }
 }
 
-@mixin buttonActive($color, $background-color) {
+@mixin buttonActive($color: null, $background-color: null) {
   @include active() {
     color: $color;
     background-color: $background-color;
@@ -52,8 +52,8 @@
 }
 
 @mixin buttonFocus(
-  $color,
-  $background-color,
+  $color: null,
+  $background-color: null,
   $focus-color: null,
   $extendShadow: null
 ) {
@@ -65,6 +65,27 @@
 
     @include focusRing(
       null,
+      $focus-color,
+      inset,
+      $extendShadow: $extendShadow
+    );
+
+    @content;
+  }
+}
+
+@mixin buttonFocusVisible(
+  $color: null,
+  $background-color: null,
+  $focus-color: null,
+  $extendShadow: null
+) {
+  @include focus-visible() {
+    color: $color;
+    background-color: $background-color;
+
+    @include focusRing(
+      always,
       $focus-color,
       inset,
       $extendShadow: $extendShadow
