@@ -26,3 +26,17 @@ Internally, it is used by e.g. [Field.Currency](/uilib/extensions/forms/feature-
 ## Browser autofill
 
 Check out the [Field.String](/uilib/extensions/forms/base-fields/String/#autocomplete-and-autofill) docs about autocomplete.
+
+## Step controls
+
+When using `showStepControls`, the Number component provides buttons for decrementing and incrementing the input value, where the value of de/increment is determined by the `step` property.
+
+It can also be used with [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/).
+
+### Accessibility
+
+The component does not include focusable buttons, aligning with accessibility considerations for keyboard-only users, who can utilize arrow keys for navigation, like the `incrementable` [number input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number).
+
+One of the reasons to make the buttons as not focusable is to avoid the keyboard-only users to tab through all the extra buttons during navigation.
+
+Due to technical constraint, the `Field.Number` component will be announced as a `stepper` field – but will get the same instructions read out by a screen reader like VoiceOver, on how to change the value.
