@@ -22,7 +22,7 @@ function NextButton(props: Props) {
 
   return (
     <ButtonRow>
-      {/* Use SubmitButton inherit the indicator functionality */}
+      {/* Use SubmitButton to inherit the indicator functionality */}
       <SubmitButton
         type="button"
         className={classnames('dnb-forms-next-button', className)}
