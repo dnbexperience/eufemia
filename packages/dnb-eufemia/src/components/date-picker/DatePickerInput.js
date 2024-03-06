@@ -225,7 +225,6 @@ export default class DatePickerInput extends React.PureComponent {
     const partialStartDate = startDate
     const partialEndDate = endDate
     this.setState({
-      ...this.state,
       partialStartDate,
       partialEndDate,
     })
@@ -350,7 +349,6 @@ export default class DatePickerInput extends React.PureComponent {
     const { partialStartDate, partialEndDate } = this.state
     this.focusMode = null
     this.setState({
-      ...this.state,
       focusState: 'blur',
       _listenForPropChanges: false,
     })

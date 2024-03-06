@@ -1814,7 +1814,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         target: firstInput,
         date: null,
-        partial_start_date: 'yyyy-mm-12',
+        partialStartDate: 'yyyy-mm-12',
       })
     )
     await userEvent.click(secondInput)
@@ -1831,7 +1831,7 @@ describe('DatePicker component', () => {
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({
         target: secondInput,
-        partial_start_date: 'yyyy-11-12',
+        partialStartDate: 'yyyy-11-12',
       })
     )
   })
