@@ -78,7 +78,6 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   } = allProps
 
   const theme = useTheme()
-  const iconSpacer = theme?.isSbanken ? ' ' : ''
   const attributes = rest as ElementProps
   const internalId = id || 'id' + makeUniqueId()
   const as = element || 'a'
@@ -87,7 +86,15 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   let suffix: React.ReactNode
 
   const href = allProps.href || allProps.to
-  const showLaunchIcon = opensNewTab(allProps.target, href)
+  const showLaunchIcon =
+    opensNewTab(allProps.target, href) &&
+    !className?.includes('dnb-anchor--no-icon')
+  const iconSpacer =
+    theme?.isSbanken &&
+    (icon || showLaunchIcon) &&
+    !className?.includes('dnb-anchor--inline')
+      ? ' '
+      : ''
   const showTooltip = (tooltip || showLaunchIcon) && !allProps.title
 
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html

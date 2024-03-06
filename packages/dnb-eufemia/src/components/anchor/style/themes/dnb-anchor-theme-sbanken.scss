@@ -46,27 +46,48 @@
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
     --anchor-color--contrast: var(--sb-color-text);
+    --anchor-background-gutter-left: 0.25rem;
+    --anchor-background-gutter-right: 0.25rem;
 
     font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
-    text-decoration-color: var(--sb-color-green-dark);
     padding: 0.15625em 0;
     border-radius: 0.5em;
 
     $anchor-icon-gutter: 0.125em;
 
-    @include anchor-mixins.anchorBackground(
-      var(--anchor-background),
-      null
-    );
+    @include anchor-mixins.anchorBackground(var(--anchor-background));
+
+    &--icon-left,
+    &--icon-right {
+      text-decoration-color: var(--sb-color-green-dark);
+    }
+    &--icon-right {
+      .dnb-icon:last-child {
+        margin-left: 0.125em;
+      }
+    }
+    &--icon-left {
+      .dnb-icon:first-child {
+        margin-right: 0.125em;
+      }
+    }
 
     &--no-underline,
     &--was-node,
     &--inline {
-      @include anchor-mixins.anchorBackground(
-        var(--anchor-background),
-        0.25em
-      );
+      --anchor-background-gutter-left: 0.25rem;
+      --anchor-background-gutter-right: 0.25rem;
+    }
+
+    &--inline {
+      text-decoration-color: currentcolor;
+      &.dnb-anchor--icon-left .dnb-icon:first-child {
+        margin-right: 0.25em;
+      }
+      &.dnb-anchor--icon-right .dnb-icon:last-child {
+        margin-left: 0.25em;
+      }
     }
 
     &:hover {
@@ -83,36 +104,18 @@
       @include anchorFocus();
     }
 
-    &--icon-right {
-      margin-right: 1em + $anchor-icon-gutter;
-
-      .dnb-icon {
-        font-size: 1em;
-        margin-left: $anchor-icon-gutter;
-        margin-right: -1em - $anchor-icon-gutter;
-      }
-    }
-
-    &--icon-left {
-      margin-left: 1em + $anchor-icon-gutter;
-
-      .dnb-icon:first-of-type {
-        font-size: 1em;
-        margin-right: $anchor-icon-gutter;
-        margin-left: -1em - $anchor-icon-gutter;
-      }
-    }
-
     &:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(
         .anchor-hash
       ):not(.dnb-anchor--inline) {
-      &:not(.dnb-anchor--icon-left) {
+      &.dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+        --anchor-background-gutter-left: 0rem;
         &::before {
           text-decoration-color: var(--sb-color-green-dark);
           content: '\00a0';
         }
       }
-      &:not(.dnb-anchor--icon-right) {
+      &.dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+        --anchor-background-gutter-right: 0rem;
         &::after {
           text-decoration-color: var(--sb-color-green-dark);
           content: '\00a0';

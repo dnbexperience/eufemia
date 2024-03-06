@@ -315,8 +315,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover:where(:not(.dnb-anchor--no-hover)) {
   color: var(--anchor-color--contrast);
-  --anchor-background-gutter: 0.125em;
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -324,15 +323,13 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 @supports not (selector(*:where(*))) {
   :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
     color: var(--anchor-color--contrast);
-    --anchor-background-gutter: 0.125em;
-    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
   }
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:active {
   color: var(--color-white);
   background-color: transparent;
-  --anchor-background-gutter: 0.125em;
-  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
+  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 transparent, var(--anchor-background-gutter-right, 0.125rem) 0 0 0 transparent;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast:focus-visible {
   color: var(--color-white);
@@ -417,8 +414,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover:where(:not(.dnb-anchor--no-hover)) {
     color: var(--anchor-color--contrast);
-    --anchor-background-gutter: 0.125em;
-    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -426,15 +422,13 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   @supports not (selector(*:where(*))) {
     :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover) {
       color: var(--anchor-color--contrast);
-      --anchor-background-gutter: 0.125em;
-      box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
+      box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
     }
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:active {
     color: var(--color-white);
     background-color: transparent;
-    --anchor-background-gutter: 0.125em;
-    box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
+    box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 transparent, var(--anchor-background-gutter-right, 0.125rem) 0 0 0 transparent;
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast:focus-visible {
     color: var(--color-white);
@@ -518,16 +512,35 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
   --anchor-color--contrast: var(--sb-color-text);
+  --anchor-background-gutter-left: 0.25rem;
+  --anchor-background-gutter-right: 0.25rem;
   font-weight: var(--font-weight-medium);
   color: var(--sb-color-gray-dark-3);
-  text-decoration-color: var(--sb-color-green-dark);
   padding: 0.15625em 0;
   border-radius: 0.5em;
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right {
+  text-decoration-color: var(--sb-color-green-dark);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child {
+  margin-left: 0.125em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child {
+  margin-right: 0.125em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--no-underline, :where(:not(.dnb-anchor--no-style)).dnb-anchor--was-node, :where(:not(.dnb-anchor--no-style)).dnb-anchor--inline {
-  --anchor-background-gutter: 0.25em;
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter) 0 0 0 var(--anchor-background);
+  --anchor-background-gutter-left: 0.25rem;
+  --anchor-background-gutter-right: 0.25rem;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--inline {
+  text-decoration-color: currentcolor;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--inline.dnb-anchor--icon-left .dnb-icon:first-child {
+  margin-right: 0.25em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--inline.dnb-anchor--icon-right .dnb-icon:last-child {
+  margin-left: 0.25em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-background: var(--sb-color-green-dark);
@@ -569,27 +582,17 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
   margin-right: 0;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right {
-  margin-right: 1.125em;
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+  --anchor-background-gutter-left: 0rem;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon {
-  font-size: 1em;
-  margin-left: 0.125em;
-  margin-right: -1.125em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left {
-  margin-left: 1.125em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-of-type {
-  font-size: 1em;
-  margin-right: 0.125em;
-  margin-left: -1.125em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-left)::before {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
   text-decoration-color: var(--sb-color-green-dark);
   content: " ";
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-right)::after {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+  --anchor-background-gutter-right: 0rem;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
   text-decoration-color: var(--sb-color-green-dark);
   content: " ";
 }
@@ -602,16 +605,35 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
     --anchor-color--contrast: var(--sb-color-text);
+    --anchor-background-gutter-left: 0.25rem;
+    --anchor-background-gutter-right: 0.25rem;
     font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
-    text-decoration-color: var(--sb-color-green-dark);
     padding: 0.15625em 0;
     border-radius: 0.5em;
-    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left, :not(.dnb-anchor--no-style).dnb-anchor--icon-right {
+    text-decoration-color: var(--sb-color-green-dark);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child {
+    margin-left: 0.125em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child {
+    margin-right: 0.125em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor--no-underline, :not(.dnb-anchor--no-style).dnb-anchor--was-node, :not(.dnb-anchor--no-style).dnb-anchor--inline {
-    --anchor-background-gutter: 0.25em;
-    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter) 0 0 0 var(--anchor-background);
+    --anchor-background-gutter-left: 0.25rem;
+    --anchor-background-gutter-right: 0.25rem;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--inline {
+    text-decoration-color: currentcolor;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--inline.dnb-anchor--icon-left .dnb-icon:first-child {
+    margin-right: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--inline.dnb-anchor--icon-right .dnb-icon:last-child {
+    margin-left: 0.25em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-background: var(--sb-color-green-dark);
@@ -653,27 +675,17 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
     margin-right: 0;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-right {
-    margin-right: 1.125em;
+  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+    --anchor-background-gutter-left: 0rem;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon {
-    font-size: 1em;
-    margin-left: 0.125em;
-    margin-right: -1.125em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left {
-    margin-left: 1.125em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-of-type {
-    font-size: 1em;
-    margin-right: 0.125em;
-    margin-left: -1.125em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-left)::before {
+  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
     text-decoration-color: var(--sb-color-green-dark);
     content: " ";
   }
-  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--icon-right)::after {
+  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+    --anchor-background-gutter-right: 0rem;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
     text-decoration-color: var(--sb-color-green-dark);
     content: " ";
   }
@@ -753,8 +765,7 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-color: var(--color-sea-green);
-  --anchor-background-gutter: 0.125em;
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--hover);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -762,14 +773,12 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 @supports not (selector(*:where(*))) {
   :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     --anchor-color: var(--color-sea-green);
-    --anchor-background-gutter: 0.125em;
-    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--hover);
   }
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
   --anchor-color: var(--anchor-color--active);
-  --anchor-background-gutter: 0.125em;
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--active);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   --anchor-color: var(--color-sea-green);
@@ -801,8 +810,7 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-color: var(--color-sea-green);
-    --anchor-background-gutter: 0.125em;
-    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--hover);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -810,14 +818,12 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   @supports not (selector(*:where(*))) {
     :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
       --anchor-color: var(--color-sea-green);
-      --anchor-background-gutter: 0.125em;
-      box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+      box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--hover);
     }
   }
   :not(.dnb-anchor--no-style).dnb-anchor:active {
     --anchor-color: var(--anchor-color--active);
-    --anchor-background-gutter: 0.125em;
-    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--active);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     --anchor-color: var(--color-sea-green);
@@ -838,14 +844,12 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 
 .dnb-anchor--hover {
   --anchor-color: var(--color-sea-green);
-  --anchor-background-gutter: 0.125em;
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--hover);
 }
 
 .dnb-anchor--active {
   --anchor-color: var(--anchor-color--active);
-  --anchor-background-gutter: 0.125em;
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background--active);
 }
 
 .dnb-anchor--focus {
