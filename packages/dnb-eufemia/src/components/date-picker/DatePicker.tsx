@@ -96,6 +96,9 @@ export type DatePickerProps = Omit<
      * To limit a date range to a maximum `end_date`. Defaults to `null`.
      */
     max_date?: Date | string
+    /**
+     * Corrects the input date value to be the same as either `min_date` or `max_date`, when the user types in a date that is either before or after one of these. Defaults to `false`.
+     */
     correct_invalid_date?: boolean
     /**
      * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
@@ -237,6 +240,11 @@ export type DatePickerProps = Omit<
      * To open the date-picker by default. Defaults to `false`.
      */
     opened?: boolean
+    /**
+     * Provide a short Tooltip content that shows up on the picker button.
+     */
+    tooltip?: React.ReactNode
+    tabIndex?: number
     prevent_close?: boolean
     no_animation?: boolean
     direction?: DatePickerDirection
@@ -279,7 +287,11 @@ export type DatePickerProps = Omit<
      */
     on_reset?: (...args: any[]) => any
     /**
-     * Will be called once the input loses focus.
+     * Will be called once the input gets focus.
+     */
+    onFocus?: (event: React.FocusEventHandler<HTMLInputElement>) => void
+    /**
+     * Will be called once the input lose focus.
      */
     onBlur?: (event: React.FocusEventHandler<HTMLInputElement>) => void
   }
@@ -609,6 +621,7 @@ function DatePicker(externalProps: DatePickerProps) {
     show_submit_button, // eslint-disable-line
     show_cancel_button, // eslint-disable-line
     show_reset_button, // eslint-disable-line
+    tooltip,
 
     ...attributes
   } = extendedProps
@@ -636,6 +649,8 @@ function DatePicker(externalProps: DatePickerProps) {
   const submitParams = {
     ['aria-expanded']: opened,
     ref: submitButtonRef,
+    tabIndex: extendedProps.tabIndex,
+    tooltip,
   }
 
   const selectedDateTitle = formatSelectedDateTitle()
@@ -738,7 +753,6 @@ function DatePicker(externalProps: DatePickerProps) {
                 locale={locale}
                 {...attributes}
                 submitAttributes={submitParams}
-                onFocus={showPicker}
                 onSubmit={togglePicker}
                 {...status_props}
               />

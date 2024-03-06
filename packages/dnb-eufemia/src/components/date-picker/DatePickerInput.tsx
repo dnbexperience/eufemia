@@ -87,6 +87,9 @@ export type DatePickerInputProps = Omit<
   showInput?: boolean
   onChange?: (...args: any[]) => any
   onSubmit?: (...args: any[]) => any
+  /**
+   * Will be called once the input gets focus.
+   */
   onFocus?: (...args: any[]) => any
 }
 
@@ -383,15 +386,21 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     }
 
     setFocusState('focus')
+
+    props?.onFocus?.({
+      ...event,
+      ...context.getReturnObject({ event }),
+    })
   }
 
   function onBlurHandler(event: React.FocusEvent<HTMLInputElement>) {
     focusMode.current = null
     setFocusState('blur')
 
-    if (props.onBlur) {
-      props.onBlur(event)
-    }
+    props?.onBlur?.({
+      ...event,
+      ...context.getReturnObject({ event }),
+    })
   }
 
   async function onKeyDownHandler(event) {
