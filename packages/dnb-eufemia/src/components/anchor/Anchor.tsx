@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps, ElementIsType } from '../../elements/Element'
+import E, { ElementProps } from '../../elements/Element'
 import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import {
@@ -18,10 +18,10 @@ import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
 import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import type { SpacingProps } from '../../shared/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 export type AnchorProps = {
-  element?: ElementIsType
+  element?: DynamicElement<HTMLAnchorElement | AnchorAllProps>
   href?: string
   to?: string
   targetBlankTitle?: string
@@ -81,7 +81,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const iconSpacer = theme?.isSbanken ? ' ' : ''
   const attributes = rest as ElementProps
   const internalId = id || 'id' + makeUniqueId()
-  const as = (element || 'a') as string
+  const as = element || 'a'
 
   let prefix: React.ReactNode
   let suffix: React.ReactNode

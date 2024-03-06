@@ -20,13 +20,11 @@ import type { SkeletonShow } from '../components/skeleton/Skeleton'
 
 import type { DynamicElement, SpacingProps } from '../shared/types'
 
-export type ElementIsType = DynamicElement | React.ReactNode
-
 export type ElementInternalProps = {
   /**
    * Defines the Element Type, like "div"
    */
-  as: ElementIsType
+  as: DynamicElement<unknown>
 }
 
 export type ElementProps = {
@@ -39,7 +37,7 @@ export type ElementProps = {
 
 export type ElementAllProps = ElementProps &
   ElementInternalProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'as'>
 
 type Attributes = Record<string, unknown>
 
@@ -67,7 +65,7 @@ function ElementInstance(localProps: ElementAllProps) {
     ...rest
   } = props
 
-  const Tag = as as DynamicElement
+  const Tag = as
   const attributes = rest as Attributes
 
   const tagClass =
