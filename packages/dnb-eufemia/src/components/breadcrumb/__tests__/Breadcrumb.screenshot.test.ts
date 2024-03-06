@@ -99,6 +99,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
   describe('on small screen', () => {
     setupPageScreenshot({
       url: '/uilib/components/breadcrumb/demos',
+      themeName,
       pageViewport: {
         width: 700,
       },

@@ -1,8 +1,10 @@
 import React from 'react'
 
 // Components
-import Button, { ButtonProps } from '../button/Button'
+import Button, { ButtonProps } from '../Button'
+import Anchor, { AnchorAllProps } from '../Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
+import type { DataAttributeTypes } from '../../shared/types'
 import type { IconIcon } from '../icon/Icon'
 
 // Elements
@@ -12,7 +14,7 @@ import P from '../../elements/P'
 import homeIcon from '../../icons/home'
 
 // Shared
-import { useTheme, useMediaQuery } from '../../shared'
+import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
@@ -33,7 +35,7 @@ export type BreadcrumbItemProps = {
 
   /**
    * Icon displaying on the left side
-   * Default: HomeIcon / chevron_left
+   * Default: HomeIcon / chevron_right
    */
   icon?: IconIcon
 
@@ -47,7 +49,7 @@ export type BreadcrumbItemProps = {
    * Set a custom click event. In this case, you should not define the prop href.
    * Default: null
    */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>
 
   /**
    * The component variant. Variant 'current' should correspond to the current page and 'home' to the root page.
@@ -63,7 +65,8 @@ export type BreadcrumbItemProps = {
 
   /** Internal */
   itemNr?: number
-} & Omit<ButtonProps, 'variant'>
+} & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
+  DataAttributeTypes
 
 const defaultProps = {
   text: null,
@@ -74,7 +77,7 @@ const defaultProps = {
   skeleton: null,
 }
 
-const determineSbankenIcon: IconIcon = (
+const determineIcon: IconIcon = (
   variant: string,
   isSmallScreen: boolean
 ) => {
@@ -93,6 +96,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
+    theme,
     translation: {
       Breadcrumb: { homeText },
     },
@@ -114,7 +118,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     context?.BreadcrumbItem
   )
 
-  const theme = useTheme()
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,
     when: { max: 'medium' },
@@ -124,15 +127,14 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     React.useState<IconIcon>('chevron_left')
 
   useLayoutEffect(() => {
-    if (!icon && theme?.name === 'sbanken') {
-      const icon = determineSbankenIcon(variant, isSmallScreen)
-      setCurrentIcon(icon)
+    if (!icon) {
+      setCurrentIcon(determineIcon(variant, isSmallScreen))
     } else {
       if (variant !== 'home') {
         setCurrentIcon(icon ?? 'chevron_left')
       }
     }
-  }, [icon, isSmallScreen, theme?.name, variant])
+  }, [icon, isSmallScreen, variant])
 
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive =
@@ -151,16 +153,36 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       style={style}
     >
       {isInteractive ? (
-        <Button
-          variant="tertiary"
-          href={href}
-          icon={iconToUse}
-          icon_position="left"
-          on_click={onClick}
-          text={currentText}
-          skeleton={skeleton}
-          {...props}
-        />
+        theme?.name === 'sbanken' ? (
+          <Button
+            variant="tertiary"
+            href={href}
+            icon={iconToUse}
+            icon_position="left"
+            on_click={onClick}
+            text={currentText}
+            skeleton={skeleton}
+            {...props}
+          />
+        ) : (
+          <>
+            {variant !== 'home' && (
+              <IconPrimary
+                icon={iconToUse}
+                className="dnb-breadcrumb__item__span__icon"
+              />
+            )}
+            <Anchor
+              href={href}
+              onClick={onClick}
+              icon={variant === 'home' ? iconToUse : null}
+              skeleton={skeleton}
+              {...props}
+            >
+              {currentText}
+            </Anchor>
+          </>
+        )
       ) : (
         <span
           className="dnb-breadcrumb__item__span"

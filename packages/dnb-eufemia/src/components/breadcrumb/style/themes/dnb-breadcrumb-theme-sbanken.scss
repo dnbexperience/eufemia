@@ -13,7 +13,9 @@
     }
   }
   &__item {
+    padding: 0;
     &__span {
+      padding: 0.5rem 0;
       &__icon {
         color: var(--sb-color-violet);
       }
@@ -29,5 +31,10 @@
         color: var(--sb-color-text);
       }
     }
+  }
+
+  // For when breaking into new lines
+  &__list.dnb-section {
+    row-gap: 0;
   }
 }

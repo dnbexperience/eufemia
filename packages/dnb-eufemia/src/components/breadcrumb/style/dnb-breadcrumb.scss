@@ -25,18 +25,45 @@
 
     flex-flow: row wrap;
     align-items: center;
-    gap: 1.5rem;
+    row-gap: 1rem; // For when breaking into new lines (Anchor variant)
+    column-gap: 0.5rem;
   }
 
   &__item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+
     &__span {
       display: flex;
       align-items: center;
-      line-height: normal;
-      padding: 0.5rem 0;
+      line-height: var(--line-height-basis);
 
       // To match the other tertiary buttons
       &__icon {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .dnb-anchor {
+      line-height: 1rem;
+      padding: 0.25rem 0;
+
+      // To make the click area bigger
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: scale(1.25, 2);
+        border: 0.5rem solid transparent;
+      }
+    }
+
+    // Home icon spacing
+    &:first-child .dnb-anchor {
+      border-left: none;
+      .dnb-icon {
         margin-right: 0.5rem;
       }
     }
@@ -87,9 +114,10 @@
   &__collapse &__list.dnb-section {
     flex-direction: column;
     align-items: flex-start;
+    row-gap: 0;
 
     margin: 0.5rem 0;
     margin-left: 1.5rem;
-    gap: 0;
+    padding: 0;
   }
 }
