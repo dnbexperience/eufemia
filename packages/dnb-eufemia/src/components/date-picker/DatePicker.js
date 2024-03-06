@@ -677,6 +677,7 @@ export default class DatePicker extends React.PureComponent {
                   {...attributes}
                   submitAttributes={submitParams}
                   onSubmit={this.togglePicker}
+                  onBlur={this.props.onBlur}
                   {...status_props}
                 />
                 <span className="dnb-date-picker__container">
