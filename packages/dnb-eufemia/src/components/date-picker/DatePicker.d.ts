@@ -27,13 +27,12 @@ type DatePickerDirection = 'auto' | 'top' | 'bottom';
 type DatePickerAlignPicker = 'auto' | 'left' | 'right';
 
 // Make it possible to join React.Event interfaces with DatePickerEvent type.
-export type DatePickerEvent<T extends T> = T & {
+type DatePickerEvent<T> = T & {
   date?: string;
   start_date?: string;
   end_date?: string;
-  partialStartDate?: string;
-  partialEndDate?: string;
 };
+
 export interface DatePickerProps
   extends Omit<
       React.HTMLProps<HTMLElement>,
