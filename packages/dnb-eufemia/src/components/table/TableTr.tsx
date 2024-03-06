@@ -5,6 +5,13 @@ import { TableTdProps } from './TableTd'
 import { TableContext } from './TableContext'
 import TableAccordionTr from './TableAccordionTr'
 
+/**
+ * Only elements, but still will accept any element, this really only prevents empty or strings
+ */
+type ReactNodeTyped<P = any> =
+  | React.ReactElement<P>
+  | Array<ReactNodeTyped<P>>
+
 export type TableTrProps = {
   /**
    * The variant of the tr
@@ -59,9 +66,7 @@ export type TableTrProps = {
   /**
    * The content of the component.
    */
-  children:
-    | React.ReactElement<TableTdProps>
-    | Array<React.ReactElement<TableTdProps>>
+  children: ReactNodeTyped<TableTdProps>
 }
 
 export default function Tr(
