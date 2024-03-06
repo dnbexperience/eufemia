@@ -13,3 +13,13 @@ export const Default = () => {
     </ComponentBox>
   )
 }
+
+export const WithSubmitIndicator = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Form.SubmitButton showIndicator />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
