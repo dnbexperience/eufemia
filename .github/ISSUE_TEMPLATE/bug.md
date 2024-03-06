@@ -28,7 +28,9 @@ Paste the results here:
 
 ## Eufemia Version
 
-**Browser:** Type `Eufemia.version` in your browser console.
+**Browser JS:** Type `Eufemia.version` in your browser console.
+
+**Browser CSS:** Type `window.getComputedStyle(document.body).getPropertyValue('--eufemia-version')` in your browser console.
 
 **Node.js:** Use import or require to find out what Eufemia version is imported:
 

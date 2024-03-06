@@ -8,6 +8,6 @@ babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/prepareForRelease.js
 
 echo 'Testing the postbuild before publish ...'
 
-NODE_OPTIONS=--experimental-vm-modules jest ./prepareForRelease.test.js --ci --testPathIgnorePatterns=[]
+NODE_OPTIONS=--experimental-vm-modules jest ./prepareForRelease.test.ts --ci --testPathIgnorePatterns=[]
 
 echo 'Prepare before publish is done!'

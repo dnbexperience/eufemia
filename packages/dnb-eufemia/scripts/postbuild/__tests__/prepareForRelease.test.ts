@@ -6,7 +6,7 @@
 import packpath from 'packpath'
 import fs from 'fs-extra'
 import path from 'path'
-import { cleanupPackage, writeLibVersion } from '../prepareForRelease'
+import { cleanupPackage } from '../prepareForRelease'
 
 describe('cleanupPackage', () => {
   it('gets prepared properly and have the expected props', async () => {
@@ -27,36 +27,15 @@ describe('cleanupPackage', () => {
   })
 })
 
-describe('writeLibVersion', () => {
-  it('should write package version in to given files', async () => {
-    const mockFile = './__mocks__/version.mock'
-    await writeLibVersion({
-      destPath: __dirname,
-      files: [mockFile],
-    })
-    const filepath = path.resolve(__dirname, mockFile)
-    const content = await fs.readFile(filepath, 'utf-8')
-
-    await fs.writeFile(filepath, '')
-
-    expect(content).toEqual(
-      expect.stringContaining(`
-if(typeof window !== 'undefined'){
-  window.Eufemia = window.Eufemia || {};
-  window.Eufemia.version = '0.0.0-development';
-}
-`)
-    )
-  })
-})
-
 describe('package.json', () => {
   const packageJsonFile = path.resolve(
     packpath.self(),
     'build/package.json'
   )
 
-  let packageJson = {}
+  let packageJson: {
+    [key: string]: string
+  } = {}
 
   beforeAll(async () => {
     packageJson = await fs.readJson(path.resolve(packageJsonFile))

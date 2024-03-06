@@ -3,6 +3,8 @@
  *
  */
 
+import { runCssVersionMismatchWarning } from './helpers/runCssVersionMismatchWarning'
+
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
 
@@ -410,3 +412,6 @@ export const warn = (...params) => {
     }
   }
 }
+
+// Run the version mismatch warning one time
+runCssVersionMismatchWarning()
