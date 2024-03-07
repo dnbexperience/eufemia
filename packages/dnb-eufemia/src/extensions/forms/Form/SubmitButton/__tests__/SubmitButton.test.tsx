@@ -3,6 +3,11 @@ import { fireEvent, render } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
+afterEach(() => {
+  // Reset locale to nb-NO
+  render(<Provider locale="nb-NO">nothing</Provider>)
+})
+
 describe('Form.SubmitButton', () => {
   it('should call "onSubmit" on form element', () => {
     const onSubmit = jest.fn()
@@ -147,7 +152,7 @@ describe('Form.SubmitButton', () => {
     expect(buttonElement.getAttribute('aria-label')).toBe('Aria Label')
   })
 
-  it('should show submit indicator when showIndicator is true', async () => {
+  it('should show submit indicator when showIndicator is true', () => {
     const { rerender } = render(<Form.SubmitButton showIndicator />)
 
     const buttonElement = document.querySelector('button')
@@ -163,5 +168,33 @@ describe('Form.SubmitButton', () => {
     expect(
       document.querySelector('.dnb-form-submit-indicator--state-pending')
     ).toBeNull()
+  })
+
+  it('should contain submit indicator and its aria features', () => {
+    const { rerender } = render(<Form.SubmitButton />)
+
+    const buttonElement = document.querySelector('button')
+    const indicatorElement = buttonElement.querySelector(
+      '.dnb-form-submit-indicator'
+    )
+    const indicatorContentElement = buttonElement.querySelector(
+      '.dnb-form-submit-indicator__content'
+    )
+
+    expect(indicatorElement).not.toHaveClass(
+      'dnb-form-submit-indicator--state-pending'
+    )
+
+    rerender(<Form.SubmitButton showIndicator />)
+
+    expect(buttonElement).toHaveTextContent('Send...')
+    expect(indicatorElement).toHaveClass(
+      'dnb-form-submit-indicator--state-pending'
+    )
+    expect(indicatorContentElement).toHaveAttribute('role', 'status')
+    expect(indicatorContentElement).toHaveAttribute(
+      'aria-label',
+      'Vennligst vent ...'
+    )
   })
 })

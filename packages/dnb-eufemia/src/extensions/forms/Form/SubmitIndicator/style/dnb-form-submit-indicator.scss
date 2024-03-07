@@ -3,19 +3,21 @@
 .dnb-form-submit-indicator {
   display: inline;
 
-  &__dots {
-    font-weight: var(--font-weight-bold);
+  --padding-left: 0.5em;
+
+  &__content {
     font-size: 0;
     line-height: 1em;
 
+    will-change: font-size;
     transition: font-size 800ms var(--easing-default);
 
-    span {
+    b {
       padding-left: 0.125em;
       color: var(--dots-color, currentColor);
 
       &:nth-of-type(1) {
-        padding-left: 0.25em;
+        padding-left: var(--padding-left);
         animation-delay: 50ms;
       }
       &:nth-of-type(2) {
@@ -27,7 +29,7 @@
 
       opacity: 0.2;
 
-      animation-name: submit-indicator-dots;
+      animation-name: submit-indicator-dot;
       animation-iteration-count: infinite;
       animation-duration: 1.3s;
       animation-delay: 200ms; // to get a nicer fade in
@@ -36,29 +38,46 @@
         animation: none;
       }
     }
+  }
 
-    &::before {
-      content: ' '; // To ensure we can "wrap" with "--inline-wrap"
+  &--state-pending &__content {
+    font-size: 1em;
+    font-weight: var(--font-weight-bold);
+  }
+  &--state-success &__content {
+    font-size: 1em;
+    // opacity: 0;
+    // font-size: 0;
+    // white-space: nowrap;
+
+    // animation-name: submit-indicator-success;
+    // animation-duration: 5s;
+
+    .dnb-icon {
+      padding-left: var(--padding-left);
+      color: var(--color-success-green);
+    }
+    .dnb-icon--default {
+      font-size: 1em;
+    }
+
+    &__label {
+      font-size: var(--font-size-small);
+      padding-left: calc(var(--padding-left) * 2);
     }
   }
-
-  &--state-pending &__dots {
-    font-size: 1em;
-  }
-  &--inline-wrap &__dots {
+  &--inline-wrap &__content {
     display: flex;
 
-    i:nth-of-type(1) {
-      padding-left: 0;
-    }
+    --padding-left: 0.25em;
   }
 }
 
-@keyframes submit-indicator-dots {
+@keyframes submit-indicator-dot {
   0% {
     opacity: 0.2;
   }
-  20% {
+  15% {
     opacity: 1;
   }
   50% {
@@ -69,5 +88,30 @@
   }
   100% {
     opacity: 0.2;
+  }
+}
+
+@keyframes submit-indicator-success {
+  0% {
+    opacity: 0.2;
+    font-size: 1em;
+  }
+  20% {
+    opacity: 1;
+    font-size: 1em;
+  }
+  80% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.3;
+    font-size: 1em;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    font-size: 0;
   }
 }

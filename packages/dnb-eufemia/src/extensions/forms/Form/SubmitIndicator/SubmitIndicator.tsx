@@ -1,7 +1,8 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
-import { Space } from '../../../../components'
+import { Icon, Space, Tooltip } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
+import { check } from '../../../../icons'
 import type { SubmitState } from '../../types'
 import {
   omitSpacingProps,
@@ -12,11 +13,18 @@ import { useLocale } from '../../../../shared'
 export type Props = {
   state: SubmitState
   className?: string
+  successLabel?: string
   children?: React.ReactNode
 } & SpaceProps
 
 function SubmitIndicator(props: Props) {
-  const { className, children, state, ...rest } = props
+  const {
+    className,
+    children,
+    state,
+    successLabel = 'Saved',
+    ...rest
+  } = props
   const tr = useLocale()
   const childrenRef = useRef<HTMLSpanElement>(null)
   const [willWrap, setWillWrap] = useState(false)
@@ -37,15 +45,34 @@ function SubmitIndicator(props: Props) {
     ...pickSpacingProps(rest),
   } as SpaceProps
 
-  const dot = <span>.</span>
-  const dots = (
+  const ariaAttributes =
+    state === 'pending'
+      ? {
+          role: 'status',
+          'aria-busy': true,
+          'aria-label': tr.ProgressIndicator.indicator_label,
+        }
+      : {}
+
+  const dot = <b>.</b>
+  const indicator = (
     <span
-      className="dnb-form-submit-indicator__dots"
-      aria-busy={true}
-      aria-label={tr.ProgressIndicator.indicator_label}
+      className="dnb-form-submit-indicator__content"
+      {...ariaAttributes}
       {...omitSpacingProps(rest)}
     >
-      {state && (
+      {state === 'success' && (
+        <Tooltip
+          targetElement={
+            <span>
+              <Icon icon={check} />
+            </span>
+          }
+        >
+          {successLabel}
+        </Tooltip>
+      )}
+      {state && state !== 'success' && state !== 'abort' && (
         <>
           {dot}
           {dot}
@@ -58,7 +85,7 @@ function SubmitIndicator(props: Props) {
   return (
     <Space {...params} element="span">
       {children && <span ref={childrenRef}>{children}</span>}
-      {dots}
+      {indicator}
     </Space>
   )
 }
