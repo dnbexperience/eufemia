@@ -57,7 +57,9 @@
     $anchor-icon-gutter: 0.125em;
 
     @include anchor-mixins.anchorBackground(var(--anchor-background));
-
+    .dnb-icon--default {
+      font-size: 1em;
+    }
     &--icon-left,
     &--icon-right {
       text-decoration-color: var(--sb-color-green-dark);
