@@ -88,7 +88,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const href = allProps.href || allProps.to
   const showLaunchIcon =
     opensNewTab(allProps.target, href) &&
-    !className?.includes('dnb-anchor--no-icon')
+    !className?.includes('dnb-anchor--no-icon') &&
+    !omitClass
   const iconSpacer =
     theme?.isSbanken &&
     (icon || showLaunchIcon) &&
@@ -97,33 +98,32 @@ export function AnchorInstance(localProps: AnchorAllProps) {
       : ''
   const showTooltip = (tooltip || showLaunchIcon) && !allProps.title
 
-  // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-  if (showLaunchIcon && !omitClass) {
+  if (icon && iconPosition === 'right') {
     suffix = (
       <>
         {iconSpacer}
-        <IconPrimary
-          className="dnb-anchor__launch-icon"
-          icon={launchIcon}
-        />
+        {getIcon(icon)}
       </>
     )
-  }
-
-  if (icon) {
-    const iconNode = pickIcon(icon) || <IconPrimary icon={icon} />
-    if (iconPosition === 'left') {
-      prefix = (
-        <>
-          {iconNode}
-          {iconSpacer}
-        </>
-      )
-    } else if (iconPosition === 'right') {
+  } else {
+    // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
+    if (showLaunchIcon) {
       suffix = (
         <>
           {iconSpacer}
-          {iconNode}
+          <IconPrimary
+            className="dnb-anchor__launch-icon"
+            icon={launchIcon}
+          />
+        </>
+      )
+    }
+
+    if (icon && iconPosition === 'left') {
+      prefix = (
+        <>
+          {getIcon(icon)}
+          {iconSpacer}
         </>
       )
     }
@@ -221,6 +221,10 @@ export function scrollToHashHandler(
       }
     }
   }
+}
+
+function getIcon(icon) {
+  return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
 export function pickIcon(icon) {

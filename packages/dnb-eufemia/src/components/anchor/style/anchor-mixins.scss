@@ -182,6 +182,17 @@
   }
 }
 
+@mixin notInline() {
+  &:where(:not(.dnb-anchor--inline)) {
+    @content;
+  }
+  &:not(.dnb-anchor--inline) {
+    @include whereFallback() {
+      @content;
+    }
+  }
+}
+
 @mixin whereFallback() {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
   @supports not (selector(*:where(*))) {

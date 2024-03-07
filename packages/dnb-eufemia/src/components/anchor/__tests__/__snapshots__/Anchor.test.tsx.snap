@@ -520,27 +520,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   border-radius: 0.5em;
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right {
-  text-decoration-color: var(--sb-color-green-dark);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child {
-  margin-left: 0.125em;
-}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child {
-  margin-right: 0.125em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-underline, :where(:not(.dnb-anchor--no-style)).dnb-anchor--was-node, :where(:not(.dnb-anchor--no-style)).dnb-anchor--inline {
-  --anchor-background-gutter-left: 0.25rem;
-  --anchor-background-gutter-right: 0.25rem;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--inline {
-  text-decoration-color: currentcolor;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--inline.dnb-anchor--icon-left .dnb-icon:first-child {
   margin-right: 0.25em;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--inline.dnb-anchor--icon-right .dnb-icon:last-child {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child {
   margin-left: 0.25em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
+  font-size: 1em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-background: var(--sb-color-green-dark);
@@ -582,19 +569,52 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
   margin-right: 0;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
-  --anchor-background-gutter-left: 0rem;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
   text-decoration-color: var(--sb-color-green-dark);
-  content: " ";
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child {
+  margin-right: 0.125em;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
   --anchor-background-gutter-right: 0rem;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-  text-decoration-color: var(--sb-color-green-dark);
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
   content: " ";
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child {
+  margin-left: 0.125em;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+  --anchor-background-gutter-left: 0rem;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
+  content: " ";
+}
+:where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right {
+    text-decoration-color: var(--sb-color-green-dark);
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child {
+    margin-right: 0.125em;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+    --anchor-background-gutter-right: 0rem;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
+    content: " ";
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child {
+    margin-left: 0.125em;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+    --anchor-background-gutter-left: 0rem;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
+    content: " ";
+  }
 }
 
 :not(.dnb-anchor--no-style) {
@@ -613,27 +633,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     border-radius: 0.5em;
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left, :not(.dnb-anchor--no-style).dnb-anchor--icon-right {
-    text-decoration-color: var(--sb-color-green-dark);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child {
-    margin-left: 0.125em;
-  }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child {
-    margin-right: 0.125em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--no-underline, :not(.dnb-anchor--no-style).dnb-anchor--was-node, :not(.dnb-anchor--no-style).dnb-anchor--inline {
-    --anchor-background-gutter-left: 0.25rem;
-    --anchor-background-gutter-right: 0.25rem;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--inline {
-    text-decoration-color: currentcolor;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--inline.dnb-anchor--icon-left .dnb-icon:first-child {
     margin-right: 0.25em;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--inline.dnb-anchor--icon-right .dnb-icon:last-child {
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child {
     margin-left: 0.25em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
+    font-size: 1em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-background: var(--sb-color-green-dark);
@@ -675,19 +682,52 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
     margin-right: 0;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
-    --anchor-background-gutter-left: 0rem;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
     text-decoration-color: var(--sb-color-green-dark);
-    content: " ";
   }
-  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child {
+    margin-right: 0.125em;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
     --anchor-background-gutter-right: 0rem;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(.anchor-hash):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-    text-decoration-color: var(--sb-color-green-dark);
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
     content: " ";
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child {
+    margin-left: 0.125em;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+    --anchor-background-gutter-left: 0rem;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
+    content: " ";
+  }
+  :not(.dnb-anchor--no-style):not(.dnb-anchor--inline) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+  }
+  @supports not (selector(*:where(*))) {
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right {
+      text-decoration-color: var(--sb-color-green-dark);
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child {
+      margin-right: 0.125em;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
+      --anchor-background-gutter-right: 0rem;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
+      content: " ";
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child {
+      margin-left: 0.125em;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
+      --anchor-background-gutter-left: 0rem;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
+      content: " ";
+    }
   }
 }
 
