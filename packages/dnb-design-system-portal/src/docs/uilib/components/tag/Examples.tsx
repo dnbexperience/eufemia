@@ -10,7 +10,7 @@ import {
   ainvoice as AInvoice,
   digipost as DigiPost,
 } from '@dnb/eufemia/src/icons'
-import { Tag } from '@dnb/eufemia/src'
+import { Tag, Heading } from '@dnb/eufemia/src'
 
 export const TagInteractable = () => (
   <ComponentBox data-visual-test="tag-interactable">
@@ -79,33 +79,58 @@ export const TagMultipleRemovable = () => (
   <ComponentBox data-visual-test="tag-removable-list">
     {() => {
       const Genres = () => {
-        const [tagData, setTagData] = React.useState([
+        const [tagsAdded, setTagsAdded] = React.useState([
           { key: 0, text: 'Action' },
           { key: 1, text: 'Comedy' },
           { key: 2, text: 'Drama' },
           { key: 3, text: 'Horror' },
+        ])
+        const [tagsRemoved, setTagsRemoved] = React.useState([
           { key: 4, text: 'Fantasy' },
         ])
 
-        const handleDelete = (tagToDelete) => () => {
-          setTagData((tags) =>
-            tags.filter((tag) => tag.key !== tagToDelete.key),
+        const handleRemove = (tagToRemove) => () => {
+          setTagsAdded(
+            tagsAdded.filter((tag) => tag.key !== tagToRemove.key),
+          )
+          setTagsRemoved([...tagsRemoved, tagToRemove])
+        }
+        const handleAdd = (tagToAdd) => () => {
+          setTagsAdded([...tagsAdded, tagToAdd])
+          setTagsRemoved(
+            tagsRemoved.filter((tag) => tag.key !== tagToAdd.key),
           )
         }
 
         return (
-          <Tag.Group label="Genres">
-            {tagData.map((tag) => {
-              return (
-                <Tag
-                  key={tag.key}
-                  text={tag.text}
-                  variant="removable"
-                  onClick={handleDelete(tag)}
-                />
-              )
-            })}
-          </Tag.Group>
+          <>
+            <Heading size="medium">Selected</Heading>
+            <Tag.Group label="Genres Selected">
+              {tagsAdded.map((tag) => {
+                return (
+                  <Tag
+                    key={tag.key}
+                    text={tag.text}
+                    variant="removable"
+                    onClick={handleRemove(tag)}
+                  />
+                )
+              })}
+            </Tag.Group>
+            <Heading size="medium">Removed</Heading>
+            <Tag.Group label="Genres Available">
+              {tagsRemoved.map((tag) => {
+                return (
+                  <Tag
+                    key={tag.key}
+                    text={tag.text}
+                    variant="addable"
+                    onClick={handleAdd(tag)}
+                  />
+                )
+              })}
+            </Tag.Group>
+          </>
         )
       }
       return <Genres />

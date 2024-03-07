@@ -27,7 +27,7 @@ describe('Tag', () => {
 
   it('have to match a removable Tag list', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="tag-removable-list"] .dnb-tag',
+      selector: '[data-visual-test="tag-removable-list"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
