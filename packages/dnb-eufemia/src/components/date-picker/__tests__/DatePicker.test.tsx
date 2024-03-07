@@ -696,6 +696,54 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[4][0].date).toBe('2019-01-03')
     expect(on_change.mock.calls[4][0].is_valid).toBe(true)
   })
+  it('has to auto-correct invalid min/max dates', async () => {
+    const on_change = jest.fn()
+
+    render(
+      <DatePicker
+        {...defaultProps}
+        on_change={on_change}
+        correct_invalid_date={true}
+        min_date="2019-01-02"
+        max_date="2019-03-01"
+      />
+    )
+    const elem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0]
+
+    // by default we have the corrected start day
+    expect((elem as HTMLInputElement).value).toBe('02')
+
+    // change the date to something invalid
+    await userEvent.type(elem, '01')
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        is_valid_start_date: false,
+        start_date: null,
+      })
+    )
+    expect(on_change).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        is_valid_start_date: true,
+        start_date: '2019-01-02',
+      })
+    )
+
+    // change the date to a valid date
+    await userEvent.type(elem, '{Backspace>2}03')
+
+    expect(on_change).toHaveBeenCalledTimes(4)
+    expect(on_change).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        is_valid_start_date: true,
+        start_date: '2019-01-03',
+      })
+    )
+  })
 
   it('has valid on_type and on_change event calls', () => {
     const on_type = jest.fn()
