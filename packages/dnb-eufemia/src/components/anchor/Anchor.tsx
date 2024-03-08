@@ -86,8 +86,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   let suffix: React.ReactNode
 
   const href = allProps.href || allProps.to
+  const _opensNewTab = opensNewTab(allProps.target, href)
   const showLaunchIcon =
-    opensNewTab(allProps.target, href) &&
+    _opensNewTab &&
     !className?.includes('dnb-anchor--no-icon') &&
     !omitClass
   const iconSpacer =
@@ -96,7 +97,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     !className?.includes('dnb-anchor--inline')
       ? ' '
       : ''
-  const showTooltip = (tooltip || showLaunchIcon) && !allProps.title
+  const showTooltip = (tooltip || _opensNewTab) && !allProps.title
 
   if (icon && iconPosition === 'right') {
     suffix = (

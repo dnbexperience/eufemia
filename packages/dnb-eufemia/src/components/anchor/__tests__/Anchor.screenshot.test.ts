@@ -341,21 +341,18 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    if (themeName === 'ui') {
-      it('have to match the target blank with tooltip', async () => {
-        const screenshot = await makeScreenshot({
-          style: {
-            'padding-top': '2rem',
-          },
-          selector: '[data-visual-test="anchor-blank"]',
-          simulateSelector:
-            '[data-visual-test="anchor-blank"] a.dnb-anchor',
-          simulate: 'hover',
-          waitAfterSimulate: 200,
-        })
-        expect(screenshot).toMatchImageSnapshot()
+    it('have to match the target blank with tooltip', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          'padding-top': '2rem',
+        },
+        selector: '[data-visual-test="anchor-blank"]',
+        simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
+        simulate: 'hover',
+        waitAfterSimulate: 200,
       })
-    }
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 
