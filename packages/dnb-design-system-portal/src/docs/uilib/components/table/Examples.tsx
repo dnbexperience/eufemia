@@ -795,73 +795,82 @@ export const TableAccordion = () => (
   </ComponentBox>
 )
 
-export const TableAccordionRow = () => (
-  <ComponentBox hideCode data-visual-test="table-accordion-rows">
-    <Table.ScrollView>
-      <Table accordion accordionChevronPlacement="end">
-        <thead>
-          <Tr>
-            <Th>Column A</Th>
-            <Th>Column B</Th>
-            <Th>Column C</Th>
-            <Th>Column D</Th>
-          </Tr>
-        </thead>
+export const TableAccordionRow = () => {
+  return (
+    <ComponentBox hideCode data-visual-test="table-accordion-rows">
+      {() => {
+        const firstRowContent = [
+          {
+            label: 'Expanded 1.1',
+          },
+          {
+            label: 'Expanded 1.2',
+          },
+        ]
+        return (
+          <Table.ScrollView>
+            <Table accordion accordionChevronPlacement="end">
+              <thead>
+                <Tr>
+                  <Th>Column A</Th>
+                  <Th>Column B</Th>
+                  <Th>Column C</Th>
+                  <Th>Column D</Th>
+                </Tr>
+              </thead>
 
-        <tbody>
-          <Tr>
-            <Td>Row 1</Td>
-            <Td>Row 1</Td>
-            <Td>Row 1</Td>
-            <Td>Row 1</Td>
+              <tbody>
+                <Tr>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
 
-            <Tr.AccordionContent>
-              <Td>Expanded 1.1</Td>
-              <Td>Expanded 1.1</Td>
-              <Td>Expanded 1.1</Td>
-              <Td>Expanded 1.1</Td>
-            </Tr.AccordionContent>
+                  {firstRowContent.map(({ label }) => (
+                    <Tr.AccordionContent key={label}>
+                      <Td>{label}</Td>
+                      <Td>{label}</Td>
+                      <Td>{label}</Td>
+                      <Td>{label}</Td>
+                    </Tr.AccordionContent>
+                  ))}
+                </Tr>
 
-            <Tr.AccordionContent>
-              <Td>Expanded 1.2</Td>
-              <Td>Expanded 1.2</Td>
-              <Td>Expanded 1.2</Td>
-              <Td>Expanded 1.2</Td>
-            </Tr.AccordionContent>
-          </Tr>
+                <Tr>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
 
-          <Tr>
-            <Td>Row 2</Td>
-            <Td>Row 2</Td>
-            <Td>Row 2</Td>
-            <Td>Row 2</Td>
+                  <Tr.AccordionContent>
+                    <Td>Expanded 2.1</Td>
+                    <Td>Expanded 2.1</Td>
+                    <Td>Expanded 2.1</Td>
+                    <Td>Expanded 2.1</Td>
+                  </Tr.AccordionContent>
 
-            <Tr.AccordionContent>
-              <Td>Expanded 2.1</Td>
-              <Td>Expanded 2.1</Td>
-              <Td>Expanded 2.1</Td>
-              <Td>Expanded 2.1</Td>
-            </Tr.AccordionContent>
+                  <Tr.AccordionContent>
+                    <Td>Expanded 2.2</Td>
+                    <Td>Expanded 2.2</Td>
+                    <Td>Expanded 2.2</Td>
+                    <Td>Expanded 2.2</Td>
+                  </Tr.AccordionContent>
 
-            <Tr.AccordionContent>
-              <Td>Expanded 2.2</Td>
-              <Td>Expanded 2.2</Td>
-              <Td>Expanded 2.2</Td>
-              <Td>Expanded 2.2</Td>
-            </Tr.AccordionContent>
-
-            <Tr.AccordionContent>
-              <Td>Expanded 2.3</Td>
-              <Td>Expanded 2.3</Td>
-              <Td>Expanded 2.3</Td>
-              <Td>Expanded 2.3</Td>
-            </Tr.AccordionContent>
-          </Tr>
-        </tbody>
-      </Table>
-    </Table.ScrollView>
-  </ComponentBox>
-)
+                  <Tr.AccordionContent>
+                    <Td>Expanded 2.3</Td>
+                    <Td>Expanded 2.3</Td>
+                    <Td>Expanded 2.3</Td>
+                    <Td>Expanded 2.3</Td>
+                  </Tr.AccordionContent>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>
+        )
+      }}
+    </ComponentBox>
+  )
+}
 
 export const TableSticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
