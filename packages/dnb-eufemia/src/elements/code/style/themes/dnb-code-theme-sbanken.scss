@@ -1,8 +1,10 @@
 .dnb-code {
-  font-family: var(--sb-font-family-default);
+  padding: calc(0.25em / 0.875);
+  font-size: 0.875em;
+  line-height: calc(var(--line-height-xx-small--em) / 0.875);
   background-color: var(--sb-color-blue-light-3);
-
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
+  box-shadow: inset 0 0 0 0.0625rem var(--sb-color-blue-light-2);
 }
 
 .dnb-pre {

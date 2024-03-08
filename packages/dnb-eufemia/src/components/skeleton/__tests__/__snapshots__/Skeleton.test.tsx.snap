@@ -77,6 +77,7 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
   --font-family-monospace: "DNBMonoSkeleton" !important;
   font-family: var(--font-family-monospace) !important;
   font-style: unset !important;
+  box-shadow: none !important;
 }
 .dnb-skeleton--font-only, .dnb-skeleton--font, .dnb-skeleton--font .dnb-skeleton--show-font, .dnb-skeleton--font .dnb-p {
   pointer-events: none;
