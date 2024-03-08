@@ -9,9 +9,10 @@ import { fireEvent, render } from '@testing-library/react'
 import Anchor, { AnchorAllProps } from '../Anchor'
 import { bell } from '../../../icons'
 import IconPrimary from '../../IconPrimary'
-import nbNO from '../../../shared/locales/nb-NO'
+import locales from '../../../shared/locales'
 
-const nb = nbNO['nb-NO'].Anchor
+const nb = locales['nb-NO'].Anchor
+const en = locales['en-GB'].Anchor
 
 const props: AnchorAllProps = {
   element: 'a',
@@ -72,6 +73,170 @@ describe('Anchor element', () => {
         document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
           .textContent
       ).toBe(nb.targetBlankTitle)
+    })
+
+    it('has "__launch-icon" class', () => {
+      render(
+        <Anchor href="/url" target="_blank">
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector(
+          '.dnb-anchor .dnb-anchor__launch-icon.dnb-icon.dnb-icon--default'
+        )
+      ).toBeInTheDocument()
+    })
+
+    it('has no "__launch-icon" class when href was mailto, tel or sms', () => {
+      const { rerender } = render(
+        <Anchor href="mailto:" target="_blank">
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector('.dnb-anchor--launch-icon')
+      ).not.toBeInTheDocument()
+
+      rerender(
+        <Anchor href="tel:" target="_blank">
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector('.dnb-anchor--launch-icon')
+      ).not.toBeInTheDocument()
+
+      rerender(
+        <Anchor href="sms:" target="_blank">
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector('.dnb-anchor--launch-icon')
+      ).not.toBeInTheDocument()
+    })
+
+    it('has no tooltip when title was given', () => {
+      render(
+        <Anchor href="/url" target="_blank" title="Title">
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector('.dnb-tooltip')
+      ).not.toBeInTheDocument()
+    })
+
+    it('has aria-describedby', () => {
+      const { rerender } = render(
+        <Anchor href="/url" target="_blank" lang="en-GB">
+          text
+        </Anchor>
+      )
+
+      const id = (
+        document.querySelector('a') as HTMLAnchorElement
+      ).getAttribute('aria-describedby')
+      expect(
+        (document.body.querySelector('#' + id) as HTMLAnchorElement)
+          .textContent
+      ).toBe(en.targetBlankTitle)
+
+      const title = 'External site'
+
+      rerender(
+        <Anchor href="/url" target="_blank" lang="en-GB" title={title}>
+          text
+        </Anchor>
+      )
+
+      expect(
+        (document.querySelector('a') as HTMLAnchorElement).getAttribute(
+          'title'
+        )
+      ).toBe(title)
+      expect(document.body.querySelector('#' + id)).toBe(null)
+    })
+
+    it('icon right overrides launch icon', () => {
+      const { rerender } = render(
+        <Anchor
+          href="/url"
+          target="_blank"
+          icon={bell}
+          iconPosition="right"
+        >
+          text
+        </Anchor>
+      )
+
+      expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
+      expect(
+        document.querySelector('.dnb-icon').getAttribute('data-testid')
+      ).toBe('bell icon')
+
+      rerender(
+        <Anchor
+          href="/url"
+          target="_blank"
+          icon={<IconPrimary icon={bell} />}
+          iconPosition="right"
+        >
+          text
+        </Anchor>
+      )
+
+      expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
+      expect(
+        document.querySelector('.dnb-icon').getAttribute('data-testid')
+      ).toBe('bell icon')
+    })
+
+    it('icon left does not override launch icon', () => {
+      const { rerender } = render(
+        <Anchor
+          href="/url"
+          target="_blank"
+          icon={bell}
+          iconPosition="left"
+        >
+          text
+        </Anchor>
+      )
+
+      expect(document.querySelectorAll('.dnb-icon')).toHaveLength(2)
+      expect(
+        document
+          .querySelector('.dnb-anchor .dnb-icon:first-child')
+          .getAttribute('data-testid')
+      ).toBe('bell icon')
+      expect(
+        document.querySelector('.dnb-anchor .dnb-icon:last-child')
+          .classList
+      ).toContain('dnb-anchor__launch-icon')
+
+      rerender(
+        <Anchor
+          href="/url"
+          target="_blank"
+          icon={<IconPrimary icon={bell} />}
+          iconPosition="left"
+        >
+          text
+        </Anchor>
+      )
+
+      expect(document.querySelectorAll('.dnb-icon')).toHaveLength(2)
+      expect(
+        document
+          .querySelector('.dnb-anchor .dnb-icon:first-child')
+          .getAttribute('data-testid')
+      ).toBe('bell icon')
+      expect(
+        document.querySelector('.dnb-anchor .dnb-icon:last-child')
+          .classList
+      ).toContain('dnb-anchor__launch-icon')
     })
   })
 
@@ -144,48 +309,6 @@ describe('Anchor element', () => {
     globalThis.IS_TEST = false
   })
 
-  it('has "__launch-icon" class when target is blank', () => {
-    render(
-      <Anchor href="/url" target="_blank">
-        <span>text</span>
-      </Anchor>
-    )
-    expect(
-      document.querySelector(
-        '.dnb-anchor .dnb-anchor__launch-icon.dnb-icon.dnb-icon--default'
-      )
-    ).toBeInTheDocument()
-  })
-
-  it('has no "__launch-icon" class when target is blank and href was mailto, tel or sms', () => {
-    const { rerender } = render(
-      <Anchor href="mailto:" target="_blank">
-        <span>text</span>
-      </Anchor>
-    )
-    expect(
-      document.querySelector('.dnb-anchor--launch-icon')
-    ).not.toBeInTheDocument()
-
-    rerender(
-      <Anchor href="tel:" target="_blank">
-        <span>text</span>
-      </Anchor>
-    )
-    expect(
-      document.querySelector('.dnb-anchor--launch-icon')
-    ).not.toBeInTheDocument()
-
-    rerender(
-      <Anchor href="sms:" target="_blank">
-        <span>text</span>
-      </Anchor>
-    )
-    expect(
-      document.querySelector('.dnb-anchor--launch-icon')
-    ).not.toBeInTheDocument()
-  })
-
   it('has "--was-node" class when child was not a string', () => {
     render(
       <Anchor href="/url">
@@ -195,15 +318,6 @@ describe('Anchor element', () => {
     expect(
       document.querySelector('.dnb-anchor--was-node')
     ).toBeInTheDocument()
-  })
-
-  it('has no tooltip when title was given', () => {
-    render(
-      <Anchor href="/url" target="_blank" title="Title">
-        <span>text</span>
-      </Anchor>
-    )
-    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
   })
 
   it('should forward ref', () => {
@@ -231,37 +345,6 @@ describe('Anchor element', () => {
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.tagName).toBe('A')
-  })
-
-  it('has aria-describedby when target is blank', () => {
-    const { rerender } = render(
-      <Anchor href="/url" target="_blank" lang="en-GB">
-        text
-      </Anchor>
-    )
-
-    const id = (
-      document.querySelector('a') as HTMLAnchorElement
-    ).getAttribute('aria-describedby')
-    expect(
-      (document.body.querySelector('#' + id) as HTMLAnchorElement)
-        .textContent
-    ).toBe('Opens a new Window')
-
-    const title = 'External site'
-
-    rerender(
-      <Anchor href="/url" target="_blank" lang="en-GB" title={title}>
-        text
-      </Anchor>
-    )
-
-    expect(
-      (document.querySelector('a') as HTMLAnchorElement).getAttribute(
-        'title'
-      )
-    ).toBe(title)
-    expect(document.body.querySelector('#' + id)).toBe(null)
   })
 
   it('supports rel', () => {
@@ -309,74 +392,6 @@ describe('Anchor element', () => {
     expect(
       document.querySelector('.dnb-anchor--icon-left')
     ).toBeInTheDocument()
-  })
-
-  it('uses given icon instead of launch icon', () => {
-    const { rerender } = render(
-      <Anchor href="/url" target="_blank" icon={bell} iconPosition="right">
-        text
-      </Anchor>
-    )
-
-    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
-    expect(
-      document.querySelector('.dnb-icon').getAttribute('data-testid')
-    ).toBe('bell icon')
-
-    rerender(
-      <Anchor
-        href="/url"
-        target="_blank"
-        icon={<IconPrimary icon={bell} />}
-        iconPosition="right"
-      >
-        text
-      </Anchor>
-    )
-
-    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
-    expect(
-      document.querySelector('.dnb-icon').getAttribute('data-testid')
-    ).toBe('bell icon')
-  })
-
-  it('user given left icon does not override launch icon', () => {
-    const { rerender } = render(
-      <Anchor href="/url" target="_blank" icon={bell} iconPosition="left">
-        text
-      </Anchor>
-    )
-
-    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(2)
-    expect(
-      document
-        .querySelector('.dnb-anchor .dnb-icon:first-child')
-        .getAttribute('data-testid')
-    ).toBe('bell icon')
-    expect(
-      document.querySelector('.dnb-anchor .dnb-icon:last-child').classList
-    ).toContain('dnb-anchor__launch-icon')
-
-    rerender(
-      <Anchor
-        href="/url"
-        target="_blank"
-        icon={<IconPrimary icon={bell} />}
-        iconPosition="left"
-      >
-        text
-      </Anchor>
-    )
-
-    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(2)
-    expect(
-      document
-        .querySelector('.dnb-anchor .dnb-icon:first-child')
-        .getAttribute('data-testid')
-    ).toBe('bell icon')
-    expect(
-      document.querySelector('.dnb-anchor .dnb-icon:last-child').classList
-    ).toContain('dnb-anchor__launch-icon')
   })
 })
 
