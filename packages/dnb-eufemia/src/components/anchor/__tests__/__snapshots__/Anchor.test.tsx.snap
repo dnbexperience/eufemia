@@ -520,6 +520,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   border-radius: 0.5em;
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
 }
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
+  display: inline;
+  vertical-align: unset;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
+  vertical-align: middle;
+  transform: translateY(-0.0625em);
+}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child {
   margin-right: 0.25em;
 }
@@ -573,7 +581,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   text-decoration-color: var(--sb-color-green-dark);
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child {
+  margin-right: 0;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child svg {
   margin-right: 0.125em;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child::after {
+  content: " ";
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
   --anchor-background-gutter-right: 0rem;
@@ -582,7 +596,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   content: " ";
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child {
+  margin-left: 0;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child svg {
   margin-left: 0.125em;
+}
+:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child::before {
+  content: " ";
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
   --anchor-background-gutter-left: 0rem;
@@ -598,7 +618,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     text-decoration-color: var(--sb-color-green-dark);
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child {
+    margin-right: 0;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child svg {
     margin-right: 0.125em;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child::after {
+    content: " ";
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
     --anchor-background-gutter-right: 0rem;
@@ -607,7 +633,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     content: " ";
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child {
+    margin-left: 0;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child svg {
     margin-left: 0.125em;
+  }
+  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child::before {
+    content: " ";
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
     --anchor-background-gutter-left: 0rem;
@@ -632,6 +664,14 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     padding: 0.15625em 0;
     border-radius: 0.5em;
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
+    display: inline;
+    vertical-align: unset;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
+    vertical-align: middle;
+    transform: translateY(-0.0625em);
   }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child {
     margin-right: 0.25em;
@@ -686,7 +726,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     text-decoration-color: var(--sb-color-green-dark);
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child {
+    margin-right: 0;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child svg {
     margin-right: 0.125em;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left .dnb-icon:first-child::after {
+    content: " ";
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
     --anchor-background-gutter-right: 0rem;
@@ -695,7 +741,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     content: " ";
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child {
+    margin-left: 0;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child svg {
     margin-left: 0.125em;
+  }
+  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right .dnb-icon:last-child::before {
+    content: " ";
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
     --anchor-background-gutter-left: 0rem;
@@ -711,7 +763,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
       text-decoration-color: var(--sb-color-green-dark);
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child {
+      margin-right: 0;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child svg {
       margin-right: 0.125em;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left .dnb-icon:first-child::after {
+      content: " ";
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
       --anchor-background-gutter-right: 0rem;
@@ -720,7 +778,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
       content: " ";
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child {
+      margin-left: 0;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child svg {
       margin-left: 0.125em;
+    }
+    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right .dnb-icon:last-child::before {
+      content: " ";
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
       --anchor-background-gutter-left: 0rem;

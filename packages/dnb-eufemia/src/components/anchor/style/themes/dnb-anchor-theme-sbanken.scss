@@ -58,6 +58,15 @@
 
     @include anchor-mixins.anchorBackground(var(--anchor-background));
 
+    .dnb-icon {
+      display: inline;
+      vertical-align: unset;
+      svg {
+        vertical-align: middle;
+        transform: translateY(-0.0625em);
+      }
+    }
+
     &--icon-left .dnb-icon:first-child {
       margin-right: 0.25em;
     }
@@ -65,7 +74,6 @@
     &--icon-right .dnb-icon:last-child {
       margin-left: 0.25em;
     }
-
     .dnb-icon--default {
       font-size: 1em;
     }
@@ -93,7 +101,13 @@
 
     &.dnb-anchor--icon-left {
       .dnb-icon:first-child {
-        margin-right: 0.125em;
+        margin-right: 0;
+        svg {
+          margin-right: 0.125em;
+        }
+        &::after {
+          content: '\00a0';
+        }
       }
       &:not(.dnb-anchor--icon-right) {
         --anchor-background-gutter-right: 0rem;
@@ -105,7 +119,13 @@
 
     &.dnb-anchor--icon-right {
       .dnb-icon:last-child {
-        margin-left: 0.125em;
+        margin-left: 0;
+        svg {
+          margin-left: 0.125em;
+        }
+        &::before {
+          content: '\00a0';
+        }
       }
       &:not(.dnb-anchor--icon-left) {
         --anchor-background-gutter-left: 0rem;

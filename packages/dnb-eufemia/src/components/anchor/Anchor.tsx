@@ -6,7 +6,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import E, { ElementProps } from '../../elements/Element'
-import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,
@@ -77,13 +76,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     ...rest
   } = allProps
 
-  const theme = useTheme()
   const attributes = rest as ElementProps
   const internalId = id || 'id' + makeUniqueId()
   const as = element || 'a'
-
-  let prefix: React.ReactNode
-  let suffix: React.ReactNode
 
   const href = allProps.href || allProps.to
   const _opensNewTab = opensNewTab(allProps.target, href)
@@ -91,44 +86,17 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     _opensNewTab &&
     !className?.includes('dnb-anchor--no-icon') &&
     !omitClass
-  const iconSpacer =
-    theme?.isSbanken &&
-    (icon || showLaunchIcon) &&
-    !className?.includes('dnb-anchor--inline')
-      ? ' '
-      : ''
   const showTooltip = (tooltip || _opensNewTab) && !allProps.title
 
-  if (icon && iconPosition === 'right') {
-    suffix = (
-      <>
-        {iconSpacer}
-        {getIcon(icon)}
-      </>
-    )
-  } else {
-    // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-    if (showLaunchIcon) {
-      suffix = (
-        <>
-          {iconSpacer}
-          <IconPrimary
-            className="dnb-anchor__launch-icon"
-            icon={launchIcon}
-          />
-        </>
-      )
-    }
+  const iconNode = icon && getIcon(icon)
 
-    if (icon && iconPosition === 'left') {
-      prefix = (
-        <>
-          {getIcon(icon)}
-          {iconSpacer}
-        </>
-      )
-    }
-  }
+  const suffix =
+    (iconPosition === 'right' && iconNode) ||
+    (showLaunchIcon && (
+      <IconPrimary className="dnb-anchor__launch-icon" icon={launchIcon} />
+    ))
+
+  const prefix = iconPosition === 'left' && iconNode
 
   return (
     <>
