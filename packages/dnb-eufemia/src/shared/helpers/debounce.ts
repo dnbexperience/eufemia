@@ -27,7 +27,7 @@ type DebouncedOptions = {
  */
 export function debounceAsync<T extends any[], R>(
   debouncedFunction: DebouncedFunction<T, R>,
-  wait = 250,
+  wait = 500,
   opts: Omit<DebouncedOptions, 'async'> = null
 ): DebouncedFunction<T, R> & ReturnHelpers {
   return debounce<T, R>(debouncedFunction, wait, { ...opts, async: true })
@@ -38,7 +38,7 @@ export function debounceAsync<T extends any[], R>(
  */
 export function debounce<T extends any[], R>(
   debouncedFunction: DebouncedFunction<T, R>,
-  wait = 250,
+  wait = 500,
   {
     immediate = false,
     instance = null,
