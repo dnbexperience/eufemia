@@ -10,7 +10,7 @@ import {
   ainvoice as AInvoice,
   digipost as DigiPost,
 } from '@dnb/eufemia/src/icons'
-import { Tag } from '@dnb/eufemia/src'
+import { Flex, Tag } from '@dnb/eufemia/src'
 import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
 
 export const TagInteractable = () => (
@@ -90,21 +90,27 @@ export const TagMultipleRemovable = () => (
           { key: 4, text: 'Fantasy' },
         ])
 
-        const handleRemove = (tagToRemove) => () => {
-          setTagsAdded(
-            tagsAdded.filter((tag) => tag.key !== tagToRemove.key),
-          )
-          setTagsRemoved([...tagsRemoved, tagToRemove])
-        }
-        const handleAdd = (tagToAdd) => () => {
-          setTagsAdded([...tagsAdded, tagToAdd])
-          setTagsRemoved(
-            tagsRemoved.filter((tag) => tag.key !== tagToAdd.key),
-          )
-        }
+        const handleRemove = React.useCallback(
+          (tagToRemove) => () => {
+            setTagsAdded(
+              tagsAdded.filter((tag) => tag.key !== tagToRemove.key),
+            )
+            setTagsRemoved([...tagsRemoved, tagToRemove])
+          },
+          [tagsAdded, tagsRemoved],
+        )
+        const handleAdd = React.useCallback(
+          (tagToAdd) => () => {
+            setTagsAdded([...tagsAdded, tagToAdd])
+            setTagsRemoved(
+              tagsRemoved.filter((tag) => tag.key !== tagToAdd.key),
+            )
+          },
+          [tagsAdded, tagsRemoved],
+        )
 
         return (
-          <>
+          <Flex.Stack>
             <FieldBlock label="Selected">
               <Tag.Group label="Genres Selected">
                 {tagsAdded.map((tag) => {
@@ -133,7 +139,7 @@ export const TagMultipleRemovable = () => (
                 })}
               </Tag.Group>
             </FieldBlock>
-          </>
+          </Flex.Stack>
         )
       }
       return <Genres />
