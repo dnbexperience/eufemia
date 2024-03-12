@@ -31,10 +31,14 @@ export type DatePickerContextValues = ContextProps & {
   getReturnObject: ({
     startDate,
     endDate,
+    partialStartDate,
+    partialEndData,
     event,
   }: {
     startDate?: Date
     endDate?: Date
+    partialStartDate?: Date
+    partialEndData?: Date
     event: Event
   }) => {
     is_valid: boolean
