@@ -10,7 +10,8 @@ import {
   ainvoice as AInvoice,
   digipost as DigiPost,
 } from '@dnb/eufemia/src/icons'
-import { Tag, Heading } from '@dnb/eufemia/src'
+import { Tag } from '@dnb/eufemia/src'
+import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
 
 export const TagInteractable = () => (
   <ComponentBox data-visual-test="tag-interactable">
@@ -104,32 +105,34 @@ export const TagMultipleRemovable = () => (
 
         return (
           <>
-            <Heading size="medium">Selected</Heading>
-            <Tag.Group label="Genres Selected">
-              {tagsAdded.map((tag) => {
-                return (
-                  <Tag
-                    key={tag.key}
-                    text={tag.text}
-                    variant="removable"
-                    onClick={handleRemove(tag)}
-                  />
-                )
-              })}
-            </Tag.Group>
-            <Heading size="medium">Removed</Heading>
-            <Tag.Group label="Genres Available">
-              {tagsRemoved.map((tag) => {
-                return (
-                  <Tag
-                    key={tag.key}
-                    text={tag.text}
-                    variant="addable"
-                    onClick={handleAdd(tag)}
-                  />
-                )
-              })}
-            </Tag.Group>
+            <FieldBlock label="Selected">
+              <Tag.Group label="Genres Selected">
+                {tagsAdded.map((tag) => {
+                  return (
+                    <Tag
+                      key={tag.key}
+                      text={tag.text}
+                      variant="removable"
+                      onClick={handleRemove(tag)}
+                    />
+                  )
+                })}
+              </Tag.Group>
+            </FieldBlock>
+            <FieldBlock label="Removed">
+              <Tag.Group label="Genres Available">
+                {tagsRemoved.map((tag) => {
+                  return (
+                    <Tag
+                      key={tag.key}
+                      text={tag.text}
+                      variant="addable"
+                      onClick={handleAdd(tag)}
+                    />
+                  )
+                })}
+              </Tag.Group>
+            </FieldBlock>
           </>
         )
       }
