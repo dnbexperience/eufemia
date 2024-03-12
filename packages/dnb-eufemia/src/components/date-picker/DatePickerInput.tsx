@@ -105,6 +105,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
 
   const [focusState, setFocusState] = useState<string>('virgin')
+  const [partialDates, setpartialDates] = useState({
+    partialStartDate: '',
+    partialEndDate: '',
+  })
 
   const context = useContext(DatePickerContext)
 
@@ -285,6 +289,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     // Get the typed dates, so we can ...
     let { startDate, endDate } = getDates()
 
+    // Get the partial dates, so we can know if something was typed or not in an optional date field
+    const partialStartDate = startDate
+    const partialEndDate = endDate
+
+    setpartialDates({
+      partialStartDate,
+      partialEndDate,
+    })
+
     startDate = parseISO(startDate)
     endDate = parseISO(endDate)
 
@@ -300,6 +313,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       startDate,
       endDate,
       event,
+      partialStartDate,
+      partialEndDate,
     })
 
     // Now, lets correct
@@ -400,6 +415,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     props?.onBlur?.({
       ...event,
       ...context.getReturnObject({ event }),
+      ...partialDates,
     })
   }
 
