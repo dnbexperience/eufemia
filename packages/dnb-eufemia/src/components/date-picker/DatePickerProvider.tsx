@@ -50,6 +50,8 @@ type DatePickerProviderState = {
   hoverDate: Date
   on_show: string
   lastEventCallCache: { startDate: Date; endDate: Date }
+  partialStartDate: Date
+  partialEndDate: Date
 }
 
 type DatePickerProviderProps = React.HTMLProps<HTMLElement> &
@@ -184,12 +186,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
      * Because now we do not any more relay on auto "correction",
      * but rather return "is_valid_start_date=false"
      */
-    if (
-      props.correct_invalid_date ||
-      ((typeof props.min_date !== 'undefined' ||
-        typeof props.max_date !== 'undefined') &&
-        props.correct_invalid_date !== false)
-    ) {
+    if (props.correct_invalid_date) {
       if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
         state.startDate = state.minDate
       }
@@ -325,7 +322,10 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     event = null,
     ...rest
   }: { event?: Event } = {}) {
-    const { startDate, endDate } = { ...state, ...rest }
+    const { startDate, endDate, partialStartDate, partialEndDate } = {
+      ...state,
+      ...rest,
+    }
     const attributes = props.attributes || {}
     const returnFormat = correctV1Format(props.return_format)
     const startDateIsValid = Boolean(startDate && isValid(startDate))
@@ -347,12 +347,15 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         end_date: endDateIsValid ? format(endDate, returnFormat) : null,
         is_valid_start_date: startDateIsValid,
         is_valid_end_date: endDateIsValid,
+        partialStartDate,
+        partialEndDate,
       }
     } else {
       ret = {
         event,
         attributes,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
+        partialStartDate,
         is_valid: startDateIsValid,
       }
     }
