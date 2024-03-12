@@ -120,25 +120,15 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     children,
     text,
     hasLabel,
-    variant: _variant = 'default',
+    variant = 'default',
     onClick,
-    onDelete,
     omitOnKeyUpDeleteEvent,
     removeIconTitle, // has a translation in context
     addIconTitle, // has a translation in context
     ...props
-  } = allProps
+  } = handleDeprecatedBehaviour(allProps)
 
   const content = text || children
-
-  let variant = _variant
-  if (variant === 'default') {
-    if (onClick) {
-      variant = 'clickable'
-    } else if (onDelete) {
-      variant = 'removable'
-    }
-  }
 
   const addIcon = variant === 'removable' || variant === 'addable'
   const isInteractive = variant !== 'default'
@@ -159,9 +149,9 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     )
   }
 
-  const handleKeyUp = (event) => {
-    if (onDelete && isDeleteKeyboardEvent(event)) {
-      onDelete(event)
+  const handleDeleteKeyUp = (event) => {
+    if (isDeleteKeyboardEvent(event) && onClick) {
+      onClick(event)
     }
   }
 
@@ -188,12 +178,12 @@ const Tag = (localProps: TagProps & SpacingProps) => {
       size="small"
       icon_position={addIcon ? 'right' : 'left'}
       className={tagClassNames}
-      on_click={onClick || onDelete}
+      on_click={onClick}
       text={content}
       skeleton={skeleton}
       onKeyUp={
         variant === 'removable' && !omitOnKeyUpDeleteEvent
-          ? (e) => handleKeyUp(e)
+          ? (e) => handleDeleteKeyUp(e)
           : undefined
       }
       {...buttonAttr}
@@ -201,6 +191,24 @@ const Tag = (localProps: TagProps & SpacingProps) => {
   )
 }
 
+/**
+ * Support deprecated behaviour by mutating the props.
+ * Deprecated behaviour: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
+ */
+const handleDeprecatedBehaviour: (allProps: TagProps) => TagProps = ({
+  onDelete,
+  ...allProps
+}) => {
+  if (!allProps.variant) {
+    if (allProps.onClick) {
+      allProps.variant = 'clickable'
+    } else if (onDelete) {
+      allProps.onClick = onDelete
+      allProps.variant = 'removable'
+    }
+  }
+  return allProps
+}
 const getIcon = (title: string) => (
   <IconPrimary
     title={title}

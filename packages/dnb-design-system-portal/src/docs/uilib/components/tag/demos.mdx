@@ -15,16 +15,15 @@ import {
 
 ### Tag
 
-To ensure the correct use of the Tags, we require using a `<Tag.Group>` with `<Tag>`-components as children.
-The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
+There are three interactive tag variants:
+
+- `clickable` (can also accept a custom icon as it does not have on of its own)
+- `addable`
+- `removable` (also triggers `onClick` when pressing the `Delete` or `Backspace` keyboard key (`keyup` event), can be disabled with the `omitOnKeyUpDeleteEvent` prop)
+
+We require `<Tag>`-components to be wrapped by a `<Tag.Group>`-component. The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
 
 <TagInteractable />
-
-- **Clickable tag:** Use the `onClick`-prop to make a tag clickable.
-- **Addable tag:** Use the `onAdd`-prop to make a tag addable. Adds `onClick`-event to the underlying
-  `<Button>`-component. Does not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
-- **Removable tag:** Use the `onDelete`-prop to make a tag removable. Adds `onClick`-event to the underlying
-  `<Button>`-component. Does not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
 
 ### Non-interactive tag
 
@@ -43,7 +42,7 @@ Non-interactable tags are simply made by skipping all callback props, and are th
 
 ### Multiple removable tags
 
-Removable tags can for example be used in filter lists. This example simple example on how to implement a filter list using removable `Tags`.<br/> When a `Tag` is focused (e.g. when tabbing) releasing `Backspace` or `Delete` (`keyup` event) will call the `onDelete`-handler. This behavior can be omitted by setting the `omitOnKeyUpDeleteEvent`-prop to `true`.
+Removable tags can for example be used in filter lists. This is a simple example on how to implement a filter list using removable `Tags`.
 
 <TagMultipleRemovable />
 
