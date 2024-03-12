@@ -60,7 +60,15 @@
 
     .dnb-icon {
       display: inline;
-      vertical-align: unset;
+      vertical-align: baseline;
+      white-space: nowrap; // force icon to line break with word
+
+      &::before,
+      &::after {
+        // word-joiner character (zero-width non-breaking space) connects icon with word
+        content: '\2060';
+      }
+
       svg {
         vertical-align: middle;
         transform: translateY(-0.0625em);

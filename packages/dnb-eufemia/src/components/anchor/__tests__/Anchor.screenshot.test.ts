@@ -305,6 +305,14 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to break word with icon', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-icon-break"]',
+        style: { width: '16rem' },
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 })
 

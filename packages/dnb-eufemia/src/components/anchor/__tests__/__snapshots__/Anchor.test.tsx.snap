@@ -522,7 +522,11 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
   display: inline;
-  vertical-align: unset;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon::before, :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon::after {
+  content: "⁠";
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
   vertical-align: middle;
@@ -667,7 +671,11 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   }
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
     display: inline;
-    vertical-align: unset;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon::before, :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon::after {
+    content: "⁠";
   }
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
     vertical-align: middle;

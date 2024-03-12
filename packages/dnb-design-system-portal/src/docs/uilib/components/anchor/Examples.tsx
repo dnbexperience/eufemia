@@ -257,8 +257,7 @@ export const AnchorExampleIcons = () => (
       </Example>
       <Example data-visual-test="anchor-paragraph">
         <P>
-          A text paragraph with an
-          {' '}
+          A text paragraph with an{' '}
           <Anchor
             href="/uilib/components/anchor"
             icon="bell"
@@ -266,8 +265,7 @@ export const AnchorExampleIcons = () => (
             className="dnb-anchor--inline"
           >
             anchor with icon
-          </Anchor>
-          {' '}
+          </Anchor>{' '}
           in it.
         </P>
       </Example>
@@ -387,3 +385,42 @@ export const AnchorLegacyUsage = () => {
     </Wrapper>
   )
 }
+
+const WidthMarkers = () => (
+  <>
+    {/* eslint-disable-next-line no-irregular-whitespace*/}
+    |​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​|​
+  </>
+)
+export const AnchorIconWordBreak = () => (
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example, WidthMarkers }}>
+      <Example data-visual-test="anchor-icon-break">
+        <P>
+          Some space{' '}
+          <Anchor
+            href="/uilib/components/anchor"
+            icon="bell"
+            className="dnb-anchor--inline"
+          >
+            wordAttachedToIcon longFinalWord
+          </Anchor>{' '}
+          <WidthMarkers />
+        </P>
+
+        <P>
+          Some{' '}
+          <Anchor
+            href="/uilib/components/anchor"
+            icon="bell"
+            iconPosition="right"
+            className="dnb-anchor--inline"
+          >
+            space wordAttachedToIcon
+          </Anchor>{' '}
+          longFinalWord <WidthMarkers />
+        </P>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
+)
