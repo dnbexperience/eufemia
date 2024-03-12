@@ -25,20 +25,6 @@
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25em;
-
-  &.dnb-anchor--icon-left {
-    margin-left: 0;
-    .dnb-icon {
-      margin-left: 0;
-    }
-  }
-
-  &.dnb-anchor--icon-right {
-    margin-right: 0;
-    .dnb-icon {
-      margin-right: 0;
-    }
-  }
 }
 
 @include anchor-mixins.notNoStyle() {
@@ -48,13 +34,14 @@
     --anchor-color--contrast: var(--sb-color-text);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
+    --anchor-icon-gutter: 0.25em;
+    // word-joiner character (zero-width non-breaking space) connects icon with word
+    --anchor-icon-seperator: '\2060';
 
     font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
     padding: 0.15625em 0;
     border-radius: 0.5em;
-
-    $anchor-icon-gutter: 0.125em;
 
     @include anchor-mixins.anchorBackground(var(--anchor-background));
 
@@ -63,12 +50,6 @@
       vertical-align: baseline;
       white-space: nowrap; // force icon to line break with word
 
-      &::before,
-      &::after {
-        // word-joiner character (zero-width non-breaking space) connects icon with word
-        content: '\2060';
-      }
-
       svg {
         vertical-align: middle;
         transform: translateY(-0.0625em);
@@ -76,12 +57,23 @@
     }
 
     &--icon-left .dnb-icon:first-child {
-      margin-right: 0.25em;
+      &::after {
+        content: var(--anchor-icon-seperator);
+      }
+      svg {
+        margin-right: var(--anchor-icon-gutter);
+      }
     }
 
     &--icon-right .dnb-icon:last-child {
-      margin-left: 0.25em;
+      &::before {
+        content: var(--anchor-icon-seperator);
+      }
+      svg {
+        margin-left: var(--anchor-icon-gutter);
+      }
     }
+
     .dnb-icon--default {
       font-size: 1em;
     }
@@ -102,43 +94,31 @@
   }
 
   @include anchor-mixins.notInline() {
+    &.dnb-anchor {
+      --anchor-icon-gutter: 0.125em;
+      // non-breaking space character
+      --anchor-icon-seperator: '\00a0';
+    }
+
     &.dnb-anchor--icon-left,
     &.dnb-anchor--icon-right {
       text-decoration-color: var(--sb-color-green-dark);
     }
 
     &.dnb-anchor--icon-left {
-      .dnb-icon:first-child {
-        margin-right: 0;
-        svg {
-          margin-right: 0.125em;
-        }
-        &::after {
-          content: '\00a0';
-        }
-      }
       &:not(.dnb-anchor--icon-right) {
         --anchor-background-gutter-right: 0rem;
         &::after {
-          content: '\00a0';
+          content: var(--anchor-icon-seperator);
         }
       }
     }
 
     &.dnb-anchor--icon-right {
-      .dnb-icon:last-child {
-        margin-left: 0;
-        svg {
-          margin-left: 0.125em;
-        }
-        &::before {
-          content: '\00a0';
-        }
-      }
       &:not(.dnb-anchor--icon-left) {
         --anchor-background-gutter-left: 0rem;
         &::before {
-          content: '\00a0';
+          content: var(--anchor-icon-seperator);
         }
       }
     }
