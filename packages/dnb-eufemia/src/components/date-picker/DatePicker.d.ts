@@ -31,6 +31,8 @@ type DatePickerEvent<T> = T & {
   date?: string;
   start_date?: string;
   end_date?: string;
+  partialStartDate?: string;
+  partialEndDate?: string;
 };
 
 export interface DatePickerProps
