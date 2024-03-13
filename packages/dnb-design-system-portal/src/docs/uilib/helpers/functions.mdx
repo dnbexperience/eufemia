@@ -243,7 +243,7 @@ const debounceFunc = ({ foo }) => { ... }
 
 const debounced = debounce(
   debounceFunc,
-  wait = 250, // milliseconds
+  wait = 500, // milliseconds
   {
     immediate = false, // execute the debounceFunc on the leading end
   } = {},
@@ -272,7 +272,7 @@ const myCancelMethod = () => {
 
 const debounced = debounceAsync(
   debounceFunc,
-  (wait = 250), // milliseconds
+  (wait = 500), // milliseconds
 )
 
 debounceAsync({ foo: 'bar' }) // delay the execution – again
