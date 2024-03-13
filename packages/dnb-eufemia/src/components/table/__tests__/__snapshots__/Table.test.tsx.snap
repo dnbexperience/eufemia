@@ -111,6 +111,10 @@ exports[`Table scss has to match style dependencies css 1`] = `
 .dnb-table.dnb-skeleton > * {
   -webkit-text-fill-color: var(--skeleton-color);
 }
+.dnb-card .dnb-table {
+  --table-outline-color: transparent;
+  margin-bottom: 0;
+}
 .dnb-table > thead > tr > th.dnb-table--sortable, .dnb-table .dnb-table__th.dnb-table--sortable {
   color: var(--color-sea-green);
 }

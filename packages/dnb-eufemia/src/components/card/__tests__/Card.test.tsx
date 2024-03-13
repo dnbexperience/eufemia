@@ -61,6 +61,7 @@ describe('Card', () => {
       'dnb-section--default',
       'dnb-card',
       'custom-class',
+      'dnb-card--responsive',
     ])
   })
 
@@ -256,5 +257,107 @@ describe('Card', () => {
 
     expect(ref.current instanceof HTMLElement).toBe(true)
     expect(ref.current.tagName).toBe('DIV')
+  })
+
+  it('should support "filled"', () => {
+    render(
+      <Card filled>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(element).toHaveClass('dnb-card--filled')
+  })
+
+  it('should support "innerSpace" of 0', () => {
+    const { rerender } = render(<Card />)
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(element.getAttribute('style')).toContain('--space-')
+
+    rerender(<Card innerSpace={0} />)
+
+    expect(element.getAttribute('style')).not.toContain('--space-')
+  })
+
+  it('should support "responsive" of false', () => {
+    const { rerender } = render(
+      <Card>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(element).toHaveClass('dnb-card--responsive')
+
+    rerender(
+      <Card responsive={false}>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(element).not.toHaveClass('dnb-card--responsive')
+  })
+
+  it('should support "title"', () => {
+    const { rerender } = render(
+      <Card title="Title">
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(element.querySelector('.dnb-card__title')).toHaveTextContent(
+      'Title'
+    )
+
+    rerender(
+      <Card title="Title changed">
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(element.querySelector('.dnb-card__title')).toHaveTextContent(
+      'Title changed'
+    )
+
+    rerender(
+      <Card>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(element.querySelector('.dnb-card__title')).toBeNull()
+  })
+
+  it('should link "title" with card', () => {
+    const { rerender } = render(
+      <Card title="Title">
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(element).toHaveAttribute(
+      'aria-labelledby',
+      element.querySelector('.dnb-card__title').getAttribute('id')
+    )
+
+    rerender(
+      <Card title="Title" aria-labelledby="123">
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(element).toHaveAttribute(
+      'aria-labelledby',
+      '123 ' + element.querySelector('.dnb-card__title').getAttribute('id')
+    )
   })
 })
