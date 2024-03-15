@@ -193,6 +193,7 @@ function NumberComponent(props: Props) {
     maximum = Number.MAX_SAFE_INTEGER,
     disabled,
     ariaAttributes,
+    dataAttributes,
     info,
     warning,
     error,
@@ -320,6 +321,7 @@ function NumberComponent(props: Props) {
     onChange: handleChange,
     disabled,
     ...ariaAttributes,
+    ...dataAttributes,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(
       width !== undefined || fieldBlockContext?.composition

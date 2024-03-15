@@ -1183,6 +1183,22 @@ export default function useFieldProps<
     )
   }
 
+  // Handle data-attributes
+  const dataAttributes = useMemo(
+    () =>
+      Object.keys(props).reduce<ReturnAdditional<Value>['dataAttributes']>(
+        (dataAttributes, prop) => {
+          if (prop.startsWith('data-')) {
+            dataAttributes[prop] = props[prop]
+          }
+
+          return dataAttributes
+        },
+        {}
+      ),
+    [props]
+  )
+
   const fieldBlockProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
@@ -1220,6 +1236,7 @@ export default function useFieldProps<
     hasError: hasVisibleError,
     isChanged: changedRef.current,
     ariaAttributes,
+    dataAttributes,
     setHasFocus,
     handleFocus,
     handleBlur,
@@ -1237,6 +1254,9 @@ export interface ReturnAdditional<Value> {
   value: Value
   isChanged: boolean
   ariaAttributes: AriaAttributes
+  dataAttributes: {
+    [key: `data-${string}`]: string
+  }
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
