@@ -2,21 +2,17 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListBaseValueComponents(props) {
+export default function ListComponents(props) {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
     {
       allMdx(
         filter: {
-          frontmatter: {
-            title: { ne: null }
-            draft: { ne: true }
-            componentType: { regex: "/base/" }
-          }
+          frontmatter: { title: { ne: null }, draft: { ne: true } }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/extended-features/Value/**/*"
+              glob: "**/uilib/extensions/forms/extended-features/Iterate/**/*"
             }
           }
         }
