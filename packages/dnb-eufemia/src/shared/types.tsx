@@ -30,10 +30,13 @@ export type DataAttributeTypes = {
   // [property: `data-${string}`]: string
 }
 
+/**
+ * The DynamicElement is a type to define a dynamic element type.
+ */
 export type DynamicElement<
   E = HTMLElement,
   P = React.DetailedHTMLProps<React.HTMLAttributes<E>, E>,
-> = keyof JSX.IntrinsicElements | React.FunctionComponent<P>
+> = React.ElementType<P> | string
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
 
