@@ -9,7 +9,7 @@ import { TextareaProps } from '../../../../components/Textarea'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import FieldBlock from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
@@ -196,7 +196,7 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { Field, Form } from '../..'
 
 export default {
@@ -10,7 +10,7 @@ export default {
 
 export function FieldBlockLabel() {
   const fromInput = useCallback(({ value }) => value, [])
-  const { value, handleChange, handleFocus, handleBlur } = useDataValue({
+  const { value, handleChange, handleFocus, handleBlur } = useFieldProps({
     value: 'foo',
     fromInput,
   })

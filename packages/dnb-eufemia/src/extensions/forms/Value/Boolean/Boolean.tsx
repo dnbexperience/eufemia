@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import ValueBlock from '../../ValueBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
@@ -10,7 +10,7 @@ export type Props = ValueProps<boolean>
 function BooleanComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { className, label, placeholder, showEmpty, value, inline } =
-    useDataValue(props)
+    useFieldProps(props)
 
   return (
     <ValueBlock

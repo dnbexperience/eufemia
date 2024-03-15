@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateElementContext from '../IterateElementContext'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   DataValueReadWriteComponentProps,
   omitDataValueReadWriteProps,
@@ -24,7 +24,7 @@ function ArrayRemoveElementButton(props: Props) {
 
   const buttonProps = omitDataValueReadWriteProps(props)
 
-  const { children } = useDataValue(props)
+  const { children } = useFieldProps(props)
 
   const handleClick = useCallback(() => {
     handleRemove()

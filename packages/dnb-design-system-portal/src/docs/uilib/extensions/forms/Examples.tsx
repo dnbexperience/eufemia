@@ -7,7 +7,7 @@ import {
   Field,
   Value,
   FieldBlock,
-  useDataValue,
+  useFieldProps,
   DataContext,
 } from '@dnb/eufemia/src/extensions/forms'
 
@@ -15,7 +15,7 @@ export const CreateBasicFieldComponent = () => {
   return (
     <ComponentBox
       scope={{
-        useDataValue,
+        useFieldProps,
       }}
       hideCode
     >
@@ -42,7 +42,7 @@ export const CreateBasicFieldComponent = () => {
             handleChange,
             handleFocus,
             handleBlur,
-          } = useDataValue(preparedProps)
+          } = useFieldProps(preparedProps)
 
           return (
             <FieldBlock
@@ -138,13 +138,13 @@ export const CreateComposedFieldComponent = () => {
     <ComponentBox
       scope={{
         DataContext,
-        useDataValue,
+        useFieldProps,
       }}
       hideCode
     >
       {() => {
         const MyComposedField = (props) => {
-          const birthYear = useDataValue({
+          const birthYear = useFieldProps({
             path: '/birthYear',
           })
 

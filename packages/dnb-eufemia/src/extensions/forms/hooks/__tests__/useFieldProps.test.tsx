@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, render, renderHook, waitFor } from '@testing-library/react'
 import SharedProvider from '../../../../shared/Provider'
-import useDataValue from '../useDataValue'
+import useFieldProps from '../useFieldProps'
 import { Provider } from '../../DataContext'
 import {
   FieldBlock,
@@ -14,10 +14,10 @@ import {
 import { wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
-describe('useDataValue', () => {
+describe('useFieldProps', () => {
   it('should call external onChange based change callbacks', () => {
     const onChange = jest.fn()
-    const { result } = renderHook(() => useDataValue({ onChange }))
+    const { result } = renderHook(() => useFieldProps({ onChange }))
 
     const { handleChange } = result.current
 
@@ -32,7 +32,7 @@ describe('useDataValue', () => {
     const value = 'include this'
 
     const { result } = renderHook(
-      () => useDataValue({ path: '/foo', value }),
+      () => useFieldProps({ path: '/foo', value }),
       { wrapper: Provider }
     )
 
@@ -46,7 +46,7 @@ describe('useDataValue', () => {
 
     const { result } = renderHook(
       () =>
-        useDataValue({
+        useFieldProps({
           value: 'foo',
           emptyValue: '',
           required: true,
@@ -87,7 +87,7 @@ describe('useDataValue', () => {
   describe('using focus callbacks', () => {
     it('should return the error only when the value is invalid AND it is not in focus', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 'foo',
           emptyValue: '',
           required: true,
@@ -124,7 +124,7 @@ describe('useDataValue', () => {
   describe('without using focus callbacks', () => {
     it('should return the error as long as the value is invalid', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 'foo',
           emptyValue: '',
           required: true,
@@ -151,7 +151,7 @@ describe('useDataValue', () => {
 
   describe('with local validation', () => {
     it('should return error when validator callback return error', async () => {
-      const { result, rerender } = renderHook(useDataValue, {
+      const { result, rerender } = renderHook(useFieldProps, {
         initialProps: {
           validator: () => new Error('This is wrong...'),
           value: 'foo',
@@ -191,7 +191,7 @@ describe('useDataValue', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             validator,
             value: '',
@@ -244,7 +244,7 @@ describe('useDataValue', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             validator,
             onBlurValidator: undefined,
@@ -367,7 +367,7 @@ describe('useDataValue', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             validator,
             value: '',
@@ -408,7 +408,7 @@ describe('useDataValue', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             onBlurValidator,
             value: '',
@@ -454,7 +454,7 @@ describe('useDataValue', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             onBlurValidator,
             value: '',
@@ -500,7 +500,7 @@ describe('useDataValue', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             validator,
             value: '',
@@ -541,7 +541,7 @@ describe('useDataValue', () => {
         }
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
         },
@@ -570,7 +570,7 @@ describe('useDataValue', () => {
       }
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 'valid',
           schema,
           path: '/txt',
@@ -637,7 +637,7 @@ describe('useDataValue', () => {
         path: '/foo',
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps,
       })
 
@@ -693,7 +693,7 @@ describe('useDataValue', () => {
 
     it('should show given error from errorMessages', () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: undefined,
           required: true,
           validateInitially: true,
@@ -710,7 +710,7 @@ describe('useDataValue', () => {
 
     it('should validate required when value is empty string', () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: '',
           required: true,
           validateInitially: true,
@@ -731,7 +731,7 @@ describe('useDataValue', () => {
       const onBlur = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 1,
           required: true,
           emptyValue: 'empty',
@@ -773,7 +773,7 @@ describe('useDataValue', () => {
 
     it('should return error when required is set and the value is empty', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: undefined,
           required: true,
           validateInitially: true,
@@ -786,7 +786,7 @@ describe('useDataValue', () => {
 
     describe('disabled and readOnly', () => {
       it('should skip validation when disabled is given', async () => {
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             path: '/foo',
             value: '',
@@ -805,7 +805,7 @@ describe('useDataValue', () => {
       })
 
       it('should skip validation when readOnly is given', async () => {
-        const { result, rerender } = renderHook(useDataValue, {
+        const { result, rerender } = renderHook(useFieldProps, {
           initialProps: {
             path: '/foo',
             value: '',
@@ -838,7 +838,7 @@ describe('useDataValue', () => {
         return null
       }
 
-      const { result, rerender } = renderHook(useDataValue, {
+      const { result, rerender } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           value: '',
@@ -866,7 +866,7 @@ describe('useDataValue', () => {
         return null
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
         },
@@ -904,7 +904,7 @@ describe('useDataValue', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
         },
@@ -953,7 +953,7 @@ describe('useDataValue', () => {
         events.push('validator')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           validator,
@@ -1001,7 +1001,7 @@ describe('useDataValue', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           onBlurValidator,
@@ -1040,7 +1040,7 @@ describe('useDataValue', () => {
       const validator = async () => null
       const onBlurValidator = async () => null
 
-      const { result, rerender } = renderHook(useDataValue, {
+      const { result, rerender } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           validator,
@@ -1104,7 +1104,7 @@ describe('useDataValue', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           validator,
@@ -1160,7 +1160,7 @@ describe('useDataValue', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           validator,
@@ -1204,7 +1204,7 @@ describe('useDataValue', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           onBlurValidator,
@@ -1242,7 +1242,7 @@ describe('useDataValue', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
         },
@@ -1284,7 +1284,7 @@ describe('useDataValue', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
           validator,
@@ -1369,7 +1369,7 @@ describe('useDataValue', () => {
         }
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange: onChangeField,
           validator,
@@ -1525,7 +1525,7 @@ describe('useDataValue', () => {
         }
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange: onChangeField,
           validator,
@@ -1706,7 +1706,7 @@ describe('useDataValue', () => {
         }
       }
 
-      const { result } = renderHook(useDataValue, {
+      const { result } = renderHook(useFieldProps, {
         initialProps: {
           onChange,
         },
@@ -1733,7 +1733,7 @@ describe('useDataValue', () => {
   describe('ariaAttributes', () => {
     it('should forward custom aria attributes', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           'aria-label': 'custom attribute',
         })
       )
@@ -1745,7 +1745,7 @@ describe('useDataValue', () => {
 
     it('should combine attributes', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           id: 'unique',
           error: new Error('error'),
           'aria-describedby': 'existing-id',
@@ -1760,7 +1760,7 @@ describe('useDataValue', () => {
 
     it('should return false by default', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: undefined,
           validateInitially: true,
         })
@@ -1771,7 +1771,7 @@ describe('useDataValue', () => {
 
     it('should return true on required', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: undefined,
           required: true,
         })
@@ -1785,7 +1785,7 @@ describe('useDataValue', () => {
 
     it('should return true on required and invalid', async () => {
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           id: 'unique',
           value: undefined,
           required: true,
@@ -1803,7 +1803,7 @@ describe('useDataValue', () => {
 
     it('should return aria-describedby', async () => {
       const { result, rerender } = renderHook(
-        (props) => useDataValue(props),
+        (props) => useFieldProps(props),
         {
           initialProps: {},
         }
@@ -1836,7 +1836,7 @@ describe('useDataValue', () => {
 
     it('should combine all aria', async () => {
       const { result } = renderHook(() =>
-        useDataValue({ error: new Error('error'), required: true })
+        useFieldProps({ error: new Error('error'), required: true })
       )
 
       expect(result.current.ariaAttributes).toEqual({
@@ -1854,7 +1854,7 @@ describe('useDataValue', () => {
       const onChange = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 1,
           onChange,
           fromInput,
@@ -1897,7 +1897,7 @@ describe('useDataValue', () => {
       const onBlur = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 1,
           toEvent,
           onChange,
@@ -1950,7 +1950,7 @@ describe('useDataValue', () => {
       const onBlur = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 1,
           fromExternal,
           onChange,
@@ -1999,7 +1999,7 @@ describe('useDataValue', () => {
       const transformValue = jest.fn((v) => v + 1)
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 1,
           transformValue,
         })
@@ -2036,7 +2036,7 @@ describe('useDataValue', () => {
       const onChange = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 'foo',
           onFocus,
           onBlur,
@@ -2075,7 +2075,7 @@ describe('useDataValue', () => {
       const onChange = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 'foo',
           onChange,
           fromInput,
@@ -2127,7 +2127,7 @@ describe('useDataValue', () => {
       const onChange = jest.fn()
 
       const { result } = renderHook(() =>
-        useDataValue({
+        useFieldProps({
           value: 'foo',
           emptyValue: '',
           onFocus,
@@ -2174,7 +2174,7 @@ describe('useDataValue', () => {
   it('should return "hasError" when outer FieldBlocks as error', () => {
     let hasOuterError = false
     const MockComponent = (props) => {
-      const { hasError } = useDataValue(props)
+      const { hasError } = useFieldProps(props)
       hasOuterError = hasError
       return null
     }
@@ -2199,7 +2199,7 @@ describe('useDataValue', () => {
   it('should translate required error', () => {
     const { result } = renderHook(
       () =>
-        useDataValue({
+        useFieldProps({
           validateInitially: true,
           required: true,
         }),
@@ -2228,7 +2228,7 @@ describe('useDataValue', () => {
 
   it('should return autoComplete based on DataContext', () => {
     const { result, rerender } = renderHook(
-      (props) => useDataValue(props),
+      (props) => useFieldProps(props),
       {
         initialProps: {},
         wrapper: ({ children }) => (

@@ -3,7 +3,7 @@ import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import OptionField from '../Option'
 import FieldBlock from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
@@ -38,7 +38,7 @@ function ArraySelection(props: Props) {
     emptyValue,
     handleChange,
     children,
-  } = useDataValue(props)
+  } = useFieldProps(props)
 
   const fieldBlockProps = {
     forId: id,

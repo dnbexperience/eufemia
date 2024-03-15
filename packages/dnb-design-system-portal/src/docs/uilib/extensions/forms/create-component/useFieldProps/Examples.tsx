@@ -5,13 +5,13 @@ import {
   FieldBlock,
   Form,
   JSONSchema,
-  useDataValue,
+  useFieldProps,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Slider } from '@dnb/eufemia/src'
 
 export const CustomComponentExample = () => {
   return (
-    <ComponentBox scope={{ useDataValue, FieldBlock }}>
+    <ComponentBox scope={{ useFieldProps, FieldBlock }}>
       {() => {
         const MySliderComponent = (props) => {
           const fromInput = React.useCallback(
@@ -59,7 +59,7 @@ export const CustomComponentExample = () => {
             handleChange,
             handleFocus,
             handleBlur,
-          } = useDataValue(preparedProps)
+          } = useFieldProps(preparedProps)
 
           const steps = { minimum, maximum, step }
 

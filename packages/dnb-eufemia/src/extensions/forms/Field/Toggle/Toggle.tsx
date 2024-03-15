@@ -3,7 +3,7 @@ import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
@@ -44,7 +44,7 @@ function Toggle(props: Props) {
     hasError,
     ariaAttributes,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const handleCheckboxChange = useCallback(
     ({ checked }) => {
