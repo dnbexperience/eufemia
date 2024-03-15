@@ -2,17 +2,21 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListComponents() {
+export default function ListFormComponents(props) {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
     {
       allMdx(
         filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
+          frontmatter: {
+            title: { ne: null }
+            draft: { ne: true }
+            componentType: { ne: "docs" }
+          }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/extended-features/Iterate/**/*"
+              glob: "**/uilib/extensions/forms/extended-features/Form/**/*"
             }
           }
         }
@@ -36,5 +40,5 @@ export default function ListComponents() {
     }
   `)
 
-  return <ListSummaryFromEdges edges={edges} />
+  return <ListSummaryFromEdges edges={edges} {...props} />
 }

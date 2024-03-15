@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListBaseFieldComponents() {
+export default function ListBaseFieldComponents(props) {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -40,5 +40,5 @@ export default function ListBaseFieldComponents() {
     }
   `)
 
-  return <ListSummaryFromEdges edges={edges} />
+  return <ListSummaryFromEdges edges={edges} {...props} />
 }
