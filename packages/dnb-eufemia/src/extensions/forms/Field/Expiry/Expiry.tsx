@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
@@ -55,7 +55,7 @@ function Expiry(props: ExpiryProps) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const expiry: ExpiryValue = {
     month: ensureValidMonth(value?.substring(0, 2)),

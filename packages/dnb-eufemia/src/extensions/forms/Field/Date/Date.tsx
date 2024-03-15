@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   FieldProps,
   FieldHelpProps,
@@ -74,7 +74,7 @@ function DateComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   return (
     <FieldBlock

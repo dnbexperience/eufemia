@@ -1,6 +1,6 @@
 import React from 'react'
 import ValueBlock from '../../ValueBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 
@@ -15,7 +15,7 @@ function StringComponent(props: Props) {
     inline,
     showEmpty,
     prepare = (value) => value,
-  } = useDataValue(props)
+  } = useFieldProps(props)
 
   return (
     <ValueBlock

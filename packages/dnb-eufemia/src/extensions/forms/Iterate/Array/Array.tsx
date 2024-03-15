@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import pointer from 'json-pointer'
 import IterateElementContext from '../IterateElementContext'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   FieldProps,
   FieldHelpProps,
@@ -50,7 +50,7 @@ function ArrayComponent(props: Props) {
     width,
     handleChange,
     children,
-  } = useDataValue(props)
+  } = useFieldProps(props)
 
   const elementData: {
     elementValue: unknown

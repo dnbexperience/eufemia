@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateElementContext from '../IterateElementContext'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   DataValueReadWriteComponentProps,
   omitDataValueReadWriteProps,
@@ -20,7 +20,7 @@ function ArrayPushButton(props: Props) {
 
   const { pushValue, ...restProps } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
-  const { value, handleChange, children } = useDataValue(restProps)
+  const { value, handleChange, children } = useFieldProps(restProps)
 
   if (value !== undefined && !Array.isArray(value)) {
     throw new Error('ArrayPushButton received a non-array value.')
@@ -33,7 +33,7 @@ function ArrayPushButton(props: Props) {
       return
     }
 
-    // If not inside an iterate, it could still manipulate a source data set through useDataValue
+    // If not inside an iterate, it could still manipulate a source data set through useFieldProps
     handleChange([...(value ?? []), pushValue])
   }, [value, pushValue, handlePush, handleChange])
 

@@ -6,7 +6,7 @@ import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   FieldProps,
   FieldHelpProps,
@@ -204,7 +204,7 @@ function NumberComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const onKeyDownHandler = useCallback(
     ({ key, event }) => {

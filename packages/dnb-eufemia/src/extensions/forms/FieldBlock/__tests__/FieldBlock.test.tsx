@@ -4,7 +4,7 @@ import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import { FormError } from '../../types'
 import userEvent from '@testing-library/user-event'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   initializeTestSetup,
   runAnimation,
@@ -144,7 +144,7 @@ describe('FieldBlock', () => {
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
       const fromInput = React.useCallback(({ value }) => value, [])
-      const { value, handleChange } = useDataValue({
+      const { value, handleChange } = useFieldProps({
         value: '',
         fromInput,
       })
@@ -367,7 +367,7 @@ describe('FieldBlock', () => {
   it('should set hasError on provider', () => {
     let hasNestedError = false
     const MockComponent = (props) => {
-      const { hasError } = useDataValue(props)
+      const { hasError } = useFieldProps(props)
       hasNestedError = hasError
       return null
     }

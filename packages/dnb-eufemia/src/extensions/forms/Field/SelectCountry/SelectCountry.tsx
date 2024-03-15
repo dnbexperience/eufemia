@@ -7,7 +7,7 @@ import countries, {
   prioritizedCountries,
   CountryType,
 } from '../../constants/countries'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
@@ -79,7 +79,7 @@ function SelectCountry(props: Props) {
     filterCountries = ccFilter !== 'Prioritized'
       ? makeCountryFilterSet(ccFilter)
       : undefined,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const dataRef = React.useRef(null)
   const langRef = React.useRef(lang)

@@ -1032,7 +1032,7 @@ describe('Field.String', () => {
     })
   })
 
-  describe('useDataValue and FieldBlock', () => {
+  describe('useFieldProps and FieldBlock', () => {
     const inputError = 'StatusMessage error'
     const inputWarning = 'StatusMessage warning'
     const inputInfo = 'StatusMessage info'
