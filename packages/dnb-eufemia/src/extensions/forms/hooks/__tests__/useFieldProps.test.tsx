@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, render, renderHook, waitFor } from '@testing-library/react'
 import SharedProvider from '../../../../shared/Provider'
-import useDataValue from '../useDataValue'
+import useDataValue from '../useFieldProps'
 import { Provider } from '../../DataContext'
 import {
   FieldBlock,

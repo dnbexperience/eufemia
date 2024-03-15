@@ -46,7 +46,7 @@ type AsyncProcessesBuffer = {
   hasAsyncProcesses: () => boolean
 }
 
-export default function useDataValue<
+export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
 >(props: Props): Props & FieldProps<Value> & ReturnAdditional<Value> {
@@ -1205,7 +1205,7 @@ export interface ReturnAdditional<Value> {
   fieldState: SubmitState
 }
 
-export function omitDataValueProps<
+export function omitFieldProps<
   Props extends FieldProps<unknown> & ReturnAdditional<unknown>,
 >(props: Props) {
   // Do not include typical HTML attributes

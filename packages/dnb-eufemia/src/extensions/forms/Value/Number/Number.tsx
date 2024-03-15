@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import ValueBlock from '../../ValueBlock'
-import useDataValue, { omitDataValueProps } from '../../hooks/useDataValue'
+import useDataValue, { omitFieldProps } from '../../hooks/useFieldProps'
 import { ValueProps } from '../../types'
 import {
   omitSpacingProps,
@@ -23,7 +23,7 @@ function NumberValue(props: Props) {
     useDataValue(props)
 
   const numberFormatProps = convertCamelCaseProps(
-    omitDataValueProps(omitSpacingProps(rest))
+    omitFieldProps(omitSpacingProps(rest))
   )
 
   return (
