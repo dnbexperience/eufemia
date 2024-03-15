@@ -226,7 +226,7 @@ describe('Field.Number', () => {
       expect(input).toHaveAttribute('inputmode', 'decimal')
     })
 
-    it.only('should apply data-attributes', () => {
+    it('should apply data-attributes', () => {
       render(
         <Field.Number data-testid="testid" data-long-value="long-value" />
       )
