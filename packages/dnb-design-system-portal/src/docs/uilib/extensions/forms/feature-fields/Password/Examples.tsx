@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Placeholder = () => {
   return (
@@ -73,16 +73,16 @@ export const Disabled = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.Password
         value="your-birthday"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         onHidePassword={(event) => console.log('onHidePassword', event)}
         onShowPassword={(event) => console.log('onShowPassword', event)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )

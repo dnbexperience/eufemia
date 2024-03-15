@@ -2,7 +2,7 @@ import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { Field, FormError, FieldBlock } from '../../..'
+import { Field, FieldBlock } from '../../..'
 
 describe('Field.Date', () => {
   it('should render with props', () => {
@@ -106,7 +106,7 @@ describe('Field.Date', () => {
   })
 
   it('renders error', () => {
-    render(<Field.Date error={new FormError('Error message')} />)
+    render(<Field.Date error={new Error('Error message')} />)
 
     const element = document.querySelector('.dnb-form-status')
     expect(element).toHaveTextContent('Error message')
@@ -118,7 +118,7 @@ describe('Field.Date', () => {
   it('shows error style in FieldBlock', () => {
     render(
       <FieldBlock>
-        <Field.Date error={new FormError('Error message')} />
+        <Field.Date error={new Error('Error message')} />
       </FieldBlock>
     )
 

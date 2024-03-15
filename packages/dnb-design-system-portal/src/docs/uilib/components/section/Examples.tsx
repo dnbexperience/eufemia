@@ -325,7 +325,7 @@ export const Info = () => (
   </ComponentBox>
 )
 
-export const Error = () => (
+export const WithError = () => (
   <ComponentBox hideCode data-visual-test="section-error">
     <Section
       innerSpace={{ top: 'large', bottom: 'large' }}

@@ -26,7 +26,14 @@ render(<Field.PhoneNumber validator={validator} />)
 
 ### FormError object
 
-Use `new FormError` with a message to display an existing and translated error message.
+You can use the JavaScript `Error` object to display a custom error message:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.PhoneNumber error={new Error('Custom message')} />)
+```
+
+When it comes to re-using existing translations, you can also use the `FormError` object to display error messages.
 
 The `validationRule` is used to identify the error message to display.
 

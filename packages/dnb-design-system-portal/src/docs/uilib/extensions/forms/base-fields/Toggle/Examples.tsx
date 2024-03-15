@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const ValueOn = () => {
   return (
@@ -77,7 +77,7 @@ export const Info = () => {
 
 export const Warning = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
@@ -90,16 +90,16 @@ export const Warning = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
         variant="checkbox"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )

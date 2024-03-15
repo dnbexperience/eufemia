@@ -2,12 +2,13 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import { Props } from '../Toggle'
-import { Field, FormError, FieldBlock } from '../../..'
+import { Field, FieldBlock } from '../../..'
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
     const props: Props = { valueOn: 'checked', valueOff: 'unchecked' }
     render(<Field.Toggle {...props} />)
+    expect(document.querySelector('input')).toBeInTheDocument()
   })
 
   it('should support disabled prop', () => {
@@ -126,7 +127,7 @@ describe('Field.Toggle', () => {
       })
 
       it('renders error', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <Field.Toggle
@@ -146,7 +147,7 @@ describe('Field.Toggle', () => {
       })
 
       it('shows error style in FieldBlock', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <FieldBlock>
@@ -295,7 +296,7 @@ describe('Field.Toggle', () => {
       })
 
       it('renders error', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <Field.Toggle
@@ -318,7 +319,7 @@ describe('Field.Toggle', () => {
       })
 
       it('shows error style in FieldBlock', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <FieldBlock>
@@ -430,7 +431,7 @@ describe('Field.Toggle', () => {
       })
 
       it('renders error', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <Field.Toggle
@@ -451,7 +452,7 @@ describe('Field.Toggle', () => {
       })
 
       it('shows error style in FieldBlock', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <FieldBlock>
@@ -552,7 +553,7 @@ describe('Field.Toggle', () => {
       })
 
       it('renders error', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <Field.Toggle
@@ -573,7 +574,7 @@ describe('Field.Toggle', () => {
       })
 
       it('shows error style in FieldBlock', () => {
-        const errorMessage = new FormError('Error message')
+        const errorMessage = new Error('Error message')
 
         render(
           <FieldBlock>

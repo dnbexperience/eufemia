@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex } from '@dnb/eufemia/src'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 // Dropdown
 
@@ -150,12 +150,12 @@ export const DropdownDisabled = () => (
 )
 
 export const DropdownError = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.Selection
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      error={new FormError('This is what is wrong...')}
+      error={new Error('This is what is wrong...')}
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -362,13 +362,13 @@ export const RadioDisabled = () => (
 )
 
 export const RadioError = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      error={new FormError('This is what is wrong...')}
+      error={new Error('This is what is wrong...')}
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -447,13 +447,13 @@ export const ButtonDisabled = () => (
 )
 
 export const ButtonError = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.Selection
       variant="button"
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      error={new FormError('This is what is wrong...')}
+      error={new Error('This is what is wrong...')}
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
