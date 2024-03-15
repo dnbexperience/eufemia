@@ -8,18 +8,69 @@ breadcrumb:
 
 # Best Practices on Forms
 
-- Ensure you have a `form` element. It will add support for additional keyboard and auto-complete features. Use the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) that uses the [Form.Element](/uilib/extensions/forms/extended-features/Form/Element/) under the hood.
-- Ensure your form HTML elements have a semantic and unique `name`. By using the `path` property (e.g. `path="/firstName"`), it will set an unique `name` attribute to the rendered HTML element.
+This document provides a set of best practices to follow when creating forms for DNB.
+
+## General
+
+- Ensure you have a `form` element. It will add support for additional keyboard (enter key) and auto-complete features. Use the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) that uses the [Form.Element](/uilib/extensions/forms/extended-features/Form/Element/) under the hood.
+- Ensure your form HTML elements have a semantic and unique `name`. By using the `path` property (e.g. `path="/firstName"`), it will set an unique `name` attribute to the rendered HTML element without the need of more work.
 - Ensure you have a submit button. Use the [Form.SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) for that.
-- Ensure to let browser autofill personal data if applicable, based on HTML [autocomplete attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete). By using the `path` property with semantic names (e.g. `path="/firstName"`), browser will be able to provide a correct autofill integration.
-- In some cases, it is appreciated to temporary store user entered input data. Use the `sessionStorageId` feature provided by [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) for that.
-- Required fields should have `aria-required="true"` attribute. Use the `required` property for that.
-- Fields with errors should have `aria-invalid="true"` attribute.
 
 ```jsx
-<Form.Handler autoComplete={true}>
-  <Field.String path="/firstName" required />
-  <Field.Email path="/email" required />
+<Form.Handler>
+  <Field.String path="/myField" />
   <Form.SubmitButton>Submit</Form.SubmitButton>
 </Form.Handler>
+```
+
+## Workflow and browser features
+
+- Ensure to let browser autofill personal data if applicable, based on HTML [autocomplete attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete). By using the `path` property with semantic names (e.g. `path="/firstName"`), browser will be able to provide a correct autofill integration.
+- In some cases, it is appreciated to temporary store user entered input data. Use the `sessionStorageId` feature provided by [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) for that.
+
+```jsx
+<Form.Handler sessionStorageId="my-form">
+  <Field.String
+    path="/organizationTitle"
+    autoComplete="organization-title"
+  />
+</Form.Handler>
+```
+
+## Validation
+
+- The `tab` (Tab) key should be used to navigate between form fields. It should NOT trigger validation.
+- Required fields should have `aria-required="true"` attribute. Use the `required` property for that.
+- Validation should be triggered on `submit` events and on `blur` – if the user has made changes. In some cases, it is appreciated to trigger validation on `change` events. This behavior can be changed if needed by using `validateInitially`, `validateUnchanged` and `continuousValidation`. More info about these properties can be found in the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) documentation.
+
+```jsx
+<Field.String
+  path="/myField"
+  required
+  onBlurValidator={validationFunction}
+/>
+```
+
+## Error messages
+
+- Fields with errors should have `aria-invalid="true"` attribute.
+- When a [FormStatus](/uilib/components/form-status/) (Messageboxes) is used, it should be placed in the DOM before the form element itself and it should be linked together with the related form element by using `aria-describedby`. This is done automatically by the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock), which is used in each [field](/uilib/extensions/forms/fields/). This will allow screen readers to find and announce the error message without too much frustration.
+
+```jsx
+<Field.String
+  label="Show me an error message"
+  required
+  validateInitially
+/>
+```
+
+## Semantics
+
+- When several form elements do share the same label, a `fieldset` and `legend` element should be used to group them together. Use the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) for that.
+
+```jsx
+<FieldBlock label="My legend">
+  <Field.String path="/myFirstField" />
+  <Field.String path="/mySecondField" />
+</FieldBlock>
 ```
