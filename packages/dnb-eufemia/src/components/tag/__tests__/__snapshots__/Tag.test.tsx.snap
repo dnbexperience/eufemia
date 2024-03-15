@@ -38,9 +38,9 @@ exports[`Tag scss has to match style dependencies css 1`] = `
   width: 1em;
   height: 1em;
 }
-.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
 .dnb-icon svg,
-.dnb-core-style .dnb-icon svg {
+:where(.dnb-core-style) .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
