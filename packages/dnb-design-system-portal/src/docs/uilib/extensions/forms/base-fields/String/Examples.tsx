@@ -361,6 +361,20 @@ export const MultipleEmpty = () => {
   )
 }
 
+export const MultipleOneRow = () => {
+  return (
+    <ComponentBox>
+      <Field.String
+        label="Label text"
+        placeholder="Enter your text"
+        multiline
+        rows={1}
+        characterCounter={40}
+      />
+    </ComponentBox>
+  )
+}
+
 export const MultiplePlaceholder = () => {
   return (
     <ComponentBox>
