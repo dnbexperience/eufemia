@@ -17,11 +17,21 @@
   }
 
   &__contents {
-    flex: 1 0 25rem;
+    flex: 1 0 auto;
   }
 
   &__contents .dnb-card {
     --border-color: var(--color-pistachio);
+  }
+
+  // FormStatus as part of the Form.Handler
+  & + .dnb-form-status,
+  & + .dnb-form-status + .dnb-form-status {
+    @include allAbove(small) {
+      &:not([class*='space__left']) {
+        margin-left: var(--spacing-medium);
+      }
+    }
   }
 
   @include allBelow('medium') {

@@ -4,6 +4,7 @@ Field components can be used directly as they are, for example `Field.Email`:
 
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
+
 render(<Field.Email />)
 ```
 
@@ -12,6 +13,7 @@ By building an entire form with components from Eufemia and Eufemia Forms, you s
 ```jsx
 import { Card } from '@dnb/eufemia'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
 render(
   <Form.Handler
     data={existingData}
@@ -41,20 +43,30 @@ render(
 )
 ```
 
-Use the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook to access or modify your form data outside of the form context within your application:
+### Data handling
+
+You don't need React `useState` to handle your form data.
+
+The form data is handled by the form context and [useData](/uilib/extensions/forms/extended-features/Form/useData/), [getData](/uilib/extensions/forms/extended-features/Form/getData/) and [setData](/uilib/extensions/forms/extended-features/Form/setData/). They lets you access or modify your form data outside of the form context within your application:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
-function Component() {
-  const { data, update } = Form.useData('unique')
 
-  return (
-    <Form.Handler
-      id="unique"
-      ...
-    >
-      ...
-    </Form.Handler>
-  )
+function MyForm() {
+  return <Form.Handler id="unique">...</Form.Handler>
 }
+
+function OtherComponent() {
+  // Use the data or update one entry at a time
+  const { data, update } = Form.useData('unique')
+}
+
+// Or use the Form.setData method when ever you need to
+Form.setData('unique', { companyName: 'DNB' })
 ```
+
+### Async form handling
+
+It depends on your use case if this feature is needed. But when it is, its ofter a time consuming task to implement. Eufemia Forms has therefor a built-in feature that enables async form behavior.
+
+More details about the async form behavior can be found in the [async form behavior](/uilib/extensions/forms/getting-started/#async-form-behavior) section.

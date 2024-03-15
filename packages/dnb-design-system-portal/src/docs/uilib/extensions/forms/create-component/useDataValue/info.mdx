@@ -75,9 +75,9 @@ All properties are optional and can be used as needed. These properties can be p
 
 - `required` if true, it will call `validateRequired` for validation.
 - `schema` or `pattern` for JSON schema validation powered by [ajv](https://ajv.js.org/).
-- `validator` your custom validation function. It will run on every keystroke.
+- `validator` your custom validation function. It will run on every keystroke. Can be an async function. Use it together with [debounceAsync](/uilib/helpers/functions/#debounce).
+- `onBlurValidator` your custom validation function. It will run on a `handleBlur()` call. Use it over `validator` for validations with side-effects. Can be an async function.
 - `validateRequired` does allow you to provide a custom logic for how the `required` prop should validate.
-- `onBlurValidator` your custom validation function. It will run on a `handleBlur()` call. Use it over `validator` for validations with side-effects.
 - `validateInitially` in order to show an error without a change and blur event. Used for rare cases.
 - `validateUnchanged` in order to validate without a change and blur event. Used for rare cases.
 - `continuousValidation` in order to validate without a focus event beforehand. Used for rare cases.
@@ -101,7 +101,7 @@ It returns all of the given component properties, in addition to these:
 - `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
 - `onFocus` event handler to assign to a form element.
 - `onBlur` event handler to assign to a form element.
-- `onChange` event handler to assign to a form element.
+- `onChange` event handler to assign to a form element. When an `async` function is used, it will set the `fieldState` to pending. The corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label.
 
 ### Custom validateRequired
 

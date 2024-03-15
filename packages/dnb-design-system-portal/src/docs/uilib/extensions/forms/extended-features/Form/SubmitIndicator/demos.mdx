@@ -12,16 +12,20 @@ import * as Examples from './Examples'
 
 ### SubmitIndicator in a simple form
 
-<Examples.SimpleAsyncBehavior />
+Press the "Send" button to see the submit indicator.
+
+<Examples.AsyncSubmitBehavior />
+
+### SubmitIndicator with field validation
+
+This example shows a combination of async validation and async change behavior, which could be used for e.g. **autosaving** the field value.
+
+**NB:** if the indicator in the label does not have enough room, it will animate to a new line.
+
+Make a change in the input field.
+
+<Examples.AsyncChangeBehavior />
 
 ### Used in other components
 
 <Examples.WithinOtherComponents />
-
-### SubmitIndicator with field validation
-
-This example contains async validation and async submission.
-
-Note; if the label, like on field B, does not have enough space, it will animate on a new line.
-
-<Examples.AdvancedAsyncBehavior />

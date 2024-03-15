@@ -50,7 +50,7 @@ On top of these, a number of [feature fields](#feature-fields) have been built t
 
 ### Standardized properties
 
-All input component has a fixed set of props that make it possible to build more complex standardized functionality around them. The most important ones here are `value` and `onChange`. Value expects values in the given data type, so for example `Field.Number` expects a `value` of the type `number`, and will give a type error in Typescript if it e.g. receives a number in a `string`. The callback function submitted to `onChange` will always receive the value of the corresponding type as the first argument.
+All input component has a fixed set of props that make it possible to build more complex standardized functionality around them. The most important ones here are `value` and `onChange` (can be async). Value expects values in the given data type, so for example `Field.Number` expects a `value` of the type `number`, and will give a type error in Typescript if it e.g. receives a number in a `string`. The callback function submitted to `onChange` will always receive the value of the corresponding type as the first argument.
 
 It is deliberate that `onChange` sends out the value from the field, and not the event object that comes from the actual HTML tag into which the user enters data. This is to create a less tight coupling between application code that uses the components, and the internal implementation in the field components. In addition, this makes the surrounding logic simpler by not having to extract, for example, `e.target.value` everywhere.
 

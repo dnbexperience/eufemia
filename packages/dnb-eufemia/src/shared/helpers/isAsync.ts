@@ -5,6 +5,12 @@
  * @returns `true` if the function is asynchronous, `false` otherwise.
  */
 export function isAsync(fn: unknown): boolean {
+  // Support for jest.fn
+  const n = 'getMockImplementation'
+  if (fn?.[n]?.()) {
+    fn = fn[n]()
+  }
+
   const firstCheck = fn instanceof (async () => null).constructor
   const secondCheck = fn?.constructor?.name === 'AsyncFunction'
 

@@ -17,17 +17,14 @@ export type Props = {
 
 function SubmitButton(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const {
-    className,
-    showIndicator,
-    children = sharedContext?.translation.Forms.contextSubmit,
-    ...rest
-  } = props
-  const {
-    // formState, // will be enabled in a follow-up PR
-    handleSubmit,
-    _isInsideFormElement,
-  } = useContext(DataContext) || {}
+
+  const { className, showIndicator, children, text, ...rest } = props
+
+  const content =
+    text || children || sharedContext?.translation.Forms.contextSubmit
+
+  const { formState, handleSubmit, _isInsideFormElement } =
+    useContext(DataContext) || {}
 
   const onClickHandler = useCallback(() => {
     if (!_isInsideFormElement) {
@@ -42,12 +39,11 @@ function SubmitButton(props: Props) {
       type="submit"
       {...rest}
     >
-      {children}
+      {content}
 
       <SubmitIndicator
         state={
-          showIndicator ? 'pending' : undefined
-          // showIndicator ? 'pending' : formState // will be enabled in a follow-up PR
+          showIndicator ? 'pending' : formState // will be enabled in a follow-up PR
         }
       />
     </Button>

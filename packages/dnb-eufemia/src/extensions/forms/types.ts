@@ -1,6 +1,7 @@
 import type { SpacingProps } from '../../components/space/types'
 import type { JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
+import { JsonObject } from 'json-pointer'
 import { AriaAttributes } from 'react'
 
 export type * from 'json-schema'
@@ -99,10 +100,7 @@ export interface DataValueWriteProps<
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
   onBlur?: (value: Value | EmptyValue) => void
-  onChange?: (
-    value: Value | EmptyValue,
-    additionalArgs?: AdditionalEventArgs
-  ) => void
+  onChange?: OnChangeValue<Value, EmptyValue>
 }
 
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
@@ -207,10 +205,10 @@ export interface FieldProps<
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages
-  ) => Error | undefined | Promise<Error | undefined>
+  ) => Error | undefined | void | Promise<Error | undefined | void>
   onBlurValidator?: (
     value: Value | EmptyValue
-  ) => Error | undefined | Promise<Error | undefined>
+  ) => Error | undefined | void | Promise<Error | undefined | void>
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)
    * before the user interacts with the field?
@@ -275,4 +273,102 @@ export interface ValueProps<Value>
 
 export type Path = string
 export type Identifier = string
-export type SubmitState = 'pending' | 'complete' | 'error' | 'abort'
+
+export type SubmitState =
+  | 'pending' // Used for async operations
+  | 'complete' // Used to hide the submit indicator
+  | 'success' // Used for fields
+  | 'error' // Used when error is shown
+  | 'abort' // Used to abort the state regardless (step change)
+
+/**
+ * Provide a error that shows in the FormStatus of a field.
+ */
+type EventStateObjectError = Error
+/**
+ * Provide a warning that shows in the FormStatus of a field.
+ */
+type EventStateObjectWarning = React.ReactNode
+/**
+ * Provide an info that shows in the FormStatus of a field.
+ */
+type EventStateObjectInfo = React.ReactNode
+
+/**
+ * Provide a status that will enforce the form to stay in pending state
+ */
+type EventStateObjectStatus = 'pending'
+
+/**
+ * Provide a success state that will show an indicator on the related field label
+ */
+type EventStateObjectSuccess = 'saved'
+
+/**
+ * Provide an error or status messages that shows in the FormStatus of a field
+ */
+export type EventStateObjectOr = {
+  error?: EventStateObjectError
+  warning?: EventStateObjectWarning
+  info?: EventStateObjectInfo
+  pending?: EventStateObjectStatus
+}
+
+export type EventStateObjectEitherOr =
+  | { error: EventStateObjectError }
+  | { warning: EventStateObjectWarning }
+  | { info: EventStateObjectInfo }
+  | { status: EventStateObjectStatus }
+
+export type EventStateObject = EventStateObjectOr &
+  EventStateObjectEitherOr
+
+/**
+ * Provide 'saved' to indicate the data has been saved successfully. Can not be combined with `error`.
+ */
+export type EventStateObjectWithSuccess = EventStateObjectOr & {
+  success?: EventStateObjectSuccess
+} & (EventStateObjectEitherOr | { success: EventStateObjectSuccess })
+
+/**
+ * Provide an error or status messages that shows in the FormStatus of a field
+ */
+export type EventReturnWithStateObject = Error | EventStateObject
+
+export type EventReturnWithStateObjectAndSuccess =
+  | Error
+  | EventStateObjectWithSuccess
+
+export type OnSubmitParams = {
+  /** Will remove browser-side stored autocomplete data  */
+  resetForm: () => void
+
+  /** Will empty the whole internal data set of the form  */
+  clearData: () => void
+}
+
+export type OnSubmit<Data = JsonObject> = (
+  data: Partial<Data>,
+  { resetForm, clearData }: OnSubmitParams
+) =>
+  | EventReturnWithStateObject
+  | void
+  | Promise<EventReturnWithStateObject | void>
+
+export type OnChange<Data = unknown> = (
+  data: Data
+) =>
+  | EventReturnWithStateObjectAndSuccess
+  | void
+  | Promise<EventReturnWithStateObjectAndSuccess | void>
+
+export type OnChangeValue<
+  Value = unknown,
+  EmptyValue = undefined | string,
+> = (
+  value: Value | EmptyValue,
+  additionalArgs?: AdditionalEventArgs
+) =>
+  | EventReturnWithStateObjectAndSuccess
+  | void
+  | Promise<EventReturnWithStateObjectAndSuccess | void>

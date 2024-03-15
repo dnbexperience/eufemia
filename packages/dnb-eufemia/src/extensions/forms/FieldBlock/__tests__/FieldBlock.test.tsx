@@ -10,7 +10,7 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import { Field } from '../..'
+import { Field, Form } from '../..'
 
 import nbNO from '../../../../shared/locales/nb-NO'
 const nb = nbNO['nb-NO'].Forms
@@ -444,6 +444,18 @@ describe('FieldBlock', () => {
     })
 
     describe('Composition', () => {
+      it('should not display error messages initially', () => {
+        render(
+          <FieldBlock composition>
+            <Field.String required />
+            <Field.String required />
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toBeNull()
+      })
+
       it('should display both error messages with summary in one status', () => {
         render(
           <FieldBlock composition>
@@ -1093,6 +1105,49 @@ describe('FieldBlock', () => {
 
       expect(status).toHaveAttribute('id', 'unique-form-status--error')
     })
+  })
+
+  it('should warn when formStatus is given, but no label', async () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    const asyncValidator = async () => {
+      return null
+    }
+
+    const { rerender } = render(
+      <Form.Handler>
+        <Field.String
+          label="Has a label"
+          value="bar"
+          path="/foo"
+          validator={asyncValidator}
+        />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    await userEvent.click(buttonElement)
+
+    expect(log).toHaveBeenCalledTimes(0)
+
+    rerender(
+      <Form.Handler>
+        <Field.String value="bar" path="/foo" validator={asyncValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    await userEvent.click(buttonElement)
+
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      expect.any(String),
+      'You have to provide a label to use show an indicator.'
+    )
+
+    log.mockRestore()
   })
 })
 

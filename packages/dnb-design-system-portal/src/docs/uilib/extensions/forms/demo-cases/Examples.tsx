@@ -282,7 +282,7 @@ export function PizzaDemo() {
                   <Card stack>
                     <Form.SubHeading>Your address</Form.SubHeading>
 
-                    <FieldBlock label="Address" width="large" composition>
+                    <FieldBlock width="large" composition>
                       <Field.String
                         label="Street"
                         width="stretch"
@@ -298,7 +298,10 @@ export function PizzaDemo() {
                     </FieldBlock>
 
                     <Field.PostalCodeAndCity
-                      postalCode={{ required: true, path: '/postalCode' }}
+                      postalCode={{
+                        required: true,
+                        path: '/postalCode',
+                      }}
                       city={{ required: true, path: '/city' }}
                     />
                   </Card>

@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { Form } from '../../..'
 import locales from '../../../../../shared/locales'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 const nbNO = locales['nb-NO']
 
@@ -46,7 +47,9 @@ describe('Form.SubmitIndicator', () => {
     )
 
     const element = document.querySelector('.dnb-form-submit-indicator')
-    const dots = document.querySelector('.dnb-form-submit-indicator__dots')
+    const dots = document.querySelector(
+      '.dnb-form-submit-indicator__content'
+    )
 
     expect(
       Array.from(element.attributes).map((attr) => attr.name)
@@ -54,16 +57,45 @@ describe('Form.SubmitIndicator', () => {
 
     expect(Array.from(dots.attributes).map((attr) => attr.name)).toEqual([
       'class',
+      'role',
       'aria-busy',
       'aria-label',
     ])
     expect(dots).toHaveAttribute('aria-label', 'Custom Label')
   })
 
+  it('should validate with ARIA rules', async () => {
+    const result = render(<Form.SubmitIndicator state="pending" />)
+
+    expect(await axeComponent(result)).toHaveNoViolations()
+  })
+
+  it('should not have role of status when state is not pending', () => {
+    render(<Form.SubmitIndicator state="abort" />)
+
+    const dots = document.querySelector(
+      '.dnb-form-submit-indicator__content'
+    )
+
+    expect(dots).not.toHaveAttribute('role', 'status')
+  })
+
+  it('should role of status', () => {
+    render(<Form.SubmitIndicator state="pending" />)
+
+    const dots = document.querySelector(
+      '.dnb-form-submit-indicator__content'
+    )
+
+    expect(dots).toHaveAttribute('role', 'status')
+  })
+
   it('should have aria-busy', () => {
     render(<Form.SubmitIndicator state="pending" />)
 
-    const dots = document.querySelector('.dnb-form-submit-indicator__dots')
+    const dots = document.querySelector(
+      '.dnb-form-submit-indicator__content'
+    )
 
     expect(dots).toHaveAttribute('aria-busy', 'true')
   })
@@ -71,7 +103,9 @@ describe('Form.SubmitIndicator', () => {
   it('should have default aria-label', () => {
     render(<Form.SubmitIndicator state="pending" />)
 
-    const dots = document.querySelector('.dnb-form-submit-indicator__dots')
+    const dots = document.querySelector(
+      '.dnb-form-submit-indicator__content'
+    )
 
     expect(dots).toHaveAttribute(
       'aria-label',
@@ -90,6 +124,21 @@ describe('Form.SubmitIndicator', () => {
     expect(element).toHaveClass(
       'dnb-form-submit-indicator--state-complete'
     )
+  })
+
+  it('should not add dots when state is "success" or "abort"', () => {
+    const { rerender } = render(<Form.SubmitIndicator state="abort" />)
+
+    const element = document.querySelector('.dnb-form-submit-indicator')
+    expect(element).toHaveTextContent('')
+
+    rerender(<Form.SubmitIndicator state="success" />)
+
+    expect(element).toHaveTextContent('')
+
+    rerender(<Form.SubmitIndicator state="complete" />)
+
+    expect(element).toHaveTextContent('...')
   })
 
   it('should check if a newline is needed', () => {

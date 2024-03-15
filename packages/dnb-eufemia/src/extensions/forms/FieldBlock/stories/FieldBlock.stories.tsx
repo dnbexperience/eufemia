@@ -31,12 +31,8 @@ export function FieldBlockLabel() {
 export function Composition() {
   return (
     <FieldBlock info="Info at the bottom" width="large" composition>
-      <FieldBlock width="stretch">
-        <Field.String label="Field A with a long label" width="stretch" />
-      </FieldBlock>
-      <FieldBlock width="medium">
-        <Field.String label="Field B" width="stretch" />
-      </FieldBlock>
+      <Field.String label="Field A with a long label" width="stretch" />
+      <Field.String label="Field B" width="medium" />
     </FieldBlock>
   )
 }

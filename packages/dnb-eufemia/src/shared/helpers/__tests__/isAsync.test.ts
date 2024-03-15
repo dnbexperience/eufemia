@@ -12,6 +12,17 @@ describe('isAsync', () => {
     expect(isAsync(IAmAsync)).toBeTruthy()
   })
 
+  it('should return correct result based with jest mock', () => {
+    expect(isAsync(jest.fn(() => null))).toBeFalsy()
+    expect(isAsync(jest.fn(async () => null))).toBeTruthy()
+
+    const IAmSync = jest.fn(() => null)
+    const IAmAsync = jest.fn(async () => null)
+
+    expect(isAsync(IAmSync)).toBeFalsy()
+    expect(isAsync(IAmAsync)).toBeTruthy()
+  })
+
   it('should return correct result based normal functions', () => {
     expect(
       isAsync(function () {
@@ -35,6 +46,24 @@ describe('isAsync', () => {
     expect(isAsync(IAmAsync)).toBeTruthy()
   })
 
+  it('should not support functions with a promise', () => {
+    expect(
+      isAsync(() => {
+        return new Promise(() => null)
+      })
+    ).toBeFalsy()
+
+    expect(
+      isAsync(function () {
+        return new Promise(() => null)
+      })
+    ).toBeFalsy()
+  })
+
+  it('should return false is no function was given', () => {
+    expect(isAsync(undefined)).toBeFalsy()
+  })
+
   it('should return true if the situation is unclear', () => {
     function IAmSync() {
       return null
@@ -44,9 +73,5 @@ describe('isAsync', () => {
     })
 
     expect(isAsync(IAmSync)).toBeTruthy()
-  })
-
-  it('should return false is no function was given', () => {
-    expect(isAsync(undefined)).toBeFalsy()
   })
 })
