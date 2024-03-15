@@ -107,6 +107,12 @@
     }
   }
 
+  // When used in a Card
+  .dnb-card & {
+    --table-outline-color: transparent;
+    margin-bottom: 0;
+  }
+
   @include buttonsInTable();
 }
 
