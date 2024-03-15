@@ -225,6 +225,17 @@ describe('Field.Number', () => {
 
       expect(input).toHaveAttribute('inputmode', 'decimal')
     })
+
+    it.only('should apply data-attributes', () => {
+      render(
+        <Field.Number data-testid="testid" data-long-value="long-value" />
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveAttribute('data-testid', 'testid')
+      expect(input).toHaveAttribute('data-long-value', 'long-value')
+    })
   })
 
   describe('should gracefully handle empty value', () => {

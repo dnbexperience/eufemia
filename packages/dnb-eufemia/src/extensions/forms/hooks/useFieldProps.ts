@@ -18,6 +18,7 @@ import {
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
+  DataAttributes,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
@@ -1147,6 +1148,7 @@ export default function useFieldProps<
       return acc
     }, {})
   }, [props])
+
   if (error) {
     ariaAttributes['aria-invalid'] = error ? 'true' : 'false'
   }
@@ -1186,16 +1188,13 @@ export default function useFieldProps<
   // Handle data-attributes
   const dataAttributes = useMemo(
     () =>
-      Object.keys(props).reduce<ReturnAdditional<Value>['dataAttributes']>(
-        (dataAttributes, prop) => {
-          if (prop.startsWith('data-')) {
-            dataAttributes[prop] = props[prop]
-          }
+      Object.keys(props).reduce<DataAttributes>((dataAttributes, prop) => {
+        if (prop.startsWith('data-')) {
+          dataAttributes[prop] = props[prop]
+        }
 
-          return dataAttributes
-        },
-        {}
-      ),
+        return dataAttributes
+      }, {}),
     [props]
   )
 
@@ -1254,9 +1253,7 @@ export interface ReturnAdditional<Value> {
   value: Value
   isChanged: boolean
   ariaAttributes: AriaAttributes
-  dataAttributes: {
-    [key: `data-${string}`]: string
-  }
+  dataAttributes: DataAttributes
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void

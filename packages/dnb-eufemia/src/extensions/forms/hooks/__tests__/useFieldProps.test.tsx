@@ -2345,4 +2345,22 @@ describe('useFieldProps', () => {
 
     expect(result.current.autoComplete).toBe('something')
   })
+
+  it('should return data-attributes', () => {
+    const { result } = renderHook(
+      () =>
+        useFieldProps({
+          'data-long-key': 'long-key',
+          'data-testid': 'testid',
+        }),
+      { wrapper: Provider }
+    )
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        'data-long-key': 'long-key',
+        'data-testid': 'testid',
+      })
+    )
+  })
 })
