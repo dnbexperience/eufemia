@@ -25,20 +25,6 @@
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25em;
-
-  &.dnb-anchor--icon-left {
-    margin-left: 0;
-    .dnb-icon {
-      margin-left: 0;
-    }
-  }
-
-  &.dnb-anchor--icon-right {
-    margin-right: 0;
-    .dnb-icon {
-      margin-right: 0;
-    }
-  }
 }
 
 @include anchor-mixins.notNoStyle() {
@@ -46,27 +32,50 @@
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
     --anchor-color--contrast: var(--sb-color-text);
+    --anchor-background-gutter-left: 0.25rem;
+    --anchor-background-gutter-right: 0.25rem;
+    --anchor-icon-gutter: 0.25em;
+    // word-joiner character (zero-width non-breaking space) connects icon with word
+    --anchor-icon-seperator: '\2060';
 
     font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
-    text-decoration-color: var(--sb-color-green-dark);
     padding: 0.15625em 0;
     border-radius: 0.5em;
 
-    $anchor-icon-gutter: 0.125em;
+    @include anchor-mixins.anchorBackground(var(--anchor-background));
 
-    @include anchor-mixins.anchorBackground(
-      var(--anchor-background),
-      null
-    );
+    .dnb-icon {
+      display: inline;
+      vertical-align: baseline;
+      white-space: nowrap; // force icon to line break with word
 
-    &--no-underline,
-    &--was-node,
-    &--inline {
-      @include anchor-mixins.anchorBackground(
-        var(--anchor-background),
-        0.25em
-      );
+      svg {
+        vertical-align: middle;
+        transform: translateY(-0.0625em);
+      }
+    }
+
+    &--icon-left .dnb-icon:first-child {
+      &::after {
+        content: var(--anchor-icon-seperator);
+      }
+      svg {
+        margin-right: var(--anchor-icon-gutter);
+      }
+    }
+
+    &--icon-right .dnb-icon:last-child {
+      &::before {
+        content: var(--anchor-icon-seperator);
+      }
+      svg {
+        margin-left: var(--anchor-icon-gutter);
+      }
+    }
+
+    .dnb-icon--default {
+      font-size: 1em;
     }
 
     &:hover {
@@ -82,40 +91,34 @@
     &:focus-visible {
       @include anchorFocus();
     }
+  }
 
-    &--icon-right {
-      margin-right: 1em + $anchor-icon-gutter;
-
-      .dnb-icon {
-        font-size: 1em;
-        margin-left: $anchor-icon-gutter;
-        margin-right: -1em - $anchor-icon-gutter;
-      }
+  @include anchor-mixins.notInline() {
+    &.dnb-anchor {
+      --anchor-icon-gutter: 0.125em;
+      // non-breaking space character
+      --anchor-icon-seperator: '\00a0';
     }
 
-    &--icon-left {
-      margin-left: 1em + $anchor-icon-gutter;
-
-      .dnb-icon:first-of-type {
-        font-size: 1em;
-        margin-right: $anchor-icon-gutter;
-        margin-left: -1em - $anchor-icon-gutter;
-      }
+    &.dnb-anchor--icon-left,
+    &.dnb-anchor--icon-right {
+      text-decoration-color: var(--sb-color-green-dark);
     }
 
-    &:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(
-        .anchor-hash
-      ):not(.dnb-anchor--inline) {
-      &:not(.dnb-anchor--icon-left) {
-        &::before {
-          text-decoration-color: var(--sb-color-green-dark);
-          content: '\00a0';
+    &.dnb-anchor--icon-left {
+      &:not(.dnb-anchor--icon-right) {
+        --anchor-background-gutter-right: 0rem;
+        &::after {
+          content: var(--anchor-icon-seperator);
         }
       }
-      &:not(.dnb-anchor--icon-right) {
-        &::after {
-          text-decoration-color: var(--sb-color-green-dark);
-          content: '\00a0';
+    }
+
+    &.dnb-anchor--icon-right {
+      &:not(.dnb-anchor--icon-left) {
+        --anchor-background-gutter-left: 0rem;
+        &::before {
+          content: var(--anchor-icon-seperator);
         }
       }
     }

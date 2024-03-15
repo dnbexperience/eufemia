@@ -82,16 +82,11 @@
   @content;
 }
 
-@mixin anchorBackground($color, $overflow: 0.125em) {
-  @if $overflow {
-    --anchor-background-gutter: #{$overflow};
-    box-shadow:
-      inset 100vw 100vw 0 0 $color,
-      calc(var(--anchor-background-gutter) * -1) 0 0 0 $color,
-      var(--anchor-background-gutter) 0 0 0 $color;
-  } @else {
-    box-shadow: inset 100vw 100vw 0 0 $color;
-  }
+@mixin anchorBackground($color) {
+  box-shadow:
+    inset 100vw 100vw 0 0 $color,
+    calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 $color,
+    var(--anchor-background-gutter-right, 0.125rem) 0 0 0 $color;
 }
 
 // other styles
@@ -181,6 +176,17 @@
     @content;
   }
   &:not(.dnb-anchor--no-hover) {
+    @include whereFallback() {
+      @content;
+    }
+  }
+}
+
+@mixin notInline() {
+  &:where(:not(.dnb-anchor--inline)) {
+    @content;
+  }
+  &:not(.dnb-anchor--inline) {
     @include whereFallback() {
       @content;
     }
