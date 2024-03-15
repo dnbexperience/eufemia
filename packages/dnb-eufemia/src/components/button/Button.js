@@ -437,7 +437,7 @@ function Content({
       }
 
       {icon &&
-        (pickIcon(icon) || (
+        (pickIcon(icon, 'dnb-button__icon') || (
           <IconPrimary
             key="button-icon"
             className="dnb-button__icon"

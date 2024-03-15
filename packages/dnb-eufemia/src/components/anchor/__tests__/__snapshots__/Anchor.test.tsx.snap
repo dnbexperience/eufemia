@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Anchor scss has to match style dependencies css 1`] = `
-"/*
+"@charset "UTF-8";
+/*
 * Used for snapshot testing
 *
 */
@@ -248,6 +249,9 @@ button.dnb-anchor {
 
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.0938rem;
+  --anchor-icon-gutter: 0.25em;
+  --anchor-icon-seperator: "⁠";
+  --anchor-icon-fallback-position: translateY(-0.125em);
   display: inline;
   padding: 0.05575em 0;
   font-size: var(--font-size-basis);
@@ -304,11 +308,42 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   transition: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
-  display: inline-block;
-  transform: translateY(-0.0625em);
+  display: inline;
+  vertical-align: baseline;
+  white-space: nowrap;
+  font-size: inherit;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
+  vertical-align: middle;
+  transform: var(--anchor-icon-fallback-position);
+}
+@supports (height: 1lh) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
+    vertical-align: top;
+    line-height: 1lh;
+  }
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
+    vertical-align: top;
+    transform: translateY(calc(0.5lh - 0.5em));
+  }
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon {
   display: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child::after {
+  content: var(--anchor-icon-seperator);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child svg {
+  margin-right: var(--anchor-icon-gutter);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child::before {
+  content: var(--anchor-icon-seperator);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child svg {
+  margin-left: var(--anchor-icon-gutter);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
+  font-size: 0.8888888889em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast {
   color: var(--color-white);
@@ -347,6 +382,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 @supports not (selector(*:where(*))) {
   :not(.dnb-anchor--no-style).dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
+    --anchor-icon-gutter: 0.25em;
+    --anchor-icon-seperator: "⁠";
+    --anchor-icon-fallback-position: translateY(-0.125em);
     display: inline;
     padding: 0.05575em 0;
     font-size: var(--font-size-basis);
@@ -403,11 +441,42 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     transition: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
-    display: inline-block;
-    transform: translateY(-0.0625em);
+    display: inline;
+    vertical-align: baseline;
+    white-space: nowrap;
+    font-size: inherit;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
+    vertical-align: middle;
+    transform: var(--anchor-icon-fallback-position);
+  }
+  @supports (height: 1lh) {
+    :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
+      vertical-align: top;
+      line-height: 1lh;
+    }
+    :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
+      vertical-align: top;
+      transform: translateY(calc(0.5lh - 0.5em));
+    }
   }
   :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon {
     display: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child::after {
+    content: var(--anchor-icon-seperator);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child svg {
+    margin-right: var(--anchor-icon-gutter);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child::before {
+    content: var(--anchor-icon-seperator);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child svg {
+    margin-left: var(--anchor-icon-gutter);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
+    font-size: 0.8888888889em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast {
     color: var(--color-white);
@@ -514,34 +583,12 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   --anchor-color--contrast: var(--sb-color-text);
   --anchor-background-gutter-left: 0.25rem;
   --anchor-background-gutter-right: 0.25rem;
-  --anchor-icon-gutter: 0.25em;
-  --anchor-icon-seperator: "⁠";
+  --anchor-icon-fallback-position: translateY(-0.0625em);
   font-weight: var(--font-weight-medium);
   color: var(--sb-color-gray-dark-3);
   padding: 0.15625em 0;
   border-radius: 0.5em;
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
-  display: inline;
-  vertical-align: baseline;
-  white-space: nowrap;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
-  vertical-align: middle;
-  transform: translateY(-0.0625em);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child::after {
-  content: var(--anchor-icon-seperator);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child svg {
-  margin-right: var(--anchor-icon-gutter);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child::before {
-  content: var(--anchor-icon-seperator);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child svg {
-  margin-left: var(--anchor-icon-gutter);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
   font-size: 1em;
@@ -628,34 +675,12 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     --anchor-color--contrast: var(--sb-color-text);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
-    --anchor-icon-gutter: 0.25em;
-    --anchor-icon-seperator: "⁠";
+    --anchor-icon-fallback-position: translateY(-0.0625em);
     font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
     padding: 0.15625em 0;
     border-radius: 0.5em;
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-background);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
-    display: inline;
-    vertical-align: baseline;
-    white-space: nowrap;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
-    vertical-align: middle;
-    transform: translateY(-0.0625em);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child::after {
-    content: var(--anchor-icon-seperator);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child svg {
-    margin-right: var(--anchor-icon-gutter);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child::before {
-    content: var(--anchor-icon-seperator);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child svg {
-    margin-left: var(--anchor-icon-gutter);
   }
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
     font-size: 1em;
@@ -813,14 +838,8 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   --anchor-color: var(--color-sea-green);
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child {
-  margin-right: 0.25em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child {
-  margin-left: 0.25em;
-}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
-  font-size: 1.11em;
+  font-size: 1em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
   stroke-width: 1.2;
@@ -858,14 +877,8 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     --anchor-color: var(--color-sea-green);
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child {
-    margin-right: 0.25em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child {
-    margin-left: 0.25em;
-  }
   :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
-    font-size: 1.11em;
+    font-size: 1em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
     stroke-width: 1.2;

@@ -305,15 +305,16 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-
-    it('have to break word with icon', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="anchor-icon-break"]',
-        style: { width: '16rem' },
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
   }
+
+  it('have to break word with icon', async () => {
+    const widths = { sbanken: '16rem', ui: '17.5rem' }
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-break"]',
+      style: { width: widths[themeName] },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(

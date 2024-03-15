@@ -115,6 +115,10 @@
 }
 
 @mixin anchorStyle() {
+  --anchor-icon-gutter: 0.25em;
+  // word-joiner character (zero-width non-breaking space) connects icon with word
+  --anchor-icon-seperator: '\2060';
+  --anchor-icon-fallback-position: translateY(-0.125em);
   @include anchorDefaultStyle();
 
   // have focus before :active, because of border-radius
@@ -143,14 +147,53 @@
 
   // other stuff, not related to the Anchor directly
   .dnb-icon {
-    display: inline-block;
+    display: inline;
+    vertical-align: baseline;
+    white-space: nowrap; // force icon to line break with word
+    font-size: inherit;
 
-    // -1px to center the icons against large chars
-    transform: translateY(-0.0625em);
+    svg {
+      vertical-align: middle;
+      transform: var(--anchor-icon-fallback-position);
+    }
+  }
+
+  @supports (height: 1lh) {
+    .dnb-icon {
+      vertical-align: top;
+      line-height: 1lh;
+
+      svg {
+        vertical-align: top;
+        transform: translateY(calc(0.5lh - 0.5em));
+      }
+    }
   }
 
   &--no-icon .dnb-icon {
     display: none;
+  }
+
+  &--icon-left .dnb-icon:first-child {
+    &::after {
+      content: var(--anchor-icon-seperator);
+    }
+    svg {
+      margin-right: var(--anchor-icon-gutter);
+    }
+  }
+
+  &--icon-right .dnb-icon:last-child {
+    &::before {
+      content: var(--anchor-icon-seperator);
+    }
+    svg {
+      margin-left: var(--anchor-icon-gutter);
+    }
+  }
+
+  .dnb-icon--default {
+    font-size: calc(16em / 18);
   }
 }
 
