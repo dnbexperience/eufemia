@@ -9,7 +9,7 @@ export type JSONSchema = JSONSchema7
 export type AllJSONSchemaVersions = JSONSchema7 | JSONSchemaType<unknown>
 export { JSONSchemaType }
 
-type ValidationRule = string | string[]
+type ValidationRule = 'type' | 'pattern' | 'required' | string
 type MessageValues = Record<string, string>
 
 interface IFormErrorOptions {
@@ -36,8 +36,9 @@ export class FormError extends Error {
     super(message)
 
     if (options) {
-      this.validationRule = options.validationRule
-      this.messageValues = options.messageValues
+      for (const key in options) {
+        this[key] = options[key]
+      }
     }
   }
 }

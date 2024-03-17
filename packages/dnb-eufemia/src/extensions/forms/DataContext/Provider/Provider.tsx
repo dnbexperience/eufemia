@@ -220,7 +220,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
-  const validateDataNow = useCallback(() => {
+  const executeAjvValidator = useCallback(() => {
     if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
       return
@@ -229,7 +229,8 @@ export default function Provider<Data extends JsonObject>(
     if (!ajvValidatorRef.current?.(internalDataRef.current)) {
       // Errors found
       errorsRef.current = ajvErrorsToFormErrors(
-        ajvValidatorRef.current.errors
+        ajvValidatorRef.current.errors,
+        internalDataRef.current
       )
     } else {
       errorsRef.current = undefined
@@ -241,9 +242,9 @@ export default function Provider<Data extends JsonObject>(
       return
     }
 
-    validateDataNow()
+    executeAjvValidator()
     forceUpdate()
-  }, [validateDataNow])
+  }, [executeAjvValidator])
 
   // - Error handling
   const checkFieldStateFor = useCallback(
@@ -410,7 +411,7 @@ export default function Provider<Data extends JsonObject>(
   }, [id, initialData, extendSharedData, sharedData.data])
 
   useMemo(() => {
-    validateDataNow()
+    executeAjvValidator()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
