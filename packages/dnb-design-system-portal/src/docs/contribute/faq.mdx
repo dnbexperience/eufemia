@@ -84,6 +84,24 @@ This is due to the `JavaScript heap out of memory` error when using templates.
 
 Jest does start several works at the same time. When we simulate states on e.g. ToggleButton and Button – Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest we never execute several workers as the same time, we set `--maxWorkers=1`.
 
+### Installing screenshot browser
+
+We run screenshot tests in a Firefox browser, to install this you need to run
+
+```
+yarn workspace @dnb/eufemia playwright install firefox
+```
+
+after `yarn install`.
+
+But, since Node.js and corporate proxy do not enjoy each other's company, this might
+fail with a `Error: unable to get local issuer certificate`. In that case, your only
+option might be to disable all authentication for this command.
+
+```
+NODE_TLS_REJECT_UNAUTHORIZED=0 yarn workspace @dnb/eufemia playwright install firefox
+```
+
 ## How can I make faster builds?
 
 This is only meant for "setup testing" purposes! In order to make faster local builds, you can:
