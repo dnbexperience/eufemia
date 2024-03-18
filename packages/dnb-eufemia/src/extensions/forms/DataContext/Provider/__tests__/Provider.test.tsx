@@ -19,8 +19,7 @@ import {
   OnChangeValue,
 } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
-import { FilterData } from '../Provider'
-import { ContextState } from '../../Context'
+import { ContextState, FilterData } from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import { wait } from '../../../../../core/jest/jestSetup'
 
@@ -46,7 +45,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
 
       rerender(
         <DataContext.Provider defaultData={{ foo: 'changed' }}>
@@ -54,8 +55,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.queryByDisplayValue('original')).toBeInTheDocument()
-      expect(screen.queryByDisplayValue('changed')).not.toBeInTheDocument()
+      expect(input).toHaveValue('original')
     })
 
     it('should provide value from data and update based on changes', () => {
@@ -65,7 +65,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
 
       rerender(
         <DataContext.Provider data={{ foo: 'changed' }}>
@@ -73,10 +75,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
-      expect(
-        screen.queryByDisplayValue('original')
-      ).not.toBeInTheDocument()
+      expect(input).toHaveValue('changed')
     })
 
     it('should handle path change', () => {
@@ -86,7 +85,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
 
       rerender(
         <DataContext.Provider data={{ fooBar: 'changed' }}>
@@ -94,7 +95,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
+      expect(input).toHaveValue('changed')
     })
 
     it('should call "onChange" on internal value change', () => {
@@ -2288,6 +2289,25 @@ describe('DataContext.Provider', () => {
     )
   })
 
+  it('should only render once', () => {
+    const countRendered = jest.fn()
+
+    const NestedMock = () => {
+      const dataContext = useContext(DataContext.Context)
+      countRendered(dataContext.data)
+      return <></>
+    }
+
+    render(
+      <DataContext.Provider data={{ foo: 'bar' }}>
+        <NestedMock />
+      </DataContext.Provider>
+    )
+
+    expect(countRendered).toHaveBeenCalledTimes(1)
+    expect(countRendered).toHaveBeenLastCalledWith({ foo: 'bar' })
+  })
+
   describe('with useData', () => {
     it('should set Provider data', () => {
       const props = { foo: 'bar' }
@@ -2540,12 +2560,10 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      const [first, second] = Array.from(
-        document.querySelectorAll('input')
-      )
+      const [foo, other] = Array.from(document.querySelectorAll('input'))
 
-      expect(first).toHaveValue('changed')
-      expect(second).toHaveValue('data')
+      expect(foo).toHaveValue('changed')
+      expect(other).toHaveValue('data')
     })
 
     it('should use data only from the first hook render', () => {
@@ -2966,6 +2984,112 @@ describe('DataContext.Provider', () => {
           disabled: true,
         })
       )
+    })
+
+    describe('context support without id', () => {
+      const MockComponent = ({
+        setData = null,
+        updatePath = null,
+        updateValue = null,
+      } = {}) => {
+        const { data, set, update } = Form.useData()
+
+        useEffect(() => {
+          if (setData) {
+            set(setData)
+          }
+        }, [setData, set])
+
+        useEffect(() => {
+          if (updateValue) {
+            update(updatePath, () => updateValue)
+          }
+        }, [updateValue, set, update, updatePath])
+
+        return <output>{JSON.stringify(data)}</output>
+      }
+
+      it('should return data from context', () => {
+        render(
+          <DataContext.Provider data={{ foo: 'bar' }}>
+            <MockComponent />
+          </DataContext.Provider>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"foo":"bar"}')
+      })
+
+      it('should set data to context', () => {
+        const data = { foo: 'bar' }
+        const { rerender } = render(
+          <DataContext.Provider data={data}>
+            <MockComponent />
+          </DataContext.Provider>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"foo":"bar"}')
+
+        rerender(
+          <DataContext.Provider data={data}>
+            <MockComponent
+              setData={{
+                foo: 'changed',
+              }}
+            />
+          </DataContext.Provider>
+        )
+
+        expect(output).toHaveTextContent('{"foo":"changed"}')
+      })
+
+      it('should update data to context', () => {
+        const data = { foo: 'bar' }
+        const { rerender } = render(
+          <DataContext.Provider data={data}>
+            <MockComponent />
+          </DataContext.Provider>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"foo":"bar"}')
+
+        rerender(
+          <DataContext.Provider data={data}>
+            <MockComponent updatePath="/foo" updateValue="changed" />
+          </DataContext.Provider>
+        )
+
+        expect(output).toHaveTextContent('{"foo":"changed"}')
+      })
+
+      it('should provide filterData handler', () => {
+        const filterDataHandler = jest.fn((path, value, props) => {
+          if (props.disabled === true) {
+            return false
+          }
+        })
+
+        const MockComponent = () => {
+          const { filterData } = Form.useData()
+
+          const data = filterData(filterDataHandler)
+
+          return <output>{JSON.stringify(data)}</output>
+        }
+
+        render(
+          <Form.Handler>
+            <Field.String path="/foo" value="foo" disabled />
+            <Field.String path="/bar" value="baz" />
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"bar":"baz"}')
+      })
     })
   })
 })

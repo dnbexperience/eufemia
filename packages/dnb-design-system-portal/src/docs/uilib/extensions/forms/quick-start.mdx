@@ -47,22 +47,51 @@ render(
 
 You don't need React `useState` to handle your form data.
 
-The form data is handled by the form context and [useData](/uilib/extensions/forms/extended-features/Form/useData/), [getData](/uilib/extensions/forms/extended-features/Form/getData/) and [setData](/uilib/extensions/forms/extended-features/Form/setData/). They lets you access or modify your form data outside of the form context within your application:
+With [useData](/uilib/extensions/forms/extended-features/Form/useData/), [getData](/uilib/extensions/forms/extended-features/Form/getData/) and [setData](/uilib/extensions/forms/extended-features/Form/setData/) you area able to access and modify your form data from not only from nested components, but also outside the form context itself (`Form.Handler`).
+
+Here "ComponentB" is rendered inside the `Form.Handler` component:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function MyForm() {
-  return <Form.Handler id="unique">...</Form.Handler>
+function ComponentA() {
+  return (
+    <Form.Handler>
+      ...
+      <ComponentB />
+      ...
+    </Form.Handler>
+  )
 }
 
-function OtherComponent() {
-  // Use the data or update one entry at a time
-  const { data, update } = Form.useData('unique')
+function ComponentB() {
+  const { data, update, set, filterData } = Form.useData()
+}
+```
+
+While in this example, "ComponentB" is outside the `Form.Handler` and linked together via the `id` (string) property:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function ComponentA() {
+  return (
+    <>
+      <Form.Handler id="unique">...</Form.Handler>
+      <ComponentB />
+    </>
+  )
 }
 
-// Or use the Form.setData method when ever you need to
+function ComponentB() {
+  const { data, update, set, filterData } = Form.useData('unique')
+}
+
+// You canalso use the setData:
 Form.setData('unique', { companyName: 'DNB' })
+
+// ... and the getData method when ever you need to:
+const { data, filterData } = Form.getData('unique')
 ```
 
 ### Async form handling

@@ -8,6 +8,7 @@ import {
   EventStateObject,
   EventReturnWithStateObject,
   Identifier,
+  FieldProps,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 
@@ -20,6 +21,16 @@ export type EventListenerCall = {
   type: 'onSubmit'
   callback: () => any
 }
+
+export type FilterDataHandler<Data> = (
+  data: Data,
+  filter: FilterData
+) => Partial<Data>
+export type FilterData = (
+  path: Path,
+  value: any,
+  props: FieldProps
+) => boolean | undefined
 
 export interface ContextState {
   id?: Identifier
@@ -38,6 +49,8 @@ export interface ContextState {
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
   updateDataValue: (path: Path, value: any) => void
+  setData: (data: any) => void
+  filterDataHandler: (data: any, filter: FilterData) => any
   validateData: () => void
   handleSubmit: (props?: HandleSubmitProps) => any
   scrollToTop: () => void
@@ -91,6 +104,8 @@ export const defaultContextState: ContextState = {
   submitState: undefined,
   handlePathChange: () => null,
   updateDataValue: () => null,
+  setData: () => null,
+  filterDataHandler: () => null,
   validateData: () => null,
   handleSubmit: () => null,
   scrollToTop: () => null,
