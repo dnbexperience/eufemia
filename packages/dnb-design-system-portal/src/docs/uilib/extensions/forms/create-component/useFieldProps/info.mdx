@@ -138,16 +138,13 @@ During validation, the different APIs do have a prioritization order and will st
 
 ### Error handling
 
-Validation and error-handling is tight coupled together. When a validation fails, you may use the error-object to handle and show the failures/statuses.
-
-To generate the error-object, `FormError` is used. You can use it as well:
+Validation and error-handling are tightly coupled together. When a validation fails, you may use the error-object to handle and show the failures/statuses:
 
 ```tsx
-import { FormError } from '@dnb/eufemia/extensions/forms'
 render(
   <Field.String
     label="Label"
-    warning={new FormError("I'm a warning too...")}
+    error={new Error('This is what is wrong...')}
   />,
 )
 ```
@@ -161,6 +158,17 @@ const { error, hasError } = useFieldProps({
     required: 'Show this when "required" fails!',
   },
   ...componentProps,
+})
+```
+
+To re-use existing `errorMessages`, you can use the `FormError` constructor as well:
+
+```ts
+import { FormError } from '@dnb/eufemia/extensions/forms'
+
+// Will show the message from the errorMessages
+new FormError('Internal error message', {
+  validationRule: 'required',
 })
 ```
 

@@ -2180,7 +2180,7 @@ describe('useFieldProps', () => {
     }
 
     const { rerender } = render(
-      <FieldBlock error={new FormError('Error message')}>
+      <FieldBlock error={new Error('Error message')}>
         <MockComponent />
       </FieldBlock>
     )

@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -52,14 +52,14 @@ export const Disabled = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox scope={{ FormError }} data-visual-test="expiry-error">
+    <ComponentBox data-visual-test="expiry-error">
       <Field.Expiry
         value="0326"
         label="Label text"
         onChange={(expiry) => console.log('onChange', expiry)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )

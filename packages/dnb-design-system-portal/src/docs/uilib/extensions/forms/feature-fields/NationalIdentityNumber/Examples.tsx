@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -86,14 +86,14 @@ export const Disabled = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         value="007"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )
@@ -114,7 +114,7 @@ export const ValidationRequired = () => {
 
 export const ValidationFunction = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       {() => {
         const fnr = (value: string) =>
           value.length >= 11 ? { status: 'valid' } : { status: 'invalid' }
@@ -122,7 +122,7 @@ export const ValidationFunction = () => {
         const validator = (value, errorMessages) => {
           const result = fnr(value)
           return result.status === 'invalid'
-            ? new FormError(errorMessages.pattern)
+            ? new Error(errorMessages.pattern)
             : undefined
         }
 

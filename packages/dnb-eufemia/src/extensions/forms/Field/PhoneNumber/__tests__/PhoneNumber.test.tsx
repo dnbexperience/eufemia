@@ -3,7 +3,7 @@ import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
-import { Field, Form, FormError, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema } from '../../..'
 import locales from '../../../../../shared/locales'
 
 const nbNO = locales['nb-NO']
@@ -562,7 +562,7 @@ describe('Field.PhoneNumber', () => {
 
   it('should handle "validator" property with country code', async () => {
     const validator = jest.fn(() => {
-      return new FormError('some error')
+      return new Error('some error')
     })
 
     render(

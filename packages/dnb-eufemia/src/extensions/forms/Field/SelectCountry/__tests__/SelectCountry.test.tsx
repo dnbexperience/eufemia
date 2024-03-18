@@ -3,7 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Props } from '..'
 import { Provider } from '../../../../../shared'
-import { Field, Form, FormError, FieldBlock } from '../../..'
+import { Field, Form, FieldBlock } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -268,7 +268,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('renders error', () => {
-    const errorMessage = new FormError('Error message')
+    const errorMessage = new Error('Error message')
     render(<Field.SelectCountry error={errorMessage} />)
 
     const element = document.querySelector('.dnb-form-status')
@@ -279,7 +279,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('shows error style in FieldBlock', () => {
-    const errorMessage = new FormError('Error message')
+    const errorMessage = new Error('Error message')
     render(
       <FieldBlock>
         <Field.SelectCountry error={errorMessage} />

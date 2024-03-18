@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import { Field, FieldBlock } from '../../..'
-import { FormError } from '../../../types'
 
 describe('ArraySelection', () => {
   it('renders correctly', () => {
@@ -50,7 +49,7 @@ describe('ArraySelection', () => {
   })
 
   it('displays error message when error prop is provided', () => {
-    const errorMessage = new FormError('This is what is wrong...')
+    const errorMessage = new Error('This is what is wrong...')
     render(
       <Field.ArraySelection error={errorMessage}>
         <Field.Option value="option1">Option 1</Field.Option>
@@ -129,7 +128,7 @@ describe('ArraySelection', () => {
     })
 
     it('has error class when error prop is provided', () => {
-      const errorMessage = new FormError('This is what is wrong...')
+      const errorMessage = new Error('This is what is wrong...')
       render(
         <Field.ArraySelection error={errorMessage}>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -164,7 +163,7 @@ describe('ArraySelection', () => {
     })
 
     it('has error class when error prop is provided', () => {
-      const errorMessage = new FormError('This is what is wrong...')
+      const errorMessage = new Error('This is what is wrong...')
       render(
         <Field.ArraySelection variant="button" error={errorMessage}>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -200,7 +199,7 @@ describe('ArraySelection', () => {
   describe('checkbox', () => {
     it('renders error', () => {
       render(
-        <Field.ArraySelection error={new FormError('Error message')}>
+        <Field.ArraySelection error={new Error('Error message')}>
           <Field.Option value="A" title="Fooo!" />
           <Field.Option value="B" title="Baar!" />
           <Field.Option value="C" title="Bazz!" />
@@ -222,7 +221,7 @@ describe('ArraySelection', () => {
     it('shows error style in FieldBlock', () => {
       render(
         <FieldBlock>
-          <Field.ArraySelection error={new FormError('Error message')}>
+          <Field.ArraySelection error={new Error('Error message')}>
             <Field.Option value="A" title="Fooo!" />
             <Field.Option value="B" title="Baar!" />
             <Field.Option value="C" title="Bazz!" />
@@ -245,7 +244,7 @@ describe('ArraySelection', () => {
       render(
         <Field.ArraySelection
           variant="button"
-          error={new FormError('Error message')}
+          error={new Error('Error message')}
         >
           <Field.Option value="A" title="Fooo!" />
           <Field.Option value="B" title="Baar!" />
@@ -276,7 +275,7 @@ describe('ArraySelection', () => {
         <FieldBlock>
           <Field.ArraySelection
             variant="button"
-            error={new FormError('Error message')}
+            error={new Error('Error message')}
           >
             <Field.Option value="A" title="Fooo!" />
             <Field.Option value="B" title="Baar!" />

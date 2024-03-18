@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -81,17 +81,14 @@ export const Disabled = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox
-      scope={{ FormError }}
-      data-visual-test="phone-number-error"
-    >
+    <ComponentBox data-visual-test="phone-number-error">
       <Field.PhoneNumber
         value="007"
         label="Label text"
         onChange={(...args) => console.log('onChange', ...args)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )

@@ -2,7 +2,6 @@ import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
-import { FormError } from '../../types'
 import userEvent from '@testing-library/user-event'
 import { useFieldProps } from '../../hooks'
 import {
@@ -373,7 +372,7 @@ describe('FieldBlock', () => {
     }
 
     const { rerender } = render(
-      <FieldBlock error={new FormError('FieldBlock error')}>
+      <FieldBlock error={new Error('FieldBlock error')}>
         <MockComponent />
       </FieldBlock>
     )
@@ -429,9 +428,7 @@ describe('FieldBlock', () => {
     describe('error prop', () => {
       it('should render a FormStatus correctly', () => {
         render(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1002,9 +999,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1020,9 +1015,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1048,9 +1041,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1064,9 +1055,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')

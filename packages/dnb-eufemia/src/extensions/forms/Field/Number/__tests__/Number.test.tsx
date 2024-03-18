@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, FormError, FieldBlock } from '../../..'
+import { Field, FieldBlock } from '../../..'
 import { Provider } from '../../../../../shared'
 
 describe('Field.Number', () => {
@@ -113,7 +113,7 @@ describe('Field.Number', () => {
     })
 
     it('shows error style in FieldBlock', () => {
-      const errorMessage = new FormError('Error message')
+      const errorMessage = new Error('Error message')
       render(
         <FieldBlock>
           <Field.Number error={errorMessage} />
