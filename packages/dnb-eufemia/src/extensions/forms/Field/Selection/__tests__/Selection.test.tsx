@@ -544,14 +544,40 @@ describe('Selection', () => {
   })
 
   it('shows error border', () => {
-    render(
+    const { rerender } = render(
       <Field.Selection error={new Error('This is what went wrong')}>
         <Field.Option value="foo">Fooo</Field.Option>
         <Field.Option value="bar">Baar</Field.Option>
       </Field.Selection>
     )
-    const element = document.querySelector('.dnb-dropdown')
-    expect(element.className).toContain('dnb-dropdown__status--error')
+    const dropdown = document.querySelector('.dnb-dropdown')
+    expect(dropdown.className).toContain('dnb-dropdown__status--error')
+
+    rerender(
+      <Field.Selection
+        variant="radio"
+        error={new Error('This is what went wrong')}
+      >
+        <Field.Option value="foo">Fooo</Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+
+    const radio = document.querySelector('.dnb-radio')
+    expect(radio.className).toContain('dnb-radio__status--error')
+
+    rerender(
+      <Field.Selection
+        variant="button"
+        error={new Error('This is what went wrong')}
+      >
+        <Field.Option value="foo">Fooo</Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+
+    const button = document.querySelector('.dnb-toggle-button')
+    expect(button.className).toContain('dnb-toggle-button__status--error')
   })
 
   it('shows error in individual button item', () => {
