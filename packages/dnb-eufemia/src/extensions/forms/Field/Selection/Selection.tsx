@@ -181,7 +181,7 @@ function Selection(props: Props) {
                   label={variant === 'radio' ? title : undefined}
                   text={variant === 'button' ? title : undefined}
                   value={String(value ?? '')}
-                  status={status}
+                  status={(hasError || status) && 'error'}
                   {...ariaAttributes}
                   {...rest}
                 />
