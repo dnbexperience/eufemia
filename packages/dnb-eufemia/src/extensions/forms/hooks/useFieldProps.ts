@@ -201,12 +201,27 @@ export default function useFieldProps<
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
-  const showErrorInitially = validateInitially || errorProp
+  const showErrorRef = useRef<boolean>(
+    Boolean(validateInitially || errorProp)
+  )
   // - Local errors are errors based on validation instructions received by
   const localErrorRef = useRef<Error | FormError | undefined>()
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const contextErrorRef = useRef<Error | FormError | undefined>(
     dataContextError
+  )
+
+  const validatorRef = useRef(validator)
+  useUpdateEffect(() => {
+    validatorRef.current = validator
+  }, [validator])
+  const onBlurValidatorRef = useRef(onBlurValidator)
+  useUpdateEffect(() => {
+    onBlurValidatorRef.current = onBlurValidator
+  }, [onBlurValidator])
+
+  const schemaValidatorRef = useRef<ValidateFunction>(
+    schema ? dataContext.ajvInstance?.compile(schema) : undefined
   )
 
   // - Async behavior
@@ -278,20 +293,6 @@ export default function useFieldProps<
   // Put props into the surrounding data context
   setPropsDataContext?.(identifier, props)
 
-  const showErrorRef = useRef<boolean>(Boolean(showErrorInitially))
-  const validatorRef = useRef(validator)
-  useUpdateEffect(() => {
-    validatorRef.current = validator
-  }, [validator])
-  const onBlurValidatorRef = useRef(onBlurValidator)
-  useUpdateEffect(() => {
-    onBlurValidatorRef.current = onBlurValidator
-  }, [onBlurValidator])
-
-  const schemaValidatorRef = useRef<ValidateFunction>(
-    schema ? dataContext.ajvInstance?.compile(schema) : undefined
-  )
-
   const fieldStateRef = useRef<SubmitStateWithValidating>()
   const setFieldState = useCallback(
     (state: SubmitStateWithValidating) => {
@@ -314,9 +315,13 @@ export default function useFieldProps<
     showFieldBlockError?.(identifier, false)
   }, [showFieldBlockError, identifier])
 
-  const error = showErrorRef.current
-    ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-    : undefined
+  const error =
+    showErrorRef.current ||
+    // If the error is a type error, we want to show it even if the field as not been used
+    localErrorRef.current?.['validationRule'] === 'type'
+      ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+      : undefined
+
   const hasVisibleError =
     Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
   const hasError = useCallback(() => {
@@ -359,7 +364,9 @@ export default function useFieldProps<
           return message.replace(`{${key}}`, value)
         }, message)
 
-        return new FormError(messageWithValues)
+        error.message = messageWithValues
+
+        return error
       }
 
       return error
@@ -535,7 +542,8 @@ export default function useFieldProps<
         !schemaValidatorRef.current(value)
       ) {
         const error = ajvErrorsToOneFormError(
-          schemaValidatorRef.current.errors
+          schemaValidatorRef.current.errors,
+          valueRef.current
         )
         throw error
       }

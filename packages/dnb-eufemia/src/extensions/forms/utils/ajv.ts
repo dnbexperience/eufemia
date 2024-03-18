@@ -1,6 +1,7 @@
 import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
-import { FormError } from '../types'
+import pointer from 'json-pointer'
+import { FormError, Path } from '../types'
 import type Ajv from 'ajv/dist/2020'
 
 export type AjvInstance = typeof ajvInstance
@@ -37,7 +38,7 @@ export function makeAjvInstance(instance?: Ajv) {
  * @param ajvError - The Ajv error object.
  * @returns The instance path of the error.
  */
-export function getInstancePath(ajvError: ErrorObject): string {
+export function getInstancePath(ajvError: ErrorObject): Path {
   switch (ajvError.keyword) {
     case 'required': {
       // Required-errors are considered object errors by ajv, so they don't have instancePaths. We want to
@@ -80,7 +81,6 @@ export function getMessageValues(
   ajvError: ErrorObject
 ): FormError['messageValues'] {
   const validationRule = getValidationRule(ajvError)
-  // console.log('validationRule', validationRule)
 
   switch (validationRule) {
     case 'minLength':
@@ -110,13 +110,12 @@ export function getMessageValues(
  * @returns The converted FormError object.
  */
 export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
-  const error = new FormError(ajvError.message ?? 'Unknown error', {
+  return new FormError(ajvError.message ?? 'Unknown error', {
     validationRule: getValidationRule(ajvError),
     // Keep the message values in the error object instead of injecting them into the message
     // at once, since an error might be validated one place, and then get a new message before it is displayed.
     messageValues: getMessageValues(ajvError),
   })
-  return error
 }
 
 /**
@@ -125,33 +124,77 @@ export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
  * @returns A single FormError or undefined if there are no errors.
  */
 export function ajvErrorsToOneFormError(
-  errors?: ErrorObject[] | null
+  errors?: ErrorObject[] | null,
+  value?: unknown
 ): FormError | undefined {
   if (!errors || errors.length === 0) {
     return
   }
   if (errors.length === 1) {
-    return ajvErrorToFormError(errors[0])
+    const error = ajvErrorsTransformation(errors[0], value)
+    if (!error) {
+      return undefined
+    }
+
+    return ajvErrorToFormError(error)
   }
 
   const errorMessages = errors?.map((error) => error.message)
-  return new FormError(errorMessages.join(' | '), {
-    validationRule: errors.map(getValidationRule),
-  })
+  return new FormError(errorMessages.join(' and '))
 }
 
 /**
- * Transform errors from ajv-validation into a record of errors (path as key, error as value)
- * @param errors
- * @returns
+ * Converts AJV validation errors to form errors.
+ *
+ * @param errors - The array of AJV validation errors.
+ * @param data - The data object being validated.
+ * @returns The converted form errors as a record of path and form error pairs.
  */
 export const ajvErrorsToFormErrors = (
-  errors?: ErrorObject[] | null
+  errors?: ErrorObject[] | null,
+  data?: Record<Path, unknown>
 ): Record<string, FormError> => {
   return (errors ?? []).reduce((errors, ajvError) => {
-    return {
-      ...errors,
-      [getInstancePath(ajvError)]: ajvErrorToFormError(ajvError),
+    const path = getInstancePath(ajvError)
+    const error = ajvErrorsTransformation(ajvError, data, path)
+
+    if (error) {
+      errors[path] = ajvErrorToFormError(error)
     }
+
+    return errors
   }, {})
+}
+
+/**
+ * Transforms AJV errors based on specific conditions.
+ *
+ * @param ajvError - The AJV error object.
+ * @param data - The data object or value being validated.
+ * @param path - The path to the data object property being validated.
+ * @returns The transformed AJV error object or undefined if the error should be removed.
+ */
+function ajvErrorsTransformation(
+  ajvError: ErrorObject,
+  data?: Record<Path, unknown> | unknown,
+  path?: Path
+) {
+  if (ajvError.keyword === 'type') {
+    const value =
+      data && typeof data === 'object' ? pointer.get(data, path) : data
+
+    // Remove the error if the value is empty
+    if (value === '' || value === null) {
+      return undefined
+    } else {
+      // This extend the very limited error message with the value and the path
+      const field = path ? `field at path="${path}"` : 'field'
+      ajvError.message = `The ${field} value (${value}) type ${ajvError.message}`
+
+      // Warn about the issue
+      console.error(ajvError.message)
+    }
+  }
+
+  return ajvError
 }

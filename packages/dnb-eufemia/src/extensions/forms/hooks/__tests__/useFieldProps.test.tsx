@@ -560,20 +560,14 @@ describe('useFieldProps', () => {
 
     it('should validate schema', async () => {
       const schema: JSONSchema = {
-        type: 'object',
-        properties: {
-          txt: {
-            type: 'string',
-            pattern: '^(valid)$',
-          },
-        },
+        type: 'string',
+        pattern: '^(valid)$',
       }
 
       const { result } = renderHook(() =>
         useFieldProps({
           value: 'valid',
           schema,
-          path: '/txt',
         })
       )
 
@@ -599,6 +593,122 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(result.current.error).toBeUndefined()
       })
+    })
+
+    it('should bypass schema type error when empty string or null is given', async () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
+      const schema: JSONSchema = {
+        type: 'number',
+      }
+
+      const { result } = renderHook(() =>
+        useFieldProps({
+          value: '',
+          schema,
+        })
+      )
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      act(() => {
+        result.current.handleChange(null)
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      act(() => {
+        result.current.handleChange('invalid')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe(
+          'The field value (invalid) type must be number'
+        )
+      })
+
+      expect(log).toHaveBeenCalledTimes(1)
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        'The field value (invalid) type must be number'
+      )
+
+      log.mockRestore()
+    })
+
+    it('should show schema type error initially', async () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
+      const schema: JSONSchema = {
+        type: 'number',
+      }
+
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          value: 'invalid',
+          schema,
+        },
+      })
+
+      const { handleChange } = result.current
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe(
+          'The field value (invalid) type must be number'
+        )
+      })
+
+      act(() => {
+        handleChange('')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      rerender({
+        value: 'invalid',
+        schema: {
+          type: 'string',
+        },
+      })
+
+      act(() => {
+        handleChange('valid')
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      act(() => {
+        handleChange(123)
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe(
+          'The field value (123) type must be string'
+        )
+      })
+
+      expect(log).toHaveBeenCalledTimes(2)
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        'The field value (invalid) type must be number'
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        2,
+        'The field value (123) type must be string'
+      )
+
+      log.mockRestore()
     })
 
     it('should have correct validation order', async () => {
@@ -646,8 +756,8 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
 
         await waitFor(() => {
-          expect(result.current.error.toString()).toBe(
-            'Error: throw-on-blur-validator'
+          expect(result.current.error.message).toBe(
+            'throw-on-blur-validator'
           )
         })
       }
@@ -659,9 +769,7 @@ describe('useFieldProps', () => {
       })
 
       await waitFor(() => {
-        expect(result.current.error.toString()).toBe(
-          'Error: throw-on-required'
-        )
+        expect(result.current.error.message).toBe('throw-on-required')
       })
 
       await validateBlur()
@@ -671,8 +779,8 @@ describe('useFieldProps', () => {
       })
 
       await waitFor(() => {
-        expect(result.current.error.toString()).toBe(
-          'Error: must match pattern "^(throw-on-validator)$"'
+        expect(result.current.error.message).toBe(
+          'must match pattern "^(throw-on-validator)$"'
         )
       })
 
@@ -683,9 +791,7 @@ describe('useFieldProps', () => {
       })
 
       await waitFor(() => {
-        expect(result.current.error.toString()).toBe(
-          'Error: throw-on-validator'
-        )
+        expect(result.current.error.message).toBe('throw-on-validator')
       })
 
       await validateBlur()
@@ -703,9 +809,7 @@ describe('useFieldProps', () => {
         })
       )
       expect(result.current.error).toBeInstanceOf(Error)
-      expect(result.current.error.toString()).toBe(
-        'Error: Show this message'
-      )
+      expect(result.current.error.message).toBe('Show this message')
     })
 
     it('should validate required when value is empty string', () => {
@@ -757,9 +861,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.toString()).toBe(
-          'Error: Show this message'
-        )
+        expect(result.current.error.message).toBe('Show this message')
       })
 
       act(() => {

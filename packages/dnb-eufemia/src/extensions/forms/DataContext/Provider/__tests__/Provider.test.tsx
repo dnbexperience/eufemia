@@ -392,6 +392,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should call "onSubmitRequest" on invalid submit', () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
       const onSubmitRequest = jest.fn()
 
       const { rerender } = render(
@@ -432,6 +434,8 @@ describe('DataContext.Provider', () => {
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(2)
       expect(onSubmitRequest).toHaveBeenLastCalledWith()
+
+      log.mockRestore()
     })
   })
 
@@ -747,9 +751,11 @@ describe('DataContext.Provider', () => {
         expect(status).toBeNull()
       })
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onBlurValidator).toHaveBeenCalledTimes(1)
-      expect(validator).toHaveBeenCalledTimes(3)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenCalledTimes(3)
+      })
     })
 
     it('should set "formState" to "pending" when "validator" is async', async () => {
@@ -1623,6 +1629,41 @@ describe('DataContext.Provider', () => {
     })
 
     describe('schema validation', () => {
+      it('should show provider schema type error with path', async () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
+
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            myField: {
+              type: 'number',
+            },
+          },
+        }
+
+        render(
+          <DataContext.Provider
+            schema={schema}
+            data={{
+              myField: 'invalid',
+            }}
+          >
+            <TestField path="/myField" />
+          </DataContext.Provider>
+        )
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The field at path="/myField" value (invalid) type must be number'
+        )
+
+        expect(log).toHaveBeenCalledWith(
+          'The field at path="/myField" value (invalid) type must be number'
+        )
+
+        log.mockRestore()
+      })
+
       it('should handle errors when initial data is not given', async () => {
         const schema: JSONSchema = {
           type: 'object',
@@ -1858,6 +1899,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
       const onSubmitRequest = jest.fn()
 
       const Schema: JSONSchema = {
@@ -1907,9 +1950,26 @@ describe('DataContext.Provider', () => {
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(2)
       expect(onSubmitRequest).toHaveBeenLastCalledWith()
+
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        'The field value (original) type must be number'
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        2,
+        'The field at path="/foo" value (original) type must be number'
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        3,
+        'The field at path="/foo" value (changed) type must be number'
+      )
+
+      log.mockRestore()
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
       const schema: JSONSchema = {
         type: 'object',
         properties: {
@@ -1958,9 +2018,13 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      log.mockRestore()
     })
 
     it('should revalidate correctly based on changes in provided schema', () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
       const schema1: JSONSchema = {
         type: 'object',
         properties: {
@@ -2014,6 +2078,8 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+      log.mockRestore()
     })
 
     it('should accept custom ajv instance', async () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, FieldBlock } from '../../..'
+import { Field, FieldBlock, Form, JSONSchema } from '../../..'
 import { Provider } from '../../../../../shared'
 
 describe('Field.Number', () => {
@@ -224,6 +224,154 @@ describe('Field.Number', () => {
       const input = document.querySelector('.dnb-input__input')
 
       expect(input).toHaveAttribute('inputmode', 'decimal')
+    })
+  })
+
+  describe('should gracefully handle empty value', () => {
+    describe('field schema', () => {
+      const schema: JSONSchema = { type: 'number' }
+
+      it('allow undefined as emptyValue', () => {
+        render(<Field.Number schema={schema} value={undefined} />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('allow empty string as empty value', () => {
+        const emptyString = '' as null
+        render(<Field.Number schema={schema} value={emptyString} />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('allow null as empty value', () => {
+        render(<Field.Number schema={schema} value={null} />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('throw type error when invalid value is given', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
+
+        const invalidValue = 'foo' as null
+        render(<Field.Number schema={schema} value={invalidValue} />)
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const status = document.querySelector('.dnb-form-status')
+        expect(status).toHaveTextContent(
+          'The field value (foo) type must be number'
+        )
+
+        log.mockRestore()
+      })
+    })
+
+    describe('provider schema', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          myFieldWithNull: { type: 'number' },
+          myFieldWithUndefined: { type: 'number' },
+          myFieldWithEmptyString: { type: 'number' },
+        },
+      }
+
+      const data = {
+        myFieldWithNull: null,
+        myFieldWithUndefined: undefined,
+        myFieldWithEmptyString: '',
+        myFieldWitInvalidType: 'foo',
+      }
+
+      it('allow undefined as emptyValue', () => {
+        render(
+          <Form.Handler schema={schema} data={data}>
+            <Field.Number path="/myFieldWithUndefined" />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('allow empty string as emptyValue', () => {
+        render(
+          <Form.Handler schema={schema} data={data}>
+            <Field.Number path="/myFieldWithEmptyString" />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('allow empty string as empty value', () => {
+        render(
+          <Form.Handler schema={schema} data={data}>
+            <Field.Number path="/myFieldWithEmptyString" />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('allow null as empty value', () => {
+        render(
+          <Form.Handler schema={schema} data={data}>
+            <Field.Number path="/myFieldWithNull" />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const statuses = document.querySelectorAll('.dnb-form-status')
+        expect(statuses).toHaveLength(0)
+      })
+
+      it('throw type error when invalid value is given', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
+
+        render(
+          <Form.Handler schema={schema} data={data}>
+            <Field.Number path="/myFieldWitInvalidType" />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        expect(input).toHaveValue('')
+
+        const status = document.querySelector('.dnb-form-status')
+        expect(status).toHaveTextContent(
+          'The field value (foo) type must be number'
+        )
+
+        log.mockRestore()
+      })
     })
   })
 
