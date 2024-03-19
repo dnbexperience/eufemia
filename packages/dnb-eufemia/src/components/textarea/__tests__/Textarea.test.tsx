@@ -183,6 +183,9 @@ describe('Textarea component', () => {
     const { rerender } = render(<Textarea />)
     rerender(<Textarea disabled={true} />)
     expect(document.querySelector('textarea')).toHaveAttribute('disabled')
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea--disabled'
+    )
   })
 
   it('will correctly auto resize if prop autoresize is used', async () => {
@@ -291,6 +294,46 @@ describe('Textarea component', () => {
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
   })
 
+  it('should support align property', () => {
+    render(<Textarea align="right" />)
+
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__align--right'
+    )
+  })
+
+  it('should support size property', () => {
+    const { rerender } = render(
+      <Provider>
+        <Textarea size="medium" />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__size--medium'
+    )
+
+    rerender(
+      <Provider>
+        <Textarea size="large" />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__size--large'
+    )
+
+    rerender(
+      <Provider Textarea={{ size: 'medium' }}>
+        <Textarea />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__size--medium'
+    )
+  })
+
   it('should render characterCounter', async () => {
     const { rerender } = render(
       <Textarea characterCounter={{ max: 8 }} value="foo" />
@@ -343,6 +386,58 @@ describe('Textarea component', () => {
     expect(counter).toHaveTextContent(
       'You have exceeded the limit by 9 on 8 characters'
     )
+  })
+
+  describe('sets the resize-- modifier class based on the user agent', () => {
+    const textarea = () => document.querySelector('.dnb-textarea')
+
+    it('Firefox will get "large"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Firefox')
+      render(<Textarea />)
+      expect(textarea()).toHaveClass('dnb-textarea__resize--large')
+    })
+
+    it('Edge will get "large"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Edg')
+      render(<Textarea />)
+      expect(textarea()).toHaveClass('dnb-textarea__resize--large')
+    })
+
+    it('Chrome on Windows will get "large"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
+      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Win')
+      render(<Textarea />)
+      expect(textarea()).toHaveClass('dnb-textarea__resize--large')
+    })
+
+    it('Chrome on Mac will get "medium"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
+      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      render(<Textarea />)
+      expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
+    })
+
+    it('Safari on Mac will get "medium"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
+      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      render(<Textarea />)
+      expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
+    })
+
+    it('Safari on Mac with autoresize will not get "medium"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
+      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      render(<Textarea autoresize />)
+      expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
+    })
+
+    it('Other browsers and platforms will not get "medium" or "large"', () => {
+      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('foo')
+      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('bar')
+      render(<Textarea />)
+      expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
+      expect(textarea()).not.toHaveClass('dnb-textarea__resize--large')
+    })
   })
 })
 

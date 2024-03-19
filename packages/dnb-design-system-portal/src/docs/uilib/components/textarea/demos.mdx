@@ -2,59 +2,48 @@
 showTabs: true
 ---
 
-import {
-  TextareaExampleRowsCols,
-  TextareaExamplePlaceholder,
-  TextareaExampleVertical,
-  TextareaExampleStretched,
-  TextareaExampleAutoresize,
-  TextareaExampleMaxLength,
-  TextareaCharacterCounter,
-  TextareaExampleFormStatus,
-  TextareaExampleDisabled,
-  TextareaExampleSuffix,
-} from 'Docs/uilib/components/textarea/Examples'
+import * as Examples from 'Docs/uilib/components/textarea/Examples'
 
 ## Demos
 
 ### Textarea with rows and colds
 
-<TextareaExampleRowsCols />
+<Examples.RowsCols />
 
 ### Textarea with placeholder text
 
-<TextareaExamplePlaceholder />
+<Examples.Placeholder />
 
 ### Vertically placed label
 
-<TextareaExampleVertical />
+<Examples.Vertical />
 
 ### Stretched horizontally placed label
 
-<TextareaExampleStretched />
+<Examples.Stretched />
 
 ### Autoresize with max rows
 
-<TextareaExampleAutoresize />
-
-### Max length usage
-
-<TextareaExampleMaxLength />
+<Examples.Autoresize />
 
 ### Character counter
 
 Internally, the [TextCounter](uilib/components/fragments/text-counter/) fragment is used to display the character counter.
 
-<TextareaCharacterCounter />
+<Examples.CharacterCounter />
 
 ### With FormStatus failure message
 
-<TextareaExampleFormStatus />
+<Examples.FormStatus />
+
+### Sizes
+
+<Examples.Sizes />
 
 ### Disabled textarea
 
-<TextareaExampleDisabled />
+<Examples.Disabled />
 
 ### Textarea with a suffix
 
-<TextareaExampleSuffix />
+<Examples.Suffix />

@@ -134,4 +134,14 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match different sizes', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-sizes"]',
+      styleSelector:
+        '[data-visual-test="textarea-sizes"] .dnb-flex-container',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

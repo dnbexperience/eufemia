@@ -9,18 +9,22 @@
   cursor: auto;
   border: none;
   margin: 0;
-  padding: 0 var(--textarea-padding-width);
+  padding: 0;
 
   outline: none;
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  color: var(--textarea-color, var(--color-black));
+  background-color: var(--textarea-background-color, var(--color-white));
 }
 
 .dnb-textarea {
-  --textarea-padding-width: 0.5rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
   --textarea-background-color: var(--color-white);
+  --textarea-size--small: 0.25rem;
+  --textarea-size--medium: 0.5rem;
+  --textarea-size--large: 0.75rem;
 
   display: inline-flex;
 
@@ -31,7 +35,8 @@
     display: inline-flex;
     flex-direction: column;
 
-    margin: 0 var(--textarea-padding-width);
+    margin: 0 var(--textarea-size-horizontal);
+    margin-right: var(--textarea-size-vertical);
   }
 
   &__shell {
@@ -40,21 +45,61 @@
 
     // because of inheritance, we set the font-size and line-height here as well
     font-size: var(--font-size-basis);
+
+    &::after {
+      --size: 0.5rem;
+      --bg-size: cover;
+      --bg-pos: 0;
+
+      pointer-events: none;
+
+      position: absolute;
+      z-index: 2;
+
+      bottom: 0;
+      right: 0;
+
+      width: var(--size);
+      height: var(--size);
+
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none"><path stroke="%23000" stroke-linecap="round" stroke-width=".5" d="m1 7 6-6M3.5 7 7 3.5M6 7l1-1"/></svg>');
+      background-size: var(--bg-size);
+      background-position: var(--bg-pos) var(--bg-pos);
+      background-color: var(--textarea-background-color);
+    }
+  }
+
+  &__resize--medium &__shell::after {
+    content: '';
+  }
+  &__resize--large &__shell::after {
+    content: '';
+
+    --size: 1rem;
+    --bg-size: 60%;
+    --bg-pos: 0.25rem;
+  }
+
+  &__autoresize &__shell::after {
+    content: none;
   }
 
   &__state {
     position: absolute;
     z-index: 1;
-    top: -0.5rem;
-    left: -0.5rem;
-    bottom: -0.5rem;
-    right: -0.5rem;
+    top: calc(var(--textarea-size-vertical) * -1);
+    left: calc(var(--textarea-size-horizontal) * -1);
+    bottom: calc(var(--textarea-size-vertical) * -1);
 
-    background-color: var(--color-white);
+    // use vertical to align the grabber to be centered on the corner
+    right: calc(var(--textarea-size-vertical) * -1);
+
+    background-color: var(--textarea-background-color);
+
     @include fakeBorder(
       var(--textarea-border-color),
       var(--textarea-border-width),
-      inset
+      var(--textarea-border-inset, inset)
     );
 
     border-radius: 0.25rem;
@@ -63,7 +108,7 @@
   &__row {
     display: inline-flex;
 
-    margin: var(--textarea-padding-width) 0;
+    margin: var(--textarea-size-vertical) 0;
   }
 
   &__suffix.dnb-suffix {
@@ -86,7 +131,7 @@
     @include scrollY(auto);
 
     @include IS_FF() {
-      overflow-x: clip;
+      overflow-x: clip !important;
     }
   }
 
@@ -118,6 +163,8 @@
     -webkit-line-clamp: var(--textarea-rows, 2);
 
     @include textareaStyleCommon();
+
+    background-color: transparent;
   }
 
   &__textarea,
@@ -128,6 +175,20 @@
   &__align--right &__textarea,
   &__align--right &__placeholder {
     text-align: right;
+  }
+
+  &,
+  &__size--small {
+    --textarea-size-vertical: var(--textarea-size--small);
+    --textarea-size-horizontal: 1rem;
+  }
+  &__size--medium {
+    --textarea-size-vertical: var(--textarea-size--medium);
+    --textarea-size-horizontal: 1rem;
+  }
+  &__size--large {
+    --textarea-size-vertical: var(--textarea-size--large);
+    --textarea-size-horizontal: 1rem;
   }
 
   &__autoresize &__textarea {
@@ -151,11 +212,11 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin: 0.5rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+    margin: 0.5rem 0 0 calc(var(--textarea-size-horizontal) * -1);
   }
 
   &:not(#{&}--vertical) .dnb-form-label {
-    margin-top: 0.5rem;
+    margin-top: var(--textarea-size-vertical);
   }
 
   &--vertical {
@@ -228,7 +289,7 @@
   }
 
   &.dnb-skeleton &__inner &__shell {
-    margin: var(--textarea-padding-width);
+    margin: var(--textarea-size-vertical);
   }
 
   &.dnb-skeleton &__state,

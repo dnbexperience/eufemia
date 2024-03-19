@@ -74,6 +74,7 @@ export default class Textarea extends React.PureComponent {
     ]),
     placeholder: PropTypes.string,
     align: PropTypes.oneOf(['left', 'right']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -131,6 +132,7 @@ export default class Textarea extends React.PureComponent {
     suffix: null,
     placeholder: null,
     align: null,
+    size: null,
     stretch: null,
     disabled: null,
     skeleton: null,
@@ -208,6 +210,27 @@ export default class Textarea extends React.PureComponent {
 
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
+    }
+
+    try {
+      if (typeof navigator !== 'undefined') {
+        this.resizeModifier =
+          /Firefox|Edg/.test(navigator.userAgent) ||
+          (/Chrome/.test(navigator.userAgent) &&
+            /Win/.test(navigator.platform))
+            ? 'large'
+            : false
+
+        if (!this.resizeModifier) {
+          this.resizeModifier =
+            /Safari|Chrome/.test(navigator.userAgent) &&
+            /Mac/.test(navigator.platform)
+              ? 'medium'
+              : false
+        }
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
   componentDidMount() {
@@ -370,6 +393,7 @@ export default class Textarea extends React.PureComponent {
       stretch,
       placeholder,
       align,
+      size,
       textarea_class,
       readOnly,
       textarea_attributes,
@@ -434,10 +458,15 @@ export default class Textarea extends React.PureComponent {
       className: classnames(
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
+        disabled && 'dnb-textarea--disabled',
         hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
+        size && `dnb-textarea__size--${size}`,
         status && `dnb-textarea__status--${status_state}`,
         autoresize && 'dnb-textarea__autoresize',
+        !autoresize &&
+          this.resizeModifier &&
+          `dnb-textarea__resize--${this.resizeModifier}`,
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
         'dnb-form-component',

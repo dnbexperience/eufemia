@@ -9,6 +9,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import Provider from '../../../shared/Provider'
 import { Textarea, GlobalStatus, Flex } from '../..'
 import { FieldBlock } from '../../../extensions/forms'
+import Input from '../../input/Input'
 
 export default {
   title: 'Eufemia/Components/Textarea',
@@ -16,6 +17,55 @@ export default {
 
 export const TextareaSandbox = () => (
   <Wrapper className="dnb-spacing">
+    <Box>
+      <Flex.Stack>
+        <div>
+          <Textarea placeholder="Small size" size="small" rows={1} />
+          Text
+        </div>
+        <div>
+          <Textarea placeholder="Medium size" size="medium" rows={1} />
+          Text
+        </div>
+        <div>
+          <Textarea placeholder="Large size" size="large" rows={1} />
+          Text
+        </div>
+      </Flex.Stack>
+
+      <Flex.Stack>
+        <Flex.Horizontal element="span">
+          <Input placeholder="Small size" size="default" />
+          <Textarea placeholder="Small size" size="small" rows={1} />
+          <Textarea
+            size="small"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </Flex.Horizontal>
+        <Flex.Horizontal element="span">
+          <Input placeholder="Medium size" size="medium" />
+          <Textarea placeholder="Medium size" size="medium" rows={1} />
+          <Textarea
+            size="medium"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </Flex.Horizontal>
+        <Flex.Horizontal element="span">
+          <Input placeholder="Large size" size="large" />
+          <Textarea placeholder="Large size" size="large" rows={1} />
+          <Textarea
+            size="large"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            lacinia bibendum hendrerit porttitor volutpat nam duis nisl
+            scelerisque sapien erat"
+          />
+        </Flex.Horizontal>
+      </Flex.Stack>
+    </Box>
     <Box>
       <Provider formElement={{ label_direction: 'vertical' }}>
         <Textarea value="Text" label="Label:" suffix="123" />
