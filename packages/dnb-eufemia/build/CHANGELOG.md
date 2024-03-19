@@ -3,6 +3,48 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.23.0](https://github.com/dnbexperience/eufemia/compare/v10.22.0...v10.23.0) (2024-03-19)
+
+
+### :memo: Documentation
+
+* **a11y:** add additions related to forms and best practices ([#3385](https://github.com/dnbexperience/eufemia/issues/3385)) ([416bc21](https://github.com/dnbexperience/eufemia/commit/416bc219f96fc092853fec8becd900e4d9c5b703))
+* **Field.Number:** add info about accessibility regarding step controls ([#3369](https://github.com/dnbexperience/eufemia/issues/3369)) ([9ee99dd](https://github.com/dnbexperience/eufemia/commit/9ee99dda8a9581d69cbf24b242c589a3e475bb1f))
+* **forms:** list all sub-components and API in extended features ([#3382](https://github.com/dnbexperience/eufemia/issues/3382)) ([938bf88](https://github.com/dnbexperience/eufemia/commit/938bf88da304f8cb7ea9979c4e7653765c443b7a))
+* minor spelling improvements ([#3361](https://github.com/dnbexperience/eufemia/issues/3361)) ([8ab1a92](https://github.com/dnbexperience/eufemia/commit/8ab1a922a0a755419ad8c2ff47fd594456f4f5c4))
+
+
+### :bug: Bug Fixes
+
+* **Field.Selection:** add error styling to `button` and `radio` variant ([#3389](https://github.com/dnbexperience/eufemia/issues/3389)) ([b8093c3](https://github.com/dnbexperience/eufemia/commit/b8093c3fe6f6a72ff16376cb5af162ed13c203cc))
+* **PhoneNumber:** fix `must be string` message ([#3362](https://github.com/dnbexperience/eufemia/issues/3362)) ([c92d061](https://github.com/dnbexperience/eufemia/commit/c92d061fcc8b62d85dd0ef4235e9d6d9da55bdfe))
+* **Table:** fix type error when using array of elements ([#3372](https://github.com/dnbexperience/eufemia/issues/3372)) ([a4d3126](https://github.com/dnbexperience/eufemia/commit/a4d312653005eec1fbaef32c1221462f75da3a38))
+* **Tag:** delete and backspace key press for removable tag ([#3375](https://github.com/dnbexperience/eufemia/issues/3375)) ([96e6bbf](https://github.com/dnbexperience/eufemia/commit/96e6bbf6396ef9727aed5fbe173677c33aefed81))
+
+
+### :sparkles: Features
+
+* **Anchor:** Sbanken style based on icon ([#3377](https://github.com/dnbexperience/eufemia/issues/3377)) ([7cf88a3](https://github.com/dnbexperience/eufemia/commit/7cf88a3cd1cc92badca8541ede2435bb451086d9))
+* **Breadcrumb:** implement new styles and swap out Button with Anchor for the DNB UI ([#3368](https://github.com/dnbexperience/eufemia/issues/3368)) ([c182230](https://github.com/dnbexperience/eufemia/commit/c18223052e1cb92e25c088afb2e1a850aadfb66b))
+* **Button:** refactor button css ([#3359](https://github.com/dnbexperience/eufemia/issues/3359)) ([78258c9](https://github.com/dnbexperience/eufemia/commit/78258c91ca408e78e3da3c6a63728c0c1828334f))
+* **Card:** add `filled`, `responsive` and `title` props to support a Table and a ScrollView as a child ([#3380](https://github.com/dnbexperience/eufemia/issues/3380)) ([0a419cc](https://github.com/dnbexperience/eufemia/commit/0a419cc085921c20a18efab6e153b004d5d0fa57))
+* **DatePicker:** Add partial dates ([#3346](https://github.com/dnbexperience/eufemia/issues/3346)) ([0f6a7d5](https://github.com/dnbexperience/eufemia/commit/0f6a7d55dd6981418d769d3b5f6b0fcf2d854b21))
+* **debounce:** enhance TypeScript support by returning the given function type ([#3379](https://github.com/dnbexperience/eufemia/issues/3379)) ([d689f09](https://github.com/dnbexperience/eufemia/commit/d689f0927a70b2f4aeaefe780d4a669c0937a859))
+* **debounce:** return async function if one was given as the input ([#3366](https://github.com/dnbexperience/eufemia/issues/3366)) ([00cd860](https://github.com/dnbexperience/eufemia/commit/00cd860726830327e3cc52fe9f05e3faac839822))
+* **Form.SubmitButton:** add submit indicator support ([#3370](https://github.com/dnbexperience/eufemia/issues/3370)) ([5f3101d](https://github.com/dnbexperience/eufemia/commit/5f3101df3ad9ddfca6fb2c9b9785bf0614ed396e))
+* **Form.SubmitIndicator:** add indicator for async operations ([#3367](https://github.com/dnbexperience/eufemia/issues/3367)) ([e32ea40](https://github.com/dnbexperience/eufemia/commit/e32ea408a896f9fa08c34219065c0a6c4edeb542))
+* **forms:** implement support for async form submission and autosave feature ([c023c32](https://github.com/dnbexperience/eufemia/commit/c023c32aabc710b8fbcbbbf0db6a01b474bd4fed))
+* **forms:** implement support for async form submission and autosave feature ([#3378](https://github.com/dnbexperience/eufemia/issues/3378)) ([5bfbe30](https://github.com/dnbexperience/eufemia/commit/5bfbe30d65f1d5a2acfdf4c2ec360050018ece97))
+* **FormStatus:** remove hover color, so it does not change its color anymore ([#3351](https://github.com/dnbexperience/eufemia/issues/3351)) ([245f327](https://github.com/dnbexperience/eufemia/commit/245f327f5d3797817f1f9da30681ae77efef6916))
+* **Radio, Checkbox:** enlarge bounding area (clickable/touchable area) ([#3352](https://github.com/dnbexperience/eufemia/issues/3352)) ([667726b](https://github.com/dnbexperience/eufemia/commit/667726bf7e357ada7cc52c194d7c4a5560a897da))
+* show error in console when Eufemia CSS and JS versions do not match ([#3371](https://github.com/dnbexperience/eufemia/issues/3371)) ([a5ef0bd](https://github.com/dnbexperience/eufemia/commit/a5ef0bd158d3381cc7b34949820556efe5e5282a))
+* **Tag:** add variants clickable, addable and removable (deprecate `onDelete`) ([#3364](https://github.com/dnbexperience/eufemia/issues/3364)) ([6131139](https://github.com/dnbexperience/eufemia/commit/61311390d29304e897b21849077bad8fa86f44bc))
+* **useData:** enhance data update and sync logic ([a947ffa](https://github.com/dnbexperience/eufemia/commit/a947ffa660caeca789e08c1adf823d89d9f0506f))
+* **useData:** support data handling without id when nested inside Form.Handler ([#3393](https://github.com/dnbexperience/eufemia/issues/3393)) ([4eecc5e](https://github.com/dnbexperience/eufemia/commit/4eecc5e7ce9421fa0c40d1aee1db10571f6cc112))
+* **useError:** add support to use it without an id when nested inside Form.Handler ([#3394](https://github.com/dnbexperience/eufemia/issues/3394)) ([02b95d1](https://github.com/dnbexperience/eufemia/commit/02b95d127cf2c453804e7d708226c7ba04d74c96))
+* **useFieldProps:** add support for data-attributes and replace `ariaAttributes` with `htmlAttributes` ([#3383](https://github.com/dnbexperience/eufemia/issues/3383)) ([55bb817](https://github.com/dnbexperience/eufemia/commit/55bb81736152f5bbfa48fdbbeac1152fea92198f))
+* **useFieldProps:** rename useDataValue to useFieldProps ([#3381](https://github.com/dnbexperience/eufemia/issues/3381)) ([123a543](https://github.com/dnbexperience/eufemia/commit/123a54322cc61b74a8ba211896f47b59c8abcbe0))
+
 ## [10.22.0](https://github.com/dnbexperience/eufemia/compare/v10.21.0...v10.22.0) (2024-02-28)
 
 
