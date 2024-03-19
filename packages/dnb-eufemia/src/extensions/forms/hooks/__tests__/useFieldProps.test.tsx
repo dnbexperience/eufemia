@@ -2347,20 +2347,17 @@ describe('useFieldProps', () => {
   })
 
   it('should return data-attributes', () => {
-    const { result } = renderHook(
-      () =>
-        useFieldProps({
-          'data-long-key': 'long-key',
-          'data-testid': 'testid',
-        }),
-      { wrapper: Provider }
-    )
+    const dataAttributes = {
+      'data-long-key': 'long-key',
+      'data-testid': 'testid',
+    } as Record<string, unknown>
+
+    const { result } = renderHook(() => useFieldProps(dataAttributes), {
+      wrapper: Provider,
+    })
 
     expect(result.current).toEqual(
-      expect.objectContaining({
-        'data-long-key': 'long-key',
-        'data-testid': 'testid',
-      })
+      expect.objectContaining({ dataAttributes })
     )
   })
 })

@@ -182,8 +182,7 @@ export interface FieldProps<
   EmptyValue = undefined | string,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue>,
-    AriaAttributes,
-    DataAttributes {
+    AriaAttributes {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
   name?: string
