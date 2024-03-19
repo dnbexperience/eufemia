@@ -4,6 +4,7 @@ Field components can be used directly as they are, for example `Field.Email`:
 
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
+
 render(<Field.Email />)
 ```
 
@@ -12,6 +13,7 @@ By building an entire form with components from Eufemia and Eufemia Forms, you s
 ```jsx
 import { Card } from '@dnb/eufemia'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
 render(
   <Form.Handler
     data={existingData}
@@ -41,20 +43,59 @@ render(
 )
 ```
 
-Use the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook to access or modify your form data outside of the form context within your application:
+### Data handling
+
+You don't need React `useState` to handle your form data.
+
+With [useData](/uilib/extensions/forms/extended-features/Form/useData/), [getData](/uilib/extensions/forms/extended-features/Form/getData/) and [setData](/uilib/extensions/forms/extended-features/Form/setData/) you area able to access and modify your form data from not only from nested components, but also outside the form context itself (`Form.Handler`).
+
+Here "ComponentB" is rendered inside the `Form.Handler` component:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
-function Component() {
-  const { data, update } = Form.useData('unique')
 
+function ComponentA() {
   return (
-    <Form.Handler
-      id="unique"
+    <Form.Handler>
       ...
-    >
+      <ComponentB />
       ...
     </Form.Handler>
   )
 }
+
+function ComponentB() {
+  const { data, update, set, filterData } = Form.useData()
+}
 ```
+
+While in this example, "ComponentB" is outside the `Form.Handler` and linked together via the `id` (string) property:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function ComponentA() {
+  return (
+    <>
+      <Form.Handler id="unique">...</Form.Handler>
+      <ComponentB />
+    </>
+  )
+}
+
+function ComponentB() {
+  const { data, update, set, filterData } = Form.useData('unique')
+}
+
+// You canalso use the setData:
+Form.setData('unique', { companyName: 'DNB' })
+
+// ... and the getData method when ever you need to:
+const { data, filterData } = Form.getData('unique')
+```
+
+### Async form handling
+
+It depends on your use case if this feature is needed. But when it is, its ofter a time consuming task to implement. Eufemia Forms has therefor a built-in feature that enables async form behavior.
+
+More details about the async form behavior can be found in the [async form behavior](/uilib/extensions/forms/getting-started/#async-form-behavior) section.

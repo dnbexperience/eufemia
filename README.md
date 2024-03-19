@@ -26,6 +26,10 @@ This is a monorepo and uses **yarn workspaces** to manage the sub packages/works
 yarn add @dnb/eufemia
 ```
 
+## FAQ
+
+More information can be found in the [faq](https://eufemia.dnb.no/contribute/faq/).
+
 ## Contribution
 
 Find more information about how to contribute in [Eufemia Portal - Contribute](https://eufemia.dnb.no/contribute).

@@ -13,7 +13,7 @@ import Th from '../TableTh'
 import Tr, { TableTrProps } from '../TableTr'
 import TableContainer from '../TableContainer'
 
-import { H2, P, Anchor, Dl, Lead } from '../../..'
+import { H2, P, Anchor, Dl, Lead, Card } from '../../..'
 import { Button, ToggleButton, NumberFormat, Avatar } from '../../'
 import _TableAccordionRows from './TableAccordionRows'
 import shopping_cart from '../../../icons/shopping_cart'
@@ -737,4 +737,41 @@ export function TableSort() {
   function compareAsc(a: Row, b: Row) {
     return a.name.localeCompare(b.name)
   }
+}
+
+export const InCard = () => {
+  return (
+    <Card title="Card title" responsive={false} innerSpace={0} filled>
+      <Table.ScrollView>
+        <Table border outline size="medium">
+          <thead>
+            <Tr noWrap>
+              <Th>Column 1</Th>
+              <Th>Column 2</Th>
+              <Th>
+                Column 3 Phasellus semper orci id dictum consectetur diam
+              </Th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td>Row 1 </Td>
+            </Tr>
+            <Tr>
+              <Td colSpan={3} align="right">
+                <Button>Button</Button>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td>Row 3</Td>
+              <Td>Row 3</Td>
+              <Td>Row 3</Td>
+            </Tr>
+          </tbody>
+        </Table>
+      </Table.ScrollView>
+    </Card>
+  )
 }

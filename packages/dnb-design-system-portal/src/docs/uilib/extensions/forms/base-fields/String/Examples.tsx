@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex } from '@dnb/eufemia/src'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -187,7 +187,7 @@ export const Info = () => {
 
 export const Warning = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text"
@@ -198,14 +198,14 @@ export const Warning = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )
@@ -268,14 +268,12 @@ export const ValidatePattern = () => {
 
 export const SynchronousExternalValidator = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
         validator={(value) =>
-          value.length < 4
-            ? new FormError('At least 4 characters')
-            : undefined
+          value.length < 4 ? Error('At least 4 characters') : undefined
         }
         onChange={(value) => console.log('onChange', value)}
       />
@@ -285,7 +283,7 @@ export const SynchronousExternalValidator = () => {
 
 export const AsynchronousExternalValidator = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
@@ -295,7 +293,7 @@ export const AsynchronousExternalValidator = () => {
               () =>
                 resolve(
                   value.length < 5
-                    ? new FormError('At least 5 characters')
+                    ? Error('At least 5 characters')
                     : undefined,
                 ),
               1500,
@@ -310,14 +308,12 @@ export const AsynchronousExternalValidator = () => {
 
 export const SynchronousExternalBlurValidator = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
         onBlurValidator={(value) =>
-          value.length < 4
-            ? new FormError('At least 4 characters')
-            : undefined
+          value.length < 4 ? Error('At least 4 characters') : undefined
         }
         onChange={(value) => console.log('onChange', value)}
       />
@@ -327,7 +323,7 @@ export const SynchronousExternalBlurValidator = () => {
 
 export const AsynchronousExternalBlurValidator = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.String
         value="foo"
         label="Label text (minimum 4 characters)"
@@ -337,7 +333,7 @@ export const AsynchronousExternalBlurValidator = () => {
               () =>
                 resolve(
                   value.length < 5
-                    ? new FormError('At least 5 characters')
+                    ? Error('At least 5 characters')
                     : undefined,
                 ),
               1500,
@@ -356,6 +352,20 @@ export const MultipleEmpty = () => {
       <Field.String
         onChange={(value) => console.log('onChange', value)}
         multiline
+      />
+    </ComponentBox>
+  )
+}
+
+export const MultipleOneRow = () => {
+  return (
+    <ComponentBox>
+      <Field.String
+        label="Label text"
+        placeholder="Enter your text"
+        multiline
+        rows={1}
+        characterCounter={40}
       />
     </ComponentBox>
   )

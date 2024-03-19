@@ -1,20 +1,50 @@
+import { isAsync } from './isAsync'
+
+type ReturnHelpers = {
+  cancel: () => void
+  addCancelEvent: (fn: () => void) => () => boolean
+}
+type DebouncedFunction<T extends any[], R> = (...args: T) => R
+type DebouncedOptions = {
+  /**
+   * Whether to execute the debounced function immediately.
+   */
+  immediate?: boolean
+
+  /**
+   * The instance to bind the debounced function to.
+   */
+  instance?: any
+
+  /**
+   * Whether to return a promise that resolves with the result of the debounced function.
+   */
+  async?: boolean
+}
+
+/**
+ * Debounces a function in async to be executed after a specified wait time.
+ */
+export function debounceAsync<T extends any[], R>(
+  debouncedFunction: DebouncedFunction<T, R>,
+  wait = 500,
+  opts: Omit<DebouncedOptions, 'async'> = null
+): DebouncedFunction<T, R> & ReturnHelpers {
+  return debounce<T, R>(debouncedFunction, wait, { ...opts, async: true })
+}
+
 /**
  * Debounces a function to be executed after a specified wait time.
- *
- * @param {Function} debouncedFunction - The function to be debounced.
- * @param {number} [wait=250] - The wait time in milliseconds before executing the debounced function.
- * @param {Object} [options] - Additional options for the debounced function.
- * @param {boolean} [options.immediate=false] - Whether to execute the debounced function immediately.
- * @param {Object} [options.instance=null] - The instance to bind the debounced function to.
- * @param {boolean} [options.async=false] - Whether to return a promise that resolves with the result of the debounced function.
- * @returns {Function|Promise} - The debounced function or a promise that resolves with the result of the debounced function.
- * @memberof helpers
  */
-export function debounce(
-  debouncedFunction,
-  wait = 250,
-  { immediate = false, instance = null, async = false } = {}
-) {
+export function debounce<T extends any[], R>(
+  debouncedFunction: DebouncedFunction<T, R>,
+  wait = 500,
+  {
+    immediate = false,
+    instance = null,
+    async = false,
+  }: DebouncedOptions = {}
+): DebouncedFunction<T, R> & ReturnHelpers {
   let timeout
   let recall
   let resolvePromise
@@ -43,7 +73,7 @@ export function debounce(
     }
   }
 
-  function executedFunction(...args) {
+  function executedFunction(...args: T) {
     if (typeof recall === 'function') {
       recall()
     }
@@ -85,23 +115,23 @@ export function debounce(
     return recall
   }
 
-  executedFunction.cancel = cancel
-  executedFunction.addCancelEvent = addCancelEvent
+  // Sync
+  function syncFunction(...args: T) {
+    return executedFunction(...args)
+  }
+  syncFunction.cancel = cancel
+  syncFunction.addCancelEvent = addCancelEvent
 
-  return executedFunction
-}
+  // Async return
+  async function asyncFunction(...args: T) {
+    return executedFunction(...args)
+  }
+  asyncFunction.cancel = cancel
+  asyncFunction.addCancelEvent = addCancelEvent
 
-/**
- * Debounces a function in async to be executed after a specified wait time.
- *
- * @param {Function} debouncedFunction - The function to be debounced.
- * @param {number} [wait=250] - The wait time in milliseconds before executing the debounced function.
- * @param {Object} [options] - Additional options for the debounced function.
- * @param {boolean} [options.immediate=false] - Whether to execute the debounced function immediately.
- * @param {Object} [options.instance=null] - The instance to bind the debounced function to.
- * @returns {Promise} - The debounced promise that resolves with the result of the debounced function.
- * @memberof helpers
- */
-export function debounceAsync(debouncedFunction, wait = 250, opts = null) {
-  return debounce(debouncedFunction, wait, { ...opts, async: true })
+  if (isAsync(debouncedFunction)) {
+    return asyncFunction as DebouncedFunction<T, R> & ReturnHelpers
+  }
+
+  return syncFunction
 }

@@ -6,8 +6,16 @@
     --button-tertiary-focus-left: -0.5rem;
     --button-tertiary-focus-right: -0.5rem;
     --button-tertiary-focus-overflow--icon-top: -0.5rem;
+    --button-tertiary-underline-left: var(
+      --button-tertiary-underline-overflow
+    );
+    --button-tertiary-underline-right: var(
+      --button-tertiary-underline-overflow
+    );
     --button-tertiary-underline-overflow: 0;
-    --button-tertiary-underline-overflow--icon: -0.5rem;
+    --button-tertiary-underline-overflow--icon: calc(
+      (var(--button-icon-gutter) + var(--button-icon-size)) * -1
+    );
     // create underline (::after)
     .dnb-button__text {
       position: relative; // because of the underline
@@ -19,8 +27,8 @@
         [data-visual-test-wrapper] & {
           transition: none;
         }
-        left: var(--button-tertiary-underline-overflow);
-        right: var(--button-tertiary-underline-overflow);
+        left: var(--button-tertiary-underline-left);
+        right: var(--button-tertiary-underline-right);
       }
     }
 
@@ -62,28 +70,14 @@
     }
 
     &.dnb-button--has-text {
-      padding-left: 0;
-      padding-right: 0;
+      --button-padding-left: 0;
+      --button-padding-right: 0;
+      --button-icon-margin-top: calc(
+        (var(--button-height) - var(--button-icon-size)) / 2
+      );
 
       .dnb-button__icon {
         align-self: flex-start; // needed to vertically center icon
-
-        margin-top: calc(var(--button-height) / 2 - 0.5rem);
-        &.dnb-icon--medium {
-          margin-top: calc(var(--button-height) / 2 - 0.75rem);
-        }
-        &.dnb-icon--large {
-          margin-top: calc(var(--button-height) / 2 - 1rem);
-        }
-      }
-      &.dnb-button--size-large .dnb-button__icon {
-        margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
-      }
-      &.dnb-button--size-medium .dnb-button__icon {
-        margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
-      }
-      &.dnb-button--size-small .dnb-button__icon {
-        margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
       }
     }
 
@@ -99,10 +93,8 @@
       vertical-align: middle;
 
       &.dnb-button--has-text {
-        padding: 0;
-
+        --button-icon-margin-top: 0.5rem;
         .dnb-button__icon {
-          margin-top: 0.5rem;
           align-self: center;
         }
       }
@@ -126,61 +118,24 @@
 
     &.dnb-button--has-icon {
       &.dnb-button--has-text {
+        &.dnb-button--icon-size-medium,
+        &.dnb-button--icon-size-large {
+          --button-tertiary-underline-overflow--icon: var(
+            --button-tertiary-underline-overflow
+          );
+        }
+
         &.dnb-button--icon-position-left {
           --button-tertiary-focus-right: -1rem;
-          .dnb-button__text {
-            padding-left: 1rem;
-
-            // underline
-            &::after {
-              left: var(--button-tertiary-underline-overflow--icon);
-            }
-          }
-          .dnb-button__icon {
-            margin-right: -0.5rem;
-            margin-left: 0;
-          }
-          &.dnb-button--icon-size-medium,
-          &.dnb-button--icon-size-large {
-            .dnb-button__text {
-              padding-left: 0;
-              margin-left: 1rem;
-
-              // underline
-              &::after {
-                left: 0;
-              }
-            }
-          }
+          --button-tertiary-underline-left: var(
+            --button-tertiary-underline-overflow--icon
+          );
         }
         &.dnb-button--icon-position-right {
           --button-tertiary-focus-left: -1rem;
-          /* stylelint-disable */
-          .dnb-button__text {
-            padding-right: 1rem;
-
-            // underline
-            &::after {
-              right: var(--button-tertiary-underline-overflow--icon);
-            }
-          }
-          .dnb-button__icon {
-            margin-left: -0.5rem;
-            margin-right: 0;
-          }
-          /* stylelint-enable */
-          &.dnb-button--icon-size-medium,
-          &.dnb-button--icon-size-large {
-            .dnb-button__text {
-              padding-right: 0;
-              margin-right: 1rem;
-
-              // underlinex
-              &::after {
-                right: 0;
-              }
-            }
-          }
+          --button-tertiary-underline-right: var(
+            --button-tertiary-underline-overflow--icon
+          );
         }
       }
 

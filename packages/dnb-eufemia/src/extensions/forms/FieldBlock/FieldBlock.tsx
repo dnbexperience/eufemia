@@ -18,22 +18,27 @@ import FieldBlockContext, {
   StateTypes,
   StatusContent,
   FieldBlockContextProps,
+  StateBasis,
 } from './FieldBlockContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
   convertJsxToString,
   findElementInChildren,
+  warn,
 } from '../../../shared/component-helper'
-import useId from '../hooks/useId'
+import useId from '../../../shared/helpers/useId'
+import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import {
   ComponentProps,
   FieldProps,
   FormError,
+  SubmitState,
   Identifier,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
-import useUnmountEffect from '../hooks/useUnmountEffect'
+import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
+import { createSharedState } from '../../../shared/helpers/useSharedState'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -59,6 +64,8 @@ export type Props = Pick<
   /** Width of contents block, while label etc can be wider if space is available */
   contentWidth?: 'small' | 'medium' | 'large' | 'stretch'
   contentClassName?: string
+  /** To show the SubmitIndicator during async validation */
+  fieldState?: SubmitState
   /** Typography size */
   labelSize?: 'medium' | 'large'
   children: React.ReactNode
@@ -67,6 +74,7 @@ export type Props = Pick<
 function FieldBlock(props: Props) {
   const nestedFieldBlockContext = useContext(FieldBlockContext)
 
+  const sharedData = createSharedState<Props>(props.forId || props.id)
   const {
     className,
     forId,
@@ -78,6 +86,7 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error: errorProp,
+    fieldState,
     disabled,
     width,
     contentWidth,
@@ -85,7 +94,7 @@ function FieldBlock(props: Props) {
     contentClassName,
     children,
     ...rest
-  } = props
+  } = Object.assign({}, sharedData.data, props)
 
   const blockId = useId(props.id)
   const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
@@ -97,7 +106,7 @@ function FieldBlock(props: Props) {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const setInternalRecord = useCallback((props) => {
+  const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
 
     if (!stateRecordRef.current[identifier]) {
@@ -123,7 +132,7 @@ function FieldBlock(props: Props) {
   }, [])
 
   const setFieldState = useCallback(
-    (props) => {
+    (props: StateBasis) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
         nestedFieldBlockContext.setFieldState(props)
@@ -166,30 +175,30 @@ function FieldBlock(props: Props) {
   )
 
   const statusContent = useMemo(() => {
-    if (errorProp) {
+    if (typeof errorProp !== 'undefined') {
       setInternalRecord({
         identifier: blockId,
         showInitially: hasInitiallyErrorProp,
         type: 'error',
-        state: errorProp,
+        content: errorProp,
       })
     }
 
-    if (warning) {
+    if (typeof warning !== 'undefined') {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
         type: 'warning',
-        state: warning,
+        content: warning,
       })
     }
 
-    if (info) {
+    if (typeof info !== 'undefined') {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
         type: 'info',
-        state: info,
+        content: info,
       })
     }
 
@@ -221,7 +230,7 @@ function FieldBlock(props: Props) {
           } else {
             acc.push({
               ...cur,
-              state: undefined,
+              content: undefined,
               messages: [
                 {
                   ...cur,
@@ -350,6 +359,10 @@ function FieldBlock(props: Props) {
     disabled,
   }
 
+  if (fieldState && !label) {
+    warn('You have to provide a label to use show an indicator.')
+  }
+
   return (
     <FieldBlockContext.Provider
       value={{
@@ -367,24 +380,20 @@ function FieldBlock(props: Props) {
         {...rest}
       >
         <div className={gridClasses}>
-          {labelDescription ? (
-            <div className="dnb-forms-field-block__label">
-              {label || labelDescription ? (
-                <FormLabel {...labelProps}>
+          <LabelDescription labelDescription={labelDescription}>
+            {(label || labelDescription) && (
+              <FormLabel {...labelProps}>
+                <SubmitIndicator state={fieldState}>
                   {label}
                   {labelDescription && (
                     <span className="dnb-forms-field-block__label-description">
                       {labelDescription}
                     </span>
                   )}
-                </FormLabel>
-              ) : (
-                <>&nbsp;</>
-              )}
-            </div>
-          ) : (
-            label && <FormLabel {...labelProps}>{label}</FormLabel>
-          )}
+                </SubmitIndicator>
+              </FormLabel>
+            )}
+          </LabelDescription>
 
           <div className="dnb-forms-field-block__status">
             <FormStatus {...statusContent?.error} />
@@ -472,13 +481,20 @@ function CombineMessages({
   )
 }
 
-function getMessage(item: Partial<StateWithMessage>): StateMessage {
-  const { state } = item
+function LabelDescription({ labelDescription, children }) {
+  if (!labelDescription) {
+    return children
+  }
+  return <div className="dnb-forms-field-block__label">{children}</div>
+}
 
-  return ((state instanceof Error && state.message) ||
-    (state instanceof FormError && state.message) ||
-    state?.toString() ||
-    state) as StateMessage
+function getMessage(item: Partial<StateWithMessage>): StateMessage {
+  const { content } = item
+
+  return ((content instanceof Error && content.message) ||
+    (content instanceof FormError && content.message) ||
+    content?.toString() ||
+    content) as StateMessage
 }
 
 FieldBlock._supportsSpacingProps = true

@@ -10,29 +10,44 @@
     margin-top: var(--spacing-small);
   }
 
+  &__title {
+    padding-bottom: 1rem;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+  }
+  &:not([style*='--space-']) &__title {
+    padding: 1rem;
+  }
+
   &.dnb-section {
     background-color: var(--background-color);
   }
 
-  @include allBelow(small) {
-    &.dnb-section::before {
-      left: var(--left);
+  &--filled#{&}.dnb-section {
+    --background-color: var(--outline-color);
+  }
 
-      --outline: 99vw 0 0 0 var(--background-color),
-        198vw 0 0 0 var(--background-color),
-        297vw 0 0 0 var(--background-color),
-        396vw 0 0 0 var(--background-color),
-        0 var(--outline-width) 0 0 var(--outline-color),
-        99vw var(--outline-width) 0 0 var(--outline-color),
-        0 calc(var(--outline-width) * -1) 0 0 var(--outline-color),
-        99vw calc(var(--outline-width) * -1) 0 0 var(--outline-color),
-        198vw var(--outline-width) 0 0 var(--outline-color),
-        198vw calc(var(--outline-width) * -1) 0 0 var(--outline-color);
+  &--responsive {
+    @include allBelow(small) {
+      &.dnb-section::before {
+        left: var(--left);
+
+        --outline: 99vw 0 0 0 var(--background-color),
+          198vw 0 0 0 var(--background-color),
+          297vw 0 0 0 var(--background-color),
+          396vw 0 0 0 var(--background-color),
+          0 var(--outline-width) 0 0 var(--outline-color),
+          99vw var(--outline-width) 0 0 var(--outline-color),
+          0 calc(var(--outline-width) * -1) 0 0 var(--outline-color),
+          99vw calc(var(--outline-width) * -1) 0 0 var(--outline-color),
+          198vw var(--outline-width) 0 0 var(--outline-color),
+          198vw calc(var(--outline-width) * -1) 0 0 var(--outline-color);
+      }
     }
   }
 
   // Show only one border (combined) when stacked
-  & + .dnb-card:not([class*='space__top']) {
+  & + .dnb-card--responsive:not([class*='space__top']) {
     @include allBelow(small) {
       &::before {
         top: var(--outline-width);
@@ -47,7 +62,9 @@
   }
 
   // Combine the two borers to one
-  .dnb-flex-container.dnb-flex-container--divider-space & + .dnb-card {
+  .dnb-flex-container.dnb-flex-container--divider-space
+    &
+    + .dnb-card--responsive {
     @include allBelow(small) {
       // --gap: var(--outline-width);
       margin-top: 0;
@@ -57,5 +74,19 @@
         z-index: 0;
       }
     }
+  }
+
+  // Make the ScrollView scrollable
+  & .dnb-flex-container:has(> .dnb-card__title + .dnb-scroll-view) {
+    align-items: stretch;
+    flex-wrap: nowrap;
+  }
+
+  // Make the ScrollView look nice
+  &--filled .dnb-scroll-view {
+    clip-path: inset(
+      0 0 0 0 round var(--rounded-corner) var(--rounded-corner)
+        var(--rounded-corner) var(--rounded-corner)
+    );
   }
 }

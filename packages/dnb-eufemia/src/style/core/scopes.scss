@@ -44,6 +44,9 @@
 
   word-break: break-word;
 
+  // Will add this to the body tag – later we can test for a version mismatch
+  --eufemia-version: '__VERSION__';
+
   @content;
 }
 

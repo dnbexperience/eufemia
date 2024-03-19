@@ -3,7 +3,16 @@ import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
-import { Field, Form, FormError, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema } from '../../..'
+import locales from '../../../../../shared/locales'
+
+const nbNO = locales['nb-NO']
+const enGB = locales['en-GB']
+
+beforeEach(() => {
+  // Reset locale to nb-NO
+  render(<Provider locale="nb-NO">nothing</Provider>)
+})
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -497,7 +506,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
     expect(document.querySelector('[role="alert"]').textContent).toContain(
-      'You must enter a valid number'
+      enGB.Forms.phoneNumberErrorRequired
     )
 
     await userEvent.type(numberElement, '{Backspace>8}89')
@@ -553,7 +562,7 @@ describe('Field.PhoneNumber', () => {
 
   it('should handle "validator" property with country code', async () => {
     const validator = jest.fn(() => {
-      return new FormError('some error')
+      return new Error('some error')
     })
 
     render(
@@ -568,8 +577,8 @@ describe('Field.PhoneNumber', () => {
 
     expect(validator).toHaveBeenCalledTimes(1)
     expect(validator).toHaveBeenCalledWith('+41 9999', {
-      pattern: 'You must enter a valid number',
-      required: 'You must enter a valid number',
+      pattern: enGB.Forms.phoneNumberErrorRequired,
+      required: enGB.Forms.phoneNumberErrorRequired,
     })
 
     await waitFor(() => {
@@ -736,6 +745,30 @@ describe('Field.PhoneNumber', () => {
     ).toBeFalsy()
   })
 
+  it('should not show error when value is empty string', () => {
+    render(<Field.PhoneNumber value="" validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not show error when value is undefined', () => {
+    render(<Field.PhoneNumber value={undefined} validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not show error when value partial', () => {
+    render(<Field.PhoneNumber value="+41" validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
   it('should validate when required', () => {
     render(
       <Form.Handler>
@@ -754,7 +787,10 @@ describe('Field.PhoneNumber', () => {
 
     fireEvent.click(buttonElement)
 
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nbNO.Forms.phoneNumberErrorRequired
+    )
   })
 
   it('should validate schema', async () => {
@@ -773,7 +809,10 @@ describe('Field.PhoneNumber', () => {
     fireEvent.blur(numberElement)
 
     expect(numberElement.value).toBe('12 3​ ​​ ​​')
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nbNO.Forms.phoneNumberErrorRequired
+    )
 
     await userEvent.type(numberElement, '{Backspace>8}456')
     fireEvent.blur(numberElement)
@@ -784,7 +823,7 @@ describe('Field.PhoneNumber', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should not validate initially when required and contry code is provided as a value', () => {
+  it('should not validate initially when required and country code is provided as a value', () => {
     render(<Field.PhoneNumber required value="+47" />)
 
     expect(
@@ -797,7 +836,10 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber required validateInitially />
     )
 
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nbNO.Forms.phoneNumberErrorRequired
+    )
 
     rerender(<Field.PhoneNumber validateInitially />)
 

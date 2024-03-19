@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import pointer from 'json-pointer'
 import type { ComponentProps } from '../../types'
-import Context from '../Context'
+import Context, { ContextState } from '../Context'
 
 export type Props = ComponentProps & {
   /** JSON Pointer for where in the source dataset to point at in sub components */
@@ -23,11 +23,11 @@ function At(props: Props) {
 
   const handlePathChange = useMemo(
     () =>
-      contextHandlePathChange
+      (contextHandlePathChange
         ? (changePath, value) => {
             contextHandlePathChange(`${path}${changePath}`, value)
           }
-        : undefined,
+        : undefined) as ContextState['handlePathChange'],
     [contextHandlePathChange, path]
   )
 
@@ -38,11 +38,16 @@ function At(props: Props) {
     return (
       <>
         {data.map((element, i) => {
-          const handlePathChange = contextHandlePathChange
-            ? (changePath, value) => {
-                contextHandlePathChange(`${path}/${i}${changePath}`, value)
-              }
-            : undefined
+          const handlePathChange = (
+            contextHandlePathChange
+              ? (changePath, value) => {
+                  contextHandlePathChange(
+                    `${path}/${i}${changePath}`,
+                    value
+                  )
+                }
+              : undefined
+          ) as ContextState['handlePathChange']
 
           return (
             <Context.Provider

@@ -8,7 +8,7 @@ import {
 import classnames from 'classnames'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import OptionField from '../Option'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import type { FormStatusText } from '../../../../components/FormStatus'
@@ -49,11 +49,11 @@ function Selection(props: Props) {
     help,
     emptyValue,
     width = 'large',
-    ariaAttributes,
+    htmlAttributes,
     setHasFocus,
     handleChange,
     children,
-  } = useDataValue(props)
+  } = useFieldProps(props)
 
   const handleDropdownChange = useCallback(
     ({ data: { selectedKey } }) => {
@@ -74,7 +74,7 @@ function Selection(props: Props) {
   )
 
   // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
-  // due to `useCallback` usage will have no effect, leading to useDataValues handleFocus and handleBlur sending out old
+  // due to `useCallback` usage will have no effect, leading to useFieldPropss handleFocus and handleBlur sending out old
   // copies of value as arguments.
   const handleShow = useCallback(
     ({ data }) => {
@@ -181,8 +181,8 @@ function Selection(props: Props) {
                   label={variant === 'radio' ? title : undefined}
                   text={variant === 'button' ? title : undefined}
                   value={String(value ?? '')}
-                  status={status}
-                  {...ariaAttributes}
+                  status={(hasError || status) && 'error'}
+                  {...htmlAttributes}
                   {...rest}
                 />
               )
@@ -228,7 +228,7 @@ function Selection(props: Props) {
             value={String(value ?? '')}
             status={(hasError || status) && 'error'}
             disabled={disabled}
-            {...ariaAttributes}
+            {...htmlAttributes}
             data={optionsData}
             suffix={
               help ? (

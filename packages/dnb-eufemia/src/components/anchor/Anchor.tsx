@@ -5,8 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps, ElementIsType } from '../../elements/Element'
-import { useTheme } from '../../shared'
+import E, { ElementProps } from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,
@@ -18,10 +17,10 @@ import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
 import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import type { SpacingProps } from '../../shared/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 export type AnchorProps = {
-  element?: ElementIsType
+  element?: DynamicElement<HTMLAnchorElement | AnchorAllProps>
   href?: string
   to?: string
   targetBlankTitle?: string
@@ -77,50 +76,27 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     ...rest
   } = allProps
 
-  const theme = useTheme()
-  const iconSpacer = theme?.isSbanken ? ' ' : ''
   const attributes = rest as ElementProps
   const internalId = id || 'id' + makeUniqueId()
-  const as = (element || 'a') as string
-
-  let prefix: React.ReactNode
-  let suffix: React.ReactNode
+  const as = element || 'a'
 
   const href = allProps.href || allProps.to
-  const showLaunchIcon = opensNewTab(allProps.target, href)
-  const showTooltip = (tooltip || showLaunchIcon) && !allProps.title
+  const _opensNewTab = opensNewTab(allProps.target, href)
+  const showLaunchIcon =
+    _opensNewTab &&
+    !className?.includes('dnb-anchor--no-icon') &&
+    !omitClass
+  const showTooltip = (tooltip || _opensNewTab) && !allProps.title
 
-  // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-  if (showLaunchIcon && !omitClass) {
-    suffix = (
-      <>
-        {iconSpacer}
-        <IconPrimary
-          className="dnb-anchor__launch-icon"
-          icon={launchIcon}
-        />
-      </>
-    )
-  }
+  const iconNode = icon && getIcon(icon)
 
-  if (icon) {
-    const iconNode = pickIcon(icon) || <IconPrimary icon={icon} />
-    if (iconPosition === 'left') {
-      prefix = (
-        <>
-          {iconNode}
-          {iconSpacer}
-        </>
-      )
-    } else if (iconPosition === 'right') {
-      suffix = (
-        <>
-          {iconSpacer}
-          {iconNode}
-        </>
-      )
-    }
-  }
+  const suffix =
+    (iconPosition === 'right' && iconNode) ||
+    (showLaunchIcon && (
+      <IconPrimary className="dnb-anchor__launch-icon" icon={launchIcon} />
+    ))
+
+  const prefix = iconPosition === 'left' && iconNode
 
   return (
     <>
@@ -214,6 +190,10 @@ export function scrollToHashHandler(
       }
     }
   }
+}
+
+function getIcon(icon) {
+  return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
 export function pickIcon(icon) {

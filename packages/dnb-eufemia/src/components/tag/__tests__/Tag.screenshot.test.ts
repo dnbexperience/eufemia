@@ -25,16 +25,9 @@ describe('Tag', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a removable Tag', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="tag-removable"] .dnb-tag',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match a removable Tag list', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="tag-removable-list"] .dnb-tag',
+      selector: '[data-visual-test="tag-removable-list"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -52,17 +45,41 @@ describe('Tag', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-})
 
-describe('Clickable tag', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/tag/visual-tests/clickable-tag',
-  })
-  it('have to match a clickable Tag', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="tag-clickable"] .dnb-tag',
-    })
+  describe.each(['clickable', 'addable', 'removable'])(
+    'have to match',
+    (name) => {
+      it(`a ${name} Tag`, async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="tag-${name}"]`,
+        })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+      it(`a ${name} Tag hover`, async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="tag-${name}"]`,
+          simulate: 'hover',
+        })
+
+        expect(screenshot).toMatchImageSnapshot()
+      })
+      it(`a ${name} Tag active`, async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="tag-${name}"]`,
+          simulate: 'active',
+        })
+
+        expect(screenshot).toMatchImageSnapshot()
+      })
+      it(`a ${name} Tag focus`, async () => {
+        const screenshot = await makeScreenshot({
+          selector: `[data-visual-test="tag-${name}"]`,
+          simulate: 'focus',
+        })
+
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    }
+  )
 })

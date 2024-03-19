@@ -34,6 +34,13 @@ describe('Card', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match table', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="layout-card-table"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match flex', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,

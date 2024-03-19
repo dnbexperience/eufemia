@@ -17,24 +17,23 @@ import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
 
 **Table of Contents**
 
-- [Quick start](#quick-start)
 - [Philosophy](#philosophy)
 - [Features](#features)
-- [Examples](#examples)
 - [First steps](#first-steps)
+- [Quick start](#quick-start)
+- [Examples](#examples)
 - [Create your own components](#create-your-own-components)
-
-<QuickStart />
 
 ## Philosophy
 
 Eufemia Forms is:
 
-- A framework for building features
+- A framework for building form features
 - Flexibility by design
 - Data-driven API
 - Standardized data handling
-- Loosely coupled components
+- Loosely coupled components and building blocks
+- Focus on superior user experience, accessibility, and usability
 
 Eufemia Forms is a set of building blocks for form functionality. Components are built on an API with standardized sets of props that make it easier to combine with surrounding data flow, and not least to create your own components that work well together with the ready-made components in Eufemia Forms.
 
@@ -47,13 +46,15 @@ Eufemia Forms consists of reusable components for data input, data display and s
 In summary:
 
 - Ready to use data driven form components.
+- Three shakeable structure. Unused code will not be included in the production bundle.
 - All functionality in all components can be controlled and overridden via props.
-- State management using the declarative [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) directive (i.e `path="/firstName"`).
-- State can be handled outside of the Form.Handler (Provider Context) with the [useData](/uilib/extensions/forms/extended-features/Form/useData) hook.
-- Simple validation (like `minLength` on text fields) as well as advanced and complex [Ajv](https://ajv.js.org/) JSON schema validator (Ajv is like Joi or Yup – check out [some examples](/uilib/extensions/forms/extended-features/#schema-validation)) support on both single fields and the whole data set.
-- Building blocks for [creating custom field components](/uilib/extensions/forms/create-component).
+- Data management using the declarative [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) directive (i.e `path="/firstName"`).
+- State can be handled outside of the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) (Provider Context) with the [useData](/uilib/extensions/forms/extended-features/Form/useData) hook.
+- Validation (like `minLength` on text fields) as well as advanced and complex [Ajv](https://ajv.js.org/) JSON schema validator (Ajv is like Joi or Yup – check out [some examples](/uilib/extensions/forms/extended-features/#schema-validation)) support on both single fields and the whole data set.
+- Async form [submission](/uilib/extensions/forms/getting-started/#async-form-behavior) and [validation](/uilib/extensions/forms/getting-started/#async-validation) support.
+- Theming of field sizes with [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/).
 - Static [value components](/uilib/extensions/forms/extended-features/Value/) for displaying data with proper formatting.
-- Theming of sizes with [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/).
+- Building blocks for [creating your custom field components](/uilib/extensions/forms/create-component).
 
 ### Basic field usage
 
@@ -83,12 +84,6 @@ In this example, all state data, validation process and error handling are done 
   />
 </div>
 
-## Examples
-
-- [General Demos](/uilib/extensions/forms/general-demos/)
-- [Case Demo 1 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo1/)
-- [Case Demo 2 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo2/)
-
 ## First steps
 
 You import the components from with scopes, such as `Form` and `Field`:
@@ -106,11 +101,21 @@ render(
 )
 ```
 
-More details in the [Getting started](/uilib/extensions/forms/getting-started/) section.
+More details in the [getting started](/uilib/extensions/forms/getting-started/) section.
+
+<QuickStart />
+
+More details in the [getting started](/uilib/extensions/forms/getting-started/) section.
+
+## Examples
+
+- [General Demos](/uilib/extensions/forms/general-demos/)
+- [Case Demo 1 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo1/)
+- [Case Demo 2 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo2/)
 
 ### Best practices
 
-- [Best practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
+Read more about [best practices on forms](/uilib/extensions/forms/best-practices-on-forms/).
 
 ## Create your own components
 

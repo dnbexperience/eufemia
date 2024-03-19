@@ -1,5 +1,6 @@
 import { wait } from '../../../core/jest/jestSetup'
 import { debounce, debounceAsync } from '../debounce'
+import { isAsync } from '../isAsync'
 
 const delay = 2
 
@@ -115,6 +116,11 @@ describe('debounce', () => {
     debounced.cancel()
 
     expect(outside).toBe('one')
+  })
+
+  it('should return sync/async function based on its input', () => {
+    expect(isAsync(debounce(async () => null))).toBeTruthy()
+    expect(isAsync(debounce(() => null))).toBeFalsy()
   })
 })
 
@@ -251,5 +257,10 @@ describe('debounceAsync', () => {
 
     expect(onCancel).toHaveBeenCalledTimes(1)
     expect(wasCanceled()).toBe(false)
+  })
+
+  it('should return sync/async function based on its input', () => {
+    expect(isAsync(debounceAsync(async () => null))).toBeTruthy()
+    expect(isAsync(debounceAsync(() => null))).toBeFalsy()
   })
 })

@@ -1,5 +1,16 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Card, Flex, Grid, H2, P } from '@dnb/eufemia/src'
+import {
+  Button,
+  Card,
+  Flex,
+  Grid,
+  H2,
+  P,
+  Table,
+  Td,
+  Th,
+  Tr,
+} from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -14,6 +25,43 @@ export const Default = () => {
           Praesent nunc ipsum, convallis eget convallis gravida, vehicula
           vitae metus.
         </P>
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithTable = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-table">
+      <Card title="Card title" responsive={false} innerSpace={0} filled>
+        <Table.ScrollView>
+          <Table border outline size="medium">
+            <thead>
+              <Tr noWrap>
+                <Th>Column 1</Th>
+                <Th>Column 2</Th>
+                <Th>Column 3</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Tr>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+              </Tr>
+              <Tr>
+                <Td colSpan={3} align="right">
+                  <Button>Button</Button>
+                </Td>
+              </Tr>
+              <Tr>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Table.ScrollView>
       </Card>
     </ComponentBox>
   )

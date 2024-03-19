@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { JsonObject } from 'json-pointer'
-import Provider, {
+import DataContextProvider, {
   Props as ProviderProps,
 } from '../../DataContext/Provider'
+import DataContext from '../../DataContext/Context'
 import FormElement from '../Element'
 import type { ElementAllProps } from '../../../../elements/Element'
+import FormStatus from '../../../../components/FormStatus'
+import useId from '../../../../shared/helpers/useId'
+import { combineLabelledBy } from '../../../../shared/component-helper'
 
 export type Props = Omit<
   ElementAllProps,
@@ -28,6 +32,9 @@ export default function FormHandler<Data extends JsonObject>({
   onPathChange,
   onSubmit,
   onSubmitRequest,
+  onSubmitComplete,
+  minimumAsyncBehaviorTime,
+  asyncBehaviorTimeout,
   scrollTopOnSubmit,
   sessionStorageId,
   autoComplete,
@@ -43,20 +50,57 @@ export default function FormHandler<Data extends JsonObject>({
     filterData,
     onChange,
     onPathChange,
-    onSubmit: (...args) => {
-      if (typeof onSubmit === 'function') {
-        onSubmit(...args)
-      }
-    },
+    onSubmit,
     onSubmitRequest,
+    onSubmitComplete,
+    minimumAsyncBehaviorTime,
+    asyncBehaviorTimeout,
     scrollTopOnSubmit,
     sessionStorageId,
     autoComplete,
   } as Omit<ProviderProps<Data>, 'children'>
 
   return (
-    <Provider {...providerProps}>
-      <FormElement {...rest}>{children}</FormElement>
-    </Provider>
+    <DataContextProvider {...providerProps}>
+      <FormElementWithState {...rest}>{children}</FormElementWithState>
+    </DataContextProvider>
+  )
+}
+
+function FormElementWithState({ children, ...rest }) {
+  const id = useId()
+  const { submitState } = useContext(DataContext) || {}
+  const states = Object.entries(submitState).filter(([, value]) => value)
+
+  return (
+    <FormElement
+      {...rest}
+      aria-labelledby={
+        combineLabelledBy(
+          rest,
+          states.map(([key]) => {
+            return `${id}-form-status-${key}`
+          })
+        ) || undefined
+      }
+    >
+      {children}
+
+      {['error', 'warning', 'info'].map((key) => {
+        const value = submitState[key]
+        return (
+          <FormStatus
+            key={key}
+            state={key}
+            id={`${id}-form-status-${key}`}
+            show={Boolean(value)}
+            no_animation={false}
+            shellSpace={{ top: 'x-small' }}
+          >
+            {String(value?.['message'] || value || '')}
+          </FormStatus>
+        )
+      })}
+    </FormElement>
   )
 }

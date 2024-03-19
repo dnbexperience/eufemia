@@ -23,7 +23,7 @@ export interface formatReturnValue {
   aria: string;
 
   /** Language code, like en-US */
-  locale: string;
+  locale: Locale;
 
   /** The given type */
   type: formatTypes | string;

@@ -26,13 +26,13 @@ export function Selection() {
         variant="radio"
         layout="horizontal"
         optionsLayout="horizontal"
-        // error={new FormError('This is what is wrong...')}
+        // error={new Error('This is what is wrong...')}
         onChange={(value) => console.log('onChange', value)}
       >
         <Field.Option
           value="foo"
           title="Foo!"
-          // error={new FormError('This is what is wrong...')}
+          // error={new Error('This is what is wrong...')}
         />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
@@ -45,13 +45,13 @@ export function Selection() {
         layout="horizontal"
         optionsLayout="horizontal"
         value="foo"
-        // error={new FormError('This is what is wrong...')}
+        // error={new Error('This is what is wrong...')}
         onChange={(value) => console.log('onChange', value)}
       >
         <Field.Option
           value="foo"
           title="Foo!"
-          // error={new FormError('This is what is wrong...')}
+          // error={new Error('This is what is wrong...')}
         />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>

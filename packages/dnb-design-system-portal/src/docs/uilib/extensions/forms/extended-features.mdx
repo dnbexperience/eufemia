@@ -8,11 +8,31 @@ breadcrumb:
     href: /uilib/extensions/forms/extended-features/
 ---
 
-import ListComponents from 'Docs/uilib/extensions/forms/extended-features/Form/ListComponents'
+import ListFormComponents from './extended-features/Form/ListFormComponents'
+import ListStepsLayoutComponents from './extended-features/StepsLayout/ListStepsLayoutComponents'
+import ListBaseValueComponents from './extended-features/Value/ListBaseValueComponents'
+import ListDataContextComponents from './extended-features/DataContext/ListDataContextComponents'
+import ListFeatureValueComponents from './extended-features/Value/ListFeatureValueComponents'
+import ListIterateComponents from './extended-features/Iterate/ListIterateComponents'
 
 # Extended features
 
+**Table of Contents**
+
+- [FieldBlock](#fieldblock)
+- [Form](#form)
+- [Steps layout](#steps-layout)
+- [Value](#value)
+- [Iterate](#iterate)
+- [Data Context](#data-context)
+
+## Intro
+
 Eufemia Forms is a flexible set of building blocks for form functionality. Besides field components and data display, it consists of more complex functionality for surrounding processes such as data flow, validation and building UI.
+
+## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
+
+`FieldBlock` is a wrapper component for grouping fields together. It can be used to create a layout for fields, and it can also be used to create a field that consists of several subfields, so called [composition fields](/uilib/extensions/forms/create-component/FieldBlock#composition-fields).
 
 ## [Form](/uilib/extensions/forms/extended-features/Form)
 
@@ -22,15 +42,20 @@ Example using the [Form.Handler](/uilib/extensions/forms/extended-features/Form/
 
 ```jsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
-const existingData={
+
+const existingData = {
   email: 'name@email.no'
   date: '2024-01-01'
 }
-function Component() {
-  const { data } = Form.useData('unique')
 
+// The submit handler can be async
+const submitHandler = async (data) => {
+  console.log('Data:', data)
+}
+
+function Component() {
   return (
-    <Form.Handler id="unique" data={existingData} onSubmit={submitHandler}>
+    <Form.Handler data={existingData} onSubmit={submitHandler}>
       <Field.Email path="/email" />
       <Value.Date path="/date" />
       <Form.SubmitButton />
@@ -39,7 +64,9 @@ function Component() {
 }
 ```
 
-<ListComponents size="small" />
+Here is a list of all available `Form.*` components:
+
+<ListFormComponents size="small" />
 
 ### Validation and error handling
 
@@ -56,10 +83,6 @@ Descriptions and examples of such validation can be found [on a separate page](/
 You can also [create your own Ajv instance](/uilib/extensions/forms/extended-features/Form/schema-validation/#custom-ajv-instance-and-keywords) and pass it to your form.
 
 This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
-
-## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
-
-FieldBlock is a wrapper component for grouping fields together. It can be used to create a layout for fields, and it can also be used to create a field that consists of several subfields, so called [composition fields](/uilib/extensions/forms/create-component/FieldBlock#composition-fields).
 
 ## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
 
@@ -78,14 +101,30 @@ render(
 )
 ```
 
+Here is a list of all available `StepsLayout.*` components:
+
+<ListStepsLayoutComponents size="small" />
+
 ## [Value](/uilib/extensions/forms/extended-features/Value/)
 
 Value components are in practice like a field component whose value cannot be changed. They can be displayed with or without a label, and they format the value based on given rules. They can also connect to the surrounding [DataContext](/uilib/extensions/forms/extended-features/DataContext/).
 
-## [Data context](/uilib/extensions/forms/extended-features/DataContext/)
+Here is a list of all available base `Value.*` components:
 
-`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
+<ListBaseValueComponents size="small" />
+
+Here is a list of all available feature `Value.*` components:
+
+<ListFeatureValueComponents size="small" />
 
 ## [Iterate](/uilib/extensions/forms/extended-features/Iterate/)
 
 `Iterate` is components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.
+
+<ListIterateComponents size="small" />
+
+## [Data Context](/uilib/extensions/forms/extended-features/DataContext/)
+
+`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
+
+<ListDataContextComponents size="small" />

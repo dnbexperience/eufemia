@@ -66,7 +66,7 @@
           --table-outline-radius
         ) 0 0
     );
-    z-index: 1; // firefox places caption in from of table witout z-index
+    z-index: 1; // firefox places caption in from of table without z-index
 
     &,
     &::after {
@@ -105,6 +105,12 @@
     > * {
       -webkit-text-fill-color: var(--skeleton-color);
     }
+  }
+
+  // When used in a Card
+  .dnb-card & {
+    --table-outline-color: transparent;
+    margin-bottom: 0;
   }
 
   @include buttonsInTable();

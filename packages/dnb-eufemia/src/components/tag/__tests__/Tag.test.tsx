@@ -226,13 +226,228 @@ describe('Tag', () => {
       'dnb-button--has-text',
       'dnb-space__left--large',
       'dnb-tag',
+      'dnb-tag--default',
       'dnb-button--size-small',
     ])
   })
 
+  describe('variant clickable', () => {
+    it('renders a clickable tag with the correct attributes if variant="clickable"', () => {
+      const interactiveClassName = 'dnb-tag--interactive'
+      const clickableClassName = 'dnb-tag--clickable'
+
+      render(
+        <Tag.Group label="tags">
+          <Tag
+            variant="clickable"
+            onClick={() => {
+              console.log('onClick')
+            }}
+          >
+            Clickable
+          </Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        document.getElementsByClassName(clickableClassName)
+      ).toHaveLength(1)
+      expect(
+        document.getElementsByClassName(interactiveClassName)
+      ).toHaveLength(1)
+      expect(screen.queryByRole('button')).toBeInTheDocument()
+    })
+
+    it('fires onClick event if onClick is defined', () => {
+      const onClick = jest.fn()
+      render(
+        <Tag.Group label="tags">
+          <Tag variant="clickable" onClick={onClick}>
+            onClick
+          </Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does support icon', () => {
+      render(
+        <Tag.Group label="tags">
+          <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
+        </Tag.Group>
+      )
+
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+    })
+  })
+
+  describe('variant addable', () => {
+    it('renders a clickable tag with the correct attributes if variant="addable"', () => {
+      const interactiveClassName = 'dnb-tag--interactive'
+      const clickableClassName = 'dnb-tag--addable'
+
+      render(
+        <Tag.Group label="tags">
+          <Tag
+            variant="addable"
+            onClick={() => {
+              console.log('onClick')
+            }}
+          >
+            Clickable
+          </Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        document.getElementsByClassName(clickableClassName)
+      ).toHaveLength(1)
+      expect(
+        document.getElementsByClassName(interactiveClassName)
+      ).toHaveLength(1)
+      expect(screen.queryByRole('button')).toBeInTheDocument()
+    })
+
+    it('fires onClick event if onClick is defined', () => {
+      const onClick = jest.fn()
+      render(
+        <Tag.Group label="tags">
+          <Tag variant="addable" onClick={onClick}>
+            onClick
+          </Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not support icon if variant="addable"', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag
+            text="Tag with icon"
+            icon="bell"
+            variant="addable"
+            onClick={jest.fn()}
+          />
+        </Tag.Group>
+      )
+
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+      expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
+    })
+
+    it('renders the delete icon if variant="addable" is provided', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag text="Addable" variant="addable" onClick={jest.fn()} />
+        </Tag.Group>
+      )
+
+      expect(screen.getByTitle(nb.addIconTitle)).toBeInTheDocument()
+    })
+  })
+
+  describe('variant removable', () => {
+    it('renders a clickable tag with the correct attributes if variant="removable"', () => {
+      const interactiveClassName = 'dnb-tag--interactive'
+      const removableClassName = 'dnb-tag--removable'
+
+      render(
+        <Tag.Group label="tags">
+          <Tag
+            variant="removable"
+            onClick={() => {
+              console.log('onClick')
+            }}
+          >
+            Removable
+          </Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        document.getElementsByClassName(removableClassName)
+      ).toHaveLength(1)
+      expect(
+        document.getElementsByClassName(interactiveClassName)
+      ).toHaveLength(1)
+      expect(screen.queryByRole('button')).toBeInTheDocument()
+    })
+
+    it('fires onClick event if onClick is defined', () => {
+      const onClick = jest.fn()
+      render(
+        <Tag.Group label="tags">
+          <Tag variant="removable" onClick={onClick}>
+            onClick
+          </Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not support icon if variant="removable"', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag
+            text="Tag with icon"
+            icon="bell"
+            variant="removable"
+            onClick={jest.fn()}
+          />
+        </Tag.Group>
+      )
+
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+      expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
+    })
+
+    it('renders the delete icon if variant="removable" is provided', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag text="Removable" variant="removable" onClick={jest.fn()} />
+        </Tag.Group>
+      )
+
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+      expect(screen.getByTitle(nb.removeIconTitle)).toBeInTheDocument()
+    })
+
+    it('fires onClick event when releasing Backspace or Delete (key up)', () => {
+      const onClick = jest.fn()
+
+      render(
+        <Tag.Group label="tags">
+          <Tag variant="removable" onClick={onClick}>
+            Keyboard
+          </Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.keyUp(screen.getByRole('button'), {
+        key: 'Backspace',
+        keyCode: 'Backspace',
+      })
+
+      fireEvent.keyUp(screen.getByRole('button'), {
+        key: 'Delete',
+        keyCode: 'Delete',
+      })
+
+      expect(onClick).toHaveBeenCalledTimes(2)
+    })
+  })
+
   describe('with onClick', () => {
     it('renders a clickable tag with the correct attributes if onClick is defined', () => {
-      const clickableClassName = 'dnb-tag--interactive'
+      const interactiveClassName = 'dnb-tag--interactive'
+      const clickableClassName = 'dnb-tag--clickable'
 
       render(
         <Tag.Group label="tags">
@@ -248,6 +463,9 @@ describe('Tag', () => {
 
       expect(
         document.getElementsByClassName(clickableClassName)
+      ).toHaveLength(1)
+      expect(
+        document.getElementsByClassName(interactiveClassName)
       ).toHaveLength(1)
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
@@ -275,9 +493,9 @@ describe('Tag', () => {
     })
   })
 
-  describe('with onDelete', () => {
+  describe('with onDelete (deprecated)', () => {
     it('renders a removable tag with the correct attributes if onDelete is defined', () => {
-      const clickableClassName = 'dnb-tag--interactive'
+      const interactiveClassName = 'dnb-tag--interactive'
       const removableClassName = 'dnb-tag--removable'
 
       render(
@@ -296,7 +514,7 @@ describe('Tag', () => {
         document.getElementsByClassName(removableClassName)
       ).toHaveLength(1)
       expect(
-        document.getElementsByClassName(clickableClassName)
+        document.getElementsByClassName(interactiveClassName)
       ).toHaveLength(1)
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
@@ -383,7 +601,7 @@ describe('Tag', () => {
       expect(onDelete).toHaveBeenCalledTimes(0)
     })
 
-    it('fires onClick event when releasing Space or Delete (key up)', () => {
+    it('fires onClick event when releasing Backspace or Delete (key up)', () => {
       const onClick = jest.fn()
 
       render(

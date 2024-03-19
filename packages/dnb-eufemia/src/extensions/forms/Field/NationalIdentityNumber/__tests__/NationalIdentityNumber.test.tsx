@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Props } from '..'
-import { Field, Form, FormError } from '../../..'
+import { Field, Form } from '../../..'
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
@@ -65,7 +65,7 @@ describe('Field.NationalIdentityNumber', () => {
   it('should validate given function', async () => {
     const text = 'Custom Error message'
     const validator = jest.fn((value) => {
-      return value.length < 4 ? new FormError(text) : undefined
+      return value.length < 4 ? new Error(text) : undefined
     })
 
     render(

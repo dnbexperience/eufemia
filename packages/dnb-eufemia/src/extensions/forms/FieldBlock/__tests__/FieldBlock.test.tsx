@@ -2,15 +2,14 @@ import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
-import { FormError } from '../../types'
 import userEvent from '@testing-library/user-event'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   initializeTestSetup,
   runAnimation,
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import { Field } from '../..'
+import { Field, Form } from '../..'
 
 import nbNO from '../../../../shared/locales/nb-NO'
 const nb = nbNO['nb-NO'].Forms
@@ -144,7 +143,7 @@ describe('FieldBlock', () => {
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
       const fromInput = React.useCallback(({ value }) => value, [])
-      const { value, handleChange } = useDataValue({
+      const { value, handleChange } = useFieldProps({
         value: '',
         fromInput,
       })
@@ -367,13 +366,13 @@ describe('FieldBlock', () => {
   it('should set hasError on provider', () => {
     let hasNestedError = false
     const MockComponent = (props) => {
-      const { hasError } = useDataValue(props)
+      const { hasError } = useFieldProps(props)
       hasNestedError = hasError
       return null
     }
 
     const { rerender } = render(
-      <FieldBlock error={new FormError('FieldBlock error')}>
+      <FieldBlock error={new Error('FieldBlock error')}>
         <MockComponent />
       </FieldBlock>
     )
@@ -429,9 +428,7 @@ describe('FieldBlock', () => {
     describe('error prop', () => {
       it('should render a FormStatus correctly', () => {
         render(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -444,6 +441,18 @@ describe('FieldBlock', () => {
     })
 
     describe('Composition', () => {
+      it('should not display error messages initially', () => {
+        render(
+          <FieldBlock composition>
+            <Field.String required />
+            <Field.String required />
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toBeNull()
+      })
+
       it('should display both error messages with summary in one status', () => {
         render(
           <FieldBlock composition>
@@ -990,9 +999,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1008,9 +1015,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1036,9 +1041,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1052,9 +1055,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new FormError(blockError)}>
-            content
-          </FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1093,6 +1094,49 @@ describe('FieldBlock', () => {
 
       expect(status).toHaveAttribute('id', 'unique-form-status--error')
     })
+  })
+
+  it('should warn when formStatus is given, but no label', async () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    const asyncValidator = async () => {
+      return null
+    }
+
+    const { rerender } = render(
+      <Form.Handler>
+        <Field.String
+          label="Has a label"
+          value="bar"
+          path="/foo"
+          validator={asyncValidator}
+        />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    await userEvent.click(buttonElement)
+
+    expect(log).toHaveBeenCalledTimes(0)
+
+    rerender(
+      <Form.Handler>
+        <Field.String value="bar" path="/foo" validator={asyncValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    await userEvent.click(buttonElement)
+
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      expect.any(String),
+      'You have to provide a label to use show an indicator.'
+    )
+
+    log.mockRestore()
   })
 })
 

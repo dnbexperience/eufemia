@@ -66,6 +66,15 @@ describe('Field.PostalCodeAndCity', () => {
     ).toHaveLength(2)
   })
 
+  it('should have autofill attributes', () => {
+    render(<Field.PostalCodeAndCity {...props} />)
+
+    const [code, city] = Array.from(document.querySelectorAll('input'))
+
+    expect(code).toHaveAttribute('autocomplete', 'postal-code')
+    expect(city).toHaveAttribute('autocomplete', 'address-level2')
+  })
+
   describe('ARIA', () => {
     const props = {
       postalCode: { required: true, validateInitially: true },

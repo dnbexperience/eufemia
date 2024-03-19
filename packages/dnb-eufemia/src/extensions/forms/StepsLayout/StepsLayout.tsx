@@ -1,8 +1,9 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useCallback, useRef, useReducer } from 'react'
 import classnames from 'classnames'
 import { Space, StepIndicator } from '../../../components'
 import { warn } from '../../../shared/component-helper'
-import { ComponentProps } from '../types'
+import { isAsync } from '../../../shared/helpers/isAsync'
+import useId from '../../../shared/helpers/useId'
 import DataContext from '../DataContext/Context'
 import Step, { Props as StepProps } from './Step'
 import StepsContext from './StepsContext'
@@ -10,14 +11,20 @@ import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
 import Buttons from './Buttons'
 import Provider from '../DataContext/Provider'
-import useId from '../hooks/useId'
+import { ComponentProps, EventReturnWithStateObject } from '../types'
 
 export type Props = ComponentProps & {
   id?: string
   mode?: 'static' | 'strict' | 'loose'
   scrollTopOnStepChange?: boolean
   initialActiveIndex?: number
-  onStepChange?: (index: number) => void
+  onStepChange?: (
+    index: number,
+    mode: 'previous' | 'next'
+  ) =>
+    | EventReturnWithStateObject
+    | void
+    | Promise<EventReturnWithStateObject | void>
   children: React.ReactNode
   variant?: 'sidebar' | 'drawer'
   noAnimation?: boolean
@@ -39,41 +46,105 @@ function StepsLayout(props: Props) {
     ...rest
   } = props
   const dataContext = useContext(DataContext)
-  const { hasContext, hasErrors, setShowAllErrors, scrollToTop } =
-    dataContext
-
-  const [activeIndex, setActiveIndex] =
-    useState<number>(initialActiveIndex)
+  const {
+    hasContext,
+    setFormState,
+    handleSubmitCall,
+    setShowAllErrors,
+    showAllErrors,
+    scrollToTop,
+  } = dataContext
 
   const id = useId(_id)
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const activeIndexRef = useRef<number>(initialActiveIndex)
+  const errorOnStepRef = useRef<Record<number, boolean>>({})
+
+  // Store the current state of showAllErrors
+  errorOnStepRef.current[activeIndexRef.current] = showAllErrors
+
+  const callOnStepChange = useCallback(
+    async (index: number, mode: 'previous' | 'next') => {
+      if (isAsync(onStepChange)) {
+        return await onStepChange(index, mode)
+      }
+
+      return onStepChange?.(index, mode)
+    },
+    [onStepChange]
+  )
 
   const handlePrevious = useCallback(() => {
-    setActiveIndex((activeIndex) => {
-      onStepChange?.(activeIndex - 1)
-      return activeIndex - 1
-    })
-    if (scrollTopOnStepChange) {
-      scrollToTop()
-    }
-  }, [scrollTopOnStepChange, onStepChange, scrollToTop])
+    handleSubmitCall({
+      skipFieldValidation: true,
+      skipErrorCheck: true,
+      enableAsyncBehaviour: isAsync(onStepChange),
+      onSubmit: async () => {
+        const result = await callOnStepChange(
+          activeIndexRef.current - 1,
+          'previous'
+        )
 
-  const handleNext = useCallback(() => {
-    if (!hasErrors()) {
-      setActiveIndex((activeIndex) => {
-        onStepChange?.(activeIndex + 1)
-        return activeIndex + 1
-      })
-      if (scrollTopOnStepChange) {
-        scrollToTop()
-      }
-    } else {
-      setShowAllErrors(true)
-    }
+        // Hide async indicator
+        setFormState('abort')
+
+        if (!(result instanceof Error)) {
+          activeIndexRef.current = activeIndexRef.current - 1
+          forceUpdate()
+        }
+
+        if (scrollTopOnStepChange) {
+          scrollToTop()
+        }
+
+        return result
+      },
+    })
   }, [
-    hasErrors,
-    scrollTopOnStepChange,
+    callOnStepChange,
+    handleSubmitCall,
     onStepChange,
     scrollToTop,
+    scrollTopOnStepChange,
+    setFormState,
+  ])
+
+  const handleNext = useCallback(() => {
+    handleSubmitCall({
+      enableAsyncBehaviour: isAsync(onStepChange),
+      onSubmit: async () => {
+        const result = await callOnStepChange(
+          activeIndexRef.current + 1,
+          'next'
+        )
+
+        // Hide async indicator
+        setFormState('abort')
+
+        // Set the showAllErrors to the step we got to
+        setShowAllErrors(
+          errorOnStepRef.current[activeIndexRef.current + 1]
+        )
+
+        if (!(result instanceof Error)) {
+          activeIndexRef.current = activeIndexRef.current + 1
+          forceUpdate()
+        }
+
+        if (scrollTopOnStepChange) {
+          scrollToTop()
+        }
+
+        return result
+      },
+    })
+  }, [
+    callOnStepChange,
+    handleSubmitCall,
+    onStepChange,
+    scrollToTop,
+    scrollTopOnStepChange,
+    setFormState,
     setShowAllErrors,
   ])
 
@@ -84,9 +155,17 @@ function StepsLayout(props: Props) {
     return child.props.title ?? 'Title missing'
   }) as string[]
 
-  const handleChange = useCallback(({ current_step }) => {
-    setActiveIndex(current_step)
-  }, [])
+  const handleChange = useCallback(
+    ({ current_step }) => {
+      activeIndexRef.current = current_step
+
+      // Set the showAllErrors to the step we got to
+      setShowAllErrors(errorOnStepRef.current[current_step])
+
+      forceUpdate()
+    },
+    [setShowAllErrors]
+  )
 
   if (!hasContext) {
     warn('You may wrap StepsLayout in Form.Handler')
@@ -100,7 +179,7 @@ function StepsLayout(props: Props) {
   return (
     <StepsContext.Provider
       value={{
-        activeIndex,
+        activeIndex: activeIndexRef.current,
         handlePrevious,
         handleNext,
       }}
@@ -117,7 +196,7 @@ function StepsLayout(props: Props) {
           <StepIndicator.Sidebar sidebar_id={id} />
           <StepIndicator
             bottom
-            current_step={activeIndex}
+            current_step={activeIndexRef.current}
             data={stepIndicatorData}
             mode={mode}
             no_animation={noAnimation}

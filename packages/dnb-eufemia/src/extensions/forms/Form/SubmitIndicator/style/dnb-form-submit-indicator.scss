@@ -1,0 +1,117 @@
+@import '../../../../../style/core/utilities.scss';
+
+.dnb-form-submit-indicator {
+  display: inline;
+
+  --padding-left: 0.5em;
+
+  &__content {
+    font-size: 0;
+    line-height: 1em;
+
+    will-change: font-size;
+    transition: font-size 800ms var(--easing-default);
+
+    b {
+      padding-left: 0.125em;
+      color: var(--dots-color, currentColor);
+
+      &:nth-of-type(1) {
+        padding-left: var(--padding-left);
+        animation-delay: 50ms;
+      }
+      &:nth-of-type(2) {
+        animation-delay: 200ms;
+      }
+      &:nth-of-type(3) {
+        animation-delay: 400ms;
+      }
+
+      opacity: 0.2;
+
+      animation-name: submit-indicator-dot;
+      animation-iteration-count: infinite;
+      animation-duration: 1.3s;
+      animation-delay: 200ms; // to get a nicer fade in
+
+      html[data-visual-test] & {
+        animation: none;
+      }
+    }
+  }
+
+  &--state-pending &__content {
+    font-size: 1em;
+    font-weight: var(--font-weight-bold);
+  }
+  &--state-success &__content {
+    font-size: 1em;
+    // opacity: 0;
+    // font-size: 0;
+    // white-space: nowrap;
+
+    // animation-name: submit-indicator-success;
+    // animation-duration: 5s;
+
+    .dnb-icon {
+      padding-left: var(--padding-left);
+      color: var(--color-success-green);
+    }
+    .dnb-icon--default {
+      font-size: 1em;
+    }
+
+    &__label {
+      font-size: var(--font-size-small);
+      padding-left: calc(var(--padding-left) * 2);
+    }
+  }
+  &--inline-wrap &__content {
+    display: flex;
+
+    --padding-left: 0.25em;
+  }
+}
+
+@keyframes submit-indicator-dot {
+  0% {
+    opacity: 0.2;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes submit-indicator-success {
+  0% {
+    opacity: 0.2;
+    font-size: 1em;
+  }
+  20% {
+    opacity: 1;
+    font-size: 1em;
+  }
+  80% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.3;
+    font-size: 1em;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    font-size: 0;
+  }
+}

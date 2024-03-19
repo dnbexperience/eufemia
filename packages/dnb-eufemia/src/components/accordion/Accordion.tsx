@@ -314,7 +314,7 @@ function Accordion({
               nestedContext as Record<string, unknown>, // internal context
               { skeleton: globalContext?.skeleton },
               globalContext.Accordion, // global context
-              globalContext.translation.Accordion
+              globalContext.translation['Accordion']
             )
 
             if (expandedState === undefined && globalContext.Accordion) {

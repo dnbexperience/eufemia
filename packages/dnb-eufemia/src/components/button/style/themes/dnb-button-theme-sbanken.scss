@@ -14,6 +14,7 @@
   // global
   --button-background--focus: var(--sb-color-blue-light-3);
   --button-border-radius--control-button: 3rem;
+  --button-padding--large: 1.5rem;
 
   // primary
   --button-primary-shadow: var(--sb-shadow-medium);
@@ -52,18 +53,8 @@
 
   border: none;
 
-  &#{&}--has-text#{&}--size-large {
-    &.dnb-button--primary,
-    &.dnb-button--secondary {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-    &.dnb-button--icon-position-right {
-      padding-right: 0.5rem;
-    }
-    &.dnb-button--icon-position-left {
-      padding-left: 0.5rem;
-    }
+  &--has-text#{&}--size-large {
+    --button-padding-icon: 1rem;
   }
 
   &--primary {
@@ -166,7 +157,13 @@
   &--tertiary {
     --button-tertiary-focus-overflow--icon-top: 0;
     --button-tertiary-underline-overflow: -0.5rem;
-    --button-tertiary-underline-overflow--icon: -1rem;
+    --button-tertiary-underline-overflow--icon: calc(
+      (
+          var(--button-icon-gutter) + var(--button-icon-size) - var(
+              --button-tertiary-underline-overflow
+            )
+        ) * -1
+    );
     --button-tertiary-underline-bottom: -0.5rem;
     --button-tertiary-text-bottom--icon: 0.5rem;
     --button-tertiary-text-top--icon: 0;
@@ -181,8 +178,10 @@
 
     &.dnb-button--has-text {
       &.dnb-button--icon-position-top {
-        padding-left: calc(var(--button-tertiary-underline-overflow) * -1);
-        padding-right: calc(
+        --button-padding-left: calc(
+          var(--button-tertiary-underline-overflow) * -1
+        );
+        --button-padding-right: calc(
           var(--button-tertiary-underline-overflow) * -1
         );
         .dnb-button__text {
@@ -196,7 +195,6 @@
     &.dnb-button--size-large {
       --button-tertiary-underline-bottom: -0.75rem;
       --button-tertiary-underline-overflow: -1.5rem;
-      --button-tertiary-underline-overflow--icon: -1.5rem;
       --button-tertiary-text-bottom--icon: 0.75rem;
       --button-tertiary-text-top--icon: 0.25rem;
     }

@@ -78,4 +78,8 @@ describe('Table.ScrollView', () => {
 
     expect(element).not.toHaveAttribute('tabindex')
   })
+
+  it('should have constant of _supportsSpacingProps', () => {
+    expect(ScrollView['_supportsSpacingProps']).toBe(true)
+  })
 })

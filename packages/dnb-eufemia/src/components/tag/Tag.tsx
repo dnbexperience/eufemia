@@ -40,6 +40,12 @@ export interface TagProps {
   hasLabel?: boolean
 
   /**
+   * Defines the variant
+   * Default: 'default'
+   */
+  variant?: 'default' | 'clickable' | 'addable' | 'removable'
+
+  /**
    * Custom className on the component root
    * Default: null
    */
@@ -66,6 +72,7 @@ export interface TagProps {
   /**
    * Handle the delete event on 'tag' element
    * Default: null
+   * @deprecated Use `onClick` instead. With `variant='removable'`
    */
   onDelete?: React.MouseEventHandler<HTMLButtonElement>
 
@@ -80,6 +87,12 @@ export interface TagProps {
    * Has translation in context
    */
   removeIconTitle?: string
+
+  /**
+   * Internal property
+   * Has translation in context
+   */
+  addIconTitle?: string
 }
 
 export const defaultProps = {
@@ -107,24 +120,25 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     children,
     text,
     hasLabel,
+    variant = 'default',
     onClick,
-    onDelete,
     omitOnKeyUpDeleteEvent,
     removeIconTitle, // has a translation in context
+    addIconTitle, // has a translation in context
     ...props
-  } = allProps
+  } = handleDeprecatedBehaviour(allProps)
 
   const content = text || children
-  const isClickable = !!onClick
-  const isRemovable = !!onDelete && !isClickable
-  const isInteractive = isClickable || isRemovable
+
+  const addIcon = variant === 'removable' || variant === 'addable'
+  const isInteractive = variant !== 'default'
   const spacingClasses = createSpacingClasses(props)
   const tagClassNames = classnames(
     'dnb-tag',
     className,
     spacingClasses,
     isInteractive && 'dnb-tag--interactive',
-    isRemovable && 'dnb-tag--removable'
+    `dnb-tag--${variant}`
   )
   const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
     props
@@ -135,9 +149,9 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     )
   }
 
-  const handleKeyUp = (event) => {
-    if (onDelete && isDeleteKeyboardEvent(event)) {
-      onDelete(event)
+  const handleDeleteKeyUp = (event) => {
+    if (isDeleteKeyboardEvent(event) && onClick) {
+      onClick(event)
     }
   }
 
@@ -146,8 +160,10 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     buttonAttr.type = ''
   }
 
-  if (isRemovable) {
-    buttonAttr.icon = getDeleteIcon()
+  if (addIcon) {
+    buttonAttr.icon = getIcon(
+      variant === 'addable' ? addIconTitle : removeIconTitle
+    )
   }
 
   if (!tagGroupContext && !hasLabel) {
@@ -160,49 +176,65 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     <Button
       variant="unstyled"
       size="small"
-      icon_position={isRemovable ? 'right' : 'left'}
+      icon_position={addIcon ? 'right' : 'left'}
       className={tagClassNames}
-      on_click={onClick || onDelete}
+      on_click={onClick}
       text={content}
       skeleton={skeleton}
       onKeyUp={
-        isRemovable && !omitOnKeyUpDeleteEvent
-          ? (e) => handleKeyUp(e)
+        variant === 'removable' && !omitOnKeyUpDeleteEvent
+          ? (e) => handleDeleteKeyUp(e)
           : undefined
       }
       {...buttonAttr}
     />
   )
-
-  function getDeleteIcon() {
-    return (
-      <IconPrimary
-        title={removeIconTitle}
-        inherit_color={false}
-        icon={
-          <svg
-            width="16"
-            height="16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 8a8 8 0 1 1 16 0A8 8 0 1 1 0 8Z"
-              className="dnb-icon-close-circle-path"
-            />
-            <path
-              d="m5.5 10.5 5-5m0 5-5-5"
-              className="dnb-icon-close-cross-path"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        }
-      />
-    )
-  }
 }
+
+/**
+ * Support deprecated behaviour by mutating the props.
+ * Deprecated behaviour: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
+ */
+const handleDeprecatedBehaviour: (allProps: TagProps) => TagProps = ({
+  onDelete,
+  ...allProps
+}) => {
+  if (!allProps.variant) {
+    if (allProps.onClick) {
+      allProps.variant = 'clickable'
+    } else if (onDelete) {
+      allProps.onClick = onDelete
+      allProps.variant = 'removable'
+    }
+  }
+  return allProps
+}
+const getIcon = (title: string) => (
+  <IconPrimary
+    title={title}
+    inherit_color={false}
+    icon={
+      <svg
+        width="16"
+        height="16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 8a8 8 0 1 1 16 0A8 8 0 1 1 0 8Z"
+          className="dnb-icon-close-circle-path"
+        />
+        <path
+          d="m5.5 10.5 5-5m0 5-5-5"
+          className="dnb-icon-close-cross-path"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    }
+  />
+)
 
 Tag.Group = TagGroup
 

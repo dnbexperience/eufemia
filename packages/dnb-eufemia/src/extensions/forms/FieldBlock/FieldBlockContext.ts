@@ -11,7 +11,7 @@ export type StateContent =
 export type StateBasis = {
   identifier: Identifier
   type: StateTypes
-  state: StateContent
+  content: StateContent
   stateId?: string
   showInitially?: boolean
   show?: boolean
@@ -39,7 +39,7 @@ export type FieldBlockContextProps = {
     identifier,
     type,
     stateId,
-    state,
+    content,
     showInitially,
     show,
   }: StateBasis) => void

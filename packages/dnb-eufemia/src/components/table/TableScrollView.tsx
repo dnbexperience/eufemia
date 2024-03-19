@@ -31,3 +31,5 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
     </ScrollView>
   )
 }
+
+TableScrollView._supportsSpacingProps = true

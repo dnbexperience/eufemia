@@ -21,7 +21,7 @@ export const HelpButtonSandbox = () => (
           <Drawer triggerAttributes={props}>{children}</Drawer>
         )}
       >
-        Helpe text
+        Help text
       </HelpButton>
     </Box>
 

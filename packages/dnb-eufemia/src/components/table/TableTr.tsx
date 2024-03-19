@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useTableAccordion } from './TableAccordion'
-import { TableTdProps } from './TableTd'
 import { TableContext } from './TableContext'
 import TableAccordionTr from './TableAccordionTr'
 
@@ -59,9 +58,7 @@ export type TableTrProps = {
   /**
    * The content of the component.
    */
-  children:
-    | React.ReactElement<TableTdProps>
-    | Array<React.ReactElement<TableTdProps>>
+  children: React.ReactNode
 }
 
 export default function Tr(

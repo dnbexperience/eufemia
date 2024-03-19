@@ -160,5 +160,12 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match radio in checked state with larger bounding area', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="radio-bounding"] .dnb-radio',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 })

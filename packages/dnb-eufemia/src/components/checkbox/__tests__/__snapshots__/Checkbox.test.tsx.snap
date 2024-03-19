@@ -37,6 +37,9 @@ exports[`Checkbox scss has to match style dependencies css 1`] = `
   margin-right: 0;
   margin-bottom: 0.5rem;
 }
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
 .dnb-form-label[disabled] {
   cursor: not-allowed;
 }
@@ -166,6 +169,7 @@ button .dnb-form-status__text {
   --checkbox-color-background-on--error: red;
   --checkbox-color-background--error-contrast: lavenderblush;
   --checkbox-color-border--error: red;
+  --checkbox-bounding--medium: 1.75, 1.75;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -252,10 +256,12 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   margin: 0;
   padding: 0;
   border: 0;
+  transform: scale(var(--checkbox-bounding--medium));
 }
 .dnb-checkbox--large .dnb-checkbox__input {
   width: var(--checkbox-width--large);
   height: var(--checkbox-height--large);
+  transform: scale(1);
 }
 .dnb-checkbox__input:not([disabled]) {
   cursor: pointer;

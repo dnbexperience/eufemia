@@ -10,7 +10,6 @@ import {
   scrollToHashHandler,
 } from '@dnb/eufemia/src/components/Anchor'
 import { GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
-import { ElementIsType } from '@dnb/eufemia/src/elements/Element'
 import { startPageTransition } from './Transition'
 
 export type AnchorProps = Props &
@@ -68,7 +67,7 @@ export default function Anchor({
     href = `/${href}`
   }
 
-  const element = (isAbsoluteUrl ? 'a' : PortalLink) as ElementIsType
+  const element = (isAbsoluteUrl ? 'a' : PortalLink) as Props['element']
 
   return (
     <EufemiaAnchor

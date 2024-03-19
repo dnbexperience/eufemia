@@ -17,6 +17,18 @@ The `FormStatus` component cooperates together with the [GlobalStatus](/uilib/co
 
 <FormStatusIcons />
 
+## Accessibility
+
+The `FormStatus` component is designed to be accessible. It is important to provide a meaningful message to the user. The `FormStatus` component should be used to provide feedback to the user about the status of the form or form input.
+
+The `FormStatus` should be placed in the DOM before the form element itself and it should be linked together with the related form element by using `aria-describedby`.
+
+This will allow screen readers to find and announce the error message without too much frustration.
+
+This is done automatically in all Eufemia components when the `status` prop is used.
+
+Also all the [fields](/uilib/extensions/forms/fields/) based on the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) do support this feature without additional work. The `FieldBlock` also supports grouped messages and showing an error, warning and info message at the same time.
+
 ### Width alignment
 
 In order to enhance accessibility (readability), the FormStatus will align its width to a linked component. That means, if the FormStatus is build into the Input component, it will inherit the width of the input.

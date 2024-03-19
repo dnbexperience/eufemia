@@ -2,14 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { CardProperties } from '@dnb/eufemia/src/components/card/CardDocs'
+
 ## Properties
 
-| Property                                       | Type                        | Description                                                                                               |
-| ---------------------------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `stack`                                        | `boolean`                   | _(optional)_ True to stack the sub components with lines between. The `spacing` will default to `medium`. |
-| `direction`                                    | `string`                    | _(optional)_ Defaults to `vertical`.                                                                      |
-| `alignSelf`                                    | `string`                    | _(optional)_ Defaults to `stretch`.                                                                       |
-| `element`                                      | `string` or `React.Element` | _(optional)_ Define the type of element. Defaults to `section`.                                           |
-| [Flex.Container](/uilib/layout/flex/container) | Various                     | _(optional)_ Flex.Container properties.                                                                   |
-| [Flex.Item](/uilib/layout/flex/item)           | Various                     | _(optional)_ Flex.Item properties.                                                                        |
-| [Space](/uilib/layout/space/properties)        | Various                     | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                     |
+<PropertiesTable props={CardProperties} />

@@ -3,9 +3,9 @@ showTabs: true
 ---
 
 import {
+  TagInteractable,
   TagDefault,
   TagWithIcon,
-  TagRemovable,
   TagMultipleRemovable,
   TagInline,
   TagSkeleton,
@@ -15,26 +15,34 @@ import {
 
 ### Tag
 
-To ensure the correct use of the Tags, we require using a `Tag.Group` with `Tag`-components as children. <br/>
-The required `label`-property in `Tag.Group` will ensure the correct use of accessibility for screen readers. <br/>
-See more examples below.
+There are three interactive tag variants:
+
+- `clickable` (can also accept a custom icon as it does not have on of its own)
+- `addable`
+- `removable` (also triggers `onClick` when pressing the `Delete` or `Backspace` keyboard key (`keyup` event), can be disabled with the `omitOnKeyUpDeleteEvent` prop)
+
+We require `<Tag>`-components to be wrapped by a `<Tag.Group>`-component. The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
+
+<TagInteractable />
+
+### Non-interactive tag
+
+- Not interactable
+- Can have icon
+
+Non-interactable tags are simply made by skipping all callback props, and are the only type that can have an icon.
 
 <TagDefault />
 
-### Tag with icon
+### Non-interactive tag with icon
 
 <TagWithIcon />
 
-### Removable tag
-
-Use the `onDelete`-prop to make a tag removable. A removable tag supports adds a `onClick`-event to the underlying `Button`-component. <br/>
-Removable tags will not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
-
-<TagRemovable />
+## Usage examples
 
 ### Multiple removable tags
 
-Removable tags can for example be used in filter lists. This example simple example on how to implement a filter list using removable `Tags`.<br/> When a `Tag` is focused (e.g. when tabbing) releasing `Backspace` or `Delete` (`keyup` event) will call the `onDelete`-handler. This behavior can be omitted by setting the `omitOnKeyUpDeleteEvent`-prop to `true`.
+Removable tags can for example be used in filter lists. This is a simple example on how to implement a filter list using removable `Tags`.
 
 <TagMultipleRemovable />
 

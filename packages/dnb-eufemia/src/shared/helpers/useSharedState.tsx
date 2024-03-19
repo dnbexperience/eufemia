@@ -5,7 +5,8 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import useMounted from '../../extensions/forms/hooks/useMounted'
+import useMounted from './useMounted'
+import useMountEffect from './useMountEffect'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -39,11 +40,11 @@ export function useSharedState<Data>(
     }
   }, [hasMounted])
 
-  useLayoutEffect(() => {
+  useMountEffect(() => {
     if (waitForMountedRef.current) {
       forceUpdate()
     }
-  }, [])
+  })
 
   const sharedState = useMemo(() => {
     if (id) {
@@ -155,26 +156,32 @@ export function createSharedState<Data>(
 
     const get = () => sharedStates[id].data
 
-    const extend = (newData: Data) => {
-      sharedStates[id].data = { ...sharedStates[id].data, ...newData }
-      subscribers.forEach((subscriber) => subscriber())
-    }
-
     const set = (newData: Partial<Data>) => {
       sharedStates[id].data = { ...newData }
     }
 
     const update = (newData: Partial<Data>) => {
       set(newData)
-      subscribers.forEach((subscriber) => subscriber())
+      sync()
+    }
+
+    const extend = (newData: Data) => {
+      sharedStates[id].data = { ...sharedStates[id].data, ...newData }
+      sync()
     }
 
     const subscribe = (subscriber: Subscriber) => {
-      subscribers.push(subscriber)
+      if (!subscribers.includes(subscriber)) {
+        subscribers.push(subscriber)
+      }
     }
 
     const unsubscribe = (subscriber: Subscriber) => {
       subscribers = subscribers.filter((sub) => sub !== subscriber)
+    }
+
+    const sync = () => {
+      subscribers.forEach((subscriber) => subscriber())
     }
 
     sharedStates[id] = {

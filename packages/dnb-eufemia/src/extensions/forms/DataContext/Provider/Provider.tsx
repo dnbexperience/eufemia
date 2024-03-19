@@ -1,4 +1,10 @@
-import React, { useRef, useMemo, useCallback, useReducer } from 'react'
+import React, {
+  useRef,
+  useMemo,
+  useCallback,
+  useReducer,
+  useEffect,
+} from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import {
@@ -11,12 +17,23 @@ import {
   CustomErrorMessagesWithPaths,
   AllJSONSchemaVersions,
   FieldProps,
+  SubmitState,
   Path,
+  EventStateObject,
+  OnSubmit,
+  OnChange,
+  EventReturnWithStateObject,
 } from '../../types'
-import useMountEffect from '../../hooks/useMountEffect'
-import useUpdateEffect from '../../hooks/useUpdateEffect'
+import SharedProvider from '../../../../shared/Provider'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
+import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import Context, { ContextState } from '../Context'
+import Context, {
+  ContextState,
+  EventListenerCall,
+  FilterData,
+} from '../Context'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -27,30 +44,6 @@ import structuredClone from '@ungap/structured-clone'
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
-
-export type UpdateDataValue = (path: Path, data: unknown) => void
-
-export type FilterDataHandler<Data> = (
-  data: Data,
-  filter: FilterData
-) => Partial<Data>
-export type FilterData = (
-  path: Path,
-  value: any,
-  props: FieldProps
-) => boolean | undefined
-
-export type OnSubmitReturn = {
-  /** Will remove browser-side stored autocomplete data  */
-  resetForm: () => void
-  /** Will empty the whole internal data set of the form  */
-  clearData: () => void
-}
-
-export type OnSubmit<Data = JsonObject> = (
-  data: Partial<Data>,
-  { resetForm, clearData }: OnSubmitReturn
-) => void
 
 export interface Props<Data extends JsonObject> {
   /**
@@ -82,21 +75,54 @@ export interface Props<Data extends JsonObject> {
    */
   filterData?: FilterData
   /**
-   * Change handler for the whole data set
+   * Change handler for the whole data set.
+   * You can provide an async function to show an indicator on the current label during a field change.
    */
-  onChange?: (data: Data) => void
+  onChange?: OnChange<Data>
   /**
    * Change handler for each value
    */
-  onPathChange?: (path: Path, value: any) => void
+  onPathChange?: (
+    path: Path,
+    value: any
+  ) =>
+    | EventReturnWithStateObject
+    | void
+    | Promise<EventReturnWithStateObject | void>
   /**
-   * Submit called, data was valid (if validation available)
+   * Will emit on a form submit – if validation has passed.
+   * You can provide an async function to shows a submit indicator during submit. All form elements will be disabled during the submit.
    */
   onSubmit?: OnSubmit
   /**
    * Submit was requested, but data was invalid
    */
   onSubmitRequest?: () => void
+  /**
+   * Will be called when the onSubmit is finished and had not errors
+   */
+  onSubmitComplete?: (
+    data: Data,
+    /**
+     * The result of the onSubmit function
+     */
+    result: unknown
+  ) =>
+    | EventReturnWithStateObject
+    | void
+    | Promise<EventReturnWithStateObject | void>
+  /**
+   * Shows an indicator on the current label during a field change.
+   */
+  enableAsyncChangeBehavior?: boolean
+  /**
+   * Minimum time to display the submit indicator.
+   */
+  minimumAsyncBehaviorTime?: number
+  /**
+   * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
+   */
+  asyncBehaviorTimeout?: number
   /**
    * Scroll to top on submit
    */
@@ -110,24 +136,32 @@ export interface Props<Data extends JsonObject> {
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
-export default function Provider<Data extends JsonObject>({
-  id,
-  defaultData,
-  data,
-  schema,
-  onChange,
-  onPathChange,
-  onSubmit,
-  onSubmitRequest,
-  scrollTopOnSubmit,
-  sessionStorageId,
-  ajvInstance,
-  filterData,
-  errorMessages: contextErrorMessages,
-  children,
-  ...rest
-}: Props<Data>) {
+export default function Provider<Data extends JsonObject>(
+  props: Props<Data>
+) {
   const [, forceUpdate] = useReducer(() => ({}), {})
+
+  const {
+    id,
+    defaultData,
+    data,
+    schema,
+    onChange,
+    onPathChange,
+    onSubmit,
+    onSubmitRequest,
+    onSubmitComplete,
+    scrollTopOnSubmit,
+    minimumAsyncBehaviorTime,
+    asyncBehaviorTimeout,
+    sessionStorageId,
+    ajvInstance,
+    filterData,
+    errorMessages: contextErrorMessages,
+    children,
+    ...rest
+  } = props
+
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
     console.error(
@@ -137,18 +171,33 @@ export default function Provider<Data extends JsonObject>({
 
   // - Ajv
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
+
   // - Paths
   const mountedFieldPathsRef = useRef<Path[]>([])
+
   // - Errors from provider validation (the whole data set)
-  const errorsRef = useRef<Record<string, FormError> | undefined>()
+  const errorsRef = useRef<Record<Path, FormError> | undefined>()
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
   }, [])
+  const submitStateRef = useRef<Partial<EventStateObject>>({})
+  const setSubmitState = useCallback((state: EventStateObject) => {
+    Object.assign(submitStateRef.current, state)
+    forceUpdate()
+  }, [])
 
-  // - Errors reported by fields, based on their direct validation rules
-  const valuesWithErrorRef = useRef<Path[]>([])
+  // - Progress
+  const formStateRef = useRef<SubmitState>()
+  const setFormState = useCallback((formState: SubmitState) => {
+    formStateRef.current = formState
+    forceUpdate()
+  }, [])
+
+  // - States (e.g. error) reported by fields, based on their direct validation rules
+  const fieldErrorRef = useRef<Record<Path, boolean>>({})
+  const fieldStateRef = useRef<Record<Path, SubmitState>>({})
 
   // - Data
   const initialData = useMemo<Data>(() => {
@@ -166,7 +215,7 @@ export default function Provider<Data extends JsonObject>({
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
-  const validateDataNow = useCallback(() => {
+  const executeAjvValidator = useCallback(() => {
     if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
       return
@@ -175,7 +224,8 @@ export default function Provider<Data extends JsonObject>({
     if (!ajvValidatorRef.current?.(internalDataRef.current)) {
       // Errors found
       errorsRef.current = ajvErrorsToFormErrors(
-        ajvValidatorRef.current.errors
+        ajvValidatorRef.current.errors,
+        internalDataRef.current
       )
     } else {
       errorsRef.current = undefined
@@ -187,33 +237,52 @@ export default function Provider<Data extends JsonObject>({
       return
     }
 
-    validateDataNow()
+    executeAjvValidator()
     forceUpdate()
-  }, [validateDataNow])
+  }, [executeAjvValidator])
 
   // - Error handling
-  const hasFieldError = useCallback((path: Path) => {
-    return Boolean(
-      errorsRef.current?.[path] !== undefined ||
-        valuesWithErrorRef.current.includes(path)
-    )
-  }, [])
+  const checkFieldStateFor = useCallback(
+    (path: Path, state: SubmitState) => {
+      return Boolean(
+        state === 'error'
+          ? errorsRef.current?.[path] instanceof Error ||
+              fieldErrorRef.current[path]
+          : fieldStateRef.current[path] === state
+      )
+    },
+    []
+  )
+  const hasFieldState = useCallback(
+    (state: SubmitState) => {
+      return mountedFieldPathsRef.current.some((path) => {
+        return checkFieldStateFor(path, state)
+      })
+    },
+    [checkFieldStateFor]
+  )
   const hasErrors = useCallback(() => {
-    return Boolean(
-      mountedFieldPathsRef.current.find((path) => hasFieldError(path))
-    )
-  }, [hasFieldError])
+    return hasFieldState('error')
+  }, [hasFieldState])
 
   /**
    * Sets the error state for a specific path
    */
-  const setValueWithError = useCallback(
-    (path: Path, withError: boolean) => {
-      if (withError !== valuesWithErrorRef.current.includes(path)) {
-        // The boolean error state for the target value was changed
-        valuesWithErrorRef.current = withError
-          ? addListPath(valuesWithErrorRef.current, path)
-          : removeListPath(valuesWithErrorRef.current, path)
+  const setFieldError = useCallback(
+    (path: Path, error: Error | FormError) => {
+      fieldErrorRef.current[path] = Boolean(error)
+    },
+    []
+  )
+
+  /**
+   * Sets the field state for a specific path
+   */
+  const setFieldState = useCallback(
+    (path: Path, fieldState: SubmitState) => {
+      if (fieldState !== fieldStateRef.current[path]) {
+        // The state for the target value was changed
+        fieldStateRef.current[path] = fieldState
         forceUpdate()
       }
     },
@@ -246,23 +315,34 @@ export default function Provider<Data extends JsonObject>({
     },
     [filterData]
   )
-  const fieldPropsRef = useRef<Record<string, FieldProps>>({})
+  const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       fieldPropsRef.current[path] = props
     },
     []
   )
+  const hasFieldWithAsyncValidator = useCallback(() => {
+    for (const path in fieldPropsRef.current) {
+      const props = fieldPropsRef.current[path]
+      if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
+        return true
+      }
+    }
+
+    return false
+  }, [])
 
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<{
     filterDataHandler?: Props<Data>['filterData']
-    hasErrors?: () => boolean
+    hasErrors?: ContextState['hasErrors']
+    setShowAllErrors?: ContextState['setShowAllErrors']
     rerenderUseDataHook?: () => void
   }>(id + '-attachments')
 
-  const updateSharedData = sharedData.update
+  const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
@@ -338,31 +418,36 @@ export default function Provider<Data extends JsonObject>({
   }, [id, initialData, extendSharedData, sharedData.data])
 
   useMemo(() => {
-    validateDataNow()
+    executeAjvValidator()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
 
   useLayoutEffect(() => {
     if (id) {
-      extendAttachment?.({ filterDataHandler, hasErrors })
+      extendAttachment?.({
+        filterDataHandler,
+        hasErrors,
+        setShowAllErrors,
+      })
       if (filterData) {
         rerenderUseDataHook?.()
       }
     }
   }, [
+    extendAttachment,
     filterData,
     filterDataHandler,
-    rerenderUseDataHook,
     hasErrors,
     id,
-    extendAttachment,
+    rerenderUseDataHook,
+    setShowAllErrors,
   ])
 
   /**
    * Update the data set
    */
-  const updateDataValue: UpdateDataValue = useCallback(
+  const updateDataValue: ContextState['updateDataValue'] = useCallback(
     (path, value) => {
       if (!path) {
         return
@@ -389,14 +474,15 @@ export default function Provider<Data extends JsonObject>({
         pointer.set(newData, path, value)
       }
 
+      internalDataRef.current = newData
+
       if (id) {
-        updateSharedData?.(newData)
+        // Will ensure that Form.getData() gets the correct data
+        extendSharedData?.(newData)
         if (filterData) {
           rerenderUseDataHook?.()
         }
       }
-
-      internalDataRef.current = newData
 
       if (sessionStorageId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(
@@ -410,34 +496,47 @@ export default function Provider<Data extends JsonObject>({
       return newData
     },
     [
-      filterData,
       id,
       sessionStorageId,
+      extendSharedData,
+      filterData,
       rerenderUseDataHook,
-      updateSharedData,
     ]
   )
+
+  const setData = useCallback((newData: Data) => {
+    internalDataRef.current = newData
+    forceUpdate()
+  }, [])
 
   /**
    * Update the data set on user interaction
    */
-  const handlePathChange: UpdateDataValue = useCallback(
-    (path, value) => {
+  const handlePathChange: ContextState['handlePathChange'] = useCallback(
+    async (path, value) => {
       if (!path) {
-        return
+        return null
       }
 
-      onPathChange?.(path, value)
+      if (isAsync(onPathChange)) {
+        await onPathChange?.(path, value)
+      } else {
+        onPathChange?.(path, value)
+      }
 
       const newData = updateDataValue(path, value)
-
-      onChange?.(newData as Data)
 
       showAllErrorsRef.current = false
 
       validateData()
+
+      if (isAsync(onChange)) {
+        return await onChange(newData as Data)
+      }
+
+      return onChange?.(newData as Data)
     },
-    [onPathChange, updateDataValue, onChange, validateData]
+    [onChange, onPathChange, updateDataValue, validateData]
   )
 
   // - Mounted fields
@@ -466,56 +565,209 @@ export default function Provider<Data extends JsonObject>({
   }, [])
 
   /**
-   * Request to submit the whole form
+   * Shared logic dedicated to submit the whole form
    */
-  const handleSubmit = useCallback<ContextState['handleSubmit']>(
-    ({ formElement = null } = {}) => {
-      if (!hasErrors()) {
-        const resetForm = () => {
-          formElement?.reset?.()
+  const handleSubmitCall = useCallback<ContextState['handleSubmitCall']>(
+    async (args) => {
+      const {
+        onSubmit,
+        enableAsyncBehaviour,
+        skipFieldValidation,
+        skipErrorCheck,
+      } = args
 
-          if (typeof window !== 'undefined') {
-            if (sessionStorageId) {
-              window.sessionStorage.removeItem(sessionStorageId)
+      setSubmitState({ error: undefined })
+
+      const asyncBehaviorIsEnabled =
+        !(skipErrorCheck ? false : hasErrors()) &&
+        (enableAsyncBehaviour || hasFieldWithAsyncValidator())
+
+      if (asyncBehaviorIsEnabled) {
+        setFormState('pending')
+      }
+
+      // Just call the submit listeners "once", and not on the retry/recall
+      if (!skipFieldValidation) {
+        for (const {
+          path,
+          type,
+          callback,
+        } of fieldEventListenersRef.current) {
+          if (
+            type === 'onSubmit' &&
+            mountedFieldPathsRef.current.includes(path)
+          ) {
+            // Call all submit listener callbacks (e.g. to validate fields)
+            if (asyncBehaviorIsEnabled) {
+              await callback()
+            } else {
+              callback()
             }
           }
-
-          forceUpdate() // in order to fill "empty fields" again with their internal states
         }
-        const clearData = () => {
-          internalDataRef.current = {}
-          forceUpdate()
+      }
+
+      if (
+        !(skipErrorCheck ? false : hasErrors()) &&
+        !hasFieldState('pending') &&
+        (skipFieldValidation ? true : !hasFieldState('error'))
+      ) {
+        let result: EventStateObject | unknown
+
+        try {
+          result = await onSubmit()
+
+          if (result instanceof Error) {
+            throw result
+          }
+        } catch (error) {
+          result = { error }
         }
 
-        onSubmit?.(filterDataHandler(internalDataRef.current as Data), {
-          resetForm,
-          clearData,
-        })
+        const state = result as EventStateObject
 
-        if (scrollTopOnSubmit) {
-          scrollToTop()
+        if (asyncBehaviorIsEnabled) {
+          setFormState(state?.error ? 'abort' : 'complete')
+        }
+
+        // Force the state to be set by a custom status
+        if (state?.['status']) {
+          setFormState(state?.['status'])
+        }
+
+        if (state?.error || state?.warning || state?.info) {
+          setSubmitState(state)
         }
       } else {
-        setShowAllErrors(true)
+        if (asyncBehaviorIsEnabled) {
+          window.requestAnimationFrame(() => {
+            setFormState(undefined)
+          })
+        }
+
+        if (!skipFieldValidation) {
+          // Add a event listener to continue the submit after the pending state is resolved
+          onSubmitContinueRef.current = () => {
+            window.requestAnimationFrame(() => {
+              // Do not call the validators again,
+              // because we already did it in the first call
+              // If they are async, we wait for them to finish anyway
+              handleSubmitCall({ ...args, skipFieldValidation: true })
+            })
+          }
+        }
+
         onSubmitRequest?.()
+
+        setShowAllErrors(true)
       }
 
       return internalDataRef.current
     },
     [
+      setSubmitState,
       hasErrors,
-      onSubmit,
-      filterDataHandler,
-      scrollTopOnSubmit,
-      sessionStorageId,
-      scrollToTop,
-      setShowAllErrors,
+      hasFieldWithAsyncValidator,
+      hasFieldState,
+      setFormState,
       onSubmitRequest,
+      setShowAllErrors,
     ]
   )
 
-  // - ajv validator routines
+  /**
+   * Request to submit the whole form
+   */
+  const handleSubmit = useCallback<ContextState['handleSubmit']>(
+    async ({ formElement = null } = {}) => {
+      handleSubmitCall({
+        enableAsyncBehaviour: isAsync(onSubmit),
+        onSubmit: async () => {
+          const args = filterDataHandler(internalDataRef.current as Data)
+          const opts = {
+            resetForm: () => {
+              formElement?.reset?.()
 
+              if (typeof window !== 'undefined') {
+                if (sessionStorageId) {
+                  window.sessionStorage.removeItem(sessionStorageId)
+                }
+              }
+
+              forceUpdate() // in order to fill "empty fields" again with their internal states
+            },
+            clearData: () => {
+              internalDataRef.current = {}
+              if (id) {
+                setSharedData?.({} as Data)
+              } else {
+                forceUpdate()
+              }
+            },
+          }
+
+          let result = undefined
+
+          if (isAsync(onSubmit)) {
+            result = await onSubmit(args, opts)
+          } else {
+            result = onSubmit?.(args, opts)
+          }
+
+          const completeResult = await onSubmitComplete?.(args, result)
+          if (completeResult) {
+            result =
+              Object.keys(result).length > 0
+                ? { ...result, ...completeResult }
+                : completeResult
+          }
+
+          if (scrollTopOnSubmit) {
+            scrollToTop()
+          }
+
+          return result
+        },
+      })
+    },
+    [
+      filterDataHandler,
+      handleSubmitCall,
+      id,
+      onSubmit,
+      onSubmitComplete,
+      scrollToTop,
+      scrollTopOnSubmit,
+      sessionStorageId,
+      setSharedData,
+    ]
+  )
+
+  // Collect listeners to be called during form submit
+  const fieldEventListenersRef = useRef<Array<EventListenerCall>>([])
+  const setFieldEventListener = useCallback(
+    (
+      path: EventListenerCall['path'],
+      type: EventListenerCall['type'],
+      callback: EventListenerCall['callback']
+    ) => {
+      fieldEventListenersRef.current =
+        fieldEventListenersRef.current.filter(({ path: p, type: t }) => {
+          return !(p === path && t === type)
+        })
+      fieldEventListenersRef.current.push({ path, type, callback })
+    },
+    []
+  )
+
+  // Handle unresolved field states during async submit
+  const onSubmitContinueRef = useRef<() => void>(null)
+  if (!hasFieldState('pending')) {
+    onSubmitContinueRef.current?.()
+    onSubmitContinueRef.current = null
+  }
+
+  // - ajv validator routines
   useMountEffect(() => {
     if (schema) {
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
@@ -524,7 +776,6 @@ export default function Provider<Data extends JsonObject>({
     // Validate the initial data
     validateData()
   })
-
   useUpdateEffect(() => {
     if (schema && schema !== cacheRef.current.schema) {
       cacheRef.current.schema = schema
@@ -535,33 +786,62 @@ export default function Provider<Data extends JsonObject>({
     }
   }, [schema, validateData, forceUpdate])
 
+  const { bufferedFormState: formState } = useFormStatusBuffer({
+    formState: formStateRef.current,
+    waitFor: hasFieldState('pending'),
+    minimumAsyncBehaviorTime,
+    asyncBehaviorTimeout,
+  })
+
+  const submitState = submitStateRef.current
+  const disabled = rest?.['disabled'] ?? formState === 'pending'
+
   return (
     <Context.Provider
       value={{
-        hasContext: true,
-        data: internalDataRef.current,
-        ...rest,
+        /** Method */
         handlePathChange,
-        updateDataValue,
-        validateData,
         handleSubmit,
-        scrollToTop,
-        errors: errorsRef.current,
-        showAllErrors: showAllErrorsRef.current,
-        setShowAllErrors,
-        mountedFieldPaths: mountedFieldPathsRef.current,
         handleMountField,
         handleUnMountField,
-        hasErrors,
-        hasFieldError,
-        setValueWithError,
+        handleSubmitCall,
+        setFormState,
+        setShowAllErrors,
+        setFieldEventListener,
+        setFieldState,
+        setFieldError,
         setProps,
-        ajvInstance: ajvRef.current,
+        hasErrors,
+        hasFieldState,
+        checkFieldStateFor,
+        validateData,
+        updateDataValue,
+        setData,
+        filterDataHandler,
+        scrollToTop,
+
+        /** State handling */
         schema,
+        disabled,
+        formState,
+        submitState,
         contextErrorMessages,
+        hasContext: true,
+        errors: errorsRef.current,
+        showAllErrors: showAllErrorsRef.current,
+        mountedFieldPaths: mountedFieldPathsRef.current,
+        ajvInstance: ajvRef.current,
+
+        /** Additional */
+        id,
+        data: internalDataRef.current,
+        props,
+        ...rest,
       }}
     >
-      {children}
+      <SharedProvider formElement={{ disabled }}>
+        {children}
+      </SharedProvider>
     </Context.Provider>
   )
 }
@@ -574,4 +854,118 @@ function addListPath(paths: PathList, path: Path): PathList {
 
 function removeListPath(paths: PathList, path: Path): PathList {
   return paths.filter((thisPath) => thisPath !== path)
+}
+
+type FormStatusBufferProps = {
+  minimumAsyncBehaviorTime?: Props<unknown>['minimumAsyncBehaviorTime']
+  asyncBehaviorTimeout?: Props<unknown>['asyncBehaviorTimeout']
+  formState: ContextState['formState']
+  waitFor: boolean
+}
+
+function useFormStatusBuffer(props: FormStatusBufferProps) {
+  const {
+    formState,
+    waitFor,
+    minimumAsyncBehaviorTime,
+    asyncBehaviorTimeout,
+  } = props || {}
+
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const stateRef = useRef<SubmitState>()
+  const nowRef = useRef<number | null>(null)
+  const timeoutRef = useRef<{
+    complete?: NodeJS.Timeout | null
+    reset?: NodeJS.Timeout | null
+    timeout?: NodeJS.Timeout | null
+  }>({})
+
+  const setState = useCallback(
+    (state: SubmitState) => {
+      stateRef.current = state
+      forceUpdate()
+    },
+    [forceUpdate]
+  )
+
+  const clear = useCallback(() => {
+    for (const key in timeoutRef.current) {
+      clearTimeout(timeoutRef.current[key])
+    }
+  }, [])
+
+  const hadCompleteRef = useRef(false)
+
+  useEffect(() => {
+    // This offset is used to calculate the delay,
+    // which ensures that the form state is displayed for at least minimumAsyncBehaviorTime duration.
+    // If the form was 'pending' for less than minimumAsyncBehaviorTime,
+    // the delay will be the remaining time to reach minimumAsyncBehaviorTime.
+    const isTest = process.env.NODE_ENV === 'test'
+    const minimum =
+      minimumAsyncBehaviorTime ??
+      // make it testable
+      (isTest ? 1 : 1000)
+
+    if (stateRef.current && formState === 'error') {
+      clear()
+      setState(undefined)
+      return
+    }
+
+    if (formState === 'abort') {
+      clear()
+      setState('abort')
+
+      timeoutRef.current.reset = setTimeout(() => {
+        nowRef.current = 0
+        setState(undefined)
+      }, minimum)
+      return
+    }
+
+    if (formState === 'complete') {
+      hadCompleteRef.current = true
+    }
+
+    if (formState === 'pending') {
+      clear()
+      nowRef.current = Date.now()
+      hadCompleteRef.current = false
+      setState('pending')
+    } else if (stateRef.current === 'pending') {
+      const offset = Math.max(Date.now() - nowRef.current)
+      const delay = isTest ? minimum : Math.max(minimum - offset, 0)
+
+      if (!waitFor) {
+        timeoutRef.current.complete = setTimeout(() => {
+          if (hadCompleteRef.current) {
+            setState('complete')
+          }
+        }, delay)
+
+        timeoutRef.current.reset = setTimeout(() => {
+          nowRef.current = 0
+          setState(undefined)
+          clear()
+        }, delay + minimum)
+      }
+
+      timeoutRef.current.timeout = setTimeout(() => {
+        nowRef.current = 0
+        setState(undefined)
+      }, asyncBehaviorTimeout ?? 30000)
+    }
+
+    return clear
+  }, [
+    clear,
+    minimumAsyncBehaviorTime,
+    formState,
+    setState,
+    waitFor,
+    asyncBehaviorTimeout,
+  ])
+
+  return { bufferedFormState: stateRef.current }
 }

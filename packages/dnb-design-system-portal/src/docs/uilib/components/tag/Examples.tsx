@@ -10,10 +10,39 @@ import {
   ainvoice as AInvoice,
   digipost as DigiPost,
 } from '@dnb/eufemia/src/icons'
-import { Tag } from '@dnb/eufemia/src'
+import { Flex, Tag } from '@dnb/eufemia/src'
+import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
+
+export const TagInteractable = () => (
+  <ComponentBox data-visual-test="tag-interactable">
+    <Tag.Group label="Interactable tags">
+      <Tag
+        data-visual-test="tag-clickable"
+        variant="clickable"
+        onClick={() => 'click'}
+      >
+        Clickable
+      </Tag>
+      <Tag
+        data-visual-test="tag-addable"
+        variant="addable"
+        onClick={() => 'click'}
+      >
+        Addable
+      </Tag>
+      <Tag
+        data-visual-test="tag-removable"
+        variant="removable"
+        onClick={() => 'click'}
+      >
+        Removable
+      </Tag>
+    </Tag.Group>
+  </ComponentBox>
+)
 
 export const TagDefault = () => (
-  <ComponentBox data-visual-test="tag-default">
+  <ComponentBox hideCode data-visual-test="tag-default">
     <Tag.Group label="Payment types">
       <Tag>Digipost</Tag>
       <Tag>AvtaleGiro</Tag>
@@ -23,6 +52,7 @@ export const TagDefault = () => (
 
 export const TagWithIcon = () => (
   <ComponentBox
+    hideCode
     data-visual-test="tag-icon"
     scope={{ EInvoice, AInvoice, DigiPost }}
   >
@@ -30,19 +60,6 @@ export const TagWithIcon = () => (
       <Tag icon={AInvoice} text="AvtaleGiro" />
       <Tag icon={EInvoice} text="eFaktura" />
       <Tag icon={DigiPost} text="DigiPost" />
-    </Tag.Group>
-  </ComponentBox>
-)
-
-export const TagRemovable = () => (
-  <ComponentBox data-visual-test="tag-removable">
-    <Tag.Group label="Files">
-      <Tag
-        text="Eufemia.tsx"
-        onDelete={() => {
-          console.log('I was deleted!')
-        }}
-      />
     </Tag.Group>
   </ComponentBox>
 )
@@ -63,32 +80,66 @@ export const TagMultipleRemovable = () => (
   <ComponentBox data-visual-test="tag-removable-list">
     {() => {
       const Genres = () => {
-        const [tagData, setTagData] = React.useState([
+        const [tagsAdded, setTagsAdded] = React.useState([
           { key: 0, text: 'Action' },
           { key: 1, text: 'Comedy' },
           { key: 2, text: 'Drama' },
           { key: 3, text: 'Horror' },
+        ])
+        const [tagsRemoved, setTagsRemoved] = React.useState([
           { key: 4, text: 'Fantasy' },
         ])
 
-        const handleDelete = (tagToDelete) => () => {
-          setTagData((tags) =>
-            tags.filter((tag) => tag.key !== tagToDelete.key),
-          )
-        }
+        const handleRemove = React.useCallback(
+          (tagToRemove) => () => {
+            setTagsAdded(
+              tagsAdded.filter((tag) => tag.key !== tagToRemove.key),
+            )
+            setTagsRemoved([...tagsRemoved, tagToRemove])
+          },
+          [tagsAdded, tagsRemoved],
+        )
+        const handleAdd = React.useCallback(
+          (tagToAdd) => () => {
+            setTagsAdded([...tagsAdded, tagToAdd])
+            setTagsRemoved(
+              tagsRemoved.filter((tag) => tag.key !== tagToAdd.key),
+            )
+          },
+          [tagsAdded, tagsRemoved],
+        )
 
         return (
-          <Tag.Group label="Genres">
-            {tagData.map((tag) => {
-              return (
-                <Tag
-                  key={tag.key}
-                  text={tag.text}
-                  onDelete={handleDelete(tag)}
-                />
-              )
-            })}
-          </Tag.Group>
+          <Flex.Stack>
+            <FieldBlock label="Selected">
+              <Tag.Group label="Genres Selected">
+                {tagsAdded.map((tag) => {
+                  return (
+                    <Tag
+                      key={tag.key}
+                      text={tag.text}
+                      variant="removable"
+                      onClick={handleRemove(tag)}
+                    />
+                  )
+                })}
+              </Tag.Group>
+            </FieldBlock>
+            <FieldBlock label="Removed">
+              <Tag.Group label="Genres Available">
+                {tagsRemoved.map((tag) => {
+                  return (
+                    <Tag
+                      key={tag.key}
+                      text={tag.text}
+                      variant="addable"
+                      onClick={handleAdd(tag)}
+                    />
+                  )
+                })}
+              </Tag.Group>
+            </FieldBlock>
+          </Flex.Stack>
         )
       }
       return <Genres />

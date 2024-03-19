@@ -83,7 +83,7 @@ describe('BreadcrumbItem', () => {
       expect(document.querySelector('img')).toBeDefined()
       expect(document.querySelector('.dnb-icon')).toHaveAttribute(
         'data-testid',
-        'chevron left icon'
+        'chevron right icon'
       )
     })
 

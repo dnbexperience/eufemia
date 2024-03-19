@@ -55,3 +55,17 @@ If each of the fields have a label, the labels should ideally be top aligned. Bu
 In the demo section you find an [example](#composition-field-with-error) on how to handle form states.
 
 <Demos />
+
+## Messages
+
+Messages that appears to be the same, will be grouped together and announced as one message.
+
+You can also show an `error`, `warning` or `info` message at the same time.
+
+## Accessibility
+
+When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components will be placed in the DOM before the content of the `FieldBlock` itself.
+
+Additionally, the `FieldBlock` will also links together the related form elements by using `aria-describedby`, given the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) is used in conjunction.
+
+This will allow screen readers to find and announce the error message without too much frustration.

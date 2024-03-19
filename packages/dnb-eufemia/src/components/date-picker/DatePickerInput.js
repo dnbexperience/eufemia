@@ -91,6 +91,8 @@ export default class DatePickerInput extends React.PureComponent {
   state = {
     _listenForPropChanges: true,
     focusState: 'virgin',
+    partialStartDate: '',
+    partialEndDate: '',
   }
 
   constructor(props) {
@@ -219,6 +221,13 @@ export default class DatePickerInput extends React.PureComponent {
     // Get the typed dates, so we can ...
     let { startDate, endDate } = getDates()
 
+    // Get the partial dates, so we can know if something was typed or not in an optional date field
+    const partialStartDate = startDate
+    const partialEndDate = endDate
+    this.setState({
+      partialStartDate,
+      partialEndDate,
+    })
     startDate = parseISO(startDate)
     endDate = parseISO(endDate)
 
@@ -234,6 +243,8 @@ export default class DatePickerInput extends React.PureComponent {
       startDate,
       endDate,
       event,
+      partialStartDate,
+      partialEndDate,
     })
 
     // Now, lets correct
@@ -335,6 +346,7 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   onBlurHandler = (event) => {
+    const { partialStartDate, partialEndDate } = this.state
     this.focusMode = null
     this.setState({
       focusState: 'blur',
@@ -344,7 +356,11 @@ export default class DatePickerInput extends React.PureComponent {
     if (this.props.onBlur) {
       this.props.onBlur({
         ...event,
-        ...this.context.getReturnObject({ event }),
+        ...this.context.getReturnObject({
+          event,
+          partialStartDate,
+          partialEndDate,
+        }),
       })
     }
   }

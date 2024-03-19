@@ -7,6 +7,7 @@ import fs from 'fs-extra'
 import { makeReleaseVersion } from '../makeReleaseVersion'
 import * as getBranchName from 'current-git-branch'
 import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion'
+import { log } from '../../../lib'
 
 jest.mock('../../../postbuild/getNextReleaseVersion', () => {
   return {
@@ -34,10 +35,29 @@ jest.mock('current-git-branch', () => {
 })
 
 beforeEach(() => {
+  jest.spyOn(log, 'succeed').mockImplementation(jest.fn())
+})
+afterEach(() => {
   jest.resetAllMocks()
 })
 
 describe('makeReleaseVersion', () => {
+  it('should log success', async () => {
+    jest
+      .spyOn(getBranchName, 'default')
+      .mockImplementationOnce(() => 'release')
+    jest
+      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
+      .mockImplementationOnce(async () => '123456789')
+
+    await makeReleaseVersion()
+
+    expect(log.succeed).toHaveBeenCalledTimes(1)
+    expect(log.succeed).toHaveBeenCalledWith(
+      'Success on write version to CSS and JS sources: 123456789'
+    )
+  })
+
   it('should only run when on release branches', async () => {
     jest
       .spyOn(getBranchName, 'default')
@@ -48,20 +68,34 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(1)
+    expect(fs.writeFile).toHaveBeenCalledTimes(2)
   })
 
-  it('should not run when not on release branches', async () => {
+  it('should run on any branch', async () => {
     jest
       .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'not-valid')
+      .mockImplementationOnce(() => 'some-branch')
     jest
       .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
       .mockImplementationOnce(async () => '123456789')
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(0)
+    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+
+    // JS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/Eufemia.ts'),
+      expect.stringContaining(`return 'some-branch'`)
+    )
+
+    // CSS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/style/core/scopes.scss'),
+      expect.stringContaining(`--eufemia-version: 'some-branch';`)
+    )
   })
 
   it('write version in Eufemia file', async () => {
@@ -74,10 +108,20 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(1)
-    expect(fs.writeFile).toHaveBeenLastCalledWith(
-      expect.stringContaining('src/shared/Eufemia.js'),
+    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+
+    // JS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/Eufemia.ts'),
       expect.stringContaining(`return '123456789'`)
+    )
+
+    // CSS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/style/core/scopes.scss'),
+      expect.stringContaining(`--eufemia-version: '123456789';`)
     )
   })
 
@@ -91,14 +135,25 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(1)
-    expect(fs.writeFile).toHaveBeenLastCalledWith(
-      expect.stringContaining('src/shared/Eufemia.js'),
+    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+
+    // JS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/Eufemia.ts'),
       expect.stringContaining(`return 'release'`)
     )
-    expect(fs.writeFile).toHaveBeenLastCalledWith(
-      expect.stringContaining('src/shared/Eufemia.js'),
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/Eufemia.ts'),
       expect.stringContaining(`export const version = 'release'`)
+    )
+
+    // CSS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/style/core/scopes.scss'),
+      expect.stringContaining(`--eufemia-version: 'release';`)
     )
   })
 })

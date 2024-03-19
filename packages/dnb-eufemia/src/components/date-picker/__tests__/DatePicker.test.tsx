@@ -593,265 +593,6 @@ describe('DatePicker component', () => {
     expect((yearElem as HTMLInputElement).value).toBe(year)
   })
 
-  it('has to auto-correct invalid min/max dates', async () => {
-    const on_change = jest.fn()
-
-    render(
-      <DatePicker
-        {...defaultProps}
-        on_change={on_change}
-        correct_invalid_date={true}
-        min_date="2019-01-02"
-        max_date="2019-03-01"
-      />
-    )
-    const elem = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0]
-
-    // by default we have the corrected start day
-    expect((elem as HTMLInputElement).value).toBe('02')
-
-    // change the date to something invalid
-    await userEvent.type(elem, '01')
-
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        is_valid_start_date: false,
-        start_date: null,
-      })
-    )
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        is_valid_start_date: true,
-        start_date: '2019-01-02',
-      })
-    )
-
-    // change the date to a valid date
-    await userEvent.type(elem, '{Backspace>2}03')
-
-    expect(on_change).toHaveBeenCalledTimes(4)
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        is_valid_start_date: true,
-        start_date: '2019-01-03',
-      })
-    )
-  })
-
-  it('has to auto-correct invalid min dates when min_date is given', async () => {
-    const on_change = jest.fn()
-
-    render(
-      <DatePicker
-        date="2024-02-02"
-        min_date="2024-02-02"
-        on_change={on_change}
-      />
-    )
-    const day = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0] as HTMLInputElement
-    const month = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0] as HTMLInputElement
-    const year = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0] as HTMLInputElement
-
-    // by default we have the corrected start day
-    expect(day).toHaveValue('02')
-
-    // try to type invalid day
-    await userEvent.type(day, '01')
-    expect(day).toHaveValue('02')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-02' })
-    )
-
-    // then type valid day
-    await userEvent.type(day, '{Backspace>2}03')
-    expect(day).toHaveValue('03')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-03' })
-    )
-
-    // expect default month to be 02
-    expect(month).toHaveValue('02')
-
-    // try to type invalid month
-    await userEvent.type(month, '01')
-    expect(month).toHaveValue('02')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-02' })
-    )
-
-    // then type valid month
-    await userEvent.type(month, '{Backspace>2}03')
-    expect(month).toHaveValue('03')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-03-03' })
-    )
-
-    // expect default year to be 2024
-    expect(year).toHaveValue('2024')
-
-    // try to type invalid year
-    await userEvent.type(year, '2023')
-    expect(year).toHaveValue('2024')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-02' })
-    )
-
-    // then type valid year
-    await userEvent.type(year, '{Backspace>4}2025')
-    expect(year).toHaveValue('2025')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2025-03-03' })
-    )
-  })
-
-  it('has to auto-correct invalid max dates when max_date is given', async () => {
-    const on_change = jest.fn()
-
-    render(
-      <DatePicker
-        date="2024-02-02"
-        max_date="2024-02-02"
-        on_change={on_change}
-      />
-    )
-    const day = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0] as HTMLInputElement
-    const month = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0] as HTMLInputElement
-    const year = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0] as HTMLInputElement
-
-    // by default we have the corrected start day
-    expect(day).toHaveValue('02')
-
-    // try to type invalid day
-    await userEvent.type(day, '03')
-    expect(day).toHaveValue('02')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-02' })
-    )
-
-    // then type valid day
-    await userEvent.type(day, '{Backspace>2}01')
-    expect(day).toHaveValue('01')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-01' })
-    )
-
-    // expect default month to be 02
-    expect(month).toHaveValue('02')
-
-    // try to type invalid month
-    await userEvent.type(month, '03')
-    expect(month).toHaveValue('02')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-02' })
-    )
-
-    // then type valid month
-    await userEvent.type(month, '{Backspace>2}01')
-    expect(month).toHaveValue('01')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-01-01' })
-    )
-
-    // expect default year to be 2024
-    expect(year).toHaveValue('2024')
-
-    // try to type invalid year
-    await userEvent.type(year, '2025')
-    expect(year).toHaveValue('2024')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-02' })
-    )
-
-    // then type valid year
-    await userEvent.type(year, '{Backspace>4}2023')
-    expect(year).toHaveValue('2023')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2023-01-01' })
-    )
-  })
-
-  it('should not auto-correct invalid min/max dates if correct_invalid_date is set to false', async () => {
-    const on_change = jest.fn()
-
-    render(
-      <DatePicker
-        date="2024-02-02"
-        min_date="2024-02-02"
-        max_date="2024-02-16"
-        on_change={on_change}
-        correct_invalid_date={false}
-      />
-    )
-    const day = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0] as HTMLInputElement
-    const month = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0] as HTMLInputElement
-    const year = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0] as HTMLInputElement
-
-    // by default we have the corrected start day
-    expect(day).toHaveValue('02')
-
-    await userEvent.type(day, '01')
-    expect(day).toHaveValue('01')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-01' })
-    )
-
-    await userEvent.type(day, '{Backspace>2}18')
-    expect(day).toHaveValue('18')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-02-18' })
-    )
-
-    expect(month).toHaveValue('02')
-
-    await userEvent.type(month, '05')
-    expect(month).toHaveValue('05')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-05-18' })
-    )
-
-    await userEvent.type(month, '{Backspace>2}01')
-    expect(month).toHaveValue('01')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-01-18' })
-    )
-
-    expect(year).toHaveValue('2024')
-
-    await userEvent.type(year, '2026')
-    expect(year).toHaveValue('2026')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2026-01-18' })
-    )
-
-    await userEvent.type(year, '{Backspace>4}2023')
-    expect(year).toHaveValue('2023')
-    expect(on_change).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2023-01-18' })
-    )
-  })
-
   it('has a working min and max date limitation', () => {
     const on_type = jest.fn()
     const on_change = jest.fn()
@@ -864,7 +605,6 @@ describe('DatePicker component', () => {
         start_date="2019-01-02T00:00:00.000Z"
         on_change={on_change}
         on_type={on_type}
-        correct_invalid_date={false}
       />
     )
     const startElem = document.querySelectorAll(
@@ -955,6 +695,54 @@ describe('DatePicker component', () => {
 
     expect(on_change.mock.calls[4][0].date).toBe('2019-01-03')
     expect(on_change.mock.calls[4][0].is_valid).toBe(true)
+  })
+  it('has to auto-correct invalid min/max dates', async () => {
+    const on_change = jest.fn()
+
+    render(
+      <DatePicker
+        {...defaultProps}
+        on_change={on_change}
+        correct_invalid_date={true}
+        min_date="2019-01-02"
+        max_date="2019-03-01"
+      />
+    )
+    const elem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0]
+
+    // by default we have the corrected start day
+    expect((elem as HTMLInputElement).value).toBe('02')
+
+    // change the date to something invalid
+    await userEvent.type(elem, '01')
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        is_valid_start_date: false,
+        start_date: null,
+      })
+    )
+    expect(on_change).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        is_valid_start_date: true,
+        start_date: '2019-01-02',
+      })
+    )
+
+    // change the date to a valid date
+    await userEvent.type(elem, '{Backspace>2}03')
+
+    expect(on_change).toHaveBeenCalledTimes(4)
+    expect(on_change).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        is_valid_start_date: true,
+        start_date: '2019-01-03',
+      })
+    )
   })
 
   it('has valid on_type and on_change event calls', () => {
@@ -1772,7 +1560,10 @@ describe('DatePicker component', () => {
     expect(document.activeElement).not.toBe(firstInput)
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onBlur).toHaveBeenCalledWith(
-      expect.objectContaining({ target: firstInput, date: '2024-01-05' })
+      expect.objectContaining({
+        target: firstInput,
+        date: '2024-01-05',
+      })
     )
 
     await userEvent.click(secondInput)
@@ -1786,6 +1577,50 @@ describe('DatePicker component', () => {
     expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({ target: secondInput, date: '2024-01-05' })
+    )
+  })
+
+  it('should fire blur event with partially typed dates when input loses focus', async () => {
+    const onBlur = jest.fn()
+    render(<DatePicker show_input onBlur={onBlur} date="" />)
+
+    const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-input__input')
+    )
+
+    await userEvent.click(firstInput)
+    fireEvent.change(firstInput, { target: { value: 12 } })
+    expect(onBlur).toHaveBeenCalledTimes(0)
+
+    expect(document.activeElement).toBe(firstInput)
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(firstInput)
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: firstInput,
+        date: null,
+        partialStartDate: 'yyyy-mm-12',
+      })
+    )
+    await userEvent.click(secondInput)
+
+    fireEvent.change(secondInput, { target: { value: 11 } })
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(secondInput)
+
+    await userEvent.click(document.body)
+
+    expect(document.activeElement).not.toBe(secondInput)
+    expect(onBlur).toHaveBeenCalledTimes(2)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: secondInput,
+        partialStartDate: 'yyyy-11-12',
+      })
     )
   })
 

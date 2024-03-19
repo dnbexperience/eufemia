@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Slider, Grid, Flex } from '@dnb/eufemia/src'
-import { Field, Form, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
 export const Empty = () => {
@@ -193,7 +193,7 @@ export const Info = () => {
 
 export const Warning = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.Number
         value={135}
         label="Label text"
@@ -204,14 +204,14 @@ export const Warning = () => {
   )
 }
 
-export const Error = () => {
+export const WithError = () => {
   return (
-    <ComponentBox scope={{ FormError }}>
+    <ComponentBox>
       <Field.Number
         value={135}
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
-        error={new FormError('This is what is wrong...')}
+        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )
@@ -285,24 +285,18 @@ export const WithStepControls = () => (
 )
 
 export const WithStepControlsError = () => (
-  <ComponentBox
-    scope={{ FormError }}
-    data-visual-test="number-input-step-controls-error"
-  >
+  <ComponentBox data-visual-test="number-input-step-controls-error">
     <Field.Number
       showStepControls
       maximum={100}
       value={150}
-      error={new FormError('You done messed up, A-a-ron!')}
+      error={new Error('You done messed up, A-a-ron!')}
     />
   </ComponentBox>
 )
 
 export const WithStepControlsDisabled = () => (
-  <ComponentBox
-    scope={{ FormError }}
-    data-visual-test="number-input-step-controls-disabled"
-  >
+  <ComponentBox data-visual-test="number-input-step-controls-disabled">
     <Field.Number showStepControls disabled />
   </ComponentBox>
 )

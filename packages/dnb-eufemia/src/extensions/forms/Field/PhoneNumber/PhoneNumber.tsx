@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import countries, { CountryType } from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   FieldHelpProps,
   FieldProps,
@@ -48,7 +48,7 @@ export type Props = FieldHelpProps &
     noAnimation?: boolean
   }
 
-// Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
+// Important for the default value to be defined here, and not after the useFieldProps call, to avoid the UI jumping
 // back to +47 once the user empty the field so handleChange send out undefined.
 const defaultCountryCode = '+47'
 const defaultPlaceholder = '00 00 00 00'
@@ -71,8 +71,8 @@ function PhoneNumber(props: Props) {
   const tr = sharedContext?.translation.Forms
   const lang = sharedContext.locale?.split('-')[0]
 
-  const countryCodeRef = React.useRef(null)
-  const numberRef = React.useRef(null)
+  const countryCodeRef = React.useRef(props?.emptyValue)
+  const numberRef = React.useRef(props?.emptyValue)
   const dataRef = React.useRef(null)
   const langRef = React.useRef(lang)
   const wasFilled = React.useRef(false)
@@ -156,7 +156,7 @@ function PhoneNumber(props: Props) {
     filterCountries = ccFilter !== 'Prioritized'
       ? makeCountryFilterSet(ccFilter)
       : undefined,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   function fromExternal(external: string) {
     const [, phoneNumber] = splitValue(external)
@@ -338,7 +338,7 @@ function PhoneNumber(props: Props) {
           )}
           type="tel"
           autoComplete="tel-national"
-          emptyValue=""
+          emptyValue={emptyValue}
           layout="vertical"
           label={label}
           placeholder={

@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, FormError, FieldBlock } from '../../..'
+import { Field, FieldBlock } from '../../..'
 
 describe('Field.Expiry', () => {
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('35')
   })
 
-  it('should hande value as undefined', () => {
+  it('should handle value as undefined', () => {
     render(<Field.Expiry value={undefined} />)
 
     const monthInput = document.querySelectorAll('input')[0]
@@ -35,7 +35,7 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('åå')
   })
 
-  it('should hande value as null', () => {
+  it('should handle value as null', () => {
     render(<Field.Expiry value={null} />)
 
     const monthInput = document.querySelectorAll('input')[0]
@@ -333,7 +333,7 @@ describe('Field.Expiry', () => {
   })
 
   it('renders error', () => {
-    render(<Field.Expiry error={new FormError('Error message')} />)
+    render(<Field.Expiry error={new Error('Error message')} />)
 
     const element = document.querySelector('.dnb-form-status')
     expect(element).toHaveTextContent('Error message')
@@ -345,7 +345,7 @@ describe('Field.Expiry', () => {
   it('shows error style in FieldBlock', () => {
     render(
       <FieldBlock>
-        <Field.Expiry error={new FormError('Error message')} />
+        <Field.Expiry error={new Error('Error message')} />
       </FieldBlock>
     )
 

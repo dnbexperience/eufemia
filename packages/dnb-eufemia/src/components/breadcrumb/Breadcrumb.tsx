@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import classnames from 'classnames'
 
 // Components
@@ -173,29 +179,43 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
-  const [isCollapsed, setCollapse] = useState(overrideIsCollapsed)
+  const [, forceUpdate] = useReducer(() => ({}), {})
+
+  const isCollapsedRef = useRef(overrideIsCollapsed)
 
   const { isLarge } = useMedia()
 
-  let currentVariant = variant
-  if (!variant) {
-    if (items || data) {
-      currentVariant = 'responsive'
-    } else {
-      currentVariant = 'single'
-    }
-  }
-
   useEffect(() => {
-    setCollapse(overrideIsCollapsed)
+    if (overrideIsCollapsed !== isCollapsedRef.current) {
+      isCollapsedRef.current = overrideIsCollapsed
+      forceUpdate()
+    }
   }, [overrideIsCollapsed])
 
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
     if (isLarge && overrideIsCollapsed !== false) {
-      setCollapse(true)
+      isCollapsedRef.current = true
+      forceUpdate()
     }
-  }, [isLarge])
+  }, [isLarge, overrideIsCollapsed])
+
+  const onClickHandler = useCallback(() => {
+    isCollapsedRef.current = !isCollapsedRef.current
+    forceUpdate()
+  }, [])
+
+  const currentVariant = useMemo(() => {
+    if (!variant) {
+      if (items || data) {
+        return 'responsive'
+      } else {
+        return 'single'
+      }
+    }
+
+    return variant
+  }, [data, items, variant])
 
   validateDOMAttributes(allProps, props)
 
@@ -236,13 +256,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
                 variant="tertiary"
                 icon="chevron_left"
                 icon_position="left"
-                onClick={
-                  onClick ||
-                  (() => {
-                    setCollapse(!isCollapsed)
-                  })
-                }
-                aria-expanded={!isCollapsed}
+                onClick={onClick ?? onClickHandler}
+                aria-expanded={!isCollapsedRef.current}
               />
             )}
 
@@ -267,7 +282,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
           <BreadcrumbMultiple
             data={data}
             items={items}
-            isCollapsed={isCollapsed}
+            isCollapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
           />
         </Section>

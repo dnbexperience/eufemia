@@ -5,6 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import styled from '@emotion/styled'
 import { Checkbox, HelpButton } from '@dnb/eufemia/src'
 
 export const CheckboxUnchecked = () => (
@@ -63,3 +64,17 @@ export const CheckboxWithErrorStates = () => (
     </ComponentBox>
   </>
 )
+
+export const CheckboxBoundingArea = () => (
+  <ShowBoundingArea>
+    <ComponentBox data-visual-test="checkbox-bounding">
+      <Checkbox label="Checkbox" checked />
+    </ComponentBox>
+  </ShowBoundingArea>
+)
+
+const ShowBoundingArea = styled.div`
+  .dnb-checkbox__input {
+    opacity: 0.5;
+  }
+`

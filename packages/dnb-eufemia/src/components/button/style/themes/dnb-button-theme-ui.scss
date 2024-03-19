@@ -82,7 +82,7 @@
     ):not(#{&}--control-after)#{&}--size-large {
     // Make exception for icon button as it should be smaller than the original large button
     width: calc(var(--button-width--large) - 0.5rem);
-    line-height: calc(var(--button-height--large) - 0.5rem);
+    line-height: calc(var(--button-height) - 0.5rem);
   }
   &--secondary:not(#{&}--has-text)#{&}--control-before,
   &--secondary:not(#{&}--has-text)#{&}--control-after {

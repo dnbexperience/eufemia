@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
@@ -51,11 +51,11 @@ function Expiry(props: ExpiryProps) {
     value = '',
     labelDescription,
     layout = 'vertical',
-    ariaAttributes,
+    htmlAttributes,
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const expiry: ExpiryValue = {
     month: ensureValidMonth(value?.substring(0, 2)),
@@ -102,7 +102,7 @@ function Expiry(props: ExpiryProps) {
             mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
-            ...ariaAttributes,
+            ...htmlAttributes,
           },
           {
             id: 'year',
@@ -110,7 +110,7 @@ function Expiry(props: ExpiryProps) {
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
             autoComplete: 'cc-exp-year',
-            ...ariaAttributes,
+            ...htmlAttributes,
           },
         ]}
         suffix={

@@ -3,9 +3,9 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { makeUniqueId, warn } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 
 import StepIndicatorModal from './StepIndicatorModal'
@@ -21,6 +21,7 @@ import type {
   StepItemWrapper,
 } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
+import useId from '../../shared/helpers/useId'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<
@@ -152,13 +153,15 @@ function StepIndicator({
     ...restOfProps,
   }
 
-  const sidebarId = props.sidebar_id || makeUniqueId()
+  const sidebarId = useId(props.sidebar_id)
 
-  if (!props.sidebar_id && props.mode) {
-    warn(
-      'StepIndicator needs an unique "sidebar_id" property, also on the <StepIndicator.Sidebar... />'
-    )
-  }
+  useEffect(() => {
+    if (!props.sidebar_id && props.mode) {
+      warn(
+        'StepIndicator needs an unique "sidebar_id" property, also on the <StepIndicator.Sidebar... />'
+      )
+    }
+  }, [props.mode, props.sidebar_id])
 
   return (
     <StepIndicatorProvider {...props} sidebar_id={sidebarId}>

@@ -50,7 +50,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     props,
     accordionDefaultProps,
     context.Accordion,
-    context.getTranslation(props).Accordion
+    context.getTranslation(props)['Accordion']
   )
 
   const {

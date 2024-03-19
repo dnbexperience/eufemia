@@ -32,7 +32,7 @@ function Tooltip(localProps: TooltipAllProps) {
     ...defaultProps,
     ...localProps,
     ...inherited,
-    ...context.getTranslation(localProps).Tooltip,
+    ...context.getTranslation(localProps)['Tooltip'],
     ...context.Tooltip,
   })
 

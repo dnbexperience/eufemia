@@ -1,5 +1,11 @@
 import React from 'react'
-import { fireEvent, render, screen, act } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  act,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
 import { Provider } from '../../../shared'
@@ -60,7 +66,7 @@ describe('Breadcrumb', () => {
     )
 
     expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-    expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-button')
+    expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-anchor')
   })
 
   // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
@@ -71,7 +77,7 @@ describe('Breadcrumb', () => {
         data={[
           {
             text: 'Page 2',
-            role: 'button',
+            'aria-label': 'Label',
             'data-testid': dataTestId,
           },
         ]}
@@ -84,7 +90,7 @@ describe('Breadcrumb', () => {
     )
     expect(
       document.querySelector('.dnb-breadcrumb__item__span')
-    ).not.toHaveAttribute('role')
+    ).toHaveAttribute('aria-label', 'Label')
   })
 
   it('renders a breadcrumb with multiple items by children', () => {
@@ -179,7 +185,7 @@ describe('Breadcrumb', () => {
       document.querySelector('.dnb-breadcrumb__multiple')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     expect(
       document.querySelector('.dnb-breadcrumb__multiple')
@@ -232,7 +238,7 @@ describe('Breadcrumb', () => {
       />
     )
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('a'))
 
     expect(
       document.querySelector('.dnb-breadcrumb__multiple')
@@ -274,7 +280,7 @@ describe('Breadcrumb', () => {
     ])
   })
 
-  it('should automatically collapse breadcrumb-collapse when screen changes to larger than medium', async () => {
+  it('should automatically collapse when screen changes to larger than medium', async () => {
     setMedia({ width: '40em' })
 
     render(
@@ -308,7 +314,9 @@ describe('Breadcrumb', () => {
     })
 
     // Collapsable menu should auto-close when screen goes large
-    expect(collapseSection()).toBeNull()
+    await waitFor(() => {
+      expect(collapseSection()).toBeNull()
+    })
   })
 
   describe('BreadcrumbItem', () => {
@@ -375,7 +383,7 @@ describe('Breadcrumb', () => {
       const onClick = jest.fn()
       render(<BreadcrumbItem onClick={onClick} text="Page" />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('a'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
@@ -401,7 +409,7 @@ describe('Breadcrumb', () => {
         <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
       )
 
-      expect(screen.getByRole('button')).toHaveClass('dnb-skeleton')
+      expect(document.querySelector('a')).toHaveClass('dnb-skeleton')
     })
 
     it('inherits skeleton prop from provider', () => {
@@ -411,10 +419,10 @@ describe('Breadcrumb', () => {
         </Provider>
       )
 
-      expect(screen.getByRole('button')).toHaveClass('dnb-skeleton')
+      expect(document.querySelector('a')).toHaveClass('dnb-skeleton')
     })
 
-    it('forwards rest props like data-testid, etc, to the breadcrumb item button when interactive', () => {
+    it('forwards rest props like data-testid, etc, to the breadcrumb item anchor when interactive', () => {
       const dataTestId = 'my-test-id'
       render(
         <BreadcrumbItem href="/" text="Home" data-testid={dataTestId} />
@@ -422,7 +430,7 @@ describe('Breadcrumb', () => {
 
       expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
 
-      expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-button')
+      expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-anchor')
     })
 
     // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span

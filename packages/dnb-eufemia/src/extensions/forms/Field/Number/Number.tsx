@@ -6,7 +6,7 @@ import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
-import { useDataValue } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import {
   FieldProps,
   FieldHelpProps,
@@ -192,7 +192,7 @@ function NumberComponent(props: Props) {
     minimum = Number.MIN_SAFE_INTEGER,
     maximum = Number.MAX_SAFE_INTEGER,
     disabled,
-    ariaAttributes,
+    htmlAttributes,
     info,
     warning,
     error,
@@ -204,7 +204,7 @@ function NumberComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useDataValue(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const onKeyDownHandler = useCallback(
     ({ key, event }) => {
@@ -296,7 +296,7 @@ function NumberComponent(props: Props) {
     role: 'spinbutton',
     'aria-valuemin': String(minimum),
     'aria-valuemax': String(maximum),
-    'aria-valuenow': String(value), // without it, VO will read an invlaid value
+    'aria-valuenow': String(value), // without it, VO will read an invalid value
     'aria-valuetext': String(value), // without it, VO will read %
   }
 
@@ -319,7 +319,7 @@ function NumberComponent(props: Props) {
     onBlur: handleBlur,
     onChange: handleChange,
     disabled,
-    ...ariaAttributes,
+    ...htmlAttributes,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(
       width !== undefined || fieldBlockContext?.composition

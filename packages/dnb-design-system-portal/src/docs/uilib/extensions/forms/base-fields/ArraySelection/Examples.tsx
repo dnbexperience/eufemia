@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 // Checkbox
 
@@ -112,7 +112,7 @@ export const CheckboxDisabled = () => (
 )
 
 export const CheckboxInfo = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -127,7 +127,7 @@ export const CheckboxInfo = () => (
 )
 
 export const CheckboxWarning = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -142,11 +142,11 @@ export const CheckboxWarning = () => (
 )
 
 export const CheckboxError = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.ArraySelection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      error={new FormError('This is what is wrong...')}
+      error={new Error('This is what is wrong...')}
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -272,7 +272,7 @@ export const ButtonDisabled = () => (
 )
 
 export const ButtonInfo = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -288,7 +288,7 @@ export const ButtonInfo = () => (
 )
 
 export const ButtonWarning = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
@@ -304,12 +304,12 @@ export const ButtonWarning = () => (
 )
 
 export const ButtonError = () => (
-  <ComponentBox scope={{ FormError }}>
+  <ComponentBox>
     <Field.ArraySelection
       variant="button"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
-      error={new FormError('This is what is wrong...')}
+      error={new Error('This is what is wrong...')}
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />

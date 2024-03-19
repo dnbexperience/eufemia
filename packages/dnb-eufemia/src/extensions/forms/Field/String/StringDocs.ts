@@ -71,19 +71,24 @@ export const stringProperties: PropertiesTableProps = {
   keepPlaceholder: inputProperties.keep_placeholder,
 
   // - Textarea props
-  autoresize: {
-    doc: 'For multiline, set true to expand when writing longer texts.',
-    type: 'boolean',
+  rows: {
+    doc: 'For multiline, set how many rows of text can be shown by default. Defaults to 2.',
+    type: 'number',
     status: 'optional',
   },
   autoresizeMaxRows: {
-    doc: 'For multiline, set how many rows of text can be shown at max.',
+    doc: 'For multiline, set how many rows of text can be shown at max. Defaults to 6',
     type: 'number',
     status: 'optional',
   },
   characterCounter: {
     doc: "For multiline, use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.",
     type: ['number', 'object'],
+    status: 'optional',
+  },
+  autoresize: {
+    doc: 'For multiline, set true to expand when writing longer texts. Defaults to true.',
+    type: 'boolean',
     status: 'optional',
   },
 
