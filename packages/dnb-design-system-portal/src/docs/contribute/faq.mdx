@@ -86,7 +86,9 @@ Jest does start several works at the same time. When we simulate states on e.g. 
 
 ### Installing screenshot browser
 
-We run screenshot tests in a Firefox browser, to install this you need to run
+For running screenshot tests (visual tests), a headless Firefox browser is needed. 
+
+In normal circumstances, the browser will be installed automatically via yarn install – but to either upgrade to a newer version, or to wipe out existing versions and run the install manually, you can run this commands, depending on your needs:
 
 ```
 yarn workspace @dnb/eufemia playwright install firefox
