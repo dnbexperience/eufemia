@@ -1,20 +1,28 @@
-import { useRef } from 'react'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import type { ContextState } from '../../DataContext/Context'
+import { useContext, useRef } from 'react'
+import {
+  SharedStateId,
+  useSharedState,
+} from '../../../../shared/helpers/useSharedState'
+import DataContext, { ContextState } from '../../DataContext/Context'
 
 type UseDataReturn = {
   hasErrors: ContextState['hasErrors']
 }
 
-export default function useError(id: string): UseDataReturn {
+export default function useError(
+  id: SharedStateId = undefined
+): UseDataReturn {
   const sharedAttachmentsRef = useRef(null)
   sharedAttachmentsRef.current = useSharedState<UseDataReturn>(
     id + '-attachments'
   )
 
-  const { data } = sharedAttachmentsRef.current
+  // If no id is provided, use the context version
+  const context = useContext(DataContext)
+  const hasErrors =
+    sharedAttachmentsRef.current?.data?.hasErrors ||
+    (!id && context?.hasErrors) ||
+    (() => false)
 
-  return {
-    hasErrors: data?.hasErrors || (() => false),
-  }
+  return { hasErrors }
 }
