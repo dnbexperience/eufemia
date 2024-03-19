@@ -84,6 +84,38 @@ This is due to the `JavaScript heap out of memory` error when using templates.
 
 Jest does start several works at the same time. When we simulate states on e.g. ToggleButton and Button – Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest we never execute several workers as the same time, we set `--maxWorkers=1`.
 
+### Installing screenshot browser
+
+For running screenshot tests (visual tests), a headless Firefox browser is needed.
+
+In normal circumstances, the browser will be installed automatically via yarn install – but to either upgrade to a newer version, or to wipe out existing versions and run the install manually, you can run this commands, depending on your needs:
+
+```
+yarn workspace @dnb/eufemia playwright uninstall --all
+yarn workspace @dnb/eufemia add -D @playwright/test
+yarn workspace @dnb/eufemia playwright install firefox
+
+yarn workspace dnb-design-system-portal playwright uninstall --all
+yarn workspace dnb-design-system-portal add -D @playwright/test
+yarn workspace dnb-design-system-portal playwright install firefox
+```
+
+#### Alternative install: skip authentication
+
+But, since Node.js and corporate proxy do not enjoy each other's company, this might
+fail with a `Error: unable to get local issuer certificate`. In that case, your only
+option might be to disable all authentication for this command.
+
+```
+NODE_TLS_REJECT_UNAUTHORIZED=0 yarn workspace @dnb/eufemia playwright install firefox
+```
+
+#### Alternative install: manually
+
+Or, in the very worst case, you can manually download the zip file that `yarn workspace 
+@dnb/eufemia playwright install firefox` attempts to download, and extract the file
+("Nightly" for Firefox) to the folder indicated when `yarn test:screenshots` fails.
+
 ## How can I make faster builds?
 
 This is only meant for "setup testing" purposes! In order to make faster local builds, you can:
