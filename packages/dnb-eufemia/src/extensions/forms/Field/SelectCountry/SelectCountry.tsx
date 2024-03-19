@@ -70,7 +70,7 @@ function SelectCountry(props: Props) {
     value,
     width = 'large',
     help,
-    ariaAttributes,
+    htmlAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -197,7 +197,7 @@ function SelectCountry(props: Props) {
         }
         autoComplete="country-name"
         no_animation={props.noAnimation}
-        {...ariaAttributes}
+        {...htmlAttributes}
       />
     </FieldBlock>
   )

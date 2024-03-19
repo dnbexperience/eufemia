@@ -49,7 +49,7 @@ function Selection(props: Props) {
     help,
     emptyValue,
     width = 'large',
-    ariaAttributes,
+    htmlAttributes,
     setHasFocus,
     handleChange,
     children,
@@ -182,7 +182,7 @@ function Selection(props: Props) {
                   text={variant === 'button' ? title : undefined}
                   value={String(value ?? '')}
                   status={(hasError || status) && 'error'}
-                  {...ariaAttributes}
+                  {...htmlAttributes}
                   {...rest}
                 />
               )
@@ -228,7 +228,7 @@ function Selection(props: Props) {
             value={String(value ?? '')}
             status={(hasError || status) && 'error'}
             disabled={disabled}
-            {...ariaAttributes}
+            {...htmlAttributes}
             data={optionsData}
             suffix={
               help ? (

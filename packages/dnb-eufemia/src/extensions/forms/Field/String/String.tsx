@@ -165,8 +165,7 @@ function StringComponent(props: Props) {
     leftIcon,
     rightIcon,
     width,
-    ariaAttributes,
-    dataAttributes,
+    htmlAttributes,
     submitElement,
 
     // - Input props
@@ -224,8 +223,7 @@ function StringComponent(props: Props) {
     on_blur: handleBlur,
     on_change: handleChange,
     disabled,
-    ...ariaAttributes,
-    ...dataAttributes,
+    ...htmlAttributes,
     stretch: Boolean(
       width !== undefined || fieldBlockContext?.composition
     ),

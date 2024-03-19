@@ -46,7 +46,7 @@ const {
   hasError,
   isChanged,
   setHasFocus,
-  ariaAttributes,
+  htmlAttributes,
 
   // Component Properties
   ...rest
@@ -58,7 +58,7 @@ render(
     onChange={onChange}
     onFocus={onFocus}
     onBlur={onBlur}
-    {...ariaAttributes}
+    {...htmlAttributes}
   />,
 )
 ```
@@ -96,7 +96,7 @@ It returns all of the given component properties, in addition to these:
 - `dataContext` the internal shared data context.
 - `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
 - `hasError` will return true in case of an error, even if the hook is nested in a `FieldBlock`.
-- `ariaAttributes` object that include needed aria attributes, ready to be spread on form elements.
+- `htmlAttributes` object that include needed HTML (e.g. aria-_ or data-_) attributes, ready to be spread on form elements.
 - `isChanged` returns `true` if the value has changed with e.g. `handleChange`.
 - `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
 - `onFocus` event handler to assign to a form element.
