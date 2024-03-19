@@ -19,8 +19,7 @@ import {
   OnChangeValue,
 } from '../../../'
 import { Props as StringFieldProps } from '../../../Field/String'
-import { FilterData } from '../Provider'
-import { ContextState } from '../../Context'
+import { ContextState, FilterData } from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import { wait } from '../../../../../core/jest/jestSetup'
 
@@ -46,7 +45,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
 
       rerender(
         <DataContext.Provider defaultData={{ foo: 'changed' }}>
@@ -54,8 +55,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.queryByDisplayValue('original')).toBeInTheDocument()
-      expect(screen.queryByDisplayValue('changed')).not.toBeInTheDocument()
+      expect(input).toHaveValue('original')
     })
 
     it('should provide value from data and update based on changes', () => {
@@ -65,7 +65,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
 
       rerender(
         <DataContext.Provider data={{ foo: 'changed' }}>
@@ -73,10 +75,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
-      expect(
-        screen.queryByDisplayValue('original')
-      ).not.toBeInTheDocument()
+      expect(input).toHaveValue('changed')
     })
 
     it('should handle path change', () => {
@@ -86,7 +85,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
 
       rerender(
         <DataContext.Provider data={{ fooBar: 'changed' }}>
@@ -94,7 +95,7 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
+      expect(input).toHaveValue('changed')
     })
 
     it('should call "onChange" on internal value change', () => {
@@ -680,6 +681,12 @@ describe('DataContext.Provider', () => {
         expect(status).toHaveTextContent(nb.inputErrorRequired)
       })
 
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(0)
+      })
+
       // Use fireEvent over userEvent, because of its sync nature
       fireEvent.change(input, {
         target: { value: 'validator-error' },
@@ -694,6 +701,12 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('validator-error')
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(1)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -712,7 +725,20 @@ describe('DataContext.Provider', () => {
         expect(status).toBeNull()
       })
 
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(2)
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: '' },
+      })
+
       fireEvent.blur(input)
+
+      expect(input).toHaveValue('')
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -720,7 +746,7 @@ describe('DataContext.Provider', () => {
         expect(validator).toHaveBeenCalledTimes(2)
       })
 
-      fireEvent.click(submitButton)
+      await userEvent.click(submitButton)
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -732,13 +758,10 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent('onBlurValidator-error')
+        expect(status).toHaveTextContent(nb.inputErrorRequired)
       })
 
-      // Use fireEvent over userEvent, because of its sync nature
-      fireEvent.change(input, {
-        target: { value: 'valid value' },
-      })
+      await userEvent.type(input, 'something')
 
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
@@ -751,11 +774,11 @@ describe('DataContext.Provider', () => {
         expect(status).toBeNull()
       })
 
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1)
-        expect(onBlurValidator).toHaveBeenCalledTimes(1)
-        expect(validator).toHaveBeenCalledTimes(3)
-      })
+      await userEvent.click(submitButton)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onBlurValidator).toHaveBeenCalledTimes(3)
+      expect(validator).toHaveBeenCalledTimes(12)
     })
 
     it('should set "formState" to "pending" when "validator" is async', async () => {
@@ -2288,6 +2311,25 @@ describe('DataContext.Provider', () => {
     )
   })
 
+  it('should only render once', () => {
+    const countRendered = jest.fn()
+
+    const NestedMock = () => {
+      const dataContext = useContext(DataContext.Context)
+      countRendered(dataContext.data)
+      return <></>
+    }
+
+    render(
+      <DataContext.Provider data={{ foo: 'bar' }}>
+        <NestedMock />
+      </DataContext.Provider>
+    )
+
+    expect(countRendered).toHaveBeenCalledTimes(1)
+    expect(countRendered).toHaveBeenLastCalledWith({ foo: 'bar' })
+  })
+
   describe('with useData', () => {
     it('should set Provider data', () => {
       const props = { foo: 'bar' }
@@ -2540,12 +2582,10 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      const [first, second] = Array.from(
-        document.querySelectorAll('input')
-      )
+      const [foo, other] = Array.from(document.querySelectorAll('input'))
 
-      expect(first).toHaveValue('changed')
-      expect(second).toHaveValue('data')
+      expect(foo).toHaveValue('changed')
+      expect(other).toHaveValue('data')
     })
 
     it('should use data only from the first hook render', () => {
@@ -2966,6 +3006,112 @@ describe('DataContext.Provider', () => {
           disabled: true,
         })
       )
+    })
+
+    describe('context support without id', () => {
+      const MockComponent = ({
+        setData = null,
+        updatePath = null,
+        updateValue = null,
+      } = {}) => {
+        const { data, set, update } = Form.useData()
+
+        useEffect(() => {
+          if (setData) {
+            set(setData)
+          }
+        }, [setData, set])
+
+        useEffect(() => {
+          if (updateValue) {
+            update(updatePath, () => updateValue)
+          }
+        }, [updateValue, set, update, updatePath])
+
+        return <output>{JSON.stringify(data)}</output>
+      }
+
+      it('should return data from context', () => {
+        render(
+          <DataContext.Provider data={{ foo: 'bar' }}>
+            <MockComponent />
+          </DataContext.Provider>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"foo":"bar"}')
+      })
+
+      it('should set data to context', () => {
+        const data = { foo: 'bar' }
+        const { rerender } = render(
+          <DataContext.Provider data={data}>
+            <MockComponent />
+          </DataContext.Provider>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"foo":"bar"}')
+
+        rerender(
+          <DataContext.Provider data={data}>
+            <MockComponent
+              setData={{
+                foo: 'changed',
+              }}
+            />
+          </DataContext.Provider>
+        )
+
+        expect(output).toHaveTextContent('{"foo":"changed"}')
+      })
+
+      it('should update data to context', () => {
+        const data = { foo: 'bar' }
+        const { rerender } = render(
+          <DataContext.Provider data={data}>
+            <MockComponent />
+          </DataContext.Provider>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"foo":"bar"}')
+
+        rerender(
+          <DataContext.Provider data={data}>
+            <MockComponent updatePath="/foo" updateValue="changed" />
+          </DataContext.Provider>
+        )
+
+        expect(output).toHaveTextContent('{"foo":"changed"}')
+      })
+
+      it('should provide filterData handler', () => {
+        const filterDataHandler = jest.fn((path, value, props) => {
+          if (props.disabled === true) {
+            return false
+          }
+        })
+
+        const MockComponent = () => {
+          const { filterData } = Form.useData()
+
+          const data = filterData(filterDataHandler)
+
+          return <output>{JSON.stringify(data)}</output>
+        }
+
+        render(
+          <Form.Handler>
+            <Field.String path="/foo" value="foo" disabled />
+            <Field.String path="/bar" value="baz" />
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('{"bar":"baz"}')
+      })
     })
   })
 })

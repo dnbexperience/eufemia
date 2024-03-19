@@ -201,7 +201,11 @@ describe('Form.Handler', () => {
     }
 
     render(
-      <Form.Handler data={{}} onSubmit={onSubmit} onChange={onChange}>
+      <Form.Handler
+        data={{ other: 'data', foo: 'existing' }}
+        onSubmit={onSubmit}
+        onChange={onChange}
+      >
         <MockComponent path="/foo" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form.Handler>
@@ -213,16 +217,28 @@ describe('Form.Handler', () => {
 
     jest.spyOn(formElement, 'reset').mockImplementationOnce(reset)
 
+    fireEvent.click(submitElement)
+
+    expect(inputElement.value).toBe('existing')
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { other: 'data', foo: 'existing' },
+      expect.anything()
+    )
+
     fireEvent.change(inputElement, { target: { value: 'New Value' } })
     fireEvent.click(submitElement)
 
-    expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'New Value' },
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { other: 'data', foo: 'New Value' },
       expect.anything()
     )
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
+    expect(onChange).toHaveBeenLastCalledWith({
+      other: 'data',
+      foo: 'New Value',
+    })
     expect(reset).toHaveBeenCalledTimes(1)
     expect(inputElement.value).toBe('New Value')
   })
@@ -238,7 +254,11 @@ describe('Form.Handler', () => {
     }
 
     render(
-      <Form.Handler data={{}} onSubmit={onSubmit} onChange={onChange}>
+      <Form.Handler
+        data={{ other: 'data', foo: 'existing' }}
+        onSubmit={onSubmit}
+        onChange={onChange}
+      >
         <MockComponent path="/foo" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form.Handler>
@@ -247,17 +267,34 @@ describe('Form.Handler', () => {
     const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    fireEvent.change(inputElement, { target: { value: 'New Value' } })
     fireEvent.click(submitElement)
 
     expect(inputElement.value).toBe('')
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenCalledWith(
-      { foo: 'New Value' },
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { other: 'data', foo: 'existing' },
       expect.anything()
     )
+
+    fireEvent.click(submitElement)
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+
+    fireEvent.change(inputElement, { target: { value: 'unset me' } })
+
+    expect(inputElement.value).toBe('unset me')
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
+    expect(onChange).toHaveBeenLastCalledWith({ foo: 'unset me' })
+
+    fireEvent.click(submitElement)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(3)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: 'unset me' },
+      expect.anything()
+    )
   })
 
   it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
@@ -275,7 +312,7 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    expect(setItem).not.toHaveBeenCalledWith(
+    expect(setItem).not.toHaveBeenLastCalledWith(
       'test-data',
       JSON.stringify({
         foo: 'original123',

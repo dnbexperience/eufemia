@@ -48,6 +48,23 @@ describe('Form.useData', () => {
     expect(B.current.data).toEqual({ key: 'changed value' })
   })
 
+  it('should support update without a function', () => {
+    const props = { key: 'value' }
+
+    const { result: A } = renderHook(() => useData(identifier))
+    const { result: B } = renderHook(() => useData(identifier, props))
+
+    expect(A.current.data).toEqual({ key: 'value' })
+    expect(B.current.data).toEqual({ key: 'value' })
+
+    act(() => {
+      B.current.update('/key', 'new value')
+    })
+
+    expect(A.current.data).toEqual({ key: 'new value' })
+    expect(B.current.data).toEqual({ key: 'new value' })
+  })
+
   it('should rerender when shared state calls "set"', () => {
     const { result: A } = renderHook(() => useData(identifier))
     const { result: B } = renderHook(() => useData(identifier))
@@ -60,18 +77,18 @@ describe('Form.useData', () => {
   })
 
   describe('initial data', () => {
-    it('should set data if no initial data is given', () => {
+    it('should be able to update/set data even if no initial data was given', () => {
       const { result } = renderHook(() => useData(identifier))
 
       expect(result.current.data).toEqual(undefined)
 
       act(() => {
         result.current.update('/key', () => {
-          return 'changed value'
+          return 'my value'
         })
       })
 
-      expect(result.current.data).toEqual({ key: 'changed value' })
+      expect(result.current.data).toEqual({ key: 'my value' })
     })
 
     it('should return initial data if data is not present', () => {

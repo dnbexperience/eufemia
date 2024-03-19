@@ -4,13 +4,40 @@ showTabs: true
 
 ## Description
 
-With the `Form.useData` hook, you can manage your form data outside of the form component itself. This is beneficial when you need to utilize the form data in other places within your application:
+With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
+
+Here "ComponentB" is rendered inside the `Form.Handler` component:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function ComponentA() {
-  return <Form.Handler id="unique">...</Form.Handler>
+  return (
+    <Form.Handler>
+      ...
+      <ComponentB />
+      ...
+    </Form.Handler>
+  )
+}
+
+function ComponentB() {
+  const { data } = Form.useData()
+}
+```
+
+While in this example, "ComponentB" is outside the `Form.Handler` and linked together via the `id` (string) property:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function ComponentA() {
+  return (
+    <>
+      <Form.Handler id="unique">...</Form.Handler>
+      <ComponentB />
+    </>
+  )
 }
 
 function ComponentB() {
@@ -18,9 +45,9 @@ function ComponentB() {
 }
 ```
 
-You link them together via the `id` (string) property.
+This is beneficial when you need to utilize the form data in other places within your application.
 
-TypeScript support:
+You can define the TypeScript type structure for data like so:
 
 ```tsx
 type Data = { foo: string }
@@ -35,6 +62,7 @@ You decide where and when you want to provide the initial `data` to the form. It
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const initialData = { foo: 'bar' }
+
 function ComponentA() {
   return (
     <Form.Handler id="unique" data={initialData}>
@@ -69,14 +97,13 @@ function Component() {
   const { update } = Form.useData('unique', { foo: 'bar' })
 
   useEffect(() => {
-    update('/foo', () => 'new value')
-    // or
+    update('/foo', 'new value')
+
+    // - or with a callback function to get the existing value
     update('/foo', (existingValue) => existingValue + 'new value')
   }, [])
 }
 ```
-
-The `update` function has TypeScript support and returns the correct type for `existingValue`.
 
 ## Extend the whole data set
 

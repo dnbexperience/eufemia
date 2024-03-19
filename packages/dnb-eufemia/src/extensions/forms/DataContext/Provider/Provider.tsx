@@ -29,7 +29,11 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import Context, { ContextState, EventListenerCall } from '../Context'
+import Context, {
+  ContextState,
+  EventListenerCall,
+  FilterData,
+} from '../Context'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -40,16 +44,6 @@ import structuredClone from '@ungap/structured-clone'
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
-
-export type FilterDataHandler<Data> = (
-  data: Data,
-  filter: FilterData
-) => Partial<Data>
-export type FilterData = (
-  path: Path,
-  value: any,
-  props: FieldProps
-) => boolean | undefined
 
 export interface Props<Data extends JsonObject> {
   /**
@@ -202,6 +196,7 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
+  const fieldErrorRef = useRef<Record<Path, boolean>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
 
   // - Data
@@ -248,11 +243,12 @@ export default function Provider<Data extends JsonObject>(
 
   // - Error handling
   const checkFieldStateFor = useCallback(
-    (path: Path, state: SubmitState = 'error') => {
+    (path: Path, state: SubmitState) => {
       return Boolean(
-        (state === 'error' &&
-          errorsRef.current?.[path] instanceof Error) ||
-          fieldStateRef.current[path] === state
+        state === 'error'
+          ? errorsRef.current?.[path] instanceof Error ||
+              fieldErrorRef.current[path]
+          : fieldStateRef.current[path] === state
       )
     },
     []
@@ -271,6 +267,16 @@ export default function Provider<Data extends JsonObject>(
 
   /**
    * Sets the error state for a specific path
+   */
+  const setFieldError = useCallback(
+    (path: Path, error: Error | FormError) => {
+      fieldErrorRef.current[path] = Boolean(error)
+    },
+    []
+  )
+
+  /**
+   * Sets the field state for a specific path
    */
   const setFieldState = useCallback(
     (path: Path, fieldState: SubmitState) => {
@@ -336,6 +342,7 @@ export default function Provider<Data extends JsonObject>(
     rerenderUseDataHook?: () => void
   }>(id + '-attachments')
 
+  const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
@@ -467,14 +474,15 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
+      internalDataRef.current = newData
+
       if (id) {
+        // Will ensure that Form.getData() gets the correct data
         extendSharedData?.(newData)
         if (filterData) {
           rerenderUseDataHook?.()
         }
       }
-
-      internalDataRef.current = newData
 
       if (sessionStorageId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(
@@ -495,6 +503,11 @@ export default function Provider<Data extends JsonObject>(
       rerenderUseDataHook,
     ]
   )
+
+  const setData = useCallback((newData: Data) => {
+    internalDataRef.current = newData
+    forceUpdate()
+  }, [])
 
   /**
    * Update the data set on user interaction
@@ -565,9 +578,9 @@ export default function Provider<Data extends JsonObject>(
 
       setSubmitState({ error: undefined })
 
-      const hasError = skipErrorCheck ? false : hasErrors()
       const asyncBehaviorIsEnabled =
-        !hasError && (enableAsyncBehaviour || hasFieldWithAsyncValidator())
+        !(skipErrorCheck ? false : hasErrors()) &&
+        (enableAsyncBehaviour || hasFieldWithAsyncValidator())
 
       if (asyncBehaviorIsEnabled) {
         setFormState('pending')
@@ -595,7 +608,7 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (
-        !hasError &&
+        !(skipErrorCheck ? false : hasErrors()) &&
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
@@ -685,7 +698,11 @@ export default function Provider<Data extends JsonObject>(
             },
             clearData: () => {
               internalDataRef.current = {}
-              forceUpdate()
+              if (id) {
+                setSharedData?.({} as Data)
+              } else {
+                forceUpdate()
+              }
             },
           }
 
@@ -716,11 +733,13 @@ export default function Provider<Data extends JsonObject>(
     [
       filterDataHandler,
       handleSubmitCall,
+      id,
       onSubmit,
       onSubmitComplete,
       scrollToTop,
       scrollTopOnSubmit,
       sessionStorageId,
+      setSharedData,
     ]
   )
 
@@ -790,12 +809,15 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors,
         setFieldEventListener,
         setFieldState,
+        setFieldError,
         setProps,
         hasErrors,
         hasFieldState,
         checkFieldStateFor,
         validateData,
         updateDataValue,
+        setData,
+        filterDataHandler,
         scrollToTop,
 
         /** State handling */

@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useRef } from 'react'
+import { useCallback, useContext, useReducer, useRef } from 'react'
 import pointer from 'json-pointer'
 import {
   SharedStateId,
@@ -6,10 +6,10 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
-import type {
+import DataContext, {
   FilterData,
   FilterDataHandler,
-} from '../../DataContext/Provider'
+} from '../../DataContext/Context'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
   ? Key extends keyof T
@@ -25,7 +25,7 @@ type PathType<T, P extends string> = P extends `/${infer Rest}`
 
 type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
-  fn: (value: PathType<Data, P>) => unknown
+  value: ((value: PathType<Data, P>) => unknown) | unknown
 ) => void
 
 type UseDataReturn<Data> = {
@@ -49,7 +49,7 @@ type SharedAttachment<Data> = {
  * @returns {UseDataReturn<Data>} An object containing the data and data management functions.
  */
 export default function useData<Data>(
-  id: SharedStateId,
+  id: SharedStateId = undefined,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
   const sharedDataRef =
@@ -64,43 +64,68 @@ export default function useData<Data>(
     forceUpdate
   )
 
+  // If no id is provided, use the context data
+  const context = useContext(DataContext)
+  if (!id && context?.data) {
+    sharedDataRef.current.data = context.data
+  }
+  const updateDataValue = context?.updateDataValue
+  const setData = context?.setData
+
   sharedAttachmentsRef.current = useSharedState<SharedAttachment<Data>>(
     id + '-attachments',
     { rerenderUseDataHook: forceUpdate }
   )
 
-  const setHandler = useCallback((newData: Data) => {
-    sharedDataRef.current.update(newData)
-  }, [])
+  const setHandler = useCallback(
+    (newData: Data) => {
+      if (id) {
+        sharedDataRef.current.update(newData)
+      } else {
+        setData?.(newData)
+      }
+    },
+    [id, setData]
+  )
 
   const updateHandler = useCallback<UseDataReturnUpdate<Data>>(
-    (path, fn) => {
+    (path, value = undefined) => {
       const existingData = sharedDataRef.current.data || ({} as Data)
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
         : undefined
 
       // get new value
-      const newValue = fn(existingValue)
+      const newValue =
+        typeof value === 'function' ? value(existingValue) : value
 
       // update existing data
       pointer.set(existingData, path, newValue)
 
       // update provider
-      sharedDataRef.current.extend(existingData)
+      if (id) {
+        sharedDataRef.current.extend(existingData)
+      } else {
+        updateDataValue(path, newValue)
+      }
     },
-    []
+    [id, updateDataValue]
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
     (filter) => {
       const data = sharedDataRef.current.data
-      return sharedAttachmentsRef.current.data?.filterDataHandler?.(
-        data,
-        filter
-      )
+
+      if (id) {
+        return sharedAttachmentsRef.current.data?.filterDataHandler?.(
+          data,
+          filter
+        )
+      }
+
+      return context?.filterDataHandler(data, filter)
     },
-    []
+    [context, id]
   )
 
   useMountEffect(() => {

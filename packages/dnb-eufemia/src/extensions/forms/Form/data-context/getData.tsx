@@ -5,7 +5,7 @@ import {
 import type {
   FilterData,
   FilterDataHandler,
-} from '../../DataContext/Provider'
+} from '../../DataContext/Context'
 
 type SharedAttachment<Data> = {
   filterDataHandler: FilterDataHandler<Data>

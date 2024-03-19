@@ -99,7 +99,7 @@ describe('getData', () => {
     })
   })
 
-  it('should return filterData handler', () => {
+  it('should provide filterData handler', () => {
     type Data = { foo: string }
 
     const filterDataHandler = jest.fn((path, value, props) => {

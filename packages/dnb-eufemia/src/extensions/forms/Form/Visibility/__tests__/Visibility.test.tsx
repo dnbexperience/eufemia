@@ -140,7 +140,7 @@ describe('Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
         <Provider data={{ foo: 'bar' }}>
@@ -148,8 +148,8 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
-      expect(inferData.mock.calls).toHaveLength(1)
-      expect(inferData.mock.calls[0][0]).toEqual({ foo: 'bar' })
+      expect(inferData).toHaveBeenCalledTimes(1)
+      expect(inferData).toHaveBeenLastCalledWith({ foo: 'bar' })
     })
   })
 

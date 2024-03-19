@@ -147,7 +147,7 @@ export function AdvancedForm() {
             composition
           >
             <Field.String
-              label="Field B with a long label (onBlurValidator)"
+              label="Field B with a long label (onBlurValidator) x"
               width="medium"
               path="/fieldB"
               onBlurValidator={secondValidator}

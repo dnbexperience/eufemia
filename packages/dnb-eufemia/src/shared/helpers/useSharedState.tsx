@@ -6,6 +6,7 @@ import React, {
   useRef,
 } from 'react'
 import useMounted from './useMounted'
+import useMountEffect from './useMountEffect'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -39,11 +40,11 @@ export function useSharedState<Data>(
     }
   }, [hasMounted])
 
-  useEffect(() => {
+  useMountEffect(() => {
     if (waitForMountedRef.current) {
       forceUpdate()
     }
-  }, [])
+  })
 
   const sharedState = useMemo(() => {
     if (id) {
@@ -161,12 +162,12 @@ export function createSharedState<Data>(
 
     const update = (newData: Partial<Data>) => {
       set(newData)
-      subscribers.forEach((subscriber) => subscriber())
+      sync()
     }
 
     const extend = (newData: Data) => {
       sharedStates[id].data = { ...sharedStates[id].data, ...newData }
-      subscribers.forEach((subscriber) => subscriber())
+      sync()
     }
 
     const subscribe = (subscriber: Subscriber) => {
@@ -177,6 +178,10 @@ export function createSharedState<Data>(
 
     const unsubscribe = (subscriber: Subscriber) => {
       subscribers = subscribers.filter((sub) => sub !== subscriber)
+    }
+
+    const sync = () => {
+      subscribers.forEach((subscriber) => subscriber())
     }
 
     sharedStates[id] = {

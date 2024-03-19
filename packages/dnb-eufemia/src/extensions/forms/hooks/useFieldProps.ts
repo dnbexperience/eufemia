@@ -41,6 +41,19 @@ type AsyncProcesses =
   | 'onBlurValidator'
   | 'onChangeLocal'
   | 'onChangeContext'
+type PersistErrorStateMethod =
+  /**
+   * Add or remove the error regardless
+   */
+  | 'weak'
+  /**
+   * Check if there is an existing error, and if so, keep it
+   */
+  | 'gracefully'
+  /**
+   * Remove the error, if any
+   */
+  | 'wipe'
 type AsyncProcessesBuffer = {
   fulfill: () => void
   hasAsyncProcesses: () => boolean
@@ -110,6 +123,7 @@ export default function useFieldProps<
     updateDataValue: updateDataValueDataContext,
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
+    setFieldError: setFieldErrorDataContext,
     setProps: setPropsDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
@@ -119,8 +133,8 @@ export default function useFieldProps<
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
-    setFieldState: setFieldBlockState,
-    showFieldError: showFieldBlockError,
+    setFieldState: setFieldStateFieldBlock,
+    showFieldError: showFieldErrorFieldBlock,
   } = fieldBlockContext ?? {}
   const inIterate = Boolean(iterateElementContext)
   const {
@@ -205,6 +219,9 @@ export default function useFieldProps<
     Boolean(validateInitially || errorProp)
   )
   // - Local errors are errors based on validation instructions received by
+  const errorMethodRef = useRef<
+    Partial<Record<PersistErrorStateMethod, Error | FormError>>
+  >({})
   const localErrorRef = useRef<Error | FormError | undefined>()
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const contextErrorRef = useRef<Error | FormError | undefined>(
@@ -307,13 +324,13 @@ export default function useFieldProps<
 
   const showError = useCallback(() => {
     showErrorRef.current = true
-    showFieldBlockError?.(identifier, true)
-  }, [showFieldBlockError, identifier])
+    showFieldErrorFieldBlock?.(identifier, true)
+  }, [showFieldErrorFieldBlock, identifier])
 
   const hideError = useCallback(() => {
     showErrorRef.current = false
-    showFieldBlockError?.(identifier, false)
-  }, [showFieldBlockError, identifier])
+    showFieldErrorFieldBlock?.(identifier, false)
+  }, [showFieldErrorFieldBlock, identifier])
 
   const error =
     showErrorRef.current ||
@@ -343,10 +360,6 @@ export default function useFieldProps<
    */
   const prepareError = useCallback(
     (error: Error | FormError | undefined): FormError | undefined => {
-      if (error === undefined) {
-        return
-      }
-
       if (error instanceof FormError) {
         let message = error.message
 
@@ -379,7 +392,10 @@ export default function useFieldProps<
    */
   const stateId = useId()
   const persistErrorState = useCallback(
-    (errorArg: FormError | undefined) => {
+    (
+      method: PersistErrorStateMethod,
+      errorArg: Error | FormError | undefined = undefined
+    ) => {
       const error = prepareError(errorArg)
 
       if (!errorChanged(error, localErrorRef.current)) {
@@ -388,12 +404,29 @@ export default function useFieldProps<
         return
       }
 
+      if (method === 'wipe') {
+        errorMethodRef.current = {}
+      } else {
+        errorMethodRef.current[method] = error
+      }
+
+      if (
+        !error &&
+        method === 'gracefully' &&
+        Object.keys(errorMethodRef.current).filter(Boolean).length > 0
+      ) {
+        // If the error is removed, we need to check if there are other errors that still should be shown
+        return
+      }
+
       localErrorRef.current = error
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
+      setFieldErrorDataContext?.(identifier, error)
 
-      setFieldBlockState?.({
+      // Set the visual states
+      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
+      setFieldStateFieldBlock?.({
         stateId,
         identifier,
         type: 'error',
@@ -404,20 +437,20 @@ export default function useFieldProps<
       forceUpdate()
     },
     [
-      stateId,
       prepareError,
-      setFieldStateDataContext,
+      setFieldErrorDataContext,
       identifier,
-      setFieldBlockState,
+      setFieldStateDataContext,
+      setFieldStateFieldBlock,
+      stateId,
       inFieldBlock,
       validateInitially,
     ]
   )
 
-  const clearErrorState = useCallback(
-    () => persistErrorState(undefined),
-    [persistErrorState]
-  )
+  const clearErrorState = useCallback(() => {
+    persistErrorState('wipe')
+  }, [persistErrorState])
 
   const callValidator = useCallback(async () => {
     if (typeof validatorRef.current !== 'function') {
@@ -440,7 +473,7 @@ export default function useFieldProps<
     // Run async regardless to support Promise based validators
     const result = await validatorRef.current(valueRef.current, opts)
 
-    persistErrorState(result as Error)
+    persistErrorState('gracefully', result as Error)
 
     if (runAsync) {
       setFieldState(result instanceof Error ? 'error' : 'complete')
@@ -490,7 +523,7 @@ export default function useFieldProps<
       // Run async regardless to support Promise based validators
       const result = await onBlurValidatorRef.current(value)
 
-      persistErrorState(result as Error)
+      persistErrorState('gracefully', result as Error)
 
       if (runAsync) {
         setFieldState(result instanceof Error ? 'error' : 'complete')
@@ -567,7 +600,7 @@ export default function useFieldProps<
       validatedWithValue.current = value
     } catch (error: unknown) {
       if (isProcessActive()) {
-        persistErrorState(error as Error)
+        persistErrorState('weak', error as Error)
       }
     }
   }, [
@@ -701,7 +734,7 @@ export default function useFieldProps<
       changeEventResultRef.current
 
     if (typeof result?.error !== 'undefined') {
-      localErrorRef.current = result.error
+      persistErrorState('gracefully', result.error)
       showError()
     }
     if (typeof result?.warning !== 'undefined') {
@@ -725,7 +758,13 @@ export default function useFieldProps<
     } else if (asyncBehaviorIsEnabled) {
       setFieldState('complete')
     }
-  }, [asyncBehaviorIsEnabled, setFieldState, showError, yieldAsyncProcess])
+  }, [
+    asyncBehaviorIsEnabled,
+    persistErrorState,
+    setFieldState,
+    showError,
+    yieldAsyncProcess,
+  ])
 
   const setEventResult = useCallback(
     (result: EventReturnWithStateObjectAndSuccess) => {
@@ -1054,7 +1093,7 @@ export default function useFieldProps<
   useMountEffect(() => {
     if (inFieldBlock) {
       if (errorProp) {
-        setFieldBlockState?.({
+        setFieldStateFieldBlock?.({
           identifier,
           type: 'error',
           content: errorProp,
@@ -1063,7 +1102,7 @@ export default function useFieldProps<
         })
       }
       if (warning) {
-        setFieldBlockState?.({
+        setFieldStateFieldBlock?.({
           identifier,
           type: 'warning',
           content: warning,
@@ -1072,7 +1111,7 @@ export default function useFieldProps<
         })
       }
       if (info) {
-        setFieldBlockState?.({
+        setFieldStateFieldBlock?.({
           identifier,
           type: 'info',
           content: info,
