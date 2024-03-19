@@ -173,10 +173,6 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type DataAttributes = {
-  [property: `data-${string}`]: string
-}
-
 export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string,

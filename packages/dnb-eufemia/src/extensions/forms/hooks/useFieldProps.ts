@@ -18,7 +18,6 @@ import {
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
-  DataAttributes,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
@@ -58,6 +57,10 @@ type PersistErrorStateMethod =
 type AsyncProcessesBuffer = {
   fulfill: () => void
   hasAsyncProcesses: () => boolean
+}
+
+export type DataAttributes = {
+  [property: `data-${string}`]: string
 }
 
 export default function useFieldProps<
