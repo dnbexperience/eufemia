@@ -31,7 +31,7 @@ function SubmitIndicator(props: Props) {
 
   useLayoutEffect(() => {
     if (children && state) {
-      setWillWrap(willWordWrap(childrenRef.current, '. . .'))
+      setWillWrap(willWordWrap(childrenRef.current, '. . . '))
     }
   }, [children, state])
 
@@ -97,7 +97,7 @@ function willWordWrap(element: HTMLElement, word: string) {
 
   const { offsetHeight, textContent } = element
 
-  element.textContent += ' ' + word
+  element.textContent += word
   const height = element.offsetHeight
   element.textContent = textContent
 
