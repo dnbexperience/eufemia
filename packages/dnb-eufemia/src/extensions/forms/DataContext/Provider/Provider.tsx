@@ -196,6 +196,7 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
+  const fieldErrorRef = useRef<Record<Path, boolean>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
 
   // - Data
@@ -242,11 +243,12 @@ export default function Provider<Data extends JsonObject>(
 
   // - Error handling
   const checkFieldStateFor = useCallback(
-    (path: Path, state: SubmitState = 'error') => {
+    (path: Path, state: SubmitState) => {
       return Boolean(
-        (state === 'error' &&
-          errorsRef.current?.[path] instanceof Error) ||
-          fieldStateRef.current[path] === state
+        state === 'error'
+          ? errorsRef.current?.[path] instanceof Error ||
+              fieldErrorRef.current[path]
+          : fieldStateRef.current[path] === state
       )
     },
     []
@@ -265,6 +267,16 @@ export default function Provider<Data extends JsonObject>(
 
   /**
    * Sets the error state for a specific path
+   */
+  const setFieldError = useCallback(
+    (path: Path, error: Error | FormError) => {
+      fieldErrorRef.current[path] = Boolean(error)
+    },
+    []
+  )
+
+  /**
+   * Sets the field state for a specific path
    */
   const setFieldState = useCallback(
     (path: Path, fieldState: SubmitState) => {
@@ -566,9 +578,9 @@ export default function Provider<Data extends JsonObject>(
 
       setSubmitState({ error: undefined })
 
-      const hasError = skipErrorCheck ? false : hasErrors()
       const asyncBehaviorIsEnabled =
-        !hasError && (enableAsyncBehaviour || hasFieldWithAsyncValidator())
+        !(skipErrorCheck ? false : hasErrors()) &&
+        (enableAsyncBehaviour || hasFieldWithAsyncValidator())
 
       if (asyncBehaviorIsEnabled) {
         setFormState('pending')
@@ -596,7 +608,7 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (
-        !hasError &&
+        !(skipErrorCheck ? false : hasErrors()) &&
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
@@ -797,6 +809,7 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors,
         setFieldEventListener,
         setFieldState,
+        setFieldError,
         setProps,
         hasErrors,
         hasFieldState,

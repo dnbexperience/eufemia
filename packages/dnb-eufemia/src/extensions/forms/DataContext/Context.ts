@@ -9,6 +9,7 @@ import {
   EventReturnWithStateObject,
   Identifier,
   FieldProps,
+  FormError,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 
@@ -61,6 +62,7 @@ export interface ContextState {
   hasFieldState: (state: SubmitState) => boolean
   checkFieldStateFor: (path: Path, state: SubmitState) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
+  setFieldError: (path: Path, error: Error | FormError) => void
   // Mounted fields - Components telling the provider what fields is on screen at any time
   mountedFieldPaths: string[]
   handleMountField: (path: Path) => void
@@ -122,6 +124,7 @@ export const defaultContextState: ContextState = {
   hasFieldState: () => false,
   checkFieldStateFor: () => false,
   setFieldState: () => null,
+  setFieldError: () => null,
   setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,

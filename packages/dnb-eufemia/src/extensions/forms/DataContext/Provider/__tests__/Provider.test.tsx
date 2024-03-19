@@ -681,6 +681,12 @@ describe('DataContext.Provider', () => {
         expect(status).toHaveTextContent(nb.inputErrorRequired)
       })
 
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(0)
+      })
+
       // Use fireEvent over userEvent, because of its sync nature
       fireEvent.change(input, {
         target: { value: 'validator-error' },
@@ -695,6 +701,12 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('validator-error')
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(1)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -713,7 +725,20 @@ describe('DataContext.Provider', () => {
         expect(status).toBeNull()
       })
 
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(2)
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(input, {
+        target: { value: '' },
+      })
+
       fireEvent.blur(input)
+
+      expect(input).toHaveValue('')
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -721,7 +746,7 @@ describe('DataContext.Provider', () => {
         expect(validator).toHaveBeenCalledTimes(2)
       })
 
-      fireEvent.click(submitButton)
+      await userEvent.click(submitButton)
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -733,13 +758,10 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent('onBlurValidator-error')
+        expect(status).toHaveTextContent(nb.inputErrorRequired)
       })
 
-      // Use fireEvent over userEvent, because of its sync nature
-      fireEvent.change(input, {
-        target: { value: 'valid value' },
-      })
+      await userEvent.type(input, 'something')
 
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
@@ -752,11 +774,11 @@ describe('DataContext.Provider', () => {
         expect(status).toBeNull()
       })
 
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1)
-        expect(onBlurValidator).toHaveBeenCalledTimes(1)
-        expect(validator).toHaveBeenCalledTimes(3)
-      })
+      await userEvent.click(submitButton)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onBlurValidator).toHaveBeenCalledTimes(3)
+      expect(validator).toHaveBeenCalledTimes(12)
     })
 
     it('should set "formState" to "pending" when "validator" is async', async () => {
