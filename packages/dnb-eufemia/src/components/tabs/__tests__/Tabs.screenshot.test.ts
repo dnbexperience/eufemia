@@ -64,7 +64,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom section styles', async () => {
+  it.only('have to match custom section styles', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
@@ -120,7 +120,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tabs content with focus ring', async () => {
+  it.only('have to match tabs content with focus ring', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',

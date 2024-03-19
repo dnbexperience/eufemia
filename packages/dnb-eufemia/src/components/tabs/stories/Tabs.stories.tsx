@@ -9,12 +9,118 @@ import styled from '@emotion/styled'
 import { Global, css } from '@emotion/react'
 
 import { Input, Tabs, Icon, Button, ToggleButton } from '../..'
+import TabsOld from '../../tabs/TabsOld'
 import { bell as Bell } from '../../../icons'
 
 import { H2 } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Tabs',
+}
+
+export function PreventRerender() {
+  const [value, setValue] = React.useState('test')
+
+  const tabs = [
+    { title: 'First', key: 'first' },
+    { title: 'Second', key: 'second' },
+    { title: 'Third', key: 'third', disabled: true },
+    { title: 'Fourth', key: 'fourth' },
+    {
+      title: (
+        <>
+          <Icon right="x-small" icon={Bell} />
+          Three long name
+        </>
+      ),
+      // selected: true,
+      key: 'three',
+      content: 'Content three',
+    },
+  ]
+
+  const content = {
+    first: (
+      <React.Fragment key="a">
+        Change me 1: {value}{' '}
+        <Input
+          label="Change state"
+          // value={value}
+          on_change={({ value }) => setValue(value)}
+        />
+      </React.Fragment>
+    ),
+    second: (
+      <React.Fragment key="b">
+        Change me 2: {value}{' '}
+        <Input
+          label="Change state"
+          // value={value}
+          on_change={({ value }) => setValue(value)}
+        />
+      </React.Fragment>
+    ),
+    third: () => (
+      <p className="dnb-p">
+        Eros semper blandit tellus mollis primis quisque platea
+        sollicitudin ipsum
+      </p>
+    ),
+    fourth: () => <H2>Fourth</H2>,
+  }
+
+  return (
+    <>
+      <Tabs
+        align="right"
+        label="Some Tabs label"
+        data={tabs}
+        // prerender
+        prevent_rerender
+        render={({ Wrapper, Content, TabsList, Tabs }) => {
+          return (
+            <Wrapper>
+              <TabsList className="dnb-section">
+                <small>I'm on the left side</small>
+                <Tabs />
+              </TabsList>
+              <Content />
+            </Wrapper>
+          )
+        }}
+      >
+        {content}
+      </Tabs>
+
+      {/* <Tabs
+        // selected_key="first"
+        prevent_rerender
+        data={tabs}
+      >
+        {content}
+      </Tabs> */}
+
+      {/* <Tabs
+        prerender
+        data={[
+          {
+            title: 'One',
+            key: 1,
+            content: 'Content one',
+          },
+          { title: 'Two', key: 2, content: 'Content two' },
+        ]}
+      /> */}
+
+      {/* <Tabs.Content>
+        <Input
+          label="Change state"
+          // value={value}
+          on_change={({ value }) => setValue(value)}
+        />
+      </Tabs.Content> */}
+    </>
+  )
 }
 
 export const TabsSandbox = () => {
