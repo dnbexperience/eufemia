@@ -329,6 +329,33 @@ describe('Field.String', () => {
         const element = document.querySelector('.dnb-textarea')
         expect(element.className).toContain('dnb-textarea__status--error')
       })
+
+      it('should apply data-attributes', () => {
+        const { rerender } = render(
+          <Field.String
+            data-testid="testid"
+            data-long-value="long-value"
+          />
+        )
+
+        const input = document.querySelector('input')
+
+        expect(input).toHaveAttribute('data-testid', 'testid')
+        expect(input).toHaveAttribute('data-long-value', 'long-value')
+
+        rerender(
+          <Field.String
+            data-testid="testid"
+            data-long-value="long-value"
+            multiline
+          />
+        )
+
+        const textarea = document.querySelector('textarea')
+
+        expect(textarea).toHaveAttribute('data-testid', 'testid')
+        expect(textarea).toHaveAttribute('data-long-value', 'long-value')
+      })
     })
   })
 

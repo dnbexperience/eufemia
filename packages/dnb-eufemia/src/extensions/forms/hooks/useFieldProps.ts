@@ -59,6 +59,10 @@ type AsyncProcessesBuffer = {
   hasAsyncProcesses: () => boolean
 }
 
+export type DataAttributes = {
+  [property: `data-${string}`]: string
+}
+
 export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
@@ -1137,21 +1141,21 @@ export default function useFieldProps<
     forceUpdate()
   }, [info, warning])
 
-  // - Handle ariaAttributes
-  const ariaAttributes = useMemo(() => {
+  // - Handle htmlAttributes
+  const htmlAttributes = useMemo(() => {
     return Object.keys(props).reduce<AriaAttributes>((acc, cur) => {
-      if (!cur.startsWith('aria-')) {
-        return acc
+      if (cur.startsWith('aria-') || cur.startsWith('data-')) {
+        acc[cur] = props[cur]
       }
-      acc[cur] = props[cur]
       return acc
     }, {})
   }, [props])
+
   if (error) {
-    ariaAttributes['aria-invalid'] = error ? 'true' : 'false'
+    htmlAttributes['aria-invalid'] = error ? 'true' : 'false'
   }
   if (required) {
-    ariaAttributes['aria-required'] = required ? 'true' : 'false'
+    htmlAttributes['aria-required'] = required ? 'true' : 'false'
   }
   if (inFieldBlock) {
     // Mount the field in the field block context
@@ -1163,8 +1167,8 @@ export default function useFieldProps<
     const stateIds = fieldBlockContext.fieldStateIdsRef?.current
 
     if (stateIds) {
-      ariaAttributes['aria-describedby'] = combineDescribedBy(
-        props,
+      htmlAttributes['aria-describedby'] = combineDescribedBy(
+        htmlAttributes,
         [
           error && stateIds.error,
           warning && stateIds.warning,
@@ -1173,14 +1177,18 @@ export default function useFieldProps<
       )
     }
   } else {
-    ariaAttributes['aria-describedby'] = combineDescribedBy(
-      props,
-      [
-        (error || errorProp) && `${id}-form-status--error`,
-        warning && `${id}-form-status--warning`,
-        info && `${id}-form-status--info`,
-      ].filter(Boolean)
-    )
+    const ids = [
+      (error || errorProp) && `${id}-form-status--error`,
+      warning && `${id}-form-status--warning`,
+      info && `${id}-form-status--info`,
+    ].filter(Boolean)
+
+    if (ids.length) {
+      htmlAttributes['aria-describedby'] = combineDescribedBy(
+        htmlAttributes,
+        ids
+      )
+    }
   }
 
   const fieldBlockProps = {
@@ -1219,7 +1227,7 @@ export default function useFieldProps<
     value: transformers.current.toInput(valueRef.current),
     hasError: hasVisibleError,
     isChanged: changedRef.current,
-    ariaAttributes,
+    htmlAttributes,
     setHasFocus,
     handleFocus,
     handleBlur,
@@ -1236,7 +1244,7 @@ export interface ReturnAdditional<Value> {
   /** Documented APIs */
   value: Value
   isChanged: boolean
-  ariaAttributes: AriaAttributes
+  htmlAttributes: AriaAttributes | DataAttributes
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: () => void
   handleBlur: () => void
@@ -1264,7 +1272,7 @@ export function omitFieldProps<
     info, // eslint-disable-line
     hasError, // eslint-disable-line
     isChanged, // eslint-disable-line
-    ariaAttributes, // eslint-disable-line
+    htmlAttributes, // eslint-disable-line
     setHasFocus, // eslint-disable-line
     handleFocus, // eslint-disable-line
     handleBlur, // eslint-disable-line

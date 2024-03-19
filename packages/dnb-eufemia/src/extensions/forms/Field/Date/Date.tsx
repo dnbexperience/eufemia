@@ -70,7 +70,7 @@ function DateComponent(props: Props) {
     error,
     hasError,
     disabled,
-    ariaAttributes,
+    htmlAttributes,
     handleFocus,
     handleBlur,
     handleChange,
@@ -105,7 +105,7 @@ function DateComponent(props: Props) {
         on_reset={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        {...ariaAttributes}
+        {...htmlAttributes}
       />
     </FieldBlock>
   )

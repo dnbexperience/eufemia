@@ -1832,7 +1832,7 @@ describe('useFieldProps', () => {
     })
   })
 
-  describe('ariaAttributes', () => {
+  describe('htmlAttributes', () => {
     it('should forward custom aria attributes', async () => {
       const { result } = renderHook(() =>
         useFieldProps({
@@ -1840,7 +1840,7 @@ describe('useFieldProps', () => {
         })
       )
 
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-label': 'custom attribute',
       })
     })
@@ -1854,7 +1854,7 @@ describe('useFieldProps', () => {
         })
       )
 
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': 'existing-id unique-form-status--error',
         'aria-invalid': 'true',
       })
@@ -1868,7 +1868,7 @@ describe('useFieldProps', () => {
         })
       )
 
-      expect(result.current.ariaAttributes).toEqual({})
+      expect(result.current.htmlAttributes).toEqual({})
     })
 
     it('should return true on required', async () => {
@@ -1880,7 +1880,7 @@ describe('useFieldProps', () => {
       )
 
       expect(result.current.error).not.toBeInstanceOf(Error)
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-required': 'true',
       })
     })
@@ -1896,7 +1896,7 @@ describe('useFieldProps', () => {
       )
 
       expect(result.current.error).toBeInstanceOf(Error)
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-invalid': 'true',
         'aria-required': 'true',
         'aria-describedby': 'unique-form-status--error',
@@ -1911,29 +1911,29 @@ describe('useFieldProps', () => {
         }
       )
 
-      expect(result.current.ariaAttributes).toEqual({})
+      expect(result.current.htmlAttributes).toEqual({})
 
       rerender({ info: 'info' })
 
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
       rerender({ warning: 'warning' })
 
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
       rerender({ error: new Error('error') })
 
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
       rerender({})
 
-      expect(result.current.ariaAttributes).toEqual({})
+      expect(result.current.htmlAttributes).toEqual({})
     })
 
     it('should combine all aria', async () => {
@@ -1941,7 +1941,7 @@ describe('useFieldProps', () => {
         useFieldProps({ error: new Error('error'), required: true })
       )
 
-      expect(result.current.ariaAttributes).toEqual({
+      expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
         'aria-invalid': 'true',
         'aria-required': 'true',
@@ -2344,5 +2344,32 @@ describe('useFieldProps', () => {
     rerender({ autoComplete: 'something' })
 
     expect(result.current.autoComplete).toBe('something')
+  })
+
+  it('should return data-attributes', () => {
+    const dataAttributes = {
+      'data-long-key': 'long-key',
+      'data-testid': 'testid',
+    } as Record<string, unknown>
+
+    const { result } = renderHook(() => useFieldProps(dataAttributes))
+
+    expect(result.current.htmlAttributes).toEqual(
+      expect.objectContaining(dataAttributes)
+    )
+  })
+
+  it('should return data-attributes combined with aria-*', () => {
+    const htmlAttributes = {
+      'data-long-key': 'long-key',
+      'data-testid': 'testid',
+      'aria-label': 'custom attribute',
+    } as Record<string, unknown>
+
+    const { result } = renderHook(() => useFieldProps(htmlAttributes))
+
+    expect(result.current.htmlAttributes).toEqual(
+      expect.objectContaining(htmlAttributes)
+    )
   })
 })

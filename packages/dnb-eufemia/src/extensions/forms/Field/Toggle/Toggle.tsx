@@ -42,7 +42,7 @@ function Toggle(props: Props) {
     warning,
     error,
     hasError,
-    ariaAttributes,
+    htmlAttributes,
     handleChange,
   } = useFieldProps(preparedProps)
 
@@ -95,7 +95,7 @@ function Toggle(props: Props) {
             disabled={disabled}
             status={hasError ? 'error' : undefined}
             on_change={handleCheckboxChange}
-            {...ariaAttributes}
+            {...htmlAttributes}
           />
         </FieldBlock>
       )
@@ -114,7 +114,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
-            {...ariaAttributes}
+            {...htmlAttributes}
           />
         </FieldBlock>
       )
@@ -135,14 +135,14 @@ function Toggle(props: Props) {
                   textOn ?? sharedContext?.translation.Forms.booleanYes
                 }
                 value="on"
-                {...ariaAttributes}
+                {...htmlAttributes}
               />
               <ToggleButton
                 text={
                   textOff ?? sharedContext?.translation.Forms.booleanNo
                 }
                 value="off"
-                {...ariaAttributes}
+                {...htmlAttributes}
               />
             </ToggleButtonGroupContext.Provider>
           </ButtonRow>
@@ -164,7 +164,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
-            {...ariaAttributes}
+            {...htmlAttributes}
           />
         </FieldBlock>
       )
