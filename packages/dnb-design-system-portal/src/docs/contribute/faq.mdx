@@ -91,7 +91,13 @@ For running screenshot tests (visual tests), a headless Firefox browser is neede
 In normal circumstances, the browser will be installed automatically via yarn install – but to either upgrade to a newer version, or to wipe out existing versions and run the install manually, you can run this commands, depending on your needs:
 
 ```
+yarn workspace @dnb/eufemia playwright uninstall --all
+yarn workspace @dnb/eufemia add -D @playwright/test
 yarn workspace @dnb/eufemia playwright install firefox
+
+yarn workspace dnb-design-system-portal playwright uninstall --all
+yarn workspace dnb-design-system-portal add -D @playwright/test
+yarn workspace dnb-design-system-portal playwright install firefox
 ```
 
 after `yarn install`.
