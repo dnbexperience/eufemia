@@ -2148,6 +2148,87 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
+    it('should display error message given in schema', async () => {
+      const fieldSchema = {
+        type: 'string',
+        pattern: '[a-z]{1,}',
+        errorMessage: 'message in field schema',
+      } as const
+
+      const { rerender } = render(
+        <DataContext.Provider>
+          <Field.String
+            schema={fieldSchema}
+            path="/myKey"
+            value=""
+            validateInitially
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'message in field schema'
+      )
+
+      const providerSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'string',
+            pattern: '[a-z]{1,}',
+            errorMessage: 'message in provider schema',
+          },
+        },
+      } as const
+
+      rerender(
+        <DataContext.Provider schema={providerSchema}>
+          <Field.String path="/myKey" value="" validateInitially />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'message in provider schema'
+      )
+
+      const providerSharedSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'string',
+            minLength: 2,
+            maxLength: 3,
+            errorMessage: {
+              minLength: 'minLength message in provider schema',
+              maxLength: 'maxLength message in provider schema',
+            },
+          },
+        },
+      } as const
+
+      rerender(
+        <DataContext.Provider schema={providerSharedSchema}>
+          <Field.String path="/myKey" value="" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '1')
+      fireEvent.blur(input)
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'minLength message in provider schema'
+      )
+
+      await userEvent.type(input, '1234')
+      fireEvent.blur(input)
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'maxLength message in provider schema'
+      )
+    })
+
     it('should accept custom ajv instance with custom error messages', () => {
       const ajv = new Ajv({
         strict: true,
@@ -2164,13 +2245,32 @@ describe('DataContext.Provider', () => {
       const schema = {
         type: 'string',
         notEmpty: true, // The value must be more than one character.
-        errorMessage: 'message in schema',
       } as const
 
       const { rerender } = render(
         <DataContext.Provider ajvInstance={ajv}>
           <Field.String
-            schema={schema}
+            schema={{ ...schema, errorMessage: 'message in schema' }}
+            path="/myKey"
+            value=""
+            validateInitially
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'message in schema'
+      )
+
+      rerender(
+        <DataContext.Provider
+          ajvInstance={ajv}
+          errorMessages={{
+            notEmpty: 'message in provider',
+          }}
+        >
+          <Field.String
+            schema={{ ...schema, errorMessage: 'message in schema' }}
             path="/myKey"
             value=""
             validateInitially

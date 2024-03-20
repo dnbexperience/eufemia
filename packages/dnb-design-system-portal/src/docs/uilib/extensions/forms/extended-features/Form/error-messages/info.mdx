@@ -102,8 +102,8 @@ render(
 
 In addition, you can customize the translations globally:
 
-```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider
@@ -117,6 +117,93 @@ render(
       <Field.String pattern="^([a-z]+)$" value="123" validateInitially />
     </Form.Handler>
   </Provider>,
+)
+```
+
+Or define an error message in a `schema` for one field:
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const schema = {
+  type: 'string',
+  pattern: '^([a-z]+)$',
+  errorMessage: 'You can provide a custom message in the schema itself',
+} as const
+
+render(
+  <Form.Handler>
+    <Field.String schema={schema} value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+Or in a field `schema` for one field with a JSON Pointer path:
+
+```tsx
+const schema = {
+  type: 'object',
+  properties: {
+    myKey: {
+      type: 'string',
+      pattern: '^([a-z]+)$',
+      errorMessage:
+        'You can provide a custom message in the schema itself',
+    },
+  },
+} as const
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+Or in a Form.Handler `schema` for one field with a JSON Pointer path:
+
+```tsx
+const schema = {
+  type: 'object',
+  properties: {
+    myKey: {
+      type: 'string',
+      pattern: '^([a-z]+)$',
+      errorMessage:
+        'You can provide a custom message in the schema itself',
+    },
+  },
+} as const
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+Or in a Form.Handler `schema` with several validation rules:
+
+```tsx
+const schema = {
+  type: 'object',
+  properties: {
+    myKey: {
+      type: 'string',
+      minLength: 2,
+      maxLength: 3,
+      errorMessage: {
+        minLength: 'minLength message in provider schema',
+        maxLength: 'maxLength message in provider schema',
+      },
+    },
+  },
+} as const
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
 )
 ```
 
