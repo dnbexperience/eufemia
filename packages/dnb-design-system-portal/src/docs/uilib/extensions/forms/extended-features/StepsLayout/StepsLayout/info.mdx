@@ -6,21 +6,83 @@ showTabs: true
 
 `StepsLayout` is a wrapper component for showing forms with a StepIndicator for navigation between several steps.
 
-```jsx
-import {
-  StepsLayout,
-  StepsContext,
-  Form,
-} from '@dnb/eufemia/extensions/forms'
-render(
-  <StepsContext.Provider>
-    <StepsLayout.Step>
-      <Form.MainHeading>Heading</Form.MainHeading>
-      <Card>
-        <P>Contents</P>
-      </Card>
-      <StepsLayout.NextButton />
-    </StepsLayout.Step>
-  </StepsContext.Provider>,
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const Step1 = () => (
+  <Flex.Stack>
+    <Form.MainHeading>Heading</Form.MainHeading>
+    <Card>
+      <P>Contents</P>
+    </Card>
+    <Card>
+      <P>Contents</P>
+    </Card>
+    <StepsLayout.NextButton />
+  </Flex.Stack>
 )
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <StepsLayout.Step title="Step 1">
+          <Step1 />
+        </StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
+```
+
+## Controlling the steps
+
+To define a different initial index (than 0), you can use `initialActiveIndex` – and for controlling the steps interactively, you can use the React hook `StepsLayout.useStep`:
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const Step1 = () => {
+  const { setActiveIndex, activeIndex } = StepsLayout.useStep()
+  return (
+    <Card>
+      <Button onClick={() => setActiveIndex(1)}>Step 2</Button>
+    </Card>
+  )
+}
+
+const MyComponent = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <StepsLayout.Step>
+          <Step1 />
+        </StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
+```
+
+Or outside of the `StepsLayout` context by using the `useStep` hook with a unique `id` (string):
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const MyComponent = () => {
+  const { setActiveIndex, activeIndex } = StepsLayout.useStep('unique-id')
+
+  return (
+    <Form.Handler>
+      <StepsLayout id="unique-id">
+        <StepsLayout.Step>
+          <Button onClick={() => setActiveIndex(0)}>Step 1</Button>
+        </StepsLayout.Step>
+        <StepsLayout.Step>
+          <Button onClick={() => setActiveIndex(1)}>Step 2</Button>
+        </StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
 ```

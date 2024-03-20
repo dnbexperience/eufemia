@@ -7,10 +7,15 @@ showTabs: true
 `StepsLayout.Buttons` Is a composition for a row containing both PreviousButton and NextButton.
 
 ```jsx
-import { StepsContext, StepsLayout } from '@dnb/eufemia/extensions/forms'
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
 render(
-  <StepsContext.Provider>
-    <StepsLayout.Buttons />
-  </StepsContext.Provider>,
+  <Form.Handler>
+    <StepsLayout>
+      <StepsLayout.Step title="Step 1">
+        <StepsLayout.Buttons />
+      </StepsLayout.Step>
+    </StepsLayout>
+  </Form.Handler>,
 )
 ```

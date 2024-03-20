@@ -3,7 +3,8 @@
 .dnb-forms-button-row {
   display: flex;
   flex-flow: row;
-  column-gap: var(--spacing-small);
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
 
   .dnb-card + & {
     &:not([class*='space__top']) {
