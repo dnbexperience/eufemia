@@ -1,22 +1,16 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-card {
-  &__heading {
-    font-size: var(--font-size-basis);
-    font-weight: var(--font-weight-medium);
-  }
-
-  & + &__heading {
-    margin-top: var(--spacing-small);
-  }
-
-  &__title {
+  &__header {
     padding-bottom: 1rem;
+  }
+  &:not([style*='--space-']) &__header {
+    padding: 1rem;
+  }
+  &__title,
+  &__title.dnb-p {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
-  }
-  &:not([style*='--space-']) &__title {
-    padding: 1rem;
   }
 
   &.dnb-section {
@@ -84,6 +78,7 @@
 
   // Make the ScrollView look nice
   &--filled .dnb-scroll-view {
+    width: 100%;
     clip-path: inset(
       0 0 0 0 round var(--rounded-corner) var(--rounded-corner)
         var(--rounded-corner) var(--rounded-corner)

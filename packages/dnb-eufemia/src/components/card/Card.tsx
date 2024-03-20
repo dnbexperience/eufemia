@@ -8,7 +8,7 @@ import useId from '../../shared/helpers/useId'
 import type { BasicProps as FlexContainerProps } from '../flex/Container'
 import type { BasicProps as FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
-import type { SpaceProps } from '../Space'
+import type { SpaceAllProps, SpaceProps } from '../Space'
 import Space from '../Space'
 
 export type Props = {
@@ -96,15 +96,31 @@ function Card(props: Props) {
         rowGap={rowGap || false}
       >
         {title && (
-          <Space id={titleId} className="dnb-card__title">
+          <Header id={titleId} className="dnb-card__title">
             {title}
-          </Space>
+          </Header>
         )}
         {children}
       </Flex.Container>
     </Flex.Item>
   )
 }
+
+export type CardHeaderProps = SpaceAllProps
+
+function Header({ children, className, ...rest }: CardHeaderProps) {
+  return (
+    <Space
+      {...rest}
+      className={classnames('dnb-card__header', className)}
+      element="header"
+    >
+      {children}
+    </Space>
+  )
+}
+
+Card.Header = Header
 
 Card._supportsSpacingProps = true
 

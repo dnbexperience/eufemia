@@ -5,6 +5,7 @@ import {
   Flex,
   Grid,
   H2,
+  Lead,
   P,
   Table,
   Td,
@@ -76,6 +77,24 @@ export const WithTable = () => {
           </Card>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const FilledHeader = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-header">
+      <Card filled>
+        <Card.Header>
+          <Lead>Card title</Lead>
+          <P>Sed tempor ultrices velit quis semper.</P>
+        </Card.Header>
+
+        <P>
+          Quisque accumsan vitae tortor nec blandit. Sed tempor ultrices
+          velit quis semper.
+        </P>
+      </Card>
     </ComponentBox>
   )
 }
