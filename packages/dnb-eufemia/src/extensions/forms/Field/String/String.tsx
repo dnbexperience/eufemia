@@ -30,15 +30,13 @@ interface ErrorMessages extends CustomErrorMessages {
 }
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string, ErrorMessages> & {
-    // - String props
+    // - Shared props
     multiline?: boolean
-    mask?: InputMaskedProps['mask']
-    leftIcon?: string
-    rightIcon?: string
     inputClassName?: string
     innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
-    submitElement?: InputProps['submit_element']
     width?: false | 'small' | 'medium' | 'large' | 'stretch'
+    size?: InputProps['size'] | TextareaProps['size']
+    keepPlaceholder?: InputProps['keep_placeholder']
 
     // - Validation
     minLength?: number
@@ -47,11 +45,13 @@ export type Props = FieldHelpProps &
 
     // - Input props
     type?: InputProps['type']
-    size?: InputProps['size']
     align?: InputProps['align']
     selectall?: InputProps['selectall']
     clear?: boolean
-    keepPlaceholder?: InputProps['keep_placeholder']
+    mask?: InputMaskedProps['mask']
+    leftIcon?: string
+    rightIcon?: string
+    submitElement?: InputProps['submit_element']
 
     // - Textarea props
     rows?: TextareaProps['rows']
@@ -232,12 +232,20 @@ function StringComponent(props: Props) {
     value: transformInstantly(value?.toString() ?? ''),
   }
 
+  const textareaProps: TextareaProps = {
+    keepPlaceholder,
+    rows,
+    autoresize_max_rows: autoresizeMaxRows,
+    autoresize,
+    characterCounter,
+  }
+
   const inputProps: InputProps = {
-    type,
-    clear,
-    size,
-    align,
-    selectall,
+    type: type,
+    clear: clear,
+    size: size,
+    align: align,
+    selectall: selectall,
     icon: leftIcon ?? rightIcon,
     icon_position: rightIcon && !leftIcon ? 'right' : undefined,
     submit_element: submitElement,
@@ -265,13 +273,7 @@ function StringComponent(props: Props) {
   return (
     <FieldBlock {...fieldBlockProps}>
       {multiline ? (
-        <Textarea
-          {...sharedProps}
-          rows={rows}
-          autoresize_max_rows={autoresizeMaxRows}
-          autoresize={autoresize}
-          characterCounter={characterCounter}
-        />
+        <Textarea {...sharedProps} {...textareaProps} />
       ) : mask ? (
         <InputMasked {...sharedProps} {...inputProps} mask={mask} />
       ) : (

@@ -12,13 +12,11 @@
   --textarea-color: var(--textarea-color--default);
   --textarea-color--default: var(--color-black);
   --textarea-color--active: var(--color-black);
+  --textarea-placeholder-color: var(--sb-color-gray-dark-3);
+  --textarea-placeholder-color--focus: var(--sb-color-gray-dark-3);
 
   &__textarea {
     background-color: transparent;
-  }
-
-  &__placeholder {
-    color: var(--sb-color-gray-dark-3);
   }
 
   &__state {

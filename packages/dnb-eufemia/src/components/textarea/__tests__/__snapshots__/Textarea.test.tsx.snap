@@ -140,6 +140,7 @@ button .dnb-form-status__text {
   --textarea-border-radius: 0.25rem;
   --textarea-rows: 2;
   --textarea-background-color: var(--color-white);
+  --textarea-placeholder-color: grey;
   --textarea-size--small: 0.25rem;
   --textarea-size--medium: 0.5rem;
   --textarea-size--large: 0.75rem;
@@ -275,6 +276,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   line-height: var(--line-height-basis);
   color: var(--textarea-color, var(--color-black));
   background-color: var(--textarea-background-color, var(--color-white));
+  color: var(--textarea-placeholder-color);
   background-color: transparent;
 }
 .dnb-textarea__textarea, .dnb-textarea__placeholder {
@@ -303,9 +305,6 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
   width: 0;
-}
-.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled], [readonly]) ~ .dnb-textarea__placeholder {
-  display: none;
 }
 .dnb-textarea__inner > .dnb-form-status {
   order: 2;
@@ -350,6 +349,10 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 .dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
   width: 100%;
 }
+.dnb-textarea--keep-placeholder.dnb-textarea--focus .dnb-textarea__placeholder {
+  --textarea-placeholder-color: var(--textarea-placeholder-color--focus);
+  display: block;
+}
 .dnb-form-row--horizontal .dnb-textarea--stretch {
   width: 100%;
 }
@@ -391,13 +394,12 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   --textarea-border-width--hover: 0.125rem;
   --textarea-color: var(--color-black);
   --textarea-background-color: var(--color-white);
+  --textarea-placeholder-color: var(--color-black-55);
+  --textarea-placeholder-color--focus: var(--color-black-20);
 }
 .dnb-textarea__textarea ::selection {
   background-color: var(--color-mint-green);
   text-shadow: none;
-}
-.dnb-textarea__placeholder {
-  color: var(--color-black-55);
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --textarea-border-color: var(--textarea-border-color--hover);

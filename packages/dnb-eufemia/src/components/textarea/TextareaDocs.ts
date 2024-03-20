@@ -21,6 +21,11 @@ export const textareaProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  keepPlaceholder: {
+    doc: 'Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
     type: 'string',

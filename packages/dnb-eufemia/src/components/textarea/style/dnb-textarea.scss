@@ -23,6 +23,7 @@
   --textarea-border-radius: 0.25rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
   --textarea-background-color: var(--color-white);
+  --textarea-placeholder-color: grey;
   --textarea-size--small: 0.25rem;
   --textarea-size--medium: 0.5rem;
   --textarea-size--large: 0.75rem;
@@ -159,6 +160,7 @@
 
     @include textareaStyleCommon();
 
+    color: var(--textarea-placeholder-color);
     background-color: transparent;
   }
 
@@ -197,12 +199,6 @@
     &::-webkit-scrollbar {
       width: 0;
     }
-  }
-
-  // hide placeholder on focus
-  &--has-content &__textarea ~ &__placeholder,
-  &--focus &__textarea:not([disabled], [readonly]) ~ &__placeholder {
-    display: none;
   }
 
   &__inner > .dnb-form-status {
@@ -254,6 +250,11 @@
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;
+  }
+
+  &--keep-placeholder#{&}--focus &__placeholder {
+    --textarea-placeholder-color: var(--textarea-placeholder-color--focus);
+    display: block;
   }
 
   .dnb-form-row--horizontal &--stretch {
