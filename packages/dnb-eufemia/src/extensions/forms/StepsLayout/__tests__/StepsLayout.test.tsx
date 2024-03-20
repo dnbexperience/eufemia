@@ -215,7 +215,7 @@ describe('StepsLayout', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.inputErrorRequired
+      nb.Input.errorRequired
     )
 
     await userEvent.type(input(), 'invalid')
@@ -245,7 +245,7 @@ describe('StepsLayout', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.inputErrorRequired
+      nb.Input.errorRequired
     )
 
     await userEvent.click(previousButton())
@@ -275,7 +275,7 @@ describe('StepsLayout', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.inputErrorRequired
+      nb.Input.errorRequired
     )
   }, 20000)
 

@@ -774,7 +774,7 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.inputErrorRequired)
+        expect(status).toHaveTextContent(nb.Input.errorRequired)
       })
 
       await waitFor(() => {
@@ -854,7 +854,7 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.inputErrorRequired)
+        expect(status).toHaveTextContent(nb.Input.errorRequired)
       })
 
       await userEvent.type(input, 'something')
@@ -2000,7 +2000,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.inputErrorRequired
+          nb.Input.errorRequired
         )
 
         rerender(
@@ -2020,7 +2020,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.inputErrorRequired
+          nb.Input.errorRequired
         )
 
         rerender(

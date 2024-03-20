@@ -39,6 +39,7 @@ import {
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
+import { useLocale } from '../../../shared/useLocale'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 

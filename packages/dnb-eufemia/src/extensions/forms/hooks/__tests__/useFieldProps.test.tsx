@@ -2317,7 +2317,9 @@ describe('useFieldProps', () => {
             locales={{
               'en-GB': {
                 Forms: {
-                  fieldErrorRequired: 'new required error message',
+                  Field: {
+                    errorRequired: 'new required error message',
+                  },
                 },
               },
             }}
