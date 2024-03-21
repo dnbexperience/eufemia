@@ -41,7 +41,7 @@
 
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-violet);
-      border-radius: 1.5rem;
+      --textarea-border-radius: 1.5rem;
       @include focusRing(null, null, inset);
     }
   }

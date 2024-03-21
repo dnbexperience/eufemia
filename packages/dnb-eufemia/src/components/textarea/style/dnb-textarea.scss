@@ -20,6 +20,7 @@
 }
 
 .dnb-textarea {
+  --textarea-border-radius: 0.25rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
   --textarea-background-color: var(--color-white);
   --textarea-size--small: 0.25rem;
@@ -99,7 +100,7 @@
       var(--textarea-border-inset, inset)
     );
 
-    border-radius: 0.25rem;
+    border-radius: var(--textarea-border-radius);
   }
 
   &__row {
@@ -278,12 +279,7 @@
   }
 
   &.dnb-skeleton &__inner {
-    margin: 0;
-    border-radius: 0.25rem;
-  }
-
-  &.dnb-skeleton &__inner &__shell {
-    margin: var(--textarea-size-vertical);
+    border-radius: var(--textarea-border-radius);
   }
 
   &.dnb-skeleton &__state,

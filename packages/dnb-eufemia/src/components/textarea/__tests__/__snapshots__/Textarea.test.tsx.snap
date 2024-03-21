@@ -137,6 +137,7 @@ button .dnb-form-status__text {
  * Utilities
  */
 .dnb-textarea {
+  --textarea-border-radius: 0.25rem;
   --textarea-rows: 2;
   --textarea-background-color: var(--color-white);
   --textarea-size--small: 0.25rem;
@@ -195,7 +196,7 @@ button .dnb-form-status__text {
   --border-width: var(--textarea-border-width);
   box-shadow: var(--textarea-border-inset, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  border-radius: 0.25rem;
+  border-radius: var(--textarea-border-radius);
 }
 .dnb-textarea__row {
   display: inline-flex;
@@ -367,11 +368,7 @@ html[data-visual-test] .dnb-textarea__textarea {
   caret-color: var(--color-white);
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
-  margin: 0;
-  border-radius: 0.25rem;
-}
-.dnb-textarea.dnb-skeleton .dnb-textarea__inner .dnb-textarea__shell {
-  margin: var(--textarea-size-vertical);
+  border-radius: var(--textarea-border-radius);
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__state, .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
   visibility: hidden;
