@@ -34,9 +34,7 @@
     --anchor-color--contrast: var(--sb-color-text);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
-    --anchor-icon-gutter: 0.25em;
-    // word-joiner character (zero-width non-breaking space) connects icon with word
-    --anchor-icon-seperator: '\2060';
+    --anchor-icon-fallback-position: translateY(-0.0625em);
 
     font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
@@ -44,35 +42,6 @@
     border-radius: 0.5em;
 
     @include anchor-mixins.anchorBackground(var(--anchor-background));
-
-    .dnb-icon {
-      display: inline;
-      vertical-align: baseline;
-      white-space: nowrap; // force icon to line break with word
-
-      svg {
-        vertical-align: middle;
-        transform: translateY(-0.0625em);
-      }
-    }
-
-    &--icon-left .dnb-icon:first-child {
-      &::after {
-        content: var(--anchor-icon-seperator);
-      }
-      svg {
-        margin-right: var(--anchor-icon-gutter);
-      }
-    }
-
-    &--icon-right .dnb-icon:last-child {
-      &::before {
-        content: var(--anchor-icon-seperator);
-      }
-      svg {
-        margin-left: var(--anchor-icon-gutter);
-      }
-    }
 
     .dnb-icon--default {
       font-size: 1em;
