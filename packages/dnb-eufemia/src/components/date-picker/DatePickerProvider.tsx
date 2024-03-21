@@ -4,7 +4,6 @@
  */
 
 import React, { useContext, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import type { DatePickerProps } from './DatePicker'
 
 import isSameMonth from 'date-fns/isSameMonth'
@@ -36,13 +35,13 @@ type DatePickerProviderProps = React.HTMLProps<HTMLElement> &
 type DatePickerProviderState = {
   changeMonthViews: boolean
   lastEventCallCache?: { startDate?: Date; endDate?: Date }
-  date: Date | string
-  startDate: Date
-  endDate: Date
-  minDate: Date
-  maxDate: Date
-  startMonth: Date
-  endMonth: Date
+  date?: Date | string
+  startDate?: Date
+  endDate?: Date
+  minDate?: Date
+  maxDate?: Date
+  startMonth?: Date
+  endMonth?: Date
   partialStartDate?: Date
   partialEndDate?: Date
   views: Array<{ nr: number; month: string }>
@@ -66,65 +65,49 @@ const defaultProps = {
 
 function DatePickerProvider(externalProps: DatePickerProviderProps) {
   const props = { ...defaultProps, ...externalProps }
-  const date_format = props.date_format
 
   const sharedContext = useContext(SharedContext)
 
-  // console.log('dates', () => {
-  //   const { date, start_date, end_date } = props
+  const [dates, updateDates] = useDates(
+    {
+      date: props.date,
+      startDate: props.start_date,
+      endDate: props.end_date,
+      startMonth: props.start_month,
+      endMonth: props.end_month,
+      minDate: props.min_date,
+      maxDate: props.max_date,
+    },
+    { dateFormat: props.date_format, isRange: props.range }
+  )
 
-  //   return { date, start_date, end_date }
-  // })
-
-  const startDate =
-    convertStringToDate(props?.start_date || props?.date, {
-      date_format,
-    }) || undefined
-  const endDate = !props?.range
-    ? startDate
-    : convertStringToDate(props?.end_date || props?.date, {
-        date_format,
-      }) || undefined
-
-  console.log('startDate', startDate)
-  const hasValidStartDate = isValid(startDate)
-  const hasValidEndDate = isValid(endDate)
+  const hasValidStartDate = isValid(dates.startDate)
+  const hasValidEndDate = isValid(dates.endDate)
 
   const [state, setState] = useState<DatePickerProviderState>({
     changeMonthViews: false,
-    date: props?.date,
-    startDate,
-    endDate,
-    startMonth: convertStringToDate(props.start_month, {
-      date_format,
-    }),
-    endMonth: convertStringToDate(props.end_month, {
-      date_format,
-    }),
-    minDate: convertStringToDate(props.min_date, {
-      date_format,
-    }),
-    maxDate: convertStringToDate(props.min_date, {
-      date_format,
-    }),
     views: getViews([], props.range),
     lastEventCallCache: {},
-    __startDay: hasValidStartDate ? pad(format(startDate, 'dd'), 2) : null,
-    __startMonth: hasValidStartDate
-      ? pad(format(startDate, 'MM'), 2)
+    __startDay: hasValidStartDate
+      ? pad(format(dates.startDate, 'dd'), 2)
       : null,
-    __startYear: hasValidStartDate ? format(startDate, 'yyyy') : null,
-    __endDay: hasValidEndDate ? pad(format(endDate, 'dd'), 2) : null,
-    __endMonth: hasValidEndDate ? pad(format(endDate, 'MM'), 2) : null,
-    __endYear: hasValidEndDate ? format(endDate, 'yyyy') : null,
+    __startMonth: hasValidStartDate
+      ? pad(format(dates.startDate, 'MM'), 2)
+      : null,
+    __startYear: hasValidStartDate
+      ? format(dates.startDate, 'yyyy')
+      : null,
+    __endDay: hasValidEndDate ? pad(format(dates.endDate, 'dd'), 2) : null,
+    __endMonth: hasValidEndDate
+      ? pad(format(dates.endDate, 'MM'), 2)
+      : null,
+    __endYear: hasValidEndDate ? format(dates.endDate, 'yyyy') : null,
     hasHadValidDate: hasValidStartDate || hasValidEndDate,
   })
 
   if (typeof props.setReturnObject === 'function') {
     props.setReturnObject(getReturnObject)
   }
-
-  useEffect()
 
   useEffect(() => {
     if (props.correct_invalid_date) {
@@ -498,6 +481,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         props: props,
         ...props.enhanceWithMethods,
         ...state,
+        ...dates,
       }}
     >
       {children}
@@ -506,5 +490,70 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 }
 
 export default DatePickerProvider
+
+type InitialDates = {
+  date: Date | string
+  startDate: Date | string
+  endDate: Date | string
+  startMonth: Date | string
+  endMonth: Date | string
+  minDate: Date | string
+  maxDate: Date | string
+}
+
+type UseDatesOptions = {
+  dateFormat: string
+  isRange: boolean
+}
+
+function useDates(
+  initialDates: InitialDates,
+  { dateFormat, isRange = false }: UseDatesOptions
+) {
+  const startDate =
+    convertStringToDate(initialDates?.startDate || initialDates?.date, {
+      date_format: dateFormat,
+    }) || undefined
+
+  const endDate = !isRange
+    ? startDate
+    : convertStringToDate(initialDates?.endDate || initialDates?.date, {
+        date_format: dateFormat,
+      }) || undefined
+
+  const startMonth = convertStringToDate(initialDates.startMonth, {
+    date_format: dateFormat,
+  })
+
+  const endMonth = convertStringToDate(initialDates.endMonth, {
+    date_format: dateFormat,
+  })
+
+  const minDate = convertStringToDate(initialDates.minDate, {
+    date_format: dateFormat,
+  })
+
+  const maxDate = convertStringToDate(initialDates.minDate, {
+    date_format: dateFormat,
+  })
+
+  const [dates, setDates] = useState({
+    date: initialDates.date,
+    startDate,
+    endDate,
+    startMonth,
+    endMonth,
+    minDate,
+    maxDate,
+  })
+
+  // update dates based on prop changes
+
+  function updateDates(newDates) {
+    setDates((currentDates) => ({ ...currentDates, ...newDates }))
+  }
+
+  return [dates, updateDates] as const
+}
 
 export const pad = (num, size) => ('000000000' + num).substr(-size)
