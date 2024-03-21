@@ -6,9 +6,9 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Textarea, HelpButton } from '@dnb/eufemia/src'
+import { Textarea, HelpButton, Flex } from '@dnb/eufemia/src'
 
-export const TextareaExampleRowsCols = () => (
+export const RowsCols = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-default">
       <Textarea
@@ -31,7 +31,7 @@ export const TextareaExampleRowsCols = () => (
   </Wrapper>
 )
 
-export const TextareaExamplePlaceholder = () => (
+export const Placeholder = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea label="Placeholder" placeholder="Placeholder text" />
@@ -39,7 +39,7 @@ export const TextareaExamplePlaceholder = () => (
   </Wrapper>
 )
 
-export const TextareaExampleVertical = () => (
+export const Vertical = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
@@ -53,7 +53,7 @@ export const TextareaExampleVertical = () => (
   </Wrapper>
 )
 
-export const TextareaCharacterCounter = () => (
+export const CharacterCounter = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-character-counter">
       <Textarea
@@ -68,7 +68,7 @@ export const TextareaCharacterCounter = () => (
   </Wrapper>
 )
 
-export const TextareaExampleStretched = () => (
+export const Stretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-stretch">
       <Textarea
@@ -81,7 +81,7 @@ export const TextareaExampleStretched = () => (
   </Wrapper>
 )
 
-export const TextareaExampleAutoresize = () => (
+export const Autoresize = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
@@ -100,22 +100,7 @@ export const TextareaExampleAutoresize = () => (
   </Wrapper>
 )
 
-export const TextareaExampleMaxLength = () => (
-  <Wrapper>
-    <ComponentBox>
-      <Textarea
-        label="Length limit"
-        rows="3"
-        cols="33"
-        maxLength={20}
-        required
-        value="Nec litora inceptos vestibulum id interdum donec gravida."
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const TextareaExampleFormStatus = () => (
+export const FormStatus = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-error">
       <Textarea
@@ -128,7 +113,7 @@ export const TextareaExampleFormStatus = () => (
   </Wrapper>
 )
 
-export const TextareaExampleDisabled = () => (
+export const Disabled = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
@@ -140,7 +125,7 @@ export const TextareaExampleDisabled = () => (
   </Wrapper>
 )
 
-export const TextareaExampleSuffix = () => (
+export const Suffix = () => (
   <Wrapper>
     <ComponentBox>
       <Textarea
@@ -148,6 +133,18 @@ export const TextareaExampleSuffix = () => (
         value="Nec litora inceptos vestibulum id interdum donec gravida."
         suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
       />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const Sizes = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="textarea-sizes">
+      <Flex.Stack>
+        <Textarea placeholder="Small size" size="small" rows={1} />
+        <Textarea placeholder="Medium size" size="medium" rows={1} />
+        <Textarea placeholder="Large size" size="large" rows={1} />
+      </Flex.Stack>
     </ComponentBox>
   </Wrapper>
 )

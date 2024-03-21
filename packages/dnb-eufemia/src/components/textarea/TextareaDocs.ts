@@ -56,6 +56,11 @@ export const textareaProperties: PropertiesTableProps = {
     type: ['number', 'object'],
     status: 'optional',
   },
+  size: {
+    doc: 'The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
+    type: 'string',
+    status: 'optional',
+  },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: ['string', 'boolean'],
