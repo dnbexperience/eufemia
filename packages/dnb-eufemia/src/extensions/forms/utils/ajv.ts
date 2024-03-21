@@ -110,6 +110,10 @@ export function getMessageValues(
  * @returns The converted FormError object.
  */
 export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
+  if (ajvError.keyword === 'errorMessage') {
+    return new Error(ajvError.message ?? 'Unknown error')
+  }
+
   return new FormError(ajvError.message ?? 'Unknown error', {
     validationRule: getValidationRule(ajvError),
     // Keep the message values in the error object instead of injecting them into the message

@@ -1,12 +1,16 @@
 import type { SpacingProps } from '../../components/space/types'
-import type { JSONSchema7 } from 'json-schema'
+import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject } from 'json-pointer'
 import { AriaAttributes } from 'react'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
-export type AllJSONSchemaVersions = JSONSchema7 | JSONSchemaType<unknown>
+export type AllJSONSchemaVersions =
+  | JSONSchema4
+  | JSONSchema6
+  | JSONSchema7
+  | JSONSchemaType<unknown>
 export { JSONSchemaType }
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
