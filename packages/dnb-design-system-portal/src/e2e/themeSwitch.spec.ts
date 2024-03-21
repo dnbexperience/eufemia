@@ -52,6 +52,8 @@ test.describe('Theme', () => {
       1,
     )
 
+    await page.waitForTimeout(100)
+
     expect(await page.locator('style[data-href^="/ui."]').count()).toEqual(
       0,
     )
