@@ -158,13 +158,6 @@ function StepsLayout(props: Props) {
     setActiveIndex(activeIndexRef.current + 1)
   }, [setActiveIndex])
 
-  const stepIndicatorData = React.Children.map(children, (child) => {
-    if (!React.isValidElement(child) || child.type !== Step) {
-      throw new Error('Only Step can be children of StepsLayout')
-    }
-    return child.props.title ?? 'Title missing'
-  }) as string[]
-
   const handleChange = useCallback(
     ({ current_step }) => {
       setActiveIndex(current_step, { skipErrorCheck: true })
@@ -203,6 +196,32 @@ function StepsLayout(props: Props) {
     )
   }
 
+  const titles = []
+  const contents = React.Children.map(children, (child, i) => {
+    if (React.isValidElement(child)) {
+      let step = child
+
+      if (child?.type !== Step && typeof child.type === 'function') {
+        step = child.type.apply(child.type, [
+          child.props,
+        ]) as React.ReactElement
+
+        if (step?.type === Step) {
+          child = step
+        }
+      }
+
+      if (child?.type === Step) {
+        titles.push(child.props.title ?? 'Title missing')
+        return React.cloneElement(child as React.ReactElement<StepProps>, {
+          index: i,
+        })
+      }
+    }
+
+    return child
+  })
+
   return (
     <StepsContext.Provider value={providerValue}>
       <Space
@@ -218,7 +237,7 @@ function StepsLayout(props: Props) {
           <StepIndicator
             bottom
             current_step={activeIndexRef.current}
-            data={stepIndicatorData}
+            data={titles}
             mode={mode}
             no_animation={noAnimation}
             on_change={handleChange}
@@ -232,19 +251,7 @@ function StepsLayout(props: Props) {
           />
         </aside>
 
-        <div className="dnb-forms-steps-layout__contents">
-          {React.Children.map(children, (child, i) => {
-            if (React.isValidElement(child) && child.type === Step) {
-              return React.cloneElement(
-                child as React.ReactElement<StepProps>,
-                {
-                  index: i,
-                }
-              )
-            }
-            return child
-          })}
-        </div>
+        <div className="dnb-forms-steps-layout__contents">{contents}</div>
       </Space>
     </StepsContext.Provider>
   )

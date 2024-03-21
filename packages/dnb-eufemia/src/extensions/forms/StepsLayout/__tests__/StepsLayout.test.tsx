@@ -317,6 +317,66 @@ describe('StepsLayout', () => {
     expect(output()).toHaveTextContent('Step 2')
   })
 
+  it('supports steps to be in their own components', async () => {
+    const Step1 = () => {
+      return (
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      )
+    }
+
+    const Step2 = () => {
+      return (
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      )
+    }
+    const Step3 = () => {
+      return (
+        <StepsLayout.Step title="Step 3">
+          <output>Step 3</output>
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      )
+    }
+
+    const { rerender } = render(
+      <StepsLayout aria-label="step 1">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </StepsLayout>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    rerender(
+      <StepsLayout aria-label="step 2">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </StepsLayout>
+    )
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+
+    rerender(
+      <StepsLayout aria-label="step 3">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </StepsLayout>
+    )
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 3')
+  })
+
   it('should show error on navigating back and forth in loose mode', async () => {
     render(
       <StepsLayout mode="loose">
