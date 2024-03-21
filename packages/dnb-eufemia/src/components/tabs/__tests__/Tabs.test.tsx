@@ -258,6 +258,23 @@ describe('Tabs component', () => {
       ])
     )
   })
+
+  it('should not have a bleeding border if breeakout is false', () => {
+    render(
+      <Tabs
+        {...props}
+        data={tablistData}
+        breakout={false}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tabs = document.querySelector('.dnb-tabs__tabs')
+
+    expect(tabs.className).not.toContain('--breakout')
+  })
 })
 
 describe('TabList component', () => {
