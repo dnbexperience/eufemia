@@ -75,6 +75,10 @@ export interface TabsProps
    */
   no_border?: boolean;
   /**
+   * If set to `false`, the default horizontal border line under the tablist stay inside the parent boundaries. Defaults to `true`.
+   */
+  breakout?: boolean;
+  /**
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
   nav_button_edge?: boolean;
