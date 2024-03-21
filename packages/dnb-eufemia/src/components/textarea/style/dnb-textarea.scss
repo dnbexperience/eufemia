@@ -34,9 +34,6 @@
   &__inner {
     display: inline-flex;
     flex-direction: column;
-
-    margin: 0 var(--textarea-size-horizontal);
-    margin-right: var(--textarea-size-vertical);
   }
 
   &__shell {
@@ -108,15 +105,12 @@
   &__row {
     display: inline-flex;
 
-    margin: var(--textarea-size-vertical) 0;
+    margin: var(--textarea-size-vertical) var(--textarea-size-vertical)
+      var(--textarea-size-vertical) var(--textarea-size-horizontal);
   }
 
   &__suffix.dnb-suffix {
     padding-left: 1rem;
-  }
-
-  .dnb-text-counter {
-    margin-left: -0.5rem;
   }
 
   &__textarea {
@@ -212,7 +206,7 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin: 0.5rem 0 0 calc(var(--textarea-size-horizontal) * -1);
+    margin-top: 0.5rem;
   }
 
   &:not(#{&}--vertical) .dnb-form-label {

@@ -149,8 +149,6 @@ button .dnb-form-status__text {
 .dnb-textarea__inner {
   display: inline-flex;
   flex-direction: column;
-  margin: 0 var(--textarea-size-horizontal);
-  margin-right: var(--textarea-size-vertical);
 }
 .dnb-textarea__shell {
   display: inline-flex;
@@ -201,13 +199,10 @@ button .dnb-form-status__text {
 }
 .dnb-textarea__row {
   display: inline-flex;
-  margin: var(--textarea-size-vertical) 0;
+  margin: var(--textarea-size-vertical) var(--textarea-size-vertical) var(--textarea-size-vertical) var(--textarea-size-horizontal);
 }
 .dnb-textarea__suffix.dnb-suffix {
   padding-left: 1rem;
-}
-.dnb-textarea .dnb-text-counter {
-  margin-left: -0.5rem;
 }
 .dnb-textarea__textarea {
   position: relative;
@@ -313,7 +308,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea__inner > .dnb-form-status {
   order: 2;
-  margin: 0.5rem 0 0 calc(var(--textarea-size-horizontal) * -1);
+  margin-top: 0.5rem;
 }
 .dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
   margin-top: var(--textarea-size-vertical);
