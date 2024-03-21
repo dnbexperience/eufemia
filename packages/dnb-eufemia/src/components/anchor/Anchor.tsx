@@ -196,7 +196,7 @@ function getIcon(icon) {
   return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
-export function pickIcon(icon, className: string = null) {
+export function pickIcon(icon, className?: string) {
   return icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')
     ? React.cloneElement(icon, {
         key: 'button-icon-clone',
