@@ -229,10 +229,10 @@ export default {
         errorRequired:
           'Invalid national identity number. Enter a valid 11-digit number',
       },
-      OrganizationNumber: {
-        label: 'Organization number',
-        errorRequired: 'You must enter an organization number',
-        errorPattern: 'This is not a valid organization number',
+      OrganisationNumber: {
+        label: 'Organisation number',
+        errorRequired: 'You must enter an organisation number',
+        errorPattern: 'This is not a valid organisation number',
       },
       BankAccountNumber: {
         label: 'Bank account',

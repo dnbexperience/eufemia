@@ -225,7 +225,7 @@ export default {
         errorRequired:
           'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
       },
-      OrganizationNumber: {
+      OrganisationNumber: {
         label: 'Organisasjonsnummer',
         errorRequired: 'Du må fylle inn et organisasjonsnummer',
         errorPattern: 'Dette er ikke et gyldig organisasjonsnummer',

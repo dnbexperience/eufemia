@@ -9,7 +9,7 @@ export type Props = StringFieldProps & {
 }
 
 function OrganizationNumber(props: Props) {
-  const translations = useLocale().Forms.OrganizationNumber
+  const translations = useLocale().Forms.OrganisationNumber
 
   const { validate = true, omitMask } = props
 
