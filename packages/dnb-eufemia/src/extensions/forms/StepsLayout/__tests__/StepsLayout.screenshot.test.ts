@@ -6,6 +6,9 @@ describe('StepsLayout', () => {
   it('have to match border', async () => {
     const screenshot = await makeScreenshot({
       url,
+      pageViewport: {
+        width: 700,
+      },
       selector:
         '[data-visual-test="steps-layout-card-border"] .dnb-forms-steps-layout__contents',
     })

@@ -73,102 +73,32 @@ describe('StepsLayout', () => {
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    fireEvent.click(secondStep.querySelector('.dnb-button'))
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
     expect(output()).toHaveTextContent('Step 2')
-    expect(onStepChange).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
 
-    fireEvent.click(firstStep.querySelector('.dnb-button'))
+    await userEvent.click(firstStep.querySelector('.dnb-button'))
     expect(output()).toHaveTextContent('Step 1')
-    expect(onStepChange).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
 
-    fireEvent.click(nextButton())
+    await userEvent.click(nextButton())
     expect(nextButton()).not.toBeDisabled()
 
-    await waitFor(() => {
-      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
-      expect(previousButton()).not.toBeInTheDocument()
-    })
+    expect(onStepChange).toHaveBeenCalledTimes(3)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
 
+    // Use fireEvent to trigger the event fast
     fireEvent.click(previousButton())
     expect(previousButton()).not.toBeDisabled()
 
     await waitFor(() => {
-      expect(onStepChange).toHaveBeenCalledTimes(2)
+      expect(previousButton()).toBeNull()
+      expect(onStepChange).toHaveBeenCalledTimes(4)
       expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
       expect(previousButton()).not.toBeInTheDocument()
     })
-  })
-
-  it('should scroll to top on step change when scrollTopOnStepChange is true', async () => {
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
-
-    render(
-      <StepsLayout scrollTopOnStepChange>
-        <StepsLayout.Step title="Step 1">
-          <output>Step 1</output>
-          <StepsLayout.PreviousButton />
-          <StepsLayout.NextButton />
-        </StepsLayout.Step>
-
-        <StepsLayout.Step title="Step 2">
-          <output>Step 2</output>
-          <StepsLayout.PreviousButton />
-          <StepsLayout.NextButton />
-        </StepsLayout.Step>
-      </StepsLayout>
-    )
-
-    fireEvent.click(nextButton())
-
-    await waitFor(() => {
-      expect(scrollTo).toHaveBeenCalledTimes(1)
-    })
-
-    fireEvent.click(previousButton())
-
-    await waitFor(() => {
-      expect(scrollTo).toHaveBeenCalledTimes(2)
-    })
-
-    const [firstStep, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    )
-
-    fireEvent.click(secondStep.querySelector('.dnb-button'))
-    expect(output()).toHaveTextContent('Step 2')
-    expect(scrollTo).toHaveBeenCalledTimes(2)
-
-    fireEvent.click(firstStep.querySelector('.dnb-button'))
-    expect(output()).toHaveTextContent('Step 1')
-    expect(scrollTo).toHaveBeenCalledTimes(2)
-  })
-
-  it('should show remaining errors on step change', () => {
-    render(
-      <StepsLayout mode="loose" scrollTopOnStepChange>
-        <StepsLayout.Step title="Step 1">
-          <output>Step 1</output>
-          <Field.String required />
-          <StepsLayout.PreviousButton />
-          <StepsLayout.NextButton />
-        </StepsLayout.Step>
-
-        <StepsLayout.Step title="Step 2">
-          <output>Step 2</output>
-          <StepsLayout.PreviousButton />
-          <StepsLayout.NextButton />
-        </StepsLayout.Step>
-      </StepsLayout>
-    )
-
-    expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
-
-    fireEvent.click(nextButton())
-
-    expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
   it('should show error on navigating back and forth', async () => {
@@ -199,28 +129,28 @@ describe('StepsLayout', () => {
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeNull()
 
-    fireEvent.click(nextButton())
+    await userEvent.click(nextButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
-    fireEvent.click(nextButton())
+    await userEvent.click(nextButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
 
-    fireEvent.click(previousButton())
+    await userEvent.click(previousButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
-    fireEvent.click(nextButton())
+    await userEvent.click(nextButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
@@ -228,7 +158,7 @@ describe('StepsLayout', () => {
     })
 
     await userEvent.type(document.querySelector('input'), 'foo')
-    fireEvent.click(nextButton())
+    await userEvent.click(nextButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 3')
@@ -349,6 +279,104 @@ describe('StepsLayout', () => {
     )
   }, 20000)
 
+  it('should set initialActiveIndex initially but not react on changes', () => {
+    const { rerender } = render(
+      <StepsLayout initialActiveIndex={1}>
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 3">
+          <output>Step 3</output>
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    expect(output()).toHaveTextContent('Step 2')
+
+    rerender(
+      <StepsLayout initialActiveIndex={2}>
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+        </StepsLayout.Step>
+
+        <StepsLayout.Step title="Step 3">
+          <output>Step 3</output>
+        </StepsLayout.Step>
+      </StepsLayout>
+    )
+
+    expect(output()).toHaveTextContent('Step 2')
+  })
+
+  it('supports steps to be in their own components', async () => {
+    const Step1 = () => {
+      return (
+        <StepsLayout.Step title="Step 1">
+          <output>Step 1</output>
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      )
+    }
+
+    const Step2 = () => {
+      return (
+        <StepsLayout.Step title="Step 2">
+          <output>Step 2</output>
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      )
+    }
+    const Step3 = () => {
+      return (
+        <StepsLayout.Step title="Step 3">
+          <output>Step 3</output>
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      )
+    }
+
+    const { rerender } = render(
+      <StepsLayout aria-label="step 1">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </StepsLayout>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    rerender(
+      <StepsLayout aria-label="step 2">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </StepsLayout>
+    )
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+
+    rerender(
+      <StepsLayout aria-label="step 3">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </StepsLayout>
+    )
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 3')
+  })
+
   it('should show error on navigating back and forth in loose mode', async () => {
     render(
       <StepsLayout mode="loose">
@@ -373,7 +401,7 @@ describe('StepsLayout', () => {
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeNull()
 
-    fireEvent.click(secondStep.querySelector('button'))
+    await userEvent.click(secondStep.querySelector('button'))
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
@@ -381,21 +409,21 @@ describe('StepsLayout', () => {
     })
 
     // Show the error message
-    fireEvent.click(nextButton())
+    await userEvent.click(nextButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
 
-    fireEvent.click(firstStep.querySelector('button'))
+    await userEvent.click(firstStep.querySelector('button'))
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
-    fireEvent.click(secondStep.querySelector('button'))
+    await userEvent.click(secondStep.querySelector('button'))
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
@@ -809,6 +837,83 @@ describe('StepsLayout', () => {
         expect(previousButton()).not.toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
       })
+    })
+  })
+
+  describe('scrollTopOnStepChange', () => {
+    it('should scroll to top on step change when scrollTopOnStepChange is true', async () => {
+      const scrollTo = jest.fn()
+      jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+      render(
+        <StepsLayout scrollTopOnStepChange>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <StepsLayout.PreviousButton />
+            <StepsLayout.NextButton />
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <StepsLayout.PreviousButton />
+            <StepsLayout.NextButton />
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(scrollTo).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.click(previousButton())
+
+      await waitFor(() => {
+        expect(scrollTo).toHaveBeenCalledTimes(2)
+      })
+
+      const [firstStep, secondStep] = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )
+
+      await userEvent.click(secondStep.querySelector('.dnb-button'))
+      expect(output()).toHaveTextContent('Step 2')
+      expect(scrollTo).toHaveBeenCalledTimes(3)
+
+      await userEvent.click(firstStep.querySelector('.dnb-button'))
+      expect(output()).toHaveTextContent('Step 1')
+      expect(scrollTo).toHaveBeenCalledTimes(4)
+    })
+
+    it('should show remaining errors on step change', () => {
+      const scrollTo = jest.fn()
+      jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+      render(
+        <StepsLayout mode="loose" scrollTopOnStepChange>
+          <StepsLayout.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String required />
+            <StepsLayout.PreviousButton />
+            <StepsLayout.NextButton />
+          </StepsLayout.Step>
+
+          <StepsLayout.Step title="Step 2">
+            <output>Step 2</output>
+            <StepsLayout.PreviousButton />
+            <StepsLayout.NextButton />
+          </StepsLayout.Step>
+        </StepsLayout>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryByRole('alert')).toBeNull()
+
+      fireEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
   })
 })

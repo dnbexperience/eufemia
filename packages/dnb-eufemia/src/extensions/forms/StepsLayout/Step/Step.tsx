@@ -24,13 +24,12 @@ function Step(props: Props) {
   }
 
   return (
-    <Flex.Container
+    <Flex.Stack
       className={classnames('dnb-forms-step', className)}
-      direction="vertical"
       {...pickFlexContainerProps(props)}
     >
       {children}
-    </Flex.Container>
+    </Flex.Stack>
   )
 }
 

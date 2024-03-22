@@ -1,14 +1,14 @@
+import React from 'react'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Card, P } from '@dnb/eufemia/src'
+import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
+import { createRequest } from '../../Form/SubmitIndicator/Examples'
 import {
   StepsLayout,
   Form,
   Field,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
-import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
-import React from 'react'
-import { createRequest } from '../../Form/SubmitIndicator/Examples'
+import { Card, Flex, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -16,40 +16,51 @@ export const Default = () => {
       scope={{ StepsLayout }}
       data-visual-test="steps-layout-card-border"
     >
-      <Form.Handler
-        data={{
+      {() => {
+        const initialData = {
           firstName: 'John',
           lastName: 'Doe',
           streetName: 'Osloveien',
           streetNr: 12,
           postalCode: '1234',
           city: 'Oslo',
-        }}
-      >
-        <StepsLayout>
-          <StepsLayout.Step title="Step 1">
-            <Form.MainHeading>Heading</Form.MainHeading>
-            <Card>
-              <P>Contents</P>
-            </Card>
-            <Card>
-              <P>Contents</P>
-            </Card>
-            <StepsLayout.NextButton />
-          </StepsLayout.Step>
+        }
 
-          <StepsLayout.Step title="Step 2">
+        const Step1 = () => (
+          <Flex.Stack>
             <Form.MainHeading>Heading</Form.MainHeading>
             <Card>
               <P>Contents</P>
             </Card>
+            <Card>
+              <P>Contents</P>
+            </Card>
+
+            <Form.ButtonRow>
+              <StepsLayout.NextButton />
+            </Form.ButtonRow>
+          </Flex.Stack>
+        )
+
+        const Step2 = () => (
+          <Flex.Stack>
+            <Form.MainHeading>Heading</Form.MainHeading>
+            <Card>
+              <P>Contents</P>
+            </Card>
+            <Card>
+              <P>Contents</P>
+            </Card>
+
             <Form.ButtonRow>
               <StepsLayout.PreviousButton />
               <StepsLayout.NextButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
+          </Flex.Stack>
+        )
 
-          <StepsLayout.Step title="Summary">
+        const Summary = () => (
+          <Flex.Stack>
             <Form.MainHeading>Summary</Form.MainHeading>
             <Card stack>
               <Form.SubHeading>Deliver address</Form.SubHeading>
@@ -65,10 +76,48 @@ export const Default = () => {
                 <Value.String label="City" path="/city" />
               </Value.SummaryList>
             </Card>
-            <StepsLayout.PreviousButton />
-          </StepsLayout.Step>
-        </StepsLayout>
-      </Form.Handler>
+
+            <Form.ButtonRow>
+              <StepsLayout.PreviousButton />
+              <Form.SubmitButton />
+            </Form.ButtonRow>
+          </Flex.Stack>
+        )
+
+        // Can be an async function, in case you need to make some async stuff
+        const onStepChange = async (step, mode) => {
+          if (mode === 'next') {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }
+          console.log('onStepChange', step, mode)
+        }
+
+        // Can be an async function, in case you need to make some async stuff
+        const onSubmit = async (data) => {
+          await new Promise((resolve) => setTimeout(resolve, 2000))
+          console.log('onSubmit', data)
+        }
+
+        const MyForm = () => (
+          <Form.Handler data={initialData} onSubmit={onSubmit}>
+            <StepsLayout variant="drawer" onStepChange={onStepChange}>
+              <StepsLayout.Step title="Step 1">
+                <Step1 />
+              </StepsLayout.Step>
+
+              <StepsLayout.Step title="Step 2">
+                <Step2 />
+              </StepsLayout.Step>
+
+              <StepsLayout.Step title="Summary">
+                <Summary />
+              </StepsLayout.Step>
+            </StepsLayout>
+          </Form.Handler>
+        )
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }
@@ -124,38 +173,54 @@ export const AsyncStepsLayout = () => {
           const validator1 = debounceAsync(validator)
           const validator2 = debounceAsync(validator)
 
+          const Step1 = () => {
+            return (
+              <Flex.Stack>
+                <Card stack>
+                  <Field.String
+                    label="Required field with async validator"
+                    validator={validator1}
+                    path="/field1"
+                    required
+                  />
+                  <Field.String
+                    label="Field with async validator"
+                    validator={validator2}
+                    path="/field2"
+                  />
+                </Card>
+                <Form.ButtonRow>
+                  <StepsLayout.PreviousButton />
+                  <StepsLayout.NextButton />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            )
+          }
+
+          const Step2 = () => {
+            return (
+              <Flex.Stack>
+                <Form.MainHeading>Heading</Form.MainHeading>
+                <Card>
+                  <P>Contents of step 2</P>
+                </Card>
+                <Form.ButtonRow>
+                  <StepsLayout.PreviousButton />
+                  <Form.SubmitButton />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            )
+          }
+
           return (
             <Form.Handler onSubmit={onSubmit}>
               <StepsLayout onStepChange={onStepChange} variant="drawer">
                 <StepsLayout.Step title="Step 1">
-                  <Card stack>
-                    <Field.String
-                      label="Required field with async validator"
-                      validator={validator1}
-                      path="/field1"
-                      required
-                    />
-                    <Field.String
-                      label="Field with async validator"
-                      validator={validator2}
-                      path="/field2"
-                    />
-                  </Card>
-                  <Form.ButtonRow>
-                    <StepsLayout.PreviousButton />
-                    <StepsLayout.NextButton />
-                  </Form.ButtonRow>
+                  <Step1 />
                 </StepsLayout.Step>
 
                 <StepsLayout.Step title="Step 2">
-                  <Form.MainHeading>Heading</Form.MainHeading>
-                  <Card>
-                    <P>Contents of step 2</P>
-                  </Card>
-                  <Form.ButtonRow>
-                    <StepsLayout.PreviousButton />
-                    <Form.SubmitButton />
-                  </Form.ButtonRow>
+                  <Step2 />
                 </StepsLayout.Step>
               </StepsLayout>
             </Form.Handler>
