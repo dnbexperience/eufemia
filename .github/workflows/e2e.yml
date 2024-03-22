@@ -40,7 +40,7 @@ jobs:
 
     runs-on: macos-latest
 
-    timeout-minutes: 40
+    timeout-minutes: 5 # use lower timeout for testing the timeout
 
     steps:
       - name: Git checkout
@@ -88,7 +88,8 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
+        # run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
+        run: echo "timestamp={$(date +'%Y-%W')}" >> "$GITHUB_OUTPUT"
 
       - name: Use Gatsby cache
         uses: actions/cache@v3
@@ -130,6 +131,37 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
         if: ${{ always() && !github.event.pull_request.head.repo.fork }}
         continue-on-error: true
+
+      - name: Workflow run duration action
+        uses: channyein87/workflow-duration-action@v1
+        id: duration
+        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
+        continue-on-error: true
+      - name: Get the output of duration
+        run: echo "The units-test workflow is ${{ steps.duration.outputs.duration }} seconds long."
+        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
+        continue-on-error: true
+
+      # - name: Check if previous run timed out
+      #   id: check-timeout
+      #   run: |
+      #     if [ "${{ github.event.workflow_run.conclusion }}" == "timed_out" ]; then
+      #       echo "retry=true" >> $GITHUB_OUTPUT
+      #     fi
+      #   if: ${{ failure() && !github.event.pull_request.head.repo.fork }}
+      #   continue-on-error: true
+
+      # - name: Rerun workflow if previous run timed out
+      #   run: |
+      #     # Trigger the workflow to run again
+      #     echo "Previous run timed out, triggering workflow again..."
+      #     curl -X POST \
+      #       -H "Accept: application/vnd.github.v3+json" \
+      #       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+      #       https://api.github.com/repos/${{ github.repository }}/actions/workflows/e2e/dispatches \
+      #       -d '{"ref":"${{ github.event.workflow_run.head_branch }}", "inputs":{}}'
+      #   if: ${{ failure() && steps.check-timeout.outputs.retry == 'true' }}
+      #   continue-on-error: true
 
   portal-test:
     name: Run portal e2e-tests
@@ -179,7 +211,8 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
+        # run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
+        run: echo "timestamp={$(date +'%Y-%W')}" >> "$GITHUB_OUTPUT"
 
       - name: Use Gatsby cache
         uses: actions/cache@v3
