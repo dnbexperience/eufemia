@@ -314,6 +314,12 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   display: flex;
   align-items: flex-end;
 }
+.dnb-table__th, .dnb-table thead th {
+  background-color: var(--table-th-background-color);
+}
+.dnb-table tbody tr:has(th:first-child + td:last-child) th[scope=row] {
+  --table-th-background-color: initial;
+}
 
 /*
 * Table component
@@ -817,6 +823,7 @@ exports[`Table scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-table {
+  --table-th-background-color: var(--color-white);
   text-align: left;
   /* stylelint-disable */
   /* stylelint-enable */
@@ -828,7 +835,6 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
   vertical-align: bottom;
-  background-color: var(--color-white);
 }
 .dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
   padding: 1.375rem 1rem 0.875rem;

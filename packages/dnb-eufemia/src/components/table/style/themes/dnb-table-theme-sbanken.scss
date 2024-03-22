@@ -17,13 +17,14 @@
 }
 
 .dnb-table {
+  --table-th-background-color: var(--sb-color-white);
+
   text-align: left;
 
   &__th,
   & thead th {
     padding: 0.5rem 1.5rem 0.25rem;
     font-weight: var(--font-weight-medium);
-    background-color: var(--sb-color-white);
   }
 
   & &__tr--even {
