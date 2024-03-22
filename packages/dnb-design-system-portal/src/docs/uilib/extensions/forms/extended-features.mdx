@@ -50,7 +50,11 @@ const existingData = {
 
 // The submit handler can be async
 const submitHandler = async (data) => {
-  console.log('Data:', data)
+  try {
+    await makeRequest(data)
+  } catch (error) {
+    return error
+  }
 }
 
 function Component() {

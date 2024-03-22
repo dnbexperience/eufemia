@@ -245,7 +245,7 @@ const RadioGroupsWithStatus = () => {
     React.useState('second')
 
   return (
-    <Form.Element>
+    <Form.Handler>
       <Provider formElement={{ label_direction: 'vertical' }}>
         <Radio.Group
           label="Group A label:"
@@ -281,7 +281,7 @@ const RadioGroupsWithStatus = () => {
           text="Set New State"
         />
       </Provider>
-    </Form.Element>
+    </Form.Handler>
   )
 }
 const shuffleArray = (arr) =>

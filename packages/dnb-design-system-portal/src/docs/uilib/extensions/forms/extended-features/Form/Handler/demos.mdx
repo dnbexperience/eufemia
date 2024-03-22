@@ -36,12 +36,6 @@ This example is only for demo purpose and will NOT redirect to a new location. I
 
 <Examples.AsyncSubmitComplete />
 
-### Async validation with async onChange
-
-Type "valid" in order to see the validation message.
-
-<Examples.AsyncChangeAndValidation />
-
 ### Filter your data
 
 By using the `filterData` prop you can filter out data that you don't want to send to your server.
@@ -64,3 +58,19 @@ when the browser reloads. The data is stored until the session storage is invali
 ### Autocomplete (autofill) user data
 
 <Examples.Autofill />
+
+### Complex async example
+
+This example demonstrates how to use async validation with an async `onSubmit` and async `onChange` event for both the `Form.Handler` and the field.
+
+- While you write, an async request is simulated to check if the input is valid. If it is not, an error message will be shown.
+
+- You can press enter to submit the form while you write. But only a string of `valid` will be accepted to emit `onSubmit` and `onChange`.
+
+- During validation, only the relevant value will be evaluated. This means, when the async validation is done, and the value has changed, the validation return will be omitted.
+
+- You can starting wiring, wait a second or two and remove the whole text again and blur the field. The async validation return will be omitted and the "required" error message will be shown.
+
+- It also shows some status messages after the validation and submit request is done.
+
+<Examples.AsyncChangeAndValidation />

@@ -22,7 +22,7 @@ export const Default = () => {
 export const WithLayout = () => {
   return (
     <ComponentBox scope={{ sendIcon }}>
-      <Form.Element onSubmit={(data) => console.log('onSubmit', data)}>
+      <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
         <Card spacing="medium">
           <Field.Email />
           <Form.ButtonRow>
@@ -30,7 +30,7 @@ export const WithLayout = () => {
             <Button variant="secondary">Cancel</Button>
           </Form.ButtonRow>
         </Card>
-      </Form.Element>
+      </Form.Handler>
     </ComponentBox>
   )
 }
