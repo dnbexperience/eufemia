@@ -276,15 +276,15 @@ describe('DataContext.Provider', () => {
       const submitButton = document.querySelector('button')
 
       await userEvent.type(inputElement, '1')
-      await userEvent.click(submitButton)
+      fireEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
       await userEvent.type(inputElement, '2')
-      await userEvent.click(submitButton)
+      fireEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
       await userEvent.type(inputElement, '3')
-      await userEvent.click(submitButton)
+      fireEvent.click(submitButton)
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -1033,6 +1033,10 @@ describe('DataContext.Provider', () => {
 
       const buttonElement = document.querySelector('button')
       const inputElement = document.querySelector('input')
+      const pendingField = () =>
+        document.querySelector(
+          '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+        )
 
       // 1. start the async validation
       await userEvent.type(inputElement, 'invali')
@@ -1040,11 +1044,7 @@ describe('DataContext.Provider', () => {
       expect(document.querySelector('.dnb-form-status')).toBeNull()
 
       await waitFor(() => {
-        expect(
-          document.querySelector(
-            '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
-          )
-        ).toBeTruthy()
+        expect(pendingField()).toBeTruthy()
       })
 
       await waitFor(() => {
@@ -1084,8 +1084,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.type(inputElement, '{Backspace>10}')
-
-      fireEvent.click(buttonElement)
+      await userEvent.click(buttonElement)
 
       await waitFor(() => {
         expect(
@@ -1107,6 +1106,104 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+    })
+
+    it('should emit onChange only when validator is evaluated successfully', async () => {
+      const onChangeContext = jest.fn().mockImplementation(async () => {
+        await wait(5)
+      })
+      const onChangeField = jest.fn().mockImplementation(async () => {
+        await wait(5)
+      })
+
+      const validator = jest.fn().mockImplementation(async (value) => {
+        await wait(40)
+        if (value !== 'valid') {
+          return Error(`value: ${value}`)
+        }
+      })
+
+      render(
+        <DataContext.Provider onChange={onChangeContext}>
+          <Field.String
+            label="Label"
+            path="/foo"
+            validator={validator}
+            onChange={onChangeField}
+            required
+          />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+      const pendingField = () =>
+        document.querySelector(
+          '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+        )
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(pendingField()).toBeTruthy()
+      })
+
+      await userEvent.type(inputElement, '{Backspace}')
+      fireEvent.blur(inputElement)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: '2' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('value: 2')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: 'valid' },
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      expect(onChangeContext).toHaveBeenCalledTimes(0)
+      expect(onChangeField).toHaveBeenCalledTimes(0)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      await userEvent.type(inputElement, 'valid')
+
+      await waitFor(() => {
+        expect(onChangeContext).toHaveBeenCalledTimes(1)
+        expect(onChangeContext).toHaveBeenLastCalledWith({ foo: 'valid' })
+      })
+      await waitFor(() => {
+        expect(onChangeField).toHaveBeenCalled()
+        expect(onChangeField).toHaveBeenLastCalledWith('valid')
       })
     })
   })

@@ -56,7 +56,7 @@ type PersistErrorStateMethod =
   | 'wipe'
 type AsyncProcessesBuffer = {
   fulfill: () => void
-  hasAsyncProcesses: () => boolean
+  validateProcesses: () => boolean
 }
 
 export type DataAttributes = {
@@ -263,9 +263,9 @@ export default function useFieldProps<
   >({})
 
   for (const key in asyncBufferRef.current) {
-    const { fulfill, hasAsyncProcesses } = (asyncBufferRef.current[key] ||
+    const { fulfill, validateProcesses } = (asyncBufferRef.current[key] ||
       {}) as AsyncProcessesBuffer
-    if (hasAsyncProcesses?.() === false) {
+    if (validateProcesses?.() === false) {
       delete asyncBufferRef.current[key]
       if (typeof fulfill === 'function') {
         window.requestAnimationFrame(fulfill)
@@ -474,22 +474,29 @@ export default function useFieldProps<
       ...errorMessagesRef.current,
     }
 
+    const tmpValue = valueRef.current
+
     // Run async regardless to support Promise based validators
     const result = await validatorRef.current(valueRef.current, opts)
 
-    persistErrorState('gracefully', result as Error)
+    const unchangedValue = tmpValue === valueRef.current
+
+    // Don't show the error if the value has changed in the meantime
+    if (unchangedValue) {
+      persistErrorState('gracefully', result as Error)
+
+      // Because its a better UX to show the error when the validation is async/delayed
+      if (continuousValidation || runAsync) {
+        // Because we first need to throw the error to be able to display it, we delay the showError call
+        window.requestAnimationFrame(() => {
+          showError()
+          forceUpdate()
+        })
+      }
+    }
 
     if (runAsync) {
       setFieldState(result instanceof Error ? 'error' : 'complete')
-    }
-
-    // Because its a better UX to show the error when the validation is async/delayed
-    if (continuousValidation || runAsync) {
-      // Because we first need to throw the error to be able to display it, we delay the showError call
-      window.requestAnimationFrame(() => {
-        showError()
-        forceUpdate()
-      })
     }
 
     return result
@@ -709,21 +716,21 @@ export default function useFieldProps<
           }
         }
 
-        const hasAsyncProcesses = () => {
+        const validateProcesses = () => {
           return waitFor.some(({ processName, withStates }) => {
             return (
               (processName
                 ? processName === currentAsyncProcessRef.current
                 : true) &&
-              withStates.some((state) => {
+              withStates?.some((state) => {
                 return state === fieldStateRef.current
               })
             )
           })
         }
 
-        if (hasAsyncProcesses() === true) {
-          asyncBufferRef.current[name] = { fulfill, hasAsyncProcesses }
+        if (validateProcesses() === true) {
+          asyncBufferRef.current[name] = { fulfill, validateProcesses }
         } else {
           fulfill()
           setFieldState('pending')
@@ -805,13 +812,16 @@ export default function useFieldProps<
 
     if (path) {
       if (isAsync(onChangeContext)) {
-        setCurrentAsyncProcess('onChangeContext')
-        setEventResult(
-          (await handlePathChangeDataContext?.(
-            path,
-            valueRef.current
-          )) as EventReturnWithStateObjectAndSuccess
-        )
+        // Skip sync errors, such as required
+        if (!hasError()) {
+          setCurrentAsyncProcess('onChangeContext')
+          setEventResult(
+            (await handlePathChangeDataContext?.(
+              path,
+              valueRef.current
+            )) as EventReturnWithStateObjectAndSuccess
+          )
+        }
       } else {
         setEventResult(
           handlePathChangeDataContext?.(
@@ -826,6 +836,7 @@ export default function useFieldProps<
   }, [
     asyncBehaviorIsEnabled,
     path,
+    hasError,
     yieldAsyncProcess,
     onChangeContext,
     setCurrentAsyncProcess,
@@ -932,8 +943,11 @@ export default function useFieldProps<
 
             setCurrentAsyncProcess('onChangeLocal')
 
-            // If the value has changed during the async process, we don't want to call the onChange anymore
-            setEventResult(await onChange?.apply(this, args))
+            // Skip sync errors, such as required
+            if (!hasError()) {
+              // If the value has changed during the async process, we don't want to call the onChange anymore
+              setEventResult(await onChange?.apply(this, args))
+            }
           },
           true
         )
@@ -954,6 +968,7 @@ export default function useFieldProps<
       addToPool,
       asyncBehaviorIsEnabled,
       handleIterateElementChange,
+      hasError,
       hideError,
       itemPath,
       iterateElementIndex,
