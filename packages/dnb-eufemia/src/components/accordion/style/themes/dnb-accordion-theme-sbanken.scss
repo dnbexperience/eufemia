@@ -17,6 +17,10 @@
   --accordion-header-wrapper-margin--icon-right: calc(
     1.5rem - var(--sb-accordion-frame-width)
   );
+  --sb-accordion-header-border-radius--expanded: 0.125rem 0.125rem 0 0;
+  --sb-accordion-header-border-radius--hover: 0.125rem;
+  --sb-accordion-header-border-radius--hover-expanded: 0.125rem 0.125rem 0
+    0;
 
   // icon
   --accordion-header-icon-gutter: 0.5rem;
@@ -33,6 +37,7 @@
   --sb-accordion-content-padding-left: calc(
     3.5rem - var(--sb-accordion-frame-width)
   );
+  --sb-accordion-content-border-radius: 0 0 0.125rem 0.125rem;
 
   color: var(--sb-color-text);
 
@@ -57,6 +62,7 @@
     }
     @include hover() {
       background-color: var(--sb-color-violet-light-2);
+      border-radius: var(--sb-accordion-header-border-radius--hover);
     }
 
     @include active() {
@@ -103,6 +109,20 @@
     --sb-accordion-background: var(--sb-color-violet-light-4);
     --sb-accordion-frame-color: var(--sb-color-violet);
     --sb-accordion-frame-width--active: 0.125rem;
+    > .dnb-accordion__header {
+      @include hover() {
+        border-radius: var(
+          --sb-accordion-header-border-radius--hover-expanded
+        );
+      }
+      &--expanded {
+        border-radius: var(--sb-accordion-header-border-radius--expanded);
+      }
+    }
+
+    > .dnb-accordion__content {
+      border-radius: var(--sb-accordion-content-border-radius);
+    }
 
     // disabled
     > .dnb-accordion__header[disabled],
