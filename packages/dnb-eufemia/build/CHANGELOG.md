@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.24.0](https://github.com/dnbexperience/eufemia/compare/v10.23.0...v10.24.0) (2024-03-22)
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** Sbanken theme tweaks ([#3399](https://github.com/dnbexperience/eufemia/issues/3399)) ([68da48b](https://github.com/dnbexperience/eufemia/commit/68da48bd37f582e1e925116e1c61ee4650c04f29))
+* **ToggleButton:** use 25% of the color when checked and disabled ([#3402](https://github.com/dnbexperience/eufemia/issues/3402)) ([3886802](https://github.com/dnbexperience/eufemia/commit/3886802c33a57b4f1abaef1b9929c7ea4113cb48))
+
+
+### :sparkles: Features
+
+* **Anchor:** use inline icon ([#3387](https://github.com/dnbexperience/eufemia/issues/3387)) ([6c2860a](https://github.com/dnbexperience/eufemia/commit/6c2860a73e507da1d98138e586794044756e2e12))
+* **forms:** add support for `errorMessage` inside a schema (JSONSchema4) ([#3398](https://github.com/dnbexperience/eufemia/issues/3398)) ([310ec4e](https://github.com/dnbexperience/eufemia/commit/310ec4e0a9ed91cd10920d139ab2eae46e2a7b1f))
+* **StepsLayout:** add hook useSteps to handle the state outside of the form ([affb110](https://github.com/dnbexperience/eufemia/commit/affb1106e68c300461f20d4c3f6a6b844ec3eded))
+* **StepsLayout:** support `StepsLayout.Step` to be in its own component ([80d8424](https://github.com/dnbexperience/eufemia/commit/80d842431f6e9893a32a758bcf09550f2f2ff868))
+* **Table:** add support for scope="row" with odd/even background color ([#3397](https://github.com/dnbexperience/eufemia/issues/3397)) ([2dc9e3d](https://github.com/dnbexperience/eufemia/commit/2dc9e3d5e926f047293022776642ec7887338944))
+* **Textarea:** add keepPlaceholder prop ([#3396](https://github.com/dnbexperience/eufemia/issues/3396)) ([6d55d2a](https://github.com/dnbexperience/eufemia/commit/6d55d2a2ddc5f5e333f18113411ebe5e07d55eca)), closes [#3395](https://github.com/dnbexperience/eufemia/issues/3395)
+* **Textarea:** add several sizes and change default size to small + add a custom resize gfx ([#3395](https://github.com/dnbexperience/eufemia/issues/3395)) ([0071bbb](https://github.com/dnbexperience/eufemia/commit/0071bbb0fc1b7a7682702fbf67c4db4b3d928d51))
+
 ## [10.23.0](https://github.com/dnbexperience/eufemia/compare/v10.22.0...v10.23.0) (2024-03-19)
 
 
