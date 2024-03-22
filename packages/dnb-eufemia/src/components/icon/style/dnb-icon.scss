@@ -24,7 +24,7 @@
   img,
   svg {
     &,
-    .dnb-core-style & {
+    :where(.dnb-core-style) & {
       width: inherit;
       height: inherit;
       shape-rendering: geometricprecision;

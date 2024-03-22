@@ -38,9 +38,9 @@ exports[`Breadcrumb scss has to match style dependencies css 1`] = `
   width: 1em;
   height: 1em;
 }
-.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
 .dnb-icon svg,
-.dnb-core-style .dnb-icon svg {
+:where(.dnb-core-style) .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
@@ -767,7 +767,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb__item:first-child .dnb-anchor {
   border-left: none;
 }
-.dnb-breadcrumb__item:first-child .dnb-anchor .dnb-icon {
+.dnb-breadcrumb__item:first-child .dnb-anchor .dnb-icon svg {
   margin-right: 0.5rem;
 }
 .dnb-breadcrumb__multiple {

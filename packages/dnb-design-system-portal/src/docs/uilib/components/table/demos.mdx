@@ -2,26 +2,7 @@
 showTabs: true
 ---
 
-import {
-  TableVariantBasic,
-  TableVariantComplex,
-  TableRowScopeOnly,
-  TableVariantFixed,
-  TableStackedContainer,
-  TableContainerEmptyHeaderFooter,
-  TableClassHelpers,
-  TableWithoutClasses,
-  TableLongHeader,
-  TableSticky,
-  TableStickyMaxHeight,
-  TableSizeMedium,
-  TableSizeSmall,
-  PaginationTable,
-  TableAccordion,
-  TableAccordionRow,
-  TablesInOneContainer,
-  VariantCombinations,
-} from 'Docs/uilib/components/table/Examples'
+import * as Examples from './Examples'
 
 ## Demos
 
@@ -29,7 +10,7 @@ import {
 
 **NB:** In this example, the sort buttons do react on your input. But will not change the table data.
 
-<TableVariantBasic />
+<Examples.VariantBasic />
 
 ### Complex table
 
@@ -37,25 +18,25 @@ You can force a row to overwrite the automated odd/even counting by providing e.
 
 **NB:** The table header in the first column needs to have `scope="row"`!
 
-<TableVariantComplex />
+<Examples.VariantComplex />
 
 ### Row scope headers only
 
 This table has only `scope="row"` and `scope="rowgroup"` headers – without the default `scope="col"`.
 
-<TableRowScopeOnly />
+<Examples.RowScopeOnly />
 
 ### Fixed table
 
-<TableVariantFixed />
+<Examples.VariantFixed />
 
 ### Medium and small sized
 
-<TableSizeMedium />
+<Examples.SizeMedium />
 
 A `small` sized table is only for special circumstances, where a lot of data needs to be shown on the screen at the same time.
 
-<TableSizeSmall />
+<Examples.SizeSmall />
 
 ### Table with accordion
 
@@ -63,23 +44,23 @@ A `small` sized table is only for special circumstances, where a lot of data nee
 
 The second table uses both a `border` and an `outline`.
 
-<TableAccordion />
+<Examples.Accordion />
 
 ##### Expand additional rows
 
 It's also possible to use accordion to expand the table with more rows.
 
-<TableAccordionRow />
+<Examples.AccordionRow />
 
 ### Table with sticky header
 
-<TableSticky />
+<Examples.Sticky />
 
 ### Table with a max height
 
 A sticky table header with `sticky="css-position"` and `max-height` on the `Table.ScrollView`.
 
-<TableStickyMaxHeight />
+<Examples.StickyMaxHeight />
 
 ### Several tables in one container
 
@@ -87,18 +68,18 @@ A sticky table header with `sticky="css-position"` and `max-height` on the `Tabl
   <summary className="dnb-p">
     Show how the import and syntax is structured.
   </summary>
-  <TablesInOneContainer />
+  <Examples.InOneContainer />
 </details>
 
-<TableStackedContainer />
+<Examples.StackedContainer />
 
 With no (empty) `head` and `foot` content.
 
-<TableContainerEmptyHeaderFooter />
+<Examples.ContainerEmptyHeaderFooter />
 
 ### Table with long header text (wrapping)
 
-<TableLongHeader />
+<Examples.LongHeader />
 
 ### Table with pagination
 
@@ -106,13 +87,23 @@ With no (empty) `head` and `foot` content.
   This example is not yet fully supported using the Sbanken theme.
 </VisibilityByTheme>
 
-<PaginationTable />
+<Examples.PaginationTable />
+
+### Responsive table in a Card
+
+**NB:** For tables with lots of content, it's best to avoid repeating the header for each row. This can be overwhelming for users who rely on screen readers.
+
+Also, it is important that the `<td>` without a `<th>` has a `aria-label={header.title}` to let users with screen readers know where "these tools" belong to.
+
+This example uses `scope="row"` with a table header (`<th>`) in each row.
+
+<Examples.ResponsiveInCard />
 
 ### Example usage without and with classes
 
-<TableWithoutClasses />
-<TableClassHelpers />
+<Examples.WithoutClasses />
+<Examples.ClassHelpers />
 
 <VisibleWhenVisualTest>
-  <VariantCombinations />
+  <Examples.VariantCombinations />
 </VisibleWhenVisualTest>

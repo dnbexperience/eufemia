@@ -238,7 +238,7 @@ render(<Field.PhoneNumber validator={validator} />)
 In short, use the Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). This will ensure that the correct language is used for all the fields in your form.
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider locale="en-GB">
@@ -250,7 +250,7 @@ render(
 In addition, you can customize the translations globally:
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider

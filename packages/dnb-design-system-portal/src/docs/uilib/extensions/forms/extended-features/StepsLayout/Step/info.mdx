@@ -4,23 +4,33 @@ showTabs: true
 
 ## Description
 
-`StepsLayout.Step` show child components when the surrounding StepsLayout has been navigated to this step. StepsLayout keeps track of what is the active step, and navigating between steps is done through callbacks on the StepsContext, i.e. using navigation buttons.
+`StepsLayout.Step` shows child components when the surrounding [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout/) has been navigated to this step. StepsLayout keeps track of what is the active step, and navigating between steps is done through callbacks on the StepsContext, i.e. using [navigation buttons](/uilib/extensions/forms/extended-features/StepsLayout/Buttons/).
 
 ```jsx
-import {
-  StepsContext,
-  StepsLayout,
-  Form,
-} from '@dnb/eufemia/extensions/forms'
-render(
-  <StepsContext.Provider>
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const Step1 = () => {
+  return (
     <StepsLayout.Step title="Step 1">
       <Form.MainHeading>Heading</Form.MainHeading>
       <Card>
         <P>Contents</P>
       </Card>
-      <StepsLayout.NextButton />
+      <Card>
+        <P>Contents</P>
+      </Card>
+      <StepsLayout.Buttons />
     </StepsLayout.Step>
-  </StepsContext.Provider>,
-)
+  )
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <Step1 />
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
 ```

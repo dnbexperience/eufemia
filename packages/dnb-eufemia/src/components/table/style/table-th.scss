@@ -11,30 +11,14 @@
     align-items: flex-end; // bottom align help-button or other additional elements
   }
 
-  // &--outline thead &__th {
-  //   &::after {
-  //     @include tableBorder();
+  // head
+  &__th,
+  & thead th {
+    background-color: var(--table-th-background-color);
+  }
 
-  //     border-top: var(--table-outline);
-  //   }
-
-  //   &:first-of-type::after {
-  //     border-left: var(--table-outline);
-  //   }
-  //   &:last-of-type::after {
-  //     border-right: var(--table-outline);
-  //   }
-  // }
-  // &--outline tbody &__th:first-of-type::after {
-  //   @include tableBorder();
-
-  //   border-left: var(--table-outline);
-  // }
-  // &--outline tbody &__tr:last-of-type &__th {
-  //   &::after {
-  //     @include tableBorder();
-
-  //     border-bottom: var(--table-outline);
-  //   }
-  // }
+  // When we have a th with a scope of row, and there is only one td
+  & tbody tr:has(th:first-child + td:last-child) th[scope='row'] {
+    --table-th-background-color: initial;
+  }
 }

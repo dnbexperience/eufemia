@@ -13,11 +13,13 @@ import Th from '../TableTh'
 import Tr, { TableTrProps } from '../TableTr'
 import TableContainer from '../TableContainer'
 
-import { H2, P, Anchor, Dl, Lead, Card } from '../../..'
+import { H2, P, Anchor, Dl, Lead, Card, Flex, Badge } from '../../..'
 import { Button, ToggleButton, NumberFormat, Avatar } from '../../'
 import _TableAccordionRows from './TableAccordionRows'
 import shopping_cart from '../../../icons/shopping_cart'
 import useHandleSortState from '../useHandleSortState'
+import { compose as composeIcon, stop as stopIcon } from '../../../icons'
+import { useMedia } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Table',
@@ -740,35 +742,91 @@ export function TableSort() {
 }
 
 export const InCard = () => {
+  const { isSmall, isLarge } = useMedia()
+
+  const header = {
+    title: 'Tittel',
+    description: 'Beskrivelse',
+    status: 'Status',
+    deadline: 'Frist',
+  }
+
+  const content = {
+    title: 'Lorem ipsum',
+    description: 'Lorem ipsum',
+    status: <Badge content="Ikke pågeynt" />,
+    deadline: '17.04.2025',
+  }
+
+  const align = isLarge ? 'flex-end' : isSmall ? 'center' : 'flex-start'
+
+  const tableRow = (
+    <>
+      {isLarge ? (
+        <Tr>
+          <Td>{content.title}</Td>
+          <Td>{content.description}</Td>
+          <Td>{content.status}</Td>
+          <Td>{content.deadline}</Td>
+        </Tr>
+      ) : (
+        <>
+          <Tr variant="odd">
+            <Th scope="row">{header.title}</Th>
+            <Td>{content.title}</Td>
+          </Tr>
+          <Tr>
+            <Th scope="row">{header.description}</Th>
+            <Td>{content.description}</Td>
+          </Tr>
+          <Tr>
+            <Th scope="row">{header.status}</Th>
+            <Td>{content.status}</Td>
+          </Tr>
+          <Tr>
+            <Th scope="row">{header.deadline}</Th>
+            <Td>{content.deadline}</Td>
+          </Tr>
+        </>
+      )}
+
+      <Tr>
+        <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
+          <Flex.Horizontal justify={align}>
+            <Button
+              variant="tertiary"
+              icon={stopIcon}
+              icon_position="left"
+            >
+              Avvis signering
+            </Button>
+            <Button variant="secondary" icon={composeIcon}>
+              Start signering
+            </Button>
+          </Flex.Horizontal>
+        </Td>
+      </Tr>
+    </>
+  )
+
   return (
     <Card title="Card title" responsive={false} innerSpace={0} filled>
       <Table.ScrollView>
         <Table border outline size="medium">
-          <thead>
-            <Tr noWrap>
-              <Th>Column 1</Th>
-              <Th>Column 2</Th>
-              <Th>
-                Column 3 Phasellus semper orci id dictum consectetur diam
-              </Th>
-            </Tr>
-          </thead>
+          {isLarge && (
+            <thead>
+              <Tr noWrap>
+                <Th>{header.title}</Th>
+                <Th>{header.description}</Th>
+                <Th>{header.status}</Th>
+                <Th>{header.deadline}</Th>
+              </Tr>
+            </thead>
+          )}
+
           <tbody>
-            <Tr>
-              <Td>Row 1</Td>
-              <Td>Row 1</Td>
-              <Td>Row 1 </Td>
-            </Tr>
-            <Tr>
-              <Td colSpan={3} align="right">
-                <Button>Button</Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>Row 3</Td>
-              <Td>Row 3</Td>
-              <Td>Row 3</Td>
-            </Tr>
+            {tableRow}
+            {tableRow}
           </tbody>
         </Table>
       </Table.ScrollView>

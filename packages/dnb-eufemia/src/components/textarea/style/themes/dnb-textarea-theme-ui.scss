@@ -11,28 +11,23 @@
   --textarea-border-color--disabled: var(--color-black-55);
   --textarea-border-width: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;
+  --textarea-color: var(--color-black);
+  --textarea-background-color: var(--color-white);
+  --textarea-placeholder-color: var(--color-black-55);
+  --textarea-placeholder-color--focus: var(--color-black-20);
 
   &__textarea {
-    color: var(--color-black);
-    background-color: var(--textarea-background-color);
-
     ::selection {
       background-color: var(--color-mint-green);
-      color: var(--color-black);
       text-shadow: none;
     }
   }
 
-  &__placeholder {
-    color: var(--color-black-55);
-  }
-
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    @include fakeBorder(
-      var(--textarea-border-color--hover),
-      var(--textarea-border-width--hover)
-    );
+    --textarea-border-color: var(--textarea-border-color--hover);
+    --textarea-border-width: var(--textarea-border-width--hover);
+    --textarea-border-inset: ;
   }
 
   // We may enable this in future – right now it's unclear
@@ -41,21 +36,10 @@
   //   color: var(--color-black);
   // }
 
-  // disabled
-  &--disabled &__textarea,
-  &__textarea[disabled] {
-    color: var(--color-black-55);
-    background-color: var(--color-black-3);
-  }
-
-  &--disabled &__state,
-  &__textarea[disabled] ~ &__state {
-    @include fakeBorder(
-      var(--textarea-border-color--disabled),
-      var(--textarea-border-width),
-      inset
-    );
-    background-color: var(--color-black-3);
+  &--disabled {
+    --textarea-color: var(--color-black-55);
+    --textarea-background-color: var(--color-black-3);
+    --textarea-border-color: var(--textarea-border-color--disabled);
   }
 
   // with status_state = "error"

@@ -6,15 +6,77 @@ showTabs: true
 
 `Flex.Container` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components.
 
-Ideally, use [Flex.Item](/uilib/layout/flex/item) or [Card](/uilib/components/card) for you inner wrappers.
+Ideally, use [Flex.Item](/uilib/layout/flex/item) or [Card](/uilib/components/card) for you inner wrappers:
+
+```jsx
+import { Flex, Card } from '@dnb/eufemia'
+
+render(
+  <Flex.Container>
+    <Flex.Item>content</Flex.Item>
+    <Card>content</Card>
+  </Flex.Container>,
+)
+```
+
+But you can use it with what ever element too. It will wrap it in an `Flex.Item` to ensure the spacing is applied:
 
 ```jsx
 import { Flex } from '@dnb/eufemia'
 
 render(
   <Flex.Container>
-    <Flex.Item>content</Flex.Item>
+    <div>content</div>
+    <div>content</div>
   </Flex.Container>,
+)
+```
+
+During render, the items within the "Wrapper" container are wrapped with the same properties. This ensures that all the items have the same appearance.
+
+### Horizontal and Vertical aliases
+
+For shortening the usage of `direction="..."`, you can use:
+
+- `<Flex.Vertical>` instead of `<Flex.Container direction="vertical">`
+
+```jsx
+<Flex.Vertical>
+  <Flex.Item>part of vertical alignment</Flex.Item>
+  <Flex.Item>part of vertical alignment</Flex.Item>
+</Flex.Vertical>
+```
+
+- `<Flex.Horizontal>` instead of `<Flex.Container direction="horizontal">`
+
+```jsx
+<Flex.Horizontal>
+  <Flex.Item>part of horizontal alignment</Flex.Item>
+  <Flex.Item>part of horizontal alignment</Flex.Item>
+</Flex.Horizontal>
+```
+
+## Limitations
+
+The `Flex.Container` will iterate over its childrenToReact, but not the children of the children
+
+**NB:** This examples showcases the limitation:
+
+```tsx
+import { Flex, Card } from '@dnb/eufemia'
+
+// The Cards will not get the spacing applied
+const MyItem = () => (
+  <>
+    <Card>content</Card>
+    <Card>content</Card>
+  </>
+)
+
+const MyContainer = () => (
+  <Flex.Container>
+    <MyItem />
+  </Flex.Container>
 )
 ```
 
@@ -47,28 +109,4 @@ render(
     <Item />
   </Flex.Container>,
 )
-```
-
-During render, the items within the "Wrapper" container are wrapped with the same properties. This ensures that all the items have the same appearance.
-
-### Horizontal and Vertical aliases
-
-For shortening the usage of `direction="..."`, you can use:
-
-- `<Flex.Vertical>` instead of `<Flex.Container direction="vertical">`
-
-```jsx
-<Flex.Vertical>
-  <Flex.Item>part of vertical alignment</Flex.Item>
-  <Flex.Item>part of vertical alignment</Flex.Item>
-</Flex.Vertical>
-```
-
-- `<Flex.Horizontal>` instead of `<Flex.Container direction="horizontal">`
-
-```jsx
-<Flex.Horizontal>
-  <Flex.Item>part of horizontal alignment</Flex.Item>
-  <Flex.Item>part of horizontal alignment</Flex.Item>
-</Flex.Horizontal>
 ```

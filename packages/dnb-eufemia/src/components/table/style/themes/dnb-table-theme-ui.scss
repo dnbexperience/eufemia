@@ -7,6 +7,8 @@
 @import '../table-mixins.scss';
 
 .dnb-table {
+  --table-th-background-color: var(--color-white);
+
   text-align: left;
 
   // head
@@ -21,8 +23,6 @@
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     vertical-align: bottom;
-
-    background-color: var(--color-white);
 
     .dnb-table__size--medium & {
       // spacing

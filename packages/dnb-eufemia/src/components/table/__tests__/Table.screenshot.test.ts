@@ -460,3 +460,20 @@ describe.each(['ui', 'sbanken'])(
     })
   }
 )
+
+describe('Table', () => {
+  setupPageScreenshot({
+    pageViewport: {
+      width: 300,
+    },
+    url: '/uilib/components/table/demos',
+  })
+
+  it('have to match table with one td', async () => {
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector: '[data-visual-test="table-one-td"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

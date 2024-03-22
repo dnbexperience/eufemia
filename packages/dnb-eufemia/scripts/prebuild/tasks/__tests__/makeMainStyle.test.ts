@@ -72,7 +72,7 @@ if (isCI) {
       expect(global.components[0]).toContain(
         'ATTENTION: This file is auto generated'
       )
-      expect(global.components[1]).toMatch(/^:root{--/)
+      expect(global.components[1]).toMatch(/^@charset "UTF-8";:root{--/)
     })
 
     it('includes correct files', () => {

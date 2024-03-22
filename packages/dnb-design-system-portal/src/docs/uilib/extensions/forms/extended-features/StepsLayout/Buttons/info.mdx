@@ -4,13 +4,20 @@ showTabs: true
 
 ## Description
 
-`StepsLayout.Buttons` Is a composition for a row containing both PreviousButton and NextButton.
+`StepsLayout.Buttons` Is a composition for a row containing both [PreviousButton](/uilib/extensions/forms/extended-features/StepsLayout/PreviousButton/) and [NextButton](/uilib/extensions/forms/extended-features/StepsLayout/NextButton/).
+
+These two buttons are wrapped in the [Form.ButtonRow](/uilib/extensions/forms/extended-features/Form/ButtonRow/) component.
 
 ```jsx
-import { StepsContext, StepsLayout } from '@dnb/eufemia/extensions/forms'
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
 render(
-  <StepsContext.Provider>
-    <StepsLayout.Buttons />
-  </StepsContext.Provider>,
+  <Form.Handler>
+    <StepsLayout>
+      <StepsLayout.Step title="Step 1">
+        <StepsLayout.Buttons />
+      </StepsLayout.Step>
+    </StepsLayout>
+  </Form.Handler>,
 )
 ```

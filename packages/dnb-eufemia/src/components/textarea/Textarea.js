@@ -73,7 +73,9 @@ export default class Textarea extends React.PureComponent {
       PropTypes.node,
     ]),
     placeholder: PropTypes.string,
+    keepPlaceholder: PropTypes.bool,
     align: PropTypes.oneOf(['left', 'right']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -130,7 +132,9 @@ export default class Textarea extends React.PureComponent {
     globalStatus: null,
     suffix: null,
     placeholder: null,
+    keepPlaceholder: null,
     align: null,
+    size: null,
     stretch: null,
     disabled: null,
     skeleton: null,
@@ -209,6 +213,27 @@ export default class Textarea extends React.PureComponent {
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
     }
+
+    try {
+      if (typeof navigator !== 'undefined') {
+        this.resizeModifier =
+          /Firefox|Edg/.test(navigator.userAgent) ||
+          (/Chrome/.test(navigator.userAgent) &&
+            /Win/.test(navigator.platform))
+            ? 'large'
+            : false
+
+        if (!this.resizeModifier) {
+          this.resizeModifier =
+            /Safari|Chrome/.test(navigator.userAgent) &&
+            /Mac/.test(navigator.platform)
+              ? 'medium'
+              : false
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
   componentDidMount() {
     if (this.props.inner_ref) {
@@ -240,7 +265,6 @@ export default class Textarea extends React.PureComponent {
     const { value } = this._ref.current
     this.setState({
       value,
-
       textareaState: 'focus',
     })
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
@@ -369,7 +393,9 @@ export default class Textarea extends React.PureComponent {
       skeleton,
       stretch,
       placeholder,
+      keepPlaceholder,
       align,
+      size,
       textarea_class,
       readOnly,
       textarea_attributes,
@@ -434,12 +460,18 @@ export default class Textarea extends React.PureComponent {
       className: classnames(
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
+        disabled && 'dnb-textarea--disabled',
         hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
+        size && `dnb-textarea__size--${size}`,
         status && `dnb-textarea__status--${status_state}`,
         autoresize && 'dnb-textarea__autoresize',
+        !autoresize &&
+          this.resizeModifier &&
+          `dnb-textarea__resize--${this.resizeModifier}`,
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
+        isTrue(keepPlaceholder) && `dnb-textarea--keep-placeholder`,
         'dnb-form-component',
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
@@ -521,18 +553,20 @@ export default class Textarea extends React.PureComponent {
                 <textarea ref={this._ref} {...textareaParams} />
               )}
 
-              {placeholder && (
-                <span
-                  aria-hidden
-                  className={classnames(
-                    'dnb-textarea__placeholder',
-                    align ? `dnb-textarea__align--${align}` : null
-                  )}
-                  style={placeholderStyle}
-                >
-                  {placeholder}
-                </span>
-              )}
+              {!hasValue &&
+                placeholder &&
+                (textareaState !== 'focus' || keepPlaceholder) && (
+                  <span
+                    className={classnames(
+                      'dnb-textarea__placeholder',
+                      align ? `dnb-textarea__align--${align}` : null
+                    )}
+                    style={placeholderStyle}
+                    aria-hidden
+                  >
+                    {placeholder}
+                  </span>
+                )}
 
               <span className="dnb-textarea__state" />
             </span>

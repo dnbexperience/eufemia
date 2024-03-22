@@ -21,6 +21,11 @@ export const textareaProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  keepPlaceholder: {
+    doc: 'Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
     type: 'string',
@@ -54,6 +59,11 @@ export const textareaProperties: PropertiesTableProps = {
   characterCounter: {
     doc: 'Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.',
     type: ['number', 'object'],
+    status: 'optional',
+  },
+  size: {
+    doc: 'The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
+    type: 'string',
     status: 'optional',
   },
   status: {

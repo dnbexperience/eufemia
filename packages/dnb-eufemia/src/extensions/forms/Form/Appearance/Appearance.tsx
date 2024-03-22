@@ -10,6 +10,7 @@ function FormAppearance({ children, size = null, ...rest }: Props) {
   return (
     <Provider
       Input={{ size }}
+      Textarea={{ size }}
       DatePicker={{ size }}
       Autocomplete={{ size }}
       Dropdown={{ size }}

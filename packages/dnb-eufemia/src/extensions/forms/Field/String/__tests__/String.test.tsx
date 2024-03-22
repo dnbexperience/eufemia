@@ -67,11 +67,66 @@ describe('Field.String', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('support Input props such as "keepPlaceholder"', () => {
-      render(<Field.String keepPlaceholder />)
-      expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--keep-placeholder'
+    it('support Input props such as "keepPlaceholder"', async () => {
+      render(
+        <Field.String keepPlaceholder placeholder="Placeholder text" />
       )
+
+      const input = document.querySelector('input')
+      const inputField = document.querySelector('.dnb-input')
+
+      expect(inputField).toHaveClass('dnb-input--keep-placeholder')
+      expect(
+        document.querySelector('.dnb-input__placeholder')
+      ).toHaveTextContent('Placeholder text')
+
+      fireEvent.focus(input)
+      expect(
+        document.querySelector('.dnb-input__placeholder')
+      ).toHaveTextContent('Placeholder text')
+
+      await userEvent.type(input, 'a')
+      expect(document.querySelector('.dnb-input__placeholder')).toBeNull()
+
+      await userEvent.type(input, '{Backspace}')
+      fireEvent.focus(input)
+      expect(
+        document.querySelector('.dnb-input__placeholder')
+      ).toHaveTextContent('Placeholder text')
+    })
+
+    it('support Input props such as "keepPlaceholder" in multiline', async () => {
+      render(
+        <Field.String
+          keepPlaceholder
+          placeholder="Placeholder text"
+          multiline
+        />
+      )
+
+      const textarea = document.querySelector('textarea')
+      const textareaField = document.querySelector('.dnb-textarea')
+
+      expect(textareaField).toHaveClass('dnb-textarea--keep-placeholder')
+      expect(
+        document.querySelector('.dnb-textarea__placeholder')
+      ).toHaveTextContent('Placeholder text')
+
+      fireEvent.focus(textarea)
+      expect(
+        document.querySelector('.dnb-textarea__placeholder')
+      ).toHaveTextContent('Placeholder text')
+
+      await userEvent.type(textarea, 'a')
+      expect(
+        document.querySelector('.dnb-textarea__placeholder')
+      ).toBeNull()
+
+      await userEvent.type(textarea, '{Backspace}')
+      fireEvent.focus(textarea)
+      expect(
+        document.querySelector('.dnb-textarea__placeholder')
+      ).toHaveTextContent('Placeholder text')
     })
 
     it('support Input props such as "size"', () => {

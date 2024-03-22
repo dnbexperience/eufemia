@@ -8,28 +8,23 @@
 .dnb-textarea {
   --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
-  --textarea-background-color: transparent;
+  --textarea-background-color: var(--color-white);
+  --textarea-color: var(--textarea-color--default);
+  --textarea-color--default: var(--color-black);
+  --textarea-color--active: var(--color-black);
+  --textarea-placeholder-color: var(--sb-color-gray-dark-3);
+  --textarea-placeholder-color--focus: var(--sb-color-gray-dark-3);
+
+  &__textarea {
+    background-color: transparent;
+  }
 
   &__state {
     transition: border-radius 0.25s ease-out;
-    @include fakeBorder(
-      var(--textarea-border-color),
-      var(--textarea-border-width),
-      inset
-    );
   }
 
-  &__textarea {
-    --textarea-color: var(--textarea-color--default);
-    --textarea-color--default: var(--color-black);
-    --textarea-color--active: var(--color-black);
-
-    color: var(--textarea-color);
-    background-color: var(--textarea-background-color);
-  }
-
-  &__placeholder {
-    color: var(--sb-color-gray-dark-3);
+  &__resize--medium &__shell::after {
+    opacity: 0.1;
   }
 
   // hover
@@ -44,21 +39,15 @@
 
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-violet);
-      border-radius: 1.5rem;
+      --textarea-border-radius: 1.5rem;
       @include focusRing(null, null, inset);
     }
   }
 
-  // disabled
-  &--disabled &__textarea,
-  &__textarea[disabled] {
-    color: var(--sb-color-gray-dark-2);
-    background-color: var(--sb-color-gray-light);
-
-    ~ .dnb-textarea__state {
-      --textarea-border-color: var(--sb-color-gray-dark-2);
-      background-color: var(--sb-color-gray-light);
-    }
+  &--disabled {
+    --textarea-color: var(--sb-color-gray-dark-2);
+    --textarea-background-color: var(--sb-color-gray-light);
+    --textarea-border-color: var(--sb-color-gray-dark-2);
   }
 
   // with status_state = "error"

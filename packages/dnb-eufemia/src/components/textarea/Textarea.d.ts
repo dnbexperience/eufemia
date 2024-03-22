@@ -22,6 +22,7 @@ export type TextareaTextareaElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
+export type TextareaSize = 'small' | 'medium' | 'large';
 export interface TextareaProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
@@ -42,6 +43,10 @@ export interface TextareaProps
    * Use `true` to make the label only readable by screen readers.
    */
   label_sr_only?: boolean;
+  /**
+   * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
+   */
+  size?: TextareaSize;
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
@@ -71,6 +76,10 @@ export interface TextareaProps
    * The placeholder which shows up once the Textarea value is empty.
    */
   placeholder?: string;
+  /**
+   * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
+   */
+  keepPlaceholder?: boolean;
   /**
    * Defines the `text-align` of the Textarea. Defaults to `left`.
    */

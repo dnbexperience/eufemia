@@ -222,7 +222,7 @@ describe('DataContext.Provider', () => {
           data={{ foo: 'original' }}
           onPathChange={onPathChange}
         >
-          <Field.String path="/foo" value="Value" />
+          <Field.String path="/foo" value="Value" required />
         </DataContext.Provider>
       )
 
@@ -233,7 +233,7 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onPathChange).toHaveBeenCalledTimes(1)
-      expect(onPathChange).toHaveBeenCalledWith('/foo', 'New Value')
+      expect(onPathChange).toHaveBeenLastCalledWith('/foo', 'New Value')
 
       rerender(
         <DataContext.Provider
@@ -253,17 +253,21 @@ describe('DataContext.Provider', () => {
         '/fooBar',
         'Second Value'
       )
+
+      fireEvent.change(element, {
+        target: { value: '' },
+      })
+
+      expect(onPathChange).toHaveBeenCalledTimes(3)
+      expect(onPathChange).toHaveBeenLastCalledWith('/fooBar', undefined)
     })
 
-    it('should call "onSubmit" on submit', () => {
+    it('should call "onSubmit" on submit', async () => {
       const onSubmit = jest.fn()
 
       const { rerender } = render(
-        <DataContext.Provider
-          data={{ foo: 'original' }}
-          onSubmit={onSubmit}
-        >
-          <Field.String path="/foo" value="Value" />
+        <DataContext.Provider onSubmit={onSubmit}>
+          <Field.String path="/foo" required minLength={3} />
           <Form.SubmitButton>Submit</Form.SubmitButton>
         </DataContext.Provider>
       )
@@ -271,14 +275,21 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const submitButton = document.querySelector('button')
 
-      fireEvent.change(inputElement, {
-        target: { value: 'New Value' },
-      })
-      fireEvent.click(submitButton)
+      await userEvent.type(inputElement, '1')
+      await userEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(inputElement, '2')
+      await userEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(inputElement, '3')
+      await userEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith(
-        { foo: 'New Value' },
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { foo: '123' },
         expect.anything()
       )
 
@@ -287,7 +298,7 @@ describe('DataContext.Provider', () => {
           data={{ fooBar: 'changed' }}
           onSubmit={onSubmit}
         >
-          <Field.String path="/fooBar" value="Rerendered Value" />
+          <Field.String path="/fooBar" required minLength={3} />
           <Form.SubmitButton>Submit</Form.SubmitButton>
         </DataContext.Provider>
       )
@@ -302,6 +313,44 @@ describe('DataContext.Provider', () => {
         { fooBar: 'Second Value' },
         expect.anything()
       )
+    })
+
+    it('should call "onChange" validated when async and unvalidated when sync', async () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+
+      const onChangeSync = jest.fn(() => null)
+      const onChangeAsync = jest.fn(async () => null)
+
+      const { rerender } = render(
+        <DataContext.Provider onChange={onChangeAsync}>
+          <Field.String path="/foo" required minLength={3} />
+        </DataContext.Provider>
+      )
+
+      const element = document.querySelector('input')
+
+      await userEvent.type(element, '1')
+      expect(onChangeAsync).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(element, '2')
+      expect(onChangeAsync).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(element, '3')
+      expect(onChangeAsync).toHaveBeenCalledTimes(1)
+
+      await userEvent.type(element, '{Backspace>3}')
+
+      rerender(
+        <DataContext.Provider onChange={onChangeSync}>
+          <Field.String path="/foo" required minLength={3} />
+        </DataContext.Provider>
+      )
+
+      await userEvent.type(element, '1')
+      expect(onChangeSync).toHaveBeenCalledTimes(1)
+      expect(onChangeSync).toHaveBeenLastCalledWith({ foo: '1' })
+
+      log.mockRestore()
     })
 
     it('should filter data based in the given "filterData" property method', () => {
@@ -2148,6 +2197,87 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
+    it('should display error message given in schema', async () => {
+      const fieldSchema = {
+        type: 'string',
+        pattern: '[a-z]{1,}',
+        errorMessage: 'message in field schema',
+      } as const
+
+      const { rerender } = render(
+        <DataContext.Provider>
+          <Field.String
+            schema={fieldSchema}
+            path="/myKey"
+            value=""
+            validateInitially
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'message in field schema'
+      )
+
+      const providerSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'string',
+            pattern: '[a-z]{1,}',
+            errorMessage: 'message in provider schema',
+          },
+        },
+      } as const
+
+      rerender(
+        <DataContext.Provider schema={providerSchema}>
+          <Field.String path="/myKey" value="" validateInitially />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'message in provider schema'
+      )
+
+      const providerSharedSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'string',
+            minLength: 2,
+            maxLength: 3,
+            errorMessage: {
+              minLength: 'minLength message in provider schema',
+              maxLength: 'maxLength message in provider schema',
+            },
+          },
+        },
+      } as const
+
+      rerender(
+        <DataContext.Provider schema={providerSharedSchema}>
+          <Field.String path="/myKey" value="" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '1')
+      fireEvent.blur(input)
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'minLength message in provider schema'
+      )
+
+      await userEvent.type(input, '1234')
+      fireEvent.blur(input)
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'maxLength message in provider schema'
+      )
+    })
+
     it('should accept custom ajv instance with custom error messages', () => {
       const ajv = new Ajv({
         strict: true,
@@ -2164,13 +2294,32 @@ describe('DataContext.Provider', () => {
       const schema = {
         type: 'string',
         notEmpty: true, // The value must be more than one character.
-        errorMessage: 'message in schema',
       } as const
 
       const { rerender } = render(
         <DataContext.Provider ajvInstance={ajv}>
           <Field.String
-            schema={schema}
+            schema={{ ...schema, errorMessage: 'message in schema' }}
+            path="/myKey"
+            value=""
+            validateInitially
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'message in schema'
+      )
+
+      rerender(
+        <DataContext.Provider
+          ajvInstance={ajv}
+          errorMessages={{
+            notEmpty: 'message in provider',
+          }}
+        >
+          <Field.String
+            schema={{ ...schema, errorMessage: 'message in schema' }}
             path="/myKey"
             value=""
             validateInitially

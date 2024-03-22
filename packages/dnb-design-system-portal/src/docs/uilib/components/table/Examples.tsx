@@ -6,8 +6,25 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src'
-import { copy as copyIcon } from '@dnb/eufemia/src/icons'
+import { useMedia } from '@dnb/eufemia/src/shared'
+import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import {
+  H2,
+  P,
+  Dl,
+  Dt,
+  Dd,
+  Code,
+  Anchor,
+  Card,
+  Flex,
+  Badge,
+} from '@dnb/eufemia/src'
+import {
+  stop as stopIcon,
+  compose as composeIcon,
+  copy as copyIcon,
+} from '@dnb/eufemia/src/icons'
 import {
   Button,
   Pagination,
@@ -15,7 +32,6 @@ import {
   Input,
   Section,
 } from '@dnb/eufemia/src/components'
-import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import Table from '@dnb/eufemia/src/components/table/Table'
 import Th from '@dnb/eufemia/src/components/table/TableTh'
 import Td from '@dnb/eufemia/src/components/table/TableTd'
@@ -23,7 +39,7 @@ import Tr from '@dnb/eufemia/src/components/table/TableTr'
 import TableContainer from '@dnb/eufemia/src/components/table/TableContainer'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 
-export const TableVariantBasic = () => (
+export const VariantBasic = () => (
   <ComponentBox
     hideCode
     data-visual-test="table-default"
@@ -129,7 +145,7 @@ export const TableVariantBasic = () => (
   </ComponentBox>
 )
 
-export const TableSizeMedium = () => (
+export const SizeMedium = () => (
   <ComponentBox hideCode data-visual-test="table-size-medium">
     <Table.ScrollView>
       <Table size="medium">
@@ -168,7 +184,7 @@ export const TableSizeMedium = () => (
   </ComponentBox>
 )
 
-export const TableSizeSmall = () => (
+export const SizeSmall = () => (
   <ComponentBox hideCode data-visual-test="table-size-small">
     <Table.ScrollView>
       <Table size="small">
@@ -207,7 +223,7 @@ export const TableSizeSmall = () => (
   </ComponentBox>
 )
 
-export const TableVariantComplex = () => (
+export const VariantComplex = () => (
   <ComponentBox hideCode data-visual-test="table-complex">
     <Table.ScrollView>
       <Table border outline>
@@ -259,7 +275,7 @@ export const TableVariantComplex = () => (
   </ComponentBox>
 )
 
-export const TableRowScopeOnly = () => (
+export const RowScopeOnly = () => (
   <ComponentBox hideCode data-visual-test="table-row-scope-only">
     <Table.ScrollView>
       <Table outline border>
@@ -281,7 +297,7 @@ export const TableRowScopeOnly = () => (
   </ComponentBox>
 )
 
-export const TableVariantFixed = () => (
+export const VariantFixed = () => (
   <ComponentBox hideCode data-visual-test="table-fixed">
     {() => {
       const FixedTable = styled(Table)`
@@ -380,7 +396,7 @@ export const TableVariantFixed = () => (
   </ComponentBox>
 )
 
-export const TableStackedContainer = () => {
+export const StackedContainer = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
     globalThis?.location?.href,
   )
@@ -528,7 +544,7 @@ export const TableStackedContainer = () => {
   )
 }
 
-export const TableContainerEmptyHeaderFooter = () => {
+export const ContainerEmptyHeaderFooter = () => {
   return (
     <ComponentBox
       hideCode
@@ -571,7 +587,7 @@ export const TableContainerEmptyHeaderFooter = () => {
   )
 }
 
-export const TableClassHelpers = () => (
+export const ClassHelpers = () => (
   <ComponentBox hideCode data-visual-test="table-classes">
     <Table.ScrollView>
       <table className="dnb-table">
@@ -609,7 +625,7 @@ export const TableClassHelpers = () => (
   </ComponentBox>
 )
 
-export const TableWithoutClasses = () => (
+export const WithoutClasses = () => (
   <ComponentBox hideCode data-visual-test="table-no-classes">
     <Table.ScrollView>
       <table className="dnb-table">
@@ -646,7 +662,7 @@ export const TableWithoutClasses = () => (
   </ComponentBox>
 )
 
-export const TableLongHeader = () => (
+export const LongHeader = () => (
   <ComponentBox hideCode data-visual-test="table-header">
     <Table.ScrollView>
       <Table>
@@ -683,7 +699,7 @@ export const TableLongHeader = () => (
   </ComponentBox>
 )
 
-export const TableAccordion = () => (
+export const Accordion = () => (
   <ComponentBox
     hideCode
     data-visual-test="table-accordion"
@@ -795,7 +811,7 @@ export const TableAccordion = () => (
   </ComponentBox>
 )
 
-export const TableAccordionRow = () => {
+export const AccordionRow = () => {
   return (
     <ComponentBox hideCode data-visual-test="table-accordion-rows">
       {() => {
@@ -872,7 +888,7 @@ export const TableAccordionRow = () => {
   )
 }
 
-export const TableSticky = () => {
+export const Sticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
     globalThis?.location?.href,
   )
@@ -938,7 +954,7 @@ export const TableSticky = () => {
   )
 }
 
-export const TableStickyMaxHeight = () => {
+export const StickyMaxHeight = () => {
   return (
     <ComponentBox hideCode data-visual-test="table-sticky">
       <Table.ScrollView style={{ maxHeight: '18rem' }}>
@@ -1101,7 +1117,7 @@ export function PaginationTable() {
   )
 }
 
-export const TablesInOneContainer = () => (
+export const InOneContainer = () => (
   <ComponentBox hideToolbar hidePreview scope={{ TableContainer }}>
     <TableContainer>
       <TableContainer.Head>
@@ -1109,8 +1125,8 @@ export const TablesInOneContainer = () => (
       </TableContainer.Head>
 
       <TableContainer.Body>
-        <Table>{'hei'}</Table>
-        <Table>{'hei'}</Table>
+        <Table>Content</Table>
+        <Table>Content</Table>
       </TableContainer.Body>
 
       <TableContainer.Foot>
@@ -1304,3 +1320,117 @@ export const VariantCombinations = () => {
     </ComponentBox>
   )
 }
+
+export const ResponsiveInCard = () => (
+  <ComponentBox
+    scope={{ useMedia, composeIcon, stopIcon }}
+    hideCode
+    data-visual-test="table-one-td"
+  >
+    {() => {
+      const Example = () => {
+        const { isSmall, isLarge } = useMedia()
+
+        const header = {
+          title: 'Tittel',
+          description: 'Beskrivelse',
+          status: 'Status',
+          deadline: 'Frist',
+        }
+
+        const content = {
+          title: 'Lorem ipsum',
+          description: 'Lorem ipsum',
+          status: <Badge content="Ikke pågeynt" />,
+          deadline: '17.04.2025',
+        }
+
+        const align = isLarge
+          ? 'flex-end'
+          : isSmall
+          ? 'center'
+          : 'flex-start'
+
+        const tableRow = (
+          <>
+            {isLarge ? (
+              <Tr>
+                <Td>{content.title}</Td>
+                <Td>{content.description}</Td>
+                <Td>{content.status}</Td>
+                <Td>{content.deadline}</Td>
+              </Tr>
+            ) : (
+              <>
+                <Tr variant="odd">
+                  <Th scope="row">{header.title}</Th>
+                  <Td>{content.title}</Td>
+                </Tr>
+                <Tr>
+                  <Th scope="row">{header.description}</Th>
+                  <Td>{content.description}</Td>
+                </Tr>
+                <Tr>
+                  <Th scope="row">{header.status}</Th>
+                  <Td>{content.status}</Td>
+                </Tr>
+                <Tr>
+                  <Th scope="row">{header.deadline}</Th>
+                  <Td>{content.deadline}</Td>
+                </Tr>
+              </>
+            )}
+
+            <Tr variant="odd">
+              <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
+                <Flex.Horizontal justify={align}>
+                  <Button
+                    variant="tertiary"
+                    icon={stopIcon}
+                    icon_position="left"
+                  >
+                    Avvis signering
+                  </Button>
+                  <Button variant="secondary" icon={composeIcon}>
+                    Start signering
+                  </Button>
+                </Flex.Horizontal>
+              </Td>
+            </Tr>
+          </>
+        )
+
+        return (
+          <Card
+            title="Card title"
+            responsive={false}
+            innerSpace={0}
+            filled
+          >
+            <Table.ScrollView>
+              <Table border outline size="medium">
+                {isLarge && (
+                  <thead>
+                    <Tr noWrap>
+                      <Th>{header.title}</Th>
+                      <Th>{header.description}</Th>
+                      <Th>{header.status}</Th>
+                      <Th>{header.deadline}</Th>
+                    </Tr>
+                  </thead>
+                )}
+
+                <tbody>
+                  {tableRow}
+                  {tableRow}
+                </tbody>
+              </Table>
+            </Table.ScrollView>
+          </Card>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)

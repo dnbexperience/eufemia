@@ -4,23 +4,135 @@ showTabs: true
 
 ## Description
 
-`StepsLayout` is a wrapper component for showing forms with a StepIndicator for navigation between several steps.
+`StepsLayout` is a wrapper component for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several steps.
 
-```jsx
-import {
-  StepsLayout,
-  StepsContext,
-  Form,
-} from '@dnb/eufemia/extensions/forms'
-render(
-  <StepsContext.Provider>
-    <StepsLayout.Step>
-      <Form.MainHeading>Heading</Form.MainHeading>
-      <Card>
-        <P>Contents</P>
-      </Card>
-      <StepsLayout.NextButton />
-    </StepsLayout.Step>
-  </StepsContext.Provider>,
+Use the [StepsLayout.Step](/uilib/extensions/forms/extended-features/StepsLayout/Step/) component to define the steps. It uses `Flex.Stack` so you don't need to wrap your content additionally.
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <StepsLayout.Step title="Step 1">...</StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
+```
+
+You can also split or separate the `StepsLayout.Step` and its content:
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+// You can use the `StepsLayout.Step` in an external component like this:
+const Step1 = () => (
+  <StepsLayout.Step title="Step 1">
+    <Form.MainHeading>Heading</Form.MainHeading>
+    <Card>
+      <P>Contents</P>
+    </Card>
+    <Card>
+      <P>Contents</P>
+    </Card>
+    <StepsLayout.NextButton />
+  </StepsLayout.Step>
 )
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <Step1 />
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
+```
+
+You can mix and match the usage of `StepsLayout.Step` and `Flex.Stack` depending on your needs:
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const Step2 = () => (
+  <Flex.Stack>
+    <Card>
+      <P>Contents</P>
+    </Card>
+    <Card>
+      <P>Contents</P>
+    </Card>
+  </Flex.Stack>
+)
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <StepsLayout.Step title="Step 2">
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Step2 />
+          <StepsLayout.Buttons />
+        </StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
+```
+
+## Controlling the steps
+
+To define a different initial index (than 0), you can use `initialActiveIndex` hook.
+
+For controlling the steps interactively, you can use the [useStep](/uilib/extensions/forms/extended-features/StepsLayout/useStep/) hook:
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const MyStep = () => {
+  const { setActiveIndex, activeIndex } = StepsLayout.useStep()
+  return (
+    <Card>
+      <Button onClick={() => setActiveIndex(1)}>Go to step 2</Button>
+    </Card>
+  )
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <StepsLayout initialActiveIndex={3}>
+        <StepsLayout.Step>
+          <MyStep />
+        </StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
+```
+
+When using the `useStep` hook outside of the `StepsLayout` context, you need to provide na unique `id` (string):
+
+```tsx
+import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  const { setActiveIndex, activeIndex } = StepsLayout.useStep('unique-id')
+
+  return (
+    <Form.Handler>
+      <StepsLayout id="unique-id">
+        <StepsLayout.Step>
+          <Button onClick={() => setActiveIndex(0)}>Step 1</Button>
+        </StepsLayout.Step>
+        <StepsLayout.Step>
+          <Button onClick={() => setActiveIndex(1)}>Step 2</Button>
+        </StepsLayout.Step>
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
 ```
