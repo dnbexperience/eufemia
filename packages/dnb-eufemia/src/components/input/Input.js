@@ -421,7 +421,7 @@ export default class Input extends React.PureComponent {
         icon && iconSize && `dnb-input--icon-size-${iconSize}`,
         label_direction && `dnb-input--${label_direction}`,
         isTrue(stretch) && `dnb-input--stretch`,
-        isTrue(keep_placeholder) && `dnb-input--keep-placeholder`,
+        isTrue(keep_placeholder) && 'dnb-input--keep-placeholder',
         'dnb-form-component',
         createSpacingClasses(props),
         _className,

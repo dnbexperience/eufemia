@@ -77,6 +77,10 @@ export interface TextareaProps
    */
   placeholder?: string;
   /**
+   * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
+   */
+  keepPlaceholder?: boolean;
+  /**
    * Defines the `text-align` of the Textarea. Defaults to `left`.
    */
   align?: TextareaAlign;
