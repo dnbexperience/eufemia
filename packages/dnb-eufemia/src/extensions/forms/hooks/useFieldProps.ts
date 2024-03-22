@@ -1052,10 +1052,13 @@ export default function useFieldProps<
 
   useEffect(() => {
     if (dataContext.showAllErrors) {
-      // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
-      // something else that should lead to showing the user all errors.
-      showError()
-      forceUpdate()
+      // In case of async validation, we don't want to show existing errors before the validation has been completed
+      if (fieldStateRef.current !== 'validating') {
+        // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
+        // something else that should lead to showing the user all errors.
+        showError()
+        forceUpdate()
+      }
     }
   }, [dataContext.showAllErrors, showError])
 

@@ -285,7 +285,10 @@ describe('DataContext.Provider', () => {
 
       await userEvent.type(inputElement, '3')
       await userEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(1)
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1003,6 +1006,107 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(result.current.formState).toBeUndefined()
+      })
+    })
+
+    it('the user should be able to set the form in pending mode while an async validation is on going', async () => {
+      const onSubmit = jest.fn().mockImplementation(async () => null)
+
+      const validator = debounceAsync(async (value) => {
+        await wait(300)
+        if (value === 'invalid') {
+          return Error('My error')
+        }
+      }, 10)
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit} asyncBehaviorTimeout={1}>
+          <Field.String
+            label="Label"
+            path="/foo"
+            validator={validator}
+            required
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const buttonElement = document.querySelector('button')
+      const inputElement = document.querySelector('input')
+
+      // 1. start the async validation
+      await userEvent.type(inputElement, 'invali')
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
+
+      // 2. start the async submit
+      fireEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(buttonElement).toBeDisabled()
+        expect(
+          buttonElement.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await userEvent.type(inputElement, 'd')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('My error')
+      })
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
+
+      await userEvent.type(inputElement, '{Backspace>10}')
+
+      fireEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      })
+
+      await userEvent.type(inputElement, 'valid')
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await userEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
       })
     })
   })

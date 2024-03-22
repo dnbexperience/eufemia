@@ -575,7 +575,10 @@ export default function Provider<Data extends JsonObject>(
       setSubmitState({ error: undefined })
 
       const asyncBehaviorIsEnabled =
-        !(skipErrorCheck ? false : hasErrors()) &&
+        (skipErrorCheck
+          ? true
+          : // Don't enable async behaviour if we have errors, but when we have a pending state
+            !hasErrors() || hasFieldState('pending')) &&
         (enableAsyncBehaviour || hasFieldWithAsyncValidator())
 
       if (asyncBehaviorIsEnabled) {
