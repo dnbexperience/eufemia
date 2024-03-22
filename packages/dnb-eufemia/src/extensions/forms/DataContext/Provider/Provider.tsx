@@ -112,10 +112,6 @@ export interface Props<Data extends JsonObject> {
     | void
     | Promise<EventReturnWithStateObject | void>
   /**
-   * Shows an indicator on the current label during a field change.
-   */
-  enableAsyncChangeBehavior?: boolean
-  /**
    * Minimum time to display the submit indicator.
    */
   minimumAsyncBehaviorTime?: number
@@ -786,11 +782,21 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [schema, validateData, forceUpdate])
 
+  const onTimeout = useCallback(() => {
+    setFormState(undefined)
+    setSubmitState({
+      info: undefined,
+      warning: undefined,
+      error: undefined,
+    })
+  }, [setFormState, setSubmitState])
+
   const { bufferedFormState: formState } = useFormStatusBuffer({
     formState: formStateRef.current,
     waitFor: hasFieldState('pending'),
     minimumAsyncBehaviorTime,
     asyncBehaviorTimeout,
+    onTimeout,
   })
 
   const submitState = submitStateRef.current
@@ -861,6 +867,7 @@ type FormStatusBufferProps = {
   asyncBehaviorTimeout?: Props<unknown>['asyncBehaviorTimeout']
   formState: ContextState['formState']
   waitFor: boolean
+  onTimeout: () => void
 }
 
 function useFormStatusBuffer(props: FormStatusBufferProps) {
@@ -869,6 +876,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     waitFor,
     minimumAsyncBehaviorTime,
     asyncBehaviorTimeout,
+    onTimeout,
   } = props || {}
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -928,7 +936,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
       hadCompleteRef.current = true
     }
 
-    if (formState === 'pending') {
+    if (formState === 'pending' && stateRef.current !== 'pending') {
       clear()
       nowRef.current = Date.now()
       hadCompleteRef.current = false
@@ -950,10 +958,13 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
           clear()
         }, delay + minimum)
       }
+    }
 
+    if (stateRef.current === 'pending') {
       timeoutRef.current.timeout = setTimeout(() => {
-        nowRef.current = 0
+        clear()
         setState(undefined)
+        onTimeout?.()
       }, asyncBehaviorTimeout ?? 30000)
     }
 
@@ -965,6 +976,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     setState,
     waitFor,
     asyncBehaviorTimeout,
+    onTimeout,
   ])
 
   return { bufferedFormState: stateRef.current }

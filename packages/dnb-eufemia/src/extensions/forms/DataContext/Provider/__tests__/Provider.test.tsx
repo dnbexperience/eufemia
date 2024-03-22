@@ -592,6 +592,40 @@ describe('DataContext.Provider', () => {
       })
     })
 
+    it('should abort async submit onSubmit using asyncBehaviorTimeout', async () => {
+      const onSubmit = jest.fn().mockImplementation(async () => {
+        await wait(30) // ensure we never finish onSubmit before the timeout
+      })
+
+      render(
+        <DataContext.Provider
+          onSubmit={onSubmit}
+          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+          asyncBehaviorTimeout={1}
+        >
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const buttonElement = document.querySelector('button')
+
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeTruthy()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeNull()
+      })
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
     it('should evaluate long validator and onBlurValidator before continue with async onSubmit', async () => {
       const eventsStart = []
       const eventsEnd = []

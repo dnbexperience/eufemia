@@ -1,5 +1,10 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Form, Field, FieldBlock } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Form,
+  Field,
+  FieldBlock,
+  Value,
+} from '@dnb/eufemia/src/extensions/forms'
 import { Button, Card, Flex, P, Section } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
@@ -23,8 +28,9 @@ export const AsyncSubmit = () => {
 
 export const AsyncSubmitComplete = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Value }}>
       <Form.Handler
+        data={{ myField: 'Some value' }}
         onSubmit={async (data) => {
           console.log('onSubmit', data)
 
@@ -33,7 +39,7 @@ export const AsyncSubmitComplete = () => {
 
           // e.g. go to new location
 
-          // Optionally, you can return an object with these keys, depending your needs
+          // Optionally, you can return e.g. the "pending" status with an additional info
           return {
             info: 'Redirecting to a new location',
 
@@ -41,11 +47,15 @@ export const AsyncSubmitComplete = () => {
             status: 'pending',
           }
         }}
+        asyncBehaviorTimeout={10000}
       >
         <Flex.Stack>
-          <Field.String label="Required field" path="/myField" required />
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Card>
+            <Value.String label="Summary" path="/myField" />
+          </Card>
           <Form.ButtonRow>
-            <Form.SubmitButton text="Save" />
+            <Form.SubmitButton />
           </Form.ButtonRow>
         </Flex.Stack>
       </Form.Handler>

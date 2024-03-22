@@ -576,38 +576,6 @@ describe('Form.Handler', () => {
       ).toBeNull()
     })
 
-    it('should abort async submit onSubmit using asyncBehaviorTimeout', async () => {
-      const onSubmit = jest.fn().mockImplementation(async () => null)
-
-      render(
-        <Form.Handler
-          onSubmit={onSubmit}
-          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
-          asyncBehaviorTimeout={1}
-        >
-          <Form.SubmitButton />
-        </Form.Handler>
-      )
-
-      const buttonElement = document.querySelector('button')
-
-      fireEvent.click(buttonElement)
-
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-
-      expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
-      ).toBeTruthy()
-
-      await waitFor(() => {
-        expect(
-          document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
-          )
-        ).toBeNull()
-      })
-    })
-
     it('should call onSubmit and onSubmitComplete on async submit call', async () => {
       const onSubmit = jest.fn()
       const onSubmitComplete = jest.fn()
@@ -641,6 +609,85 @@ describe('Form.Handler', () => {
           { foo: 'bar' },
           undefined
         )
+      })
+    })
+
+    it('should handle onSubmit return with "info" and handle pending status', async () => {
+      const onSubmit = jest.fn().mockImplementation(async () => {
+        await wait(500) // ensure we never finish onSubmit before the timeout
+
+        return {
+          info: 'Redirecting to a new location',
+          status: 'pending',
+        }
+      })
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+          asyncBehaviorTimeout={20}
+        >
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeTruthy()
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Redirecting to a new location')
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeNull()
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeTruthy()
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Redirecting to a new location')
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeNull()
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(2)
       })
     })
 
