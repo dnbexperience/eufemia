@@ -659,17 +659,17 @@ export default function Provider<Data extends JsonObject>(
           window.requestAnimationFrame(() => {
             setFormState(undefined)
           })
-        }
 
-        if (!skipFieldValidation) {
-          // Add a event listener to continue the submit after the pending state is resolved
-          onSubmitContinueRef.current = () => {
-            window.requestAnimationFrame(() => {
-              // Do not call the validators again,
-              // because we already did it in the first call
-              // If they are async, we wait for them to finish anyway
-              handleSubmitCall({ ...args, skipFieldValidation: true })
-            })
+          if (!skipFieldValidation) {
+            // Add a event listener to continue the submit after the pending state is resolved
+            onSubmitContinueRef.current = () => {
+              window.requestAnimationFrame(() => {
+                // Do not call the validators again,
+                // because we already did it in the first call
+                // If they are async, we wait for them to finish anyway
+                handleSubmitCall({ ...args, skipFieldValidation: true })
+              })
+            }
           }
         }
 

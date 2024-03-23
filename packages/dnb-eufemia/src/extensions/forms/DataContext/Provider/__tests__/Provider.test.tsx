@@ -275,26 +275,32 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const submitButton = document.querySelector('button')
 
-      await userEvent.type(inputElement, '1')
-      fireEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-
-      await userEvent.type(inputElement, '2')
-      fireEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-
-      await userEvent.type(inputElement, '3')
-      fireEvent.click(submitButton)
-
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1)
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
       })
+      fireEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      fireEvent.change(inputElement, {
+        target: { value: '12' },
+      })
+      fireEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      fireEvent.change(inputElement, {
+        target: { value: '123' },
+      })
+      fireEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { foo: '123' },
         expect.anything()
       )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
 
       rerender(
         <DataContext.Provider
