@@ -1297,14 +1297,14 @@ describe('useFieldProps', () => {
 
     it('should skip onChange call when "onBlurValidator" returns error', async () => {
       const events = []
-      const onChange: OnChange<unknown> = async () => {
+      const onChange: OnChange<unknown> = jest.fn(async () => {
         events.push('onChange')
-      }
-      const onBlurValidator = async () => {
+      })
+      const onBlurValidator = jest.fn(async () => {
         events.push('onBlurValidator')
 
         return new Error('Error message')
-      }
+      })
 
       const { result } = renderHook(useFieldProps, {
         initialProps: {
@@ -1322,7 +1322,8 @@ describe('useFieldProps', () => {
       expect(events).toEqual(['onBlurValidator'])
 
       await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
+        expect(result.current.error.message).toBe('Error message')
+        expect(result.current.fieldState).toBe('complete')
       })
 
       // Reset events
@@ -1334,9 +1335,13 @@ describe('useFieldProps', () => {
       expect(events).toEqual(['onBlurValidator'])
 
       await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
+        expect(result.current.error.message).toBe('Error message')
+        expect(result.current.fieldState).toBe('complete')
         expect(events).toEqual(['onBlurValidator'])
       })
+
+      expect(onChange).not.toHaveBeenCalled()
+      expect(onBlurValidator).toHaveBeenCalledTimes(2)
     })
 
     it('should yeld error object when returned by async onChange', async () => {

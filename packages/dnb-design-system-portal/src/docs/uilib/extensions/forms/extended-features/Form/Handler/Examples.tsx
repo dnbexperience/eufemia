@@ -103,7 +103,7 @@ export const AsyncChangeAndValidation = () => {
         }
 
         const onChangeForm = async (data) => {
-          console.log('onChangeField', data)
+          console.log('onChangeForm', data)
 
           // Wait for 2 seconds
           await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -122,30 +122,41 @@ export const AsyncChangeAndValidation = () => {
           return { info: 'Info message' }
         }
 
-        return (
-          <Form.Handler onSubmit={onSubmit} onChange={onChangeForm}>
-            <Flex.Stack>
-              <Field.String
-                label='Type "valid" to validate the field'
-                path="/myField"
-                required
-                validator={validator}
-                onChange={onChangeField}
-              />
-              <Form.ButtonRow>
-                <Form.SubmitButton text="Save" />
-                <Button
-                  text="Stop async operations"
-                  variant="tertiary"
-                  icon={stopIcon}
-                  icon_position="left"
-                  disabled={false}
-                  onClick={cancelRequest}
+        const MyForm = () => {
+          const { data } = Form.useData('unique-id')
+          console.log('data', data)
+          return (
+            <Form.Handler
+              id="unique-id"
+              onSubmit={onSubmit}
+              onChange={onChangeForm}
+            >
+              <Flex.Stack>
+                <Field.String
+                  label='Type "valid" to validate the field'
+                  path="/myField"
+                  required
+                  validator={validator}
+                  onChange={onChangeField}
+                  autoComplete="off"
                 />
-              </Form.ButtonRow>
-            </Flex.Stack>
-          </Form.Handler>
-        )
+                <Form.ButtonRow>
+                  <Form.SubmitButton text="Save" />
+                  <Button
+                    text="Stop async operations"
+                    variant="tertiary"
+                    icon={stopIcon}
+                    icon_position="left"
+                    disabled={false}
+                    onClick={cancelRequest}
+                  />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
       }}
     </ComponentBox>
   )

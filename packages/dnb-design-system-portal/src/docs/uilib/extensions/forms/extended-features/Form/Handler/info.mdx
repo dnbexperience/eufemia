@@ -33,13 +33,23 @@ function Component() {
 }
 ```
 
-More examples can be found in the [Form.useData](/uilib/extensions/forms/extended-features/Form/useData/) docs.
+More examples can be found in the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook docs.
 
-## Async form behavior
+## Async `onChange` and `onSubmit` event handlers
+
+**NB:** When using an async `onChange` event handler, the `data` parameter will only include validated data. This lets you utilize the `data` parameter directly in your request, without having to further process or transform it.
+
+If you need to use the original data (sync), you can access it via the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook.
+
+Depending on your needs, you may want to use e.g. `debounceAsync` ([debounce](/uilib/helpers/functions/#debounce)) to prevent multiple requests from being sent.
+
+You can return parameters from inside the async `onChange` or `onSubmit` event handler. This way you can display more related information, such as an error or an object with these keys:
 
 <AsyncChangeExample />
 
 <AsyncStateReturnExample />
+
+The `info`, `warning` and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/uilib/components/form-status)), depending where it is used. While the `success` will be displayed on the label of the field that initiated the `onChange` event.
 
 ## Browser autofill
 
