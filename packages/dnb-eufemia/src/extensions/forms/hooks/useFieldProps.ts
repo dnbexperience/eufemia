@@ -123,6 +123,7 @@ export default function useFieldProps<
   })
 
   const {
+    handlePathChangeUnvalidated: handlePathChangeUnvalidatedDataContext,
     handlePathChange: handlePathChangeDataContext,
     updateDataValue: updateDataValueDataContext,
     validateData: validateDataDataContext,
@@ -817,16 +818,14 @@ export default function useFieldProps<
           setCurrentAsyncProcess('onChangeContext')
           setEventResult(
             (await handlePathChangeDataContext?.(
-              path,
-              valueRef.current
+              path
             )) as EventReturnWithStateObjectAndSuccess
           )
         }
       } else {
         setEventResult(
           handlePathChangeDataContext?.(
-            path,
-            valueRef.current
+            path
           ) as EventReturnWithStateObjectAndSuccess
         )
       }
@@ -854,6 +853,8 @@ export default function useFieldProps<
 
       valueRef.current = newValue
 
+      handlePathChangeUnvalidatedDataContext(path, newValue)
+
       addToPool('validator', validateValue, isAsync(validatorRef.current))
 
       addToPool(
@@ -867,12 +868,14 @@ export default function useFieldProps<
       })
     },
     [
+      handlePathChangeUnvalidatedDataContext,
+      path,
       addToPool,
+      validateValue,
       callOnChangeContext,
-      handleError,
       onChangeContext,
       runPool,
-      validateValue,
+      handleError,
     ]
   )
 

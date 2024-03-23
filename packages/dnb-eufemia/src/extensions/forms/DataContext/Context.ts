@@ -44,11 +44,12 @@ export interface ContextState {
   autoComplete?: boolean
   handlePathChange: (
     path: Path,
-    value: any
+    value?: any
   ) =>
     | EventReturnWithStateObject
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
+  handlePathChangeUnvalidated: (path: Path, value: any) => void
   updateDataValue: (path: Path, value: any) => void
   setData: (data: any) => void
   filterDataHandler: (data: any, filter: FilterData) => any
@@ -105,6 +106,7 @@ export const defaultContextState: ContextState = {
   disabled: undefined,
   submitState: undefined,
   handlePathChange: () => null,
+  handlePathChangeUnvalidated: () => null,
   updateDataValue: () => null,
   setData: () => null,
   filterDataHandler: () => null,

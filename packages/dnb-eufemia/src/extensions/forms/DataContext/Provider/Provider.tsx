@@ -506,33 +506,50 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   /**
+   * Update the data set on user interaction (unvalidated)
+   */
+  const handlePathChangeUnvalidated: ContextState['handlePathChange'] =
+    useCallback(
+      async (path, value) => {
+        if (!path) {
+          return null
+        }
+
+        updateDataValue(path, value)
+
+        if (isAsync(onPathChange)) {
+          await onPathChange?.(path, value)
+        } else {
+          onPathChange?.(path, value)
+        }
+      },
+      [onPathChange, updateDataValue]
+    )
+
+  /**
    * Update the data set on user interaction
    */
   const handlePathChange: ContextState['handlePathChange'] = useCallback(
-    async (path, value) => {
+    async (path, value = '_undefined_') => {
       if (!path) {
         return null
       }
 
-      if (isAsync(onPathChange)) {
-        await onPathChange?.(path, value)
-      } else {
-        onPathChange?.(path, value)
+      if (value !== '_undefined_') {
+        handlePathChangeUnvalidated(path, value)
       }
-
-      const newData = updateDataValue(path, value)
 
       showAllErrorsRef.current = false
 
       validateData()
 
       if (isAsync(onChange)) {
-        return await onChange(newData as Data)
+        return await onChange(internalDataRef.current as Data)
       }
 
-      return onChange?.(newData as Data)
+      return onChange?.(internalDataRef.current as Data)
     },
-    [onChange, onPathChange, updateDataValue, validateData]
+    [handlePathChangeUnvalidated, onChange, validateData]
   )
 
   // - Mounted fields
@@ -810,6 +827,7 @@ export default function Provider<Data extends JsonObject>(
       value={{
         /** Method */
         handlePathChange,
+        handlePathChangeUnvalidated,
         handleSubmit,
         handleMountField,
         handleUnMountField,

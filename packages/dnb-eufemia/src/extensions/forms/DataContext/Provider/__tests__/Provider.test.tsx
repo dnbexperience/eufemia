@@ -3289,6 +3289,87 @@ describe('DataContext.Provider', () => {
       expect(countRender).toBe(3)
     })
 
+    it('should return unvalidated data in sync', async () => {
+      const initialData = { count: 1 }
+
+      const onDataChange = jest.fn()
+
+      const onChange = jest.fn(async () => {
+        await wait(10)
+      })
+
+      const validator = jest.fn(async (value) => {
+        await wait(10)
+        if (value !== 123) {
+          return new Error('Invalid')
+        }
+      })
+
+      const MockComponent = () => {
+        const { data } = Form.useData<{ count: number }>(identifier)
+
+        onDataChange(data)
+
+        return (
+          <DataContext.Provider id={identifier} data={initialData}>
+            <Field.Number
+              path="/count"
+              label={data?.count}
+              onChange={onChange}
+              validator={validator}
+            />
+            <output>{JSON.stringify(data)}</output>
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const input = document.querySelector('input')
+      const output = document.querySelector('output')
+
+      expect(output).toHaveTextContent('{"count":1}')
+
+      fireEvent.change(input, {
+        target: { value: '12' },
+      })
+
+      expect(output).toHaveTextContent('{"count":12}')
+
+      // executed in sync and unvalidated
+      expect(onDataChange).toHaveBeenCalledTimes(3)
+      expect(onDataChange).toHaveBeenLastCalledWith({ count: 12 })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenLastCalledWith(12, expect.anything())
+      })
+
+      fireEvent.change(input, {
+        target: { value: '123' },
+      })
+
+      expect(output).toHaveTextContent('{"count":123}')
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(validator).toHaveBeenCalledTimes(2)
+      expect(validator).toHaveBeenLastCalledWith(123, expect.anything())
+
+      // executed in sync and unvalidated
+      expect(onDataChange).toHaveBeenCalledTimes(4)
+      expect(onDataChange).toHaveBeenLastCalledWith({ count: 123 })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith(123)
+
+        expect(validator).toHaveBeenCalledTimes(2)
+        expect(validator).toHaveBeenLastCalledWith(123, expect.anything())
+      })
+    })
+
     it('should make filterData available in the hook', () => {
       const id = 'disabled-fields-hook'
       const filterDataHandler = jest.fn((path, value, props) => {
