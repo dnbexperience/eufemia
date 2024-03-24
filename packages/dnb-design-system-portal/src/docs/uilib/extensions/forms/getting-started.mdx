@@ -51,7 +51,7 @@ You can filter data by any given criteria. This is done by adding a `filterData`
 The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
 
 ```tsx
-const filterDataHandler = (path, value, props) => {
+const filterDataHandler = (path, value, props, internal) => {
   if (props.disabled === true) {
     return false
   }

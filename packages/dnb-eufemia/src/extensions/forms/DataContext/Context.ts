@@ -30,7 +30,10 @@ export type FilterDataHandler<Data> = (
 export type FilterData = (
   path: Path,
   value: any,
-  props: FieldProps
+  props: FieldProps,
+  internal: {
+    error: Error | undefined
+  }
 ) => boolean | undefined
 
 export interface ContextState {

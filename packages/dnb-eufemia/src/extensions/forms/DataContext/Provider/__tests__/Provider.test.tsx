@@ -400,12 +400,14 @@ describe('DataContext.Provider', () => {
         1,
         '/foo',
         'Include this value',
+        expect.anything(),
         expect.anything()
       )
       expect(filterDataHandler).toHaveBeenNthCalledWith(
         2,
         '/bar',
         'bar',
+        expect.anything(),
         expect.anything()
       )
 
@@ -438,12 +440,14 @@ describe('DataContext.Provider', () => {
         3,
         '/foo',
         'Skip this value',
+        expect.anything(),
         expect.anything()
       )
       expect(filterDataHandler).toHaveBeenNthCalledWith(
         4,
         '/bar',
         'bar value',
+        expect.anything(),
         expect.anything()
       )
 
@@ -2671,7 +2675,8 @@ describe('DataContext.Provider', () => {
       'foo',
       expect.objectContaining({
         disabled: true,
-      })
+      }),
+      expect.anything()
     )
 
     rerender(
@@ -2697,7 +2702,8 @@ describe('DataContext.Provider', () => {
       'bar',
       expect.objectContaining({
         disabled: false,
-      })
+      }),
+      expect.anything()
     )
   })
 
@@ -3416,7 +3422,8 @@ describe('DataContext.Provider', () => {
         'foo',
         expect.objectContaining({
           disabled: true,
-        })
+        }),
+        expect.anything()
       )
 
       act(() => {
@@ -3452,7 +3459,8 @@ describe('DataContext.Provider', () => {
         'bar',
         expect.objectContaining({
           disabled: false,
-        })
+        }),
+        expect.anything()
       )
 
       rerender(
@@ -3475,7 +3483,8 @@ describe('DataContext.Provider', () => {
         'bar',
         expect.objectContaining({
           disabled: true,
-        })
+        }),
+        expect.anything()
       )
     })
 

@@ -140,7 +140,7 @@ The callback function receives the path as the first argument, the value as the 
 It returns the filtered form data.
 
 ```tsx
-const filterDataHandler = (path, value, props) => {
+const filterDataHandler = (path, value, props, internal) => {
   if (props.disabled === true) {
     return false
   }
@@ -156,6 +156,14 @@ const Component = () => {
       <Field.String path="/foo" disabled />
     </Form.Handler>
   )
+}
+```
+
+The `internal` parameter contains `{ error: Error | undefined }` you can utilize if needed.
+
+```tsx
+const filterDataHandler = (path, value, props, internal) => {
+  return !(internal.error instanceof Error)
 }
 ```
 
