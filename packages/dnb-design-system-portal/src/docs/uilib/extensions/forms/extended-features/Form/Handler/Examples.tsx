@@ -48,7 +48,7 @@ export const AsyncSubmitComplete = () => {
             status: 'pending',
           }
         }}
-        asyncBehaviorTimeout={10000}
+        asyncSubmitTimeout={10000}
       >
         <Flex.Stack>
           <Form.MainHeading>Heading</Form.MainHeading>

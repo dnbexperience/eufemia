@@ -626,7 +626,7 @@ describe('Form.Handler', () => {
         <Form.Handler
           onSubmit={onSubmit}
           minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
-          asyncBehaviorTimeout={20}
+          asyncSubmitTimeout={20}
         >
           <Form.SubmitButton />
         </Form.Handler>

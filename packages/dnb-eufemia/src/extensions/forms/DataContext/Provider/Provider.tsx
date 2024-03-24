@@ -118,7 +118,7 @@ export interface Props<Data extends JsonObject> {
   /**
    * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
    */
-  asyncBehaviorTimeout?: number
+  asyncSubmitTimeout?: number
   /**
    * Scroll to top on submit
    */
@@ -149,7 +149,7 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     scrollTopOnSubmit,
     minimumAsyncBehaviorTime,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
     sessionStorageId,
     ajvInstance,
     filterData,
@@ -815,7 +815,7 @@ export default function Provider<Data extends JsonObject>(
     formState: formStateRef.current,
     waitFor: hasFieldState('pending'),
     minimumAsyncBehaviorTime,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
     onTimeout,
   })
 
@@ -885,7 +885,7 @@ function removeListPath(paths: PathList, path: Path): PathList {
 
 type FormStatusBufferProps = {
   minimumAsyncBehaviorTime?: Props<unknown>['minimumAsyncBehaviorTime']
-  asyncBehaviorTimeout?: Props<unknown>['asyncBehaviorTimeout']
+  asyncSubmitTimeout?: Props<unknown>['asyncSubmitTimeout']
   formState: ContextState['formState']
   waitFor: boolean
   onTimeout: () => void
@@ -896,7 +896,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     formState,
     waitFor,
     minimumAsyncBehaviorTime,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
     onTimeout,
   } = props || {}
 
@@ -986,7 +986,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
         clear()
         setState(undefined)
         onTimeout?.()
-      }, asyncBehaviorTimeout ?? 30000)
+      }, asyncSubmitTimeout ?? 30000)
     }
 
     return clear
@@ -996,7 +996,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     formState,
     setState,
     waitFor,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
     onTimeout,
   ])
 

@@ -601,7 +601,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should abort async submit onSubmit using asyncBehaviorTimeout', async () => {
+    it('should abort async submit onSubmit using asyncSubmitTimeout', async () => {
       const onSubmit = jest.fn().mockImplementation(async () => {
         await wait(30) // ensure we never finish onSubmit before the timeout
       })
@@ -610,7 +610,7 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider
           onSubmit={onSubmit}
           minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
-          asyncBehaviorTimeout={1}
+          asyncSubmitTimeout={1}
         >
           <Form.SubmitButton />
         </DataContext.Provider>
@@ -1026,7 +1026,7 @@ describe('DataContext.Provider', () => {
       }, 10)
 
       render(
-        <DataContext.Provider onSubmit={onSubmit} asyncBehaviorTimeout={1}>
+        <DataContext.Provider onSubmit={onSubmit} asyncSubmitTimeout={1}>
           <Field.String
             label="Label"
             path="/foo"
