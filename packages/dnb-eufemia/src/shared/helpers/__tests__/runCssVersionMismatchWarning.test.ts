@@ -81,7 +81,12 @@ describe('runCssVersionMismatchWarning', () => {
 
     runCssVersionMismatchWarning()
 
-    expect(consoleErrorSpy).toHaveBeenCalledTimes(0)
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Eufemia CSS and JS version mismatch!',
+      '\nCSS: unknown',
+      '\nJS: 1.0.0'
+    )
 
     window.Eufemia.version = originalJsVersion
   })

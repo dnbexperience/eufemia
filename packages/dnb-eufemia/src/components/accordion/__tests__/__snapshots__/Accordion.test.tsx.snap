@@ -111,8 +111,11 @@ p > .dnb-icon {
   --accordion-header-wrapper-margin--icon-right: 1rem;
   --accordion-header-icon-gutter: 1rem;
   --accordion-header-icon-margin: 1rem;
+  --accordion-header-icon-alignment: flex-start;
   --accordion-title-font-weight: var(--font-weight-basis);
   --accordion-title-font-weight--expanded: var(--font-weight-medium);
+  --accordion-content-margin: 1rem 0 0 0;
+  --accordion-content-padding: 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -151,7 +154,7 @@ p > .dnb-icon {
   margin: 0 1rem;
 }
 .dnb-accordion__header__icon {
-  align-self: flex-start;
+  align-self: var(--accordion-header-icon-alignment);
   margin: var(--accordion-header-margin-vertical) var(--accordion-header-icon-gutter) var(--accordion-header-margin-vertical) var(--accordion-header-icon-margin);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -214,7 +217,8 @@ p > .dnb-icon {
 }
 .dnb-accordion__content__inner {
   width: 100%;
-  margin-top: 1rem;
+  margin: var(--accordion-content-margin);
+  padding: var(--accordion-content-padding);
 }
 .dnb-accordion-group--single-container {
   transition: min-height 1s var(--accordion-easing);

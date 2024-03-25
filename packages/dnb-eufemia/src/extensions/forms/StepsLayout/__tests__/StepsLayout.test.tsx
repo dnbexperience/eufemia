@@ -318,7 +318,10 @@ describe('StepsLayout', () => {
   })
 
   it('supports steps to be in their own components', async () => {
+    let context = null
+
     const Step1 = () => {
+      context = StepsLayout.useStep()
       return (
         <StepsLayout.Step title="Step 1">
           <output>Step 1</output>
@@ -353,6 +356,7 @@ describe('StepsLayout', () => {
     )
 
     expect(output()).toHaveTextContent('Step 1')
+    expect(context.activeIndex).toBe(0)
 
     rerender(
       <StepsLayout aria-label="step 2">
@@ -364,6 +368,7 @@ describe('StepsLayout', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
+    expect(context.activeIndex).toBe(1)
 
     rerender(
       <StepsLayout aria-label="step 3">
@@ -375,6 +380,7 @@ describe('StepsLayout', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 3')
+    expect(context.activeIndex).toBe(2)
   })
 
   it('should show error on navigating back and forth in loose mode', async () => {

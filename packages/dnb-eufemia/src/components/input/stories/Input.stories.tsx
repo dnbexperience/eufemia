@@ -107,7 +107,7 @@ export const InputSandbox = () => {
         <Box>
           🚀
           <Provider formElement={{ label_direction: 'vertical' }}>
-            <Form.Element>
+            <Form.Handler>
               <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
                 <Flex.Vertical>
                   <Input
@@ -120,7 +120,7 @@ export const InputSandbox = () => {
                   <Input label="Input C:" />
                 </Flex.Vertical>
               </FieldBlock>
-            </Form.Element>
+            </Form.Handler>
           </Provider>
         </Box>
         <Box>

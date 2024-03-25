@@ -30,7 +30,10 @@ export type FilterDataHandler<Data> = (
 export type FilterData = (
   path: Path,
   value: any,
-  props: FieldProps
+  props: FieldProps,
+  internal: {
+    error: Error | undefined
+  }
 ) => boolean | undefined
 
 export interface ContextState {
@@ -44,11 +47,12 @@ export interface ContextState {
   autoComplete?: boolean
   handlePathChange: (
     path: Path,
-    value: any
+    value?: any
   ) =>
     | EventReturnWithStateObject
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
+  handlePathChangeUnvalidated: (path: Path, value: any) => void
   updateDataValue: (path: Path, value: any) => void
   setData: (data: any) => void
   filterDataHandler: (data: any, filter: FilterData) => any
@@ -105,6 +109,7 @@ export const defaultContextState: ContextState = {
   disabled: undefined,
   submitState: undefined,
   handlePathChange: () => null,
+  handlePathChangeUnvalidated: () => null,
   updateDataValue: () => null,
   setData: () => null,
   filterDataHandler: () => null,

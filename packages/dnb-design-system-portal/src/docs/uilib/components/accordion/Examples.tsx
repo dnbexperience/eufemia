@@ -89,7 +89,7 @@ export const AccordionGroupExample = () => (
     <Accordion.Group expanded allow_close_all>
       <Accordion expanded={false}>
         <Accordion.Header>Accordion title</Accordion.Header>
-        <Accordion.Content top="x-large">
+        <Accordion.Content top>
           <P>
             Sociis sapien sociosqu vel sollicitudin accumsan laoreet
             gravida himenaeos nostra mollis volutpat bibendum convallis cum

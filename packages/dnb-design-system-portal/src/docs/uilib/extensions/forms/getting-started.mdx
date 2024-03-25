@@ -46,12 +46,12 @@ The state management is done via the [JSON Pointer](#what-is-a-json-pointer) dir
 
 #### Filter data
 
-You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the `Form.Handler`.
+You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/).
 
 The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
 
 ```tsx
-const filterDataHandler = (path, value, props) => {
+const filterDataHandler = (path, value, props, internal) => {
   if (props.disabled === true) {
     return false
   }
@@ -93,7 +93,7 @@ This feature allows you to perform asynchronous operations such as fetching data
 You can enable async form submit behavior on the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) by using:
 
 ```tsx
-render(<Form.Handler onSubmit={async () => {}}>...</Form.Handler>)
+<Form.Handler onSubmit={async () => {}}>...</Form.Handler>
 ```
 
 It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/extended-features/Form/Handler/demos/)).
@@ -101,7 +101,7 @@ It will disable all fields and show an indicator on the [SubmitButton](/uilib/ex
 When using [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout/) you can use in addition:
 
 ```tsx
-render(<StepsLayout onStepChange={async () => {}}>...</StepsLayout>)
+<StepsLayout onStepChange={async () => {}}>...</StepsLayout>
 ```
 
 It will disable all fields and show an indicator on the [NextButton](/uilib/extensions/forms/extended-features/StepsLayout/NextButton/) while the **step** is pending ([examples](/uilib/extensions/forms/extended-features/StepsLayout/StepsLayout/demos/)).
@@ -111,34 +111,30 @@ It will disable all fields and show an indicator on the [NextButton](/uilib/exte
 You can use an async function for the `onChange` event handler, either on the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler):
 
 ```tsx
-render(<Form.Handler onChange={async () => {}}>...</Form.Handler>)
+<Form.Handler onChange={async () => {}}>...</Form.Handler>
 ```
 
 or on every [field](/uilib/extensions/forms/fields/):
 
 ```tsx
-render(<Field.PhoneNumber path="/myField" onChange={async () => {}} />)
+<Field.PhoneNumber path="/myField" onChange={async () => {}} />
 ```
 
-They can be used in combination as well – including [async validator](/#async-validation) functions.
+They can be used in combination as well – including [async validator](/uilib/extensions/forms/getting-started/#async-validation) functions.
 
 When the user makes a value change, it will show an indicator on the corresponding field label.
 
 This feature can not only be used for autosave, but for any other real-time async operations.
 
+Here is an example of an async change behavior:
+
 <AsyncChangeExample />
 
-The `info`, `warning` and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/uilib/components/form-status)), depending where it is used. While the `success` will be displayed on the label of the field that initiated the `onChange` event.
+More info about the async change behavior in the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
 
 #### Async field validation
 
 A similar indicator behavior will occur when using async functions for field validation, such as `validator` or `onBlurValidation`, your form will exhibit async behavior. This means that the validation needs to be successfully completed before the form can be submitted.
-
-More info about async validation can be found in the [async validation](/#async-validation) section.
-
-#### State handling in async operations
-
-<AsyncStateReturnExample />
 
 ### Validation and error handling
 
@@ -148,14 +144,14 @@ In addition, you can add your own validation to a field component. This is done 
 
 Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
 
-For monitoring your form for errors, you can use the [Form.useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
+For monitoring your form for errors, you can use the [useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
 
 #### required
 
 The required property is a boolean that indicates whether the field is required or not:
 
 ```tsx
-render(<Field.PhoneNumber required />)
+<Field.PhoneNumber required />
 ```
 
 #### pattern
@@ -163,7 +159,7 @@ render(<Field.PhoneNumber required />)
 The pattern property is a regular expression that the value of the field must match:
 
 ```tsx
-render(<Field.PhoneNumber pattern="..." />)
+<Field.PhoneNumber pattern="..." />
 ```
 
 #### schema
@@ -174,7 +170,7 @@ The schema property is a JSON schema that the value of the field must match:
 const schema = {
   pattern: '...',
 }
-render(<Field.PhoneNumber schema={schema} />)
+<Field.PhoneNumber schema={schema} />
 ```
 
 #### validator
@@ -188,7 +184,7 @@ const validator = (value) => {
     return new Error('Invalid value message')
   }
 }
-render(<Field.PhoneNumber validator={validator} />)
+;<Field.PhoneNumber validator={validator} />
 ```
 
 You can find more info about error messages in the [Error messages](/uilib/extensions/forms/extended-features/Form/error-messages/) docs.

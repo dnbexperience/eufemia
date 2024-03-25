@@ -275,23 +275,32 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const submitButton = document.querySelector('button')
 
-      await userEvent.type(inputElement, '1')
-      await userEvent.click(submitButton)
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
+      })
+      fireEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
-      await userEvent.type(inputElement, '2')
-      await userEvent.click(submitButton)
+      fireEvent.change(inputElement, {
+        target: { value: '12' },
+      })
+      fireEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
-      await userEvent.type(inputElement, '3')
-      await userEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(1)
+      fireEvent.change(inputElement, {
+        target: { value: '123' },
+      })
+      fireEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { foo: '123' },
         expect.anything()
       )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
 
       rerender(
         <DataContext.Provider
@@ -391,12 +400,14 @@ describe('DataContext.Provider', () => {
         1,
         '/foo',
         'Include this value',
+        expect.anything(),
         expect.anything()
       )
       expect(filterDataHandler).toHaveBeenNthCalledWith(
         2,
         '/bar',
         'bar',
+        expect.anything(),
         expect.anything()
       )
 
@@ -429,12 +440,14 @@ describe('DataContext.Provider', () => {
         3,
         '/foo',
         'Skip this value',
+        expect.anything(),
         expect.anything()
       )
       expect(filterDataHandler).toHaveBeenNthCalledWith(
         4,
         '/bar',
         'bar value',
+        expect.anything(),
         expect.anything()
       )
 
@@ -590,6 +603,40 @@ describe('DataContext.Provider', () => {
           'dnb-form-submit-indicator--state-pending'
         )
       })
+    })
+
+    it('should abort async submit onSubmit using asyncSubmitTimeout', async () => {
+      const onSubmit = jest.fn().mockImplementation(async () => {
+        await wait(30) // ensure we never finish onSubmit before the timeout
+      })
+
+      render(
+        <DataContext.Provider
+          onSubmit={onSubmit}
+          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+          asyncSubmitTimeout={1}
+        >
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const buttonElement = document.querySelector('button')
+
+      fireEvent.click(buttonElement)
+
+      expect(
+        document.querySelector('.dnb-form-submit-indicator--state-pending')
+      ).toBeTruthy()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeNull()
+      })
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
     it('should evaluate long validator and onBlurValidator before continue with async onSubmit', async () => {
@@ -969,6 +1016,204 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(result.current.formState).toBeUndefined()
+      })
+    })
+
+    it('the user should be able to set the form in pending mode while an async validation is on going', async () => {
+      const onSubmit = jest.fn().mockImplementation(async () => null)
+
+      const validator = debounceAsync(async (value) => {
+        await wait(300)
+        if (value === 'invalid') {
+          return Error('My error')
+        }
+      }, 10)
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit} asyncSubmitTimeout={1}>
+          <Field.String
+            label="Label"
+            path="/foo"
+            validator={validator}
+            required
+          />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const buttonElement = document.querySelector('button')
+      const inputElement = document.querySelector('input')
+      const pendingField = () =>
+        document.querySelector(
+          '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+        )
+
+      // 1. start the async validation
+      await userEvent.type(inputElement, 'invali')
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      await waitFor(() => {
+        expect(pendingField()).toBeTruthy()
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
+
+      // 2. start the async submit
+      fireEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(buttonElement).toBeDisabled()
+        expect(
+          buttonElement.querySelector(
+            '.dnb-form-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await userEvent.type(inputElement, 'd')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('My error')
+      })
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
+
+      await userEvent.type(inputElement, '{Backspace>10}')
+      await userEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      })
+
+      await userEvent.type(inputElement, 'valid')
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      await userEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+    })
+
+    it('should emit onChange only when validator is evaluated successfully', async () => {
+      const onChangeContext = jest.fn().mockImplementation(async () => {
+        await wait(5)
+      })
+      const onChangeField = jest.fn().mockImplementation(async () => {
+        await wait(5)
+      })
+
+      const validator = jest.fn().mockImplementation(async (value) => {
+        await wait(40)
+        if (value !== 'valid') {
+          return Error(`value: ${value}`)
+        }
+      })
+
+      render(
+        <DataContext.Provider onChange={onChangeContext}>
+          <Field.String
+            label="Label"
+            path="/foo"
+            validator={validator}
+            onChange={onChangeField}
+            required
+          />
+        </DataContext.Provider>
+      )
+
+      const inputElement = document.querySelector('input')
+      const pendingField = () =>
+        document.querySelector(
+          '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+        )
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: '1' },
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(pendingField()).toBeTruthy()
+      })
+
+      await userEvent.type(inputElement, '{Backspace}')
+      fireEvent.blur(inputElement)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: '2' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('value: 2')
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: 'valid' },
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      // Use fireEvent over userEvent, because of its sync nature
+      fireEvent.change(inputElement, {
+        target: { value: '' },
+      })
+
+      expect(onChangeContext).toHaveBeenCalledTimes(0)
+      expect(onChangeField).toHaveBeenCalledTimes(0)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.inputErrorRequired)
+      })
+
+      await userEvent.type(inputElement, 'valid')
+
+      await waitFor(() => {
+        expect(onChangeContext).toHaveBeenCalledTimes(1)
+        expect(onChangeContext).toHaveBeenLastCalledWith({ foo: 'valid' })
+      })
+      await waitFor(() => {
+        expect(onChangeField).toHaveBeenCalled()
+        expect(onChangeField).toHaveBeenLastCalledWith('valid')
       })
     })
   })
@@ -2430,7 +2675,8 @@ describe('DataContext.Provider', () => {
       'foo',
       expect.objectContaining({
         disabled: true,
-      })
+      }),
+      expect.anything()
     )
 
     rerender(
@@ -2456,7 +2702,8 @@ describe('DataContext.Provider', () => {
       'bar',
       expect.objectContaining({
         disabled: false,
-      })
+      }),
+      expect.anything()
     )
   })
 
@@ -3054,6 +3301,87 @@ describe('DataContext.Provider', () => {
       expect(countRender).toBe(3)
     })
 
+    it('should return unvalidated data in sync', async () => {
+      const initialData = { count: 1 }
+
+      const onDataChange = jest.fn()
+
+      const onChange = jest.fn(async () => {
+        await wait(10)
+      })
+
+      const validator = jest.fn(async (value) => {
+        await wait(10)
+        if (value !== 123) {
+          return new Error('Invalid')
+        }
+      })
+
+      const MockComponent = () => {
+        const { data } = Form.useData<{ count: number }>(identifier)
+
+        onDataChange(data)
+
+        return (
+          <DataContext.Provider id={identifier} data={initialData}>
+            <Field.Number
+              path="/count"
+              label={data?.count}
+              onChange={onChange}
+              validator={validator}
+            />
+            <output>{JSON.stringify(data)}</output>
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const input = document.querySelector('input')
+      const output = document.querySelector('output')
+
+      expect(output).toHaveTextContent('{"count":1}')
+
+      fireEvent.change(input, {
+        target: { value: '12' },
+      })
+
+      expect(output).toHaveTextContent('{"count":12}')
+
+      // executed in sync and unvalidated
+      expect(onDataChange).toHaveBeenCalledTimes(3)
+      expect(onDataChange).toHaveBeenLastCalledWith({ count: 12 })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(0)
+        expect(validator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenLastCalledWith(12, expect.anything())
+      })
+
+      fireEvent.change(input, {
+        target: { value: '123' },
+      })
+
+      expect(output).toHaveTextContent('{"count":123}')
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(validator).toHaveBeenCalledTimes(2)
+      expect(validator).toHaveBeenLastCalledWith(123, expect.anything())
+
+      // executed in sync and unvalidated
+      expect(onDataChange).toHaveBeenCalledTimes(4)
+      expect(onDataChange).toHaveBeenLastCalledWith({ count: 123 })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith(123)
+
+        expect(validator).toHaveBeenCalledTimes(2)
+        expect(validator).toHaveBeenLastCalledWith(123, expect.anything())
+      })
+    })
+
     it('should make filterData available in the hook', () => {
       const id = 'disabled-fields-hook'
       const filterDataHandler = jest.fn((path, value, props) => {
@@ -3094,7 +3422,8 @@ describe('DataContext.Provider', () => {
         'foo',
         expect.objectContaining({
           disabled: true,
-        })
+        }),
+        expect.anything()
       )
 
       act(() => {
@@ -3130,7 +3459,8 @@ describe('DataContext.Provider', () => {
         'bar',
         expect.objectContaining({
           disabled: false,
-        })
+        }),
+        expect.anything()
       )
 
       rerender(
@@ -3153,7 +3483,8 @@ describe('DataContext.Provider', () => {
         'bar',
         expect.objectContaining({
           disabled: true,
-        })
+        }),
+        expect.anything()
       )
     })
 

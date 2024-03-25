@@ -1,6 +1,10 @@
+import React from 'react'
 import { renderHook, act } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
+import { Field } from '../../..'
+import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
+import { FilterData } from '../../../DataContext/Context'
 
 describe('Form.useData', () => {
   let identifier: string
@@ -194,7 +198,7 @@ describe('Form.useData', () => {
     expect(B.current.data).toEqual({ baz: 'new' })
   })
 
-  it('should return filterData function', () => {
+  it('should return filterData fallback function without provider', () => {
     const { result } = renderHook((props = { key: 'value' }) =>
       useData(identifier, props)
     )
@@ -204,6 +208,50 @@ describe('Form.useData', () => {
       update: expect.any(Function),
       set: expect.any(Function),
       filterData: expect.any(Function),
+    })
+  })
+
+  it('should return filterData to filter fields with', () => {
+    const { result } = renderHook(() => useData(identifier), {
+      wrapper: ({ children }) => (
+        <Provider
+          id={identifier}
+          data={{ field1: 'foo', field2: '', field3: 'baz' }}
+        >
+          <Field.String path="/field1" disabled />
+          <Field.String path="/field2" validateInitially required />
+          <Field.String path="/field3" />
+          {children}
+        </Provider>
+      ),
+    })
+
+    const filterDisabled: FilterData = jest.fn((path, value, props) => {
+      return props.disabled !== true
+    })
+
+    expect(result.current.filterData(filterDisabled)).toEqual({
+      field2: '',
+      field3: 'baz',
+    })
+
+    const filterError: FilterData = jest.fn(
+      (path, value, props, internal) => {
+        return !(internal.error instanceof Error)
+      }
+    )
+
+    expect(result.current.filterData(filterError)).toEqual({
+      field1: 'foo',
+      field3: 'baz',
+    })
+
+    const filterValue: FilterData = jest.fn((path, value) => {
+      return path === '/field3' && value === 'baz'
+    })
+
+    expect(result.current.filterData(filterValue)).toEqual({
+      field3: 'baz',
     })
   })
 })

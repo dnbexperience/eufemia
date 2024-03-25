@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useCallback, useContext } from 'react'
 import pointer from 'json-pointer'
 import type { ComponentProps } from '../../types'
 import Context, { ContextState } from '../Context'
@@ -13,22 +13,21 @@ export type Props = ComponentProps & {
 function At(props: Props) {
   const { path = '/', iterate, children } = props
   const dataContext = useContext(Context)
-  const { data: contextData, handlePathChange: contextHandlePathChange } =
-    dataContext
+  const {
+    data: contextData,
+    handlePathChange: handlePathChangeDataContext,
+  } = dataContext
 
   const data =
     contextData && pointer.has(contextData, path)
       ? pointer.get(contextData, path)
       : undefined
 
-  const handlePathChange = useMemo(
-    () =>
-      (contextHandlePathChange
-        ? (changePath, value) => {
-            contextHandlePathChange(`${path}${changePath}`, value)
-          }
-        : undefined) as ContextState['handlePathChange'],
-    [contextHandlePathChange, path]
+  const handlePathChange: ContextState['handlePathChange'] = useCallback(
+    (changePath, value) => {
+      handlePathChangeDataContext(`${path}${changePath}`, value)
+    },
+    [handlePathChangeDataContext, path]
   )
 
   if (iterate) {
@@ -39,9 +38,9 @@ function At(props: Props) {
       <>
         {data.map((element, i) => {
           const handlePathChange = (
-            contextHandlePathChange
+            handlePathChangeDataContext
               ? (changePath, value) => {
-                  contextHandlePathChange(
+                  handlePathChangeDataContext(
                     `${path}/${i}${changePath}`,
                     value
                   )
