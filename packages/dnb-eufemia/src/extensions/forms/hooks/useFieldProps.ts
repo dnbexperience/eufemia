@@ -33,7 +33,7 @@ import {
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
 import { isAsync } from '../../../shared/helpers/isAsync'
-import { useLocale } from '../../../shared'
+import useLocale from './useLocale'
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -110,7 +110,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
-  const tr = useLocale().Forms
+  const tr = useLocale()
 
   const transformers = useRef({
     toInput,

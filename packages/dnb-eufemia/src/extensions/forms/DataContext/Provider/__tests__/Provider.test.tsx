@@ -23,8 +23,8 @@ import { ContextState, FilterData } from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import { wait } from '../../../../../core/jest/jestSetup'
 
-import nbNO from '../../../../../shared/locales/nb-NO'
-const nb = nbNO['nb-NO'].Forms
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
 
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially continuousValidation />
@@ -774,7 +774,7 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.Input.errorRequired)
+        expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await waitFor(() => {
@@ -854,7 +854,7 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.Input.errorRequired)
+        expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await userEvent.type(input, 'something')
@@ -1099,7 +1099,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.inputErrorRequired)
+        ).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await waitFor(() => {
@@ -1168,7 +1168,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.inputErrorRequired)
+        ).toHaveTextContent(nb.Field.errorRequired)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1202,7 +1202,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.inputErrorRequired)
+        ).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await userEvent.type(inputElement, 'valid')
@@ -2000,7 +2000,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.Input.errorRequired
+          nb.Field.errorRequired
         )
 
         rerender(
@@ -2020,7 +2020,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.Input.errorRequired
+          nb.Field.errorRequired
         )
 
         rerender(
@@ -2210,7 +2210,7 @@ describe('DataContext.Provider', () => {
 
       expect(
         screen.getByText(
-          nb.StringInput.errorMinLength.replace('{minLength}', '486')
+          nb.StringField.errorMinLength.replace('{minLength}', '486')
         )
       ).toBeInTheDocument()
     })

@@ -19,7 +19,7 @@ import type {
   AllJSONSchemaVersions,
 } from '../../types'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -70,13 +70,13 @@ export type Props = FieldHelpProps &
 
 function StringComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
-  const translations = useLocale().Forms
+  const translations = useLocale()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Input.errorRequired,
-    minLength: translations.StringInput.errorMinLength,
-    maxLength: translations.StringInput.errorMaxLength,
-    pattern: translations.Input.errorPattern,
+    required: translations.Field.errorRequired,
+    minLength: translations.StringField.errorMinLength,
+    maxLength: translations.StringField.errorMaxLength,
+    pattern: translations.Field.errorPattern,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

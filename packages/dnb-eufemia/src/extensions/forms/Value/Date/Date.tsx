@@ -1,11 +1,11 @@
 import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringValueProps
 
 function DateComponent(props: Props) {
-  const translations = useLocale().Forms.Date
+  const translations = useLocale().Date
 
   const stringProps: Props = {
     ...props,

@@ -11,7 +11,7 @@ import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldHelpProps &
   FieldProps<string> & {
@@ -20,11 +20,11 @@ export type Props = FieldHelpProps &
   }
 
 function DateComponent(props: Props) {
-  const translations = useLocale().Forms
+  const translations = useLocale()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.Date.errorRequired,
-    pattern: translations.Input.errorRequired,
+    pattern: translations.Field.errorRequired,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

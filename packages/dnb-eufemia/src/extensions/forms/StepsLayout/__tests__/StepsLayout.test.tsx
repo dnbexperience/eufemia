@@ -4,8 +4,8 @@ import StepsLayout from '../StepsLayout'
 import { Field, Form } from '../..'
 import userEvent from '@testing-library/user-event'
 
-import nbNO from '../../../../shared/locales/nb-NO'
-const nb = nbNO['nb-NO'].Forms
+import nbNO from '../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
 
 jest.mock('../../../../shared/component-helper', () => {
   const original = jest.requireActual(
@@ -215,7 +215,7 @@ describe('StepsLayout', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.Input.errorRequired
+      nb.Field.errorRequired
     )
 
     await userEvent.type(input(), 'invalid')
@@ -245,7 +245,7 @@ describe('StepsLayout', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.Input.errorRequired
+      nb.Field.errorRequired
     )
 
     await userEvent.click(previousButton())
@@ -275,7 +275,7 @@ describe('StepsLayout', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.Input.errorRequired
+      nb.Field.errorRequired
     )
   }, 20000)
 

@@ -4,12 +4,12 @@ import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringValueProps
 
 function NationalIdentityNumber(props: Props) {
-  const translations = useLocale().Forms.NationalIdentityNumber
+  const translations = useLocale().NationalIdentityNumber
 
   const stringValueProps: Props = {
     ...props,

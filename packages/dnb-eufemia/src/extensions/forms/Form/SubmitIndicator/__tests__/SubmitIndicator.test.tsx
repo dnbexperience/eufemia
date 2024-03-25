@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Form } from '../../..'
-import locales from '../../../../../shared/locales'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 
+import locales from '../../../../../shared/locales'
 const nbNO = locales['nb-NO']
 
 describe('Form.SubmitIndicator', () => {

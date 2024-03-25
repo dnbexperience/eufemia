@@ -8,19 +8,29 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale } from '../../../../shared/useLocale'
+import { useLocale as useSharedLocale } from '../../../../shared'
+import useLocale from '../../hooks/useLocale'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
 export type ExpiryProps = FieldHelpProps & FieldProps<string>
 
 function Expiry(props: ExpiryProps) {
-  const { Forms, DatePicker } = useLocale()
-  const translations = { ...Forms, DatePicker }
-  const placeholders = translations.DatePicker.placeholder_characters
+  const {
+    Date: { errorRequired },
+    Expiry: { label: expiryLabel },
+  } = useLocale()
+
+  const {
+    DatePicker: {
+      placeholder_characters: placeholders,
+      month: monthLabel,
+      year: yearLabel,
+    },
+  } = useSharedLocale()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Date.errorRequired,
+    required: errorRequired,
   })
 
   const validateRequired = useCallback(
@@ -40,7 +50,7 @@ function Expiry(props: ExpiryProps) {
   const {
     id,
     className,
-    label = translations.Expiry.label,
+    label = expiryLabel,
     error,
     hasError,
     info,
@@ -97,7 +107,7 @@ function Expiry(props: ExpiryProps) {
         inputs={[
           {
             id: 'month',
-            label: translations.DatePicker['month'],
+            label: monthLabel,
             mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
@@ -105,7 +115,7 @@ function Expiry(props: ExpiryProps) {
           },
           {
             id: 'year',
-            label: translations.DatePicker['year'],
+            label: yearLabel,
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
             autoComplete: 'cc-exp-year',

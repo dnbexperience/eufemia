@@ -5,12 +5,12 @@ import { ButtonProps } from '../../../../components/button/Button'
 import StepsContext from '../StepsContext'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = ComponentProps & ButtonProps
 
 function NextButton(props: Props) {
-  const translations = useLocale().Forms.Step
+  const translations = useLocale().Step
 
   const {
     className,

@@ -39,7 +39,7 @@ import {
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
-import { useLocale } from '../../../shared/useLocale'
+import useLocale from '../hooks/useLocale'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -463,7 +463,7 @@ function CombineMessages({
   type: StateTypes
   messages: Array<StateWithMessage>
 }) {
-  const translations = useLocale().Forms.Field
+  const translations = useLocale().Field
 
   if (messages.length === 1) {
     return <>{messages[0].message}</>

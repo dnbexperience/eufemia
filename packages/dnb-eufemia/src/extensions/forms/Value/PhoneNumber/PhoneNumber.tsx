@@ -4,15 +4,15 @@ import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringValueProps
 
 function PhoneNumber(props: Props) {
-  const transaltions = useLocale().Forms.PhoneNumber
+  const translations = useLocale().PhoneNumber
 
   const label =
-    props.label ?? (props.inline ? undefined : transaltions.label)
+    props.label ?? (props.inline ? undefined : translations.label)
   const prepare = (value) =>
     format(cleanNumber(value), {
       phone: true,

@@ -22,7 +22,7 @@ import {
   makeCountryFilterSet,
 } from '../SelectCountry'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -72,7 +72,7 @@ const defaultMask = [
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const translations = useLocale().Forms
+  const translations = useLocale()
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const countryCodeRef = React.useRef(props?.emptyValue)

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringFieldProps & {
   validate?: boolean
@@ -10,7 +10,7 @@ export type Props = StringFieldProps & {
 }
 
 function BankAccountNumber(props: Props) {
-  const translations = useLocale().Forms.BankAccountNumber
+  const translations = useLocale().BankAccountNumber
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {

@@ -7,7 +7,7 @@ import { useFieldProps } from '../../hooks'
 import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldProps<unknown> & {
   valueOn: unknown
@@ -18,7 +18,7 @@ export type Props = FieldProps<unknown> & {
 }
 
 function Toggle(props: Props) {
-  const translations = useLocale().Forms.Boolean
+  const translations = useLocale().BooleanField
 
   const preparedProps: Props = {
     ...props,

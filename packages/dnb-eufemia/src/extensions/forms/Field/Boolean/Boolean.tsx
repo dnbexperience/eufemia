@@ -1,6 +1,6 @@
 import React from 'react'
 import ToggleField, { Props as ToggleFieldProps } from '../Toggle'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = Omit<
   ToggleFieldProps,
@@ -12,7 +12,7 @@ export type Props = Omit<
 
 function BooleanComponent(props: Props) {
   const { trueText, falseText, ...restProps } = props
-  const translations = useLocale().Forms.Boolean
+  const translations = useLocale().BooleanField
 
   return (
     <ToggleField

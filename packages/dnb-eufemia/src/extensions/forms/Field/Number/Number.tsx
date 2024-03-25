@@ -17,7 +17,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -57,7 +57,7 @@ export type Props = FieldHelpProps &
 function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
-  const translations = useLocale().Forms
+  const translations = useLocale()
 
   const {
     currency,
@@ -72,7 +72,7 @@ function NumberComponent(props: Props) {
   } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Input.errorRequired,
+    required: translations.Field.errorRequired,
     minimum: translations.NumberField.errorMinimum,
     maximum: translations.NumberField.errorMaximum,
     exclusiveMinimum: translations.NumberField.errorExclusiveMinimum,

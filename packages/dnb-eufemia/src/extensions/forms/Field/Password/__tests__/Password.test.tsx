@@ -9,13 +9,13 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Password, { PasswordProps } from '../Password'
 
-import nbNO from '../../../../../shared/locales/nb-NO'
-import enGB from '../../../../../shared/locales/en-GB'
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
 import { Provider } from '../../../../../shared'
 import { Locales } from '../../../../../shared/Context'
 
-const nb = nbNO['nb-NO'].Forms
-const en = enGB['en-GB'].Forms
+const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Password component', () => {
   it('has correct type by default', () => {

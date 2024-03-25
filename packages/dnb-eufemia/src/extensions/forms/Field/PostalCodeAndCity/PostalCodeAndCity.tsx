@@ -3,14 +3,14 @@ import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import { FieldHelpProps } from '../../types'
-import { useLocale } from '../../../../shared/useLocale'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
   Record<'postalCode' | 'city', StringFieldProps>
 
 function PostalCodeAndCity(props: Props) {
-  const translations = useLocale().Forms
+  const translations = useLocale()
 
   const {
     postalCode = {},
