@@ -33,7 +33,7 @@ export const OverStack = () => {
 export const InsideCard = () => {
   return (
     <ComponentBox data-visual-test="layout-sub-heading-inside-card">
-      <Card>
+      <Card stack>
         <Flex.Stack>
           <Form.SubHeading>This is a sub heading</Form.SubHeading>
           <P>Card contents</P>
@@ -48,7 +48,7 @@ export const OverStackWithCard = () => {
     <ComponentBox data-visual-test="layout-sub-heading-over-card">
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
       <Flex.Stack>
-        <Card>
+        <Card stack>
           <P>Card contents</P>
         </Card>
       </Flex.Stack>
