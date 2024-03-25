@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.25.0](https://github.com/dnbexperience/eufemia/compare/v10.24.0...v10.25.0) (2024-03-25)
+
+
+### :bug: Bug Fixes
+
+* **forms:** ensure content in Card will wrap ([#3411](https://github.com/dnbexperience/eufemia/issues/3411)) ([47eb967](https://github.com/dnbexperience/eufemia/commit/47eb967f6c9e5c50da161f7e3e3ad99cc7a145ba))
+* **forms:** ensure context support ([#3409](https://github.com/dnbexperience/eufemia/issues/3409)) ([34b4adb](https://github.com/dnbexperience/eufemia/commit/34b4adb106f79d8b60d684d964feef7ed5789968))
+* show error in console when Eufemia CSS and JS versions do not match ([#3410](https://github.com/dnbexperience/eufemia/issues/3410)) ([3d7bcbf](https://github.com/dnbexperience/eufemia/commit/3d7bcbf4f86e249db41e0249df16e04bac04777a))
+
+
+### :sparkles: Features
+
+* **Accordion:** add additional Sbanken styling variables ([#3406](https://github.com/dnbexperience/eufemia/issues/3406)) ([dfa8479](https://github.com/dnbexperience/eufemia/commit/dfa8479a94f3e64aa9fbcee9e7192aad38ecc36d))
+* **Form.Handler:** enhance async behaviour ([#3405](https://github.com/dnbexperience/eufemia/issues/3405)) ([78b4895](https://github.com/dnbexperience/eufemia/commit/78b4895922fe5b68da7c9c20a700b6be857303aa))
+* **forms:** add internal field state to `filterData` as a fourth parameter ([#3414](https://github.com/dnbexperience/eufemia/issues/3414)) ([4a6a1ae](https://github.com/dnbexperience/eufemia/commit/4a6a1ae7721439dd7a22ca29289148c7703ff811))
+* **Theme:** update sbanken theme color variables ([#3400](https://github.com/dnbexperience/eufemia/issues/3400)) ([05607cf](https://github.com/dnbexperience/eufemia/commit/05607cffa8a1a1651000bcbf7c05a78fca62495b))
+
 ## [10.24.0](https://github.com/dnbexperience/eufemia/compare/v10.23.0...v10.24.0) (2024-03-22)
 
 
