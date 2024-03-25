@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   filterData: {
-    doc: 'Filter the internal data context based on your criteria: `(path, value, props) => !props?.disabled`. It will iterate on each data entry.',
+    doc: 'Filter the internal data context based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry.',
     type: 'function',
     status: 'optional',
   },

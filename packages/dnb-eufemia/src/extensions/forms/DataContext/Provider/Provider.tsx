@@ -192,7 +192,7 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
-  const fieldErrorRef = useRef<Record<Path, boolean>>({})
+  const fieldErrorRef = useRef<Record<Path, Error>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
 
   // - Data
@@ -243,7 +243,7 @@ export default function Provider<Data extends JsonObject>(
       return Boolean(
         state === 'error'
           ? errorsRef.current?.[path] instanceof Error ||
-              fieldErrorRef.current[path]
+              fieldErrorRef.current[path] instanceof Error
           : fieldStateRef.current[path] === state
       )
     },
@@ -266,7 +266,7 @@ export default function Provider<Data extends JsonObject>(
    */
   const setFieldError = useCallback(
     (path: Path, error: Error | FormError) => {
-      fieldErrorRef.current[path] = Boolean(error)
+      fieldErrorRef.current[path] = error
     },
     []
   )
@@ -297,7 +297,10 @@ export default function Provider<Data extends JsonObject>(
           const result = filter(
             path,
             exists ? pointer.get(data, path) : undefined,
-            props
+            props,
+            {
+              error: fieldErrorRef.current?.[path],
+            }
           )
           if (result === false && exists) {
             pointer.remove(filtered, path)

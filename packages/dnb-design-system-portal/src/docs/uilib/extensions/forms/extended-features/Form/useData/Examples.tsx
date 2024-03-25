@@ -101,7 +101,7 @@ export function FilterData() {
   return (
     <ComponentBox>
       {() => {
-        const filterDataHandler = (path, value, props) => {
+        const filterDataHandler = (path, value, props, internal) => {
           if (value === 'removed') {
             return false
           }
