@@ -2,10 +2,10 @@ import React from 'react'
 
 export type StepIndex = number
 export interface StepsContextState {
-  activeIndex?: StepIndex
-  handlePrevious?: () => void
-  handleNext?: () => void
-  setActiveIndex?: (index: StepIndex) => void
+  activeIndex: StepIndex
+  handlePrevious: () => void
+  handleNext: () => void
+  setActiveIndex: (index: StepIndex) => void
 }
 
 const StepsContext = React.createContext<StepsContextState | undefined>({
