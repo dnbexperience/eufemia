@@ -32,13 +32,9 @@ const onSubmit = async (data) => {
 
 ### New location after async submit
 
+This example is only for demo purpose and will NOT redirect to a new location. It will also time out after 10 seconds.
+
 <Examples.AsyncSubmitComplete />
-
-### Async validation with async onChange
-
-Type "valid" in order to see the validation message.
-
-<Examples.AsyncChangeAndValidation />
 
 ### Filter your data
 
@@ -62,3 +58,23 @@ when the browser reloads. The data is stored until the session storage is invali
 ### Autocomplete (autofill) user data
 
 <Examples.Autofill />
+
+### Complex async (autosave) example
+
+This example demonstrates how to use async validation with an async `onSubmit` and async `onChange` event for both the `Form.Handler` and a field itself.
+
+- While you write, an async validation request is simulated to check if the input is valid. If it's not, an error message will be shown.
+
+- During validation, only the relevant value will be evaluated. This means, when the delayed validation is done, and the value has changed, the validation result will be omitted.
+
+- You can press enter to submit the form while you write. But only a string of `valid` will be accepted to emit the form `onSubmit` and `onChange`.
+
+- You can start writing, wait a second or two and remove the whole text again and blur the field. The async validation return will be omitted and the "required" error message will be shown.
+
+- It also shows some status messages after the validation and submit requests are done.
+
+- This example does not include an async `onBlurValidator` – but it's possible to add one into the mix as well.
+
+- To access the `date` "in sync" – you can use the [useData](/uilib/extensions/forms/extended-features/Form/useData/) hook.
+
+<Examples.AsyncChangeAndValidation />

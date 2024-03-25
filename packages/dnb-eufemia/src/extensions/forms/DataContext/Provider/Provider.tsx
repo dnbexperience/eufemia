@@ -112,17 +112,13 @@ export interface Props<Data extends JsonObject> {
     | void
     | Promise<EventReturnWithStateObject | void>
   /**
-   * Shows an indicator on the current label during a field change.
-   */
-  enableAsyncChangeBehavior?: boolean
-  /**
    * Minimum time to display the submit indicator.
    */
   minimumAsyncBehaviorTime?: number
   /**
    * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
    */
-  asyncBehaviorTimeout?: number
+  asyncSubmitTimeout?: number
   /**
    * Scroll to top on submit
    */
@@ -153,7 +149,7 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     scrollTopOnSubmit,
     minimumAsyncBehaviorTime,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
     sessionStorageId,
     ajvInstance,
     filterData,
@@ -510,33 +506,50 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   /**
+   * Update the data set on user interaction (unvalidated)
+   */
+  const handlePathChangeUnvalidated: ContextState['handlePathChange'] =
+    useCallback(
+      async (path, value) => {
+        if (!path) {
+          return null
+        }
+
+        updateDataValue(path, value)
+
+        if (isAsync(onPathChange)) {
+          await onPathChange?.(path, value)
+        } else {
+          onPathChange?.(path, value)
+        }
+      },
+      [onPathChange, updateDataValue]
+    )
+
+  /**
    * Update the data set on user interaction
    */
   const handlePathChange: ContextState['handlePathChange'] = useCallback(
-    async (path, value) => {
+    async (path, value = '_undefined_') => {
       if (!path) {
         return null
       }
 
-      if (isAsync(onPathChange)) {
-        await onPathChange?.(path, value)
-      } else {
-        onPathChange?.(path, value)
+      if (value !== '_undefined_') {
+        handlePathChangeUnvalidated(path, value)
       }
-
-      const newData = updateDataValue(path, value)
 
       showAllErrorsRef.current = false
 
       validateData()
 
       if (isAsync(onChange)) {
-        return await onChange(newData as Data)
+        return await onChange(internalDataRef.current as Data)
       }
 
-      return onChange?.(newData as Data)
+      return onChange?.(internalDataRef.current as Data)
     },
-    [onChange, onPathChange, updateDataValue, validateData]
+    [handlePathChangeUnvalidated, onChange, validateData]
   )
 
   // - Mounted fields
@@ -579,7 +592,10 @@ export default function Provider<Data extends JsonObject>(
       setSubmitState({ error: undefined })
 
       const asyncBehaviorIsEnabled =
-        !(skipErrorCheck ? false : hasErrors()) &&
+        (skipErrorCheck
+          ? true
+          : // Don't enable async behaviour if we have errors, but when we have a pending state
+            !hasErrors() || hasFieldState('pending')) &&
         (enableAsyncBehaviour || hasFieldWithAsyncValidator())
 
       if (asyncBehaviorIsEnabled) {
@@ -643,17 +659,17 @@ export default function Provider<Data extends JsonObject>(
           window.requestAnimationFrame(() => {
             setFormState(undefined)
           })
-        }
 
-        if (!skipFieldValidation) {
-          // Add a event listener to continue the submit after the pending state is resolved
-          onSubmitContinueRef.current = () => {
-            window.requestAnimationFrame(() => {
-              // Do not call the validators again,
-              // because we already did it in the first call
-              // If they are async, we wait for them to finish anyway
-              handleSubmitCall({ ...args, skipFieldValidation: true })
-            })
+          if (!skipFieldValidation) {
+            // Add a event listener to continue the submit after the pending state is resolved
+            onSubmitContinueRef.current = () => {
+              window.requestAnimationFrame(() => {
+                // Do not call the validators again,
+                // because we already did it in the first call
+                // If they are async, we wait for them to finish anyway
+                handleSubmitCall({ ...args, skipFieldValidation: true })
+              })
+            }
           }
         }
 
@@ -786,11 +802,21 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [schema, validateData, forceUpdate])
 
+  const onTimeout = useCallback(() => {
+    setFormState(undefined)
+    setSubmitState({
+      info: undefined,
+      warning: undefined,
+      error: undefined,
+    })
+  }, [setFormState, setSubmitState])
+
   const { bufferedFormState: formState } = useFormStatusBuffer({
     formState: formStateRef.current,
     waitFor: hasFieldState('pending'),
     minimumAsyncBehaviorTime,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
+    onTimeout,
   })
 
   const submitState = submitStateRef.current
@@ -801,6 +827,7 @@ export default function Provider<Data extends JsonObject>(
       value={{
         /** Method */
         handlePathChange,
+        handlePathChangeUnvalidated,
         handleSubmit,
         handleMountField,
         handleUnMountField,
@@ -858,9 +885,10 @@ function removeListPath(paths: PathList, path: Path): PathList {
 
 type FormStatusBufferProps = {
   minimumAsyncBehaviorTime?: Props<unknown>['minimumAsyncBehaviorTime']
-  asyncBehaviorTimeout?: Props<unknown>['asyncBehaviorTimeout']
+  asyncSubmitTimeout?: Props<unknown>['asyncSubmitTimeout']
   formState: ContextState['formState']
   waitFor: boolean
+  onTimeout: () => void
 }
 
 function useFormStatusBuffer(props: FormStatusBufferProps) {
@@ -868,7 +896,8 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     formState,
     waitFor,
     minimumAsyncBehaviorTime,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
+    onTimeout,
   } = props || {}
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -928,7 +957,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
       hadCompleteRef.current = true
     }
 
-    if (formState === 'pending') {
+    if (formState === 'pending' && stateRef.current !== 'pending') {
       clear()
       nowRef.current = Date.now()
       hadCompleteRef.current = false
@@ -950,11 +979,14 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
           clear()
         }, delay + minimum)
       }
+    }
 
+    if (stateRef.current === 'pending') {
       timeoutRef.current.timeout = setTimeout(() => {
-        nowRef.current = 0
+        clear()
         setState(undefined)
-      }, asyncBehaviorTimeout ?? 30000)
+        onTimeout?.()
+      }, asyncSubmitTimeout ?? 30000)
     }
 
     return clear
@@ -964,7 +996,8 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     formState,
     setState,
     waitFor,
-    asyncBehaviorTimeout,
+    asyncSubmitTimeout,
+    onTimeout,
   ])
 
   return { bufferedFormState: stateRef.current }

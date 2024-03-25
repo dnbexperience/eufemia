@@ -39,9 +39,9 @@ describe('Form.SubmitButton', () => {
     const onSubmit = jest.fn(preventDefault)
 
     render(
-      <Form.Element onSubmit={onSubmit}>
+      <Form.Handler onSubmit={onSubmit}>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Handler>
     )
 
     const buttonElement = document.querySelector('button')
@@ -59,9 +59,9 @@ describe('Form.SubmitButton', () => {
 
   it('should default to button element with type of submit', () => {
     render(
-      <Form.Element>
+      <Form.Handler>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Handler>
     )
 
     const buttonElement = document.querySelector('button')
@@ -72,11 +72,11 @@ describe('Form.SubmitButton', () => {
 
   it('should set custom "className"', () => {
     render(
-      <Form.Element>
+      <Form.Handler>
         <Form.SubmitButton className="custom-class">
           Submit
         </Form.SubmitButton>
-      </Form.Element>
+      </Form.Handler>
     )
 
     const buttonElement = document.querySelector('button')
@@ -136,11 +136,11 @@ describe('Form.SubmitButton', () => {
 
   it('should forward custom HTML props', () => {
     render(
-      <Form.Element>
+      <Form.Handler>
         <Form.SubmitButton aria-label="Aria Label">
           Submit
         </Form.SubmitButton>
-      </Form.Element>
+      </Form.Handler>
     )
 
     const buttonElement = document.querySelector('button')

@@ -1,5 +1,11 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Form, Field, FieldBlock } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Form,
+  Field,
+  FieldBlock,
+  Value,
+} from '@dnb/eufemia/src/extensions/forms'
+import { stop as stopIcon } from '@dnb/eufemia/src/icons'
 import { Button, Card, Flex, P, Section } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
@@ -23,8 +29,9 @@ export const AsyncSubmit = () => {
 
 export const AsyncSubmitComplete = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Value }}>
       <Form.Handler
+        data={{ myField: 'Some value' }}
         onSubmit={async (data) => {
           console.log('onSubmit', data)
 
@@ -33,7 +40,7 @@ export const AsyncSubmitComplete = () => {
 
           // e.g. go to new location
 
-          // Optionally, you can return an object with these keys, depending your needs
+          // Optionally, you can return e.g. the "pending" status with an additional info
           return {
             info: 'Redirecting to a new location',
 
@@ -41,11 +48,15 @@ export const AsyncSubmitComplete = () => {
             status: 'pending',
           }
         }}
+        asyncSubmitTimeout={10000}
       >
         <Flex.Stack>
-          <Field.String label="Required field" path="/myField" required />
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Card>
+            <Value.String label="Summary" path="/myField" />
+          </Card>
           <Form.ButtonRow>
-            <Form.SubmitButton text="Save" />
+            <Form.SubmitButton />
           </Form.ButtonRow>
         </Flex.Stack>
       </Form.Handler>
@@ -55,7 +66,7 @@ export const AsyncSubmitComplete = () => {
 
 export const AsyncChangeAndValidation = () => {
   return (
-    <ComponentBox scope={{ debounceAsync, createRequest }}>
+    <ComponentBox scope={{ debounceAsync, createRequest, stopIcon }}>
       {() => {
         const validator = debounceAsync(async function secondValidator(
           value: string,
@@ -88,11 +99,11 @@ export const AsyncChangeAndValidation = () => {
           await new Promise((resolve) => setTimeout(resolve, 2000))
 
           // For demo purposes, we show a message
-          return { info: 'Redirecting to a new location' }
+          return { info: 'Message from onSubmit return' }
         }
 
         const onChangeForm = async (data) => {
-          console.log('onChange', data)
+          console.log('onChangeForm', data)
 
           // Wait for 2 seconds
           await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -102,7 +113,7 @@ export const AsyncChangeAndValidation = () => {
         }
 
         const onChangeField = async (data) => {
-          console.log('onChange', data)
+          console.log('onChangeField', data)
 
           // Wait for 2 seconds
           await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -111,28 +122,41 @@ export const AsyncChangeAndValidation = () => {
           return { info: 'Info message' }
         }
 
-        return (
-          <Form.Handler onSubmit={onSubmit} onChange={onChangeForm}>
-            <Flex.Stack>
-              <Field.String
-                label="Required field"
-                path="/myField"
-                required
-                validator={validator}
-                onChange={onChangeField}
-              />
-              <Form.ButtonRow>
-                <Form.SubmitButton text="Save" />
-                <Button
-                  text="Stop async operations"
-                  variant="tertiary"
-                  disabled={false}
-                  onClick={cancelRequest}
+        const MyForm = () => {
+          const { data } = Form.useData('unique-id')
+          console.log('data', data)
+          return (
+            <Form.Handler
+              id="unique-id"
+              onSubmit={onSubmit}
+              onChange={onChangeForm}
+            >
+              <Flex.Stack>
+                <Field.String
+                  label='Type "valid" to validate the field'
+                  path="/myField"
+                  required
+                  validator={validator}
+                  onChange={onChangeField}
+                  autoComplete="off"
                 />
-              </Form.ButtonRow>
-            </Flex.Stack>
-          </Form.Handler>
-        )
+                <Form.ButtonRow>
+                  <Form.SubmitButton text="Save" />
+                  <Button
+                    text="Stop async operations"
+                    variant="tertiary"
+                    icon={stopIcon}
+                    icon_position="left"
+                    disabled={false}
+                    onClick={cancelRequest}
+                  />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
       }}
     </ComponentBox>
   )
@@ -226,7 +250,6 @@ export const FilterData = () => {
         const MyComponent = () => {
           const { data } = Form.useData(id, {
             disabled: false,
-            validate: false,
             myField: 'Value',
           })
 
@@ -238,11 +261,9 @@ export const FilterData = () => {
             >
               <Flex.Stack spacing="medium">
                 <Field.Boolean label="Disabled" path="/disabled" />
-                <Field.Boolean label="Validate" path="/validate" />
                 <Field.String
                   label="My Field"
                   path="/myField"
-                  required={data.validate}
                   disabled={data.disabled}
                 />
                 <Form.ButtonRow>

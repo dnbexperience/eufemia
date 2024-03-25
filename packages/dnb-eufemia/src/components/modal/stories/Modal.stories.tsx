@@ -410,7 +410,7 @@ const ModalTriggerExample = () => {
   const [count, setCount] = React.useState(0)
 
   return (
-    <Form.Element>
+    <Form.Handler>
       <Flex.Horizontal align="baseline">
         <Button
           variant="secondary"
@@ -439,7 +439,7 @@ const ModalTriggerExample = () => {
         />
         {count}
       </Flex.Horizontal>
-    </Form.Element>
+    </Form.Handler>
   )
 }
 
