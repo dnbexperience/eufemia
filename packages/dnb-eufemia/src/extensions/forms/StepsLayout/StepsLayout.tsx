@@ -187,6 +187,38 @@ function StepsLayout(props: Props) {
     }
   }, [id, extend, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const titlesRef = useRef([])
+  const Contents = useCallback(() => {
+    titlesRef.current = []
+    return React.Children.map(children, (child, i) => {
+      if (React.isValidElement(child)) {
+        let step = child
+
+        if (child?.type !== Step && typeof child.type === 'function') {
+          step = child.type.apply(child.type, [
+            child.props,
+          ]) as React.ReactElement
+
+          if (step?.type === Step) {
+            child = step
+          }
+        }
+
+        if (child?.type === Step) {
+          titlesRef.current.push(child.props.title ?? 'Title missing')
+          return React.cloneElement(
+            child as React.ReactElement<StepProps>,
+            {
+              index: i,
+            }
+          )
+        }
+      }
+
+      return child
+    })
+  }, [children])
+
   if (!hasContext) {
     warn('You may wrap StepsLayout in Form.Handler')
     return (
@@ -195,32 +227,6 @@ function StepsLayout(props: Props) {
       </Provider>
     )
   }
-
-  const titles = []
-  const contents = React.Children.map(children, (child, i) => {
-    if (React.isValidElement(child)) {
-      let step = child
-
-      if (child?.type !== Step && typeof child.type === 'function') {
-        step = child.type.apply(child.type, [
-          child.props,
-        ]) as React.ReactElement
-
-        if (step?.type === Step) {
-          child = step
-        }
-      }
-
-      if (child?.type === Step) {
-        titles.push(child.props.title ?? 'Title missing')
-        return React.cloneElement(child as React.ReactElement<StepProps>, {
-          index: i,
-        })
-      }
-    }
-
-    return child
-  })
 
   return (
     <StepsContext.Provider value={providerValue}>
@@ -237,7 +243,7 @@ function StepsLayout(props: Props) {
           <StepIndicator
             bottom
             current_step={activeIndexRef.current}
-            data={titles}
+            data={titlesRef.current}
             mode={mode}
             no_animation={noAnimation}
             on_change={handleChange}
@@ -251,7 +257,9 @@ function StepsLayout(props: Props) {
           />
         </aside>
 
-        <div className="dnb-forms-steps-layout__contents">{contents}</div>
+        <div className="dnb-forms-steps-layout__contents">
+          <Contents />
+        </div>
       </Space>
     </StepsContext.Provider>
   )

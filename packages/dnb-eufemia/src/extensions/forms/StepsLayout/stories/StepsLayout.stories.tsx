@@ -173,3 +173,36 @@ export function AsyncStepChange() {
     </Form.Handler>
   )
 }
+
+export function UseStep() {
+  const Step1 = () => {
+    const { setActiveIndex, activeIndex } = StepsLayout.useStep()
+    return (
+      <StepsLayout.Step>
+        <Card stack>
+          <P>foo</P>
+          <P>bar</P>
+        </Card>
+        <Form.ButtonRow>
+          <Button
+            top
+            onClick={() => {
+              setActiveIndex(activeIndex + 1)
+            }}
+          >
+            Next
+          </Button>
+        </Form.ButtonRow>
+      </StepsLayout.Step>
+    )
+  }
+
+  return (
+    <Form.Handler>
+      <StepsLayout>
+        <Step1 />
+        <Step1 />
+      </StepsLayout>
+    </Form.Handler>
+  )
+}
