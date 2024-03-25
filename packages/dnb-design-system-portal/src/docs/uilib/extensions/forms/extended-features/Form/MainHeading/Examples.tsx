@@ -26,7 +26,7 @@ export const OverStackWithCard = () => {
     <ComponentBox data-visual-test="layout-main-heading-over-card">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
       <Flex.Stack>
-        <Card>
+        <Card stack>
           <P>Card contents</P>
         </Card>
       </Flex.Stack>

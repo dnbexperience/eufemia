@@ -16,6 +16,10 @@
     margin-bottom: 2rem;
   }
 
+  &__contents {
+    flex: 1;
+  }
+
   &__contents .dnb-card {
     --border-color: var(--color-pistachio);
   }

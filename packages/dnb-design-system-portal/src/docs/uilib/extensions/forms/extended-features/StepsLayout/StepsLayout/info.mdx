@@ -31,10 +31,10 @@ import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
 const Step1 = () => (
   <StepsLayout.Step title="Step 1">
     <Form.MainHeading>Heading</Form.MainHeading>
-    <Card>
+    <Card stack>
       <P>Contents</P>
     </Card>
-    <Card>
+    <Card stack>
       <P>Contents</P>
     </Card>
     <StepsLayout.NextButton />
@@ -59,10 +59,10 @@ import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
 
 const Step2 = () => (
   <Flex.Stack>
-    <Card>
+    <Card stack>
       <P>Contents</P>
     </Card>
-    <Card>
+    <Card stack>
       <P>Contents</P>
     </Card>
   </Flex.Stack>
@@ -95,7 +95,7 @@ import { StepsLayout, Form } from '@dnb/eufemia/extensions/forms'
 const MyStep = () => {
   const { setActiveIndex, activeIndex } = StepsLayout.useStep()
   return (
-    <Card>
+    <Card stack>
       <Button onClick={() => setActiveIndex(1)}>Go to step 2</Button>
     </Card>
   )

@@ -29,10 +29,10 @@ export const Default = () => {
         const Step1 = () => (
           <Flex.Stack>
             <Form.MainHeading>Heading</Form.MainHeading>
-            <Card>
+            <Card stack>
               <P>Contents</P>
             </Card>
-            <Card>
+            <Card stack>
               <P>Contents</P>
             </Card>
 
@@ -45,10 +45,10 @@ export const Default = () => {
         const Step2 = () => (
           <Flex.Stack>
             <Form.MainHeading>Heading</Form.MainHeading>
-            <Card>
+            <Card stack>
               <P>Contents</P>
             </Card>
-            <Card>
+            <Card stack>
               <P>Contents</P>
             </Card>
 
@@ -201,7 +201,7 @@ export const AsyncStepsLayout = () => {
             return (
               <Flex.Stack>
                 <Form.MainHeading>Heading</Form.MainHeading>
-                <Card>
+                <Card stack>
                   <P>Contents of step 2</P>
                 </Card>
                 <Form.ButtonRow>

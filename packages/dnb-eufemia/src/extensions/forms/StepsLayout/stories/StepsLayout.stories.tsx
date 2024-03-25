@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import StepsLayout from '../StepsLayout'
 import { P } from '../../../../elements'
-import { Button, Card, Flex } from '../../../../components'
+import { Button, Card } from '../../../../components'
 import Field, { Form } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
@@ -10,69 +10,53 @@ export default {
   title: 'Eufemia/Extensions/Forms/StepsLayout',
 }
 
-// By using this code, we can look up the direct children of the component and apply a FlexContainer around them.
-// This is useful when we don't want to use the `Flex.withChildren` HOC on the children as well.
-// But it can have negative side effects by rendering a component twice.
-// So the recommended way is to use `Flex.Stack` in the externalized Step component itself.
-//
-// Example fo
-// if (typeof child.type === 'function') {
-//   const r = child.type.apply(child.type, [child.props])
-//   if (r?.type === React.Fragment) {
-//     return (
-//       <FlexContainer {...props}>{r.props.children}</FlexContainer>
-//     )
-//   }
-// }
-
-// const Child1 = () => {
-//   return (
-//     <>
-//       <Card>Contents</Card>
-//       <Card>Contents</Card>
-//     </>
-//   )
-// }
-// const Child2 = Flex.withChildren(() => {
-//   return (
-//     <>
-//       <Card>Contents</Card>
-//       <Card>Contents</Card>
-//     </>
-//   )
-// })
-const Child3 = () => {
+const Step1 = () => {
   return (
-    <Flex.Stack>
-      <Card>Contents</Card>
-      <Card>Contents</Card>
-    </Flex.Stack>
+    <StepsLayout.Step title="Step 1">
+      <Form.MainHeading>Heading</Form.MainHeading>
+      <Card stack>
+        <P>Contents</P>
+        <P>Contents</P>
+      </Card>
+      <Card stack>
+        <P>Contents</P>
+        <P>Contents</P>
+      </Card>
+      <StepsLayout.Buttons />
+    </StepsLayout.Step>
+  )
+}
+const Step2 = () => {
+  return (
+    <StepsLayout.Step title="Step 2">
+      <Form.MainHeading>Heading</Form.MainHeading>
+      <Card stack>
+        <P>Contents</P>
+        <P>Contents</P>
+      </Card>
+      <StepsLayout.Buttons />
+    </StepsLayout.Step>
+  )
+}
+const Step3 = () => {
+  return (
+    <StepsLayout.Step title="Summary">
+      <Form.MainHeading>Summary</Form.MainHeading>
+      <Card stack>
+        <P>Contents</P>
+        <P>Contents</P>
+      </Card>
+      <StepsLayout.Buttons />
+    </StepsLayout.Step>
   )
 }
 
 export const StepsLayoutFlex = () => {
   return (
     <StepsLayout mode="loose" variant="drawer">
-      <StepsLayout.Step title="Step 1">
-        <Form.MainHeading>Heading</Form.MainHeading>
-        {/* <Child1 /> */}
-        {/* <Child2 /> */}
-        <Child3 />
-      </StepsLayout.Step>
-
-      <StepsLayout.Step title="Step 2">
-        <Form.MainHeading>Heading</Form.MainHeading>
-        <Card>
-          <P>Contents</P>
-        </Card>
-      </StepsLayout.Step>
-
-      <StepsLayout.Step title="Summary">
-        <Form.MainHeading>Summary</Form.MainHeading>
-        <Card>
-          <P>Contents</P>
-        </Card>
-      </StepsLayout.Step>
+      <Step1 />
+      <Step2 />
+      <Step3 />
     </StepsLayout>
   )
 }

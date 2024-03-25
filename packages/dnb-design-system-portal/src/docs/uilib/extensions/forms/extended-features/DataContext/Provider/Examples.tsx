@@ -102,7 +102,7 @@ export const Default = () => {
         sessionStorageId="provider-example-1"
       >
         <Flex.Stack>
-          <Card>
+          <Card stack>
             <Flex.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
@@ -192,7 +192,7 @@ export const ValidationWithJsonSchema = () => {
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
         <Flex.Stack>
-          <Card>
+          <Card stack>
             <Flex.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
