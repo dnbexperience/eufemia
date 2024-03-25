@@ -23,7 +23,7 @@ export function runCssVersionMismatchWarning() {
           window
             .getComputedStyle(document.body)
             .getPropertyValue('--eufemia-version')
-            ?.replace(/["']/g, '') || jsVersion
+            ?.replace(/["']/g, '') || 'unknown'
 
         if (cssVersion !== jsVersion) {
           console.error(
@@ -36,7 +36,7 @@ export function runCssVersionMismatchWarning() {
 
       if (document.readyState === 'complete') {
         window.requestAnimationFrame(runCheck)
-      } else if (typeof window !== 'undefined') {
+      } else {
         window.addEventListener('load', runCheck)
       }
     }
