@@ -12,6 +12,7 @@ export const Default = () => {
           activeIndex: 0,
           handlePrevious: () => null,
           handleNext: () => console.log('handleNext'),
+          setActiveIndex: () => null,
         }}
       >
         <StepsLayout.NextButton />
