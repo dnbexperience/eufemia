@@ -2,33 +2,17 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { GlobalStatusProperties } from '@dnb/eufemia/src/components/global-status/GlobalStatusDocs'
 import { GlobalStatusExampleControllers } from 'Docs/uilib/components/global-status/Examples'
 
 ## Properties
 
-| Properties                              | Description                                                                                                                                                                                              |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                    | _(optional)_ the main ID. Defaults to `main`.                                                                                                                                                            |
-| `title`                                 | _(optional)_ the title appears as a part of the status content. Defaults to `En feil har skjedd`.                                                                                                        |
-| `text` or `children`                    | _(optional)_ the text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.                                                                  |
-| `items`                                 | _(optional)_ the items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.    |
-| `icon`                                  | _(optional)_ the icon shown before the status title. Defaults to `exclamation`.                                                                                                                          |
-| `state`                                 | _(optional)_ defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.                                          |
-| `icon_size`                             | _(optional)_ the icon size of the title icon shows. Defaults to `medium`.                                                                                                                                |
-| `show`                                  | _(optional)_ set to `true` or `false` to manually make the global status visible. Defaults to `true`.                                                                                                    |
-| `autoclose`                             | _(optional)_ set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.                                                           |
-| `autoscroll`                            | _(optional)_ set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.                                                                                           |
-| `no_animation`                          | _(optional)_ set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.                                                                                               |
-| `delay`                                 | _(optional)_ defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.                                                                      |
-| `hide_close_button`                     | _(optional)_ set to `true` if the close button should be hidden for the user. Defaults to `false`.                                                                                                       |
-| `close_text`                            | _(optional)_ text of the close button. Defaults to `Lukk`.                                                                                                                                               |
-| `status_anchor_text`                    | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition. |
-| `omit_set_focus`                        | _(optional)_ set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.                        |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                    |
+<PropertiesTable props={GlobalStatusProperties} />
 
 ## Item Object
 
-```js
+```ts
 // simple
 const items = ['Item #1', 'Item #2']
 

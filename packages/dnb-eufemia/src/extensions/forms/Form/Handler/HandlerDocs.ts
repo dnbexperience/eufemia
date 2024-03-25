@@ -9,29 +9,29 @@ export const HandlerProperties: PropertiesTableProps = {
   disabled: {
     doc: 'Will disable all nested form fields.',
     type: 'boolean',
-    status: 'optional',
+    state: 'optional',
   },
   autoComplete: {
     doc: 'Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.',
     type: 'boolean',
-    status: 'optional',
+    state: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
-    status: 'optional',
+    state: 'optional',
   },
   '[DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/properties)':
     {
       doc: 'Provider properties such as `data`.',
       type: 'Various',
-      status: 'optional',
+      state: 'optional',
     },
   '[Form Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attributes)':
     {
       doc: 'All supported form element attributes.',
       type: 'string',
-      status: 'optional',
+      state: 'optional',
     },
 }
 
@@ -41,6 +41,6 @@ export const HandlerEvents: PropertiesTableProps = {
     {
       doc: 'events such as `onSubmit`.',
       type: 'function',
-      status: 'optional',
+      state: 'optional',
     },
 }

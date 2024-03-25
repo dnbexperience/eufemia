@@ -2,16 +2,12 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { InputEvents } from '@dnb/eufemia/src/components/input/InputDocs'
+
 ## Events
 
-| Events        | Description                                                                                                                                           |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change`   | _(optional)_ will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`. |
-| `on_focus`    | _(optional)_ will be called on focus set by the user. Returns `{ value, event }`.                                                                     |
-| `on_key_down` | _(optional)_ will be called on key down by the user. Returns `{ value, event }`.                                                                      |
-| `on_blur`     | _(optional)_ will be called on blur set by the user. Returns `{ value, event }`.                                                                      |
-| `on_submit`   | _(optional)_ will be called on submit button click. Returns `{ value, event }`.                                                                       |
-| `on_clear`    | _(optional)_ will be called on a clear button click. Returns `{ value, previousValue, event }`.                                                       |
+<PropertiesTable props={InputEvents} />
 
 ### Manipulate the input value during typing
 

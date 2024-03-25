@@ -2,14 +2,18 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  RadioEvents,
+  RadioGroupEvents,
+} from '@dnb/eufemia/src/components/radio/RadioDocs'
+
+## Events
+
 ## `Radio` events
 
-| Events      | Description                                                                                                   |
-| ----------- | ------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called on state changes made by the user. Returns an object `{ checked, value, event }`. |
+<PropertiesTable props={RadioEvents} />
 
 ## `Radio.Group` events
 
-| Events      | Description                                                                                              |
-| ----------- | -------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called once a Radio button changes the state. Returns an object `{ value, event }`. |
+<PropertiesTable props={RadioGroupEvents} />

@@ -29,7 +29,7 @@ export default function PropertiesTable({
 }) {
   const keys = Object.keys(props)
   const tableRows = Object.entries(props).map(
-    ([key, { type, doc, status }]) => {
+    ([key, { type, doc, state }]) => {
       if (omit && omit.includes(key)) {
         return null
       }
@@ -68,7 +68,7 @@ export default function PropertiesTable({
             )}
           </Td>
           <Td>
-            <em>({status})</em>{' '}
+            <em>({state})</em>{' '}
             <ReactMarkdown components={components}>
               {camelCase ? convertToCamelCase(doc, keys) : doc}
             </ReactMarkdown>

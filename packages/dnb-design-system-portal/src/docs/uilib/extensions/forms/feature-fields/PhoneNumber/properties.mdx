@@ -3,29 +3,18 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { PhoneNumberProperties } from '@dnb/eufemia/src/extensions/forms/Field/PhoneNumber/PhoneNumberDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
 ### Field-specific props
 
-| Property                                | Type                | Description                                                                                                                                                                                                                                                     |
-| --------------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pattern`                               | `string`            | _(optional)_ Validation based on regex pattern for the number field e.g. `pattern="^[49]+"`.                                                                                                                                                                    |
-| `help`                                  | `object`            | _(optional)_ Provide a help button. Object consisting of `title` and `content`.                                                                                                                                                                                 |
-| `countries`                             | `string`            | _(optional)_ List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all countries [sorted by priority](/uilib/extensions/forms/feature-fields/PhoneNumber/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`. |
-| `omitCountryCodeField`                  | `boolean`           | _(optional)_ If `true` is given, then everything related to country code is removed.                                                                                                                                                                            |
-| `countryCodeFieldClassName`             | `string`            | _(optional)_ Class name for the country code component.                                                                                                                                                                                                         |
-| `numberFieldClassName`                  | `string`            | _(optional)_ Class name for the number component.                                                                                                                                                                                                               |
-| `countryCodePlaceholder`                | `string`            | _(optional)_ Placeholder for the country code field.                                                                                                                                                                                                            |
-| `countryCodeLabel`                      | `string`            | _(optional)_ Label to show above / before the country code field.                                                                                                                                                                                               |
-| `numberMask`                            | Various             | _(optional)_ See property `mask` of the [InputMasked](/uilib/components/input-masked/properties) component.                                                                                                                                                     |
-| `width`                                 | `string` or `false` | _(optional)_ `large` for predefined standard width, `stretch` for fill available width.                                                                                                                                                                         |
-| [Space](/uilib/layout/space/properties) | Various             | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                           |
+<PropertiesTable props={PhoneNumberProperties} />
 
 ### General props
 
 <PropertiesTable
-  props={fieldProperties}
+  props={FieldProperties}
   omit={['layout', 'label', 'labelDescription']}
 />

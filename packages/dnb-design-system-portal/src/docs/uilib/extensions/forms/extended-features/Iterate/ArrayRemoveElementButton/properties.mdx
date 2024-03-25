@@ -2,11 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ArrayRemoveElementButtonProperties } from '@dnb/eufemia/src/extensions/forms//Iterate/ArrayRemoveElementButton/ArrayRemoveElementButtonDocs'
+
 ## Properties
 
-| Property                                      | Type        | Description                                                           |
-| --------------------------------------------- | ----------- | --------------------------------------------------------------------- |
-| `text`                                        | `string`    | _(optional)_ Button text.                                             |
-| `children`                                    | `ReactNode` | _(optional)_ Alternative to `text` for button contents.               |
-| [Button](/uilib/components/button/properties) | Various     | _(optional)_ all button properties.                                   |
-| [Space](/uilib/layout/space/properties)       | Various     | _(optional)_ spacing properties like `top` or `bottom` are supported. |
+<PropertiesTable props={ArrayRemoveElementButtonProperties} />

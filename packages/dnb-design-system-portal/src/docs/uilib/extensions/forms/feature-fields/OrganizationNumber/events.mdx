@@ -3,8 +3,15 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { FieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { OrganizationNumberEvents } from '@dnb/eufemia/src/extensions/forms/Field/OrganizationNumber/OrganizationNumberDocs'
 
 ## Events
 
-<PropertiesTable props={fieldEvents} />
+### Field-specific events
+
+<PropertiesTable props={OrganizationNumberEvents} />
+
+### General events
+
+<PropertiesTable props={FieldEvents} />

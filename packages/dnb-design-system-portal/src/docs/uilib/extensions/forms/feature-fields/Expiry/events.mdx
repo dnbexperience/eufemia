@@ -3,12 +3,10 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { FieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Events
 
-| Event      | Description                                                                                                                                                     |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onChange` | _(optional)_ Will be called when the component values changes. Passes a string representing the date, without the delimiter as parameters, E.g. `0826`          |
-| `onFocus`  | _(optional)_ Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument.  |
-| `onBlur`   | _(optional)_ Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. |
+### General events
+
+<PropertiesTable props={FieldEvents} />
