@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
@@ -1170,6 +1170,43 @@ describe('InputMasked component as_number', () => {
     )
 
     expect(document.querySelector('input').value).toBe('1 234,9123')
+  })
+
+  it('should correctly update with new value from outside', async () => {
+    const Component = () => {
+      const [value, setValue] = React.useState('')
+      return (
+        <>
+          <label>
+            Native text field
+            <input
+              type="text"
+              value={value}
+              onChange={(e) => setValue(e.currentTarget.value)}
+            />
+          </label>
+          <InputMasked
+            label="Masked text field"
+            value={value}
+            as_number
+            number_mask={{ decimalLimit: 2 }}
+            locale="en-GB"
+          />
+        </>
+      )
+    }
+
+    render(<Component />)
+
+    expect(screen.getByLabelText('Masked text field')).toHaveValue('')
+
+    await userEvent.type(
+      screen.getByLabelText('Native text field'),
+      '1.00'
+    )
+
+    expect(screen.getByLabelText('Native text field')).toHaveValue('1.00')
+    expect(screen.getByLabelText('Masked text field')).toHaveValue('1.00')
   })
 })
 
