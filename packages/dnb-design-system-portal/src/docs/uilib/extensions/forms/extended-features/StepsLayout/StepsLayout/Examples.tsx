@@ -100,7 +100,7 @@ export const Default = () => {
 
         const MyForm = () => (
           <Form.Handler data={initialData} onSubmit={onSubmit}>
-            <StepsLayout variant="drawer" onStepChange={onStepChange}>
+            <StepsLayout onStepChange={onStepChange}>
               <StepsLayout.Step title="Step 1">
                 <Step1 />
               </StepsLayout.Step>
@@ -214,7 +214,7 @@ export const AsyncStepsLayout = () => {
 
           return (
             <Form.Handler onSubmit={onSubmit}>
-              <StepsLayout onStepChange={onStepChange} variant="drawer">
+              <StepsLayout onStepChange={onStepChange}>
                 <StepsLayout.Step title="Step 1">
                   <Step1 />
                 </StepsLayout.Step>

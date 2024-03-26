@@ -1128,7 +1128,13 @@ describe('DataContext.Provider', () => {
       })
 
       const validator = jest.fn().mockImplementation(async (value) => {
-        await wait(40)
+        /**
+         * It seems that this test on CI fails during way slower performance.
+         * The higher timeout is to ensure the typed value will be handle by the async revalidation, even the value was valid when continue typing.
+         *
+         * The slower the performance, the higher the timeout needs to be.
+         */
+        await wait(50)
         if (value !== 'valid') {
           return Error(`value: ${value}`)
         }
