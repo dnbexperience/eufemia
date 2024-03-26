@@ -2252,6 +2252,80 @@ describe('Autocomplete component', () => {
     ).toBe('c value')
   })
 
+  it('will filter items with current value after data prop has changed', async () => {
+    const mockDataA = ['first', 'foo']
+    const mockDataB = ['second', 'bar', 'baz']
+
+    const WithState = () => {
+      const [data, setData] = React.useState(mockDataA)
+
+      const onTypeHandler = ({ debounce, ...args }) => {
+        debounce(() => {
+          args.showIndicator()
+          setTimeout(() => {
+            args.hideIndicator()
+            setData(mockDataB)
+          }, 1)
+        }, 1)
+      }
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={data}
+          on_type={onTypeHandler}
+          show_submit_button
+        />
+      )
+    }
+
+    render(<WithState />)
+
+    const options = () =>
+      document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+
+    toggle()
+
+    expect(options()).toHaveLength(2)
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'first' },
+    })
+
+    expect(options()).toHaveLength(1)
+    expect(options()[0]).toHaveTextContent('first')
+    expect(options()[0].innerHTML).toBe(
+      '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">first</span></span></span></span>'
+    )
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'second' },
+    })
+
+    await waitFor(() => {
+      expect(options()).toHaveLength(1)
+      expect(options()[0]).toHaveTextContent('second')
+      expect(options()[0].innerHTML).toBe(
+        '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">second</span></span></span></span>'
+      )
+    })
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '' },
+    })
+
+    expect(options()).toHaveLength(3)
+    expect(options()[0]).toHaveTextContent('second')
+    expect(options()[0].innerHTML).toBe(
+      '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item">second</span></span>'
+    )
+    expect(options()[1]).toHaveTextContent('bar')
+    expect(options()[2]).toHaveTextContent('baz')
+  })
+
   it('has correct selected value', () => {
     render(<Autocomplete {...props} data={mockData} />)
     expect(

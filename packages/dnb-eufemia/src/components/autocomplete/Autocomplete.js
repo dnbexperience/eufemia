@@ -453,6 +453,11 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      this.setSearchIndex({ overwriteSearchIndex: true }, () => {
+        this.runFilterWithSideEffects(this.state.inputValue)
+      })
+    }
     if (prevProps.value !== this.props.value) {
       this.revalidateSelectedItem()
       this.revalidateInputValue()
@@ -552,7 +557,7 @@ class AutocompleteInstance extends React.PureComponent {
     const { keep_value, keep_selection, keep_value_and_selection } =
       this.props
 
-    if (value && value.length > 0) {
+    if (value?.length > 0) {
       // show the "no_options" message
       if (count === 0) {
         this.showNoOptionsItem()
@@ -1302,7 +1307,7 @@ class AutocompleteInstance extends React.PureComponent {
       return []
     }
 
-    const searchWords = value.split(/\s+/g).filter(Boolean)
+    const searchWords = value?.split(/\s+/g).filter(Boolean) || []
     const wordCond = '^|\\s'
 
     const findSearchWords = (contentChunk) => {
@@ -1310,7 +1315,6 @@ class AutocompleteInstance extends React.PureComponent {
         return []
       }
 
-      // [cc, bb]
       return searchWords
         .map((word, wordIndex) => ({ word, wordIndex }))
         .filter(({ word, wordIndex }) => {

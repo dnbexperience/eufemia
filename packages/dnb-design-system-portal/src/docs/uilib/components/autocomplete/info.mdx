@@ -53,6 +53,26 @@ and if you need to decouple the searchable content from what's displayed, then y
 
 <AutocompleteContentDecoupledExample />
 
+## Re-render data
+
+For performance optimization, you should ensure the `data` array/object is memorized (with `useMemo`, `useState` or `useRef`), so when the Autocomplete re-renders, it does not have to process the internal data unnecessary.
+
+```tsx
+const MyComponent = () => {
+  const data = React.useMemo(() => ['Item 1', 'Item 2'], [])
+  return <Autocomplete data={data} />
+}
+```
+
+Or keep it outside the component:
+
+```tsx
+const data = ['Item 1', 'Item 2']
+const MyComponent = () => {
+  return <Autocomplete data={data} />
+}
+```
+
 ### Numbers
 
 Numbers are often different than a word filter. You can use `search_numbers={true}` to enable a number specialized filtering. See example in the demos.
