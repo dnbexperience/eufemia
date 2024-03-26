@@ -2,70 +2,28 @@
 showTabs: true
 ---
 
-import Demos from 'Docs/uilib/extensions/forms/create-component/FieldBlock/demos'
-
 ## Description
 
-`FieldBlock` is a reusable wrapper for building [Field](/uilib/extensions/forms/fields) or [Value](/uilib/extensions/forms/extended-features/Value) components.
+`FieldBlock` is a reusable wrapper [for building](/uilib/extensions/forms/create-component/) [Field](/uilib/extensions/forms/fields) or [Value](/uilib/extensions/forms/extended-features/Value) components.
 
 It shows surrounding elements through properties from `FieldProps` like `label` and `error`, and ensure that spacing between different fields work as required when put into surrounding components like [Flex.Container](/uilib/layout/flex/container/) or [Card](/uilib/components/card/).
 
-It can also be used to group multiple inner FieldBlock components, composing status (error) messages together as one component.
+It can also be used to group multiple inner FieldBlock components, composing status (error) messages together as one component. Check out the [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) docs for that.
 
 ```tsx
 import { FieldBlock } from '@dnb/eufemia/extensions/forms'
 
 const YourFieldComponent = () => {
   return (
-    <FieldBlock label="Legend" info="Info at the bottom">
-      <Flex.Container>
-        <FieldBlock label="Field A">...</FieldBlock>
-        <FieldBlock label="Field B">...</FieldBlock>
-      </Flex.Container>
+    <FieldBlock
+      forId="unique-id"
+      label="A label"
+      info="Info at the bottom"
+    >
+      <Input id="unique-id" />
     </FieldBlock>
   )
 }
 ```
 
-## Composition fields
-
-When you create a field that contains of several existing fields, it will be a so called "composition field".
-
-You can use `composition={true}` to wrap the fields together horizontally:
-
-```tsx
-import { FieldBlock, Field } from '@dnb/eufemia/extensions/forms'
-
-const YourFieldComponent = () => {
-  return (
-    <FieldBlock label="Legend" error="Error at the bottom" composition>
-      <Field.String />
-      <Field.String />
-    </FieldBlock>
-  )
-}
-```
-
-Some working examples with actual `width` handling in the demos below.
-
-When each field inside your composition is horizontally aligned for larger screens, they will wrap to a vertical layout for smaller screens.
-
-If each of the fields have a label, the labels should ideally be top aligned. But when one of the labels contain more text than fits into one line, the fields will be bottom aligned.
-
-In the demo section you find an [example](#composition-field-with-error) on how to handle form states.
-
-<Demos />
-
-## Messages
-
-Messages that appears to be the same, will be grouped together and announced as one message.
-
-You can also show an `error`, `warning` or `info` message at the same time.
-
-## Accessibility
-
-When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components will be placed in the DOM before the content of the `FieldBlock` itself.
-
-Additionally, the `FieldBlock` will also links together the related form elements by using `aria-describedby`, given the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) is used in conjunction.
-
-This will allow screen readers to find and announce the error message without too much frustration.
+More information about the usage can be found in the [create your own component](/uilib/extensions/forms/create-component/) section.
