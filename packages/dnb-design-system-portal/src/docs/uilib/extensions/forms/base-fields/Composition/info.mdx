@@ -1,0 +1,38 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.Composition` is a component for when you create a field block that contains of several existing fields. It uses [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) under the hood.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Field.Composition error="Shared error at the bottom">
+    <Field.String />
+    <Field.String />
+  </Field.Composition>,
+)
+```
+
+When each field inside your composition is horizontally aligned for larger screens, they will wrap to a vertical layout for smaller screens.
+
+If each of the fields have a label, the labels should ideally be top aligned. But when one of the labels contain more text than fits into one line, the fields will be bottom aligned.
+
+In the demo section you find an [example](#composition-field-with-error) on how to handle form states.
+
+## Messages
+
+Messages that appears to be the same, will be grouped together and announced as one message.
+
+You can also show an `error`, `warning` or `info` message at the same time.
+
+## Accessibility
+
+When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components will be placed in the DOM before the content of the `FieldBlock` itself.
+
+Additionally, the `FieldBlock` will also links together the related form elements by using `aria-describedby`, given the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) is used in conjunction.
+
+This will allow screen readers to find and announce the error message without too much frustration.
