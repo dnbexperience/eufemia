@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import SharedContext from '../../../../shared/Context'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringValueProps
 
 function Email(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const translations = useLocale().Email
 
   const stringProps: Props = {
     ...props,
-    label: props.label ?? sharedContext?.translation.Forms.emailLabel,
+    label: props.label ?? translations.label,
   }
   return <StringValue {...stringProps} />
 }

@@ -16,6 +16,7 @@ import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
 import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
+import useLocale from '../../hooks/useLocale'
 
 export type PasswordVisibilityEvent =
   React.MouseEvent<HTMLButtonElement> & {
@@ -73,7 +74,7 @@ function Password({
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
-  const translations = sharedContext.translation.Forms
+  const translations = useLocale().Password
 
   const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
 
@@ -101,11 +102,9 @@ function Password({
 
   // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
   const getAriaLabel = useCallback(() => {
-    const { passwordShowLabel, passwordHideLabel } = translations
-
     const ariaLabels = {
-      showPassword: passwordShowLabel,
-      hidePassword: passwordHideLabel,
+      showPassword: translations.ariaLabelShow,
+      hidePassword: translations.ariaLabelHide,
     }
 
     if (externalProps.show_password) {
@@ -164,7 +163,7 @@ function Password({
     <StringField
       id={id}
       className={classnames('dnb-forms-field-password', className)}
-      label={label ?? sharedContext?.translation.Forms.passwordLabel}
+      label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}
       innerRef={ref}

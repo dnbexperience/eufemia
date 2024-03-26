@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import {
@@ -7,11 +7,11 @@ import {
   AllJSONSchemaVersions,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import SharedContext from '../../../../shared/Context'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldHelpProps &
   FieldProps<string> & {
@@ -20,12 +20,11 @@ export type Props = FieldHelpProps &
   }
 
 function DateComponent(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const translations = useLocale()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.dateErrorRequired,
-    pattern: tr.inputErrorPattern,
+    required: translations.Date.errorRequired,
+    pattern: translations.Field.errorRequired,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
@@ -80,7 +79,7 @@ function DateComponent(props: Props) {
     <FieldBlock
       className={classnames('dnb-forms-field-string', className)}
       forId={id}
-      label={label ?? sharedContext?.translation.Forms.dateLabel}
+      label={label ?? translations.Date.label}
       labelDescription={labelDescription}
       info={info}
       warning={warning}

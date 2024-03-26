@@ -2,7 +2,10 @@ import React, { useMemo, useContext, useCallback } from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
-import countries, { CountryType } from '../../constants/countries'
+import countries, {
+  type CountryLang,
+  type CountryType,
+} from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -19,6 +22,7 @@ import {
   makeCountryFilterSet,
 } from '../SelectCountry'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -68,8 +72,8 @@ const defaultMask = [
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
-  const lang = sharedContext.locale?.split('-')[0]
+  const translations = useLocale()
+  const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const countryCodeRef = React.useRef(props?.emptyValue)
   const numberRef = React.useRef(props?.emptyValue)
@@ -78,8 +82,8 @@ function PhoneNumber(props: Props) {
   const wasFilled = React.useRef(false)
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.phoneNumberErrorRequired,
-    pattern: tr.phoneNumberErrorRequired,
+    required: translations.PhoneNumber.errorRequired,
+    pattern: translations.PhoneNumber.errorRequired,
   })
 
   const validateRequired = useCallback(
@@ -132,7 +136,7 @@ function PhoneNumber(props: Props) {
     countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
-    label = sharedContext?.translation.Forms.phoneNumberLabel,
+    label = translations.PhoneNumber.label,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
@@ -310,10 +314,7 @@ function PhoneNumber(props: Props) {
             mode="async"
             placeholder={countryCodePlaceholder}
             label_direction="vertical"
-            label={
-              countryCodeLabel ??
-              sharedContext?.translation.Forms.countryCodeLabel
-            }
+            label={countryCodeLabel ?? translations.CountryCode.label}
             data={dataRef.current}
             value={countryCodeRef.current}
             status={hasError ? 'error' : undefined}

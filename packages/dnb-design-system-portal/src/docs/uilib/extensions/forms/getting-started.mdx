@@ -252,7 +252,9 @@ render(
   <Provider
     locales={{
       'nb-NO': {
-        Forms: { phoneNumberLabel: 'Custom' },
+        Forms: {
+          PhoneNumber: { label: 'Custom' },
+        },
       },
     }}
   >
@@ -260,6 +262,8 @@ render(
   </Provider>,
 )
 ```
+
+Or use the `Form.useLocale` hook to localize [your own field](/uilib/extensions/forms/create-component/#localization-and-translations).
 
 ### Layout
 

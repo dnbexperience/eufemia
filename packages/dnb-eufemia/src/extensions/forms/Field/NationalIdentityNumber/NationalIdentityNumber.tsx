@@ -1,8 +1,8 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 
-import SharedContext from '../../../../shared/Context'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringFieldProps & {
   omitMask?: boolean
@@ -10,9 +10,8 @@ export type Props = StringFieldProps & {
 }
 
 function NationalIdentityNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
-  const errorMessage = tr.nationalIdentityNumberErrorRequired
+  const translations = useLocale().NationalIdentityNumber
+  const errorMessage = translations.errorRequired
 
   const { validate = true, omitMask } = props
 
@@ -47,9 +46,7 @@ function NationalIdentityNumber(props: Props) {
     pattern:
       props.pattern ??
       (validate && !props.validator ? '^[0-9]{11}$' : undefined),
-    label:
-      props.label ??
-      sharedContext?.translation.Forms.nationalIdentityNumberLabel,
+    label: props.label ?? translations.label,
     errorMessages,
     mask,
     width: props.width ?? 'medium',

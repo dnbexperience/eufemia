@@ -11,6 +11,7 @@ breadcrumb:
 import ListBasisAPIs from './create-component/ListBasisAPIs'
 import {
   CreateBasicFieldComponent,
+  CreateBasicValueComponent,
   CreateComposedFieldComponent,
 } from './Examples'
 
@@ -20,43 +21,73 @@ Eufemia Forms contains helper fields and tools so you can declaratively create i
 
 By using the building blocks for field components, you save development time, and at the same time ensure that local, custom components work similarly, and fit into the setup with [the standardized field components](/uilib/extensions/forms/base-fields/).
 
-```jsx
-import {
-  FieldBlock,
-  ValueBlock,
-  useFieldProps,
-} from '@dnb/eufemia/extensions/forms'
+## Value components
+
+For creating a `Value.*` component you can use `ValueBlock`:
+
+```tsx
+import { ValueBlock } from '@dnb/eufemia/extensions/forms'
+
+const MyValue = ({ value, ...props }) => {
+  return <ValueBlock {...props}>{value}</ValueBlock>
+}
 ```
 
-<ListBasisAPIs />
+`ValueBlock` provides a standardized way to display labels and other surrounding elements in a consistent manner.
 
-## FieldBlock and useFieldProps
+<CreateBasicValueComponent />
 
-The `FieldBlock` component and the `useFieldProps` hook are the basis for all field components in Eufemia Forms.
+## Filed components
+
+For creating a `Field.*` component, you can use [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/):
+
+```tsx
+import { FieldBlock, useFieldProps } from '@dnb/eufemia/extensions/forms'
+
+const MyField = (props) => {
+  const { id, value, label, handleChange, handleFocus, handleBlur } =
+    useFieldProps(props)
+
+  return (
+    <FieldBlock forId={id}>
+      <input
+        id={id}
+        value={value}
+        label={label}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      />
+    </FieldBlock>
+  )
+}
+```
+
+While `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
 
 `FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
 
-While `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
+Here is a working example with code you can edit in the playground:
 
 <CreateBasicFieldComponent />
 
 ### More details
 
-This example shows a custom component. The `useFieldProps` hook receives the props and adds extra properties to standardize field behavior. These includes `handleFocus`, `handleChange`, and `handleBlur` functions. Even if the field components has external callbacks like "onChange", these won't be altered. The "handle" variants simplifies your code.
+This example shows a custom component. The [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) hook receives the props and adds extra properties to standardize field behavior. These includes `handleFocus`, `handleChange`, and `handleBlur` functions. Even if the field components has external callbacks like "onChange", these won't be altered. The "handle" variants simplifies your code.
 
 ### The example explained
 
 Using these two form helpers in your field component triggers several automatic processes. These include timely validation checks, syncing value changes with the [DataContext](/uilib/extensions/forms/extended-features/DataContext/), coordinating error messages across multiple fields, and preventing premature error displays while the user is editing the field.
 
-Keep in mind, you can customize the behavior of [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) and other helper functions to make the component work exactly as you want.
+Keep in mind, you can customize the behavior of [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) and other helper functions to make the component work exactly as you want.
 
 ### Your own validation
 
-If you need custom validation that can't use the built-in JSON Schema or a derivative validator (like in the example above), you can create your own logic. Then, pass the result as an `error` prop to `FieldBlock`. All direct props override standard handling, giving you full control over your component.
+If you need custom validation that can't use the built-in JSON Schema or a derivative validator (like in the example above), you can create your own logic. Then, pass the result as an `error` prop to [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/). All direct props override standard handling, giving you full control over your component.
 
 ### Customized even further
 
-If you need something that looks even more different than the usual fields, you can drop `FieldBlock` and display surrounding elements in other ways – but still get all the help of a data flow logic, such as `useFieldProps` offers.
+If you need something that looks even more different than the usual fields, you can drop [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and display surrounding elements in other ways – but still get all the help of a data flow logic, such as [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) offers.
 
 Here follows an example that retrieves data from a surrounding DataContext, and creates a composite field based on other components from Eufemia:
 
@@ -80,3 +111,53 @@ These are the official sizes you can use when [creating your own form fields](/u
 ```
 
 You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and provide a `width` prop with a value of either `small`, `medium` or `large` and use it as a sized wrapper.
+
+## Localization and translations
+
+You can use the `Form.useLocale` hook to use existing translations or extend it with your custom field localization:
+
+```tsx
+import {
+  Form,
+  FieldBlock,
+  useFieldProps,
+} from '@dnb/eufemia/extensions/forms'
+
+const myFieldTranslations = {
+  'en-GB': {
+    MyField: { label: 'My field', required: 'Custom required message' },
+  },
+  'nb-NO': {
+    MyField: { label: 'Mitt felt', required: 'Obligatorisk felt melding' },
+  },
+}
+
+const MyField = (props) => {
+  const translations = Form.useLocale(myFieldTranslations)
+  const { label, required } = translations.MyField
+
+  const preparedProps = {
+    label,
+    errorMessages: {
+      required,
+    },
+    ...props,
+  }
+
+  const { id, value, label, handleChange, handleFocus, handleBlur } =
+    useFieldProps(preparedProps)
+
+  return (
+    <FieldBlock forId={id}>
+      <input
+        id={id}
+        value={value}
+        label={label}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      />
+    </FieldBlock>
+  )
+}
+```

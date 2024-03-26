@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
-import SharedContext from '../../../../shared/Context'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import SubmitIndicator from '../SubmitIndicator'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = {
   /**
@@ -16,12 +16,11 @@ export type Props = {
   Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 
 function SubmitButton(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const translations = useLocale().Context
 
   const { className, showIndicator, children, text, ...rest } = props
 
-  const content =
-    text || children || sharedContext?.translation.Forms.contextSubmit
+  const content = text || children || translations.submit
 
   const { formState, handleSubmit, _isInsideFormElement } =
     useContext(DataContext) || {}

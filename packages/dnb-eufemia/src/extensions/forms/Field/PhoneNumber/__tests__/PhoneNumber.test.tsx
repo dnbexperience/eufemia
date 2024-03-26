@@ -4,7 +4,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import { Field, Form, JSONSchema } from '../../..'
-import locales from '../../../../../shared/locales'
+import locales from '../../../constants/locales'
 
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
@@ -506,7 +506,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
     expect(document.querySelector('[role="alert"]').textContent).toContain(
-      enGB.Forms.phoneNumberErrorRequired
+      enGB.PhoneNumber.errorRequired
     )
 
     await userEvent.type(numberElement, '{Backspace>8}89')
@@ -577,8 +577,8 @@ describe('Field.PhoneNumber', () => {
 
     expect(validator).toHaveBeenCalledTimes(1)
     expect(validator).toHaveBeenCalledWith('+41 9999', {
-      pattern: enGB.Forms.phoneNumberErrorRequired,
-      required: enGB.Forms.phoneNumberErrorRequired,
+      pattern: enGB.PhoneNumber.errorRequired,
+      required: enGB.PhoneNumber.errorRequired,
     })
 
     await waitFor(() => {
@@ -789,7 +789,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.Forms.phoneNumberErrorRequired
+      nbNO.PhoneNumber.errorRequired
     )
   })
 
@@ -811,7 +811,7 @@ describe('Field.PhoneNumber', () => {
     expect(numberElement.value).toBe('12 3​ ​​ ​​')
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.Forms.phoneNumberErrorRequired
+      nbNO.PhoneNumber.errorRequired
     )
 
     await userEvent.type(numberElement, '{Backspace>8}456')
@@ -838,7 +838,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.Forms.phoneNumberErrorRequired
+      nbNO.PhoneNumber.errorRequired
     )
 
     rerender(<Field.PhoneNumber validateInitially />)

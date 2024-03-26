@@ -1,5 +1,4 @@
-import React, { useCallback, useContext } from 'react'
-import SharedContext from '../../../../shared/Context'
+import React, { useCallback } from 'react'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
@@ -9,19 +8,29 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import { useLocale as useSharedLocale } from '../../../../shared'
+import useLocale from '../../hooks/useLocale'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
 export type ExpiryProps = FieldHelpProps & FieldProps<string>
 
 function Expiry(props: ExpiryProps) {
-  const sharedContext = useContext(SharedContext)
-  const translations = sharedContext?.translation.Forms
-  const placeholders =
-    sharedContext?.translation.DatePicker.placeholder_characters
+  const {
+    Date: { errorRequired },
+    Expiry: { label: expiryLabel },
+  } = useLocale()
+
+  const {
+    DatePicker: {
+      placeholder_characters: placeholders,
+      month: monthLabel,
+      year: yearLabel,
+    },
+  } = useSharedLocale()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.dateErrorRequired,
+    required: errorRequired,
   })
 
   const validateRequired = useCallback(
@@ -41,7 +50,7 @@ function Expiry(props: ExpiryProps) {
   const {
     id,
     className,
-    label = translations.expiryLabel,
+    label = expiryLabel,
     error,
     hasError,
     info,
@@ -98,7 +107,7 @@ function Expiry(props: ExpiryProps) {
         inputs={[
           {
             id: 'month',
-            label: sharedContext?.translation.DatePicker['month'],
+            label: monthLabel,
             mask: getMonthMask(expiry?.month),
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
@@ -106,7 +115,7 @@ function Expiry(props: ExpiryProps) {
           },
           {
             id: 'year',
-            label: sharedContext?.translation.DatePicker['year'],
+            label: yearLabel,
             mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['year'],
             autoComplete: 'cc-exp-year',
