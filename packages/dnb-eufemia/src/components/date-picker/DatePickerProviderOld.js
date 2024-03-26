@@ -247,6 +247,8 @@ export default class DatePickerProvider extends React.PureComponent {
   }
 
   updateState = (state, cb = null) => {
+    console.log('this.state', this.state)
+    console.log('state', state)
     this.setState({ ...state, _listenForPropChanges: false }, cb)
   }
 

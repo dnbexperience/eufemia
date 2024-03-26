@@ -81,6 +81,40 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--closed')
   })
 
+  it('will close the picker on click outside', async () => {
+    render(<DatePicker {...defaultProps} />)
+
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+
+    expect(
+      document
+        .querySelector('.dnb-date-picker')
+
+        .getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    await userEvent.click(document.body)
+
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .getAttribute('aria-expanded')
+    ).toBe('false')
+
+    expect(
+      document.querySelector('.dnb-date-picker').getAttribute('class')
+    ).not.toContain('dnb-date-picker--opened')
+  })
+
   it('will close the picker after selection', () => {
     const on_change = jest.fn()
     const { rerender } = render(
@@ -125,7 +159,12 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--closed')
 
     rerender(
-      <DatePicker {...defaultProps} on_change={on_change} range={false} />
+      <DatePicker
+        {...defaultProps}
+        on_change={on_change}
+        range={false}
+        end_date={null}
+      />
     )
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -550,6 +589,7 @@ describe('DatePicker component', () => {
         show_cancel_button={false}
         show_submit_button={false}
         range={false}
+        end_date={null}
       />
     )
 
@@ -677,6 +717,7 @@ describe('DatePicker component', () => {
         on_type={on_type}
         range={false}
         correct_invalid_date={false}
+        end_date={null}
       />
     )
 
