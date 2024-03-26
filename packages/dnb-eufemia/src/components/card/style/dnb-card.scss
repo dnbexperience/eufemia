@@ -89,4 +89,8 @@
         var(--rounded-corner) var(--rounded-corner)
     );
   }
+
+  & > .dnb-flex-container > .dnb-space {
+    width: 100%;
+  }
 }
