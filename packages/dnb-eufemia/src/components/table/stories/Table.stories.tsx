@@ -809,8 +809,8 @@ export const InCard = () => {
     </>
   )
 
-  return (
-    <Card title="Card title" responsive={false} innerSpace={0} filled>
+  const External = () => {
+    return (
       <Table.ScrollView>
         <Table border outline size="medium">
           {isLarge && (
@@ -830,6 +830,12 @@ export const InCard = () => {
           </tbody>
         </Table>
       </Table.ScrollView>
+    )
+  }
+
+  return (
+    <Card title="Card title" responsive={false} innerSpace={0} filled>
+      <External />
     </Card>
   )
 }

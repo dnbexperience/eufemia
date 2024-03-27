@@ -1400,6 +1400,28 @@ export const ResponsiveInCard = () => (
           </>
         )
 
+        const MyTable = () => (
+          <Table.ScrollView>
+            <Table border outline size="medium">
+              {isLarge && (
+                <thead>
+                  <Tr noWrap>
+                    <Th>{header.title}</Th>
+                    <Th>{header.description}</Th>
+                    <Th>{header.status}</Th>
+                    <Th>{header.deadline}</Th>
+                  </Tr>
+                </thead>
+              )}
+
+              <tbody>
+                {tableRow}
+                {tableRow}
+              </tbody>
+            </Table>
+          </Table.ScrollView>
+        )
+
         return (
           <Card
             title="Card title"
@@ -1407,25 +1429,7 @@ export const ResponsiveInCard = () => (
             innerSpace={0}
             filled
           >
-            <Table.ScrollView>
-              <Table border outline size="medium">
-                {isLarge && (
-                  <thead>
-                    <Tr noWrap>
-                      <Th>{header.title}</Th>
-                      <Th>{header.description}</Th>
-                      <Th>{header.status}</Th>
-                      <Th>{header.deadline}</Th>
-                    </Tr>
-                  </thead>
-                )}
-
-                <tbody>
-                  {tableRow}
-                  {tableRow}
-                </tbody>
-              </Table>
-            </Table.ScrollView>
+            <MyTable />
           </Card>
         )
       }
