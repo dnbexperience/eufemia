@@ -5,12 +5,14 @@ import { Autocomplete, HelpButton } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import countries, {
   prioritizedCountries,
-  CountryType,
+  type CountryType,
+  type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import useLocale from '../../hooks/useLocale'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -41,11 +43,11 @@ export type Props = FieldHelpProps &
 
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
-  const lang = sharedContext.locale?.split('-')[0]
+  const translations = useLocale().SelectCountry
+  const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.selectCountryErrorRequired,
+    required: translations.errorRequired,
   })
 
   const defaultProps: Partial<Props> = {
@@ -58,9 +60,8 @@ function SelectCountry(props: Props) {
 
   const {
     className,
-    placeholder = sharedContext?.translation.Forms
-      .selectCountryPlaceholder,
-    label = sharedContext?.translation.Forms.selectCountryLabel,
+    placeholder = translations.placeholder,
+    label = translations.label,
     countries: ccFilter = 'Prioritized',
     info,
     warning,
@@ -204,7 +205,7 @@ function SelectCountry(props: Props) {
 }
 
 type GetCountryData = {
-  lang?: string
+  lang?: CountryLang
   filter?: Props['filterCountries']
   sort?: Extract<CountryFilterSet, 'Prioritized'>
   makeObject?: (
@@ -218,7 +219,7 @@ type GetCountryData = {
 }
 
 export function getCountryData({
-  lang = 'no',
+  lang = 'nb',
   filter = null,
   sort = null,
   makeObject = (country: CountryType, lang: string) => {

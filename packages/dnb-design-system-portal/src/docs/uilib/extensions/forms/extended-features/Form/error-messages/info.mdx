@@ -109,7 +109,9 @@ render(
   <Provider
     locales={{
       'nb-NO': {
-        Forms: { inputErrorPattern: 'Custom pattern error' },
+        Forms: {
+          Field: { errorPattern: 'Custom pattern error' },
+        },
       },
     }}
   >

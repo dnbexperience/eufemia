@@ -26,8 +26,8 @@ const tr = sharedContext?.translation.Forms
 
 const errorMessages = useErrorMessage(props.path, props.errorMessages, {
   // Your default error messages
-  required: tr.inputErrorRequired,
-  pattern: tr.inputErrorPattern,
+  required: tr.Field.errorRequired,
+  pattern: tr.Field.errorPattern,
 })
 
 const preparedProps = {

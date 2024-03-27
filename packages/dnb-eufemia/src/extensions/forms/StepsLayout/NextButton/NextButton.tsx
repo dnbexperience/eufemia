@@ -2,21 +2,22 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
 import { ButtonProps } from '../../../../components/button/Button'
-import SharedContext from '../../../../shared/Context'
 import StepsContext from '../StepsContext'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = ComponentProps & ButtonProps
 
 function NextButton(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const translations = useLocale().Step
+
   const {
     className,
     variant = 'primary',
     icon_position = 'right',
     icon = 'chevron_right',
-    children = sharedContext?.translation.Forms.stepNext,
+    children = translations.next,
   } = props
   const stepsContext = useContext(StepsContext)
 

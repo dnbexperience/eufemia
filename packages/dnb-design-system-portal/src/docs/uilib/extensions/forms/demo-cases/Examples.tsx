@@ -5,7 +5,6 @@ import {
   StepsLayout,
   Field,
   Value,
-  FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
@@ -282,7 +281,7 @@ export function PizzaDemo() {
                   <Card stack>
                     <Form.SubHeading>Your address</Form.SubHeading>
 
-                    <FieldBlock width="large" composition>
+                    <Field.Composition width="large">
                       <Field.String
                         label="Street"
                         width="stretch"
@@ -295,7 +294,7 @@ export function PizzaDemo() {
                         path="/streetNr"
                         required
                       />
-                    </FieldBlock>
+                    </Field.Composition>
 
                     <Field.PostalCodeAndCity
                       postalCode={{

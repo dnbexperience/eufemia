@@ -25,7 +25,6 @@ import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import useMountEffect from '../../../shared/helpers/useMountEffect'
 import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
-import SharedContext from '../../../shared/Context'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import useProcessManager from './useProcessManager'
@@ -34,6 +33,7 @@ import {
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
 import { isAsync } from '../../../shared/helpers/isAsync'
+import useLocale from './useLocale'
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -110,8 +110,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const tr = useLocale()
 
   const transformers = useRef({
     toInput,
@@ -357,10 +356,10 @@ export default function useFieldProps<
   const errorMessagesRef = useRef(null)
   errorMessagesRef.current = useMemo(() => {
     return {
-      required: tr.fieldErrorRequired,
+      required: tr.Field.errorRequired,
       ...errorMessages,
     }
-  }, [errorMessages, tr.fieldErrorRequired])
+  }, [errorMessages, tr.Field.errorRequired])
 
   /**
    * Prepare error from validation logic with correct error messages based on props

@@ -55,6 +55,7 @@ describe('NextButton', () => {
   it('should handle handlePrevious event', () => {
     const handlePrevious = jest.fn()
     const handleNext = jest.fn()
+    const setActiveIndex = jest.fn()
 
     render(
       <StepsContext.Provider
@@ -62,6 +63,7 @@ describe('NextButton', () => {
           activeIndex: 1,
           handlePrevious,
           handleNext,
+          setActiveIndex,
         }}
       >
         <NextButton />

@@ -18,10 +18,11 @@
 
   &__contents {
     flex: 1;
-  }
 
-  &__contents .dnb-card {
-    --border-color: var(--color-pistachio);
+    .dnb-card {
+      --border-color: var(--color-pistachio);
+      max-width: var(--forms-card-max-width);
+    }
   }
 
   // FormStatus as part of the Form.Handler

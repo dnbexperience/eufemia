@@ -17,6 +17,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import useLocale from '../../hooks/useLocale'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -56,7 +57,7 @@ export type Props = FieldHelpProps &
 function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const translations = useLocale()
 
   const {
     currency,
@@ -71,12 +72,12 @@ function NumberComponent(props: Props) {
   } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.inputErrorRequired,
-    minimum: tr.numberFieldErrorMinimum,
-    maximum: tr.numberFieldErrorMaximum,
-    exclusiveMinimum: tr.numberFieldErrorExclusiveMinimum,
-    exclusiveMaximum: tr.numberFieldErrorExclusiveMaximum,
-    multipleOf: tr.numberFieldErrorMultipleOf,
+    required: translations.Field.errorRequired,
+    minimum: translations.NumberField.errorMinimum,
+    maximum: translations.NumberField.errorMaximum,
+    exclusiveMinimum: translations.NumberField.errorExclusiveMinimum,
+    exclusiveMaximum: translations.NumberField.errorExclusiveMaximum,
+    multipleOf: translations.NumberField.errorMultipleOf,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(

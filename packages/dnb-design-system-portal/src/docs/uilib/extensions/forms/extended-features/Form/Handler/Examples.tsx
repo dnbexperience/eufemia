@@ -1,10 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import {
-  Form,
-  Field,
-  FieldBlock,
-  Value,
-} from '@dnb/eufemia/src/extensions/forms'
+import { Form, Field, Value } from '@dnb/eufemia/src/extensions/forms'
 import { stop as stopIcon } from '@dnb/eufemia/src/icons'
 import { Button, Card, Flex, P, Section } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
@@ -207,7 +202,7 @@ export const Autofill = () => {
           <Card stack>
             <Form.SubHeading>Your address</Form.SubHeading>
 
-            <FieldBlock width="large" composition>
+            <Field.Composition width="large">
               <Field.String
                 label="Street"
                 width="stretch"
@@ -220,7 +215,7 @@ export const Autofill = () => {
                 path="/streetNr"
                 required
               />
-            </FieldBlock>
+            </Field.Composition>
 
             <Field.PostalCodeAndCity
               postalCode={{ required: true, path: '/postalCode' }}

@@ -1,23 +1,19 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import SharedContext from '../../../../shared/Context'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = StringValueProps
 
 function BankAccountNumber(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const translations = useLocale().BankAccountNumber
 
   const stringValueProps: Props = {
     ...props,
-    label:
-      props.label ??
-      (props.inline
-        ? undefined
-        : sharedContext?.translation.Forms.bankAccountNumberLabel),
+    label: props.label ?? (props.inline ? undefined : translations.label),
     prepare: (value) =>
       format(cleanNumber(value), {
         ban: true,

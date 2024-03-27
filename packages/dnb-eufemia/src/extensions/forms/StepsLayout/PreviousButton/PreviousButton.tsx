@@ -3,20 +3,21 @@ import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/button/Button'
-import SharedContext from '../../../../shared/Context'
 import StepsContext from '../StepsContext'
 import ButtonRow from '../../Form/ButtonRow'
+import useLocale from '../../hooks/useLocale'
 
 export type Props = ComponentProps & ButtonProps
 
 function PreviousButton(props: Props) {
-  const sharedContext = useContext(SharedContext)
+  const translations = useLocale().Step
+
   const {
     className,
     variant = 'tertiary',
     icon_position = 'left',
     icon = 'chevron_left',
-    children = sharedContext?.translation.Forms.stepPrevious,
+    children = translations.previous,
   } = props
   const stepsContext = useContext(StepsContext)
 

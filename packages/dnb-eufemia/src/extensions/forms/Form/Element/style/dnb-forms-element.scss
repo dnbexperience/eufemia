@@ -1,0 +1,9 @@
+:root {
+  --forms-card-max-width: 36.5rem;
+}
+
+.dnb-forms-form {
+  .dnb-card {
+    max-width: var(--forms-card-max-width);
+  }
+}

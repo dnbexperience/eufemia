@@ -43,26 +43,4 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match composition', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="forms-field-block-composition"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match composition medium screen', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="forms-field-block-composition-statuses"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match composition small screen', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="forms-field-block-composition-error"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })

@@ -30,25 +30,25 @@ export function FieldBlockLabel() {
 
 export function Composition() {
   return (
-    <FieldBlock info="Info at the bottom" width="large" composition>
+    <Field.Composition info="Info at the bottom" width="large">
       <Field.String label="Field A with a long label" width="stretch" />
       <Field.String label="Field B" width="medium" />
-    </FieldBlock>
+    </Field.Composition>
   )
 }
 
 export function CompositionLayout() {
   return (
     <>
-      <FieldBlock composition width="large">
+      <Field.Composition width="large">
         <Field.String label="Field A with a long label" width="medium" />
         <Field.String label="Field B" width="stretch" />
-      </FieldBlock>
+      </Field.Composition>
 
-      {/* <FieldBlock top composition="vertical" width="large">
+      {/* <Field.Composition top layout="vertical" width="large">
         <Field.String label="Field A with a long label" width="medium" />
         <Field.String label="Field B" width="stretch" />
-      </FieldBlock> */}
+      </Field.Composition> */}
     </>
   )
 }

@@ -59,6 +59,7 @@ describe('PreviousButton', () => {
           activeIndex: 1,
           handlePrevious: () => null,
           handleNext: () => null,
+          setActiveIndex: () => null,
         }}
       >
         <PreviousButton />
@@ -75,6 +76,7 @@ describe('PreviousButton', () => {
           activeIndex: 0,
           handlePrevious: () => null,
           handleNext: () => null,
+          setActiveIndex: () => null,
         }}
       >
         <PreviousButton />
@@ -87,6 +89,7 @@ describe('PreviousButton', () => {
   it('should handle handlePrevious event', () => {
     const handlePrevious = jest.fn()
     const handleNext = jest.fn()
+    const setActiveIndex = jest.fn()
 
     render(
       <StepsContext.Provider
@@ -94,6 +97,7 @@ describe('PreviousButton', () => {
           activeIndex: 1,
           handlePrevious,
           handleNext,
+          setActiveIndex,
         }}
       >
         <PreviousButton />
