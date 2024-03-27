@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Field, FieldBlock, Form } from '../../..'
+import { Field, Form } from '../../..'
 import { Button, Card } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
 
@@ -141,10 +141,9 @@ export function AdvancedForm() {
             // validateUnchanged
           />
 
-          <FieldBlock
+          <Field.Composition
             // info="Info at the bottom"
             width="large"
-            composition
           >
             <Field.String
               label="Field B with a long label (onBlurValidator) x"
@@ -160,7 +159,7 @@ export function AdvancedForm() {
               // validateInitially
               // required
             />
-          </FieldBlock>
+          </Field.Composition>
 
           <Field.String
             label="Field D (required)"

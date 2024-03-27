@@ -1,7 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
+import CompositionField from '../Composition'
 import { FieldHelpProps } from '../../types'
 import useLocale from '../../hooks/useLocale'
 
@@ -21,14 +22,13 @@ function PostalCodeAndCity(props: Props) {
   } = props
 
   return (
-    <FieldBlock
+    <CompositionField
       className={classnames(
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
       {...fieldBlockProps}
       width={width}
-      composition
     >
       <StringField
         {...postalCode}
@@ -65,7 +65,7 @@ function PostalCodeAndCity(props: Props) {
         autoComplete="address-level2"
         help={help}
       />
-    </FieldBlock>
+    </CompositionField>
   )
 }
 
