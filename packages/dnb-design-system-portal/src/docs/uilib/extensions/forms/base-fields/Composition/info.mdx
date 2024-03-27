@@ -6,13 +6,15 @@ showTabs: true
 
 `Field.Composition` is a component for when you create a field block that contains of several existing fields. It uses [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) under the hood.
 
+The composition field serves the purpose of managing layout and status messages, with a strong focus on accessibility. More on that topic down below.
+
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <Field.Composition error="Shared error at the bottom">
-    <Field.String />
-    <Field.String />
+  <Field.Composition>
+    <Field.String label="Field A" />
+    <Field.String Label="Field B" />
   </Field.Composition>,
 )
 ```
@@ -29,10 +31,21 @@ Messages that appears to be the same, will be grouped together and announced as 
 
 You can also show an `error`, `warning` or `info` message at the same time.
 
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Field.Composition error="Shared error at the bottom">
+    <Field.String />
+    <Field.String />
+  </Field.Composition>,
+)
+```
+
 ## Accessibility
 
-When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components will be placed in the DOM before the content of the `FieldBlock` itself.
+When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components will be placed in the DOM before the content of the form elements itself.
 
-Additionally, the `FieldBlock` will also links together the related form elements by using `aria-describedby`, given the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) is used in conjunction.
+Furthermore, the status messages are linked to the corresponding form elements using `aria-describedby` when [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) is used in conjunction.
 
-This will allow screen readers to find and announce the error message without too much frustration.
+This will allow screen readers to find and announce the error message properly.

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Flex, Section } from '../../../components'
-import { Field, FieldBlock, Form, StepsLayout, Value } from '..'
+import { Field, Form, StepsLayout, Value } from '..'
 import { Code } from '../../../elements'
 import { Provider } from '../../../../shared'
 
@@ -92,7 +92,7 @@ export function PizzaDemo() {
             <Card stack>
               <Form.SubHeading>Your address</Form.SubHeading>
 
-              <FieldBlock label="Address" width="large" composition>
+              <Field.Composition label="Address" width="large">
                 <Field.String
                   label="Street"
                   width="stretch"
@@ -105,7 +105,7 @@ export function PizzaDemo() {
                   path="/streetNr"
                   required
                 />
-              </FieldBlock>
+              </Field.Composition>
 
               <Field.PostalCodeAndCity
                 postalCode={{ required: true, path: '/postalCode' }}
