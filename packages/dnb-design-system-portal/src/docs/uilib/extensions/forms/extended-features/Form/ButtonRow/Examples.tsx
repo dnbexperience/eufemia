@@ -1,18 +1,14 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import {
-  StepsLayout,
-  Form,
-  Field,
-} from '@dnb/eufemia/src/extensions/forms'
+import { Form, Field, Steps } from '@dnb/eufemia/src/extensions/forms'
 import { Button, Card } from '@dnb/eufemia/src'
 import { send as sendIcon } from '@dnb/eufemia/src/icons'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ StepsLayout, Form }}>
+    <ComponentBox>
       <Form.ButtonRow>
-        <StepsLayout.PreviousButton />
-        <StepsLayout.NextButton />
+        <Steps.PreviousButton />
+        <Steps.NextButton />
         <Button variant="secondary">Other button</Button>
       </Form.ButtonRow>
     </ComponentBox>
