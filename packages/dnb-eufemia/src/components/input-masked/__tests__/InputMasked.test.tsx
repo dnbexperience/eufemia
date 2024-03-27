@@ -2167,6 +2167,52 @@ describe('inputmode', () => {
   })
 })
 
+describe('controlled', () => {
+  it('should correctly update with new value from outside', async () => {
+    const MockComponent = (props) => {
+      const [value, setValue] = React.useState('')
+      return (
+        <>
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.currentTarget.value)}
+          />
+          <InputMasked
+            as_number
+            value={value}
+            number_mask={{ decimalLimit: 2 }}
+            {...props}
+          />
+        </>
+      )
+    }
+
+    const { rerender } = render(<MockComponent locale="en-GB" />)
+
+    const [nativeInput, inputMasked] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(inputMasked).toHaveValue('')
+
+    await userEvent.type(nativeInput, '1.00')
+
+    expect(nativeInput).toHaveValue('1.00')
+    expect(inputMasked).toHaveValue('1.00')
+
+    rerender(<MockComponent locale="nb-NO" />)
+
+    await userEvent.type(nativeInput, '{Backspace>4}1.00')
+    expect(nativeInput).toHaveValue('1.00')
+    expect(inputMasked).toHaveValue('1,00')
+
+    await userEvent.type(nativeInput, '{Backspace>4}1,00')
+    expect(nativeInput).toHaveValue('1,00')
+    expect(inputMasked).toHaveValue('1,00')
+  })
+})
+
 describe('InputMasked scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
