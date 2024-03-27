@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Flex, Section } from '../../../components'
-import { Field, Form, StepsLayout, Value } from '..'
+import { Field, Form, Steps, Value } from '..'
 import { Code } from '../../../elements'
 import { Provider } from '../../../../shared'
 
@@ -34,8 +34,8 @@ export function PizzaDemo() {
         sessionStorageId="pizza-demo"
         autoComplete
       >
-        <StepsLayout scrollTopOnStepChange initialActiveIndex={2}>
-          <StepsLayout.Step title="Which pizza do you want?">
+        <Steps.Layout scrollTopOnStepChange initialActiveIndex={2}>
+          <Steps.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
             <Card stack>
@@ -71,11 +71,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.NextButton />
+              <Steps.NextButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
+          </Steps.Step>
 
-          <StepsLayout.Step title="Delivery address">
+          <Steps.Step title="Delivery address">
             <Form.MainHeading>Delivery address</Form.MainHeading>
 
             <Card stack>
@@ -114,11 +114,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.NextButton />
+              <Steps.NextButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
+          </Steps.Step>
 
-          <StepsLayout.Step title="Summary">
+          <Steps.Step title="Summary">
             <Form.MainHeading>Summary</Form.MainHeading>
 
             <Card stack>
@@ -150,11 +150,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.PreviousButton />
+              <Steps.PreviousButton />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
-        </StepsLayout>
+          </Steps.Step>
+        </Steps.Layout>
       </Form.Handler>
 
       <Output>{data}</Output>
