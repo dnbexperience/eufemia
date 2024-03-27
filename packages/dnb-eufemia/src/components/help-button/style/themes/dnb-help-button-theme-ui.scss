@@ -1,4 +1,14 @@
 /*
- * Np theme is provided
+ * Help button theme for UI
  *
  */
+
+.dnb-help-button.dnb-help-button--inline {
+  --help-button-inline-color: var(--color-emerald-green);
+  --help-button-inline-background: var(--color-mint-green-50);
+}
+
+.dnb-help-button-content {
+  --help-button-content-color: var(--color-black-80);
+  --help-button-content-background: var(--color-black-3);
+}
