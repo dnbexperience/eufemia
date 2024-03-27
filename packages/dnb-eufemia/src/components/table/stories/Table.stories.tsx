@@ -753,7 +753,8 @@ export const InCard = () => {
 
   const content = {
     title: 'Lorem ipsum',
-    description: 'Lorem ipsum',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus pharetra elit in bibendum.',
     status: <Badge content="Ikke pågeynt" />,
     deadline: '17.04.2025',
   }
@@ -763,7 +764,7 @@ export const InCard = () => {
   const tableRow = (
     <>
       {isLarge ? (
-        <Tr>
+        <Tr noWrap>
           <Td>{content.title}</Td>
           <Td>{content.description}</Td>
           <Td>{content.status}</Td>
@@ -771,7 +772,7 @@ export const InCard = () => {
         </Tr>
       ) : (
         <>
-          <Tr variant="odd">
+          <Tr noWrap variant="odd">
             <Th scope="row">{header.title}</Th>
             <Td>{content.title}</Td>
           </Tr>
@@ -809,7 +810,7 @@ export const InCard = () => {
     </>
   )
 
-  const External = () => {
+  const MyTable = () => {
     return (
       <Table.ScrollView>
         <Table border outline size="medium">
@@ -835,7 +836,7 @@ export const InCard = () => {
 
   return (
     <Card title="Card title" responsive={false} innerSpace={0} filled>
-      <External />
+      <MyTable />
     </Card>
   )
 }
