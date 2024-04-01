@@ -6,6 +6,8 @@ showTabs: true
 
 With the `Form.useError` hook, you can monitor your form errors outside of the form itself.
 
+## Usage
+
 You can use it in several ways. Like within the context of `Form.Handler`:
 
 ```jsx
@@ -58,3 +60,25 @@ function Component() {
   return <Form.Handler id="unique">...</Form.Handler>
 }
 ```
+
+## Report a form error
+
+You can also report a form error that gets displayed on the bottom of the form by using the `Form.useError` hook:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function Component() {
+  const { setFormError } = Form.useError('unique')
+
+  useEffect(() => {
+    setFormError('This is a global form error')
+  }, [])
+
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+## Accessibility
+
+The form error is connected with the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/) itself via `aria-labelledby` for screen reader support.

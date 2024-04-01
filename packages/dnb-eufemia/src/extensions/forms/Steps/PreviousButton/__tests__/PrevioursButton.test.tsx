@@ -60,6 +60,7 @@ describe('PreviousButton', () => {
           handlePrevious: () => null,
           handleNext: () => null,
           setActiveIndex: () => null,
+          setFormError: () => null,
         }}
       >
         <PreviousButton />
@@ -77,6 +78,7 @@ describe('PreviousButton', () => {
           handlePrevious: () => null,
           handleNext: () => null,
           setActiveIndex: () => null,
+          setFormError: () => null,
         }}
       >
         <PreviousButton />
@@ -90,6 +92,7 @@ describe('PreviousButton', () => {
     const handlePrevious = jest.fn()
     const handleNext = jest.fn()
     const setActiveIndex = jest.fn()
+    const setFormError = jest.fn()
 
     render(
       <StepsContext.Provider
@@ -98,6 +101,7 @@ describe('PreviousButton', () => {
           handlePrevious,
           handleNext,
           setActiveIndex,
+          setFormError,
         }}
       >
         <PreviousButton />

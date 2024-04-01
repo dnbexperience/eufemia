@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
 import {
   SharedStateId,
   useSharedState,
@@ -7,6 +7,7 @@ import DataContext, { ContextState } from '../../DataContext/Context'
 
 type UseDataReturn = {
   hasErrors: ContextState['hasErrors']
+  setFormError: (error: Error) => void
 }
 
 export default function useError(
@@ -17,12 +18,30 @@ export default function useError(
     id + '-attachments'
   )
 
+  const fallback = useCallback(() => false, [])
+
   // If no id is provided, use the context version
   const context = useContext(DataContext)
   const hasErrors =
     sharedAttachmentsRef.current?.data?.hasErrors ||
     (!id && context?.hasErrors) ||
-    (() => false)
+    fallback
 
-  return { hasErrors }
+  // Error handling
+  const setSubmitState =
+    sharedAttachmentsRef.current?.data?.setSubmitState ||
+    (!id && context?.setSubmitState) ||
+    fallback
+  const setFormError = useCallback(
+    (error: Error) => {
+      setSubmitState?.({ error })
+      // console.error(error)
+    },
+    [setSubmitState]
+  )
+
+  return useMemo(
+    () => ({ hasErrors, setFormError }),
+    [hasErrors, setFormError]
+  )
 }

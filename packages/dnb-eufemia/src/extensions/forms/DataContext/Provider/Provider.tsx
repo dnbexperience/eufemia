@@ -338,6 +338,7 @@ export default function Provider<Data extends JsonObject>(
     filterDataHandler?: Props<Data>['filterData']
     hasErrors?: ContextState['hasErrors']
     setShowAllErrors?: ContextState['setShowAllErrors']
+    setSubmitState?: ContextState['setSubmitState']
     rerenderUseDataHook?: () => void
   }>(id + '-attachments')
 
@@ -428,6 +429,7 @@ export default function Provider<Data extends JsonObject>(
         filterDataHandler,
         hasErrors,
         setShowAllErrors,
+        setSubmitState,
       })
       if (filterData) {
         rerenderUseDataHook?.()
@@ -441,6 +443,7 @@ export default function Provider<Data extends JsonObject>(
     id,
     rerenderUseDataHook,
     setShowAllErrors,
+    setSubmitState,
   ])
 
   /**
@@ -836,6 +839,7 @@ export default function Provider<Data extends JsonObject>(
         handleUnMountField,
         handleSubmitCall,
         setFormState,
+        setSubmitState,
         setShowAllErrors,
         setFieldEventListener,
         setFieldState,

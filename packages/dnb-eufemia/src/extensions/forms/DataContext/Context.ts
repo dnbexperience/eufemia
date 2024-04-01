@@ -73,6 +73,7 @@ export interface ContextState {
   handleUnMountField: (path: Path) => void
   formState: SubmitState
   setFormState?: (state: SubmitState) => void
+  setSubmitState?: (state: EventStateObject) => void
   handleSubmitCall: ({
     onSubmit,
     enableAsyncBehaviour,
@@ -119,6 +120,7 @@ export const defaultContextState: ContextState = {
   showAllErrors: false,
   formState: undefined,
   setFormState: () => null,
+  setSubmitState: () => null,
   setFieldEventListener: () => null,
   handleSubmitCall: () => null,
   setShowAllErrors: () => null,
