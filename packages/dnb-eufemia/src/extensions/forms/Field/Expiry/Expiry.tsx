@@ -151,10 +151,10 @@ function Expiry(props: ExpiryProps) {
       return ''
     }
 
-    const seconDigit = month?.charAt(1)
-    const isSecondDigitValid = secondMask.test(seconDigit)
+    const secondDigit = month?.charAt(1)
+    const isSecondDigitValid = secondMask.test(secondDigit)
 
-    if (seconDigit && !isSecondDigitValid) {
+    if (secondDigit && !isSecondDigitValid) {
       // Return empty value if the second digit is invalid
       return ''
     }
