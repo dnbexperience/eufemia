@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { useStep } from '../useStep'
+import useStep from '../useStep'
 import { Steps } from '../../..'
 
 jest.mock('../../../../../shared/component-helper', () => {
@@ -30,10 +30,10 @@ describe('useStep', () => {
   describe('without "id"', () => {
     it('should return activeIndex on step change', async () => {
       const Step = () => {
-        const step = useStep()
+        const { activeIndex } = useStep()
         return (
           <>
-            <output>{JSON.stringify(step)}</output>
+            <output>{JSON.stringify({ activeIndex })}</output>
             <Steps.NextButton />
           </>
         )
@@ -66,14 +66,14 @@ describe('useStep', () => {
       const onStepChange = jest.fn()
 
       const Step = () => {
-        const step = useStep()
+        const { activeIndex, setActiveIndex } = useStep()
         return (
           <>
-            <output>{JSON.stringify(step)}</output>
+            <output>{JSON.stringify({ activeIndex })}</output>
             <button
               className="next"
               onClick={() => {
-                step.setActiveIndex(step.activeIndex + 1)
+                setActiveIndex(activeIndex + 1)
               }}
             >
               Next
@@ -111,17 +111,77 @@ describe('useStep', () => {
       expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
     })
+
+    it('should onStepChange given in the Hook', async () => {
+      const onStepChange = jest.fn()
+
+      const Step = () => {
+        const { activeIndex, setActiveIndex } = useStep(undefined, {
+          onStepChange,
+        })
+        return (
+          <>
+            <output>{JSON.stringify({ activeIndex })}</output>
+            <button
+              className="next"
+              onClick={() => {
+                setActiveIndex(activeIndex + 1)
+              }}
+            >
+              Next
+            </button>
+          </>
+        )
+      }
+
+      render(
+        <Steps.Layout mode="loose">
+          <Steps.Step>
+            <Step />
+          </Steps.Step>
+
+          <Steps.Step>
+            <Step />
+          </Steps.Step>
+
+          <Steps.Step>
+            <Step />
+          </Steps.Step>
+        </Steps.Layout>
+      )
+
+      expect(output()).toHaveTextContent('{"activeIndex":0}')
+      expect(onStepChange).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(document.querySelector('button.next'))
+
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+
+      await userEvent.click(document.querySelector('button.next'))
+
+      expect(output()).toHaveTextContent('{"activeIndex":2}')
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+    })
   })
 
   describe('with "id" and outside of context', () => {
     it('should return activeIndex on step change', async () => {
       const RenderBefore = () => {
-        const step = useStep(identifier)
-        return <output className="before">{JSON.stringify(step)}</output>
+        const { activeIndex } = useStep(identifier)
+        return (
+          <output className="before">
+            {JSON.stringify({ activeIndex })}
+          </output>
+        )
       }
       const RenderAfter = () => {
-        const step = useStep(identifier)
-        return <output className="after">{JSON.stringify(step)}</output>
+        const { activeIndex } = useStep(identifier)
+        return (
+          <output className="after">
+            {JSON.stringify({ activeIndex })}
+          </output>
+        )
       }
 
       render(
@@ -172,12 +232,12 @@ describe('useStep', () => {
       const onStepChange = jest.fn()
 
       const RenderBefore = () => {
-        const step = useStep(identifier)
+        const { activeIndex, setActiveIndex } = useStep(identifier)
         return (
           <button
             className="before"
             onClick={() => {
-              step.setActiveIndex(step.activeIndex + 1)
+              setActiveIndex(activeIndex + 1)
             }}
           >
             Next
@@ -186,12 +246,12 @@ describe('useStep', () => {
       }
 
       const RenderAfter = () => {
-        const step = useStep(identifier)
+        const { activeIndex, setActiveIndex } = useStep(identifier)
         return (
           <button
             className="after"
             onClick={() => {
-              step.setActiveIndex(step.activeIndex + 1)
+              setActiveIndex(activeIndex + 1)
             }}
           >
             Next
@@ -234,6 +294,64 @@ describe('useStep', () => {
       await userEvent.click(document.querySelector('button.after'))
 
       expect(document.querySelector('output')).toHaveTextContent('Step 3')
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+    })
+
+    it('should onStepChange given in the Hook', async () => {
+      const onStepChange = jest.fn()
+
+      const Sidecar = () => {
+        useStep(identifier, { onStepChange })
+        return null
+      }
+
+      const Step = () => {
+        const { activeIndex, setActiveIndex } = useStep()
+        return (
+          <>
+            <output>{JSON.stringify({ activeIndex })}</output>
+            <button
+              className="next"
+              onClick={() => {
+                setActiveIndex(activeIndex + 1)
+              }}
+            >
+              Next
+            </button>
+          </>
+        )
+      }
+
+      render(
+        <>
+          <Sidecar />
+          <Steps.Layout mode="loose" id={identifier}>
+            <Steps.Step>
+              <Step />
+            </Steps.Step>
+
+            <Steps.Step>
+              <Step />
+            </Steps.Step>
+
+            <Steps.Step>
+              <Step />
+            </Steps.Step>
+          </Steps.Layout>
+        </>
+      )
+
+      expect(output()).toHaveTextContent('{"activeIndex":0}')
+      expect(onStepChange).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(document.querySelector('button.next'))
+
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+
+      await userEvent.click(document.querySelector('button.next'))
+
+      expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
     })
   })

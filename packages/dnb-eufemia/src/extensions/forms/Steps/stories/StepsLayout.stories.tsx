@@ -4,6 +4,12 @@ import { Button, Card } from '../../../../components'
 import Field, { Form, Steps } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
+// import { BrowserRouter, useSearchParams } from 'react-router-dom'
+// import {
+//   navigate,
+//   useLocation,
+//   Router as ReachRouter,
+// } from '@reach/router'
 
 export default {
   title: 'Eufemia/Extensions/Forms/StepsLayout',
@@ -157,35 +163,43 @@ export function AsyncStepChange() {
   )
 }
 
-export function UseStep() {
+function RouterStepsLayout() {
   const Step1 = () => {
-    const { setActiveIndex, activeIndex } = Steps.useStep()
     return (
       <Steps.Step>
         <Card stack>
           <P>foo</P>
           <P>bar</P>
+          <Field.String />
         </Card>
-        <Form.ButtonRow>
-          <Button
-            top
-            onClick={() => {
-              setActiveIndex(activeIndex + 1)
-            }}
-          >
-            Next
-          </Button>
-        </Form.ButtonRow>
+        <Steps.Buttons />
       </Steps.Step>
     )
   }
 
+  Steps.useQueryLocator('steps-with-router')
+  // Steps.useReactRouter('steps-with-router', { useSearchParams })
+  // Steps.useReachRouter('steps-with-router', { useLocation, navigate })
+
   return (
     <Form.Handler>
-      <Steps.Layout>
+      <Steps.Layout id="steps-with-router">
         <Step1 />
         <Step1 />
       </Steps.Layout>
     </Form.Handler>
   )
 }
+
+export function WithRouter() {
+  return <RouterStepsLayout />
+}
+// export function WithRouter() {
+//   return (
+//     <BrowserRouter>
+//       <ReachRouter>
+//         <RouterStepsLayout default />
+//       </ReachRouter>
+//     </BrowserRouter>
+//   )
+// }
