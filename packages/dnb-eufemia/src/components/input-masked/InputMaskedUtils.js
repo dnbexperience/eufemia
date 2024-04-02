@@ -117,9 +117,9 @@ export const correctNumberValue = ({
   if (localValue !== null) {
     const localNumberValue = localValue.replace(/[^\d,.-]/g, '')
     const numberValue = value.replace(/[^\d,.-]/g, '')
-    const hasDecimal = numberValue.includes(decimalSymbol)
+    const valueHasDecimal = numberValue.includes(decimalSymbol)
 
-    if (!hasDecimal) {
+    if (!valueHasDecimal) {
       const endsWithDecimal = localNumberValue.endsWith(decimalSymbol)
       const endsWithZeroAndDecimal = localNumberValue.endsWith(
         `${decimalSymbol}0`
