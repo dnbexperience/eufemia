@@ -81,13 +81,13 @@ export const dataValueProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  toInput: {
-    doc: 'Derivate called when the received / active value is sent to the input. Can be used for casting, changing syntax etc.',
+  transformIn: {
+    doc: 'transforms the `value` before its displayed in the field (e.g. input).',
     type: 'function',
     status: 'optional',
   },
-  fromInput: {
-    doc: 'Derivate called when changes is made by the user, to cast or change syntax back to the original (opposite of `toInput`).',
+  transformOut: {
+    doc: 'transforms the value before it gets forwarded to the form data object or returned as the `onChange` value parameter.',
     type: 'function',
     status: 'optional',
   },

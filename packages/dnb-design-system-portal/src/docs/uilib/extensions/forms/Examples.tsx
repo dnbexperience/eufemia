@@ -501,3 +501,39 @@ export const WithSteps = () => {
     </ComponentBox>
   )
 }
+
+export const Transformers = () => {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        const MyForm = () => {
+          const transformToUpper = (value) => {
+            return value?.toUpperCase()
+          }
+          const transformToLower = (value) => {
+            return value?.toLowerCase()
+          }
+
+          return (
+            <Form.Handler onChange={console.log}>
+              <Card stack>
+                <Field.String
+                  width="medium"
+                  label="Input value"
+                  placeholder="Type letters"
+                  path="/myField"
+                  transformIn={transformToUpper}
+                  transformOut={transformToLower}
+                />
+
+                <Value.String label="Output value" path="/myField" />
+              </Card>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}

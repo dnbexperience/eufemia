@@ -1,3 +1,5 @@
+import * as Examples from './Examples'
+
 ## Quick start
 
 Field components can be used directly as they are, for example `Field.Email`:
@@ -93,6 +95,21 @@ Form.setData('unique', { companyName: 'DNB' })
 // ... and the getData method when ever you need to:
 const { data, filterData } = Form.getData('unique')
 ```
+
+### Transforming data
+
+Each field supports transformer functions. So you can transform a value before it is processed to the form data object and vis-a-versa:
+
+```tsx
+<Field.String
+  label="Label"
+  path="/myField"
+  transformIn={transformIn}
+  transformOut={transformOut}
+/>
+```
+
+<Examples.Transformers />
 
 ### Async form handling
 

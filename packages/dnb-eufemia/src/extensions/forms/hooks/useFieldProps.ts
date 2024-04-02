@@ -85,6 +85,8 @@ export default function useFieldProps<
     validateInitially,
     validateUnchanged,
     continuousValidation,
+    transformIn = (value: Value) => value,
+    transformOut = (value: Value) => value,
     toInput = (value: Value) => value,
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
@@ -113,6 +115,8 @@ export default function useFieldProps<
   const tr = useLocale()
 
   const transformers = useRef({
+    transformIn,
+    transformOut,
     toInput,
     fromInput,
     toEvent,
@@ -909,9 +913,8 @@ export default function useFieldProps<
         return
       }
 
-      const transformedValue = transformers.current.transformValue(
-        fromInput,
-        currentValue
+      const transformedValue = transformers.current.transformOut(
+        transformers.current.transformValue(fromInput, currentValue)
       )
 
       // Must be set before validation
@@ -1265,7 +1268,9 @@ export default function useFieldProps<
 
     /** Documented APIs */
     id,
-    value: transformers.current.toInput(valueRef.current),
+    value: transformers.current.transformIn(
+      transformers.current.toInput(valueRef.current)
+    ),
     hasError: hasVisibleError,
     isChanged: changedRef.current,
     htmlAttributes,

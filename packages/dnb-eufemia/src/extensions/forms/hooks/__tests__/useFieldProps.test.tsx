@@ -1955,6 +1955,88 @@ describe('useFieldProps', () => {
   })
 
   describe('value manipulation', () => {
+    it('should call "transformIn" and "transformOut"', () => {
+      const transformIn = jest.fn((v) => v - 1)
+      const transformOut = jest.fn((v) => v + 1)
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useFieldProps({
+          value: 1,
+          onChange,
+          transformIn,
+          transformOut,
+        })
+      )
+
+      const { handleChange } = result.current
+
+      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenLastCalledWith(1)
+      expect(transformOut).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange(2)
+      })
+
+      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenLastCalledWith(3)
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformOut).toHaveBeenLastCalledWith(2)
+
+      act(() => {
+        handleChange(4)
+      })
+
+      expect(transformIn).toHaveBeenCalledTimes(3)
+      expect(transformIn).toHaveBeenLastCalledWith(5)
+      expect(transformOut).toHaveBeenCalledTimes(2)
+      expect(transformOut).toHaveBeenLastCalledWith(4)
+    })
+
+    it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', () => {
+      const transformIn = jest.fn((v) => v - 1)
+      const transformOut = jest.fn((v) => v + 1)
+      const toInput = jest.fn((v) => v - 1)
+      const fromInput = jest.fn((v) => v + 1)
+      const onChange = jest.fn()
+
+      const { result } = renderHook(() =>
+        useFieldProps({
+          value: 1,
+          onChange,
+          transformIn,
+          transformOut,
+          fromInput,
+          toInput,
+        })
+      )
+
+      const { handleChange } = result.current
+
+      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenLastCalledWith(0)
+      expect(transformOut).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange(2)
+      })
+
+      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenLastCalledWith(3)
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformOut).toHaveBeenLastCalledWith(3)
+
+      act(() => {
+        handleChange(4)
+      })
+
+      expect(transformIn).toHaveBeenCalledTimes(3)
+      expect(transformIn).toHaveBeenLastCalledWith(5)
+      expect(transformOut).toHaveBeenCalledTimes(2)
+      expect(transformOut).toHaveBeenLastCalledWith(5)
+    })
+
     it('should call "fromInput" and "toInput"', () => {
       const fromInput = jest.fn((v) => v + 1)
       const toInput = jest.fn((v) => v - 1)
