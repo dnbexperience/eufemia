@@ -219,7 +219,7 @@ function StepsLayout(props: Props) {
   }, [children])
 
   if (!hasContext) {
-    warn('You may wrap StepsLayout in Form.Handler')
+    warn('You may wrap Steps.Layout in Form.Handler')
     return (
       <Provider>
         <StepsLayout {...props} id={id} />
