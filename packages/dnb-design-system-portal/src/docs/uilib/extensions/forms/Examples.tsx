@@ -3,13 +3,13 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Input, Slider, Card, Flex, NumberFormat } from '@dnb/eufemia/src'
 import {
   Form,
-  StepsLayout,
   Field,
   Value,
   FieldBlock,
   useFieldProps,
   DataContext,
   ValueBlock,
+  Steps,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicValueComponent = () => {
@@ -224,7 +224,6 @@ export const BaseFieldComponents = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -253,7 +252,6 @@ export const FeatureFields = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -272,7 +270,6 @@ export const LayoutComponents = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -302,7 +299,6 @@ export const VisibilityBasedOnData = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -356,7 +352,6 @@ export const UsingFormHandler = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -396,7 +391,6 @@ export const Validation = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -432,7 +426,6 @@ export const WithSteps = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -451,8 +444,8 @@ export const WithSteps = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <StepsLayout mode="loose">
-          <StepsLayout.Step title="Name">
+        <Steps.Layout mode="loose">
+          <Steps.Step title="Name">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -463,11 +456,11 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.NextButton />
+              <Steps.NextButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
+          </Steps.Step>
 
-          <StepsLayout.Step title="More information">
+          <Steps.Step title="More information">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -479,12 +472,12 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.PreviousButton />
-              <StepsLayout.NextButton />
+              <Steps.PreviousButton />
+              <Steps.NextButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
+          </Steps.Step>
 
-          <StepsLayout.Step title="Summary">
+          <Steps.Step title="Summary">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -499,11 +492,11 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.PreviousButton />
+              <Steps.PreviousButton />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
-        </StepsLayout>
+          </Steps.Step>
+        </Steps.Layout>
       </Form.Handler>
     </ComponentBox>
   )

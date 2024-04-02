@@ -9,7 +9,7 @@ breadcrumb:
 ---
 
 import ListFormComponents from './extended-features/Form/ListFormComponents'
-import ListStepsLayoutComponents from './extended-features/StepsLayout/ListStepsLayoutComponents'
+import ListStepsLayoutComponents from './extended-features/Steps/ListStepsLayoutComponents'
 import ListBaseValueComponents from './extended-features/Value/ListBaseValueComponents'
 import ListDataContextComponents from './extended-features/DataContext/ListDataContextComponents'
 import ListFeatureValueComponents from './extended-features/Value/ListFeatureValueComponents'
@@ -90,22 +90,22 @@ This is useful if you want to use a custom schema keyword and `validate` functio
 
 ## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
 
-StepsLayout is a wrapper component for showing forms with a StepIndicator for navigation between several steps. It also includes components for navigating between steps.
+Steps.Layout is a wrapper component for showing forms with a StepIndicator for navigation between several steps. It also includes components for navigating between steps.
 
-Example using the [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) for handling stepped layouts:
+Example using the [Steps.Layout](/uilib/extensions/forms/extended-features/StepsLayout) for handling stepped layouts:
 
 ```jsx
-import { StepsLayout } from '@dnb/eufemia/extensions/forms'
+import { Steps } from '@dnb/eufemia/extensions/forms'
 render(
-  <StepsLayout>
-    <StepsLayout.Step title="Name">
+  <Steps.Layout>
+    <Steps.Step title="Name">
       <Form.MainHeading>Profile</Form.MainHeading>
-    </StepsLayout.Step>
-  </StepsLayout>,
+    </Steps.Step>
+  </Steps.Layout>,
 )
 ```
 
-Here is a list of all available `StepsLayout.*` components:
+Here is a list of all available `Steps.*` components:
 
 <ListStepsLayoutComponents size="small" />
 
@@ -132,3 +132,4 @@ Here is a list of all available feature `Value.*` components:
 `DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
 
 <ListDataContextComponents size="small" />
+./extended-features/Steps/ListStepsLayoutComponents

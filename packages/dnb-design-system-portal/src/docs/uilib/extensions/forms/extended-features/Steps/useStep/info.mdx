@@ -1,0 +1,46 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Steps.useStep` is a React Hook that connects to the `Steps.Context` to handle step related operations.
+
+```jsx
+import { Form, Steps } from '@dnb/eufemia/extensions/forms'
+
+function Step1() {
+  const { activeIndex, setActiveIndex } = Steps.useStep()
+
+  return <Steps.Step>...</Steps.Step>
+}
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Steps.Layout>
+        <Step1 />
+      </Steps.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+You can also connect the hook with the `Steps.Layout` via an `id` (string). This lets you render the hook outside of the context:
+
+```jsx
+import { Form, Steps } from '@dnb/eufemia/extensions/forms'
+
+function Sidecar() {
+  const { activeIndex, setActiveIndex } = Steps.useStep('unique-id')
+}
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Sidecar />
+      <Steps.Layout id="unique-id">...</Steps.Layout>
+    </Form.Handler>
+  )
+}
+```
