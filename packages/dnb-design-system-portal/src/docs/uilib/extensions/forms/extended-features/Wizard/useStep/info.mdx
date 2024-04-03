@@ -10,7 +10,7 @@ showTabs: true
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 
 function Step1() {
-  const { activeIndex, setActiveIndex } = Wizard.useStep()
+  const { totalSteps, activeIndex, setActiveIndex } = Wizard.useStep()
 
   return <Wizard.Step>...</Wizard.Step>
 }

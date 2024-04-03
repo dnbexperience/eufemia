@@ -193,33 +193,6 @@ function WizardContainer(props: Props) {
     [setSubmitState]
   )
 
-  const activeIndex = activeIndexRef.current
-  const providerValue = useMemo(
-    () => ({
-      id,
-      activeIndex,
-      setActiveIndex,
-      handlePrevious,
-      handleNext,
-      setFormError,
-    }),
-    [
-      id,
-      activeIndex,
-      setActiveIndex,
-      handlePrevious,
-      handleNext,
-      setFormError,
-    ]
-  )
-
-  // - Handle shared state
-  useEffect(() => {
-    if (hasContext && id) {
-      extend(providerValue)
-    }
-  }, [id, extend, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
-
   const titlesRef = useRef([])
   const Contents = useCallback(() => {
     titlesRef.current = []
@@ -251,6 +224,36 @@ function WizardContainer(props: Props) {
       return child
     })
   }, [children])
+
+  const activeIndex = activeIndexRef.current
+  const totalSteps = titlesRef.current.length
+  const providerValue = useMemo(
+    () => ({
+      id,
+      activeIndex,
+      totalSteps,
+      setActiveIndex,
+      handlePrevious,
+      handleNext,
+      setFormError,
+    }),
+    [
+      id,
+      activeIndex,
+      totalSteps,
+      setActiveIndex,
+      handlePrevious,
+      handleNext,
+      setFormError,
+    ]
+  )
+
+  // - Handle shared state
+  useEffect(() => {
+    if (hasContext && id) {
+      extend(providerValue)
+    }
+  }, [id, extend, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')

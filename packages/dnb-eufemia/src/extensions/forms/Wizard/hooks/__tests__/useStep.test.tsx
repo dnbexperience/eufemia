@@ -163,6 +163,31 @@ describe('useStep', () => {
       expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
     })
+
+    it('should return "totalSteps"', async () => {
+      const Step = () => {
+        const { totalSteps } = useStep()
+        return <output>{JSON.stringify({ totalSteps })}</output>
+      }
+
+      render(
+        <Wizard.Layout mode="loose">
+          <Wizard.Step>
+            <Step />
+          </Wizard.Step>
+
+          <Wizard.Step>
+            <Step />
+          </Wizard.Step>
+
+          <Wizard.Step>
+            <Step />
+          </Wizard.Step>
+        </Wizard.Layout>
+      )
+
+      expect(output()).toHaveTextContent('{"totalSteps":3}')
+    })
   })
 
   describe('with "id" and outside of context', () => {
@@ -353,6 +378,28 @@ describe('useStep', () => {
 
       expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
+    })
+
+    it('should return "totalSteps"', async () => {
+      const Sidecar = () => {
+        const { totalSteps } = useStep(identifier)
+        return <output>{JSON.stringify({ totalSteps })}</output>
+      }
+
+      render(
+        <>
+          <Sidecar />
+          <Wizard.Layout mode="loose" id={identifier}>
+            <Wizard.Step>content</Wizard.Step>
+
+            <Wizard.Step>content</Wizard.Step>
+
+            <Wizard.Step>content</Wizard.Step>
+          </Wizard.Layout>
+        </>
+      )
+
+      expect(output()).toHaveTextContent('{"totalSteps":3}')
     })
   })
 })

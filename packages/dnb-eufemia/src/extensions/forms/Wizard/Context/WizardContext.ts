@@ -12,6 +12,7 @@ export type OnStepChange = (
 export type StepIndex = number
 export interface WizardContextState {
   id?: string
+  totalSteps?: number
   activeIndex: StepIndex
   handlePrevious: () => void
   handleNext: () => void
@@ -24,6 +25,7 @@ export interface WizardContextState {
 
 const WizardContext = React.createContext<WizardContextState | undefined>({
   id: null,
+  totalSteps: null,
   activeIndex: 0,
   setActiveIndex: () => null,
   handlePrevious: () => null,
