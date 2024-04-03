@@ -314,7 +314,9 @@ function PhoneNumber(props: Props) {
             mode="async"
             placeholder={countryCodePlaceholder}
             label_direction="vertical"
-            label={countryCodeLabel ?? translations.CountryCode.label}
+            label={
+              countryCodeLabel ?? translations.PhoneNumber.countryCodeLabel
+            }
             data={dataRef.current}
             value={countryCodeRef.current}
             status={hasError ? 'error' : undefined}
