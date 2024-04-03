@@ -34,6 +34,7 @@ export default {
     Step: {
       next: 'Next',
       previous: 'Back',
+      edit: 'Edit',
     },
 
     /**

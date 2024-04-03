@@ -8,7 +8,7 @@ import {
   Value,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Card, P } from '@dnb/eufemia/src'
+import { Card, Hr, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -51,30 +51,38 @@ export const Default = () => {
           </Wizard.Step>
         )
 
-        const Summary = () => (
-          <Wizard.Step title="Summary">
-            <Form.MainHeading>Summary</Form.MainHeading>
-            <Card stack>
-              <Form.SubHeading>Deliver address</Form.SubHeading>
+        const Summary = () => {
+          const { setActiveIndex } = Wizard.useStep()
 
-              <Value.SummaryList layout="grid">
-                <Value.String label="First name" path="/firstName" />
-                <Value.String label="Last name" path="/lastName" />
+          return (
+            <Wizard.Step title="Summary">
+              <Form.MainHeading>Summary</Form.MainHeading>
+              <Card stack>
+                <Form.SubHeading>Deliver address</Form.SubHeading>
 
-                <Value.String label="Street" path="/streetName" />
-                <Value.Number label="Nr." path="/streetNr" />
+                <Value.SummaryList layout="grid">
+                  <Value.String label="First name" path="/firstName" />
+                  <Value.String label="Last name" path="/lastName" />
 
-                <Value.String label="Postalc." path="/postalCode" />
-                <Value.String label="City" path="/city" />
-              </Value.SummaryList>
-            </Card>
+                  <Value.String label="Street" path="/streetName" />
+                  <Value.Number label="Nr." path="/streetNr" />
 
-            <Form.ButtonRow>
-              <Wizard.Buttons />
-              <Form.SubmitButton variant="send" />
-            </Form.ButtonRow>
-          </Wizard.Step>
-        )
+                  <Value.String label="Postalc." path="/postalCode" />
+                  <Value.String label="City" path="/city" />
+                </Value.SummaryList>
+
+                <Hr light />
+
+                <Wizard.EditButton onClick={() => setActiveIndex(1)} />
+              </Card>
+
+              <Form.ButtonRow>
+                <Wizard.Buttons />
+                <Form.SubmitButton variant="send" />
+              </Form.ButtonRow>
+            </Wizard.Step>
+          )
+        }
 
         // Can be an async function, in case you need to make some async stuff
         const onStepChange = async (step, mode) => {
