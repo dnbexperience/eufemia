@@ -119,14 +119,15 @@ function StringComponent(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.trim]
   )
+  const transform = props.transformValue
   const transformValue = useCallback(
     (value: string) => {
       if (props.capitalize) {
         value = toCapitalized(String(value || ''))
       }
-      return value
+      return transform?.(value) || value
     },
-    [props.capitalize]
+    [props.capitalize, transform]
   )
 
   const preparedProps: Props = {
