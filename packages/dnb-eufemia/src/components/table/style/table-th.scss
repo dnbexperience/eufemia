@@ -17,8 +17,11 @@
     background-color: var(--table-th-background-color);
   }
 
-  // When we have a th with a scope of row, and there is only one td
+  // When we have a "th" with a scope of row, and there is only one td
   & tbody tr:has(th:first-child + td:last-child) th[scope='row'] {
     --table-th-background-color: initial;
+  }
+  & tbody tr th[scope='row'] + td:last-child {
+    width: 100%;
   }
 }

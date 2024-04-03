@@ -320,6 +320,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table tbody tr:has(th:first-child + td:last-child) th[scope=row] {
   --table-th-background-color: initial;
 }
+.dnb-table tbody tr th[scope=row] + td:last-child {
+  width: 100%;
+}
 
 /*
 * Table component
