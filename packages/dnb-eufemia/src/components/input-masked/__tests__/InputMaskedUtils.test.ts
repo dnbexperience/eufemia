@@ -72,7 +72,7 @@ describe('correctNumberValue', () => {
     expect(result).toBe('20,0')
   })
 
-  it('should use localValue in leading zero cases', () => {
+  it('should use localValue in cases starting with zero', () => {
     const result = correctNumberValue({
       localValue: '012',
       props: { value: '12' },
