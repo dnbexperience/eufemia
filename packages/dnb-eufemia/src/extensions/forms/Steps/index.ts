@@ -10,4 +10,5 @@ export { default as useStep } from './hooks/useStep'
 export { default as useQueryLocator } from './hooks/useQueryLocator'
 export { default as useReachRouter } from './hooks/useReachRouter'
 export { default as useReactRouter } from './hooks/useReactRouter'
+export { default as useNextRouter } from './hooks/useNextRouter'
 export const Provider = StepsContext.Provider
