@@ -7,8 +7,7 @@ export const Default = () => {
   return (
     <ComponentBox>
       <Form.ButtonRow>
-        <Wizard.PreviousButton />
-        <Wizard.NextButton />
+        <Wizard.Buttons />
         <Button variant="secondary">Other button</Button>
       </Form.ButtonRow>
     </ComponentBox>

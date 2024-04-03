@@ -8,7 +8,7 @@ import {
   Value,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Card, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -24,7 +24,7 @@ export const Default = () => {
         }
 
         const Step1 = () => (
-          <Flex.Stack>
+          <Wizard.Step title="Step 1">
             <Form.MainHeading>Heading</Form.MainHeading>
             <Card stack>
               <P>Contents</P>
@@ -33,14 +33,12 @@ export const Default = () => {
               <P>Contents</P>
             </Card>
 
-            <Form.ButtonRow>
-              <Wizard.NextButton />
-            </Form.ButtonRow>
-          </Flex.Stack>
+            <Wizard.Buttons />
+          </Wizard.Step>
         )
 
         const Step2 = () => (
-          <Flex.Stack>
+          <Wizard.Step title="Step 2">
             <Form.MainHeading>Heading</Form.MainHeading>
             <Card stack>
               <P>Contents</P>
@@ -49,15 +47,12 @@ export const Default = () => {
               <P>Contents</P>
             </Card>
 
-            <Form.ButtonRow>
-              <Wizard.PreviousButton />
-              <Wizard.NextButton />
-            </Form.ButtonRow>
-          </Flex.Stack>
+            <Wizard.Buttons />
+          </Wizard.Step>
         )
 
         const Summary = () => (
-          <Flex.Stack>
+          <Wizard.Step title="Summary">
             <Form.MainHeading>Summary</Form.MainHeading>
             <Card stack>
               <Form.SubHeading>Deliver address</Form.SubHeading>
@@ -75,10 +70,10 @@ export const Default = () => {
             </Card>
 
             <Form.ButtonRow>
-              <Wizard.PreviousButton />
+              <Wizard.Buttons />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </Flex.Stack>
+          </Wizard.Step>
         )
 
         // Can be an async function, in case you need to make some async stuff
@@ -98,17 +93,9 @@ export const Default = () => {
         const MyForm = () => (
           <Form.Handler data={initialData} onSubmit={onSubmit}>
             <Wizard.Container onStepChange={onStepChange}>
-              <Wizard.Step title="Step 1">
-                <Step1 />
-              </Wizard.Step>
-
-              <Wizard.Step title="Step 2">
-                <Step2 />
-              </Wizard.Step>
-
-              <Wizard.Step title="Summary">
-                <Summary />
-              </Wizard.Step>
+              <Step1 />
+              <Step2 />
+              <Summary />
             </Wizard.Container>
           </Form.Handler>
         )
@@ -172,7 +159,7 @@ export const AsyncWizardContainer = () => {
 
           const Step1 = () => {
             return (
-              <Flex.Stack>
+              <Wizard.Step title="Step 1">
                 <Card stack>
                   <Field.String
                     label="Required field with async validator"
@@ -186,39 +173,34 @@ export const AsyncWizardContainer = () => {
                     path="/field2"
                   />
                 </Card>
-                <Form.ButtonRow>
-                  <Wizard.PreviousButton />
-                  <Wizard.NextButton />
-                </Form.ButtonRow>
-              </Flex.Stack>
+
+                <Wizard.Buttons />
+              </Wizard.Step>
             )
           }
 
           const Step2 = () => {
             return (
-              <Flex.Stack>
+              <Wizard.Step title="Step 2">
                 <Form.MainHeading>Heading</Form.MainHeading>
+
                 <Card stack>
                   <P>Contents of step 2</P>
                 </Card>
+
                 <Form.ButtonRow>
-                  <Wizard.PreviousButton />
+                  <Wizard.Buttons />
                   <Form.SubmitButton />
                 </Form.ButtonRow>
-              </Flex.Stack>
+              </Wizard.Step>
             )
           }
 
           return (
             <Form.Handler onSubmit={onSubmit}>
               <Wizard.Container onStepChange={onStepChange}>
-                <Wizard.Step title="Step 1">
-                  <Step1 />
-                </Wizard.Step>
-
-                <Wizard.Step title="Step 2">
-                  <Step2 />
-                </Wizard.Step>
+                <Step1 />
+                <Step2 />
               </Wizard.Container>
             </Form.Handler>
           )

@@ -6,7 +6,7 @@ showTabs: true
 
 `Wizard.Step` shows child components when the surrounding [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container/) has been navigated to this step. Wizard.Container keeps track of what is the active step, and navigating between wizard steps is done through callbacks on the WizardContext, i.e. using [navigation buttons](/uilib/extensions/forms/extended-features/Wizard/Buttons/).
 
-```jsx
+```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 
 const Step1 = () => {
@@ -19,6 +19,7 @@ const Step1 = () => {
       <Card stack>
         <P>Contents</P>
       </Card>
+
       <Wizard.Buttons />
     </Wizard.Step>
   )
@@ -34,3 +35,5 @@ const MyForm = () => {
   )
 }
 ```
+
+It uses [Flex.Stack](/uilib/layout/flex/stack/) so you don't need to wrap your content additionally.

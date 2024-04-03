@@ -171,7 +171,7 @@ describe('useStep', () => {
       }
 
       render(
-        <Wizard.Layout mode="loose">
+        <Wizard.Container mode="loose">
           <Wizard.Step>
             <Step />
           </Wizard.Step>
@@ -183,7 +183,7 @@ describe('useStep', () => {
           <Wizard.Step>
             <Step />
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('{"totalSteps":3}')
@@ -389,13 +389,13 @@ describe('useStep', () => {
       render(
         <>
           <Sidecar />
-          <Wizard.Layout mode="loose" id={identifier}>
+          <Wizard.Container mode="loose" id={identifier}>
             <Wizard.Step>content</Wizard.Step>
 
             <Wizard.Step>content</Wizard.Step>
 
             <Wizard.Step>content</Wizard.Step>
-          </Wizard.Layout>
+          </Wizard.Container>
         </>
       )
 

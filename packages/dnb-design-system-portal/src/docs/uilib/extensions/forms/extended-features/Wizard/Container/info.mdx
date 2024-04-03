@@ -4,9 +4,9 @@ showTabs: true
 
 ## Description
 
-`Wizard.Container` is a wrapper component for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several steps.
+The `Wizard.Container` is a container component for multi-page forms including a [StepIndicator](/uilib/components/step-indicator/).
 
-Use the [Step](/uilib/extensions/forms/extended-features/Wizard/Step/) component to define the wizard steps. It uses `Flex.Stack` so you don't need to wrap your content additionally.
+Use the [Step](/uilib/extensions/forms/extended-features/Wizard/Step/) component to define the wizard steps.
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -37,7 +37,8 @@ const Step1 = () => (
     <Card stack>
       <P>Contents</P>
     </Card>
-    <Wizard.NextButton />
+
+    <Wizard.Buttons />
   </Wizard.Step>
 )
 
@@ -65,6 +66,8 @@ const Step2 = () => (
     <Card stack>
       <P>Contents</P>
     </Card>
+
+    <Wizard.Buttons />
   </Flex.Stack>
 )
 

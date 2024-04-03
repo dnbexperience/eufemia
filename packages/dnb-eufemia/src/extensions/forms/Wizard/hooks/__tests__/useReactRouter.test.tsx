@@ -239,6 +239,7 @@ describe('useReactRouter', () => {
       <Form.Handler>
         <Wizard.Container id={identifier}>
           <Step />
+          <Step />
         </Wizard.Container>
       </Form.Handler>
     )

@@ -1,0 +1,41 @@
+---
+showTabs: false
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Extended features
+    href: /uilib/extensions/forms/extended-features/
+  - text: Wizard
+    href: /uilib/extensions/forms/extended-features/Wizard/
+  - text: Buttons
+    href: /uilib/extensions/forms/extended-features/Wizard/Buttons/
+  - text: NextButton
+    href: /uilib/extensions/forms/extended-features/Wizard/Buttons/NextButton/
+---
+
+import * as Examples from './Examples'
+
+# NextButton
+
+## Description
+
+`Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Wizard.Container>
+      <Wizard.Step title="Step 1">
+        <Wizard.NextButton />
+      </Wizard.Step>
+      <Wizard.Step title="Step 2">next step</Wizard.Step>
+    </Wizard.Container>
+  </Form.Handler>,
+)
+```
+
+## Demo
+
+<Examples.NextButton />
