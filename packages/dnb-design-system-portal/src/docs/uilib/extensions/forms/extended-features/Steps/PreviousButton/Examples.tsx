@@ -10,6 +10,7 @@ export const Default = () => {
           handlePrevious: () => console.log('handlePrevious'),
           handleNext: () => null,
           setActiveIndex: () => null,
+          setFormError: () => null,
         }}
       >
         <Steps.PreviousButton />

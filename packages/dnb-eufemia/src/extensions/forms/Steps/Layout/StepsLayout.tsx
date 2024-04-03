@@ -14,25 +14,23 @@ import useId from '../../../../shared/helpers/useId'
 import DataContext from '../../DataContext/Context'
 import Step, { Props as StepProps } from '../Step'
 import StepsContext, {
+  OnStepChange,
   StepIndex,
   StepsContextState,
 } from '../Context/StepsContext'
 import Provider from '../../DataContext/Provider'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import { ComponentProps, EventReturnWithStateObject } from '../../types'
+import {
+  SharedStateReturn,
+  useSharedState,
+} from '../../../../shared/helpers/useSharedState'
+import { ComponentProps } from '../../types'
 
 export type Props = ComponentProps & {
   id?: string
   mode?: 'static' | 'strict' | 'loose'
   scrollTopOnStepChange?: boolean
   initialActiveIndex?: StepIndex
-  onStepChange?: (
-    index: StepIndex,
-    mode: 'previous' | 'next'
-  ) =>
-    | EventReturnWithStateObject
-    | void
-    | Promise<EventReturnWithStateObject | void>
+  onStepChange?: OnStepChange
   children: React.ReactNode
   variant?: 'sidebar' | 'drawer'
   noAnimation?: boolean
@@ -61,12 +59,25 @@ function StepsLayout(props: Props) {
     setShowAllErrors,
     showAllErrors,
     scrollToTop,
+    setSubmitState,
   } = useContext(DataContext)
 
   const id = useId(_id)
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
+
+  // - Handle shared state
+  const sharedStateRef =
+    useRef<
+      SharedStateReturn<
+        StepsContextState & { onStepChange?: OnStepChange }
+      >
+    >()
+  sharedStateRef.current = useSharedState<StepsContextState>(
+    hasContext && id ? id + '-steps' : undefined
+  )
+  const { extend } = sharedStateRef.current
 
   // Store the current state of showAllErrors
   errorOnStepRef.current[activeIndexRef.current] = showAllErrors
@@ -86,10 +97,12 @@ function StepsLayout(props: Props) {
     ({
       index,
       skipErrorCheck,
+      skipCallOnChange,
       mode,
     }: {
       index: StepIndex
-      skipErrorCheck: boolean
+      skipErrorCheck?: boolean
+      skipCallOnChange?: boolean
       mode: 'previous' | 'next'
     }) => {
       handleSubmitCall({
@@ -97,7 +110,13 @@ function StepsLayout(props: Props) {
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehaviour: isAsync(onStepChange),
         onSubmit: async () => {
-          const result = await callOnStepChange(index, mode)
+          if (!skipCallOnChange) {
+            sharedStateRef.current?.data?.onStepChange?.(index, mode)
+          }
+
+          const result = skipCallOnChange
+            ? undefined
+            : await callOnStepChange(index, mode)
 
           // Hide async indicator
           setFormState('abort')
@@ -132,7 +151,10 @@ function StepsLayout(props: Props) {
   )
 
   const setActiveIndex = useCallback(
-    (index: StepIndex, options?: { skipErrorCheck: boolean }) => {
+    (
+      index: StepIndex,
+      options?: { skipErrorCheck?: boolean; skipCallOnChange?: boolean }
+    ) => {
       if (index === activeIndexRef.current) {
         return
       }
@@ -164,22 +186,34 @@ function StepsLayout(props: Props) {
     [setActiveIndex]
   )
 
+  const setFormError = useCallback(
+    (error: Error) => {
+      setSubmitState?.({ error })
+    },
+    [setSubmitState]
+  )
+
+  const activeIndex = activeIndexRef.current
   const providerValue = useMemo(
     () => ({
-      activeIndex: activeIndexRef.current,
+      id,
+      activeIndex,
       setActiveIndex,
       handlePrevious,
       handleNext,
+      setFormError,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activeIndexRef.current, setActiveIndex, handlePrevious, handleNext]
+    [
+      id,
+      activeIndex,
+      setActiveIndex,
+      handlePrevious,
+      handleNext,
+      setFormError,
+    ]
   )
 
   // - Handle shared state
-  const sharedState = useSharedState<StepsContextState>(
-    hasContext && id ? id + '-steps' : undefined
-  )
-  const { extend } = sharedState
   useEffect(() => {
     if (hasContext && id) {
       extend(providerValue)
