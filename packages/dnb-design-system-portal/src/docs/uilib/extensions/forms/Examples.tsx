@@ -9,7 +9,7 @@ import {
   useFieldProps,
   DataContext,
   ValueBlock,
-  Steps,
+  Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicValueComponent = () => {
@@ -422,7 +422,7 @@ export const Validation = () => {
   )
 }
 
-export const WithSteps = () => {
+export const WithWizard = () => {
   return (
     <ComponentBox
       scope={{
@@ -444,8 +444,8 @@ export const WithSteps = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Steps.Layout mode="loose">
-          <Steps.Step title="Name">
+        <Wizard.Layout mode="loose">
+          <Wizard.Step title="Name">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -456,11 +456,11 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <Steps.NextButton />
+              <Wizard.NextButton />
             </Form.ButtonRow>
-          </Steps.Step>
+          </Wizard.Step>
 
-          <Steps.Step title="More information">
+          <Wizard.Step title="More information">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -472,12 +472,12 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <Steps.PreviousButton />
-              <Steps.NextButton />
+              <Wizard.PreviousButton />
+              <Wizard.NextButton />
             </Form.ButtonRow>
-          </Steps.Step>
+          </Wizard.Step>
 
-          <Steps.Step title="Summary">
+          <Wizard.Step title="Summary">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -492,11 +492,11 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <Steps.PreviousButton />
+              <Wizard.PreviousButton />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </Steps.Step>
-        </Steps.Layout>
+          </Wizard.Step>
+        </Wizard.Layout>
       </Form.Handler>
     </ComponentBox>
   )

@@ -1,0 +1,23 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Wizard.Buttons` Is a composition for a row containing both [PreviousButton](/uilib/extensions/forms/extended-features/Wizard/PreviousButton/) and [NextButton](/uilib/extensions/forms/extended-features/Wizard/NextButton/).
+
+These two buttons are wrapped in the [Form.ButtonRow](/uilib/extensions/forms/extended-features/Form/ButtonRow/) component.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Wizard.Layout>
+      <Wizard.Step title="Step 1">
+        <Wizard.Buttons />
+      </Wizard.Step>
+    </Wizard.Layout>
+  </Form.Handler>,
+)
+```

@@ -4,7 +4,7 @@ export * from './hooks'
 export * as Field from './Field'
 export * as Value from './Value'
 export * as Form from './Form'
-export * as Steps from './Steps'
+export * as Wizard from './Wizard'
 export * as DataContext from './DataContext'
 export * as Iterate from './Iterate'
 export { default as FieldBlock } from './FieldBlock'
@@ -18,7 +18,7 @@ import {
   PreviousButton,
   Buttons,
   useStep,
-} from './Steps'
+} from './Wizard'
 
 /**
  * Deprecated and will be removed in v11
@@ -32,34 +32,34 @@ export function Visibility() {
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "<Steps.Layout>" instead of "<StepsLayout>"
+ * @deprecated use "<Wizard.Layout>" instead of "<StepsLayout>"
  */
 export function StepsLayout(props) {
-  console.error('Please use "<Steps.Layout>" instead of "<StepsLayout>"')
+  console.error('Please use "<Wizard.Layout>" instead of "<StepsLayout>"')
   return Layout(props)
 }
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "Steps.Step" instead of "StepsLayout.Step"
+ * @deprecated use "Wizard.Step" instead of "StepsLayout.Step"
  */
 StepsLayout.Step = Step
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "Steps.NextButton" instead of "StepsLayout.NextButton"
+ * @deprecated use "Wizard.NextButton" instead of "StepsLayout.NextButton"
  */
 StepsLayout.NextButton = NextButton
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "Steps.PreviousButton" instead of "StepsLayout.PreviousButton"
+ * @deprecated use "Wizard.PreviousButton" instead of "StepsLayout.PreviousButton"
  */
 StepsLayout.PreviousButton = PreviousButton
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "Steps.Buttons" instead of "StepsLayout.Buttons"
+ * @deprecated use "Wizard.Buttons" instead of "StepsLayout.Buttons"
  */
 StepsLayout.Buttons = Buttons
 StepsLayout.useStep = useStep

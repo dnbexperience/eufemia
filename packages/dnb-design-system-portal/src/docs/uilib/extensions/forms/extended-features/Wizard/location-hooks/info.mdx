@@ -1,0 +1,123 @@
+---
+showTabs: true
+---
+
+## Description
+
+In order to store the current step in the browser location;
+
+```bash
+https://www.dnb.no/path/?unique-id-step=1
+```
+
+you may use one of the listed React Hooks to easily integrate your application router.
+
+## Supported routers
+
+If you use a router, you may connect one of the supported hooks to it. This way your application will not import unnecessary and unused code.
+
+- [react-router-dom](https://reactrouter.com/) via [useReactRouter](#with-react-router-dom)
+- [@reach/router](https://reach.tech/router/) via [useReachRouter](#with-reachrouter)
+- [Next.js](https://nextjs.org/) via [useNextRouter](#with-nextnavigation)
+
+If you don't use a router, you can make use of the [useQueryLocator](#without-a-router) hook.
+
+### With `react-router-dom`
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+import { useSearchParams } from 'react-router-dom'
+
+function MyForm() {
+  Wizard.useReactRouter('unique-id', { useSearchParams })
+
+  return (
+    <Form.Handler>
+      <Wizard.Layout id="unique-id">...</Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+### With `@reach/router`
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+import { navigate, useLocation } from '@reach/router'
+
+function MyForm() {
+  Wizard.useReachRouter('unique-id', { useLocation, navigate })
+
+  return (
+    <Form.Handler>
+      <Wizard.Layout id="unique-id">...</Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+### With `next/navigation`
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+
+function MyForm() {
+  Wizard.useNextRouter('unique-id', {
+    useRouter,
+    usePathname,
+    useSearchParams,
+  })
+
+  return (
+    <Form.Handler>
+      <Wizard.Layout id="unique-id">...</Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+#### SSR support
+
+Each hook has a `getIndex` function to get the current step index. You can unitize it to set the initial step index.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+
+function MyForm() {
+  const { getIndex } = Wizard.useNextRouter('unique-id', {
+    useRouter,
+    usePathname,
+    useSearchParams,
+  })
+
+  return (
+    <Form.Handler>
+      <Wizard.Layout initialActiveIndex={getIndex()} id="unique-id">
+        ...
+      </Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+## Without a router
+
+You connect the hook with the `Wizard.Layout` component via an unique `id` (string). The `id` will be used in the URL query string: `url?unique-id-step=1`.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  Wizard.useQueryLocator('unique-id')
+
+  return (
+    <Form.Handler>
+      <Wizard.Layout id="unique-id">...</Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+import React from 'react'

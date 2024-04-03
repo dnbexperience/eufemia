@@ -1,0 +1,46 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Wizard.useStep` is a React Hook that connects to the `Wizard.Context` to handle step related operations.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+function Step1() {
+  const { activeIndex, setActiveIndex } = Wizard.useStep()
+
+  return <Wizard.Step>...</Wizard.Step>
+}
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Wizard.Layout>
+        <Step1 />
+      </Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
+
+You can also connect the hook with the `Wizard.Layout` via an `id` (string). This lets you render the hook outside of the context:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function Sidecar() {
+  const { activeIndex, setActiveIndex } = Wizard.useStep('unique-id')
+}
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Sidecar />
+      <Wizard.Layout id="unique-id">...</Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```

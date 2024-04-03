@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Form, Field, Steps } from '@dnb/eufemia/src/extensions/forms'
+import { Form, Field, Wizard } from '@dnb/eufemia/src/extensions/forms'
 import { Button, Card } from '@dnb/eufemia/src'
 import { send as sendIcon } from '@dnb/eufemia/src/icons'
 
@@ -7,8 +7,8 @@ export const Default = () => {
   return (
     <ComponentBox>
       <Form.ButtonRow>
-        <Steps.PreviousButton />
-        <Steps.NextButton />
+        <Wizard.PreviousButton />
+        <Wizard.NextButton />
         <Button variant="secondary">Other button</Button>
       </Form.ButtonRow>
     </ComponentBox>

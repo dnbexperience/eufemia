@@ -14,7 +14,7 @@ import {
   Field,
   Value,
   Form,
-  Steps,
+  Wizard,
   FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
 
@@ -41,7 +41,7 @@ function ComponentBox(props: CodeBlockProps) {
         Field,
         Value,
         Form,
-        Steps,
+        Wizard,
         styled,
         React,
         ...scope,

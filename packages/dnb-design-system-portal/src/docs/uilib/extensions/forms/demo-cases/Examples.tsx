@@ -4,7 +4,7 @@ import {
   Form,
   Field,
   Value,
-  Steps,
+  Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
@@ -37,8 +37,8 @@ export const BecomeCorporateCustomer = () => {
               id="example-form"
               onSubmit={(data) => console.log('onSubmit', data)}
             >
-              <Steps.Layout top scrollTopOnStepChange>
-                <Steps.Step title="Bedriftsopplysninger">
+              <Wizard.Layout top scrollTopOnStepChange>
+                <Wizard.Step title="Bedriftsopplysninger">
                   <Form.MainHeading>Bedriftsopplysninger</Form.MainHeading>
 
                   <Card spacing="medium">
@@ -111,11 +111,11 @@ export const BecomeCorporateCustomer = () => {
                   </Card>
 
                   <Form.ButtonRow>
-                    <Steps.NextButton />
+                    <Wizard.NextButton />
                   </Form.ButtonRow>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Kontaktperson">
+                <Wizard.Step title="Kontaktperson">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
                   <Card stack>
@@ -127,32 +127,32 @@ export const BecomeCorporateCustomer = () => {
                   </Card>
 
                   <Form.ButtonRow>
-                    <Steps.PreviousButton />
-                    <Steps.NextButton />
+                    <Wizard.PreviousButton />
+                    <Wizard.NextButton />
                   </Form.ButtonRow>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Bedriftens virksomhet">
+                <Wizard.Step title="Bedriftens virksomhet">
                   <em>Bedriftens virksomhet</em>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Bruk av DNBs tjenester">
+                <Wizard.Step title="Bruk av DNBs tjenester">
                   <em>Bruk av DNBs tjenester</em>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Inntekt og egenkapital">
+                <Wizard.Step title="Inntekt og egenkapital">
                   <em>Inntekt og egenkapital</em>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Skatterapportering">
+                <Wizard.Step title="Skatterapportering">
                   <em>Skatterapportering</em>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Eierskap og kontroll">...</Steps.Step>
+                <Wizard.Step title="Eierskap og kontroll">...</Wizard.Step>
 
-                <Steps.Step title="Roller i bedriften">...</Steps.Step>
+                <Wizard.Step title="Roller i bedriften">...</Wizard.Step>
 
-                <Steps.Step title="Oppsummering">
+                <Wizard.Step title="Oppsummering">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
                   <Card stack>
@@ -167,13 +167,13 @@ export const BecomeCorporateCustomer = () => {
                   </Card>
 
                   <Form.ButtonRow>
-                    <Steps.PreviousButton />
+                    <Wizard.PreviousButton />
                     <Form.SubmitButton />
                   </Form.ButtonRow>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Kvittering">Kvittering...</Steps.Step>
-              </Steps.Layout>
+                <Wizard.Step title="Kvittering">Kvittering...</Wizard.Step>
+              </Wizard.Layout>
             </Form.Handler>
 
             <Output />
@@ -211,8 +211,8 @@ export function PizzaDemo() {
               id="pizza-demo"
               sessionStorageId="pizza-form"
             >
-              <Steps.Layout scrollTopOnStepChange>
-                <Steps.Step title="Which pizza do you want?">
+              <Wizard.Layout scrollTopOnStepChange>
+                <Wizard.Step title="Which pizza do you want?">
                   <Form.MainHeading>
                     Which pizza do you want?
                   </Form.MainHeading>
@@ -250,11 +250,11 @@ export function PizzaDemo() {
                   </Card>
 
                   <Form.ButtonRow>
-                    <Steps.NextButton />
+                    <Wizard.NextButton />
                   </Form.ButtonRow>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Delivery address">
+                <Wizard.Step title="Delivery address">
                   <Form.MainHeading>Delivery address</Form.MainHeading>
 
                   <Card stack>
@@ -300,12 +300,12 @@ export function PizzaDemo() {
                   </Card>
 
                   <Form.ButtonRow>
-                    <Steps.PreviousButton />
-                    <Steps.NextButton />
+                    <Wizard.PreviousButton />
+                    <Wizard.NextButton />
                   </Form.ButtonRow>
-                </Steps.Step>
+                </Wizard.Step>
 
-                <Steps.Step title="Summary">
+                <Wizard.Step title="Summary">
                   <Form.MainHeading>Summary</Form.MainHeading>
 
                   <Card stack>
@@ -338,11 +338,11 @@ export function PizzaDemo() {
                   </Card>
 
                   <Form.ButtonRow>
-                    <Steps.PreviousButton />
+                    <Wizard.PreviousButton />
                     <Form.SubmitButton />
                   </Form.ButtonRow>
-                </Steps.Step>
-              </Steps.Layout>
+                </Wizard.Step>
+              </Wizard.Layout>
             </Form.Handler>
 
             <Output />

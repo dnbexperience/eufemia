@@ -39,7 +39,7 @@ export type FilterData = (
 export interface ContextState {
   id?: Identifier
   hasContext: boolean
-  /** The dataset for the form / form steps */
+  /** The dataset for the form / form wizard */
   data: any
   /** Should the form validate data before submitting? */
   errors?: Record<string, Error>

@@ -1,0 +1,36 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Wizard.Step` shows child components when the surrounding [Wizard.Layout](/uilib/extensions/forms/extended-features/Wizard/Layout/) has been navigated to this step. Wizard.Layout keeps track of what is the active step, and navigating between wizard steps is done through callbacks on the WizardContext, i.e. using [navigation buttons](/uilib/extensions/forms/extended-features/Wizard/Buttons/).
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const Step1 = () => {
+  return (
+    <Wizard.Step title="Step 1">
+      <Form.MainHeading>Heading</Form.MainHeading>
+      <Card stack>
+        <P>Contents</P>
+      </Card>
+      <Card stack>
+        <P>Contents</P>
+      </Card>
+      <Wizard.Buttons />
+    </Wizard.Step>
+  )
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Layout>
+        <Step1 />
+      </Wizard.Layout>
+    </Form.Handler>
+  )
+}
+```
