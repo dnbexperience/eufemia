@@ -8,7 +8,7 @@ import useLocale from '../../hooks/useLocale'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
-  Record<'postalCode' | 'city', StringFieldProps>
+  Partial<Record<'postalCode' | 'city', StringFieldProps>>
 
 function PostalCodeAndCity(props: Props) {
   const translations = useLocale()
@@ -59,8 +59,11 @@ function PostalCodeAndCity(props: Props) {
         label={city.label ?? translations.City.label}
         errorMessages={{
           required: translations.City.errorRequired,
+          pattern: translations.City.errorPattern,
           ...city.errorMessages,
         }}
+        pattern={city.pattern ?? '^[A-Za-zÆØÅæøå -]+$'}
+        trim
         width="stretch"
         autoComplete="address-level2"
         help={help}
