@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Wizard.Container>
+      <Wizard.Step title="Step 1">
+        <Wizard.NextButton />
+      </Wizard.Step>
+    </Wizard.Container>
+  </Form.Handler>,
+)
+```

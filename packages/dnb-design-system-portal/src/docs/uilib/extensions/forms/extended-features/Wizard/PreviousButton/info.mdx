@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Wizard.PreviousButton` connects to the `Wizard.Context` to move the user to the previous step when clicked.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Wizard.Container>
+      <Wizard.Step title="Step 1">
+        <Wizard.PreviousButton />
+      </Wizard.Step>
+    </Wizard.Container>
+  </Form.Handler>,
+)
+```

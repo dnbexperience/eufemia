@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Flex, Section } from '../../../components'
-import { Field, Form, Steps, Value } from '..'
+import { Field, Form, Wizard, Value } from '..'
 import { Code } from '../../../elements'
 import { Provider } from '../../../../shared'
 
@@ -34,8 +34,8 @@ export function PizzaDemo() {
         sessionStorageId="pizza-demo"
         autoComplete
       >
-        <Steps.Layout scrollTopOnStepChange initialActiveIndex={2}>
-          <Steps.Step title="Which pizza do you want?">
+        <Wizard.Container scrollTopOnStepChange initialActiveIndex={2}>
+          <Wizard.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
             <Card stack>
@@ -71,11 +71,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <Steps.NextButton />
+              <Wizard.NextButton />
             </Form.ButtonRow>
-          </Steps.Step>
+          </Wizard.Step>
 
-          <Steps.Step title="Delivery address">
+          <Wizard.Step title="Delivery address">
             <Form.MainHeading>Delivery address</Form.MainHeading>
 
             <Card stack>
@@ -114,11 +114,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <Steps.NextButton />
+              <Wizard.NextButton />
             </Form.ButtonRow>
-          </Steps.Step>
+          </Wizard.Step>
 
-          <Steps.Step title="Summary">
+          <Wizard.Step title="Summary">
             <Form.MainHeading>Summary</Form.MainHeading>
 
             <Card stack>
@@ -150,11 +150,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <Steps.PreviousButton />
+              <Wizard.PreviousButton />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </Steps.Step>
-        </Steps.Layout>
+          </Wizard.Step>
+        </Wizard.Container>
       </Form.Handler>
 
       <Output>{data}</Output>

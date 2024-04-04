@@ -9,7 +9,7 @@ breadcrumb:
 ---
 
 import ListFormComponents from './extended-features/Form/ListFormComponents'
-import ListStepsLayoutComponents from './extended-features/Steps/ListStepsLayoutComponents'
+import ListWizardComponents from './extended-features/Wizard/ListWizardComponents'
 import ListBaseValueComponents from './extended-features/Value/ListBaseValueComponents'
 import ListDataContextComponents from './extended-features/DataContext/ListDataContextComponents'
 import ListFeatureValueComponents from './extended-features/Value/ListFeatureValueComponents'
@@ -21,7 +21,7 @@ import ListIterateComponents from './extended-features/Iterate/ListIterateCompon
 
 - [FieldBlock](#fieldblock)
 - [Form](#form)
-- [Steps layout](#steps-layout)
+- [Wizard layout](#wizard-layout)
 - [Value](#value)
 - [Iterate](#iterate)
 - [Data Context](#data-context)
@@ -88,26 +88,26 @@ You can also [create your own Ajv instance](/uilib/extensions/forms/extended-fea
 
 This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
 
-## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
+## [Wizard layout](/uilib/extensions/forms/extended-features/Wizard/Container)
 
-Steps.Layout is a wrapper component for showing forms with a StepIndicator for navigation between several steps. It also includes components for navigating between steps.
+`Wizard.Container` is a wrapper component for showing forms with a StepIndicator for navigation between several steps (multi-steps). It also includes components for navigating between steps.
 
-Example using the [Steps.Layout](/uilib/extensions/forms/extended-features/StepsLayout) for handling stepped layouts:
+Example using the [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container) for handling stepped layouts:
 
 ```jsx
-import { Steps } from '@dnb/eufemia/extensions/forms'
+import { Wizard } from '@dnb/eufemia/extensions/forms'
 render(
-  <Steps.Layout>
-    <Steps.Step title="Name">
+  <Wizard.Container>
+    <Wizard.Step title="Name">
       <Form.MainHeading>Profile</Form.MainHeading>
-    </Steps.Step>
-  </Steps.Layout>,
+    </Wizard.Step>
+  </Wizard.Container>,
 )
 ```
 
-Here is a list of all available `Steps.*` components:
+Here is a list of all available `Wizard.*` components:
 
-<ListStepsLayoutComponents size="small" />
+<ListWizardComponents size="small" />
 
 ## [Value](/uilib/extensions/forms/extended-features/Value/)
 
@@ -132,4 +132,4 @@ Here is a list of all available feature `Value.*` components:
 `DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
 
 <ListDataContextComponents size="small" />
-./extended-features/Steps/ListStepsLayoutComponents
+./extended-features/Wizard/ListWizardComponents ./extended-features/Wizard/ListWizardComponents
