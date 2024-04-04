@@ -37,7 +37,7 @@ export const BecomeCorporateCustomer = () => {
               id="example-form"
               onSubmit={(data) => console.log('onSubmit', data)}
             >
-              <Wizard.Layout top scrollTopOnStepChange>
+              <Wizard.Container top scrollTopOnStepChange>
                 <Wizard.Step title="Bedriftsopplysninger">
                   <Form.MainHeading>Bedriftsopplysninger</Form.MainHeading>
 
@@ -173,7 +173,7 @@ export const BecomeCorporateCustomer = () => {
                 </Wizard.Step>
 
                 <Wizard.Step title="Kvittering">Kvittering...</Wizard.Step>
-              </Wizard.Layout>
+              </Wizard.Container>
             </Form.Handler>
 
             <Output />
@@ -211,7 +211,7 @@ export function PizzaDemo() {
               id="pizza-demo"
               sessionStorageId="pizza-form"
             >
-              <Wizard.Layout scrollTopOnStepChange>
+              <Wizard.Container scrollTopOnStepChange>
                 <Wizard.Step title="Which pizza do you want?">
                   <Form.MainHeading>
                     Which pizza do you want?
@@ -342,7 +342,7 @@ export function PizzaDemo() {
                     <Form.SubmitButton />
                   </Form.ButtonRow>
                 </Wizard.Step>
-              </Wizard.Layout>
+              </Wizard.Container>
             </Form.Handler>
 
             <Output />

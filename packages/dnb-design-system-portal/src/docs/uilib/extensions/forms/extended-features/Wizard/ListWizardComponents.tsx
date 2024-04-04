@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListWizardLayoutComponents(props) {
+export default function ListWizardComponents(props) {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`

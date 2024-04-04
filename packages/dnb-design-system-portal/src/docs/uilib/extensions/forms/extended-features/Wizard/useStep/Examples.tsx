@@ -8,7 +8,7 @@ export const Default = () => {
       {() => {
         const Component = () => {
           return (
-            <Wizard.Layout mode="loose" variant="drawer">
+            <Wizard.Container mode="loose" variant="drawer">
               <Wizard.Step title="Step 1">
                 <Step1 />
               </Wizard.Step>
@@ -20,7 +20,7 @@ export const Default = () => {
               <Wizard.Step title="Step 3">
                 <Step3 />
               </Wizard.Step>
-            </Wizard.Layout>
+            </Wizard.Container>
           )
         }
 
@@ -80,7 +80,11 @@ export const OutsideOfContext = () => {
           return (
             <Flex.Stack>
               <RenderBefore />
-              <Wizard.Layout id="unique-id" mode="loose" variant="drawer">
+              <Wizard.Container
+                id="unique-id"
+                mode="loose"
+                variant="drawer"
+              >
                 <Wizard.Step title="Step 1">
                   <output>Step 1</output>
                 </Wizard.Step>
@@ -92,7 +96,7 @@ export const OutsideOfContext = () => {
                 <Wizard.Step title="Step 1">
                   <output>Step 3</output>
                 </Wizard.Step>
-              </Wizard.Layout>
+              </Wizard.Container>
               <RenderAfter />
             </Flex.Stack>
           )

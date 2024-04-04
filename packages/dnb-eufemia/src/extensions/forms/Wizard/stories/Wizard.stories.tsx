@@ -12,7 +12,7 @@ import { debounceAsync } from '../../../../shared/helpers'
 // } from '@reach/router'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/WizardLayout',
+  title: 'Eufemia/Extensions/Forms/WizardContainer',
 }
 
 const Step1 = () => {
@@ -56,13 +56,13 @@ const Step3 = () => {
   )
 }
 
-export const WizardLayoutFlex = () => {
+export const WizardContainerFlex = () => {
   return (
-    <Wizard.Layout mode="loose" variant="drawer">
+    <Wizard.Container mode="loose" variant="drawer">
       <Step1 />
       <Step2 />
       <Step3 />
-    </Wizard.Layout>
+    </Wizard.Container>
   )
 }
 
@@ -119,7 +119,7 @@ export function AsyncStepChange() {
 
   return (
     <Form.Handler onSubmit={onSubmit}>
-      <Wizard.Layout
+      <Wizard.Container
         onStepChange={onStepChange}
         id="unique-wizard"
         mode="loose"
@@ -158,12 +158,12 @@ export function AsyncStepChange() {
             <Form.SubmitButton />
           </Form.ButtonRow>
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
 
-function RouterWizardLayout() {
+function RouterWizardContainer() {
   const Step1 = () => {
     return (
       <Wizard.Step>
@@ -183,22 +183,22 @@ function RouterWizardLayout() {
 
   return (
     <Form.Handler>
-      <Wizard.Layout id="wizard-with-router">
+      <Wizard.Container id="wizard-with-router">
         <Step1 />
         <Step1 />
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
 
 export function WithRouter() {
-  return <RouterWizardLayout />
+  return <RouterWizardContainer />
 }
 // export function WithRouter() {
 //   return (
 //     <BrowserRouter>
 //       <ReachRouter>
-//         <RouterWizardLayout default />
+//         <RouterWizardContainer default />
 //       </ReachRouter>
 //     </BrowserRouter>
 //   )

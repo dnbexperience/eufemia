@@ -34,7 +34,7 @@ export function PizzaDemo() {
         sessionStorageId="pizza-demo"
         autoComplete
       >
-        <Wizard.Layout scrollTopOnStepChange initialActiveIndex={2}>
+        <Wizard.Container scrollTopOnStepChange initialActiveIndex={2}>
           <Wizard.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
@@ -154,7 +154,7 @@ export function PizzaDemo() {
               <Form.SubmitButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       </Form.Handler>
 
       <Output>{data}</Output>

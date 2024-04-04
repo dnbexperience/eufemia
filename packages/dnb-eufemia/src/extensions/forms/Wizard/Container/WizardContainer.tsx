@@ -37,7 +37,7 @@ export type Props = ComponentProps & {
   sidebarId?: string
 }
 
-function WizardLayout(props: Props) {
+function WizardContainer(props: Props) {
   const {
     className,
     id: _id,
@@ -253,10 +253,10 @@ function WizardLayout(props: Props) {
   }, [children])
 
   if (!hasContext) {
-    warn('You may wrap Wizard.Layout in Form.Handler')
+    warn('You may wrap Wizard.Container in Form.Handler')
     return (
       <Provider>
-        <WizardLayout {...props} id={id} />
+        <WizardContainer {...props} id={id} />
       </Provider>
     )
   }
@@ -298,6 +298,6 @@ function WizardLayout(props: Props) {
   )
 }
 
-WizardLayout._supportsSpacingProps = true
+WizardContainer._supportsSpacingProps = true
 
-export default WizardLayout
+export default WizardContainer

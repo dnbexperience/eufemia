@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-`Wizard.Layout` is a wrapper component for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several steps.
+`Wizard.Container` is a wrapper component for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several steps.
 
 Use the [Step](/uilib/extensions/forms/extended-features/Wizard/Step/) component to define the wizard steps. It uses `Flex.Stack` so you don't need to wrap your content additionally.
 
@@ -14,9 +14,9 @@ import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 const MyForm = () => {
   return (
     <Form.Handler>
-      <Wizard.Layout>
+      <Wizard.Container>
         <Wizard.Step title="Step 1">...</Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
@@ -44,9 +44,9 @@ const Step1 = () => (
 const MyForm = () => {
   return (
     <Form.Handler>
-      <Wizard.Layout>
+      <Wizard.Container>
         <Step1 />
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
@@ -71,13 +71,13 @@ const Step2 = () => (
 const MyForm = () => {
   return (
     <Form.Handler>
-      <Wizard.Layout>
+      <Wizard.Container>
         <Wizard.Step title="Step 2">
           <Form.MainHeading>Heading</Form.MainHeading>
           <Step2 />
           <Wizard.Buttons />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
@@ -104,17 +104,17 @@ const MyStep = () => {
 const MyForm = () => {
   return (
     <Form.Handler>
-      <Wizard.Layout initialActiveIndex={3}>
+      <Wizard.Container initialActiveIndex={3}>
         <Wizard.Step>
           <MyStep />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
 ```
 
-When using the `useStep` hook outside of the `Wizard.Layout` context, you need to provide na unique `id` (string):
+When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide na unique `id` (string):
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -124,14 +124,14 @@ const MyForm = () => {
 
   return (
     <Form.Handler>
-      <Wizard.Layout id="unique-id">
+      <Wizard.Container id="unique-id">
         <Wizard.Step>
           <Button onClick={() => setActiveIndex(0)}>Step 1</Button>
         </Wizard.Step>
         <Wizard.Step>
           <Button onClick={() => setActiveIndex(1)}>Step 2</Button>
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }

@@ -12,7 +12,7 @@ export { default as ValueBlock } from './ValueBlock'
 export { default as Ajv } from 'ajv/dist/2020'
 
 import {
-  Layout,
+  Container,
   Step,
   NextButton,
   PreviousButton,
@@ -32,11 +32,13 @@ export function Visibility() {
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "<Wizard.Layout>" instead of "<StepsLayout>"
+ * @deprecated use "<Wizard.Container>" instead of "<StepsLayout>"
  */
 export function StepsLayout(props) {
-  console.error('Please use "<Wizard.Layout>" instead of "<StepsLayout>"')
-  return Layout(props)
+  console.error(
+    'Please use "<Wizard.Container>" instead of "<StepsLayout>"'
+  )
+  return Container(props)
 }
 /**
  * Deprecated and will be removed in v11

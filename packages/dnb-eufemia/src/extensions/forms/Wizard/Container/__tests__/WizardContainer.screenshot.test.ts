@@ -1,8 +1,8 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
-describe('Wizard.Layout', () => {
+describe('Wizard.Container', () => {
   const url =
-    '/uilib/extensions/forms/extended-features/Wizard/Layout/demos'
+    '/uilib/extensions/forms/extended-features/Wizard/Container/demos'
   it('have to match border', async () => {
     const screenshot = await makeScreenshot({
       url,

@@ -12,11 +12,11 @@ export const Default = () => {
 
           return (
             <Form.Handler>
-              <Wizard.Layout id="unique-id">
+              <Wizard.Container id="unique-id">
                 <MyStep title="Step 1" />
                 <MyStep title="Step 2" />
                 <MyStep title="Step 3" />
-              </Wizard.Layout>
+              </Wizard.Container>
             </Form.Handler>
           )
         }
@@ -50,11 +50,11 @@ export const ReachRouter = () => {
 
           return (
             <Form.Handler>
-              <Wizard.Layout id="wizard-with-router">
+              <Wizard.Container id="wizard-with-router">
                 <MyStep title="Step 1" />
                 <MyStep title="Step 2" />
                 <MyStep title="Step 3" />
-              </Wizard.Layout>
+              </Wizard.Container>
             </Form.Handler>
           )
         }

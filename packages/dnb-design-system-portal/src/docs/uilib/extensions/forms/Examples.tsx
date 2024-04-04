@@ -444,7 +444,7 @@ export const WithWizard = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Wizard.Layout mode="loose">
+        <Wizard.Container mode="loose">
           <Wizard.Step title="Name">
             <Form.MainHeading>Profile</Form.MainHeading>
 
@@ -496,7 +496,7 @@ export const WithWizard = () => {
               <Form.SubmitButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       </Form.Handler>
     </ComponentBox>
   )

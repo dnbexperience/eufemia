@@ -16,7 +16,7 @@ jest.mock('../../../../../shared/component-helper', () => {
   }
 })
 
-describe('Wizard.Layout', () => {
+describe('Wizard.Container', () => {
   const previousButton = () => {
     return document.querySelector('.dnb-forms-previous-button')
   }
@@ -32,14 +32,14 @@ describe('Wizard.Layout', () => {
 
   it('should have "strict" mode as the default mode', () => {
     render(
-      <Wizard.Layout>
+      <Wizard.Container>
         <Wizard.Step title="Step 1">
           <Wizard.NextButton />
         </Wizard.Step>
         <Wizard.Step title="Step 2">
           <Wizard.PreviousButton />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     const [firstStep, secondStep] = Array.from(
@@ -54,7 +54,7 @@ describe('Wizard.Layout', () => {
     const onStepChange = jest.fn()
 
     render(
-      <Wizard.Layout onStepChange={onStepChange} mode="loose">
+      <Wizard.Container onStepChange={onStepChange} mode="loose">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Wizard.NextButton />
@@ -65,7 +65,7 @@ describe('Wizard.Layout', () => {
           <Wizard.PreviousButton />
           <Wizard.NextButton />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     const [firstStep, secondStep] = Array.from(
@@ -102,7 +102,7 @@ describe('Wizard.Layout', () => {
 
   it('should show error on navigating back and forth', async () => {
     render(
-      <Wizard.Layout>
+      <Wizard.Container>
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String path="/something" />
@@ -122,7 +122,7 @@ describe('Wizard.Layout', () => {
           <Wizard.PreviousButton />
           <Wizard.NextButton />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -179,7 +179,7 @@ describe('Wizard.Layout', () => {
     }
 
     render(
-      <Wizard.Layout>
+      <Wizard.Container>
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String
@@ -202,7 +202,7 @@ describe('Wizard.Layout', () => {
         <Wizard.Step title="Step 3">
           <Wizard.PreviousButton />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     const input = () => document.querySelector('input')
@@ -280,7 +280,7 @@ describe('Wizard.Layout', () => {
 
   it('should set initialActiveIndex initially but not react on changes', () => {
     const { rerender } = render(
-      <Wizard.Layout initialActiveIndex={1}>
+      <Wizard.Container initialActiveIndex={1}>
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
         </Wizard.Step>
@@ -292,13 +292,13 @@ describe('Wizard.Layout', () => {
         <Wizard.Step title="Step 3">
           <output>Step 3</output>
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     expect(output()).toHaveTextContent('Step 2')
 
     rerender(
-      <Wizard.Layout initialActiveIndex={2}>
+      <Wizard.Container initialActiveIndex={2}>
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
         </Wizard.Step>
@@ -310,7 +310,7 @@ describe('Wizard.Layout', () => {
         <Wizard.Step title="Step 3">
           <output>Step 3</output>
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     expect(output()).toHaveTextContent('Step 2')
@@ -347,22 +347,22 @@ describe('Wizard.Layout', () => {
     }
 
     const { rerender } = render(
-      <Wizard.Layout aria-label="step 1">
+      <Wizard.Container aria-label="step 1">
         <Step1 />
         <Step2 />
         <Step3 />
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     expect(output()).toHaveTextContent('Step 1')
     expect(context.activeIndex).toBe(0)
 
     rerender(
-      <Wizard.Layout aria-label="step 2">
+      <Wizard.Container aria-label="step 2">
         <Step1 />
         <Step2 />
         <Step3 />
-      </Wizard.Layout>
+      </Wizard.Container>
     )
     await userEvent.click(nextButton())
 
@@ -370,11 +370,11 @@ describe('Wizard.Layout', () => {
     expect(context.activeIndex).toBe(1)
 
     rerender(
-      <Wizard.Layout aria-label="step 3">
+      <Wizard.Container aria-label="step 3">
         <Step1 />
         <Step2 />
         <Step3 />
-      </Wizard.Layout>
+      </Wizard.Container>
     )
     await userEvent.click(nextButton())
 
@@ -384,7 +384,7 @@ describe('Wizard.Layout', () => {
 
   it('should show error on navigating back and forth in loose mode', async () => {
     render(
-      <Wizard.Layout mode="loose">
+      <Wizard.Container mode="loose">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String path="/something" />
@@ -396,7 +396,7 @@ describe('Wizard.Layout', () => {
           <Field.String path="/foo" required />
           <Wizard.NextButton />
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     const [firstStep, secondStep] = Array.from(
@@ -438,7 +438,7 @@ describe('Wizard.Layout', () => {
 
   it('should support drawer variant', () => {
     const { rerender } = render(
-      <Wizard.Layout variant="drawer">
+      <Wizard.Container variant="drawer">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
         </Wizard.Step>
@@ -446,7 +446,7 @@ describe('Wizard.Layout', () => {
         <Wizard.Step title="Step 2">
           <output>Step 2</output>
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     const sidebar = document.querySelector(
@@ -463,7 +463,7 @@ describe('Wizard.Layout', () => {
     expect(wizardList()).not.toBeInTheDocument()
 
     rerender(
-      <Wizard.Layout sidebarId="drawer-please">
+      <Wizard.Container sidebarId="drawer-please">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
         </Wizard.Step>
@@ -471,7 +471,7 @@ describe('Wizard.Layout', () => {
         <Wizard.Step title="Step 2">
           <output>Step 2</output>
         </Wizard.Step>
-      </Wizard.Layout>
+      </Wizard.Container>
     )
 
     expect(stepTrigger()).toBeInTheDocument()
@@ -483,7 +483,7 @@ describe('Wizard.Layout', () => {
       const onStepChange = async () => null
 
       render(
-        <Wizard.Layout onStepChange={onStepChange}>
+        <Wizard.Container onStepChange={onStepChange}>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Form.ButtonRow>
@@ -499,7 +499,7 @@ describe('Wizard.Layout', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -536,7 +536,7 @@ describe('Wizard.Layout', () => {
 
       render(
         <Form.Handler onSubmit={onSubmit}>
-          <Wizard.Layout>
+          <Wizard.Container>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.ButtonRow>
@@ -552,7 +552,7 @@ describe('Wizard.Layout', () => {
                 <Form.SubmitButton />
               </Form.ButtonRow>
             </Wizard.Step>
-          </Wizard.Layout>
+          </Wizard.Container>
         </Form.Handler>
       )
 
@@ -607,7 +607,7 @@ describe('Wizard.Layout', () => {
       const asyncValidator = async () => null
 
       render(
-        <Wizard.Layout>
+        <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String value="Value" validator={asyncValidator} />
@@ -625,7 +625,7 @@ describe('Wizard.Layout', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -664,7 +664,7 @@ describe('Wizard.Layout', () => {
       }
 
       render(
-        <Wizard.Layout>
+        <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String validator={asyncValidator} />
@@ -682,7 +682,7 @@ describe('Wizard.Layout', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -726,7 +726,7 @@ describe('Wizard.Layout', () => {
       const onBlurValidator = async () => null
 
       render(
-        <Wizard.Layout>
+        <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String
@@ -747,7 +747,7 @@ describe('Wizard.Layout', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -786,7 +786,7 @@ describe('Wizard.Layout', () => {
       }
 
       render(
-        <Wizard.Layout>
+        <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String onBlurValidator={onBlurValidator} />
@@ -804,7 +804,7 @@ describe('Wizard.Layout', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -851,7 +851,7 @@ describe('Wizard.Layout', () => {
       jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
       render(
-        <Wizard.Layout scrollTopOnStepChange>
+        <Wizard.Container scrollTopOnStepChange>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Wizard.PreviousButton />
@@ -863,7 +863,7 @@ describe('Wizard.Layout', () => {
             <Wizard.PreviousButton />
             <Wizard.NextButton />
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       fireEvent.click(nextButton())
@@ -896,7 +896,7 @@ describe('Wizard.Layout', () => {
       jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
       render(
-        <Wizard.Layout mode="loose" scrollTopOnStepChange>
+        <Wizard.Container mode="loose" scrollTopOnStepChange>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String required />
@@ -909,7 +909,7 @@ describe('Wizard.Layout', () => {
             <Wizard.PreviousButton />
             <Wizard.NextButton />
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('Step 1')

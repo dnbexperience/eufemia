@@ -97,7 +97,7 @@ export const Default = () => {
 
         const MyForm = () => (
           <Form.Handler data={initialData} onSubmit={onSubmit}>
-            <Wizard.Layout onStepChange={onStepChange}>
+            <Wizard.Container onStepChange={onStepChange}>
               <Wizard.Step title="Step 1">
                 <Step1 />
               </Wizard.Step>
@@ -109,7 +109,7 @@ export const Default = () => {
               <Wizard.Step title="Summary">
                 <Summary />
               </Wizard.Step>
-            </Wizard.Layout>
+            </Wizard.Container>
           </Form.Handler>
         )
 
@@ -119,7 +119,7 @@ export const Default = () => {
   )
 }
 
-export const AsyncWizardLayout = () => {
+export const AsyncWizardContainer = () => {
   return (
     <ComponentBox scope={{ createRequest, debounceAsync }}>
       {() => {
@@ -211,7 +211,7 @@ export const AsyncWizardLayout = () => {
 
           return (
             <Form.Handler onSubmit={onSubmit}>
-              <Wizard.Layout onStepChange={onStepChange}>
+              <Wizard.Container onStepChange={onStepChange}>
                 <Wizard.Step title="Step 1">
                   <Step1 />
                 </Wizard.Step>
@@ -219,7 +219,7 @@ export const AsyncWizardLayout = () => {
                 <Wizard.Step title="Step 2">
                   <Step2 />
                 </Wizard.Step>
-              </Wizard.Layout>
+              </Wizard.Container>
             </Form.Handler>
           )
         }

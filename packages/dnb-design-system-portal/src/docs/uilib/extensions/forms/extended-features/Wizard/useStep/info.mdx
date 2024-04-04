@@ -18,15 +18,15 @@ function Step1() {
 function MyForm() {
   return (
     <Form.Handler>
-      <Wizard.Layout>
+      <Wizard.Container>
         <Step1 />
-      </Wizard.Layout>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
 ```
 
-You can also connect the hook with the `Wizard.Layout` via an `id` (string). This lets you render the hook outside of the context:
+You can also connect the hook with the `Wizard.Container` via an `id` (string). This lets you render the hook outside of the context:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -39,7 +39,7 @@ function MyForm() {
   return (
     <Form.Handler>
       <Sidecar />
-      <Wizard.Layout id="unique-id">...</Wizard.Layout>
+      <Wizard.Container id="unique-id">...</Wizard.Container>
     </Form.Handler>
   )
 }

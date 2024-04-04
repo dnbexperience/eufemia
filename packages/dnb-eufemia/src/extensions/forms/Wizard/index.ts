@@ -1,6 +1,6 @@
 import WizardContext from './Context'
 
-export { default as Layout } from './Layout'
+export { default as Container } from './Container'
 export { default as Step } from './Step'
 export { default as Context } from './Context'
 export { default as PreviousButton } from './PreviousButton'

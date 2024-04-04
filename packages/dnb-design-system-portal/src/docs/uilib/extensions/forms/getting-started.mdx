@@ -34,7 +34,7 @@ import AsyncChangeExample from './extended-features/Form/Handler/parts/async-cha
 
 ### Creating forms
 
-To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [Wizard.Layout](/uilib/extensions/forms/extended-features/Wizard/Layout) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
 
 The needed styles are included in the Eufemia core package via `dnb-ui-components`.
 
@@ -98,13 +98,13 @@ You can enable async form submit behavior on the form [Handler](/uilib/extension
 
 It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/extended-features/Form/Handler/demos/)).
 
-When using [Wizard.Layout](/uilib/extensions/forms/extended-features/Wizard/Layout/) you can use in addition:
+When using [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container/) you can use in addition:
 
 ```tsx
-<Wizard.Layout onStepChange={async () => {}}>...</Wizard.Layout>
+<Wizard.Container onStepChange={async () => {}}>...</Wizard.Container>
 ```
 
-It will disable all fields and show an indicator on the [NextButton](/uilib/extensions/forms/extended-features/Wizard/NextButton/) while the **step** is pending ([examples](/uilib/extensions/forms/extended-features/Wizard/Layout/demos/)).
+It will disable all fields and show an indicator on the [NextButton](/uilib/extensions/forms/extended-features/Wizard/NextButton/) while the **step** is pending ([examples](/uilib/extensions/forms/extended-features/Wizard/Container/demos/)).
 
 #### onChange and autosave
 

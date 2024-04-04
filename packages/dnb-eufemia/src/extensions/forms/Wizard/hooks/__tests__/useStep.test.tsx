@@ -40,7 +40,7 @@ describe('useStep', () => {
       }
 
       render(
-        <Wizard.Layout initialActiveIndex={1}>
+        <Wizard.Container initialActiveIndex={1}>
           <Wizard.Step>
             <Step />
           </Wizard.Step>
@@ -52,7 +52,7 @@ describe('useStep', () => {
           <Wizard.Step>
             <Step />
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":1}')
@@ -83,7 +83,7 @@ describe('useStep', () => {
       }
 
       render(
-        <Wizard.Layout onStepChange={onStepChange} mode="loose">
+        <Wizard.Container onStepChange={onStepChange} mode="loose">
           <Wizard.Step>
             <Step />
           </Wizard.Step>
@@ -95,7 +95,7 @@ describe('useStep', () => {
           <Wizard.Step>
             <Step />
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -135,7 +135,7 @@ describe('useStep', () => {
       }
 
       render(
-        <Wizard.Layout mode="loose">
+        <Wizard.Container mode="loose">
           <Wizard.Step>
             <Step />
           </Wizard.Step>
@@ -147,7 +147,7 @@ describe('useStep', () => {
           <Wizard.Step>
             <Step />
           </Wizard.Step>
-        </Wizard.Layout>
+        </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -187,7 +187,7 @@ describe('useStep', () => {
       render(
         <>
           <RenderBefore />
-          <Wizard.Layout
+          <Wizard.Container
             id={identifier}
             initialActiveIndex={1}
             mode="loose"
@@ -206,7 +206,7 @@ describe('useStep', () => {
               <output>Step 3</output>
               <Wizard.NextButton />
             </Wizard.Step>
-          </Wizard.Layout>
+          </Wizard.Container>
           <RenderAfter />
         </>
       )
@@ -262,7 +262,7 @@ describe('useStep', () => {
       render(
         <>
           <RenderBefore />
-          <Wizard.Layout
+          <Wizard.Container
             id={identifier}
             onStepChange={onStepChange}
             mode="loose"
@@ -278,7 +278,7 @@ describe('useStep', () => {
             <Wizard.Step>
               <output>Step 3</output>
             </Wizard.Step>
-          </Wizard.Layout>
+          </Wizard.Container>
           <RenderAfter />
         </>
       )
@@ -325,7 +325,7 @@ describe('useStep', () => {
       render(
         <>
           <Sidecar />
-          <Wizard.Layout mode="loose" id={identifier}>
+          <Wizard.Container mode="loose" id={identifier}>
             <Wizard.Step>
               <Step />
             </Wizard.Step>
@@ -337,7 +337,7 @@ describe('useStep', () => {
             <Wizard.Step>
               <Step />
             </Wizard.Step>
-          </Wizard.Layout>
+          </Wizard.Container>
         </>
       )
 

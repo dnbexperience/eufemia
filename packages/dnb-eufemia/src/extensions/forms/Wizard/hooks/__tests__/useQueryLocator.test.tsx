@@ -73,11 +73,11 @@ describe('useQueryLocator', () => {
 
     render(
       <Form.Handler>
-        <Wizard.Layout mode="loose" id={identifier}>
+        <Wizard.Container mode="loose" id={identifier}>
           <Step />
           <Step />
           <Step />
-        </Wizard.Layout>
+        </Wizard.Container>
       </Form.Handler>
     )
 
@@ -127,11 +127,11 @@ describe('useQueryLocator', () => {
 
     render(
       <Form.Handler>
-        <Wizard.Layout mode="loose" id={identifier}>
+        <Wizard.Container mode="loose" id={identifier}>
           <Step />
           <Step />
           <Step />
-        </Wizard.Layout>
+        </Wizard.Container>
       </Form.Handler>
     )
 
@@ -192,9 +192,9 @@ describe('useQueryLocator', () => {
 
     render(
       <Form.Handler>
-        <Wizard.Layout id={identifier}>
+        <Wizard.Container id={identifier}>
           <Step />
-        </Wizard.Layout>
+        </Wizard.Container>
       </Form.Handler>
     )
 

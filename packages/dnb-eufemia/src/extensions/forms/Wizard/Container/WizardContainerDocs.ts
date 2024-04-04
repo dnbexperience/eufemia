@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
-export const WizardLayoutProperties: PropertiesTableProps = {
+export const WizardContainerProperties: PropertiesTableProps = {
   initialActiveIndex: {
     doc: 'What step should show initially (defaults to 0 for the first one).',
     type: 'number',
@@ -43,7 +43,7 @@ export const WizardLayoutProperties: PropertiesTableProps = {
   },
 }
 
-export const WizardLayoutEvents: PropertiesTableProps = {
+export const WizardContainerEvents: PropertiesTableProps = {
   onStepChange: {
     doc: 'Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (string) as the second argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.',
     type: 'function',
