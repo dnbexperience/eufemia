@@ -173,7 +173,7 @@ export interface DrawerListProps
    */
   page_offset?: string | number;
   /**
-   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
+   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation.
    */
   observer_element?: string | React.ReactNode;
   on_show?: (...args: any[]) => any;
