@@ -14,6 +14,19 @@ export const Default = () => {
   )
 }
 
+export const SendVariant = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        data={{ foo: 'bar' }}
+        onSubmit={(data) => console.log('onSubmit', data)}
+      >
+        <Form.SubmitButton variant="send" />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const WithSubmitIndicator = () => {
   return (
     <ComponentBox>

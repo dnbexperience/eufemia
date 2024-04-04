@@ -5,6 +5,7 @@ import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
+import { send } from '../../../../icons'
 
 export type Props = {
   /**
@@ -12,13 +13,16 @@ export type Props = {
    */
   showIndicator?: boolean
 } & ComponentProps &
-  ButtonProps &
-  Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
+  Omit<ButtonProps, 'variant'> &
+  Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>> & {
+    variant?: 'send'
+  }
 
 function SubmitButton(props: Props) {
   const translations = useTranslation().Context
 
-  const { className, showIndicator, children, text, ...rest } = props
+  const { variant, className, showIndicator, children, text, ...rest } =
+    props
 
   const content = text || children || translations.submit
 
@@ -36,6 +40,7 @@ function SubmitButton(props: Props) {
       className={classnames('dnb-forms-submit-button', className)}
       onClick={onClickHandler}
       type="submit"
+      icon={variant === 'send' ? send : null}
       {...rest}
     >
       {content}

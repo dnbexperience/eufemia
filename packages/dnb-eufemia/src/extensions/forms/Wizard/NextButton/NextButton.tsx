@@ -7,14 +7,13 @@ import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
 
-export type Props = ComponentProps & ButtonProps
+export type Props = ComponentProps & Omit<ButtonProps, 'variant'>
 
 function NextButton(props: Props) {
   const translations = useTranslation().Step
 
   const {
     className,
-    variant = 'primary',
     icon_position = 'right',
     icon = 'chevron_right',
     children = translations.next,
@@ -28,7 +27,6 @@ function NextButton(props: Props) {
         type="button"
         className={classnames('dnb-forms-next-button', className)}
         onClick={wizardContext?.handleNext}
-        variant={variant}
         icon_position={icon_position}
         icon={icon}
         {...props}

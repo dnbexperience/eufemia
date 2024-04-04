@@ -1,15 +1,15 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
 export const SubmitButtonProperties: PropertiesTableProps = {
+  variant: {
+    doc: 'Use `send` to show the send icon.',
+    type: 'string',
+    status: 'optional',
+  },
   showIndicator: {
     doc: 'Show the submit indicator.',
     type: 'boolean',
-    status: 'required',
-  },
-  children: {
-    doc: 'Button text.',
-    type: 'React.Node',
-    status: 'required',
+    status: 'optional',
   },
   '[Button](/uilib/components/button/properties)': {
     doc: 'All button properties.',

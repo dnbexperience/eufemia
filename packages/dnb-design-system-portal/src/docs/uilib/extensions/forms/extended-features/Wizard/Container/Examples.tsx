@@ -71,7 +71,7 @@ export const Default = () => {
 
             <Form.ButtonRow>
               <Wizard.Buttons />
-              <Form.SubmitButton />
+              <Form.SubmitButton variant="send" />
             </Form.ButtonRow>
           </Wizard.Step>
         )
@@ -190,7 +190,7 @@ export const AsyncWizardContainer = () => {
 
                 <Form.ButtonRow>
                   <Wizard.Buttons />
-                  <Form.SubmitButton />
+                  <Form.SubmitButton variant="send" />
                 </Form.ButtonRow>
               </Wizard.Step>
             )
