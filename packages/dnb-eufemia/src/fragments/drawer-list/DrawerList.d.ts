@@ -192,7 +192,7 @@ export type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
   /**
-   * Define a preselected data entry (index) or key inside an array item. Can be a string or integer.
+   * Define a preselected data entry (index) or key inside an array item. Can be a string or number.
    */
   value: string;
   on_click: ({
