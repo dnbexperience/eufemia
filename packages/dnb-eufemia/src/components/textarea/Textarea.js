@@ -236,13 +236,14 @@ export default class Textarea extends React.PureComponent {
     }
   }
   componentDidMount() {
-    if (this.props.inner_ref) {
-      typeof this.props.inner_ref === 'function'
-        ? this.props.inner_ref(this._ref.current)
-        : (this.props.inner_ref.current = this._ref.current)
+    const props = this.getProps()
+    if (props.inner_ref) {
+      typeof props.inner_ref === 'function'
+        ? props.inner_ref(this._ref.current)
+        : (props.inner_ref.current = this._ref.current)
     }
 
-    if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
+    if (isTrue(props.autoresize) && typeof window !== 'undefined') {
       this.setAutosize()
       try {
         this.resizeObserver = new ResizeObserver(this.setAutosize)
@@ -280,7 +281,10 @@ export default class Textarea extends React.PureComponent {
   onChangeHandler = (event) => {
     const { value } = event.target
 
-    if (isTrue(this.props.autoresize)) {
+    const props = this.getProps()
+    const autoresize = isTrue(props.autoresize)
+
+    if (autoresize) {
       this.prepareAutosize()
     }
 
@@ -293,7 +297,7 @@ export default class Textarea extends React.PureComponent {
     })
     if (ret !== false) {
       this.setState({ value })
-      if (isTrue(this.props.autoresize)) {
+      if (autoresize) {
         this.setAutosize(rows)
       }
     }
@@ -343,7 +347,8 @@ export default class Textarea extends React.PureComponent {
         }
       }
 
-      const maxRows = parseFloat(this.props.autoresize_max_rows)
+      const props = this.getProps()
+      const maxRows = parseFloat(props.autoresize_max_rows)
       if (maxRows > 0) {
         const maxHeight = maxRows * lineHeight
 
@@ -366,9 +371,8 @@ export default class Textarea extends React.PureComponent {
   getLineHeight() {
     return parseFloat(getComputedStyle(this._ref.current).lineHeight) || 0
   }
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
+  getProps() {
+    return extendPropsWithContextInClassComponent(
       this.props,
       Textarea.defaultProps,
       { skeleton: this.context?.skeleton },
@@ -378,6 +382,10 @@ export default class Textarea extends React.PureComponent {
       pickFormElementProps(this.context?.formElement),
       this.context.Textarea
     )
+  }
+  render() {
+    // use only the props from context, who are available here anyway
+    const props = this.getProps()
 
     const {
       label,
@@ -497,10 +505,9 @@ export default class Textarea extends React.PureComponent {
 
     // to show the ending dots on a placeholder, if the text is longer
     const placeholderStyle =
-      parseFloat(this.props.rows) > 0
+      parseFloat(props.rows) > 0
         ? {
-            '--textarea-rows': parseFloat(this.props.rows),
-            // '--textarea-cols': parseFloat(this.props.cols)
+            '--textarea-rows': parseFloat(props.rows),
           }
         : null
 
@@ -587,8 +594,8 @@ export default class Textarea extends React.PureComponent {
               top="x-small"
               text={value}
               max={characterCounter}
-              lang={this.props.lang}
-              locale={this.props.locale}
+              lang={props.lang}
+              locale={props.locale}
               {...characterCounter}
             />
           )}

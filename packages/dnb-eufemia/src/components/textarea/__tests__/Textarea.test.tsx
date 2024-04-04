@@ -188,6 +188,17 @@ describe('Textarea component', () => {
     )
   })
 
+  it('should accept props like autoresize via provider', () => {
+    render(
+      <Provider Textarea={{ autoresize: true }}>
+        <Textarea />
+      </Provider>
+    )
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__autoresize'
+    )
+  })
+
   it('will correctly auto resize if prop autoresize is used', async () => {
     render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
 
