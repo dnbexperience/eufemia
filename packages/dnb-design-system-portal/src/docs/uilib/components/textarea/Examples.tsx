@@ -6,7 +6,8 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Textarea, HelpButton, Flex } from '@dnb/eufemia/src'
+import { Textarea, HelpButton, Flex, Card } from '@dnb/eufemia/src'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const RowsCols = () => (
   <Wrapper>
@@ -145,6 +146,26 @@ export const Sizes = () => (
         <Textarea placeholder="Medium size" size="medium" rows={1} />
         <Textarea placeholder="Large size" size="large" rows={1} />
       </Flex.Stack>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const MaxLength = () => (
+  <Wrapper>
+    <ComponentBox hideCode>
+      <Form.Handler>
+        <Card stack>
+          <Field.String
+            label="Label"
+            placeholder="Write more than 3 characters to demonstrate the limit"
+            multiline
+            maxLength={3}
+            required
+            characterCounter={{ max: 3, variant: 'up' }}
+          />
+          <Form.SubmitButton text="Test" />
+        </Card>
+      </Form.Handler>
     </ComponentBox>
   </Wrapper>
 )

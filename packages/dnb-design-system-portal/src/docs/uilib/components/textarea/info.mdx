@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import * as Examples from './Examples'
+
 ## Description
 
 The Textarea component is used as a multi-line text input control with an unlimited number of characters.
@@ -11,3 +13,7 @@ The Textarea component is used as a multi-line text input control with an unlimi
 Please avoid using the `maxlength` attribute when ever possible, as it is not accessible. Instead, use the `characterCounter` property.
 
 This way the user gets a visual feedback of the number of characters entered and the maximum number of characters allowed. And it will not limit the user in their workflow.
+
+You still can still set the requirement of your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/uilib/extensions/forms/base-fields/String/).
+
+<Examples.MaxLength />
