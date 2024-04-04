@@ -20,7 +20,6 @@ export {
   extendPropsWithContext,
   extendPropsWithContextInClassComponent,
 } from './helpers/extendPropsWithContext'
-export { useEventEmitter } from './helpers/useEventEmitter'
 export { filterProps } from './helpers/filterProps'
 
 export { getPreviousSibling, warn }

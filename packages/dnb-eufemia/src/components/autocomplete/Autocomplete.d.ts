@@ -210,21 +210,9 @@ export interface AutocompleteProps
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawer_class?: string;
-  /**
-   * Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.
-   */
   on_type?: (...args: any[]) => any;
-  /**
-   * Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.
-   */
   on_focus?: (...args: any[]) => any;
-  /**
-   * Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.
-   */
   on_blur?: (...args: any[]) => any;
-  /**
-   * Will be called once the users selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>. The "active_item" property is the currently selected item by keyboard navigation
-   */
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
@@ -236,9 +224,6 @@ export default class Autocomplete extends React.Component<
   static HorizontalItem: ({
     children
   }: {
-    /**
-     * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
-     */
     children: React.ReactNode;
   }) => JSX.Element;
   render(): JSX.Element;
