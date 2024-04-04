@@ -12,8 +12,7 @@
   color: inherit;
   white-space: nowrap;
 
-  // Use this trick,
-  // so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+  // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
   .dnb-sr-only::before {
     content: attr(data-text);
   }

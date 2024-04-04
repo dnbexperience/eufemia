@@ -102,7 +102,7 @@ describe('Value.Currency', () => {
 
       expect(
         document
-          .querySelector('.dnb-number-format span[id]')
+          .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
       ).toBe('-12 345,68 kroner')
     })
@@ -124,7 +124,7 @@ describe('Value.Currency', () => {
       ).toHaveTextContent('kroner -12 345.68')
       expect(
         document
-          .querySelector('.dnb-number-format span[id]')
+          .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
       ).toBe('-12 345.68 kroner')
     })

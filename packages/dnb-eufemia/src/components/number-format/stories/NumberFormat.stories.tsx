@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { P } from '../../..'
@@ -190,5 +190,22 @@ export const NumberFormatSandbox = () => {
         </Wrapper>
       </Provider>
     </CustomStyle>
+  )
+}
+
+export function Hover() {
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('lang', 'nb-NO')
+  }, [])
+
+  return (
+    <>
+      <button>my button</button>
+      <p>text A</p>
+
+      <NumberFormat nin>18089212345</NumberFormat>
+
+      <p>text B</p>
+    </>
   )
 }

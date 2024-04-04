@@ -48,8 +48,9 @@ beforeAll(() => {
 })
 
 describe('NumberFormat component', () => {
-  const displaySelector = element + '.dnb-number-format span'
-  const ariaSelector = element + '.dnb-number-format span[id]'
+  const displaySelector =
+    element + '.dnb-number-format .dnb-number-format__visible'
+  const ariaSelector = element + '.dnb-number-format .dnb-sr-only'
 
   it('renders without properties', () => {
     const props: NumberFormatProps = {}
@@ -376,22 +377,45 @@ describe('NumberFormat component', () => {
     ).toBe('prefix 123 456 789,5 suffix')
   })
 
-  it('will add visually hidden label when srLabel is given', () => {
-    render(
-      <Component
-        value={-value}
-        currency
-        srLabel="Total:"
-        copy_selection={false}
-      />
-    )
+  it('will prefix aria-label with "srLabel" when given', () => {
+    render(<Component value={-value} currency srLabel="Total:" />)
     expect(
-      document.querySelector('.dnb-sr-only').getAttribute('data-text')
-    ).toBe('Total: ')
-    expect(document.querySelector('.dnb-sr-only').textContent).toBe('')
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('Total: -12 345 678,99 kroner')
     expect(
       document.querySelector('.dnb-number-format').textContent
     ).toContain('-12 345 678,99 kr')
+  })
+
+  it('will support "srLabel" given in a jsx element', () => {
+    render(
+      <Component value={-value} currency srLabel={<span>Total:</span>} />
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('Total: -12 345 678,99 kroner')
+    expect(
+      document.querySelector('.dnb-number-format').textContent
+    ).toContain('-12 345 678,99 kr')
+  })
+
+  it('will have aria-hidden on the visual element', () => {
+    render(<Component value={-value} currency />)
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('will set aria-hidden to false on mouse over', () => {
+    render(<Component value={-value} currency />)
+
+    const element = document.querySelector('.dnb-number-format__visible')
+
+    fireEvent.mouseOver(element)
+    expect(element).toHaveAttribute('aria-hidden', 'false')
+
+    fireEvent.mouseLeave(element)
+    expect(element).toHaveAttribute('aria-hidden', 'true')
   })
 
   it('will render selection value on click event', () => {
@@ -638,8 +662,9 @@ describe('NumberFormat component', () => {
 })
 
 describe('NumberFormat compact', () => {
-  const displaySelector = element + '.dnb-number-format span'
-  const ariaSelector = element + '.dnb-number-format span[id]'
+  const displaySelector =
+    element + '.dnb-number-format .dnb-number-format__visible'
+  const ariaSelector = element + '.dnb-number-format .dnb-sr-only'
 
   it('have to match default compact number', () => {
     render(<Component value={-value} compact decimals={1} />)
@@ -868,7 +893,8 @@ describe('NumberFormat compact', () => {
 })
 
 describe('NumberFormat component with provider', () => {
-  const displaySelector = element + '.dnb-number-format span'
+  const displaySelector =
+    element + '.dnb-number-format .dnb-number-format__visible'
 
   it('have to match inherit properties', () => {
     render(
