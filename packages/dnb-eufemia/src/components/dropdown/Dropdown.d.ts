@@ -112,9 +112,6 @@ export default class Dropdown extends React.Component<DropdownProps, any> {
   static HorizontalItem: ({
     children
   }: {
-    /**
-     * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
-     */
     children: React.ReactNode;
   }) => JSX.Element;
   render(): JSX.Element;
