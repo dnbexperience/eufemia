@@ -155,6 +155,11 @@ export type ContextProps = ContextComponents & {
   /**
    * Overwrite existing internal translation strings or define new strings via the Provider
    */
+  translations?: Locales | TranslationCustomLocales
+
+  /**
+   * @deprecated Use `translations` instead
+   */
   locales?: Locales | TranslationCustomLocales
 
   // -- For internal use --
@@ -217,9 +222,10 @@ export type TranslationFlat = Record<
 export function prepareContext<Props>(
   props: ContextProps = {}
 ): Props & ContextProps {
-  const locales: Locales = props.locales
-    ? extend(defaultLocales, props.locales)
-    : defaultLocales
+  const locales: Locales =
+    props.translations || props.locales
+      ? extend(defaultLocales, props.translations || props.locales)
+      : defaultLocales
 
   if (props.__context__) {
     Object.assign(props, props.__context__)
@@ -242,13 +248,19 @@ export function prepareContext<Props>(
   const context = {
     // We may use that in future
     updateTranslation: (locale, translation) => {
-      context.translation = context.locales[locale] = translation
+      context.translation = (context.translations || context.locales)[
+        locale
+      ] = translation
     },
     getTranslation: (props) => {
       if (props) {
         const lang = props.lang || props.locale
-        if (lang && context.locales[lang] && lang !== key) {
-          return context.locales[lang]
+        if (
+          lang &&
+          (context.translations || context.locales)[lang] &&
+          lang !== key
+        ) {
+          return (context.translations || context.locales)[lang]
         }
       }
       return context.translation

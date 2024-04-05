@@ -32,7 +32,7 @@ describe('Provider', () => {
   }
 
   const LocalProvider = (props: ProviderProps) => {
-    return <Provider locales={defaultLocales} {...props} />
+    return <Provider translations={defaultLocales} {...props} />
   }
 
   const ChangeLocale = () => {

@@ -29,7 +29,7 @@ describe('Translation', () => {
 
   it('"getTranslation" should return requested string inside render', () => {
     render(
-      <Provider locales={defaultLocales}>
+      <Provider translations={defaultLocales}>
         <span className="getTranslation">
           {getTranslation('other.string', {
             foo: 'foo',
@@ -47,7 +47,7 @@ describe('Translation', () => {
 
   it('"Translation" should return requested string inside render', () => {
     render(
-      <Provider locales={defaultLocales}>
+      <Provider translations={defaultLocales}>
         <span className="Translation">
           <Translation id="other.string" foo="foo" bar="bar" max="max" />
         </span>

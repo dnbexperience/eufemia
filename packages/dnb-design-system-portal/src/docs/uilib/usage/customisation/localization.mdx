@@ -160,7 +160,7 @@ type CustomLocales = keyof typeof customTranslation
 type CustomTranslation = (typeof customTranslation)[CustomLocales]
 
 render(
-  <Provider locales={customTranslation} locale="en-GB">
+  <Provider translations={customTranslation} locale="en-GB">
     <MyApp>
       <MyComponent />
     </MyApp>
@@ -284,7 +284,7 @@ import Provider from '@dnb/eufemia/shared/Provider'
 import customTranslation from './locales/sv-SE'
 
 render(
-  <Provider locales={customTranslation}>
+  <Provider translations={customTranslation}>
     <MyApp>Eufemia components</MyApp>
   </Provider>,
 )

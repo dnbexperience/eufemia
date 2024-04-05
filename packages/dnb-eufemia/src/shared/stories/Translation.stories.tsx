@@ -139,7 +139,7 @@ function MyComponent() {
 
 export function CustomTranslation() {
   return (
-    <Provider locales={customTranslation} locale="en-GB">
+    <Provider translations={customTranslation} locale="en-GB">
       <MyComponent />
     </Provider>
   )

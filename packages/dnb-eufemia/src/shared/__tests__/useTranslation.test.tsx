@@ -121,7 +121,7 @@ describe('useTranslation without an ID', () => {
     }
 
     const { rerender } = render(
-      <Provider locales={customTranslation} locale="en-GB">
+      <Provider translations={customTranslation} locale="en-GB">
         <MyComponent />
       </Provider>
     )
@@ -131,7 +131,7 @@ describe('useTranslation without an ID', () => {
     )
 
     rerender(
-      <Provider locales={customTranslation} locale="nb-NO">
+      <Provider translations={customTranslation} locale="nb-NO">
         <MyComponent />
       </Provider>
     )
@@ -161,7 +161,7 @@ describe('useTranslation without an ID', () => {
 
     const result = renderHook(() => useTranslation(), {
       wrapper: ({ children }) => (
-        <Provider locales={customTranslation} locale="en-GB">
+        <Provider translations={customTranslation} locale="en-GB">
           {children}
         </Provider>
       ),
@@ -249,7 +249,7 @@ describe('useTranslation with an ID', () => {
 
     it('"useTranslation" should have valid strings inside render', () => {
       render(
-        <Provider locales={defaultLocales}>
+        <Provider translations={defaultLocales}>
           <output>
             <RenderGetTranslation />
           </output>
@@ -263,7 +263,7 @@ describe('useTranslation with an ID', () => {
 
     it('should change to requested locale', () => {
       render(
-        <Provider locales={defaultLocales}>
+        <Provider translations={defaultLocales}>
           <output>
             <RenderGetTranslation />
           </output>
@@ -284,12 +284,12 @@ describe('useTranslation with an ID', () => {
 
     it('should have valid strings inside render', () => {
       render(
-        <Provider locales={defaultLocales}>
+        <Provider translations={defaultLocales}>
           <span className="root">
             <Translation id="other.string" foo="foo" bar="bar" max="max" />
           </span>
 
-          <Provider locales={nestedLocales}>
+          <Provider translations={nestedLocales}>
             <span className="nested">
               <RenderGetTranslation />
             </span>
