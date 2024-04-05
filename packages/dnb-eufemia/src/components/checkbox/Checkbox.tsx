@@ -73,6 +73,10 @@ export type CheckboxProps = {
    */
   checked?: boolean | undefined | null
   /**
+   * Determine whether to show the indeterminate checked state when checked. The default is `false`.
+   */
+  indeterminate?: boolean
+  /**
    * The size of the checkbox. For now there is "medium" (default) and "large".
    */
   size?: CheckboxSize
@@ -167,6 +171,7 @@ function Checkbox(localProps: CheckboxProps) {
     skeleton,
     className,
     id: idProp,
+    indeterminate,
     checked,
     onChange,
     innerRef,
@@ -194,6 +199,10 @@ function Checkbox(localProps: CheckboxProps) {
       setPrevChecked(!!checked)
     }
   }, [checked, prevChecked])
+
+  useEffect(() => {
+    ref.current.indeterminate = indeterminate
+  }, [indeterminate])
 
   const callOnChange: CheckboxProps['onChange'] = useCallback(
     (args) => {
@@ -315,6 +324,8 @@ function Checkbox(localProps: CheckboxProps) {
             >
               <span className="dnb-checkbox__focus" />
             </span>
+
+            <span className="dnb-checkbox__indeterminate" />
 
             <CheckIcon size={size} />
           </span>
