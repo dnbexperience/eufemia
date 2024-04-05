@@ -132,5 +132,6 @@ function prepareStyleWithSameColor(hex: string) {
   return {
     color: hex,
     background: hex,
+    fontFamily: 'var(--font-family-monospace)',
   }
 }
