@@ -4,6 +4,7 @@
  */
 
 import { mockGetSelection } from '../../../core/jest/jestSetup'
+import { InternalLocale } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'
 import {
@@ -652,7 +653,8 @@ describe('getFallbackCurrencyDisplay should', () => {
     expect(getFallbackCurrencyDisplay('nb-NO')).toBe('narrowSymbol')
   })
   it('default to code on invalid locale', () => {
-    expect(getFallbackCurrencyDisplay('invalid')).toBe('code')
+    const locale = 'invalid' as InternalLocale
+    expect(getFallbackCurrencyDisplay(locale)).toBe('code')
   })
   it('default to given display', () => {
     expect(getFallbackCurrencyDisplay('nb-NO', 'name')).toBe('name')
@@ -706,7 +708,7 @@ describe('getCurrencySymbol should', () => {
     expect(getCurrencySymbol('nb-NO')).toBe('kr')
   })
   it('return space when locale is sv-SE', () => {
-    expect(getCurrencySymbol('sv-Se')).toBe('NOK')
+    expect(getCurrencySymbol('sv-SE')).toBe('NOK')
   })
   it('return space when locale is en-GB', () => {
     expect(getCurrencySymbol('en-GB')).toBe('NOK')

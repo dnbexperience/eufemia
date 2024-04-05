@@ -78,30 +78,28 @@ render(
 
 You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
 
-```jsx
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
 const ChangeLocale = () => {
   const { setLocale, locale } = React.useContext(Context)
 
-  return <Dropdown
-    value={locale}
-    data={{ 'nb-NO': 'Norsk', 'en-GB': 'English' }}
-    on_change={({ data: { value } }) => {
-      setLocale(value)
-    }}
-  />
+  return (
+    <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
+      <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-GB" title="English (GB)" />
+    </Field.Selection>
+  )
 }
 
 render(
-  <Provider ...>
+  <Provider>
     <MyApp>
-      ...
       <ChangeLocale />
-      ...
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -140,9 +138,61 @@ render(
 
 You have even the option to extend the strings with your own and use it as an internationalization tool replacement for e.g. `react-intl`.
 
-### The useTranslation Hook
+## Get the strings from Context
 
-Now, lets say you have your translation files as JSON object/files `en.json`:
+It is possible to use the Eufemia shared Provider for your own project / App localization.
+
+```tsx
+import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+
+const customTranslation = {
+  // extend the translation
+  'en-GB': {
+    myString: 'Custom string',
+    myGroup: {
+      subString: 'Second string',
+      stringWithArgument: 'String with {myArg}',
+    },
+  },
+}
+
+type CustomLocales = keyof typeof customTranslation
+type CustomTranslation = (typeof customTranslation)[CustomLocales]
+
+render(
+  <Provider locales={customTranslation} locale="en-GB">
+    <MyApp>
+      <MyComponent />
+    </MyApp>
+  </Provider>,
+)
+```
+
+... and consume the strings in your components:
+
+```tsx
+import { useTranslation } from '@dnb/eufemia/shared'
+
+function MyComponent() {
+  const { myString, myGroup, formatMessage } =
+    useTranslation<CustomTranslation>()
+  return (
+    <>
+      <P>{myString}</P>
+      <P>{myGroup.subString}</P>
+      <P>
+        {formatMessage('myGroup.stringWithArgument', {
+          myArg: 'dynamic-value',
+        })}
+      </P>
+    </>
+  )
+}
+```
+
+### Cascaded string ids support
+
+1. Lets say you have your translation files as JSON object/files `en.json`:
 
 ```json
 {
@@ -151,17 +201,18 @@ Now, lets say you have your translation files as JSON object/files `en.json`:
 }
 ```
 
-and use it like this:
+2. and use it with a React hook like this:
 
-```jsx
-import EufemiaProvider from '@dnb/eufemia/shared/Provider'
-import useTranslation, {
-  Translation,
-} from '@dnb/eufemia/shared/useTranslation'
+```tsx
+import {
+  useTranslation,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
+
 import nb from './nb.json'
 import en from './en.json'
 
-const Component = () => {
+const MyComponent = () => {
   const str = useTranslation('my.string', {
     foo: 'bar',
   })
@@ -177,47 +228,33 @@ render(
       'en-GB': en,
     }}
   >
-    <Component />
-    <Translation id="my.string" foo="bar" />
+    <MyComponent />
   </EufemiaProvider>,
 )
 ```
 
-## Get the strings from Context
+3. or as a React component:
 
-It is possible to use the Eufemia shared Provider for your own project / App localization.
+```tsx
+import {
+  Translation,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
 
-```js
-import Provider from '@dnb/eufemia/shared/Provider'
-
-const customTranslation = {
-  // extend the translation
-  'en-GB': {
-    myString: 'Custom string'
-    myGroup: {
-      subString: 'Second string'
-    }
-  }
-}
+import nb from './nb.json'
+import en from './en.json'
 
 render(
-  <Provider locales={customTranslation} locale="en-GB">
-    <MyApp>
-      <MyComponent />
-    </MyApp>
-  </Provider>
+  <EufemiaProvider
+    locale="nb-NO"
+    locales={{
+      'nb-NO': nb,
+      'en-GB': en,
+    }}
+  >
+    <Translation id="my.string" foo="bar" />
+  </EufemiaProvider>,
 )
-```
-
-... and consume the strings in your components, like **MyComponent**:
-
-```jsx
-import Context from '@dnb/eufemia/shared/Context'
-
-export default function MyComponent() {
-  const { translation } = React.useContext(Context)
-  return <>{translation.myString}</>
-}
 ```
 
 ## How add new locales
@@ -255,7 +292,7 @@ render(
 
 or add/update the locales during runtime:
 
-```jsx
+```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 

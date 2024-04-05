@@ -1,14 +1,8 @@
-/**
- * useTranslation Tests
- *
- */
-
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
-import useTranslation, {
-  getTranslation,
-  Translation,
-} from '../useTranslation'
+import { fireEvent, render, renderHook } from '@testing-library/react'
+import Translation from '../Translation'
+import useTranslation from '../useTranslation'
+import { LOCALE as defaultLocale } from '../defaults'
 
 import Context from '../Context'
 import Provider from '../Provider'
@@ -16,267 +10,332 @@ import Provider from '../Provider'
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
 
-const given_nbNO = '{foo} ({bar} av {max})'
-const given_enGB = '{foo} ({bar} of {max})'
-const given_nbNO_nested = '{foo} ({bar} av nestet {max})'
-const given_enGB_nested = '{foo} ({bar} of nested {max})'
-const expected_nbNO = 'foo (bar av max)'
-const expected_enGB = 'foo (bar of max)'
-const expected_nbNO_nested = 'foo (bar av nestet max)'
-const expected_enGB_nested = 'foo (bar of nested max)'
-
-describe('Translation', () => {
-  const nbNO = {
-    'Modal.close_title': 'Steng',
-    'other.string': given_nbNO,
-  }
-  const enGB = {
-    'Modal.close_title': 'Close',
-    'other.string': given_enGB,
-  }
-  const nbNO_nested = {
-    'other.string': given_nbNO_nested,
-  }
-  const enGB_nested = {
-    'other.string': given_enGB_nested,
-  }
-
-  const defaultLocales = {
-    'nb-NO': nbNO,
-    'en-GB': enGB,
-  }
-  const nestedLocales = {
-    'nb-NO': nbNO_nested,
-    'en-GB': enGB_nested,
-  }
-
-  const RenderGetTranslation = () => {
-    return useTranslation('other.string', {
-      foo: 'foo',
-      bar: 'bar',
-      max: 'max',
+describe('useTranslation without an ID', () => {
+  it('should default to nb-NO if no locale is specified in context', () => {
+    const { result } = renderHook(() => useTranslation(), {
+      wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
-  }
 
-  const ChangeLocale = (props) => {
-    const { setLocale } = React.useContext(Context)
-
-    return (
-      <div {...props}>
-        <button
-          className="nb-NO"
-          onClick={() => {
-            setLocale('nb-NO')
-          }}
-        >
-          nb-NO
-        </button>
-        <button
-          className="en-GB"
-          onClick={() => {
-            setLocale('en-GB')
-          }}
-        >
-          en-GB
-        </button>
-      </div>
-    )
-  }
-
-  it('"getTranslation" should return requested string inside render', () => {
-    render(
-      <Provider locales={defaultLocales}>
-        <span className="getTranslation">
-          {getTranslation('other.string', {
-            foo: 'foo',
-            bar: 'bar',
-            max: 'max',
-          })}
-        </span>
-      </Provider>
-    )
-
-    expect(document.querySelector('span.getTranslation').textContent).toBe(
-      expected_nbNO
+    expect(result.current).toEqual(
+      Object.assign(nbNO[defaultLocale], {
+        formatMessage: expect.any(Function),
+      })
     )
   })
 
-  it('"Translation" should return requested string inside render', () => {
-    render(
-      <Provider locales={defaultLocales}>
-        <span className="Translation">
-          <Translation id="other.string" foo="foo" bar="bar" max="max" />
-        </span>
+  it('should inherit locale from shared context', () => {
+    const { result: resultGB } = renderHook(() => useTranslation(), {
+      wrapper: ({ children }) => (
+        <Provider locale="en-GB">{children}</Provider>
+      ),
+    })
 
-        <span className="TranslationIdAsChildren">
-          <Translation foo="foo" bar="bar" max="max">
-            other.string
-          </Translation>
-        </span>
+    expect(resultGB.current).toEqual(
+      Object.assign(enGB['en-GB'], { formatMessage: expect.any(Function) })
+    )
+
+    const { result: resultNO } = renderHook(() => useTranslation(), {
+      wrapper: ({ children }) => (
+        <Provider locale="nb-NO">{children}</Provider>
+      ),
+    })
+
+    expect(resultNO.current).toEqual(
+      Object.assign(nbNO['nb-NO'], { formatMessage: expect.any(Function) })
+    )
+  })
+
+  it('should extend translation', () => {
+    const extendedLocale = {
+      DatePicker: {
+        mask_placeholder: 'Custom placeholder',
+      },
+    }
+
+    const { result } = renderHook(() => useTranslation(extendedLocale), {
+      wrapper: Provider,
+    })
+
+    expect(result.current.DatePicker).toMatchObject(
+      extendedLocale.DatePicker
+    )
+  })
+
+  it('should extend translation inside locale key', () => {
+    const extendedLocale = {
+      'nb-NO': {
+        DatePicker: {
+          mask_placeholder: 'Custom placeholder',
+        },
+      },
+    }
+
+    const { result } = renderHook(() => useTranslation(extendedLocale), {
+      wrapper: Provider,
+    })
+
+    expect(result.current.DatePicker).toMatchObject(
+      extendedLocale['nb-NO'].DatePicker
+    )
+
+    const { result: resultGB } = renderHook(
+      () => useTranslation(extendedLocale),
+      {
+        wrapper: ({ children }) => (
+          <Provider locale="en-GB">{children}</Provider>
+        ),
+      }
+    )
+
+    expect(resultGB.current.DatePicker).not.toMatchObject(
+      extendedLocale['nb-NO'].DatePicker
+    )
+  })
+
+  it('should support custom translation strings', () => {
+    const customTranslation = {
+      'en-GB': {
+        myString: 'Custom string',
+        myGroup: {
+          subString: 'Second string',
+        },
+      },
+      'nb-NO': {
+        myString: 'Tilpasset streng',
+        myGroup: {
+          subString: 'Ny streng',
+        },
+      },
+    }
+
+    type CustomLocales = keyof typeof customTranslation
+    type CustomTranslation = (typeof customTranslation)[CustomLocales]
+
+    function MyComponent() {
+      const { myString, myGroup } = useTranslation<CustomTranslation>()
+      return (
+        <p>
+          {myString} {myGroup.subString}
+        </p>
+      )
+    }
+
+    const { rerender } = render(
+      <Provider locales={customTranslation} locale="en-GB">
+        <MyComponent />
       </Provider>
     )
 
-    expect(document.querySelector('span.Translation').textContent).toBe(
-      expected_nbNO
+    expect(document.querySelector('p')).toHaveTextContent(
+      'Custom string Second string'
+    )
+
+    rerender(
+      <Provider locales={customTranslation} locale="nb-NO">
+        <MyComponent />
+      </Provider>
+    )
+
+    expect(document.querySelector('p')).toHaveTextContent(
+      'Tilpasset streng Ny streng'
+    )
+  })
+
+  it('should return "formatMessage" function', () => {
+    const customTranslation = {
+      'en-GB': {
+        myString: 'Custom string',
+        myGroup: {
+          subString: 'Second string',
+          stringWithArg: 'Second string {arg}',
+        },
+      },
+      'nb-NO': {
+        myString: 'Tilpasset streng',
+        myGroup: {
+          subString: 'Ny streng',
+          stringWithArg: 'Ny streng {arg}',
+        },
+      },
+    }
+
+    const result = renderHook(() => useTranslation(), {
+      wrapper: ({ children }) => (
+        <Provider locales={customTranslation} locale="en-GB">
+          {children}
+        </Provider>
+      ),
+    })
+
+    expect(result.result.current.formatMessage).toBeInstanceOf(Function)
+    expect(result.result.current.myGroup.stringWithArg).toBe(
+      'Second string {arg}'
     )
     expect(
-      document.querySelector('span.TranslationIdAsChildren').textContent
-    ).toBe(expected_nbNO)
-  })
-
-  it('"useTranslation" should have valid strings inside render', () => {
-    render(
-      <Provider locales={defaultLocales}>
-        <span className="useTranslation">
-          <RenderGetTranslation />
-        </span>
-      </Provider>
-    )
-
-    expect(document.querySelector('span.useTranslation').textContent).toBe(
-      expected_nbNO
-    )
-  })
-
-  it('should change to requested locale', () => {
-    render(
-      <Provider locales={defaultLocales}>
-        <span className="useTranslation">
-          <RenderGetTranslation />
-        </span>
-        <ChangeLocale />
-      </Provider>
-    )
-
-    expect(document.querySelector('span.useTranslation').textContent).toBe(
-      expected_nbNO
-    )
-
-    fireEvent.click(document.querySelector('button.en-GB'))
-
-    expect(document.querySelector('span.useTranslation').textContent).toBe(
-      expected_enGB
-    )
-  })
-
-  it('should have valid strings inside render', () => {
-    render(
-      <Provider locales={defaultLocales}>
-        <span className="root">
-          <Translation id="other.string" foo="foo" bar="bar" max="max" />
-        </span>
-
-        <Provider locales={nestedLocales}>
-          <span className="nested">
-            <RenderGetTranslation />
-          </span>
-
-          <ChangeLocale className="nested" />
-        </Provider>
-
-        <ChangeLocale className="root" />
-      </Provider>
-    )
-
-    expect(document.querySelector('span.root').textContent).toBe(
-      expected_nbNO
-    )
-    expect(document.querySelector('span.nested').textContent).toBe(
-      expected_nbNO_nested
-    )
-
-    fireEvent.click(document.querySelector('div.root button.en-GB'))
-
-    expect(document.querySelector('span.root').textContent).toBe(
-      expected_enGB
-    )
-    expect(document.querySelector('span.nested').textContent).toBe(
-      expected_enGB_nested
-    )
-
-    fireEvent.click(document.querySelector('div.nested button.en-GB'))
-
-    expect(document.querySelector('span.root').textContent).toBe(
-      expected_enGB
-    )
-    expect(document.querySelector('span.nested').textContent).toBe(
-      expected_enGB_nested
-    )
-
-    // if we change the nested locale ...
-    fireEvent.click(document.querySelector('div.nested button.nb-NO'))
-
-    // ... we also change the root
-    expect(document.querySelector('span.root').textContent).toBe(
-      expected_nbNO
-    )
-    expect(document.querySelector('span.nested').textContent).toBe(
-      expected_nbNO_nested
-    )
+      result.result.current.formatMessage('myGroup.stringWithArg', {
+        arg: 'dynamic-value',
+      })
+    ).toBe('Second string dynamic-value')
   })
 })
 
-describe('Context.getTranslation', () => {
-  nbNO['nb-NO'].HelpButton['other.string'] = given_nbNO
-  enGB['en-GB'].HelpButton['other.string'] = given_enGB
+describe('useTranslation with an ID', () => {
+  const given_nbNO = '{foo} ({bar} av {max})'
+  const given_enGB = '{foo} ({bar} of {max})'
+  const given_nbNO_nested = '{foo} ({bar} av nestet {max})'
+  const given_enGB_nested = '{foo} ({bar} of nested {max})'
+  const expected_nbNO = 'foo (bar av max)'
+  const expected_enGB = 'foo (bar of max)'
+  const expected_nbNO_nested = 'foo (bar av nestet max)'
+  const expected_enGB_nested = 'foo (bar of nested max)'
 
-  const MagicContext = (props) => {
-    return (
-      <Context.Consumer>
-        {(context) => {
-          // We may use that in future
-          // if (props.translation) {
-          //   context.setTranslation(props.translation)
-          // }
-          const title = context.getTranslation(props).HelpButton.title
-          const otherString =
-            context.getTranslation(props).HelpButton['other.string']
-          return (
-            <>
-              <p className="locale">{context.locale}</p>
-              <p className="title">{title}</p>
-              {otherString && (
-                <p className="other-string">{otherString}</p>
-              )}
-            </>
-          )
-        }}
-      </Context.Consumer>
-    )
-  }
+  describe('useTranslation', () => {
+    const nbNO = {
+      'Modal.close_title': 'Steng',
+      'other.string': given_nbNO,
+    }
+    const enGB = {
+      'Modal.close_title': 'Close',
+      'other.string': given_enGB,
+    }
+    const nbNO_nested = {
+      'other.string': given_nbNO_nested,
+    }
+    const enGB_nested = {
+      'other.string': given_enGB_nested,
+    }
 
-  it('should react on new lang prop', () => {
-    const { rerender } = render(<MagicContext />)
+    const defaultLocales = {
+      'nb-NO': nbNO,
+      'en-GB': enGB,
+    }
+    const nestedLocales = {
+      'nb-NO': nbNO_nested,
+      'en-GB': enGB_nested,
+    }
 
-    expect(document.querySelector('p.title').textContent).toBe(
-      nbNO['nb-NO'].HelpButton.title
-    )
-    expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
+    const RenderGetTranslation = () => {
+      return useTranslation('other.string', {
+        foo: 'foo',
+        bar: 'bar',
+        max: 'max',
+      })
+    }
 
-    rerender(<MagicContext lang="en-GB" />)
+    const ChangeLocale = (props) => {
+      const { setLocale } = React.useContext(Context)
 
-    expect(document.querySelector('p.title').textContent).toBe(
-      enGB['en-GB'].HelpButton.title
-    )
+      return (
+        <div {...props}>
+          <button
+            className="nb-NO"
+            onClick={() => {
+              setLocale('nb-NO')
+            }}
+          >
+            nb-NO
+          </button>
+          <button
+            className="en-GB"
+            onClick={() => {
+              setLocale('en-GB')
+            }}
+          >
+            en-GB
+          </button>
+        </div>
+      )
+    }
 
-    // locale should not be changed
-    expect(document.querySelector('p.locale').textContent).not.toBe(
-      'en-GB'
-    )
-    expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
-  })
+    it('"useTranslation" should have valid strings inside render', () => {
+      render(
+        <Provider locales={defaultLocales}>
+          <output>
+            <RenderGetTranslation />
+          </output>
+        </Provider>
+      )
 
-  it('should react on new lang prop and prepare other.string', () => {
-    const { rerender } = render(<MagicContext />)
+      expect(document.querySelector('output').textContent).toBe(
+        expected_nbNO
+      )
+    })
 
-    expect(document.querySelector('p.other-string').textContent).toBe(
-      given_nbNO
-    )
+    it('should change to requested locale', () => {
+      render(
+        <Provider locales={defaultLocales}>
+          <output>
+            <RenderGetTranslation />
+          </output>
+          <ChangeLocale />
+        </Provider>
+      )
 
-    rerender(<MagicContext lang="en-GB" />)
+      expect(document.querySelector('output').textContent).toBe(
+        expected_nbNO
+      )
 
-    expect(document.querySelector('p.other-string').textContent).toBe(
-      given_enGB
-    )
+      fireEvent.click(document.querySelector('button.en-GB'))
+
+      expect(document.querySelector('output').textContent).toBe(
+        expected_enGB
+      )
+    })
+
+    it('should have valid strings inside render', () => {
+      render(
+        <Provider locales={defaultLocales}>
+          <span className="root">
+            <Translation id="other.string" foo="foo" bar="bar" max="max" />
+          </span>
+
+          <Provider locales={nestedLocales}>
+            <span className="nested">
+              <RenderGetTranslation />
+            </span>
+
+            <ChangeLocale className="nested" />
+          </Provider>
+
+          <ChangeLocale className="root" />
+        </Provider>
+      )
+
+      expect(document.querySelector('span.root').textContent).toBe(
+        expected_nbNO
+      )
+      expect(document.querySelector('span.nested').textContent).toBe(
+        expected_nbNO_nested
+      )
+
+      fireEvent.click(document.querySelector('div.root button.en-GB'))
+
+      expect(document.querySelector('span.root').textContent).toBe(
+        expected_enGB
+      )
+      expect(document.querySelector('span.nested').textContent).toBe(
+        expected_enGB_nested
+      )
+
+      fireEvent.click(document.querySelector('div.nested button.en-GB'))
+
+      expect(document.querySelector('span.root').textContent).toBe(
+        expected_enGB
+      )
+      expect(document.querySelector('span.nested').textContent).toBe(
+        expected_enGB_nested
+      )
+
+      // if we change the nested locale ...
+      fireEvent.click(document.querySelector('div.nested button.nb-NO'))
+
+      // ... we also change the root
+      expect(document.querySelector('span.root').textContent).toBe(
+        expected_nbNO
+      )
+      expect(document.querySelector('span.nested').textContent).toBe(
+        expected_nbNO_nested
+      )
+    })
   })
 })

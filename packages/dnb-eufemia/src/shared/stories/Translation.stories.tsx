@@ -7,11 +7,8 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Dialog, Dropdown } from '../../components'
-import { Provider, Context } from '..'
-import useTranslation, {
-  getTranslation,
-  Translation,
-} from '../useTranslation'
+import { Provider, Context, useTranslation } from '../'
+import Translation, { getTranslation } from '../Translation'
 import { P } from '../..'
 
 // import nbNO from '../locales/nb-NO'
@@ -118,3 +115,32 @@ export const TranslationSandbox = () => (
     </Box>
   </Wrapper>
 )
+
+const customTranslation = {
+  'en-GB': {
+    myString: 'Custom string',
+    myGroup: {
+      subString: 'Second string',
+    },
+  },
+}
+
+type CustomLocales = keyof typeof customTranslation
+type CustomTranslation = (typeof customTranslation)[CustomLocales]
+
+function MyComponent() {
+  const { myString, myGroup } = useTranslation<CustomTranslation>()
+  return (
+    <>
+      {myString} {myGroup.subString}
+    </>
+  )
+}
+
+export function CustomTranslation() {
+  return (
+    <Provider locales={customTranslation} locale="en-GB">
+      <MyComponent />
+    </Provider>
+  )
+}

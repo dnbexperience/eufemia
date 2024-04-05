@@ -12,6 +12,7 @@ import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import { MultiInputMask } from '../'
 import type { MultiInputMaskValue } from '../'
+import { InternalLocale } from '../../../shared/Context'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -27,7 +28,7 @@ export function TypeNumber() {
 }
 
 export function Sandbox() {
-  const [locale, setLocale] = React.useState('nb-NO')
+  const [locale, setLocale] = React.useState<InternalLocale>('nb-NO')
   return (
     <Wrapper>
       <Provider locale={locale}>

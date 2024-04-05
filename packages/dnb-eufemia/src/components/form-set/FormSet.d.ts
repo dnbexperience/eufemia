@@ -3,7 +3,7 @@ import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-import type { Locale } from '../../shared/Context';
+import type { InternalLocale } from '../../shared/Context';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type FormSetDirection = 'vertical' | 'horizontal';
 export type FormSetChildren =
@@ -26,7 +26,7 @@ export interface FormSetProps
   label_class?: string;
   no_label?: boolean;
   no_fieldset?: boolean;
-  locale?: Locale;
+  locale?: InternalLocale;
   wrap?: boolean;
   direction?: FormSetDirection;
   vertical?: boolean;
