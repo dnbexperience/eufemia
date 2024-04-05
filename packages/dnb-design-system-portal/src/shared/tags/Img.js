@@ -12,6 +12,7 @@ const Img = ({
   width,
   height,
   caption,
+  ...rest
 }) => {
   if (size === 'auto') {
     width = '100%'
@@ -31,6 +32,7 @@ const Img = ({
       caption={caption}
       src={src || children}
       {...props}
+      {...rest}
     />
   )
 }
