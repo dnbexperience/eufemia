@@ -753,8 +753,7 @@ export const InCard = () => {
 
   const content = {
     title: 'Lorem ipsum',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus pharetra elit in bibendum.',
+    description: 'Lorem ipsum.',
     status: <Badge content="Ikke pågeynt" />,
     deadline: '17.04.2025',
   }
