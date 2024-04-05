@@ -240,7 +240,7 @@ export const correctCaretPosition = (element, maskParams, props) => {
           ) {
             for (let n = i + 1; n < l; n++) {
               const mask = props.mask[n]
-              if (mask?.test?.(mask) === false) {
+              if (mask?.test?.(char)) {
                 safeSetSelection(element, n)
                 break
               }
