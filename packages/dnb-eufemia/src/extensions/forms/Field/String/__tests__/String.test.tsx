@@ -1027,9 +1027,7 @@ describe('Field.String', () => {
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent(
-      'You have exceeded the limit by 1 on 8 characters'
-    )
+    expect(ariaLive).toHaveTextContent('1 characters over the limit of 8')
 
     rerender(
       <Provider locale="en-GB">
@@ -1041,9 +1039,7 @@ describe('Field.String', () => {
       </Provider>
     )
 
-    expect(counter).toHaveTextContent(
-      'You have exceeded the limit by 9 on 8 characters'
-    )
+    expect(counter).toHaveTextContent('9 characters over the limit of 8')
   })
 
   it('gets valid ref element', () => {

@@ -1,10 +1,9 @@
 export default {
   'nb-NO': {
     TextCounter: {
-      characterDown: '%count av %max tegn gjenstår',
-      characterUp: 'Du har brukt %count av %max tegn',
-      characterExceeded:
-        'Du har brukt %count tegn mer enn maksgrensen på %max',
+      characterDown: '%count av %max tegn gjenstår.',
+      characterUp: 'Du har brukt %count av %max tegn.',
+      characterExceeded: '%count tegn over grensen på %max.',
     },
     TimelineItem: {
       alt_label_completed: 'Utført',
