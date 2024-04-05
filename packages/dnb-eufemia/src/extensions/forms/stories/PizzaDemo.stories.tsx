@@ -70,9 +70,7 @@ export function PizzaDemo() {
               </Form.Visibility>
             </Card>
 
-            <Form.ButtonRow>
-              <Wizard.NextButton />
-            </Form.ButtonRow>
+            <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Delivery address">
@@ -113,9 +111,7 @@ export function PizzaDemo() {
               />
             </Card>
 
-            <Form.ButtonRow>
-              <Wizard.NextButton />
-            </Form.ButtonRow>
+            <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Summary">
@@ -150,7 +146,7 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <Wizard.PreviousButton />
+              <Wizard.Buttons />
               <Form.SubmitButton />
             </Form.ButtonRow>
           </Wizard.Step>

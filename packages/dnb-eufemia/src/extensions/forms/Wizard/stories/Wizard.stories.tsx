@@ -140,8 +140,7 @@ export function AsyncStepChange() {
             />
           </Card>
           <Form.ButtonRow>
-            <Wizard.PreviousButton />
-            <Wizard.NextButton />
+            <Wizard.Buttons />
             <Button variant="secondary" onClick={() => setActiveIndex(1)}>
               Goto 2
             </Button>
@@ -154,7 +153,7 @@ export function AsyncStepChange() {
             <Field.String label="Field 3" path="/field3" required />
           </Card>
           <Form.ButtonRow>
-            <Wizard.PreviousButton />
+            <Wizard.Buttons />
             <Form.SubmitButton />
           </Form.ButtonRow>
         </Wizard.Step>

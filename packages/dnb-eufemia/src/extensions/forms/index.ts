@@ -49,13 +49,13 @@ StepsLayout.Step = Step
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "Wizard.NextButton" instead of "StepsLayout.NextButton"
+ * @deprecated use "Wizard.Buttons" instead of "StepsLayout.NextButton"
  */
 StepsLayout.NextButton = NextButton
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "Wizard.PreviousButton" instead of "StepsLayout.PreviousButton"
+ * @deprecated use "Wizard.Buttons" instead of "StepsLayout.PreviousButton"
  */
 StepsLayout.PreviousButton = PreviousButton
 /**

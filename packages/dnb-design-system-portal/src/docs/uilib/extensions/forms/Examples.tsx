@@ -455,9 +455,7 @@ export const WithWizard = () => {
               <Field.String path="/lastName" label="Etternavn" required />
             </Card>
 
-            <Form.ButtonRow>
-              <Wizard.NextButton />
-            </Form.ButtonRow>
+            <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="More information">
@@ -471,10 +469,7 @@ export const WithWizard = () => {
               <Field.PhoneNumber path="/phone" />
             </Card>
 
-            <Form.ButtonRow>
-              <Wizard.PreviousButton />
-              <Wizard.NextButton />
-            </Form.ButtonRow>
+            <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Summary">
@@ -492,7 +487,7 @@ export const WithWizard = () => {
             </Card>
 
             <Form.ButtonRow>
-              <Wizard.PreviousButton />
+              <Wizard.Buttons />
               <Form.SubmitButton />
             </Form.ButtonRow>
           </Wizard.Step>
