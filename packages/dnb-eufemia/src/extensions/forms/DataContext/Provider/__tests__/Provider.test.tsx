@@ -23,8 +23,8 @@ import { ContextState, FilterData } from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import { wait } from '../../../../../core/jest/jestSetup'
 
-import nbNO from '../../../../../shared/locales/nb-NO'
-const nb = nbNO['nb-NO'].Forms
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
 
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially continuousValidation />
@@ -774,7 +774,7 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.inputErrorRequired)
+        expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await waitFor(() => {
@@ -854,7 +854,7 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.inputErrorRequired)
+        expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await userEvent.type(input, 'something')
@@ -1099,7 +1099,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.inputErrorRequired)
+        ).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await waitFor(() => {
@@ -1128,7 +1128,13 @@ describe('DataContext.Provider', () => {
       })
 
       const validator = jest.fn().mockImplementation(async (value) => {
-        await wait(40)
+        /**
+         * It seems that this test on CI fails during way slower performance.
+         * The higher timeout is to ensure the typed value will be handle by the async revalidation, even the value was valid when continue typing.
+         *
+         * The slower the performance, the higher the timeout needs to be.
+         */
+        await wait(50)
         if (value !== 'valid') {
           return Error(`value: ${value}`)
         }
@@ -1168,7 +1174,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.inputErrorRequired)
+        ).toHaveTextContent(nb.Field.errorRequired)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1202,7 +1208,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.inputErrorRequired)
+        ).toHaveTextContent(nb.Field.errorRequired)
       })
 
       await userEvent.type(inputElement, 'valid')
@@ -2000,7 +2006,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.inputErrorRequired
+          nb.Field.errorRequired
         )
 
         rerender(
@@ -2020,7 +2026,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.inputErrorRequired
+          nb.Field.errorRequired
         )
 
         rerender(
@@ -2210,7 +2216,7 @@ describe('DataContext.Provider', () => {
 
       expect(
         screen.getByText(
-          nb.stringInputErrorMinLength.replace('{minLength}', '486')
+          nb.StringField.errorMinLength.replace('{minLength}', '486')
         )
       ).toBeInTheDocument()
     })

@@ -86,7 +86,6 @@ if (global.bundler !== 'rollup') {
         'Provider',
         'useMedia',
         'useMediaQuery',
-        'useEventEmitter',
         'useTheme',
       ],
     },

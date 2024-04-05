@@ -9,13 +9,13 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Password, { PasswordProps } from '../Password'
 
-import nbNO from '../../../../../shared/locales/nb-NO'
-import enGB from '../../../../../shared/locales/en-GB'
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
 import { Provider } from '../../../../../shared'
 import { Locales } from '../../../../../shared/Context'
 
-const nb = nbNO['nb-NO'].Forms
-const en = enGB['en-GB'].Forms
+const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Password component', () => {
   it('has correct type by default', () => {
@@ -46,11 +46,15 @@ describe('Password component', () => {
 
     const button = () => document.querySelector('button')
 
-    expect(button().getAttribute('aria-label')).toBe(nb.passwordShowLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      nb.Password.ariaLabelShow
+    )
 
     await userEvent.click(button())
 
-    expect(button().getAttribute('aria-label')).toBe(nb.passwordHideLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      nb.Password.ariaLabelHide
+    )
 
     rerender(
       <Provider locale="en-GB">
@@ -58,11 +62,15 @@ describe('Password component', () => {
       </Provider>
     )
 
-    expect(button().getAttribute('aria-label')).toBe(en.passwordHideLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      en.Password.ariaLabelHide
+    )
 
     await userEvent.click(button())
 
-    expect(button().getAttribute('aria-label')).toBe(en.passwordShowLabel)
+    expect(button().getAttribute('aria-label')).toBe(
+      en.Password.ariaLabelShow
+    )
   })
 
   it('has aria-describedby and aria-controls', () => {
@@ -222,8 +230,10 @@ describe('Password component', () => {
     const tr: Locales = {
       'nb-NO': {
         Forms: {
-          passwordShowLabel: 'Show it!',
-          passwordHideLabel: 'Hide it!',
+          Password: {
+            ariaLabelShow: 'Show it!',
+            ariaLabelHide: 'Hide it!',
+          },
         },
       },
     }

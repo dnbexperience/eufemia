@@ -1,4 +1,10 @@
-import { useCallback, useContext, useReducer, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import pointer from 'json-pointer'
 import {
   SharedStateId,
@@ -134,10 +140,15 @@ export default function useData<Data>(
     }
   })
 
-  return {
-    data: sharedDataRef.current.data,
-    update: updateHandler,
-    set: setHandler,
-    filterData,
-  }
+  const { data } = sharedDataRef.current
+
+  return useMemo(
+    () => ({
+      data,
+      update: updateHandler,
+      set: setHandler,
+      filterData,
+    }),
+    [data, filterData, setHandler, updateHandler]
+  )
 }

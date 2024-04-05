@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Flex, Section } from '../../../components'
-import { Field, FieldBlock, Form, StepsLayout, Value } from '..'
+import { Field, Form, Wizard, Value } from '..'
 import { Code } from '../../../elements'
 import { Provider } from '../../../../shared'
 
@@ -34,8 +34,8 @@ export function PizzaDemo() {
         sessionStorageId="pizza-demo"
         autoComplete
       >
-        <StepsLayout scrollTopOnStepChange initialActiveIndex={2}>
-          <StepsLayout.Step title="Which pizza do you want?">
+        <Wizard.Container scrollTopOnStepChange initialActiveIndex={2}>
+          <Wizard.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
             <Card stack>
@@ -70,12 +70,10 @@ export function PizzaDemo() {
               </Form.Visibility>
             </Card>
 
-            <Form.ButtonRow>
-              <StepsLayout.NextButton />
-            </Form.ButtonRow>
-          </StepsLayout.Step>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-          <StepsLayout.Step title="Delivery address">
+          <Wizard.Step title="Delivery address">
             <Form.MainHeading>Delivery address</Form.MainHeading>
 
             <Card stack>
@@ -92,7 +90,7 @@ export function PizzaDemo() {
             <Card stack>
               <Form.SubHeading>Your address</Form.SubHeading>
 
-              <FieldBlock label="Address" width="large" composition>
+              <Field.Composition label="Address" width="large">
                 <Field.String
                   label="Street"
                   width="stretch"
@@ -105,7 +103,7 @@ export function PizzaDemo() {
                   path="/streetNr"
                   required
                 />
-              </FieldBlock>
+              </Field.Composition>
 
               <Field.PostalCodeAndCity
                 postalCode={{ required: true, path: '/postalCode' }}
@@ -113,12 +111,10 @@ export function PizzaDemo() {
               />
             </Card>
 
-            <Form.ButtonRow>
-              <StepsLayout.NextButton />
-            </Form.ButtonRow>
-          </StepsLayout.Step>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-          <StepsLayout.Step title="Summary">
+          <Wizard.Step title="Summary">
             <Form.MainHeading>Summary</Form.MainHeading>
 
             <Card stack>
@@ -150,11 +146,11 @@ export function PizzaDemo() {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.PreviousButton />
+              <Wizard.Buttons />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
-        </StepsLayout>
+          </Wizard.Step>
+        </Wizard.Container>
       </Form.Handler>
 
       <Output>{data}</Output>

@@ -1,0 +1,51 @@
+@import '../../../../style/core/utilities.scss';
+
+.dnb-forms-wizard-layout {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: var(--spacing-medium);
+
+  &--drawer {
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+  }
+
+  &__sidebar {
+    flex: 0;
+    margin-bottom: 2rem;
+  }
+
+  &__contents {
+    flex: 1;
+
+    .dnb-card {
+      --border-color: var(--color-pistachio);
+      max-width: var(--forms-card-max-width);
+    }
+  }
+
+  // FormStatus as part of the Form.Handler
+  & + .dnb-form-status,
+  & + .dnb-form-status + .dnb-form-status {
+    @include allAbove(small) {
+      &:not([class*='space__left']) {
+        margin-left: var(--spacing-medium);
+      }
+    }
+  }
+
+  @include allBelow('medium') {
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+
+    &__contents {
+      flex-basis: auto;
+    }
+  }
+
+  .dnb-step-indicator__sidebar {
+    margin-right: 0;
+  }
+}

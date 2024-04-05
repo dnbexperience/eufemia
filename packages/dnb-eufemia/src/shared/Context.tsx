@@ -41,11 +41,12 @@ import type { AccordionProps } from '../components/Accordion'
 import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
-
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
+import type { FormsTranslation } from '../extensions/forms/hooks/useLocale'
+import type { DeepPartial } from './types'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -171,22 +172,22 @@ export type AnyLocale = string
 export type Locale = AnyLocale | Partial<TranslationLocale> | 'en-US'
 export type ComponentTranslationsName = keyof ContextComponents | string
 export type ComponentTranslation = string
-export type Locales = Partial<
-  Record<Locale, Translation | TranslationFlat>
->
+export type Locales =
+  | Partial<Record<Locale, Translation | TranslationFlat>>
+  | Partial<Record<Locale, FormsTranslation>>
 export type TranslationDefaultLocales = typeof defaultLocales
 export type TranslationLocale = keyof TranslationDefaultLocales
 export type TranslationKeys =
   keyof TranslationDefaultLocales[TranslationLocale]
 export type TranslationValues =
-  TranslationDefaultLocales[TranslationLocale]
+  TranslationDefaultLocales[TranslationLocale] & {
+    Forms?: Record<string, unknown>
+  }
 
 /**
  * E.g. "HelpButton: { title: '...' }"
  */
-export type Translation = DeepPartial<
-  TranslationDefaultLocales[TranslationLocale]
->
+export type Translation = DeepPartial<TranslationValues>
 
 /**
  * E.g. "HelpButton.title"
@@ -195,12 +196,6 @@ export type TranslationFlat = Record<
   ComponentTranslationsName,
   TranslationKeys | ComponentTranslation
 >
-
-type DeepPartial<T> = T extends object
-  ? {
-      [K in keyof T]?: DeepPartial<T[K]>
-    }
-  : T
 
 export function prepareContext<Props>(
   props: ContextProps = {}

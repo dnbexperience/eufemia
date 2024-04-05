@@ -26,8 +26,8 @@ const tr = sharedContext?.translation.Forms
 
 const errorMessages = useErrorMessage(props.path, props.errorMessages, {
   // Your default error messages
-  required: tr.inputErrorRequired,
-  pattern: tr.inputErrorPattern,
+  required: tr.Field.errorRequired,
+  pattern: tr.Field.errorPattern,
 })
 
 const preparedProps = {
@@ -215,4 +215,10 @@ They should return a transformed value: `(value) => value`
 
 - `fromExternal` transforms the given props `value` before any other step gets entered.
 
-- `transformValue` transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value
+- `transformValue` transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
+
+In addition there are **field value transformers** which should be used outside of the field component (by the field consumer):
+
+- `transformIn` transforms the `value` before its displayed in the field (e.g. input).
+
+- `transformOut` transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.

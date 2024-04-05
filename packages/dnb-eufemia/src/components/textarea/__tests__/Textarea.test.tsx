@@ -188,6 +188,17 @@ describe('Textarea component', () => {
     )
   })
 
+  it('should accept props like autoresize via provider', () => {
+    render(
+      <Provider Textarea={{ autoresize: true }}>
+        <Textarea />
+      </Provider>
+    )
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__autoresize'
+    )
+  })
+
   it('will correctly auto resize if prop autoresize is used', async () => {
     render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
 
@@ -359,9 +370,7 @@ describe('Textarea component', () => {
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent(
-      'You have exceeded the limit by 1 on 8 characters'
-    )
+    expect(ariaLive).toHaveTextContent('1 characters over the limit of 8')
 
     rerender(
       <Textarea
@@ -371,9 +380,7 @@ describe('Textarea component', () => {
       />
     )
 
-    expect(counter).toHaveTextContent(
-      'You have exceeded the limit by 1 on 8 characters'
-    )
+    expect(counter).toHaveTextContent('1 characters over the limit of 8')
 
     rerender(
       <Textarea
@@ -383,9 +390,7 @@ describe('Textarea component', () => {
       />
     )
 
-    expect(counter).toHaveTextContent(
-      'You have exceeded the limit by 9 on 8 characters'
-    )
+    expect(counter).toHaveTextContent('9 characters over the limit of 8')
   })
 
   describe('sets the resize-- modifier class based on the user agent', () => {

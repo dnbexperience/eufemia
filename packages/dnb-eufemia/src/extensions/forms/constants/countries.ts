@@ -22,6 +22,8 @@ export type CountryType = {
   regions?: Array<'Scandinavia' | 'Nordic'>
 }
 
+export type CountryLang = keyof CountryType['i18n']
+
 export const prioritizedCountries = [
   'Norway',
   'Sweden',

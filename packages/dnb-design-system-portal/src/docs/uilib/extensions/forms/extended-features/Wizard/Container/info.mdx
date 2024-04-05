@@ -1,0 +1,141 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `Wizard.Container` is a container component for multi-page forms including a [StepIndicator](/uilib/components/step-indicator/).
+
+Use the [Step](/uilib/extensions/forms/extended-features/Wizard/Step/) component to define the wizard steps.
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">...</Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+You can also split or separate the `Wizard.Step` and its content:
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+// You can use the `Wizard.Step` in an external component like this:
+const Step1 = () => (
+  <Wizard.Step title="Step 1">
+    <Form.MainHeading>Heading</Form.MainHeading>
+    <Card stack>
+      <P>Contents</P>
+    </Card>
+    <Card stack>
+      <P>Contents</P>
+    </Card>
+
+    <Wizard.Buttons />
+  </Wizard.Step>
+)
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Step1 />
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+You can mix and match the usage of `Wizard.Step` and `Flex.Stack` depending on your needs:
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const Step2 = () => (
+  <Flex.Stack>
+    <Card stack>
+      <P>Contents</P>
+    </Card>
+    <Card stack>
+      <P>Contents</P>
+    </Card>
+
+    <Wizard.Buttons />
+  </Flex.Stack>
+)
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Wizard.Step title="Step 2">
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Step2 />
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+## Controlling the wizard steps
+
+To define a different initial index (than 0), you can use `initialActiveIndex` hook.
+
+For controlling the wizard steps interactively, you can use the [useStep](/uilib/extensions/forms/extended-features/Wizard/useStep/) hook:
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const MyStep = () => {
+  const { setActiveIndex, activeIndex } = Wizard.useStep()
+  return (
+    <Card stack>
+      <Button onClick={() => setActiveIndex(1)}>Go to step 2</Button>
+    </Card>
+  )
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container initialActiveIndex={3}>
+        <Wizard.Step>
+          <MyStep />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide na unique `id` (string):
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  const { setActiveIndex, activeIndex } = Wizard.useStep('unique-id')
+
+  return (
+    <Form.Handler>
+      <Wizard.Container id="unique-id">
+        <Wizard.Step>
+          <Button onClick={() => setActiveIndex(0)}>Step 1</Button>
+        </Wizard.Step>
+        <Wizard.Step>
+          <Button onClick={() => setActiveIndex(1)}>Step 2</Button>
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```

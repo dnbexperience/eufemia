@@ -9,7 +9,7 @@ breadcrumb:
 ---
 
 import ListFormComponents from './extended-features/Form/ListFormComponents'
-import ListStepsLayoutComponents from './extended-features/StepsLayout/ListStepsLayoutComponents'
+import ListWizardComponents from './extended-features/Wizard/ListWizardComponents'
 import ListBaseValueComponents from './extended-features/Value/ListBaseValueComponents'
 import ListDataContextComponents from './extended-features/DataContext/ListDataContextComponents'
 import ListFeatureValueComponents from './extended-features/Value/ListFeatureValueComponents'
@@ -21,7 +21,7 @@ import ListIterateComponents from './extended-features/Iterate/ListIterateCompon
 
 - [FieldBlock](#fieldblock)
 - [Form](#form)
-- [Steps layout](#steps-layout)
+- [Wizard](#wizard)
 - [Value](#value)
 - [Iterate](#iterate)
 - [Data Context](#data-context)
@@ -88,26 +88,27 @@ You can also [create your own Ajv instance](/uilib/extensions/forms/extended-fea
 
 This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
 
-## [Steps layout](/uilib/extensions/forms/extended-features/StepsLayout)
+## [Wizard](/uilib/extensions/forms/extended-features/Wizard/)
 
-StepsLayout is a wrapper component for showing forms with a StepIndicator for navigation between several steps. It also includes components for navigating between steps.
+Wizard is a wrapper component for showing forms with a StepIndicator for navigation between several pages (multi-steps). It also includes components for navigating between steps.
 
-Example using the [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) for handling stepped layouts:
+Example using the [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container) for handling stepped layouts:
 
 ```jsx
-import { StepsLayout } from '@dnb/eufemia/extensions/forms'
+import { Wizardm, Form } from '@dnb/eufemia/extensions/forms'
+
 render(
-  <StepsLayout>
-    <StepsLayout.Step title="Name">
+  <Wizard.Container>
+    <Wizard.Step title="Name">
       <Form.MainHeading>Profile</Form.MainHeading>
-    </StepsLayout.Step>
-  </StepsLayout>,
+    </Wizard.Step>
+  </Wizard.Container>,
 )
 ```
 
-Here is a list of all available `StepsLayout.*` components:
+Here is a list of all available `Wizard.*` components:
 
-<ListStepsLayoutComponents size="small" />
+<ListWizardComponents size="small" />
 
 ## [Value](/uilib/extensions/forms/extended-features/Value/)
 

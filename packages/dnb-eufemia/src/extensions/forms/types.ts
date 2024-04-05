@@ -229,6 +229,8 @@ export interface FieldProps<
   continuousValidation?: boolean
   errorMessages?: ErrorMessages
   // Derivatives
+  transformIn?: (external: Value | unknown) => Value | unknown
+  transformOut?: (internal: Value | unknown) => Value
   toInput?: (external: Value | unknown) => Value | unknown
   fromInput?: (external: Value | unknown) => Value
   toEvent?: (

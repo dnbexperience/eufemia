@@ -1,18 +1,17 @@
-import { Section, Code, Card, Flex } from '@dnb/eufemia/src'
 import * as React from 'react'
+import { Section, Code, Card, Flex } from '@dnb/eufemia/src'
 import {
   Form,
-  StepsLayout,
   Field,
   Value,
-  FieldBlock,
+  Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 
 export const BecomeCorporateCustomer = () => {
   return (
-    <ComponentBox hideCode scope={{ StepsLayout }}>
+    <ComponentBox hideCode>
       {() => {
         const Output = () => {
           const { data } = Form.useData('example-form', {
@@ -38,8 +37,8 @@ export const BecomeCorporateCustomer = () => {
               id="example-form"
               onSubmit={(data) => console.log('onSubmit', data)}
             >
-              <StepsLayout top scrollTopOnStepChange>
-                <StepsLayout.Step title="Bedriftsopplysninger">
+              <Wizard.Container top scrollTopOnStepChange>
+                <Wizard.Step title="Bedriftsopplysninger">
                   <Form.MainHeading>Bedriftsopplysninger</Form.MainHeading>
 
                   <Card spacing="medium">
@@ -111,12 +110,10 @@ export const BecomeCorporateCustomer = () => {
                     />
                   </Card>
 
-                  <Form.ButtonRow>
-                    <StepsLayout.NextButton />
-                  </Form.ButtonRow>
-                </StepsLayout.Step>
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Kontaktperson">
+                <Wizard.Step title="Kontaktperson">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
                   <Card stack>
@@ -127,37 +124,30 @@ export const BecomeCorporateCustomer = () => {
                     <Field.PhoneNumber path="/phone" />
                   </Card>
 
-                  <Form.ButtonRow>
-                    <StepsLayout.PreviousButton />
-                    <StepsLayout.NextButton />
-                  </Form.ButtonRow>
-                </StepsLayout.Step>
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Bedriftens virksomhet">
+                <Wizard.Step title="Bedriftens virksomhet">
                   <em>Bedriftens virksomhet</em>
-                </StepsLayout.Step>
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Bruk av DNBs tjenester">
+                <Wizard.Step title="Bruk av DNBs tjenester">
                   <em>Bruk av DNBs tjenester</em>
-                </StepsLayout.Step>
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Inntekt og egenkapital">
+                <Wizard.Step title="Inntekt og egenkapital">
                   <em>Inntekt og egenkapital</em>
-                </StepsLayout.Step>
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Skatterapportering">
+                <Wizard.Step title="Skatterapportering">
                   <em>Skatterapportering</em>
-                </StepsLayout.Step>
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Eierskap og kontroll">
-                  ...
-                </StepsLayout.Step>
+                <Wizard.Step title="Eierskap og kontroll">...</Wizard.Step>
 
-                <StepsLayout.Step title="Roller i bedriften">
-                  ...
-                </StepsLayout.Step>
+                <Wizard.Step title="Roller i bedriften">...</Wizard.Step>
 
-                <StepsLayout.Step title="Oppsummering">
+                <Wizard.Step title="Oppsummering">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
                   <Card stack>
@@ -172,15 +162,13 @@ export const BecomeCorporateCustomer = () => {
                   </Card>
 
                   <Form.ButtonRow>
-                    <StepsLayout.PreviousButton />
+                    <Wizard.Buttons />
                     <Form.SubmitButton />
                   </Form.ButtonRow>
-                </StepsLayout.Step>
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Kvittering">
-                  Kvittering...
-                </StepsLayout.Step>
-              </StepsLayout>
+                <Wizard.Step title="Kvittering">Kvittering...</Wizard.Step>
+              </Wizard.Container>
             </Form.Handler>
 
             <Output />
@@ -193,7 +181,7 @@ export const BecomeCorporateCustomer = () => {
 
 export function PizzaDemo() {
   return (
-    <ComponentBox hideCode scope={{ StepsLayout }}>
+    <ComponentBox hideCode>
       {() => {
         const Output = () => {
           const { data } = Form.useData('pizza-demo', {})
@@ -218,8 +206,8 @@ export function PizzaDemo() {
               id="pizza-demo"
               sessionStorageId="pizza-form"
             >
-              <StepsLayout scrollTopOnStepChange>
-                <StepsLayout.Step title="Which pizza do you want?">
+              <Wizard.Container scrollTopOnStepChange>
+                <Wizard.Step title="Which pizza do you want?">
                   <Form.MainHeading>
                     Which pizza do you want?
                   </Form.MainHeading>
@@ -256,12 +244,10 @@ export function PizzaDemo() {
                     </Form.Visibility>
                   </Card>
 
-                  <Form.ButtonRow>
-                    <StepsLayout.NextButton />
-                  </Form.ButtonRow>
-                </StepsLayout.Step>
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Delivery address">
+                <Wizard.Step title="Delivery address">
                   <Form.MainHeading>Delivery address</Form.MainHeading>
 
                   <Card stack>
@@ -282,7 +268,7 @@ export function PizzaDemo() {
                   <Card stack>
                     <Form.SubHeading>Your address</Form.SubHeading>
 
-                    <FieldBlock width="large" composition>
+                    <Field.Composition width="large">
                       <Field.String
                         label="Street"
                         width="stretch"
@@ -295,7 +281,7 @@ export function PizzaDemo() {
                         path="/streetNr"
                         required
                       />
-                    </FieldBlock>
+                    </Field.Composition>
 
                     <Field.PostalCodeAndCity
                       postalCode={{
@@ -306,13 +292,10 @@ export function PizzaDemo() {
                     />
                   </Card>
 
-                  <Form.ButtonRow>
-                    <StepsLayout.PreviousButton />
-                    <StepsLayout.NextButton />
-                  </Form.ButtonRow>
-                </StepsLayout.Step>
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-                <StepsLayout.Step title="Summary">
+                <Wizard.Step title="Summary">
                   <Form.MainHeading>Summary</Form.MainHeading>
 
                   <Card stack>
@@ -345,11 +328,11 @@ export function PizzaDemo() {
                   </Card>
 
                   <Form.ButtonRow>
-                    <StepsLayout.PreviousButton />
+                    <Wizard.Buttons />
                     <Form.SubmitButton />
                   </Form.ButtonRow>
-                </StepsLayout.Step>
-              </StepsLayout>
+                </Wizard.Step>
+              </Wizard.Container>
             </Form.Handler>
 
             <Output />

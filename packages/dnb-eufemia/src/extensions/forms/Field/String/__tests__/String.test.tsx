@@ -213,6 +213,67 @@ describe('Field.String', () => {
       expect(input).toHaveValue('Æøå')
     })
 
+    it('should transform value with "transformIn" and "transformOut"', async () => {
+      const onChangeProvider = jest.fn()
+      const onChangeField = jest.fn()
+
+      const transformIn = jest.fn((value) => {
+        return value?.toUpperCase()
+      })
+      const transformOut = jest.fn((value) => {
+        return value?.toLowerCase()
+      })
+
+      render(
+        <DataContext.Provider
+          onChange={onChangeProvider}
+          data={{
+            myField: 'xYz',
+          }}
+        >
+          <Field.String
+            path="/myField"
+            transformIn={transformIn}
+            transformOut={transformOut}
+            onChange={onChangeField}
+          />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('XYZ')
+      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenLastCalledWith('xYz')
+      expect(transformOut).toHaveBeenCalledTimes(0)
+      expect(onChangeProvider).toHaveBeenCalledTimes(0)
+      expect(onChangeField).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(input, '{Backspace>3}aBc')
+
+      expect(input).toHaveValue('ABC')
+      expect(transformIn).toHaveBeenCalledTimes(13)
+      expect(transformIn).toHaveBeenLastCalledWith('abc')
+      expect(transformOut).toHaveBeenCalledTimes(6)
+      expect(transformOut).toHaveBeenLastCalledWith('ABc')
+      expect(onChangeProvider).toHaveBeenCalledTimes(6)
+      expect(onChangeProvider).toHaveBeenLastCalledWith({ myField: 'abc' })
+      expect(onChangeField).toHaveBeenCalledTimes(6)
+      expect(onChangeField).toHaveBeenLastCalledWith('abc')
+
+      await userEvent.type(input, '{Backspace>3}EfG')
+
+      expect(input).toHaveValue('EFG')
+      expect(transformIn).toHaveBeenCalledTimes(25)
+      expect(transformIn).toHaveBeenLastCalledWith('efg')
+      expect(transformOut).toHaveBeenCalledTimes(12)
+      expect(transformOut).toHaveBeenLastCalledWith('EFG')
+      expect(onChangeProvider).toHaveBeenCalledTimes(12)
+      expect(onChangeProvider).toHaveBeenLastCalledWith({ myField: 'efg' })
+      expect(onChangeField).toHaveBeenCalledTimes(12)
+      expect(onChangeField).toHaveBeenLastCalledWith('efg')
+    })
+
     it('should trim whitespaces', async () => {
       const onChange = jest.fn()
       const onBlur = jest.fn()
@@ -966,9 +1027,7 @@ describe('Field.String', () => {
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent(
-      'You have exceeded the limit by 1 on 8 characters'
-    )
+    expect(ariaLive).toHaveTextContent('1 characters over the limit of 8')
 
     rerender(
       <Provider locale="en-GB">
@@ -980,9 +1039,7 @@ describe('Field.String', () => {
       </Provider>
     )
 
-    expect(counter).toHaveTextContent(
-      'You have exceeded the limit by 9 on 8 characters'
-    )
+    expect(counter).toHaveTextContent('9 characters over the limit of 8')
   })
 
   it('gets valid ref element', () => {

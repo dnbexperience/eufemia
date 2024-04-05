@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from 'react'
 import classnames from 'classnames'
-import SharedContext from '../../../shared/Context'
+
 import FieldBlockContext, {
   StateWithMessage,
   StatesWithMessages,
@@ -39,6 +39,7 @@ import {
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
+import useLocale from '../hooks/useLocale'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -462,8 +463,7 @@ function CombineMessages({
   type: StateTypes
   messages: Array<StateWithMessage>
 }) {
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const translations = useLocale().Field
 
   if (messages.length === 1) {
     return <>{messages[0].message}</>
@@ -471,7 +471,9 @@ function CombineMessages({
 
   return (
     <>
-      {type === 'error' ? tr.fieldErrorSummary : tr.fieldStateSummary}
+      {type === 'error'
+        ? translations.errorSummary
+        : translations.stateSummary}
       <Ul>
         {messages.map(({ message }, i) => {
           return <Li key={i}>{message}</Li>

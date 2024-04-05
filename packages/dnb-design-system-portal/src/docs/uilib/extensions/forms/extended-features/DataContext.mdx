@@ -97,7 +97,7 @@ Besides how the forms are built up and the link to the surrounding data flow, th
 
 An example of what this leads to is when a field has an invalid value, for example because the field starts empty but is required. Or if the field requires a given syntax (such as national identity number), then the error message is not displayed before or at the same time as the user fills in the field in question. However, when the user jumps out of the field, the error message will appear if the value is still not valid based on the validation props the component has received. When the user then starts to adjust the field in question, the error message is hidden again until they jump out of the field. In addition, a surrounding `DataContext.Provider` will check all the fields for errors, so that you do not get to the next step in a step-divided form, or can send the form and trigger `onSubmit` if there are still fields on the screen that have errors.
 
-In the case of forms divided into several steps, the combination of the components `DataContext.Provider` and `StepsLayout.Steps` will also ensure that only the fields that are visible on the screen (for the relevant step, or based on what is hidden or shown via the Visibility component) provide a basis for whether one can proceed in the process or not.
+In the case of forms divided into several wizard steps, the combination of the components `DataContext.Provider` and `Wizard.Step` will also ensure that only the fields that are visible on the screen (for the relevant step, or based on what is hidden or shown via the Visibility component) provide a basis for whether one can proceed in the process or not.
 
 ### Hierarchically overridable properties
 

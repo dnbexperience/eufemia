@@ -6,7 +6,6 @@ import InputMasked, {
   InputMaskedProps,
 } from '../../../../components/InputMasked'
 import { TextareaProps } from '../../../../components/Textarea'
-import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -20,6 +19,7 @@ import type {
   AllJSONSchemaVersions,
 } from '../../types'
 import useErrorMessage from '../../hooks/useErrorMessage'
+import useLocale from '../../hooks/useLocale'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -70,14 +70,13 @@ export type Props = FieldHelpProps &
 
 function StringComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
-  const sharedContext = useContext(SharedContext)
-  const tr = sharedContext?.translation.Forms
+  const translations = useLocale()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: tr.inputErrorRequired,
-    minLength: tr.stringInputErrorMinLength,
-    maxLength: tr.stringInputErrorMaxLength,
-    pattern: tr.inputErrorPattern,
+    required: translations.Field.errorRequired,
+    minLength: translations.StringField.errorMinLength,
+    maxLength: translations.StringField.errorMaxLength,
+    pattern: translations.Field.errorPattern,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
@@ -120,14 +119,15 @@ function StringComponent(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.trim]
   )
+  const transform = props.transformValue
   const transformValue = useCallback(
     (value: string) => {
       if (props.capitalize) {
         value = toCapitalized(String(value || ''))
       }
-      return value
+      return transform?.(value) || value
     },
-    [props.capitalize]
+    [props.capitalize, transform]
   )
 
   const preparedProps: Props = {

@@ -1,15 +1,34 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Input, Slider, Card, Flex } from '@dnb/eufemia/src'
+import { Input, Slider, Card, Flex, NumberFormat } from '@dnb/eufemia/src'
 import {
   Form,
-  StepsLayout,
   Field,
   Value,
   FieldBlock,
   useFieldProps,
   DataContext,
+  ValueBlock,
+  Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
+
+export const CreateBasicValueComponent = () => {
+  return (
+    <ComponentBox scope={{ ValueBlock }} hideCode>
+      {() => {
+        const MyValue = ({ value, ...props }) => {
+          return (
+            <ValueBlock {...props}>
+              <NumberFormat currency>{value}</NumberFormat>
+            </ValueBlock>
+          )
+        }
+
+        return <MyValue label="Label" value={1234} />
+      }}
+    </ComponentBox>
+  )
+}
 
 export const CreateBasicFieldComponent = () => {
   return (
@@ -20,38 +39,31 @@ export const CreateBasicFieldComponent = () => {
       hideCode
     >
       {() => {
-        const MyCustomField = (props) => {
+        const MyField = (props) => {
           const fromInput = React.useCallback(({ value }) => value, [])
 
           const preparedProps = {
-            ...props,
+            label: 'What is the secret of this field?',
             fromInput,
             validator: (value) => {
-              return value === 'secret'
-                ? new Error('Do not reveal the secret!')
-                : undefined
+              if (value === 'secret') {
+                return new Error('Do not reveal the secret!')
+              }
             },
+            ...props,
           }
 
           const {
             id,
-            info,
-            warning,
-            error,
             value,
+            label,
             handleChange,
             handleFocus,
             handleBlur,
           } = useFieldProps(preparedProps)
 
           return (
-            <FieldBlock
-              forId={id}
-              label="What is the secret of the custom field?"
-              info={info}
-              warning={warning}
-              error={error}
-            >
+            <FieldBlock forId={id} label={label}>
               <Input
                 id={id}
                 value={value}
@@ -64,9 +76,9 @@ export const CreateBasicFieldComponent = () => {
         }
 
         return (
-          <MyCustomField
-            value="Nothing to see here"
+          <MyField
             onChange={(value) => console.log('onChange', value)}
+            required
           />
         )
       }}
@@ -212,7 +224,6 @@ export const BaseFieldComponents = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -241,7 +252,6 @@ export const FeatureFields = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -260,7 +270,6 @@ export const LayoutComponents = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -290,7 +299,6 @@ export const VisibilityBasedOnData = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -344,7 +352,6 @@ export const UsingFormHandler = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -384,7 +391,6 @@ export const Validation = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -416,11 +422,10 @@ export const Validation = () => {
   )
 }
 
-export const WithSteps = () => {
+export const WithWizard = () => {
   return (
     <ComponentBox
       scope={{
-        StepsLayout,
         Value,
       }}
     >
@@ -439,8 +444,8 @@ export const WithSteps = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <StepsLayout mode="loose">
-          <StepsLayout.Step title="Name">
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Name">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -450,12 +455,10 @@ export const WithSteps = () => {
               <Field.String path="/lastName" label="Etternavn" required />
             </Card>
 
-            <Form.ButtonRow>
-              <StepsLayout.NextButton />
-            </Form.ButtonRow>
-          </StepsLayout.Step>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-          <StepsLayout.Step title="More information">
+          <Wizard.Step title="More information">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -466,13 +469,10 @@ export const WithSteps = () => {
               <Field.PhoneNumber path="/phone" />
             </Card>
 
-            <Form.ButtonRow>
-              <StepsLayout.PreviousButton />
-              <StepsLayout.NextButton />
-            </Form.ButtonRow>
-          </StepsLayout.Step>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-          <StepsLayout.Step title="Summary">
+          <Wizard.Step title="Summary">
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
@@ -487,12 +487,48 @@ export const WithSteps = () => {
             </Card>
 
             <Form.ButtonRow>
-              <StepsLayout.PreviousButton />
+              <Wizard.Buttons />
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </StepsLayout.Step>
-        </StepsLayout>
+          </Wizard.Step>
+        </Wizard.Container>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const Transformers = () => {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        const MyForm = () => {
+          const transformToUpper = (value) => {
+            return value?.toUpperCase()
+          }
+          const transformToLower = (value) => {
+            return value?.toLowerCase()
+          }
+
+          return (
+            <Form.Handler onChange={console.log}>
+              <Card stack>
+                <Field.String
+                  width="medium"
+                  label="Input value"
+                  placeholder="Type letters"
+                  path="/myField"
+                  transformIn={transformToUpper}
+                  transformOut={transformToLower}
+                />
+
+                <Value.String label="Output value" path="/myField" />
+              </Card>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

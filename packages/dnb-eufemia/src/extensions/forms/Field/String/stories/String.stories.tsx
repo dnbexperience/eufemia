@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field } from '../../..'
+import { Field, Form } from '../../..'
 import { Flex } from '../../../../../components'
 
 export default {
@@ -21,5 +21,24 @@ export const String = () => {
       <Field.String label="Label" width="large" />
       <Field.String label="Label" multiline width="large" />
     </Flex.Stack>
+  )
+}
+
+export const Transform = () => {
+  const transformIn = (value) => {
+    return value?.toUpperCase()
+  }
+  const transformOut = (value) => {
+    return value?.toLowerCase()
+  }
+  return (
+    <Form.Handler onChange={console.log}>
+      <Field.String
+        label="Label"
+        path="/myField"
+        transformIn={transformIn}
+        transformOut={transformOut}
+      />
+    </Form.Handler>
   )
 }

@@ -43,9 +43,7 @@ describe('TextCounter', () => {
     render(<TextCounter text="this is a long text" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
-    expect(element).toHaveTextContent(
-      'Du har brukt 9 tegn mer enn maksgrensen på 10'
-    )
+    expect(element).toHaveTextContent('9 tegn over grensen på 10.')
   })
 
   it('handles negative max correctly', () => {
@@ -112,16 +110,12 @@ describe('TextCounter', () => {
     rerender(<TextCounter text="testing" max={4} />)
 
     expect(element).toHaveClass('dnb-text-counter--exceeded')
-    expect(element).toHaveTextContent(
-      'Du har brukt 3 tegn mer enn maksgrensen på 4'
-    )
+    expect(element).toHaveTextContent('3 tegn over grensen på 4.')
 
     rerender(<TextCounter text="testing" max={4} variant="up" />)
 
     expect(element).toHaveClass('dnb-text-counter--exceeded')
-    expect(element).toHaveTextContent(
-      'Du har brukt 7 tegn mer enn maksgrensen på 4'
-    )
+    expect(element).toHaveTextContent('7 tegn over grensen på 4.')
   })
 
   it('should have empty AriaLive message before a text change is made', () => {
@@ -155,9 +149,7 @@ describe('TextCounter', () => {
 
     rerender(<TextCounter max={8} text="foo bar baz" lang="en-GB" />)
 
-    expect(counter).toHaveTextContent(
-      'You have exceeded the limit by 3 on 8 characters'
-    )
+    expect(counter).toHaveTextContent('3 characters over the limit of 8.')
 
     await waitFor(() => {
       expect(ariaLive).toHaveTextContent('')
