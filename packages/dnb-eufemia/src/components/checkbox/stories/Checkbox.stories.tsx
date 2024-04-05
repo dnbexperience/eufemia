@@ -29,8 +29,24 @@ export const CheckboxSandbox = () => (
       <Box>
         <ControlledVsUncontrolled />
       </Box>
+
       <Box>
-        <FormRow vertical disabled label="Without for_id (select me)">
+        <Checkbox />
+      </Box>
+      <Box>
+        <Checkbox size="large" />
+      </Box>
+
+      <Box>
+        <Checkbox checked />
+      </Box>
+
+      <Box>
+        <Checkbox label="lll" />
+      </Box>
+
+      <Box>
+        <FormRow vertical disabled label="Without forId (select me)">
           <Checkbox label="Checkbox" />
         </FormRow>
       </Box>
@@ -39,13 +55,13 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <p className="dnb-p">
-          Text: <FormLabel for_id="checkbox">Unchecked:</FormLabel>
+          Text: <FormLabel forId="checkbox">Unchecked:</FormLabel>
           <Checkbox id="checkbox" />
         </p>
       </Box>
       <Box>
         <p className="dnb-p">
-          Text:{' '}
+          Text:{' onchange:'}
           <Checkbox
             label="Checked"
             checked
@@ -57,7 +73,7 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <CustomRow>
-          <FormLabel for_id="checkbox-2">
+          <FormLabel forId="checkbox-2">
             Vertical FormLabel for a Checkbox component Sapien rhoncus
             sagittis pharetra ornare platea feugiat cras senectus viverra:
           </FormLabel>
@@ -71,7 +87,7 @@ export const CheckboxSandbox = () => (
         </CustomRow>
       </Box>
       <Box>
-        <FormLabel for_id="checkbox-1" label_direction="vertical" vertical>
+        <FormLabel forId="checkbox-1" label_direction="vertical" vertical>
           Vertical FormLabel for a Checkbox component:
         </FormLabel>
         <Checkbox id="checkbox-1" label="Unchecked disabled" disabled />
