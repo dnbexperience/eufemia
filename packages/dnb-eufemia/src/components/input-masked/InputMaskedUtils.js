@@ -117,24 +117,27 @@ export const correctNumberValue = ({
   if (localValue !== null) {
     const localNumberValue = localValue.replace(/[^\d,.-]/g, '')
     const numberValue = value.replace(/[^\d,.-]/g, '')
+    const valueHasDecimal = numberValue.includes(decimalSymbol)
 
-    const endsWithDecimal = localNumberValue.endsWith(decimalSymbol)
-    const endsWithZeroAndDecimal = localNumberValue.endsWith(
-      `${decimalSymbol}0`
-    )
+    if (!valueHasDecimal) {
+      const endsWithDecimal = localNumberValue.endsWith(decimalSymbol)
+      const endsWithZeroAndDecimal = localNumberValue.endsWith(
+        `${decimalSymbol}0`
+      )
 
-    if (endsWithDecimal) {
-      value = `${value}${decimalSymbol}`
-    } else if (
-      endsWithZeroAndDecimal &&
-      !numberValue.endsWith(`${decimalSymbol}0`)
-    ) {
-      /**
-       * When the users has 20,02, then hits "backspace",
-       * the returned {numberValue} in the onChange event would then be "20",
-       * but we want it to be 20,0
-       */
-      value = `${value}${decimalSymbol}0`
+      if (endsWithDecimal) {
+        value = `${value}${decimalSymbol}`
+      } else if (
+        endsWithZeroAndDecimal &&
+        !numberValue.endsWith(`${decimalSymbol}0`)
+      ) {
+        /**
+         * When the users has 20,02, then hits "backspace",
+         * the returned {numberValue} in the onChange event would then be "20",
+         * but we want it to be 20,0
+         */
+        value = `${value}${decimalSymbol}0`
+      }
     }
 
     /**
