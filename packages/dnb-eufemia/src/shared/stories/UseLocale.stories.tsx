@@ -9,7 +9,7 @@ import { Button, P } from '../..'
 
 import { useLocale } from '../useLocale'
 import Provider from '../Provider'
-import type { Locale } from '../Context'
+import type { InternalLocale } from '../Context'
 import { ButtonRow } from '../../extensions/forms/Form'
 
 export default {
@@ -18,7 +18,7 @@ export default {
 
 export const UseLocale = () => {
   const [count, increment] = useState(0)
-  const [locale, setLocale] = useState<Locale>('nb-NO')
+  const [locale, setLocale] = useState<InternalLocale>('nb-NO')
 
   return (
     <>
@@ -27,7 +27,7 @@ export const UseLocale = () => {
         <Locale />
         <LocaleComponents />
         <ButtonRow>
-          <Button onClick={() => setLocale('nb-NO')}>no-NB</Button>
+          <Button onClick={() => setLocale('nb-NO')}>nb-NO</Button>
           <Button onClick={() => setLocale('en-GB')}>en-GB</Button>
           <Button onClick={() => increment((c) => c + 1)}>
             increment

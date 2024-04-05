@@ -37,7 +37,8 @@ render(
 
 You can either set the locale as a properly e.g. `<Provider locale="en-GB" ...` and handle the change from the app root, or change it inside the app, respective Context:
 
-```jsx
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
@@ -53,13 +54,10 @@ const ChangeLocale = () => {
   }, [])
 
   return (
-    <Dropdown
-      value={locale}
-      data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { value } }) => {
-        setLocale(value)
-      }}
-    />
+    <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
+      <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-GB" title="English (GB)" />
+    </Field.Selection>
   )
 }
 
@@ -79,7 +77,8 @@ Yes, it's possible to have nested providers.
 
 You have then to decide what you need to update.
 
-```jsx
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
@@ -96,11 +95,13 @@ const ChangeLocale = () => {
   }, [])
 
   return (
-    <Dropdown
+    <Field.Selection
       value={locale}
-      data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data }) => data && setCurrentLocale(data.selected_key)}
-    />
+      onChange={(value) => setCurrentLocale(value)}
+    >
+      <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-GB" title="English (GB)" />
+    </Field.Selection>
   )
 }
 

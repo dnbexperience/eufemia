@@ -28,7 +28,7 @@ const defaultProps: PaymentCardProps = {
   digits: 'digits',
   raw_data: null,
   id: 'id',
-  locale: 'locale',
+  locale: 'nb-NO',
   skeleton: 'skeleton',
   class: 'class',
   className: 'className',

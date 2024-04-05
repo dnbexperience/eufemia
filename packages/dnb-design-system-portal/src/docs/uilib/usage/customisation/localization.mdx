@@ -78,30 +78,28 @@ render(
 
 You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
 
-```jsx
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
 const ChangeLocale = () => {
   const { setLocale, locale } = React.useContext(Context)
 
-  return <Dropdown
-    value={locale}
-    data={{ 'nb-NO': 'Norsk', 'en-GB': 'English' }}
-    on_change={({ data: { value } }) => {
-      setLocale(value)
-    }}
-  />
+  return (
+    <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
+      <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-GB" title="English (GB)" />
+    </Field.Selection>
+  )
 }
 
 render(
-  <Provider ...>
+  <Provider>
     <MyApp>
-      ...
       <ChangeLocale />
-      ...
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -153,7 +151,7 @@ Now, lets say you have your translation files as JSON object/files `en.json`:
 
 and use it like this:
 
-```jsx
+```tsx
 import EufemiaProvider from '@dnb/eufemia/shared/Provider'
 import useTranslation, {
   Translation,
@@ -187,25 +185,25 @@ render(
 
 It is possible to use the Eufemia shared Provider for your own project / App localization.
 
-```js
-import Provider from '@dnb/eufemia/shared/Provider'
+```tsx
+import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
 
 const customTranslation = {
   // extend the translation
   'en-GB': {
-    myString: 'Custom string'
+    myString: 'Custom string',
     myGroup: {
-      subString: 'Second string'
-    }
-  }
-}
+      subString: 'Second string',
+    },
+  },
+} as Locales
 
 render(
-  <Provider locales={customTranslation} locale="en-GB">
+  <Provider translations={customTranslation} locale="en-GB">
     <MyApp>
       <MyComponent />
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -255,7 +253,7 @@ render(
 
 or add/update the locales during runtime:
 
-```jsx
+```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
