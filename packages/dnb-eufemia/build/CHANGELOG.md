@@ -3,6 +3,38 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.26.0](https://github.com/dnbexperience/eufemia/compare/v10.25.0...v10.26.0) (2024-04-05)
+
+
+### :sparkles: Features
+
+* **forms:** add `Field.Composition` to combine fields instead of using FieldBlock ([#3418](https://github.com/dnbexperience/eufemia/issues/3418)) ([c0607e1](https://github.com/dnbexperience/eufemia/commit/c0607e193e57e597c5cab7984118f9a6e7a47d34))
+* **forms:** add `transformIn` and `transformOut` to fields for value transformation ([#3428](https://github.com/dnbexperience/eufemia/issues/3428)) ([f07aee7](https://github.com/dnbexperience/eufemia/commit/f07aee79381e09c6dc5b24d091658fe8ee589c62))
+* **forms:** add max width to Card when used in forms ([#3416](https://github.com/dnbexperience/eufemia/issues/3416)) ([28e89c8](https://github.com/dnbexperience/eufemia/commit/28e89c8cda9962a44e1034a93b2e27302cc77e29))
+* **forms:** add router support ([#3427](https://github.com/dnbexperience/eufemia/issues/3427)) ([8b9a20a](https://github.com/dnbexperience/eufemia/commit/8b9a20a3ccd4fbe768fb4de3fc78f706a304cd57))
+* **forms:** group from translations by components and add `useLocale` hook ([#3332](https://github.com/dnbexperience/eufemia/issues/3332)) ([9bc9ee2](https://github.com/dnbexperience/eufemia/commit/9bc9ee27671feb5b859700bfa66ed17b590e546c))
+* **forms:** make `Wizard.Buttons` interactive (use it in favor of NextButton and PreviousButton) ([#3437](https://github.com/dnbexperience/eufemia/issues/3437)) ([5967a6d](https://github.com/dnbexperience/eufemia/commit/5967a6dbf8b3605469917aa1fa5de73a93f3b452))
+* **forms:** refactor API from StepsLayout to Steps.Layout ([#3426](https://github.com/dnbexperience/eufemia/issues/3426)) ([9bb72e7](https://github.com/dnbexperience/eufemia/commit/9bb72e749d05c0b4e5112256a0a8d91085f396d0))
+* **forms:** refactor API from StepsLayout to Wizard.Container ([#3433](https://github.com/dnbexperience/eufemia/issues/3433)) ([1f0184d](https://github.com/dnbexperience/eufemia/commit/1f0184d82ccf81907aafa4c8313a31197eeeea6b)), closes [/github.com/dnbexperience/eufemia/pull/3426#issuecomment-2034150647](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/3426/issues/issuecomment-2034150647) [#3426](https://github.com/dnbexperience/eufemia/issues/3426)
+
+
+### :memo: Documentation
+
+* enhance breakpoints and media query docs ([#3435](https://github.com/dnbexperience/eufemia/issues/3435)) ([aea624f](https://github.com/dnbexperience/eufemia/commit/aea624fffac917e59faca219c880a77d6a47a518))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** use current value to filter changed data ([#3407](https://github.com/dnbexperience/eufemia/issues/3407)) ([7a778c7](https://github.com/dnbexperience/eufemia/commit/7a778c7f25dfdf31c85ff60b94fe243d25974939)), closes [#3355](https://github.com/dnbexperience/eufemia/issues/3355)
+* **Card:** ensure "spacing" children do stretch by default ([#3422](https://github.com/dnbexperience/eufemia/issues/3422)) ([c0259bc](https://github.com/dnbexperience/eufemia/commit/c0259bc7b9fcb9161c12a176e2108a5a10d9084b))
+* **forms:** add pattern requirement for city in PostalCodeAndCity ([#3431](https://github.com/dnbexperience/eufemia/issues/3431)) ([080bbee](https://github.com/dnbexperience/eufemia/commit/080bbee2e5cf58860b389423712544895d6da0d4))
+* **forms:** align locale strings and translations ([#3429](https://github.com/dnbexperience/eufemia/issues/3429)) ([369bed0](https://github.com/dnbexperience/eufemia/commit/369bed0136f2fae06aa5398d84a3113602e771db))
+* **InputMasked:** ensure decimal value update does format correctly  ([#3420](https://github.com/dnbexperience/eufemia/issues/3420)) ([335a86b](https://github.com/dnbexperience/eufemia/commit/335a86be803bc4fc8de0bcc5215d5cc74553fc6d))
+* **Table:** ensure tables with one td align the th width ([#3430](https://github.com/dnbexperience/eufemia/issues/3430)) ([3e5ee98](https://github.com/dnbexperience/eufemia/commit/3e5ee987d9e65aae1b237f2d16d67ff75b41234c))
+* **Textarea:** forward all props via provider (including `autoresize`) ([#3436](https://github.com/dnbexperience/eufemia/issues/3436)) ([a9260fd](https://github.com/dnbexperience/eufemia/commit/a9260fd41ba9752f87aca914f0804573a215eed9))
+* **TextCounter:** update text/translation for when limit exceeded ([#3434](https://github.com/dnbexperience/eufemia/issues/3434)) ([8b881f3](https://github.com/dnbexperience/eufemia/commit/8b881f32969a66fd176dcb29e7d1a42f639c23f0))
+* **useStep:** fix possibly undefined type message ([#3415](https://github.com/dnbexperience/eufemia/issues/3415)) ([95ab0b1](https://github.com/dnbexperience/eufemia/commit/95ab0b1b1a7723613f5e486ae5d778026e9282fa))
+
 ## [10.25.0](https://github.com/dnbexperience/eufemia/compare/v10.24.0...v10.25.0) (2024-03-25)
 
 
