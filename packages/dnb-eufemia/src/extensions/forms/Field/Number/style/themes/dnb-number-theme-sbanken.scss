@@ -5,20 +5,20 @@
   --number-control-button-border-color--hover: var(
     --sb-color-purple-alternative
   );
+  --number-control-separator-color: var(--sb-color-violet-light-3);
   --number-control-button-border-color--focus: var(--focus-ring-color);
   --number-control-button-border-width--focus: var(--focus-ring-width);
-  --number-control-button-background-color--hover: #e0d0ff;
+  --number-control-button-background-color--hover: var(
+    --sb-color-violet-light-3
+  );
   --number-control-button-color--hover: var(--sb-color-purple-alternative);
-  --number-control-button-background-color--active: #1c1b4e;
-  --number-control-button-color--active: #e0d0ff;
+  --number-control-button-background-color--active: var(--sb-color-purple);
+  --number-control-button-color--active: var(--sb-color-violet-light-3);
   --number-control-button--error: var(--sb-color-red);
   --number-control-button--error-contrast: var(--sb-color-magenta-light-2);
 
   &__contents {
     &--has-controls {
-      background-color: #1c1b4e;
-      border-radius: 3rem;
-
       // There is no small size in Sbanken
       .dnb-button.dnb-button--size-small {
         --button-height--small: 2.5rem;
@@ -29,11 +29,11 @@
         position: relative;
         &::before,
         &::after {
+          content: '';
           position: absolute;
           top: 0.25rem;
           bottom: 0.25rem;
-          border-left: 0.0625rem solid #e0d0ff;
-          content: '';
+          border-left: 1px solid var(--number-control-separator-color);
           z-index: 1;
         }
         &::before {
@@ -43,6 +43,18 @@
           right: -1px;
         }
       }
+
+      .dnb-input__border--root {
+        --input-border-color: var(--number-control-button-border-color);
+        --input-border-color--hover: var(
+          --number-control-button-border-color--hover
+        );
+        --input-border-color--active: var(
+          --number-control-button-border-color--active
+        );
+        --input-border-radius: var(--input-border-radius--active);
+      }
+
       .dnb-button--control-before:not(:disabled):active
         ~ .dnb-input::before {
         z-index: -1;
@@ -52,31 +64,14 @@
       }
     }
 
-    &--has-controls#{&}--has-error {
-      .dnb-input {
-        &::before,
-        &::after {
-          border-left: 0.0625rem solid
-            var(--number-control-button--error-contrast);
-        }
-      }
+    &--has-controls.dnb-input__status--error {
+      --number-control-separator-color: var(
+        --number-control-button--error-contrast
+      );
     }
 
-    &--has-controls#{&}--is-disabled {
-      @include fakeBorder(var(--sb-color-gray-dark), 0.0625rem);
-      @include hover() {
-        @include fakeBorder(var(--sb-color-gray-dark), 0.0625rem);
-      }
-      background-color: var(--sb-color-gray-light);
-      .dnb-input {
-        &__input {
-          color: var(--sb-color-gray-dark);
-        }
-        &::before,
-        &::after {
-          border-left: 0.0625rem solid var(--sb-color-gray-dark);
-        }
-      }
+    &--has-controls.dnb-input--disabled {
+      --number-control-separator-color: var(--sb-color-gray-dark);
 
       .dnb-button--control-before[disabled],
       .dnb-button--control-after[disabled] {

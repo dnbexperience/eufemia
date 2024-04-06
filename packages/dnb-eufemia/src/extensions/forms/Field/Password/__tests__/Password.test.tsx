@@ -210,6 +210,7 @@ describe('Password component', () => {
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-forms-field-string__input',
       'dnb-input--password',

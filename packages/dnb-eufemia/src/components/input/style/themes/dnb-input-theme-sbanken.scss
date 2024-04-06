@@ -5,34 +5,66 @@
 
 @import '../../../../style/core/utilities.scss';
 
+.dnb-input__border--tokens {
+  // Border
+  --input-border-color: var(--sb-color-gray-dark-2);
+  --input-border-color--hover: var(--sb-color-violet);
+  --input-border-color--active: var(--sb-color-violet);
+  --input-border-color--focus: var(--focus-ring-color);
+  --input-border-color--disabled: var(--sb-color-gray);
+  --input-border-color__error: var(--sb-color-red);
+  --input-border-color__error--focus: var(--sb-color-red);
+  --input-border-width: 0.0625rem;
+  --input-border-width--hover: 0.125rem;
+  --input-border-width--active: 0.0625rem;
+  --input-border-width--disabled: 0.0625rem;
+  --input-border-width--focus: var(--focus-ring-width);
+  --input-border-width__error: 0.0625rem;
+  --input-border-width__error--hover: 0.125rem;
+  --input-border-width__error--active: 0.125rem;
+  --input-border-inset: inset;
+  --input-border-inset--hover: inset;
+  --input-border-inset--active: inset;
+  --input-border-inset--focus: inset;
+  --input-border-inset--disabled: inset;
+  --input-border-radius: 0.5rem;
+  --input-border-radius--active: 1.5rem;
+  --input-border-radius--focus: 1.5rem;
+}
+
 .dnb-input {
   --input-height: 2.5rem;
-  --input-button-border-color: var(--input-border-color);
-  --input-button-border-width: var(--input-border-width);
-  --input-border-radius: 0.5rem;
-  --input-border-width: 0.0625rem;
 
   // Text
   --input-color: var(--input-color--default);
   --input-color--default: var(--sb-color-text);
   --input-color--active: var(--sb-color-text);
 
-  // Border
-  --input-border-color: var(--sb-color-gray-dark-2);
-  --input-border-color--hover: var(--sb-color-violet);
-  --input-border-color--active: var(--sb-color-violet);
-  --input-border-color--focus: var(--focus-ring-color);
+  // Button
+  --input-button-border-color: var(--input-border-color);
+  --input-button-border-width: var(--input-border-width);
+
+  // - Border outline handling
+  &__border:focus-within {
+    --b-width: var(--input-border-width--active);
+  }
+  &__border:hover,
+  &__border.hover {
+    --b-width: var(--input-border-width--hover);
+  }
+  &__status--error &__border:focus-within {
+    --b-width: var(--input-border-width--active);
+  }
+  &__status--error &__border:hover,
+  &__status--error &__border.hover {
+    --b-width: var(--input-border-width--hover);
+  }
 
   &__shell {
     background-color: var(--input-background-color);
     transition: border-radius 0.25s ease-out;
     border: none;
     color: var(--input-color);
-    @include fakeBorder(
-      var(--input-border-color),
-      var(--input-border-width),
-      inset
-    );
   }
 
   &__submit-button__button {
@@ -45,8 +77,6 @@
   }
 
   &[data-input-state='disabled'] {
-    --input-border-color: var(--sb-color-gray);
-
     .dnb-input__shell {
       &,
       .dnb-icon,
@@ -64,36 +94,12 @@
     // Focus
     &[data-input-state='focus'] {
       --input-color: var(--input-color--active);
-      --input-border-radius: 1.5rem;
-      --input-border-color: var(--input-border-color--active);
-
-      html[data-whatinput='keyboard'] & {
-        --input-button-border-color: var(--input-border-color--focus);
-        --input-button-border-width: var(--focus-ring-width);
-      }
-      .dnb-input__shell {
-        @include focusRing(
-          null,
-          var(--input-border-color--focus),
-          inset
-        ); // keyboard only
-      }
-    }
-
-    // Hover
-    .dnb-input__shell:hover,
-    .dnb-form-label:hover + .dnb-input__inner .dnb-input__shell {
-      --input-border-color: var(--input-border-color--hover);
-      --input-border-width: 0.125rem;
     }
 
     &.dnb-input__status--error {
-      --input-border-color: var(--sb-color-red);
       --input-color--default: var(--sb-color-red);
       --input-color--active: var(--sb-color-text);
-      --input-border-color--hover: var(--sb-color-red);
-      --input-border-color--active: var(--sb-color-red);
-      --input-border-color--focus: var(--sb-color-red);
+      --input-button-border-color: var(--sb-color-red);
 
       .dnb-input__submit-button__button {
         --button-secondary-background--hover: var(--sb-color-red);

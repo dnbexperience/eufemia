@@ -409,6 +409,7 @@ export default class Input extends React.PureComponent {
     const mainParams = {
       className: classnames(
         'dnb-input',
+        'dnb-input__border--tokens',
         type && `dnb-input--${type}`,
         size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-element',
@@ -416,6 +417,7 @@ export default class Input extends React.PureComponent {
         isTrue(clear) && 'dnb-input--has-clear-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
+        disabled && 'dnb-input--disabled',
         icon && `dnb-input--icon-position-${icon_position}`,
         icon && 'dnb-input--has-icon',
         icon && iconSize && `dnb-input--icon-size-${iconSize}`,
@@ -481,6 +483,7 @@ export default class Input extends React.PureComponent {
     const shellParams = {
       className: classnames(
         'dnb-input__shell',
+        'dnb-input__border',
         createSkeletonClass('shape', skeleton, this.context)
       ),
     }
