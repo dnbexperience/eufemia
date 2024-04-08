@@ -374,21 +374,19 @@ describe('Tooltip', () => {
       const wrapperElement = document.querySelector(
         '.dnb-tooltip__wrapper'
       )
-      const tooltipElement = document.querySelector('.dnb-tooltip')
-      const numberFormatElement = wrapperElement.querySelector(
-        '.dnb-number-format__visible'
-      )
-      const id = numberFormatElement.getAttribute('aria-describedby')
-
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
       expect(Array.from(wrapperElement.classList)).toEqual([
         'dnb-tooltip__wrapper',
         'dnb-tab-focus',
       ])
+
+      const tooltipElement = document.querySelector('.dnb-tooltip')
       expect(Array.from(tooltipElement.classList)).toEqual([
         'dnb-tooltip',
         'custom-class',
       ])
+
+      const id = wrapperElement.getAttribute('aria-describedby')
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
     })
 

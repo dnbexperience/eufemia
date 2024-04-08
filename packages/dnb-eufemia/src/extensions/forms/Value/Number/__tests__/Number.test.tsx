@@ -102,7 +102,7 @@ describe('Value.Number', () => {
 
       expect(
         document
-          .querySelector('.dnb-number-format span[id]')
+          .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
       ).toBe('-12 345,68 kroner')
     })
@@ -124,7 +124,7 @@ describe('Value.Number', () => {
       ).toHaveTextContent('kroner -12 345.68')
       expect(
         document
-          .querySelector('.dnb-number-format span[id]')
+          .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
       ).toBe('-12 345.68 kroner')
 
@@ -144,7 +144,7 @@ describe('Value.Number', () => {
       ).toHaveTextContent('Swedish kronor -12 345.68')
       expect(
         document
-          .querySelector('.dnb-number-format span[id]')
+          .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
       ).toBe('-12 345.68 Swedish kronor')
     })
