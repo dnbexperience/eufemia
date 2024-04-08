@@ -233,6 +233,7 @@ function MultiInputMaskDate() {
       onChange={({ day, month, year }) => setValues({ day, month, year })}
       values={values}
       delimiter="/"
+      labelDirection="vertical"
       inputs={[
         {
           id: 'day',

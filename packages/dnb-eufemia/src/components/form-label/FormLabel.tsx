@@ -75,6 +75,13 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     )
   )
 
+  const nestedContent = props?.text || props?.children
+  const nestedNode =
+    nestedContent?.['type'] === FormLabel ? nestedContent?.['type'] : null
+  const nestedElement = nestedNode
+    ? () => React.createElement(nestedNode, nestedContent['props'])
+    : null
+
   const {
     forId,
     text,
@@ -83,7 +90,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     labelDirection,
     size,
     skeleton,
-    element: Element = 'label',
+    element: Element = nestedElement || 'label',
     innerRef,
     className,
     children,
@@ -118,7 +125,9 @@ export default function FormLabel(localProps: FormLabelAllProps) {
 
   const labelRef = useRef<HTMLLabelElement>(null)
   const ref = innerRef || labelRef
-  params['ref'] = ref
+  if (!nestedNode) {
+    params['ref'] = ref
+  }
 
   useEffect(() => {
     if (!forId) {
