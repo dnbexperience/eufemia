@@ -4,20 +4,24 @@ title: 'Animation Principles'
 
 # Animation Principles
 
-Animations by itself contains a wide range of possible experiences, including micro-animations.
+## Introduction
+
+Animations play a crucial role in enhancing user experience by providing engaging and intuitive interactions. The Eufemia Animation Principles serve as a guide to ensure consistency and effectiveness in animation design across DNB applications.
 
 ## Purpose
 
-The purposes of the Eufemia Animation Principles are:
+The Eufemia Animation Principles aim to:
 
-1. To gain and foster consistency in the experience of animations
-2. To give a deeper understanding in why and when we should animate
-3. To guide and help designers and developers making user centric animations
-4. To enhance generally the universal design related user experience for all kinds of people, including those with cognitive challenges.
+1. Establish consistency in animation experiences.
+1. Offer insights into the rationale behind animations.
+1. Assist designers and developers in creating user-centric animations.
+1. Improve the overall user experience, including accessibility considerations.
+
+Animations serve multiple purposes in our user interfaces, ranging from guiding users' attention to providing feedback on interactions. They play a significant role in enhancing the overall user experience by making interfaces more intuitive and engaging.
 
 ## Micro-Interactions
 
-When animations are used to enhance the user experience in DNB applications, its often tied together in harmony with the "users" interaction.
+Micro-interactions are subtle yet impactful animations that respond to user actions, providing feedback and enhancing usability. These interactions focus on specific user tasks and contribute to a seamless and intuitive user experience.
 
 Therefore, these animation principles will focus on so called "micro" interactions. Still, they are animations.
 
@@ -25,11 +29,11 @@ Therefore, these animation principles will focus on so called "micro" interactio
 
 Micro-interactions appeal to a users desire to see the result of their action. This is how users can better understand the essential functions of the application. So, they will:
 
-- Enhance the sense of control.
-- Help users see the result of their action.
-- Communicate feedback or the result of an action very quick.
+- Enhance user control and understanding.
+- Provide immediate feedback on user actions.
+- Communicate changes or outcomes effectively.
 
-## Making user-centric animations
+## Creating User-Centric Animations
 
 Animations ask the user for attention. They may delight the user and create a moment that is engaging. But not necessarily in a positive way. People will always experience animations differently. And therefore its more over important to keep animations in a DNB wide consistency.
 
@@ -37,25 +41,27 @@ The users desire to use an app is often proportional to the design of the app. A
 
 Animations can give users feelings and a certain state of mind. Therefore we should make them with care and follow the the best practices written in these principles.
 
+In certain situations, animations can help users understand the flow or hierarchy of an interface. Here, subtle animations move elements smoothly, providing users with a seamless experience without overwhelming them with aggressive movements.
+
 ## Do's and don'ts
 
 Animations in DNB applications should:
 
-- help the user understanding the content.
-- help to focus on the underlying action.
-- give the user a feeling of control.
-- be almost not noticeable.
-- be rather too short than too long.
-- use a slow-fast-slow easing.
+- Help the user understanding the content.
+- Help to focus on the underlying action.
+- Give the user a feeling of control.
+- Be almost not noticeable.
+- Be rather too short than too long.
+- Use a slow-fast-slow easing.
 
 Animations should not:
 
-- ask for attention by itself.
-- exist to make the application look cool or feel impressive.
-- happen off-content.
-- start by its own.
-- use a spring or bounce easing.
-- make the user wait for it to finish.
+- Ask for attention by itself.
+- Exist to make the application look cool or feel impressive.
+- Happen off-content.
+- Start by its own.
+- Use a spring or bounce easing.
+- Make the user wait for it to finish.
 
 ## Consistency in the experience of animations
 
@@ -63,7 +69,15 @@ To achieve a consistent experience of animations, we should reuse given tools an
 
 To give the user the experience of something sliding in, it does not need to animate from the very start to the very end. It often is enough to just show the last part of the animation.
 
-A good examples of an component using micro-interactions is the [Accordion](/uilib/components/accordion) with its animations.
+### Examples
+
+Good examples of Eufemia components using micro-interactions are:
+
+- [Accordion](/uilib/components/accordion) with its open and close animation.
+- [Table](o/uilib/components/table/#table-with-accordion) with its parallax animation.
+- [Areadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) with its collapse and expand animation.
+- [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) with its open and close animation.
+- [TextCounter](/uilib/components/fragments/text-counter) with its error message appearance.
 
 ### Helpers to use in code
 
