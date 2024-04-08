@@ -11,6 +11,7 @@ export { default as VisibilityByTheme } from './VisibilityByTheme'
 export { default as MediaQuery } from './MediaQuery'
 export { default as useMediaQuery } from './useMediaQuery'
 export { default as useMedia } from './useMedia'
-export { useLocale } from './useLocale'
+export { default as useTranslation } from './useTranslation'
+export { default as Translation } from './Translation'
 
 export type { ThemeNames } from './Theme'

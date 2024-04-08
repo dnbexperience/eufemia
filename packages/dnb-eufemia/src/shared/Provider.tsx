@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Context, { prepareContext } from './Context'
-import type { ContextProps, Locale } from './Context'
+import type { ContextProps, InternalLocale } from './Context'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 
 export type ProviderProps = {
@@ -46,11 +46,11 @@ export default function Provider<Props>(
     setLocalContext({ __context__: props })
   }
 
-  function setCurrentLocale(locale: Locale) {
+  function setCurrentLocale(locale: InternalLocale) {
     setLocalContext({ __context__: { locale } })
   }
 
-  function setAllLocale(locale: Locale) {
+  function setAllLocale(locale: InternalLocale) {
     updateAll({ locale })
   }
 

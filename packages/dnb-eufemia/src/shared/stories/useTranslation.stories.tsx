@@ -7,18 +7,18 @@ import React, { useState } from 'react'
 
 import { Button, P } from '../..'
 
-import { useLocale } from '../useLocale'
 import Provider from '../Provider'
-import type { Locale } from '../Context'
+import type { InternalLocale } from '../Context'
 import { ButtonRow } from '../../extensions/forms/Form'
+import useTranslation from '../useTranslation'
 
 export default {
-  title: 'Eufemia/Components/UseLocale',
+  title: 'Eufemia/Components/useTranslation',
 }
 
-export const UseLocale = () => {
+export const Sandbox = () => {
   const [count, increment] = useState(0)
-  const [locale, setLocale] = useState<Locale>('nb-NO')
+  const [locale, setLocale] = useState<InternalLocale>('nb-NO')
 
   return (
     <>
@@ -27,7 +27,7 @@ export const UseLocale = () => {
         <Locale />
         <LocaleComponents />
         <ButtonRow>
-          <Button onClick={() => setLocale('nb-NO')}>no-NB</Button>
+          <Button onClick={() => setLocale('nb-NO')}>nb-NO</Button>
           <Button onClick={() => setLocale('en-GB')}>en-GB</Button>
           <Button onClick={() => increment((c) => c + 1)}>
             increment
@@ -40,7 +40,7 @@ export const UseLocale = () => {
 }
 
 const Locale = () => {
-  const translation = useLocale()
+  const translation = useTranslation()
 
   return <P>{translation.DatePicker.mask_placeholder}</P>
 }
@@ -55,9 +55,9 @@ const tr = {
 }
 
 const LocaleComponents = () => {
-  const translations = useLocale(tr)
+  const translations = useTranslation(tr)
 
-  // const translations = useLocale({
+  // const translations = useTranslation({
   //   'nb-NO': {
   //     Autocomplete: {
   //       title: 'Autocomplete',

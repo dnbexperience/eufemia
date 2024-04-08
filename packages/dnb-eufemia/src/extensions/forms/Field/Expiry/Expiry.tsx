@@ -8,7 +8,7 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import { useLocale as useSharedLocale } from '../../../../shared'
+import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useLocale from '../../hooks/useLocale'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
@@ -27,7 +27,7 @@ function Expiry(props: ExpiryProps) {
       month: monthLabel,
       year: yearLabel,
     },
-  } = useSharedLocale()
+  } = useSharedTranslation()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,

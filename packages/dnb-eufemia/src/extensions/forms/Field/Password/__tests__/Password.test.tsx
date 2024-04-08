@@ -239,7 +239,7 @@ describe('Password component', () => {
     }
 
     render(
-      <Provider locales={tr}>
+      <Provider translations={tr}>
         <Password />
       </Provider>
     )

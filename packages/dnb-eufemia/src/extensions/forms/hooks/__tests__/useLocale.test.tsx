@@ -19,7 +19,11 @@ describe('Form.useLocale', () => {
       wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
 
-    expect(result.current).toEqual(nbNO[defaultLocale])
+    expect(result.current).toEqual(
+      Object.assign(nbNO[defaultLocale], {
+        formatMessage: expect.any(Function),
+      })
+    )
   })
 
   it('should inherit locale from shared context', () => {
@@ -29,7 +33,9 @@ describe('Form.useLocale', () => {
       ),
     })
 
-    expect(resultGB.current).toEqual(enGB['en-GB'])
+    expect(resultGB.current).toEqual(
+      Object.assign(enGB['en-GB'], { formatMessage: expect.any(Function) })
+    )
 
     const { result: resultNO } = renderHook(() => useLocale(), {
       wrapper: ({ children }) => (
@@ -37,7 +43,9 @@ describe('Form.useLocale', () => {
       ),
     })
 
-    expect(resultNO.current).toEqual(nbNO['nb-NO'])
+    expect(resultNO.current).toEqual(
+      Object.assign(nbNO['nb-NO'], { formatMessage: expect.any(Function) })
+    )
   })
 
   it('should extend translation', () => {
