@@ -5,16 +5,34 @@
 
 @import '../../../../style/core/utilities.scss';
 
-.dnb-input {
+.dnb-input__border--tokens {
   // Border
   --input-border-color: var(--color-sea-green);
   --input-border-color--hover: var(--color-sea-green);
+  --input-border-color--active: var(--color-emerald-green);
   --input-border-color--focus: var(--color-emerald-green);
   --input-border-color--disabled: var(--color-black-55);
-  --input-border-radius: 0.25rem;
+  --input-border-color__error: var(--color-fire-red);
+  --input-border-color__error--focus: var(--color-fire-red);
   --input-border-width: 0.0625rem;
+  --input-border-width--hover: 0.125rem;
+  --input-border-width--active: 0.125rem;
   --input-border-width--focus: 0.125rem;
+  --input-border-width--disabled: 0.0625rem;
+  --input-border-width__error: 0.0625rem;
+  --input-border-width__error--hover: 0.125rem;
+  --input-border-width__error--active: 0.125rem;
+  --input-border-inset: inset;
+  --input-border-inset--hover: ;
+  --input-border-inset--active: ;
+  --input-border-inset--focus: ;
+  --input-border-inset--disabled: inset;
+  --input-border-radius: 0.25rem;
+  --input-border-radius--active: 0.25rem;
+  --input-border-radius--focus: 0.25rem;
+}
 
+.dnb-input {
   color: var(--color-black);
 
   &__inner {
@@ -25,19 +43,14 @@
     color: inherit;
     background-color: var(--input-background-color);
     border: none;
-
-    @include fakeBorder(
-      var(--input-border-color),
-      var(--input-border-width),
-      inset
-    );
   }
 
-  // Icon
-  &__icon {
-    color: var(--color-sea-green);
+  // With status_state = "error"
+  &__status--error#{&} &__shell:not(:focus-within) {
+    color: var(--color-fire-red);
   }
 
+  // With disabled state
   &[data-input-state='disabled'] &__shell {
     &,
     .dnb-icon {
@@ -45,46 +58,7 @@
     }
     -webkit-text-fill-color: currentcolor;
 
-    @include fakeBorder(
-      var(--input-border-color--disabled),
-      var(--input-border-width),
-      inset
-    );
     background-color: var(--color-black-3);
-  }
-
-  &:not([data-input-state='disabled']) &__shell:hover,
-  &:not([data-input-state='disabled']):hover &__shell {
-    @include fakeBorder(
-      var(--input-border-color--hover),
-      var(--input-border-width--focus)
-    );
-  }
-
-  &[data-input-state='focus']:not([data-input-state='disabled']) &__shell {
-    @include fakeBorder(
-      var(--input-border-color--focus),
-      var(--input-border-width--focus)
-    );
-  }
-
-  // with status_state = "error"
-  &__status--error#{&}:not([data-input-state='focus']) &__shell {
-    color: var(--color-fire-red);
-  }
-  &__status--error#{&}:not([data-input-state='focus']):not(:hover)
-    &__shell {
-    --input-border-color: transparent;
-    @include fakeBorder(var(--color-fire-red));
-  }
-  &__status--error#{&}[data-input-state='focus'] &__shell,
-  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
-  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
-    --input-border-color: var(--color-fire-red);
-    @include fakeBorder(
-      var(--color-fire-red),
-      var(--input-border-width--focus)
-    );
   }
 
   &__status--error &__submit-button {
@@ -97,7 +71,7 @@
       &__button.dnb-button--secondary:not(
         &__button--has-text,
         [disabled]
-      ):focus {
+      ):focus-visible {
       &,
       &::after {
         background-color: var(--color-fire-red);
@@ -109,6 +83,10 @@
     }
   }
 
+  // Icon
+  &__icon {
+    color: var(--color-sea-green);
+  }
   &__status--error &__icon {
     color: var(--color-fire-red);
   }

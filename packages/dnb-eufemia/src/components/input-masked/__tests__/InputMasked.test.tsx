@@ -1627,6 +1627,7 @@ describe('InputMasked component as_currency', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-space__top--large',
       'dnb-input-masked',
@@ -1653,6 +1654,7 @@ describe('InputMasked component as_currency', () => {
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-input-masked',
       'dnb-input--text',

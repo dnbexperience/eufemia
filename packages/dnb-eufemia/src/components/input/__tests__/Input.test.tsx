@@ -404,10 +404,15 @@ describe('Input component', () => {
     )
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('has a disabled attribute and class when disabled', () => {
     const { rerender } = render(<Input />)
+
     rerender(<Input disabled={true} />)
+
     expect(document.querySelector('input')).toHaveAttribute('disabled')
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--disabled'
+    )
   })
 
   it('has a submit button on prop type="search"', () => {
@@ -531,6 +536,7 @@ describe('Input with clear button', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-space__top--large',
       'dnb-input--text',
@@ -556,6 +562,7 @@ describe('Input with clear button', () => {
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-input--text',
       'dnb-input--vertical',

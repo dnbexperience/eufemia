@@ -948,6 +948,10 @@ button .dnb-form-status__text {
   align-items: center;
   border: var(--input-border-width) solid var(--color-sea-green);
 }
+.dnb-input__row {
+  display: inline-flex;
+  align-items: center;
+}
 .dnb-input__input {
   border: none;
   outline: none;
@@ -987,6 +991,58 @@ button .dnb-form-status__text {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.dnb-input__border {
+  display: flex;
+  border-radius: var(--b-radius, var(--input-border-radius));
+  --border-color: var(--b-color, var(--input-border-color));
+  --border-width: var(--b-width, var(--input-border-width));
+  box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-input--disabled .dnb-input__border {
+  --border-color: var(--input-border-color--disabled);
+  --border-width: var(--input-border-width--disabled);
+  box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-input__border:focus-within {
+  --b-color: var(--input-border-color--active);
+  --b-width: var(--input-border-width--active);
+  --b-inset: var(--input-border-inset--active);
+  --b-radius: var(--input-border-radius--active);
+}
+.dnb-input__border:hover, .dnb-input__border.hover {
+  --b-color: var(--input-border-color--hover);
+  --b-width: var(--input-border-width--hover);
+  --b-inset: var(--input-border-inset--hover);
+}
+.dnb-input__status--error .dnb-input__border {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error);
+}
+.dnb-input__status--error .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error--active);
+  --b-inset: var(--input-border-inset--active);
+  --b-radius: var(--input-border-radius--active);
+}
+.dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border.hover {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error--hover);
+  --b-inset: var(--input-border-inset--hover);
+}
+html[data-whatinput=keyboard] .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color--focus);
+  --b-width: var(--input-border-width--focus);
+  --b-inset: var(--input-border-inset--focus);
+  --b-radius: var(--input-border-radius--focus);
+}
+html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color__error--focus);
+  --b-width: var(--input-border-width--focus);
+  --b-inset: var(--input-border-inset--focus);
+  --b-radius: var(--input-border-radius--focus);
+}
 .dnb-input input.dnb-input__input[type=file] {
   line-height: calc(var(--input-height) - 2px);
 }
@@ -1023,10 +1079,6 @@ button .dnb-form-status__text {
 .dnb-input--password .dnb-input__input {
   font-family: var(--font-family-monospace);
 }
-.dnb-input__row {
-  display: inline-flex;
-  align-items: center;
-}
 .dnb-input__input:autofill {
   box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color) var(--autofill-inset, inset), 0 0 0 10em var(--input-background-color) inset;
 }
@@ -1035,7 +1087,7 @@ button .dnb-form-status__text {
 }
 .dnb-input__submit-element {
   z-index: 3;
-  margin-left: calc(0px - var(--input-height));
+  margin-left: calc(var(--input-height) * -1);
   line-height: var(--line-height-basis);
 }
 .dnb-input__submit-element .dnb-button--input-button {
@@ -1082,7 +1134,7 @@ button .dnb-form-status__text {
   font-size: var(--input-font-size--small);
 }
 .dnb-input--small .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--small));
+  margin-left: calc(var(--input-height--small) * -1);
 }
 .dnb-input--small .dnb-input__submit-element .dnb-button--input-button {
   width: var(--input-height--small);
@@ -1106,7 +1158,7 @@ button .dnb-form-status__text {
   font-size: var(--input-font-size--medium);
 }
 .dnb-input--medium .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--medium));
+  margin-left: calc(var(--input-height--medium) * -1);
 }
 .dnb-input--medium .dnb-input__submit-element .dnb-button--input-button {
   width: var(--input-height--medium);
@@ -1130,17 +1182,18 @@ button .dnb-form-status__text {
   font-size: var(--input-font-size--large);
 }
 .dnb-input--large .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--large));
+  margin-left: calc(var(--input-height--large) * -1);
 }
 .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
   width: var(--input-height--large);
   height: var(--input-height--large);
+  line-height: var(--input-height--large);
 }
 .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--large.dnb-input--has-submit-element .dnb-input__input, .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
-  padding-right: calc(var(--input-padding--large) * 3);
+  padding-right: calc(var(--input-padding--large) * 3.5);
 }
 .dnb-input--large.dnb-input--has-clear-button:not(.dnb-input--has-submit-element) .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--large) + 0.5rem);
+  margin-left: calc(var(--input-height--large) - 0.5rem);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {
   text-align: center;

@@ -941,6 +941,10 @@ button .dnb-form-status__text {
   align-items: center;
   border: var(--input-border-width) solid var(--color-sea-green);
 }
+.dnb-input__row {
+  display: inline-flex;
+  align-items: center;
+}
 .dnb-input__input {
   border: none;
   outline: none;
@@ -980,6 +984,58 @@ button .dnb-form-status__text {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.dnb-input__border {
+  display: flex;
+  border-radius: var(--b-radius, var(--input-border-radius));
+  --border-color: var(--b-color, var(--input-border-color));
+  --border-width: var(--b-width, var(--input-border-width));
+  box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-input--disabled .dnb-input__border {
+  --border-color: var(--input-border-color--disabled);
+  --border-width: var(--input-border-width--disabled);
+  box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-input__border:focus-within {
+  --b-color: var(--input-border-color--active);
+  --b-width: var(--input-border-width--active);
+  --b-inset: var(--input-border-inset--active);
+  --b-radius: var(--input-border-radius--active);
+}
+.dnb-input__border:hover, .dnb-input__border.hover {
+  --b-color: var(--input-border-color--hover);
+  --b-width: var(--input-border-width--hover);
+  --b-inset: var(--input-border-inset--hover);
+}
+.dnb-input__status--error .dnb-input__border {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error);
+}
+.dnb-input__status--error .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error--active);
+  --b-inset: var(--input-border-inset--active);
+  --b-radius: var(--input-border-radius--active);
+}
+.dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border.hover {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error--hover);
+  --b-inset: var(--input-border-inset--hover);
+}
+html[data-whatinput=keyboard] .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color--focus);
+  --b-width: var(--input-border-width--focus);
+  --b-inset: var(--input-border-inset--focus);
+  --b-radius: var(--input-border-radius--focus);
+}
+html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color__error--focus);
+  --b-width: var(--input-border-width--focus);
+  --b-inset: var(--input-border-inset--focus);
+  --b-radius: var(--input-border-radius--focus);
+}
 .dnb-input input.dnb-input__input[type=file] {
   line-height: calc(var(--input-height) - 2px);
 }
@@ -1016,10 +1072,6 @@ button .dnb-form-status__text {
 .dnb-input--password .dnb-input__input {
   font-family: var(--font-family-monospace);
 }
-.dnb-input__row {
-  display: inline-flex;
-  align-items: center;
-}
 .dnb-input__input:autofill {
   box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color) var(--autofill-inset, inset), 0 0 0 10em var(--input-background-color) inset;
 }
@@ -1028,7 +1080,7 @@ button .dnb-form-status__text {
 }
 .dnb-input__submit-element {
   z-index: 3;
-  margin-left: calc(0px - var(--input-height));
+  margin-left: calc(var(--input-height) * -1);
   line-height: var(--line-height-basis);
 }
 .dnb-input__submit-element .dnb-button--input-button {
@@ -1075,7 +1127,7 @@ button .dnb-form-status__text {
   font-size: var(--input-font-size--small);
 }
 .dnb-input--small .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--small));
+  margin-left: calc(var(--input-height--small) * -1);
 }
 .dnb-input--small .dnb-input__submit-element .dnb-button--input-button {
   width: var(--input-height--small);
@@ -1099,7 +1151,7 @@ button .dnb-form-status__text {
   font-size: var(--input-font-size--medium);
 }
 .dnb-input--medium .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--medium));
+  margin-left: calc(var(--input-height--medium) * -1);
 }
 .dnb-input--medium .dnb-input__submit-element .dnb-button--input-button {
   width: var(--input-height--medium);
@@ -1123,17 +1175,18 @@ button .dnb-form-status__text {
   font-size: var(--input-font-size--large);
 }
 .dnb-input--large .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--large));
+  margin-left: calc(var(--input-height--large) * -1);
 }
 .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
   width: var(--input-height--large);
   height: var(--input-height--large);
+  line-height: var(--input-height--large);
 }
 .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--large.dnb-input--has-submit-element .dnb-input__input, .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
-  padding-right: calc(var(--input-padding--large) * 3);
+  padding-right: calc(var(--input-padding--large) * 3.5);
 }
 .dnb-input--large.dnb-input--has-clear-button:not(.dnb-input--has-submit-element) .dnb-input__submit-element {
-  margin-left: calc(0px - var(--input-height--large) + 0.5rem);
+  margin-left: calc(var(--input-height--large) - 0.5rem);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {
   text-align: center;
@@ -1264,14 +1317,33 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-input {
+.dnb-input__border--tokens {
   --input-border-color: var(--color-sea-green);
   --input-border-color--hover: var(--color-sea-green);
+  --input-border-color--active: var(--color-emerald-green);
   --input-border-color--focus: var(--color-emerald-green);
   --input-border-color--disabled: var(--color-black-55);
-  --input-border-radius: 0.25rem;
+  --input-border-color__error: var(--color-fire-red);
+  --input-border-color__error--focus: var(--color-fire-red);
   --input-border-width: 0.0625rem;
+  --input-border-width--hover: 0.125rem;
+  --input-border-width--active: 0.125rem;
   --input-border-width--focus: 0.125rem;
+  --input-border-width--disabled: 0.0625rem;
+  --input-border-width__error: 0.0625rem;
+  --input-border-width__error--hover: 0.125rem;
+  --input-border-width__error--active: 0.125rem;
+  --input-border-inset: inset;
+  --input-border-inset--hover: ;
+  --input-border-inset--active: ;
+  --input-border-inset--focus: ;
+  --input-border-inset--disabled: inset;
+  --input-border-radius: 0.25rem;
+  --input-border-radius--active: 0.25rem;
+  --input-border-radius--focus: 0.25rem;
+}
+
+.dnb-input {
   color: var(--color-black);
 }
 .dnb-input__inner {
@@ -1281,66 +1353,32 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   color: inherit;
   background-color: var(--input-background-color);
   border: none;
-  --border-color: var(--input-border-color);
-  --border-width: var(--input-border-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
-.dnb-input__icon {
-  color: var(--color-sea-green);
+.dnb-input__status--error.dnb-input .dnb-input__shell:not(:focus-within) {
+  color: var(--color-fire-red);
 }
 .dnb-input[data-input-state=disabled] .dnb-input__shell {
   -webkit-text-fill-color: currentcolor;
-  --border-color: var(--input-border-color--disabled);
-  --border-width: var(--input-border-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
   background-color: var(--color-black-3);
 }
 .dnb-input[data-input-state=disabled] .dnb-input__shell,
 .dnb-input[data-input-state=disabled] .dnb-input__shell .dnb-icon {
   color: var(--color-black-55);
 }
-.dnb-input:not([data-input-state=disabled]) .dnb-input__shell:hover, .dnb-input:not([data-input-state=disabled]):hover .dnb-input__shell {
-  --border-color: var(--input-border-color--hover);
-  --border-width: var(--input-border-width--focus);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-input[data-input-state=focus]:not([data-input-state=disabled]) .dnb-input__shell {
-  --border-color: var(--input-border-color--focus);
-  --border-width: var(--input-border-width--focus);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-input__status--error.dnb-input:not([data-input-state=focus]) .dnb-input__shell {
-  color: var(--color-fire-red);
-}
-.dnb-input__status--error.dnb-input:not([data-input-state=focus]):not(:hover) .dnb-input__shell {
-  --input-border-color: transparent;
-  --border-color: var(--color-fire-red);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-input__status--error.dnb-input[data-input-state=focus] .dnb-input__shell, .dnb-input__status--error.dnb-input:not([data-input-state=disabled]) .dnb-input__shell:hover, .dnb-input__status--error.dnb-input:not([data-input-state=disabled]):hover .dnb-input__shell {
-  --input-border-color: var(--color-fire-red);
-  --border-color: var(--color-fire-red);
-  --border-width: var(--input-border-width--focus);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
 html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
 [disabled]):hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
 [disabled]):hover::after, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):focus, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):focus::after {
+[disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+[disabled]):focus-visible::after {
   background-color: var(--color-fire-red);
 }
 html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
 [disabled]):hover:active, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):focus:active {
+[disabled]):focus-visible:active {
   color: var(--color-white);
+}
+.dnb-input__icon {
+  color: var(--color-sea-green);
 }
 .dnb-input__status--error .dnb-input__icon {
   color: var(--color-fire-red);

@@ -1,14 +1,7 @@
-import '@dnb/eufemia/src/style'
-import '@dnb/eufemia/src/style/extensions'
+import '@dnb/eufemia/src/style/core'
 
-// DNB Universal Identity styles
-// import '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-basis.scss'
-// import '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-components.scss'
-
-// DNB Universal Identity Tags package
-// import '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-basis.scss'
-// import '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-tags.scss'
+// Default theme
+import '@dnb/eufemia/src/style/themes/ui'
 
 // Sbanken styles
-// import '@dnb/eufemia/src/style/themes/theme-sbanken/sbanken-theme-basis.scss'
-// import '@dnb/eufemia/src/style/themes/theme-sbanken/sbanken-theme-components.scss'
+// import '@dnb/eufemia/src/style/themes/sbanken'
