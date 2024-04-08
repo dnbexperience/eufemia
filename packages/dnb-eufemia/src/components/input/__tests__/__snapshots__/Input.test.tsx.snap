@@ -998,6 +998,12 @@ button .dnb-form-status__text {
   box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-input__border:focus-within {
+  --b-color: var(--input-border-color--active);
+  --b-width: var(--input-border-width--active);
+  --b-inset: var(--input-border-inset--active);
+  --b-radius: var(--input-border-radius--active);
+}
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
   --b-width: var(--input-border-width--hover);
@@ -1007,9 +1013,9 @@ button .dnb-form-status__text {
   --b-color: var(--input-border-color__error);
   --b-width: var(--input-border-width__error);
 }
-.dnb-input__border:focus-within {
-  --b-color: var(--input-border-color--active);
-  --b-width: var(--input-border-width--active);
+.dnb-input__status--error .dnb-input__border:focus-within {
+  --b-color: var(--input-border-color__error);
+  --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
   --b-radius: var(--input-border-radius--active);
 }
@@ -1017,12 +1023,6 @@ button .dnb-form-status__text {
   --b-color: var(--input-border-color__error);
   --b-width: var(--input-border-width__error--hover);
   --b-inset: var(--input-border-inset--hover);
-}
-.dnb-input__status--error .dnb-input__border:focus-within {
-  --b-color: var(--input-border-color__error);
-  --b-width: var(--input-border-width__error--active);
-  --b-inset: var(--input-border-inset--active);
-  --b-radius: var(--input-border-radius--active);
 }
 html[data-whatinput=keyboard] .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--focus);

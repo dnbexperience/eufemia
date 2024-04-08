@@ -21,7 +21,7 @@
   --input-border-width--focus: var(--focus-ring-width);
   --input-border-width__error: 0.0625rem;
   --input-border-width__error--hover: 0.125rem;
-  --input-border-width__error--active: 0.125rem;
+  --input-border-width__error--active: 0.0625rem;
   --input-border-inset: inset;
   --input-border-inset--hover: inset;
   --input-border-inset--active: inset;
@@ -43,22 +43,9 @@
   // Button
   --input-button-border-color: var(--input-border-color);
   --input-button-border-width: var(--input-border-width);
+  --input-button-border-radius: var(--input-border-radius);
 
   // - Border outline handling
-  &__border:focus-within {
-    --b-width: var(--input-border-width--active);
-  }
-  &__border:hover,
-  &__border.hover {
-    --b-width: var(--input-border-width--hover);
-  }
-  &__status--error &__border:focus-within {
-    --b-width: var(--input-border-width--active);
-  }
-  &__status--error &__border:hover,
-  &__status--error &__border.hover {
-    --b-width: var(--input-border-width--hover);
-  }
 
   &__shell {
     background-color: var(--input-background-color);
@@ -94,6 +81,21 @@
     // Focus
     &[data-input-state='focus'] {
       --input-color: var(--input-color--active);
+      --input-button-border-color: var(--input-border-color--active);
+      --input-button-border-radius: var(--input-border-radius--active);
+
+      html[data-whatinput='keyboard'] & {
+        --input-button-border-color: var(--input-border-color--focus);
+        --input-button-border-width: var(--input-border-width--focus);
+      }
+
+      &.dnb-input__status--error {
+        html[data-whatinput='keyboard'] & {
+          --input-button-border-color: var(
+            --input-border-color__error--focus
+          );
+        }
+      }
     }
 
     &.dnb-input__status--error {
@@ -111,7 +113,8 @@
     .dnb-input__submit-button__button:not(:focus-visible) {
       background-color: transparent;
       box-shadow: none;
-
+      border-radius: 0 var(--input-button-border-radius)
+        var(--input-button-border-radius) 0;
       &:hover,
       &:active {
         border: var(--input-button-border-width) solid
