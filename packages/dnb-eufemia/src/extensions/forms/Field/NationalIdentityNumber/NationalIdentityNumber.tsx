@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps & {
   omitMask?: boolean
@@ -10,7 +10,7 @@ export type Props = StringFieldProps & {
 }
 
 function NationalIdentityNumber(props: Props) {
-  const translations = useLocale().NationalIdentityNumber
+  const translations = useTranslation().NationalIdentityNumber
   const errorMessage = translations.errorRequired
 
   const { validate = true, omitMask } = props

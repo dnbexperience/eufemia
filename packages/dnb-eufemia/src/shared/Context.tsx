@@ -45,7 +45,7 @@ import type { NumberFormatCurrency } from '../components/NumberFormat'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
-import type { FormsTranslation } from '../extensions/forms/hooks/useLocale'
+import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
 
 export type ContextComponents = {

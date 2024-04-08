@@ -1,11 +1,11 @@
 /**
- * Form.useLocale Tests
+ * Form.useTranslation Tests
  *
  */
 
 import React from 'react'
 import { renderHook } from '@testing-library/react'
-import useLocale from '../useLocale'
+import useTranslation from '../useTranslation'
 import Provider from '../../../../shared/Provider'
 import { LOCALE as defaultLocale } from '../../../../shared/defaults'
 
@@ -13,9 +13,9 @@ import { LOCALE as defaultLocale } from '../../../../shared/defaults'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
 
-describe('Form.useLocale', () => {
+describe('Form.useTranslation', () => {
   it('should default to nb-NO if no locale is specified in context', () => {
-    const { result } = renderHook(() => useLocale(), {
+    const { result } = renderHook(() => useTranslation(), {
       wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
 
@@ -27,7 +27,7 @@ describe('Form.useLocale', () => {
   })
 
   it('should inherit locale from shared context', () => {
-    const { result: resultGB } = renderHook(() => useLocale(), {
+    const { result: resultGB } = renderHook(() => useTranslation(), {
       wrapper: ({ children }) => (
         <Provider locale="en-GB">{children}</Provider>
       ),
@@ -37,7 +37,7 @@ describe('Form.useLocale', () => {
       Object.assign(enGB['en-GB'], { formatMessage: expect.any(Function) })
     )
 
-    const { result: resultNO } = renderHook(() => useLocale(), {
+    const { result: resultNO } = renderHook(() => useTranslation(), {
       wrapper: ({ children }) => (
         <Provider locale="nb-NO">{children}</Provider>
       ),
@@ -55,7 +55,7 @@ describe('Form.useLocale', () => {
       },
     }
 
-    const { result } = renderHook(() => useLocale(extendedLocale), {
+    const { result } = renderHook(() => useTranslation(extendedLocale), {
       wrapper: Provider,
     })
 
@@ -71,7 +71,7 @@ describe('Form.useLocale', () => {
       },
     }
 
-    const { result } = renderHook(() => useLocale(extendedLocale), {
+    const { result } = renderHook(() => useTranslation(extendedLocale), {
       wrapper: Provider,
     })
 
@@ -80,7 +80,7 @@ describe('Form.useLocale', () => {
     )
 
     const { result: resultGB } = renderHook(
-      () => useLocale(extendedLocale),
+      () => useTranslation(extendedLocale),
       {
         wrapper: ({ children }) => (
           <Provider locale="en-GB">{children}</Provider>

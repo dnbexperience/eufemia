@@ -16,7 +16,7 @@ import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
 import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type PasswordVisibilityEvent =
   React.MouseEvent<HTMLButtonElement> & {
@@ -74,7 +74,7 @@ function Password({
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
-  const translations = useLocale().Password
+  const translations = useTranslation().Password
 
   const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
 

@@ -4,12 +4,12 @@ import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringValueProps
 
 function PhoneNumber(props: Props) {
-  const translations = useLocale().PhoneNumber
+  const translations = useTranslation().PhoneNumber
 
   const label =
     props.label ?? (props.inline ? undefined : translations.label)

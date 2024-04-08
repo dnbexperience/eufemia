@@ -19,7 +19,7 @@ type CustomLocales = Partial<
   Record<FormsTranslationLocale, FormsTranslation>
 >
 
-export default function useLocale<T = FormsTranslation>(
+export default function useTranslation<T = FormsTranslation>(
   messages?:
     | FormsTranslation
     | CustomLocales
