@@ -124,39 +124,27 @@ function Selection(props: Props) {
     [info, warning]
   )
 
-  const options: IOption[] = useMemo(
-    () =>
-      React.Children.toArray(children)
-        .filter(
-          (child) =>
-            React.isValidElement(child) && child.type === OptionField
-        )
-        .map((option: React.ReactElement) => {
-          const {
-            value: v,
-            error,
-            title,
-            children,
-            ...rest
-          } = option.props
-
-          const status = getStatus(error)
-
-          return {
-            title: title ?? children,
-            value: v,
-            status,
-            ...rest,
-          }
-        }),
-    [children, getStatus]
-  )
-
   const status = getStatus(error)
 
   switch (variant) {
     case 'radio':
     case 'button': {
+      const options: IOption[] = React.Children.toArray(children)
+        .filter(
+          (child) =>
+            React.isValidElement(child) && child.type === OptionField
+        )
+        .map((option: React.ReactElement) => {
+          const { error, title, children, ...rest } = option.props
+          const status = getStatus(error)
+
+          return {
+            title: title ?? children,
+            status,
+            ...rest,
+          }
+        })
+
       const Component = (
         variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
@@ -212,11 +200,13 @@ function Selection(props: Props) {
               }
         }
 
-        // For other children, just show them as content
-        return {
-          content: child,
+        if (child) {
+          // For other children, just show them as content
+          return {
+            content: child,
+          }
         }
-      })
+      }).filter(Boolean)
 
       return (
         <FieldBlock {...fieldBlockProps} width={width}>
