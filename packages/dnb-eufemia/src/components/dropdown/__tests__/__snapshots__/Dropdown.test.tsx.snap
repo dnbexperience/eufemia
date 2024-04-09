@@ -661,6 +661,7 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 .dnb-form-label {
+  --form-label-bounding: 0.75rem;
   display: inline-block;
   padding: 0;
   text-align: left;
@@ -683,6 +684,12 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
+}
+.dnb-form-label[for] .dnb-form-label__bounding {
+  border: var(--form-label-bounding) solid transparent;
+  border-left: none;
+  border-right: none;
+  margin: calc(var(--form-label-bounding) * -1) 0;
 }
 
 legend.dnb-form-label {

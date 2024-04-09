@@ -20,6 +20,7 @@ exports[`Textarea scss has to match style dependencies css 1`] = `
  *
  */
 .dnb-form-label {
+  --form-label-bounding: 0.75rem;
   display: inline-block;
   padding: 0;
   text-align: left;
@@ -42,6 +43,12 @@ exports[`Textarea scss has to match style dependencies css 1`] = `
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
+}
+.dnb-form-label[for] .dnb-form-label__bounding {
+  border: var(--form-label-bounding) solid transparent;
+  border-left: none;
+  border-right: none;
+  margin: calc(var(--form-label-bounding) * -1) 0;
 }
 
 legend.dnb-form-label {

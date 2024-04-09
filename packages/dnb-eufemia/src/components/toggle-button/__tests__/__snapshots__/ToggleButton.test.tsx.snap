@@ -20,6 +20,7 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
  *
  */
 .dnb-form-label {
+  --form-label-bounding: 0.75rem;
   display: inline-block;
   padding: 0;
   text-align: left;
@@ -42,6 +43,12 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
+}
+.dnb-form-label[for] .dnb-form-label__bounding {
+  border: var(--form-label-bounding) solid transparent;
+  border-left: none;
+  border-right: none;
+  margin: calc(var(--form-label-bounding) * -1) 0;
 }
 
 legend.dnb-form-label {
@@ -622,6 +629,7 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 .dnb-form-label {
+  --form-label-bounding: 0.75rem;
   display: inline-block;
   padding: 0;
   text-align: left;
@@ -644,6 +652,12 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
+}
+.dnb-form-label[for] .dnb-form-label__bounding {
+  border: var(--form-label-bounding) solid transparent;
+  border-left: none;
+  border-right: none;
+  margin: calc(var(--form-label-bounding) * -1) 0;
 }
 
 legend.dnb-form-label {
@@ -1024,6 +1038,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
  *
  */
 .dnb-form-label {
+  --form-label-bounding: 0.75rem;
   display: inline-block;
   padding: 0;
   text-align: left;
@@ -1046,6 +1061,12 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
+}
+.dnb-form-label[for] .dnb-form-label__bounding {
+  border: var(--form-label-bounding) solid transparent;
+  border-left: none;
+  border-right: none;
+  margin: calc(var(--form-label-bounding) * -1) 0;
 }
 
 legend.dnb-form-label {
