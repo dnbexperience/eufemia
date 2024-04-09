@@ -4,7 +4,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
@@ -26,7 +26,7 @@ export interface RadioGroupProps
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   label_direction?: FormLabelLabelDirection;
   /**
    * Use `true` to make the label only readable by screen readers.

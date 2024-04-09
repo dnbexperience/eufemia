@@ -5,7 +5,7 @@ import type {
   DrawerListOptionsRender
 } from '../../fragments/DrawerList';
 import type { ButtonIconPosition } from '../Button';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type {
   FormStatusProps,
   FormStatusState,
@@ -111,7 +111,7 @@ export interface AutocompleteProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
