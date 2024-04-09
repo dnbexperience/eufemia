@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type { ButtonIconPosition, ButtonVariant } from '../Button';
 import type {
   FormStatusProps,
@@ -45,7 +45,7 @@ export interface DropdownProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */

@@ -6,7 +6,7 @@ import type {
 } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { TextCounterProps } from '../../fragments/TextCounter';
 export type TextareaSuffix =
@@ -34,7 +34,7 @@ export interface TextareaProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { InternalLocale } from '../../shared/Context';
 import type { ButtonIconPosition } from '../Button';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type {
   FormStatusProps,
   FormStatusState,
@@ -126,7 +126,7 @@ export interface InputMaskedProps
   size?: InputSize;
   value?: InputMaskedValue;
   id?: string;
-  label?: FormLabelText;
+  label?: React.ReactNode;
   label_direction?: FormLabelLabelDirection;
   label_sr_only?: boolean;
   status?: FormStatusText;
