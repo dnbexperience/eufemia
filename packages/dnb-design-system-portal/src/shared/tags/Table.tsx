@@ -136,5 +136,6 @@ function prepareStyleWithSameColor(hex: string) {
     color: hex,
     background: hex,
     fontFamily: 'var(--font-family-monospace)',
+    width: 0,
   }
 }

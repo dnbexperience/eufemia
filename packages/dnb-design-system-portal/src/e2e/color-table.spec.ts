@@ -24,12 +24,12 @@ test.describe('Colors for UI', () => {
   test('table should have correct color', async ({ page }) => {
     await expect(
       page.locator('.dnb-table__scroll-view table tbody tr td').first(),
-    ).toHaveCSS('color', 'rgb(0, 52, 62)')
+    ).toHaveCSS('color', 'rgb(0, 114, 114)')
 
     const lastCellText = await page.textContent(
       '.dnb-table__scroll-view table tbody tr td:last-of-type',
     )
-    expect(lastCellText).toContain('--color-ocean-green')
+    expect(lastCellText).toContain('--color-sea-green')
   })
 })
 
