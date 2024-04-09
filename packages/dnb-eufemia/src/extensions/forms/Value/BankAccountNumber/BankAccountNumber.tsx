@@ -4,12 +4,12 @@ import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringValueProps
 
 function BankAccountNumber(props: Props) {
-  const translations = useLocale().BankAccountNumber
+  const translations = useTranslation().BankAccountNumber
 
   const stringValueProps: Props = {
     ...props,

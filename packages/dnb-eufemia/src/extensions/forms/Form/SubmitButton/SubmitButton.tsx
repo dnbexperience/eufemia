@@ -4,7 +4,7 @@ import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import SubmitIndicator from '../SubmitIndicator'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = {
   /**
@@ -16,7 +16,7 @@ export type Props = {
   Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 
 function SubmitButton(props: Props) {
-  const translations = useLocale().Context
+  const translations = useTranslation().Context
 
   const { className, showIndicator, children, text, ...rest } = props
 
