@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { isValidElement, useCallback } from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
+import { sumTypes } from '../space/SpacingUtils'
 import {
   getSpaceValue,
   isHeadingElement,
+  pickSpacingProps,
   renderWithSpacing,
 } from './utils'
 
@@ -13,6 +15,7 @@ import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
 import type { SpaceType } from '../space/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { End, Start } from './types'
+import Item from './Item'
 
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
@@ -108,7 +111,12 @@ function FlexContainer(props: Props) {
   const hasSizeProp =
     !hasHeading &&
     direction === 'horizontal' &&
-    childrenArray.some((child) => child['props']?.size)
+    childrenArray.some(
+      (child) =>
+        isValidElement(child) &&
+        child['type'] === Item &&
+        child.props?.['size']
+    )
 
   const { key: mediaKey } = useMedia({
     disabled: !hasSizeProp,
@@ -116,12 +124,41 @@ function FlexContainer(props: Props) {
     queries,
   })
 
+  let rowCount = 0
   const content = childrenArray.map((child, i) => {
+    let endSpacing = null
+    let startSpacing = null
+
     // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
     // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
     // and bottom when th
     const isFirst = i === 0
     const isLast = i >= childrenArray.length - 1
+
+    // Used for horizontal layout only
+    let size = child?.['props']?.['size']
+    if (
+      // direction === 'horizontal' &&
+      hasSizeProp &&
+      isValidElement(child) &&
+      child['type'] === Item &&
+      size
+    ) {
+      size = parseFloat(size[mediaKey] ?? size['small'] ?? size) || 0
+      // console.log('size', mediaKey, size)
+      rowCount = rowCount + size
+      // if (rowCount >= sizeCount) {
+      //   rowCount = 0
+      // }
+      // console.log('rowCount', rowCount)
+    }
+    const isRowStart = rowCount === size
+    console.log('isRowStart', mediaKey, i, rowCount, size, isRowStart)
+    if (rowCount >= sizeCount) {
+      rowCount = 0
+    }
+    const isRowEnd = rowCount === 0
+
     const previousChild = childrenArray?.[i - 1]
     const isHeading = hasHeading && isHeadingElement(previousChild)
 
@@ -129,12 +166,9 @@ function FlexContainer(props: Props) {
     // having to divide spacing between both with smaller values.
     const start: Start = direction === 'horizontal' ? 'left' : 'top'
     const end: End = direction === 'horizontal' ? 'right' : 'bottom'
-    // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
-    // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
-    const endSpacing = 0
-    let startSpacing = null
 
     if (
+      direction !== 'horizontal' &&
       // No line above heading
       !isHeading &&
       ((divider === 'line' && !isFirst) || divider === 'line-framed')
@@ -151,7 +185,7 @@ function FlexContainer(props: Props) {
           />
 
           {renderWithSpacing(child, {
-            space: { [start]: startSpacing, [end]: endSpacing },
+            space: { [start]: startSpacing, [end]: endSpacing || 0 },
           })}
 
           {divider === 'line-framed' && isLast && (
@@ -165,15 +199,33 @@ function FlexContainer(props: Props) {
       )
     }
 
-    // No space above first element.
-    if (isFirst && direction !== 'horizontal') {
-      startSpacing = 0
+    if (direction === 'horizontal') {
+      if (hasSizeProp) {
+        // When we have a size prop, we don't expect the layout to wrap,
+        // so we add space to the start of each item to mimic CSS gap.
+        startSpacing = isRowStart || isFirst ? 0 : sumTypes(spacing) / 2
+        endSpacing = isRowEnd || isLast ? 0 : sumTypes(spacing) / 2
+      } else {
+        // Since we expect the layout to wrap, we add space only to the end of each item,
+        // except for the last item. This will make the items align as long as not wrapped.
+        // When wrapped, the items will align to the start of the container, but be a little off to the right.
+        endSpacing = isLast
+          ? 0
+          : getSpaceValue(start, child) ??
+            getSpaceValue(end, previousChild) ??
+            spacing
+      }
     } else {
-      // Since top space of current and bottom space of previous component is the same
-      startSpacing =
-        getSpaceValue(start, child) ??
-        getSpaceValue(end, previousChild) ??
-        spacing
+      if (isFirst) {
+        // No space above first element.
+        startSpacing = 0
+      } else {
+        // Since top space of current and bottom space of previous component is the same
+        startSpacing =
+          getSpaceValue(start, child) ??
+          getSpaceValue(end, previousChild) ??
+          spacing
+      }
     }
 
     if (
@@ -183,10 +235,20 @@ function FlexContainer(props: Props) {
       startSpacing = 0
     }
 
+    const givenSpacing = {
+      ...child?.['props']?.space,
+      ...pickSpacingProps(child?.['props']),
+    }
+    delete givenSpacing.space
+
     const space =
-      direction === 'horizontal'
-        ? { [start]: endSpacing, [end]: startSpacing }
-        : { [start]: startSpacing, [end]: endSpacing }
+      childrenArray.length === 1
+        ? givenSpacing
+        : {
+            [start]: startSpacing || 0,
+            [end]: endSpacing || 0,
+            ...givenSpacing,
+          }
 
     return renderWithSpacing(child, {
       key: child?.['key'] || `element-${i}`,

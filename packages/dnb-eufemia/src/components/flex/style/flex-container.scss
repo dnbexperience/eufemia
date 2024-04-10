@@ -5,7 +5,6 @@
   &--direction {
     &-horizontal {
       flex-direction: row;
-      margin-right: calc(var(--gap) * -1);
     }
 
     &-vertical {
