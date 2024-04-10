@@ -31,9 +31,8 @@ import {
   getCalendar,
 } from './DatePickerCalc'
 import Button from '../button/Button'
-import DatePickerContext, {
-  DatePickerContextValues,
-} from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
+import { useLocale } from '../../shared'
 
 export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
   id?: string
@@ -101,7 +100,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }, [])
 
   function onMouseLeaveHandler() {
-    context.updateState({
+    context.updateDates({
       hoverDate: null,
     })
   }
@@ -229,19 +228,26 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       state.changeMonthViews = true
 
-      context.updateState(state, () => {
-        // call after state update, so the input get's the latest state as well
-        callOnSelect({
-          event,
-          nr,
-          hidePicker: false,
-        })
-
-        // and set the focus back again
-        if (listRef && listRef.current) {
-          listRef.current.focus({ preventScroll: true })
-        }
+      context.updateDates({
+        startDate: state.startDate,
+        endDate: state.endDate,
       })
+      context.updateState(
+        { changeMonthViews: state.changeMonthViews },
+        () => {
+          // call after state update, so the input get's the latest state as well
+          callOnSelect({
+            event,
+            nr,
+            hidePicker: false,
+          })
+
+          // and set the focus back again
+          if (listRef && listRef.current) {
+            listRef.current.focus({ preventScroll: true })
+          }
+        }
+      )
     }
   }
 
@@ -471,7 +477,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               date={minDate}
               month={month}
               locale={locale}
-              context={context}
               showButton={prevBtn}
               onClick={onPrev}
             />
@@ -499,7 +504,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               date={maxDate}
               month={month}
               locale={locale}
-              context={context}
               showButton={nextBtn}
               onClick={onNext}
             />
@@ -609,14 +613,16 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   endDate,
                                   resetDate,
                                   event,
-                                  onSelect: (state) =>
-                                    context.updateState(state, () =>
+                                  onSelect: (state) => {
+                                    context.updateDates(state, (forward) =>
                                       callOnSelect({
+                                        ...forward,
                                         event,
                                         nr,
                                         hidePicker: !isRange,
                                       })
-                                    ),
+                                    )
+                                  },
                                 })
                         }
                         onMouseOver={
@@ -650,7 +656,6 @@ type CalendarButtonProps = {
   date: Date
   month: Date
   locale: Locale
-  context: DatePickerContextValues
   showButton: boolean
   onClick: ({ nr }: { nr: number }) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
@@ -662,17 +667,18 @@ function CalendarButton({
   date,
   month,
   locale,
-  context,
   showButton,
   onClick,
   onKeyDown,
 }: CalendarButtonProps) {
+  const tr = useLocale().DatePicker
+
   if (!showButton) {
     return <></>
   }
   const disabled = date && isSameMonth(month, date)
 
-  const title = context.translation.DatePicker[`${type}_month`].replace(
+  const title = tr[`${type}_month`].replace(
     /%s/,
     format(subMonths(month, 1), 'MMMM yyyy', {
       locale,
@@ -703,12 +709,13 @@ function onSelectRange({
   event,
 }) {
   event.persist()
+
   if (!isRange) {
     // set only date
     onSelect({
       startDate: startOfDay(day.date),
       endDate: startOfDay(day.date),
-      event,
+      // event,
     })
 
     // for setting date new on every selection, do this here
@@ -718,7 +725,7 @@ function onSelectRange({
     onSelect({
       startDate: startOfDay(day.date),
       endDate: undefined,
-      event,
+      // event,
     })
   } else {
     const hasEndDate = endDate
@@ -737,7 +744,7 @@ function onSelectRange({
     onSelect({
       startDate: startOfDay(range.startDate),
       endDate: startOfDay(range.endDate),
-      event,
+      // event,
     })
   }
 }

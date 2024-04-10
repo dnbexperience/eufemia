@@ -58,10 +58,9 @@ function DatePickerAddon(props) {
 
   function callOnChange({ startDate, endDate, event = null } = {}) {
     context.updateState({
-      startDate,
-      endDate,
       changeMonthViews: true,
     })
+    context.updateDates({ startDate, endDate })
     context.callOnChangeHandler({ startDate, endDate, event })
   }
 

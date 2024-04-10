@@ -116,42 +116,8 @@ function DatePickerRange(props: DatePickerRangeProps) {
   }
 
   function onHover(hoverDate) {
-    context.updateState({ hoverDate })
+    context.updateDates({ hoverDate })
   }
-}
-
-export function getViews(state, isRange: boolean) {
-  // fill the views with the calendar data getMonth()
-  return (
-    Array.isArray(state.views)
-      ? state.views
-      : Array(
-          isRange
-            ? 2 // set default range calendars
-            : state.views
-        ).fill(1)
-  ).map((view, nr) => ({
-    ...view,
-    month: getMonthView(state, nr),
-    nr,
-  }))
-}
-
-function getMonthView(state, nr) {
-  if ((state.startMonth || state.startDate) && nr === 0) {
-    return state.startMonth || state.startDate
-  }
-  if ((state.endMonth || state.endDate) && nr === 1) {
-    return state.endMonth || state.endDate
-  }
-
-  // Here we add that default offset to every new calendar added,
-  // the first will get 0, the next one 1, and so forth
-  return addMonths(getFallbackMonth(state), nr)
-}
-
-function getFallbackMonth(state) {
-  return state.startMonth || state.startDate || new Date()
 }
 
 export default DatePickerRange
