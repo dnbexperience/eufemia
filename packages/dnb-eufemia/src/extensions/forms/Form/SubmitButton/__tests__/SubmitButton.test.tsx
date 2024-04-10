@@ -126,6 +126,17 @@ describe('Form.SubmitButton', () => {
     expect(button).toHaveClass('dnb-button--primary')
   })
 
+  it('should have "send" icon when variant is "send"', () => {
+    render(<Form.SubmitButton variant="send" />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button.querySelector('.dnb-icon')).toHaveAttribute(
+      'data-testid',
+      'send icon'
+    )
+  })
+
   it('should have no icon', () => {
     render(<Form.SubmitButton />)
 

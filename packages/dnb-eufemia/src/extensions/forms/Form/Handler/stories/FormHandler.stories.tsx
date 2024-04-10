@@ -289,3 +289,25 @@ export function SimpleForm() {
     </Form.Handler>
   )
 }
+
+export function SubmitIndicator() {
+  const delay = debounceAsync(async function () {
+    try {
+      const request = createRequest()
+      await request(1000) // Simulate a request
+    } catch (error) {
+      return error
+    }
+  })
+
+  return (
+    <Form.Handler onSubmit={delay}>
+      <Card stack>
+        <Field.String path="/myField" label="Label" />
+        <Form.ButtonRow>
+          <Form.SubmitButton />
+        </Form.ButtonRow>
+      </Card>
+    </Form.Handler>
+  )
+}
