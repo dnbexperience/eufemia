@@ -310,7 +310,12 @@ describe('Flex.Item', () => {
           <Flex.Item right="large" size={2}>
             FlexItem
           </Flex.Item>
-          <Flex.Item left="x-large" right="large" size={2}>
+          <Flex.Item
+            left="x-large"
+            right="large"
+            space={{ top: '1.5rem' }}
+            size={2}
+          >
             FlexItem
           </Flex.Item>
           <Flex.Item size={2}>FlexItem</Flex.Item>
@@ -319,8 +324,12 @@ describe('Flex.Item', () => {
 
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--x-large', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
+        [
+          'dnb-space__left--x-large',
+          'dnb-space__right--large',
+          'dnb-space__top--medium',
+        ],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       rerender(
