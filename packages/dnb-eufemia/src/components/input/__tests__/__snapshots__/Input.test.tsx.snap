@@ -1319,7 +1319,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  */
 .dnb-input__border--tokens {
   --input-border-color: var(--color-sea-green);
-  --input-border-color--hover: var(--color-sea-green);
+  --input-border-color--hover: var(--color-emerald-green);
   --input-border-color--active: var(--color-emerald-green);
   --input-border-color--focus: var(--color-emerald-green);
   --input-border-color--disabled: var(--color-black-55);
