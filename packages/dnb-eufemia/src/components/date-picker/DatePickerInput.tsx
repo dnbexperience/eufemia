@@ -220,15 +220,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     starDate?: Date
     event: React.SyntheticEvent
   }) {
-    context.updateState(
+    context.updateDates(
       {
         hoverDate: null,
       },
-      () => {
+      (forward) => {
         if (context.hasHadValidDate) {
           const { startDate, endDate, event } = {
             ...context,
             ...state,
+            ...forward,
           }
           context.callOnChangeHandler({ startDate, endDate, event })
         }
@@ -245,7 +246,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     endDate?: Date
     event: React.SyntheticEvent
   }) {
-    const state = { changeMonthViews: true }
+    const state = {}
     if (typeof startDate !== 'undefined' && isValid(startDate)) {
       state['startDate'] = startDate
     }
@@ -256,12 +257,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       state['endDate'] = endDate
     }
 
-    context.updateState(state, () => {
+    context.updateState({ changeMonthViews: true })
+    context.updateDates(state, (forward) => {
       if (
         (typeof startDate !== 'undefined' && isValid(startDate)) ||
         (typeof endDate !== 'undefined' && isValid(endDate))
       ) {
-        context.callOnChangeHandler({ event })
+        context.callOnChangeHandler({ event, ...forward })
       }
     })
   }
@@ -288,7 +290,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
     // Get the typed dates, so we can ...
     let { startDate, endDate } = getDates()
-
     // Get the partial dates, so we can know if something was typed or not in an optional date field
     const partialStartDate = startDate
     const partialEndDate = endDate
@@ -572,8 +573,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         event,
       })
     } else {
-      context.updateState({ [`${mode}Date`]: null })
-      context.updateState({ [`__${mode}${type}`]: value })
+      context.updateDates({
+        [`${mode}Date`]: null,
+      })
+      context.updateDates({
+        [`__${mode}${type}`]: value,
+      })
 
       callOnChangeAsInvalid({
         [`${mode}Date`]: null,
