@@ -88,7 +88,6 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
         defaultBreakpoints,
         defaultQueries,
       }}
-      data-visual-test="flex-item-custom-size"
     >
       {() => {
         const breakpoints = {
