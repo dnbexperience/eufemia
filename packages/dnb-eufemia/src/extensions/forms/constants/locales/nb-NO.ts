@@ -33,6 +33,7 @@ export default {
     Step: {
       next: 'Neste',
       previous: 'Tilbake',
+      edit: 'Endre',
     },
 
     /**
