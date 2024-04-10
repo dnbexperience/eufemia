@@ -56,4 +56,12 @@ describe('PhoneNumber', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match used in card', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector: '[data-visual-test="phone-number-in-card"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

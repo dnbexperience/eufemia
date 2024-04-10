@@ -90,7 +90,7 @@
     );
   }
 
-  & > .dnb-flex-container > .dnb-space {
+  & > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view) {
     width: 100%;
   }
 }
