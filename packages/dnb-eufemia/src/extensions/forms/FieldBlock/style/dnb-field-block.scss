@@ -24,8 +24,6 @@ fieldset.dnb-forms-field-block {
 }
 
 .dnb-forms-field-block {
-  width: 100%;
-
   &__grid {
     display: grid;
   }
@@ -52,6 +50,7 @@ fieldset.dnb-forms-field-block {
 
   &--width {
     &-stretch {
+      width: 100%;
       flex-grow: 1;
     }
     @include allAbove(x-small) {
