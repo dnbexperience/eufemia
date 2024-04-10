@@ -3,10 +3,13 @@
  *
  */
 
+import styled from '@emotion/styled'
 import { P } from '../../../elements'
 import { Field, Form, TestElement } from '../../../extensions/forms'
+import { defaultBreakpoints } from '../../../shared/MediaQueryUtils'
+import { defaultQueries } from '../../../shared/useMedia'
 import { SpaceProps } from '../../Space'
-import { Section } from '../../lib'
+import { Card, Section } from '../../lib'
 import { createSpacingClasses } from '../../space/SpacingUtils'
 import Flex from '../Flex'
 
@@ -62,20 +65,178 @@ export function FlexWithChildren() {
   )
 }
 
-const Item = () => (
-  <Flex.Stack divider="line-framed" spacing="x-small">
-    <TestElement>FlexItem</TestElement>
-    <TestElement>FlexItem</TestElement>
-  </Flex.Stack>
-)
-
 export function FlexBookend() {
+  const Item = () => (
+    <Flex.Stack divider="line-framed" spacing="x-small">
+      <TestElement>FlexItem</TestElement>
+      <TestElement>FlexItem</TestElement>
+    </Flex.Stack>
+  )
   return (
     <Section innerSpace style={{ background: 'lightyellow' }}>
       <Flex.Horizontal rowGap={false}>
         <Item />
         <Item />
         <Item />
+      </Flex.Horizontal>
+    </Section>
+  )
+}
+
+export function CustomSpacing() {
+  return (
+    <>
+      <Flex.Container>
+        <Field.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" width="medium" />
+      </Flex.Container>
+      <Card stack>
+        <Field.String />
+        <Field.PhoneNumber />
+      </Card>
+    </>
+  )
+  // return (
+  //   <Section style={{ background: 'lightyellow' }}>
+  //     <Flex.Horizontal sizeCount={4}>
+  //       <Flex.Item size={2} right={0}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //       <Flex.Item size={2}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //       <Flex.Item size={2} space={{ left: 'large', right: false }}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //       <Flex.Item size={2} right="large">
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //     </Flex.Horizontal>
+  //   </Section>
+  // )
+  // return (
+  //   <Flex.Container>
+  //     <Field.String label="Label" value="Foo" />
+  //     <Field.String label="Label" value="Foo" width="medium" />
+  //   </Flex.Container>
+  // )
+
+  // const breakpoints = {
+  //   ...defaultBreakpoints,
+  //   xsmall: '30em',
+  // }
+
+  // const queries = {
+  //   ...defaultQueries,
+  //   xsmall: { min: 0, max: 'xsmall' },
+  //   small: { min: 'xsmall', max: 'small' },
+  // }
+
+  // const CustomMediaQuery = styled.div`
+  //   display: flex;
+  //   flex-direction: column;
+  //   .dnb-flex-container[data-media-key='xsmall']
+  //     .dnb-flex-item--responsive {
+  //     --size: var(--xsmall);
+  //   }
+  // `
+
+  // return (
+  //   <CustomMediaQuery>
+  //     <Flex.Container
+  //       direction="horizontal"
+  //       sizeCount={4}
+  //       breakpoints={breakpoints}
+  //       queries={queries}
+  //     >
+  //       <Flex.Item size={{ small: 2, medium: 3, large: 1 }}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //       <Flex.Item size={{ small: 2, medium: 1, large: 2 }}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //       <Flex.Item size={{ xsmall: 4, small: 2, medium: 1, large: 1 }}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //       <Flex.Item size={{ xsmall: 4, small: 2, medium: 3, large: 4 }}>
+  //         <TestElement>FlexItem</TestElement>
+  //       </Flex.Item>
+  //     </Flex.Container>
+  //   </CustomMediaQuery>
+  // )
+
+  return (
+    <Flex.Container
+      direction="horizontal"
+      sizeCount={4}
+      // breakpoints={breakpoints}
+      // queries={queries}
+    >
+      <Flex.Item
+        size={{
+          small: 2,
+          medium: 3,
+          large: 1,
+        }}
+      >
+        <TestElement>FlexItem</TestElement>
+      </Flex.Item>
+      <Flex.Item
+        size={{
+          small: 2,
+          medium: 1,
+          large: 2,
+        }}
+      >
+        <TestElement>FlexItem</TestElement>
+      </Flex.Item>
+      <Flex.Item
+        size={{
+          // xsmall: 4,
+          small: 2,
+          medium: 1,
+          large: 1,
+        }}
+      >
+        <TestElement>FlexItem</TestElement>
+      </Flex.Item>
+      <Flex.Item
+        size={{
+          // xsmall: 4,
+          small: 2,
+          medium: 3,
+          large: 4,
+        }}
+      >
+        <TestElement>FlexItem</TestElement>
+      </Flex.Item>
+    </Flex.Container>
+  )
+  return (
+    <Section style={{ background: 'lightyellow' }}>
+      <Flex.Horizontal
+      // sizeCount={4}
+      >
+        <Flex.Item
+        // size={2}
+        >
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item
+        // size={2}
+        >
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item
+        // size={2}
+        >
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item
+        // size={2}
+        >
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
       </Flex.Horizontal>
     </Section>
   )
