@@ -248,7 +248,7 @@ export function correctV1Format(date: string) {
 }
 
 export function convertStringToDate(
-  date: Date,
+  date: string,
   { date_format = null }: { date_format?: string | null } = {}
 ) {
   if (date === null) {
