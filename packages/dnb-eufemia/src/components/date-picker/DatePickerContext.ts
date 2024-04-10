@@ -25,6 +25,7 @@ export type DatePickerContextValues = ContextProps & {
   views: Array<DatePickerView>
   hasHadValidDate: boolean
   updateState: (states: any, callback?: () => void) => void
+  updateDates: (dates: any, callback?: () => void) => void
   setState?: (state: any) => void
   setViews: (views: DatePickerView[], callback?: () => void) => void
   callOnChangeHandler: (...args: any[]) => void
@@ -32,13 +33,13 @@ export type DatePickerContextValues = ContextProps & {
     startDate,
     endDate,
     partialStartDate,
-    partialEndData,
+    partialEndDate,
     event,
   }: {
     startDate?: Date
     endDate?: Date
     partialStartDate?: Date
-    partialEndData?: Date
+    partialEndDate?: Date
     event: Event
   }) => {
     is_valid: boolean

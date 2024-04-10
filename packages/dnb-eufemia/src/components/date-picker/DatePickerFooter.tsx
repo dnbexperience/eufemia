@@ -7,6 +7,7 @@ import React, { useContext } from 'react'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
+import { useLocale } from '../../shared'
 
 export type DatePickerFooterProps = React.HTMLProps<HTMLElement> & {
   isRange: boolean
@@ -32,6 +33,12 @@ function DatePickerFooter({
   const { show_reset_button, show_cancel_button, show_submit_button } =
     context.props
 
+  const {
+    submit_button_text: submit_button_text_translation,
+    cancel_button_text: cancel_button_text_translation,
+    reset_button_text: reset_button_text_translation,
+  } = useLocale().DatePicker
+
   if (
     !isRange &&
     !show_submit_button &&
@@ -40,12 +47,6 @@ function DatePickerFooter({
   ) {
     return <></>
   }
-
-  const {
-    submit_button_text: submit_button_text_translation,
-    cancel_button_text: cancel_button_text_translation,
-    reset_button_text: reset_button_text_translation,
-  } = context.translation.DatePicker
 
   return (
     <div className="dnb-date-picker__footer">
@@ -94,13 +95,17 @@ function DatePickerFooter({
   function onCancelHandler(args) {
     const { date_format } = context.props
 
-    const startDate = context._startDate
-      ? convertStringToDate(context._startDate, {
+    const startDate = context.previousDates.startDate
+      ? convertStringToDate(context.previousDates.startDate, {
+          date_format,
+        })
+      : context.previousDates.date
+      ? convertStringToDate(context.previousDates.date, {
           date_format,
         })
       : null
-    const endDate = context._endDate
-      ? convertStringToDate(context._endDate, {
+    const endDate = context.previousDates.endDate
+      ? convertStringToDate(context.previousDates.startDate, {
           date_format,
         })
       : startDate
@@ -109,14 +114,14 @@ function DatePickerFooter({
       args.event.persist()
     }
 
-    context.updateState(
+    context.updateDates(
       {
         startDate,
         endDate,
       },
-      () => {
+      (forward) => {
         if (onCancel) {
-          onCancel(args)
+          onCancel({ ...args, ...forward })
         }
       }
     )
@@ -127,15 +132,15 @@ function DatePickerFooter({
       args.event.persist()
     }
 
-    context.updateState(
+    context.updateDates(
       {
         date: undefined,
         startDate: undefined,
         endDate: undefined,
       },
-      () => {
+      (forward) => {
         if (onReset) {
-          onReset(args)
+          onReset({ ...args, ...forward })
         }
       }
     )
