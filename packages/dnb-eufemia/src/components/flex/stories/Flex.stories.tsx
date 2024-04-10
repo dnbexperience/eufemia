@@ -84,18 +84,18 @@ export function FlexBookend() {
 }
 
 export function CustomSpacing() {
-  return (
-    <>
-      <Flex.Container>
-        <Field.String label="Label" value="Foo" />
-        <Field.String label="Label" value="Foo" width="medium" />
-      </Flex.Container>
-      <Card stack>
-        <Field.String />
-        <Field.PhoneNumber />
-      </Card>
-    </>
-  )
+  // return (
+  //   <>
+  //     <Flex.Container>
+  //       <Field.String label="Label" value="Foo" />
+  //       <Field.String label="Label" value="Foo" width="medium" />
+  //     </Flex.Container>
+  //     <Card stack>
+  //       <Field.String />
+  //       <Field.PhoneNumber />
+  //     </Card>
+  //   </>
+  // )
   // return (
   //   <Section style={{ background: 'lightyellow' }}>
   //     <Flex.Horizontal sizeCount={4}>
@@ -164,6 +164,33 @@ export function CustomSpacing() {
   //     </Flex.Container>
   //   </CustomMediaQuery>
   // )
+
+  return (
+    <Flex.Container>
+      <Flex.Item size={8}>
+        <TestElement>FlexItem (8)</TestElement>
+      </Flex.Item>
+      <Flex.Item size={4}>
+        <TestElement>FlexItem (4)</TestElement>
+      </Flex.Item>
+      <Flex.Item
+        size={{
+          small: 12,
+          medium: 4,
+        }}
+      >
+        <TestElement>FlexItem (small: 8, medium: 4)</TestElement>
+      </Flex.Item>
+      <Flex.Item
+        size={{
+          small: 12,
+          medium: 8,
+        }}
+      >
+        <TestElement>FlexItem (small: 4, medium: 8)</TestElement>
+      </Flex.Item>
+    </Flex.Container>
+  )
 
   return (
     <Flex.Container

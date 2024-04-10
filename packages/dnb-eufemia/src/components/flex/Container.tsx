@@ -124,6 +124,8 @@ function FlexContainer(props: Props) {
     queries,
   })
 
+  console.log('mediaKey', mediaKey)
+
   let rowCount = 0
   const content = childrenArray.map((child, i) => {
     let endSpacing = null
@@ -137,6 +139,7 @@ function FlexContainer(props: Props) {
 
     // Used for horizontal layout only
     let size = child?.['props']?.['size']
+
     if (
       // direction === 'horizontal' &&
       hasSizeProp &&
@@ -144,20 +147,66 @@ function FlexContainer(props: Props) {
       child['type'] === Item &&
       size
     ) {
-      size = parseFloat(size[mediaKey] ?? size['small'] ?? size) || 0
+      // With this CSS logic, create the same with JavaScript:
+      // .dnb-flex-container[data-media-key='small'] & {
+      //   --size: var(--small, var(--medium));
+      // }
+      // .dnb-flex-container[data-media-key='medium'] & {
+      //   --size: var(--medium, var(--large));
+      // }
+      // .dnb-flex-container[data-media-key='large'] & {
+      //   --size: var(--large, var(--medium));
+      // }
+
+      // Same logic as in the flex-item.scss file
+      switch (mediaKey) {
+        case 'small':
+          size = parseFloat(size[mediaKey] ?? size['medium'] ?? size) || 0
+          break
+        case 'medium':
+          size = parseFloat(size[mediaKey] ?? size['large'] ?? size) || 0
+          break
+        case 'large':
+          size = parseFloat(size[mediaKey] ?? size['medium'] ?? size) || 0
+          break
+      }
+
+      // size = parseFloat(size[mediaKey] ?? size['small'] ?? size) || 0
       // console.log('size', mediaKey, size)
+      // if (rowCount >= sizeCount) {
+      //   rowCount = 0
+      // }
       rowCount = rowCount + size
       // if (rowCount >= sizeCount) {
       //   rowCount = 0
       // }
       // console.log('rowCount', rowCount)
     }
+
+    // if (rowCount > sizeCount) {
+    //   rowCount = 0
+    // }
+
+    // const isRowStart = rowCount === rowCount + size || isFirst
     const isRowStart = rowCount === size
-    console.log('isRowStart', mediaKey, i, rowCount, size, isRowStart)
+    // console.log('isRowStart', mediaKey, i, rowCount, size, isRowStart)
+    // if (rowCount >= sizeCount) {
+    //   rowCount = 0
+    // }
+    const isRowEnd = rowCount === 0
+
+    if (mediaKey) {
+      console.log('test', i, size, { rowCount, isRowStart, isRowEnd })
+    }
+
+    // rowCount = rowCount + size
     if (rowCount >= sizeCount) {
       rowCount = 0
     }
-    const isRowEnd = rowCount === 0
+
+    // if (rowCount > sizeCount) {
+    //   rowCount = 0
+    // }
 
     const previousChild = childrenArray?.[i - 1]
     const isHeading = hasHeading && isHeadingElement(previousChild)
