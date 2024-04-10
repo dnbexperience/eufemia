@@ -243,7 +243,7 @@ export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
     const test = (types as SpaceStringTypes).split(/ /g)
     return clean(test as Array<SpaceStringTypes>)
   } else if (typeof types === 'boolean') {
-    return ['small' as SpaceTypesPositiveValuesType]
+    return [types ? ('small' as SpaceTypesPositiveValuesType) : 0]
   } else if (typeof types === 'number') {
     return [types]
   }
