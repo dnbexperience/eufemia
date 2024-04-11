@@ -58,11 +58,13 @@ function Card(props: Props) {
     bottom: 'large',
     left: 'medium',
   }
-  const smallSpace = {
-    ...basisSpace,
-    right: 0,
-    left: 0,
-  }
+  const smallSpace = responsive
+    ? {
+        ...basisSpace,
+        right: 0,
+        left: 0,
+      }
+    : basisSpace
 
   const params = SectionParams({
     className: classnames(
