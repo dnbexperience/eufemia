@@ -31,9 +31,6 @@ export interface FormStatusProps
    * The `title` attribute in the status.
    */
   title?: string;
-  /**
-   * The `label` attribute in the status.
-   */
   label?: React.ReactNode;
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
