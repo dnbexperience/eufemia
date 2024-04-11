@@ -3,13 +3,7 @@
  *
  */
 
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import type { DatePickerProps } from './DatePicker'
 
 import isValid from 'date-fns/isValid'
@@ -29,19 +23,18 @@ import {
 import DatePickerContext from './DatePickerContext'
 import addMonths from 'date-fns/addMonths'
 
-type DatePickerProviderProps = React.HTMLProps<HTMLElement> &
-  DatePickerProps & {
-    setReturnObject: (...args: any[]) => any
-    enhanceWithMethods?: Record<string, unknown>
-    attributes?: Record<string, unknown>
-    children: React.ReactNode
-  }
+type DatePickerProviderProps = DatePickerProps & {
+  setReturnObject: (...args: any[]) => any
+  enhanceWithMethods?: Record<string, unknown>
+  attributes?: Record<string, unknown>
+  children: React.ReactNode
+}
 
 type CalendarViews =
-  | Array<{ nr: number; month: string }>
-  | { nr: number; month: string }
+  | { nr: number; month: Date }
+  | Array<{ nr: number; month: Date }>
 
-type DatePickerProviderState = {
+export type DatePickerProviderState = {
   changeMonthViews: boolean
   lastEventCallCache?: { startDate?: Date; endDate?: Date }
   date?: Date | string
@@ -485,7 +478,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
 export default DatePickerProvider
 
-type DateProps = {
+export type DateProps = {
   date?: Date | string
   startDate?: Date | string
   endDate?: Date | string
@@ -502,6 +495,26 @@ type UseDatesOptions = {
   shouldCorrectDate: boolean
 }
 
+export type Dates = {
+  date?: Date | string
+  startDate?: Date
+  endDate?: Date
+  minDate?: Date
+  maxDate?: Date
+  startMonth?: Date
+  endMonth?: Date
+  partialStartDate?: Date
+  partialEndDate?: Date
+  hasHadValidDate?: boolean
+  hoverDate?: Date
+  __startDay?: string
+  __startMonth?: string
+  __startYear?: string
+  __endDay?: string
+  __endMonth?: string
+  __endYear?: string
+}
+
 function useDates(
   initialDates: DateProps,
   {
@@ -512,9 +525,6 @@ function useDates(
 ) {
   const [hasHadValidDate, setHasHadValidDate] = useState<boolean>(false)
   const [updateInputDates, setUpdateInputDates] = useState<boolean>(false)
-  const [forceCorrection, setForceCorrection] = useState<boolean>(false)
-
-  const callbackRef = useRef<() => void>(null)
 
   const initDates = useCallback(() => {
     const startDate = convertStringToDate(
@@ -598,13 +608,67 @@ function useDates(
   const [previousDates, setPreviousDates] = useState<DateProps>({
     ...initialDates,
   })
-  const [dates, setDates] = useState({
+  const [dates, setDates] = useState<Dates>({
     date:
       previousDates.date !== initialDates.date
         ? initialDates.date
         : previousDates.date,
     ...initDates(),
   })
+
+  const updateDates = useCallback(
+    (newDates, callback?: (dates: Dates) => void) => {
+      const correctedDates = {}
+      // CorrectDate
+      if (shouldCorrectDate) {
+        const startDate = newDates.startDate ?? dates.startDate
+        const endDate = newDates.endDate ?? dates.endDate
+        if (isDisabled(startDate, dates.minDate, dates.maxDate)) {
+          correctedDates['startDate'] = dates.minDate
+        }
+        if (isDisabled(endDate, dates.minDate, dates.maxDate)) {
+          // state.endDate is only used by the input if range is set to true.
+          // this is done to make max_date correction work if the input is not a range and only max_date is defined.
+          if (!isRange && !dates.minDate) {
+            correctedDates['startDate'] = dates.maxDate
+          } else {
+            correctedDates['endDate'] = dates.maxDate
+          }
+        }
+
+        if (Object.keys(correctedDates).length > 0) {
+          setDates((d) => ({ ...d, ...correctedDates }))
+        }
+      }
+
+      if (
+        Object.keys(newDates).join().includes('__start') ||
+        Object.keys(newDates).join().includes('__end') ||
+        Object.keys(newDates).join().includes('startDate') ||
+        Object.keys(newDates).join().includes('endDate')
+      ) {
+        setUpdateInputDates(true)
+      }
+
+      setDates((currentDates) => {
+        if (callback) {
+          // callbackRef.current = callback
+          callback({
+            ...currentDates,
+            ...newDates,
+            ...correctedDates,
+          })
+        }
+
+        return {
+          ...currentDates,
+          ...newDates,
+          ...correctedDates,
+        }
+      })
+    },
+    [dates, shouldCorrectDate, isRange]
+  )
 
   // Update dates on prop change
   useEffect(() => {
@@ -616,58 +680,7 @@ function useDates(
       setPreviousDates(initialDates)
       updateDates({ date: initialDates.date, ...initDates() })
     }
-  }, [initialDates, previousDates, initDates])
-
-  function updateDates(newDates, callback?: (...args: any[]) => void) {
-    const correctedDates = {}
-    // CorrectDate
-    if (shouldCorrectDate) {
-      const startDate = newDates.startDate ?? dates.startDate
-      const endDate = newDates.endDate ?? dates.endDate
-      if (isDisabled(startDate, dates.minDate, dates.maxDate)) {
-        correctedDates.startDate = dates.minDate
-      }
-      if (isDisabled(endDate, dates.minDate, dates.maxDate)) {
-        // state.endDate is only used by the input if range is set to true.
-        // this is done to make max_date correction work if the input is not a range and only max_date is defined.
-        if (!isRange && !dates.minDate) {
-          correctedDates.startDate = dates.maxDate
-        } else {
-          correctedDates.endDate = dates.maxDate
-        }
-      }
-
-      if (Object.keys(correctedDates).length > 0) {
-        setDates((d) => ({ ...d, ...correctedDates }))
-      }
-    }
-
-    if (
-      Object.keys(newDates).join().includes('__start') ||
-      Object.keys(newDates).join().includes('__end') ||
-      Object.keys(newDates).join().includes('startDate') ||
-      Object.keys(newDates).join().includes('endDate')
-    ) {
-      setUpdateInputDates(true)
-    }
-
-    setDates((currentDates) => {
-      if (callback) {
-        // callbackRef.current = callback
-        callback({
-          ...currentDates,
-          ...newDates,
-          ...correctedDates,
-        })
-      }
-
-      return {
-        ...currentDates,
-        ...newDates,
-        ...correctedDates,
-      }
-    })
-  }
+  }, [initialDates, previousDates, initDates, updateDates])
 
   useEffect(() => {
     if (!updateInputDates) {
@@ -678,50 +691,50 @@ function useDates(
     let hasHadVali = false
 
     if (isValid(dates.startDate)) {
-      datesToUpdate.__startDay = pad(format(dates.startDate, 'dd'), 2)
-      datesToUpdate.__startMonth = pad(format(dates.startDate, 'MM'), 2)
-      datesToUpdate.__startYear = format(dates.startDate, 'yyyy')
+      datesToUpdate['__startDay'] = pad(format(dates.startDate, 'dd'), 2)
+      datesToUpdate['__startMonth'] = pad(format(dates.startDate, 'MM'), 2)
+      datesToUpdate['__startYear'] = format(dates.startDate, 'yyyy')
       hasHadVali = true
     } else if (dates.startDate === undefined) {
-      datesToUpdate.__startDay = null
-      datesToUpdate.__startMonth = null
-      datesToUpdate.__startYear = null
+      datesToUpdate['__startDay'] = null
+      datesToUpdate['__startMonth'] = null
+      datesToUpdate['__startYear'] = null
     }
 
     if (isValid(dates.endDate)) {
-      datesToUpdate.__endDay = pad(format(dates.endDate, 'dd'), 2)
-      datesToUpdate.__endMonth = pad(format(dates.endDate, 'MM'), 2)
-      datesToUpdate.__endYear = format(dates.endDate, 'yyyy')
+      datesToUpdate['__endDay'] = pad(format(dates.endDate, 'dd'), 2)
+      datesToUpdate['__endMonth'] = pad(format(dates.endDate, 'MM'), 2)
+      datesToUpdate['__endYear'] = format(dates.endDate, 'yyyy')
       hasHadVali = true
     } else if (dates.endDate === undefined) {
-      datesToUpdate.__endDay = null
-      datesToUpdate.__endMonth = null
-      datesToUpdate.__endYear = null
+      datesToUpdate['__endDay'] = null
+      datesToUpdate['__endMonth'] = null
+      datesToUpdate['__endYear'] = null
     }
 
     setHasHadValidDate(hasHadVali)
     updateDates({ ...datesToUpdate })
     setUpdateInputDates(false)
-  }, [dates])
+  }, [dates, updateInputDates, updateDates])
 
   return [dates, updateDates, hasHadValidDate, previousDates] as const
 }
 
 type ViewDates = {
-  startDate: DatePickerProviderState['startDate']
-  endDate: DatePickerProviderState['endDate']
-  startMonth: DatePickerProviderState['startMonth']
-  endMonth: DatePickerProviderState['endMonth']
+  startDate?: DatePickerProviderState['startDate']
+  endDate?: DatePickerProviderState['endDate']
+  startMonth?: DatePickerProviderState['startMonth']
+  endMonth?: DatePickerProviderState['endMonth']
 }
 
 type UseViewsParams = ViewDates & {
-  isRange: boolean
+  isRange?: boolean
 }
 
 function useViews({ isRange, ...dates }: UseViewsParams) {
   const [prevDates, setPrevDates] = useState(dates)
   const [views, setViews] = useState<CalendarViews>(
-    getViews({ ...dates, views: {}, isRange })
+    getViews({ ...dates, views: undefined, isRange })
   )
 
   function updateViews(views, cb = null) {
@@ -753,7 +766,7 @@ export function getViews({
   views,
   isRange,
   ...dates
-}: UseViewsParams & { views: CalendarViews }) {
+}: ViewDates & UseViewsParams & { views: CalendarViews }): CalendarViews {
   // fill the views with the calendar data getMonth()
   return (
     Array.isArray(views)
