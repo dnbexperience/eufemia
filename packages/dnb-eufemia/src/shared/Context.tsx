@@ -42,6 +42,7 @@ import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { NumberFormatCurrency } from '../components/NumberFormat'
+import type { ProgressIndicatorProps } from '../components/ProgressIndicator'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -78,6 +79,7 @@ export type ContextComponents = {
   StepIndicator?: Partial<StepIndicatorProps>
   FormLabel?: Partial<FormLabelProps>
   Input?: Partial<InputProps>
+  ProgressIndicator?: Partial<ProgressIndicatorProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>

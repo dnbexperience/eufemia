@@ -16,7 +16,6 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
   static propTypes = {
     size: PropTypes.string,
     visible: PropTypes.bool,
-    complete: PropTypes.bool,
     progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onComplete: PropTypes.func,
     callOnCompleteHandler: PropTypes.func,
@@ -25,7 +24,6 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
   static defaultProps = {
     size: null,
     visible: true,
-    complete: false,
     progress: null,
     onComplete: null,
     callOnCompleteHandler: null,
@@ -34,7 +32,6 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     state.progress = parseFloat(props.progress)
     state.visible = props.visible
-    state.complete = props.complete
     return state
   }
   constructor(props) {
@@ -60,7 +57,6 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
       title,
       progress: _progress, // eslint-disable-line
       visible, // eslint-disable-line
-      complete, // eslint-disable-line
       onComplete, // eslint-disable-line
       callOnCompleteHandler, // eslint-disable-line
 

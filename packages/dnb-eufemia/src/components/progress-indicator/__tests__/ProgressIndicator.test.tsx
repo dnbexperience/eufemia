@@ -7,11 +7,11 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator, {
-  ProgressIndicatorProps,
+  ProgressIndicatorAllProps,
 } from '../ProgressIndicator'
 import { format } from '../../number-format/NumberUtils'
 
-const props: ProgressIndicatorProps = {}
+const props: ProgressIndicatorAllProps = {}
 
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =

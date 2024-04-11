@@ -10,7 +10,6 @@ export interface ProgressIndicatorCircularProps
    * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
    */
   visible?: boolean;
-  complete?: boolean;
   /**
    * To visualize a static "percentage" (0-100) as a progress state. Defaults to `null`.
    */
