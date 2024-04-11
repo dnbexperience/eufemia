@@ -12,7 +12,7 @@ export type TextMaskInputElement =
   | ((...args: any[]) => any);
 export type TextMaskValue = string | number;
 export interface TextMaskProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'> {
+  extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'> {
   mask: TextMaskMask;
   inputRef?: React.MutableRefObject<HTMLInputElement>;
   inputElement?: TextMaskInputElement;
