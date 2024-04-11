@@ -6,6 +6,11 @@
 import React from 'react'
 import { DatePickerProps } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
+import {
+  DatePickerProviderState,
+  DateProps,
+  Dates,
+} from './DatePickerProvider'
 
 export type DatePickerView = {
   month: Date
@@ -24,11 +29,16 @@ export type DatePickerContextValues = ContextProps & {
   translation: ContextProps['translation']
   views: Array<DatePickerView>
   hasHadValidDate: boolean
-  updateState: (states: any, callback?: () => void) => void
-  updateDates: (dates: any, callback?: () => void) => void
+  updateState: (
+    states: any,
+    callback?: (state: DatePickerProviderState) => void
+  ) => void
+  updateDates: (dates: any, callback?: (dates: Dates) => void) => void
   setState?: (state: any) => void
   setViews: (views: DatePickerView[], callback?: () => void) => void
   callOnChangeHandler: (...args: any[]) => void
+  hidePicker: (...args: any[]) => void
+  previousDates: DateProps
   getReturnObject: ({
     startDate,
     endDate,
@@ -40,7 +50,7 @@ export type DatePickerContextValues = ContextProps & {
     endDate?: Date
     partialStartDate?: Date
     partialEndDate?: Date
-    event: Event
+    event: React.FocusEvent | React.ChangeEvent
   }) => {
     is_valid: boolean
     is_valid_start_date: boolean

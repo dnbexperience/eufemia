@@ -41,7 +41,7 @@ import type { SkeletonShow } from '../Skeleton'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'children' | 'ref' | 'value' | 'size'
+  'children' | 'ref' | 'value' | 'size' | 'onFocus' | 'onBlur' | 'onSubmit'
 > & {
   id?: string
   title?: string
@@ -85,12 +85,16 @@ export type DatePickerInputProps = Omit<
    */
   opened?: boolean
   showInput?: boolean
-  onChange?: (...args: any[]) => any
-  onSubmit?: (...args: any[]) => any
+  onSubmit?: (event: React.FormEvent<HTMLInputElement>) => void
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   /**
    * Will be called once the input gets focus.
    */
-  onFocus?: (...args: any[]) => any
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void
+  /**
+   * Will be called once the input lose focus.
+   */
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
 const defaultProps: DatePickerInputProps = {

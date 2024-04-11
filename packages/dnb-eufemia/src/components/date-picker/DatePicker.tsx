@@ -59,7 +59,7 @@ type DatePickerAlignPicker = 'auto' | 'left' | 'right'
 
 export type DatePickerProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'ref' | 'children' | 'label' | 'size' | 'onBlur'
+  'ref' | 'children' | 'label' | 'size' | 'onBlur' | 'onFocus'
 > &
   SpacingProps & {
     id?: string
@@ -289,11 +289,11 @@ export type DatePickerProps = Omit<
     /**
      * Will be called once the input gets focus.
      */
-    onFocus?: (event: React.FocusEventHandler<HTMLInputElement>) => void
+    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void
     /**
      * Will be called once the input lose focus.
      */
-    onBlur?: (event: React.FocusEventHandler<HTMLInputElement>) => void
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
   }
 
 const defaultProps: DatePickerProps = {
@@ -721,7 +721,7 @@ function DatePicker(externalProps: DatePickerProps) {
             show={showStatus}
             id={id + '-form-status'}
             globalStatus={globalStatus}
-            label={label}
+            label={String(label)}
             text_id={id + '-status'} // used for "aria-describedby"
             width_selector={id + '-shell'}
             text={status}

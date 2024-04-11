@@ -156,7 +156,7 @@ function getRange(startDate: Date, endDate: Date, hoverDate: Date) {
 
 // returns an array of dates for each day of the current week
 // weekStartsOn is a number, use dayOffset to convert from a string
-export function getWeek(weekStartsOn: ZeroDayIndex) {
+export function getWeek(weekStartsOn?: ZeroDayIndex) {
   const startDay = startOfWeek(new Date(), { weekStartsOn })
   return Array(7)
     .fill(1)

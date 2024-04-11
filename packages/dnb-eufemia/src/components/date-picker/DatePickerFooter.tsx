@@ -96,16 +96,16 @@ function DatePickerFooter({
     const { date_format } = context.props
 
     const startDate = context.previousDates.startDate
-      ? convertStringToDate(context.previousDates.startDate, {
+      ? convertStringToDate(String(context.previousDates.startDate), {
           date_format,
         })
       : context.previousDates.date
-      ? convertStringToDate(context.previousDates.date, {
+      ? convertStringToDate(String(context.previousDates.date), {
           date_format,
         })
       : null
     const endDate = context.previousDates.endDate
-      ? convertStringToDate(context.previousDates.startDate, {
+      ? convertStringToDate(String(context.previousDates.startDate), {
           date_format,
         })
       : startDate
