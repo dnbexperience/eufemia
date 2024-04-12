@@ -19,12 +19,12 @@ export type Props = {
   }
 
 function SubmitButton(props: Props) {
-  const translations = useTranslation().Context
+  const translations = useTranslation().SubmitButton
 
   const { variant, className, showIndicator, children, text, ...rest } =
     props
 
-  const content = text || children || translations.submit
+  const content = text || children || translations.text
 
   const { formState, handleSubmit, _isInsideFormElement } =
     useContext(DataContext) || {}

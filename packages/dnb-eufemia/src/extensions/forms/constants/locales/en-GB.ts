@@ -1,6 +1,21 @@
 export default {
   'en-GB': {
     /**
+     * General
+     */
+    SubmitButton: {
+      text: 'Send',
+    },
+    Step: {
+      next: 'Next',
+      previous: 'Back',
+      edit: 'Edit',
+    },
+    Form: {
+      errorSummaryTitle: 'Please correct the following errors',
+    },
+
+    /**
      * Base fields
      */
     Field: {
@@ -27,14 +42,6 @@ export default {
     BooleanField: {
       yes: 'Yes',
       no: 'No',
-    },
-    Context: {
-      submit: 'Send',
-    },
-    Step: {
-      next: 'Next',
-      previous: 'Back',
-      edit: 'Edit',
     },
 
     /**

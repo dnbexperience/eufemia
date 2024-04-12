@@ -64,6 +64,15 @@ This document provides a set of best practices to follow when creating forms for
 />
 ```
 
+- To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred. Eufemia Forms will only display the summary when the form is being submitted and not when one field shows its error during the blur event.
+
+```tsx
+<GlobalStatus />
+<Form.Handler>
+  My Form
+</Form.Handler>
+```
+
 ## Semantics
 
 - When several form elements do share the same label, a `fieldset` and `legend` element should be used to group them together. Use the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) for that.

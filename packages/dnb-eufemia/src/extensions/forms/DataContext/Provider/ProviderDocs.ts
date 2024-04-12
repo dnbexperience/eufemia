@@ -51,6 +51,11 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  globalStatusId: {
+    doc: 'If needed, you can define a custom [GlobalStatus](/uilib/components/global-status) id. Defaults to `main`.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',

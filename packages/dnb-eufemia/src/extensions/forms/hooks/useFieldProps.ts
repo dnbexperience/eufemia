@@ -112,7 +112,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
-  const tr = useTranslation()
+  const translation = useTranslation()
 
   const transformers = useRef({
     transformIn,
@@ -360,10 +360,10 @@ export default function useFieldProps<
   const errorMessagesRef = useRef(null)
   errorMessagesRef.current = useMemo(() => {
     return {
-      required: tr.Field.errorRequired,
+      required: translation.Field.errorRequired,
       ...errorMessages,
     }
-  }, [errorMessages, tr.Field.errorRequired])
+  }, [errorMessages, translation.Field.errorRequired])
 
   /**
    * Prepare error from validation logic with correct error messages based on props

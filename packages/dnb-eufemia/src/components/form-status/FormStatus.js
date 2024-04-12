@@ -178,13 +178,14 @@ export default class FormStatus extends React.PureComponent {
     this._globalStatus = GlobalStatusProvider.init(
       props?.globalStatus?.id ||
         context?.FormStatus?.globalStatus?.id ||
-        context?.FormRow?.globalStatus?.id ||
+        context?.FormRow?.globalStatus?.id || // Deprecated – can be removed in v11
         context?.formElement?.globalStatus?.id ||
         'main',
       (provider) => {
         // gets called once ready
         if (this.props.state === 'error' && this.isReadyToGetVisible()) {
-          const { state, text, globalStatus, label } = this.props
+          const { state, text, globalStatus, label } =
+            this.getProps(context)
           provider.add({
             state,
             status_id: this.getStatusId(),
@@ -194,6 +195,7 @@ export default class FormStatus extends React.PureComponent {
               status_anchor_label: label,
               status_anchor_url: true,
             },
+            ...globalStatus,
           })
         }
       }
@@ -251,12 +253,14 @@ export default class FormStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { state, show, text, globalStatus, children, label } = this.props
+    const { state, show, text, globalStatus, children, label } =
+      this.getProps()
 
     if (
       prevProps.text !== text ||
       prevProps.children !== children ||
       prevProps.show !== show ||
+      prevProps.globalStatus?.show !== globalStatus?.show ||
       prevProps.state !== state
     ) {
       this.fillCache()
@@ -276,6 +280,7 @@ export default class FormStatus extends React.PureComponent {
                 status_anchor_label: label,
                 status_anchor_url: true,
               },
+              ...globalStatus,
             },
             {
               preventRestack: true, // because of the internal "close"
@@ -291,6 +296,18 @@ export default class FormStatus extends React.PureComponent {
         this.updateWidth()
       }
     }
+  }
+
+  getProps(context = this.context) {
+    return extendPropsWithContextInClassComponent(
+      this.props,
+      FormStatus.defaultProps,
+      { skeleton: context?.skeleton },
+      // Deprecated – can be removed in v11
+      pickFormElementProps(context?.FormRow),
+      pickFormElementProps(context?.formElement),
+      context?.FormStatus
+    )
   }
 
   getStatusId() {
@@ -321,15 +338,7 @@ export default class FormStatus extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      FormStatus.defaultProps,
-      { skeleton: this.context && this.context.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
-      pickFormElementProps(this.context?.formElement),
-      this.context.FormStatus
-    )
+    const props = this.getProps()
 
     const {
       title,
