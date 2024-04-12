@@ -82,16 +82,23 @@ export function classWithSnakeCaseProps<
   return Derived
 }
 
-export function convertSnakeCaseProps<P>(props: P) {
+export function convertSnakeCaseProps<P>(
+  props: P,
+  { overrideExistingProps = true } = {}
+) {
   const isFrozen = Object.isFrozen(props)
   const newProps = isFrozen ? { ...props } : props
 
   for (const key in props) {
     if (key.includes('_') && /^[a-z]+/.test(key) && !/[A-Z]/.test(key)) {
-      newProps[toCamelCase(key)] = props[key]
+      const newKey = toCamelCase(key)
+      if (overrideExistingProps || newProps[newKey] === undefined) {
+        newProps[toCamelCase(key)] = props[key]
+      }
       delete newProps[key]
     }
   }
+  // add tests!!!M PLX YAY
 
   return isFrozen ? Object.freeze(newProps) : newProps
 }

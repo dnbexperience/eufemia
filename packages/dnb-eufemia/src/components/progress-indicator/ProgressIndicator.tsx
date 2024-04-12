@@ -11,16 +11,17 @@ import React, {
   useState,
 } from 'react'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
+import Context, { ContextProps } from '../../shared/Context'
 import {
   isTrue,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { SpacingProps } from '../space/types'
-import type { SectionSpacing, SectionStyleTypes } from '../Section'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
@@ -37,13 +38,13 @@ export type ProgressIndicatorProps = {
   /**
    * Disables the fade-in and fade-out animation. Defaults to `false`.
    */
-  no_animation?: boolean
+  noAnimation?: boolean
   /**
    * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
    */
   size?: 'default' | 'small' | 'medium' | 'large' | 'huge'
   /**
-   * To visualize a static "percentage" (0-100) as a progress state. Defaults to `null`.
+   * A number between 0-100, if not supplied a continous loading-type animation will be used. Defaults to `undefined`
    */
   progress?: string | number
   /**
@@ -53,78 +54,85 @@ export type ProgressIndicatorProps = {
   /**
    * Set it to `vertical` if you want the label to be placed under the indicator. Defaults to `horizontal`.
    */
-  label_direction?: string
+  labelDirection?: string
   /**
-   * If set to `true` a default label will be shown.
+   * If set to `true` a default label (from text locales) will be shown.
    */
-  show_label?: boolean
+  showDefaultLabel?: boolean
+  /**
+   * Use this to override the default label from text locales
+   */
   indicator_label?: string
-  /**
-   * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
-   */
-  section_style?: SectionStyleTypes
-  /**
-   * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
-   */
-  section_spacing?: SectionSpacing
   /**
    * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
    */
   title?: string
-  class?: string
-  className?: string
-  children?: React.ReactNode | ((...args: any[]) => any)
   /**
    * Will be called once it&#39;s no longer `visible`.
    */
+  onComplete?: (...args: any[]) => any
+}
+
+// depracated, can be removed in v11
+type DeprecatedProgressIndicatorProps = {
+  /** @deprecated use `noAnimation` */
+  no_animation?: boolean
+  /** @deprecated use `labelDirection` */
+  label_direction?: string
+  /** @deprecated use `showDefaultLabel` */
+  show_label?: boolean
+  /** @deprecated use the `className` prop instead */
+  class?: string
+  /** @deprecated use the `label` prop instead */
+  children?: React.ReactNode
+  /**  @deprecated use `onComplete` */
   on_complete?: (...args: any[]) => any
 }
 
 export type ProgressIndicatorAllProps = Omit<
-  React.HTMLProps<HTMLElement>,
-  'ref'
+  React.HTMLProps<HTMLSpanElement>,
+  'ref' | 'label' | 'size'
 > &
   SpacingProps &
   ProgressIndicatorProps
 
-function ProgressIndicator(props: ProgressIndicatorAllProps) {
-  const context = useContext(Context)
-
-  const localePropsFromContext =
-    context?.getTranslation(props).ProgressIndicator
-  const componentPropsFromContext = context?.ProgressIndicator
-
-  const propsUpdatedWithContext = extendPropsWithContext(
-    props,
-    localePropsFromContext,
-    componentPropsFromContext
+function ProgressIndicator(
+  props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
+) {
+  const undeprecatedProps = handleDeprecatedBehaviour(props)
+  const allProps = updatePropsWithContext(
+    undeprecatedProps,
+    useContext(Context)
   )
 
   const {
     type = 'circular',
     size = 'default',
-    no_animation = false,
-    on_complete,
+    noAnimation = false,
+    onComplete,
     label,
     indicator_label,
-    label_direction = 'horizontal',
-    show_label = false,
+    labelDirection = 'horizontal',
+    showDefaultLabel = false,
     className,
-    class: _className,
-    children,
     title,
-    progress, // eslint-disable-line
-    visible = true, // eslint-disable-line
-    ...attributes
-  } = propsUpdatedWithContext
+    progress,
+    visible = true,
+    ...rest
+  } = allProps
+
+  const remainingDOMProps = validateDOMAttributes(allProps, { ...rest })
+
+  const completeTimeout = useRef<NodeJS.Timeout>()
+  const fadeOutTimeout = useRef<NodeJS.Timeout>()
+  const [complete, setCompleteState] = useState(false)
 
   const progressNumber =
     typeof progress === 'string' ? parseFloat(progress) : progress
 
-  const [complete, setCompleteState] = useState(false)
-
-  const completeTimeout = useRef<NodeJS.Timeout>()
-  const fadeOutTimeout = useRef<NodeJS.Timeout>()
+  const indicatorLabel =
+    label || (isTrue(showDefaultLabel) && indicator_label)
+  const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
     return () => {
@@ -142,20 +150,13 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
   const callOnCompleteHandler = useCallback(() => {
     completeTimeout.current = setTimeout(() => {
       setCompleteState(true)
-      if (on_complete) {
+      if (onComplete) {
         fadeOutTimeout.current = setTimeout(() => {
-          dispatchCustomElementEvent({ on_complete }, 'on_complete')
+          dispatchCustomElementEvent({ onComplete }, 'onComplete')
         }, 600) // wait for CSS fade out, defined in "progress-indicator-fade-out"
       }
     }, 200)
-  }, [on_complete])
-
-  const indicatorLabel =
-    label || children || (isTrue(show_label) && indicator_label)
-  const progressTitle = title || formatProgress(progressNumber)
-
-  const params = { ...attributes }
-  validateDOMAttributes(props, params)
+  }, [onComplete])
 
   return (
     <span
@@ -164,21 +165,20 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
         visible && 'dnb-progress-indicator--visible',
         complete && 'dnb-progress-indicator--complete',
         type === 'linear' && 'dnb-progress-indicator--full-width',
-        label_direction && `dnb-progress-indicator--${label_direction}`,
+        labelDirection && `dnb-progress-indicator--${labelDirection}`,
         size && `dnb-progress-indicator--${size}`,
-        isTrue(no_animation) && 'dnb-progress-indicator--no-animation',
-        createSpacingClasses(propsUpdatedWithContext),
-        className,
-        _className
+        isTrue(noAnimation) && 'dnb-progress-indicator--no-animation',
+        createSpacingClasses(allProps),
+        className
       )}
-      {...params}
+      {...remainingDOMProps}
     >
       {type === 'circular' && (
         <ProgressIndicatorCircular
           size={size}
           progress={progressNumber}
           visible={visible}
-          onComplete={on_complete}
+          onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
         />
@@ -188,7 +188,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
           size={size}
           progress={progressNumber}
           visible={visible}
-          onComplete={on_complete}
+          onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
         />
@@ -200,6 +200,49 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
       )}
     </span>
   )
+}
+
+function updatePropsWithContext(
+  props: ProgressIndicatorAllProps,
+  context: ContextProps
+) {
+  const localePropsFromContext =
+    context?.getTranslation(props).ProgressIndicator
+  const componentPropsFromContext = context?.ProgressIndicator
+  return extendPropsWithContext(
+    props,
+    {},
+    localePropsFromContext,
+    componentPropsFromContext
+  )
+}
+
+/**
+ * Support deprecated behaviour by mutating the props.
+ */
+function handleDeprecatedBehaviour(
+  oldProps: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
+): ProgressIndicatorAllProps {
+  // Rename deprecated props
+  // And indicator_label should still be snake case
+  const {
+    show_label: showDefaultLabel,
+    indicator_label,
+    class: className,
+    children: label,
+    ...propsToConvertToCamelCase
+  } = oldProps
+
+  // Merge deprecated props with new names (will not overwrite)
+  return {
+    showDefaultLabel,
+    indicator_label,
+    className,
+    label,
+    ...convertSnakeCaseProps(propsToConvertToCamelCase, {
+      overrideExistingProps: false,
+    }),
+  }
 }
 
 function formatProgress(progress) {

@@ -78,4 +78,18 @@ For more context, take a look in this [PR](https://github.com/dnbexperience/eufe
 
 The `InputPassword` component has been moved to `Field.Password`, and is now a part of Eufemia Forms. Change your import statement from `import InputPassword from '@dnb/eufemia/components/input/InputPassword'` to `import { Field } from '@dnb/eufemia/extensions/forms'`.
 
-_February, 6. 2024_
+## ProgressIndicator
+
+Renamed props:
+
+- prop `no_animation` renamed to `noAnimation`
+- prop `label_direction` renamed to `labelDirection`
+- prop `show_label` renamed to `showDefaultLabel`
+- prop `on_complete` renamed to `onComplete`
+
+Removed props:
+
+- prop `class` removed, use prop `className`
+- prop `children` removed, use prop `label`
+
+_April, 15. 2024_
