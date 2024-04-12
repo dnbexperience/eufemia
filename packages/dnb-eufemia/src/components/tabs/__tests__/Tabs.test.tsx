@@ -259,7 +259,7 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should not have a bleeding border if breeakout is false', () => {
+  it('border should stay inside parent boundary if breakout is set to false', () => {
     render(
       <Tabs
         {...props}
