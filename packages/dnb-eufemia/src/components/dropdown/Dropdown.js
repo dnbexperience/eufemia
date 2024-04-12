@@ -1,6 +1,8 @@
 /**
  * Web Dropdown Component
  *
+ * This is a legacy component.
+ * For refferencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
