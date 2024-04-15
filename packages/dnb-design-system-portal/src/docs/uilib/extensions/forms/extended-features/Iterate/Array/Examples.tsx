@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Flex } from '@dnb/eufemia/src'
+import { Flex, Hr, Lead } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -40,13 +40,10 @@ export const ObjectElements = () => {
         ]}
         onChange={(value) => console.log('onChange', value)}
       >
-        <h3>
-          <Value.String itemPath="/nickname" />
-        </h3>
-        <Flex.Horizontal>
+        <Field.Composition>
           <Field.BankAccountNumber itemPath="/accountNumber" />
           <Field.String label="Account name" itemPath="/accountName" />
-        </Flex.Horizontal>
+        </Field.Composition>
       </Iterate.Array>
     </ComponentBox>
   )
@@ -100,57 +97,56 @@ export const ArrayFromFormHandler = () => {
               nickname: 'Iron Man',
               firstName: 'Tony',
               lastName: 'Stark',
-              bornYear: 1970,
             },
             {
               nickname: 'Captain America',
               firstName: 'Steve',
               lastName: 'Rogers',
-              bornYear: 1918,
             },
           ],
           alwaysThere: 'Nick Fury',
         }}
         onChange={(data) => console.log('Source onChange', data)}
       >
-        <Form.MainHeading>Avengers</Form.MainHeading>
+        <Flex.Vertical>
+          <Form.MainHeading>Avengers</Form.MainHeading>
 
-        <Iterate.Array
-          path="/avengers"
-          onChange={(value) => console.log('Iterate onChange', value)}
-        >
-          <Form.SubHeading>
-            <Value.String itemPath="/nickname" />
-          </Form.SubHeading>
+          <Iterate.Array
+            path="/avengers"
+            onChange={(value) => console.log('Iterate onChange', value)}
+          >
+            <Flex.Stack>
+              <Lead>
+                <Value.String itemPath="/nickname" />
+              </Lead>
 
-          <Flex.Horizontal align="center">
-            <Field.String
-              itemPath="/firstName"
-              width="medium"
-              label="First name"
-            />
-            <Field.String
-              itemPath="/lastName"
-              width="medium"
-              label="Last name"
-            />
-            <Field.Number
-              itemPath="/bornYear"
-              label="Year of birth"
-              width="small"
-            />
-            <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
-          </Flex.Horizontal>
+              <Field.Composition>
+                <Field.String
+                  itemPath="/firstName"
+                  width="medium"
+                  label="First name"
+                />
+                <Field.String
+                  itemPath="/lastName"
+                  width="medium"
+                  label="Last name"
+                />
+                <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
+              </Field.Composition>
 
-          <Field.String path="/alwaysThere" top="x-small" />
-        </Iterate.Array>
+              <Field.String path="/alwaysThere" />
 
-        <Iterate.ArrayPushButton
-          top="small"
-          text="Add another avenger"
-          path="/avengers"
-          pushValue={{}}
-        />
+              <Hr light />
+            </Flex.Stack>
+          </Iterate.Array>
+
+          <Iterate.ArrayPushButton
+            top="small"
+            text="Add another avenger"
+            path="/avengers"
+            pushValue={{}}
+          />
+        </Flex.Vertical>
       </Form.Handler>
     </ComponentBox>
   )

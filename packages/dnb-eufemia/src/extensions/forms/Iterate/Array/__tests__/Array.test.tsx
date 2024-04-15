@@ -1,9 +1,10 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
-import { Field } from '../../..'
+import { Field, Form } from '../../..'
 import * as DataContext from '../../../DataContext'
+import { FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {
@@ -115,7 +116,7 @@ describe('Iterate.Array', () => {
 
   describe('using single render prop', () => {
     describe('with primitive elements', () => {
-      it('should call renderers with each element value', async () => {
+      it('should call renderers with each element value', () => {
         const renderProp = jest.fn()
         render(
           <Iterate.Array value={['first', 'second', 'third']}>
@@ -129,8 +130,9 @@ describe('Iterate.Array', () => {
         expect(renderProp).toHaveBeenNthCalledWith(3, 'third', 2)
       })
     })
+
     describe('with object elements and multiple render props', () => {
-      it('should call renderers with each element value', async () => {
+      it('should call renderers with each element value', () => {
         const renderProp1 = jest.fn()
         const renderProp2 = jest.fn()
         render(
@@ -270,6 +272,190 @@ describe('Iterate.Array', () => {
           expect(dataContextOnChange).toHaveBeenNthCalledWith(8, {
             someList: ['fools', 'bar code'],
             otherValue: 'lorem ipsum',
+          })
+        })
+
+        it('should filter data based on the given "filterData" property method', () => {
+          let filteredData = undefined
+          const onSubmit = jest.fn((data) => (filteredData = data))
+
+          const filterDataHandler: FilterData = jest.fn(
+            (path, value, props) => {
+              if (props.disabled === true) {
+                return false
+              }
+            }
+          )
+
+          const { rerender } = render(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterData={filterDataHandler}
+            >
+              <Iterate.Array
+                path="/myList"
+                value={[
+                  { foo: 'foo 1', bar: 'bar 1' },
+                  { foo: 'foo 2', bar: 'bar 2' },
+                ]}
+              >
+                <Field.String itemPath="/foo" />
+                <Field.String itemPath="/bar" />
+              </Iterate.Array>
+
+              <Form.SubmitButton>Submit</Form.SubmitButton>
+            </DataContext.Provider>
+          )
+
+          const submitButton = document.querySelector('button')
+
+          fireEvent.click(submitButton)
+
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+          expect(onSubmit).toHaveBeenLastCalledWith(
+            {
+              myList: [
+                {
+                  bar: 'bar 1',
+                  foo: 'foo 1',
+                },
+                {
+                  bar: 'bar 2',
+                  foo: 'foo 2',
+                },
+              ],
+            },
+            expect.anything()
+          )
+
+          expect(filterDataHandler).toHaveBeenCalledTimes(5)
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            1,
+            '/myList',
+            [
+              {
+                bar: 'bar 1',
+                foo: 'foo 1',
+              },
+              {
+                bar: 'bar 2',
+                foo: 'foo 2',
+              },
+            ],
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            2,
+            '/myList/0/foo',
+            'foo 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            3,
+            '/myList/0/bar',
+            'bar 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            4,
+            '/myList/1/foo',
+            'foo 2',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            5,
+            '/myList/1/bar',
+            'bar 2',
+            expect.anything(),
+            expect.anything()
+          )
+
+          rerender(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterData={filterDataHandler}
+            >
+              <Iterate.Array
+                path="/myList"
+                value={[
+                  { foo: 'foo 1', bar: 'bar 1' },
+                  { foo: 'foo 2', bar: 'bar 2' },
+                ]}
+              >
+                <Field.String itemPath="/foo" disabled />
+                <Field.String itemPath="/bar" />
+              </Iterate.Array>
+
+              <Form.SubmitButton>Submit</Form.SubmitButton>
+            </DataContext.Provider>
+          )
+
+          expect(filteredData).toEqual({
+            myList: [
+              { bar: 'bar 1', foo: 'foo 1' },
+              { bar: 'bar 2', foo: 'foo 2' },
+            ],
+          })
+
+          fireEvent.click(submitButton)
+
+          expect(filterDataHandler).toHaveBeenCalledTimes(10)
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            6,
+            '/myList',
+            [
+              {
+                bar: 'bar 1',
+              },
+              {
+                bar: 'bar 2',
+              },
+            ],
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            7,
+            '/myList/0/foo',
+            'foo 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            8,
+            '/myList/0/bar',
+            'bar 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            9,
+            '/myList/1/foo',
+            'foo 2',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            10,
+            '/myList/1/bar',
+            'bar 2',
+            expect.anything(),
+            expect.anything()
+          )
+
+          expect(filteredData).toEqual({
+            myList: [
+              {
+                bar: 'bar 1',
+              },
+              {
+                bar: 'bar 2',
+              },
+            ],
           })
         })
       })

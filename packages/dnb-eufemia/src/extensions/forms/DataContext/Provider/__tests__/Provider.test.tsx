@@ -364,7 +364,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should filter data based in the given "filterData" property method', () => {
+    it('should filter data based on the given "filterData" property method', () => {
       let filteredData = undefined
       const onSubmit = jest.fn((data) => (filteredData = data))
 

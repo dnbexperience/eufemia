@@ -326,7 +326,10 @@ export default function Provider<Data extends JsonObject>(
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
-      fieldPropsRef.current[path] = props
+      fieldPropsRef.current[path] = {
+        ...fieldPropsRef.current[path],
+        ...props,
+      }
     },
     []
   )
@@ -904,11 +907,11 @@ export default function Provider<Data extends JsonObject>(
 
 type PathList = string[]
 
-function addListPath(paths: PathList, path: Path): PathList {
+export function addListPath(paths: PathList, path: Path): PathList {
   return paths.includes(path) ? paths : paths.concat(path)
 }
 
-function removeListPath(paths: PathList, path: Path): PathList {
+export function removeListPath(paths: PathList, path: Path): PathList {
   return paths.filter((thisPath) => thisPath !== path)
 }
 
