@@ -144,11 +144,35 @@ In addition, you can add your own validation to a field component. This is done 
 
 Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
 
-For monitoring your form for errors, you can use the [useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
+For monitoring and set your form errors, you can use the [useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
+
+#### Summary for errors
+
+To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred.
+
+Eufemia Forms will easily link up with the [GlobalStatus](/uilib/components/global-status) component and will only display it if there are errors or when the form is being submitted.
+
+```tsx
+<GlobalStatus />
+
+<Form.Handler >
+  My Form
+</Form.Handler>
+```
+
+If you need a custom unique ID, you can just assign `globalStatusId` to the `Form.Handler`:
+
+```tsx
+<GlobalStatus id="my-form-status" />
+
+<Form.Handler globalStatusId="my-form-status">
+  My Form
+</Form.Handler>
+```
 
 #### required
 
-The required property is a boolean that indicates whether the field is required or not:
+The `required` property is a boolean that indicates whether the field is required or not:
 
 ```tsx
 <Field.PhoneNumber required />
@@ -156,30 +180,30 @@ The required property is a boolean that indicates whether the field is required 
 
 #### pattern
 
-The pattern property is a regular expression that the value of the field must match:
+The `pattern` property is a regular expression (RegExp) that the value of the field must match:
 
 ```tsx
-<Field.PhoneNumber pattern="..." />
+<Field.PhoneNumber pattern="Your RegExp" />
 ```
 
 #### schema
 
-The schema property is a JSON schema that the value of the field must match:
+The `schema` property is a JSON schema that the value of the field must match:
 
 ```tsx
 const schema = {
-  pattern: '...',
+  /* AJV Schema */
 }
 <Field.PhoneNumber schema={schema} />
 ```
 
 #### validator
 
-The validator property is a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
+The `validator` (including `onBlurValidator`) property is a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
 
 ```tsx
 const validator = (value) => {
-  const isInvalid = new RegExp('...').test(value)
+  const isInvalid = new RegExp('Your RegExp').test(value)
   if (isInvalid) {
     return new Error('Invalid value message')
   }

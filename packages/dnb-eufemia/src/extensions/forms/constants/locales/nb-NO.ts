@@ -1,6 +1,21 @@
 export default {
   'nb-NO': {
     /**
+     * General
+     */
+    SubmitButton: {
+      text: 'Send',
+    },
+    Step: {
+      next: 'Neste',
+      previous: 'Tilbake',
+      edit: 'Endre',
+    },
+    Form: {
+      errorSummaryTitle: 'Feil som må rettes',
+    },
+
+    /**
      * Base fields
      */
     Field: {
@@ -26,14 +41,6 @@ export default {
     BooleanField: {
       yes: 'Ja',
       no: 'Nei',
-    },
-    Context: {
-      submit: 'Send',
-    },
-    Step: {
-      next: 'Neste',
-      previous: 'Tilbake',
-      edit: 'Endre',
     },
 
     /**

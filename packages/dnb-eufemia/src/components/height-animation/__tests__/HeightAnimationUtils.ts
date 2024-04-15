@@ -6,6 +6,14 @@ export function initializeTestSetup() {
     globalThis.readjustTime = 10
     globalThis.bypassTime = -1
     globalThis.animationDuration = -1
+
+    const requestAnimationFrame = jest.fn((fn) => {
+      nextAnimationFrame = fn
+      return 1
+    })
+    jest
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation(requestAnimationFrame)
   })
   afterEach(() => {
     globalThis.IS_TEST = undefined
@@ -36,16 +44,6 @@ export const mockHeight = (
 }
 
 export let nextAnimationFrame = () => null
-beforeEach(() => {
-  const requestAnimationFrame = jest.fn((fn) => {
-    nextAnimationFrame = fn
-    return 1
-  })
-  jest
-    .spyOn(window, 'requestAnimationFrame')
-    .mockImplementation(requestAnimationFrame)
-})
-
 export const runAnimation = () => {
   nextAnimationFrame()
   nextAnimationFrame()

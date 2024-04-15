@@ -55,12 +55,12 @@ export interface CheckboxProps
    */
   status_state?: FormStatusState;
   /**
-   * Use an object to define additional FormStatus properties.
+   * Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
@@ -77,9 +77,6 @@ export interface CheckboxProps
   class?: string;
   className?: string;
   children?: CheckboxChildren;
-  /**
-   * Will be called on state changes made by the user. Returns an boolean `{ checked, event }`.
-   */
   on_change?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
   /**

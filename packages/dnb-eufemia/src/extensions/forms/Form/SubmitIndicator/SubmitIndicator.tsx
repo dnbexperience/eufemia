@@ -25,7 +25,7 @@ function SubmitIndicator(props: Props) {
     successLabel = 'Saved',
     ...rest
   } = props
-  const tr = useTranslation()
+  const translation = useTranslation()
   const childrenRef = useRef<HTMLSpanElement>(null)
   const [willWrap, setWillWrap] = useState(false)
 
@@ -50,7 +50,7 @@ function SubmitIndicator(props: Props) {
       ? {
           role: 'status',
           'aria-busy': true,
-          'aria-label': tr.ProgressIndicator.indicator_label,
+          'aria-label': translation.ProgressIndicator.indicator_label,
         }
       : {}
 
