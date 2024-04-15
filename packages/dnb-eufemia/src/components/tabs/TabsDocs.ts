@@ -92,6 +92,11 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     state: 'optional',
   },
+  breakout: {
+    doc: 'If set to `false`, the default horizontal border line under the tablist stay inside the parent boundaries. Defaults to `true`.',
+    type: 'boolean',
+    state: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
