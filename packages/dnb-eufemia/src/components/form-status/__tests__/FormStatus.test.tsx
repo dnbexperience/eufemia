@@ -154,7 +154,7 @@ describe('FormStatus component', () => {
   it('should interact with GlobalStatus via Provider props', async () => {
     jest.spyOn(window, 'scrollTo').mockImplementation()
 
-    // Should be closed rendered as closed
+    // Should be rendered as closed
     const { rerender } = render(
       <>
         <GlobalStatus id="my-status" />

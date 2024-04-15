@@ -173,7 +173,7 @@ export interface DrawerListProps
    */
   page_offset?: string | number;
   /**
-   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation.
+   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
   observer_element?: string | React.ReactNode;
   on_show?: (...args: any[]) => any;
@@ -192,7 +192,7 @@ export type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
   /**
-   * Define a preselected data entry (index) or key inside an array item. Can be a string or number.
+   * Define a preselected data entry (index) or key inside an array item. Can be a string or integer.
    */
   value: string;
   on_click: ({
