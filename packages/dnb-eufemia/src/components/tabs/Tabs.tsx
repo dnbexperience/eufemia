@@ -51,6 +51,7 @@ export const defaultProps = {
   use_hash: false,
   prerender: false,
   prevent_rerender: false,
+  breakout: true,
 }
 
 export default function Tabs(localProps: TabsAllProps): JSX.Element {
@@ -271,6 +272,7 @@ export default function Tabs(localProps: TabsAllProps): JSX.Element {
         tabs_spacing,
         no_border,
         nav_button_edge,
+        breakout,
       } = props
       const { hasScrollbar } = state
 
@@ -288,6 +290,7 @@ export default function Tabs(localProps: TabsAllProps): JSX.Element {
             hasScrollbar && 'dnb-tabs--has-scrollbar',
             nav_button_edge && 'dnb-tabs--at-edge',
             no_border && 'dnb-tabs__tabs--no-border',
+            breakout && 'dnb-tabs__tabs--breakout',
             className
           )}
           ref={_tabsRef}
