@@ -147,6 +147,7 @@ describe('Tabs component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-tabs__tabs',
       'dnb-tabs__tabs--right',
+      'dnb-tabs__tabs--breakout',
     ])
   })
 
@@ -163,6 +164,7 @@ describe('Tabs component', () => {
       'dnb-tabs__tabs',
       'dnb-tabs__tabs--left',
       'dnb-tabs__tabs--no-border',
+      'dnb-tabs__tabs--breakout',
     ])
   })
 
@@ -196,6 +198,7 @@ describe('Tabs component', () => {
       'dnb-tabs__tabs',
       'dnb-tabs__tabs--left',
       'dnb-section--spacing-large',
+      'dnb-tabs__tabs--breakout',
     ])
   })
 
