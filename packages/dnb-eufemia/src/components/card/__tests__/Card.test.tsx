@@ -303,6 +303,30 @@ describe('Card', () => {
     expect(element).not.toHaveClass('dnb-card--responsive')
   })
 
+  it('should use basis space on small screens when "responsive" is set to false', () => {
+    const { rerender } = render(
+      <Card>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(
+      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+    ).toBe('0')
+
+    rerender(
+      <Card responsive={false}>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(
+      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+    ).toBe('1.5rem')
+  })
+
   it('should support "title"', () => {
     const { rerender } = render(
       <Card title="Title">
