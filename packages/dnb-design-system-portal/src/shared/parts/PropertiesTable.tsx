@@ -1,5 +1,4 @@
 import ReactMarkdown from 'react-markdown'
-import styled from '@emotion/styled'
 import { Code, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { toCamelCase } from '@dnb/eufemia/src/shared/component-helper'
@@ -10,63 +9,94 @@ const components = {
   ...basicComponents,
   p: (props) => <span {...props} />,
 }
-const StyledTable = styled(Table)`
-  td {
-    white-space: nowrap;
-  }
-`
 
 export default function PropertiesTable({
   props,
   valueType = 'string',
   camelCase,
   omit,
+  showValues = false,
+  showDefaultValue = false,
 }: {
   props: PropertiesTableProps
   valueType?: unknown
   camelCase?: boolean
   omit?: string[]
+  showValues: boolean
+  showDefaultValue: boolean
 }) {
   const keys = Object.keys(props)
   const tableRows = Object.entries(props).map(
-    ([key, { type, doc, status }]) => {
+    ([key, { type, defaultValue, doc, status }]) => {
       if (omit && omit.includes(key)) {
         return null
       }
-
-      if (
-        typeof type === 'string' &&
-        String(type).includes('{valueType}')
-      ) {
-        type = valueType as string
+      if (!Array.isArray(type)) {
+        type = [type]
       }
-
+      const name = formatName(camelCase ? toCamelCase(key) : key)
       return (
         <Tr key={key}>
           <Td>
             <Copy>
-              <Code>{formatName(camelCase ? toCamelCase(key) : key)}</Code>
+              <Code>{status === 'deprecated' ? <s>{name}</s> : name}</Code>
             </Copy>
           </Td>
           <Td>
-            {Array.isArray(type) ? (
-              type
-                .map((t) => (
-                  <Copy key={t}>
-                    <Code>{t}</Code>
-                  </Copy>
-                ))
-                .reduce((prev, curr) => (
-                  <>
-                    {prev} or {curr}
-                  </>
-                ))
-            ) : (
-              <Copy>
-                <Code>{type}</Code>
-              </Copy>
-            )}
+            {type
+              .map((t) => {
+                if (typeof t === 'string') {
+                  if (String(type).includes('{valueType}')) {
+                    t = valueType as string
+                  }
+                  return (
+                    <Copy key={t}>
+                      <Code>{t}</Code>
+                    </Copy>
+                  )
+                } else if (typeof t === 'object') {
+                  return (
+                    <>
+                      {showValues ? (
+                        <>
+                          {t.values
+                            .map((v) => (
+                              <Copy key={v}>
+                                <Code>{`"${v}"`}</Code>
+                              </Copy>
+                            ))
+                            .reduce((prev, curr) => (
+                              <>
+                                {prev} or {curr}
+                              </>
+                            ))}
+                        </>
+                      ) : (
+                        <Copy key={t.type}>
+                          <Code>{t.type}</Code>
+                        </Copy>
+                      )}
+                    </>
+                  )
+                }
+              })
+              .reduce((prev, curr) => (
+                <>
+                  {prev} or {curr}
+                </>
+              ))}
           </Td>
+          {showDefaultValue && (
+            <Td>
+              {defaultValue === 'undefined' ? (
+                defaultValue
+              ) : (
+                <Copy>
+                  <Code>{defaultValue}</Code>
+                </Copy>
+              )}
+            </Td>
+          )}
           <Td>
             <em>({status})</em>{' '}
             <ReactMarkdown components={components}>
@@ -80,16 +110,17 @@ export default function PropertiesTable({
 
   return (
     <Table.ScrollView>
-      <StyledTable>
+      <Table>
         <thead>
           <Tr>
             <Th>Property</Th>
             <Th>Type</Th>
+            {showDefaultValue && <Th>Default value</Th>}
             <Th>Description</Th>
           </Tr>
         </thead>
         <tbody>{tableRows}</tbody>
-      </StyledTable>
+      </Table>
     </Table.ScrollView>
   )
 }

@@ -54,7 +54,7 @@ export type ProgressIndicatorProps = {
   /**
    * Set it to `vertical` if you want the label to be placed under the indicator. Defaults to `horizontal`.
    */
-  labelDirection?: string
+  labelDirection?: 'horizontal' | 'vertical'
   /**
    * If set to `true` a default label (from text locales) will be shown.
    */

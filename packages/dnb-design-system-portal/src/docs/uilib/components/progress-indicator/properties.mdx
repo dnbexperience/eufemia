@@ -4,19 +4,20 @@ redirect_from:
   - /uilib/components/progress/properties
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  ProgressIndicatorProperties,
+  ProgressIndicatorDeprecatedProperties,
+} from '@dnb/eufemia/src/components/progress-indicator/ProgressIndicatorDocs'
+
 ## Properties
 
-| Properties                              | Description                                                                                                                                                                     |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `progress`                              | _(optional)_ to visualize a static **percentage** (0-100) as a progress state. Defaults to `null`.                                                                              |
-| `visible`                               | _(optional)_ defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.                            |
-| `type`                                  | _(optional)_ defines the **type** of progress, like `circular` or `linear`. Defaults to `circular`.                                                                             |
-| `no_animation`                          | _(optional)_ disables the fade-in and fade-out animation. Defaults to `false`.                                                                                                  |
-| `size`                                  | _(optional)_ defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.                                                                             |
-| `label`                                 | _(optional)_ show a custom label to the right or under the indicator.                                                                                                           |
-| `label_direction`                       | _(optional)_ set it to `vertical` if you want the label to be placed under the indicator. Defaults to `horizontal`.                                                             |
-| `show_label`                            | _(optional)_ if set to `true` a default label will be shown.                                                                                                                    |
-| `section_style`                         | _(optional)_ to enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`. |
-| `section_spacing`                       | _(optional)_ to modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.                          |
-| `title`                                 | _(optional)_ used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.                                                              |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                           |
+<PropertiesTable
+  props={ProgressIndicatorProperties}
+  showValues
+  showDefaultValue
+/>
+
+## Deprecated properties
+
+<PropertiesTable props={ProgressIndicatorDeprecatedProperties} />
