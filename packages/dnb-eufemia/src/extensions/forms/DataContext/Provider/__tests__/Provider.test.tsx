@@ -639,9 +639,9 @@ describe('DataContext.Provider', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
-    it('should evaluate long validator and onBlurValidator before continue with async onSubmit', async () => {
-      const eventsStart = []
-      const eventsEnd = []
+    describe('should evaluate long validator and onBlurValidator before continue with async onSubmit', () => {
+      let eventsStart = []
+      let eventsEnd = []
 
       const onSubmit = async () => {
         eventsStart.push('onSubmit')
@@ -683,52 +683,76 @@ describe('DataContext.Provider', () => {
         eventsEnd.push('onBlurValidator')
       }
 
-      render(
-        <DataContext.Provider onSubmit={onSubmit} onChange={onChangeForm}>
-          <Field.String
-            value="vali"
-            path="/myField"
-            validator={validator}
-            onBlurValidator={onBlurValidator}
-            onChange={onChangeField}
-          />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
+      it('during type', async () => {
+        render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            onChange={onChangeForm}
+          >
+            <Field.String
+              value="vali"
+              path="/myField"
+              validator={validator}
+              onBlurValidator={onBlurValidator}
+              onChange={onChangeField}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-      const input = document.querySelector('input')
-      const button = document.querySelector('button')
+        const input = document.querySelector('input')
 
-      await userEvent.type(input, 'd')
+        eventsStart = []
+        eventsEnd = []
 
-      expect(eventsStart).toEqual([
-        'validator',
-        'onChangeForm',
-        'onChangeField',
-      ])
+        await userEvent.type(input, 'd')
 
-      await userEvent.click(button)
+        await waitFor(() => {
+          expect(eventsStart).toEqual([
+            'validator',
+            'onChangeForm',
+            'onChangeField',
+          ])
+        })
+      })
 
-      await wait(100)
+      it('during submit', async () => {
+        render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            onChange={onChangeForm}
+          >
+            <Field.String
+              value="vali"
+              path="/myField"
+              validator={validator}
+              onBlurValidator={onBlurValidator}
+              onChange={onChangeField}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-      expect(eventsStart).toEqual([
-        'validator',
-        'onChangeForm',
-        'onChangeField',
-        'onBlurValidator',
-        'validator',
-        'onBlurValidator',
-        'onSubmit',
-      ])
-      expect(eventsEnd).toEqual([
-        'validator',
-        'onChangeForm',
-        'onChangeField',
-        'onBlurValidator',
-        'validator',
-        'onBlurValidator',
-        'onSubmit',
-      ])
+        const button = document.querySelector('button')
+
+        eventsStart = []
+        eventsEnd = []
+
+        await userEvent.click(button)
+
+        await wait(100)
+
+        expect(eventsStart).toEqual([
+          'validator',
+          'onBlurValidator',
+          'onSubmit',
+        ])
+        expect(eventsEnd).toEqual([
+          'validator',
+          'onBlurValidator',
+          'onSubmit',
+        ])
+      })
     })
 
     it('should evaluate sync validation, such as required, before continue with async validation', async () => {
