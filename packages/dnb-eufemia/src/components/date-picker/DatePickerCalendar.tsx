@@ -32,7 +32,7 @@ import {
 } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
-import { useLocale } from '../../shared'
+import { useTranslation } from '../../shared'
 
 export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
   id?: string
@@ -671,7 +671,7 @@ function CalendarButton({
   onClick,
   onKeyDown,
 }: CalendarButtonProps) {
-  const tr = useLocale().DatePicker
+  const tr = useTranslation().DatePicker
 
   if (!showButton) {
     return <></>

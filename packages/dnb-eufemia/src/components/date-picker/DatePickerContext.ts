@@ -20,9 +20,7 @@ export type DatePickerView = {
 export type DatePickerContextValues = ContextProps & {
   props: DatePickerProps
   startDate: Date
-  _startDate: Date
   endDate: Date
-  _endDate: Date
   minDate: Date
   maxDate: Date
   hoverDate: Date
