@@ -140,21 +140,21 @@ describe('MultiInputMask', () => {
       <MultiInputMask {...defaultProps} label="My awesome label" />
     )
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = () => document.querySelector('.dnb-form-label')
 
-    expect(label).toHaveTextContent('My awesome label')
-    expect(label.tagName).toBe('LEGEND')
+    expect(label()).toHaveTextContent('My awesome label')
+    expect(label().tagName).toBe('LEGEND')
 
     rerender(<MultiInputMask {...defaultProps} label="New label" />)
 
-    expect(label).toHaveTextContent('New label')
-    expect(label.tagName).toBe('LEGEND')
+    expect(label()).toHaveTextContent('New label')
+    expect(label().tagName).toBe('LEGEND')
   })
 
   it('should be wrapped in a `fieldset` if label is provided', () => {
     render(<MultiInputMask {...defaultProps} label="Label" />)
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = document.querySelector('.dnb-form-label')
     const wrapper = document.querySelector(
       '.dnb-multi-input-mask__fieldset'
     )
@@ -169,7 +169,7 @@ describe('MultiInputMask', () => {
   it('should be wrapped in a `div` if no label is provided', () => {
     render(<MultiInputMask {...defaultProps} />)
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = document.querySelector('.dnb-form-label')
     const wrapper = document.querySelector(
       '.dnb-multi-input-mask__fieldset'
     )
@@ -185,17 +185,12 @@ describe('MultiInputMask', () => {
       <MultiInputMask {...defaultProps} label="Directions" />
     )
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const input = document.querySelector('.dnb-input')
     const fieldset = document.querySelector(
       '.dnb-multi-input-mask__fieldset'
     )
 
-    expect(label).toHaveTextContent('Directions')
-
-    expect(label.classList).toContain(
-      'dnb-multi-input-mask__legend--horizontal'
-    )
-    expect(label.classList).not.toContain('dnb-form-label--vertical')
+    expect(input.classList).toContain('dnb-input--horizontal')
     expect(fieldset.classList).toContain(
       'dnb-multi-input-mask__fieldset--horizontal'
     )
@@ -208,15 +203,7 @@ describe('MultiInputMask', () => {
       />
     )
 
-    expect(label).toHaveTextContent('Directions')
-
-    expect(label.classList).not.toContain(
-      'dnb-multi-input-mask__legend--horizontal'
-    )
-    expect(label.classList).toContain('dnb-form-label--vertical')
-    expect(fieldset.classList).not.toContain(
-      'dnb-multi-input-mask__fieldset--horizontal'
-    )
+    expect(input.classList).toContain('dnb-input--vertical')
   })
 
   it('onChange should have object params based on step ids', async () => {
@@ -481,7 +468,7 @@ describe('MultiInputMask', () => {
     render(<MultiInputMask {...defaultProps} label="disabled" disabled />)
 
     const inputWrapper = document.querySelector('.dnb-multi-input-mask')
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = document.querySelector('.dnb-form-label')
 
     const [first, second, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
@@ -689,7 +676,7 @@ describe('MultiInputMask', () => {
     it('should focus and select input on label click', async () => {
       render(<MultiInputMask {...defaultProps} label="label" />)
 
-      const label = document.querySelector('.dnb-multi-input-mask__legend')
+      const label = document.querySelector('.dnb-form-label')
 
       const [first] = Array.from(
         document.querySelectorAll('.dnb-multi-input-mask__input')
