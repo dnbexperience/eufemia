@@ -339,6 +339,25 @@ export const TabsNoBorder = () => (
   </Wrapper>
 )
 
+export const TabsNoBreakout = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-no-breakout">
+      <Tabs breakout={false}>
+        <Tabs.Content title="First">
+          <H2 top={0} bottom>
+            First
+          </H2>
+        </Tabs.Content>
+        <Tabs.Content title="Second">
+          <H2 top={0} bottom>
+            Second
+          </H2>
+        </Tabs.Content>
+      </Tabs>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const TabsSingleChildrenReactElement = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-single-children-react-element">

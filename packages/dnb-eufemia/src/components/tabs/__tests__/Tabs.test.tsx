@@ -5,11 +5,11 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
-import Tabs, { TabsProps } from '../Tabs'
+import { fireEvent, render, waitFor } from '@testing-library/react'
+import Tabs, { TabsSelectedKey } from '../Tabs'
 import Input from '../../input/Input'
 
-const props: TabsProps = { id: 'id' }
+const props = { id: 'id' }
 
 const startup_selected_key = 'second'
 const tablistData = [
@@ -27,6 +27,13 @@ const contentWrapperData = {
   second: () => <h2>Second</h2>, // with function
   third: <h2>Third</h2>, // without function
 }
+
+beforeEach(() => {
+  // Use this because of the correctCaretPosition
+  window.requestAnimationFrame = jest.fn((callback) => {
+    return setTimeout(callback, 0)
+  })
+})
 
 describe('Tabs component', () => {
   it('have a "selected_key" state have to be same as prop from startup', () => {
@@ -99,12 +106,12 @@ describe('Tabs component', () => {
     )
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
-      keyCode: 39, // right
+      key: 'ArrowRight',
     })
     expect(on_focus).toHaveBeenCalledTimes(1)
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
-      keyCode: 39, // right
+      key: 'ArrowRight',
     })
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
@@ -258,6 +265,178 @@ describe('Tabs component', () => {
       ])
     )
   })
+
+  it('should get last selected tab from sessionStorage', () => {
+    const selectedKey = 1
+
+    const setItem = jest.spyOn(
+      Object.getPrototypeOf(window.sessionStorage),
+      'setItem'
+    )
+    const getItem = jest.spyOn(
+      Object.getPrototypeOf(window.sessionStorage),
+      'getItem'
+    )
+
+    const requestAnimationFrame = jest.fn((callback) => callback())
+    jest
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementationOnce(requestAnimationFrame)
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    fireEvent.click(
+      document.querySelectorAll('.dnb-tabs__button')[selectedKey]
+    )
+
+    expect(document.activeElement.tagName).toBe('BODY')
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    expect(requestAnimationFrame).toHaveBeenCalledTimes(1)
+
+    expect(document.activeElement.tagName).toBe('BUTTON')
+    expect(
+      Array.from(
+        document.querySelectorAll('.dnb-tabs__button')[selectedKey]
+          .classList
+      )
+    ).toEqual(['dnb-tabs__button', 'focus', 'selected'])
+
+    expect(setItem).toHaveBeenCalledTimes(2)
+    expect(setItem).toHaveBeenNthCalledWith(1, 'tabs-pos-id', '0')
+    expect(setItem).toHaveBeenNthCalledWith(2, 'tabs-last-id', 'first')
+
+    expect(getItem).toHaveBeenCalledTimes(4)
+    expect(getItem).toHaveBeenNthCalledWith(1, 'tabs-pos-id')
+    expect(getItem).toHaveBeenNthCalledWith(2, 'tabs-last-id')
+    expect(getItem).toHaveBeenNthCalledWith(3, 'tabs-pos-id')
+    expect(getItem).toHaveBeenNthCalledWith(4, 'tabs-last-id')
+  })
+
+  it('has to have the right content on a keydown navigation', () => {
+    const requestAnimationFrame = jest.fn((callback) => callback())
+    jest
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation(requestAnimationFrame)
+
+    render(
+      <Tabs data={tablistData} selected_key={startup_selected_key}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const getButtonElements = (i: number) =>
+      document.querySelectorAll('.dnb-tabs__button')[i]
+
+    expect(getButtonElements(1)).toHaveClass('focus')
+    expect(getButtonElements(1)).toHaveClass('selected')
+
+    {
+      fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
+        key: 'ArrowRight',
+      })
+
+      expect(requestAnimationFrame).toHaveBeenCalledTimes(1)
+      expect(getButtonElements(2)).toHaveClass('focus')
+      expect(getButtonElements(2)).not.toHaveClass('selected')
+
+      fireEvent.click(getButtonElements(2))
+
+      expect(getButtonElements(2)).toHaveClass('focus')
+      expect(getButtonElements(2)).toHaveClass('selected')
+
+      const content = document.querySelector('div[role="tabpanel"]')
+      const { container } = render(contentWrapperData.third)
+      expect(content.innerHTML).toBe(container.innerHTML)
+    }
+
+    {
+      fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
+        key: 'ArrowLeft',
+      })
+
+      expect(requestAnimationFrame).toHaveBeenCalledTimes(2)
+      expect(getButtonElements(1)).toHaveClass('focus')
+      expect(getButtonElements(1)).not.toHaveClass('selected')
+
+      fireEvent.click(getButtonElements(1))
+
+      expect(getButtonElements(1)).toHaveClass('focus')
+      expect(getButtonElements(1)).toHaveClass('selected')
+
+      const content = document.querySelector('div[role="tabpanel"]')
+      const { container } = render(contentWrapperData.second())
+      expect(content.innerHTML).toBe(container.innerHTML)
+    }
+  })
+
+  it('has have aria-selected on selected button', () => {
+    render(<Tabs data={tablistData}>{contentWrapperData}</Tabs>)
+
+    const getButtonElements = (i: number) =>
+      document.querySelectorAll('.dnb-tabs__button')[i]
+
+    expect(getButtonElements(0)).toHaveAttribute('aria-selected', 'true')
+    expect(getButtonElements(1)).toHaveAttribute('aria-selected', 'false')
+    expect(getButtonElements(2)).toHaveAttribute('aria-selected', 'false')
+
+    fireEvent.click(getButtonElements(1))
+
+    expect(getButtonElements(0)).toHaveAttribute('aria-selected', 'false')
+    expect(getButtonElements(1)).toHaveAttribute('aria-selected', 'true')
+    expect(getButtonElements(2)).toHaveAttribute('aria-selected', 'false')
+  })
+
+  it('will set focus on content enter key press', () => {
+    const requestAnimationFrame = jest.fn()
+    jest
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementationOnce(requestAnimationFrame)
+
+    render(
+      <Tabs data={tablistData} selected_key={startup_selected_key}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    fireEvent.keyDown(document.querySelector('[role="tab"]'), {
+      key: 'Enter',
+    })
+
+    expect(requestAnimationFrame).toHaveBeenCalledTimes(1)
+
+    waitFor(() =>
+      expect(document.activeElement.className).toContain(
+        'dnb-tabs__content'
+      )
+    )
+  })
+
+  it('border should stay inside parent boundary if breakout is set to false', () => {
+    render(
+      <Tabs
+        {...props}
+        data={tablistData}
+        breakout={false}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tabs = document.querySelector('.dnb-tabs__tabs')
+
+    expect(tabs.className).not.toContain('--breakout')
+  })
 })
 
 describe('TabList component', () => {
@@ -323,33 +502,6 @@ describe('A single Tab component', () => {
     expect(
       document.querySelector('button[data-tab-key="second"]').classList
     ).toContain('selected')
-  })
-
-  it('has to have the right content on a keydown "ArrowRight"', () => {
-    render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
-        {contentWrapperData}
-      </Tabs>
-    )
-
-    // reset the state
-    fireEvent.click(
-      document.querySelector('button[data-tab-key="second"]')
-    )
-
-    fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
-      key: 'ArrowRight',
-      keyCode: 39, // right
-    })
-    fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
-
-    const content = document.querySelector('div[role="tabpanel"]')
-    const { container } = render(contentWrapperData.third)
-    expect(content.innerHTML).toBe(container.innerHTML)
   })
 
   it('has to work with "data only" property containing a "content"', () => {
@@ -499,7 +651,7 @@ describe('A single Tab component', () => {
   it('has to work with "Tabs.Content" from outside', () => {
     let testKey = null
     let testTitle = null
-    const LinkedContent = (props: { selected_key?: string }) => {
+    const LinkedContent = (props: { selected_key?: TabsSelectedKey }) => {
       return (
         <>
           <Tabs id="linked" data={tablistData} {...props} />
@@ -583,30 +735,27 @@ describe('A single Tab component', () => {
   it('should render in StrictMode', () => {
     render(
       <React.StrictMode>
-        <Tabs
-          data={[
-            {
-              title: 'First',
-              key: 'first',
-            },
-            {
-              title: 'Second',
-              key: 'second',
-            },
-            {
-              title: 'Third',
-              key: 'third',
-            },
-            {
-              title: 'Fourth',
-              key: 'fourth',
-            },
-          ]}
-        />
+        <Tabs prerender data={tablistData}>
+          {contentWrapperData}
+        </Tabs>
       </React.StrictMode>
     )
 
     expect(document.querySelector('.dnb-tabs')).toBeInTheDocument()
+    expect(
+      document.querySelectorAll('div.dnb-tabs__cached')[0].textContent
+    ).toBe('First')
+    expect(
+      document.querySelectorAll('div.dnb-tabs__cached')[1].textContent
+    ).toBe('Second')
+    expect(
+      document.querySelectorAll('div.dnb-tabs__cached')[0]
+    ).not.toHaveAttribute('aria-hidden')
+    expect(
+      document
+        .querySelectorAll('div.dnb-tabs__cached')[1]
+        .getAttribute('aria-hidden')
+    ).toBe('true')
   })
 })
 

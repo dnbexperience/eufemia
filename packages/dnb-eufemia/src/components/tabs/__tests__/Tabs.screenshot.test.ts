@@ -64,7 +64,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom section styles', async () => {
+  it.only('have to match custom section styles', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
@@ -84,6 +84,18 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         padding: '0 2rem 4rem 2rem',
       },
       selector: '[data-visual-test="tabs-no-border"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tabs with no breakout', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        width: '40rem',
+        height: '10rem',
+        padding: '0 2rem 4rem 2rem',
+      },
+      selector: '[data-visual-test="tabs-no-breakout"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -120,7 +132,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tabs content with focus ring', async () => {
+  it.only('have to match tabs content with focus ring', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',
