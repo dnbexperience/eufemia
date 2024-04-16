@@ -12,12 +12,12 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   content_style: {
-    doc: 'To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.',
+    doc: 'To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
   content_spacing: {
-    doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.',
+    doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.',
     type: [
       'boolean',
       'x-small',
@@ -30,7 +30,7 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   tabs_style: {
-    doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.',
+    doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
@@ -40,12 +40,12 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   tab_element: {
-    doc: 'Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: &#39;url&#39;, ... }]}`). Defaults to `<button>`.',
+    doc: "Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.",
     type: 'React.ReactNode',
     status: 'optional',
   },
   data: {
-    doc: 'defines the data structure to load as a JSON. e.g. `[{title: &#39;...&#39;, content: &#39;Current tab&#39;, key: &#39;...&#39;, hash: &#39;...&#39;}]`',
+    doc: "defines the data structure to load as a JSON. e.g. `[{title: '...', content: 'Current tab', key: '...', hash: '...'}]`",
     type: [
       'stting',
       '{title: string | React.ReactNode, key: string | number, selected?: boolean, disabled?: boolean}',
@@ -53,12 +53,12 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'required',
   },
   children: {
-    doc: 'the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.',
+    doc: "the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
     type: ['React.ReactNode', 'object'],
     status: 'required',
   },
   content: {
-    doc: 'the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.',
+    doc: "the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
     type: ['React.ReactNode', 'object'],
     status: 'required',
   },
@@ -93,7 +93,7 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   breakout: {
-    doc: 'If set to `false`, the default horizontal border line under the tablist stay inside the parent boundaries. Defaults to `true`.',
+    doc: 'If set to `false`, the default horizontal border line under the tablist remains inside the parent boundaries. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -121,7 +121,7 @@ export const TabsEvents: PropertiesTableProps = {
     status: 'optional',
   },
   on_mouse_enter: {
-    doc: 'This event gets triggered once the user&#39;s mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, event }`.',
+    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, event }`.",
     type: 'function',
     status: 'optional',
   },

@@ -15,9 +15,6 @@ export interface CustomContentProps
   hash?: string;
   selected?: boolean;
   disabled?: boolean;
-  /**
-   * <em>(required)</em> the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.
-   */
   children?: CustomContentChildren;
   className?: string;
   class?: string;
