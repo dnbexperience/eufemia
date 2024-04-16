@@ -34,24 +34,24 @@ export interface TabsProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
-   * <em>(required)</em> defines the data structure to load as a JSON. e.g. `[{title: &#39;...&#39;, content: &#39;Current tab&#39;, key: &#39;...&#39;, hash: &#39;...&#39;}]`
+   * defines the data structure to load as a JSON. e.g. `[{title: '...', content: 'Current tab', key: '...', hash: '...'}]`
    */
   data?: TabsData;
   /**
-   * <em>(required)</em> the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.
+   * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
   content?: TabsContent;
   /**
-   * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
+   * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
    */
   content_style?: SectionStyleTypes | SectionVariants;
   /**
-   * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
+   * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
    */
   content_spacing?: SectionSpacing;
   label?: string;
   /**
-   * Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: &#39;url&#39;, ... }]}`). Defaults to `<button>`.
+   * Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.
    */
   tab_element?: TabsTabElement;
   /**
@@ -63,7 +63,7 @@ export interface TabsProps
    */
   align?: TabsAlign;
   /**
-   * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
+   * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
    */
   tabs_style?: SectionStyleTypes | SectionVariants;
   /**
@@ -74,6 +74,10 @@ export interface TabsProps
    * If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.
    */
   no_border?: boolean;
+  /**
+   * If set to `false`, the default horizontal border line under the tablist remains inside the parent boundaries. Defaults to `true`.
+   */
+  breakout?: boolean;
   /**
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
@@ -99,25 +103,13 @@ export interface TabsProps
   class?: string;
   className?: string;
   /**
-   * <em>(required)</em> the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.
+   * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
   children?: TabsChildren;
   render?: (...args: any[]) => any;
-  /**
-   * (preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selected_key, focus_key, event }`.
-   */
   on_change?: (...args: any[]) => any;
-  /**
-   * This event gets triggered once the user&#39;s mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, event }`.
-   */
   on_mouse_enter?: (...args: any[]) => any;
-  /**
-   * This event gets triggered once the tab gets clicked. Returns `{ key, selected_key, focus_key, event }`.
-   */
   on_click?: (...args: any[]) => any;
-  /**
-   * This event gets triggered once the tab changes its focus key. Returns `{ key, selected_key, focus_key, event }`.
-   */
   on_focus?: (...args: any[]) => any;
 }
 export default class Tabs extends React.Component<TabsProps, any> {
@@ -128,7 +120,7 @@ export default class Tabs extends React.Component<TabsProps, any> {
 }
 export interface DummyProps {
   /**
-   * <em>(required)</em> the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.
+   * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
   children: React.ReactNode;
 }

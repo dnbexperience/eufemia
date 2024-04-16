@@ -106,13 +106,16 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   content: "";
   position: absolute;
   z-index: -1;
-  left: -100vw;
   bottom: 0;
-  width: 100vw;
+  width: 100%;
   height: 1px;
 }
 .dnb-tabs__tabs--no-border::before {
   content: none;
+}
+.dnb-tabs__tabs--breakout::before {
+  left: -100vw;
+  width: 100vw;
 }
 .dnb-tabs__tabs:not(.dnb-section)::before {
   background-color: var(--tablist-border-color--default);
