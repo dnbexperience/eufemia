@@ -65,9 +65,6 @@ function DatePickerAddon(props) {
     endDate?: string | Date
     event?: React.ChangeEvent<HTMLElement>
   } = {}) {
-    context.updateState({
-      changeMonthViews: true,
-    })
     context.updateDates({ startDate, endDate })
     context.callOnChangeHandler({ startDate, endDate, event })
   }
