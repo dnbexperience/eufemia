@@ -10,6 +10,12 @@
     display: none;
   }
 
+  &__title {
+    @include allBelow('large') {
+      padding-right: 2.5rem;
+    }
+  }
+
   &--error &__content .dnb-hr {
     color: var(--sb-color-red);
   }
