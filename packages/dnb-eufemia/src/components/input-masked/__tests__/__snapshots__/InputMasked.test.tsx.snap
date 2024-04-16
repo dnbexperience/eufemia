@@ -1300,6 +1300,13 @@ html[data-visual-test] .dnb-input__input {
 .dnb-input[data-has-content=false] .dnb-input__input:focus:autofill {
   --autofill-inset: none;
 }
+.dnb-input[data-input-state=focus] .dnb-input__placeholder {
+  display: none;
+}
+.dnb-input--keep-placeholder[data-input-state=focus] .dnb-input__placeholder {
+  display: block;
+  color: var(--color-black-20);
+}
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-input {
     display: flex;

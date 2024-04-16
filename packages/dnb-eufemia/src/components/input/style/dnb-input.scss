@@ -530,6 +530,15 @@
     --autofill-inset: none;
   }
 
+  &[data-input-state='focus'] &__placeholder {
+    display: none;
+  }
+
+  &--keep-placeholder[data-input-state='focus'] &__placeholder {
+    display: block;
+    color: var(--color-black-20);
+  }
+
   .dnb-responsive-component & {
     @media screen and (max-width: 40em) {
       display: flex;
