@@ -29,7 +29,6 @@ type DatePickerProviderProps = DatePickerProps & {
 }
 
 export type DatePickerProviderState = {
-  changeMonthViews: boolean
   lastEventCallCache?: { startDate?: Date; endDate?: Date }
   date?: Date | string
   startDate?: Date
@@ -99,7 +98,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
   const hasValidEndDate = isValid(dates.endDate)
 
   const [state, setState] = useState<DatePickerProviderState>({
-    changeMonthViews: false,
     hasHadValidDate: hasValidStartDate || hasValidEndDate,
   })
 
@@ -128,76 +126,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       }
     }
   }, [props.range, props.correct_invalid_date, dates, updateDates])
-
-  // clear cache, move to hook
-  // useEffect(() => {
-  //   if (
-  //     lastEventCallCache &&
-  //     (lastEventCallCache.startDate !== dates.startDate ||
-  //       lastEventCallCache.endDate !== dates.endDate)
-  //   ) {
-  //     clearLastEventCallCache()
-  //   }
-  // }, [dates, clearLastEventCallCache, lastEventCallCache])
-
-  // react to forced monthChange
-  // useEffect(() => {
-  //   if (!state.changeMonthViews) {
-  //     return // Stop here
-  //   }
-
-  //   if (
-  //     !dates.startMonth ||
-  //     !isSameMonth(dates.startMonth, dates.startDate)
-  //   ) {
-  //     setState((currentState) => ({
-  //       ...currentState,
-  //       startMonth: currentState.startDate,
-  //     }))
-  //   }
-
-  //   if (
-  //     !dates.endMonth ||
-  //     (props.range && !isSameMonth(dates.endMonth, dates.endDate))
-  //   ) {
-  //     updateDates({
-  //       endMonth: dates.endDate || dates.startMonth,
-  //     })
-  //   }
-  // }, [props.range, dates, updateDates, state.changeMonthViews])
-
-  //   // if (
-  //   //   !state.startMonth ||
-  //   //   state._date !== props.date ||
-  //   //   (state.changeMonthViews &&
-  //   //     !isSameMonth(state.startMonth, state.startDate))
-  //   // ) {
-  //   //   state.startMonth = state.startDate
-  //   // }
-
-  //   // if (
-  //   //   !state.endMonth ||
-  //   //   state._date !== props.date ||
-  //   //   (isRange &&
-  //   //     state.changeMonthViews &&
-  //   //     !isSameMonth(state.endMonth, state.endDate))
-  //   // ) {
-  //   //   state.endMonth = state.endDate || state.startMonth
-  //   // }
-
-  //   state.views = getViews(state, isRange)
-
-  //   // Update the months, in case they do not exist
-  //   if (!state.startMonth) {
-  //     state.startMonth = state.views[0].month
-  //     if (
-  //       isRange &&
-  //       !state.endMonth &&
-  //       typeof state.views[1] !== 'undefined'
-  //     ) {
-  //       state.endMonth = state.views[1].month
-  //     }
-  //   }
 
   function updateState(state, cb = null) {
     setState((currentState) => ({ ...currentState, ...state }))

@@ -168,7 +168,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       const state: {
         startDate?: Date
         endDate?: Date
-        changeMonthViews?: boolean
       } = {}
 
       const currentMonth = context[`${type}Month`]
@@ -226,14 +225,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         }
       }
 
-      state.changeMonthViews = true
-
-      context.updateDates({
-        startDate: state.startDate,
-        endDate: state.endDate,
-      })
-      context.updateState(
-        { changeMonthViews: state.changeMonthViews },
+      context.updateDates(
+        {
+          startDate: state.startDate,
+          endDate: state.endDate,
+        },
         () => {
           // call after state update, so the input get's the latest state as well
           callOnSelect({
@@ -241,13 +237,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             nr,
             hidePicker: false,
           })
-
-          // and set the focus back again
-          if (listRef && listRef.current) {
-            listRef.current.focus({ preventScroll: true })
-          }
         }
       )
+
+      // and set the focus back again
+      if (listRef && listRef.current) {
+        listRef.current.focus({ preventScroll: true })
+      }
     }
   }
 
