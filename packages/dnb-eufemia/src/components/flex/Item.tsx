@@ -29,6 +29,7 @@ export type BasicProps = {
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   size?: Size
+  innerRef?: React.RefObject<HTMLElement>
 }
 
 export type Props = BasicProps &

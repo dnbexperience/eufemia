@@ -2,14 +2,15 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
-import { Field, Form } from '../../..'
 import * as DataContext from '../../../DataContext'
+import { Field, Form } from '../../..'
 import { FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
       const onChange = jest.fn()
+
       render(
         <Iterate.Array value={['one', 'two', 'three']} onChange={onChange}>
           <Field.String itemPath="/" />
@@ -58,11 +59,75 @@ describe('Iterate.Array', () => {
         'threethree',
       ])
     })
+
+    describe('placeholder', () => {
+      it('should show placeholder when value is undefined', () => {
+        const renderProp = jest.fn()
+
+        const list = undefined
+
+        render(
+          <Iterate.Array value={list} placeholder="Placeholder text">
+            {renderProp}
+          </Iterate.Array>
+        )
+
+        expect(
+          document.querySelectorAll('.dnb-form-iterate')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('.dnb-form-iterate')
+        ).toHaveTextContent('Placeholder text')
+      })
+
+      it('should show placeholder when emptyValue is same as instance', () => {
+        const renderProp = jest.fn()
+
+        const list = []
+
+        render(
+          <Iterate.Array
+            value={list}
+            emptyValue={list}
+            placeholder="Placeholder text"
+          >
+            {renderProp}
+          </Iterate.Array>
+        )
+
+        expect(
+          document.querySelectorAll('.dnb-form-iterate')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('.dnb-form-iterate')
+        ).toHaveTextContent('Placeholder text')
+      })
+
+      it('should show given placeholder when value is empty', () => {
+        const renderProp = jest.fn()
+
+        const list = []
+
+        render(
+          <Iterate.Array value={list} placeholder="Placeholder text">
+            {renderProp}
+          </Iterate.Array>
+        )
+
+        expect(
+          document.querySelectorAll('.dnb-form-iterate')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('.dnb-form-iterate')
+        ).toHaveTextContent('Placeholder text')
+      })
+    })
   })
 
   describe('with object elements', () => {
     it('should distribute values and receive callbacks', async () => {
       const onChange = jest.fn()
+
       render(
         <Iterate.Array
           value={[
@@ -76,6 +141,7 @@ describe('Iterate.Array', () => {
           <Field.String itemPath="/bar" />
         </Iterate.Array>
       )
+
       const fields = document.querySelectorAll('input')
       expect(fields).toHaveLength(6)
       const [
@@ -118,6 +184,7 @@ describe('Iterate.Array', () => {
     describe('with primitive elements', () => {
       it('should call renderers with each element value', () => {
         const renderProp = jest.fn()
+
         render(
           <Iterate.Array value={['first', 'second', 'third']}>
             {renderProp}
@@ -135,6 +202,7 @@ describe('Iterate.Array', () => {
       it('should call renderers with each element value', () => {
         const renderProp1 = jest.fn()
         const renderProp2 = jest.fn()
+
         render(
           <Iterate.Array
             value={[
@@ -174,11 +242,42 @@ describe('Iterate.Array', () => {
   })
 
   describe('in DataContext', () => {
+    it('should call onChange when new item is added', () => {
+      const onChangeDataContext = jest.fn()
+      const onChangeIterate = jest.fn()
+
+      render(
+        <DataContext.Provider onChange={onChangeDataContext}>
+          <Iterate.Array path="/myList" onChange={onChangeIterate}>
+            content
+          </Iterate.Array>
+
+          <Iterate.ArrayPushButton path="/myList" pushValue="foo" />
+        </DataContext.Provider>
+      )
+
+      const addButton = document.querySelector('button')
+      fireEvent.click(addButton)
+
+      const elements = document.querySelectorAll(
+        '.dnb-form-iterate__element'
+      )
+      expect(elements).toHaveLength(1)
+
+      expect(onChangeDataContext).toHaveBeenCalledTimes(1)
+      expect(onChangeDataContext).toHaveBeenLastCalledWith({
+        myList: ['foo'],
+      })
+      expect(onChangeIterate).toHaveBeenCalledTimes(1)
+      expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
+    })
+
     describe('with primitive elements', () => {
       describe('referenced with path', () => {
         it('should distribute values and receive callbacks on both iterate and context', async () => {
           const dataContextOnChange = jest.fn()
           const iterateOnChange = jest.fn()
+
           render(
             <DataContext.Provider
               data={{

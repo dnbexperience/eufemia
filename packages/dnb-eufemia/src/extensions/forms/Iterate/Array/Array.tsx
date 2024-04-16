@@ -1,138 +1,219 @@
-import React, { useMemo, useCallback } from 'react'
+import React, {
+  useMemo,
+  useRef,
+  useEffect,
+  useReducer,
+  createRef,
+  useContext,
+} from 'react'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
-import IterateElementContext from '../IterateElementContext'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import {
-  FieldProps,
-  FieldHelpProps,
-  CustomErrorMessages,
-} from '../../types'
+import { makeUniqueId } from '../../../../shared/component-helper'
+import { Flex } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import {
   BasicProps as FlexContainerProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
-import Flex from '../../../../components/flex/Flex'
+import IterateElementContext, {
+  IterateElementContextState,
+} from '../IterateElementContext'
+import DataContext from '../../DataContext/Context'
 
-interface ErrorMessages extends CustomErrorMessages {
-  required?: string
-  schema?: string
-}
+import type { ContainerMode, ElementChild, Props, Value } from './types'
+import type { Identifier, Path } from '../../types'
 
-export type Props = FieldHelpProps &
-  FieldProps<unknown[], undefined, ErrorMessages> &
-  Omit<FieldBlockProps, 'children'> &
-  Omit<FlexContainerProps, 'children' | 'width'> & {
-    children:
-      | React.ReactNode
-      | ((value: any, index: number) => React.ReactNode)
-      | Array<
-          | React.ReactNode
-          | ((value: any, index: number) => React.ReactNode)
-        >
-  }
+/**
+ * Deprecated, as it is supported by all major browsers and Node.js >=v18
+ * So its a question of time, when we will remove this polyfill
+ */
+import structuredClone from '@ungap/structured-clone'
 
 function ArrayComponent(props: Props) {
+  const [salt, forceUpdate] = useReducer(() => ({}), {})
+
+  const { showAllErrors } = useContext(DataContext)
+
   const {
-    className,
-    layout = 'vertical',
     placeholder,
-    label,
-    labelDescription,
     path,
     value: arrayValue,
-    info,
-    warning,
-    error,
     emptyValue,
-    width,
     handleChange,
+    onChange,
     children,
-  } = useFieldProps(props)
+  } = useFieldProps<Value, Props>(props)
 
-  const elementData: {
-    elementValue: unknown
-    handleElementChange: (path: string, value: unknown) => void
-    handleRemoveElement: () => void
-  }[] = useMemo(() => {
-    return (arrayValue ?? []).map((elementValue, elementIndex) => ({
-      elementValue,
-      handleElementChange: (path, value) => {
-        const newArrayValue = structuredClone(arrayValue)
-        pointer.set(newArrayValue, path, value)
-        handleChange?.(newArrayValue)
-      },
-      handleRemoveElement: () => {
-        const newArrayValue = structuredClone(arrayValue)
-        newArrayValue.splice(elementIndex, 1)
-        handleChange?.(newArrayValue)
-      },
-    }))
-  }, [arrayValue, handleChange])
+  const idsRef = useRef<Array<Identifier>>([])
+  const isNewRef = useRef<Record<string, boolean>>({})
+  const modesRef = useRef<Record<Identifier, ContainerMode>>({})
+  const valueWhileClosingRef = useRef<Array<unknown>>()
+  const valueCountRef = useRef(arrayValue)
+  const containerRef = useRef<HTMLDivElement>()
+  const hadPushRef = useRef<boolean>()
+  const innerRefs = useRef<
+    Record<string, React.RefObject<HTMLDivElement>>
+  >({})
+  const errorsRef = useRef<Record<Identifier, unknown>>({})
 
-  const handlePush = useCallback(
-    (element: unknown) => {
-      handleChange([...(arrayValue ?? []), element])
-    },
-    [arrayValue, handleChange]
-  )
+  useEffect(() => {
+    // Update inside the useEffect, to support React.StrictMode
+    valueCountRef.current = arrayValue || []
+  }, [arrayValue])
+
+  const elementData = useMemo(() => {
+    return ((valueWhileClosingRef.current || arrayValue) ?? []).map(
+      (value, index) => {
+        const id = idsRef.current[index] || makeUniqueId()
+
+        const hasNewItems =
+          arrayValue.length > valueCountRef.current?.length
+
+        if (!idsRef.current[index]) {
+          isNewRef.current[id] = hasNewItems
+          idsRef.current.push(id)
+        }
+
+        const isNew = isNewRef.current[id] || false
+        const hasError = Boolean(errorsRef.current[id])
+        const showEditItem = hasError && showAllErrors
+
+        if (showEditItem || !modesRef.current[id]) {
+          modesRef.current[id] = isNew || showEditItem ? 'edit' : 'view'
+        }
+
+        return {
+          id,
+          path,
+          value,
+          index,
+          arrayValue,
+          containerRef,
+          isNew,
+          containerMode: modesRef.current[id],
+          hasError,
+          setFieldError: (path: Path, error: Error) => {
+            if (error) {
+              if (!errorsRef.current[id]) {
+                errorsRef.current[id] = {}
+              }
+              errorsRef.current[id][path] = !!error
+            } else {
+              delete errorsRef.current[id]?.[path]
+              if (Object.keys(errorsRef.current[id] || {}).length === 0) {
+                delete errorsRef.current[id]
+              }
+            }
+          },
+          switchContainerMode: (mode: ContainerMode) => {
+            modesRef.current[id] = mode
+            forceUpdate()
+          },
+          handleChange: (path: Path, value: unknown) => {
+            const newArrayValue = structuredClone(arrayValue)
+
+            // Make sure we have a new object reference,
+            // else two new objects will be the same
+            newArrayValue[index] = { ...newArrayValue[index] }
+
+            pointer.set(newArrayValue, path, value)
+            handleChange(newArrayValue)
+          },
+          handlePush: (element: unknown) => {
+            hadPushRef.current = true
+            handleChange([...(arrayValue ?? []), element])
+          },
+          handleRemove: ({ keepItems = false } = {}) => {
+            if (keepItems) {
+              // Add a backup as the array value while animating
+              valueWhileClosingRef.current = arrayValue
+            }
+
+            const newArrayValue = structuredClone(arrayValue)
+            newArrayValue.splice(index, 1)
+            handleChange(newArrayValue)
+          },
+
+          // - Called after animation end
+          fulfillRemove: () => {
+            valueWhileClosingRef.current = null
+            delete modesRef.current?.[id]
+            delete isNewRef.current?.[id]
+            const findIndex = idsRef.current.indexOf(id)
+            idsRef.current.splice(findIndex, 1)
+            forceUpdate()
+          },
+
+          // - Called when cancel button press
+          restoreOriginalValue: (value: unknown) => {
+            const newArrayValue = structuredClone(arrayValue)
+            newArrayValue[index] = value
+            handleChange(newArrayValue)
+          },
+        } as IterateElementContextState
+      }
+    )
+
+    // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [salt, arrayValue, showAllErrors, path, handleChange])
+
+  // - Call the onChange callback when a new element is added without calling "handlePush"
+  useMemo(() => {
+    const last = elementData?.[elementData.length - 1]
+    if (last?.isNew && !hadPushRef.current) {
+      onChange?.(arrayValue)
+    } else {
+      hadPushRef.current = false
+    }
+  }, [arrayValue, elementData, onChange])
 
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-number', className)}
-      layout={layout}
-      label={label}
-      labelDescription={labelDescription}
-      info={info}
-      warning={warning}
-      error={error}
-      width={width}
-      contentWidth={width !== false ? width : undefined}
+    <Flex.Vertical
+      className={classnames('dnb-form-iterate', props?.className)}
+      align="stretch"
+      alignSelf="stretch"
+      {...pickFlexContainerProps(props as FlexContainerProps)}
       {...pickSpacingProps(props)}
+      innerRef={containerRef}
     >
-      <Flex.Container
-        {...pickFlexContainerProps(props as FlexContainerProps, {
-          spacing: 'small',
-        })}
-      >
-        {arrayValue === emptyValue ? (
-          <em>{placeholder}</em>
-        ) : (
-          elementData.map(
-            (
-              { elementValue, handleElementChange, handleRemoveElement },
-              elementIndex
-            ) => {
-              return (
-                <IterateElementContext.Provider
-                  key={`element-${elementIndex}`}
-                  value={{
-                    index: elementIndex,
-                    value: elementValue,
-                    path,
-                    handleChange: handleElementChange,
-                    handleRemove: handleRemoveElement,
-                    handlePush,
-                  }}
-                >
-                  {Array.isArray(children)
-                    ? children.map((childElement) =>
-                        typeof childElement === 'function'
-                          ? childElement(elementValue, elementIndex)
-                          : childElement
-                      )
-                    : typeof children === 'function'
-                    ? children(elementValue, elementIndex)
-                    : children}
-                </IterateElementContext.Provider>
-              )
+      {arrayValue === emptyValue || props?.value?.length === 0
+        ? placeholder
+        : elementData.map((elementProps, i) => {
+            const { id, value, index } = elementProps
+            const elementRef = (innerRefs.current[id] =
+              innerRefs.current[id] || createRef<HTMLDivElement>())
+
+            const renderChildren = (elementChild: ElementChild) => {
+              return typeof elementChild === 'function'
+                ? elementChild(value, index)
+                : elementChild
             }
-          )
-        )}
-      </Flex.Container>
-    </FieldBlock>
+
+            const contextValue = {
+              ...elementProps,
+              elementRef,
+            }
+
+            const content = Array.isArray(children)
+              ? children.map((child) => renderChildren(child))
+              : renderChildren(children)
+
+            return (
+              <Flex.Item
+                className="dnb-form-iterate__element"
+                tabIndex={-1}
+                innerRef={elementRef}
+                key={`element-${id}`}
+              >
+                <IterateElementContext.Provider value={contextValue}>
+                  {content}
+                </IterateElementContext.Provider>
+              </Flex.Item>
+            )
+          })}
+    </Flex.Vertical>
   )
 }
 

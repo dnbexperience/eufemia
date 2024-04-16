@@ -3,17 +3,15 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { ArrayProperties } from '@dnb/eufemia/src/extensions/forms/Iterate/Array/ArrayDocs'
+import { dataValueProperties } from '@dnb/eufemia/src/extensions/forms/hooks/DataValueDocs'
 
 ## Properties
 
-### Field-specific props
+### Iterate-specific props
 
-| Property                                       | Type    | Description                                 |
-| ---------------------------------------------- | ------- | ------------------------------------------- |
-| `value`                                        | `array` | _(optional)_ The data to process.           |
-| [FlexContainer](/uilib/layout/flex/container/) | Various | _(optional)_ All Flex.Container properties. |
+<PropertiesTable props={ArrayProperties} />
 
 ### General props
 
-<PropertiesTable props={fieldProperties} />
+<PropertiesTable props={dataValueProperties} />

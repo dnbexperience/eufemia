@@ -3,11 +3,13 @@ import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateElementContext from '../IterateElementContext'
-import { useFieldProps } from '../../hooks'
+import { useFieldProps, useTranslation } from '../../hooks'
+import ElementBlockContext from '../AnimatedContainer/ElementBlockContext'
 import {
   DataValueReadWriteComponentProps,
   omitDataValueReadWriteProps,
 } from '../../types'
+import { trash } from '../../../../icons'
 
 export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]>
@@ -22,24 +24,36 @@ function ArrayRemoveElementButton(props: Props) {
     )
   }
 
-  const buttonProps = omitDataValueReadWriteProps(props)
+  const { className, ...restProps } = props
+  const { children, text } = useFieldProps(restProps)
+  const buttonProps = omitDataValueReadWriteProps(restProps)
+  const translation = useTranslation().Iterate
+  const textContent = text || children || translation.remove
 
-  const { children } = useFieldProps(props)
+  const elementBlockContext = useContext(ElementBlockContext)
+  const { handleRemoveBlock } = elementBlockContext ?? {}
 
   const handleClick = useCallback(() => {
-    handleRemove()
-  }, [handleRemove])
+    if (handleRemoveBlock) {
+      handleRemoveBlock()
+    } else {
+      handleRemove()
+    }
+  }, [handleRemove, handleRemoveBlock])
 
   return (
     <Button
       className={classnames(
-        'dnb-forms-array-remove-element-button',
-        props.className
+        'dnb-form-iterate-remove-element-button',
+        className
       )}
+      variant={textContent ? 'tertiary' : 'secondary'}
+      icon={trash}
+      icon_position="left"
       on_click={handleClick}
       {...buttonProps}
     >
-      {children}
+      {textContent}
     </Button>
   )
 }

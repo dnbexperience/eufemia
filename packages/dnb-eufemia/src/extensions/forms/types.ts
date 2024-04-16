@@ -196,12 +196,11 @@ export type FieldBlockProps = {
   placeholder?: React.ReactNode
 }
 
-export interface FieldProps<
+export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue>,
-    FieldBlockProps,
     AriaAttributes {
   // - HTML Element Attributes
   /**
@@ -277,6 +276,12 @@ export interface FieldProps<
   transformValue?: (value: Value, currentValue?: Value) => Value
 }
 
+export type FieldProps<
+  Value = unknown,
+  EmptyValue = undefined | unknown,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
+
 export interface FieldHelpProps {
   help?: {
     title?: string
@@ -286,7 +291,7 @@ export interface FieldHelpProps {
 
 export interface ValueProps<Value>
   extends DataValueReadComponentProps<Value> {
-  label?: string
+  label?: React.ReactNode
   /** Field label to show above the data value. */
   showEmpty?: boolean
   /** Text showing in place of the value if no value is given. */

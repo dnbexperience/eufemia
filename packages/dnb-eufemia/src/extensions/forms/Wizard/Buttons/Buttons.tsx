@@ -17,6 +17,10 @@ function Buttons(props: Props) {
   const showNextButton =
     wizardContext?.activeIndex < wizardContext?.totalSteps - 1
 
+  if (!showPreviousButton && !showNextButton) {
+    return null
+  }
+
   return (
     <ButtonRow
       className={classnames('dnb-forms-buttons', className)}

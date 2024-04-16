@@ -1,12 +1,25 @@
 import React from 'react'
+import { Path } from '../types'
+import { ContainerMode } from './Array/types'
 
 export interface IterateElementContextState {
-  index: number
-  value: unknown
-  path?: string
-  handleChange: (path: string, value: unknown) => void
-  handleRemove: () => void
-  handlePush: (value: unknown) => void
+  id?: string
+  index?: number
+  value?: unknown
+  isNew?: boolean
+  hasError?: boolean
+  path?: Path
+  arrayValue?: Array<unknown>
+  containerMode?: ContainerMode
+  containerRef?: React.RefObject<HTMLDivElement>
+  elementRef?: React.RefObject<HTMLDivElement>
+  setFieldError?: (path: Path, error: Error) => void
+  switchContainerMode?: (mode: ContainerMode) => void
+  handleChange?: (path: Path, value: unknown) => void
+  handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void
+  handlePush?: (value: unknown) => void
+  restoreOriginalValue?: (value: unknown) => void
+  fulfillRemove?: () => void
 }
 
 const IterateElementContext = React.createContext<

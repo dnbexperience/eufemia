@@ -14,6 +14,12 @@ export default {
     Form: {
       errorSummaryTitle: 'Feil som må rettes',
     },
+    Iterate: {
+      remove: 'Fjern',
+      done: 'Ferdig',
+      cancel: 'Avbryt',
+      edit: 'Endre',
+    },
 
     /**
      * Base fields
