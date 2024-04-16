@@ -148,6 +148,7 @@ export default function useFieldProps<
   const {
     index: iterateElementIndex,
     value: iterateElementValue,
+    path: iteratePath,
     handleChange: handleIterateElementChange,
   } = iterateElementContext ?? {}
 
@@ -161,16 +162,23 @@ export default function useFieldProps<
       'Invalid itemPath. Item pathJSON Pointers must be from root of iterate element (starting with a /).'
     )
   }
-  if (itemPath && !iterateElementContext) {
+  if (itemPath && !inIterate) {
     throw new Error(
-      'itemPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
+      'itemPath cannot be used when not inside an iterate context. Wrap the component in an Iterate.Array.'
     )
   }
 
   const identifier = useMemo(() => {
+    if (itemPath) {
+      const iterateValuePath = `${iteratePath}/${iterateElementIndex}${
+        itemPath && itemPath !== '/' ? itemPath : ''
+      }`
+      return iterateValuePath
+    }
+
     // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
     return path ?? id
-  }, [path, id])
+  }, [itemPath, path, id, iteratePath, iterateElementIndex])
 
   const externalValue = useMemo(() => {
     if (props.value !== emptyValue) {
@@ -920,6 +928,14 @@ export default function useFieldProps<
       // Must be set before validation
       changedRef.current = true
 
+      // Run in sync, before any async operations to avoid lag in UX
+      if (itemPath) {
+        const iterateValuePath = `/${iterateElementIndex}${
+          itemPath && itemPath !== '/' ? itemPath : ''
+        }`
+        handleIterateElementChange?.(iterateValuePath, transformedValue)
+      }
+
       if (asyncBehaviorIsEnabled) {
         hideError()
         await updateValue(transformedValue)
@@ -981,14 +997,7 @@ export default function useFieldProps<
         setEventResult(onChange?.apply(this, getArgs()))
       }
 
-      await runPool(() => {
-        if (itemPath) {
-          const iterateValuePath = `/${iterateElementIndex}${
-            itemPath && itemPath !== '/' ? itemPath : ''
-          }`
-          handleIterateElementChange?.(iterateValuePath, valueRef.current)
-        }
-      })
+      await runPool()
     },
     [
       addToPool,
