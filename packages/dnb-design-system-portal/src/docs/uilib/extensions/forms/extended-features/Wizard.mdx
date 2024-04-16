@@ -25,6 +25,30 @@ import { Wizard } from '@dnb/eufemia/extensions/forms'
 
 <ListWizardComponents />
 
+## Summary step
+
+A Wizard needs a summary step at the end. You can use the `Wizard.Step` component for that, including the [Value.SummaryList](/uilib/extensions/forms/extended-features/Value/SummaryList/) component:
+
+```tsx
+import { Form, Wizard, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">...</Wizard.Step>
+        <Wizard.Step title="Step 2">...</Wizard.Step>
+        <Wizard.Step title="Summary">
+          <Value.SummaryList layout="grid">
+            <Value.String label="Label" path="/myValue" />
+          </Value.SummaryList>
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
 ## Demo
 
 <Examples.Default />
