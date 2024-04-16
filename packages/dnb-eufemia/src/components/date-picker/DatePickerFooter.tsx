@@ -7,7 +7,7 @@ import React, { useContext } from 'react'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
-import { useLocale } from '../../shared'
+import { useTranslation } from '../../shared'
 
 export type DatePickerFooterProps = React.HTMLProps<HTMLElement> & {
   isRange: boolean
@@ -37,8 +37,7 @@ function DatePickerFooter({
     submit_button_text: submit_button_text_translation,
     cancel_button_text: cancel_button_text_translation,
     reset_button_text: reset_button_text_translation,
-  } = useLocale().DatePicker
-
+  } = useTranslation().DatePicker
   if (
     !isRange &&
     !show_submit_button &&
