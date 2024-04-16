@@ -98,15 +98,20 @@ export const Default = () => {
           console.log('onSubmit', data)
         }
 
-        const MyForm = () => (
-          <Form.Handler data={initialData} onSubmit={onSubmit}>
-            <Wizard.Container onStepChange={onStepChange}>
-              <Step1 />
-              <Step2 />
-              <Summary />
-            </Wizard.Container>
-          </Form.Handler>
-        )
+        const MyForm = () => {
+          // Routers like "react-router" are supported as well
+          Wizard.useQueryLocator('my-wizard')
+
+          return (
+            <Form.Handler data={initialData} onSubmit={onSubmit}>
+              <Wizard.Container id="my-wizard" onStepChange={onStepChange}>
+                <Step1 />
+                <Step2 />
+                <Summary />
+              </Wizard.Container>
+            </Form.Handler>
+          )
+        }
 
         return <MyForm />
       }}

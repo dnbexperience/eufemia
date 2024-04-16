@@ -10,6 +10,8 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Email />)
 ```
 
+> **NB:** Only the email field will be a part of your application bundle. Unused code will be tree-shaken away.
+
 By building an entire form with components from Eufemia and Eufemia Forms, you save time and code:
 
 ```jsx
@@ -47,11 +49,11 @@ render(
 
 ### Data handling
 
-You don't need React `useState` to handle your form data.
+> You don't need React **useState** to handle your form data.
 
-With [useData](/uilib/extensions/forms/extended-features/Form/useData/), [getData](/uilib/extensions/forms/extended-features/Form/getData/) and [setData](/uilib/extensions/forms/extended-features/Form/setData/) you area able to access and modify your form data from not only from nested components, but also outside the form context itself (`Form.Handler`).
+With [useData](/uilib/extensions/forms/extended-features/Form/useData/), [getData](/uilib/extensions/forms/extended-features/Form/getData/) and [setData](/uilib/extensions/forms/extended-features/Form/setData/) you area able to access and modify your form data not only from nested components, but also outside the form context itself (`Form.Handler`).
 
-Here "ComponentB" is rendered inside the `Form.Handler` component:
+**Example 1:** Here "ComponentB" is rendered inside the `Form.Handler` component:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -71,7 +73,7 @@ function ComponentB() {
 }
 ```
 
-While in this example, "ComponentB" is outside the `Form.Handler` and linked together via the `id` (string) property:
+**Example 2:** While in this example, "ComponentB" is outside the `Form.Handler` and linked together via the `id` (string) property:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
