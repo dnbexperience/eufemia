@@ -26,7 +26,8 @@ $fonts-path: '../../../../assets/fonts/sbanken' !default;
 // Maison
 @font-face {
   font-family: MaisonNeueHeadings;
-  src: url('#{$fonts-path}/MaisonNeue.woff'),
+  src: url('#{$fonts-path}/MaisonNeue.woff2'),
+    url('#{$fonts-path}/MaisonNeue.woff'),
     url('#{$fonts-path}/MaisonNeue.woff2');
   font-weight: normal; // have to be the same as: --sb-font-weight-regular
   font-style: normal;
@@ -36,7 +37,8 @@ $fonts-path: '../../../../assets/fonts/sbanken' !default;
 // Std and Regular
 @font-face {
   font-family: Roboto;
-  src: url('#{$fonts-path}/Roboto-Regular.woff'),
+  src: url('#{$fonts-path}/Roboto-Regular.woff2'),
+    url('#{$fonts-path}/Roboto-Regular.woff'),
     url('#{$fonts-path}/Roboto-Regular.ttf');
   font-weight: normal; // have to be the same as: --sb-font-weight-regular
   font-style: normal;
@@ -46,7 +48,8 @@ $fonts-path: '../../../../assets/fonts/sbanken' !default;
 // Medium
 @font-face {
   font-family: Roboto;
-  src: url('#{$fonts-path}/Roboto-Medium.woff'),
+  src: url('#{$fonts-path}/Roboto-Medium.woff2'),
+    url('#{$fonts-path}/Roboto-Medium.woff'),
     url('#{$fonts-path}/Roboto-Medium.ttf');
   font-weight: 500; // have to be the same as: --sb-font-weight-medium
   font-style: normal;
@@ -56,7 +59,8 @@ $fonts-path: '../../../../assets/fonts/sbanken' !default;
 // Bold
 @font-face {
   font-family: Roboto;
-  src: url('#{$fonts-path}/Roboto-Bold.woff'),
+  src: url('#{$fonts-path}/Roboto-Bold.woff2'),
+    url('#{$fonts-path}/Roboto-Bold.woff'),
     url('#{$fonts-path}/Roboto-Bold.ttf');
   font-weight: 700; // have to be the same as: --sb-font-weight-boldcode
   font-style: normal;
