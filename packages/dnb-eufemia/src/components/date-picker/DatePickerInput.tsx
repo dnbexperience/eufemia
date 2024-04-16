@@ -261,7 +261,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       state['endDate'] = endDate
     }
 
-    context.updateState({ changeMonthViews: true })
     context.updateDates(state, (forward) => {
       if (
         (typeof startDate !== 'undefined' && isValid(startDate)) ||
