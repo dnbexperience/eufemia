@@ -90,7 +90,7 @@ export interface InputProps
   /**
    * The placeholder which shows up once the input value is empty.
    */
-  placeholder?: string;
+  placeholder?: React.ReactNode;
   /**
    * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
    */

@@ -75,7 +75,7 @@ export interface TextareaProps
   /**
    * The placeholder which shows up once the Textarea value is empty.
    */
-  placeholder?: string;
+  placeholder?: React.ReactNode;
   /**
    * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
    */

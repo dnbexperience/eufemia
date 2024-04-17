@@ -140,6 +140,43 @@ describe('Textarea component', () => {
     )
   })
 
+  it('placeholder prop should accept React Element', () => {
+    const Placeholder = ({ children }) => <span>{children}</span>
+
+    const { rerender } = render(
+      <Textarea placeholder={<Placeholder>Placeholder</Placeholder>} />
+    )
+
+    expect(
+      document.querySelector('textarea').getAttribute('aria-placeholder')
+    ).toContain('Placeholder')
+    expect(
+      document.querySelector('.dnb-textarea__placeholder')
+    ).toHaveTextContent('Placeholder')
+
+    rerender(
+      <Textarea
+        placeholder={<Placeholder>Placeholder-text</Placeholder>}
+      />
+    )
+
+    expect(
+      document.querySelector('textarea').getAttribute('aria-placeholder')
+    ).toContain('Placeholder-text')
+    expect(
+      document.querySelector('.dnb-textarea__placeholder')
+    ).toHaveTextContent('Placeholder-text')
+
+    rerender(
+      <Textarea id="unique" placeholder={undefined} label={undefined} />
+    )
+
+    expect(document.querySelector('textarea')).not.toHaveAttribute(
+      'aria-placeholder'
+    )
+    expect(document.querySelector('.dnb-textarea__placeholder')).toBeNull()
+  })
+
   it('uses children as the value', () => {
     render(<Textarea>children</Textarea>)
     expect(document.querySelector('textarea').value).toBe('children')

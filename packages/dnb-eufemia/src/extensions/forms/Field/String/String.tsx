@@ -52,6 +52,8 @@ export type Props = FieldHelpProps &
     leftIcon?: string
     rightIcon?: string
     submitElement?: InputProps['submit_element']
+    capitalize?: boolean
+    trim?: boolean
 
     // - Textarea props
     rows?: TextareaProps['rows']
@@ -215,7 +217,7 @@ function StringComponent(props: Props) {
     autoCapitalize,
     inputMode,
     className: cn,
-    placeholder: placeholder,
+    placeholder,
     suffix: help ? (
       <HelpButton title={help.title}>{help.content}</HelpButton>
     ) : undefined,
