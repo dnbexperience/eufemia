@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown'
+import styled from '@emotion/styled'
 import { Code, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { toCamelCase } from '@dnb/eufemia/src/shared/component-helper'
@@ -9,6 +10,12 @@ const components = {
   ...basicComponents,
   p: (props) => <span {...props} />,
 }
+
+const StyledTable = styled(Table)`
+  td {
+    white-space: nowrap;
+  }
+`
 
 export default function PropertiesTable({
   props,
@@ -110,7 +117,7 @@ export default function PropertiesTable({
 
   return (
     <Table.ScrollView>
-      <Table>
+      <StyledTable>
         <thead>
           <Tr>
             <Th>Property</Th>
@@ -120,7 +127,7 @@ export default function PropertiesTable({
           </Tr>
         </thead>
         <tbody>{tableRows}</tbody>
-      </Table>
+      </StyledTable>
     </Table.ScrollView>
   )
 }
