@@ -1309,6 +1309,7 @@ export interface ReturnAdditional<Value> {
   ) => void
   updateValue: (value: Value) => void
   forceUpdate: () => void
+  hasError?: boolean
 
   /** Internal */
   dataContext: ContextState

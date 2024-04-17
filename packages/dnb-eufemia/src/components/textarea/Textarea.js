@@ -21,6 +21,7 @@ import {
   combineDescribedBy,
   warn,
   dispatchCustomElementEvent,
+  convertJsxToString,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -74,7 +75,7 @@ export default class Textarea extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.node,
     keepPlaceholder: PropTypes.bool,
     align: PropTypes.oneOf(['left', 'right']),
     size: PropTypes.oneOf(['small', 'medium', 'large']),
@@ -444,7 +445,9 @@ export default class Textarea extends React.PureComponent {
       id,
       name: id,
       disabled: isTrue(disabled) || isTrue(skeleton),
-      'aria-placeholder': placeholder,
+      'aria-placeholder': placeholder
+        ? convertJsxToString(placeholder)
+        : undefined,
       ...attributes,
       ...textareaAttributes,
       onChange: this.onChangeHandler,

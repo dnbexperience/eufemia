@@ -14,7 +14,7 @@ import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = FieldHelpProps &
-  FieldProps<string> & {
+  FieldProps<string, undefined | string> & {
     // Validation
     pattern?: string
   }
