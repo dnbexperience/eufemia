@@ -128,7 +128,11 @@ function ProgressIndicator(
   const [complete, setCompleteState] = useState(false)
 
   const progressNumber =
-    typeof progress === 'string' ? parseFloat(progress) : progress
+    typeof progress === 'string'
+      ? parseFloat(progress)
+      : typeof progress === 'number'
+      ? progress
+      : undefined
 
   const indicatorLabel =
     label || (isTrue(showDefaultLabel) && indicator_label)
