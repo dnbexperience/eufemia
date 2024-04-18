@@ -2,7 +2,7 @@
  * Anchor mixins
  *
  */
-
+@use 'sass:math';
 @import '../../../style/core/utilities.scss';
 
 @mixin anchorDefaultStyle() {
@@ -115,10 +115,13 @@
 }
 
 @mixin anchorStyle() {
+  $icon-scale: 2;
+  $icon-scale-filler: 0.5 - math.div(0.5, $icon-scale);
+
   --anchor-icon-gutter: 0.25em;
   // word-joiner character (zero-width non-breaking space) connects icon with word
   --anchor-icon-seperator: '\2060';
-  --anchor-icon-fallback-position: translateY(-0.125em);
+  --anchor-icon-position: translateY(-0.175em);
   @include anchorDefaultStyle();
 
   // have focus before :active, because of border-radius
@@ -148,25 +151,16 @@
   // other stuff, not related to the Anchor directly
   .dnb-icon {
     display: inline;
-    vertical-align: baseline;
+    vertical-align: middle;
     white-space: nowrap; // force icon to line break with word
-    font-size: inherit;
 
     svg {
-      vertical-align: middle;
-      transform: var(--anchor-icon-fallback-position);
-    }
-  }
-
-  @supports (height: 1lh) {
-    .dnb-icon {
-      vertical-align: top;
-      line-height: 1lh;
-
-      svg {
-        vertical-align: top;
-        transform: translateY(calc(0.5lh - 0.5em));
-      }
+      vertical-align: baseline;
+      transform: scale($icon-scale) var(--anchor-icon-position);
+      font-size: #{math.div(1, $icon-scale)}em;
+      width: #{$icon-scale}em;
+      height: 1em;
+      pointer-events: none;
     }
   }
 
@@ -179,7 +173,7 @@
       content: var(--anchor-icon-seperator);
     }
     svg {
-      margin-right: var(--anchor-icon-gutter);
+      margin-right: calc(var(--anchor-icon-gutter) * #{$icon-scale});
     }
   }
 
@@ -188,7 +182,7 @@
       content: var(--anchor-icon-seperator);
     }
     svg {
-      margin-left: var(--anchor-icon-gutter);
+      margin-left: calc(var(--anchor-icon-gutter) * #{$icon-scale});
     }
   }
 

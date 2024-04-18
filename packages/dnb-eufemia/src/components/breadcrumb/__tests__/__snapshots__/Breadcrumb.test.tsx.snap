@@ -753,8 +753,8 @@ button.dnb-button::-moz-focus-inner {
   margin-right: 0.5rem;
 }
 .dnb-breadcrumb__item .dnb-anchor {
-  line-height: 1rem;
-  padding: 0.25rem 0;
+  line-height: 1.5rem;
+  padding: 0;
   position: relative;
 }
 .dnb-breadcrumb__item .dnb-anchor::after {
