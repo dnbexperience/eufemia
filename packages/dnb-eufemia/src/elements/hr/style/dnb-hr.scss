@@ -9,23 +9,30 @@
 .dnb-hr {
   @include hrStyle();
 
+  &--dashed::after {
+    background-image: linear-gradient(
+      to right,
+      var(--hr-color, grey) 50%,
+      transparent 0%
+    );
+    background-size: 0.5rem 0.0625rem;
+    background-repeat: repeat-x;
+    background-color: transparent;
+  }
+
   &--fullscreen::after {
     left: -100vw;
-    box-shadow: 100vw 0 0 0 currentcolor;
+    box-shadow: 100vw 0 0 0 var(--hr-color, grey);
     border-radius: 0;
   }
 
-  --thickness: calc(var(--hr-thickness, 1px) + var(--modifier, 0px));
+  --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
 
+  // @deprecated
   &--light {
-    --hr-thickness: 0.4px;
-
-    // Modify the thickness, because the screenshot does not pick up the line when its under 1px.
-    // This may change in a later Playwright/Firefox version.
-    html[data-visual-test] & {
-      --modifier: 0.7px;
-    }
+    --hr-thickness: 0.5px;
   }
+  // @deprecated
   &--medium {
     --hr-thickness: 1.5px;
   }

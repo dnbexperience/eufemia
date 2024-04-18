@@ -72,7 +72,7 @@ export const Default = () => {
                   <Value.String label="City" path="/city" />
                 </Value.SummaryList>
 
-                <Hr light />
+                <Hr />
 
                 <Wizard.EditButton onClick={() => setActiveIndex(1)} />
               </Card>

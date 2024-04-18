@@ -10,13 +10,32 @@ import classnames from 'classnames'
 
 type HrProps = SpacingProps &
   React.HTMLAttributes<HTMLHRElement> & {
-    light?: boolean
-    medium?: boolean
+    /**
+     * To make the hr full width.
+     */
     fullscreen?: boolean
+
+    /**
+     * To make the hr dashed.
+     */
+    dashed?: boolean
+
+    /**
+     * Not official prop, but used to make the hr lighter.
+     * @deprecated Will be removed in future version.
+     */
+    light?: boolean
+
+    /**
+     * Not official prop, but used to make the hr stronger.
+     * @deprecated Will be removed in future version.
+     */
+    medium?: boolean
   }
 
 const Hr = ({
   fullscreen,
+  dashed,
   light,
   medium,
   className,
@@ -29,6 +48,7 @@ const Hr = ({
         className,
         light && 'dnb-hr--light',
         medium && 'dnb-hr--medium',
+        dashed && 'dnb-hr--dashed',
         fullscreen && 'dnb-hr--fullscreen'
       )}
       {...props}

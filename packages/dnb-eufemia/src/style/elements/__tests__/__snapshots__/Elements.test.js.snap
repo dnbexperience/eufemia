@@ -219,7 +219,7 @@ del .dnb-code {
   border-radius: 0;
 }
 .dnb-hr--light {
-  --hr-thickness: 0.4px;
+  --hr-thickness: 0.5px;
 }
 html[data-visual-test] .dnb-hr--light {
   --modifier: 0.7px;

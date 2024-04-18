@@ -39,7 +39,7 @@ export const basicComponents = {
   p: (props) => <P {...props} />,
   paragraph: (props) => <P {...props} />,
   blockquote: (props) => <Blockquote {...props} />,
-  hr: (props) => <Hr light {...props} />,
+  hr: (props) => <Hr {...props} />,
   table: Table,
   pre: (props) => {
     return CodeBlock(props.children.props)

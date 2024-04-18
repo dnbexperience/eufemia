@@ -27,9 +27,9 @@ describe('Horizontal rule', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match thickness horizontal rule', async () => {
+  it('have to match dashed horizontal rule', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="hr-thickness"]',
+      selector: '[data-visual-test="hr-dashed"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

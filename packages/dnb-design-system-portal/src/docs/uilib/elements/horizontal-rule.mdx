@@ -1,5 +1,5 @@
 ---
-title: 'Hr-line'
+title: 'Hr-line (Divider)'
 redirect_from:
   - /uilib/elements/hr
 ---
@@ -7,10 +7,10 @@ redirect_from:
 import {
   HorizontalRuleDefaultExample,
   HorizontalRuleFullscreenExample,
-  HorizontalRuleThicknessExample,
-} from 'Docs/uilib/elements/horizontal-rule/Examples'
+  HorizontalRuleDashedExample,
+} from './horizontal-rule/Examples'
 
-# Horizontal Rule
+# Horizontal Rule (Divider)
 
 The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections. The `<hr />` tag is an empty tag and it does not require an end tag.
 
@@ -18,24 +18,20 @@ The `<hr />` tag in HTML stands for horizontal rule and is used to insert a hori
 
 ```css
 /* Example of how to change the line color */
-.dnb-hr:after {
-  color: var(--color-ocean-green);
+.dnb-hr {
+  --hr-color: var(--color-ocean-green);
 }
 ```
 
 <HorizontalRuleDefaultExample />
 
+## Horizontal Rule dashed
+
+<HorizontalRuleDashedExample />
+
 ## Horizontal Rule in fullscreen
 
-Use the modifier `dnb-hr--fullscreen` to get a full screen rule. You can also set just `fullscreen={true}`.
-
 <HorizontalRuleFullscreenExample />
-
-## Horizontal Rule thickness / hairline
-
-Use the modifier `dnb-hr--light` to get a `0.5px` rule. You can also set just `light={true}` or `medium={true}`.
-
-<HorizontalRuleThicknessExample />
 
 ## Horizontal Rule thickness tests
 
