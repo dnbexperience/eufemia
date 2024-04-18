@@ -15,7 +15,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   type: {
     doc: 'Defines the type',
-    type: { type: 'string', values: ['circular', 'linear'] },
+    type: ['"circular"', '"linear"'],
     defaultValue: '"circular"',
     status: 'optional',
   },
@@ -27,12 +27,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Defines the size',
-    type: [
-      {
-        type: 'string',
-        values: ['default', 'small', 'medium', 'large', 'huge'],
-      },
-    ],
+    type: ['"default"', '"small"', '"medium"', '"large"', '"huge"'],
     defaultValue: '"default"',
     status: 'optional',
   },
@@ -44,7 +39,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Label can optionally be placed below',
-    type: { type: 'string', values: ['horizontal', 'vertical'] },
+    type: ['"horizontal"', '"vertical"'],
     defaultValue: '"horizontal"',
     status: 'optional',
   },

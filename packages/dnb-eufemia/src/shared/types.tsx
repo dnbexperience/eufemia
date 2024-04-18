@@ -40,12 +40,10 @@ export type DynamicElement<
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
 
-type PropertiesTableType = string | { type: string; values: string[] }
-
 export type PropertiesTableProps = Record<
   string,
   {
-    type: PropertiesTableType | PropertiesTableType[]
+    type: string | string[]
     defaultValue?: string
     doc: string
     status: 'optional' | 'internal' | 'required' | 'deprecated'

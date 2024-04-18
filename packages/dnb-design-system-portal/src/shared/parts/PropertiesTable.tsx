@@ -22,14 +22,12 @@ export default function PropertiesTable({
   valueType = 'string',
   camelCase,
   omit,
-  showValues = false,
   showDefaultValue = false,
 }: {
   props: PropertiesTableProps
   valueType?: unknown
   camelCase?: boolean
   omit?: string[]
-  showValues: boolean
   showDefaultValue: boolean
 }) {
   const keys = Object.keys(props)
@@ -53,37 +51,13 @@ export default function PropertiesTable({
             {type
               .map((t) => {
                 if (typeof t === 'string') {
-                  if (String(type).includes('{valueType}')) {
+                  if (String(t).includes('{valueType}')) {
                     t = valueType as string
                   }
                   return (
                     <Copy key={t}>
                       <Code>{t}</Code>
                     </Copy>
-                  )
-                } else if (typeof t === 'object') {
-                  return (
-                    <>
-                      {showValues ? (
-                        <>
-                          {t.values
-                            .map((v) => (
-                              <Copy key={v}>
-                                <Code>{`"${v}"`}</Code>
-                              </Copy>
-                            ))
-                            .reduce((prev, curr) => (
-                              <>
-                                {prev} or {curr}
-                              </>
-                            ))}
-                        </>
-                      ) : (
-                        <Copy key={t.type}>
-                          <Code>{t.type}</Code>
-                        </Copy>
-                      )}
-                    </>
                   )
                 }
               })
