@@ -372,7 +372,7 @@ describe('convertSnakeCaseProps', () => {
       barFoo: 'barFooValue',
     }
     const result = convertSnakeCaseProps(props, {
-      overrideExistingProps: false,
+      overrideExistingValue: false,
     })
 
     expect(result).toEqual({

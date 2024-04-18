@@ -244,7 +244,7 @@ function handleDeprecatedBehaviour(
     className,
     label,
     ...convertSnakeCaseProps(propsToConvertToCamelCase, {
-      overrideExistingProps: false,
+      overrideExistingValue: false,
     }),
   }
 }
