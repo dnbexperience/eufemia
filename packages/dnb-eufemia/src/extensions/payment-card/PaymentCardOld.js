@@ -23,7 +23,7 @@ import {
 import P from '../../elements/P'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
-import Designs, { defaultDesign } from './utils/CardDesigns'
+import DesignObjectTemplates, { defaultDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
 import {
   ProductLogo,
@@ -33,7 +33,7 @@ import {
   BankAxeptLogo,
 } from './icons'
 
-export { Designs, ProductType, CardType, BankAxeptType }
+export { DesignObjectTemplates, ProductType, CardType, BankAxeptType }
 
 const cardDataPropTypes = PropTypes.shape({
   productCode: PropTypes.string.isRequired,
@@ -257,7 +257,7 @@ function StatusOverlay({ cardStatus, translations }) {
   return cardStatusMap[cardStatus] ? (
     <BlockingOverlay
       cardStatus={cardStatus}
-      text={cardStatusMap[cardStatus]}
+      text={cardStatusMap[cardStatus]} // When/How do we end up with BlockingOverlay?
     />
   ) : null
 }

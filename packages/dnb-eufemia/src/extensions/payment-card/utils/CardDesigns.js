@@ -137,7 +137,7 @@ const businessWithVisa = {
   privateBanking: PB.None,
 }
 
-const Designs = {
+const DesignObjectTemplates = {
   defaultDesign,
   young,
   myFirst,
@@ -151,7 +151,7 @@ const Designs = {
   businessNoVisa,
   businessWithVisa,
 }
-export default Designs
+export default DesignObjectTemplates
 
 export {
   defaultDesign,
