@@ -1150,7 +1150,9 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.Field.errorRequired)
+        expect(status).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
+        )
       })
 
       await waitFor(() => {
@@ -1230,7 +1232,9 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent(nb.Field.errorRequired)
+        expect(status).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
+        )
       })
 
       await userEvent.type(input, 'something')
@@ -1475,7 +1479,9 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
+        ).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, 'Label')
+        )
       })
 
       await waitFor(() => {
@@ -1550,7 +1556,9 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
+        ).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, 'Label')
+        )
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1584,7 +1592,9 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
+        ).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, 'Label')
+        )
       })
 
       await userEvent.type(inputElement, 'valid')
@@ -2358,7 +2368,9 @@ describe('DataContext.Provider', () => {
 
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
+        ).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
+        )
         expect(
           document.querySelector('.dnb-global-status__title')
         ).toBeNull()
@@ -2420,7 +2432,9 @@ describe('DataContext.Provider', () => {
 
         expect(
           document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
+        ).toHaveTextContent(
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
+        )
         expect(
           document.querySelector('.dnb-global-status__title')
         ).toBeNull()
@@ -2511,7 +2525,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.Field.errorRequired
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
         )
 
         rerender(
@@ -2531,7 +2545,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.Field.errorRequired
+          nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
         )
 
         rerender(
