@@ -3,6 +3,9 @@ import { fireEvent, render } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 afterEach(() => {
   // Reset locale to nb-NO
   render(<Provider locale="nb-NO">nothing</Provider>)
@@ -124,6 +127,22 @@ describe('Form.SubmitButton', () => {
     const button = document.querySelector('.dnb-forms-submit-button')
 
     expect(button).toHaveClass('dnb-button--primary')
+  })
+
+  it('should have "text" by default', () => {
+    render(<Form.SubmitButton />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button.textContent).toBe('‌' + nb.SubmitButton.text)
+  })
+
+  it('should have "sendText" when variant is "send"', () => {
+    render(<Form.SubmitButton variant="send" />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button.textContent).toBe('‌' + nb.SubmitButton.sendText)
   })
 
   it('should have "send" icon when variant is "send"', () => {

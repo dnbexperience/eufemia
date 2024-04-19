@@ -5,6 +5,7 @@ export default {
      */
     SubmitButton: {
       text: 'Send',
+      sendText: 'Send inn',
     },
     Step: {
       next: 'Neste',
