@@ -249,7 +249,7 @@ export default class RadioGroup extends React.PureComponent {
                   ? 'vertical'
                   : 'horizontal'
               }
-              spacing={vertical ? 'x-small' : undefined}
+              spacing={vertical ? 'x-small' : 'small'}
             >
               {label && (
                 <FormLabel

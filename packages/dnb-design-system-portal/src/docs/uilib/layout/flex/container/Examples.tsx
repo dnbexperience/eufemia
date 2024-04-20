@@ -157,7 +157,11 @@ export const VerticalLineDivider = () => {
       data-visual-test="flex-container-divider"
     >
       <Card>
-        <Flex.Container direction="vertical" divider="line">
+        <Flex.Container
+          direction="vertical"
+          divider="line"
+          alignSelf="stretch"
+        >
           <Form.SubHeading>Heading</Form.SubHeading>
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
