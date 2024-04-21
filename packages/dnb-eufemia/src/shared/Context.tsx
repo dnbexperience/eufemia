@@ -47,6 +47,7 @@ import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
+import { PaymentCardProps } from '../extensions/payment-card'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -78,7 +79,7 @@ export type ContextComponents = {
   StepIndicator?: Partial<StepIndicatorProps>
   FormLabel?: Partial<FormLabelProps>
   Input?: Partial<InputProps>
-
+  PaymentCard?: Partial<PaymentCardProps> // TODO: Ask Tobias, Is this correct for an Extension component?
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
   Pagination?: Record<string, unknown>

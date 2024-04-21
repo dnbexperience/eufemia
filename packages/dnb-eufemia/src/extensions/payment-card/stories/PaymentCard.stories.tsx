@@ -13,12 +13,12 @@ import '../style'
 import '../style/themes/ui'
 import PaymentCard, {
   getCardData,
-  Designs,
   CardType,
   ProductType,
-  BankAxeptType,
+  BankAxeptOrCreditType,
 } from '../../../extensions/payment-card'
 import cardData from '../utils/cardProducts'
+import DesignObjectTemplates from '../utils/CardDesigns'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -32,10 +32,10 @@ const customData = {
   productCode: 'UNDEFINED',
   productName: 'DNB Custom Card',
   displayName: 'Custom card', // Only showed in compact variant
-  cardDesign: Designs.gold,
+  cardDesign: DesignObjectTemplates.gold,
   cardType: CardType.Visa,
   productType: ProductType.Business,
-  bankAxept: BankAxeptType.BankAxept,
+  bankAxept: BankAxeptOrCreditType.BankAxept,
 }
 
 export const PaymentCards = () => (
