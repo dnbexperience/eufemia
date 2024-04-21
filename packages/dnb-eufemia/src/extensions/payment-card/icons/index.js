@@ -20,10 +20,19 @@ import SagaGold from './SagaGold'
 import SagaPlatinum from './SagaPlatinum'
 import VisaDefault from './VisaDefault'
 import VisaPlatinum from './VisaPlatinum'
+import Sbanken from './Sbanken'
+import Credit from './Credit'
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
     Colored: (color) => (
       <DNB
+        height={height}
+        fill={color}
+        className="dnb-payment-card__card__bank-logo"
+      />
+    ),
+    Sbanken: (color) => (
+      <Sbanken
         height={height}
         fill={color}
         className="dnb-payment-card__card__bank-logo"
@@ -61,9 +70,13 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
         White: () => <BankAxept className={id} fill="#ffffff" />,
         Black20: () => <BankAxept className={id} fill="#cccccc" />,
         Gray: () => <BankAxept className={id} fill="#b2b4b3" />,
+        GrayDark: () => <BankAxept className={id} fill="#55565A" />,
         Black: () => <BankAxept className={id} fill="#333333" />,
         Gold: () => <BankAxept className={id} fill="#BFA970" />,
       }),
+    Credit: () => (
+      <Credit className={'dnb-payment-card__card__credit'} fill="#fff" />
+    ),
     None: () => null,
   })
 }
