@@ -137,6 +137,28 @@ const businessWithVisa = {
   privateBanking: PB.None,
 }
 
+const sbankenVisa = {
+  name: 'Sbanken',
+  cardStyle: 'card--design-sbanken-visa',
+  bankLogo: DNB.Sbanken(properties['--sb-color-text']),
+  visa: Visa.Colored('#0F357F'),
+  mastercard: Mastercard.Default,
+  bankAxept: BankAxept.GrayDark,
+  saga: Saga.None,
+  privateBanking: PB.None,
+}
+
+const sbankenMastercard = {
+  name: 'Sbanken Mastercard',
+  cardStyle: 'card--design-sbanken-mastercard',
+  bankLogo: DNB.Sbanken(properties['--color-white']),
+  visa: Visa.Colored(properties['--color-white']),
+  mastercard: Mastercard.Default,
+  bankAxept: BankAxept.Gray,
+  saga: Saga.None,
+  privateBanking: PB.None,
+}
+
 const Designs = {
   defaultDesign,
   young,
@@ -150,6 +172,8 @@ const Designs = {
   mcBlack,
   businessNoVisa,
   businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard,
 }
 export default Designs
 
@@ -166,4 +190,6 @@ export {
   mcBlack,
   businessNoVisa,
   businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard,
 }
