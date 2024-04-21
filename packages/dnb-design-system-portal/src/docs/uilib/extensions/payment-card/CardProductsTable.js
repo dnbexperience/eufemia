@@ -73,4 +73,5 @@ const getProductVariant = (type, design) =>
 const getProductLogo = (bankLogo) =>
   bankLogo.cata({
     Colored: (color) => color,
+    Sbanken: (color) => color,
   })

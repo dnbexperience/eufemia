@@ -33,10 +33,12 @@ export enum BankAxept {
   Black,
   Gold,
   Black20,
-  Gray
+  Gray,
+  GrayDark
 }
 export enum BankAxeptType {
   BankAxept,
+  Credit,
   None
 }
 export enum Designs {
