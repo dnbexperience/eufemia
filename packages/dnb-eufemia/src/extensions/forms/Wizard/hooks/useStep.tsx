@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import WizardContext, {
   OnStepChange,
   WizardContextState,
@@ -10,7 +10,8 @@ export default function useStep(
   id: Identifier = null,
   { onStepChange }: { onStepChange?: OnStepChange } = {}
 ) {
-  const context = useContext(WizardContext)
+  const setFormError = useCallback(() => null, [])
+  const context = useContext(WizardContext) || { setFormError }
 
   // In order to make it possible to add a "onStepChange" handler without an id,
   // we at least check if there is one from the context.

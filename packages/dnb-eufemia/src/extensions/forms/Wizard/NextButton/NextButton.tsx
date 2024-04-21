@@ -18,7 +18,7 @@ function NextButton(props: Props) {
     icon = 'chevron_right',
     children = translations.next,
   } = props
-  const wizardContext = useContext(WizardContext)
+  const { handleNext } = useContext(WizardContext) || {}
 
   return (
     <ButtonRow>
@@ -26,7 +26,7 @@ function NextButton(props: Props) {
       <SubmitButton
         type="button"
         className={classnames('dnb-forms-next-button', className)}
-        onClick={wizardContext?.handleNext}
+        onClick={handleNext}
         icon_position={icon_position}
         icon={icon}
         {...props}

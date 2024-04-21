@@ -16,8 +16,13 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  noAnimation: {
-    doc: 'Determines if the height animation for step items and the drawer button will run. Inherited from StepIndicator. Defaults to `true`.',
+  scrollTopOnStepChange: {
+    doc: 'True for the UI to scroll to the top of the page when navigating between wizard steps.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  omitFocusManagement: {
+    doc: 'True to omit focus management.',
     type: 'boolean',
     status: 'optional',
   },
@@ -26,8 +31,8 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'required',
   },
-  scrollTopOnStepChange: {
-    doc: 'True for the UI to scroll to the top of the page when navigating between wizard steps.',
+  noAnimation: {
+    doc: 'Determines if the height animation for step items and the drawer button will run. Inherited from StepIndicator. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },

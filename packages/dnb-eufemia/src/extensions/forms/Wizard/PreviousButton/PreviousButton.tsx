@@ -19,10 +19,10 @@ function PreviousButton(props: Props) {
     icon = 'chevron_left',
     children = translations.previous,
   } = props
-  const wizardContext = useContext(WizardContext)
+  const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
 
   const params: Props = {}
-  if (wizardContext?.activeIndex === 0) {
+  if (activeIndex === 0) {
     params.disabled = true
   }
 
@@ -30,7 +30,7 @@ function PreviousButton(props: Props) {
     <ButtonRow>
       <Button
         className={classnames('dnb-forms-previous-button', className)}
-        onClick={wizardContext?.handlePrevious}
+        onClick={handlePrevious}
         variant={variant}
         icon_position={icon_position}
         icon={icon}

@@ -11,6 +11,7 @@ import { Space, StepIndicator } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import DataContext from '../../DataContext/Context'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
@@ -34,6 +35,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
   variant?: 'sidebar' | 'drawer'
   noAnimation?: boolean
+  omitFocusManagement?: boolean
   sidebarId?: string
 }
 
@@ -47,6 +49,7 @@ function WizardContainer(props: Props) {
     onStepChange,
     children,
     noAnimation = true,
+    omitFocusManagement,
     variant = 'sidebar',
     sidebarId,
     ...rest
@@ -66,6 +69,7 @@ function WizardContainer(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
+  const stepElementRef = useRef<HTMLElement>()
 
   // - Handle shared state
   const sharedStateRef =
@@ -92,6 +96,16 @@ function WizardContainer(props: Props) {
     },
     [onStepChange]
   )
+
+  const { setFocus } = useHandleFocus({ stepElementRef })
+  const handleLayoutEffect = useCallback(() => {
+    if (scrollTopOnStepChange) {
+      scrollToTop()
+    }
+    if (!omitFocusManagement) {
+      setFocus()
+    }
+  }, [scrollTopOnStepChange, omitFocusManagement, setFocus, scrollToTop])
 
   const handleStepChange = useCallback(
     ({
@@ -127,12 +141,10 @@ function WizardContainer(props: Props) {
           }
 
           if (!(result instanceof Error)) {
+            handleLayoutEffect()
+
             activeIndexRef.current = index
             forceUpdate()
-          }
-
-          if (scrollTopOnStepChange) {
-            scrollToTop()
           }
 
           return result
@@ -141,10 +153,9 @@ function WizardContainer(props: Props) {
     },
     [
       callOnStepChange,
+      handleLayoutEffect,
       handleSubmitCall,
       onStepChange,
-      scrollToTop,
-      scrollTopOnStepChange,
       setFormState,
       setShowAllErrors,
     ]
@@ -153,7 +164,10 @@ function WizardContainer(props: Props) {
   const setActiveIndex = useCallback(
     (
       index: StepIndex,
-      options?: { skipErrorCheck?: boolean; skipCallOnChange?: boolean }
+      options?: {
+        skipErrorCheck?: boolean
+        skipCallOnChange?: boolean
+      }
     ) => {
       if (index === activeIndexRef.current) {
         return
@@ -232,6 +246,7 @@ function WizardContainer(props: Props) {
       id,
       activeIndex,
       totalSteps,
+      stepElementRef,
       setActiveIndex,
       handlePrevious,
       handleNext,
@@ -299,6 +314,31 @@ function WizardContainer(props: Props) {
       </Space>
     </WizardContext.Provider>
   )
+}
+
+function useHandleFocus({ stepElementRef }) {
+  const isInteractionRef = useRef(false)
+
+  useMountEffect(() => {
+    window.requestAnimationFrame(() => {
+      // Ensure we are mounted before we set the focus
+      isInteractionRef.current = true
+    })
+  })
+
+  const setFocus = useCallback(() => {
+    if (isInteractionRef.current) {
+      // Wait for the next render cycle
+      window.requestAnimationFrame(() => {
+        // Wait for the new stepElementRef to be set
+        window.requestAnimationFrame(() => {
+          stepElementRef.current?.focus?.()
+        })
+      })
+    }
+  }, [stepElementRef])
+
+  return { setFocus }
 }
 
 WizardContainer._supportsSpacingProps = true
