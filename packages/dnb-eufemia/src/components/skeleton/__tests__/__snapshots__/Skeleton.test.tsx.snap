@@ -19,6 +19,8 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
  */
 .dnb-skeleton {
   --skeleton-delay: 5s;
+  --skeleton-duration: 1.5s;
+  --skeleton-iteration-count: 20;
 }
 .dnb-skeleton img,
 .dnb-skeleton video {
@@ -65,7 +67,7 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
   background-repeat: repeat !important;
   background-size: 100% !important;
   clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-  animation: skeletonLinearAnimation 1.5s linear infinite var(--skeleton-delay);
+  animation: skeletonLinearAnimation var(--skeleton-duration) linear var(--skeleton-iteration-count) var(--skeleton-delay);
 }
 .dnb-skeleton--code pre,
 .dnb-skeleton--code pre *,
