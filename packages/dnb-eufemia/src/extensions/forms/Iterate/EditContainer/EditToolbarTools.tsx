@@ -3,7 +3,7 @@ import { Button, Flex } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateElementContext from '../IterateElementContext'
 import { check, close } from '../../../../icons'
-import ArrayRemoveElementButton from '../ArrayRemoveElementButton'
+import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
 
 export default function EditToolbarTools() {
@@ -52,7 +52,7 @@ export default function EditToolbarTools() {
       </Button>
 
       {wasNew ? (
-        <ArrayRemoveElementButton />
+        <RemoveButton />
       ) : (
         <Button
           variant="tertiary"

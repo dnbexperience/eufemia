@@ -252,7 +252,7 @@ describe('Iterate.Array', () => {
             content
           </Iterate.Array>
 
-          <Iterate.ArrayPushButton path="/myList" pushValue="foo" />
+          <Iterate.PushButton path="/myList" pushValue="foo" />
         </DataContext.Provider>
       )
 

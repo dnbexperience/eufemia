@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import IterateElementContext from '../../IterateElementContext'
-import ArrayRemoveElementButton from '../../ArrayRemoveElementButton'
+import RemoveButton from '../../RemoveButton'
 import ElementBlock from '../ElementBlock'
 
 describe('ElementBlock', () => {
@@ -47,7 +47,7 @@ describe('ElementBlock', () => {
     render(
       <IterateElementContext.Provider value={{ handleRemove }}>
         <ElementBlock mode="view">
-          <ArrayRemoveElementButton />
+          <RemoveButton />
         </ElementBlock>
       </IterateElementContext.Provider>
     )
@@ -67,7 +67,7 @@ describe('ElementBlock', () => {
       >
         {' '}
         <ElementBlock mode="view">
-          <ArrayRemoveElementButton />
+          <RemoveButton />
         </ElementBlock>{' '}
       </IterateElementContext.Provider>
     )
@@ -159,7 +159,7 @@ describe('ElementBlock', () => {
       >
         {' '}
         <ElementBlock mode="view" onAnimationEnd={onAnimationEnd}>
-          <ArrayRemoveElementButton />
+          <RemoveButton />
         </ElementBlock>
       </IterateElementContext.Provider>
     )

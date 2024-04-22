@@ -25,12 +25,12 @@ export const Default = () => {
                     <Field.String label="Label" itemPath="/" />
 
                     <Iterate.Toolbar>
-                      <Iterate.ArrayRemoveElementButton />
+                      <Iterate.RemoveButton />
                     </Iterate.Toolbar>
                   </Iterate.AnimatedContainer>
                 </Iterate.Array>
 
-                <Iterate.ArrayPushButton
+                <Iterate.PushButton
                   path="/myList"
                   pushValue={
                     'Item ' + String(data?.['myList']?.length + 1)

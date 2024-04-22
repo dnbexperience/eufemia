@@ -170,11 +170,11 @@ export const DependantListSchema = () => {
                   label="Alias"
                   width="medium"
                 />
-                <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
+                <Iterate.RemoveButton icon={TrashIcon} />
               </Flex.Horizontal>
             </Iterate.Array>
 
-            <Iterate.ArrayPushButton
+            <Iterate.PushButton
               icon="add"
               icon_position="left"
               text="Add account"

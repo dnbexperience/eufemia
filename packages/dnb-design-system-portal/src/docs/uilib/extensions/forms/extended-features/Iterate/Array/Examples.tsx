@@ -139,7 +139,7 @@ export const ArrayFromFormHandler = () => {
               </Iterate.AnimatedContainer>
             </Iterate.Array>
 
-            <Iterate.ArrayPushButton
+            <Iterate.PushButton
               text="Add another avenger"
               path="/avengers"
               pushValue={{}}
@@ -225,7 +225,7 @@ export const ViewAndEditContainer = () => {
                     <MyEditItem />
                   </Iterate.Array>
 
-                  <Iterate.ArrayPushButton
+                  <Iterate.PushButton
                     text="Add another account"
                     path="/accounts"
                     pushValue={{}}

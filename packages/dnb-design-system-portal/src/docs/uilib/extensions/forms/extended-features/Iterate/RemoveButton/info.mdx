@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Iterate.RemoveButton` connects to the array of a surrounding `Iterate.Array` and removes the element when clicked.
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <>
+    <Iterate.Array path="/">
+      <Field.String itemPath="/name" />
+    </Iterate.Array>
+
+    <Iterate.RemoveButton text="Remove element" path="/" pushValue={{}} />
+  </>,
+)
+```
