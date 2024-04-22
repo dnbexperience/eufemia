@@ -127,16 +127,14 @@
   /**
    * 1. Use the default monospace user interface font
    *    in all browsers (opinionated).
-   * 2. Correct the odd `em` font sizing in all browsers.
    */
 
   pre,
   code,
   kbd,
   samp {
+    // Why do we do this in a reset?
     font-family: var(--font-family-monospace); /* 1 */
-
-    font-size: var(--font-size-basis--em); /* 2 */
   }
 
   /*

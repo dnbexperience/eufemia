@@ -44,11 +44,11 @@ export const basicComponents = {
   pre: (props) => {
     return CodeBlock(props.children.props)
   },
-  code: ({ children }) => {
+  code: ({ children, ...rest }) => {
     return (
-      <Copy>
-        <Code>{children}</Code>
-      </Copy>
+      <Code {...rest}>
+        <Copy>{children}</Copy>
+      </Code>
     )
   },
 
