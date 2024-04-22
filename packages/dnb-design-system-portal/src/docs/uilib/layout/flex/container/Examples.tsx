@@ -1,10 +1,6 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Card, Flex } from '@dnb/eufemia/src'
-import {
-  TestElement,
-  Field,
-  Form,
-} from '@dnb/eufemia/src/extensions/forms'
+import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
