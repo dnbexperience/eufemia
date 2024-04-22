@@ -24,7 +24,10 @@ function SubmitButton(props: Props) {
   const { variant, className, showIndicator, children, text, ...rest } =
     props
 
-  const content = text || children || translations.text
+  const content =
+    text ||
+    children ||
+    (variant === 'send' ? translations.sendText : translations.text)
 
   const { formState, handleSubmit, _isInsideFormElement } =
     useContext(DataContext) || {}
