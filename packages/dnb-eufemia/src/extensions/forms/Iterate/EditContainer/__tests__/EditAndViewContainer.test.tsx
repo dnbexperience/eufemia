@@ -130,7 +130,9 @@ describe('EditContainer and ViewContainer', () => {
     fireEvent.click(editButton)
     expect(firstElement).toHaveTextContent('Edit Content')
 
-    expect(firstElement).toHaveFocus()
+    await waitFor(() => {
+      expect(firstElement).toHaveFocus()
+    })
 
     // Reset focus, so we can test focus during close
     ;(document.activeElement as HTMLElement).blur()
@@ -139,7 +141,9 @@ describe('EditContainer and ViewContainer', () => {
     fireEvent.click(cancelButton)
     expect(firstElement).toHaveTextContent('View Content')
 
-    expect(firstElement).toHaveFocus()
+    await waitFor(() => {
+      expect(firstElement).toHaveFocus()
+    })
 
     // Reset focus, so we can test focus during close
     ;(document.activeElement as HTMLElement).blur()
@@ -148,7 +152,9 @@ describe('EditContainer and ViewContainer', () => {
     fireEvent.click(editButton)
     expect(firstElement).toHaveTextContent('Edit Content')
 
-    expect(firstElement).toHaveFocus()
+    await waitFor(() => {
+      expect(firstElement).toHaveFocus()
+    })
   })
 
   it('should set focus on other item __element when containerMode gets removed', async () => {
