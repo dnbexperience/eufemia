@@ -1,24 +1,34 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
-import {
-  Props as FlexContainerProps,
-  pickFlexContainerProps,
-} from '../../../../components/flex/Container'
+import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'
 import Flex from '../../../../components/flex/Flex'
+import { convertJsxToString } from '../../../../shared/component-helper'
 
 export type Props = ComponentProps &
   FlexContainerProps & {
+    /**
+     * A title that will be displayed in the indicator.
+     */
+    title?: React.ReactNode
+
+    /**
+     * To determine if the step should be rendered.
+     * Used internally by the WizardContainer.
+     */
     index?: number
-    title?: string
   }
 
 function Step(props: Props) {
-  const { className, index, children } = props
-  const wizardContext = useContext(WizardContext)
+  const { className, title, index, children, ...restProps } = props
+  const { activeIndex, stepElementRef } = useContext(WizardContext) || {}
 
-  if (wizardContext?.activeIndex !== index) {
+  const ariaLabel = useMemo(() => {
+    return convertJsxToString(title)
+  }, [title])
+
+  if (activeIndex !== index) {
     // Another step is active
     return null
   }
@@ -26,7 +36,11 @@ function Step(props: Props) {
   return (
     <Flex.Stack
       className={classnames('dnb-forms-step', className)}
-      {...pickFlexContainerProps(props)}
+      element="section"
+      aria-label={ariaLabel}
+      innerRef={stepElementRef}
+      tabIndex={-1}
+      {...restProps}
     >
       {children}
     </Flex.Stack>

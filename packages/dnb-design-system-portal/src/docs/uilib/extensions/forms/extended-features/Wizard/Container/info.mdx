@@ -117,7 +117,7 @@ const MyForm = () => {
 }
 ```
 
-When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide na unique `id` (string):
+When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide an unique `id` (string):
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -139,3 +139,9 @@ const MyForm = () => {
   )
 }
 ```
+
+## Accessibility
+
+The `Wizard.Step` component uses an `aria-label` attribute that matches the title prop value. The step content is enclosed within a section element, which further enhances accessibility.
+
+Whenever a new step becomes active, it automatically receives focus, ensuring that screen readers convey the relevant information to users.

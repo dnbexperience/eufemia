@@ -179,7 +179,7 @@ describe('Wizard.Container', () => {
     }
 
     render(
-      <Wizard.Container>
+      <Wizard.Container omitFocusManagement>
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String
@@ -919,6 +919,70 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
+  it('should set focus on step change', async () => {
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    render(
+      <Wizard.Container mode="loose" scrollTopOnStepChange>
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String />
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('body')).toHaveFocus()
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-forms-step')).toHaveFocus()
+    })
+
+    await userEvent.click(previousButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-forms-step')).toHaveFocus()
+    })
+  })
+
+  it('should omit setting focus if omitFocusManagement is true', async () => {
+    render(
+      <Wizard.Container mode="loose" scrollTopOnStepChange>
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String />
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('body')).toHaveFocus()
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-forms-step')).not.toHaveFocus()
     })
   })
 })
