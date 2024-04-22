@@ -16,8 +16,8 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  scrollTopOnStepChange: {
-    doc: 'True for the UI to scroll to the top of the page when navigating between wizard steps.',
+  omitScrollManagement: {
+    doc: 'True to omit scroll management.',
     type: 'boolean',
     status: 'optional',
   },

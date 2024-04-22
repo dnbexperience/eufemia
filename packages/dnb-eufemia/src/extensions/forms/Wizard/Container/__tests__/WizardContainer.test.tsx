@@ -845,89 +845,130 @@ describe('Wizard.Container', () => {
     })
   })
 
-  describe('scrollTopOnStepChange', () => {
-    it('should scroll to top on step change when scrollTopOnStepChange is true', async () => {
-      const scrollTo = jest.fn()
-      jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+  it('should scroll to top on step change', async () => {
+    const scrollIntoViewMock = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
 
-      render(
-        <Wizard.Container scrollTopOnStepChange>
-          <Wizard.Step title="Step 1">
-            <output>Step 1</output>
-            <Wizard.PreviousButton />
-            <Wizard.NextButton />
-          </Wizard.Step>
+    render(
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
 
-          <Wizard.Step title="Step 2">
-            <output>Step 2</output>
-            <Wizard.PreviousButton />
-            <Wizard.NextButton />
-          </Wizard.Step>
-        </Wizard.Container>
-      )
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
 
-      fireEvent.click(nextButton())
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
 
-      await waitFor(() => {
-        expect(scrollTo).toHaveBeenCalledTimes(1)
-      })
-
-      fireEvent.click(previousButton())
-
-      await waitFor(() => {
-        expect(scrollTo).toHaveBeenCalledTimes(2)
-      })
-
-      const [firstStep, secondStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
-      )
-
-      await userEvent.click(secondStep.querySelector('.dnb-button'))
-      expect(output()).toHaveTextContent('Step 2')
-      expect(scrollTo).toHaveBeenCalledTimes(3)
-
-      await userEvent.click(firstStep.querySelector('.dnb-button'))
-      expect(output()).toHaveTextContent('Step 1')
-      expect(scrollTo).toHaveBeenCalledTimes(4)
+    fireEvent.click(nextButton())
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(1)
     })
 
-    it('should show remaining errors on step change', () => {
-      const scrollTo = jest.fn()
-      jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    fireEvent.click(previousButton())
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(2)
+    })
 
-      render(
-        <Wizard.Container mode="loose" scrollTopOnStepChange>
-          <Wizard.Step title="Step 1">
-            <output>Step 1</output>
-            <Field.String required />
-            <Wizard.PreviousButton />
-            <Wizard.NextButton />
-          </Wizard.Step>
+    const [firstStep, secondStep] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
 
-          <Wizard.Step title="Step 2">
-            <output>Step 2</output>
-            <Wizard.PreviousButton />
-            <Wizard.NextButton />
-          </Wizard.Step>
-        </Wizard.Container>
-      )
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 2')
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(3)
+    })
 
-      expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryByRole('alert')).toBeNull()
-
-      fireEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 1')
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(4)
     })
   })
 
-  it('should set focus on step change', async () => {
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+  it('should not scroll to top on step change when omitScrollManagement is true', async () => {
+    const scrollIntoViewMock = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
 
     render(
-      <Wizard.Container mode="loose" scrollTopOnStepChange>
+      <Wizard.Container omitScrollManagement={true}>
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    fireEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
+    })
+
+    fireEvent.click(previousButton())
+
+    await waitFor(() => {
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
+    })
+
+    const [firstStep, secondStep] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
+
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 2')
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 1')
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
+  })
+
+  it('should show remaining errors on step change', () => {
+    render(
+      <Wizard.Container mode="loose">
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String required />
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
+  it('should set focus on step change', async () => {
+    render(
+      <Wizard.Container mode="loose">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String />
@@ -961,7 +1002,7 @@ describe('Wizard.Container', () => {
 
   it('should omit setting focus if omitFocusManagement is true', async () => {
     render(
-      <Wizard.Container mode="loose" scrollTopOnStepChange>
+      <Wizard.Container mode="loose">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String />
