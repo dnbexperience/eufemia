@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-`Iterate.ArrayPushButton` connects to the array of a surrounding `Iterate.Array` or an array from the source pointed at through `path` and adds a new element to the array when clicked.
+`Iterate.PushButton` connects to the array of a surrounding `Iterate.Array` or an array from the source pointed at through `path` and adds a new element to the array when clicked.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -15,7 +15,7 @@ render(
       <Field.String itemPath="/name" />
     </Iterate.Array>
 
-    <Iterate.ArrayPushButton
+    <Iterate.PushButton
       text="Add another element"
       path="/"
       pushValue={{}}

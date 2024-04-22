@@ -10,7 +10,7 @@ export const Default = () => {
           Item Content
           <Iterate.Toolbar>
             <Button variant="tertiary">Your Tool</Button>
-            <Iterate.ArrayRemoveElementButton />
+            <Iterate.RemoveButton />
           </Iterate.Toolbar>
         </Iterate.AnimatedContainer>
       </Iterate.Array>

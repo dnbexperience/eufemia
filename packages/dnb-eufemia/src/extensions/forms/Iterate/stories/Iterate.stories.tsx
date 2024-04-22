@@ -23,12 +23,12 @@ export const AnimatedContainer = () => {
               <Field.String label="Label" itemPath="/" />
 
               <Iterate.Toolbar>
-                <Iterate.ArrayRemoveElementButton />
+                <Iterate.RemoveButton />
               </Iterate.Toolbar>
             </Iterate.AnimatedContainer>
           </Iterate.Array>
 
-          <Iterate.ArrayPushButton
+          <Iterate.PushButton
             path="/myList"
             pushValue={'New item ' + String(data?.['myList']?.length + 1)}
             text="Add new item"
@@ -110,7 +110,7 @@ export const ViewAndEditContainer = () => {
               <MyEditItem />
             </Iterate.Array>
 
-            <Iterate.ArrayPushButton
+            <Iterate.PushButton
               text="Add another account"
               path="/accounts"
               pushValue={{}}

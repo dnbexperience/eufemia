@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import IterateElementContext from '../../IterateElementContext'
 import Toolbar from '../Toolbar'
 import nbNO from '../../../constants/locales/nb-NO'
-import ArrayRemoveElementButton from '../../ArrayRemoveElementButton'
+import RemoveButton from '../../RemoveButton'
 
 const nb = nbNO['nb-NO'].Iterate
 
@@ -42,7 +42,7 @@ describe('Toolbar', () => {
         value={{ handleRemove, isNew: true }}
       >
         <Toolbar>
-          <ArrayRemoveElementButton />
+          <RemoveButton />
         </Toolbar>
       </IterateElementContext.Provider>
     )
@@ -61,7 +61,7 @@ describe('Toolbar', () => {
           }}
         >
           <Toolbar>
-            <ArrayRemoveElementButton />
+            <RemoveButton />
           </Toolbar>
         </IterateElementContext.Provider>
       )
@@ -80,7 +80,7 @@ describe('Toolbar', () => {
           }}
         >
           <Toolbar>
-            <ArrayRemoveElementButton />
+            <RemoveButton />
           </Toolbar>
         </IterateElementContext.Provider>
       )

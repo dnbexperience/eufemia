@@ -15,7 +15,7 @@ export type Props = ButtonProps &
     pushValue: unknown
   }
 
-function ArrayPushButton(props: Props) {
+function PushButton(props: Props) {
   const iterateElementContext = useContext(IterateElementContext)
   const { handlePush } = iterateElementContext ?? {}
 
@@ -24,7 +24,7 @@ function ArrayPushButton(props: Props) {
   const { value, handleChange, children } = useFieldProps(restProps)
 
   if (value !== undefined && !Array.isArray(value)) {
-    throw new Error('ArrayPushButton received a non-array value.')
+    throw new Error('PushButton received a non-array value.')
   }
 
   const handleClick = useCallback(() => {
@@ -52,5 +52,5 @@ function ArrayPushButton(props: Props) {
   )
 }
 
-ArrayPushButton._supportsSpacingProps = true
-export default ArrayPushButton
+PushButton._supportsSpacingProps = true
+export default PushButton

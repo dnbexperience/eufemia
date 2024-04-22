@@ -14,13 +14,13 @@ import { trash } from '../../../../icons'
 export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]>
 
-function ArrayRemoveElementButton(props: Props) {
+function RemoveButton(props: Props) {
   const iterateElementContext = useContext(IterateElementContext)
   const { handleRemove } = iterateElementContext ?? {}
 
   if (!iterateElementContext) {
     throw new Error(
-      'ArrayRemoveElementButton must be inside an Iterate.Array component.'
+      'RemoveButton must be inside an Iterate.Array component.'
     )
   }
 
@@ -58,5 +58,5 @@ function ArrayRemoveElementButton(props: Props) {
   )
 }
 
-ArrayRemoveElementButton._supportsSpacingProps = true
-export default ArrayRemoveElementButton
+RemoveButton._supportsSpacingProps = true
+export default RemoveButton

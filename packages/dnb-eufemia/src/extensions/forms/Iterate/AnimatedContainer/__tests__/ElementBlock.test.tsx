@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import IterateElementContext from '../../IterateElementContext'
 import ElementBlock from '../ElementBlock'
-import ArrayRemoveElementButton from '../../ArrayRemoveElementButton'
+import RemoveButton from '../../RemoveButton'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, Iterate } from '../../..'
 
@@ -18,7 +18,7 @@ describe('ElementBlock', () => {
 
     render(
       <ElementBlock mode="view" onAnimationEnd={onAnimationEnd}>
-        <ArrayRemoveElementButton />
+        <RemoveButton />
       </ElementBlock>,
       { wrapper }
     )
@@ -41,7 +41,7 @@ describe('ElementBlock', () => {
 
     render(
       <ElementBlock mode="view">
-        <ArrayRemoveElementButton />
+        <RemoveButton />
       </ElementBlock>,
       { wrapper }
     )
@@ -64,7 +64,7 @@ describe('ElementBlock', () => {
 
     render(
       <ElementBlock mode="view">
-        <ArrayRemoveElementButton />
+        <RemoveButton />
       </ElementBlock>,
       { wrapper }
     )
@@ -85,7 +85,7 @@ describe('ElementBlock', () => {
           <Iterate.AnimatedContainer>content</Iterate.AnimatedContainer>
         </Iterate.Array>
 
-        <Iterate.ArrayPushButton path="/myList" pushValue="foo" />
+        <Iterate.PushButton path="/myList" pushValue="foo" />
       </DataContext.Provider>
     )
 
@@ -122,7 +122,7 @@ describe('ElementBlock', () => {
           }}
         </Iterate.Array>
 
-        <Iterate.ArrayPushButton path="/myList" pushValue="foo" />
+        <Iterate.PushButton path="/myList" pushValue="foo" />
       </DataContext.Provider>
     )
 

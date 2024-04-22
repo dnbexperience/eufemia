@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { Button, Flex } from '../../../../components'
-import ArrayRemoveElementButton from '../ArrayRemoveElementButton'
+import RemoveButton from '../RemoveButton'
 import useTranslation from '../../hooks/useTranslation'
 import IterateElementContext from '../IterateElementContext'
 import { edit } from '../../../../icons'
@@ -26,7 +26,7 @@ export default function ViewToolbarTools() {
         {translation.edit}
       </Button>
 
-      <ArrayRemoveElementButton text={translation.remove} />
+      <RemoveButton text={translation.remove} />
     </Flex.Horizontal>
   )
 }

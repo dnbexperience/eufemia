@@ -1,12 +1,12 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import IterateElementContext from '../../IterateElementContext'
-import ArrayRemoveElementButton from '../ArrayRemoveElementButton'
+import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].Iterate
 
-describe('ArrayRemoveElementButton', () => {
+describe('RemoveButton', () => {
   const handleRemove = jest.fn()
 
   const wrapper = ({ children }) => (
@@ -16,10 +16,7 @@ describe('ArrayRemoveElementButton', () => {
   )
 
   it('should call handleRemove when clicked inside an Iterate element', () => {
-    render(
-      <ArrayRemoveElementButton>Push Button</ArrayRemoveElementButton>,
-      { wrapper }
-    )
+    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
     fireEvent.click(button)
@@ -32,16 +29,13 @@ describe('ArrayRemoveElementButton', () => {
       .spyOn(console, 'error')
       .mockImplementation()
     const invalidValue = 'invalid value'
-    const error =
-      'ArrayRemoveElementButton must be inside an Iterate.Array component.'
+    const error = 'RemoveButton must be inside an Iterate.Array component.'
 
     expect(() => {
       render(
-        <ArrayRemoveElementButton
-          value={invalidValue as unknown as string[]}
-        >
+        <RemoveButton value={invalidValue as unknown as string[]}>
           Push Button
-        </ArrayRemoveElementButton>
+        </RemoveButton>
       )
     }).toThrow()
 
@@ -50,41 +44,35 @@ describe('ArrayRemoveElementButton', () => {
   })
 
   it('should render with the correct class name', () => {
-    render(
-      <ArrayRemoveElementButton>Push Button</ArrayRemoveElementButton>,
-      { wrapper }
-    )
+    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-form-iterate-remove-element-button')
   })
 
   it('should be a tertiary variant', () => {
-    render(
-      <ArrayRemoveElementButton>Push Button</ArrayRemoveElementButton>,
-      { wrapper }
-    )
+    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-button--tertiary')
   })
 
   it('should have correct text by default', () => {
-    render(<ArrayRemoveElementButton />, { wrapper })
+    render(<RemoveButton />, { wrapper })
 
     const button = document.querySelector('button')
     expect(button).toHaveTextContent(nb.remove)
   })
 
   it('should accept "text" prop', () => {
-    render(<ArrayRemoveElementButton text="text" />, { wrapper })
+    render(<RemoveButton text="text" />, { wrapper })
 
     const button = document.querySelector('button')
     expect(button).toHaveTextContent('text')
   })
 
   it('should accept children content as text', () => {
-    render(<ArrayRemoveElementButton>text</ArrayRemoveElementButton>, {
+    render(<RemoveButton>text</RemoveButton>, {
       wrapper,
     })
 
@@ -93,22 +81,16 @@ describe('ArrayRemoveElementButton', () => {
   })
 
   it('should accept custom attributes', () => {
-    render(
-      <ArrayRemoveElementButton aria-label="Aria Label">
-        text
-      </ArrayRemoveElementButton>,
-      { wrapper }
-    )
+    render(<RemoveButton aria-label="Aria Label">text</RemoveButton>, {
+      wrapper,
+    })
 
     const button = document.querySelector('button')
     expect(button).toHaveAttribute('aria-label', 'Aria Label')
   })
 
   it('should render with "trash" icon', () => {
-    render(
-      <ArrayRemoveElementButton>Push Button</ArrayRemoveElementButton>,
-      { wrapper }
-    )
+    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector(
       '.dnb-form-iterate-remove-element-button'
