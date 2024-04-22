@@ -11,6 +11,7 @@ export default {
       next: 'Next',
       previous: 'Back',
       edit: 'Edit',
+      summaryTitle: 'Summary',
     },
     Form: {
       errorSummaryTitle: 'Please correct the following errors',

@@ -44,8 +44,10 @@ const Step2 = () => {
   )
 }
 const Step3 = () => {
+  const { summaryTitle } = Form.useLocale().Step
+
   return (
-    <Wizard.Step title="Summary">
+    <Wizard.Step title={summaryTitle}>
       <Form.MainHeading>Summary</Form.MainHeading>
       <Card stack>
         <P>Contents</P>

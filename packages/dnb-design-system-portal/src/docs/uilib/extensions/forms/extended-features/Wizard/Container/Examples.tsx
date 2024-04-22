@@ -53,9 +53,10 @@ export const Default = () => {
 
         const Summary = () => {
           const { setActiveIndex } = Wizard.useStep()
+          const { summaryTitle } = Form.useLocale().Step
 
           return (
-            <Wizard.Step title="Summary">
+            <Wizard.Step title={summaryTitle}>
               <Form.MainHeading>Summary</Form.MainHeading>
               <Card stack>
                 <Form.SubHeading>Deliver address</Form.SubHeading>
