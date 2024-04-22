@@ -177,18 +177,18 @@ function MultiInputMask<T extends string>({
               inputMode={inputMode}
               onKeyDown={onKeyDown}
               onChange={onChange}
-              onBlur={(e) => {
-                if (!e.relatedTarget?.id?.includes(id)) {
-                  onBlur?.(values)
-                  areInputsInFocus.current = false
-                }
-              }}
               onFocus={() => {
                 if (!areInputsInFocus.current) {
                   onFocus?.(values)
                 }
 
                 areInputsInFocus.current = true
+              }}
+              onBlur={(e) => {
+                if (!e.relatedTarget?.id?.includes(id)) {
+                  onBlur?.(values)
+                  areInputsInFocus.current = false
+                }
               }}
               getInputRef={getInputRef}
               {...rest}
