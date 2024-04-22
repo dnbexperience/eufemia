@@ -8,6 +8,7 @@ import {
   DataValueReadWriteComponentProps,
   omitDataValueReadWriteProps,
 } from '../../types'
+import { add } from '../../../../icons'
 
 export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]> & {
@@ -18,7 +19,7 @@ function ArrayPushButton(props: Props) {
   const iterateElementContext = useContext(IterateElementContext)
   const { handlePush } = iterateElementContext ?? {}
 
-  const { pushValue, ...restProps } = props
+  const { pushValue, className, ...restProps } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const { value, handleChange, children } = useFieldProps(restProps)
 
@@ -30,7 +31,7 @@ function ArrayPushButton(props: Props) {
     if (handlePush) {
       // Inside an Iterate element - make the change through the Iterate component
       handlePush(pushValue)
-      return
+      return // stop here
     }
 
     // If not inside an iterate, it could still manipulate a source data set through useFieldProps
@@ -39,10 +40,10 @@ function ArrayPushButton(props: Props) {
 
   return (
     <Button
-      className={classnames(
-        'dnb-forms-array-push-button',
-        props.className
-      )}
+      className={classnames('dnb-form-iterate-push-button', className)}
+      variant="secondary"
+      icon={add}
+      icon_position="left"
       on_click={handleClick}
       {...buttonProps}
     >

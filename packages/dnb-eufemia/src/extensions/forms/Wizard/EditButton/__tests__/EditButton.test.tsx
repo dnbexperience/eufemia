@@ -3,13 +3,19 @@ import { render } from '@testing-library/react'
 import EditButton from '../EditButton'
 import { Provider } from '../../../../../shared'
 
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
+
+const nb = nbNO['nb-NO'].Step
+const en = enGB['en-GB'].Step
+
 describe('EditButton', () => {
   it('should have default text', () => {
     render(<EditButton />)
 
     const button = document.querySelector('.dnb-forms-edit-button')
 
-    expect(button).toHaveTextContent('Endre')
+    expect(button).toHaveTextContent(nb.edit)
   })
 
   it('should use en-GB text', () => {
@@ -21,7 +27,7 @@ describe('EditButton', () => {
 
     const button = document.querySelector('.dnb-forms-edit-button')
 
-    expect(button).toHaveTextContent('Edit')
+    expect(button).toHaveTextContent(en.edit)
   })
 
   it('should support custom text', () => {

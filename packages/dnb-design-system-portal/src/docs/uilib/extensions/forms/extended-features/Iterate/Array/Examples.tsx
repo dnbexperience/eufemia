@@ -1,21 +1,19 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Flex, Hr, Lead } from '@dnb/eufemia/src'
+import { Card, Flex } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
   Value,
   Form,
-  FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
-import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
+export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
 export const PrimitiveElements = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
-        label="Array label"
         value={['Iron Man', 'Captain America', 'The Hulk']}
-        onChange={(value) => console.log('onChange', value)}
+        onChange={console.log}
       >
         <Field.String itemPath="/" />
       </Iterate.Array>
@@ -27,7 +25,6 @@ export const ObjectElements = () => {
   return (
     <ComponentBox scope={{ Iterate, Value }}>
       <Iterate.Array
-        label="Accounts"
         value={[
           {
             accountName: 'Brukskonto',
@@ -53,8 +50,7 @@ export const RenderPropsPrimitiveElements = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
-        label="Array label"
-        value={['foo', 'bar', 'baz']}
+        value={['foo', 'bar']}
         onChange={(value) => console.log('onChange', value)}
       >
         {(elementValue) => <Field.String value={elementValue} />}
@@ -67,20 +63,17 @@ export const RenderPropsObjectElements = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
-        label="Array label"
         value={[
           { num: 1, txt: 'One' },
           { num: 2, txt: 'Two' },
-          { num: 3, txt: 'Three' },
-          { num: 4, txt: 'Four' },
         ]}
         onChange={(value) => console.log('onChange', value)}
       >
         {({ num, txt }) => (
-          <FieldBlock width="large">
+          <Field.Composition width="large">
             <Field.Number value={num} width="small" />
             <Field.String value={txt} width={false} />
-          </FieldBlock>
+          </Field.Composition>
         )}
       </Iterate.Array>
     </ComponentBox>
@@ -89,7 +82,7 @@ export const RenderPropsObjectElements = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox scope={{ Iterate, Value, TrashIcon }}>
+    <ComponentBox scope={{ Iterate }}>
       <Form.Handler
         data={{
           avengers: [
@@ -104,22 +97,73 @@ export const ArrayFromFormHandler = () => {
               lastName: 'Rogers',
             },
           ],
-          alwaysThere: 'Nick Fury',
         }}
-        onChange={(data) => console.log('Source onChange', data)}
+        onChange={(data) => console.log('DataContext/onChange', data)}
       >
         <Flex.Vertical>
           <Form.MainHeading>Avengers</Form.MainHeading>
 
-          <Iterate.Array
-            path="/avengers"
-            onChange={(value) => console.log('Iterate onChange', value)}
-          >
-            <Flex.Stack>
-              <Lead>
-                <Value.String itemPath="/nickname" />
-              </Lead>
+          <Card stack>
+            <Iterate.Array
+              path="/avengers"
+              onChange={(value) => console.log('Iterate/onChange', value)}
+            >
+              <Iterate.AnimatedContainer
+                title={
+                  <Value.String
+                    itemPath="/nickname"
+                    placeholder="A Nick name"
+                  />
+                }
+              >
+                <Field.String
+                  itemPath="/nickname"
+                  width="medium"
+                  label="Nick name"
+                />
 
+                <Field.Composition>
+                  <Field.String
+                    itemPath="/firstName"
+                    width="medium"
+                    label="First name"
+                  />
+                  <Field.String
+                    itemPath="/lastName"
+                    width="medium"
+                    label="Last name"
+                  />
+                </Field.Composition>
+
+                <Iterate.Toolbar />
+              </Iterate.AnimatedContainer>
+            </Iterate.Array>
+
+            <Iterate.ArrayPushButton
+              text="Add another avenger"
+              path="/avengers"
+              pushValue={{}}
+            />
+          </Card>
+        </Flex.Vertical>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const ViewAndEditContainer = () => {
+  return (
+    <ComponentBox
+      scope={{ Iterate }}
+      data-visual-test="view-and-edit-container"
+    >
+      {() => {
+        const MyEditItem = () => {
+          return (
+            <Iterate.EditContainer
+              title="Edit account holder"
+              titleWhenNew="New account holder"
+            >
               <Field.Composition>
                 <Field.String
                   itemPath="/firstName"
@@ -130,24 +174,72 @@ export const ArrayFromFormHandler = () => {
                   itemPath="/lastName"
                   width="medium"
                   label="Last name"
+                  required
                 />
-                <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
               </Field.Composition>
+            </Iterate.EditContainer>
+          )
+        }
 
-              <Field.String path="/alwaysThere" />
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer title="Account holder">
+              <Value.SummaryList>
+                <Value.String
+                  label="First name"
+                  itemPath="/firstName"
+                  showEmpty
+                />
+                <Value.String
+                  label="Last name"
+                  itemPath="/lastName"
+                  placeholder="-"
+                />
+              </Value.SummaryList>
+            </Iterate.ViewContainer>
+          )
+        }
 
-              <Hr light />
-            </Flex.Stack>
-          </Iterate.Array>
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              data={{
+                accounts: [
+                  {
+                    firstName: 'Tony',
+                    lastName: undefined, // initiate error
+                  },
+                ],
+              }}
+              onChange={(data) =>
+                console.log('DataContext/onChange', data)
+              }
+              onSubmit={async (data) => console.log('onSubmit', data)}
+            >
+              <Flex.Vertical>
+                <Form.MainHeading>Accounts</Form.MainHeading>
 
-          <Iterate.ArrayPushButton
-            top="small"
-            text="Add another avenger"
-            path="/avengers"
-            pushValue={{}}
-          />
-        </Flex.Vertical>
-      </Form.Handler>
+                <Card stack>
+                  <Iterate.Array path="/accounts">
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
+
+                  <Iterate.ArrayPushButton
+                    text="Add another account"
+                    path="/accounts"
+                    pushValue={{}}
+                  />
+                </Card>
+
+                <Form.SubmitButton variant="send" />
+              </Flex.Vertical>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

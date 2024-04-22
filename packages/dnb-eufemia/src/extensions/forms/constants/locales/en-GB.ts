@@ -14,6 +14,12 @@ export default {
     Form: {
       errorSummaryTitle: 'Please correct the following errors',
     },
+    Iterate: {
+      remove: 'Remove',
+      done: 'Done',
+      cancel: 'Cancel',
+      edit: 'Edit',
+    },
 
     /**
      * Base fields

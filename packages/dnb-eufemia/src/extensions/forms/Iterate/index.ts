@@ -1,4 +1,8 @@
 export { default as Array } from './Array'
 export { default as ArrayPushButton } from './ArrayPushButton'
 export { default as ArrayRemoveElementButton } from './ArrayRemoveElementButton'
+export { default as EditContainer } from './EditContainer'
+export { default as ViewContainer } from './ViewContainer'
+export { default as AnimatedContainer } from './AnimatedContainer'
+export { default as Toolbar } from './Toolbar'
 export { default as IterateElementContext } from './IterateElementContext'

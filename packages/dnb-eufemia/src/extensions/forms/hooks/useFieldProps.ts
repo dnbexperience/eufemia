@@ -149,7 +149,8 @@ export default function useFieldProps<
     index: iterateElementIndex,
     value: iterateElementValue,
     path: iteratePath,
-    handleChange: handleIterateElementChange,
+    handleChange: handleChangeIterateContext,
+    setFieldError: setFieldErrorIterateContext,
   } = iterateElementContext ?? {}
 
   if (path && path.substring(0, 1) !== '/') {
@@ -441,6 +442,7 @@ export default function useFieldProps<
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
       setFieldErrorDataContext?.(identifier, error)
+      setFieldErrorIterateContext?.(identifier, error)
 
       // Set the visual states
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
@@ -458,6 +460,7 @@ export default function useFieldProps<
       prepareError,
       setFieldErrorDataContext,
       identifier,
+      setFieldErrorIterateContext,
       setFieldStateDataContext,
       setFieldStateFieldBlock,
       stateId,
@@ -933,7 +936,7 @@ export default function useFieldProps<
         const iterateValuePath = `/${iterateElementIndex}${
           itemPath && itemPath !== '/' ? itemPath : ''
         }`
-        handleIterateElementChange?.(iterateValuePath, transformedValue)
+        handleChangeIterateContext?.(iterateValuePath, transformedValue)
       }
 
       if (asyncBehaviorIsEnabled) {
@@ -1002,7 +1005,7 @@ export default function useFieldProps<
     [
       addToPool,
       asyncBehaviorIsEnabled,
-      handleIterateElementChange,
+      handleChangeIterateContext,
       hasError,
       hideError,
       itemPath,
@@ -1026,6 +1029,8 @@ export default function useFieldProps<
   })
   useUnmountEffect(() => {
     dataContext?.handleUnMountField(identifier)
+    setFieldErrorDataContext?.(identifier, undefined)
+    setFieldErrorIterateContext?.(identifier, undefined)
   })
 
   useUpdateEffect(() => {

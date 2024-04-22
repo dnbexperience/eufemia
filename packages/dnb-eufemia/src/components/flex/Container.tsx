@@ -47,7 +47,10 @@ export type BasicProps = {
 
 export type Props = BasicProps &
   SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap'>
+  Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    'ref' | 'wrap' | 'value' | 'label' | 'title' | 'placeholder'
+  >
 
 const propNames: Array<keyof Props> = [
   'direction',
@@ -186,7 +189,7 @@ function FlexContainer(props: Props) {
         : { [start]: startSpacing, [end]: endSpacing }
 
     return renderWithSpacing(child, {
-      key: `element-${i}`,
+      key: child?.['key'] || `element-${i}`,
       space,
     })
   })
