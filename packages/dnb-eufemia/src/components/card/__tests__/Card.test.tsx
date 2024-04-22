@@ -114,7 +114,7 @@ describe('Card', () => {
     )
 
     expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1]).toHaveClass('dnb-space__top--medium')
   })
 
   it('should stack children divided by lines', () => {
@@ -139,12 +139,12 @@ describe('Card', () => {
     )
     expect(children[1].tagName).toBe('HR')
     expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
     )
 
     expect(children[2].tagName).toBe('P')
     expect(children[2]).toHaveClass(
-      'dnb-p dnb-space__top--small dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
     )
   })
 

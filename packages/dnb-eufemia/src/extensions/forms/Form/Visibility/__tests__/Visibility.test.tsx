@@ -203,7 +203,7 @@ describe('Visibility', () => {
       'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
     )
     expect(second).toHaveClass(
-      'dnb-p dnb-space__top--small dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
     )
 
     const container = document.querySelector(
@@ -211,7 +211,7 @@ describe('Visibility', () => {
     )
     expect(container).toMatchInlineSnapshot(`
       <section
-        class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        class="dnb-space dnb-space__top--medium dnb-space__bottom--zero dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
       >
         <p
           class="dnb-p dnb-space__top--zero dnb-space__bottom--zero"
@@ -219,7 +219,7 @@ describe('Visibility', () => {
           This is visible 1
         </p>
         <p
-          class="dnb-p dnb-space__top--small dnb-space__bottom--zero"
+          class="dnb-p dnb-space__top--medium dnb-space__bottom--zero"
         >
           This is visible 2
         </p>
