@@ -109,7 +109,7 @@ export const GettingStarted = () => {
             >
               <Flex.Stack>
                 <Form.MainHeading>Bedrift</Form.MainHeading>
-                <Card spacing="medium">
+                <Card stack>
                   <Field.String
                     path="/companyName"
                     label="Bedriftens navn"
@@ -326,23 +326,24 @@ export const VisibilityBasedOnData = () => {
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
           </Card>
-        </Flex.Stack>
-        <Field.Boolean
-          path="/advanced"
-          variant="checkbox-button"
-          label="More fields"
-        />
-        <Form.Visibility pathTrue="/advanced">
-          <Flex.Stack>
-            <Card stack>
-              <Form.SubHeading>More information</Form.SubHeading>
 
-              <Field.NationalIdentityNumber value="20058512345" />
-              <Field.Email value="john@smith.email" />
-              <Field.PhoneNumber value="+47 98765432" />
-            </Card>
-          </Flex.Stack>
-        </Form.Visibility>
+          <Field.Boolean
+            path="/advanced"
+            variant="checkbox-button"
+            label="More fields"
+          />
+          <Form.Visibility pathTrue="/advanced">
+            <Flex.Stack>
+              <Card stack>
+                <Form.SubHeading>More information</Form.SubHeading>
+
+                <Field.NationalIdentityNumber value="20058512345" />
+                <Field.Email value="john@smith.email" />
+                <Field.PhoneNumber value="+47 98765432" />
+              </Card>
+            </Flex.Stack>
+          </Form.Visibility>
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )
@@ -422,7 +423,7 @@ export const Validation = () => {
   )
 }
 
-export const WithWizard = () => {
+export const UsingWizard = () => {
   return (
     <ComponentBox>
       {() => {
@@ -538,6 +539,50 @@ export const Transformers = () => {
                 />
 
                 <Value.String label="Output value" path="/myField" />
+              </Card>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const QuickStart = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyForm = () => {
+          const existingData = { companyName: 'DNB' }
+          return (
+            <Form.Handler
+              data={existingData}
+              onChange={console.log}
+              onSubmit={console.log}
+            >
+              <Card stack>
+                <Field.String
+                  path="/companyName"
+                  label="Bedriftens navn"
+                  required
+                />
+                <Field.OrganizationNumber
+                  path="/companyOrganizationNumber"
+                  required
+                />
+                <Field.Selection
+                  path="/postalAddressSelect"
+                  label="Ønsket sted for tilsendt post"
+                  variant="radio"
+                >
+                  <Field.Option
+                    value="companyAddress"
+                    title="Samme som forretningsadresse"
+                  />
+                  <Field.Option value="other" title="Annet" />
+                </Field.Selection>
               </Card>
             </Form.Handler>
           )

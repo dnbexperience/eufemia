@@ -9,9 +9,6 @@ breadcrumb:
 ---
 
 import QuickStart from './forms/quick-start'
-import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
-import FormDiagram1 from 'Docs/uilib/extensions/forms/form-diagram-1.png'
-import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
 
 # Forms for applications
 
@@ -22,7 +19,7 @@ import FormDiagram2 from 'Docs/uilib/extensions/forms/form-diagram-2.png'
 - [First steps](#first-steps)
 - [Quick start](#quick-start)
 - [Examples](#examples)
-- [Create your own components](#create-your-own-components)
+- [Create your own component](#create-your-own-component)
 
 ## Philosophy
 
@@ -51,60 +48,13 @@ In summary:
 - Three shakeable structure. Unused code will not be included in the production bundle.
 - All functionality in all components can be controlled and overridden via props.
 - Data management using the declarative [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) directive (i.e `path="/firstName"`).
-- State can be handled outside of the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) (Provider Context) with the [useData](/uilib/extensions/forms/extended-features/Form/useData) hook.
-- Validation (like `minLength` on text fields) as well as advanced and complex [Ajv](https://ajv.js.org/) JSON schema validator (Ajv is like Joi or Yup – check out [some examples](/uilib/extensions/forms/extended-features/#schema-validation)) support on both single fields and the whole data set.
+- State can be handled outside of the [Form.Handler](/uilib/extensions/forms/Form/Handler) (Provider Context) with the [useData](/uilib/extensions/forms/Form/useData) hook.
+- Validation (like `minLength` on text fields) as well as advanced and complex [Ajv](https://ajv.js.org/) JSON schema validator (Ajv is like Joi or Yup – check out [some examples](/uilib/extensions/forms/#schema-validation)) support on both single fields and the whole data set.
 - Async form [submission](/uilib/extensions/forms/getting-started/#async-form-behavior) and [validation](/uilib/extensions/forms/getting-started/#async-validation) support.
-- Theming of field sizes with [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/).
-- Easy to integrate [browser location](/uilib/extensions/forms/extended-features/Wizard/location-hooks/) support.
-- Static [value components](/uilib/extensions/forms/extended-features/Value/) for displaying data with proper formatting.
+- Theming of field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+- Easy to integrate [browser location](/uilib/extensions/forms/Wizard/location-hooks/) support.
+- Static [value components](/uilib/extensions/forms/Value/) for displaying data with proper formatting.
 - Building blocks for [creating your custom field components](/uilib/extensions/forms/create-component).
-
-### Basic field usage
-
-Components in Eufemia Forms are very flexible. They adapt to the set of props they receive, and you can therefore choose which parts of the functionality they consist of that you use, and what you yourself want to handle in the application code.
-
-Here is an example that consists of a large degree of data handling in the application, even though the form itself still consists of both components from Eufemia and local special components (the blue boxes):
-
-<div style={{ maxWidth: '1200px' }}>
-  <InlineImg
-    height="auto"
-    width="auto"
-    src={FormDiagram1}
-    caption="Simple form example with Eufemia Forms fields"
-  />
-</div>
-
-### Complete state management and local custom fields
-
-In this example, all state data, validation process and error handling are done by components from Eufemia Forms, while in a local field component created especially for this application, there is a combination of standardized field functionality taken from Eufemia Forms, and local special code to achieve the goal of maximum reuse without sacrificing flexibility:
-
-<div style={{ maxWidth: '1200px' }}>
-  <InlineImg
-    height="auto"
-    width="auto"
-    src={FormDiagram2}
-    caption="Complete state management and local custom fields"
-  />
-</div>
-
-## First steps
-
-You import the components from with scopes, such as `Form` and `Field`:
-
-```jsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-render(
-  <Form.Handler onSubmit={console.log}>
-    <Field.String label="Custom Field" />
-    <Form.ButtonRow>
-      <Form.SubmitButton />
-    </Form.ButtonRow>
-  </Form.Handler>,
-)
-```
-
-More details in the [getting started](/uilib/extensions/forms/getting-started/) section.
 
 <QuickStart />
 
@@ -112,7 +62,7 @@ More details in the [getting started](/uilib/extensions/forms/getting-started/) 
 
 ## Examples
 
-- [General Demos](/uilib/extensions/forms/general-demos/)
+- [Intro examples](/uilib/extensions/forms/intro-examples/)
 - [Case Demo 1 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo1/)
 - [Case Demo 2 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo2/)
 
@@ -120,7 +70,7 @@ More details in the [getting started](/uilib/extensions/forms/getting-started/) 
 
 Read more about [best practices on forms](/uilib/extensions/forms/best-practices-on-forms/).
 
-## Create your own components
+## Create your own component
 
 Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
 
