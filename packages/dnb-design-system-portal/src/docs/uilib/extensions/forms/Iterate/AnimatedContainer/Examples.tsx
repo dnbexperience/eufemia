@@ -7,14 +7,13 @@ export const Default = () => {
     <ComponentBox scope={{ Iterate }}>
       {() => {
         const MyForm = () => {
-          const { data } = Form.useData('myList')
-
+          const { count } = Iterate.useCount('myForm')
           return (
             <Form.Handler
-              id="myList"
               defaultData={{
                 myList: ['Item 1'],
               }}
+              id="myForm"
             >
               <Card stack>
                 <Iterate.Array
@@ -32,9 +31,7 @@ export const Default = () => {
 
                 <Iterate.PushButton
                   path="/myList"
-                  pushValue={
-                    'Item ' + String(data?.['myList']?.length + 1)
-                  }
+                  pushValue={'Item ' + String(count('/myList') + 1)}
                   text="Add new item"
                 />
               </Card>
