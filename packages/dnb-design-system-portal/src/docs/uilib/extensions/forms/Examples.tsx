@@ -429,6 +429,7 @@ export const WithWizard = () => {
         const MyForm = () => {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
+          const { summaryTitle } = Form.useLocale().Step
 
           return (
             <Form.Handler
@@ -482,7 +483,7 @@ export const WithWizard = () => {
                   <Wizard.Buttons />
                 </Wizard.Step>
 
-                <Wizard.Step title="Summary">
+                <Wizard.Step title={summaryTitle}>
                   <Form.MainHeading>Profile</Form.MainHeading>
 
                   <Card stack>

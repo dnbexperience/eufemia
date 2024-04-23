@@ -11,6 +11,7 @@ export default {
       next: 'Neste',
       previous: 'Tilbake',
       edit: 'Endre',
+      summaryTitle: 'Oppsummering',
     },
     Form: {
       errorSummaryTitle: 'Feil som må rettes',

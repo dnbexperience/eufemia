@@ -24,6 +24,7 @@ export function PizzaDemo() {
   const { data } = Form.useData<MyDataSet>('pizza-demo', {
     // flavour: 'pepperoni',
   })
+  const { summaryTitle } = Form.useLocale().Step
 
   return (
     <Provider locale="en-GB">
@@ -114,7 +115,7 @@ export function PizzaDemo() {
             <Wizard.Buttons />
           </Wizard.Step>
 
-          <Wizard.Step title="Summary">
+          <Wizard.Step title={summaryTitle}>
             <Form.MainHeading>Summary</Form.MainHeading>
 
             <Card stack>

@@ -18,10 +18,12 @@ export const EditButton = () => {
           )
         }
 
-        const Summary = ({ title }) => {
+        const Summary = () => {
           const { setActiveIndex } = Wizard.useStep()
+          const { summaryTitle } = Form.useLocale().Step
+
           return (
-            <Wizard.Step title={title}>
+            <Wizard.Step title={summaryTitle}>
               <Card stack>
                 <Value.SummaryList>
                   <Value.String label="First name" path="/firstName" />
@@ -43,7 +45,7 @@ export const EditButton = () => {
           >
             <Wizard.Container initialActiveIndex={1}>
               <Step title="Step" />
-              <Summary title="Summary" />
+              <Summary />
             </Wizard.Container>
           </Form.Handler>
         )

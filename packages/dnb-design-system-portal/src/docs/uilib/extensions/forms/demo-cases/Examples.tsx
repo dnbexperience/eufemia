@@ -214,6 +214,7 @@ export function PizzaDemo() {
         const MyForm = () => {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
+          const { summaryTitle } = Form.useLocale().Step
 
           return (
             <Provider locale="en-GB">
@@ -317,7 +318,7 @@ export function PizzaDemo() {
                     <Wizard.Buttons />
                   </Wizard.Step>
 
-                  <Wizard.Step title="Summary">
+                  <Wizard.Step title={summaryTitle}>
                     <Form.MainHeading>Summary</Form.MainHeading>
 
                     <Card stack>
