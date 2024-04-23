@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Form.SubmitIndicator` lets you show an indicator while async form operations are performed.
+
+**BETA:** The design is not 100% finalised and may change to be officially approved by UX through an RFC.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(<Form.SubmitIndicator state="pending" />)
+```
+
+### Integration
+
+The indicator is implemented by default in the [SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) label. It will be displayed when the `onSubmit` event handler on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component is an async function. You can find some examples down below.

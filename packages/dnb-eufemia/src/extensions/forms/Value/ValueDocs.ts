@@ -1,6 +1,11 @@
 import { PropertiesTableProps } from '../../../shared/types'
 
-export const valueProperties: PropertiesTableProps = {
+export const ValueProperties: PropertiesTableProps = {
+  value: {
+    doc: 'Source data value for the input.',
+    type: '{props.type}',
+    status: 'optional',
+  },
   label: {
     doc: 'Field label to show above the data value.',
     type: 'string',
@@ -14,11 +19,6 @@ export const valueProperties: PropertiesTableProps = {
   placeholder: {
     doc: 'Text showing in place of the value if no value is given.',
     type: 'string',
-    status: 'optional',
-  },
-  value: {
-    doc: 'Source data value for the input.',
-    type: '{props.type}',
     status: 'optional',
   },
   path: {

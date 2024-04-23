@@ -1,0 +1,25 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+Use `Iterate.Toolbar` to enhance each item in the array with additional functionality. It's particularly useful within components like [Iterate.AnimatedContainer](/uilib/extensions/forms/Iterate/AnimatedContainer) to incorporate a toolbar with extra tools.
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.AnimatedContainer>
+      Item Content
+      <Iterate.Toolbar>
+        <Iterate.RemoveButton />
+      </Iterate.Toolbar>
+    </Iterate.AnimatedContainer>
+  </Iterate.Array>,
+)
+```
+
+The Toolbar is integrated into the containers [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/).

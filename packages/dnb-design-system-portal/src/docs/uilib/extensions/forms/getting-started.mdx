@@ -1,7 +1,7 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-order: 0
+order: 2
 breadcrumb:
   - text: Forms
     href: /uilib/extensions/forms/
@@ -11,8 +11,8 @@ breadcrumb:
 
 import * as Examples from './Examples'
 import QuickStart from './quick-start'
-import AsyncStateReturnExample from './extended-features/Form/Handler/parts/async-state-return-example.mdx'
-import AsyncChangeExample from './extended-features/Form/Handler/parts/async-change-example.mdx'
+import AsyncStateReturnExample from './Form/Handler/parts/async-state-return-example.mdx'
+import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 
 # Getting started
 
@@ -28,13 +28,13 @@ import AsyncChangeExample from './extended-features/Form/Handler/parts/async-cha
 - [Localization](#localization)
 - [Layout](#layout)
 - [Best practices](#best-practices)
-- [Create your own components](#create-your-own-components)
+- [Create your own component](#create-your-own-component)
 
 <QuickStart />
 
 ### Creating forms
 
-To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
 
 The needed styles are included in the Eufemia core package via `dnb-ui-components`.
 
@@ -42,28 +42,9 @@ The needed styles are included in the Eufemia core package via `dnb-ui-component
 
 The state management is done via the [JSON Pointer](#what-is-a-json-pointer) directive (i.e `path="/firstName"`). This is a standardized way of pointing to a specific part of a JavaScript/JSON object. The JSON Pointer is used to both read and write data, and is also used to validate the data.
 
-<Examples.GettingStarted />
+#### What is a JSON Pointer?
 
-#### Filter data
-
-You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler/).
-
-The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
-
-```tsx
-const filterDataHandler = (path, value, props, internal) => {
-  if (props.disabled === true) {
-    return false
-  }
-}
-render(<Form.Handler filterData={filterDataHandler} />)
-```
-
-Here is a working example of how to [filter data](/uilib/extensions/forms/extended-features/Form/Handler/demos/#filter-your-data).
-
-### What is a JSON Pointer?
-
-A [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) is a string of tokens separated by `/` characters, these tokens either specify keys in objects or indexes into arrays.
+A [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) is a string of tokens separated by `/` characters, these tokens either specify keys in objects or indexes in arrays.
 
 ```ts
 const data = {
@@ -78,37 +59,107 @@ const data = {
 const pointer = '/foo/bar/0/baz' // points to 'value'
 ```
 
+#### Data handling
+
+You don't need React **useState** to handle your form data.
+
+With [useData](/uilib/extensions/forms/Form/useData/), [getData](/uilib/extensions/forms/Form/getData/) and [setData](/uilib/extensions/forms/Form/setData/) you area able to access and modify your form data not only from nested components, but also outside the form context itself (`Form.Handler`).
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <MyComponent />
+    </Form.Handler>
+  )
+}
+
+function MyComponent() {
+  const { data, update, set, filterData } = Form.useData()
+}
+
+// You canalso use the setData:
+Form.setData('unique', { companyName: 'DNB' })
+
+// ... and the getData – method when ever you need to:
+const { data, filterData } = Form.getData('unique')
+```
+
+You can even handle the state outside the `Form.Handler` context. You can find more details in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
+
+<Examples.GettingStarted />
+
+#### Filter data
+
+You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+
+The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+
+```tsx
+const filterDataHandler = (path, value, props, internal) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+render(<Form.Handler filterData={filterDataHandler} />)
+```
+
+Here is a working example of how to [filter data](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data).
+
+#### Transforming data
+
+Each field supports transformer functions. So you can transform a value before it is processed to the form data object and vis-a-versa:
+
+```tsx
+<Field.String
+  label="Label"
+  path="/myField"
+  transformIn={transformIn}
+  transformOut={transformOut}
+/>
+```
+
+<Examples.Transformers />
+
+### Async form handling
+
+It depends on your use case if this feature is needed. But when it is, its ofter a time consuming task to implement. Eufemia Forms has therefor a built-in feature that enables async form behavior.
+
+More details about the async form behavior can be found in the [async form behavior](/uilib/extensions/forms/getting-started/#async-form-behavior) section.
+
 ### Field components
 
 In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/fields/) section.
 
 ### Value components
 
-Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there are also the static [Value](/uilib/extensions/forms/extended-features/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
 
 ### Async form behavior
 
 This feature allows you to perform asynchronous operations such as fetching data from an API – without additional state management.
 
-You can enable async form submit behavior on the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler) by using:
+You can enable async form submit behavior on the form [Handler](/uilib/extensions/forms/Form/Handler) by using:
 
 ```tsx
 <Form.Handler onSubmit={async () => {}}>...</Form.Handler>
 ```
 
-It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/extended-features/Form/Handler/demos/)).
+It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/Form/Handler/demos/)).
 
-When using [Wizard.Container](/uilib/extensions/forms/extended-features/Wizard/Container/) you can use in addition:
+When using [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) you can use in addition:
 
 ```tsx
 <Wizard.Container onStepChange={async () => {}}>...</Wizard.Container>
 ```
 
-It will disable all fields and show an indicator on the [NextButton](/uilib/extensions/forms/extended-features/Wizard/Buttons/) while the **step** is pending ([examples](/uilib/extensions/forms/extended-features/Wizard/Container/demos/)).
+It will disable all fields and show an indicator on the [NextButton](/uilib/extensions/forms/Wizard/Buttons/) while the **step** is pending ([examples](/uilib/extensions/forms/Wizard/Container/demos/)).
 
 #### onChange and autosave
 
-You can use an async function for the `onChange` event handler, either on the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler):
+You can use an async function for the `onChange` event handler, either on the form [Handler](/uilib/extensions/forms/Form/Handler):
 
 ```tsx
 <Form.Handler onChange={async () => {}}>...</Form.Handler>
@@ -130,7 +181,7 @@ Here is an example of an async change behavior:
 
 <AsyncChangeExample />
 
-More info about the async change behavior in the form [Handler](/uilib/extensions/forms/extended-features/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
+More info about the async change behavior in the form [Handler](/uilib/extensions/forms/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
 
 #### Async field validation
 
@@ -144,7 +195,7 @@ In addition, you can add your own validation to a field component. This is done 
 
 Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
 
-For monitoring and set your form errors, you can use the [useError](/uilib/extensions/forms/extended-features/Form/useError) hook.
+For monitoring and set your form errors, you can use the [useError](/uilib/extensions/forms/Form/useError) hook.
 
 #### Summary for errors
 
@@ -211,7 +262,7 @@ const validator = (value) => {
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
-You can find more info about error messages in the [Error messages](/uilib/extensions/forms/extended-features/Form/error-messages/) docs.
+You can find more info about error messages in the [Error messages](/uilib/extensions/forms/Form/error-messages/) docs.
 
 ##### Async validation
 
@@ -295,13 +346,13 @@ When building your application forms, preferably use the following layout compon
 
 - [Flex.Stack](/uilib/layout/flex/stack/) layout component for easy and consistent application forms.
 - [Card](/uilib/components/card/) with the stack property `<Card stack>...</Card>` for the default card outline of forms.
-- [Form.Appearance](/uilib/extensions/forms/extended-features/Form/Appearance/) for changing sizes (height) of e.g. input fields.
+- [Form.Appearance](/uilib/extensions/forms/Form/Appearance/) for changing sizes (height) of e.g. input fields.
 
 ### Best practices
 
 - [Best practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
 
-## Create your own components
+## Create your own componet
 
 Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
 

@@ -21,7 +21,7 @@ export const HandlerProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  '[DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/properties)':
+  '[DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/properties)':
     {
       doc: 'Provider properties such as `data`.',
       type: 'Various',
@@ -37,7 +37,7 @@ export const HandlerProperties: PropertiesTableProps = {
 
 export const HandlerEvents: PropertiesTableProps = {
   ...ProviderEvents,
-  '[DataContext.Provider](/uilib/extensions/forms/extended-features/DataContext/Provider/events)':
+  '[DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/events)':
     {
       doc: 'events such as `onSubmit`.',
       type: 'function',

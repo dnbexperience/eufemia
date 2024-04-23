@@ -1,0 +1,16 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+# Value
+
+On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has many Value components. These components operate similarly to [field components](/uilib/extensions/forms/fields/), meaning they're data-driven, can accept value props, and can be connected to a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) by specifying the relevant value with a `path` prop.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+```
+
+## Definition lists
+
+When you utilize multiple `Value.*` components together, consider enclosing them within the [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.
