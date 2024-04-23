@@ -128,14 +128,14 @@ function ElementBlock(props: Props & FlexContainerProps) {
         duration={450}
         keepInDOM // Ensure fields get mounted so they will sync with the data context
       >
-        <Flex.Vertical
+        <Flex.Stack
           className="dnb-form-iterate-block__inner"
           {...restProps}
           element="section"
           aria-label={ariaLabel}
         >
           {children}
-        </Flex.Vertical>
+        </Flex.Stack>
       </HeightAnimation>
     </ElementBlockContext.Provider>
   )
