@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
-import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
 import usePreviousProps from './usePreviousValue'
+import { useInputDates } from './useInputDates'
 
 export type DateProps = {
   date?: Date | string
@@ -49,9 +49,6 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const [hasHadValidDate, setHasHadValidDate] = useState<boolean>(false)
-  const [updateInputDates, setUpdateInputDates] = useState<boolean>(false)
-
   const initDates = useCallback(() => {
     const startDate = convertStringToDate(
       typeof initialDates?.startDate !== 'undefined'
@@ -99,29 +96,6 @@ export default function useDates(
       ? correctThatDate({ startDate, endDate, minDate, maxDate, isRange })
       : {}
 
-    const __startDay = hasValidStartDate
-      ? pad(format(correctedDates?.startDate ?? startDate, 'dd'), 2)
-      : null
-
-    const __startMonth = hasValidStartDate
-      ? pad(format(correctedDates?.startDate ?? startDate, 'MM'), 2)
-      : null
-
-    const __startYear = hasValidStartDate
-      ? format(correctedDates?.startDate ?? startDate, 'yyyy')
-      : null
-
-    const __endDay = hasValidEndDate
-      ? pad(format(correctedDates?.endDate ?? endDate, 'dd'), 2)
-      : null
-
-    const __endMonth = hasValidEndDate
-      ? pad(format(correctedDates?.endDate ?? endDate, 'MM'), 2)
-      : null
-
-    const __endYear = hasValidEndDate
-      ? format(correctedDates?.endDate ?? endDate, 'yyyy')
-      : null
     return {
       startDate,
       endDate,
@@ -129,12 +103,6 @@ export default function useDates(
       endMonth,
       minDate,
       maxDate,
-      __startDay,
-      __startMonth,
-      __startYear,
-      __endDay,
-      __endMonth,
-      __endYear,
       hasHadValidDate: hasValidStartDate || hasValidEndDate,
       ...correctedDates,
     }
@@ -148,18 +116,13 @@ export default function useDates(
         : previousDates.date,
     ...initDates(),
   })
+  const [inputDates, hasHadValidDate] = useInputDates(
+    dates.startDate,
+    dates.endDate
+  )
 
   const updateDates = useCallback(
     (newDates, callback?: (dates: Dates) => void) => {
-      if (
-        Object.keys(newDates).join().includes('__start') ||
-        Object.keys(newDates).join().includes('__end') ||
-        Object.keys(newDates).join().includes('startDate') ||
-        Object.keys(newDates).join().includes('endDate')
-      ) {
-        setUpdateInputDates(true)
-      }
-
       const correctedDates = shouldCorrectDate
         ? correctThatDate({
             startDate: newDates.startDate ?? dates.startDate,
@@ -200,42 +163,12 @@ export default function useDates(
     }
   }, [initialDates, previousDates, initDates, updateDates])
 
-  useEffect(() => {
-    if (!updateInputDates) {
-      return
-    }
-
-    const datesToUpdate = {}
-    let hasHadVali = false
-
-    if (isValid(dates.startDate)) {
-      datesToUpdate['__startDay'] = pad(format(dates.startDate, 'dd'), 2)
-      datesToUpdate['__startMonth'] = pad(format(dates.startDate, 'MM'), 2)
-      datesToUpdate['__startYear'] = format(dates.startDate, 'yyyy')
-      hasHadVali = true
-    } else if (dates.startDate === undefined) {
-      datesToUpdate['__startDay'] = null
-      datesToUpdate['__startMonth'] = null
-      datesToUpdate['__startYear'] = null
-    }
-
-    if (isValid(dates.endDate)) {
-      datesToUpdate['__endDay'] = pad(format(dates.endDate, 'dd'), 2)
-      datesToUpdate['__endMonth'] = pad(format(dates.endDate, 'MM'), 2)
-      datesToUpdate['__endYear'] = format(dates.endDate, 'yyyy')
-      hasHadVali = true
-    } else if (dates.endDate === undefined) {
-      datesToUpdate['__endDay'] = null
-      datesToUpdate['__endMonth'] = null
-      datesToUpdate['__endYear'] = null
-    }
-
-    setHasHadValidDate(hasHadVali)
-    updateDates({ ...datesToUpdate })
-    setUpdateInputDates(false)
-  }, [dates, updateInputDates, updateDates])
-
-  return [dates, updateDates, hasHadValidDate, previousDates] as const
+  return [
+    { ...dates, ...inputDates },
+    updateDates,
+    hasHadValidDate,
+    previousDates,
+  ] as const
 }
 
 function correctThatDate({
