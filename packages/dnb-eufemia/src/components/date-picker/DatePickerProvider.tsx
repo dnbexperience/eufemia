@@ -105,28 +105,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     props.setReturnObject(getReturnObject)
   }
 
-  // Correct invalid date, should move logic
-  useEffect(() => {
-    if (props.correct_invalid_date) {
-      if (isDisabled(dates.startDate, dates.minDate, dates.maxDate)) {
-        updateDates({
-          startDate: dates.minDate,
-        })
-      }
-      if (isDisabled(dates.endDate, dates.minDate, dates.maxDate)) {
-        // state.endDate is only used by the input if range is set to true.
-        // this is done to make max_date correction work if the input is not a range and only max_date is defined.
-        if (!props.range && !dates.minDate) {
-          updateDates({ startDate: dates.maxDate })
-        } else {
-          updateDates({
-            endDate: dates.maxDate,
-          })
-        }
-      }
-    }
-  }, [props.range, props.correct_invalid_date, dates, updateDates])
-
   function updateState(state, cb = null) {
     setState((currentState) => ({ ...currentState, ...state }))
     cb?.()
@@ -136,7 +114,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     /**
      * Prevent on_change to be fired twice if date not has actually changed
      * We clear the cache inside getDerivedStateFromProps
-     * Can be removed when dispatchCustomElementEvent is deprecated (plz?)
+     * Can be removed when dispatchCustomElementEvent is deprecated
      */
     if (
       lastEventCallCache &&
