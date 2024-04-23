@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
+import usePreviousProps from './usePreviousValue'
 
 export type DateProps = {
   date?: Date | string
@@ -137,11 +138,9 @@ export default function useDates(
       hasHadValidDate: hasValidStartDate || hasValidEndDate,
       ...correctedDates,
     }
-  }, [initialDates, dateFormat, isRange])
+  }, [initialDates, dateFormat, isRange, shouldCorrectDate])
 
-  const [previousDates, setPreviousDates] = useState<DateProps>({
-    ...initialDates,
-  })
+  const previousDates = usePreviousProps(initialDates)
   const [dates, setDates] = useState<Dates>({
     date:
       previousDates.date !== initialDates.date
@@ -161,32 +160,31 @@ export default function useDates(
         setUpdateInputDates(true)
       }
 
-      setDates((currentDates) => {
-        const correctedDates = shouldCorrectDate
-          ? correctThatDate({
-              startDate: newDates.startDate ?? currentDates.startDate,
-              endDate: newDates.endDate ?? currentDates.endDate,
-              minDate: currentDates.minDate,
-              maxDate: currentDates.maxDate,
-              isRange,
-            })
-          : {}
-
-        if (callback) {
-          // callbackRef.current = callback
-          callback({
-            ...currentDates,
-            ...newDates,
-            ...correctedDates,
+      const correctedDates = shouldCorrectDate
+        ? correctThatDate({
+            startDate: newDates.startDate ?? dates.startDate,
+            endDate: newDates.endDate ?? dates.endDate,
+            minDate: dates.minDate,
+            maxDate: dates.maxDate,
+            isRange,
           })
-        }
+        : {}
 
+      setDates((currentDates) => {
         return {
           ...currentDates,
           ...newDates,
           ...correctedDates,
         }
       })
+
+      if (callback) {
+        callback({
+          ...dates,
+          ...newDates,
+          ...correctedDates,
+        })
+      }
     },
     [dates, shouldCorrectDate, isRange]
   )
@@ -198,7 +196,6 @@ export default function useDates(
     })
 
     if (hasDatePropsChanged) {
-      setPreviousDates(initialDates)
       updateDates({ date: initialDates.date, ...initDates() })
     }
   }, [initialDates, previousDates, initDates, updateDates])
