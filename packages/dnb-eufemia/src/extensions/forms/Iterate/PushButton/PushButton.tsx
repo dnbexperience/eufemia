@@ -12,7 +12,7 @@ import { add } from '../../../../icons'
 
 export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]> & {
-    pushValue: unknown
+    pushValue: unknown | ((value: unknown) => void)
   }
 
 function PushButton(props: Props) {
@@ -28,14 +28,17 @@ function PushButton(props: Props) {
   }
 
   const handleClick = useCallback(() => {
+    const newValue =
+      typeof pushValue === 'function' ? pushValue(value) : pushValue
+
     if (handlePush) {
       // Inside an Iterate element - make the change through the Iterate component
-      handlePush(pushValue)
+      handlePush(newValue)
       return // stop here
     }
 
     // If not inside an iterate, it could still manipulate a source data set through useFieldProps
-    handleChange([...(value ?? []), pushValue])
+    handleChange([...(value ?? []), newValue])
   }, [value, pushValue, handlePush, handleChange])
 
   return (
