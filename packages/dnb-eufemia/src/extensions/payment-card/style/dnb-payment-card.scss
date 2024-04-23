@@ -63,7 +63,7 @@
     border-radius: 12px;
 
     border: 1px solid;
-    border-color: rgb(255 255 255 / 10%) transparent rgb(0 0 0 / 20%)
+    border-color: rgb(255 255 255 / 10%) transparent rgb(255 255 255 / 10%)
       transparent;
 
     color: var(--color-white);
@@ -135,7 +135,6 @@
 
     &::after {
       content: '';
-
       position: absolute;
       top: 0;
       left: 0;
@@ -148,6 +147,10 @@
         #06060600 100%
       );
       border-radius: inherit;
+    }
+
+    &--design-sbanken-mastercard::after {
+      background: none;
     }
 
     &__content {

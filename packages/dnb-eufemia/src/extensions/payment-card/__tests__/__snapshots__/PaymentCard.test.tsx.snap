@@ -15,6 +15,102 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
+/*
+ * CSS Properties Sbanken
+ *
+ */
+:root {
+  --sb-font-family-default: "Roboto", "Helvetica", "Arial", sans-serif;
+  --sb-font-family-headings: "MaisonNeueHeadings", "Roboto", "Helvetica",
+    "Arial", sans-serif;
+  --sb-font-weight-default: normal;
+  --sb-font-weight-basis: normal;
+  --sb-font-weight-regular: normal;
+  --sb-font-weight-medium: 500;
+  --sb-font-weight-bold: 700;
+  --sb-font-size-x-small: 0.75rem;
+  --sb-font-size-small: 0.875rem;
+  --sb-font-size-basis: 1rem;
+  --sb-font-size-basis--em: 1em;
+  --sb-font-size-lead: 1.25rem;
+  --sb-font-size-medium: 1.625rem;
+  --sb-font-size-large: 2rem;
+  --sb-font-size-x-large: 2.375rem;
+  --sb-font-size-xx-large: 3rem;
+  --sb-line-height-x-small: 1.125rem;
+  --sb-line-height-small: 1.25rem;
+  --sb-line-height-basis: 1.5rem;
+  --sb-line-height-basis--em: 1.5em;
+  --sb-line-height-lead: 1.75rem;
+  --sb-line-height-medium: 2rem;
+  --sb-line-height-large: 2.375rem;
+  --sb-line-height-x-large: 2.75rem;
+  --sb-line-height-xx-large: 3.375rem;
+  --sb-color-black: #000;
+  --sb-color-text: #18172a;
+  --sb-color-gray-dark-3: #3a3a4a;
+  --sb-color-gray-dark-3-neutral: #3e3e4a;
+  --sb-color-gray-dark-2: #4a4a5b;
+  --sb-color-gray-dark-2-neutral: #656472;
+  --sb-color-gray-dark: #666578;
+  --sb-color-gray-dark-neutral: #9494a3;
+  --sb-color-gray: #bbbbce;
+  --sb-color-gray-neutral: #bdbdc6;
+  --sb-color-gray-light: #d9d9e4;
+  --sb-color-gray-light-2: #ebebf2;
+  --sb-color-gray-light-3: #f9f9fd;
+  --sb-color-purple: #1c1b4e;
+  --sb-color-purple-alternative: #222163;
+  --sb-color-green: #92eecd;
+  --sb-color-white: #fff;
+  --sb-color-red: #d8134b;
+  --sb-color-magenta: #ff3c64;
+  --sb-color-orange: #ff5b44;
+  --sb-color-yellow-dark: #f7bf16;
+  --sb-color-yellow: #ffef57;
+  --sb-color-green-dark-3: #00785b;
+  --sb-color-green-dark-2: #1e9f73;
+  --sb-color-violet: #4e08bc;
+  --sb-color-violet-light: #7129e2;
+  --sb-color-blue-dark-2: #044ccc;
+  --sb-color-blue-dark: #005cff;
+  --sb-color-blue: #008eff;
+  --sb-color-orange-light: #ff817b;
+  --sb-color-orange-light-2: #ffd7d5;
+  --sb-color-orange-light-3: #fff0ef;
+  --sb-color-magenta-light: #ffb6d2;
+  --sb-color-magenta-light-2: #ffdbe9;
+  --sb-color-magenta-light-3: #fff5f9;
+  --sb-color-yellow-light: #fff489;
+  --sb-color-yellow-light-2: #fff9c4;
+  --sb-color-yellow-light-3: #fffce5;
+  --sb-color-green-dark: #64d7b4;
+  --sb-color-green-light: #c8f6e5;
+  --sb-color-green-light-2: #e5fff7;
+  --sb-color-violet-light-2: #be99ff;
+  --sb-color-violet-light-3: #e0d0ff;
+  --sb-color-violet-light-4: #f1ebff;
+  --sb-color-blue-light: #61b9ff;
+  --sb-color-blue-light-2: #bfe3ff;
+  --sb-color-blue-light-3: #ebf6ff;
+  --sb-spacing-x-small: 0.5rem;
+  --sb-spacing-small: 1rem;
+  --sb-spacing-medium: 1.5rem;
+  --sb-spacing-large: 2rem;
+  --sb-spacing-x-large: 3rem;
+  --sb-spacing-xx-large: 3.5rem;
+  --sb-layout-small: 40em;
+  --sb-layout-medium: 60em;
+  --sb-layout-large: 72em;
+  --sb-layout-x-large: 80em;
+  --sb-layout-xx-large: 90em;
+  --sb-shadow-small: 0 2px 4px rgba(38 35 66 / 12%);
+  --sb-shadow-medium: 0 5px 20px rgba(38 35 66 / 10%);
+  --sb-shadow-large: 0 5px 20px rgba(38 35 66 / 20%);
+  --sb-shadow-hover: 0 20px 40px rgba(38 35 66 / 20%);
+  --sb-easing-default: cubic-bezier(0.42, 0, 0, 1);
+}
+
 .dnb-payment-card {
   --color-dark-cyan: #003b47;
   --dnb-payment-bg-default: linear-gradient(
@@ -69,7 +165,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   padding: 16px;
   border-radius: 12px;
   border: 1px solid;
-  border-color: rgba(255, 255, 255, 0.1) transparent rgba(0, 0, 0, 0.2) transparent;
+  border-color: rgba(255, 255, 255, 0.1) transparent rgba(255, 255, 255, 0.1) transparent;
   color: var(--color-white);
   box-shadow: var(--shadow-default);
   transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
@@ -115,6 +211,14 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   background: var(--dnb-payment-bg-business-with-visa);
   color: var(--color-white);
 }
+.dnb-payment-card__card--design-sbanken-mastercard {
+  background: var(--sb-color-purple);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-sbanken-visa {
+  background: var(--color-white);
+  color: var(--sb-color-text);
+}
 .dnb-payment-card__card::after {
   content: "";
   position: absolute;
@@ -124,6 +228,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   height: 100%;
   background: radial-gradient(52.39% 52.39% at 50% 50%, rgba(247, 246, 230, 0.1215686275) 0%, rgba(6, 6, 6, 0) 100%);
   border-radius: inherit;
+}
+.dnb-payment-card__card--design-sbanken-mastercard::after {
+  background: none;
 }
 .dnb-payment-card__card__content {
   display: flex;
@@ -171,6 +278,11 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   height: 45px;
   position: absolute;
   top: 0;
+  right: 0;
+}
+.dnb-payment-card__card__credit {
+  position: absolute;
+  top: 6px;
   right: 0;
 }
 .dnb-payment-card__blocking__overlay {
