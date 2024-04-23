@@ -1160,7 +1160,7 @@ describe('DataContext.Provider', () => {
          *
          * The slower the performance, the higher the timeout needs to be.
          */
-        await wait(50)
+        await wait(60)
         if (value !== 'valid') {
           return Error(`value: ${value}`)
         }

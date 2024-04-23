@@ -1,5 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { wait } from '../../../../../core/jest/jestSetup'
 import { Field, Form, Wizard } from '../../..'
 import userEvent from '@testing-library/user-event'
 
@@ -866,6 +867,8 @@ describe('Wizard.Container', () => {
     )
 
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
+
+    await wait(10) // wait for the isInteractionRef to be set
 
     fireEvent.click(nextButton())
     await waitFor(() => {

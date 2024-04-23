@@ -11,11 +11,11 @@ import { Space, StepIndicator } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import DataContext from '../../DataContext/Context'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
   OnStepChange,
+  SetActiveIndexOptions,
   StepIndex,
   WizardContextState,
 } from '../Context/WizardContext'
@@ -101,9 +101,11 @@ function WizardContainer(props: Props) {
     [onStepChange]
   )
 
-  const { setFocus, scrollToTop } = useHandleLayoutEffect({
-    stepElementRef,
-  })
+  const { setFocus, scrollToTop, isInteractionRef } =
+    useHandleLayoutEffect({
+      stepElementRef,
+    })
+
   const handleLayoutEffect = useCallback(() => {
     if (!omitFocusManagement) {
       setFocus()
@@ -117,26 +119,28 @@ function WizardContainer(props: Props) {
     ({
       index,
       skipErrorCheck,
-      skipCallOnChange,
+      skipStepChangeCall,
+      skipStepChangeCallBeforeMounted,
+      skipStepChangeCallFromHook,
       mode,
     }: {
       index: StepIndex
-      skipErrorCheck?: boolean
-      skipCallOnChange?: boolean
       mode: 'previous' | 'next'
-    }) => {
+    } & SetActiveIndexOptions) => {
       handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehaviour: isAsync(onStepChange),
         onSubmit: async () => {
-          if (!skipCallOnChange) {
+          if (!skipStepChangeCallFromHook) {
             sharedStateRef.current?.data?.onStepChange?.(index, mode)
           }
 
-          const result = skipCallOnChange
-            ? undefined
-            : await callOnStepChange(index, mode)
+          const result =
+            skipStepChangeCall ||
+            (skipStepChangeCallBeforeMounted && !isInteractionRef.current)
+              ? undefined
+              : await callOnStepChange(index, mode)
 
           // Hide async indicator
           setFormState('abort')
@@ -161,6 +165,7 @@ function WizardContainer(props: Props) {
       callOnStepChange,
       handleLayoutEffect,
       handleSubmitCall,
+      isInteractionRef,
       onStepChange,
       setFormState,
       setShowAllErrors,
@@ -168,13 +173,7 @@ function WizardContainer(props: Props) {
   )
 
   const setActiveIndex = useCallback(
-    (
-      index: StepIndex,
-      options?: {
-        skipErrorCheck?: boolean
-        skipCallOnChange?: boolean
-      }
-    ) => {
+    (index: StepIndex, options?: SetActiveIndexOptions) => {
       if (index === activeIndexRef.current) {
         return
       }
@@ -325,11 +324,13 @@ function WizardContainer(props: Props) {
 function useHandleLayoutEffect({ stepElementRef }) {
   const isInteractionRef = useRef(false)
 
-  useMountEffect(() => {
-    window.requestAnimationFrame(() => {
-      // Ensure we are mounted before we set the focus
+  useEffect(() => {
+    // Ensure we delay the mounting before layout effect is handled
+    const delay = process.env.NODE_ENV === 'test' ? 8 : 100
+    const timeout = setTimeout(() => {
       isInteractionRef.current = true
-    })
+    }, delay)
+    return () => clearTimeout(timeout)
   })
 
   const action = useCallback((fn: () => void) => {
@@ -356,7 +357,7 @@ function useHandleLayoutEffect({ stepElementRef }) {
     })
   }, [action, stepElementRef])
 
-  return { setFocus, scrollToTop }
+  return { setFocus, scrollToTop, isInteractionRef }
 }
 
 WizardContainer._supportsSpacingProps = true

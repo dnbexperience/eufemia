@@ -32,26 +32,18 @@ describe('useStep', () => {
       const Step = () => {
         const { activeIndex } = useStep()
         return (
-          <>
+          <Wizard.Step>
             <output>{JSON.stringify({ activeIndex })}</output>
             <Wizard.NextButton />
-          </>
+          </Wizard.Step>
         )
       }
 
       render(
         <Wizard.Container initialActiveIndex={1}>
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
+          <Step />
+          <Step />
+          <Step />
         </Wizard.Container>
       )
 
@@ -68,45 +60,37 @@ describe('useStep', () => {
       const Step = () => {
         const { activeIndex, setActiveIndex } = useStep()
         return (
-          <>
+          <Wizard.Step>
             <output>{JSON.stringify({ activeIndex })}</output>
             <button
-              className="next"
+              className="dnb-forms-next-button"
               onClick={() => {
                 setActiveIndex(activeIndex + 1)
               }}
             >
               Next
             </button>
-          </>
+          </Wizard.Step>
         )
       }
 
       render(
         <Wizard.Container onStepChange={onStepChange} mode="loose">
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
+          <Step />
+          <Step />
+          <Step />
         </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(document.querySelector('button.next'))
+      await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('{"activeIndex":1}')
       expect(onStepChange).toHaveBeenCalledTimes(1)
 
-      await userEvent.click(document.querySelector('button.next'))
+      await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
@@ -120,45 +104,37 @@ describe('useStep', () => {
           onStepChange,
         })
         return (
-          <>
+          <Wizard.Step>
             <output>{JSON.stringify({ activeIndex })}</output>
             <button
-              className="next"
+              className="dnb-forms-next-button"
               onClick={() => {
                 setActiveIndex(activeIndex + 1)
               }}
             >
               Next
             </button>
-          </>
+          </Wizard.Step>
         )
       }
 
       render(
         <Wizard.Container mode="loose">
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
+          <Step />
+          <Step />
+          <Step />
         </Wizard.Container>
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(document.querySelector('button.next'))
+      await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('{"activeIndex":1}')
       expect(onStepChange).toHaveBeenCalledTimes(1)
 
-      await userEvent.click(document.querySelector('button.next'))
+      await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
@@ -167,22 +143,18 @@ describe('useStep', () => {
     it('should return "totalSteps"', async () => {
       const Step = () => {
         const { totalSteps } = useStep()
-        return <output>{JSON.stringify({ totalSteps })}</output>
+        return (
+          <Wizard.Step>
+            <output>{JSON.stringify({ totalSteps })}</output>
+          </Wizard.Step>
+        )
       }
 
       render(
         <Wizard.Container mode="loose">
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
-
-          <Wizard.Step>
-            <Step />
-          </Wizard.Step>
+          <Step />
+          <Step />
+          <Step />
         </Wizard.Container>
       )
 
@@ -336,7 +308,7 @@ describe('useStep', () => {
           <>
             <output>{JSON.stringify({ activeIndex })}</output>
             <button
-              className="next"
+              className="dnb-forms-next-button"
               onClick={() => {
                 setActiveIndex(activeIndex + 1)
               }}
@@ -369,12 +341,12 @@ describe('useStep', () => {
       expect(output()).toHaveTextContent('{"activeIndex":0}')
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(document.querySelector('button.next'))
+      await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('{"activeIndex":1}')
       expect(onStepChange).toHaveBeenCalledTimes(1)
 
-      await userEvent.click(document.querySelector('button.next'))
+      await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('{"activeIndex":2}')
       expect(onStepChange).toHaveBeenCalledTimes(2)
