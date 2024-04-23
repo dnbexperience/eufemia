@@ -38,6 +38,23 @@ describe('PushButton', () => {
     expect(handleChange).toHaveBeenCalledWith([pushValue])
   })
 
+  it('should accept "pushValue" from a function call', () => {
+    const handleChange = jest.fn()
+    const pushValue = jest.fn(() => 'push value')
+
+    render(
+      <PushButton onChange={handleChange} pushValue={pushValue}>
+        Push Button
+      </PushButton>
+    )
+
+    const button = document.querySelector('button')
+    fireEvent.click(button)
+
+    expect(handleChange).toHaveBeenCalledWith(['push value'])
+    expect(pushValue).toHaveBeenCalledWith(undefined)
+  })
+
   it('should throw an error if value is not an array', () => {
     const consoleErrorSpy = jest
       .spyOn(console, 'error')
