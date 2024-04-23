@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import { Flex } from '../../../../components'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import IterateElementContext from '../IterateElementContext'
@@ -85,11 +84,9 @@ export function EditContainerWithoutToolbar(
       ariaLabel={ariaLabel}
       {...restProps}
     >
-      <Flex.Stack>
-        {blockTitle && <Lead size="basis">{blockTitle}</Lead>}
-        {children}
-        {toolbar}
-      </Flex.Stack>
+      {blockTitle && <Lead size="basis">{blockTitle}</Lead>}
+      {children}
+      {toolbar}
     </ElementBlock>
   )
 }
