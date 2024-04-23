@@ -1,19 +1,103 @@
+@import '../../../../style/core/utilities.scss';
+
+.dnb-form-summary-list.dnb-dl {
+  & .dnb-dt,
+  & > .dnb-dd > .dnb-dl,
+  &:not([class*='dnb-space']) > .dnb-dd > .dnb-dl {
+    margin: 0;
+  }
+
+  &:not(.dnb-dl__layout--grid) > .dnb-dd {
+    margin-bottom: var(--spacing-medium);
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+  &.dnb-dl__layout--grid {
+    row-gap: var(--spacing-medium);
+  }
+}
+
 .dnb-forms-value-block {
   display: block;
   font-size: var(--font-size-basis);
 
-  &--inline {
+  &--inline:not([class*='__composition']) {
     display: inline-block;
     font-size: inherit;
     margin-left: var(--spacing-xx-small);
     margin-right: var(--spacing-xx-small);
   }
 
-  &__label {
+  &__label,
+  &__label strong {
     font-weight: var(--font-weight-medium);
   }
 
   &__placeholder {
-    color: rgba(#000, 0.5);
+    color: var(--color-black-80);
+  }
+
+  &--max-width {
+    &-stretch {
+      width: 100%;
+    }
+    @include allAbove(x-small) {
+      &-small {
+        max-width: var(--forms-field-width--small);
+      }
+      &-medium {
+        max-width: var(--forms-field-width--medium);
+      }
+      &-large {
+        max-width: var(--forms-field-width--large);
+      }
+    }
+  }
+
+  // Composition block
+  &__composition--horizontal &__content {
+    display: flex;
+    flex-flow: row;
+    row-gap: var(--row-gap, var(--spacing-medium));
+    column-gap: var(--column-gap, 0);
+
+    &--gap-xx-small {
+      --column-gap: var(--spacing-xx-small);
+    }
+    &--gap-x-small {
+      --column-gap: var(--spacing-x-small);
+    }
+    &--gap-small {
+      --column-gap: var(--spacing-small);
+    }
+    &--gap-medium {
+      --column-gap: var(--spacing-medium);
+    }
+    &--gap-large {
+      --column-gap: var(--spacing-large);
+    }
+
+    @include allAbove(x-small) {
+      align-items: flex-start;
+    }
+    @include allBelow(x-small) {
+      &:not(:has(.dnb-forms-value-block__label)) {
+        --row-gap: var(--spacing-x-small);
+      }
+      flex-flow: column;
+    }
+
+    /* stylelint-disable */
+    & > .dnb-dd,
+    & > .dnb-dt,
+    & > .dnb-dl,
+    &:not([class*='dnb-space']) > .dnb-dl {
+      margin: 0;
+    }
+    & > .dnb-dl > .dnb-dd {
+      margin-bottom: 0;
+    }
+    /* stylelint-enable */
   }
 }

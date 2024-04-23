@@ -145,17 +145,21 @@
   // Inline
   @include allAbove(small) {
     &__layout--horizontal {
+      --dt-max-width: 40%;
+      --dd-max-width: calc(60% - 1rem); // minus margin-right and the gap
+
       // We can not use gap: 0.5rem because of our wrapper "__item"
       display: flex;
       flex-wrap: wrap;
+      max-width: 60ch; // to enhance readability
 
       & dt {
         margin-right: 1rem;
-        max-width: 40%;
+        max-width: var(--dt-max-width);
       }
 
       & dd {
-        width: calc(60% - 1rem); // minus margin-right and the gap
+        width: var(--dd-max-width);
       }
 
       & dt,
@@ -177,17 +181,20 @@
     }
 
     &__layout--grid {
+      --dt-max-width: 15ch;
+      --dd-max-width: 30ch;
+
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      column-gap: 2rem;
+      grid-template-columns: max-content 1fr;
+      column-gap: 1rem;
       row-gap: 1rem;
 
       /* stylelint-disable */
       & dt {
-        max-width: 15ch;
+        max-width: var(--dt-max-width);
       }
       & dd {
-        max-width: 30ch;
+        max-width: var(--dd-max-width);
         align-self: end;
       }
       & dt,

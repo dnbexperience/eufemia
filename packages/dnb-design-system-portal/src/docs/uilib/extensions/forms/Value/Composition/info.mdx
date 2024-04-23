@@ -1,0 +1,24 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Value.Composition` combines two or more `Value.*` components into one.
+
+By default, they will be placed in a horizontal layout. When rendered on a small screen, they will be placed in a vertical layout.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Value.Composition label="Label">
+    <Value.String label="First" path="/first" />
+    <Value.String label="Second" path="/second" />
+  </Value.Composition>,
+)
+```
+
+## Accessibility
+
+When you combine multiple `Value.*` components together, consider enclosing them within the [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.

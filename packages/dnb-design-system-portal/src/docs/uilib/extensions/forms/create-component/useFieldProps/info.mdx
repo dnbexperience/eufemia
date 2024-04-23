@@ -10,7 +10,11 @@ The `useFieldProps` hook standardize handling of the value flow for a single con
 
 ```tsx
 import { useFieldProps } from '@dnb/eufemia/extensions/forms'
-const { value } = useFieldProps(componentProps)
+
+function MyField(props) {
+  const { value } = useFieldProps(props)
+  // etc.
+}
 ```
 
 Advanced usage:

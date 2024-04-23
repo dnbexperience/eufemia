@@ -7,7 +7,7 @@ beforeEach(() => {
   global.console.log = jest.fn()
 })
 
-describe('Form.SummaryList', () => {
+describe('Field.SummaryList', () => {
   it('should forward HTML attributes', () => {
     render(<SummaryList aria-label="Aria Label">Aria Summary</SummaryList>)
 

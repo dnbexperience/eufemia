@@ -13,6 +13,7 @@ function StringComponent(props: Props) {
     placeholder,
     value,
     inline,
+    maxWidth,
     showEmpty,
     prepare = (value) => value,
   } = useFieldProps(props)
@@ -24,6 +25,7 @@ function StringComponent(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
+      maxWidth={maxWidth}
       {...pickSpacingProps(props)}
     >
       {prepare(value)}

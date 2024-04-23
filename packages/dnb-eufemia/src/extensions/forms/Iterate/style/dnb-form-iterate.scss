@@ -41,10 +41,7 @@
       transition: transform 400ms var(--easing-default) 50ms;
       transform: translateY(-2.5rem);
 
-      .dnb-dl {
-        margin-top: 0.5rem;
-      }
-      .dnb-dl dd {
+      .dnb-dl .dnb-dd {
         margin-bottom: 0;
       }
     }

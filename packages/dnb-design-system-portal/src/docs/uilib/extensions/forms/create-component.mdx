@@ -21,6 +21,13 @@ Eufemia Forms contains helper fields and tools so you can declaratively create i
 
 By using the building blocks for value and field components, you save development time, and at the same time ensure that local, custom components work similarly, and fit into the setup with the standardized base [value components](/uilib/extensions/forms/Value/#base-components) and base [field components](/uilib/extensions/forms/base-fields/).
 
+**Table of Contents**
+
+- [Value components](#value-components)
+- [Field components](#field-components)
+- [Layout](#layout)
+- [Localization and translations](#localization-and-translations)
+
 ## Value components
 
 For creating a `Value.*` component you can use [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/):
@@ -39,7 +46,7 @@ const MyValue = ({ value, ...props }) => {
 
 In certain situations, you may find the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) hook useful (despite its name, useFieldProps, it's also applicable to value components). This hook offers convenient data transformation methods that can be readily exposed when wrapped (yes it's named `useFieldProps`, but it's also used for value components).
 
-## Filed components
+## Field components
 
 For creating a `Field.*` component, you can use [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/):
 
