@@ -10,6 +10,12 @@ export type OnStepChange = (
   | Promise<EventReturnWithStateObject | void>
 
 export type StepIndex = number
+export type SetActiveIndexOptions = {
+  skipStepChangeCall?: boolean
+  skipStepChangeCallBeforeMounted?: boolean
+  skipStepChangeCallFromHook?: boolean
+  skipErrorCheck?: boolean
+}
 export interface WizardContextState {
   id?: string
   totalSteps?: number
@@ -19,7 +25,11 @@ export interface WizardContextState {
   handleNext?: () => void
   setActiveIndex?: (
     index: StepIndex,
-    { skipCallOnChange }?: { skipCallOnChange?: boolean }
+    {
+      skipStepChangeCall,
+      skipStepChangeCallBeforeMounted,
+      skipStepChangeCallFromHook,
+    }?: SetActiveIndexOptions
   ) => void
   setFormError?: (error: Error) => void
 }

@@ -135,7 +135,9 @@ export const ArrayFromFormHandler = () => {
                   />
                 </Field.Composition>
 
-                <Iterate.Toolbar />
+                <Iterate.Toolbar>
+                  <Iterate.RemoveButton />
+                </Iterate.Toolbar>
               </Iterate.AnimatedContainer>
             </Iterate.Array>
 

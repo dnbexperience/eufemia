@@ -11,11 +11,11 @@ import { Space, StepIndicator } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import DataContext from '../../DataContext/Context'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
   OnStepChange,
+  SetActiveIndexOptions,
   StepIndex,
   WizardContextState,
 } from '../Context/WizardContext'
@@ -29,14 +29,19 @@ import { ComponentProps } from '../../types'
 export type Props = ComponentProps & {
   id?: string
   mode?: 'static' | 'strict' | 'loose'
-  scrollTopOnStepChange?: boolean
+  omitScrollManagement?: boolean
+  omitFocusManagement?: boolean
   initialActiveIndex?: StepIndex
   onStepChange?: OnStepChange
   children: React.ReactNode
   variant?: 'sidebar' | 'drawer'
   noAnimation?: boolean
-  omitFocusManagement?: boolean
   sidebarId?: string
+
+  /**
+   * @deprecated Is enabled by default. You can disable it with "omitScrollManagement"
+   */
+  scrollTopOnStepChange?: boolean
 }
 
 function WizardContainer(props: Props) {
@@ -44,12 +49,12 @@ function WizardContainer(props: Props) {
     className,
     id: _id,
     mode = 'strict',
-    scrollTopOnStepChange,
     initialActiveIndex = 0,
+    omitScrollManagement,
+    omitFocusManagement,
     onStepChange,
     children,
     noAnimation = true,
-    omitFocusManagement,
     variant = 'sidebar',
     sidebarId,
     ...rest
@@ -61,7 +66,6 @@ function WizardContainer(props: Props) {
     handleSubmitCall,
     setShowAllErrors,
     showAllErrors,
-    scrollToTop,
     setSubmitState,
   } = useContext(DataContext)
 
@@ -97,40 +101,46 @@ function WizardContainer(props: Props) {
     [onStepChange]
   )
 
-  const { setFocus } = useHandleFocus({ stepElementRef })
+  const { setFocus, scrollToTop, isInteractionRef } =
+    useHandleLayoutEffect({
+      stepElementRef,
+    })
+
   const handleLayoutEffect = useCallback(() => {
-    if (scrollTopOnStepChange) {
-      scrollToTop()
-    }
     if (!omitFocusManagement) {
       setFocus()
     }
-  }, [scrollTopOnStepChange, omitFocusManagement, setFocus, scrollToTop])
+    if (!omitScrollManagement) {
+      scrollToTop()
+    }
+  }, [omitScrollManagement, omitFocusManagement, setFocus, scrollToTop])
 
   const handleStepChange = useCallback(
     ({
       index,
       skipErrorCheck,
-      skipCallOnChange,
+      skipStepChangeCall,
+      skipStepChangeCallBeforeMounted,
+      skipStepChangeCallFromHook,
       mode,
     }: {
       index: StepIndex
-      skipErrorCheck?: boolean
-      skipCallOnChange?: boolean
       mode: 'previous' | 'next'
-    }) => {
+    } & SetActiveIndexOptions) => {
       handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehaviour: isAsync(onStepChange),
         onSubmit: async () => {
-          if (!skipCallOnChange) {
+          if (!skipStepChangeCallFromHook) {
             sharedStateRef.current?.data?.onStepChange?.(index, mode)
           }
 
-          const result = skipCallOnChange
-            ? undefined
-            : await callOnStepChange(index, mode)
+          const result =
+            skipStepChangeCall ||
+            (skipStepChangeCallBeforeMounted && !isInteractionRef.current)
+              ? undefined
+              : await callOnStepChange(index, mode)
 
           // Hide async indicator
           setFormState('abort')
@@ -155,6 +165,7 @@ function WizardContainer(props: Props) {
       callOnStepChange,
       handleLayoutEffect,
       handleSubmitCall,
+      isInteractionRef,
       onStepChange,
       setFormState,
       setShowAllErrors,
@@ -162,13 +173,7 @@ function WizardContainer(props: Props) {
   )
 
   const setActiveIndex = useCallback(
-    (
-      index: StepIndex,
-      options?: {
-        skipErrorCheck?: boolean
-        skipCallOnChange?: boolean
-      }
-    ) => {
+    (index: StepIndex, options?: SetActiveIndexOptions) => {
       if (index === activeIndexRef.current) {
         return
       }
@@ -316,29 +321,43 @@ function WizardContainer(props: Props) {
   )
 }
 
-function useHandleFocus({ stepElementRef }) {
+function useHandleLayoutEffect({ stepElementRef }) {
   const isInteractionRef = useRef(false)
 
-  useMountEffect(() => {
-    window.requestAnimationFrame(() => {
-      // Ensure we are mounted before we set the focus
+  useEffect(() => {
+    // Ensure we delay the mounting before layout effect is handled
+    const delay = process.env.NODE_ENV === 'test' ? 8 : 100
+    const timeout = setTimeout(() => {
       isInteractionRef.current = true
-    })
+    }, delay)
+    return () => clearTimeout(timeout)
   })
 
-  const setFocus = useCallback(() => {
-    if (isInteractionRef.current) {
-      // Wait for the next render cycle
+  const action = useCallback((fn: () => void) => {
+    // Wait for the next render cycle
+    window.requestAnimationFrame(() =>
+      // Wait for the new stepElementRef to be set
       window.requestAnimationFrame(() => {
-        // Wait for the new stepElementRef to be set
-        window.requestAnimationFrame(() => {
-          stepElementRef.current?.focus?.()
-        })
+        isInteractionRef.current && fn()
       })
-    }
-  }, [stepElementRef])
+    )
+  }, [])
 
-  return { setFocus }
+  const setFocus = useCallback(() => {
+    action(() => {
+      stepElementRef.current?.focus?.({
+        preventScroll: true,
+      })
+    })
+  }, [action, stepElementRef])
+
+  const scrollToTop = useCallback(() => {
+    action(() => {
+      stepElementRef.current?.scrollIntoView?.()
+    })
+  }, [action, stepElementRef])
+
+  return { setFocus, scrollToTop, isInteractionRef }
 }
 
 WizardContainer._supportsSpacingProps = true

@@ -15,7 +15,7 @@ export default function useNextRouter(
   const searchParams = useSearchParams()
 
   const onStepChange = useCallback(
-    async (index: number) => {
+    (index: number) => {
       try {
         const params = new URLSearchParams(searchParams.toString())
         params.set(`${id}-step`, String(index))
@@ -37,7 +37,10 @@ export default function useNextRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
-      setActiveIndex(routerIndex, { skipCallOnChange: true })
+      setActiveIndex(routerIndex, {
+        skipStepChangeCallFromHook: true,
+        skipStepChangeCallBeforeMounted: true,
+      })
     }
   }, [getIndex, id, searchParams, setActiveIndex, setFormError])
 

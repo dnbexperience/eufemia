@@ -83,3 +83,24 @@ This document provides a set of best practices to follow when creating forms for
   <Field.String path="/mySecondField" />
 </FieldBlock>
 ```
+
+## Focus management
+
+- When replacing content on the screen dynamically, a screen reader user should receive a notice. The [Wizard](/uilib/extensions/forms/extended-features/Wizard/) component includes focus and scroll management by default.
+
+```jsx
+<Wizard.Container>
+  <Wizard.Step title="Step 1">...</Wizard.Step>
+  <Wizard.Step title="Step 2">...</Wizard.Step>
+</Wizard.Container>
+```
+
+- [Iterate](/uilib/extensions/forms/extended-features/Iterate/) component also includes focus management by default similar as the Wizard step change.
+
+```jsx
+<Wizard.Container>
+  <Iterate.Array>
+    <Iterate.AnimatedContainer>...</Iterate.AnimatedContainer>
+  </Iterate.Array>
+</Wizard.Container>
+```

@@ -40,11 +40,7 @@ export const BecomeCorporateCustomer = () => {
               id="example-form"
               onSubmit={(data) => console.log('onSubmit', data)}
             >
-              <Wizard.Container
-                id="example-wizard"
-                top
-                scrollTopOnStepChange
-              >
+              <Wizard.Container id="example-wizard" top>
                 <Wizard.Step title="Bedriftsopplysninger">
                   <Form.MainHeading>Bedriftsopplysninger</Form.MainHeading>
 
@@ -223,7 +219,7 @@ export function PizzaDemo() {
                 id="pizza-demo"
                 sessionStorageId="pizza-form"
               >
-                <Wizard.Container id="my-wizard" scrollTopOnStepChange>
+                <Wizard.Container id="my-wizard">
                   <Wizard.Step title="Which pizza do you want?">
                     <Form.MainHeading>
                       Which pizza do you want?
