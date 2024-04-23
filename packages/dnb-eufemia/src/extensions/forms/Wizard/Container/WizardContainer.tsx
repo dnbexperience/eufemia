@@ -344,7 +344,9 @@ function useHandleLayoutEffect({ stepElementRef }) {
 
   const setFocus = useCallback(() => {
     action(() => {
-      stepElementRef.current?.focus?.()
+      stepElementRef.current?.focus?.({
+        preventScroll: true,
+      })
     })
   }, [action, stepElementRef])
 

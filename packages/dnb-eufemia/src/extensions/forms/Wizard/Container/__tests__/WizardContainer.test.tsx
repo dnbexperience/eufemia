@@ -998,6 +998,21 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(document.querySelector('.dnb-forms-step')).toHaveFocus()
     })
+
+    // Replace the focus method in every HTML element
+    const focusMock = jest
+      .spyOn(window.HTMLElement.prototype, 'focus')
+      .mockImplementation()
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    await waitFor(() => {
+      expect(focusMock).toHaveBeenCalledTimes(2)
+      expect(focusMock).toHaveBeenLastCalledWith({ preventScroll: true })
+    })
+
+    focusMock.mockRestore()
   })
 
   it('should omit setting focus if omitFocusManagement is true', async () => {
