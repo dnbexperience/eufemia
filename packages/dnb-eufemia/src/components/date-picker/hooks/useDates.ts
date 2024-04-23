@@ -82,6 +82,7 @@ export default function useDates(
     const endMonth = convertStringToDate(String(initialDates.endMonth), {
       date_format: dateFormat,
     })
+
     const minDate = convertStringToDate(String(initialDates.minDate), {
       date_format: dateFormat,
     })
@@ -93,26 +94,33 @@ export default function useDates(
     const hasValidStartDate = isValid(startDate)
     const hasValidEndDate = isValid(endDate)
 
+    const correctedDates = shouldCorrectDate
+      ? correctThatDate({ startDate, endDate, minDate, maxDate, isRange })
+      : {}
+
     const __startDay = hasValidStartDate
-      ? pad(format(startDate, 'dd'), 2)
+      ? pad(format(correctedDates?.startDate ?? startDate, 'dd'), 2)
       : null
 
     const __startMonth = hasValidStartDate
-      ? pad(format(startDate, 'MM'), 2)
+      ? pad(format(correctedDates?.startDate ?? startDate, 'MM'), 2)
       : null
 
     const __startYear = hasValidStartDate
-      ? format(startDate, 'yyyy')
+      ? format(correctedDates?.startDate ?? startDate, 'yyyy')
       : null
 
-    const __endDay = hasValidEndDate ? pad(format(endDate, 'dd'), 2) : null
+    const __endDay = hasValidEndDate
+      ? pad(format(correctedDates?.endDate ?? endDate, 'dd'), 2)
+      : null
 
     const __endMonth = hasValidEndDate
-      ? pad(format(endDate, 'MM'), 2)
+      ? pad(format(correctedDates?.endDate ?? endDate, 'MM'), 2)
       : null
 
-    const __endYear = hasValidEndDate ? format(endDate, 'yyyy') : null
-
+    const __endYear = hasValidEndDate
+      ? format(correctedDates?.endDate ?? endDate, 'yyyy')
+      : null
     return {
       startDate,
       endDate,
@@ -127,6 +135,7 @@ export default function useDates(
       __endMonth,
       __endYear,
       hasHadValidDate: hasValidStartDate || hasValidEndDate,
+      ...correctedDates,
     }
   }, [initialDates, dateFormat, isRange])
 
@@ -143,29 +152,6 @@ export default function useDates(
 
   const updateDates = useCallback(
     (newDates, callback?: (dates: Dates) => void) => {
-      const correctedDates = {}
-      // CorrectDate
-      if (shouldCorrectDate) {
-        const startDate = newDates.startDate ?? dates.startDate
-        const endDate = newDates.endDate ?? dates.endDate
-        if (isDisabled(startDate, dates.minDate, dates.maxDate)) {
-          correctedDates['startDate'] = dates.minDate
-        }
-        if (isDisabled(endDate, dates.minDate, dates.maxDate)) {
-          // state.endDate is only used by the input if range is set to true.
-          // this is done to make max_date correction work if the input is not a range and only max_date is defined.
-          if (!isRange && !dates.minDate) {
-            correctedDates['startDate'] = dates.maxDate
-          } else {
-            correctedDates['endDate'] = dates.maxDate
-          }
-        }
-
-        if (Object.keys(correctedDates).length > 0) {
-          setDates((d) => ({ ...d, ...correctedDates }))
-        }
-      }
-
       if (
         Object.keys(newDates).join().includes('__start') ||
         Object.keys(newDates).join().includes('__end') ||
@@ -176,6 +162,16 @@ export default function useDates(
       }
 
       setDates((currentDates) => {
+        const correctedDates = shouldCorrectDate
+          ? correctThatDate({
+              startDate: newDates.startDate ?? currentDates.startDate,
+              endDate: newDates.endDate ?? currentDates.endDate,
+              minDate: currentDates.minDate,
+              maxDate: currentDates.maxDate,
+              isRange,
+            })
+          : {}
+
         if (callback) {
           // callbackRef.current = callback
           callback({
@@ -243,6 +239,31 @@ export default function useDates(
   }, [dates, updateInputDates, updateDates])
 
   return [dates, updateDates, hasHadValidDate, previousDates] as const
+}
+
+function correctThatDate({
+  startDate,
+  endDate,
+  minDate,
+  maxDate,
+  isRange,
+}) {
+  const correctedDates = {}
+
+  if (isDisabled(startDate, minDate, maxDate)) {
+    correctedDates['startDate'] = minDate
+  }
+  if (isDisabled(endDate, minDate, maxDate)) {
+    // state.endDate is only used by the input if range is set to true.
+    // this is done to make max_date correction work if the input is not a range and only max_date is defined.
+    if (!isRange && !minDate) {
+      correctedDates['startDate'] = maxDate
+    } else {
+      correctedDates['endDate'] = maxDate
+    }
+  }
+
+  return correctedDates
 }
 
 export const pad = (num, size) => ('000000000' + num).substr(-size)
