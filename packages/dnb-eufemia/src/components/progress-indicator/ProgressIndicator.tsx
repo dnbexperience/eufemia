@@ -32,7 +32,7 @@ export type ProgressIndicatorProps = {
    */
   visible?: boolean
   /**
-   * Defines the "type" of progress, like `circular` or `linear`. Defaults to `circular`.
+   * Defines the type. Defaults to `circular`.
    */
   type?: 'circular' | 'linear'
   /**
@@ -40,7 +40,7 @@ export type ProgressIndicatorProps = {
    */
   noAnimation?: boolean
   /**
-   * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
+   * Defines the size. Defaults to `default`.
    */
   size?: 'default' | 'small' | 'medium' | 'large' | 'huge'
   /**
@@ -52,7 +52,7 @@ export type ProgressIndicatorProps = {
    */
   label?: React.ReactNode
   /**
-   * Set it to `vertical` if you want the label to be placed under the indicator. Defaults to `horizontal`.
+   * Sets the position of the label. Defaults to `horizontal`.
    */
   labelDirection?: 'horizontal' | 'vertical'
   /**
@@ -60,7 +60,7 @@ export type ProgressIndicatorProps = {
    */
   showDefaultLabel?: boolean
   /**
-   * Use this to override the default label from text locales
+   * Use this to override the default label from text locales.
    */
   indicator_label?: string
   /**
@@ -73,19 +73,17 @@ export type ProgressIndicatorProps = {
   onComplete?: (...args: any[]) => any
 }
 
-// depracated, can be removed in v11
+// deprecated, can be removed in v11
 type DeprecatedProgressIndicatorProps = {
-  /** @deprecated use `noAnimation` */
+  /** @deprecated use `noAnimation`. */
   no_animation?: boolean
-  /** @deprecated use `labelDirection` */
+  /** @deprecated use `labelDirection`. */
   label_direction?: string
-  /** @deprecated use `showDefaultLabel` */
+  /** @deprecated use `showDefaultLabel`. */
   show_label?: boolean
-  /** @deprecated use the `className` prop instead */
-  class?: string
-  /** @deprecated use the `label` prop instead */
+  /** @deprecated use the `label` prop instead. */
   children?: React.ReactNode
-  /**  @deprecated use `onComplete` */
+  /**  @deprecated use `onComplete`. */
   on_complete?: (...args: any[]) => any
 }
 
@@ -232,7 +230,6 @@ function handleDeprecatedBehaviour(
   const {
     show_label: showDefaultLabel,
     indicator_label,
-    class: className,
     children: label,
     ...propsToConvertToCamelCase
   } = oldProps
@@ -241,7 +238,6 @@ function handleDeprecatedBehaviour(
   return {
     showDefaultLabel,
     indicator_label,
-    className,
     label,
     ...convertSnakeCaseProps(propsToConvertToCamelCase, {
       overrideExistingValue: false,

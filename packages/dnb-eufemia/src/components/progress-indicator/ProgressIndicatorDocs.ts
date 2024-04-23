@@ -8,13 +8,13 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   visible: {
-    doc: 'Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation',
+    doc: 'Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',
   },
   type: {
-    doc: 'Defines the type',
+    doc: 'Defines the type.',
     type: ['"circular"', '"linear"'],
     defaultValue: '"circular"',
     status: 'optional',
@@ -26,7 +26,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Defines the size',
+    doc: 'Defines the size.',
     type: ['"default"', '"small"', '"medium"', '"large"', '"huge"'],
     defaultValue: '"default"',
     status: 'optional',
@@ -38,7 +38,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Label can optionally be placed below',
+    doc: 'Sets the position of the label.',
     type: ['"horizontal"', '"vertical"'],
     defaultValue: '"horizontal"',
     status: 'optional',
@@ -50,7 +50,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   indicator_label: {
-    doc: 'Use this to override the default label from text locales',
+    doc: 'Use this to override the default label from text locales.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',
@@ -71,27 +71,22 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
 export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
   {
     no_animation: {
-      doc: 'use `noAnimation`',
+      doc: 'use `noAnimation`.',
       type: ' boolean',
       status: 'deprecated',
     },
     label_direction: {
-      doc: 'use `labelDirection`',
+      doc: 'use `labelDirection`.',
       type: 'string',
       status: 'deprecated',
     },
     show_label: {
-      doc: 'use `showDefaultLabel`',
+      doc: 'use `showDefaultLabel`.',
       type: 'boolean',
       status: 'deprecated',
     },
-    class: {
-      doc: 'use the `className` prop instead',
-      type: 'string',
-      status: 'deprecated',
-    },
     children: {
-      doc: 'use the `label` prop instead',
+      doc: 'use the `label` prop instead.',
       type: 'React.ReactNode',
       status: 'deprecated',
     },
@@ -107,7 +102,7 @@ export const ProgressIndicatorEvents: PropertiesTableProps = {
 }
 export const ProgressIndicatorDeprecatedEvents: PropertiesTableProps = {
   on_complete: {
-    doc: 'use `onComplete`',
+    doc: 'use `onComplete`.',
     type: 'function',
     status: 'deprecated',
   },
