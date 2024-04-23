@@ -30,8 +30,8 @@ export const ProgressIndicatorCircularLabelHorizontalExample = () => (
     <ProgressIndicator
       // label="Custom label ..."
       type="circular"
-      show_label={true}
-      label_direction="horizontal"
+      showDefaultLabel={true}
+      labelDirection="horizontal"
     />
   </ComponentBox>
 )
@@ -41,8 +41,8 @@ export const ProgressIndicatorCircularLabelVerticalExample = () => (
     <ProgressIndicator
       // label="Custom label ..."
       type="circular"
-      show_label={true}
-      label_direction="vertical"
+      showDefaultLabel={true}
+      labelDirection="vertical"
     />
   </ComponentBox>
 )
@@ -53,7 +53,7 @@ export const ProgressIndicatorCircularPrimaryExample = () => (
       type="circular"
       progress="50"
       size="large"
-      no_animation
+      noAnimation
     />
   </ComponentBox>
 )
@@ -68,8 +68,8 @@ export const ProgressIndicatorCircularRandomExample = () => (
             <ProgressIndicator
               type="circular"
               progress={value}
-              show_label
-              no_animation
+              showDefaultLabel
+              noAnimation
             />
             <Button
               left
@@ -136,7 +136,7 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
             type="circular"
             size="large"
             visible={visible}
-            on_complete={() => {
+            onComplete={() => {
               console.log('on_complete_circular')
             }}
           />
@@ -160,8 +160,8 @@ export const ProgressIndicatorCircularDialogExample = () => (
     >
       <ProgressIndicator
         type="circular"
-        show_label
-        label_direction="vertical"
+        showDefaultLabel
+        labelDirection="vertical"
         top="large"
         bottom="large"
         size="large"
@@ -187,8 +187,8 @@ export const ProgressIndicatorLinearLabelHorizontalExample = () => (
     <ProgressIndicator
       type="linear"
       // label="Custom label ..."
-      show_label={true}
-      label_direction="horizontal"
+      showDefaultLabel={true}
+      labelDirection="horizontal"
     />
   </ComponentBox>
 )
@@ -198,8 +198,8 @@ export const ProgressIndicatorLinearLabelVerticalExample = () => (
     <ProgressIndicator
       type="linear"
       // label="Custom label ..."
-      show_label={true}
-      label_direction="vertical"
+      showDefaultLabel={true}
+      labelDirection="vertical"
     />
   </ComponentBox>
 )
@@ -210,7 +210,7 @@ export const ProgressIndicatorLinearLargeExample = () => (
       type="linear"
       progress="50"
       size="large"
-      no_animation
+      noAnimation
     />
   </ComponentBox>
 )
@@ -225,7 +225,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
             <ProgressIndicator
               type="linear"
               progress={value}
-              no_animation
+              noAnimation
             />
             <Button
               left
@@ -286,7 +286,7 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
             type="linear"
             size="large"
             visible={visible}
-            on_complete={() => {
+            onComplete={() => {
               console.log('on_complete_linear')
             }}
           />
@@ -310,8 +310,8 @@ export const ProgressIndicatorLinearDialogExample = () => (
     >
       <ProgressIndicator
         type="linear"
-        show_label
-        label_direction="vertical"
+        showDefaultLabel
+        labelDirection="vertical"
         top="large"
         bottom="large"
       />

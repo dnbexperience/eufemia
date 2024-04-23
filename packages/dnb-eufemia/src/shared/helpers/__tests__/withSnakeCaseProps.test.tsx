@@ -348,4 +348,36 @@ describe('convertSnakeCaseProps', () => {
 
     expect(Object.isFrozen(result)).toBe(true)
   })
+
+  it('will override existing prop by default', () => {
+    const props = {
+      fooBar: 'fooBarValue',
+      foo_bar: 'foo_bar_value',
+      bar_foo: 'bar_foo_value',
+      barFoo: 'barFooValue',
+    }
+    const result = convertSnakeCaseProps(props)
+
+    expect(result).toEqual({
+      fooBar: 'foo_bar_value',
+      barFoo: 'bar_foo_value',
+    })
+  })
+
+  it('will not override existing prop if told', () => {
+    const props = {
+      fooBar: 'fooBarValue',
+      foo_bar: 'foo_bar_value',
+      bar_foo: 'bar_foo_value',
+      barFoo: 'barFooValue',
+    }
+    const result = convertSnakeCaseProps(props, {
+      overrideExistingValue: false,
+    })
+
+    expect(result).toEqual({
+      fooBar: 'fooBarValue',
+      barFoo: 'barFooValue',
+    })
+  })
 })
