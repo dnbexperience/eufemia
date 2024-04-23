@@ -10,8 +10,15 @@ export type Props = ValueProps<boolean>
 function BooleanComponent(props: Props) {
   const translations = useTranslation().BooleanField
 
-  const { className, label, placeholder, showEmpty, value, inline } =
-    useFieldProps(props)
+  const {
+    className,
+    label,
+    placeholder,
+    showEmpty,
+    value,
+    inline,
+    width,
+  } = useFieldProps(props)
 
   return (
     <ValueBlock
@@ -20,6 +27,7 @@ function BooleanComponent(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
+      width={width}
       {...pickSpacingProps(props)}
     >
       {value === true || value === false

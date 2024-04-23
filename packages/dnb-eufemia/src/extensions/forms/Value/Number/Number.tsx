@@ -19,8 +19,15 @@ export type Props = ValueProps<number> &
   IncludeCamelCase<NumberFormatProps>
 
 function NumberValue(props: Props) {
-  const { className, label, placeholder, inline, showEmpty, ...rest } =
-    useFieldProps(props)
+  const {
+    className,
+    label,
+    placeholder,
+    inline,
+    width,
+    showEmpty,
+    ...rest
+  } = useFieldProps(props)
 
   const numberFormatProps = convertCamelCaseProps(
     omitFieldProps(omitSpacingProps(rest))
@@ -33,6 +40,7 @@ function NumberValue(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
+      width={width}
       {...pickSpacingProps(rest)}
     >
       {rest.value && <NumberFormat {...numberFormatProps} />}

@@ -2,7 +2,7 @@
   display: block;
   font-size: var(--font-size-basis);
 
-  &--inline {
+  &--inline:not([class*='__composition']) {
     display: inline-block;
     font-size: inherit;
     margin-left: var(--spacing-xx-small);
@@ -14,6 +14,46 @@
   }
 
   &__placeholder {
-    color: rgba(#000, 0.5);
+    color: var(--color-black-80);
+  }
+
+  &--width {
+    &-stretch {
+      width: 100%;
+    }
+    @include allAbove(x-small) {
+      &-small {
+        width: var(--forms-field-width--small);
+      }
+      &-medium {
+        width: var(--forms-field-width--medium);
+      }
+      &-large {
+        width: var(--forms-field-width--large);
+      }
+    }
+  }
+
+  // Composition Value
+  .dnb-dl__layout--grid &__composition--horizontal,
+  :not(.dnb-dl__layout--grid) &__composition--horizontal &__content {
+    display: flex;
+    flex-flow: row;
+    column-gap: var(--spacing-small);
+
+    @include allAbove(x-small) {
+      align-items: flex-start;
+    }
+    @include allBelow(x-small) {
+      row-gap: var(--spacing-x-small);
+      flex-flow: column;
+    }
+
+    .dnb-form-summary-list:not(.dnb-dl__layout--grid).dnb-dl & {
+      dt,
+      dd {
+        margin: 0;
+      }
+    }
   }
 }

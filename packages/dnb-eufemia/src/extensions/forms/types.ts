@@ -300,6 +300,8 @@ export interface ValueProps<Value>
   itemPath?: string
   /** For showing the value inline (not as a block element) */
   inline?: boolean
+  /** The width of a value. Defaults to large */
+  width?: false | 'small' | 'medium' | 'large' | 'stretch'
   // Derivatives
   /** Prepare value for display (regardless of source like props or data context) */
   prepare?: (external: Value | undefined) => string
