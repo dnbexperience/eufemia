@@ -802,15 +802,15 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
   background-color: var(--color-mint-green);
 }
 .dnb-global-status__content .dnb-hr {
-  color: var(--color-fire-red);
+  --hr-color: var(--color-fire-red);
 }
 .dnb-global-status--info .dnb-global-status__content .dnb-hr {
-  color: var(--color-sea-green);
+  --hr-color: var(--color-sea-green);
 }
 .dnb-global-status--warning .dnb-global-status__content .dnb-hr {
-  color: var(--color-accent-yellow);
+  --hr-color: var(--color-accent-yellow);
 }
 .dnb-global-status--success .dnb-global-status__content .dnb-hr {
-  color: var(--color-ocean-green);
+  --hr-color: var(--color-ocean-green);
 }"
 `;
