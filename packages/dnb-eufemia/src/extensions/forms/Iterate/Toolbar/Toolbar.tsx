@@ -15,7 +15,7 @@ export default function Toolbar(props: Props) {
       className={classnames('dnb-form-iterate-toolbar', className)}
       {...rest}
     >
-      <Hr light space={0} />
+      <Hr space={0} />
 
       <Flex.Horizontal top="x-small" spacing="large">
         {children}

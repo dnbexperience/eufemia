@@ -22,8 +22,7 @@
 
     height: var(--thickness);
 
-    color: inherit;
-    background-color: currentcolor;
+    background-color: var(--hr-color, grey);
     border-radius: calc(var(--thickness) / 2);
   }
 }

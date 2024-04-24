@@ -29,7 +29,7 @@ export const EditButton = () => {
                   <Value.String label="First name" path="/firstName" />
                 </Value.SummaryList>
 
-                <Hr light />
+                <Hr />
 
                 <Wizard.EditButton onClick={() => setActiveIndex(0)} />
               </Card>

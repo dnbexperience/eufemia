@@ -683,7 +683,7 @@ export default class GlobalStatus extends React.PureComponent {
                 </div>
               </div>
             )}
-            <Hr fullscreen />
+            <Hr breakout />
           </>
         )}
       </>

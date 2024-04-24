@@ -5,43 +5,28 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Hr, Dl, Dt, Dd } from '@dnb/eufemia/src'
+import { Hr } from '@dnb/eufemia/src'
 
 export const HorizontalRuleDefaultExample = () => (
-  <ComponentBox hideCode data-visual-test="hr-default">
+  <ComponentBox background="white" hideCode data-visual-test="hr-default">
     Something
-    <Hr />
-    Something
-  </ComponentBox>
-)
-
-export const HorizontalRuleFullscreenExample = () => (
-  <ComponentBox hideCode data-visual-test="hr-fullscreen">
-    Something
-    <Hr fullscreen />
+    <Hr space={{ top: '0.5rem', bottom: '0.5rem' }} />
     Something
   </ComponentBox>
 )
 
-export const HorizontalRuleThicknessExample = () => (
-  <ComponentBox hideCode data-visual-test="hr-thickness">
-    <Dl>
-      <Dt>Light 0.5px</Dt>
-      <Dd>
-        <Hr light />
-      </Dd>
-    </Dl>
-    <Dl>
-      <Dt>Default 1px</Dt>
-      <Dd>
-        <Hr />
-      </Dd>
-    </Dl>
-    <Dl>
-      <Dt>Medium 1.5px</Dt>
-      <Dd>
-        <Hr medium />
-      </Dd>
-    </Dl>
+export const HorizontalRuleBreakoutExample = () => (
+  <ComponentBox background="white" hideCode data-visual-test="hr-breakout">
+    Something
+    <Hr breakout space={{ top: '0.5rem', bottom: '0.5rem' }} />
+    Something
+  </ComponentBox>
+)
+
+export const HorizontalRuleDashedExample = () => (
+  <ComponentBox background="white" hideCode data-visual-test="hr-dashed">
+    Something
+    <Hr dashed space={{ top: '0.5rem', bottom: '0.5rem' }} />
+    Something
   </ComponentBox>
 )

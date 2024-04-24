@@ -17,18 +17,18 @@
   }
 
   &__content .dnb-hr {
-    color: var(--color-fire-red);
+    --hr-color: var(--color-fire-red);
   }
 
   &--info &__content .dnb-hr {
-    color: var(--color-sea-green);
+    --hr-color: var(--color-sea-green);
   }
 
   &--warning &__content .dnb-hr {
-    color: var(--color-accent-yellow);
+    --hr-color: var(--color-accent-yellow);
   }
 
   &--success &__content .dnb-hr {
-    color: var(--color-ocean-green);
+    --hr-color: var(--color-ocean-green);
   }
 }
