@@ -27,6 +27,8 @@ export type Props = {
   inferData?: (data: unknown) => boolean
   /** Animate the visibility change */
   animate?: boolean
+  /** Keep the content in the DOM, even if it's not visible */
+  keepInDOM?: boolean
   element?: HeightAnimationProps['element']
   children: React.ReactNode
 }
@@ -43,6 +45,7 @@ function Visibility({
   whenValue,
   inferData,
   animate,
+  keepInDOM,
   children,
   ...rest
 }: Props) {
@@ -109,13 +112,30 @@ function Visibility({
 
   if (animate) {
     return (
-      <HeightAnimation open={Boolean(check())} {...rest}>
+      <HeightAnimation
+        open={Boolean(check())}
+        keepInDOM={keepInDOM}
+        className="dnb-forms-visibility"
+        {...rest}
+      >
         {children}
       </HeightAnimation>
     )
   }
 
-  return check() ? <>{children}</> : null
+  if (check()) {
+    return <>{children}</>
+  }
+
+  if (keepInDOM) {
+    return (
+      <span className="dnb-forms-visibility" hidden>
+        {children}
+      </span>
+    )
+  }
+
+  return null
 }
 
 Visibility._supportsSpacingProps = 'children'
