@@ -39,7 +39,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Sets the position of the label.',
-    type: [`'horizontal'`, 'vertical`'],
+    type: [`'horizontal'`, '`vertical`'],
     defaultValue: `'horizontal'`,
     status: 'optional',
   },

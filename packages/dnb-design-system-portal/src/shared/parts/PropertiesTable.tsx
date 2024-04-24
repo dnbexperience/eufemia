@@ -13,7 +13,6 @@ const components = {
 const StyledTable = styled(Table)`
   td {
     white-space: nowrap;
-    // vertical-align: middle !important;
   }
 `
 
@@ -22,7 +21,7 @@ const colorString = 'var(--color-fire-red)'
 const colorType = 'var(--color-violet)'
 const colorUndefined = 'var(--color-black-55)'
 
-const DocCode = ({
+const FormattedCode = ({
   variant,
   strikethrough,
   children,
@@ -86,12 +85,12 @@ export default function PropertiesTable({
       return (
         <Tr key={key}>
           <Td>
-            <DocCode
+            <FormattedCode
               variant="prop"
               strikethrough={status === 'deprecated'}
             >
               {formatName(camelCase ? toCamelCase(key) : key)}
-            </DocCode>
+            </FormattedCode>
           </Td>
           <Td>
             {(Array.isArray(type) ? type : [type])
@@ -101,9 +100,9 @@ export default function PropertiesTable({
                     t = valueType as string
                   }
                   return (
-                    <DocCode key={t} variant="type">
+                    <FormattedCode key={t} variant="type">
                       {t}
-                    </DocCode>
+                    </FormattedCode>
                   )
                 }
               })
@@ -116,7 +115,9 @@ export default function PropertiesTable({
           {showDefaultValue && (
             <Td>
               {defaultValue ? (
-                <DocCode variant="value">{defaultValue}</DocCode>
+                <FormattedCode variant="value">
+                  {defaultValue}
+                </FormattedCode>
               ) : (
                 status === 'required' && 'REQUIRED'
               )}
