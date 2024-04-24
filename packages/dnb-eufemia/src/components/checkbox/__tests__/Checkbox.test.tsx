@@ -10,11 +10,11 @@ import {
   fireEvent,
   waitFor,
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Checkbox, { CheckboxProps } from '../Checkbox'
 import { Provider } from '../../../shared'
-import userEvent from '@testing-library/user-event'
 
 const props: CheckboxProps = {
   label: 'checkbox',
@@ -54,18 +54,13 @@ describe('Checkbox component', () => {
   })
 
   it('has "on_change" event which will trigger on a input change', () => {
-    const my_event = jest.fn()
     const myEvent = jest.fn()
-    render(
-      <Checkbox on_change={my_event} onChange={myEvent} checked={false} />
-    )
+    render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()
 
-    expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
   describe('controlled vs uncontrolled', () => {
@@ -77,7 +72,7 @@ describe('Checkbox component', () => {
         <>
           <Checkbox
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button

@@ -1,13 +1,18 @@
 /**
  * Web Checkbox Component
- *
  */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import classnames from 'classnames'
 import keycode from 'keycode'
+
 import {
-  makeUniqueId,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -19,23 +24,24 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
+import useId from '../../shared/helpers/useId'
+import type { SpacingProps } from '../space/types'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
-// types
 import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText,
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
-import Context from '../../shared/Context'
-import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import CheckIcon from './CheckIcon'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 export type CheckboxLabelPosition = 'left' | 'right'
 export type CheckboxSize = 'default' | 'medium' | 'large'
@@ -45,10 +51,6 @@ export type OnChangeParams = {
   event: React.ChangeEvent<HTMLInputElement>
 }
 
-/**
- * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
- */
-
 export type CheckboxProps = {
   /**
    * Use either the `label` property or provide a custom one.
@@ -57,11 +59,11 @@ export type CheckboxProps = {
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
-  label_position?: CheckboxLabelPosition
+  labelPosition?: CheckboxLabelPosition
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean
+  labelSrOnly?: boolean
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
@@ -70,8 +72,6 @@ export type CheckboxProps = {
    * Determine whether the checkbox is checked or not. The default is `false`.
    */
   checked?: boolean | undefined | null
-  disabled?: boolean
-  id?: string
   /**
    * The size of the checkbox. For now there is "medium" (default) and "large".
    */
@@ -83,14 +83,14 @@ export type CheckboxProps = {
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
   /**
-   * Use an object to define additional FormStatus properties.
+   * Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)
    */
-  status_props?: FormStatusProps
-  status_no_animation?: boolean
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)
    */
   globalStatus?: GlobalStatusConfigObject
   /**
@@ -100,20 +100,14 @@ export type CheckboxProps = {
   value?: string
   element?: React.ElementType
   attributes?: CheckboxAttributes
-  readOnly?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
-  class?: string
-  className?: string
   /**
    * Will be called on state changes made by the user. Returns an boolean `{ checked, event }`.
    */
-  on_change?: (args: OnChangeParams) => void
   onChange?: (args: OnChangeParams) => void
-
-  on_state_update?: ({ checked }: { checked: boolean }) => void
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
@@ -121,55 +115,65 @@ export type CheckboxProps = {
     | React.MutableRefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
 } & SpacingProps &
-  Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'label' | 'size'>
+  Omit<
+    React.HTMLProps<HTMLInputElement>,
+    'ref' | 'label' | 'size' | 'onChange'
+  > &
+  DeprecatedCheckboxProps
+
+// depracated, can be removed in v11
+type DeprecatedCheckboxProps = {
+  /** @deprecated use the `label` prop instead */
+  children?: React.ReactNode
+  /**  @deprecated use `onComplete` */
+  on_change?: (args: OnChangeParams) => void
+  /**  @deprecated use `labelPosition` */
+  label_position?: CheckboxLabelPosition
+  /**  @deprecated use `labelSrOnly` */
+  label_sr_only?: boolean
+  /**  @deprecated use `statusState` */
+  status_state?: FormStatusState
+  /**  @deprecated use `statusProps` */
+  status_props?: FormStatusProps
+  /**  @deprecated use `statusNoAnimation` */
+  status_no_animation?: boolean
+}
+
+const defaultProps: CheckboxProps = {
+  statusState: 'error',
+}
 
 function Checkbox(localProps: CheckboxProps) {
-  const defaultProps: CheckboxProps = {
-    id: makeUniqueId(),
-    status_state: 'error',
-  }
+  const context = useContext(Context)
 
-  const context = React.useContext(Context)
-
-  const props = extendPropsWithContext(
-    localProps,
-    defaultProps,
-    context.Checkbox,
-    {
-      skeleton: context?.Checkbox,
-    },
-    // Deprecated – can be removed in v11
-    pickFormElementProps(context?.FormRow),
-    pickFormElementProps(context?.formElement)
-  )
+  const props = extractPropsFromContext()
 
   const {
     value,
     status,
-    status_state,
-    status_props,
-    status_no_animation,
+    statusState,
+    statusProps,
+    statusNoAnimation,
     globalStatus,
     suffix,
     size,
     label,
-    label_position,
-    label_sr_only,
+    labelPosition,
+    labelSrOnly,
     title,
     element,
     disabled,
     readOnly,
     skeleton,
     className,
-    class: _className,
-    id,
+    id: idProp,
     checked,
-    on_change,
     onChange,
-    on_state_update,
     innerRef,
     ...rest
   } = props
+
+  const id = useId(idProp)
 
   const isFn = typeof innerRef === 'function'
   const refHook = useRef<HTMLInputElement>()
@@ -191,78 +195,58 @@ function Checkbox(localProps: CheckboxProps) {
     }
   }, [checked, prevChecked])
 
-  useEffect(() => {
-    if (on_state_update) {
-      on_state_update({ checked: isChecked })
-    }
-  }, [isChecked, on_state_update])
+  const callOnChange = useCallback(
+    (args: OnChangeParams) => {
+      onChange?.(args)
+    },
+    [onChange]
+  )
 
-  function onKeyDownHandler(event) {
-    switch (keycode(event)) {
-      case 'enter':
-        onChangeHandler(event)
-        break
-    }
-  }
+  const onChangeHandler = useCallback(
+    (event) => {
+      if (readOnly) {
+        return event.preventDefault()
+      }
+      const updatedCheck = !isChecked
 
-  const callOnChange = (args: OnChangeParams) => {
-    onChange?.(args)
-    on_change?.(args)
-  }
+      setIsChecked(updatedCheck)
+      callOnChange({ checked: updatedCheck, event })
 
-  function onChangeHandler(event) {
-    if (readOnly) {
-      return event.preventDefault()
-    }
-    const updatedCheck = !isChecked
+      // help firefox and safari to have an correct state after a click
+      if (ref.current) {
+        ref.current.focus()
+      }
+    },
+    [callOnChange, isChecked, readOnly, ref]
+  )
 
-    setIsChecked(updatedCheck)
-    callOnChange({ checked: updatedCheck, event })
-
-    // help firefox and safari to have an correct state after a click
-    if (ref.current) {
-      ref.current.focus()
-    }
-  }
-
-  const showStatus = getStatusState(status)
+  const onKeyDownHandler = useCallback(
+    (event) => {
+      switch (keycode(event)) {
+        case 'enter':
+          onChangeHandler(event)
+          break
+      }
+    },
+    [onChangeHandler]
+  )
 
   const mainParams = {
     className: classnames(
       'dnb-checkbox',
-      status && `dnb-checkbox__status--${status_state}`,
+      status && `dnb-checkbox__status--${statusState}`,
       size && `dnb-checkbox--${size}`,
-      label && `dnb-checkbox--label-position-${label_position || 'right'}`,
+      label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
       createSpacingClasses(props),
-      className,
-      _className
+      className
     ),
   }
 
-  const inputParams = {
-    disabled,
-    checked: isChecked,
-    readOnly,
-    ...rest,
-  }
+  const showStatus = getStatusState(status)
 
-  if (showStatus || suffix) {
-    inputParams['aria-describedby'] = combineDescribedBy(
-      inputParams,
-      showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
-    )
-  }
-  if (readOnly) {
-    inputParams['aria-readonly'] = inputParams.readOnly = true
-  }
-
-  skeletonDOMAttributes(inputParams, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(props, inputParams)
+  const inputParams = handleInputAttributes()
 
   const statusComp = (
     <FormStatus
@@ -273,10 +257,10 @@ function Checkbox(localProps: CheckboxProps) {
       text_id={id + '-status'} // used for "aria-describedby"
       width_selector={id + ', ' + id + '-label'}
       text={status}
-      state={status_state}
-      no_animation={status_no_animation}
+      state={statusState}
+      no_animation={statusNoAnimation}
       skeleton={skeleton}
-      {...status_props}
+      {...statusProps}
     />
   )
 
@@ -292,13 +276,13 @@ function Checkbox(localProps: CheckboxProps) {
             text={label}
             disabled={disabled}
             skeleton={skeleton}
-            srOnly={label_sr_only}
+            srOnly={labelSrOnly}
           />
         )}
 
         <span className="dnb-checkbox__inner">
           <AlignmentHelper />
-          {label_position === 'left' && statusComp}
+          {labelPosition === 'left' && statusComp}
 
           <span className="dnb-checkbox__shell">
             <Element
@@ -340,9 +324,52 @@ function Checkbox(localProps: CheckboxProps) {
         )}
       </span>
 
-      {(label_position === 'right' || !label_position) && statusComp}
+      {(labelPosition === 'right' || !labelPosition) && statusComp}
     </span>
   )
+
+  /**
+   * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
+   */
+  function handleInputAttributes() {
+    const inputParams = {
+      disabled,
+      checked: isChecked,
+      readOnly,
+      ...rest,
+    }
+
+    if (showStatus || suffix) {
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      )
+    }
+    if (readOnly) {
+      inputParams['aria-readonly'] = inputParams.readOnly = true
+    }
+
+    // also used for code markup simulation
+    return validateDOMAttributes(
+      props,
+      skeletonDOMAttributes(inputParams, skeleton, context)
+    )
+  }
+
+  function extractPropsFromContext() {
+    return extendPropsWithContext(
+      convertSnakeCaseProps(localProps),
+      defaultProps,
+      context.Checkbox,
+      {
+        skeleton: context?.Checkbox,
+      },
+      // Deprecated – can be removed in v11
+      pickFormElementProps(context?.FormRow),
+      pickFormElementProps(context?.formElement)
+    )
+  }
 }
 
 export default Checkbox
