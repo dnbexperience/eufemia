@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Form.SubmitButton` connects to the [Form.Handler](/uilib/extensions/forms/Form/Handler/) to submit the active state of the internal [DataContext](/uilib/extensions/forms/DataContext/), triggering `onSubmit`.
+
+The default button type is `type="submit"`, ready to be used with the [Form.Handler](/uilib/extensions/forms/Form/Handler).
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler>
+    <Form.ButtonRow>
+      <Form.SubmitButton />
+    </Form.ButtonRow>
+  </Form.Handler>,
+)
+```

@@ -44,7 +44,7 @@ export const BecomeCorporateCustomer = () => {
                 <Wizard.Step title="Bedriftsopplysninger">
                   <Form.MainHeading>Bedriftsopplysninger</Form.MainHeading>
 
-                  <Card spacing="medium">
+                  <Card stack>
                     <Field.OrganizationNumber
                       path="/companyOrganizationNumber"
                       required
@@ -100,7 +100,7 @@ export const BecomeCorporateCustomer = () => {
                     />
                   </Card>
 
-                  <Card spacing="medium">
+                  <Card stack>
                     <Field.PhoneNumber
                       path="/phoneNumber"
                       label="Telefon/mobilnummer"

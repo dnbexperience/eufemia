@@ -31,5 +31,10 @@ export default function useStep(
     } as unknown as WizardContextState) // Internal type
   }, [onStepChange])
 
-  return sharedDataRef.current.data || context
+  const data = sharedDataRef.current.data
+  if (data && !data.setFormError) {
+    data.setFormError = setFormError
+  }
+
+  return data || context
 }

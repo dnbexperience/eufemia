@@ -1,0 +1,23 @@
+---
+showTabs: true
+---
+
+import Demos from 'Docs/uilib/extensions/forms/Form/Visibility/demos'
+
+## Description
+
+The `Form.Visibility` component makes it possible to show or hide components on the screen based on the state of data. It can either be fed with the values directly via props, or it can read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) and show or hide components based on the data it points to.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <>
+    <Field.Boolean path="/myState" />
+    <Form.Visibility pathTrue="/myState">
+      show me when the state value is true
+    </Form.Visibility>
+  </>,
+)
+```
+
+<Demos />

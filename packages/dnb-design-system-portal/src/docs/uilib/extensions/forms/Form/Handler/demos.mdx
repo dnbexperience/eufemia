@@ -1,0 +1,80 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### In combination with a SubmitButton
+
+This example uses an async `onSubmit` event handler. It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the form is pending.
+
+With an async function, you can also handle the response from the server and update the form with the new data.
+
+```ts
+// Async function
+const onSubmit = async (data) => {
+  try {
+    const response = await fetch('https://api.example.com', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+    const data = await response.json()
+    Form.setData('unique', data) // Whatever you want to do with the data
+  } catch (error) {
+    return error // Will display the error message in the form
+  }
+}
+```
+
+<Examples.AsyncSubmit />
+
+### New location after async submit
+
+This example is only for demo purpose and will NOT redirect to a new location. It will also time out after 10 seconds.
+
+<Examples.AsyncSubmitComplete />
+
+### Filter your data
+
+By using the `filterData` prop you can filter out data that you don't want to send to your server.
+
+It will filter out data from the `onSubmit` event property.
+
+In this example we filter out all fields that are disabled.
+
+The [useData](/uilib/extensions/forms/Form/useData/) hook also returns a `filterData` function you can use to filter data the same way.
+
+<Examples.FilterData />
+
+### With session storage
+
+Changes you make to the fields are temporarily saved and loaded
+when the browser reloads. The data is stored until the session storage is invalidated.
+
+<Examples.SessionStorage />
+
+### Autocomplete (autofill) user data
+
+<Examples.Autofill />
+
+### Complex async (autosave) example
+
+This example demonstrates how to use async validation with an async `onSubmit` and async `onChange` event for both the `Form.Handler` and a field itself.
+
+- While you write, an async validation request is simulated to check if the input is valid. If it's not, an error message will be shown.
+
+- During validation, only the relevant value will be evaluated. This means, when the delayed validation is done, and the value has changed, the validation result will be omitted.
+
+- You can press enter to submit the form while you write. But only a string of `valid` will be accepted to emit the form `onSubmit` and `onChange`.
+
+- You can start writing, wait a second or two and remove the whole text again and blur the field. The async validation return will be omitted and the "required" error message will be shown.
+
+- It also shows some status messages after the validation and submit requests are done.
+
+- This example does not include an async `onBlurValidator` – but it's possible to add one into the mix as well.
+
+- To access the `date` "in sync" – you can use the [useData](/uilib/extensions/forms/Form/useData/) hook.
+
+<Examples.AsyncChangeAndValidation />

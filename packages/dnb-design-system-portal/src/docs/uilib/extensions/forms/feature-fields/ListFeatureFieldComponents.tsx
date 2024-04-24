@@ -9,7 +9,11 @@ export default function ListFeatureFieldComponents(props) {
     {
       allMdx(
         filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
+          frontmatter: {
+            showTabs: { ne: null }
+            title: { ne: null }
+            draft: { ne: true }
+          }
           internal: {
             contentFilePath: {
               glob: "**/uilib/extensions/forms/feature-fields/*"
