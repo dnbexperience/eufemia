@@ -94,7 +94,7 @@ function Card(props: Props) {
         divider={divider}
         alignSelf={alignSelf}
         wrap={!stack}
-        spacing={stack ? 'small' : spacing || false}
+        spacing={stack ? 'medium' : spacing || false}
         rowGap={rowGap || false}
       >
         {title && (
