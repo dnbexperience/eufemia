@@ -31,4 +31,9 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  width: {
+    doc: '`false` for no width (use browser default), small, medium or large for predefined standard widths, stretch for fill available width.',
+    type: 'string',
+    status: 'optional',
+  },
 }
