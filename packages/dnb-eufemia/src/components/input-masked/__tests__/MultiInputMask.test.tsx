@@ -745,11 +745,12 @@ describe('MultiInputMask', () => {
 
     await userEvent.type(day, '11012024')
 
-    expect(onFocus).toHaveBeenCalledTimes(3)
+    expect(onFocus).toHaveBeenCalledTimes(1)
 
+    await userEvent.click(document.body)
     await userEvent.click(day)
 
-    expect(onFocus).toHaveBeenCalledTimes(4)
+    expect(onFocus).toHaveBeenCalledTimes(2)
     expect(onFocus).toHaveBeenCalledWith({
       day: '11',
       month: '01',
@@ -773,15 +774,91 @@ describe('MultiInputMask', () => {
 
     await userEvent.type(day, '11012024')
 
-    expect(onBlur).toHaveBeenCalledTimes(3)
+    expect(onBlur).toHaveBeenCalledTimes(1)
 
     await userEvent.click(document.body)
 
-    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith({
       day: '11',
       month: '01',
       year: '2024',
     })
+  })
+
+  it('should not fire focus event while navigating between inputs', async () => {
+    const onFocus = jest.fn()
+    const onBlur = jest.fn()
+
+    render(
+      <>
+        <MultiInputMask
+          {...defaultProps}
+          label="First"
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+        <MultiInputMask
+          label="Second"
+          inputs={[
+            {
+              id: 'first',
+              label: 'the first',
+              placeholderCharacter: '0',
+              mask: [/[0-9]/, /[0-9]/],
+            },
+            {
+              id: 'second',
+              label: 'the second',
+              placeholderCharacter: '0',
+              mask: [/[0-9]/, /[0-9]/],
+            },
+            {
+              id: 'third',
+              label: 'the third',
+              placeholderCharacter: '0',
+              mask: [/[0-9]/, /[0-9]/],
+            },
+          ]}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+      </>
+    )
+
+    const [firstLabel, secondLabel] = Array.from(
+      document.querySelectorAll('legend')
+    )
+
+    await userEvent.click(firstLabel)
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await userEvent.keyboard('{Tab>3}')
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(2)
+
+    await userEvent.keyboard('{Tab>2}')
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(2)
+
+    await userEvent.keyboard('{Shift>}{Tab>3}{/Shift}')
+    expect(onBlur).toHaveBeenCalledTimes(2)
+    expect(onFocus).toHaveBeenCalledTimes(3)
+
+    await userEvent.click(secondLabel)
+    expect(onBlur).toHaveBeenCalledTimes(3)
+    expect(onFocus).toHaveBeenCalledTimes(4)
+
+    await userEvent.click(firstLabel)
+    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onFocus).toHaveBeenCalledTimes(5)
+
+    await userEvent.keyboard('{Tab>3}')
+    expect(onBlur).toHaveBeenCalledTimes(5)
+    expect(onFocus).toHaveBeenCalledTimes(6)
+
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(6)
+    expect(onFocus).toHaveBeenCalledTimes(6)
   })
 })

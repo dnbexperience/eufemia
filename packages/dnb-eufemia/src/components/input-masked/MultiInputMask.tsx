@@ -1,4 +1,4 @@
-import React, { Fragment, MutableRefObject, useRef } from 'react'
+import React, { MutableRefObject, useRef } from 'react'
 import Input from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
@@ -85,7 +85,13 @@ export type MultiInputMaskProps<T extends string> = {
   suffix?: React.ReactNode
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
-  'onChange' | 'onFocus' | 'onBlur' | 'ref' | 'value' | 'label'
+  | 'onChange'
+  | 'onFocus'
+  | 'onBlur'
+  | 'ref'
+  | 'value'
+  | 'label'
+  | 'placeholder'
 > &
   SpacingProps
 
@@ -117,6 +123,7 @@ function MultiInputMask<T extends string>({
   })
 
   const inputRefs = useRef<Array<MutableRefObject<HTMLInputElement>>>([])
+  const areInputsInFocus = useRef<boolean>(false)
 
   const { onKeyDown } = useHandleCursorPosition(
     inputRefs.current,
@@ -171,13 +178,16 @@ function MultiInputMask<T extends string>({
               onKeyDown={onKeyDown}
               onChange={onChange}
               onFocus={() => {
-                if (onFocus) {
-                  onFocus(values)
+                if (!areInputsInFocus.current) {
+                  onFocus?.(values)
                 }
+
+                areInputsInFocus.current = true
               }}
-              onBlur={() => {
-                if (onBlur) {
-                  onBlur(values)
+              onBlur={(e) => {
+                if (!e.relatedTarget?.id?.includes(id)) {
+                  onBlur?.(values)
+                  areInputsInFocus.current = false
                 }
               }}
               getInputRef={getInputRef}
