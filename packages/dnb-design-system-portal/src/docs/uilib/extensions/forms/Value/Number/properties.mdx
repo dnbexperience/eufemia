@@ -2,12 +2,13 @@
 showTabs: true
 ---
 
-import StandardProperties from '../value-properties.mdx'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
 
 ## Properties
 
-<StandardProperties valueType="number" />
+<PropertiesTable props={ValueProperties} valueType="number" />
 
-### Field-specific props
+### Value-specific props
 
 It inherits all the [properties](/uilib/components/number-format/properties/) from the `NumberFormat` component. All snake_case props are converted to camelCase.
