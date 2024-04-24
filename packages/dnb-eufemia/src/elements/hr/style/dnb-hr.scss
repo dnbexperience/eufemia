@@ -20,7 +20,7 @@
     background-color: transparent;
   }
 
-  &--fullscreen::after {
+  &--breakout::after {
     left: -100vw;
     box-shadow: 100vw 0 0 0 var(--hr-color, grey);
     border-radius: 0;

@@ -15,14 +15,10 @@ export const HorizontalRuleDefaultExample = () => (
   </ComponentBox>
 )
 
-export const HorizontalRuleFullscreenExample = () => (
-  <ComponentBox
-    background="white"
-    hideCode
-    data-visual-test="hr-fullscreen"
-  >
+export const HorizontalRuleBreakoutExample = () => (
+  <ComponentBox background="white" hideCode data-visual-test="hr-breakout">
     Something
-    <Hr fullscreen space={{ top: '0.5rem', bottom: '0.5rem' }} />
+    <Hr breakout space={{ top: '0.5rem', bottom: '0.5rem' }} />
     Something
   </ComponentBox>
 )

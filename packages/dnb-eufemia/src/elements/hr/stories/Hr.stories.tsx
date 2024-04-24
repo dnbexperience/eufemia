@@ -10,17 +10,17 @@ export function HrThickness() {
       <Hr light />
       <Hr top />
       <Hr top medium />
-      <Hr fullscreen top light />
-      <Hr fullscreen top />
-      <Hr fullscreen top medium />
+      <Hr breakout top light />
+      <Hr breakout top />
+      <Hr breakout top medium />
 
       <Flex.Vertical top divider="line">
         <Hr light />
         <Hr />
         <Hr medium />
-        <Hr fullscreen light />
-        <Hr fullscreen />
-        <Hr fullscreen medium />
+        <Hr breakout light />
+        <Hr breakout />
+        <Hr breakout medium />
       </Flex.Vertical>
     </>
   )

@@ -20,9 +20,9 @@ describe('Horizontal rule', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match fullscreen horizontal rule', async () => {
+  it('have to match breakout horizontal rule', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="hr-fullscreen"]',
+      selector: '[data-visual-test="hr-breakout"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
