@@ -34,8 +34,8 @@ export const HorizontalWithFieldString = () => {
       data-visual-test="flex-container-field"
     >
       <Flex.Container>
-        <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" width="medium" />
+        <Field.String label="Label" value="Foo" width="small" />
       </Flex.Container>
     </ComponentBox>
   )
@@ -137,36 +137,21 @@ export const VerticalWithCard = () => {
   )
 }
 
-export const VerticalWithFieldString = () => {
-  return (
-    <ComponentBox scope={{ TestElement }}>
-      <Card>
-        <Flex.Container direction="vertical">
-          <Field.String label="Label" value="Foo" />
-          <Field.String label="Label" value="Foo" />
-        </Flex.Container>
-      </Card>
-    </ComponentBox>
-  )
-}
-
 export const VerticalLineDivider = () => {
   return (
     <ComponentBox
       scope={{ TestElement }}
       data-visual-test="flex-container-divider"
     >
-      <Card>
-        <Flex.Container
-          direction="vertical"
-          divider="line"
-          alignSelf="stretch"
-        >
-          <Form.SubHeading>Heading</Form.SubHeading>
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
-        </Flex.Container>
-      </Card>
+      <Flex.Container
+        direction="vertical"
+        divider="line"
+        alignSelf="stretch"
+      >
+        <TestElement>FlexItem</TestElement>
+        <TestElement>FlexItem</TestElement>
+        <TestElement>FlexItem</TestElement>
+      </Flex.Container>
     </ComponentBox>
   )
 }
