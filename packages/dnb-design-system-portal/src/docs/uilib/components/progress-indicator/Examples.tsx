@@ -11,6 +11,7 @@ import {
   FormRow,
   Dialog,
   Flex,
+  IconPrimary,
 } from '@dnb/eufemia/src'
 
 export const ProgressIndicatorDefaultExample = () => (
@@ -44,6 +45,27 @@ export const ProgressIndicatorCircularLabelVerticalExample = () => (
       showDefaultLabel={true}
       labelDirection="vertical"
     />
+  </ComponentBox>
+)
+
+export const ProgressIndicatorCircularLabelInsideExample = () => (
+  <ComponentBox>
+    <ProgressIndicator
+      right
+      label={<IconPrimary icon="save" />}
+      type="circular"
+      labelDirection="inside"
+    />
+
+    <ProgressIndicator
+      progress={72}
+      size="large"
+      type="circular"
+      labelDirection="inside"
+      data-visual-test="progress-indicator-label-inside"
+    >
+      <span className="dnb-p dnb-p--bold dnb-p__size--small">{72}%</span>
+    </ProgressIndicator>
   </ComponentBox>
 )
 

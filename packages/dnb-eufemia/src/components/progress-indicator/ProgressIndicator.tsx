@@ -48,13 +48,17 @@ export type ProgressIndicatorProps = {
    */
   progress?: string | number
   /**
-   * Show a custom label to the right or under the indicator.
+   * Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)
    */
   label?: React.ReactNode
   /**
-   * Sets the position of the label. Defaults to `horizontal`.
+   * Same as `label` prop (`label` prop has priority)
    */
-  labelDirection?: 'horizontal' | 'vertical'
+  children?: React.ReactNode
+  /**
+   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `horizontal`.
+   */
+  labelDirection?: 'horizontal' | 'vertical' | 'inside'
   /**
    * If set to `true` a default label (from text locales) will be shown.
    */
@@ -68,7 +72,7 @@ export type ProgressIndicatorProps = {
    */
   title?: string
   /**
-   * Will be called once it&#39;s no longer `visible`.
+   * Will be called once it's no longer `visible`.
    */
   onComplete?: (...args: any[]) => any
 }
@@ -81,8 +85,6 @@ type DeprecatedProgressIndicatorProps = {
   label_direction?: string
   /** @deprecated use `showDefaultLabel`. */
   show_label?: boolean
-  /** @deprecated use the `label` prop instead. */
-  children?: React.ReactNode
   /**  @deprecated use `onComplete`. */
   on_complete?: (...args: any[]) => any
 }
@@ -109,6 +111,7 @@ function ProgressIndicator(
     noAnimation = false,
     onComplete,
     label,
+    children,
     indicator_label,
     labelDirection = 'horizontal',
     showDefaultLabel = false,
@@ -133,7 +136,7 @@ function ProgressIndicator(
       : undefined
 
   const indicatorLabel =
-    label || (isTrue(showDefaultLabel) && indicator_label)
+    label || children || (isTrue(showDefaultLabel) && indicator_label)
   const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
@@ -230,7 +233,6 @@ function handleDeprecatedBehaviour(
   const {
     show_label: showDefaultLabel,
     indicator_label,
-    children: label,
     ...propsToConvertToCamelCase
   } = oldProps
 
@@ -238,7 +240,6 @@ function handleDeprecatedBehaviour(
   return {
     showDefaultLabel,
     indicator_label,
-    label,
     ...convertSnakeCaseProps(propsToConvertToCamelCase, {
       overrideExistingValue: false,
     }),

@@ -32,14 +32,20 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'Show a custom label to the right or under the indicator.',
+    doc: 'Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)',
+    type: 'React.ReactNode',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Same as `label` prop (`label` prop has priority)',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Sets the position of the label.',
-    type: [`'horizontal'`, '`vertical`'],
+    doc: "Sets the position of the label. `'inside'` only works with `type='circular'.",
+    type: [`'horizontal'`, `'vertical'`, `'inside'`],
     defaultValue: `'horizontal'`,
     status: 'optional',
   },
@@ -83,11 +89,6 @@ export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
     show_label: {
       doc: 'use `showDefaultLabel`.',
       type: 'boolean',
-      status: 'deprecated',
-    },
-    children: {
-      doc: 'use the `label` prop instead.',
-      type: 'React.ReactNode',
       status: 'deprecated',
     },
   }

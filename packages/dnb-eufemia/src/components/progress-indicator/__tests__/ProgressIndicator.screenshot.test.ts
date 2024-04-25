@@ -16,6 +16,13 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/progress-indicator/demos',
     })
 
+    it('with label inside', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="progress-indicator-label-inside"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match the static primary circular with 50 percentage', async () => {
       const screenshot = await makeScreenshot({
         selector:

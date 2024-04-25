@@ -10,6 +10,7 @@
   --progress-indicator-circular-circle: 88;
   --progress-indicator-circular-circle-offset--min: 88;
   --progress-indicator-circular-circle-offset--max: 1;
+  --progress-indicator-circular-size: 2rem;
   --progress-indicator-circular-background-color: grey;
   --progress-indicator-circular-bar-color: var(--color-black);
   --progress-indicator-linear-background-color: grey;
@@ -54,13 +55,36 @@
     padding-top: 0.5rem;
   }
 
+  &--inside &__label {
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    padding: calc(var(--progress-indicator-circular-size) / 8);
+  }
+
+  &--small {
+    --progress-indicator-circular-size: 1rem;
+  }
+
+  &--medium {
+    --progress-indicator-circular-size: 1.5rem;
+  }
+
+  &--large {
+    --progress-indicator-circular-size: 3.5rem;
+  }
+
+  &--huge {
+    --progress-indicator-circular-size: 20rem;
+  }
+
   // circular variant
   &__circular {
     position: relative;
 
     // default/basis size
-    width: 2rem;
-    height: 2rem;
+    width: var(--progress-indicator-circular-size);
+    height: var(--progress-indicator-circular-size);
 
     // since SVG is starting 90deg from top
     transform: rotate(-90deg);
@@ -122,26 +146,6 @@
 
     &__line.dark &__circle {
       stroke: var(--progress-indicator-circular-bar-color);
-    }
-
-    &--small {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    &--medium {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-
-    &--large {
-      width: 3.5rem;
-      height: 3.5rem;
-    }
-
-    &--huge {
-      width: 20rem;
-      height: 20rem;
     }
 
     // compensate for 'aliasing artifacts' seen when rendering same sized, lighter on dark elements
@@ -254,7 +258,8 @@
     animation-duration: 0ms;
   }
 
-  &--no-animation {
+  &--no-animation,
+  &--no-animation#{&}--complete {
     animation-duration: 0ms;
   }
 
