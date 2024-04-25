@@ -119,6 +119,7 @@ legend.dnb-form-label {
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;

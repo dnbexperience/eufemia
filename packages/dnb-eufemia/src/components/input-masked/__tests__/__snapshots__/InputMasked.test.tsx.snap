@@ -86,6 +86,7 @@ exports[`InputMasked scss has to match style dependencies css 1`] = `
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;
@@ -634,6 +635,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;
