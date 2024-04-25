@@ -351,3 +351,43 @@ export const ProgressIndicatorSizesExample = () => (
     </div>
   </ComponentBox>
 )
+
+const MyCustomLabel = ({ children }) => (
+  <Flex.Vertical align="center" spacing={false}>
+    <span className="dnb-p dnb-p--bold dnb-p__size--xx-large">
+      {children} d
+    </span>
+    igjen
+  </Flex.Vertical>
+)
+
+export const ProgressIndicatorCountdownExample = () => (
+  <ComponentBox scope={{ MyCustomLabel }}>
+    {() => {
+      const ChangeValue = () => {
+        const maxDays = 31
+        const [days, setDays] = React.useState(10)
+
+        React.useEffect(() => {
+          const timer = setInterval(() => {
+            setDays(days === 0 ? maxDays : days - 1)
+          }, 1000)
+          return () => clearTimeout(timer)
+        })
+        return (
+          <ProgressIndicator
+            type="countdown"
+            progress={(days / maxDays) * 100}
+            title={days + ' av ' + maxDays}
+            size="huge"
+            labelDirection="inside"
+          >
+            <MyCustomLabel>{days}</MyCustomLabel>
+          </ProgressIndicator>
+        )
+      }
+
+      return <ChangeValue />
+    }}
+  </ComponentBox>
+)

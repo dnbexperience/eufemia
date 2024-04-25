@@ -34,7 +34,7 @@ export type ProgressIndicatorProps = {
   /**
    * Defines the type. Defaults to `circular`.
    */
-  type?: 'circular' | 'linear'
+  type?: 'circular' | 'linear' | 'countdown'
   /**
    * Disables the fade-in and fade-out animation. Defaults to `false`.
    */
@@ -178,11 +178,12 @@ function ProgressIndicator(
       )}
       {...remainingDOMProps}
     >
-      {type === 'circular' && (
+      {(type === 'circular' || type === 'countdown') && (
         <ProgressIndicatorCircular
           size={size}
           progress={progressNumber}
           visible={visible}
+          reverse={type === 'countdown'}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}

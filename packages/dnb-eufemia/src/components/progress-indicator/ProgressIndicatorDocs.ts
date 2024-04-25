@@ -15,7 +15,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   type: {
     doc: 'Defines the type.',
-    type: [`'circular'`, `'linear'`],
+    type: [`'circular'`, `'linear'`, `'countdown'`],
     defaultValue: `'circular'`,
     status: 'optional',
   },

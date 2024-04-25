@@ -21,6 +21,10 @@ type ProgressIndicatorCircularProps = {
    * To visualize a static "percentage" (0-100) as a progress state. Defaults to `null`.
    */
   progress?: number
+  /**
+   * Reverse the direction of the progress bar. Defaults to `false`.
+   */
+  reverse?: boolean
   maxOffset?: number
   onComplete?: (...args: any[]) => any
   callOnCompleteHandler?: (...args: any[]) => any
@@ -38,6 +42,7 @@ function ProgressIndicatorCircular(
     size,
     visible,
     progress,
+    reverse = false,
     maxOffset = 88,
     onComplete,
     callOnCompleteHandler,
@@ -184,7 +189,15 @@ function ProgressIndicatorCircular(
           'dark',
           hasProgressValue || useAnimationFrame ? 'paused' : null
         )}
-        style={hasProgressValue ? { strokeDashoffset } : {}}
+        style={
+          hasProgressValue
+            ? {
+                strokeDashoffset: reverse
+                  ? -strokeDashoffset
+                  : strokeDashoffset,
+              }
+            : {}
+        }
         ref={_refDark}
       />
       {!hasProgressValue && (
