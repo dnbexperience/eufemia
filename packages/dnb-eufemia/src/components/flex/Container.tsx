@@ -190,7 +190,7 @@ function FlexContainer(props: Props) {
 
     return renderWithSpacing(child, {
       key: child?.['key'] || `element-${i}`,
-      space,
+      space: child?.['props']?.space ?? space,
     })
   })
 
