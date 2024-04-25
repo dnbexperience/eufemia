@@ -1,10 +1,9 @@
 import ReactMarkdown from 'react-markdown'
 import styled from '@emotion/styled'
-import { Code, Table, Td, Th, Tr } from '@dnb/eufemia/src'
+import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { toCamelCase } from '@dnb/eufemia/src/shared/component-helper'
 import { basicComponents } from '../tags'
-import Copy from '../tags/Copy'
 
 const components = {
   ...basicComponents,
@@ -16,6 +15,52 @@ const StyledTable = styled(Table)`
     white-space: nowrap;
   }
 `
+
+const colorValue = 'var(--color-success-green)'
+const colorString = 'var(--color-fire-red)'
+const colorType = 'var(--color-violet)'
+const colorUndefined = 'var(--color-black-55)'
+
+const FormattedCode = ({
+  variant,
+  strikethrough,
+  children,
+  style = {},
+  ...rest
+}: {
+  variant?: 'prop' | 'type' | 'value'
+  strikethrough?: boolean
+  style?: React.CSSProperties
+  children?: React.ReactNode
+}) => {
+  if (strikethrough) {
+    style.textDecoration = 'line-through'
+  }
+  if (typeof children === 'string') {
+    switch (variant) {
+      case 'prop': {
+        break // add prop name styling at a future date with color 'var(--color-indigo)'
+      }
+      case 'type': {
+        style.color = children.startsWith(`'`) ? colorString : colorType
+        // falls through
+      }
+      case 'value': {
+        style.color = children.startsWith(`'`)
+          ? colorString
+          : children === 'undefined'
+          ? colorUndefined
+          : colorValue
+        // falls through
+      }
+      default: {
+        style.background = 'none'
+        style.boxShadow = 'none'
+      }
+    }
+  }
+  return components.code({ children, style, ...rest })
+}
 
 export default function PropertiesTable({
   props,
@@ -36,50 +81,52 @@ export default function PropertiesTable({
       if (omit && omit.includes(key)) {
         return null
       }
-      if (!Array.isArray(type)) {
-        type = [type]
-      }
-      const name = formatName(camelCase ? toCamelCase(key) : key)
+
       return (
         <Tr key={key}>
           <Td>
-            <Copy>
-              <Code>{status === 'deprecated' ? <s>{name}</s> : name}</Code>
-            </Copy>
+            <FormattedCode
+              variant="prop"
+              strikethrough={status === 'deprecated'}
+            >
+              {formatName(camelCase ? toCamelCase(key) : key)}
+            </FormattedCode>
           </Td>
           <Td>
-            {type
+            {(Array.isArray(type) ? type : [type])
               .map((t) => {
                 if (typeof t === 'string') {
                   if (String(t).includes('{valueType}')) {
                     t = valueType as string
                   }
                   return (
-                    <Copy key={t}>
-                      <Code>{t}</Code>
-                    </Copy>
+                    <FormattedCode key={t} variant="type">
+                      {t}
+                    </FormattedCode>
                   )
                 }
               })
               .reduce((prev, curr) => (
                 <>
-                  {prev} or {curr}
+                  {prev} <br /> {curr}
                 </>
               ))}
           </Td>
           {showDefaultValue && (
             <Td>
-              {defaultValue === 'undefined' ? (
-                defaultValue
+              {defaultValue ? (
+                <FormattedCode variant="value">
+                  {defaultValue}
+                </FormattedCode>
               ) : (
-                <Copy>
-                  <Code>{defaultValue}</Code>
-                </Copy>
+                status === 'required' && 'REQUIRED'
               )}
             </Td>
           )}
           <Td>
-            <em>({status})</em>{' '}
+            {(!showDefaultValue || status === 'deprecated') && (
+              <em>({status}) </em>
+            )}
             <ReactMarkdown components={components}>
               {camelCase ? convertToCamelCase(doc, keys) : doc}
             </ReactMarkdown>
