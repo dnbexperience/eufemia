@@ -7,16 +7,16 @@ export default {
 }
 
 export const AnimatedContainer = () => {
-  const { data } = Form.useData('myList')
-
+  const { count } = Iterate.useCount('myForm')
   return (
     <React.StrictMode>
       <Form.Handler
-        id="myList"
         defaultData={{
           myList: ['Item 1'],
         }}
+        id="myForm"
       >
+        <Iterate.Count path="/myList" />
         <Card top>
           <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
             <Iterate.AnimatedContainer title="Title">
@@ -30,7 +30,7 @@ export const AnimatedContainer = () => {
 
           <Iterate.PushButton
             path="/myList"
-            pushValue={'New item ' + String(data?.['myList']?.length + 1)}
+            pushValue={() => 'New item ' + String(count('/myList') + 1)}
             text="Add new item"
             top
           />
