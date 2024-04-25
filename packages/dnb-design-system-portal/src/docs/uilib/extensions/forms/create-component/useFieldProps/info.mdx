@@ -11,10 +11,12 @@ The `useFieldProps` hook standardize handling of the value flow for a single con
 ```tsx
 import { useFieldProps } from '@dnb/eufemia/extensions/forms'
 
-function MyField(props) {
-  const { value } = useFieldProps(props)
-  // etc.
+const MyFieldComponent = (props) => {
+  const { value, ...rest } = useFieldProps(props)
+  return <Input value={value} {...rest} />
 }
+
+render(<MyFieldComponent path="/dataSelector" />)
 ```
 
 Advanced usage:
@@ -74,6 +76,7 @@ All properties are optional and can be used as needed. These properties can be p
 - `value` the input value (string).
 - `emptyValue` defines what value is considered to be empty. Defaults to `undefined`. But an empty string is also validated when required is true.
 - `path` the JSON pointer that defines the entry name/key in the data structure.
+- `itemPath` similar to `path`, but is used when run inside the [Iterate](/uilib/extensions/forms/Iterate/) context.
 
 **Validation**
 
@@ -211,13 +214,13 @@ The transformers are hooks to transform the value on different stages.
 
 They should return a transformed value: `(value) => value`
 
-- `toInput` transforms the value before it gets returned as the `value`:
+- `toInput` transforms the value before it is returned as the value. This applies whether the original source of the value is the value prop or the data context.
 
 - `fromInput` transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value form the original event object.
 
 - `toEvent` transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
 
-- `fromExternal` transforms the given props `value` before any other step gets entered.
+- `fromExternal` transforms the provided `value` prop before any other operations are performed.
 
 - `transformValue` transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
 

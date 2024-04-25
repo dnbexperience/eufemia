@@ -30,21 +30,26 @@ By using the building blocks for value and field components, you save developmen
 
 ## Value components
 
-For creating a `Value.*` component you can use [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/):
+For creating a `Value.*` component you can use [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/) and [useValueProps](/uilib/extensions/forms/create-component/useValueProps/):
 
 ```tsx
-import { ValueBlock } from '@dnb/eufemia/extensions/forms'
+import { ValueBlock, useValueProps } from '@dnb/eufemia/extensions/forms'
 
-const MyValue = ({ value, ...props }) => {
-  return <ValueBlock {...props}>{value}</ValueBlock>
+const MyValue = (props) => {
+  const { value, ...rest } = useValueProps(props)
+  return <ValueBlock {...rest}>{value}</ValueBlock>
 }
+
+render(<MyValue path="/dataSelector" />)
 ```
 
 [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/) provides a standardized way to display labels and other surrounding elements in a consistent manner.
 
 <CreateBasicValueComponent />
 
-In certain situations, you may find the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) hook useful (despite its name, useFieldProps, it's also applicable to value components). This hook offers convenient data transformation methods that can be readily exposed when wrapped (yes it's named `useFieldProps`, but it's also used for value components).
+The `useValueProps` provides a standardized way to handle data flow in a consistent manner.
+
+The `FieldBlock` provides a standardized way to display a label and other surrounding elements in a consistent manner.
 
 ## Field components
 
@@ -70,11 +75,13 @@ const MyField = (props) => {
     </FieldBlock>
   )
 }
+
+render(<MyField path="/dataSelector" />)
 ```
 
-While `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
+The `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
 
-`FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
+The `FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
 
 Here is a working example with code you can edit in the playground:
 

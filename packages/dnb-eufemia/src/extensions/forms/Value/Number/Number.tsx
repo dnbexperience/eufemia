@@ -1,12 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
 import ValueBlock from '../../ValueBlock'
-import useFieldProps, { omitFieldProps } from '../../hooks/useFieldProps'
+import useValueProps from '../../hooks/useValueProps'
 import { ValueProps } from '../../types'
-import {
-  omitSpacingProps,
-  pickSpacingProps,
-} from '../../../../components/flex/utils'
+import { omitSpacingProps } from '../../../../components/flex/utils'
 import NumberFormat, {
   NumberFormatProps,
 } from '../../../../components/NumberFormat'
@@ -19,31 +16,15 @@ export type Props = ValueProps<number> &
   IncludeCamelCase<NumberFormatProps>
 
 function NumberValue(props: Props) {
-  const {
-    className,
-    label,
-    placeholder,
-    inline,
-    maxWidth,
-    showEmpty,
-    ...rest
-  } = useFieldProps(props)
-
-  const numberFormatProps = convertCamelCaseProps(
-    omitFieldProps(omitSpacingProps(rest))
-  )
+  const { value, className, ...rest } = useValueProps(props)
+  const numberFormatProps = convertCamelCaseProps(omitSpacingProps(rest))
 
   return (
     <ValueBlock
       className={classnames('dnb-forms-value-number', className)}
-      label={label}
-      showEmpty={showEmpty}
-      placeholder={placeholder}
-      inline={inline}
-      maxWidth={maxWidth}
-      {...pickSpacingProps(rest)}
+      {...rest}
     >
-      {rest.value && <NumberFormat {...numberFormatProps} />}
+      {value && <NumberFormat value={value} {...numberFormatProps} />}
     </ValueBlock>
   )
 }

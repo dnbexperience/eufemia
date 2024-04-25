@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import {
   format,
@@ -13,14 +13,17 @@ function PhoneNumber(props: Props) {
 
   const label =
     props.label ?? (props.inline ? undefined : translations.label)
-  const prepare = (value) =>
-    format(cleanNumber(value), {
+
+  const toInput = useCallback((value) => {
+    return format(cleanNumber(value), {
       phone: true,
     }).toString()
+  }, [])
+
   const stringValueProps: Props = {
     ...props,
     label,
-    prepare,
+    toInput,
   }
 
   return <StringValue {...stringValueProps} />
