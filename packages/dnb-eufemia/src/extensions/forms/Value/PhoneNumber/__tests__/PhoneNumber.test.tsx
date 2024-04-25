@@ -7,26 +7,30 @@ describe('Value.PhoneNumber', () => {
   it('should use the provided label', () => {
     render(<Value.PhoneNumber label="Custom label" />)
 
-    const labelElement = document.querySelector('label')
+    const labelElement = document.querySelector(
+      '.dnb-forms-value-block__label'
+    )
     expect(labelElement.textContent).toBe('Custom label')
   })
 
   it('should not use the translation for the label if inline', () => {
     const { rerender } = render(<Value.PhoneNumber inline />)
 
-    expect(document.querySelector('label')).toBeNull()
+    expect(
+      document.querySelector('.dnb-forms-value-block__label')
+    ).toBeNull()
 
     rerender(<Value.PhoneNumber />)
 
-    expect(document.querySelector('label')).toHaveTextContent(
-      'Mobilnummer'
-    )
+    expect(
+      document.querySelector('.dnb-forms-value-block__label')
+    ).toHaveTextContent('Mobilnummer')
   })
 
   it('should use the translation from the provider if not provided', () => {
     render(
       <Provider
-        locales={{
+        translations={{
           'nb-NO': {
             Forms: {
               PhoneNumber: { label: 'Custom' },
@@ -38,14 +42,16 @@ describe('Value.PhoneNumber', () => {
       </Provider>
     )
 
-    const labelElement = document.querySelector('label')
+    const labelElement = document.querySelector(
+      '.dnb-forms-value-block__label'
+    )
     expect(labelElement.textContent).toBe('Custom')
   })
 
-  it('should format the value as a phone number', async () => {
+  it('should format the value as a phone number', () => {
     render(<Value.PhoneNumber value="+47 11223344" />)
 
-    const element = document.querySelector('.dnb-forms-value')
+    const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toHaveTextContent('0047 11 22 33 44')
   })
 })

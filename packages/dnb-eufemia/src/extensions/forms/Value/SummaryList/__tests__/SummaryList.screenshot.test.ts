@@ -3,7 +3,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-describe('Form.SummaryList', () => {
+describe('Field.SummaryList', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Value/SummaryList/demos/',
   })

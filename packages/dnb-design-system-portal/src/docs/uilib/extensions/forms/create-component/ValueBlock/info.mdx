@@ -4,8 +4,14 @@ showTabs: true
 
 ## Description
 
-`ValueBlock` is a reusable wrapper component that can be used to easily create custom [Value-components](/uilib/extensions/forms/Value) that will display in the same way as other Value-components.
+`FieldBlock` is a reusable wrapper for building [Value](/uilib/extensions/forms/Value) components.
 
-```jsx
+```tsx
 import { ValueBlock } from '@dnb/eufemia/extensions/forms'
+
+const MyValueComponent = ({ children, ...rest }) => (
+  <ValueBlock {...rest}>{children}</ValueBlock>
+)
 ```
+
+For combining several value components into one, you can use [Value.Composition](/uilib/extensions/forms/Value/Composition/).

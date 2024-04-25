@@ -18,19 +18,17 @@ import ListIterateComponents from './Iterate/ListIterateComponents'
 
 **Table of Contents**
 
-- [FieldBlock](#fieldblock)
 - [Form](#form)
 - [Wizard](#wizard)
 - [Iterate](#iterate)
 - [Data Context](#data-context)
+- [FieldBlock](#fieldblock)
+- [ValueBlock](#valueblock)
+- [useFieldProps](#usefieldprops)
 
 ## Intro
 
 Eufemia Forms is a flexible set of building blocks for form functionality. Besides field components and data display, it consists of more complex functionality for surrounding processes such as data flow, validation and building UI.
-
-## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
-
-`FieldBlock` is a wrapper component for grouping fields together. It can be used to create a layout for fields, and it can also be used to create a field that consists of several subfields, so called [composition fields](/uilib/extensions/forms/base-fields/Composition/).
 
 ## [Form](/uilib/extensions/forms/Form)
 
@@ -119,3 +117,15 @@ Here is a list of all available `Wizard.*` components:
 `DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
 
 <ListDataContextComponents size="small" />
+
+## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
+
+`FieldBlock` is a reusable wrapper [for building](/uilib/extensions/forms/create-component/) interactive [Field](/uilib/extensions/forms/feature-fields) components.
+
+## [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock)
+
+`FieldBlock` is a reusable wrapper for building [Value](/uilib/extensions/forms/Value) components.
+
+## [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/)
+
+The useFieldProps hook standardize handling of the value flow for a single consumer component representing one data point.

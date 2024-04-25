@@ -1,19 +1,44 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import classnames from 'classnames'
 import { Dd, Dl, Dt, Span } from '../../../elements'
 import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 import { ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
+import ValueBlockContext from './ValueBlockContext'
 
+/**
+ * Props are documented in ValueDocs.ts
+ */
 export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode
+
+  /**
+   * Used internally by the Composition component
+   */
+  composition?: boolean
+
+  /**
+   * Used internally by the Composition component
+   */
+  gap?: 'xx-small' | 'x-small' | 'small' | 'medium' | 'large' | false
 }
 
 function ValueBlock(props: Props) {
-  const summaryListContext = React.useContext(SummaryListContext)
-  const { className, label, inline, placeholder, showEmpty, children } =
-    props
+  const summaryListContext = useContext(SummaryListContext)
+  const valueBlockContext = useContext(ValueBlockContext)
+
+  const {
+    className,
+    label,
+    inline,
+    maxWidth = props.composition ? props.maxWidth : 'large',
+    placeholder,
+    showEmpty,
+    children,
+    composition,
+    gap = 'xx-small',
+  } = props
 
   if (
     (children === undefined || children === null || children === false) &&
@@ -23,46 +48,119 @@ function ValueBlock(props: Props) {
     return null
   }
 
-  if (summaryListContext && label) {
-    const Element =
-      summaryListContext.layout === 'horizontal' ? Dl.Item : Fragment
-    return (
-      <Element>
-        <Dt>{label}</Dt>
-        <Dd>
-          {children ?? (
-            <span className="dnb-forms-value-block__placeholder">
-              {placeholder}
-            </span>
+  let content = null
+
+  const compositionClass = classnames(
+    composition &&
+      `dnb-forms-value-block__composition--${
+        composition === true ? 'horizontal' : composition
+      }`
+  )
+
+  if (summaryListContext) {
+    const Element = summaryListContext.isNested
+      ? Dl
+      : summaryListContext.layout === 'horizontal'
+      ? Dl.Item
+      : Fragment
+
+    if (!label && valueBlockContext?.composition) {
+      content = (
+        <span
+          className={classnames(
+            'dnb-forms-value-block__content',
+            gap && `dnb-forms-value-block__content--gap-${gap}`
           )}
-        </Dd>
-      </Element>
+        >
+          {children}
+        </span>
+      ) ?? (
+        <span className="dnb-forms-value-block__placeholder">
+          {placeholder}
+        </span>
+      )
+    } else {
+      content = (
+        <Element>
+          <SummaryListContext.Provider
+            value={{ ...summaryListContext, isNested: true }}
+          >
+            {label && (
+              <Dt className="dnb-forms-value-block__label">
+                <strong>{label}</strong>
+              </Dt>
+            )}
+            <Dd
+              className={classnames(
+                summaryListContext.layout !== 'grid' &&
+                  !summaryListContext.isNested &&
+                  maxWidth &&
+                  `dnb-forms-value-block--max-width-${maxWidth}`,
+                compositionClass
+              )}
+            >
+              {children ? (
+                <span
+                  className={classnames(
+                    'dnb-forms-value-block__content',
+                    gap && `dnb-forms-value-block__content--gap-${gap}`
+                  )}
+                >
+                  {children}
+                </span>
+              ) : (
+                <span className="dnb-forms-value-block__placeholder">
+                  {placeholder}
+                </span>
+              )}
+            </Dd>
+          </SummaryListContext.Provider>
+        </Element>
+      )
+    }
+  } else {
+    content = (
+      <Span
+        className={classnames(
+          'dnb-forms-value-block',
+          inline && 'dnb-forms-value-block--inline',
+          maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`,
+          compositionClass,
+          className
+        )}
+        {...pickSpacingProps(props)}
+      >
+        {label && (
+          <FormLabel
+            element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
+            className="dnb-forms-value-block__label"
+            labelDirection={inline ? 'horizontal' : 'vertical'}
+          >
+            {label}
+          </FormLabel>
+        )}
+        {children ? (
+          <span
+            className={classnames(
+              'dnb-forms-value-block__content',
+              gap && `dnb-forms-value-block__content--gap-${gap}`
+            )}
+          >
+            {children}
+          </span>
+        ) : (
+          <span className="dnb-forms-value-block__placeholder">
+            {placeholder}
+          </span>
+        )}
+      </Span>
     )
   }
 
   return (
-    <Span
-      className={classnames(
-        'dnb-forms-value',
-        inline && 'dnb-forms-value-block--inline',
-        className
-      )}
-      {...pickSpacingProps(props)}
-    >
-      {label && (
-        <FormLabel
-          className="dnb-forms-value-block__label"
-          labelDirection={inline ? 'horizontal' : 'vertical'}
-        >
-          {label}
-        </FormLabel>
-      )}
-      {children ?? (
-        <span className="dnb-forms-value-block__placeholder">
-          {placeholder}
-        </span>
-      )}
-    </Span>
+    <ValueBlockContext.Provider value={props}>
+      {content}
+    </ValueBlockContext.Provider>
   )
 }
 

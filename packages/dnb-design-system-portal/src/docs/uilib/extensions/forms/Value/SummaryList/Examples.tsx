@@ -76,13 +76,15 @@ export const CombinedLayout = () => {
             <Value.String label="First name" path="/firstName" />
             <Value.String label="Last name" path="/lastName" />
 
-            <Value.SummaryList layout="grid">
-              <Value.String label="Street" path="/streetName" />
-              <Value.Number label="Nr." path="/streetNr" />
+            <Value.Composition label="Street">
+              <Value.String path="/streetName" />
+              <Value.Number path="/streetNr" />
+            </Value.Composition>
 
-              <Value.String label="Postalc." path="/postalCode" />
-              <Value.String label="City" path="/city" />
-            </Value.SummaryList>
+            <Value.Composition label="City">
+              <Value.String path="/postalCode" />
+              <Value.String path="/city" />
+            </Value.Composition>
           </Value.SummaryList>
         </Card>
       </Form.Handler>

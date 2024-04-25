@@ -3,14 +3,25 @@ showTabs: true
 hideInMenu: true
 ---
 
-# Value
+import { SummaryList, Composition } from './Examples'
 
-On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has many Value components. These components operate similarly to [field components](/uilib/extensions/forms/fields/), meaning they're data-driven, can accept value props, and can be connected to a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) by specifying the relevant value with a `path` prop.
+# Description
+
+On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has Value components. These components operate similarly to [field components](/uilib/extensions/forms/fields/), meaning they're data-driven, can accept value props, and can be connected to a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) by specifying the relevant value with a `path` prop.
 
 ```jsx
 import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.String path="/myPath" />)
 ```
 
-## Definition lists
+## Summary and definition lists
 
 When you utilize multiple `Value.*` components together, consider enclosing them within the [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.
+
+<SummaryList />
+
+## Combine values together
+
+You can also combine `Value.*` components together by using the value [Composition](/uilib/extensions/forms/Value/Composition/) component. And it can still be used within the above mentioned [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component.
+
+<Composition />
