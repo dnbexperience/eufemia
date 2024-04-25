@@ -29,6 +29,34 @@ describe('Visibility', () => {
     })
   })
 
+  describe('keepInDOM', () => {
+    it('should keep content in the DOM surrounded with a hidden span', () => {
+      render(
+        <Visibility keepInDOM visible={false}>
+          Child
+        </Visibility>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+      const element = document.querySelector('.dnb-forms-visibility')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveAttribute('hidden')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('use HeightAnimation keepInDOM feature', () => {
+      render(
+        <Visibility keepInDOM animate visible={false}>
+          Child
+        </Visibility>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+      const element = document.querySelector('.dnb-forms-visibility')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveClass('dnb-height-animation--hidden')
+      expect(element).toHaveTextContent('Child')
+    })
+  })
+
   describe('pathDefined', () => {
     it('renders children when target path is defined', () => {
       render(
