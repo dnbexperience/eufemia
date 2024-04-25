@@ -19,7 +19,6 @@ export const EditButton = () => {
         }
 
         const Summary = () => {
-          const { setActiveIndex } = Wizard.useStep()
           const { summaryTitle } = Form.useLocale().Step
 
           return (
@@ -31,7 +30,7 @@ export const EditButton = () => {
 
                 <Hr />
 
-                <Wizard.EditButton onClick={() => setActiveIndex(0)} />
+                <Wizard.EditButton toStep={0} />
               </Card>
             </Wizard.Step>
           )
