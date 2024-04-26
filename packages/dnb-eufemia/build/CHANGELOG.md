@@ -3,6 +3,57 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.27.0](https://github.com/dnbexperience/eufemia/compare/v10.26.0...v10.27.0) (2024-04-26)
+
+
+### :bug: Bug Fixes
+
+* **Card:** ensure 100% width does only apply when ScrollView is used ([#3450](https://github.com/dnbexperience/eufemia/issues/3450)) ([6dac9c6](https://github.com/dnbexperience/eufemia/commit/6dac9c686d0ce9a01b15b00f44cf3b574ace1710))
+* **Card:** use basis inner-space for small screens when `responsive=false` is set ([#3455](https://github.com/dnbexperience/eufemia/issues/3455)) ([9a2baea](https://github.com/dnbexperience/eufemia/commit/9a2baead0753649e30ab0c5eff97ffa402639a91))
+* **FormLabel:** remove undeclared `FormLabelText` type ([#3449](https://github.com/dnbexperience/eufemia/issues/3449)) ([3e4782b](https://github.com/dnbexperience/eufemia/commit/3e4782b4b27b3ca8090be4bce03c36db53de17c8))
+* **forms:** change Wizard default scroll behaviour to be active ([#3481](https://github.com/dnbexperience/eufemia/issues/3481)) ([f7b11cc](https://github.com/dnbexperience/eufemia/commit/f7b11cca7837f250f79b3f549bf9d50218818f01))
+* **forms:** ensure proper `Iterate` data context and `filterData` support ([#3463](https://github.com/dnbexperience/eufemia/issues/3463)) ([d015bc8](https://github.com/dnbexperience/eufemia/commit/d015bc8fa28b00a5914780ef68bb4915a9cfceee))
+* **forms:** set focus on Wizard step change ([#3475](https://github.com/dnbexperience/eufemia/issues/3475)) ([265dade](https://github.com/dnbexperience/eufemia/commit/265dadef1a5ff9a496adf5c77c2fcfbcf1581a9c))
+* **GlobalStatus:** Symmetric horizontal padding on smaller screens (Sbanken) ([#3454](https://github.com/dnbexperience/eufemia/issues/3454)) ([59576b2](https://github.com/dnbexperience/eufemia/commit/59576b2e359978cd0e8c859de233a1fa4360697c))
+* **Input:** hide placeholder by default on input focus (Sbanken) ([#3461](https://github.com/dnbexperience/eufemia/issues/3461)) ([5328210](https://github.com/dnbexperience/eufemia/commit/532821088b821f56669b7875983a9539171e6edb))
+* **MultiInputMask:** prevent focus and blur from firing when navigating between inputs ([#3480](https://github.com/dnbexperience/eufemia/issues/3480)) ([bec1ffd](https://github.com/dnbexperience/eufemia/commit/bec1ffd247db1535b57b9eb8f48285f34ded475c))
+* **NumberFormat:** ensure support for screen reader "speak text under mouse" mode ([#3438](https://github.com/dnbexperience/eufemia/issues/3438)) ([93fbd1d](https://github.com/dnbexperience/eufemia/commit/93fbd1d576165d3b18a91d770a0ddd5ff391d57e))
+* **OrganizationNumber:** add missing full stop for `en-US` error messages ([#3465](https://github.com/dnbexperience/eufemia/issues/3465)) ([fd1cf10](https://github.com/dnbexperience/eufemia/commit/fd1cf10962d51a20d413f8daa881dc5bd94561a4))
+* **Radio.Group:** replace margin spacing with Flex gap ([#3468](https://github.com/dnbexperience/eufemia/issues/3468)) ([33257b2](https://github.com/dnbexperience/eufemia/commit/33257b2996ef9f176f5adcc0506a51130838d1c9))
+* **Selection:** filter out empty options from dropdown variant ([#3444](https://github.com/dnbexperience/eufemia/issues/3444)) ([60ac548](https://github.com/dnbexperience/eufemia/commit/60ac548ed25ea67793d611a8ff9b86b7c932c89d))
+
+
+### :memo: Documentation
+
+* **Checkbox:** update to typed docs ([#3439](https://github.com/dnbexperience/eufemia/issues/3439)) ([c849439](https://github.com/dnbexperience/eufemia/commit/c849439b11a0b4e8ecb025a2aa8e55ec0d06ecf2))
+* document all colors ([#3441](https://github.com/dnbexperience/eufemia/issues/3441)) ([03d7580](https://github.com/dnbexperience/eufemia/commit/03d7580bed42f61d5613129b10b722059ff7be14))
+* **forms:** improve structure ([#3488](https://github.com/dnbexperience/eufemia/issues/3488)) ([a240239](https://github.com/dnbexperience/eufemia/commit/a240239b824d8b908048e84a1e4d310765934713))
+* **Portal:** properties table with colors and default value (progressive enhancement) ([#3471](https://github.com/dnbexperience/eufemia/issues/3471)) ([4f1c16c](https://github.com/dnbexperience/eufemia/commit/4f1c16c331ff027e25731599993839654bbefefe))
+
+
+### :sparkles: Features
+
+* **Flex.Stack:** change default vertical spacing (gap) from small to medium (effects Card with stack as well) ([#3483](https://github.com/dnbexperience/eufemia/issues/3483)) ([7bf380f](https://github.com/dnbexperience/eufemia/commit/7bf380fc15229a6314ca0cdd145e18fd1f6ef8fc))
+* **FormLabel:** add support for nested instances ([#3466](https://github.com/dnbexperience/eufemia/issues/3466)) ([f0cd388](https://github.com/dnbexperience/eufemia/commit/f0cd388541a51a1433f0fa3e7ca82db825d5c0cc))
+* **forms:** add `Iterate.Count` along with `Iterate.useCount` ([#3492](https://github.com/dnbexperience/eufemia/issues/3492)) ([f1574a2](https://github.com/dnbexperience/eufemia/commit/f1574a2be93c8789f2e03c3b56f48027bd615631))
+* **forms:** add `Iterate` view and edit container as well as animated container ([#3474](https://github.com/dnbexperience/eufemia/issues/3474)) ([6b68020](https://github.com/dnbexperience/eufemia/commit/6b680201952123ca241a07249de4c25b13585c1b))
+* **forms:** add `useValueProps` hook for handling Value components and their props ([#3498](https://github.com/dnbexperience/eufemia/issues/3498)) ([1a62545](https://github.com/dnbexperience/eufemia/commit/1a62545bd585289438d9373b85342ff8f93759bc))
+* **forms:** add `Value.Composition` component ([#3494](https://github.com/dnbexperience/eufemia/issues/3494)) ([b7976ca](https://github.com/dnbexperience/eufemia/commit/b7976ca38d47629d6df6dbd56625398d7d4fbcdb))
+* **forms:** add EditButton to Wizard ([#3445](https://github.com/dnbexperience/eufemia/issues/3445)) ([ec4a0a6](https://github.com/dnbexperience/eufemia/commit/ec4a0a6b7cfa7caa32a201c378978041092efda8))
+* **forms:** add send variant prop to SubmitButton ([#3446](https://github.com/dnbexperience/eufemia/issues/3446)) ([17bea62](https://github.com/dnbexperience/eufemia/commit/17bea62e460e23102cd3667d88b45dc4526188bb))
+* **forms:** add support for GlobalStatus handling including custom `globalStatusId` ([#3457](https://github.com/dnbexperience/eufemia/issues/3457)) ([3fd0b96](https://github.com/dnbexperience/eufemia/commit/3fd0b968323524d34be81d317f28dc86c3421d2f))
+* **forms:** release stable version ([#3043](https://github.com/dnbexperience/eufemia/issues/3043)) ([03b89b2](https://github.com/dnbexperience/eufemia/commit/03b89b27bcd93e3135ec348b8a65e9a86ff2412d))
+* **forms:** rename useLocale to useTranslation ([#3447](https://github.com/dnbexperience/eufemia/issues/3447)) ([c223e0e](https://github.com/dnbexperience/eufemia/commit/c223e0e3a5eb3e311e72be3d18efe64fcad29e99))
+* **Hr:** change color from black-80 to black-8 and add `dashed` line option ([#3490](https://github.com/dnbexperience/eufemia/issues/3490)) ([8142182](https://github.com/dnbexperience/eufemia/commit/8142182332852534a55aa83f63ccd2703bf3c1f6))
+* **Input & Textarea:** allow React Element as placeholder prop ([#3467](https://github.com/dnbexperience/eufemia/issues/3467)) ([2bbd24b](https://github.com/dnbexperience/eufemia/commit/2bbd24bb4f8fe797c03f1a8b905e3ae84b9605f8))
+* **Input:** refactor and correct border outline ([#3440](https://github.com/dnbexperience/eufemia/issues/3440)) ([6a96665](https://github.com/dnbexperience/eufemia/commit/6a9666504a1c49292b72096f93bfa8e7832fb4e7))
+* **Iterate:** deprecate `ArrayPushButton` in favor of `PushButton` and deprecate `ArrayRemoveElementButton` in favor of `RemoveButton` ([#3478](https://github.com/dnbexperience/eufemia/issues/3478)) ([e5145d4](https://github.com/dnbexperience/eufemia/commit/e5145d4e7edb9d562382fe0dbfb25040095692f5))
+* **ProgressIndicator:** refactor to TypeScript and camelCase props ([#3458](https://github.com/dnbexperience/eufemia/issues/3458)) ([4fa895f](https://github.com/dnbexperience/eufemia/commit/4fa895fae01b5195a0edc0c662dcb726d39d9b97))
+* **Tabs:** add `breakout` prop for Tabs ([#3384](https://github.com/dnbexperience/eufemia/issues/3384)) ([48882cb](https://github.com/dnbexperience/eufemia/commit/48882cbfe52f0f4e9cbeaf5a93d2f10af9608e32))
+* **Typography:** Replace inline font with font files (Sbanken) ([#3459](https://github.com/dnbexperience/eufemia/issues/3459)) ([97d060d](https://github.com/dnbexperience/eufemia/commit/97d060da305c2b5265dc8f489309e06bec80e4cb))
+* **useTranslation:** add support for custom translations and `formatMessage` method ([#3442](https://github.com/dnbexperience/eufemia/issues/3442)) ([d3c4ec4](https://github.com/dnbexperience/eufemia/commit/d3c4ec49e1f89fdd0e49399bcd92fc8e07b8c14f)), closes [#3271](https://github.com/dnbexperience/eufemia/issues/3271)
+* **Visibility:** add `keepInDOM` prop ([#3495](https://github.com/dnbexperience/eufemia/issues/3495)) ([b750588](https://github.com/dnbexperience/eufemia/commit/b7505886a88ca1fc4607f3cde10443b8c07a1d6d))
+
 ## [10.26.0](https://github.com/dnbexperience/eufemia/compare/v10.25.0...v10.26.0) (2024-04-05)
 
 
