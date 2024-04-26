@@ -1,22 +1,17 @@
-import { CustomErrorMessages, UseFieldProps } from '../../types'
+import { UseFieldProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
-
-type ErrorMessages = {
-  required?: string
-  schema?: string
-} & CustomErrorMessages
 
 export type ContainerMode = 'view' | 'edit'
 export type Value = Array<unknown | Record<string, unknown>>
 export type ElementChild =
   | React.ReactNode
   | ((value: any, index: number) => React.ReactNode)
-export type Props = UseFieldProps<
-  Value,
-  undefined | Value,
-  ErrorMessages
-> & {
+export type Props = Omit<FlexContainerProps, 'children' | 'width'> & {
   children: ElementChild | Array<ElementChild>
+  value?: UseFieldProps<Value, undefined | Value>['value']
+  path?: UseFieldProps<Value, undefined | Value>['path']
+  withoutFlex?: boolean
+  emptyValue?: UseFieldProps<Value, undefined | Value>['emptyValue']
   placeholder?: React.ReactNode
-  defaultValue?: Value
-} & Omit<FlexContainerProps, 'children' | 'width'>
+  onChange?: UseFieldProps<Value, undefined | Value>['onChange']
+}

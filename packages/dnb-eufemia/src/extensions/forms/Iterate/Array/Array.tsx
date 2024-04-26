@@ -5,6 +5,7 @@ import React, {
   useReducer,
   createRef,
   useContext,
+  Fragment,
 } from 'react'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
@@ -14,11 +15,14 @@ import { Flex } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import {
   BasicProps as FlexContainerProps,
+  Props as FlexContainerAllProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
 import IterateElementContext, {
   IterateElementContextState,
 } from '../IterateElementContext'
+import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
+import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import DataContext from '../../DataContext/Context'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
@@ -30,16 +34,21 @@ import type { Identifier, Path } from '../../types'
  */
 import structuredClone from '@ungap/structured-clone'
 
+export type * from './types'
+
 function ArrayComponent(props: Props) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
 
   const { showAllErrors } = useContext(DataContext)
+  const summaryListContext = useContext(SummaryListContext)
+  const valueBlockContext = useContext(ValueBlockContext)
 
   const {
-    placeholder,
     path,
     value: arrayValue,
+    withoutFlex,
     emptyValue,
+    placeholder,
     handleChange,
     onChange,
     children,
@@ -56,6 +65,8 @@ function ArrayComponent(props: Props) {
     Record<string, React.RefObject<HTMLDivElement>>
   >({})
   const errorsRef = useRef<Record<Identifier, unknown>>({})
+
+  const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
   useEffect(() => {
     // Update inside the useEffect, to support React.StrictMode
@@ -169,18 +180,22 @@ function ArrayComponent(props: Props) {
     }
   }, [arrayValue, elementData, onChange])
 
+  const flexProps: FlexContainerProps & {
+    innerRef: FlexContainerAllProps['innerRef']
+  } = {
+    className: classnames('dnb-form-iterate', props?.className),
+    ...pickFlexContainerProps(props as FlexContainerProps),
+    ...pickSpacingProps(props),
+    innerRef: containerRef,
+  }
+
+  const WrapperElement = omitFlex ? Fragment : Flex.Stack
+
   return (
-    <Flex.Vertical
-      className={classnames('dnb-form-iterate', props?.className)}
-      align="stretch"
-      alignSelf="stretch"
-      {...pickFlexContainerProps(props as FlexContainerProps)}
-      {...pickSpacingProps(props)}
-      innerRef={containerRef}
-    >
+    <WrapperElement {...(omitFlex ? null : flexProps)}>
       {arrayValue === emptyValue || props?.value?.length === 0
         ? placeholder
-        : elementData.map((elementProps, i) => {
+        : elementData.map((elementProps) => {
             const { id, value, index } = elementProps
             const elementRef = (innerRefs.current[id] =
               innerRefs.current[id] || createRef<HTMLDivElement>())
@@ -200,6 +215,17 @@ function ArrayComponent(props: Props) {
               ? children.map((child) => renderChildren(child))
               : renderChildren(children)
 
+            if (omitFlex) {
+              return (
+                <IterateElementContext.Provider
+                  key={`element-${id}`}
+                  value={contextValue}
+                >
+                  {content}
+                </IterateElementContext.Provider>
+              )
+            }
+
             return (
               <Flex.Item
                 className="dnb-form-iterate__element"
@@ -213,7 +239,7 @@ function ArrayComponent(props: Props) {
               </Flex.Item>
             )
           })}
-    </Flex.Vertical>
+    </WrapperElement>
   )
 }
 
