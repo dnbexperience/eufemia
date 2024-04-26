@@ -7,13 +7,11 @@ export interface IterateElementContextState {
   index?: number
   value?: unknown
   isNew?: boolean
-  hasError?: boolean
   path?: Path
   arrayValue?: Array<unknown>
   containerMode?: ContainerMode
   containerRef?: React.RefObject<HTMLDivElement>
   elementRef?: React.RefObject<HTMLDivElement>
-  setFieldError?: (path: Path, error: Error) => void
   switchContainerMode?: (mode: ContainerMode) => void
   handleChange?: (path: Path, value: unknown) => void
   handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void

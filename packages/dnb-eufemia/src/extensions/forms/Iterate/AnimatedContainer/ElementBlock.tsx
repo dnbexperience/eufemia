@@ -11,6 +11,7 @@ import IterateElementContext, {
   IterateElementContextState,
 } from '../IterateElementContext'
 import ElementBlockContext from './ElementBlockContext'
+import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { ContainerMode } from '../Array/types'
 
@@ -24,10 +25,24 @@ export type Props = {
 function ElementBlock(props: Props & FlexContainerProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const contextRef = useRef<IterateElementContextState>()
-  contextRef.current = useContext(IterateElementContext)
-  const { handleRemove, containerMode, isNew, hasError } =
-    contextRef.current ?? {}
+  const contextRef = useRef<
+    IterateElementContextState & {
+      hasError?: boolean
+      hasErrorAndShowIt?: boolean
+    }
+  >()
+  contextRef.current = useContext(IterateElementContext) || {}
+
+  const { hasError, hasErrorAndShowIt } =
+    useContext(FieldBoundaryContext) || {}
+  contextRef.current.hasError = hasError
+  contextRef.current.hasErrorAndShowIt = hasErrorAndShowIt
+  if (hasErrorAndShowIt) {
+    contextRef.current.containerMode = 'edit'
+  }
+
+  const { handleRemove, switchContainerMode, containerMode, isNew } =
+    contextRef.current
 
   const {
     mode,
@@ -71,7 +86,11 @@ function ElementBlock(props: Props & FlexContainerProps) {
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
     (state) => {
-      const preventFocusOnErrorOpening = !contextRef.current?.hasError
+      if (contextRef.current.hasErrorAndShowIt) {
+        switchContainerMode('edit')
+      }
+
+      const preventFocusOnErrorOpening = !contextRef.current.hasError
       if (preventFocusOnErrorOpening) {
         if (state === 'opened') {
           contextRef.current?.elementRef?.current?.focus?.()
@@ -106,7 +125,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
 
       onAnimationEnd?.(state)
     },
-    [onAnimationEnd]
+    [onAnimationEnd, switchContainerMode]
   )
   const handleRemoveBlock = useCallback(() => {
     isRemoving.current = true
@@ -120,7 +139,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
         className={classnames(
           'dnb-form-iterate-block',
           isNew && 'dnb-form-iterate-block--new',
-          hasError && 'dnb-form-iterate-block--error',
+          contextRef.current.hasError && 'dnb-form-iterate-block--error',
           className
         )}
         open={openRef.current}
