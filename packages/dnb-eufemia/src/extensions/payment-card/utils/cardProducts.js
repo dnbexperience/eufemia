@@ -11,6 +11,8 @@ import {
   mcBlack,
   businessNoVisa,
   businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard,
 } from './CardDesigns'
 
 import { CardType, ProductType, BankAxeptType } from './Types'
@@ -375,6 +377,33 @@ const cardData = [
     productType: ProductType.None,
     cardType: CardType.Mastercard,
     bankAxept: BankAxeptType.None,
+  },
+  {
+    productCode: 'VO3',
+    productName: 'SBanken Visa',
+    displayName: 'SBanken Visa',
+    cardDesign: sbankenVisa,
+    productType: ProductType.None,
+    cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: 'VS8',
+    productName: 'SBanken et konsept fra DNB',
+    displayName: 'SBanken et Konsept fra DNB',
+    cardDesign: sbankenVisa,
+    productType: ProductType.None,
+    cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: 'P103',
+    productName: 'SBanken et konsept fra DNB',
+    displayName: 'SBanken et konsept fra DNB',
+    cardDesign: sbankenMastercard,
+    productType: ProductType.None,
+    cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.Credit,
   },
 ]
 
