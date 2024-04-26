@@ -27,6 +27,7 @@ import useMountEffect from '../../../shared/helpers/useMountEffect'
 import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
+import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import useProcessManager from './useProcessManager'
 import {
   createSharedState,
@@ -112,6 +113,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
+  const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const translation = useTranslation()
 
   const transformers = useRef({
@@ -150,8 +152,8 @@ export default function useFieldProps<
     value: iterateElementValue,
     path: iteratePath,
     handleChange: handleChangeIterateContext,
-    setFieldError: setFieldErrorIterateContext,
   } = iterateElementContext ?? {}
+  const { setFieldError } = fieldBoundaryContext ?? {}
 
   if (path && path.substring(0, 1) !== '/') {
     throw new Error(
@@ -442,7 +444,7 @@ export default function useFieldProps<
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
       setFieldErrorDataContext?.(identifier, error)
-      setFieldErrorIterateContext?.(identifier, error)
+      setFieldError?.(identifier, error)
 
       // Set the visual states
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
@@ -460,7 +462,7 @@ export default function useFieldProps<
       prepareError,
       setFieldErrorDataContext,
       identifier,
-      setFieldErrorIterateContext,
+      setFieldError,
       setFieldStateDataContext,
       setFieldStateFieldBlock,
       stateId,
@@ -1030,7 +1032,8 @@ export default function useFieldProps<
   useUnmountEffect(() => {
     dataContext?.handleUnMountField(identifier)
     setFieldErrorDataContext?.(identifier, undefined)
-    setFieldErrorIterateContext?.(identifier, undefined)
+    setFieldError?.(identifier, undefined)
+    localErrorRef.current = undefined
   })
 
   useUpdateEffect(() => {

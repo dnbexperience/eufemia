@@ -109,20 +109,20 @@ describe('ElementBlock', () => {
     render(
       <DataContext.Provider
         data={{
-          myList: [''],
+          myList: ['foo'],
         }}
       >
         <Iterate.Array path="/myList">
           {(value, index) => {
             return (
               <Iterate.AnimatedContainer>
-                <Field.String required validateInitially={index === 0} />
+                <Field.String required={index > 0} />
               </Iterate.AnimatedContainer>
             )
           }}
         </Iterate.Array>
 
-        <Iterate.PushButton path="/myList" pushValue="foo" />
+        <Iterate.PushButton path="/myList" pushValue={undefined} />
       </DataContext.Provider>
     )
 
@@ -140,10 +140,10 @@ describe('ElementBlock', () => {
 
     expect(
       elements[0].querySelector('.dnb-form-iterate-block--error')
-    ).toBeTruthy()
+    ).toBeFalsy()
     expect(
       elements[1].querySelector('.dnb-form-iterate-block--error')
-    ).toBeFalsy()
+    ).toBeTruthy()
   })
 
   it('should open delayed when isNew is true', async () => {

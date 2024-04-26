@@ -23,7 +23,7 @@ import IterateElementContext, {
 } from '../IterateElementContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
-import DataContext from '../../DataContext/Context'
+import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier, Path } from '../../types'
@@ -39,7 +39,6 @@ export type * from './types'
 function ArrayComponent(props: Props) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
 
-  const { showAllErrors } = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
 
@@ -64,7 +63,6 @@ function ArrayComponent(props: Props) {
   const innerRefs = useRef<
     Record<string, React.RefObject<HTMLDivElement>>
   >({})
-  const errorsRef = useRef<Record<Identifier, unknown>>({})
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
@@ -87,11 +85,8 @@ function ArrayComponent(props: Props) {
         }
 
         const isNew = isNewRef.current[id] || false
-        const hasError = Boolean(errorsRef.current[id])
-        const showEditItem = hasError && showAllErrors
-
-        if (showEditItem || !modesRef.current[id]) {
-          modesRef.current[id] = isNew || showEditItem ? 'edit' : 'view'
+        if (!modesRef.current[id]) {
+          modesRef.current[id] = isNew ? 'edit' : 'view'
         }
 
         return {
@@ -103,20 +98,6 @@ function ArrayComponent(props: Props) {
           containerRef,
           isNew,
           containerMode: modesRef.current[id],
-          hasError,
-          setFieldError: (path: Path, error: Error) => {
-            if (error) {
-              if (!errorsRef.current[id]) {
-                errorsRef.current[id] = {}
-              }
-              errorsRef.current[id][path] = !!error
-            } else {
-              delete errorsRef.current[id]?.[path]
-              if (Object.keys(errorsRef.current[id] || {}).length === 0) {
-                delete errorsRef.current[id]
-              }
-            }
-          },
           switchContainerMode: (mode: ContainerMode) => {
             modesRef.current[id] = mode
             forceUpdate()
@@ -168,7 +149,7 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salt, arrayValue, showAllErrors, path, handleChange])
+  }, [salt, arrayValue, path, handleChange])
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {
@@ -221,7 +202,7 @@ function ArrayComponent(props: Props) {
                   key={`element-${id}`}
                   value={contextValue}
                 >
-                  {content}
+                  <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
                 </IterateElementContext.Provider>
               )
             }
@@ -234,7 +215,7 @@ function ArrayComponent(props: Props) {
                 key={`element-${id}`}
               >
                 <IterateElementContext.Provider value={contextValue}>
-                  {content}
+                  <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
                 </IterateElementContext.Provider>
               </Flex.Item>
             )
