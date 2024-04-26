@@ -3,11 +3,12 @@ import {
   SharedStateId,
   createSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import type {
-  FilterData,
-  FilterDataHandler,
-} from '../../DataContext/Context'
+import type { FilterDataHandler } from '../../DataContext/Context'
 import type { Path } from '../../types'
+import type {
+  UseDataReturnGetValue,
+  UseDataReturnFilterData,
+} from './useData'
 
 type SharedAttachment<Data> = {
   filterDataHandler: FilterDataHandler<Data>
@@ -15,8 +16,8 @@ type SharedAttachment<Data> = {
 
 type SetDataReturn<Data> = {
   data: Data
-  getValue: (path: Path) => unknown
-  filterData: (filterDataHandler: FilterData) => Partial<Data>
+  getValue: UseDataReturnGetValue<Data>
+  filterData: UseDataReturnFilterData<Data>
 }
 
 export default function getData<Data>(

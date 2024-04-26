@@ -34,12 +34,20 @@ type UseDataReturnUpdate<Data> = <P extends Path>(
   value: ((value: PathType<Data, P>) => unknown) | unknown
 ) => void
 
+export type UseDataReturnGetValue<Data> = <P extends Path>(
+  path: P
+) => PathType<Data, P>
+
+export type UseDataReturnFilterData<Data> = (
+  filterDataHandler: FilterData
+) => Partial<Data>
+
 type UseDataReturn<Data> = {
   data: Data
-  update: UseDataReturnUpdate<Data>
   set: (newData: Data) => void
-  getValue: (path: Path) => unknown
-  filterData: (filterDataHandler: FilterData) => Partial<Data>
+  update: UseDataReturnUpdate<Data>
+  getValue: UseDataReturnGetValue<Data>
+  filterData: UseDataReturnFilterData<Data>
 }
 
 type SharedAttachment<Data> = {
