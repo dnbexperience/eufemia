@@ -1,6 +1,6 @@
 ---
 title: 'Create your own component'
-order: 5
+order: 20
 breadcrumb:
   - text: Forms
     href: /uilib/extensions/forms/
@@ -19,25 +19,39 @@ import {
 
 Eufemia Forms contains helper fields and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components.
 
-By using the building blocks for field components, you save development time, and at the same time ensure that local, custom components work similarly, and fit into the setup with [the standardized field components](/uilib/extensions/forms/base-fields/).
+By using the building blocks for value and field components, you save development time, and at the same time ensure that local, custom components work similarly, and fit into the setup with the standardized base [value components](/uilib/extensions/forms/Value/#base-components) and base [field components](/uilib/extensions/forms/base-fields/).
+
+**Table of Contents**
+
+- [Value components](#value-components)
+- [Field components](#field-components)
+- [Layout](#layout)
+- [Localization and translations](#localization-and-translations)
 
 ## Value components
 
-For creating a `Value.*` component you can use `ValueBlock`:
+For creating a `Value.*` component you can use [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/) and [useValueProps](/uilib/extensions/forms/create-component/useValueProps/):
 
 ```tsx
-import { ValueBlock } from '@dnb/eufemia/extensions/forms'
+import { ValueBlock, useValueProps } from '@dnb/eufemia/extensions/forms'
 
-const MyValue = ({ value, ...props }) => {
-  return <ValueBlock {...props}>{value}</ValueBlock>
+const MyValue = (props) => {
+  const { value, ...rest } = useValueProps(props)
+  return <ValueBlock {...rest}>{value}</ValueBlock>
 }
+
+render(<MyValue path="/dataSelector" />)
 ```
 
-`ValueBlock` provides a standardized way to display labels and other surrounding elements in a consistent manner.
+[ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/) provides a standardized way to display labels and other surrounding elements in a consistent manner.
 
 <CreateBasicValueComponent />
 
-## Filed components
+The `useValueProps` provides a standardized way to handle data flow in a consistent manner.
+
+The `FieldBlock` provides a standardized way to display a label and other surrounding elements in a consistent manner.
+
+## Field components
 
 For creating a `Field.*` component, you can use [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/):
 
@@ -61,11 +75,13 @@ const MyField = (props) => {
     </FieldBlock>
   )
 }
+
+render(<MyField path="/dataSelector" />)
 ```
 
-While `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
+The `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
 
-`FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
+The `FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
 
 Here is a working example with code you can edit in the playground:
 
@@ -77,7 +93,7 @@ This example shows a custom component. The [useFieldProps](/uilib/extensions/for
 
 ### The example explained
 
-Using these two form helpers in your field component triggers several automatic processes. These include timely validation checks, syncing value changes with the [DataContext](/uilib/extensions/forms/extended-features/DataContext/), coordinating error messages across multiple fields, and preventing premature error displays while the user is editing the field.
+Using these two form helpers in your field component triggers several automatic processes. These include timely validation checks, syncing value changes with the [DataContext](/uilib/extensions/forms/DataContext/), coordinating error messages across multiple fields, and preventing premature error displays while the user is editing the field.
 
 Keep in mind, you can customize the behavior of [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) and other helper functions to make the component work exactly as you want.
 
@@ -114,7 +130,7 @@ You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBl
 
 ## Localization and translations
 
-You can use the `Form.useLocale` hook to use existing translations or extend it with your custom field localization:
+You can use the `Form.useTranslation` hook to use existing translations or extend it with your custom field localization:
 
 ```tsx
 import {
@@ -133,7 +149,7 @@ const myFieldTranslations = {
 }
 
 const MyField = (props) => {
-  const translations = Form.useLocale(myFieldTranslations)
+  const translations = Form.useTranslation(myFieldTranslations)
   const { label, required } = translations.MyField
 
   const preparedProps = {

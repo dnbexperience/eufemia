@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Field, Form } from '../../..'
-import { Button, Card } from '../../../../../components'
+import { Button, Card, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
 
 export default {
@@ -287,5 +287,50 @@ export function SimpleForm() {
         <Form.SubmitButton />
       </Form.ButtonRow>
     </Form.Handler>
+  )
+}
+
+const delay = debounceAsync(async function () {
+  try {
+    const request = createRequest()
+    await request(1000) // Simulate a request
+  } catch (error) {
+    return error
+  }
+})
+
+export function SubmitIndicator() {
+  return (
+    <Form.Handler onSubmit={delay}>
+      <Card stack>
+        <Field.String path="/myField" label="Label" />
+        <Form.ButtonRow>
+          <Form.SubmitButton />
+        </Form.ButtonRow>
+      </Card>
+    </Form.Handler>
+  )
+}
+
+export function GlobalStatusStory() {
+  return (
+    <>
+      <GlobalStatus />
+
+      <Form.Handler id="my-form" onSubmit={delay}>
+        <Form.MainHeading>Heading</Form.MainHeading>
+        <Card stack>
+          <Field.String
+            path="/myField"
+            label="Label"
+            required
+            minLength={5}
+          />
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Card>
+      </Form.Handler>
+    </>
   )
 }

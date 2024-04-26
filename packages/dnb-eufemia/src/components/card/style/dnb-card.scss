@@ -66,7 +66,6 @@
     &
     + .dnb-card--responsive {
     @include allBelow(small) {
-      // --gap: var(--outline-width);
       margin-top: 0;
 
       &::before {
@@ -90,7 +89,7 @@
     );
   }
 
-  & > .dnb-flex-container > .dnb-space {
+  & > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view) {
     width: 100%;
   }
 }

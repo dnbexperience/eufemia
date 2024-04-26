@@ -1,16 +1,13 @@
-import { Form } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Card, Flex, P } from '@dnb/eufemia/src'
 
-export const Default = () => {
+export const WithFieldString = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="flex-stack-form">
       <Flex.Stack>
-        <P>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-          tellus at tempus.
-        </P>
+        <Field.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" />
       </Flex.Stack>
     </ComponentBox>
   )
@@ -18,19 +15,15 @@ export const Default = () => {
 
 export const WithParagraphs = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="flex-stack-paragraphs">
       <Flex.Stack>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-          tellus at tempus.
+          cursus pharetra elit in bibendum.
         </P>
         <P>
           Praesent nunc ipsum, convallis eget convallis gravida, vehicula
-          vitae metus. Fusce volutpat risus vitae lectus elementum, sed
-          facilisis augue dignissim. Donec accumsan, purus commodo bibendum
-          finibus, lacus leo lobortis lorem, maximus posuere mi justo et
-          ipsum.
+          vitae metus.
         </P>
       </Flex.Stack>
     </ComponentBox>
@@ -42,11 +35,8 @@ export const WithMainHeading = () => {
     <ComponentBox>
       <Flex.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
-        <P>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-          tellus at tempus.
-        </P>
+        <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
+        <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
       </Flex.Stack>
     </ComponentBox>
   )
@@ -54,15 +44,15 @@ export const WithMainHeading = () => {
 
 export const WithCard = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="flex-stack-card-stack">
       <Flex.Stack>
-        <Card>
-          <P>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-            tellus at tempus. Aliquam at felis rutrum, luctus dui at,
-            bibendum ipsum.
-          </P>
+        <Card stack>
+          <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
+          <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
+        </Card>
+        <Card stack>
+          <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
+          <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>
       </Flex.Stack>
     </ComponentBox>
@@ -71,16 +61,12 @@ export const WithCard = () => {
 
 export const WithCardAndHeading = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="flex-stack-card-heading">
       <Flex.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
-        <Card>
-          <P>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-            tellus at tempus. Aliquam at felis rutrum, luctus dui at,
-            bibendum ipsum.
-          </P>
+        <Card stack>
+          <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
+          <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>
       </Flex.Stack>
     </ComponentBox>
@@ -89,17 +75,13 @@ export const WithCardAndHeading = () => {
 
 export const WithCardAndHeadings = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="flex-stack-card-two-headings">
       <Flex.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.SubHeading>Sub heading</Form.SubHeading>
-        <Card>
-          <P>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-            tellus at tempus. Aliquam at felis rutrum, luctus dui at,
-            bibendum ipsum.
-          </P>
+        <Card stack>
+          <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
+          <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>
       </Flex.Stack>
     </ComponentBox>

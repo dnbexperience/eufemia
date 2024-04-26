@@ -246,16 +246,10 @@
     --radio-group-margin-right: 1rem;
 
     display: inline-flex;
-    flex-direction: row;
+    // flex-direction: row;
 
     fieldset {
       @include fieldsetReset();
-    }
-
-    // default spacing
-    .dnb-radio {
-      margin-right: var(--radio-group-margin-right);
-      margin-bottom: var(--radio-group-margin-bottom);
     }
 
     &--column .dnb-radio {
@@ -269,7 +263,10 @@
 
     & [role='radiogroup'],
     &__shell {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: var(--radio-group-margin-right);
+      row-gap: var(--radio-group-margin-bottom);
     }
 
     &__shell {
@@ -283,15 +280,12 @@
       flex-direction: column;
     }
 
-    .dnb-flex-container {
-      // because of our bottom margins we have on the components
-      margin-bottom: calc(1px - 1px - var(--radio-group-margin-bottom));
-
-      &::before {
-        // move the group 2px up if label exists
-        font-size: var(--font-size-basis);
-      }
-    }
+    // .dnb-flex-container {
+    //   &::before {
+    //     // move the group 2px up if label exists
+    //     font-size: var(--font-size-basis);
+    //   }
+    // }
   }
 
   /*

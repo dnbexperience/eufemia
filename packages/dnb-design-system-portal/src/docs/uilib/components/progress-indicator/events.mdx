@@ -4,8 +4,16 @@ redirect_from:
   - /uilib/components/progress/events
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  ProgressIndicatorEvents,
+  ProgressIndicatorDeprecatedEvents,
+} from '@dnb/eufemia/src/components/progress-indicator/ProgressIndicatorDocs'
+
 ## Events
 
-| Events        | Description                                                |
-| ------------- | ---------------------------------------------------------- |
-| `on_complete` | _(optional)_ will be called once it's no longer `visible`. |
+<PropertiesTable props={ProgressIndicatorEvents} showDefaultValue />
+
+## Deprecated events
+
+<PropertiesTable props={ProgressIndicatorDeprecatedEvents} />

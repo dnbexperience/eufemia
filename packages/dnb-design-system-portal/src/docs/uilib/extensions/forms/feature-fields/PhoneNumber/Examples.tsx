@@ -1,3 +1,4 @@
+import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
@@ -136,6 +137,16 @@ export const LongLabel = () => {
   return (
     <ComponentBox data-visual-test="phone-number-long-label">
       <Field.PhoneNumber label="Telefon/mobilnummer with long label" />
+    </ComponentBox>
+  )
+}
+
+export const InCard = () => {
+  return (
+    <ComponentBox data-visual-test="phone-number-in-card">
+      <Card stack>
+        <Field.PhoneNumber />
+      </Card>
     </ComponentBox>
   )
 }

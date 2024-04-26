@@ -15,7 +15,7 @@ export const Password = () => {
         on_hide_password={(e) => console.log('Gjemmer seg', e)}
         on_show_password={(e) => console.log('Viser seg', e)}
       />
-      <Provider locale="no-NB">
+      <Provider locale="nb-NO">
         <Field.Password
           hide_password="Hiding"
           show_password="Showing"

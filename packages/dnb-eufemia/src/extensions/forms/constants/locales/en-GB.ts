@@ -1,6 +1,29 @@
 export default {
   'en-GB': {
     /**
+     * General
+     */
+    SubmitButton: {
+      text: 'Send',
+      sendText: 'Send',
+    },
+    Step: {
+      next: 'Next',
+      previous: 'Back',
+      edit: 'Edit',
+      summaryTitle: 'Summary',
+    },
+    Form: {
+      errorSummaryTitle: 'Please correct the following errors',
+    },
+    Iterate: {
+      remove: 'Remove',
+      done: 'Done',
+      cancel: 'Cancel',
+      edit: 'Edit',
+    },
+
+    /**
      * Base fields
      */
     Field: {
@@ -27,13 +50,6 @@ export default {
     BooleanField: {
       yes: 'Yes',
       no: 'No',
-    },
-    Context: {
-      submit: 'Send',
-    },
-    Step: {
-      next: 'Next',
-      previous: 'Back',
     },
 
     /**

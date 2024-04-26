@@ -81,12 +81,12 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('1 234 kroner')
 
     rerender(
-      <Provider locale="ch-DE">
+      <Provider locale="de-CH">
         <Field.Currency value={1234} currencyDisplay="name" />
       </Provider>
     )
 
-    expect(input).toHaveValue('1,234 kroner')
+    expect(input).toHaveValue('1’234 Kronen')
 
     rerender(
       <Provider>

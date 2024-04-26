@@ -1,14 +1,16 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
-import { Field } from '../../..'
 import * as DataContext from '../../../DataContext'
+import { Field, Form, Value } from '../../..'
+import { FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
       const onChange = jest.fn()
+
       render(
         <Iterate.Array value={['one', 'two', 'three']} onChange={onChange}>
           <Field.String itemPath="/" />
@@ -57,11 +59,75 @@ describe('Iterate.Array', () => {
         'threethree',
       ])
     })
+
+    describe('placeholder', () => {
+      it('should show placeholder when value is undefined', () => {
+        const renderProp = jest.fn()
+
+        const list = undefined
+
+        render(
+          <Iterate.Array value={list} placeholder="Placeholder text">
+            {renderProp}
+          </Iterate.Array>
+        )
+
+        expect(
+          document.querySelectorAll('.dnb-form-iterate')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('.dnb-form-iterate')
+        ).toHaveTextContent('Placeholder text')
+      })
+
+      it('should show placeholder when emptyValue is same as instance', () => {
+        const renderProp = jest.fn()
+
+        const list = []
+
+        render(
+          <Iterate.Array
+            value={list}
+            emptyValue={list}
+            placeholder="Placeholder text"
+          >
+            {renderProp}
+          </Iterate.Array>
+        )
+
+        expect(
+          document.querySelectorAll('.dnb-form-iterate')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('.dnb-form-iterate')
+        ).toHaveTextContent('Placeholder text')
+      })
+
+      it('should show given placeholder when value is empty', () => {
+        const renderProp = jest.fn()
+
+        const list = []
+
+        render(
+          <Iterate.Array value={list} placeholder="Placeholder text">
+            {renderProp}
+          </Iterate.Array>
+        )
+
+        expect(
+          document.querySelectorAll('.dnb-form-iterate')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('.dnb-form-iterate')
+        ).toHaveTextContent('Placeholder text')
+      })
+    })
   })
 
   describe('with object elements', () => {
     it('should distribute values and receive callbacks', async () => {
       const onChange = jest.fn()
+
       render(
         <Iterate.Array
           value={[
@@ -75,6 +141,7 @@ describe('Iterate.Array', () => {
           <Field.String itemPath="/bar" />
         </Iterate.Array>
       )
+
       const fields = document.querySelectorAll('input')
       expect(fields).toHaveLength(6)
       const [
@@ -115,8 +182,9 @@ describe('Iterate.Array', () => {
 
   describe('using single render prop', () => {
     describe('with primitive elements', () => {
-      it('should call renderers with each element value', async () => {
+      it('should call renderers with each element value', () => {
         const renderProp = jest.fn()
+
         render(
           <Iterate.Array value={['first', 'second', 'third']}>
             {renderProp}
@@ -129,10 +197,12 @@ describe('Iterate.Array', () => {
         expect(renderProp).toHaveBeenNthCalledWith(3, 'third', 2)
       })
     })
+
     describe('with object elements and multiple render props', () => {
-      it('should call renderers with each element value', async () => {
+      it('should call renderers with each element value', () => {
         const renderProp1 = jest.fn()
         const renderProp2 = jest.fn()
+
         render(
           <Iterate.Array
             value={[
@@ -172,11 +242,42 @@ describe('Iterate.Array', () => {
   })
 
   describe('in DataContext', () => {
+    it('should call onChange when new item is added', () => {
+      const onChangeDataContext = jest.fn()
+      const onChangeIterate = jest.fn()
+
+      render(
+        <DataContext.Provider onChange={onChangeDataContext}>
+          <Iterate.Array path="/myList" onChange={onChangeIterate}>
+            content
+          </Iterate.Array>
+
+          <Iterate.PushButton path="/myList" pushValue="foo" />
+        </DataContext.Provider>
+      )
+
+      const addButton = document.querySelector('button')
+      fireEvent.click(addButton)
+
+      const elements = document.querySelectorAll(
+        '.dnb-form-iterate__element'
+      )
+      expect(elements).toHaveLength(1)
+
+      expect(onChangeDataContext).toHaveBeenCalledTimes(1)
+      expect(onChangeDataContext).toHaveBeenLastCalledWith({
+        myList: ['foo'],
+      })
+      expect(onChangeIterate).toHaveBeenCalledTimes(1)
+      expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
+    })
+
     describe('with primitive elements', () => {
       describe('referenced with path', () => {
         it('should distribute values and receive callbacks on both iterate and context', async () => {
           const dataContextOnChange = jest.fn()
           const iterateOnChange = jest.fn()
+
           render(
             <DataContext.Provider
               data={{
@@ -272,7 +373,228 @@ describe('Iterate.Array', () => {
             otherValue: 'lorem ipsum',
           })
         })
+
+        it('should filter data based on the given "filterData" property method', () => {
+          let filteredData = undefined
+          const onSubmit = jest.fn((data) => (filteredData = data))
+
+          const filterDataHandler: FilterData = jest.fn(
+            (path, value, props) => {
+              if (props.disabled === true) {
+                return false
+              }
+            }
+          )
+
+          const { rerender } = render(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterData={filterDataHandler}
+            >
+              <Iterate.Array
+                path="/myList"
+                value={[
+                  { foo: 'foo 1', bar: 'bar 1' },
+                  { foo: 'foo 2', bar: 'bar 2' },
+                ]}
+              >
+                <Field.String itemPath="/foo" />
+                <Field.String itemPath="/bar" />
+              </Iterate.Array>
+
+              <Form.SubmitButton>Submit</Form.SubmitButton>
+            </DataContext.Provider>
+          )
+
+          const submitButton = document.querySelector('button')
+
+          fireEvent.click(submitButton)
+
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+          expect(onSubmit).toHaveBeenLastCalledWith(
+            {
+              myList: [
+                {
+                  bar: 'bar 1',
+                  foo: 'foo 1',
+                },
+                {
+                  bar: 'bar 2',
+                  foo: 'foo 2',
+                },
+              ],
+            },
+            expect.anything()
+          )
+
+          expect(filterDataHandler).toHaveBeenCalledTimes(5)
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            1,
+            '/myList',
+            [
+              {
+                bar: 'bar 1',
+                foo: 'foo 1',
+              },
+              {
+                bar: 'bar 2',
+                foo: 'foo 2',
+              },
+            ],
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            2,
+            '/myList/0/foo',
+            'foo 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            3,
+            '/myList/0/bar',
+            'bar 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            4,
+            '/myList/1/foo',
+            'foo 2',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            5,
+            '/myList/1/bar',
+            'bar 2',
+            expect.anything(),
+            expect.anything()
+          )
+
+          rerender(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterData={filterDataHandler}
+            >
+              <Iterate.Array
+                path="/myList"
+                value={[
+                  { foo: 'foo 1', bar: 'bar 1' },
+                  { foo: 'foo 2', bar: 'bar 2' },
+                ]}
+              >
+                <Field.String itemPath="/foo" disabled />
+                <Field.String itemPath="/bar" />
+              </Iterate.Array>
+
+              <Form.SubmitButton>Submit</Form.SubmitButton>
+            </DataContext.Provider>
+          )
+
+          expect(filteredData).toEqual({
+            myList: [
+              { bar: 'bar 1', foo: 'foo 1' },
+              { bar: 'bar 2', foo: 'foo 2' },
+            ],
+          })
+
+          fireEvent.click(submitButton)
+
+          expect(filterDataHandler).toHaveBeenCalledTimes(10)
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            6,
+            '/myList',
+            [
+              {
+                bar: 'bar 1',
+              },
+              {
+                bar: 'bar 2',
+              },
+            ],
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            7,
+            '/myList/0/foo',
+            'foo 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            8,
+            '/myList/0/bar',
+            'bar 1',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            9,
+            '/myList/1/foo',
+            'foo 2',
+            expect.anything(),
+            expect.anything()
+          )
+          expect(filterDataHandler).toHaveBeenNthCalledWith(
+            10,
+            '/myList/1/bar',
+            'bar 2',
+            expect.anything(),
+            expect.anything()
+          )
+
+          expect(filteredData).toEqual({
+            myList: [
+              {
+                bar: 'bar 1',
+              },
+              {
+                bar: 'bar 2',
+              },
+            ],
+          })
+        })
       })
+    })
+  })
+
+  describe('should render without flex', () => {
+    it('when "withoutFlex" is true', () => {
+      const { container } = render(
+        <Iterate.Array value={['one', 'two', 'three']} withoutFlex>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(container.children).toHaveLength(3)
+      expect(container.querySelector('.dnb-flex-container')).toBeNull()
+    })
+
+    it('when inside "SummaryList"', () => {
+      const { container } = render(
+        <Value.SummaryList>
+          <Iterate.Array value={['one', 'two', 'three']}>
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+        </Value.SummaryList>
+      )
+
+      expect(container.querySelector('.dnb-flex-container')).toBeNull()
+    })
+
+    it('when inside "Composition"', () => {
+      const { container } = render(
+        <Value.Composition>
+          <Iterate.Array value={['one', 'two', 'three']}>
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+        </Value.Composition>
+      )
+
+      expect(container.querySelector('.dnb-flex-container')).toBeNull()
     })
   })
 })

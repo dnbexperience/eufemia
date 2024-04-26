@@ -1,0 +1,45 @@
+---
+showTabs: false
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Wizard
+    href: /uilib/extensions/forms/Wizard/
+  - text: Step
+    href: /uilib/extensions/forms/Wizard/Step/
+  - text: EditButton
+    href: /uilib/extensions/forms/Wizard/Step/EditButton/
+---
+
+import * as Examples from './Examples'
+
+# EditButton
+
+## Description
+
+`Wizard.EditButton` is a button to be placed in a summary step.
+
+It provides a `toStep` property that lets you navigate to a specific step.
+
+```jsx
+import { Hr } from '@dnb/eufemia'
+import { Form, Wizard, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Wizard.Layout>
+      <Wizard.Step title="Summary">
+        <Card stack>
+          <Value.String label="First name" path="/firstName" />
+          <Hr />
+          <Wizard.EditButton toStep={2} />
+        </Card>
+      </Wizard.Step>
+    </Wizard.Layout>
+  </Form.Handler>,
+)
+```
+
+## Demo
+
+<Examples.EditButton />

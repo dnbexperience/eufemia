@@ -386,6 +386,37 @@ describe('Selection', () => {
         expect(options[1].getAttribute('aria-selected')).toBe('false')
       })
 
+      it('renders only options with a value', () => {
+        const { rerender } = render(
+          <Field.Selection variant="dropdown" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+            {null}
+          </Field.Selection>
+        )
+
+        open()
+
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+
+        rerender(
+          <Field.Selection variant="dropdown" value="foo">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+            content without a key
+          </Field.Selection>
+        )
+
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          3
+        )
+        expect(
+          document.querySelectorAll('[role="option"]')[2]
+        ).toHaveTextContent('content without a key')
+      })
+
       describe('ARIA', () => {
         it('should validate with ARIA rules', async () => {
           const result = render(

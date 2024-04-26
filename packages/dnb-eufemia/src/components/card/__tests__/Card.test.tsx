@@ -114,7 +114,7 @@ describe('Card', () => {
     )
 
     expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1]).toHaveClass('dnb-space__top--medium')
   })
 
   it('should stack children divided by lines', () => {
@@ -139,12 +139,12 @@ describe('Card', () => {
     )
     expect(children[1].tagName).toBe('HR')
     expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
     )
 
     expect(children[2].tagName).toBe('P')
     expect(children[2]).toHaveClass(
-      'dnb-p dnb-space__top--small dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
     )
   })
 
@@ -301,6 +301,30 @@ describe('Card', () => {
     )
 
     expect(element).not.toHaveClass('dnb-card--responsive')
+  })
+
+  it('should use basis space on small screens when "responsive" is set to false', () => {
+    const { rerender } = render(
+      <Card>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(
+      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+    ).toBe('0')
+
+    rerender(
+      <Card responsive={false}>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(
+      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+    ).toBe('1.5rem')
   })
 
   it('should support "title"', () => {

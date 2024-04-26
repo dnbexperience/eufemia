@@ -19,7 +19,7 @@ import type {
   AllJSONSchemaVersions,
 } from '../../types'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -52,6 +52,8 @@ export type Props = FieldHelpProps &
     leftIcon?: string
     rightIcon?: string
     submitElement?: InputProps['submit_element']
+    capitalize?: boolean
+    trim?: boolean
 
     // - Textarea props
     rows?: TextareaProps['rows']
@@ -70,7 +72,7 @@ export type Props = FieldHelpProps &
 
 function StringComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
-  const translations = useLocale()
+  const translations = useTranslation()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.Field.errorRequired,
@@ -215,7 +217,7 @@ function StringComponent(props: Props) {
     autoCapitalize,
     inputMode,
     className: cn,
-    placeholder: placeholder,
+    placeholder,
     suffix: help ? (
       <HelpButton title={help.title}>{help.content}</HelpButton>
     ) : undefined,

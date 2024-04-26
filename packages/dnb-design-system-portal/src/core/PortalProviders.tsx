@@ -11,6 +11,7 @@ import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
+import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
@@ -86,9 +87,9 @@ function SkeletonEnabled({ children }) {
   return children
 }
 
-export function getLang(locale = 'nb-NO') {
+export function getLang(locale: InternalLocale = 'nb-NO'): InternalLocale {
   try {
-    const l = window.localStorage.getItem('locale')
+    const l = window.localStorage.getItem('locale') as InternalLocale
     if (l) {
       locale = l
     }

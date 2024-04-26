@@ -13,7 +13,7 @@ export default function useReachRouter(
   const location = useLocation()
 
   const onStepChange = useCallback(
-    async (index: number) => {
+    (index: number) => {
       try {
         const url = new URL(location.href)
         url.searchParams.set(`${id}-step`, String(index))
@@ -39,7 +39,10 @@ export default function useReachRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
-      setActiveIndex(routerIndex, { skipCallOnChange: true })
+      setActiveIndex(routerIndex, {
+        skipStepChangeCallFromHook: true,
+        skipStepChangeCallBeforeMounted: true,
+      })
     }
   }, [getIndex, setActiveIndex])
 

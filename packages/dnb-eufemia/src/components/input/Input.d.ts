@@ -5,7 +5,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -48,7 +48,7 @@ export interface InputProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
@@ -90,7 +90,7 @@ export interface InputProps
   /**
    * The placeholder which shows up once the input value is empty.
    */
-  placeholder?: string;
+  placeholder?: React.ReactNode;
   /**
    * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
    */

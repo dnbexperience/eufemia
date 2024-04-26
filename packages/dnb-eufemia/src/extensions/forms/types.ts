@@ -100,7 +100,7 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
 
 export interface DataValueWriteProps<
   Value = unknown,
-  EmptyValue = undefined | string,
+  EmptyValue = undefined | unknown,
 > {
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
@@ -132,7 +132,7 @@ export function omitDataValueWriteProps<Props extends DataValueWriteProps>(
 
 export type DataValueReadWriteProps<
   Value = unknown,
-  EmptyValue = undefined | string,
+  EmptyValue = undefined | unknown,
 > = DataValueReadProps<Value> & DataValueWriteProps<Value, EmptyValue>
 
 export function pickDataValueReadWriteProps<
@@ -172,39 +172,54 @@ export type DataValueReadComponentProps<Value = unknown> = ComponentProps &
 
 export type DataValueReadWriteComponentProps<
   Value = unknown,
-  EmptyValue = undefined | string,
+  EmptyValue = undefined | unknown,
 > = ComponentProps &
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export interface FieldProps<
+export type FieldBlockProps = {
+  /**
+   * The layout of the field block
+   */
+  layout?: 'horizontal' | 'vertical'
+  /**
+   * Main label text for the field
+   */
+  label?: React.ReactNode
+  /**
+   * A more discreet text displayed beside the label
+   */
+  labelDescription?: React.ReactNode
+  /**
+   * Text showing in place of the value if no value is given
+   */
+  placeholder?: React.ReactNode
+}
+
+export interface UseFieldProps<
   Value = unknown,
-  EmptyValue = undefined | string,
+  EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue>,
     AriaAttributes {
-  /** ID added to the actual field component, and linked to the label via for-attribute */
-  id?: string
+  // - HTML Element Attributes
+  /**
+   * ID added to the actual field component, and linked to the label via for-attribute
+   */
+  id?: Identifier
   name?: string
-  layout?: 'horizontal' | 'vertical'
-  /** Main label text */
-  label?: React.ReactNode
-  /** A more discreet text displayed beside the label */
-  labelDescription?: React.ReactNode
-  /** Text showing in place of the value if no value is given */
-  placeholder?: string
+  disabled?: boolean
+  readOnly?: boolean
   autoComplete?:
     | HTMLInputElement['autocomplete']
     | HTMLTextAreaElement['autocomplete']
+
+  // - Used by useFieldProps and FieldBlock
   info?: React.ReactNode
   warning?: React.ReactNode
   error?: Error | FormError
-  hasError?: boolean
-  disabled?: boolean
-  readOnly?: boolean
-  capitalize?: boolean
-  trim?: boolean
-  // Validation
+
+  // - Validation
   required?: boolean
   schema?: AllJSONSchemaVersions
   validator?: (
@@ -214,31 +229,6 @@ export interface FieldProps<
   onBlurValidator?: (
     value: Value | EmptyValue
   ) => Error | undefined | void | Promise<Error | undefined | void>
-  /**
-   * Should error messages based on validation be shown initially (from given value-prop or source data)
-   * before the user interacts with the field?
-   * @default false
-   */
-  validateInitially?: boolean
-  /**
-   * Should error messages be shown when touching (like focusing a field and blurring) without having changed
-   * the value? So the user did not introduce a new error, but it was invalid based on validation initially.
-   */
-  validateUnchanged?: boolean
-  /** Should validation be done while writing, not just when blurring the field? */
-  continuousValidation?: boolean
-  errorMessages?: ErrorMessages
-  // Derivatives
-  transformIn?: (external: Value | unknown) => Value | unknown
-  transformOut?: (internal: Value | unknown) => Value
-  toInput?: (external: Value | unknown) => Value | unknown
-  fromInput?: (external: Value | unknown) => Value
-  toEvent?: (
-    internal: Value,
-    type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
-  ) => Value
-  fromExternal?: (external: Value) => Value
-  transformValue?: (value: Value, currentValue?: Value) => Value
   validateRequired?: (
     internal: Value,
     {
@@ -253,7 +243,74 @@ export interface FieldProps<
       error: FormError | undefined
     }
   ) => FormError | undefined
+  /**
+   * Should error messages based on validation be shown initially (from given value-prop or source data)
+   * before the user interacts with the field?
+   * @default false
+   */
+  validateInitially?: boolean
+  /**
+   * Should error messages be shown when touching (like focusing a field and blurring) without having changed
+   * the value? So the user did not introduce a new error, but it was invalid based on validation initially.
+   */
+  validateUnchanged?: boolean
+  /**
+   * Should validation be done while writing, not just when blurring the field?
+   */
+  continuousValidation?: boolean
+  /**
+   * Provide custom error messages for the field
+   */
+  errorMessages?: ErrorMessages
+
+  // - Derivatives
+
+  /**
+   * Transforms the `value` before its displayed in the field (e.g. input).
+   * Public API. Should not be used internally.
+   */
+  transformIn?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
+   * Public API. Should not be used internally.
+   */
+  transformOut?: (internal: Value | unknown) => Value
+
+  /**
+   * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
+   */
+  transformValue?: (value: Value, currentValue?: Value) => Value
+
+  /**
+   * Transforms the value before it gets returned as the `value`.
+   */
+  toInput?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
+   */
+  toEvent?: (
+    internal: Value,
+    type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
+  ) => Value
+
+  /**
+   * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value form the original event object.
+   */
+  fromInput?: (external: Value | unknown) => Value
+
+  /**
+   * Transforms the given props `value` before any other step gets entered.
+   */
+  fromExternal?: (external: Value) => Value
 }
+
+export type FieldProps<
+  Value = unknown,
+  EmptyValue = undefined | unknown,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
 
 export interface FieldHelpProps {
   help?: {
@@ -264,18 +321,44 @@ export interface FieldHelpProps {
 
 export interface ValueProps<Value>
   extends DataValueReadComponentProps<Value> {
-  label?: string
-  /** Field label to show above the data value. */
+  /**
+   * Field label to show above the data value.
+   */
+  label?: React.ReactNode
+
+  /**
+   * Field label to show above the data value.
+   */
   showEmpty?: boolean
-  /** Text showing in place of the value if no value is given. */
-  placeholder?: string
-  /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  itemPath?: string
-  /** For showing the value inline (not as a block element) */
+
+  /**
+   * Text showing in place of the value if no value is given.
+   */
+  placeholder?: React.ReactNode
+
+  /**
+   * For showing the value inline (not as a block element)
+   */
   inline?: boolean
-  // Derivatives
-  /** Prepare value for display (regardless of source like props or data context) */
-  prepare?: (external: Value | undefined) => string
+
+  /** The max-width of a value block. Defaults to large */
+  maxWidth?: 'small' | 'medium' | 'large' | 'auto'
+
+  /**
+   * Transforms the `value` before its displayed in the field (e.g. input).
+   * Public API. Should not be used internally.
+   */
+  transformIn?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the value before it gets returned as the `value`.
+   */
+  toInput?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the given props `value` before any other step gets entered.
+   */
+  fromExternal?: (external: Value) => Value
 }
 
 export type Path = string
@@ -371,7 +454,7 @@ export type OnChange<Data = unknown> = (
 
 export type OnChangeValue<
   Value = unknown,
-  EmptyValue = undefined | string,
+  EmptyValue = undefined | unknown,
 > = (
   value: Value | EmptyValue,
   additionalArgs?: AdditionalEventArgs

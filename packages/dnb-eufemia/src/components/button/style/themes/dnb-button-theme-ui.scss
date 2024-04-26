@@ -174,13 +174,13 @@
       bottom: 0;
       left: 0;
 
-      width: 0.0625rem;
+      width: var(--input-border-width);
       background-color: currentcolor;
     }
   }
   html:not([data-whatintent='touch'])
     &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
-    &:focus,
+    &:focus-visible,
     &:hover {
       color: var(--color-white);
       &,
@@ -189,16 +189,16 @@
       }
       box-shadow: none;
     }
-    &:not(:active):hover {
-      border-radius: 0;
-    }
     &:active {
       color: var(--color-sea-green);
       &,
       &::after {
         background-color: var(--color-mint-green-50);
       }
-      box-shadow: none;
+      &::after {
+        top: var(--input-border-width);
+        bottom: var(--input-border-width);
+      }
     }
   }
   html:not([data-whatintent='touch'])

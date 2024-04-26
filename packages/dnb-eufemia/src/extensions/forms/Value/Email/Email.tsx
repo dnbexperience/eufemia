@@ -1,11 +1,11 @@
 import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringValueProps
 
 function Email(props: Props) {
-  const translations = useLocale().Email
+  const translations = useTranslation().Email
 
   const stringProps: Props = {
     ...props,

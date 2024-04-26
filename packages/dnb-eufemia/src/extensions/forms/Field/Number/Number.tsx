@@ -17,7 +17,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -57,7 +57,7 @@ export type Props = FieldHelpProps &
 function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
-  const translations = useLocale()
+  const translations = useTranslation()
 
   const {
     currency,
@@ -234,12 +234,16 @@ function NumberComponent(props: Props) {
   )
 
   const fieldBlockProps = {
-    className: classnames('dnb-forms-field-number', className),
+    className: classnames(
+      'dnb-forms-field-number',
+      'dnb-input__border--tokens', // Used by "dnb-input__border"
+      className
+    ),
     contentClassName: classnames(
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
-      disabled && 'dnb-forms-field-number__contents--is-disabled',
-      hasError && 'dnb-forms-field-number__contents--has-error'
+      hasError && 'dnb-input__status--error', // Also used by "dnb-input__border"
+      disabled && 'dnb-input--disabled' // Also used by "dnb-input__border"
     ),
     forId: id,
     layout,
@@ -332,14 +336,26 @@ function NumberComponent(props: Props) {
     ...ariaParams,
   }
 
+  if (showStepControls) {
+    return (
+      <FieldBlock {...fieldBlockProps} asFieldset={false}>
+        <span className="dnb-input__border dnb-input__border--root">
+          {<Button {...decreaseProps} />}
+          <InputMasked {...inputProps} />
+          {<Button {...increaseProps} />}
+        </span>
+        {help && (
+          <HelpButton left="x-small" title={help.title}>
+            {help.content}
+          </HelpButton>
+        )}
+      </FieldBlock>
+    )
+  }
+
   return (
     <FieldBlock {...fieldBlockProps} asFieldset={false}>
-      {showStepControls && <Button {...decreaseProps} />}
       <InputMasked {...inputProps} />
-      {showStepControls && <Button {...increaseProps} />}
-      {help && showStepControls && (
-        <HelpButton title={help.title}>{help.content}</HelpButton>
-      )}
     </FieldBlock>
   )
 }

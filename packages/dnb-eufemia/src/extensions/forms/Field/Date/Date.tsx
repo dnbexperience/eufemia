@@ -11,16 +11,16 @@ import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = FieldHelpProps &
-  FieldProps<string> & {
+  FieldProps<string, undefined | string> & {
     // Validation
     pattern?: string
   }
 
 function DateComponent(props: Props) {
-  const translations = useLocale()
+  const translations = useTranslation()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.Date.errorRequired,

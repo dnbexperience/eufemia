@@ -1,23 +1,26 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import {
   format,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringValueProps
 
 function NationalIdentityNumber(props: Props) {
-  const translations = useLocale().NationalIdentityNumber
+  const translations = useTranslation().NationalIdentityNumber
+
+  const toInput = useCallback((value) => {
+    return format(cleanNumber(value), {
+      nin: true,
+    }).toString()
+  }, [])
 
   const stringValueProps: Props = {
     ...props,
     label: props.label ?? (props.inline ? undefined : translations.label),
-    prepare: (value) =>
-      format(cleanNumber(value), {
-        nin: true,
-      }).toString(),
+    toInput,
   }
   return <StringValue {...stringValueProps} />
 }

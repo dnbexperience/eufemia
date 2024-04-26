@@ -1,6 +1,29 @@
 export default {
   'nb-NO': {
     /**
+     * General
+     */
+    SubmitButton: {
+      text: 'Send',
+      sendText: 'Send inn',
+    },
+    Step: {
+      next: 'Neste',
+      previous: 'Tilbake',
+      edit: 'Endre',
+      summaryTitle: 'Oppsummering',
+    },
+    Form: {
+      errorSummaryTitle: 'Feil som må rettes',
+    },
+    Iterate: {
+      remove: 'Fjern',
+      done: 'Ferdig',
+      cancel: 'Avbryt',
+      edit: 'Endre',
+    },
+
+    /**
      * Base fields
      */
     Field: {
@@ -26,13 +49,6 @@ export default {
     BooleanField: {
       yes: 'Ja',
       no: 'Nei',
-    },
-    Context: {
-      submit: 'Send',
-    },
-    Step: {
-      next: 'Neste',
-      previous: 'Tilbake',
     },
 
     /**

@@ -10,6 +10,10 @@ function Stack(props: Props) {
     className,
     direction = 'vertical',
     alignSelf = 'stretch',
+    align = 'stretch',
+    spacing = props.divider !== 'line' && props.divider !== 'line-framed'
+      ? 'medium'
+      : 'small',
     children,
     ...rest
   } = props
@@ -20,7 +24,8 @@ function Stack(props: Props) {
       className={classnames('dnb-flex-stack', className)}
       direction={direction}
       alignSelf={alignSelf}
-      align="stretch"
+      align={align}
+      spacing={spacing}
       {...rest}
     >
       {children}

@@ -5,7 +5,6 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import { Td } from '@dnb/eufemia/src'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
 
 const StyledTable = styled(TableElement)`
@@ -53,16 +52,20 @@ export default function Table({ children }) {
       }
 
       if (child.type === 'td') {
-        const tds = getChildren(child)
-        const hex = String(tds?.[0])
-
-        // manipulate the colors, if provided
-        if (hex.startsWith('#') && hex.length === 7) {
-          return (
-            <Td aria-hidden style={prepareStyleWithSameColor(hex)}>
-              {hex}
-            </Td>
-          )
+        const tdChildren = getChildren(child)
+        if (tdChildren?.length === 1) {
+          const text = String(tdChildren?.[0])
+          if (
+            text.startsWith('#') &&
+            (text.length === 7 || text.length === 4)
+          ) {
+            // manipulate the colors, if provided
+            return (
+              <td aria-hidden style={prepareStyleWithSameColor(text)}>
+                {text}
+              </td>
+            )
+          }
         }
       }
 
@@ -132,5 +135,7 @@ function prepareStyleWithSameColor(hex: string) {
   return {
     color: hex,
     background: hex,
+    fontFamily: 'var(--font-family-monospace)',
+    width: 0,
   }
 }

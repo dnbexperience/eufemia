@@ -1,34 +1,14 @@
 import React from 'react'
 import ValueBlock from '../../ValueBlock'
-import { useFieldProps } from '../../hooks'
+import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/flex/utils'
 
 export type Props = ValueProps<string>
 
 function StringComponent(props: Props) {
-  const {
-    className,
-    label,
-    placeholder,
-    value,
-    inline,
-    showEmpty,
-    prepare = (value) => value,
-  } = useFieldProps(props)
+  const { value, ...rest } = useValueProps(props)
 
-  return (
-    <ValueBlock
-      className={className}
-      label={label}
-      showEmpty={showEmpty}
-      placeholder={placeholder}
-      inline={inline}
-      {...pickSpacingProps(props)}
-    >
-      {prepare(value)}
-    </ValueBlock>
-  )
+  return <ValueBlock {...rest}>{value}</ValueBlock>
 }
 
 StringComponent._supportsSpacingProps = true

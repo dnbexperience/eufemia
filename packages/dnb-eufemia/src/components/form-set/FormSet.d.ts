@@ -2,8 +2,8 @@ import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-import type { Locale } from '../../shared/Context';
+import type { FormLabelLabelDirection } from '../FormLabel';
+import type { InternalLocale } from '../../shared/Context';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type FormSetDirection = 'vertical' | 'horizontal';
 export type FormSetChildren =
@@ -19,14 +19,14 @@ export interface FormSetProps
   skeleton?: SkeletonShow;
   prevent_submit?: boolean;
   id?: string;
-  label?: FormLabelText;
+  label?: React.ReactNode;
   label_direction?: FormLabelLabelDirection;
   label_sr_only?: boolean;
   label_id?: string;
   label_class?: string;
   no_label?: boolean;
   no_fieldset?: boolean;
-  locale?: Locale;
+  locale?: InternalLocale;
   wrap?: boolean;
   direction?: FormSetDirection;
   vertical?: boolean;

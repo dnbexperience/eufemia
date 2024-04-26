@@ -7,13 +7,15 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormStatus, { FormStatusProps } from '../FormStatus'
 import Input from '../../input/Input'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import {
   initializeTestSetup,
   nextAnimationFrame,
   runAnimation,
   simulateAnimationEnd,
 } from '../../height-animation/__tests__/HeightAnimationUtils'
+import Provider from '../../../shared/Provider'
+import GlobalStatus from '../../GlobalStatus'
 
 const props: FormStatusProps = {
   text: 'text',
@@ -147,6 +149,106 @@ describe('FormStatus component', () => {
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe(props.text)
+  })
+
+  it('should interact with GlobalStatus via Provider props', async () => {
+    jest.spyOn(window, 'scrollTo').mockImplementation()
+
+    // Should be rendered as closed
+    const { rerender } = render(
+      <>
+        <GlobalStatus id="my-status" />
+        <Provider
+          FormStatus={{
+            globalStatus: {
+              id: 'my-status',
+              show: false,
+            },
+          }}
+        >
+          <FormStatus />
+        </Provider>
+      </>
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    expect(document.querySelector('.dnb-global-status__title')).toBeNull()
+
+    // Set a custom class
+    rerender(
+      <>
+        <GlobalStatus id="my-status" />
+        <Provider
+          FormStatus={{
+            className: 'foo',
+            globalStatus: {
+              id: 'my-status',
+              show: false,
+            },
+          }}
+        >
+          <FormStatus text="has error" />
+        </Provider>
+      </>
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveClass('foo')
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      'has error'
+    )
+    expect(document.querySelector('.dnb-global-status__title')).toBeNull()
+
+    // Show the GlobalStatus and set a custom title
+    rerender(
+      <>
+        <GlobalStatus id="my-status" />
+        <Provider
+          FormStatus={{
+            className: 'bar',
+            globalStatus: {
+              id: 'my-status',
+              show: true,
+              title: 'Custom GlobalStatus Title',
+            },
+          }}
+        >
+          <FormStatus text="has error" />
+        </Provider>
+      </>
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveClass('bar')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__title')
+      ).toHaveTextContent('Custom GlobalStatus Title')
+    })
+
+    // Close the GlobalStatus
+    rerender(
+      <>
+        <GlobalStatus id="my-status" />
+        <Provider
+          FormStatus={{
+            globalStatus: {
+              id: 'my-status',
+              show: false,
+            },
+          }}
+        >
+          <FormStatus />
+        </Provider>
+      </>
+    )
+
+    await waitFor(() => {
+      simulateAnimationEnd()
+
+      expect(
+        document.querySelector('.dnb-global-status__title')
+      ).toBeNull()
+    })
   })
 
   it('should support spacing props', () => {

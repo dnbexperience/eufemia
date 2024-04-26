@@ -6,7 +6,7 @@ import type {
 } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio';
 export type ToggleButtonGroupSuffix =
@@ -31,7 +31,7 @@ export interface ToggleButtonGroupProps
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   label_direction?: FormLabelLabelDirection;
   label_sr_only?: boolean;
   /**

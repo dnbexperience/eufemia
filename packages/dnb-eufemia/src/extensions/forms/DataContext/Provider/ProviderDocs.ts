@@ -42,13 +42,18 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'Provide your own custom Ajv instance. More info in the <a href="/uilib/extensions/forms/extended-features/Form/schema-validation/#custom-ajv-instance-and-keywords">Schema validation</a> section.',
+    doc: 'Provide your own custom Ajv instance. More info in the <a href="/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords">Schema validation</a> section.',
     type: 'ajv',
     status: 'optional',
   },
   filterData: {
     doc: 'Filter the internal data context based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry.',
     type: 'function',
+    status: 'optional',
+  },
+  globalStatusId: {
+    doc: 'If needed, you can define a custom [GlobalStatus](/uilib/components/global-status) id. Defaults to `main`.',
+    type: 'string',
     status: 'optional',
   },
   children: {
@@ -70,7 +75,7 @@ export const ProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: "Will be called (on validation success) when the user submit the form (i.e by clicking a [SubmitButton](/uilib/extensions/forms/extended-features/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed.",
+    doc: "Will be called (on validation success) when the user submit the form (i.e by clicking a [SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed.",
     type: 'function',
     status: 'optional',
   },

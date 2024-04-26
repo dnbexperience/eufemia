@@ -4,7 +4,8 @@ import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import SubmitIndicator from '../SubmitIndicator'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
+import { send } from '../../../../icons'
 
 export type Props = {
   /**
@@ -12,15 +13,21 @@ export type Props = {
    */
   showIndicator?: boolean
 } & ComponentProps &
-  ButtonProps &
-  Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
+  Omit<ButtonProps, 'variant'> &
+  Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>> & {
+    variant?: 'send'
+  }
 
 function SubmitButton(props: Props) {
-  const translations = useLocale().Context
+  const translations = useTranslation().SubmitButton
 
-  const { className, showIndicator, children, text, ...rest } = props
+  const { variant, className, showIndicator, children, text, ...rest } =
+    props
 
-  const content = text || children || translations.submit
+  const content =
+    text ||
+    children ||
+    (variant === 'send' ? translations.sendText : translations.text)
 
   const { formState, handleSubmit, _isInsideFormElement } =
     useContext(DataContext) || {}
@@ -36,6 +43,7 @@ function SubmitButton(props: Props) {
       className={classnames('dnb-forms-submit-button', className)}
       onClick={onClickHandler}
       type="submit"
+      icon={variant === 'send' ? send : null}
       {...rest}
     >
       {content}

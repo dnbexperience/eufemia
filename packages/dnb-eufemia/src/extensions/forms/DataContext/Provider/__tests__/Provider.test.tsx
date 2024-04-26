@@ -8,6 +8,9 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { wait } from '../../../../../core/jest/jestSetup'
+import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
+import { GlobalStatus } from '../../../../../components'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import {
   Form,
@@ -21,7 +24,6 @@ import {
 import { Props as StringFieldProps } from '../../../Field/String'
 import { ContextState, FilterData } from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
-import { wait } from '../../../../../core/jest/jestSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -362,7 +364,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should filter data based in the given "filterData" property method', () => {
+    it('should filter data based on the given "filterData" property method', () => {
       let filteredData = undefined
       const onSubmit = jest.fn((data) => (filteredData = data))
 
@@ -639,9 +641,9 @@ describe('DataContext.Provider', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
-    it('should evaluate long validator and onBlurValidator before continue with async onSubmit', async () => {
-      const eventsStart = []
-      const eventsEnd = []
+    describe('should evaluate long validator and onBlurValidator before continue with async onSubmit', () => {
+      let eventsStart = []
+      let eventsEnd = []
 
       const onSubmit = async () => {
         eventsStart.push('onSubmit')
@@ -683,52 +685,76 @@ describe('DataContext.Provider', () => {
         eventsEnd.push('onBlurValidator')
       }
 
-      render(
-        <DataContext.Provider onSubmit={onSubmit} onChange={onChangeForm}>
-          <Field.String
-            value="vali"
-            path="/myField"
-            validator={validator}
-            onBlurValidator={onBlurValidator}
-            onChange={onChangeField}
-          />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
+      it('during type', async () => {
+        render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            onChange={onChangeForm}
+          >
+            <Field.String
+              value="vali"
+              path="/myField"
+              validator={validator}
+              onBlurValidator={onBlurValidator}
+              onChange={onChangeField}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-      const input = document.querySelector('input')
-      const button = document.querySelector('button')
+        const input = document.querySelector('input')
 
-      await userEvent.type(input, 'd')
+        eventsStart = []
+        eventsEnd = []
 
-      expect(eventsStart).toEqual([
-        'validator',
-        'onChangeForm',
-        'onChangeField',
-      ])
+        await userEvent.type(input, 'd')
 
-      await userEvent.click(button)
+        await waitFor(() => {
+          expect(eventsStart).toEqual([
+            'validator',
+            'onChangeForm',
+            'onChangeField',
+          ])
+        })
+      })
 
-      await wait(100)
+      it('during submit', async () => {
+        render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            onChange={onChangeForm}
+          >
+            <Field.String
+              value="vali"
+              path="/myField"
+              validator={validator}
+              onBlurValidator={onBlurValidator}
+              onChange={onChangeField}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-      expect(eventsStart).toEqual([
-        'validator',
-        'onChangeForm',
-        'onChangeField',
-        'onBlurValidator',
-        'validator',
-        'onBlurValidator',
-        'onSubmit',
-      ])
-      expect(eventsEnd).toEqual([
-        'validator',
-        'onChangeForm',
-        'onChangeField',
-        'onBlurValidator',
-        'validator',
-        'onBlurValidator',
-        'onSubmit',
-      ])
+        const button = document.querySelector('button')
+
+        eventsStart = []
+        eventsEnd = []
+
+        await userEvent.click(button)
+
+        await wait(100)
+
+        expect(eventsStart).toEqual([
+          'validator',
+          'onBlurValidator',
+          'onSubmit',
+        ])
+        expect(eventsEnd).toEqual([
+          'validator',
+          'onBlurValidator',
+          'onSubmit',
+        ])
+      })
     })
 
     it('should evaluate sync validation, such as required, before continue with async validation', async () => {
@@ -1121,10 +1147,10 @@ describe('DataContext.Provider', () => {
 
     it('should emit onChange only when validator is evaluated successfully', async () => {
       const onChangeContext = jest.fn().mockImplementation(async () => {
-        await wait(5)
+        await wait(10)
       })
       const onChangeField = jest.fn().mockImplementation(async () => {
-        await wait(5)
+        await wait(10)
       })
 
       const validator = jest.fn().mockImplementation(async (value) => {
@@ -1134,7 +1160,7 @@ describe('DataContext.Provider', () => {
          *
          * The slower the performance, the higher the timeout needs to be.
          */
-        await wait(50)
+        await wait(60)
         if (value !== 'valid') {
           return Error(`value: ${value}`)
         }
@@ -1948,6 +1974,130 @@ describe('DataContext.Provider', () => {
         expect(screen.getByRole('alert')).toHaveTextContent(
           'pattern field error'
         )
+      })
+
+      it('should interact with GlobalStatus', async () => {
+        jest.spyOn(window, 'scrollTo').mockImplementation()
+
+        render(
+          <>
+            <GlobalStatus />
+            <DataContext.Provider>
+              <Field.String path="/myField" required minLength={5} />
+              <Form.SubmitButton />
+            </DataContext.Provider>
+          </>
+        )
+
+        const input = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toBeNull()
+
+        // Invoke the error
+        await userEvent.type(input, 'x{Backspace}')
+        fireEvent.blur(input)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toBeNull()
+
+        fireEvent.click(submitButton)
+
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toBeNull()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toHaveTextContent(nb.Form.errorSummaryTitle)
+        })
+
+        await userEvent.type(input, 'foo')
+        fireEvent.blur(input)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '5')
+        )
+
+        await waitFor(() => {
+          simulateAnimationEnd()
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
+        })
+      })
+
+      it('should interact with GlobalStatus with unique "globalStatusId"', async () => {
+        jest.spyOn(window, 'scrollTo').mockImplementation()
+
+        render(
+          <>
+            <GlobalStatus id="my-status" />
+            <DataContext.Provider globalStatusId="my-status">
+              <Field.String path="/myField" required minLength={5} />
+              <Form.SubmitButton />
+            </DataContext.Provider>
+          </>
+        )
+
+        const input = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toBeNull()
+
+        // Invoke the error
+        await userEvent.type(input, 'x{Backspace}')
+        fireEvent.blur(input)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toBeNull()
+
+        fireEvent.click(submitButton)
+
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toBeNull()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toHaveTextContent(nb.Form.errorSummaryTitle)
+        })
+
+        await userEvent.type(input, 'foo')
+        fireEvent.blur(input)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '5')
+        )
+
+        await waitFor(() => {
+          simulateAnimationEnd()
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
+        })
       })
     })
 

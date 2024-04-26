@@ -12,10 +12,13 @@ export type Props = ComponentProps & {
 
 function Buttons(props: Props) {
   const { className } = props
-  const wizardContext = useContext(WizardContext)
-  const showPreviousButton = wizardContext?.activeIndex > 0
-  const showNextButton =
-    wizardContext?.activeIndex < wizardContext?.totalSteps - 1
+  const { activeIndex, totalSteps } = useContext(WizardContext) || {}
+  const showPreviousButton = activeIndex > 0
+  const showNextButton = activeIndex < totalSteps - 1
+
+  if (!showPreviousButton && !showNextButton) {
+    return null
+  }
 
   return (
     <ButtonRow

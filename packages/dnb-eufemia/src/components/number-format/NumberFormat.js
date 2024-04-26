@@ -1,6 +1,8 @@
 /**
  * Web NumberFormat Component
  *
+ * This is a legacy component.
+ * For refferencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
@@ -146,8 +148,8 @@ export default class NumberFormat extends React.PureComponent {
     this._ref = React.createRef()
     this._selectionRef = React.createRef()
 
-    this._id = props.id || makeUniqueId()
-    this.state = { selected: false, omitCurrencySign: false }
+    this._id = props.tooltip ? props.id || makeUniqueId() : undefined
+    this.state = { selected: false, omitCurrencySign: false, hover: false }
   }
 
   componentDidMount() {
@@ -235,6 +237,14 @@ export default class NumberFormat extends React.PureComponent {
       })
     }
     return <span className={className}>{comp}</span>
+  }
+
+  onMouseEnter = () => {
+    this.setState({ hover: true })
+  }
+
+  onMouseLeave = () => {
+    this.setState({ hover: false })
   }
 
   render() {
@@ -336,42 +346,6 @@ export default class NumberFormat extends React.PureComponent {
     } = format(value, formatOptions)
     this.cleanedValue = cleanedValue
 
-    if (tooltip) {
-      rest = injectTooltipSemantic(rest)
-    }
-
-    const attributes = {
-      ref: this._ref,
-      className: classnames(
-        'dnb-number-format',
-        className,
-        _className,
-        (isTrue(currency) || typeof currency === 'string') &&
-          'dnb-number-format--currency',
-        isTrue(selectall) && 'dnb-number-format--selectall',
-        this.state.selected && 'dnb-number-format--selected',
-        link && 'dnb-anchor',
-        createSpacingClasses(this.props)
-      ),
-      ...rest,
-    }
-
-    /**
-     * Works in VoiceOver and NVDA
-     * Makes the span with it's roles etc. appear as text.
-     * Special useful if a number is in side e.g. a paragraph alongside with numbers
-     */
-    attributes['role'] = 'text' // role="text"
-
-    const displayParams = {}
-    if (isTrue(selectall) || isTrue(copy_selection)) {
-      displayParams.onClick = this.onClickHandler
-      displayParams.onContextMenu = this.onContextMenuHandler
-    }
-
-    validateDOMAttributes(this.props, attributes)
-    skeletonDOMAttributes(attributes, skeleton, this.context)
-
     if (prefix) {
       display = (
         <>
@@ -395,6 +369,48 @@ export default class NumberFormat extends React.PureComponent {
       )}`
     }
 
+    if (tooltip) {
+      rest = injectTooltipSemantic(rest)
+    }
+
+    const attributes = {
+      lang,
+      ref: this._ref,
+      className: classnames(
+        'dnb-number-format',
+        className,
+        _className,
+        (isTrue(currency) || typeof currency === 'string') &&
+          'dnb-number-format--currency',
+        isTrue(selectall) && 'dnb-number-format--selectall',
+        this.state.selected && 'dnb-number-format--selected',
+        link && 'dnb-anchor',
+        createSpacingClasses(this.props)
+      ),
+
+      // Makes it possible for NVDA to read on mouse over
+      onMouseEnter: this.onMouseEnter,
+      onMouseLeave: this.onMouseLeave,
+
+      ...rest,
+    }
+
+    /**
+     * Works in VoiceOver and NVDA
+     * Makes the span with it's roles etc. appear as text.
+     * Special useful if a number is in side e.g. a paragraph alongside with numbers
+     */
+    attributes['role'] = 'text' // role="text"
+
+    const displayParams = {}
+    if (isTrue(selectall) || isTrue(copy_selection)) {
+      displayParams.onClick = this.onClickHandler
+      displayParams.onContextMenu = this.onContextMenuHandler
+    }
+
+    validateDOMAttributes(this.props, attributes)
+    skeletonDOMAttributes(attributes, skeleton, this.context)
+
     if (link) {
       if (isTrue(link)) {
         link = 'tel'
@@ -408,32 +424,27 @@ export default class NumberFormat extends React.PureComponent {
 
     const Element = element
 
-    /**
-     * This approach is most NVDA friendly, and we used it now also for mac,
-     * because if the consistency and SSR JAM Stack build
-     */
     return (
-      <Element lang={lang} {...attributes}>
-        {srLabel && (
-          <span className="dnb-sr-only" data-text={srLabel + ' '} />
-        )}
-
+      <Element {...attributes}>
         <span
           className={classnames(
             'dnb-number-format__visible',
             createSkeletonClass('font', skeleton, this.context)
           )}
-          aria-describedby={this._id}
-          aria-hidden
+          // Makes it possible for NVDA to read on mouse over
+          aria-hidden={!this.state.hover}
           {...displayParams}
         >
           {display}
         </span>
 
+        {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
         <span
-          id={this._id}
-          className="dnb-number-format__sr-only dnb-sr-only"
-          data-text={aria}
+          className="dnb-sr-only"
+          // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+          data-text={
+            srLabel ? `${convertJsxToString(srLabel)}${' '}${aria}` : aria
+          }
         />
 
         {isTrue(copy_selection) && (

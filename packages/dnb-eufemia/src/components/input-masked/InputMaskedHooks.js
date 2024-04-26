@@ -76,7 +76,7 @@ export const useFilteredProps = () => {
  *
  * @returns string
  */
-export const useLocale = () => {
+export const useTranslation = () => {
   const { props, context } = React.useContext(InputMaskedContext)
 
   let { locale } = props
@@ -98,7 +98,7 @@ export const useLocale = () => {
 export const useLocalValue = () => {
   const { props, context } = React.useContext(InputMaskedContext)
   const maskParams = useNumberMaskParams() || {}
-  const locale = useLocale()
+  const locale = useTranslation()
 
   const [localValue, setLocalValue] = React.useState(() =>
     correctNumberValue({
@@ -459,7 +459,7 @@ const useCallEvent = ({ setLocalValue }) => {
  */
 const useNumberMaskParams = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const locale = useLocale()
+  const locale = useTranslation()
 
   if (!isRequestingNumberMask(props)) {
     return { ...fromJSON(props.mask_options) }

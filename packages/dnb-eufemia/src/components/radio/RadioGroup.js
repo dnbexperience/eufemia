@@ -1,6 +1,8 @@
 /**
  * Web RadioGroup Component
  *
+ * This is a legacy component.
+ * For refferencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
@@ -21,6 +23,7 @@ import {
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import Space from '../Space'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
 import Flex from '../Flex'
@@ -240,13 +243,13 @@ export default class RadioGroup extends React.PureComponent {
           <AlignmentHelper />
           <Fieldset>
             <Flex.Container
-              align="baseline"
+              // align="baseline"
               direction={
                 vertical || label_direction === 'vertical'
                   ? 'vertical'
                   : 'horizontal'
               }
-              spacing={vertical ? 'x-small' : undefined}
+              spacing={vertical ? 'x-small' : 'small'}
             >
               {label && (
                 <FormLabel
@@ -258,7 +261,8 @@ export default class RadioGroup extends React.PureComponent {
                 </FormLabel>
               )}
 
-              <span
+              <Space
+                element="span"
                 id={id}
                 className="dnb-radio-group__shell"
                 role="radiogroup"
@@ -289,7 +293,7 @@ export default class RadioGroup extends React.PureComponent {
                   skeleton={skeleton}
                   {...status_props}
                 />
-              </span>
+              </Space>
             </Flex.Container>
           </Fieldset>
         </div>

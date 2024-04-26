@@ -28,47 +28,30 @@
     display: flex;
 
     &--has-controls {
-      border-radius: 0.25rem;
-      @include fakeBorder(
-        var(--number-control-button-border-color),
-        0.0625rem
-      );
-      @include hover() {
-        @include fakeBorder(
-          var(--number-control-button-border-color),
-          0.125rem
-        );
-      }
-
-      &:focus-within {
-        html[data-whatinput='keyboard'] & {
-          @include fakeBorder(
-            var(--number-control-button-border-color--focus),
-            var(--number-control-button-border-width--focus)
-          );
-        }
-      }
-
       .dnb-input {
         &__input {
           align-items: center;
         }
 
-        &__shell {
+        .dnb-input__border {
           border-radius: 0;
-          box-shadow: none;
-          @include hover() {
+
+          // Remove original border outline
+          &,
+          &:hover,
+          &:focus-within,
+          html[data-whatinput='keyboard'] &:focus-within {
             box-shadow: none;
           }
         }
-        &:not([data-input-state='disabled']):not(:active) {
-          // Focus
-          &[data-input-state='focus'] {
-            .dnb-input__shell {
-              @include removeFocusRing();
-            }
-          }
-        }
+      }
+
+      > .dnb-input__border--root {
+        --input-border-inset: ;
+        --input-border-inset--hover: ;
+        --input-border-inset--active: ;
+        --input-border-inset--focus: ;
+        --input-border-inset--disabled: ;
       }
 
       .dnb-button--control-before,
@@ -88,20 +71,7 @@
       }
     }
 
-    &--has-controls#{&}--has-error {
-      @include fakeBorder(var(--number-control-button--error), 0.125rem);
-      @include hover() {
-        @include fakeBorder(var(--number-control-button--error), 0.125rem);
-      }
-
-      .dnb-input__status--error {
-        &:not([data-input-state='disabled']):not(:hover):not(:active) {
-          .dnb-input__shell {
-            box-shadow: none;
-          }
-        }
-      }
-
+    &--has-controls.dnb-input__status--error {
       .dnb-button--control-before,
       .dnb-button--control-after {
         color: var(--number-control-button--error);
@@ -119,24 +89,7 @@
       }
     }
 
-    &--has-controls#{&}--is-disabled {
-      @include fakeBorder(var(--color-black-55), 0.0625rem);
-      @include hover() {
-        @include fakeBorder(var(--color-black-55), 0.0625rem);
-      }
-
-      .dnb-input {
-        &[data-input-state='disabled'] {
-          .dnb-input__shell {
-            box-shadow: none;
-          }
-        }
-      }
-
-      .dnb-input[data-input-state='disabled'] & {
-        @include fakeBorder(var(--color-black-55), 0.0625rem);
-      }
-
+    &--has-controls.dnb-input--disabled {
       .dnb-button--control-before[disabled],
       .dnb-button--control-after[disabled] {
         background-color: var(--color-black-3);

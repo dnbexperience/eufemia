@@ -7,11 +7,11 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator, {
-  ProgressIndicatorProps,
+  ProgressIndicatorAllProps,
 } from '../ProgressIndicator'
 import { format } from '../../number-format/NumberUtils'
 
-const props: ProgressIndicatorProps = {}
+const props: ProgressIndicatorAllProps = {}
 
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =
@@ -172,7 +172,7 @@ describe('Circular ProgressIndicator component', () => {
 
   it('should use span elements', () => {
     const { container } = render(
-      <ProgressIndicator type="circular" progress={1} show_label />
+      <ProgressIndicator type="circular" progress={1} showDefaultLabel />
     )
 
     expect(container.querySelectorAll('div')).toHaveLength(0)
@@ -183,7 +183,7 @@ describe('Circular ProgressIndicator component', () => {
     // Because it does not have any advantages over a label element (VoiceOver does not read it as a label)
 
     const { container } = render(
-      <ProgressIndicator type="circular" progress={1} show_label />
+      <ProgressIndicator type="circular" progress={1} showDefaultLabel />
     )
 
     expect(
@@ -361,7 +361,7 @@ describe('Linear ProgressIndicator component', () => {
 
   it('should use span elements', () => {
     const { container } = render(
-      <ProgressIndicator type="linear" progress={1} show_label />
+      <ProgressIndicator type="linear" progress={1} showDefaultLabel />
     )
 
     expect(container.querySelectorAll('div')).toHaveLength(0)
@@ -372,7 +372,7 @@ describe('Linear ProgressIndicator component', () => {
     // Because it does not have any advantages over a label element (VoiceOver does not read it as a label)
 
     const { container } = render(
-      <ProgressIndicator type="linear" progress={1} show_label />
+      <ProgressIndicator type="linear" progress={1} showDefaultLabel />
     )
 
     expect(
@@ -388,7 +388,7 @@ describe('ProgressIndicator ARIA', () => {
         {...props}
         type="circular"
         progress={50}
-        show_label
+        showDefaultLabel
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -400,7 +400,7 @@ describe('ProgressIndicator ARIA', () => {
         {...props}
         type="linear"
         progress={50}
-        show_label
+        showDefaultLabel
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()

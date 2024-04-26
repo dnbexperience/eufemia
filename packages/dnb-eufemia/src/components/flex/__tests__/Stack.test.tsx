@@ -43,7 +43,7 @@ describe('Flex.Stack', () => {
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-stretch',
       'dnb-flex-container--align-self-stretch',
-      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--spacing-medium',
       'dnb-flex-container--wrap',
       'dnb-flex-container--divider-space',
     ])
@@ -101,6 +101,76 @@ describe('Flex.Stack', () => {
 
     expect(element.classList).toContain(
       'dnb-flex-container--direction-horizontal'
+    )
+  })
+
+  it('has correct classes when divider is line', () => {
+    render(
+      <Flex.Stack divider="line">
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+      </Flex.Stack>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    const children = element.children
+
+    expect(children.length).toBe(3)
+    expect(element).toHaveClass('dnb-flex-container--divider-line')
+
+    expect(children[0].tagName).toContain('DIV')
+    expect(children[0]).toHaveClass(
+      'dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item'
+    )
+
+    expect(children[1].tagName).toContain('HR')
+    expect(children[1]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[2].tagName).toContain('DIV')
+    expect(children[2]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+  })
+
+  it('has correct classes when divider is line-framed', () => {
+    render(
+      <Flex.Stack divider="line-framed">
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+      </Flex.Stack>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    const children = element.children
+
+    expect(children.length).toBe(5)
+    expect(element).toHaveClass('dnb-flex-container--divider-line-framed')
+
+    expect(children[0].tagName).toContain('HR')
+    expect(children[0]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--zero dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[1].tagName).toContain('DIV')
+    expect(children[1]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+
+    expect(children[2].tagName).toContain('HR')
+    expect(children[2]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[3].tagName).toContain('DIV')
+    expect(children[3]).toHaveClass(
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+    )
+
+    expect(children[4].tagName).toContain('HR')
+    expect(children[4]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
     )
   })
 })

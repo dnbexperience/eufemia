@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Flex, Section } from '../../../components'
+import { Card, Section } from '../../../components'
 import { Field, Form, Wizard, Value } from '..'
 import { Code } from '../../../elements'
 import { Provider } from '../../../../shared'
@@ -24,6 +24,7 @@ export function PizzaDemo() {
   const { data } = Form.useData<MyDataSet>('pizza-demo', {
     // flavour: 'pepperoni',
   })
+  const { summaryTitle } = Form.useLocale().Step
 
   return (
     <Provider locale="en-GB">
@@ -34,7 +35,7 @@ export function PizzaDemo() {
         sessionStorageId="pizza-demo"
         autoComplete
       >
-        <Wizard.Container scrollTopOnStepChange initialActiveIndex={2}>
+        <Wizard.Container initialActiveIndex={2}>
           <Wizard.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
@@ -114,7 +115,7 @@ export function PizzaDemo() {
             <Wizard.Buttons />
           </Wizard.Step>
 
-          <Wizard.Step title="Summary">
+          <Wizard.Step title={summaryTitle}>
             <Form.MainHeading>Summary</Form.MainHeading>
 
             <Card stack>
@@ -129,20 +130,20 @@ export function PizzaDemo() {
             <Card stack>
               <Form.SubHeading>Deliver address</Form.SubHeading>
 
-              <Flex.Horizontal>
+              <Value.Composition>
                 <Value.String label="First name" path="/firstName" />
                 <Value.String label="Last name" path="/lastName" />
-              </Flex.Horizontal>
+              </Value.Composition>
 
-              <Flex.Horizontal>
-                <Value.String label="Street" path="/streetName" />
-                <Value.Number label="Nr." path="/streetNr" />
-              </Flex.Horizontal>
+              <Value.Composition label="Street">
+                <Value.String path="/streetName" />
+                <Value.Number path="/streetNr" />
+              </Value.Composition>
 
-              <Flex.Horizontal>
-                <Value.String label="Postalc." path="/postalCode" />
-                <Value.String label="City" path="/city" />
-              </Flex.Horizontal>
+              <Value.Composition label="City">
+                <Value.String path="/postalCode" />
+                <Value.String path="/city" />
+              </Value.Composition>
             </Card>
 
             <Form.ButtonRow>

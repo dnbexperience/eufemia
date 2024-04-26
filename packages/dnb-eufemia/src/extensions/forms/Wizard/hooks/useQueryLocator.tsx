@@ -9,7 +9,7 @@ export default function useQueryLocator(id: string) {
   const { setFormError } = useStep(id)
 
   const onStepChange = useCallback(
-    async (index: number) => {
+    (index: number) => {
       try {
         const url = new URL(window.location.href)
         url.searchParams.set(`${id}-step`, String(index))
@@ -37,7 +37,10 @@ export default function useQueryLocator(id: string) {
       const popstateListener = () => {
         const routerIndex = getIndex()
         if (!isNaN(routerIndex)) {
-          setActiveIndex(routerIndex, { skipCallOnChange: true })
+          setActiveIndex(routerIndex, {
+            skipStepChangeCallFromHook: true,
+            skipStepChangeCallBeforeMounted: true,
+          })
         }
       }
 

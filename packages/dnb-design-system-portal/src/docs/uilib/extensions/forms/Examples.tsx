@@ -109,7 +109,7 @@ export const GettingStarted = () => {
             >
               <Flex.Stack>
                 <Form.MainHeading>Bedrift</Form.MainHeading>
-                <Card spacing="medium">
+                <Card stack>
                   <Field.String
                     path="/companyName"
                     label="Bedriftens navn"
@@ -326,23 +326,24 @@ export const VisibilityBasedOnData = () => {
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
           </Card>
-        </Flex.Stack>
-        <Field.Boolean
-          path="/advanced"
-          variant="checkbox-button"
-          label="More fields"
-        />
-        <Form.Visibility pathTrue="/advanced">
-          <Flex.Stack>
-            <Card stack>
-              <Form.SubHeading>More information</Form.SubHeading>
 
-              <Field.NationalIdentityNumber value="20058512345" />
-              <Field.Email value="john@smith.email" />
-              <Field.PhoneNumber value="+47 98765432" />
-            </Card>
-          </Flex.Stack>
-        </Form.Visibility>
+          <Field.Boolean
+            path="/advanced"
+            variant="checkbox-button"
+            label="More fields"
+          />
+          <Form.Visibility pathTrue="/advanced">
+            <Flex.Stack>
+              <Card stack>
+                <Form.SubHeading>More information</Form.SubHeading>
+
+                <Field.NationalIdentityNumber value="20058512345" />
+                <Field.Email value="john@smith.email" />
+                <Field.PhoneNumber value="+47 98765432" />
+              </Card>
+            </Flex.Stack>
+          </Form.Visibility>
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )
@@ -422,77 +423,93 @@ export const Validation = () => {
   )
 }
 
-export const WithWizard = () => {
+export const UsingWizard = () => {
   return (
-    <ComponentBox
-      scope={{
-        Value,
-      }}
-    >
-      <Form.Handler
-        data={{
-          firstName: undefined,
-          lastName: 'Smith',
-          advanced: false,
-          ssn: '123',
-          email: '@smith.email',
-          phone: '+47 98765432',
-        }}
-        onChange={(data) => console.log('onChange', data)}
-        onPathChange={(path, value) =>
-          console.log('onPathChange', path, value)
+    <ComponentBox>
+      {() => {
+        const MyForm = () => {
+          // Routers like "react-router" are supported as well
+          Wizard.useQueryLocator('my-wizard')
+          const { summaryTitle } = Form.useLocale().Step
+
+          return (
+            <Form.Handler
+              data={{
+                firstName: undefined,
+                lastName: 'Smith',
+                advanced: false,
+                ssn: '123',
+                email: '@smith.email',
+                phone: '+47 98765432',
+              }}
+              onChange={(data) => console.log('onChange', data)}
+              onPathChange={(path, value) =>
+                console.log('onPathChange', path, value)
+              }
+              onSubmit={(data) => console.log('onSubmit', data)}
+            >
+              <Wizard.Container id="my-wizard" mode="loose">
+                <Wizard.Step title="Name">
+                  <Form.MainHeading>Profile</Form.MainHeading>
+
+                  <Card stack>
+                    <Form.SubHeading>Name</Form.SubHeading>
+
+                    <Field.String
+                      path="/firstName"
+                      label="Fornavn"
+                      required
+                    />
+                    <Field.String
+                      path="/lastName"
+                      label="Etternavn"
+                      required
+                    />
+                  </Card>
+
+                  <Wizard.Buttons />
+                </Wizard.Step>
+
+                <Wizard.Step title="More information">
+                  <Form.MainHeading>Profile</Form.MainHeading>
+
+                  <Card stack>
+                    <Form.SubHeading>More information</Form.SubHeading>
+
+                    <Field.NationalIdentityNumber path="/ssn" />
+                    <Field.Email path="/email" />
+                    <Field.PhoneNumber path="/phone" />
+                  </Card>
+
+                  <Wizard.Buttons />
+                </Wizard.Step>
+
+                <Wizard.Step title={summaryTitle}>
+                  <Form.MainHeading>Profile</Form.MainHeading>
+
+                  <Card stack>
+                    <Value.SummaryList layout="grid">
+                      <Value.String path="/firstName" label="Fornavn" />
+                      <Value.String path="/lastName" label="Etternavn" />
+
+                      <Value.NationalIdentityNumber path="/ssn" />
+                      <Value.Email path="/email" />
+                      <Value.PhoneNumber path="/phone" />
+                    </Value.SummaryList>
+                  </Card>
+
+                  <Form.ButtonRow>
+                    <Wizard.Buttons />
+                    <Form.SubmitButton />
+                  </Form.ButtonRow>
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.Handler>
+          )
         }
-        onSubmit={(data) => console.log('onSubmit', data)}
-      >
-        <Wizard.Container mode="loose">
-          <Wizard.Step title="Name">
-            <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Card stack>
-              <Form.SubHeading>Name</Form.SubHeading>
-
-              <Field.String path="/firstName" label="Fornavn" required />
-              <Field.String path="/lastName" label="Etternavn" required />
-            </Card>
-
-            <Wizard.Buttons />
-          </Wizard.Step>
-
-          <Wizard.Step title="More information">
-            <Form.MainHeading>Profile</Form.MainHeading>
-
-            <Card stack>
-              <Form.SubHeading>More information</Form.SubHeading>
-
-              <Field.NationalIdentityNumber path="/ssn" />
-              <Field.Email path="/email" />
-              <Field.PhoneNumber path="/phone" />
-            </Card>
-
-            <Wizard.Buttons />
-          </Wizard.Step>
-
-          <Wizard.Step title="Summary">
-            <Form.MainHeading>Profile</Form.MainHeading>
-
-            <Card stack>
-              <Flex.Container>
-                <Value.String path="/firstName" label="Fornavn" />
-                <Value.String path="/lastName" label="Etternavn" />
-              </Flex.Container>
-
-              <Value.NationalIdentityNumber path="/ssn" />
-              <Value.Email path="/email" />
-              <Value.PhoneNumber path="/phone" />
-            </Card>
-
-            <Form.ButtonRow>
-              <Wizard.Buttons />
-              <Form.SubmitButton />
-            </Form.ButtonRow>
-          </Wizard.Step>
-        </Wizard.Container>
-      </Form.Handler>
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }
@@ -522,6 +539,50 @@ export const Transformers = () => {
                 />
 
                 <Value.String label="Output value" path="/myField" />
+              </Card>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const QuickStart = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyForm = () => {
+          const existingData = { companyName: 'DNB' }
+          return (
+            <Form.Handler
+              data={existingData}
+              onChange={console.log}
+              onSubmit={console.log}
+            >
+              <Card stack>
+                <Field.String
+                  path="/companyName"
+                  label="Bedriftens navn"
+                  required
+                />
+                <Field.OrganizationNumber
+                  path="/companyOrganizationNumber"
+                  required
+                />
+                <Field.Selection
+                  path="/postalAddressSelect"
+                  label="Ønsket sted for tilsendt post"
+                  variant="radio"
+                >
+                  <Field.Option
+                    value="companyAddress"
+                    title="Samme som forretningsadresse"
+                  />
+                  <Field.Option value="other" title="Annet" />
+                </Field.Selection>
               </Card>
             </Form.Handler>
           )

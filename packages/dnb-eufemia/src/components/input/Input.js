@@ -1,6 +1,8 @@
 /**
  * Web Input Component
  *
+ * This is a legacy component.
+ * For refferencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
@@ -17,6 +19,7 @@ import {
   convertStatusToStateOnly,
   combineDescribedBy,
   dispatchCustomElementEvent,
+  convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
@@ -71,7 +74,7 @@ export const inputPropTypes = {
   autocomplete: PropTypes.string,
   submit_button_title: PropTypes.string,
   clear_button_title: PropTypes.string,
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.node,
   clear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_placeholder: PropTypes.oneOfType([
     PropTypes.string,
@@ -409,6 +412,7 @@ export default class Input extends React.PureComponent {
     const mainParams = {
       className: classnames(
         'dnb-input',
+        'dnb-input__border--tokens',
         type && `dnb-input--${type}`,
         size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-element',
@@ -416,6 +420,7 @@ export default class Input extends React.PureComponent {
         isTrue(clear) && 'dnb-input--has-clear-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
+        disabled && 'dnb-input--disabled',
         icon && `dnb-input--icon-position-${icon_position}`,
         icon && 'dnb-input--has-icon',
         icon && iconSize && `dnb-input--icon-size-${iconSize}`,
@@ -452,7 +457,9 @@ export default class Input extends React.PureComponent {
       id,
       disabled: isTrue(disabled),
       name: id,
-      'aria-placeholder': placeholder,
+      'aria-placeholder': placeholder
+        ? convertJsxToString(placeholder)
+        : undefined,
       ...attributes,
       ...inputAttributes,
       onChange: this.onChangeHandler,
@@ -481,6 +488,7 @@ export default class Input extends React.PureComponent {
     const shellParams = {
       className: classnames(
         'dnb-input__shell',
+        'dnb-input__border',
         createSkeletonClass('shape', skeleton, this.context)
       ),
     }

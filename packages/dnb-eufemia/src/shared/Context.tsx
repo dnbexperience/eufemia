@@ -42,10 +42,11 @@ import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { NumberFormatCurrency } from '../components/NumberFormat'
+import type { ProgressIndicatorProps } from '../components/ProgressIndicator'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
-import type { FormsTranslation } from '../extensions/forms/hooks/useLocale'
+import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
 
 export type ContextComponents = {
@@ -78,6 +79,7 @@ export type ContextComponents = {
   StepIndicator?: Partial<StepIndicatorProps>
   FormLabel?: Partial<FormLabelProps>
   Input?: Partial<InputProps>
+  ProgressIndicator?: Partial<ProgressIndicatorProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
@@ -115,7 +117,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Defines the locale (internal translation) used by some components
    */
-  locale?: Locale
+  locale?: InternalLocale
 
   /**
    * Provide your own translations. Use the same format as defined in the translation files
@@ -145,36 +147,54 @@ export type ContextProps = ContextComponents & {
   /**
    * Update the used locale from within the context
    */
-  setLocale?: (locale: Locale) => void
+  setLocale?: (locale: InternalLocale) => void
 
   /**
    * Update the used locale from within the context, but only for the particular scope
    */
-  setCurrentLocale?: (locale: Locale) => void
+  setCurrentLocale?: (locale: InternalLocale) => void
 
   /**
-   * Set a custom translation in the Provider
+   * Overwrite existing internal translation strings or define new strings via the Provider
    */
-  locales?: Locales
+  translations?: Locales | TranslationCustomLocales
+
+  /**
+   * @deprecated Use `translations` instead
+   */
+  locales?: Locales | TranslationCustomLocales
 
   // -- For internal use --
   __context__?: Record<string, unknown>
-  updateTranslation?: (locale: Locale, translation: Translation) => void
+  updateTranslation?: (
+    locale: InternalLocale,
+    translation: Translation
+  ) => void
   getTranslation?: (props: GetTranslationProps) => Translation
 }
 
 export type GetTranslationProps = Partial<{
-  lang?: Locale | HTMLElement['lang']
-  locale?: Locale
+  lang?: InternalLocale | HTMLElement['lang']
+  locale?: InternalLocale
 }>
 
+export type Locale = TranslationLocale | 'en-US'
 export type AnyLocale = string
-export type Locale = AnyLocale | Partial<TranslationLocale> | 'en-US'
+export type InternalLocale =
+  | Locale
+
+  /** Used in tests and stories */
+  | 'no'
+  | 'en'
+  | 'sv-SE'
+  | 'de-CH'
+  | 'de-DE'
+  | 'fr-CH'
 export type ComponentTranslationsName = keyof ContextComponents | string
 export type ComponentTranslation = string
 export type Locales =
-  | Partial<Record<Locale, Translation | TranslationFlat>>
-  | Partial<Record<Locale, FormsTranslation>>
+  | Partial<Record<InternalLocale, Translation | TranslationFlat>>
+  | Partial<Record<InternalLocale, FormsTranslation>>
 export type TranslationDefaultLocales = typeof defaultLocales
 export type TranslationLocale = keyof TranslationDefaultLocales
 export type TranslationKeys =
@@ -183,6 +203,10 @@ export type TranslationValues =
   TranslationDefaultLocales[TranslationLocale] & {
     Forms?: Record<string, unknown>
   }
+export type TranslationCustomLocales = Record<
+  never,
+  string | Record<string, string>
+>
 
 /**
  * E.g. "HelpButton: { title: '...' }"
@@ -200,9 +224,10 @@ export type TranslationFlat = Record<
 export function prepareContext<Props>(
   props: ContextProps = {}
 ): Props & ContextProps {
-  const locales: Locales = props.locales
-    ? extend(defaultLocales, props.locales)
-    : defaultLocales
+  const locales: Locales =
+    props.translations || props.locales
+      ? extend(defaultLocales, props.translations || props.locales)
+      : defaultLocales
 
   if (props.__context__) {
     Object.assign(props, props.__context__)
@@ -225,13 +250,19 @@ export function prepareContext<Props>(
   const context = {
     // We may use that in future
     updateTranslation: (locale, translation) => {
-      context.translation = context.locales[locale] = translation
+      context.translation = (context.translations || context.locales)[
+        locale
+      ] = translation
     },
     getTranslation: (props) => {
       if (props) {
         const lang = props.lang || props.locale
-        if (lang && context.locales[lang] && lang !== key) {
-          return context.locales[lang]
+        if (
+          lang &&
+          (context.translations || context.locales)[lang] &&
+          lang !== key
+        ) {
+          return (context.translations || context.locales)[lang]
         }
       }
       return context.translation
@@ -253,7 +284,10 @@ export function prepareContext<Props>(
   return context
 }
 
-function handleLocaleFallbacks(locale: Locale | string, locales: Locales) {
+function handleLocaleFallbacks(
+  locale: InternalLocale | AnyLocale,
+  locales: Locales
+) {
   if (!locales[locale]) {
     if (locale === 'en' || locale.split('-')[0] === 'en') {
       return 'en-GB'
@@ -292,13 +326,6 @@ function destruct(
           // @ts-ignore
           source = source[k] || {}
         })
-
-        // If the root object is frozen, then use this
-        // let lastObj = { ...source }
-        // list.forEach((k, i) => {
-        //   lastObj[k] = i === last ? val : lastObj[k] // we may have to create a new object here instead?
-        //   lastObj = lastObj[k]
-        // })
       }
     }
   }

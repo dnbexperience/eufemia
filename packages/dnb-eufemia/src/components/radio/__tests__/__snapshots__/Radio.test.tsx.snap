@@ -327,16 +327,11 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   --radio-group-margin-bottom: 0.5rem;
   --radio-group-margin-right: 1rem;
   display: inline-flex;
-  flex-direction: row;
 }
 .dnb-radio-group fieldset {
   margin: 0;
   padding: 0;
   border: none;
-}
-.dnb-radio-group .dnb-radio {
-  margin-right: var(--radio-group-margin-right);
-  margin-bottom: var(--radio-group-margin-bottom);
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
@@ -346,7 +341,10 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin-right: 0;
 }
 .dnb-radio-group [role=radiogroup], .dnb-radio-group__shell {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--radio-group-margin-right);
+  row-gap: var(--radio-group-margin-bottom);
 }
 .dnb-radio-group__shell > .dnb-form-status {
   margin-top: 0;
@@ -354,12 +352,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio-group--column .dnb-radio-group__shell {
   flex-direction: column;
-}
-.dnb-radio-group .dnb-flex-container {
-  margin-bottom: calc(0px - var(--radio-group-margin-bottom));
-}
-.dnb-radio-group .dnb-flex-container::before {
-  font-size: var(--font-size-basis);
 }
 .dnb-radio__input:checked ~ .dnb-radio__button, .dnb-radio__input[data-checked=true] ~ .dnb-radio__button {
   background-color: var(--radio-color-background-on);

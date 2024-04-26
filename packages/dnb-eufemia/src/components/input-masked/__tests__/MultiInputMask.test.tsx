@@ -140,21 +140,21 @@ describe('MultiInputMask', () => {
       <MultiInputMask {...defaultProps} label="My awesome label" />
     )
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = () => document.querySelector('.dnb-form-label')
 
-    expect(label).toHaveTextContent('My awesome label')
-    expect(label.tagName).toBe('LEGEND')
+    expect(label()).toHaveTextContent('My awesome label')
+    expect(label().tagName).toBe('LEGEND')
 
     rerender(<MultiInputMask {...defaultProps} label="New label" />)
 
-    expect(label).toHaveTextContent('New label')
-    expect(label.tagName).toBe('LEGEND')
+    expect(label()).toHaveTextContent('New label')
+    expect(label().tagName).toBe('LEGEND')
   })
 
   it('should be wrapped in a `fieldset` if label is provided', () => {
     render(<MultiInputMask {...defaultProps} label="Label" />)
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = document.querySelector('.dnb-form-label')
     const wrapper = document.querySelector(
       '.dnb-multi-input-mask__fieldset'
     )
@@ -169,7 +169,7 @@ describe('MultiInputMask', () => {
   it('should be wrapped in a `div` if no label is provided', () => {
     render(<MultiInputMask {...defaultProps} />)
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = document.querySelector('.dnb-form-label')
     const wrapper = document.querySelector(
       '.dnb-multi-input-mask__fieldset'
     )
@@ -185,17 +185,12 @@ describe('MultiInputMask', () => {
       <MultiInputMask {...defaultProps} label="Directions" />
     )
 
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const input = document.querySelector('.dnb-input')
     const fieldset = document.querySelector(
       '.dnb-multi-input-mask__fieldset'
     )
 
-    expect(label).toHaveTextContent('Directions')
-
-    expect(label.classList).toContain(
-      'dnb-multi-input-mask__legend--horizontal'
-    )
-    expect(label.classList).not.toContain('dnb-form-label--vertical')
+    expect(input.classList).toContain('dnb-input--horizontal')
     expect(fieldset.classList).toContain(
       'dnb-multi-input-mask__fieldset--horizontal'
     )
@@ -208,15 +203,7 @@ describe('MultiInputMask', () => {
       />
     )
 
-    expect(label).toHaveTextContent('Directions')
-
-    expect(label.classList).not.toContain(
-      'dnb-multi-input-mask__legend--horizontal'
-    )
-    expect(label.classList).toContain('dnb-form-label--vertical')
-    expect(fieldset.classList).not.toContain(
-      'dnb-multi-input-mask__fieldset--horizontal'
-    )
+    expect(input.classList).toContain('dnb-input--vertical')
   })
 
   it('onChange should have object params based on step ids', async () => {
@@ -481,7 +468,7 @@ describe('MultiInputMask', () => {
     render(<MultiInputMask {...defaultProps} label="disabled" disabled />)
 
     const inputWrapper = document.querySelector('.dnb-multi-input-mask')
-    const label = document.querySelector('.dnb-multi-input-mask__legend')
+    const label = document.querySelector('.dnb-form-label')
 
     const [first, second, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
@@ -689,7 +676,7 @@ describe('MultiInputMask', () => {
     it('should focus and select input on label click', async () => {
       render(<MultiInputMask {...defaultProps} label="label" />)
 
-      const label = document.querySelector('.dnb-multi-input-mask__legend')
+      const label = document.querySelector('.dnb-form-label')
 
       const [first] = Array.from(
         document.querySelectorAll('.dnb-multi-input-mask__input')
@@ -758,11 +745,12 @@ describe('MultiInputMask', () => {
 
     await userEvent.type(day, '11012024')
 
-    expect(onFocus).toHaveBeenCalledTimes(3)
+    expect(onFocus).toHaveBeenCalledTimes(1)
 
+    await userEvent.click(document.body)
     await userEvent.click(day)
 
-    expect(onFocus).toHaveBeenCalledTimes(4)
+    expect(onFocus).toHaveBeenCalledTimes(2)
     expect(onFocus).toHaveBeenCalledWith({
       day: '11',
       month: '01',
@@ -786,15 +774,91 @@ describe('MultiInputMask', () => {
 
     await userEvent.type(day, '11012024')
 
-    expect(onBlur).toHaveBeenCalledTimes(3)
+    expect(onBlur).toHaveBeenCalledTimes(1)
 
     await userEvent.click(document.body)
 
-    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith({
       day: '11',
       month: '01',
       year: '2024',
     })
+  })
+
+  it('should not fire focus event while navigating between inputs', async () => {
+    const onFocus = jest.fn()
+    const onBlur = jest.fn()
+
+    render(
+      <>
+        <MultiInputMask
+          {...defaultProps}
+          label="First"
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+        <MultiInputMask
+          label="Second"
+          inputs={[
+            {
+              id: 'first',
+              label: 'the first',
+              placeholderCharacter: '0',
+              mask: [/[0-9]/, /[0-9]/],
+            },
+            {
+              id: 'second',
+              label: 'the second',
+              placeholderCharacter: '0',
+              mask: [/[0-9]/, /[0-9]/],
+            },
+            {
+              id: 'third',
+              label: 'the third',
+              placeholderCharacter: '0',
+              mask: [/[0-9]/, /[0-9]/],
+            },
+          ]}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+      </>
+    )
+
+    const [firstLabel, secondLabel] = Array.from(
+      document.querySelectorAll('legend')
+    )
+
+    await userEvent.click(firstLabel)
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await userEvent.keyboard('{Tab>3}')
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(2)
+
+    await userEvent.keyboard('{Tab>2}')
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(2)
+
+    await userEvent.keyboard('{Shift>}{Tab>3}{/Shift}')
+    expect(onBlur).toHaveBeenCalledTimes(2)
+    expect(onFocus).toHaveBeenCalledTimes(3)
+
+    await userEvent.click(secondLabel)
+    expect(onBlur).toHaveBeenCalledTimes(3)
+    expect(onFocus).toHaveBeenCalledTimes(4)
+
+    await userEvent.click(firstLabel)
+    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onFocus).toHaveBeenCalledTimes(5)
+
+    await userEvent.keyboard('{Tab>3}')
+    expect(onBlur).toHaveBeenCalledTimes(5)
+    expect(onFocus).toHaveBeenCalledTimes(6)
+
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(6)
+    expect(onFocus).toHaveBeenCalledTimes(6)
   })
 })

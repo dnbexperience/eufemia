@@ -163,10 +163,6 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
     return code
   }
 
-  setIndentation(tabMode: LiveCodeProps['tabMode']) {
-    this.setState({ tabMode })
-  }
-
   render() {
     const {
       scope = {},
@@ -248,21 +244,6 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
                     this._editorElementRef.current.classList.remove(
                       'dnb-pre--focus',
                     )
-                  }
-                }}
-                onMouseDown={(e) => {
-                  const focusMode =
-                    document.documentElement.getAttribute('data-whatinput')
-                  this.setIndentation(
-                    focusMode === 'mouse' ? 'indentation' : 'focus',
-                  )
-                }}
-                onBlurCapture={() => {
-                  this.setIndentation('focus')
-                }}
-                onKeyDown={({ code }) => {
-                  if (code !== 'Tab' && code !== 'ShiftLeft') {
-                    this.setIndentation('indentation')
                   }
                 }}
               />

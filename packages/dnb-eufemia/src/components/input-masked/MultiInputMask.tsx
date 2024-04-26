@@ -1,4 +1,4 @@
-import React, { Fragment, MutableRefObject, useRef } from 'react'
+import React, { MutableRefObject, useRef } from 'react'
 import Input from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
@@ -8,7 +8,7 @@ import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
-import { makeUniqueId } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
@@ -85,12 +85,18 @@ export type MultiInputMaskProps<T extends string> = {
   suffix?: React.ReactNode
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
-  'onChange' | 'onFocus' | 'onBlur' | 'ref' | 'value' | 'label'
+  | 'onChange'
+  | 'onFocus'
+  | 'onBlur'
+  | 'ref'
+  | 'value'
+  | 'label'
+  | 'placeholder'
 > &
   SpacingProps
 
 function MultiInputMask<T extends string>({
-  id = makeUniqueId(),
+  id,
   label,
   labelDirection = 'horizontal',
   inputs,
@@ -108,6 +114,8 @@ function MultiInputMask<T extends string>({
   onFocus,
   ...props
 }: MultiInputMaskProps<T>) {
+  id = useId(id)
+
   const [values, onChange] = useMultiInputValue({
     inputs,
     defaultValues,
@@ -115,6 +123,7 @@ function MultiInputMask<T extends string>({
   })
 
   const inputRefs = useRef<Array<MutableRefObject<HTMLInputElement>>>([])
+  const areInputsInFocus = useRef<boolean>(false)
 
   const { onKeyDown } = useHandleCursorPosition(
     inputRefs.current,
@@ -132,25 +141,24 @@ function MultiInputMask<T extends string>({
         createSpacingClasses(props)
       )}
     >
-      {label && (
-        <FormLabel
-          className={classnames(
-            'dnb-multi-input-mask__legend',
-            labelDirection === 'horizontal' &&
-              'dnb-multi-input-mask__legend--horizontal'
-          )}
-          element="legend"
-          onClick={onLegendClick}
-          disabled={disabled}
-          vertical={labelDirection === 'vertical'}
-        >
-          {/* This <span/> wrapper is needed to make hover work in Safari Desktop */}
-          <span>{label}</span>
-        </FormLabel>
-      )}
       <Input
         {...props}
+        id={id}
+        label={
+          label && (
+            <FormLabel
+              element="legend"
+              forId={`${id}-${inputs[0]?.id}`}
+              disabled={disabled}
+              labelDirection={labelDirection}
+              onClick={onLegendClick}
+            >
+              {label}
+            </FormLabel>
+          )
+        }
         className={classnames('dnb-multi-input-mask', className)}
+        label_direction={labelDirection}
         disabled={disabled}
         status={status}
         status_state={statusState}
@@ -170,13 +178,16 @@ function MultiInputMask<T extends string>({
               onKeyDown={onKeyDown}
               onChange={onChange}
               onFocus={() => {
-                if (onFocus) {
-                  onFocus(values)
+                if (!areInputsInFocus.current) {
+                  onFocus?.(values)
                 }
+
+                areInputsInFocus.current = true
               }}
-              onBlur={() => {
-                if (onBlur) {
-                  onBlur(values)
+              onBlur={(e) => {
+                if (!e.relatedTarget?.id?.includes(id)) {
+                  onBlur?.(values)
+                  areInputsInFocus.current = false
                 }
               }}
               getInputRef={getInputRef}

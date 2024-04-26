@@ -85,6 +85,7 @@ export default class Tabs extends React.PureComponent {
     tabs_style: PropTypes.string,
     tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    breakout: PropTypes.bool,
     nav_button_edge: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -144,6 +145,7 @@ export default class Tabs extends React.PureComponent {
     on_mouse_enter: null,
     on_click: null,
     on_focus: null,
+    breakout: true,
   }
 
   static Content = CustomContent
@@ -1003,8 +1005,14 @@ export default class Tabs extends React.PureComponent {
   }
 
   TabsListHandler = ({ children, className, ...rest }) => {
-    const { align, tabs_style, tabs_spacing, no_border, nav_button_edge } =
-      this.props
+    const {
+      align,
+      tabs_style,
+      tabs_spacing,
+      no_border,
+      nav_button_edge,
+      breakout,
+    } = this.props
     const { hasScrollbar } = this.state
 
     return (
@@ -1021,6 +1029,7 @@ export default class Tabs extends React.PureComponent {
           hasScrollbar && 'dnb-tabs--has-scrollbar',
           nav_button_edge && 'dnb-tabs--at-edge',
           no_border && 'dnb-tabs__tabs--no-border',
+          breakout && 'dnb-tabs__tabs--breakout',
           className
         )}
         ref={this._tabsRef}

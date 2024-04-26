@@ -24,13 +24,14 @@ export type FormStatusChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface FormStatusProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref' | 'label'>,
     SpacingProps {
   id?: string;
   /**
    * The `title` attribute in the status.
    */
   title?: string;
+  label?: React.ReactNode;
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
    */

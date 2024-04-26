@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import SummaryListContext from './SummaryListContext'
 import Dl, { DlAllProps } from '../../../../elements/Dl'
 
-export type Props = DlAllProps
+export type Props = Omit<DlAllProps, 'label'>
 
 function SummaryList(props: Props) {
   const { className, children, layout, ...rest } = props

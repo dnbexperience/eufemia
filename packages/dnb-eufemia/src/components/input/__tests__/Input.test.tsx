@@ -269,13 +269,9 @@ describe('Input component', () => {
     )
   })
 
-  it('uses aria-placeholder and label for when placeholder is set', async () => {
+  it('uses aria-placeholder and label for when placeholder is set', () => {
     const { rerender } = render(
-      <Input
-        id="unique"
-        placeholder="Placeholder-text"
-        label="Label-text"
-      />
+      <Input id="unique" placeholder="Placeholder" label="Label-text" />
     )
 
     expect(document.querySelector('label').getAttribute('for')).toContain(
@@ -283,7 +279,7 @@ describe('Input component', () => {
     )
     expect(
       document.querySelector('input').getAttribute('aria-placeholder')
-    ).toContain('Placeholder-text')
+    ).toContain('Placeholder')
 
     rerender(
       <Input
@@ -312,6 +308,41 @@ describe('Input component', () => {
     expect(document.querySelector('input')).not.toHaveAttribute(
       'aria-labelledby'
     )
+  })
+
+  it('placeholder prop should accept React Element', () => {
+    const Placeholder = ({ children }) => <span>{children}</span>
+
+    const { rerender } = render(
+      <Input placeholder={<Placeholder>Placeholder</Placeholder>} />
+    )
+
+    expect(
+      document.querySelector('input').getAttribute('aria-placeholder')
+    ).toContain('Placeholder')
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).toHaveTextContent('Placeholder')
+
+    rerender(
+      <Input placeholder={<Placeholder>Placeholder-text</Placeholder>} />
+    )
+
+    expect(
+      document.querySelector('input').getAttribute('aria-placeholder')
+    ).toContain('Placeholder-text')
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).toHaveTextContent('Placeholder-text')
+
+    rerender(
+      <Input id="unique" placeholder={undefined} label={undefined} />
+    )
+
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-placeholder'
+    )
+    expect(document.querySelector('.dnb-input__placeholder')).toBeNull()
   })
 
   it('has correct medium input size', () => {
@@ -404,10 +435,15 @@ describe('Input component', () => {
     )
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('has a disabled attribute and class when disabled', () => {
     const { rerender } = render(<Input />)
+
     rerender(<Input disabled={true} />)
+
     expect(document.querySelector('input')).toHaveAttribute('disabled')
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--disabled'
+    )
   })
 
   it('has a submit button on prop type="search"', () => {
@@ -531,6 +567,7 @@ describe('Input with clear button', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-space__top--large',
       'dnb-input--text',
@@ -556,6 +593,7 @@ describe('Input with clear button', () => {
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-input',
+      'dnb-input__border--tokens',
       'dnb-form-component',
       'dnb-input--text',
       'dnb-input--vertical',

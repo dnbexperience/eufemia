@@ -4,14 +4,14 @@ import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
 import { FieldHelpProps } from '../../types'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
   Partial<Record<'postalCode' | 'city', StringFieldProps>>
 
 function PostalCodeAndCity(props: Props) {
-  const translations = useLocale()
+  const translations = useTranslation()
 
   const {
     postalCode = {},

@@ -8,7 +8,7 @@ import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
-import { useLocale } from '../../../../shared'
+import { useTranslation } from '../../../../shared'
 
 export type Props = {
   state: SubmitState
@@ -25,7 +25,7 @@ function SubmitIndicator(props: Props) {
     successLabel = 'Saved',
     ...rest
   } = props
-  const tr = useLocale()
+  const translation = useTranslation()
   const childrenRef = useRef<HTMLSpanElement>(null)
   const [willWrap, setWillWrap] = useState(false)
 
@@ -50,7 +50,7 @@ function SubmitIndicator(props: Props) {
       ? {
           role: 'status',
           'aria-busy': true,
-          'aria-label': tr.ProgressIndicator.indicator_label,
+          'aria-label': translation.ProgressIndicator.indicator_label,
         }
       : {}
 

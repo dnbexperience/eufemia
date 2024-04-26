@@ -29,6 +29,7 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import useTranslation from '../../hooks/useTranslation'
 import Context, {
   ContextState,
   EventListenerCall,
@@ -50,6 +51,10 @@ export interface Props<Data extends JsonObject> {
    * Unique ID to communicate with the hook Form.useData
    */
   id?: string
+  /**
+   * Unique ID to connect with a GlobalStatus
+   */
+  globalStatusId?: string
   /**
    * Default source data, only used if no other source is available, and not leading to updates if changed after mount
    */
@@ -139,6 +144,7 @@ export default function Provider<Data extends JsonObject>(
 
   const {
     id,
+    globalStatusId = 'main',
     defaultData,
     data,
     schema,
@@ -164,6 +170,9 @@ export default function Provider<Data extends JsonObject>(
       'Providing both data and sessionStorageId could lead to competing data sources. To provide default data to use only before anything is changed in the interface, use defaultData.'
     )
   }
+
+  // - Locale
+  const translation = useTranslation().Form
 
   // - Ajv
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
@@ -317,7 +326,10 @@ export default function Provider<Data extends JsonObject>(
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
-      fieldPropsRef.current[path] = props
+      fieldPropsRef.current[path] = {
+        ...fieldPropsRef.current[path],
+        ...props,
+      }
     },
     []
   )
@@ -873,7 +885,20 @@ export default function Provider<Data extends JsonObject>(
         ...rest,
       }}
     >
-      <SharedProvider formElement={{ disabled }}>
+      <SharedProvider
+        FormStatus={
+          globalStatusId
+            ? {
+                globalStatus: {
+                  id: globalStatusId,
+                  title: translation.errorSummaryTitle,
+                  show: showAllErrorsRef.current,
+                },
+              }
+            : undefined
+        }
+        formElement={{ disabled }}
+      >
         {children}
       </SharedProvider>
     </Context.Provider>
@@ -882,11 +907,11 @@ export default function Provider<Data extends JsonObject>(
 
 type PathList = string[]
 
-function addListPath(paths: PathList, path: Path): PathList {
+export function addListPath(paths: PathList, path: Path): PathList {
   return paths.includes(path) ? paths : paths.concat(path)
 }
 
-function removeListPath(paths: PathList, path: Path): PathList {
+export function removeListPath(paths: PathList, path: Path): PathList {
   return paths.filter((thisPath) => thisPath !== path)
 }
 

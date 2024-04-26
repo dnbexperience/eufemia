@@ -1,27 +1,17 @@
 import React from 'react'
 import ValueBlock from '../../ValueBlock'
-import { useFieldProps } from '../../hooks'
+import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/flex/utils'
-import useLocale from '../../hooks/useLocale'
+import useTranslation from '../../hooks/useTranslation'
 
 export type Props = ValueProps<boolean>
 
 function BooleanComponent(props: Props) {
-  const translations = useLocale().BooleanField
-
-  const { className, label, placeholder, showEmpty, value, inline } =
-    useFieldProps(props)
+  const translations = useTranslation().BooleanField
+  const { value, ...rest } = useValueProps(props)
 
   return (
-    <ValueBlock
-      className={className}
-      label={label}
-      showEmpty={showEmpty}
-      placeholder={placeholder}
-      inline={inline}
-      {...pickSpacingProps(props)}
-    >
+    <ValueBlock {...rest}>
       {value === true || value === false
         ? value === true
           ? translations.yes

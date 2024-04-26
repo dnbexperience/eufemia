@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import classnames from 'classnames'
 import {
   extendPropsWithContext,
@@ -75,6 +75,13 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     )
   )
 
+  const nestedContent = props?.text || props?.children
+  const nestedNode =
+    nestedContent?.['type'] === FormLabel ? nestedContent?.['type'] : null
+  const nestedElement = nestedNode
+    ? () => React.createElement(nestedNode, nestedContent['props'])
+    : null
+
   const {
     forId,
     text,
@@ -83,7 +90,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     labelDirection,
     size,
     skeleton,
-    element: Element = 'label',
+    element: Element = nestedElement || 'label',
     innerRef,
     className,
     children,
@@ -116,7 +123,36 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     ...(attributes as DynamicElementParams),
   }
 
-  params['ref'] = innerRef
+  const labelRef = useRef<HTMLLabelElement>(null)
+  const ref = innerRef || labelRef
+  if (!nestedNode) {
+    params['ref'] = ref
+  }
+
+  useEffect(() => {
+    if (!forId) {
+      return
+    }
+
+    const forElem = document.querySelector(`#${forId}`)
+    const target =
+      forElem?.closest('.dnb-input__border--root') ||
+      forElem?.closest('.dnb-input__border')
+
+    if (target) {
+      const enter = () => target.classList.add('hover')
+      const leave = () => target.classList.remove('hover')
+
+      const elem = ref.current
+      elem?.addEventListener?.('mouseenter', enter)
+      elem?.addEventListener?.('mouseleave', leave)
+
+      return () => {
+        elem?.removeEventListener?.('mouseenter', enter)
+        elem?.removeEventListener?.('mouseleave', leave)
+      }
+    }
+  }, [forId, ref])
 
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)

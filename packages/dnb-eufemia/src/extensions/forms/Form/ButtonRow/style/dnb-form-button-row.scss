@@ -5,20 +5,21 @@
   flex-flow: row;
   flex-wrap: wrap;
   gap: var(--spacing-small);
+}
 
-  .dnb-card + & {
-    &:not([class*='space__top']) {
-      margin-top: var(--spacing-small);
+.dnb-card + .dnb-forms-button-row,
+.dnb-card + .dnb-button--primary {
+  &:not([class*='space__top']) {
+    margin-top: var(--spacing-small);
 
-      .dnb-button[class*='space__top'] {
-        margin-top: 0;
-      }
+    .dnb-button[class*='space__top'] {
+      margin-top: 0;
     }
+  }
 
-    @include allAbove(small) {
-      &:not([class*='space__left']) {
-        margin-left: var(--spacing-medium);
-      }
+  @include allAbove(small) {
+    &:not([class*='space__left']) {
+      margin-left: var(--spacing-medium);
     }
   }
 }

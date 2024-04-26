@@ -1,0 +1,65 @@
+---
+title: 'Examples'
+order: 3
+hideInMenu: true
+showTabs: true
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Examples
+    href: /uilib/extensions/intro-examples/
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+Here are some examples and case demos (fullscreen) of how you can use the form components.
+
+- [Case Demo 1 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo1/)
+- [Case Demo 2 (fullscreen)](/uilib/extensions/forms/demo-cases/casedemo2/)
+
+## Base field components
+
+Base field components are targeting the data type they produce. They can
+receive values and change handlers directly by props.
+
+<Examples.BaseFieldComponents />
+
+## Feature fields
+
+Feature fields build on top of base field components and provide standard
+props for simplified form implementations.
+
+<Examples.FeatureFields />
+
+## Layout components
+
+Wrapping inputs in [Flex.Stack](/uilib/layout/flex/stack/) and [Card](/uilib/components/card/) with the `stack` property, provides the standard design without
+the need for local styles.
+
+<Examples.LayoutComponents />
+
+## Visibility based on data
+
+Certain fields are displayed based on specific data requirements.
+
+<Examples.VisibilityBasedOnData />
+
+## Validation
+
+Here are some examples of validation properties of field components.
+
+<Examples.Validation />
+
+## Using [Form.Handler](/uilib/extensions/forms/Form/Handler/)
+
+Wrapping fields with a [Form.Handler](/uilib/extensions/forms/Form/Handler/) component lets them read and
+write data to one common data set, and have input and output of data in
+one place instead of connecting to every single field component.
+
+<Examples.UsingFormHandler />
+
+## Using [Wizard](/uilib/extensions/forms/Wizard/Cotainer)
+
+<Examples.UsingWizard />

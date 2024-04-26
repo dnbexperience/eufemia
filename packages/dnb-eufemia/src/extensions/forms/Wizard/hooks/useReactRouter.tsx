@@ -10,7 +10,7 @@ export default function useReactRouter(id: string, { useSearchParams }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const onStepChange = useCallback(
-    async (index: number) => {
+    (index: number) => {
       try {
         searchParams.set(`${id}-step`, index)
         setSearchParams(searchParams)
@@ -31,7 +31,10 @@ export default function useReactRouter(id: string, { useSearchParams }) {
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
-      setActiveIndex(routerIndex, { skipCallOnChange: true })
+      setActiveIndex(routerIndex, {
+        skipStepChangeCallFromHook: true,
+        skipStepChangeCallBeforeMounted: true,
+      })
     }
   }, [getIndex, id, searchParams, setActiveIndex, setFormError])
 

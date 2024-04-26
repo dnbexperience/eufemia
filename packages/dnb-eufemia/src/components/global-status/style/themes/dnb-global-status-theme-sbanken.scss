@@ -10,19 +10,25 @@
     display: none;
   }
 
+  &__title {
+    @include allBelow('large') {
+      padding-right: 2.5rem;
+    }
+  }
+
   &--error &__content .dnb-hr {
-    color: var(--sb-color-red);
+    --hr-color: var(--sb-color-red);
   }
 
   &--info &__content .dnb-hr {
-    color: var(--sb-color-gray-dark-2);
+    --hr-color: var(--sb-color-gray-dark-2);
   }
 
   &--warning &__content .dnb-hr {
-    color: var(--sb-color-yellow-dark);
+    --hr-color: var(--sb-color-yellow-dark);
   }
 
   &--success &__content .dnb-hr {
-    color: var(--sb-color-green-dark-3);
+    --hr-color: var(--sb-color-green-dark-3);
   }
 }

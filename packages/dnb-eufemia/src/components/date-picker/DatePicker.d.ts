@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { FormLabelLabelDirection } from '../FormLabel';
 import type {
   FormStatusProps,
   FormStatusState,
@@ -160,7 +160,7 @@ export interface DatePickerProps
   /**
    * A prepending label in sync with the date input field.
    */
-  label?: FormLabelText;
+  label?: React.ReactNode;
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */

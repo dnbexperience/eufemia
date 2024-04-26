@@ -43,6 +43,11 @@
     border: var(--input-border-width) solid var(--color-sea-green);
   }
 
+  &__row {
+    display: inline-flex;
+    align-items: center; // Safari gets wired if we use "baseline"
+  }
+
   &__input {
     border: none;
     outline: none;
@@ -104,6 +109,67 @@
     text-overflow: ellipsis;
   }
 
+  // - Border outline handling
+  &__border {
+    display: flex;
+
+    border-radius: var(--b-radius, var(--input-border-radius));
+
+    @include fakeBorder(
+      var(--b-color, var(--input-border-color)),
+      var(--b-width, var(--input-border-width)),
+      var(--b-inset, var(--input-border-inset, inset))
+    );
+  }
+  &--disabled &__border {
+    // Overwrite the border
+    @include fakeBorder(
+      var(--input-border-color--disabled),
+      var(--input-border-width--disabled),
+      var(--input-border-inset--disabled, inset)
+    );
+  }
+  &__border:focus-within {
+    --b-color: var(--input-border-color--active);
+    --b-width: var(--input-border-width--active);
+    --b-inset: var(--input-border-inset--active);
+    --b-radius: var(--input-border-radius--active);
+  }
+  &__border:hover,
+  &__border.hover {
+    --b-color: var(--input-border-color--hover);
+    --b-width: var(--input-border-width--hover);
+    --b-inset: var(--input-border-inset--hover);
+  }
+  &__status--error &__border {
+    --b-color: var(--input-border-color__error);
+    --b-width: var(--input-border-width__error);
+  }
+  &__status--error &__border:focus-within {
+    --b-color: var(--input-border-color__error);
+    --b-width: var(--input-border-width__error--active);
+    --b-inset: var(--input-border-inset--active);
+    --b-radius: var(--input-border-radius--active);
+  }
+  &__status--error &__border:hover,
+  &__status--error &__border.hover {
+    --b-color: var(--input-border-color__error);
+    --b-width: var(--input-border-width__error--hover);
+    --b-inset: var(--input-border-inset--hover);
+  }
+  html[data-whatinput='keyboard'] &__border:focus-within {
+    --b-color: var(--input-border-color--focus);
+    --b-width: var(--input-border-width--focus);
+    --b-inset: var(--input-border-inset--focus);
+    --b-radius: var(--input-border-radius--focus);
+  }
+  html[data-whatinput='keyboard'] &__status--error &__border:focus-within {
+    --b-color: var(--input-border-color__error--focus);
+    --b-width: var(--input-border-width--focus);
+    --b-inset: var(--input-border-inset--focus);
+    --b-radius: var(--input-border-radius--focus);
+  }
+
   // centering type="file" - here we can actually keep it as pixels
   input#{&}__input[type='file'] {
     line-height: calc(var(--input-height) - 2px);
@@ -161,11 +227,6 @@
     font-family: var(--font-family-monospace);
   }
 
-  &__row {
-    display: inline-flex;
-    align-items: center; // Safari gets wired if we use "baseline"
-  }
-
   // change the autocomplete appearance once filled out
   &__input:autofill {
     // set the border and the background
@@ -182,7 +243,7 @@
   &__submit-element {
     z-index: 3; // over placeholder
 
-    margin-left: calc(1px - 1px - var(--input-height));
+    margin-left: calc(var(--input-height) * -1);
     line-height: var(--line-height-basis);
 
     .dnb-button--input-button {
@@ -236,7 +297,7 @@
     }
 
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--small));
+      margin-left: calc(var(--input-height--small) * -1);
 
       .dnb-button--input-button {
         width: var(--input-height--small);
@@ -268,7 +329,7 @@
     }
 
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--medium));
+      margin-left: calc(var(--input-height--medium) * -1);
 
       .dnb-button--input-button {
         width: var(--input-height--medium);
@@ -300,16 +361,12 @@
     }
 
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large));
+      margin-left: calc(var(--input-height--large) * -1);
 
       .dnb-button--input-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
-
-        // NB: before we used to scale the icon additionally
-        // .dnb-button__icon {
-        //   transform: scale(1.33333);
-        // }
+        line-height: var(--input-height--large);
       }
     }
   }
@@ -317,11 +374,11 @@
   &--large#{&}--has-submit-element &__input,
   &--large#{&}--has-clear-button &__placeholder,
   &--large#{&}--has-clear-button &__input {
-    padding-right: calc(var(--input-padding--large) * 3);
+    padding-right: calc(var(--input-padding--large) * 3.5);
   }
   &--large#{&}--has-clear-button:not(#{&}--has-submit-element)
     .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem);
+    margin-left: calc(var(--input-height--large) + 0.5rem * -1);
   }
 
   &__align--center &__placeholder,
@@ -471,6 +528,15 @@
 
   &[data-has-content='false'] &__input:focus:autofill {
     --autofill-inset: none;
+  }
+
+  &[data-input-state='focus'] &__placeholder {
+    display: none;
+  }
+
+  &--keep-placeholder[data-input-state='focus'] &__placeholder {
+    display: block;
+    color: var(--color-black-20);
   }
 
   .dnb-responsive-component & {
