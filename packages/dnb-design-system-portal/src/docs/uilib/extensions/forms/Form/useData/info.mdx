@@ -6,83 +6,85 @@ showTabs: true
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
 
+The hook returns an object with the following properties:
+
+```tsx
+const {
+  getValue, // Method to get a single value
+  update, // Method to update a single value
+  set, // Method to set the whole dataset
+  data, // The whole dataset (unvalidated)
+  filterData, // Method to filter data with your own logic
+} = Form.useData('optional-id')
+```
+
 ## Usage
 
-Here "ComponentB" is rendered inside the `Form.Handler` component:
+You can use the `Form.useData` hook with or without an `id` (string) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+### Without an `id` property
+
+Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the form data:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function ComponentA() {
+function MyForm() {
   return (
     <Form.Handler>
       ...
-      <ComponentB />
+      <Component />
       ...
     </Form.Handler>
   )
 }
 
-function ComponentB() {
+function Component() {
   const { data } = Form.useData()
 }
 ```
 
-While in this example, "ComponentB" is outside the `Form.Handler` and linked together via the `id` (string) property:
+### With an `id` property
+
+While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string) property:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function ComponentA() {
+function MyForm() {
   return (
     <>
       <Form.Handler id="unique">...</Form.Handler>
-      <ComponentB />
+      <Component />
     </>
   )
 }
 
-function ComponentB() {
+function Component() {
   const { data } = Form.useData('unique')
 }
 ```
 
 This is beneficial when you need to utilize the form data in other places within your application.
 
-You can define the TypeScript type structure for data like so:
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
 
 ```tsx
 type Data = { foo: string }
 const { data } = Form.useData<Data>('unique')
 ```
 
-## Initial data
-
-You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/Form/setData/) method – or even in each Field, with the value property.
+### Select a single value
 
 ```jsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import { Form } from '@dnb/eufemia/extensions/forms'
 
-const initialData = { foo: 'bar' }
+function MyComponent() {
+  const { getValue } = Form.useData()
 
-function ComponentA() {
-  return (
-    <Form.Handler id="unique" data={initialData}>
-      <Field.String path="/foo" />
-    </Form.Handler>
-  )
-}
-
-function ComponentB() {
-  Form.useData('unique', { foo: 'bar' })
-}
-
-function ComponentC() {
-  const { set } = Form.useData('unique')
-
-  useEffect(() => {
-    set({ foo: 'bar' })
-  }, [])
+  const value = getValue('/foo')
 }
 ```
 
@@ -96,7 +98,7 @@ It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function Component() {
-  const { update } = Form.useData('unique', { foo: 'bar' })
+  const { update } = Form.useData()
 
   useEffect(() => {
     update('/foo', 'new value')
@@ -114,7 +116,7 @@ With the `set` method, you can extend the data set. Existing data paths will be 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
-function Component() {
+function MyForm() {
   const { data, set } = Form.useData('unique')
 
   useEffect(() => {
@@ -146,7 +148,7 @@ const filterDataHandler = (path, value, props, internal) => {
   }
 }
 
-const Component = () => {
+const MyForm = () => {
   const { data, filterData } = Form.useData(id)
 
   const filteredData = filterData(filterDataHandler)
@@ -164,6 +166,36 @@ The `internal` parameter contains `{ error: Error | undefined }` you can utilize
 ```tsx
 const filterDataHandler = (path, value, props, internal) => {
   return !(internal.error instanceof Error)
+}
+```
+
+## Initial data
+
+You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/Form/setData/) method – or even in each Field, with the value property.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const initialData = { foo: 'bar' }
+
+function MyForm() {
+  return (
+    <Form.Handler id="unique" data={initialData}>
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
+}
+
+function ComponentA() {
+  Form.useData('unique', { foo: 'bar' })
+}
+
+function ComponentB() {
+  const { set } = Form.useData('unique')
+
+  useEffect(() => {
+    set({ foo: 'bar' })
+  }, [])
 }
 ```
 

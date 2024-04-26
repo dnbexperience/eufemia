@@ -27,7 +27,13 @@ The form data can be handled outside of the form. This is useful if you want to 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 function Component() {
-  const { data } = Form.useData('unique')
+  const {
+    getValue, // Method to get a single value
+    update, // Method to update a single value
+    set, // Method to set the whole dataset
+    data, // The whole dataset (unvalidated)
+    filterData, // Method to filter data with your own logic
+  } = Form.useData('unique')
 
   return <Form.Handler id="unique">...</Form.Handler>
 }

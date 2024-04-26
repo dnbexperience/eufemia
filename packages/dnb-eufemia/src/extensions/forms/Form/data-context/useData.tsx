@@ -38,6 +38,7 @@ type UseDataReturn<Data> = {
   data: Data
   update: UseDataReturnUpdate<Data>
   set: (newData: Data) => void
+  getValue: (path: Path) => unknown
   filterData: (filterDataHandler: FilterData) => Partial<Data>
 }
 
@@ -134,6 +135,14 @@ export default function useData<Data>(
     [context, id]
   )
 
+  const getValue = useCallback<UseDataReturn<Data>['getValue']>((path) => {
+    if (pointer.has(sharedDataRef.current.data, path)) {
+      return pointer.get(sharedDataRef.current.data, path)
+    }
+
+    return undefined
+  }, [])
+
   useMountEffect(() => {
     if (id && !sharedDataRef.current.hadInitialData && initialData) {
       sharedDataRef.current.extend(initialData)
@@ -147,8 +156,9 @@ export default function useData<Data>(
       data,
       update: updateHandler,
       set: setHandler,
+      getValue,
       filterData,
     }),
-    [data, filterData, setHandler, updateHandler]
+    [data, filterData, getValue, setHandler, updateHandler]
   )
 }

@@ -39,9 +39,23 @@ export const PrimitiveElementsValues = () => {
 export const ValueComposition = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
-      <Value.Composition label="Label">
-        <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
-          <Value.String itemPath="/" />
+      <Value.Composition>
+        <Iterate.Array
+          value={[
+            {
+              label: 'Label A',
+              value: 'value 1',
+            },
+            {
+              label: 'Label B',
+              value: 'value 2',
+            },
+          ]}
+        >
+          <Value.String
+            label={<Value.String itemPath="/label" />}
+            itemPath="/value"
+          />
         </Iterate.Array>
       </Value.Composition>
     </ComponentBox>
