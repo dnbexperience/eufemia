@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Card, Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -8,7 +8,7 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
-export const PrimitiveElements = () => {
+export const PrimitiveElementsFields = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -17,6 +17,67 @@ export const PrimitiveElements = () => {
       >
         <Field.String itemPath="/" />
       </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const PrimitiveElementsValues = () => {
+  return (
+    <ComponentBox
+      scope={{ Iterate }}
+      data-visual-test="primitive-element-values"
+    >
+      <Value.SummaryList>
+        <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      </Value.SummaryList>
+    </ComponentBox>
+  )
+}
+
+export const ValueComposition = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      <Value.Composition label="Label">
+        <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      </Value.Composition>
+    </ComponentBox>
+  )
+}
+
+export const WithTable = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      <Table>
+        <thead>
+          <Tr>
+            <Th>Name</Th>
+            <Th>Age</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Iterate.Array
+            withoutFlex
+            value={[
+              { name: 'Iron Man', age: 45 },
+              { name: 'Captain America', age: 123 },
+              { name: 'The Hulk', age: 3337 },
+            ]}
+          >
+            <Tr>
+              <Td>
+                <Value.String itemPath="/name" />
+              </Td>
+              <Td>
+                <Value.Number itemPath="/age" />
+              </Td>
+            </Tr>
+          </Iterate.Array>
+        </tbody>
+      </Table>
     </ComponentBox>
   )
 }
@@ -82,7 +143,10 @@ export const RenderPropsObjectElements = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox
+      scope={{ Iterate }}
+      data-visual-test="animated-container"
+    >
       <Form.Handler
         data={{
           avengers: [

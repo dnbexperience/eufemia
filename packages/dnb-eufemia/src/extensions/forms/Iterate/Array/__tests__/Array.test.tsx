@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
-import { Field, Form } from '../../..'
+import { Field, Form, Value } from '../../..'
 import { FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
@@ -558,6 +558,43 @@ describe('Iterate.Array', () => {
           })
         })
       })
+    })
+  })
+
+  describe('should render without flex', () => {
+    it('when "withoutFlex" is true', () => {
+      const { container } = render(
+        <Iterate.Array value={['one', 'two', 'three']} withoutFlex>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(container.children).toHaveLength(3)
+      expect(container.querySelector('.dnb-flex-container')).toBeNull()
+    })
+
+    it('when inside "SummaryList"', () => {
+      const { container } = render(
+        <Value.SummaryList>
+          <Iterate.Array value={['one', 'two', 'three']}>
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+        </Value.SummaryList>
+      )
+
+      expect(container.querySelector('.dnb-flex-container')).toBeNull()
+    })
+
+    it('when inside "Composition"', () => {
+      const { container } = render(
+        <Value.Composition>
+          <Iterate.Array value={['one', 'two', 'three']}>
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+        </Value.Composition>
+      )
+
+      expect(container.querySelector('.dnb-flex-container')).toBeNull()
     })
   })
 })
