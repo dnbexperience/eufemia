@@ -168,6 +168,36 @@ describe('HelpButton', () => {
     const Component = render(<HelpButton {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
+
+  it('should open inline content', () => {
+    const inlineContent = 'Dialog Content'
+    const buttonId = 'inline-help-test'
+    render(
+      <HelpButton
+        {...props}
+        displayMethod="inline"
+        id={buttonId}
+        contentId="inline-help-content"
+      >
+        {inlineContent}
+      </HelpButton>
+    )
+
+    const button = document.getElementById(buttonId)
+    expect(button.getAttribute('aria-controls')).toBe(
+      `${buttonId}-content`
+    )
+
+    fireEvent.click(button)
+
+    const contentElement = document.getElementById(`${buttonId}-content`)
+    const textContent = String(contentElement.textContent).replace(
+      /\u200C/g,
+      ''
+    )
+
+    expect(textContent).toContain(inlineContent)
+  })
 })
 
 describe('HelpButton scss', () => {

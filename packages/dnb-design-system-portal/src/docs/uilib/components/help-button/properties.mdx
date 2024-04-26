@@ -7,13 +7,15 @@ import { HelpButtonRenderExample } from 'Docs/uilib/components/help-button/Examp
 
 ## Properties
 
-| Properties                                    | Description                                                                            |
-| --------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `children` or `modal_content`                 | _(optional)_ the content to show.                                                      |
-| `title`                                       | _(optional)_ the content title. Defaults to `Hjelpetekst` (HelpButton.title).          |
-| `icon`                                        | _(optional)_ the icon defaults to `question`.                                          |
-| `render`                                      | _(optional)_ accepts a function that returns a valid React Element. See example below. |
-| [Button](/uilib/components/button/properties) | _(optional)_ accepts all Button properties, if `children` is not given.                |
+| Properties                                    | Description                                                                                    |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `children` or `modal_content`                 | _(optional)_ the content to show.                                                              |
+| `title`                                       | _(optional)_ the content title. Defaults to `Hjelpetekst` (HelpButton.title).                  |
+| `icon`                                        | _(optional)_ the icon defaults to `question`.                                                  |
+| `render`                                      | _(optional)_ accepts a function that returns a valid React Element. See example below.         |
+| `displayMethod`                               | _(optional)_ one of `dialog` or `inline`. Defaults to `dialog`                                 |
+| `contentId`                                   | _(optional)_ used in conjunction with inline display method, provides a custom content element |
+| [Button](/uilib/components/button/properties) | _(optional)_ accepts all Button properties, if `children` is not given.                        |
 
 ## Translations
 

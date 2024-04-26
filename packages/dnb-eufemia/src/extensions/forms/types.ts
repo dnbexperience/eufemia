@@ -432,8 +432,9 @@ export type FieldPropsWithExtraValue<
 
 export interface FieldHelpProps {
   help?: {
-    title?: string
+    title?: React.ReactNode
     content?: React.ReactNode
+    contentId?: string
   }
 }
 

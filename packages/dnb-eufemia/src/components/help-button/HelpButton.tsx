@@ -7,6 +7,11 @@ import React from 'react'
 import Context from '../../shared/Context'
 import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
+import {
+  HelpButtonInline,
+  HelpButtonInlineContent,
+  HelpButtonInlineContentProps,
+} from './HelpButtonInline'
 import type { ButtonProps } from '../button/Button'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
@@ -20,13 +25,15 @@ export type HelpButtonProps = {
     children: React.ReactNode,
     props: ButtonProps
   ) => React.ReactElement
+  displayMethod?: 'dialog' | 'inline'
+  contentId?: string
 } & ButtonProps
 
 export default function HelpButton(localProps: HelpButtonProps) {
   const context = React.useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps)
 
-  const { children, render, ...params } = props
+  const { children, render, displayMethod, ...params } = props
 
   if (params.size === 'small') {
     params.bounding = true
@@ -36,19 +43,31 @@ export default function HelpButton(localProps: HelpButtonProps) {
     params.icon = 'question'
   }
 
-  if (children) {
-    if (!params.title) {
-      params.title = context.getTranslation(props).HelpButton.title
-    }
-
-    if (typeof render === 'function') {
-      return render(children, params)
-    }
-
-    return <Dialog triggerAttributes={params}>{children}</Dialog>
+  if (!children && displayMethod !== 'inline') {
+    return <HelpButtonInstance {...params} />
   }
 
-  return <HelpButtonInstance {...params} />
+  if (!params.title) {
+    params.title = context.getTranslation(props).HelpButton.title
+  }
+
+  if (typeof render === 'function') {
+    return render(children, params)
+  }
+
+  if (displayMethod === 'inline') {
+    return <HelpButtonInline {...params}>{children}</HelpButtonInline>
+  }
+
+  return <Dialog triggerAttributes={params}>{children}</Dialog>
 }
 
+HelpButton.Content = ({
+  contentId,
+  children,
+}: HelpButtonInlineContentProps) => (
+  <HelpButtonInlineContent contentId={contentId}>
+    {children}
+  </HelpButtonInlineContent>
+)
 HelpButton._supportsSpacingProps = true

@@ -150,6 +150,27 @@ export const InputExampleSuffix = () => (
   </Wrapper>
 )
 
+export const InputExampleHelp = () => (
+  <Wrapper>
+    <ComponentBox>
+      <Input
+        label="Label:"
+        placeholder="Placeholder text"
+        suffix={
+          <HelpButton
+            contentId="input-help-content"
+            displayMethod="inline"
+            size="medium"
+          >
+            Helpful text content
+          </HelpButton>
+        }
+      />
+      <div id="input-help-content" />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const InputExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-stretch">
