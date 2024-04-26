@@ -28,7 +28,7 @@ render(<MyValueComponent path="/dataSelector" />)
 All properties are optional and can be used as needed. These properties can be provided as part of your component properties.
 
 - `value` the input value (string).
-- `emptyValue` defines what value is considered to be empty. Defaults to `undefined`. But an empty string is also validated when required is true.
+- `emptyValue` defines what value is considered to be empty. Defaults to `undefined`. But an empty string will also be validated when required is true.
 - `path` the JSON pointer that defines the entry name/key in the data structure.
 - `itemPath` similar to `path`, but is used when run inside the [Iterate](/uilib/extensions/forms/Iterate/) context.
 
