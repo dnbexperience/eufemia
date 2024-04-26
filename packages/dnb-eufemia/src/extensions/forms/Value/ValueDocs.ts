@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../../shared/types'
 export const ValueProperties: PropertiesTableProps = {
   value: {
     doc: 'Source data value for the input.',
-    type: '{props.type}',
+    type: '{valueType}',
     status: 'optional',
   },
   label: {
@@ -34,6 +34,11 @@ export const ValueProperties: PropertiesTableProps = {
   maxWidth: {
     doc: 'Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.',
     type: 'string',
+    status: 'optional',
+  },
+  transformIn: {
+    doc: 'Transforms the `value` before its displayed in the value component.',
+    type: 'function',
     status: 'optional',
   },
 }

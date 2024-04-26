@@ -137,7 +137,7 @@ export type NumberFormatProps = {
   skeleton?: SkeletonShow;
 };
 export type NumberFormatAllProps = NumberFormatProps &
-  Omit<React.HTMLProps<HTMLElement>, 'prefix'> &
+  Omit<React.HTMLProps<HTMLElement>, 'prefix' | 'label' | 'placeholder'> &
   SpacingProps;
 export default class NumberFormat extends React.Component<
   NumberFormatAllProps,

@@ -18,6 +18,7 @@ import {
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
+  Path,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
@@ -149,7 +150,6 @@ export default function useFieldProps<
   const inIterate = Boolean(iterateElementContext)
   const {
     index: iterateElementIndex,
-    value: iterateElementValue,
     path: iteratePath,
     handleChange: handleChangeIterateContext,
   } = iterateElementContext ?? {}
@@ -183,44 +183,13 @@ export default function useFieldProps<
     return path ?? id
   }, [itemPath, path, id, iteratePath, iterateElementIndex])
 
-  const externalValue = useMemo(() => {
-    if (props.value !== emptyValue) {
-      // Value-prop sent directly to the field has highest priority, overriding any surrounding source
-      return transformers.current.fromExternal(props.value)
-    }
-
-    if (inIterate && itemPath) {
-      // This field is inside an iterate, and has a pointer from the base of the element being iterated
-      if (itemPath === '/') {
-        return iterateElementValue
-      }
-
-      return pointer.has(iterateElementValue, itemPath)
-        ? pointer.get(iterateElementValue, itemPath)
-        : emptyValue
-    }
-
-    if (dataContext.data && path) {
-      // There is a surrounding data context and a path for where in the source to find the data
-      if (path === '/') {
-        return dataContext.data
-      }
-
-      return pointer.has(dataContext.data, path)
-        ? pointer.get(dataContext.data, path)
-        : emptyValue
-    }
-
-    return emptyValue
-  }, [
-    props.value,
-    emptyValue,
-    inIterate,
-    itemPath,
-    dataContext.data,
+  const externalValue = useExternalValue<Value>({
     path,
-    iterateElementValue,
-  ])
+    itemPath,
+    props,
+    transformers,
+    emptyValue,
+  })
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -1324,38 +1293,67 @@ export interface ReturnAdditional<Value> {
   fieldState: SubmitState
 }
 
-export function omitFieldProps<
-  Props extends FieldProps<unknown> & ReturnAdditional<unknown>,
->(props: Props) {
-  // Do not include typical HTML attributes
-  const {
-    /** Documented APIs */
-    name, // eslint-disable-line
-    error, // eslint-disable-line
-    warning, // eslint-disable-line
-    info, // eslint-disable-line
-    hasError, // eslint-disable-line
-    isChanged, // eslint-disable-line
-    htmlAttributes, // eslint-disable-line
-    setHasFocus, // eslint-disable-line
-    handleFocus, // eslint-disable-line
-    handleBlur, // eslint-disable-line
-    handleChange, // eslint-disable-line
-    updateValue, // eslint-disable-line
-    forceUpdate, // eslint-disable-line
-
-    /** HTML Attributes */
-    autoComplete, // eslint-disable-line
-
-    /** Internal */
-    dataContext, // eslint-disable-line
-    fieldState, // eslint-disable-line
-    ...restProps
-  } = props
-
-  return restProps
-}
-
 function resolveValidatingState(state: SubmitStateWithValidating) {
   return state === 'validating' ? 'pending' : state
+}
+
+export function useExternalValue<Value>({
+  path,
+  itemPath,
+  props,
+  transformers,
+  emptyValue = undefined,
+}: {
+  path?: Path
+  itemPath?: Path
+  props: FieldProps<Value>
+  transformers: React.MutableRefObject<{
+    fromExternal: FieldProps<Value>['fromExternal']
+  }>
+  emptyValue?: FieldProps<Value>['emptyValue']
+}) {
+  const dataContext = useContext(DataContext)
+  const iterateElementContext = useContext(IterateElementContext)
+  const inIterate = Boolean(iterateElementContext)
+  const { value: iterateElementValue } = iterateElementContext ?? {}
+
+  return useMemo(() => {
+    if (props.value !== emptyValue) {
+      // Value-prop sent directly to the field has highest priority, overriding any surrounding source
+      return transformers.current.fromExternal(props.value)
+    }
+
+    if (inIterate && itemPath) {
+      // This field is inside an iterate, and has a pointer from the base of the element being iterated
+      if (itemPath === '/') {
+        return iterateElementValue
+      }
+
+      return pointer.has(iterateElementValue, itemPath)
+        ? pointer.get(iterateElementValue, itemPath)
+        : emptyValue
+    }
+
+    if (dataContext.data && path) {
+      // There is a surrounding data context and a path for where in the source to find the data
+      if (path === '/') {
+        return dataContext.data
+      }
+
+      return pointer.has(dataContext.data, path)
+        ? pointer.get(dataContext.data, path)
+        : emptyValue
+    }
+
+    return emptyValue
+  }, [
+    props.value,
+    emptyValue,
+    inIterate,
+    itemPath,
+    dataContext.data,
+    path,
+    transformers,
+    iterateElementValue,
+  ])
 }

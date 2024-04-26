@@ -264,16 +264,46 @@ export interface UseFieldProps<
   errorMessages?: ErrorMessages
 
   // - Derivatives
+
+  /**
+   * Transforms the `value` before its displayed in the field (e.g. input).
+   * Public API. Should not be used internally.
+   */
   transformIn?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
+   * Public API. Should not be used internally.
+   */
   transformOut?: (internal: Value | unknown) => Value
+
+  /**
+   * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
+   */
+  transformValue?: (value: Value, currentValue?: Value) => Value
+
+  /**
+   * Transforms the value before it gets returned as the `value`.
+   */
   toInput?: (external: Value | unknown) => Value | unknown
-  fromInput?: (external: Value | unknown) => Value
+
+  /**
+   * Transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
+   */
   toEvent?: (
     internal: Value,
     type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
   ) => Value
+
+  /**
+   * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value form the original event object.
+   */
+  fromInput?: (external: Value | unknown) => Value
+
+  /**
+   * Transforms the given props `value` before any other step gets entered.
+   */
   fromExternal?: (external: Value) => Value
-  transformValue?: (value: Value, currentValue?: Value) => Value
 }
 
 export type FieldProps<
@@ -291,20 +321,44 @@ export interface FieldHelpProps {
 
 export interface ValueProps<Value>
   extends DataValueReadComponentProps<Value> {
+  /**
+   * Field label to show above the data value.
+   */
   label?: React.ReactNode
-  /** Field label to show above the data value. */
+
+  /**
+   * Field label to show above the data value.
+   */
   showEmpty?: boolean
-  /** Text showing in place of the value if no value is given. */
+
+  /**
+   * Text showing in place of the value if no value is given.
+   */
   placeholder?: React.ReactNode
-  /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  itemPath?: string
-  /** For showing the value inline (not as a block element) */
+
+  /**
+   * For showing the value inline (not as a block element)
+   */
   inline?: boolean
+
   /** The max-width of a value block. Defaults to large */
   maxWidth?: 'small' | 'medium' | 'large' | 'auto'
-  // Derivatives
-  /** Prepare value for display (regardless of source like props or data context) */
-  prepare?: (external: Value | undefined) => string
+
+  /**
+   * Transforms the `value` before its displayed in the field (e.g. input).
+   * Public API. Should not be used internally.
+   */
+  transformIn?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the value before it gets returned as the `value`.
+   */
+  toInput?: (external: Value | unknown) => Value | unknown
+
+  /**
+   * Transforms the given props `value` before any other step gets entered.
+   */
+  fromExternal?: (external: Value) => Value
 }
 
 export type Path = string
