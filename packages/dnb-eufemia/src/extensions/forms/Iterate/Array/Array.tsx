@@ -100,6 +100,7 @@ function ArrayComponent(props: Props) {
           containerMode: modesRef.current[id],
           switchContainerMode: (mode: ContainerMode) => {
             modesRef.current[id] = mode
+            delete isNewRef.current?.[id]
             forceUpdate()
           },
           handleChange: (path: Path, value: unknown) => {

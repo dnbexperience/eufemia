@@ -37,6 +37,8 @@ function ElementBlock(props: Props & FlexContainerProps) {
     useContext(FieldBoundaryContext) || {}
   contextRef.current.hasError = hasError
   contextRef.current.hasErrorAndShowIt = hasErrorAndShowIt
+
+  // - Set the container mode to "edit" if we have an error
   if (hasErrorAndShowIt) {
     contextRef.current.containerMode = 'edit'
   }
@@ -86,11 +88,13 @@ function ElementBlock(props: Props & FlexContainerProps) {
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
     (state) => {
+      // - Keep the block open if we have an error
       if (contextRef.current.hasErrorAndShowIt) {
         switchContainerMode('edit')
       }
 
-      const preventFocusOnErrorOpening = !contextRef.current.hasError
+      const preventFocusOnErrorOpening =
+        !contextRef.current.hasErrorAndShowIt
       if (preventFocusOnErrorOpening) {
         if (state === 'opened') {
           contextRef.current?.elementRef?.current?.focus?.()
@@ -139,7 +143,8 @@ function ElementBlock(props: Props & FlexContainerProps) {
         className={classnames(
           'dnb-form-iterate-block',
           isNew && 'dnb-form-iterate-block--new',
-          contextRef.current.hasError && 'dnb-form-iterate-block--error',
+          contextRef.current.hasErrorAndShowIt &&
+            'dnb-form-iterate-block--error',
           className
         )}
         open={openRef.current}

@@ -4,7 +4,7 @@ import IterateElementContext from '../../IterateElementContext'
 import ElementBlock from '../ElementBlock'
 import RemoveButton from '../../RemoveButton'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { DataContext, Field, Iterate } from '../../..'
+import { DataContext, Field, Form, Iterate } from '../../..'
 
 describe('ElementBlock', () => {
   it('should call "onAnimationEnd"', () => {
@@ -105,9 +105,9 @@ describe('ElementBlock', () => {
     ).toBeTruthy()
   })
 
-  it('should set "--error" class on blocks with error', async () => {
+  it('should set "--error" class on blocks with error', () => {
     render(
-      <DataContext.Provider
+      <Form.Handler
         data={{
           myList: ['foo'],
         }}
@@ -123,7 +123,7 @@ describe('ElementBlock', () => {
         </Iterate.Array>
 
         <Iterate.PushButton path="/myList" pushValue={undefined} />
-      </DataContext.Provider>
+      </Form.Handler>
     )
 
     expect(
@@ -137,6 +137,15 @@ describe('ElementBlock', () => {
       '.dnb-form-iterate__element'
     )
     expect(elements).toHaveLength(2)
+
+    expect(
+      elements[0].querySelector('.dnb-form-iterate-block--error')
+    ).toBeFalsy()
+    expect(
+      elements[1].querySelector('.dnb-form-iterate-block--error')
+    ).toBeFalsy()
+
+    fireEvent.submit(document.querySelector('form'))
 
     expect(
       elements[0].querySelector('.dnb-form-iterate-block--error')
