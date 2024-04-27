@@ -114,14 +114,16 @@ export default function useData<Data>(
       const newValue =
         typeof value === 'function' ? value(existingValue) : value
 
-      // update existing data
-      pointer.set(existingData, path, newValue)
+      if (newValue !== existingValue) {
+        // update existing data
+        pointer.set(existingData, path, newValue)
 
-      // update provider
-      if (id) {
-        sharedDataRef.current.extend(existingData)
-      } else {
-        updateDataValue(path, newValue)
+        // update provider
+        if (id) {
+          sharedDataRef.current.extend(existingData)
+        } else {
+          updateDataValue(path, newValue)
+        }
       }
     },
     [id, updateDataValue]
