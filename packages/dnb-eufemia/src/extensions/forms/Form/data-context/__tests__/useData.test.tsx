@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderHook, act } from '@testing-library/react'
+import { renderHook, act, render } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field } from '../../..'
 import Provider from '../../../DataContext/Provider'
@@ -18,6 +18,29 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual(undefined)
   })
 
+  it('should return "getValue" method that lets you get a single path value', () => {
+    const props = {
+      deep: {
+        key: 'value',
+      },
+    }
+    const { result } = renderHook(() => useData(identifier, props))
+
+    expect(result.current.getValue('/deep/key')).toEqual('value')
+
+    act(() => {
+      result.current.update('/deep/key', 'changed')
+    })
+
+    expect(result.current.getValue('/deep/key')).toEqual('changed')
+  })
+
+  it('"getValue" should return undefined if path don\'t exists', () => {
+    const { result } = renderHook(() => useData(identifier))
+
+    expect(result.current.getValue('/does-not-exist')).toBe(undefined)
+  })
+
   it('should return "update" method that lets you update the data', () => {
     const props = { key: 'value' }
     const { result } = renderHook(() => useData(identifier, props))
@@ -30,6 +53,52 @@ describe('Form.useData', () => {
       })
     })
 
+    expect(result.current.data).toEqual({ key: 'changed value' })
+  })
+
+  it('"update" should only re-render when value has changed', () => {
+    let rerendered = 0
+    const MockComponent = () => {
+      useData(identifier)
+
+      rerendered += 1
+
+      return null
+    }
+
+    render(<MockComponent />)
+
+    expect(rerendered).toBe(1)
+
+    const props = { key: 'value' }
+    const { result } = renderHook(() => useData(identifier, props))
+
+    expect(result.current.data).toEqual({ key: 'value' })
+    expect(rerendered).toBe(2)
+
+    act(() => {
+      result.current.update('/key', (value) => {
+        return 'changed ' + value
+      })
+    })
+
+    expect(rerendered).toBe(3)
+    expect(result.current.data).toEqual({ key: 'changed value' })
+
+    act(() => {
+      result.current.update('/key', 'changed value')
+    })
+
+    expect(rerendered).toBe(3)
+    expect(result.current.data).toEqual({ key: 'changed value' })
+
+    act(() => {
+      result.current.update('/key', () => {
+        return 'changed value'
+      })
+    })
+
+    expect(rerendered).toBe(3)
     expect(result.current.data).toEqual({ key: 'changed value' })
   })
 
@@ -207,6 +276,7 @@ describe('Form.useData', () => {
       data: { key: 'value' },
       update: expect.any(Function),
       set: expect.any(Function),
+      getValue: expect.any(Function),
       filterData: expect.any(Function),
     })
   })

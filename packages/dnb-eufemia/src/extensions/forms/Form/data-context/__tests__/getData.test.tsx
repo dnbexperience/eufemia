@@ -99,6 +99,38 @@ describe('getData', () => {
     })
   })
 
+  it('"getValue" should return single value', async () => {
+    type Data = { deep: { foo: string } }
+    render(
+      <Form.Handler id={identifier}>
+        <Field.String path="/deep/foo" value="existing value" />
+      </Form.Handler>
+    )
+
+    expect(getData<Data>(identifier).getValue('/deep/foo')).toEqual(
+      'existing value'
+    )
+
+    await userEvent.type(
+      document.querySelector('input'),
+      '{Backspace>20}new value'
+    )
+
+    expect(getData<Data>(identifier).getValue('/deep/foo')).toEqual(
+      'new value'
+    )
+  })
+
+  it('"getValue" should return undefined if path don\'t exists', () => {
+    render(
+      <Form.Handler id={identifier}>
+        <Field.String path="/deep/foo" value="existing value" />
+      </Form.Handler>
+    )
+
+    expect(getData(identifier).getValue('/does-not-exist')).toBeUndefined()
+  })
+
   it('should provide filterData handler', () => {
     type Data = { foo: string }
 

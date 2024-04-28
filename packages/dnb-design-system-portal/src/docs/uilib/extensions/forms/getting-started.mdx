@@ -70,21 +70,31 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
   return (
-    <Form.Handler>
+    <Form.Handler id="unique-id">
       <MyComponent />
     </Form.Handler>
   )
 }
 
 function MyComponent() {
-  const { data, update, set, filterData } = Form.useData()
+  const {
+    getValue, // Method to get a single value
+    update, // Method to update a single value
+    set, // Method to set the whole dataset
+    data, // The whole dataset (unvalidated)
+    filterData, // Method to filter data with your own logic
+  } = Form.useData('optional-id')
 }
 
 // You canalso use the setData:
-Form.setData('unique', { companyName: 'DNB' })
+Form.setData('unique-id', { companyName: 'DNB' })
 
 // ... and the getData – method when ever you need to:
-const { data, filterData } = Form.getData('unique')
+const {
+  getValue, // Method to get a single value
+  data, // The whole dataset (unvalidated)
+  filterData, // Method to filter data with your own logic
+} = Form.getData('unique-id')
 ```
 
 You can even handle the state outside the `Form.Handler` context. You can find more details in the [useData](/uilib/extensions/forms/Form/useData/) documentation.

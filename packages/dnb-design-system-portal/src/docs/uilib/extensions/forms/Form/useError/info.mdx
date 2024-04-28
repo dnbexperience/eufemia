@@ -13,19 +13,19 @@ You can use it in several ways. Like within the context of `Form.Handler`:
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function ComponentA() {
+function MyForm() {
   const { hasErrors } = Form.useError()
 
   return (
     <Form.Handler>
       ...
-      <ComponentB />
+      <Component />
       ...
     </Form.Handler>
   )
 }
 
-function ComponentB() {
+function Component() {
   const { hasErrors } = Form.useError()
 }
 ```
@@ -35,16 +35,16 @@ Or by linking the hook together with the form by using the `id` (string) propert
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function ComponentA() {
+function MyForm() {
   return (
     <>
       <Form.Handler id="unique">...</Form.Handler>
-      <ComponentB />
+      <Component />
     </>
   )
 }
 
-function ComponentB() {
+function Component() {
   const { hasErrors } = Form.useError('unique')
 }
 ```
@@ -54,7 +54,7 @@ Or by using it in the form component itself:
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function Component() {
+function MyForm() {
   const { hasErrors } = Form.useError('unique')
 
   return <Form.Handler id="unique">...</Form.Handler>
@@ -68,7 +68,7 @@ You can also report a form error that gets displayed on the bottom of the form b
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function Component() {
+function MyForm() {
   const { setFormError } = Form.useError('unique')
 
   useEffect(() => {
