@@ -1,21 +1,13 @@
-import {
-  useCallback,
-  useContext,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react'
+import { useCallback, useMemo, useReducer, useRef } from 'react'
 import pointer from 'json-pointer'
 import {
   SharedStateId,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
+import useDataContext from './useDataContext'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
-import DataContext, {
-  FilterData,
-  FilterDataHandler,
-} from '../../DataContext/Context'
+import { FilterData, FilterDataHandler } from '../../DataContext/Context'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
   ? Key extends keyof T
@@ -80,7 +72,7 @@ export default function useData<Data>(
   )
 
   // If no id is provided, use the context data
-  const context = useContext(DataContext)
+  const context = useDataContext()
   if (!id && context?.data) {
     sharedDataRef.current.data = context.data
   }

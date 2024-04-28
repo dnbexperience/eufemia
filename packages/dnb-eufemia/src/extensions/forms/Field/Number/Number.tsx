@@ -207,6 +207,8 @@ function NumberComponent(props: Props) {
     handleChange,
   } = useFieldProps(preparedProps)
 
+  console.log('NumberComponent', Date.now())
+
   const onKeyDownHandler = useCallback(
     ({ key, event }) => {
       if (!showStepControls) {

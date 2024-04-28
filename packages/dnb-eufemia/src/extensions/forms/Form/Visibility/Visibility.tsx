@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import pointer from 'json-pointer'
-import * as DataContext from '../../DataContext'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
+import useDataContext from '../data-context/useDataContext'
 
 export type Props = {
   visible?: boolean
@@ -49,7 +49,7 @@ function Visibility({
   children,
   ...rest
 }: Props) {
-  const dataContext = useContext(DataContext.Context)
+  const dataContext = useDataContext()
 
   const check = () => {
     if (visible === false) {

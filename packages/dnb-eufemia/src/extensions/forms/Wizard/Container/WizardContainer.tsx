@@ -1,5 +1,4 @@
 import React, {
-  useContext,
   useCallback,
   useRef,
   useReducer,
@@ -11,7 +10,6 @@ import { Space, StepIndicator } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import DataContext from '../../DataContext/Context'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
   OnStepChange,
@@ -25,6 +23,7 @@ import {
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import { ComponentProps } from '../../types'
+import useDataContext from '../../Form/data-context/useDataContext'
 
 export type Props = ComponentProps & {
   id?: string
@@ -67,7 +66,7 @@ function WizardContainer(props: Props) {
     setShowAllErrors,
     showAllErrors,
     setSubmitState,
-  } = useContext(DataContext)
+  } = useDataContext()
 
   const id = useId(_id)
   const [, forceUpdate] = useReducer(() => ({}), {})

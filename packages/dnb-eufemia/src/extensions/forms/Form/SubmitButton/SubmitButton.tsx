@@ -1,11 +1,11 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
-import type { ComponentProps } from '../../types'
-import DataContext from '../../DataContext/Context'
+import useDataContext from '../data-context/useDataContext'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
+import type { ComponentProps } from '../../types'
 
 export type Props = {
   /**
@@ -29,14 +29,14 @@ function SubmitButton(props: Props) {
     children ||
     (variant === 'send' ? translations.sendText : translations.text)
 
-  const { formState, handleSubmit, _isInsideFormElement } =
-    useContext(DataContext) || {}
+  const { formState, handleSubmit, isInsideFormElementRef } =
+    useDataContext()
 
   const onClickHandler = useCallback(() => {
-    if (!_isInsideFormElement) {
+    if (!isInsideFormElementRef?.current) {
       handleSubmit?.()
     }
-  }, [_isInsideFormElement, handleSubmit])
+  }, [isInsideFormElementRef, handleSubmit])
 
   return (
     <Button

@@ -140,7 +140,47 @@ const isArrayJsonPointer = /^\/\d+(\/|$)/
 export default function Provider<Data extends JsonObject>(
   props: Props<Data>
 ) {
-  const [, forceUpdate] = useReducer(() => ({}), {})
+  const valueRef = useRef<ContextState>()
+
+  const countRef = useRef(0)
+  if (countRef.current === 0) {
+    countRef.current++
+    if (countRef.current > 500) {
+      throw new Error('Infinite loop')
+    }
+  }
+
+  const connectionsRef = useRef<
+    Array<{
+      connection: (context: ContextState) => void
+      path?: Path
+    }>
+  >([])
+
+  const setRerenderConnection: ContextState['setRerenderConnection'] =
+    useCallback(({ connection, path }) => {
+      if (
+        !connectionsRef.current.some(
+          ({ connection: c }) => c === connection
+        )
+      ) {
+        connectionsRef.current.push({ connection, path })
+      }
+    }, [])
+
+  const [, forceAllUpdate] = useReducer(() => ({}), {})
+  const forceUpdate = useRef((path = null) => {
+    if (connectionsRef.current.length > 0 && path) {
+      updateProviderContext()
+      connectionsRef.current.forEach(({ connection, path: p }) => {
+        if (p === path) {
+          connection?.(valueRef.current)
+        }
+      })
+    } else {
+      forceAllUpdate()
+    }
+  })
 
   const {
     id,
@@ -185,19 +225,22 @@ export default function Provider<Data extends JsonObject>(
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
-    forceUpdate()
+    forceUpdate.current()
+    // forceAllUpdate()
   }, [])
   const submitStateRef = useRef<Partial<EventStateObject>>({})
   const setSubmitState = useCallback((state: EventStateObject) => {
     Object.assign(submitStateRef.current, state)
-    forceUpdate()
+    forceUpdate.current()
+    // forceAllUpdate()
   }, [])
 
   // - Progress
   const formStateRef = useRef<SubmitState>()
   const setFormState = useCallback((formState: SubmitState) => {
     formStateRef.current = formState
-    forceUpdate()
+    forceUpdate.current()
+    // forceAllUpdate()
   }, [])
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
@@ -236,15 +279,19 @@ export default function Provider<Data extends JsonObject>(
       errorsRef.current = undefined
     }
   }, [])
-  const validateData = useCallback(() => {
-    if (!ajvValidatorRef.current) {
-      // No schema-based validator. Assume data is valid.
-      return
-    }
+  const validateData = useCallback(
+    (path = null) => {
+      if (!ajvValidatorRef.current) {
+        // No schema-based validator. Assume data is valid.
+        return
+      }
 
-    executeAjvValidator()
-    forceUpdate()
-  }, [executeAjvValidator])
+      executeAjvValidator()
+      forceUpdate.current(path)
+      // forceAllUpdate()
+    },
+    [executeAjvValidator]
+  )
 
   // - Error handling
   const checkFieldStateFor = useCallback(
@@ -288,7 +335,7 @@ export default function Provider<Data extends JsonObject>(
       if (fieldState !== fieldStateRef.current[path]) {
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
-        forceUpdate()
+        forceUpdate.current(path)
       }
     },
     []
@@ -323,6 +370,7 @@ export default function Provider<Data extends JsonObject>(
     },
     [filterData]
   )
+
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
@@ -505,7 +553,8 @@ export default function Provider<Data extends JsonObject>(
         )
       }
 
-      forceUpdate()
+      forceUpdate.current(path)
+      // forceAllUpdate()
 
       return newData
     },
@@ -520,13 +569,14 @@ export default function Provider<Data extends JsonObject>(
 
   const setData = useCallback((newData: Data) => {
     internalDataRef.current = newData
-    forceUpdate()
+    forceUpdate.current()
+    // forceAllUpdate()
   }, [])
 
   /**
    * Update the data set on user interaction (unvalidated)
    */
-  const handlePathChangeUnvalidated: ContextState['handlePathChange'] =
+  const handlePathChangeUnvalidated: ContextState['handlePathChangeUnvalidated'] =
     useCallback(
       async (path, value) => {
         if (!path) {
@@ -558,8 +608,10 @@ export default function Provider<Data extends JsonObject>(
       }
 
       showAllErrorsRef.current = false
+      forceUpdate.current(path)
+      // forceAllUpdate()
 
-      validateData()
+      validateData(path)
 
       if (isAsync(onChange)) {
         return await onChange(internalDataRef.current as Data)
@@ -728,14 +780,16 @@ export default function Provider<Data extends JsonObject>(
                 }
               }
 
-              forceUpdate() // in order to fill "empty fields" again with their internal states
+              forceUpdate.current() // in order to fill "empty fields" again with their internal states
+              // forceAllUpdate()
             },
             clearData: () => {
               internalDataRef.current = {}
               if (id) {
                 setSharedData?.({} as Data)
               } else {
-                forceUpdate()
+                forceUpdate.current()
+                // forceAllUpdate()
               }
             },
           }
@@ -816,7 +870,8 @@ export default function Provider<Data extends JsonObject>(
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
 
       validateData()
-      forceUpdate()
+      forceUpdate.current()
+      // forceAllUpdate() // Do we need this to make schema work?
     }
   }, [schema, validateData, forceUpdate])
 
@@ -839,54 +894,107 @@ export default function Provider<Data extends JsonObject>(
 
   const submitState = submitStateRef.current
   const disabled = rest?.['disabled'] ?? formState === 'pending'
+  const isInsideFormElementRef = useRef(false)
+
+  const updateProviderContext = useCallback<() => ContextState>(() => {
+    // valueRef.current = Object.assign({}, valueRef.current || {}, )
+
+    valueRef.current = {
+      /** Method */
+      setRerenderConnection,
+      handlePathChange,
+      handlePathChangeUnvalidated,
+      handleSubmit,
+      handleMountField,
+      handleUnMountField,
+      handleSubmitCall,
+      setFormState,
+      setSubmitState,
+      setShowAllErrors,
+      setFieldEventListener,
+      setFieldState,
+      setFieldError,
+      setProps,
+      hasErrors,
+      hasFieldState,
+      checkFieldStateFor,
+      validateData,
+      updateDataValue,
+      setData,
+      filterDataHandler,
+      scrollToTop,
+
+      /** State handling */
+      schema,
+      disabled,
+      formState,
+      submitState,
+      contextErrorMessages,
+      hasContext: true,
+      errors: errorsRef.current,
+      showAllErrors: showAllErrorsRef.current,
+      mountedFieldPaths: mountedFieldPathsRef.current,
+      ajvInstance: ajvRef.current,
+      isInsideFormElementRef,
+
+      /** Additional */
+      id,
+      data: internalDataRef.current,
+      props,
+      ...rest,
+    }
+
+    return valueRef.current
+  }, [
+    checkFieldStateFor,
+    contextErrorMessages,
+    disabled,
+    filterDataHandler,
+    formState,
+    handleMountField,
+    handlePathChange,
+    handlePathChangeUnvalidated,
+    setRerenderConnection,
+    handleSubmit,
+    handleSubmitCall,
+    handleUnMountField,
+    hasErrors,
+    hasFieldState,
+    id,
+    props,
+    rest,
+    schema,
+    scrollToTop,
+    setData,
+    setFieldError,
+    setFieldEventListener,
+    setFieldState,
+    setFormState,
+    setProps,
+    setShowAllErrors,
+    setSubmitState,
+    submitState,
+    updateDataValue,
+    validateData,
+  ])
+
+  // const getFormStatusData = useCallback(() => {
+  //   return globalStatusId
+  //     ? {
+  //         globalStatus: {
+  //           id: globalStatusId,
+  //           title: translation.errorSummaryTitle,
+  //           show: showAllErrorsRef.current,
+  //         },
+  //       }
+  //     : undefined
+  // }, [globalStatusId, translation.errorSummaryTitle])
 
   return (
-    <Context.Provider
-      value={{
-        /** Method */
-        handlePathChange,
-        handlePathChangeUnvalidated,
-        handleSubmit,
-        handleMountField,
-        handleUnMountField,
-        handleSubmitCall,
-        setFormState,
-        setSubmitState,
-        setShowAllErrors,
-        setFieldEventListener,
-        setFieldState,
-        setFieldError,
-        setProps,
-        hasErrors,
-        hasFieldState,
-        checkFieldStateFor,
-        validateData,
-        updateDataValue,
-        setData,
-        filterDataHandler,
-        scrollToTop,
-
-        /** State handling */
-        schema,
-        disabled,
-        formState,
-        submitState,
-        contextErrorMessages,
-        hasContext: true,
-        errors: errorsRef.current,
-        showAllErrors: showAllErrorsRef.current,
-        mountedFieldPaths: mountedFieldPathsRef.current,
-        ajvInstance: ajvRef.current,
-
-        /** Additional */
-        id,
-        data: internalDataRef.current,
-        props,
-        ...rest,
-      }}
-    >
+    <Context.Provider value={updateProviderContext()}>
       <SharedProvider
         FormStatus={
+          // getFormStatusData()
           globalStatusId
             ? {
                 globalStatus: {

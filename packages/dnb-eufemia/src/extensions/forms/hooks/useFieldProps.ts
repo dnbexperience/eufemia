@@ -20,7 +20,7 @@ import {
   EventStateObjectWithSuccess,
   Path,
 } from '../types'
-import { Context as DataContext, ContextState } from '../DataContext'
+import { ContextState } from '../DataContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
@@ -34,6 +34,7 @@ import {
   createSharedState,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
+import useDataContext from '../Form/data-context/useDataContext'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 
@@ -111,7 +112,7 @@ export default function useFieldProps<
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
-  const dataContext = useContext(DataContext)
+  const dataContext = useDataContext({ path })
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
@@ -298,7 +299,12 @@ export default function useFieldProps<
   }, [])
 
   // Put props into the surrounding data context
-  setPropsDataContext?.(identifier, props)
+  // setPropsDataContext?.(identifier, props)
+
+  // Put props into the surrounding data context
+  useMemo(() => {
+    setPropsDataContext?.(identifier, props)
+  }, [identifier, props, setPropsDataContext])
 
   const fieldStateRef = useRef<SubmitStateWithValidating>()
   const setFieldState = useCallback(
@@ -833,6 +839,7 @@ export default function useFieldProps<
       }
     }
 
+    // Will trigger a re-render and infinite loop if uncommented
     forceUpdate()
   }, [
     asyncBehaviorIsEnabled,
@@ -994,12 +1001,12 @@ export default function useFieldProps<
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   useMountEffect(() => {
-    dataContext?.handleMountField(identifier)
+    dataContext?.handleMountField?.(identifier)
 
     validateValue()
   })
   useUnmountEffect(() => {
-    dataContext?.handleUnMountField(identifier)
+    dataContext?.handleUnMountField?.(identifier)
     setFieldErrorDataContext?.(identifier, undefined)
     setFieldError?.(identifier, undefined)
     localErrorRef.current = undefined
@@ -1013,11 +1020,13 @@ export default function useFieldProps<
   }, [schema, validateValue])
 
   useUpdateEffect(() => {
+    // useMemo(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
       validateValue()
     }
+    // Creates an infinite loop if uncommented
     forceUpdate()
   }, [externalValue, validateValue])
 
@@ -1029,7 +1038,7 @@ export default function useFieldProps<
     }
   }, [dataContextError, prepareError])
 
-  useEffect(() => {
+  const syncProviderPropValue = useCallback(() => {
     if (path) {
       let value = props.value
 
@@ -1064,7 +1073,7 @@ export default function useFieldProps<
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        updateDataValueDataContext?.(path, value)
+        updateDataValueDataContext?.(path, value, id)
         validateDataDataContext?.()
       }
     }
@@ -1075,7 +1084,12 @@ export default function useFieldProps<
     props.value,
     updateDataValueDataContext,
     validateDataDataContext,
+    id,
   ])
+
+  useEffect(() => {
+    syncProviderPropValue()
+  }, [syncProviderPropValue])
 
   useEffect(() => {
     if (dataContext.showAllErrors) {
@@ -1312,7 +1326,7 @@ export function useExternalValue<Value>({
   }>
   emptyValue?: FieldProps<Value>['emptyValue']
 }) {
-  const dataContext = useContext(DataContext)
+  const dataContext = useDataContext({ path })
   const iterateElementContext = useContext(IterateElementContext)
   const inIterate = Boolean(iterateElementContext)
   const { value: iterateElementValue } = iterateElementContext ?? {}
@@ -1351,7 +1365,7 @@ export function useExternalValue<Value>({
     emptyValue,
     inIterate,
     itemPath,
-    dataContext.data,
+    dataContext.data, // Needs to be there to trigger updates when the data changes
     path,
     transformers,
     iterateElementValue,

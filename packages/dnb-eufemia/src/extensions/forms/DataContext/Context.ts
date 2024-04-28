@@ -52,8 +52,15 @@ export interface ContextState {
     | EventReturnWithStateObject
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
+  setRerenderConnection: ({
+    connection,
+    path,
+  }: {
+    connection: (context: ContextState) => void
+    path?: Path
+  }) => void
   handlePathChangeUnvalidated: (path: Path, value: any) => void
-  updateDataValue: (path: Path, value: any) => void
+  updateDataValue: (path: Path, value: any, id?: Identifier) => void
   setData: (data: any) => void
   filterDataHandler: (data: any, filter: FilterData) => any
   validateData: () => void
@@ -99,7 +106,7 @@ export interface ContextState {
   schema: AllJSONSchemaVersions
   disabled: boolean
   submitState: Partial<EventStateObject>
-  _isInsideFormElement?: boolean
+  isInsideFormElementRef?: React.MutableRefObject<boolean>
   props: ProviderProps<unknown>
 }
 
@@ -111,6 +118,7 @@ export const defaultContextState: ContextState = {
   submitState: undefined,
   handlePathChange: () => null,
   handlePathChangeUnvalidated: () => null,
+  setRerenderConnection: () => null,
   updateDataValue: () => null,
   setData: () => null,
   filterDataHandler: () => null,
@@ -135,7 +143,6 @@ export const defaultContextState: ContextState = {
   setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
-  _isInsideFormElement: false,
   props: null,
 }
 

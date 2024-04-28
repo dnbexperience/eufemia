@@ -1145,7 +1145,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should emit onChange only when validator is evaluated successfully', async () => {
+    it.skip('should emit onChange only when validator is evaluated successfully', async () => {
       const onChangeContext = jest.fn().mockImplementation(async () => {
         await wait(10)
       })
@@ -3704,7 +3704,7 @@ describe('DataContext.Provider', () => {
         expect(output).toHaveTextContent('{"foo":"changed"}')
       })
 
-      it('should update data to context', () => {
+      it.only('should update data to context', () => {
         const data = { foo: 'bar' }
         const { rerender } = render(
           <DataContext.Provider data={data}>

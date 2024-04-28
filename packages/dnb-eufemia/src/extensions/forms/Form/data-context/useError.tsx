@@ -1,9 +1,10 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import {
   SharedStateId,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import DataContext, { ContextState } from '../../DataContext/Context'
+import useDataContext from './useDataContext'
+import { ContextState } from '../../DataContext/Context'
 
 type UseDataReturn = {
   hasErrors: ContextState['hasErrors']
@@ -21,7 +22,7 @@ export default function useError(
   const fallback = useCallback(() => false, [])
 
   // If no id is provided, use the context version
-  const context = useContext(DataContext)
+  const context = useDataContext()
   const hasErrors =
     sharedAttachmentsRef.current?.data?.hasErrors ||
     (!id && context?.hasErrors) ||

@@ -1,12 +1,12 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import FieldBoundaryContext, {
   FieldBoundaryContextState,
 } from './FieldBoundaryContext'
-import DataContext from '../Context'
+import useDataContext from '../../Form/data-context/useDataContext'
 import { Path } from '../../types'
 
 export default function FieldBoundaryProvider({ children }) {
-  const { showAllErrors } = useContext(DataContext)
+  const { showAllErrors } = useDataContext()
 
   const errorsRef = useRef<Record<Path, boolean>>({})
   const hasError = Object.keys(errorsRef.current || {}).length > 0

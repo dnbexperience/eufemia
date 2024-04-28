@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Form, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema, Value } from '../../..'
 import { Flex } from '../../../../../components'
 import Provider from '../Provider'
 
@@ -166,4 +166,39 @@ function replaceUndefinedValues(
   } else {
     return value
   }
+}
+
+function Rerenders() {
+  console.log('Rerenders', Date.now())
+  return null
+}
+
+export function PartialUpdate() {
+  return (
+    <Form.Handler
+      data={{
+        same: '',
+        other: 123,
+      }}
+      onSubmit={(data) => console.log('onSubmit', data)}
+      // onChange={async (data) => {
+      //   await new Promise((resolve) => setTimeout(resolve, 3000))
+      //   console.log('onChange', data)
+      // }}
+    >
+      <Field.String
+        label="Main"
+        path="/same"
+        // value="x"
+        required
+        // validateInitially
+      />
+      <Field.String label="In sync" path="/same" />
+      <Value.String label="In sync" path="/same" />
+      <Field.Number label="other" path="/other" />
+      <Rerenders />
+
+      <Form.SubmitButton>Submit</Form.SubmitButton>
+    </Form.Handler>
+  )
 }

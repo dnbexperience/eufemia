@@ -1,7 +1,7 @@
 import React from 'react'
-import Context from '../../DataContext/Context'
-import Space from '../../../../components/space/Space'
 import classnames from 'classnames'
+import Space from '../../../../components/space/Space'
+import useDataContext from '../data-context/useDataContext'
 import type { SpacingProps } from '../../../../shared/types'
 
 export type Props = React.HTMLAttributes<HTMLFormElement> & SpacingProps
@@ -12,13 +12,15 @@ export default function FormElement({
   onSubmit = null,
   ...rest
 }: Props) {
-  const dataContext = React.useContext(Context)
+  const dataContext = useDataContext()
 
   /**
    * Set to true,
    * this way we prevent "handleSubmit" to be called twice when the SubmitButton is pressed.
    */
-  dataContext._isInsideFormElement = true
+  if (dataContext.isInsideFormElementRef) {
+    dataContext.isInsideFormElementRef.current = true
+  }
 
   return (
     <Space
