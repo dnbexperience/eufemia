@@ -4,6 +4,7 @@ const daggy = createDaggy()
 
 const DNB = daggy.taggedSum('DNB', {
   Colored: ['color'],
+  Sbanken: ['color'],
 })
 
 const Visa = daggy.taggedSum('Visa', {
@@ -28,6 +29,7 @@ const BankAxept = daggy.taggedSum('BankAxept', {
   Gold: [],
   Black20: [],
   Gray: [],
+  GrayDark: [],
 })
 
 const Saga = daggy.taggedSum('Saga', {
@@ -54,6 +56,7 @@ const ProductType = daggy.taggedSum('ProductType', {
 
 const BankAxeptType = daggy.taggedSum('BankAxeptType', {
   BankAxept: [],
+  Credit: [],
   None: [],
 })
 

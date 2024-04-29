@@ -34,11 +34,20 @@ type UseDataReturnUpdate<Data> = <P extends Path>(
   value: ((value: PathType<Data, P>) => unknown) | unknown
 ) => void
 
+export type UseDataReturnGetValue<Data> = <P extends Path>(
+  path: P
+) => PathType<Data, P>
+
+export type UseDataReturnFilterData<Data> = (
+  filterDataHandler: FilterData
+) => Partial<Data>
+
 type UseDataReturn<Data> = {
   data: Data
-  update: UseDataReturnUpdate<Data>
   set: (newData: Data) => void
-  filterData: (filterDataHandler: FilterData) => Partial<Data>
+  update: UseDataReturnUpdate<Data>
+  getValue: UseDataReturnGetValue<Data>
+  filterData: UseDataReturnFilterData<Data>
 }
 
 type SharedAttachment<Data> = {
@@ -105,14 +114,16 @@ export default function useData<Data>(
       const newValue =
         typeof value === 'function' ? value(existingValue) : value
 
-      // update existing data
-      pointer.set(existingData, path, newValue)
+      if (newValue !== existingValue) {
+        // update existing data
+        pointer.set(existingData, path, newValue)
 
-      // update provider
-      if (id) {
-        sharedDataRef.current.extend(existingData)
-      } else {
-        updateDataValue(path, newValue)
+        // update provider
+        if (id) {
+          sharedDataRef.current.extend(existingData)
+        } else {
+          updateDataValue(path, newValue)
+        }
       }
     },
     [id, updateDataValue]
@@ -134,6 +145,14 @@ export default function useData<Data>(
     [context, id]
   )
 
+  const getValue = useCallback<UseDataReturn<Data>['getValue']>((path) => {
+    if (pointer.has(sharedDataRef.current.data, path)) {
+      return pointer.get(sharedDataRef.current.data, path)
+    }
+
+    return undefined
+  }, [])
+
   useMountEffect(() => {
     if (id && !sharedDataRef.current.hadInitialData && initialData) {
       sharedDataRef.current.extend(initialData)
@@ -147,8 +166,9 @@ export default function useData<Data>(
       data,
       update: updateHandler,
       set: setHandler,
+      getValue,
       filterData,
     }),
-    [data, filterData, setHandler, updateHandler]
+    [data, filterData, getValue, setHandler, updateHandler]
   )
 }

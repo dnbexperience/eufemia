@@ -4,6 +4,7 @@
  */
 
 @import '../../../style/core/utilities.scss';
+@import '../../../style/themes/theme-sbanken/properties.scss';
 
 .dnb-payment-card {
   --color-dark-cyan: #003b47;
@@ -62,7 +63,7 @@
     border-radius: 12px;
 
     border: 1px solid;
-    border-color: rgb(255 255 255 / 10%) transparent rgb(0 0 0 / 20%)
+    border-color: rgb(255 255 255 / 10%) transparent rgb(255 255 255 / 10%)
       transparent;
 
     color: var(--color-white);
@@ -122,9 +123,18 @@
       color: var(--color-white);
     }
 
+    &--design-sbanken-mastercard {
+      background: var(--sb-color-purple);
+      color: var(--color-white);
+    }
+
+    &--design-sbanken-visa {
+      background: var(--color-white);
+      color: var(--sb-color-text);
+    }
+
     &::after {
       content: '';
-
       position: absolute;
       top: 0;
       left: 0;
@@ -137,6 +147,10 @@
         #06060600 100%
       );
       border-radius: inherit;
+    }
+
+    &--design-sbanken-mastercard::after {
+      background: none;
     }
 
     &__content {
@@ -196,6 +210,12 @@
       height: 45px;
       position: absolute;
       top: 0;
+      right: 0;
+    }
+
+    &__credit {
+      position: absolute;
+      top: 6px;
       right: 0;
     }
   }

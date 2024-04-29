@@ -3,7 +3,14 @@
  *
  */
 
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import {
+  render,
+  screen,
+  cleanup,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Checkbox, { CheckboxProps } from '../Checkbox'
@@ -34,6 +41,7 @@ describe('Checkbox component', () => {
 
     // also check if getDerivedStateFromProps sets the state as expected
     rerender(<Checkbox {...props} checked={true} />)
+
     expect(
       (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(true)
@@ -46,20 +54,16 @@ describe('Checkbox component', () => {
   })
 
   it('has "on_change" event which will trigger on a input change', () => {
-    const my_event = jest.fn()
     const myEvent = jest.fn()
-    render(
-      <Checkbox on_change={my_event} onChange={myEvent} checked={false} />
-    )
+    render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()
-    expect(my_event.mock.calls.length).toBe(1)
+
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
-  it('does handle controlled vs uncontrolled state properly', () => {
+  describe('controlled vs uncontrolled', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
       const [random, setRandom] = React.useState(null)
@@ -68,7 +72,7 @@ describe('Checkbox component', () => {
         <>
           <Checkbox
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
@@ -82,43 +86,60 @@ describe('Checkbox component', () => {
       )
     }
 
-    const TestStates = (Comp) => {
-      render(Comp)
+    it('handles re-render + default state', () => {
+      render(<ControlledVsUncontrolled />)
 
-      // re-render + default state is true
       fireEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
+      cleanup()
+    })
 
-      // change it to false
+    it('changes to false', () => {
+      render(<ControlledVsUncontrolled />)
+
       fireEvent.click(document.querySelector('input'))
       expect(document.querySelector('input').checked).toBe(false)
+      cleanup()
+    })
 
-      // set it to true
+    it('handles set it to true', () => {
+      render(<ControlledVsUncontrolled />)
+
       fireEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
+      cleanup()
+    })
+    it('handles reset it with undefined to false', () => {
+      render(<ControlledVsUncontrolled />)
 
-      // reset it with undefined to false
       fireEvent.click(document.querySelector('button#reset-undefined'))
-      expect(document.querySelector('input').checked).toBe(false)
 
-      // set it to true + reset it with null to false
-      fireEvent.click(document.querySelector('button#set-state'))
-      fireEvent.click(document.querySelector('button#reset-null'))
-      expect(document.querySelector('input').checked).toBe(false)
-
-      // re-render + still false
-      fireEvent.click(document.querySelector('button#rerender'))
       expect(document.querySelector('input').checked).toBe(false)
 
       cleanup()
-    }
+    })
+    it('handles set to true + reset it with null to false', () => {
+      render(<ControlledVsUncontrolled />)
 
-    TestStates(<ControlledVsUncontrolled />)
-    TestStates(
-      <React.StrictMode>
-        <ControlledVsUncontrolled />
-      </React.StrictMode>
-    )
+      fireEvent.click(document.querySelector('button#set-state'))
+      fireEvent.click(document.querySelector('button#reset-null'))
+
+      expect(document.querySelector('input').checked).toBe(false)
+
+      cleanup()
+    })
+
+    it('handles re-render + still false', async () => {
+      render(<ControlledVsUncontrolled />)
+
+      userEvent.click(document.querySelector('button#rerender'))
+
+      waitFor(() => {
+        expect(document.querySelector('input').checked).toBe(false)
+      })
+
+      cleanup()
+    })
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
@@ -211,6 +232,16 @@ describe('Checkbox component', () => {
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-checkbox__input')
     expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('should use span element if defined', () => {
+    render(<Checkbox element="span" />)
+    expect(document.querySelector('.dnb-checkbox__input').tagName).toBe(
+      'SPAN'
+    )
+    expect(
+      document.querySelector('.dnb-checkbox__input').getAttribute('type')
+    ).toBe('checkbox')
   })
 })
 

@@ -38,7 +38,9 @@
         box-shadow: inset 0 0 0 2px var(--block-outline-color);
       }
 
-      transition: transform 400ms var(--easing-default) 50ms;
+      transition:
+        transform 400ms var(--easing-default) 50ms,
+        box-shadow 0.8s var(--easing-default);
       transform: translateY(-2.5rem);
 
       .dnb-dl .dnb-dd {

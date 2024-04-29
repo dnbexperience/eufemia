@@ -258,7 +258,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
   right: -0.375rem;
   bottom: 0.5rem;
   border-radius: 1.5rem;
-  background-color: var(--sb-color-blue-light-3);
+  background-color: var(--tab-focus-background-color, none);
 }
 .dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;

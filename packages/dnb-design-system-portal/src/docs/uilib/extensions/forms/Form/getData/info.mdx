@@ -4,17 +4,21 @@ showTabs: true
 
 ## Description
 
-With the `Form.getData` hook, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
+With the `Form.getData` method, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function Component() {
-  return <Form.Handler id="unique">...</Form.Handler>
+  return <Form.Handler id="unique-id">...</Form.Handler>
 }
 
 // Later, when there is data available
-const { data } = Form.getData('unique')
+const {
+  getValue, // Method to get a single value
+  data, // The whole dataset (unvalidated)
+  filterData, // Method to filter data with your own logic
+} = Form.getData('unique-id')
 ```
 
 You link them together via the `id` (string) property.

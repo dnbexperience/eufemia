@@ -26,6 +26,7 @@ showTabs: true
 | `cardDesign`  | `object`     | _(required)_ object that describes the style properties of the card. `import { Designs } from '@dnb/eufemia/extensions/payment-card'` (see available designs below) or a custom one can be created.                                                |
 | `cardType`    | `Union Type` | _(required)_ `import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                                                                  |
 | `productType` | `Union Type` | _(required)_ `import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be ProductType.Saga, ProductType.Pluss, ProductType.Intro, ProductType.Business, ProductType.Bedrift, ProductType.PrivateBanking or ProductType.None |
+| `bankAxept`   | `Union Type` | _(required)_ `import { BankAxeptType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be BankAxeptType.BankAxept, BankAxeptType.Credit or BankAxeptType.None                                                                             |
 
 ## Card Design
 
@@ -42,20 +43,22 @@ showTabs: true
 
 ## List of designs
 
-| Properties         | Type     | Description            |
-| ------------------ | -------- | ---------------------- |
-| `defaultDesign`    | `object` | Default                |
-| `pluss`            | `object` | Pluss                  |
-| `young`            | `object` | Ung                    |
-| `myFirst`          | `object` | My first               |
-| `youth`            | `object` | Youth                  |
-| `gold`             | `object` | Gold                   |
-| `saga`             | `object` | Saga                   |
-| `sagaPlatinum`     | `object` | Saga platinum          |
-| `privateBanking`   | `object` | Private Banking        |
-| `mcBlack`          | `object` | Mastercard Black       |
-| `businessNoVisa`   | `object` | Bedriftskort BankAxept |
-| `businessWithVisa` | `object` | Bedriftskort Visa      |
+| Properties          | Type     | Description            |
+| ------------------- | -------- | ---------------------- |
+| `defaultDesign`     | `object` | Default                |
+| `pluss`             | `object` | Pluss                  |
+| `young`             | `object` | Ung                    |
+| `myFirst`           | `object` | My first               |
+| `youth`             | `object` | Youth                  |
+| `gold`              | `object` | Gold                   |
+| `saga`              | `object` | Saga                   |
+| `sagaPlatinum`      | `object` | Saga platinum          |
+| `privateBanking`    | `object` | Private Banking        |
+| `mcBlack`           | `object` | Mastercard Black       |
+| `businessNoVisa`    | `object` | Bedriftskort BankAxept |
+| `businessWithVisa`  | `object` | Bedriftskort Visa      |
+| `sbankenVisa`       | `object` | Sbanken Visa           |
+| `sbankenMastercard` | `object` | Sbanken Mastercard     |
 
 ## Types
 
@@ -63,6 +66,7 @@ showTabs: true
 | ---------------- |
 | **DNB**          |
 | `Colored`        |
+| `Sbanken`        |
 | **Saga**         |
 | `Gold`           |
 | `Platinum`       |
@@ -91,6 +95,7 @@ showTabs: true
 | `Gold`           |
 | `Black20`        |
 | `Gray`           |
+| `GrayDark`       |
 | **Visa**         |
 | `Colored`        |
 | `Platinum`       |

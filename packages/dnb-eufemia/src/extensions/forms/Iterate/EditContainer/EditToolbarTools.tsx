@@ -5,9 +5,9 @@ import IterateElementContext from '../IterateElementContext'
 import { check, close } from '../../../../icons'
 import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
+import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 
 export default function EditToolbarTools() {
-  const iterateElementContext = useContext(IterateElementContext)
   const {
     restoreOriginalValue,
     switchContainerMode,
@@ -15,7 +15,8 @@ export default function EditToolbarTools() {
     arrayValue,
     index,
     isNew,
-  } = iterateElementContext ?? {}
+  } = useContext(IterateElementContext) || {}
+  const { hasErrorAndShowIt } = useContext(FieldBoundaryContext) || {}
 
   const translation = useTranslation().Iterate
   const valueBackupRef = useRef<unknown>()
@@ -47,6 +48,7 @@ export default function EditToolbarTools() {
         icon={check}
         icon_position="left"
         on_click={doneHandler}
+        disabled={hasErrorAndShowIt}
       >
         {translation.done}
       </Button>

@@ -3567,6 +3567,7 @@ describe('DataContext.Provider', () => {
       expect(result.current).toEqual({
         data: { myField: 'foo' },
         filterData: expect.any(Function),
+        getValue: expect.any(Function),
         update: expect.any(Function),
         set: expect.any(Function),
       })
@@ -3601,6 +3602,7 @@ describe('DataContext.Provider', () => {
       expect(result.current).toEqual({
         data: { myField: 'bar' },
         filterData: expect.any(Function),
+        getValue: expect.any(Function),
         update: expect.any(Function),
         set: expect.any(Function),
       })

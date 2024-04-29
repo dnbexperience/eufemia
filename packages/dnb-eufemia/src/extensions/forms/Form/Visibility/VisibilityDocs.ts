@@ -56,8 +56,8 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  KeepInDOM: {
-    doc: "Keep the content in the DOM, even if it's not visible",
+  keepInDOM: {
+    doc: "Keep the content in the DOM, even if it's not visible. Can be used to let fields run validation.",
     type: 'boolean',
     status: 'optional',
   },

@@ -234,7 +234,7 @@
         right: -0.375rem; // For overflow purposes
         bottom: 0.5rem;
         border-radius: 1.5rem;
-        background-color: var(--sb-color-blue-light-3);
+        background-color: var(--tab-focus-background-color, none);
       }
     }
 
