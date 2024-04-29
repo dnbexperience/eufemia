@@ -21,10 +21,22 @@
   font-size: var(--font-size-basis);
   color: inherit;
 
+  &--has-help {
+    margin-right: 0.5rem;
+  }
+
+  + .dnb-help-button {
+    margin-right: 1rem;
+  }
+
   &--vertical {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem;
+
+    + .dnb-help-button {
+      margin-right: 0;
+    }
   }
 
   &--interactive {
@@ -33,6 +45,27 @@
 
   &[disabled] {
     cursor: not-allowed;
+  }
+}
+
+.dnb-form-label__wrapper {
+  display: inline-flex;
+  align-items: flex-end;
+
+  margin-right: 1rem;
+
+  .dnb-form-label {
+    margin-right: 0.5rem;
+  }
+  &--vertical {
+    display: block;
+    .dnb-form-label {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+    .dnb-help-button-content {
+      margin-top: 0.5rem;
+    }
   }
 }
 

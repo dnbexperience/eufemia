@@ -27,6 +27,8 @@ import type {
   DynamicElementParams,
   SpacingProps,
 } from '../../shared/types'
+import { FieldHelpProps } from '../../extensions/forms'
+import HelpButton from '../HelpButton'
 
 export type FormLabelProps = {
   forId?: string
@@ -54,7 +56,7 @@ export type FormLabelProps = {
   sr_only?: boolean
   /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
   label_direction?: FormElementProps['label_direction']
-}
+} & FieldHelpProps
 
 export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
@@ -94,6 +96,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     innerRef,
     className,
     children,
+    help,
     ...attributes
   } = props
 
@@ -105,14 +108,16 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       (typeof props.onClick === 'function' || forId)
   )
 
+  const isVertical = isTrue(vertical) || labelDirection === 'vertical'
+
   const params = {
     className: classnames(
       'dnb-form-label',
-      (isTrue(vertical) || labelDirection === 'vertical') &&
-        `dnb-form-label--vertical`,
+      isVertical && `dnb-form-label--vertical`,
       srOnly && 'dnb-sr-only',
       size && `dnb-h--${size}`,
       isInteractive && 'dnb-form-label--interactive',
+      help && `dnb-form-label--has-help`,
       createSkeletonClass('font', skeleton, context),
       createSpacingClasses(
         content ? { right: 'small', ...props } : omitSpacingProps(props)
@@ -157,7 +162,26 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
 
-  return <Element {...params}>{content}</Element>
+  return help ? (
+    <>
+      <Element {...params}>
+        {content}
+        <HelpButton
+          left="x-small"
+          title={help.title}
+          displayMethod="inline"
+          contentId={help.contentId}
+        />
+      </Element>
+      {help.content && (
+        <HelpButton.Content contentId={help.contentId}>
+          {help.content}
+        </HelpButton.Content>
+      )}
+    </>
+  ) : (
+    <Element {...params}>{content}</Element>
+  )
 }
 
 FormLabel._formElement = true

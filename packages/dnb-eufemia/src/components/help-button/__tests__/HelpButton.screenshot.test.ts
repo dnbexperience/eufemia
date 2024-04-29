@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('HelpButton', () => {
+describe.each(['ui', 'sbanken'])('HelpButton for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/help-button/demos',
   })
 
@@ -37,6 +38,13 @@ describe('HelpButton', () => {
   it('have to match help button used inside text', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="help-button-inline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('has to match inline help button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="help-button-inline-content"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
