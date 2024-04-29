@@ -34,6 +34,7 @@ import Context, {
   ContextState,
   EventListenerCall,
   FilterData,
+  TransformData,
 } from '../Context'
 
 /**
@@ -83,6 +84,14 @@ export interface Props<Data extends JsonObject> {
    * @deprecated Use `filterSubmitData` instead
    */
   filterData?: FilterData
+  /**
+   * Transform the data context (internally as well) based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   */
+  transformIn?: TransformData
+  /**
+   * Mutate the data before it enters onSubmit or onChange based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   */
+  transformOut?: TransformData
   /**
    * Change handler for the whole data set.
    * You can provide an async function to show an indicator on the current label during a field change.
@@ -162,6 +171,8 @@ export default function Provider<Data extends JsonObject>(
     asyncSubmitTimeout,
     sessionStorageId,
     ajvInstance,
+    transformIn,
+    transformOut,
     filterSubmitData,
     filterData,
     errorMessages: contextErrorMessages,
@@ -300,33 +311,37 @@ export default function Provider<Data extends JsonObject>(
   )
 
   /**
-   * Filter the data set based on the filterData function
+   * Mutate the data set based on the filterData function
    */
-  const filterDataHandler = useCallback(
-    (data: Data, filter = filterData) => {
-      if (filter) {
-        const filtered = { ...data }
+  const mutateDataHandler = useCallback(
+    (data: Data, fn: TransformData, remove = false) => {
+      if (fn) {
         Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
           const exists = pointer.has(data, path)
-          const result = filter(
-            path,
-            exists ? pointer.get(data, path) : undefined,
-            props,
-            {
+          if (exists) {
+            const result = fn(path, pointer.get(data, path), props, {
               error: fieldErrorRef.current?.[path],
+            })
+            if (remove) {
+              if (result === false) {
+                data = structuredClone(data)
+                pointer.remove(data, path)
+              }
+            } else {
+              if (typeof result !== 'undefined') {
+                data = structuredClone(data)
+                pointer.set(data, path, result)
+              }
             }
-          )
-          if (result === false && exists) {
-            pointer.remove(filtered, path)
           }
         })
 
-        return filtered
+        return data
       }
 
       return data
     },
-    [filterData]
+    []
   )
 
   /**
@@ -509,6 +524,11 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
+      // - Mutate the data context
+      if (transformIn) {
+        newData = mutateDataHandler(newData, transformIn)
+      }
+
       internalDataRef.current = newData
 
       if (id) {
@@ -532,7 +552,11 @@ export default function Provider<Data extends JsonObject>(
       extendSharedData,
       filterData,
       filterSubmitData,
+      id,
+      mutateDataHandler,
       rerenderUseDataHook,
+      sessionStorageId,
+      transformIn,
     ]
   )
 
@@ -579,13 +603,24 @@ export default function Provider<Data extends JsonObject>(
 
       validateData()
 
+      const data = internalDataRef.current as Data
+      const transformedData = transformOut
+        ? mutateDataHandler(data, transformOut)
+        : data
+
       if (isAsync(onChange)) {
-        return await onChange(internalDataRef.current as Data)
+        return await onChange(transformedData)
       }
 
-      return onChange?.(internalDataRef.current as Data)
+      return onChange?.(transformedData)
     },
-    [handlePathChangeUnvalidated, onChange, validateData]
+    [
+      handlePathChangeUnvalidated,
+      mutateDataHandler,
+      onChange,
+      transformOut,
+      validateData,
+    ]
   )
 
   // - Mounted fields
@@ -735,7 +770,11 @@ export default function Provider<Data extends JsonObject>(
       handleSubmitCall({
         enableAsyncBehaviour: isAsync(onSubmit),
         onSubmit: async () => {
-          const args = filterDataHandler(internalDataRef.current as Data)
+          // - Mutate the data context
+          const data = internalDataRef.current as Data
+          const filteredData = filterDataHandler(
+            transformOut ? mutateDataHandler(data, transformOut) : data
+          )
           const opts = {
             resetForm: () => {
               formElement?.reset?.()
@@ -761,12 +800,15 @@ export default function Provider<Data extends JsonObject>(
           let result = undefined
 
           if (isAsync(onSubmit)) {
-            result = await onSubmit(args, opts)
+            result = await onSubmit(filteredData, opts)
           } else {
-            result = onSubmit?.(args, opts)
+            result = onSubmit?.(filteredData, opts)
           }
 
-          const completeResult = await onSubmitComplete?.(args, result)
+          const completeResult = await onSubmitComplete?.(
+            filteredData,
+            result
+          )
           if (completeResult) {
             result =
               Object.keys(result).length > 0
@@ -786,12 +828,14 @@ export default function Provider<Data extends JsonObject>(
       filterDataHandler,
       handleSubmitCall,
       id,
+      mutateDataHandler,
       onSubmit,
       onSubmitComplete,
       scrollToTop,
       scrollTopOnSubmit,
       sessionStorageId,
       setSharedData,
+      transformOut,
     ]
   )
 
