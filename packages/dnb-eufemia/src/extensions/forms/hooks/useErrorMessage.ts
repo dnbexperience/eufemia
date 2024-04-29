@@ -1,9 +1,9 @@
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import {
   DefaultErrorMessages,
   CustomErrorMessagesWithPaths,
 } from '../types'
-import Context from '../DataContext/Context'
+import useDataContext from '../Form/data-context/useDataContext'
 
 /**
  * Custom hook that retrieves error messages based on the provided path and error configurations.
@@ -18,7 +18,7 @@ export default function useErrorMessage(
   errorMessages: DefaultErrorMessages | CustomErrorMessagesWithPaths,
   defaultErrorMessages: Record<string, string>
 ) {
-  const context = useContext(Context)
+  const context = useDataContext()
 
   return useMemo(() => {
     const fromContext = context?.contextErrorMessages

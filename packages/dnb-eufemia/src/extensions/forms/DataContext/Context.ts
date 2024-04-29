@@ -99,7 +99,6 @@ export interface ContextState {
   schema: AllJSONSchemaVersions
   disabled: boolean
   submitState: Partial<EventStateObject>
-  _isInsideFormElement?: boolean
   props: ProviderProps<unknown>
 }
 
@@ -135,7 +134,6 @@ export const defaultContextState: ContextState = {
   setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
-  _isInsideFormElement: false,
   props: null,
 }
 

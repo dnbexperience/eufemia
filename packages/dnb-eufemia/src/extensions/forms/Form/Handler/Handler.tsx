@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { JsonObject } from 'json-pointer'
 import DataContextProvider, {
   Props as ProviderProps,
 } from '../../DataContext/Provider'
-import DataContext from '../../DataContext/Context'
 import FormElement from '../Element'
 import type { ElementAllProps } from '../../../../elements/Element'
 import FormStatus from '../../../../components/FormStatus'
 import useId from '../../../../shared/helpers/useId'
+import useDataContext from '../data-context/useDataContext'
 import { combineLabelledBy } from '../../../../shared/component-helper'
 
 export type Props = Omit<
@@ -71,7 +71,7 @@ export default function FormHandler<Data extends JsonObject>({
 
 function FormElementWithState({ children, ...rest }) {
   const id = useId()
-  const { submitState } = useContext(DataContext) || {}
+  const { submitState } = useDataContext()
   const states = Object.entries(submitState).filter(([, value]) => value)
 
   return (

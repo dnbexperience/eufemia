@@ -1,7 +1,8 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback } from 'react'
 import pointer from 'json-pointer'
 import type { ComponentProps } from '../../types'
 import Context, { ContextState } from '../Context'
+import useDataContext from '../../Form/data-context/useDataContext'
 
 export type Props = ComponentProps & {
   /** JSON Pointer for where in the source dataset to point at in sub components */
@@ -12,7 +13,7 @@ export type Props = ComponentProps & {
 
 function At(props: Props) {
   const { path = '/', iterate, children } = props
-  const dataContext = useContext(Context)
+  const dataContext = useDataContext()
   const {
     data: contextData,
     handlePathChange: handlePathChangeDataContext,
