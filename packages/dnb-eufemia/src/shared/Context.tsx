@@ -19,6 +19,7 @@ import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'
 import type { BadgeProps } from '../components/badge/Badge'
 import type { BreadcrumbProps } from '../components/breadcrumb/Breadcrumb'
 import type { BreadcrumbItemProps } from '../components/breadcrumb/BreadcrumbItem'
+import type { CheckboxProps } from '../components/Checkbox'
 import type { InfoCardProps } from '../components/info-card/InfoCard'
 import type { SliderProps } from '../components/slider/Slider'
 import type { TagProps } from '../components/tag/Tag'
@@ -57,6 +58,7 @@ export type ContextComponents = {
   Badge?: Partial<BadgeProps>
   Breadcrumb?: Partial<BreadcrumbProps>
   BreadcrumbItem?: Partial<BreadcrumbItemProps>
+  Checkbox?: Partial<CheckboxProps>
   InfoCard?: Partial<InfoCardProps>
   Slider?: Partial<SliderProps>
   Tag?: Partial<TagProps>
