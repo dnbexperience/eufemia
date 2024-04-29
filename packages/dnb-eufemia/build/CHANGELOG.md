@@ -3,6 +3,26 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.28.0](https://github.com/dnbexperience/eufemia/compare/v10.27.0...v10.28.0) (2024-04-29)
+
+
+### :memo: Documentation
+
+* **contribution guide:** update title and move sandbox starter ([#3489](https://github.com/dnbexperience/eufemia/issues/3489)) ([efdf710](https://github.com/dnbexperience/eufemia/commit/efdf7100a6f2e94cd82fdc47df4450af7476435b))
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** icon position when line-height increased by another element ([#3470](https://github.com/dnbexperience/eufemia/issues/3470)) ([bf24102](https://github.com/dnbexperience/eufemia/commit/bf2410298e2dfa482ea0e12bc54bcf88843c72ac))
+* **forms:** iterate EditContainer error switch ([#3503](https://github.com/dnbexperience/eufemia/issues/3503)) ([366a662](https://github.com/dnbexperience/eufemia/commit/366a66292f8af08b694b3c31871b6c527f0eaa35))
+
+
+### :sparkles: Features
+
+* **Checkbox:** refactor to TypeScript ([#3443](https://github.com/dnbexperience/eufemia/issues/3443)) ([3487cd6](https://github.com/dnbexperience/eufemia/commit/3487cd60b46207a99d11609a7a2a23daacfd9f0d))
+* **forms:** add `getValue` method to useData and getData ([#3502](https://github.com/dnbexperience/eufemia/issues/3502)) ([d5887c3](https://github.com/dnbexperience/eufemia/commit/d5887c33c1180892a2a9342b36f5424875e60b6b))
+* **PaymentCard:** add sbanken cards ([#3473](https://github.com/dnbexperience/eufemia/issues/3473)) ([1a8c769](https://github.com/dnbexperience/eufemia/commit/1a8c7694ab6bdefe949e3e6e54f35c6cc0e746e7))
+
 ## [10.27.0](https://github.com/dnbexperience/eufemia/compare/v10.26.0...v10.27.0) (2024-04-26)
 
 
