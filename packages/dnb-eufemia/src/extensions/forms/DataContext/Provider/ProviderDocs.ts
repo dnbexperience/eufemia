@@ -46,8 +46,8 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'ajv',
     status: 'optional',
   },
-  filterData: {
-    doc: 'Filter the internal data context based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry.',
+  filterSubmitData: {
+    doc: 'Filter the `onSubmit` output data, based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.',
     type: 'function',
     status: 'optional',
   },

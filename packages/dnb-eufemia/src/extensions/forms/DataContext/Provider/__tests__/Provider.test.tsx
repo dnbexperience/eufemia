@@ -364,7 +364,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should filter data based on the given "filterData" property method', () => {
+    it('should filter data based on the given "filterSubmitData" property method', () => {
       let filteredData = undefined
       const onSubmit = jest.fn((data) => (filteredData = data))
 
@@ -379,7 +379,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/foo" value="Include this value" />
           <Field.String path="/bar" value="bar" />
@@ -416,7 +416,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/foo" value="Skip this value" disabled />
           <Field.String path="/bar" value="bar value" />
@@ -454,6 +454,68 @@ describe('DataContext.Provider', () => {
       )
 
       expect(filteredData).toEqual({ bar: 'bar value' })
+    })
+
+    it('"filterSubmitData" should not mutate internal data', async () => {
+      const onSubmit = jest.fn()
+      const onChange = jest.fn()
+
+      const filterDataHandler: FilterData = jest.fn((path, value) => {
+        if (value === 'remove me') {
+          return false
+        }
+      })
+
+      let originalData = undefined
+      let filteredData = undefined
+
+      const MyForm = () => {
+        const { data: original, filterData } = Form.useData('my-form')
+        originalData = original
+
+        const data = filterData(filterDataHandler)
+        filteredData = data
+
+        return (
+          <DataContext.Provider
+            id="my-form"
+            onSubmit={onSubmit}
+            onChange={onChange}
+            filterSubmitData={filterDataHandler}
+          >
+            <Field.String path="/myField" />
+            <Form.SubmitButton>Submit</Form.SubmitButton>
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MyForm />)
+
+      const submitButton = document.querySelector('button')
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, 'remove m')
+      expect(filteredData).toMatchObject({ myField: 'remove m' })
+      expect(originalData).toMatchObject({ myField: 'remove m' })
+      expect(onChange).toHaveBeenCalledTimes(8)
+      expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove m' })
+
+      fireEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myField: 'remove m' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, 'e')
+      expect(filteredData).toMatchObject({})
+      expect(originalData).toMatchObject({ myField: 'remove me' })
+      expect(onChange).toHaveBeenCalledTimes(9)
+      expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove me' })
+
+      fireEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
     })
 
     it('should call "onSubmitRequest" on invalid submit', () => {
@@ -2818,7 +2880,7 @@ describe('DataContext.Provider', () => {
       <Form.Handler
         id={id}
         onSubmit={onSubmit}
-        filterData={filterDataHandler}
+        filterSubmitData={filterDataHandler}
       >
         <Field.String path="/myField" disabled={true} value="foo" />
       </Form.Handler>
@@ -2843,7 +2905,7 @@ describe('DataContext.Provider', () => {
       <Form.Handler
         id={id}
         onSubmit={onSubmit}
-        filterData={filterDataHandler}
+        filterSubmitData={filterDataHandler}
       >
         <Field.String path="/myField" disabled={false} value="bar" />
       </Form.Handler>
@@ -3559,7 +3621,7 @@ describe('DataContext.Provider', () => {
         <Form.Handler
           id={id}
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/myField" disabled={true} />
         </Form.Handler>
@@ -3595,7 +3657,7 @@ describe('DataContext.Provider', () => {
         <Form.Handler
           id={id}
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/myField" disabled={false} />
         </Form.Handler>
@@ -3629,7 +3691,7 @@ describe('DataContext.Provider', () => {
         <Form.Handler
           id={id}
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/myField" disabled={true} />
         </Form.Handler>
