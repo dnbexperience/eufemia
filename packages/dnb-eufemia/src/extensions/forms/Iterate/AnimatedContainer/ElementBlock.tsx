@@ -43,8 +43,13 @@ function ElementBlock(props: Props & FlexContainerProps) {
     contextRef.current.containerMode = 'edit'
   }
 
-  const { handleRemove, switchContainerMode, containerMode, isNew } =
-    contextRef.current
+  const {
+    handleRemove,
+    switchContainerMode,
+    containerMode,
+    isNew,
+    animateIn,
+  } = contextRef.current
 
   const {
     mode,
@@ -57,7 +62,11 @@ function ElementBlock(props: Props & FlexContainerProps) {
     ...restProps
   } = props
 
-  const openRef = useRef(open ?? (containerMode === mode && !isNew))
+  // console.log('animateIn', animateIn)
+
+  const openRef = useRef(
+    open ?? (containerMode === mode && (!isNew || !animateIn))
+  )
   const isRemoving = useRef(false)
 
   const setOpenState = useCallback((open: boolean) => {

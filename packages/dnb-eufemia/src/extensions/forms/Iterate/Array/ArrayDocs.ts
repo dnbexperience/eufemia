@@ -16,6 +16,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  concatWithArray: {
+    doc: 'An array with your items that will be concatenated. Can be a function that returns the whole concatenated array.',
+    type: 'unknown',
+    status: 'optional',
+  },
   placeholder: {
     doc: 'Will be shown if the value or data context value is empty.',
     type: 'React.Node',

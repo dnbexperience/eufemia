@@ -7,6 +7,7 @@ export interface IterateElementContextState {
   index?: number
   value?: unknown
   isNew?: boolean
+  animateIn?: boolean
   path?: Path
   arrayValue?: Array<unknown>
   containerMode?: ContainerMode

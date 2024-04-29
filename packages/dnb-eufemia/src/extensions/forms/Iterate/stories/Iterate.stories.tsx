@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, Form, Iterate, Value } from '../..'
-import { Card, Flex } from '../../../../components'
+import { Button, Card, Flex } from '../../../../components'
+import { fi } from 'date-fns/locale'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -48,9 +49,11 @@ export const AnimatedContainer = () => {
   )
 }
 
-const MyEditItem = () => {
+const MyEditItem = ({ open = undefined, onDone = undefined }) => {
   return (
     <Iterate.EditContainer
+      open={open}
+      onDone={onDone}
       title="Edit account holder"
       titleWhenNew="New account holder"
     >
@@ -79,38 +82,72 @@ const MyViewItem = () => {
 }
 
 export const ViewAndEditContainer = () => {
+  const [count, setCount] = React.useState(0)
   return (
-    <React.StrictMode>
-      <Form.Handler
-        data={{
-          accounts: [
-            {
-              firstName: 'Tony',
-            },
-          ],
-        }}
-        onSubmit={(data) => console.log('onSubmit', data)}
-        onSubmitRequest={() => console.log('onSubmitRequest')}
-      >
-        <Flex.Vertical>
-          <Form.MainHeading>Accounts</Form.MainHeading>
+    // <React.StrictMode>
+    <Form.Handler
+      // defaultData={{
+      //   accounts: [
+      //     // {
+      //     //   // firstName: 'Tony',
+      //     // },
+      //   ],
+      // }}
+      onSubmit={(data) => console.log('onSubmit', data)}
+      onSubmitRequest={() => console.log('onSubmitRequest')}
+      onChange={(data) => console.log('onChangeContext', data)}
+    >
+      <Flex.Vertical>
+        <Form.MainHeading>Accounts</Form.MainHeading>
 
-          <Card stack>
-            <Iterate.Array path="/accounts">
-              <MyViewItem />
-              <MyEditItem />
-            </Iterate.Array>
+        <Card stack>
+          <Iterate.Array
+            path="/accounts"
+            id="hello"
+            concatWithArray={{ firstName: 'Tony' }}
+            // concatWithArray={(array) => {
+            //   if (!array.length) {
+            //     return array.concat({ firstName: 'Tony' })
+            //   }
+            // }}
+            onChange={(data) => console.log('onChange', data)}
+          >
+            <MyViewItem />
+            <MyEditItem />
+          </Iterate.Array>
 
-            <Iterate.PushButton
-              text="Add another account"
-              path="/accounts"
-              pushValue={{}}
+          <Iterate.Array
+            value={[{ firstName: 'Tony' }]}
+            onChange={(data) => console.log('onChange', data)}
+          >
+            <MyEditItem
+              open
+              onDone={(item, { update }) => {
+                update('/accounts', (array) => {
+                  return [...(array || []), item]
+                })
+              }}
             />
-          </Card>
+          </Iterate.Array>
 
-          <Form.SubmitButton variant="send" />
-        </Flex.Vertical>
-      </Form.Handler>
-    </React.StrictMode>
+          <Button
+            onClick={() => {
+              setCount((c) => c + 1)
+            }}
+          >
+            count {count}
+          </Button>
+
+          <Iterate.PushButton
+            text="Add another account"
+            path="/accounts"
+            pushValue={{}}
+          />
+        </Card>
+
+        <Form.SubmitButton variant="send" />
+      </Flex.Vertical>
+    </Form.Handler>
+    // </React.StrictMode>
   )
 }
