@@ -135,9 +135,16 @@ function MyForm() {
 
 You can use the `filterData` method to filter your data.
 
-You simply give it the same kind of callback function as you would with the `Form.Handler` [filterData](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) property method.
+You simply give it the same kind of callback function as you would with the `Form.Handler` [filterSubmitData](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) property method.
 
-The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+The callback function receives the following arguments:
+
+1. `path` as the first argument.
+2. `value` as the second argument.
+3. The field `properties` (props) as the third argument.
+4. The fourth argument is an object with the internal state of the field, like the error state.
+
+The callback function should return a `boolean` or `undefined`. Return `false` to exclude an entry.
 
 It returns the filtered form data.
 
@@ -149,8 +156,7 @@ const filterDataHandler = (path, value, props, internal) => {
 }
 
 const MyForm = () => {
-  const { data, filterData } = Form.useData(id)
-
+  const { filterData } = Form.useData(id)
   const filteredData = filterData(filterDataHandler)
 
   return (

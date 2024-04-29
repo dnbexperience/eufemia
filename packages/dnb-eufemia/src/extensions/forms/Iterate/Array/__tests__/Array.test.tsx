@@ -374,7 +374,7 @@ describe('Iterate.Array', () => {
           })
         })
 
-        it('should filter data based on the given "filterData" property method', () => {
+        it('should filter data based on the given "filterSubmitData" property method', () => {
           let filteredData = undefined
           const onSubmit = jest.fn((data) => (filteredData = data))
 
@@ -389,7 +389,7 @@ describe('Iterate.Array', () => {
           const { rerender } = render(
             <DataContext.Provider
               onSubmit={onSubmit}
-              filterData={filterDataHandler}
+              filterSubmitData={filterDataHandler}
             >
               <Iterate.Array
                 path="/myList"
@@ -476,7 +476,7 @@ describe('Iterate.Array', () => {
           rerender(
             <DataContext.Provider
               onSubmit={onSubmit}
-              filterData={filterDataHandler}
+              filterSubmitData={filterDataHandler}
             >
               <Iterate.Array
                 path="/myList"
@@ -508,9 +508,11 @@ describe('Iterate.Array', () => {
             '/myList',
             [
               {
+                foo: 'foo 1',
                 bar: 'bar 1',
               },
               {
+                foo: 'foo 2',
                 bar: 'bar 2',
               },
             ],

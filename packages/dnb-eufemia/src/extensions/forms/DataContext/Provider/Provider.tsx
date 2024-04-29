@@ -76,7 +76,11 @@ export interface Props<Data extends JsonObject> {
    */
   errorMessages?: CustomErrorMessagesWithPaths
   /**
-   * Filter the internal data context based on your criteria: `(path, value, props) => !props?.disabled`. It will iterate on each data entry.
+   * Filter the `onSubmit` output data, based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.
+   */
+  filterSubmitData?: FilterData
+  /**
+   * @deprecated Use `filterSubmitData` instead
    */
   filterData?: FilterData
   /**
@@ -158,6 +162,7 @@ export default function Provider<Data extends JsonObject>(
     asyncSubmitTimeout,
     sessionStorageId,
     ajvInstance,
+    filterSubmitData,
     filterData,
     errorMessages: contextErrorMessages,
     children,
@@ -323,6 +328,21 @@ export default function Provider<Data extends JsonObject>(
     },
     [filterData]
   )
+
+  /**
+   * Filter the data set based on the filterData function
+   */
+  const filterDataHandler = useCallback(
+    (data: Data, filter = filterData || filterSubmitData) => {
+      if (filter) {
+        return mutateDataHandler(data, filter, true)
+      }
+
+      return data
+    },
+    [filterData, filterSubmitData, mutateDataHandler]
+  )
+
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
@@ -347,7 +367,7 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<{
-    filterDataHandler?: Props<Data>['filterData']
+    filterDataHandler?: Props<Data>['filterSubmitData']
     hasErrors?: ContextState['hasErrors']
     setShowAllErrors?: ContextState['setShowAllErrors']
     setSubmitState?: ContextState['setSubmitState']
@@ -443,7 +463,7 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors,
         setSubmitState,
       })
-      if (filterData) {
+      if (filterData || filterSubmitData) {
         rerenderUseDataHook?.()
       }
     }
@@ -451,6 +471,7 @@ export default function Provider<Data extends JsonObject>(
     extendAttachment,
     filterData,
     filterDataHandler,
+    filterSubmitData,
     hasErrors,
     id,
     rerenderUseDataHook,
@@ -493,7 +514,7 @@ export default function Provider<Data extends JsonObject>(
       if (id) {
         // Will ensure that Form.getData() gets the correct data
         extendSharedData?.(newData)
-        if (filterData) {
+        if (filterData || filterSubmitData) {
           rerenderUseDataHook?.()
         }
       }
@@ -506,14 +527,11 @@ export default function Provider<Data extends JsonObject>(
       }
 
       forceUpdate()
-
-      return newData
     },
     [
-      id,
-      sessionStorageId,
       extendSharedData,
       filterData,
+      filterSubmitData,
       rerenderUseDataHook,
     ]
   )
