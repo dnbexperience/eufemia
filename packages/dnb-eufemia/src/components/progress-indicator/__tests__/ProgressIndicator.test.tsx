@@ -6,9 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
-import ProgressIndicator, {
-  ProgressIndicatorAllProps,
-} from '../ProgressIndicator'
+import ProgressIndicator from '../ProgressIndicator'
+import { ProgressIndicatorAllProps } from '../types'
 import { format } from '../../number-format/NumberUtils'
 
 const props: ProgressIndicatorAllProps = {}
@@ -176,7 +175,7 @@ describe('Circular ProgressIndicator component', () => {
     )
 
     expect(container.querySelectorAll('div')).toHaveLength(0)
-    expect(container.querySelectorAll('span')).toHaveLength(3)
+    expect(container.querySelectorAll('span')).toHaveLength(5)
   })
 
   it('should use span for label element', () => {
@@ -189,6 +188,52 @@ describe('Circular ProgressIndicator component', () => {
     expect(
       container.querySelector('.dnb-progress-indicator__label').tagName
     ).toBe('SPAN')
+  })
+
+  it('with custom colors', () => {
+    const { container } = render(
+      <ProgressIndicator
+        type="circular"
+        customColors={{ line: 'red', shaft: 'green', background: 'blue' }}
+      />
+    )
+
+    expect(
+      container
+        .querySelector('.dnb-progress-indicator__circular__background')
+        .getAttribute('style')
+    ).toBe('background-color: blue;')
+
+    expect(
+      container
+        .querySelectorAll('.dnb-progress-indicator__circular__circle')[0]
+        .getAttribute('style')
+    ).toBe('stroke: green;')
+    expect(
+      container
+        .querySelectorAll('.dnb-progress-indicator__circular__circle')[1]
+        .getAttribute('style')
+    ).toBe('stroke: red;')
+    expect(
+      container
+        .querySelectorAll('.dnb-progress-indicator__circular__circle')[2]
+        .getAttribute('style')
+    ).toBe('stroke: green;')
+  })
+
+  it('with custom size', () => {
+    const { container } = render(
+      <ProgressIndicator type="circular" size="4.53rem" />
+    )
+
+    expect(
+      container
+        .querySelector('.dnb-progress-indicator')
+        .getAttribute('style')
+    ).toContain('--progress-indicator-circular-size: 4.53rem;')
+    expect(
+      container.querySelector('.dnb-progress-indicator__circular')
+    ).toHaveClass('dnb-progress-indicator__circular--custom-size')
   })
 })
 
@@ -378,6 +423,46 @@ describe('Linear ProgressIndicator component', () => {
     expect(
       container.querySelector('.dnb-progress-indicator__label').tagName
     ).toBe('SPAN')
+  })
+
+  it('with custom colors', () => {
+    const { container } = render(
+      <ProgressIndicator
+        type="linear"
+        customColors={{ line: 'red', shaft: 'green' }}
+      />
+    )
+
+    expect(
+      container
+        .querySelector('.dnb-progress-indicator__linear')
+        .getAttribute('style')
+    ).toBe('background-color: green;')
+    expect(
+      container
+        .querySelectorAll('.dnb-progress-indicator__linear__bar')[0]
+        .getAttribute('style')
+    ).toBe('background-color: red;')
+    expect(
+      container
+        .querySelectorAll('.dnb-progress-indicator__linear__bar')[1]
+        .getAttribute('style')
+    ).toBe('background-color: red;')
+  })
+
+  it('with custom size', () => {
+    const { container } = render(
+      <ProgressIndicator type="linear" size="4.53rem" />
+    )
+
+    expect(
+      container
+        .querySelector('.dnb-progress-indicator')
+        .getAttribute('style')
+    ).toContain('--progress-indicator-linear-size: 4.53rem;')
+    expect(
+      container.querySelector('.dnb-progress-indicator__linear')
+    ).toHaveClass('dnb-progress-indicator__linear--custom-size')
   })
 })
 

@@ -4,39 +4,14 @@
  */
 
 import React, { useEffect, useRef, forwardRef } from 'react'
+import * as CSS from 'csstype'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { IS_EDGE } from '../../shared/helpers'
-
-type ProgressIndicatorCircularProps = {
-  /**
-   * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
-   */
-  size?: 'default' | 'small' | 'medium' | 'large' | 'huge'
-  /**
-   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
-   */
-  visible?: boolean
-  /**
-   * To visualize a static "percentage" (0-100) as a progress state. Defaults to `null`.
-   */
-  progress?: number
-  /**
-   * Reverse the direction of the progress bar. Defaults to `false`.
-   */
-  reverse?: boolean
-  maxOffset?: number
-  onComplete?: (...args: any[]) => any
-  callOnCompleteHandler?: (...args: any[]) => any
-  /**
-   * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
-   */
-  title?: string
-}
+import { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
-  props: ProgressIndicatorCircularProps &
-    Omit<React.HTMLProps<HTMLElement>, 'size'>
+  props: ProgressIndicatorCircularAllProps
 ) {
   const {
     size,
@@ -47,6 +22,7 @@ function ProgressIndicatorCircular(
     onComplete,
     callOnCompleteHandler,
     title,
+    customColors,
     ...rest
   } = props
   const keepAnimatingRef = useRef(true)
@@ -174,6 +150,13 @@ function ProgressIndicatorCircular(
       )}
       {...remainingDOMAttributes}
     >
+      <span className="dnb-progress-indicator__circular__background-padding">
+        <span
+          className="dnb-progress-indicator__circular__background"
+          style={{ backgroundColor: customColors?.background }}
+        />
+      </span>
+
       {/* The first one is the background line */}
       <Circle
         className={classnames(
@@ -181,6 +164,7 @@ function ProgressIndicatorCircular(
           'light',
           'paused'
         )}
+        strokeColor={customColors?.shaft}
       />
       <Circle
         className={classnames(
@@ -198,6 +182,7 @@ function ProgressIndicatorCircular(
               }
             : {}
         }
+        strokeColor={customColors?.line}
         ref={_refDark}
       />
       {!hasProgressValue && (
@@ -207,6 +192,7 @@ function ProgressIndicatorCircular(
             'light',
             useAnimationFrame ? 'paused' : null
           )}
+          strokeColor={customColors?.shaft}
           ref={_refLight}
         />
       )}
@@ -215,7 +201,12 @@ function ProgressIndicatorCircular(
 }
 
 const Circle = forwardRef(function Circle(
-  props: React.HTMLProps<SVGSVGElement>,
+  {
+    strokeColor,
+    ...rest
+  }: React.HTMLProps<SVGSVGElement> & {
+    strokeColor?: CSS.Property.BackgroundColor
+  },
   ref: React.RefObject<SVGSVGElement>
 ) {
   return (
@@ -223,7 +214,7 @@ const Circle = forwardRef(function Circle(
       viewBox="0 0 32 32"
       shapeRendering="geometricPrecision"
       ref={ref}
-      {...props}
+      {...rest}
     >
       <circle
         className="dnb-progress-indicator__circular__circle"
@@ -232,6 +223,7 @@ const Circle = forwardRef(function Circle(
         cx="16"
         cy="16"
         r="14"
+        style={{ stroke: strokeColor }}
       />
     </svg>
   )

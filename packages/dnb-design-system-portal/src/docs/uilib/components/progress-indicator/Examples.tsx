@@ -391,3 +391,27 @@ export const ProgressIndicatorCountdownExample = () => (
     }}
   </ComponentBox>
 )
+
+export const ProgressIndicatorCustomizationExample = () => (
+  <ComponentBox data-visual-test="progress-indicator-customization">
+    <ProgressIndicator
+      type="linear"
+      progress={32}
+      customColors={{
+        line: 'red',
+        shaft: 'green',
+      }}
+      size="4rem"
+    />
+    <ProgressIndicator
+      type="circular"
+      progress={32}
+      customColors={{
+        line: 'red',
+        shaft: 'green',
+        background: 'blue',
+      }}
+      size="4rem"
+    />
+  </ComponentBox>
+)

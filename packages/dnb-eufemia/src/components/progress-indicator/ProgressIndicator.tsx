@@ -19,66 +19,20 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
-
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { SpacingProps } from '../space/types'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
 
-export type ProgressIndicatorProps = {
-  /**
-   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
-   */
-  visible?: boolean
-  /**
-   * Defines the type. Defaults to `circular`.
-   */
-  type?: 'circular' | 'linear' | 'countdown'
-  /**
-   * Disables the fade-in and fade-out animation. Defaults to `false`.
-   */
-  noAnimation?: boolean
-  /**
-   * Defines the size. Defaults to `default`.
-   */
-  size?: 'default' | 'small' | 'medium' | 'large' | 'huge'
-  /**
-   * A number between 0-100, if not supplied a continous loading-type animation will be used. Defaults to `undefined`
-   */
-  progress?: string | number
-  /**
-   * Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)
-   */
-  label?: React.ReactNode
-  /**
-   * Same as `label` prop (`label` prop has priority)
-   */
-  children?: React.ReactNode
-  /**
-   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `horizontal`.
-   */
-  labelDirection?: 'horizontal' | 'vertical' | 'inside'
-  /**
-   * If set to `true` a default label (from text locales) will be shown.
-   */
-  showDefaultLabel?: boolean
-  /**
-   * Use this to override the default label from text locales.
-   */
-  indicator_label?: string
-  /**
-   * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
-   */
-  title?: string
-  /**
-   * Will be called once it's no longer `visible`.
-   */
-  onComplete?: (...args: any[]) => any
-}
+import {
+  ProgressIndicatorAllProps,
+  ProgressIndicatorAnimationProps,
+  isValidSize,
+  CustomSize,
+} from './types'
 
 // deprecated, can be removed in v11
-type DeprecatedProgressIndicatorProps = {
+export type DeprecatedProgressIndicatorProps = {
   /** @deprecated use `noAnimation`. */
   no_animation?: boolean
   /** @deprecated use `labelDirection`. */
@@ -88,13 +42,6 @@ type DeprecatedProgressIndicatorProps = {
   /**  @deprecated use `onComplete`. */
   on_complete?: (...args: any[]) => any
 }
-
-export type ProgressIndicatorAllProps = Omit<
-  React.HTMLProps<HTMLSpanElement>,
-  'ref' | 'label' | 'size'
-> &
-  SpacingProps &
-  ProgressIndicatorProps
 
 function ProgressIndicator(
   props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
@@ -119,10 +66,17 @@ function ProgressIndicator(
     title,
     progress,
     visible = true,
+    customColors,
+    style,
     ...rest
   } = allProps
 
   const remainingDOMProps = validateDOMAttributes(allProps, { ...rest })
+
+  const [sizeVariant, customSize]: [
+    ProgressIndicatorAnimationProps['size'],
+    CustomSize,
+  ] = isValidSize(size) ? [size, undefined] : ['custom-size', size]
 
   const completeTimeout = useRef<NodeJS.Timeout>()
   const fadeOutTimeout = useRef<NodeJS.Timeout>()
@@ -171,32 +125,43 @@ function ProgressIndicator(
         complete && 'dnb-progress-indicator--complete',
         type === 'linear' && 'dnb-progress-indicator--full-width',
         labelDirection && `dnb-progress-indicator--${labelDirection}`,
-        size && `dnb-progress-indicator--${size}`,
+        sizeVariant && `dnb-progress-indicator--${sizeVariant}`,
         isTrue(noAnimation) && 'dnb-progress-indicator--no-animation',
         createSpacingClasses(allProps),
         className
       )}
+      style={{
+        ...style,
+        ...(customSize
+          ? {
+              '--progress-indicator-circular-size': customSize,
+              '--progress-indicator-linear-size': customSize,
+            }
+          : undefined),
+      }}
       {...remainingDOMProps}
     >
       {(type === 'circular' || type === 'countdown') && (
         <ProgressIndicatorCircular
-          size={size}
+          size={sizeVariant}
           progress={progressNumber}
           visible={visible}
           reverse={type === 'countdown'}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
+          customColors={customColors}
         />
       )}
       {type === 'linear' && (
         <ProgressIndicatorLinear
-          size={size}
+          size={sizeVariant}
           progress={progressNumber}
           visible={visible}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
+          customColors={customColors}
         />
       )}
       {indicatorLabel && (

@@ -13,6 +13,7 @@
   --progress-indicator-circular-size: 2rem;
   --progress-indicator-circular-background-color: grey;
   --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: grey;
   --progress-indicator-linear-bar-color: var(--color-black);
 
@@ -64,18 +65,22 @@
 
   &--small {
     --progress-indicator-circular-size: 1rem;
+    --progress-indicator-linear-size: 0.25rem;
   }
 
   &--medium {
     --progress-indicator-circular-size: 1.5rem;
+    --progress-indicator-linear-size: 1rem;
   }
 
   &--large {
     --progress-indicator-circular-size: 3.5rem;
+    --progress-indicator-linear-size: 1.5rem;
   }
 
   &--huge {
     --progress-indicator-circular-size: 20rem;
+    --progress-indicator-linear-size: 2rem;
   }
 
   // circular variant
@@ -94,6 +99,19 @@
       inset: 0;
       width: 100%;
       height: 100%;
+    }
+
+    &__background-padding {
+      display: block;
+      height: 100%;
+      padding: calc(var(--progress-indicator-circular-size) / 16);
+    }
+
+    &__background {
+      display: block;
+      height: 100%;
+      background-color: transparent;
+      border-radius: 50%;
     }
 
     &__line {
@@ -179,8 +197,8 @@
     will-change: transform;
 
     // default/basis size
-    height: 0.5rem;
-    border-radius: 0.25rem;
+    height: var(--progress-indicator-linear-size);
+    border-radius: calc(var(--progress-indicator-linear-size) / 2);
 
     &__bar {
       background-color: var(--progress-indicator-linear-bar-color);
@@ -207,26 +225,6 @@
       width: auto;
       animation: progress-indicator-linear-bar-2 2.1s
         cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
-    }
-
-    &--small {
-      height: 0.25rem;
-      border-radius: 0.125rem;
-    }
-
-    &--medium {
-      height: 1rem;
-      border-radius: 0.5rem;
-    }
-
-    &--large {
-      height: 1.5rem;
-      border-radius: 0.75rem;
-    }
-
-    &--huge {
-      height: 2rem;
-      border-radius: 1rem;
     }
 
     html[data-visual-test] &__bar1-animation {

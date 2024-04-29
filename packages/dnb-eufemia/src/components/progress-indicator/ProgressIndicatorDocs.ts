@@ -27,7 +27,14 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Defines the size.',
-    type: [`'default'`, `'small'`, `'medium'`, `'large'`, `'huge'`],
+    type: [
+      `'default'`,
+      `'small'`,
+      `'medium'`,
+      `'large'`,
+      `'huge'`,
+      'string',
+    ],
     defaultValue: `'default'`,
     status: 'optional',
   },
@@ -67,9 +74,37 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
+  '[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)':
+    {
+      doc: 'Send in custom css colors that overrides any css. See below for data structure.',
+      type: 'object',
+      defaultValue: 'undefined',
+      status: 'optional',
+    },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const CustomColorsData: PropertiesTableProps = {
+  line: {
+    doc: 'Override the moving line color.',
+    type: 'string',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  shaft: {
+    doc: 'Override the background line color',
+    type: 'string',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  background: {
+    doc: 'Set a background color for the center of the circle',
+    type: 'string',
+    defaultValue: 'undefined',
     status: 'optional',
   },
 }

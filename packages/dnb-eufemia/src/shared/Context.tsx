@@ -43,7 +43,7 @@ import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { NumberFormatCurrency } from '../components/NumberFormat'
-import type { ProgressIndicatorProps } from '../components/ProgressIndicator'
+import type { ProgressIndicatorProps } from '../components/progress-indicator/types'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'

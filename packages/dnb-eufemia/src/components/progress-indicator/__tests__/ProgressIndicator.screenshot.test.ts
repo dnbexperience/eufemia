@@ -41,6 +41,16 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('with custom colors and size', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '20rem',
+        },
+        selector: '[data-visual-test="progress-indicator-customization"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 

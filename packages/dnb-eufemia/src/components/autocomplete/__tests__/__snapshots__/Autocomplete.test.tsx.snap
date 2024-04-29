@@ -2411,6 +2411,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   --progress-indicator-circular-size: 2rem;
   --progress-indicator-circular-background-color: grey;
   --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: grey;
   --progress-indicator-linear-bar-color: var(--color-black);
   position: relative;
@@ -2451,15 +2452,19 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 .dnb-progress-indicator--small {
   --progress-indicator-circular-size: 1rem;
+  --progress-indicator-linear-size: 0.25rem;
 }
 .dnb-progress-indicator--medium {
   --progress-indicator-circular-size: 1.5rem;
+  --progress-indicator-linear-size: 1rem;
 }
 .dnb-progress-indicator--large {
   --progress-indicator-circular-size: 3.5rem;
+  --progress-indicator-linear-size: 1.5rem;
 }
 .dnb-progress-indicator--huge {
   --progress-indicator-circular-size: 20rem;
+  --progress-indicator-linear-size: 2rem;
 }
 .dnb-progress-indicator__circular {
   position: relative;
@@ -2472,6 +2477,17 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+.dnb-progress-indicator__circular__background-padding {
+  display: block;
+  height: 100%;
+  padding: calc(var(--progress-indicator-circular-size) / 16);
+}
+.dnb-progress-indicator__circular__background {
+  display: block;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 50%;
 }
 .dnb-progress-indicator__circular__line {
   animation-duration: 2s;
@@ -2528,8 +2544,8 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   overflow: hidden;
   width: 100%;
   will-change: transform;
-  height: 0.5rem;
-  border-radius: 0.25rem;
+  height: var(--progress-indicator-linear-size);
+  border-radius: calc(var(--progress-indicator-linear-size) / 2);
 }
 .dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);
@@ -2551,22 +2567,6 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 .dnb-progress-indicator__linear__bar2-animation {
   width: auto;
   animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
-}
-.dnb-progress-indicator__linear--small {
-  height: 0.25rem;
-  border-radius: 0.125rem;
-}
-.dnb-progress-indicator__linear--medium {
-  height: 1rem;
-  border-radius: 0.5rem;
-}
-.dnb-progress-indicator__linear--large {
-  height: 1.5rem;
-  border-radius: 0.75rem;
-}
-.dnb-progress-indicator__linear--huge {
-  height: 2rem;
-  border-radius: 1rem;
 }
 html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
   left: -35%;
