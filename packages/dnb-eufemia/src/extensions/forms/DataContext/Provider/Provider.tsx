@@ -24,6 +24,7 @@ import {
   OnChange,
   EventReturnWithStateObject,
 } from '../../types'
+import { debounce } from '../../../../shared/helpers'
 import SharedProvider from '../../../../shared/Provider'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -458,6 +459,18 @@ export default function Provider<Data extends JsonObject>(
     setSubmitState,
   ])
 
+  const storeInSession = useMemo(() => {
+    return debounce(
+      () => {
+        window.sessionStorage?.setItem(
+          sessionStorageId,
+          JSON.stringify(internalDataRef.current)
+        )
+      },
+      process.env.NODE_ENV === 'test' ? 1 : 800
+    )
+  }, [sessionStorageId])
+
   /**
    * Update the data set
    */
@@ -499,10 +512,7 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (sessionStorageId && typeof window !== 'undefined') {
-        window.sessionStorage?.setItem(
-          sessionStorageId,
-          JSON.stringify(newData)
-        )
+        storeInSession()
       }
 
       forceUpdate()
@@ -515,6 +525,7 @@ export default function Provider<Data extends JsonObject>(
       extendSharedData,
       filterData,
       rerenderUseDataHook,
+      storeInSession,
     ]
   )
 

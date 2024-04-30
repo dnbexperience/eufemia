@@ -1756,34 +1756,38 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(setItem).not.toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original123',
-        })
-      )
+      await waitFor(() => {
+        expect(setItem).not.toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original123',
+          })
+        )
+      })
 
       const inputElement = document.querySelector('input')
       await userEvent.type(inputElement, '123')
 
-      expect(setItem).toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original1',
-        })
-      )
-      expect(setItem).toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original12',
-        })
-      )
-      expect(setItem).toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original123',
-        })
-      )
+      await waitFor(() => {
+        expect(setItem).toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original1',
+          })
+        )
+        expect(setItem).toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original12',
+          })
+        )
+        expect(setItem).toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original123',
+          })
+        )
+      })
 
       setItem.mockRestore()
     })
