@@ -79,3 +79,20 @@ This lets the user navigate away and come back to the form, without loosing alre
 Ensure you only use this feature for non-sensitive data.
 
 It will flush the storage once the form gets submitted.
+
+## Filter data
+
+You can use the `filterSubmitData` method to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
+
+1. `path` as the first argument.
+2. `value` as the second argument.
+3. The field `properties` (props) as the third argument.
+4. The fourth argument is an object with the internal state of the field, like the error state.
+
+The callback function should return a `boolean` or `undefined`. Return `false` to exclude an entry.
+
+It returns the filtered form data.
+
+The [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook and the [getData](/uilib/extensions/forms/Form/getData/#filter-data) method also returns a `filterData` function you can use to filter data the same way.
+
+Down below is an example of how to use the `filterSubmitData` method.

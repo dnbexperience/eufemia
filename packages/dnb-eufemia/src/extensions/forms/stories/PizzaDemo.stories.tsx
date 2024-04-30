@@ -35,7 +35,7 @@ export function PizzaDemo() {
         sessionStorageId="pizza-demo"
         autoComplete
       >
-        <Wizard.Container initialActiveIndex={2}>
+        <Wizard.Container>
           <Wizard.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
