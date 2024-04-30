@@ -84,7 +84,7 @@ All properties are optional and can be used as needed. These properties can be p
 - `schema` or `pattern` for JSON schema validation powered by [ajv](https://ajv.js.org/).
 - `validator` your custom validation function. It will run on every keystroke. Can be an async function. Use it together with [debounceAsync](/uilib/helpers/functions/#debounce).
 - `onBlurValidator` your custom validation function. It will run on a `handleBlur()` call. Use it over `validator` for validations with side-effects. Can be an async function.
-- `validateRequired` does allow you to provide a custom logic for how the `required` prop should validate.
+- `validateRequired` does allow you to provide a custom logic for how the `required` prop should validate. See example down below.
 - `validateInitially` in order to show an error without a change and blur event. Used for rare cases.
 - `validateUnchanged` in order to validate without a change and blur event. Used for rare cases.
 - `continuousValidation` in order to validate without a focus event beforehand. Used for rare cases.
@@ -103,7 +103,7 @@ It returns all of the given component properties, in addition to these:
 - `dataContext` the internal shared data context.
 - `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
 - `hasError` will return true in case of an error, even if the hook is nested in a `FieldBlock`.
-- `htmlAttributes` object that include needed HTML (e.g. aria-_ or data-_) attributes, ready to be spread on form elements.
+- `htmlAttributes` object that include needed HTML (e.g. aria-_ or data-_) attributes, ready to be spread on form elements. It includes in addition internal aria attributes such as `aria-invalid`, `aria-required` and `aria-describedby`.
 - `isChanged` returns `true` if the value has changed with e.g. `handleChange`.
 - `setHasFocus` accepts a boolean as value. When called, it will update the internal logic - for event handling and validation. Will re-render the React Hook and its outer component.
 - `onFocus` event handler to assign to a form element.
@@ -113,15 +113,12 @@ It returns all of the given component properties, in addition to these:
 ### Custom validateRequired
 
 ```ts
-const validateRequired = (
-  value: Value,
-  { emptyValue, required, isChanged },
-) => {
-  return required && value === emptyValue
-    ? new FormError('The value is required', {
-        validationRule: 'required',
-      })
-    : undefined
+const validateRequired = (value, { emptyValue, required, isChanged }) => {
+  if (required && value === emptyValue) {
+    return new FormError('This value is required', {
+      validationRule: 'required',
+    })
+  }
 }
 
 const { error, hasError } = useFieldProps({
@@ -130,7 +127,7 @@ const { error, hasError } = useFieldProps({
   validateInitially: true,
   validateRequired,
   errorMessages: {
-    required: 'Show this when "required" fails!',
+    required: 'Show this when "required" fails.',
   },
 })
 ```

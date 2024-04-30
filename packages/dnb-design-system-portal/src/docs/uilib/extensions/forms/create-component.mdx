@@ -59,18 +59,25 @@ For creating a `Field.*` component, you can use [FieldBlock](/uilib/extensions/f
 import { FieldBlock, useFieldProps } from '@dnb/eufemia/extensions/forms'
 
 const MyField = (props) => {
-  const { id, value, label, handleChange, handleFocus, handleBlur } =
-    useFieldProps(props)
+  const {
+    id,
+    value,
+    label,
+    handleChange,
+    handleFocus,
+    handleBlur,
+    htmlAttributes,
+  } = useFieldProps(props)
 
   return (
-    <FieldBlock forId={id}>
+    <FieldBlock forId={id} label={label}>
       <input
         id={id}
         value={value}
-        label={label}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        {...htmlAttributes}
       />
     </FieldBlock>
   )
@@ -86,6 +93,32 @@ The `FieldBlock` provides a standardized way to display labels, error messages a
 Here is a working example with code you can edit in the playground:
 
 <CreateBasicFieldComponent />
+
+### Further customization
+
+You can customize the behavior of the field component. For example, you can add a custom error message:
+
+```tsx
+useFieldProps({
+  errorMessages: {
+    required: 'Show this when "required" fails.',
+  },
+})
+```
+
+or a custom `required` prop validation function:
+
+```tsx
+const validateRequired = (value, { emptyValue, required, isChanged }) => {
+  if (required && value === emptyValue) {
+    return new Error('This value is required')
+  }
+}
+
+useFieldProps({ validateRequired })
+```
+
+For more information about all the available parameters, see the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) documentation.
 
 ### More details
 
