@@ -58,3 +58,24 @@ export function Selection() {
     </Card>
   )
 }
+
+export function Autocomplete() {
+  return (
+    <Card stack>
+      <Field.Selection
+        label="Label"
+        required
+        variant="autocomplete"
+        validateInitially
+        onChange={(value) => console.log('onChange', value)}
+        autocompleteProps={{
+          showSubmitButton: true,
+          submitButtonTitle: 'Custom title',
+        }}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+    </Card>
+  )
+}

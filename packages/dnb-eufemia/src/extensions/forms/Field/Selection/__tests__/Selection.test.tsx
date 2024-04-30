@@ -412,6 +412,25 @@ describe('variants', () => {
       ).toHaveTextContent('content without a key')
     })
 
+    it('should accept camelCase props in "dropdownProps', () => {
+      render(
+        <Field.Selection
+          variant="dropdown"
+          value="bar"
+          dropdownProps={{
+            labelDirection: 'vertical',
+          }}
+        >
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+        'dnb-dropdown--vertical'
+      )
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(
@@ -465,6 +484,177 @@ describe('variants', () => {
         open()
 
         const buttonElement = document.querySelector('button')
+        expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
+  })
+
+  describe('autocomplete', () => {
+    const open = () => {
+      fireEvent.focus(document.querySelector('.dnb-input__input'))
+      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    }
+
+    it('has no selected value by default', () => {
+      render(
+        <Field.Selection variant="autocomplete">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      open()
+
+      const options = document.querySelectorAll('[role="option"]')
+      expect(options.length).toEqual(2)
+      expect(options[0].getAttribute('aria-selected')).toBe('false')
+      expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('renders selected option', () => {
+      render(
+        <Field.Selection variant="autocomplete" value="bar">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      open()
+
+      const options = document.querySelectorAll('[role="option"]')
+      expect(options.length).toEqual(2)
+      expect(options[0].getAttribute('aria-selected')).toBe('false')
+      expect(options[1].getAttribute('aria-selected')).toBe('true')
+    })
+
+    it('renders update selected option based on external value change', () => {
+      const { rerender } = render(
+        <Field.Selection variant="autocomplete" value="bar">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      rerender(
+        <Field.Selection variant="autocomplete" value="foo">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      open()
+
+      const options = document.querySelectorAll('[role="option"]')
+      expect(options.length).toEqual(2)
+      expect(options[0].getAttribute('aria-selected')).toBe('true')
+      expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('renders only options with a value', () => {
+      const { rerender } = render(
+        <Field.Selection variant="autocomplete" value="bar">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+          {null}
+        </Field.Selection>
+      )
+
+      open()
+
+      expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
+
+      rerender(
+        <Field.Selection variant="autocomplete" value="foo">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+          content without a key
+        </Field.Selection>
+      )
+
+      expect(document.querySelectorAll('[role="option"]')).toHaveLength(3)
+      expect(
+        document.querySelectorAll('[role="option"]')[2]
+      ).toHaveTextContent('content without a key')
+    })
+
+    it('should accept camelCase props in "autocompleteProps', () => {
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          value="bar"
+          autocompleteProps={{
+            showSubmitButton: true,
+            submitButtonTitle: 'Custom title',
+          }}
+        >
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-label',
+        'Custom title'
+      )
+    })
+
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Selection
+            label="Label"
+            variant="autocomplete"
+            required
+            validateInitially
+          >
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        open()
+
+        expect(
+          await axeComponent(result, {
+            rules: {
+              // Because of aria-controls and aria-required is not allowed on buttons – but VO still reads it
+              'aria-allowed-attr': { enabled: false },
+              'aria-valid-attr-value': { enabled: false },
+            },
+          })
+        ).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(
+          <Field.Selection variant="autocomplete" value="bar" required>
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        const button = document.querySelector('input')
+
+        open()
+
+        expect(button).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Selection
+            variant="autocomplete"
+            required
+            validateInitially
+          >
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        open()
+
+        const buttonElement = document.querySelector('input')
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
       })
     })

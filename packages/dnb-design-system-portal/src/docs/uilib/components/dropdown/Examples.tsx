@@ -17,10 +17,10 @@ import {
 } from '@dnb/eufemia/src'
 import { download, trash } from '@dnb/eufemia/src/icons'
 
-import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
+import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
 type VisibleWhenVisualTestReturn = Pick<
-  DropdownProps,
+  DropdownAllProps,
   | 'opened'
   | 'prevent_close'
   | 'independent_width'

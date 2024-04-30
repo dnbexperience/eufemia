@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import Autocomplete, { AutocompleteProps } from '../Autocomplete'
+import Autocomplete, { AutocompleteAllProps } from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
@@ -22,12 +22,12 @@ import {
 } from '../../../fragments/drawer-list'
 import { Provider } from '../../../shared'
 
-const mockProps: AutocompleteProps = {
+const mockProps: AutocompleteAllProps = {
   id: 'autocomplete-id',
   no_animation: true, // use no_animation so we don't need to wait
   skip_portal: true,
 }
-const props: AutocompleteProps = {
+const props: AutocompleteAllProps = {
   id: 'autocomplete-id',
   mode: 'sync',
   value: 1,
@@ -3184,7 +3184,7 @@ describe('Autocomplete component', () => {
 
 describe('Autocomplete markup', () => {
   it('should validate with ARIA rules', async () => {
-    const snapshotProps: AutocompleteProps = {
+    const snapshotProps: AutocompleteAllProps = {
       label: 'Autocomplete Label:',
       status: 'status',
       status_state: 'error',
