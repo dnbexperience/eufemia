@@ -202,7 +202,7 @@ function Checkbox(localProps: CheckboxProps) {
 
   useEffect(() => {
     ref.current.indeterminate = indeterminate
-  }, [indeterminate])
+  }, [indeterminate, ref])
 
   const callOnChange: CheckboxProps['onChange'] = useCallback(
     (args) => {

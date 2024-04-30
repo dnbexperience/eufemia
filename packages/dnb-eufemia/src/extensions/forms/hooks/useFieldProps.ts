@@ -1182,12 +1182,15 @@ export default function useFieldProps<
 
   // - Handle htmlAttributes
   const htmlAttributes = useMemo(() => {
-    return Object.keys(props).reduce<AriaAttributes>((acc, cur) => {
-      if (cur.startsWith('aria-') || cur.startsWith('data-')) {
-        acc[cur] = props[cur]
-      }
-      return acc
-    }, {})
+    return Object.keys(props).reduce<AriaAttributes>(
+      (acc, cur) => {
+        if (cur.startsWith('aria-') || cur.startsWith('data-')) {
+          acc[cur] = props[cur]
+        }
+        return acc
+      },
+      { ...props.htmlAttributes }
+    )
   }, [props])
 
   if (error) {

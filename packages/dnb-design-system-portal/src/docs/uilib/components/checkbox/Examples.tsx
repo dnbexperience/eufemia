@@ -10,7 +10,7 @@ import { Checkbox, HelpButton } from '@dnb/eufemia/src'
 
 export const CheckboxUnchecked = () => (
   <ComponentBox data-visual-test="checkbox-default">
-    <Checkbox label="Checkbox" on_change={(e) => console.log(e)} />
+    <Checkbox label="Checkbox" onChange={(e) => console.log(e)} />
   </ComponentBox>
 )
 
@@ -18,9 +18,9 @@ export const CheckboxChecked = () => (
   <ComponentBox data-visual-test="checkbox-checked">
     <Checkbox
       label="Label"
-      label_position="left"
+      labelPosition="left"
       checked
-      on_change={({ checked }) => console.log(checked)}
+      onChange={({ checked }) => console.log(checked)}
     />
   </ComponentBox>
 )

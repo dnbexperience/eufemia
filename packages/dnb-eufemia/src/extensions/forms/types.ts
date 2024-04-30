@@ -221,6 +221,12 @@ export interface UseFieldProps<
     | HTMLInputElement['autocomplete']
     | HTMLTextAreaElement['autocomplete']
 
+  /**
+   * NB: Undocumented for now.
+   * Forwards all possible props to the underlying component.
+   */
+  htmlAttributes?: Record<string, unknown>
+
   // - Used by useFieldProps and FieldBlock
   info?: React.ReactNode
   warning?: React.ReactNode

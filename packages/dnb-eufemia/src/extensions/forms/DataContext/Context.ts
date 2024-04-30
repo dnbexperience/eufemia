@@ -111,6 +111,7 @@ export interface ContextState {
   submitState: Partial<EventStateObject>
   _isInsideFormElement?: boolean
   props: ProviderProps<unknown>
+  fieldProps?: Record<Path, unknown>
 }
 
 export const defaultContextState: ContextState = {

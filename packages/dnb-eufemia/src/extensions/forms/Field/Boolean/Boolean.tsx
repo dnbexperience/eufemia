@@ -1,22 +1,30 @@
 import React from 'react'
 import ToggleField, { Props as ToggleFieldProps } from '../Toggle'
 import useTranslation from '../../hooks/useTranslation'
+import { FieldProps, Path } from '../../types'
 
-export type Props = Omit<
-  ToggleFieldProps,
-  'valueOn' | 'valueOff' | 'textOn' | 'textOff'
-> & {
+type BooleanProps = {
   trueText?: string
   falseText?: string
+  variant?: ToggleFieldProps['variant']
+  dependencePaths?: never
 }
+type NeverBooleanProps = {
+  // eslint-disable-next-line no-unused-vars
+  [K in keyof Partial<Omit<BooleanProps, 'dependencePaths'>>]: never
+}
+export type IndeterminateProps = FieldProps<unknown> & {
+  dependencePaths: Array<Path>
+} & NeverBooleanProps
+export type Props = FieldProps<unknown> & BooleanProps
 
-function BooleanComponent(props: Props) {
+function BooleanComponent(props: Props | IndeterminateProps) {
   const { trueText, falseText, ...restProps } = props
   const translations = useTranslation().BooleanField
 
   return (
     <ToggleField
-      {...restProps}
+      {...(restProps as ToggleFieldProps)}
       valueOn={true}
       valueOff={false}
       textOn={trueText ?? translations.yes}
