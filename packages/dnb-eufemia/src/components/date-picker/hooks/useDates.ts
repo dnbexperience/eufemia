@@ -53,8 +53,6 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const hasHadValidDate = useRef<boolean>(false)
-
   const initDates = useCallback(() => {
     const startDate = convertStringToDate(
       typeof initialDates?.startDate !== 'undefined'
@@ -97,8 +95,6 @@ export default function useDates(
 
     const hasValidStartDate = isValid(startDate)
     const hasValidEndDate = isValid(endDate)
-
-    hasHadValidDate.current = hasValidStartDate || hasValidEndDate
 
     const correctedDates = shouldCorrectDate
       ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
@@ -143,6 +139,8 @@ export default function useDates(
         : previousDates.date,
     ...initDates(),
   })
+
+  const hasHadValidDate = useRef<boolean>(false)
 
   const updateDates = useCallback(
     (newDates, callback?: (dates: Dates) => void) => {
