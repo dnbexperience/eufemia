@@ -52,13 +52,12 @@ function DatePickerRange(props: DatePickerRangeProps) {
   function onSelectHandler(args: any) {
     context.callOnChangeHandler(args)
 
-    props.onChange &&
-      props.onChange({
-        hidePicker: !props.isRange,
-        startDate: context.startDate,
-        endDate: context.endDate,
-        ...args,
-      })
+    props.onChange?.({
+      hidePicker: !props.isRange,
+      startDate: context.startDate,
+      endDate: context.endDate,
+      ...args,
+    })
   }
 
   function callOnNav() {

@@ -248,7 +248,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }
 
   function callOnSelect(args) {
-    props.onSelect && props.onSelect(args)
+    props.onSelect?.(args)
   }
 
   function keyNavCalc(date, keyCode) {
