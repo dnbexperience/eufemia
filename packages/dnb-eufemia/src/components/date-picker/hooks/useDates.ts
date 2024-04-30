@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import usePreviousProps from './usePreviousValue'
 import { useInputDates } from './useInputDates'
+import format from 'date-fns/format'
 
 export type DateProps = {
   date?: Date | string
@@ -21,6 +22,15 @@ type UseDatesOptions = {
   shouldCorrectDate: boolean
 }
 
+export type InputDates = {
+  __startDay?: string
+  __startMonth?: string
+  __startYear?: string
+  __endDay?: string
+  __endMonth?: string
+  __endYear?: string
+}
+
 export type Dates = {
   date?: Date | string
   startDate?: Date
@@ -33,13 +43,7 @@ export type Dates = {
   partialEndDate?: Date
   hasHadValidDate?: boolean
   hoverDate?: Date
-  __startDay?: string
-  __startMonth?: string
-  __startYear?: string
-  __endDay?: string
-  __endMonth?: string
-  __endYear?: string
-}
+} & InputDates
 
 export default function useDates(
   initialDates: DateProps,
@@ -49,6 +53,8 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
+  const hasHadValidDate = useRef<boolean>(false)
+
   const initDates = useCallback(() => {
     const startDate = convertStringToDate(
       typeof initialDates?.startDate !== 'undefined'
@@ -92,19 +98,40 @@ export default function useDates(
     const hasValidStartDate = isValid(startDate)
     const hasValidEndDate = isValid(endDate)
 
+    hasHadValidDate.current = hasValidStartDate || hasValidEndDate
+
     const correctedDates = shouldCorrectDate
-      ? correctThatDate({ startDate, endDate, minDate, maxDate, isRange })
+      ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
       : {}
 
-    return {
+    const dates = {
       startDate,
       endDate,
       startMonth,
       endMonth,
       minDate,
       maxDate,
-      hasHadValidDate: hasValidStartDate || hasValidEndDate,
       ...correctedDates,
+    }
+
+    return {
+      ...dates,
+      __startDay: hasValidStartDate
+        ? pad(format(dates.startDate, 'dd'), 2)
+        : null,
+      __startMonth: hasValidStartDate
+        ? pad(format(dates.startDate, 'MM'), 2)
+        : null,
+      __startYear: hasValidStartDate
+        ? format(dates.startDate, 'yyyy')
+        : null,
+      __endDay: hasValidEndDate
+        ? pad(format(dates.endDate, 'dd'), 2)
+        : null,
+      __endMonth: hasValidEndDate
+        ? pad(format(dates.endDate, 'MM'), 2)
+        : null,
+      __endYear: hasValidEndDate ? format(dates.endDate, 'yyyy') : null,
     }
   }, [initialDates, dateFormat, isRange, shouldCorrectDate])
 
@@ -116,15 +143,11 @@ export default function useDates(
         : previousDates.date,
     ...initDates(),
   })
-  const [inputDates, hasHadValidDate] = useInputDates(
-    dates.startDate,
-    dates.endDate
-  )
 
   const updateDates = useCallback(
     (newDates, callback?: (dates: Dates) => void) => {
       const correctedDates = shouldCorrectDate
-        ? correctThatDate({
+        ? correctDates({
             startDate: newDates.startDate ?? dates.startDate,
             endDate: newDates.endDate ?? dates.endDate,
             minDate: dates.minDate,
@@ -163,21 +186,55 @@ export default function useDates(
     }
   }, [initialDates, previousDates, initDates, updateDates])
 
+  // Updated input dates based on start and end dates
+  useEffect(() => {
+    const updatedInputDates = {}
+
+    hasHadValidDate.current = false
+
+    if (isValid(dates.startDate)) {
+      updatedInputDates['__startDay'] = pad(
+        format(dates.startDate, 'dd'),
+        2
+      )
+      updatedInputDates['__startMonth'] = pad(
+        format(dates.startDate, 'MM'),
+        2
+      )
+      updatedInputDates['__startYear'] = format(dates.startDate, 'yyyy')
+      hasHadValidDate.current = true
+    } else if (dates.startDate === undefined) {
+      updatedInputDates['__startDay'] = null
+      updatedInputDates['__startMonth'] = null
+      updatedInputDates['__startYear'] = null
+    }
+
+    if (isValid(dates.endDate)) {
+      updatedInputDates['__endDay'] = pad(format(dates.endDate, 'dd'), 2)
+      updatedInputDates['__endMonth'] = pad(format(dates.endDate, 'MM'), 2)
+      updatedInputDates['__endYear'] = format(dates.endDate, 'yyyy')
+      hasHadValidDate.current = true
+    } else if (dates.endDate === undefined) {
+      updatedInputDates['__endDay'] = null
+      updatedInputDates['__endMonth'] = null
+      updatedInputDates['__endYear'] = null
+    }
+
+    setDates((currentDates) => ({
+      ...currentDates,
+      ...updatedInputDates,
+    }))
+  }, [dates.startDate, dates.endDate])
+
   return [
-    { ...dates, ...inputDates },
+    dates,
     updateDates,
-    hasHadValidDate,
+    hasHadValidDate.current,
     previousDates,
   ] as const
 }
 
-function correctThatDate({
-  startDate,
-  endDate,
-  minDate,
-  maxDate,
-  isRange,
-}) {
+function correctDates({ startDate, endDate, minDate, maxDate, isRange }) {
   const correctedDates = {}
 
   if (isDisabled(startDate, minDate, maxDate)) {
