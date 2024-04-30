@@ -141,11 +141,11 @@ More details about the async form behavior can be found in the [async form behav
 
 ### Field components
 
-In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/fields/) section.
+In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/about-fields/) section.
 
 ### Value components
 
-Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+Beside the interactive [Field](/uilib/extensions/forms/about-fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
 
 ### Async form behavior
 
@@ -175,7 +175,7 @@ You can use an async function for the `onChange` event handler, either on the fo
 <Form.Handler onChange={async () => {}}>...</Form.Handler>
 ```
 
-or on every [field](/uilib/extensions/forms/fields/):
+or on every [field](/uilib/extensions/forms/about-fields/):
 
 ```tsx
 <Field.PhoneNumber path="/myField" onChange={async () => {}} />
