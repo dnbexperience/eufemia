@@ -51,6 +51,22 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match customized horizontal', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="progress-indicator-custom-horizontal"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match customized  countdown', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="progress-indicator-custom-countdown"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 

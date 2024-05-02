@@ -25,6 +25,8 @@ import {
   ProgressIndicatorLinearRandomOnCompleteExample,
   ProgressIndicatorLinearDialogExample,
   ProgressIndicatorCountdownExample,
+  ProgressIndicatorCustomCountdown,
+  ProgressIndicatorCustomHorizontal,
   ProgressIndicatorCustomizationExample,
 } from 'Docs/uilib/components/progress-indicator/Examples'
 
@@ -111,6 +113,13 @@ Inside labels must be carefully sized, and are generally meant for just an icon 
 ### Countdown indicator
 
 <ProgressIndicatorCountdownExample />
+
+### Style customization
+
+The sizes and colors can be customized with the props `size`, `customColors`, and `customCircleWidth` if needed. The types `circular` and `countdown` has a few more options than `linear`
+
+<ProgressIndicatorCustomCountdown />
+<ProgressIndicatorCustomHorizontal />
 
 <VisibleWhenVisualTest>
   <ProgressIndicatorCustomizationExample />
