@@ -29,10 +29,8 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 // date-fns
 import format from 'date-fns/format'
-import nbLocale from 'date-fns/locale/nb'
-import enLocale from 'date-fns/locale/en-GB'
 
-import Context from '../../shared/Context'
+import Context, { Locale } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus, {
@@ -163,7 +161,7 @@ export type DatePickerProps = Omit<
      */
     first_day?: string
     /**
-     * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
+     * @deprecated set locale with `Provider` instead.
      */
     locale?: Locale
     /**
@@ -314,7 +312,6 @@ const defaultProps: DatePickerProps = {
   reset_button_text: 'Tilbakestill',
   reset_date: true,
   first_day: 'monday',
-  locale: nbLocale,
   range: false,
   link: false,
   sync: true,
@@ -525,18 +522,11 @@ function DatePicker(externalProps: DatePickerProps) {
       : hidePicker((args && args.event) || args)
   }
 
-  function getPropsForTranslation() {
-    const { lang, locale } = props
-
-    return { lang, locale: locale?.code }
-  }
-
   function formatSelectedDateTitle() {
     const { range } = props
 
-    const { selected_date, start, end } = context.getTranslation(
-      getPropsForTranslation()
-    ).DatePicker
+    const { selected_date, start, end } =
+      context.getTranslation(props).DatePicker
 
     let currentDate = startDate ? format(startDate, 'PPPP') : null
 
@@ -555,15 +545,11 @@ function DatePicker(externalProps: DatePickerProps) {
     props,
     defaultProps,
     { skeleton: context?.skeleton },
-    context.getTranslation(getPropsForTranslation()).DatePicker,
+    context.getTranslation(props).DatePicker,
     pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
     pickFormElementProps(context?.formElement),
     context.DatePicker
   )
-
-  if (extendedProps.locale !== enLocale && /en-/.test(context.locale)) {
-    extendedProps.locale = enLocale
-  }
 
   const {
     label,
@@ -676,11 +662,8 @@ function DatePicker(externalProps: DatePickerProps) {
       _className,
       className
     ),
+    lang: context.locale,
   } as HTMLProps<HTMLSpanElement>
-
-  if (locale?.code) {
-    mainParams.lang = locale.code
-  }
 
   skeletonDOMAttributes(pickerParams, skeleton, context)
 
@@ -750,7 +733,7 @@ function DatePicker(externalProps: DatePickerProps) {
                 size={size}
                 status={status ? 'error' : null}
                 status_state={status_state}
-                locale={locale}
+                lang={context.locale}
                 {...attributes}
                 submitAttributes={submitParams}
                 onSubmit={togglePicker}
@@ -766,7 +749,6 @@ function DatePicker(externalProps: DatePickerProps) {
                     <DatePickerRange
                       id={id}
                       firstDayOfWeek={first_day}
-                      locale={locale}
                       resetDate={reset_date}
                       isRange={range}
                       isLink={link}
@@ -782,6 +764,7 @@ function DatePicker(externalProps: DatePickerProps) {
                       hideNextMonthWeek={hide_last_week}
                       noAutofocus={disable_autofocus}
                       onChange={onPickerChange}
+                      locale={context.locale}
                     />
                     {(addon_element || shortcuts) && (
                       <DatePickerAddon
