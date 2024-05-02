@@ -289,7 +289,7 @@ function WizardContainer(props: Props) {
       <Space
         className={classnames(
           'dnb-forms-wizard-layout',
-          variant === 'drawer' && 'dnb-forms-wizard-layout--drawer',
+          `dnb-forms-wizard-layout--${variant}`,
           className
         )}
         {...rest}
