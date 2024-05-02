@@ -4,7 +4,6 @@ import React, {
   useRef,
   useReducer,
   useMemo,
-  useEffect,
 } from 'react'
 import classnames from 'classnames'
 import { Space, StepIndicator } from '../../../../components'
@@ -24,7 +23,12 @@ import {
   SharedStateReturn,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
+import useHandleLayoutEffect from './useHandleLayoutEffect'
 import { ComponentProps } from '../../types'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type Props = ComponentProps & {
   id?: string
@@ -47,7 +51,7 @@ export type Props = ComponentProps & {
 function WizardContainer(props: Props) {
   const {
     className,
-    id: _id,
+    id: idProp,
     mode = 'strict',
     initialActiveIndex = 0,
     omitScrollManagement,
@@ -69,7 +73,7 @@ function WizardContainer(props: Props) {
     setSubmitState,
   } = useContext(DataContext)
 
-  const id = useId(_id)
+  const id = useId(idProp)
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
@@ -85,7 +89,6 @@ function WizardContainer(props: Props) {
   sharedStateRef.current = useSharedState<WizardContextState>(
     hasContext && id ? id + '-wizard' : undefined
   )
-  const { extend } = sharedStateRef.current
 
   // Store the current state of showAllErrors
   errorOnStepRef.current[activeIndexRef.current] = showAllErrors
@@ -102,9 +105,7 @@ function WizardContainer(props: Props) {
   )
 
   const { setFocus, scrollToTop, isInteractionRef } =
-    useHandleLayoutEffect({
-      stepElementRef,
-    })
+    useHandleLayoutEffect({ activeIndexRef, stepElementRef })
 
   const handleLayoutEffect = useCallback(() => {
     if (!omitFocusManagement) {
@@ -215,7 +216,7 @@ function WizardContainer(props: Props) {
   const titlesRef = useRef([])
   const Contents = useCallback(() => {
     titlesRef.current = []
-    return React.Children.map(children, (child, i) => {
+    return React.Children.map(children, (child, index) => {
       if (React.isValidElement(child)) {
         let step = child
 
@@ -234,7 +235,8 @@ function WizardContainer(props: Props) {
           return React.cloneElement(
             child as React.ReactElement<StepProps>,
             {
-              index: i,
+              key: `${index}-${activeIndexRef.current}`,
+              index,
             }
           )
         }
@@ -269,11 +271,11 @@ function WizardContainer(props: Props) {
   )
 
   // - Handle shared state
-  useEffect(() => {
-    if (hasContext && id) {
-      extend(providerValue)
+  useLayoutEffect(() => {
+    if (id && hasContext) {
+      sharedStateRef.current?.extend?.(providerValue)
     }
-  }, [id, extend, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')
@@ -319,45 +321,6 @@ function WizardContainer(props: Props) {
       </Space>
     </WizardContext.Provider>
   )
-}
-
-function useHandleLayoutEffect({ stepElementRef }) {
-  const isInteractionRef = useRef(false)
-
-  useEffect(() => {
-    // Ensure we delay the mounting before layout effect is handled
-    const delay = process.env.NODE_ENV === 'test' ? 8 : 100
-    const timeout = setTimeout(() => {
-      isInteractionRef.current = true
-    }, delay)
-    return () => clearTimeout(timeout)
-  })
-
-  const action = useCallback((fn: () => void) => {
-    // Wait for the next render cycle
-    window.requestAnimationFrame(() =>
-      // Wait for the new stepElementRef to be set
-      window.requestAnimationFrame(() => {
-        isInteractionRef.current && fn()
-      })
-    )
-  }, [])
-
-  const setFocus = useCallback(() => {
-    action(() => {
-      stepElementRef.current?.focus?.({
-        preventScroll: true,
-      })
-    })
-  }, [action, stepElementRef])
-
-  const scrollToTop = useCallback(() => {
-    action(() => {
-      stepElementRef.current?.scrollIntoView?.()
-    })
-  }, [action, stepElementRef])
-
-  return { setFocus, scrollToTop, isInteractionRef }
 }
 
 WizardContainer._supportsSpacingProps = true

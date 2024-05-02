@@ -1,10 +1,14 @@
-import { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import WizardContext, {
   OnStepChange,
   WizardContextState,
 } from '../Context/WizardContext'
 import { Identifier } from '../../types'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export default function useStep(
   id: Identifier = null,
@@ -25,7 +29,7 @@ export default function useStep(
     id ? id + '-wizard' : undefined
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     sharedDataRef.current.extend({
       onStepChange,
     } as unknown as WizardContextState) // Internal type

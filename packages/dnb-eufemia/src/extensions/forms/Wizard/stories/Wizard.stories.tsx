@@ -52,6 +52,7 @@ const Step3 = () => {
       <Card stack>
         <P>Contents</P>
         <P>Contents</P>
+        <P>Contents</P>
       </Card>
       <Wizard.Buttons />
     </Wizard.Step>
