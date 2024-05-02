@@ -7,10 +7,13 @@
 
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
-  --progress-indicator-circular-circle: 88;
-  --progress-indicator-circular-circle-offset--min: 88;
-  --progress-indicator-circular-circle-offset--max: 1;
+  --progress-indicator-circular-circle: 314.159265359%;
+  --progress-indicator-circular-circle-offset--min: 314.159265359%;
+  --progress-indicator-circular-circle-offset--max: 1%;
   --progress-indicator-circular-size: 2rem;
+  --progress-indicator-circular-stroke-width: calc(
+    var(--progress-indicator-circular-size) / 8
+  );
   --progress-indicator-circular-background-color: grey;
   --progress-indicator-circular-bar-color: var(--color-black);
   --progress-indicator-linear-size: 0.5rem;
@@ -60,7 +63,7 @@
     position: absolute;
     width: 100%;
     justify-content: center;
-    padding: calc(var(--progress-indicator-circular-size) / 8);
+    padding: var(--progress-indicator-circular-stroke-width);
   }
 
   &--small {
@@ -99,12 +102,17 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+
+      &:not(:root) {
+        overflow: visible;
+      }
     }
 
     &__background-padding {
       display: block;
       height: 100%;
-      padding: calc(var(--progress-indicator-circular-size) / 16);
+      padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
     }
 
     &__background {
@@ -156,6 +164,7 @@
 
     &__circle {
       stroke-linecap: round;
+      stroke-width: var(--progress-indicator-circular-stroke-width);
     }
 
     &__line.light &__circle {
@@ -164,27 +173,10 @@
 
     &__line.dark &__circle {
       stroke: var(--progress-indicator-circular-bar-color);
-    }
-
-    // compensate for 'aliasing artifacts' seen when rendering same sized, lighter on dark elements
-    &--small &__line.dark &__circle {
-      stroke-width: 3.1;
-    }
-
-    &--medium &__line.dark &__circle {
-      stroke-width: 3.3;
-    }
-
-    &--default &__line.dark &__circle {
-      stroke-width: 3.5;
-    }
-
-    &--large &__line.dark &__circle {
-      stroke-width: 3.7;
-    }
-
-    &--huge &__line.dark &__circle {
-      stroke-width: 3.9;
+      // compensate for 'aliasing artifacts' seen when rendering same sized, lighter on dark elements
+      stroke-width: calc(
+        var(--progress-indicator-circular-stroke-width) - 0.5px
+      );
     }
   }
 

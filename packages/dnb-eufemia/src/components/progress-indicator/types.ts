@@ -66,18 +66,40 @@ export type ProgressIndicatorProps = {
    * Send in custom css colors that overrides any css. Default is `undefined`.
    */
   customColors?: {
+    /**
+     * Override the moving line color.
+     */
     line?: CSS.Property.BackgroundColor
+    /**
+     * Override the background line color.
+     */
     shaft?: CSS.Property.BackgroundColor
+    /**
+     * Set a background color for the center of the circle.
+     */
     background?: CSS.Property.BackgroundColor
   }
+  /**
+   * Send in custom css width for circle progress line. Default is `undefined`. (`undefined` defaults to one eighth of the size).
+   */
+  customCircleWidth?: CSS.Property.StrokeWidth
 }
 
 export type ProgressIndicatorAnimationProps = Pick<
   ProgressIndicatorProps,
-  'size' | 'visible' | 'progress' | 'onComplete' | 'customColors'
+  | 'size'
+  | 'visible'
+  | 'progress'
+  | 'onComplete'
+  | 'customColors'
+  | 'customCircleWidth'
 > & {
   size?: ValidSizes | 'custom-size'
   progress?: number
+  /**
+   * Callback when animation ends because `visible` is set to false
+   */
+  callOnCompleteHandler?: (...args: any[]) => any
 }
 
 export type ProgressIndicatorAllProps = Omit<
@@ -95,15 +117,11 @@ export type ProgressIndicatorCircularAllProps = Omit<
     /**
      * Reverse the direction of the progress bar. Defaults to `false`.
      */
-    reverse?: boolean
-    maxOffset?: number
-    callOnCompleteHandler?: (...args: any[]) => any
+    counterClockwise?: boolean
   }
 
 export type ProgressIndicatorLinearAllProps = Omit<
   React.HTMLProps<HTMLElement>,
   'size'
 > &
-  ProgressIndicatorAnimationProps & {
-    callOnCompleteHandler?: (...args: any[]) => any
-  }
+  Omit<ProgressIndicatorAnimationProps, 'customCircleWidth'>

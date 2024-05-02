@@ -17,12 +17,12 @@ function ProgressIndicatorCircular(
     size,
     visible,
     progress,
-    reverse = false,
-    maxOffset = 88,
     onComplete,
     callOnCompleteHandler,
     title,
     customColors,
+    customCircleWidth,
+    counterClockwise = false,
     ...rest
   } = props
   const keepAnimatingRef = useRef(true)
@@ -62,7 +62,7 @@ function ProgressIndicatorCircular(
     callback = null
   ) => {
     const min = 1
-    const max = 88
+    const max = Math.PI * 100
     let start = 0,
       ms = 0,
       prog = max,
@@ -80,13 +80,13 @@ function ProgressIndicatorCircular(
       ms = timestamp - start
 
       if (animate1) {
-        if (!visibleRef.current && prog < 5) {
+        if (!visibleRef.current && prog < 20) {
           prog = min
         }
         if (setProg) {
-          element.style['stroke-dashoffset'] = prog
+          element.style['stroke-dashoffset'] = `${prog}%`
         } else if (!animateOnStart) {
-          element.style['stroke-dashoffset'] = max
+          element.style['stroke-dashoffset'] = `${max}%`
         }
       }
 
@@ -99,6 +99,7 @@ function ProgressIndicatorCircular(
             callback()
           }
         } else if (visibleRef.current && ms % 1e3 > 950) {
+          console.log('start')
           // startAnimationFirstTime() // will not start completely from scratch
           stopNextRound = false
         }
@@ -126,10 +127,9 @@ function ProgressIndicatorCircular(
     }
   }
 
-  const strokeDashoffset = maxOffset - (maxOffset / 100) * progress
-  const hasProgressValue = progress > -1
+  const progressIsControlled = progress > -1
 
-  if (hasProgressValue) {
+  if (progressIsControlled) {
     rest.role = 'progressbar'
     rest['aria-label'] = title
     rest['title'] = title
@@ -145,7 +145,7 @@ function ProgressIndicatorCircular(
       className={classnames(
         'dnb-progress-indicator__circular',
         size && `dnb-progress-indicator__circular--${size}`,
-        hasProgressValue &&
+        progressIsControlled &&
           'dnb-progress-indicator__circular--has-progress-value'
       )}
       {...remainingDOMAttributes}
@@ -159,40 +159,35 @@ function ProgressIndicatorCircular(
 
       {/* The first one is the background line */}
       <Circle
-        className={classnames(
-          'dnb-progress-indicator__circular__line',
-          'light',
-          'paused'
-        )}
-        strokeColor={customColors?.shaft}
+        className={classnames('light', 'paused')}
+        customColor={customColors?.shaft}
+        customWidth={customCircleWidth}
       />
       <Circle
         className={classnames(
-          'dnb-progress-indicator__circular__line',
           'dark',
           'dark',
-          hasProgressValue || useAnimationFrame ? 'paused' : null
+          progressIsControlled || useAnimationFrame ? 'paused' : null
         )}
         style={
-          hasProgressValue
+          progressIsControlled
             ? {
-                strokeDashoffset: reverse
-                  ? -strokeDashoffset
-                  : strokeDashoffset,
+                strokeDashoffset: getOffset(progress, counterClockwise),
               }
             : {}
         }
-        strokeColor={customColors?.line}
+        customColor={customColors?.line}
+        customWidth={customCircleWidth}
         ref={_refDark}
       />
-      {!hasProgressValue && (
+      {!progressIsControlled && (
         <Circle
           className={classnames(
-            'dnb-progress-indicator__circular__line',
             'light',
             useAnimationFrame ? 'paused' : null
           )}
-          strokeColor={customColors?.shaft}
+          customColor={customColors?.shaft}
+          customWidth={customCircleWidth}
           ref={_refLight}
         />
       )}
@@ -202,16 +197,23 @@ function ProgressIndicatorCircular(
 
 const Circle = forwardRef(function Circle(
   {
-    strokeColor,
+    customColor,
+    customWidth,
+    className,
     ...rest
   }: React.HTMLProps<SVGSVGElement> & {
-    strokeColor?: CSS.Property.BackgroundColor
+    customColor?: CSS.Property.BackgroundColor
+    customWidth?: CSS.Property.StrokeWidth
   },
   ref: React.RefObject<SVGSVGElement>
 ) {
+  const correctedCustomWidth = correctPercentageStrokeWidth(customWidth)
   return (
     <svg
-      viewBox="0 0 32 32"
+      className={classnames(
+        'dnb-progress-indicator__circular__line',
+        className
+      )}
       shapeRendering="geometricPrecision"
       ref={ref}
       {...rest}
@@ -219,14 +221,46 @@ const Circle = forwardRef(function Circle(
       <circle
         className="dnb-progress-indicator__circular__circle"
         fill="none"
-        strokeWidth="4"
-        cx="16"
-        cy="16"
-        r="14"
-        style={{ stroke: strokeColor }}
+        cx="50%"
+        cy="50%"
+        r="50%"
+        style={{
+          stroke: customColor,
+          ...(correctedCustomWidth
+            ? {
+                '--progress-indicator-circular-stroke-width':
+                  correctedCustomWidth,
+              }
+            : undefined),
+        }}
       />
     </svg>
   )
 })
+/**
+ *
+ * @param progress number between 0-100
+ * @param counterClockwise decides direction of movement. Default is `false`
+ * @returns
+ */
 
+function getOffset(progress: number, counterClockwise = false) {
+  const offset = Math.PI * (100 - progress)
+  return `${counterClockwise ? -offset : offset}%`
+}
+
+/**
+ * If the custom stroke width is a percentage, returns a corrected width
+ * relative to the parent SVG
+ * @param strokeWidth
+ * @returns
+ */
+function correctPercentageStrokeWidth(
+  strokeWidth: CSS.Property.StrokeWidth
+) {
+  if (typeof strokeWidth === 'string' && strokeWidth.endsWith('%')) {
+    const number = parseFloat(strokeWidth.slice(0, strokeWidth.length - 1))
+    return `${(100 * number) / (100 - number)}%`
+  }
+}
 export default ProgressIndicatorCircular

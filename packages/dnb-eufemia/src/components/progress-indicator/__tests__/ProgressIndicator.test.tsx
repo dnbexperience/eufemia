@@ -20,7 +20,7 @@ describe('Circular ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     expect(
       document.querySelector(mainLineSelector).getAttribute('style')
-    ).toBe('stroke-dashoffset: 44;')
+    ).toBe(`stroke-dashoffset: ${Math.PI * 50}%;`)
   })
 
   it('has to have a aria-label with a 50% value', () => {
@@ -57,7 +57,7 @@ describe('Circular ProgressIndicator component', () => {
     )
     expect(
       document.querySelector(mainLineSelector).getAttribute('style')
-    ).toBe('stroke-dashoffset: 17.599999999999994;')
+    ).toBe(`stroke-dashoffset: ${Math.PI * 20}%;`)
   })
 
   it('has aria-label set to the value of progress property when title is default', () => {
@@ -234,6 +234,48 @@ describe('Circular ProgressIndicator component', () => {
     expect(
       container.querySelector('.dnb-progress-indicator__circular')
     ).toHaveClass('dnb-progress-indicator__circular--custom-size')
+  })
+
+  it('with custom line width', () => {
+    const { container } = render(
+      <ProgressIndicator type="circular" customCircleWidth="1.23rem" />
+    )
+
+    expect(
+      container
+        .querySelector('.dnb-progress-indicator')
+        .getAttribute('style')
+    ).toContain('--progress-indicator-circular-stroke-width: 1.23rem;')
+
+    const circles = container.querySelectorAll(
+      'circle.dnb-progress-indicator__circle'
+    )
+    circles.forEach((circle) =>
+      expect(circle.getAttribute('style')).not.toContain(
+        '--progress-indicator-circular-stroke-width'
+      )
+    )
+  })
+
+  it('with custom line width in percentage', () => {
+    const { container } = render(
+      <ProgressIndicator type="circular" customCircleWidth="20%" />
+    )
+
+    expect(
+      container
+        .querySelector('.dnb-progress-indicator')
+        .getAttribute('style')
+    ).toContain('--progress-indicator-circular-stroke-width: 20%;')
+
+    const circles = container.querySelectorAll(
+      'circle.dnb-progress-indicator__circle'
+    )
+    circles.forEach((circle) =>
+      expect(circle.getAttribute('style')).toContain(
+        '--progress-indicator-circular-stroke-width: 25%;'
+      )
+    )
   })
 })
 

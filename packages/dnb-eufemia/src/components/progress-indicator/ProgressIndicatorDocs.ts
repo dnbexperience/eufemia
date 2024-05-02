@@ -81,6 +81,12 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
       defaultValue: 'undefined',
       status: 'optional',
     },
+  customCircleWidth: {
+    doc: 'Send in custom css width for circle progress line. (`undefined` defaults to one eighth of the size).',
+    type: 'string',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -96,13 +102,13 @@ export const CustomColorsData: PropertiesTableProps = {
     status: 'optional',
   },
   shaft: {
-    doc: 'Override the background line color',
+    doc: 'Override the background line color.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',
   },
   background: {
-    doc: 'Set a background color for the center of the circle',
+    doc: 'Set a background color for the center of the circle.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',

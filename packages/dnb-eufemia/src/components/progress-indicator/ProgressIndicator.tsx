@@ -67,6 +67,7 @@ function ProgressIndicator(
     progress,
     visible = true,
     customColors,
+    customCircleWidth,
     style,
     ...rest
   } = allProps
@@ -132,12 +133,11 @@ function ProgressIndicator(
       )}
       style={{
         ...style,
-        ...(customSize
-          ? {
-              '--progress-indicator-circular-size': customSize,
-              '--progress-indicator-linear-size': customSize,
-            }
-          : undefined),
+        ...{
+          '--progress-indicator-circular-size': customSize,
+          '--progress-indicator-circular-stroke-width': customCircleWidth,
+          '--progress-indicator-linear-size': customSize,
+        },
       }}
       {...remainingDOMProps}
     >
@@ -146,11 +146,12 @@ function ProgressIndicator(
           size={sizeVariant}
           progress={progressNumber}
           visible={visible}
-          reverse={type === 'countdown'}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
           customColors={customColors}
+          customCircleWidth={customCircleWidth}
+          counterClockwise={type === 'countdown'}
         />
       )}
       {type === 'linear' && (
