@@ -52,7 +52,7 @@ function ArrayComponent(props: Props) {
     path,
     value: arrayValue,
     withoutFlex,
-    concatWithArray,
+    concatWith,
     emptyValue,
     placeholder,
     handleChange,
@@ -64,7 +64,7 @@ function ArrayComponent(props: Props) {
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
   const modesRef = useRef<Record<Identifier, ContainerMode>>({})
-  const valueWhileClosingRef = useRef<Array<unknown>>()
+  const valueWhileClosingRef = useRef<Array<IterateElementContextState>>()
   const valueCountRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>()
   const hadPushRef = useRef<boolean>()
@@ -75,7 +75,7 @@ function ArrayComponent(props: Props) {
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
   const { update, data } = useData()
-  console.log('data', id, data)
+  // console.log('data', id, data)
 
   useEffect(() => {
     // Update inside the useEffect, to support React.StrictMode
@@ -86,9 +86,10 @@ function ArrayComponent(props: Props) {
     (
       value: unknown,
       index: number,
-      extendItemWith?: IterateElementContextState | unknown
+      extendItemWith?: Partial<IterateElementContextState>
     ): IterateElementContextState => {
-      const id = idsRef.current[index] || makeUniqueId()
+      const id =
+        extendItemWith?.id || idsRef.current[index] || makeUniqueId()
 
       const hasNewItems = arrayValue.length > valueCountRef.current?.length
 
@@ -98,13 +99,12 @@ function ArrayComponent(props: Props) {
       }
 
       const isNew =
-        concatWithArray ||
+        // concatWith ||
         // && array.length === 1
-        isNewRef.current[id] ||
-        false
+        isNewRef.current[id] || false
       const animateIn = isNew
       // && array.length === 1
-      // (!concatWithArray && isNewRef.current[id]) || false
+      // (!concatWith && isNewRef.current[id]) || false
       if (!modesRef.current[id]) {
         modesRef.current[id] = isNew ? 'edit' : 'view'
       }
@@ -126,6 +126,8 @@ function ArrayComponent(props: Props) {
           forceUpdate()
         },
         handleChange: (path: Path, value: unknown) => {
+          console.log('handleChange', extendItemWith?.isolated, value)
+          return
           const newArrayValue = structuredClone(arrayValue)
 
           // Make sure we have a new object reference,
@@ -177,31 +179,56 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [salt, arrayValue, concatWithArray, handleChange, path]
+    [salt, arrayValue, concatWith, handleChange, path]
   )
 
   const preparedArray = useMemo(() => {
     const array = (valueWhileClosingRef.current || arrayValue) ?? []
-    const preparedArray = array.map(mapItem)
+    const items = array.map(mapItem)
 
-    console.log('arrayValue.length', arrayValue)
+    // console.log('arrayValue.length', arrayValue)
 
-    if (concatWithArray) {
-      // const arrayWithItems =
-      //   typeof concatWithArray === 'function'
-      //     ? concatWithArray(preparedArray) || preparedArray
-      //     : preparedArray.concat(concatWithArray)
-      // const diff = arrayWithItems.length - preparedArray.length
+    if (concatWith) {
+      const arrayWithItems =
+        typeof concatWith === 'function'
+          ? concatWith(items) || items
+          : items.concat(concatWith)
+      // const diff = arrayWithItems.length - items.length
       // console.log('diff', diff)
-      // const last = preparedArray[preparedArray.length - 1]
+      // const last = items[items.length - 1]
       // if(){
       // }
       // array.concat(arrayWithItems)
-      // preparedArray.push(
-      //   mapItem(concatWithArray, array.length, {
+      // console.log('arrayWithItems', arrayWithItems)
+
+      return arrayWithItems.map((item, i) => {
+        if (item?.['arrayValue']) {
+          return item
+        }
+        const id = makeUniqueId()
+        modesRef.current[id] = 'edit'
+        return mapItem(item, i, {
+          id,
+          animateIn: false,
+          isNew: true,
+          isolated: true,
+        })
+      })
+
+      // return mapItem(arrayWithItems, array.length, {
+      //   animateIn: false,
+      //   isNew: true,
+      //   containerMode: 'edit',
+      // })
+
+      // items.push(
+      //   mapItem(arrayWithItems[0], array.length, {
       //     animateIn: false,
+      //     isNew: true,
+      //     containerMode: 'edit',
       //   })
       // )
+      // console.log('items', items[0])
       // return arrayWithItems.map((item, index) => {
       // return arrayWithItems.map((item, index) => {
       //   if (index >= array.length - diff) {
@@ -217,12 +244,12 @@ function ArrayComponent(props: Props) {
       // })
     }
 
-    return preparedArray
+    return items
     // return array.map(mapItem)
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayValue, concatWithArray, mapItem])
+  }, [arrayValue, concatWith, mapItem])
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {

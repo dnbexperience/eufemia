@@ -1,7 +1,6 @@
 import React from 'react'
 import { Field, Form, Iterate, Value } from '../..'
 import { Button, Card, Flex } from '../../../../components'
-import { fi } from 'date-fns/locale'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -86,13 +85,13 @@ export const ViewAndEditContainer = () => {
   return (
     // <React.StrictMode>
     <Form.Handler
-      // defaultData={{
-      //   accounts: [
-      //     // {
-      //     //   // firstName: 'Tony',
-      //     // },
-      //   ],
-      // }}
+      defaultData={{
+        accounts: [
+          // {
+          //   // firstName: 'Tony',
+          // },
+        ],
+      }}
       onSubmit={(data) => console.log('onSubmit', data)}
       onSubmitRequest={() => console.log('onSubmitRequest')}
       onChange={(data) => console.log('onChangeContext', data)}
@@ -104,19 +103,23 @@ export const ViewAndEditContainer = () => {
           <Iterate.Array
             path="/accounts"
             id="hello"
-            concatWithArray={{ firstName: 'Tony' }}
-            // concatWithArray={(array) => {
-            //   if (!array.length) {
-            //     return array.concat({ firstName: 'Tony' })
-            //   }
-            // }}
+            // emptyValue={[{}]}
+            // initialValue={[{}]}
+            // initialEmptyValue={[{}]}
+            // concatWith={{ firstName: 'Tony' }}
+            concatWith={(array) => {
+              console.log('array.length', array.length)
+              if (array.length === 0) {
+                return [{ firstName: 'Tony' }]
+              }
+            }}
             onChange={(data) => console.log('onChange', data)}
           >
             <MyViewItem />
             <MyEditItem />
           </Iterate.Array>
 
-          <Iterate.Array
+          {/* <Iterate.Array
             value={[{ firstName: 'Tony' }]}
             onChange={(data) => console.log('onChange', data)}
           >
@@ -128,7 +131,7 @@ export const ViewAndEditContainer = () => {
                 })
               }}
             />
-          </Iterate.Array>
+          </Iterate.Array> */}
 
           <Button
             onClick={() => {

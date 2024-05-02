@@ -11,7 +11,7 @@ export type Props = Omit<FlexContainerProps, 'children' | 'width'> & {
   value?: UseFieldProps<Value, undefined | Value>['value']
   path?: UseFieldProps<Value, undefined | Value>['path']
   withoutFlex?: boolean
-  concatWithArray?: Value | unknown
+  concatWith?: Value | unknown
   emptyValue?: UseFieldProps<Value, undefined | Value>['emptyValue']
   placeholder?: React.ReactNode
   onChange?: UseFieldProps<Value, undefined | Value>['onChange']
