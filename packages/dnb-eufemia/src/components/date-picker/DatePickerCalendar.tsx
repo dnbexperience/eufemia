@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 
 // date-fns
@@ -449,10 +449,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     month,
     isRange,
     titleFormat,
-    locale,
     firstDayOfWeek,
     dayOfWeekFormat,
     hideNav,
+    locale: localeCode,
     hideDays,
     onPrev,
     onNext,
@@ -475,10 +475,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const weekDays = getMemorizedDays(month)
 
+  const locale = useMemo(() => ({ ...locales[localeCode] }), [localeCode])
+
   return (
     <div
       className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
-      lang={locale}
+      lang={localeCode}
     >
       {!hideNav && (
         <div className="dnb-date-picker__header">
@@ -499,14 +501,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             title={selected_month.replace(
               /%s/,
               format(month, titleFormat, {
-                locale: locales[locale],
+                locale,
               })
             )}
             tabIndex={-1}
             ref={labelRef}
           >
             {format(month, titleFormat, {
-              locale: locales[locale],
+              locale,
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
@@ -542,15 +544,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   className={classnames(
                     'dnb-date-picker__labels__day',
                     `dnb-date-picker__labels__day--${format(day, 'i', {
-                      locale: locales[locale],
+                      locale,
                     })}`
                   )}
                   aria-label={format(day, 'EEEE', {
-                    locale: locales[locale],
+                    locale,
                   })}
                 >
                   {format(day, dayOfWeekFormat, {
-                    locale: locales[locale],
+                    locale,
                   })}
                 </th>
               ))}
@@ -567,7 +569,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               >
                 {week.map((day: DayObject, i) => {
                   const title = format(day.date, 'PPPP', {
-                    locale: locales[locale],
+                    locale,
                   })
                   const handleAsDisabled =
                     day.isLastMonth ||
@@ -608,7 +610,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         size="medium"
                         variant="secondary"
                         text={format(day.date, 'd', {
-                          locale: locales[locale],
+                          locale,
                         })}
                         bounding={true}
                         disabled={handleAsDisabled}
@@ -669,7 +671,7 @@ type CalendarButtonProps = {
   nr: number
   date: Date
   month: Date
-  locale: InternalLocale
+  locale: CalendarLocales[keyof CalendarLocales]
   showButton: boolean
   onClick: ({ nr }: { nr: number }) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
@@ -695,7 +697,7 @@ function CalendarButton({
   const title = tr[`${type}_month`].replace(
     /%s/,
     format(subMonths(month, 1), 'MMMM yyyy', {
-      locale: locales[locale],
+      locale,
     })
   )
 
