@@ -789,7 +789,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     selectedDateTitle, // eslint-disable-line
     showInput, // eslint-disable-line
     input_element,
-    locale,
+    lang,
     disabled,
     skeleton,
     opened,
@@ -814,10 +814,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   // Fix lang.code type casting
   return (
-    <fieldset
-      className="dnb-date-picker__fieldset"
-      lang={locale?.code as string}
-    >
+    <fieldset className="dnb-date-picker__fieldset" lang={lang}>
       {context.props.label && (
         <legend className="dnb-sr-only">{context.props.label}</legend>
       )}
@@ -860,7 +857,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             {...status_props}
           />
         }
-        lang={locale?.code as string}
+        lang={lang}
         {...attributes}
       />
     </fieldset>
