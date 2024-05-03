@@ -6,11 +6,8 @@
 import React from 'react'
 import { DatePickerProps } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
-import {
-  DatePickerProviderState,
-  DateProps,
-  Dates,
-} from './DatePickerProvider'
+import { DatePickerProviderState } from './DatePickerProvider'
+import { DateProps, Dates } from './hooks/useDates'
 
 export type DatePickerView = {
   month: Date
