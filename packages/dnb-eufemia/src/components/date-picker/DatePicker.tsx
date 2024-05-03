@@ -41,19 +41,46 @@ import FormStatus, {
 import DatePickerProvider from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
-import DatePickerAddon from './DatePickerAddon'
+import DatePickerAddon, { DatePickerAddonProps } from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 import { SpacingProps } from '../space/types'
 import { InputInputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import { ChangeEvent } from 'rollup'
+import { DatePickerCalendarProps } from './DatePickerCalendar'
 
-type DatePickerAddonElement = string | React.ReactNode
-type DatePickerShortcuts = any[] | ((...args: any[]) => any)
-type DatePickerSuffix = React.ReactNode
-type DatePickerDirection = 'auto' | 'top' | 'bottom'
-type DatePickerAlignPicker = 'auto' | 'left' | 'right'
+export type DatePickerEvent<T> = T & {
+  date?: string
+  start_date?: string
+  end_date?: string
+  partialStartDate?: string
+  partialEndDate?: string
+  is_valid_end_date?: boolean
+  is_valid_start_date?: boolean
+  days_between?: number
+  event?: T extends React.FocusEvent
+    ? FocusEvent
+    : T extends React.ChangeEvent
+    ? ChangeEvent
+    : MouseEvent
+}
+
+type CalendarDays = {
+  date: Date
+  isDisabled?: boolean
+  isEndDate?: boolean
+  isInactive?: boolean
+  isLastMonth?: boolean
+  isNextMonth?: boolean
+  isPreview?: boolean
+  isSelectable?: boolean
+  isStartDate?: boolean
+  isToday?: boolean
+  isWithinSelection?: boolean
+  className?: string
+}
 
 export type DatePickerProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -195,11 +222,11 @@ export type DatePickerProps = Omit<
     /**
      * Gives you the possibility to inject a React element showing up over the footer. Use it to customize `shortcuts`.
      */
-    addon_element?: DatePickerAddonElement
+    addon_element?: React.ReactNode
     /**
      * Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.
      */
-    shortcuts?: DatePickerShortcuts
+    shortcuts?: DatePickerAddonProps['shortcuts']
     disabled?: boolean
     /**
      * If set to `true`, then the date-picker input field will be 100% in `width`.
@@ -233,7 +260,7 @@ export type DatePickerProps = Omit<
     /**
      * Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.
      */
-    suffix?: DatePickerSuffix
+    suffix?: React.ReactNode
     /**
      * To open the date-picker by default. Defaults to `false`.
      */
@@ -245,53 +272,74 @@ export type DatePickerProps = Omit<
     tabIndex?: number
     prevent_close?: boolean
     no_animation?: boolean
-    direction?: DatePickerDirection
+    direction?: 'auto' | 'top' | 'bottom'
     /**
      * Use `right` to change the calendar alignment direction. Defaults to `left`.
      */
-    align_picker?: DatePickerAlignPicker
+    align_picker?: 'auto' | 'left' | 'right'
     class?: string
     className?: string
     /**
      * Will be called right before every new calendar view gets rendered. See the example above.
      */
-    on_days_render?: (...args: any[]) => any
+    on_days_render?: (
+      days: Array<CalendarDays>,
+      nr?: DatePickerCalendarProps['nr']
+    ) => void
     /**
      * Will be called on a date change event. Returns an `object`. See Returned Object below.
      */
-    on_change?: (...args: any[]) => any
+    on_change?: (
+      event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+    ) => void
     /**
      * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
      */
-    on_type?: (...args: any[]) => any
+    on_type?: (
+      event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+    ) => void
     /**
      * Will be called once date-picker is visible.
      */
-    on_show?: (...args: any[]) => any
+    on_show?: (
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    ) => void
     /**
      * Will be called once date-picker is hidden.
      */
-    on_hide?: (...args: any[]) => any
+    on_hide?: (
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    ) => void
     /**
      * Will be called once a user presses the submit button.
      */
-    on_submit?: (...args: any[]) => any
+    on_submit?: (
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    ) => void
     /**
      * Will be called once a user presses the cancel button.
      */
-    on_cancel?: (...args: any[]) => any
+    on_cancel?: (
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    ) => void
     /**
      * Will be called once a user presses the reset button.
      */
-    on_reset?: (...args: any[]) => any
+    on_reset?: (
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    ) => void
     /**
      * Will be called once the input gets focus.
      */
-    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void
+    onFocus?: (
+      event: DatePickerEvent<React.FocusEvent<HTMLElement>>
+    ) => void
     /**
      * Will be called once the input lose focus.
      */
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
+    onBlur?: (
+      event: DatePickerEvent<React.FocusEvent<HTMLElement>>
+    ) => void
   }
 
 const defaultProps: DatePickerProps = {
