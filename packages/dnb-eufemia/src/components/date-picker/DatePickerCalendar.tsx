@@ -21,7 +21,7 @@ import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import setDate from 'date-fns/setDate'
 
 import keycode from 'keycode'
-
+// Imports only the parts of the date-fns locale object that we actually use
 import nbLocalize from 'date-fns/locale/nb/_lib/localize'
 import nbFormatLong from 'date-fns/locale/nb/_lib/formatLong'
 import enLocalize from 'date-fns/locale/en-US/_lib/localize'
