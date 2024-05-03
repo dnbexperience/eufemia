@@ -19,15 +19,31 @@ export function runCssVersionMismatchWarning() {
           return
         }
 
+        const getCssVersion = (element) => {
+          console.log(element)
+          return element
+            ? window
+                .getComputedStyle(element)
+                .getPropertyValue('--eufemia-version')
+                ?.replace(/["']/g, '')
+            : undefined
+        }
+
         const cssVersion =
-          window
-            .getComputedStyle(document.body)
-            .getPropertyValue('--eufemia-version')
-            ?.replace(/["']/g, '') || 'unknown'
+          getCssVersion(document.body) ||
+          getCssVersion(
+            document.getElementsByClassName('dnb-core-style')[0]
+          ) ||
+          'unknown'
 
         if (cssVersion !== jsVersion) {
+          const cssUnknownMessage =
+            cssVersion === 'unknown'
+              ? ' CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"'
+              : ''
+
           console.error(
-            'Eufemia CSS and JS version mismatch!',
+            'Eufemia CSS and JS version mismatch!' + cssUnknownMessage,
             `\nCSS: ${cssVersion}`,
             `\nJS: ${jsVersion}`
           )
