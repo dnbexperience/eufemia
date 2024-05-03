@@ -265,7 +265,7 @@ export function convertStringToDate(
 
   // rather return null than an invalid date
   if (!isValid(dateObject)) {
-    warn('convertStringToDate got invalid date:', date)
+    // warn('convertStringToDate got invalid date:', date)
     return null
   }
 
