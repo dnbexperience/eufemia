@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import usePreviousProps from './usePreviousValue'
-import { useInputDates } from './useInputDates'
 import format from 'date-fns/format'
 
 export type DateProps = {

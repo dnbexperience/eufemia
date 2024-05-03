@@ -41,7 +41,14 @@ import type { SkeletonShow } from '../Skeleton'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'children' | 'ref' | 'value' | 'size' | 'onFocus' | 'onBlur' | 'onSubmit'
+  | 'children'
+  | 'ref'
+  | 'value'
+  | 'size'
+  | 'onFocus'
+  | 'onBlur'
+  | 'onSubmit'
+  | 'label'
 > & {
   id?: string
   title?: string
@@ -71,10 +78,6 @@ export type DatePickerInputProps = Omit<
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
    */
   input_element?: InputInputElement
-  /**
-   * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
-   */
-  locale?: Record<string, unknown>
   disabled?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.

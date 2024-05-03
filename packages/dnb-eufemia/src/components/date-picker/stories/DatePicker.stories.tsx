@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -209,7 +209,6 @@ export const DatePickerSandbox = () => (
               show_input
               align_picker="right"
               mask_placeholder="dd/mm/yyyy"
-              locale={enLocale}
               first_day="sunday"
               return_format="dd/MM/yyyy"
               date="1981-01-15"
@@ -545,13 +544,58 @@ export const GlobalStatusExample = () => {
   )
 }
 
-export const LocalePropExample = () => {
+const def = {
+  no_animation: true,
+  range: true,
+  show_input: true,
+  date: '1970-01-01',
+  start_date: '2019-01-01',
+  end_date: '2019-02-15',
+}
+
+export const MahTests = () => {
+  const [startDate, setStartDate] = useState<string>(def.start_date)
+
   return (
     <>
-      <DatePicker show_input={true} locale={enLocale} />
-      {/* <Provider locale="en-GB">
-        <DatePicker show_input={true} />
-      </Provider> */}
+      <Box>
+        <DatePicker
+          {...def}
+          correct_invalid_date={true}
+          min_date="2019-01-02"
+          max_date="2023-14-11"
+        />
+      </Box>
+      <Box>
+        <DatePicker {...def} />
+      </Box>
+      <Box>
+        <DatePicker show_input />
+      </Box>
+      <Box>
+        <DatePicker
+          show_input
+          range
+          start_date={startDate}
+          end_date={def.end_date}
+        />
+        <Button
+          onClick={() => {
+            setStartDate(!startDate ? def.start_date : null)
+          }}
+        >
+          Toggle start_date
+        </Button>
+      </Box>
+      <Box>
+        <DatePicker
+          {...def}
+          on_change={(e) => console.log(e)}
+          correct_invalid_date={true}
+          min_date="2019-01-02"
+          max_date="2019-03-01"
+        />
+      </Box>
     </>
   )
 }
