@@ -374,4 +374,30 @@ describe('useStep', () => {
       expect(output()).toHaveTextContent('{"totalSteps":3}')
     })
   })
+
+  it('should warn when not wrapped in Form.Handler', () => {
+    const MockStep = () => {
+      const { setFormError } = useStep(identifier)
+
+      React.useEffect(() => {
+        setFormError(new Error('My error'))
+      }, [setFormError])
+
+      return (
+        <Wizard.Step id={identifier} title="Step 1">
+          <output>Step 1</output>
+        </Wizard.Step>
+      )
+    }
+
+    render(
+      <Wizard.Container>
+        <MockStep />
+      </Wizard.Container>
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      'My error'
+    )
+  })
 })

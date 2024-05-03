@@ -1,20 +1,19 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { Field, Form, Wizard } from '../../..'
-import userEvent from '@testing-library/user-event'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-jest.mock('../../../../../shared/component-helper', () => {
-  const original = jest.requireActual(
-    '../../../../../shared/component-helper'
-  )
-  return {
-    ...original,
-    warn: jest.fn(),
-  }
+const log = global.console.log
+beforeEach(() => {
+  global.console.log = jest.fn()
+})
+afterEach(() => {
+  global.console.log = log
+  jest.resetAllMocks()
 })
 
 describe('Wizard.Container', () => {
@@ -1054,5 +1053,39 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(document.querySelector('.dnb-forms-step')).not.toHaveFocus()
     })
+  })
+
+  it('should have fallback title when no title was given', () => {
+    render(
+      <Wizard.Container>
+        <Wizard.Step>
+          <output>Step 1</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content__text')
+    ).toHaveTextContent('Title missing')
+  })
+
+  it('should warn when not wrapped in Form.Handler', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenCalledWith(
+      expect.anything(),
+      'You may wrap Wizard.Container in Form.Handler'
+    )
+
+    log.mockRestore()
   })
 })
