@@ -99,9 +99,10 @@ function FormElementWithState({ children, ...rest }) {
             key={key}
             state={key}
             id={`${id}-form-status-${key}`}
+            className="dnb-forms-status"
             show={Boolean(value)}
             no_animation={false}
-            shellSpace={{ top: 'x-small' }}
+            shellSpace={{ top: 'small', bottom: 'medium' }}
           >
             {String(value?.['message'] || value || '')}
           </FormStatus>
