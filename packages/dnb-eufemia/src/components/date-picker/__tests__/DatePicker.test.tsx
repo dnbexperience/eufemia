@@ -14,7 +14,7 @@ import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
 import isWeekend from 'date-fns/isWeekend'
-import enLocale from 'date-fns/locale/en-GB'
+
 import {
   toRange,
   dayOffset,
