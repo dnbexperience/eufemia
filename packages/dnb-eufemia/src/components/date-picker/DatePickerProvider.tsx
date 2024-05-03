@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import type { DatePickerProps } from './DatePicker'
 
 import isValid from 'date-fns/isValid'
