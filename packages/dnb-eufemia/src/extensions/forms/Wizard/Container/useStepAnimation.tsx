@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
-export default function useElementAnimation({
+export default function useStepAnimation({
   activeIndexRef,
   stepElementRef,
 }) {
