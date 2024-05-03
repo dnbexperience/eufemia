@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import enLocale from 'date-fns/locale/en-GB'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import addDays from 'date-fns/addDays'

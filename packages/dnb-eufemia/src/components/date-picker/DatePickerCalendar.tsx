@@ -42,6 +42,7 @@ import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 
 type CalendarLocales = {
+  // eslint-disable-next-line no-unused-vars
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
 
