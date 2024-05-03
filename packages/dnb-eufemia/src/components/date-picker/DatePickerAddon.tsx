@@ -8,11 +8,19 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
+export type DatePickerShortcut = {
+  title?: string
+  date?: string | Date | ((...args: unknown[]) => Date | string)
+  start_date?: string | Date | ((...args: unknown[]) => Date | string)
+  end_date?: string | Date | ((...args: unknown[]) => Date | string)
+  close_on_select?: boolean
+}
+
 export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
   /**
    * Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.
    */
-  shortcuts?: any[] | React.ReactNode
+  shortcuts?: Array<DatePickerShortcut>
   renderElement?: React.ReactNode
 }
 

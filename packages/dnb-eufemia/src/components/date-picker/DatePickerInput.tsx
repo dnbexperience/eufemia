@@ -38,6 +38,7 @@ import type {
   FormStatusText,
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
+import { DatePickerEvent } from './DatePicker'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -93,11 +94,15 @@ export type DatePickerInputProps = Omit<
   /**
    * Will be called once the input gets focus.
    */
-  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void
+  onFocus?: (
+    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+  ) => void
   /**
    * Will be called once the input lose focus.
    */
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
+  onBlur?: (
+    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+  ) => void
 }
 
 const defaultProps: DatePickerInputProps = {
