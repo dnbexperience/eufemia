@@ -19,7 +19,7 @@ import WizardContext, {
   StepIndex,
   WizardContextState,
 } from '../Context/WizardContext'
-import Provider from '../../DataContext/Provider'
+import Handler from '../../Form/Handler/Handler'
 import {
   SharedStateReturn,
   useSharedState,
@@ -278,9 +278,9 @@ function WizardContainer(props: Props) {
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')
     return (
-      <Provider>
+      <Handler>
         <WizardContainer {...props} id={id} />
-      </Provider>
+      </Handler>
     )
   }
 
