@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, Form, Iterate, Value } from '../..'
 import { Button, Card, Flex } from '../../../../components'
+import Provider from '../../DataContext/Provider'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -48,11 +49,9 @@ export const AnimatedContainer = () => {
   )
 }
 
-const MyEditItem = ({ open = undefined, onDone = undefined }) => {
+const MyEditItem = () => {
   return (
     <Iterate.EditContainer
-      open={open}
-      onDone={onDone}
       title="Edit account holder"
       titleWhenNew="New account holder"
     >
@@ -104,34 +103,56 @@ export const ViewAndEditContainer = () => {
             path="/accounts"
             id="hello"
             // emptyValue={[{}]}
+            // value={[{}]}
             // initialValue={[{}]}
-            // initialEmptyValue={[{}]}
+            // assignWhenDone
             // concatWith={{ firstName: 'Tony' }}
-            concatWith={(array) => {
-              console.log('array.length', array.length)
-              if (array.length === 0) {
-                return [{ firstName: 'Tony' }]
-              }
-            }}
-            onChange={(data) => console.log('onChange', data)}
+            // concatWith={(array) => {
+            //   console.log('array.length', array.length)
+            //   if (array.length === 0) {
+            //     return [{ firstName: 'Tony' }]
+            //   }
+            // }}
+            onChange={(data) => console.log('Array1 onChange', data)}
           >
             <MyViewItem />
             <MyEditItem />
           </Iterate.Array>
 
-          {/* <Iterate.Array
-            value={[{ firstName: 'Tony' }]}
-            onChange={(data) => console.log('onChange', data)}
+          {/* <Provider
+            onSubmit={(data) => {
+              console.log('onSubmit isolated', data)
+            }}
+          > */}
+          <Iterate.Array.New
+            path="/accounts"
+            defaultValue={[{}]}
+            // isolate
+            // onChange={(data) => console.log('Array2 onChange', data)}
+            // path="/x"
           >
             <MyEditItem
-              open
-              onDone={(item, { update }) => {
-                update('/accounts', (array) => {
-                  return [...(array || []), item]
-                })
-              }}
+            // open
+            // onDone={(item, { update }) => {
+            //   console.log('item', item)
+            //   update('/accounts', (array) => {
+            //     return [...(array || []), item]
+            //   })
+            // }}
             />
-          </Iterate.Array> */}
+            <Iterate.PushButton
+              text="Add another account"
+              // path="/accounts"
+              pushValue={{}}
+            />
+          </Iterate.Array.New>
+          {/* </Provider> */}
+
+          {/* <Iterate.PushButton
+            text="Add another account"
+            path="/accounts"
+            pushValue={{}}
+          /> */}
 
           <Button
             onClick={() => {
@@ -140,12 +161,6 @@ export const ViewAndEditContainer = () => {
           >
             count {count}
           </Button>
-
-          <Iterate.PushButton
-            text="Add another account"
-            path="/accounts"
-            pushValue={{}}
-          />
         </Card>
 
         <Form.SubmitButton variant="send" />

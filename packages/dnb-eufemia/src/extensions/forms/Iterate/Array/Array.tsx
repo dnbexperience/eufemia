@@ -19,6 +19,7 @@ import {
   Props as FlexContainerAllProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
+import useData from '../../Form/data-context/useData'
 import IterateElementContext, {
   IterateElementContextState,
 } from '../IterateElementContext'
@@ -34,8 +35,7 @@ import type { Identifier, Path } from '../../types'
  * So its a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
-import useData from '../../Form/data-context/useData'
-import { DataContext } from '../..'
+import useId from '../../../../shared/helpers/useId'
 
 export type * from './types'
 
@@ -50,16 +50,29 @@ function ArrayComponent(props: Props) {
   const {
     id,
     path,
-    value: arrayValue,
-    withoutFlex,
-    concatWith,
+    value,
+    defaultValue,
+    mapInternalData,
     emptyValue,
+    withoutFlex,
     placeholder,
     handleChange,
     onChange,
-    addTo,
+    onDone,
+    // isolate,
     children,
   } = useFieldProps<Value, Props>(props)
+
+  const initialValue = useMemo(() => {
+    return defaultValue ?? value
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const valueRef = useRef<Value>(initialValue)
+  valueRef.current = useMemo(() => {
+    return value || valueRef.current
+  }, [value])
+  const arrayValue = valueRef.current
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
@@ -74,7 +87,7 @@ function ArrayComponent(props: Props) {
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
-  const { update, data } = useData()
+  // const { update, data } = useData()
   // console.log('data', id, data)
 
   useEffect(() => {
@@ -91,7 +104,8 @@ function ArrayComponent(props: Props) {
       const id =
         extendItemWith?.id || idsRef.current[index] || makeUniqueId()
 
-      const hasNewItems = arrayValue.length > valueCountRef.current?.length
+      const hasNewItems =
+        arrayValue?.length > valueCountRef.current?.length
 
       if (!idsRef.current[index]) {
         isNewRef.current[id] = hasNewItems
@@ -99,12 +113,12 @@ function ArrayComponent(props: Props) {
       }
 
       const isNew =
-        // concatWith ||
+        // map ||
         // && array.length === 1
         isNewRef.current[id] || false
       const animateIn = isNew
       // && array.length === 1
-      // (!concatWith && isNewRef.current[id]) || false
+      // (!map && isNewRef.current[id]) || false
       if (!modesRef.current[id]) {
         modesRef.current[id] = isNew ? 'edit' : 'view'
       }
@@ -118,7 +132,7 @@ function ArrayComponent(props: Props) {
         containerRef,
         isNew,
         animateIn,
-        update,
+        onDone,
         containerMode: modesRef.current[id],
         switchContainerMode: (mode: ContainerMode) => {
           modesRef.current[id] = mode
@@ -126,8 +140,11 @@ function ArrayComponent(props: Props) {
           forceUpdate()
         },
         handleChange: (path: Path, value: unknown) => {
-          console.log('handleChange', extendItemWith?.isolated, value)
-          return
+          // if (isolate) {
+          //   return // stop here
+          // }
+          // console.log('handleChange', extendItemWith?.isolated, value)
+          // return
           const newArrayValue = structuredClone(arrayValue)
 
           // Make sure we have a new object reference,
@@ -179,7 +196,7 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [salt, arrayValue, concatWith, handleChange, path]
+    [salt, arrayValue, handleChange, path]
   )
 
   const preparedArray = useMemo(() => {
@@ -188,11 +205,12 @@ function ArrayComponent(props: Props) {
 
     // console.log('arrayValue.length', arrayValue)
 
-    if (concatWith) {
-      const arrayWithItems =
-        typeof concatWith === 'function'
-          ? concatWith(items) || items
-          : items.concat(concatWith)
+    if (mapInternalData) {
+      // const arrayWithItems =
+      //   typeof map === 'function'
+      //     ? map(items) || items
+      //     : items.concat(map)
+      // console.log('arrayWithItems', arrayWithItems)
       // const diff = arrayWithItems.length - items.length
       // console.log('diff', diff)
       // const last = items[items.length - 1]
@@ -201,19 +219,23 @@ function ArrayComponent(props: Props) {
       // array.concat(arrayWithItems)
       // console.log('arrayWithItems', arrayWithItems)
 
-      return arrayWithItems.map((item, i) => {
-        if (item?.['arrayValue']) {
-          return item
-        }
-        const id = makeUniqueId()
-        modesRef.current[id] = 'edit'
-        return mapItem(item, i, {
-          id,
-          animateIn: false,
-          isNew: true,
-          isolated: true,
+      if (items) {
+        // console.log('items', items)
+        return items.map((item, i) => {
+          return mapInternalData(item, i, items) || item
+          // if (item?.['arrayValue']) {
+          //   return item
+          // }
+          // const id = makeUniqueId()
+          // modesRef.current[id] = 'edit'
+          // return mapItem(item, i, {
+          //   id,
+          //   animateIn: false,
+          //   isNew: true,
+          //   // isolated: true,
+          // })
         })
-      })
+      }
 
       // return mapItem(arrayWithItems, array.length, {
       //   animateIn: false,
@@ -249,17 +271,19 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayValue, concatWith, mapItem])
+  }, [arrayValue, mapInternalData, mapItem])
+
+  // console.log('preparedArray', preparedArray)
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
-  useMemo(() => {
-    const last = preparedArray?.[preparedArray.length - 1]
-    if (last?.isNew && !hadPushRef.current) {
-      onChange?.(arrayValue)
-    } else {
-      hadPushRef.current = false
-    }
-  }, [arrayValue, preparedArray, onChange])
+  // useMemo(() => {
+  //   const last = preparedArray?.[preparedArray.length - 1]
+  //   if (last?.isNew && !hadPushRef.current) {
+  //     onChange?.(arrayValue)
+  //   } else {
+  //     hadPushRef.current = false
+  //   }
+  // }, [arrayValue, preparedArray, onChange])
 
   const flexProps: FlexContainerProps & {
     innerRef: FlexContainerAllProps['innerRef']
@@ -321,6 +345,128 @@ function ArrayComponent(props: Props) {
             )
           })}
     </WrapperElement>
+  )
+}
+
+ArrayComponent.New = function NewItem(props) {
+  const [salt, forceUpdate] = useReducer(() => ({}), {})
+  const { update } = useData()
+
+  const { children, defaultValue, path } = props
+  // const storeRef = useRef()
+  const valueRef = useRef(defaultValue)
+  // console.log('valueRef', valueRef)
+  // const id = useId()
+  // const keyRef = useRef(id)
+
+  const mapFunc = useCallback(
+    (item, index, array) => {
+      // console.log(
+      //   'valueRef.current',
+      //   valueRef.current.length,
+      //   defaultValue.length
+      // )
+      // console.log('mapFunc', item.isNew)
+      // Object.assign(item, { isNew: true })
+      // return item
+      // if (array.length === 1) {
+      return {
+        ...item,
+        isNew: true,
+        animateIn: valueRef.current.length > defaultValue.length,
+        containerMode: 'edit',
+      }
+      // }
+
+      // return item
+    },
+    [defaultValue]
+  )
+
+  const handleDone = useCallback(
+    (item) => {
+      update(path, (array) => {
+        // return [...(array || []), ...storeRef.current]
+        return [...(array || []), item]
+      })
+      // keyRef.current = makeUniqueId()
+      // valueRef.current = valueRef.current.filter((current) => {
+      //   // console.log('item filter', item, current)
+      //   return item !== current
+      // })
+      valueRef.current = [...defaultValue]
+      // forceUpdate()
+      // storeRef.current = undefined
+    },
+    [defaultValue, path, update]
+  )
+
+  const handleChange = useCallback((value) => {
+    console.log('value', value)
+    valueRef.current = value
+  }, [])
+
+  const restToRender = useMemo(() => [], [])
+
+  // console.log('valueRef.current', valueRef.current)
+
+  // Map over React children by using React.Children and check if one is of type PushButton
+  const itemsToRender = useMemo(() => {
+    return React.Children.map(children, (child, key) => {
+      if (React.isValidElement(child)) {
+        // console.log('child.type.name', child.type.name)
+        if (child.type['name'] === 'PushButton') {
+          const props = {
+            key,
+            path: undefined,
+            onClick: () => {
+              // console.log('onClick')
+              valueRef.current = [...valueRef.current, {}]
+              forceUpdate()
+              // handleDone({ firstName: 'Tony' })
+            },
+          }
+          restToRender.push(React.cloneElement(child, props))
+          return null
+        }
+      }
+      return child
+    })
+  }, [children, restToRender])
+
+  return (
+    <>
+      <ArrayComponent
+        withoutFlex
+        // path="/x"
+        // key={keyRef.current}
+        // map={defaultValue}
+        // map={defaultValue}
+        // value={
+        //   valueRef.current.length > defaultValue.length
+        //     ? valueRef.current
+        //     : defaultValue
+        // }
+        value={valueRef.current}
+        defaultValue={defaultValue}
+        // onChange={(data) => {
+        //   storeRef.current = data
+        //   // console.log('data', data)
+        //   // Object.assign(storeRef.current, data)
+        //   // // storeRef.current.data = data
+        //   // console.log('Array2 onChange', storeRef.current)
+        // }}
+        onDone={handleDone}
+        onChange={handleChange}
+        mapInternalData={mapFunc}
+      >
+        {/* XXXX-s */}
+        {itemsToRender}
+        {/* XXXX-e */}
+      </ArrayComponent>
+
+      {restToRender}
+    </>
   )
 }
 

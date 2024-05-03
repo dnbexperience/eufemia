@@ -34,12 +34,12 @@ export type Props = {
 
 export type AllProps = Props & FlexContainerProps
 
-export default function EditContainer({ onDone, ...props }: AllProps) {
+export default function EditContainer(props: AllProps) {
   return (
     <EditContainerWithoutToolbar
       toolbar={
         <Toolbar>
-          <EditToolbarTools onDone={onDone} />
+          <EditToolbarTools />
         </Toolbar>
       }
       {...props}

@@ -7,8 +7,7 @@ import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 
-export default function EditToolbarTools(props) {
-  const { onDone } = props || {}
+export default function EditToolbarTools() {
   const {
     restoreOriginalValue,
     switchContainerMode,
@@ -16,7 +15,8 @@ export default function EditToolbarTools(props) {
     arrayValue,
     index,
     isNew,
-    update,
+    onDone,
+    // update,
   } = useContext(IterateElementContext) || {}
   const { hasErrorAndShowIt } = useContext(FieldBoundaryContext) || {}
 
@@ -41,8 +41,8 @@ export default function EditToolbarTools(props) {
   }, [restoreOriginalValue, switchContainerMode])
   const doneHandler = useCallback(() => {
     switchContainerMode?.('view')
-    onDone?.(arrayValue?.[index], { update })
-  }, [arrayValue, index, onDone, switchContainerMode, update])
+    onDone?.(arrayValue?.[index])
+  }, [arrayValue, index, onDone, switchContainerMode])
 
   return (
     <Flex.Horizontal spacing="large">
