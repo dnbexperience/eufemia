@@ -27,6 +27,32 @@
       --border-color: var(--color-pistachio);
       max-width: var(--forms-card-max-width);
     }
+
+    .dnb-forms-step > .appear-fx,
+    .dnb-forms-button-row > .appear-fx {
+      --appear-opacity: 0;
+      --appear-offset: -0.25rem;
+
+      opacity: var(--appear-opacity);
+      transform: translate3d(var(--appear-offset), 0, 0);
+
+      animation: appear 600ms var(--easing-default) forwards;
+      animation-delay: calc(var(--element-index, 0) * 30ms);
+
+      @keyframes appear {
+        0% {
+          opacity: var(--appear-opacity);
+          transform: translate3d(var(--appear-offset), 0, 0);
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+    }
   }
 
   // FormStatus as part of the Form.Handler

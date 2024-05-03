@@ -18,6 +18,9 @@ jest.mock('../../../../../shared/component-helper', () => {
 })
 
 describe('Wizard.Container', () => {
+  // Add a shadow, so we can spy on the scrollIntoView method
+  window.HTMLElement.prototype.scrollIntoView = () => null
+
   const previousButton = () => {
     return document.querySelector('.dnb-forms-previous-button')
   }
@@ -848,7 +851,9 @@ describe('Wizard.Container', () => {
 
   it('should scroll to top on step change', async () => {
     const scrollIntoViewMock = jest.fn()
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
+    const scrollMock = jest
+      .spyOn(window.HTMLElement.prototype, 'scrollIntoView')
+      .mockImplementation(scrollIntoViewMock)
 
     render(
       <Wizard.Container>
@@ -895,11 +900,15 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledTimes(4)
     })
+
+    scrollMock.mockRestore()
   })
 
   it('should not scroll to top on step change when omitScrollManagement is true', async () => {
     const scrollIntoViewMock = jest.fn()
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
+    const scrollMock = jest
+      .spyOn(window.HTMLElement.prototype, 'scrollIntoView')
+      .mockImplementation(scrollIntoViewMock)
 
     render(
       <Wizard.Container omitScrollManagement={true}>
@@ -940,6 +949,8 @@ describe('Wizard.Container', () => {
     await userEvent.click(firstStep.querySelector('.dnb-button'))
     expect(output()).toHaveTextContent('Step 1')
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
+
+    scrollMock.mockRestore()
   })
 
   it('should show remaining errors on step change', () => {

@@ -1,10 +1,14 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type Props = ComponentProps &
   FlexContainerProps & {
@@ -28,6 +32,18 @@ function Step(props: Props) {
     return convertJsxToString(title)
   }, [title])
 
+  const currentElementRef = useRef<HTMLElement>()
+  useLayoutEffect(() => {
+    if (typeof stepElementRef !== 'undefined') {
+      if (currentElementRef.current) {
+        stepElementRef.current = currentElementRef.current
+      }
+      return () => {
+        stepElementRef.current = null
+      }
+    }
+  }, [stepElementRef])
+
   if (activeIndex !== index) {
     // Another step is active
     return null
@@ -38,7 +54,7 @@ function Step(props: Props) {
       className={classnames('dnb-forms-step', className)}
       element="section"
       aria-label={ariaLabel}
-      innerRef={stepElementRef}
+      innerRef={currentElementRef}
       tabIndex={-1}
       {...restProps}
     >
