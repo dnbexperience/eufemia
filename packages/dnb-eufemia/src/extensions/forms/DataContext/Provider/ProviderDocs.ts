@@ -66,6 +66,11 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  required: {
+    doc: 'Make all fields required.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',

@@ -146,6 +146,10 @@ export interface Props<Data extends JsonObject> {
    * Key for caching the data in session storage
    */
   sessionStorageId?: string
+  /**
+   * Make all fields required
+   */
+  required?: boolean
   children: React.ReactNode
 }
 
@@ -176,6 +180,7 @@ export default function Provider<Data extends JsonObject>(
     transformOut,
     filterSubmitData,
     filterData,
+    required,
     errorMessages: contextErrorMessages,
     children,
     ...rest
@@ -942,6 +947,7 @@ export default function Provider<Data extends JsonObject>(
         /** State handling */
         schema,
         disabled,
+        required,
         formState,
         submitState,
         contextErrorMessages,

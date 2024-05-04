@@ -3818,4 +3818,69 @@ describe('DataContext.Provider', () => {
       })
     })
   })
+
+  describe('required', () => {
+    it('should make all fields required', () => {
+      const { rerender } = render(
+        <DataContext.Provider required data={{ foo: 'original' }}>
+          <Field.String path="/foo" value="foo" />
+          <Field.String path="/bar" value="bar" />
+          <Field.String path="/baz" value="baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(first).toHaveAttribute('aria-required', 'true')
+      expect(second).toHaveAttribute('aria-required', 'true')
+      expect(third).toHaveAttribute('aria-required', 'true')
+
+      rerender(
+        <DataContext.Provider data={{ foo: 'changed' }}>
+          <Field.String path="/foo" value="foo" />
+          <Field.String path="/bar" value="bar" />
+          <Field.String path="/baz" value="baz" />
+        </DataContext.Provider>
+      )
+
+      expect(first).not.toHaveAttribute('aria-required')
+      expect(second).not.toHaveAttribute('aria-required')
+      expect(third).not.toHaveAttribute('aria-required')
+    })
+
+    it('should make individual fields optional when required is false', () => {
+      render(
+        <DataContext.Provider required data={{ foo: 'original' }}>
+          <Field.String path="/foo" value="foo" />
+          <Field.String path="/bar" value="bar" required={false} />
+          <Field.String path="/baz" value="baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(first).toHaveAttribute('aria-required', 'true')
+      expect(second).not.toHaveAttribute('aria-required', 'true')
+      expect(third).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should not override the required prop', () => {
+      render(
+        <DataContext.Provider required={false} data={{ foo: 'original' }}>
+          <Field.String path="/foo" value="foo" />
+          <Field.String path="/bar" value="bar" required />
+          <Field.String path="/baz" value="baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(first).not.toHaveAttribute('aria-required', 'true')
+      expect(second).toHaveAttribute('aria-required', 'true')
+      expect(third).not.toHaveAttribute('aria-required', 'true')
+    })
+  })
 })

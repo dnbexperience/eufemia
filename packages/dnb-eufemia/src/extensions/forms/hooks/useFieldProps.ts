@@ -73,7 +73,6 @@ export default function useFieldProps<
     path,
     itemPath,
     emptyValue,
-    required,
     info,
     warning,
     error: errorProp,
@@ -105,8 +104,6 @@ export default function useFieldProps<
       return res
     },
   } = props
-
-  const disabled = props.disabled ?? props.readOnly
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
@@ -140,6 +137,9 @@ export default function useFieldProps<
     contextErrorMessages,
   } = dataContext ?? {}
   const onChangeContext = dataContext?.props?.onChange
+
+  const disabled = props.disabled ?? props.readOnly
+  const required = props.required ?? dataContext?.required
 
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)

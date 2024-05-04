@@ -106,7 +106,8 @@ export interface ContextState {
   ajvInstance: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
-  disabled: boolean
+  disabled?: boolean
+  required?: boolean
   submitState: Partial<EventStateObject>
   _isInsideFormElement?: boolean
   props: ProviderProps<unknown>
@@ -116,7 +117,6 @@ export const defaultContextState: ContextState = {
   hasContext: false,
   data: undefined,
   schema: undefined,
-  disabled: undefined,
   submitState: undefined,
   handlePathChange: () => null,
   handlePathChangeUnvalidated: () => null,
