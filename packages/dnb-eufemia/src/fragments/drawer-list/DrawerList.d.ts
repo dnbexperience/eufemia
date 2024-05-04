@@ -45,9 +45,7 @@ export type DrawerListChildren =
   | Record<string, unknown>
   | any[];
 export type DrawerListSuffix = React.ReactNode;
-export interface DrawerListProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
-    SpacingProps {
+export interface DrawerListProps {
   id?: string;
   role?: string;
   /**
@@ -204,8 +202,16 @@ export type DrawerListItemProps = {
     value: string;
   }) => void;
 };
+
+export type DrawerListAllProps = DrawerListProps &
+  SpacingProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    'ref' | 'size' | 'label' | 'placeholder' | 'data' | 'children'
+  >;
+
 export default class DrawerList extends React.Component<
-  DrawerListProps,
+  DrawerListAllProps,
   any
 > {
   static defaultProps: object;
