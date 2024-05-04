@@ -8,7 +8,7 @@ describe('ArrayElement', () => {
     render(<Array value={['one']}>content</Array>)
 
     expect(
-      document.querySelector('.dnb-form-iterate__element')
+      document.querySelector('.dnb-forms-iterate__element')
     ).toHaveAttribute('tabindex', '-1')
   })
 
@@ -74,7 +74,7 @@ describe('ArrayElement', () => {
     )
 
     expect(
-      document.querySelectorAll('.dnb-form-iterate__element')
+      document.querySelectorAll('.dnb-forms-iterate__element')
     ).toHaveLength(1)
     expect(document.querySelector('output')).toHaveTextContent(
       'Content "foo" 0'

@@ -560,7 +560,9 @@ describe('Form.Handler', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -572,7 +574,9 @@ describe('Form.Handler', () => {
       )
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeNull()
     })
 
@@ -637,7 +641,9 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -653,7 +659,7 @@ describe('Form.Handler', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -665,7 +671,9 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -681,7 +689,7 @@ describe('Form.Handler', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -815,13 +823,15 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -840,13 +850,15 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })

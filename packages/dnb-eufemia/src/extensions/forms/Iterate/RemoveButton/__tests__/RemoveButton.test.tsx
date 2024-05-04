@@ -47,7 +47,7 @@ describe('RemoveButton', () => {
     render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
-    expect(button).toHaveClass('dnb-form-iterate-remove-element-button')
+    expect(button).toHaveClass('dnb-forms-iterate-remove-element-button')
   })
 
   it('should be a tertiary variant', () => {
@@ -93,7 +93,7 @@ describe('RemoveButton', () => {
     render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector(
-      '.dnb-form-iterate-remove-element-button'
+      '.dnb-forms-iterate-remove-element-button'
     )
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(

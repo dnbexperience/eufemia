@@ -10,7 +10,7 @@ describe('Form.MainHeading', () => {
   it('should forward HTML attributes', () => {
     render(<MainHeading aria-label="Aria Label">Aria Heading</MainHeading>)
 
-    const element = document.querySelector('.dnb-form-main-heading')
+    const element = document.querySelector('.dnb-forms-main-heading')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -23,7 +23,7 @@ describe('Form.MainHeading', () => {
     const { rerender } = render(
       <MainHeading top="x-large">Space Heading</MainHeading>
     )
-    const element = document.querySelector('.dnb-form-main-heading')
+    const element = document.querySelector('.dnb-forms-main-heading')
 
     expect(element.classList).toContain('dnb-space__top--x-large')
 
@@ -37,12 +37,12 @@ describe('Form.MainHeading', () => {
       <MainHeading className="custom-class">Class Heading</MainHeading>
     )
 
-    const element = document.querySelector('.dnb-form-main-heading')
+    const element = document.querySelector('.dnb-forms-main-heading')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-heading',
       'dnb-h--large',
-      'dnb-form-main-heading',
+      'dnb-forms-main-heading',
       'custom-class',
     ])
   })
@@ -50,7 +50,7 @@ describe('Form.MainHeading', () => {
   it('should render children', () => {
     render(<MainHeading>Children Heading</MainHeading>)
 
-    const element = document.querySelector('.dnb-form-main-heading')
+    const element = document.querySelector('.dnb-forms-main-heading')
     const children = element.childNodes
 
     expect(children.length).toEqual(1)
@@ -60,7 +60,7 @@ describe('Form.MainHeading', () => {
   it('should default to large heading', () => {
     render(<MainHeading>Heading</MainHeading>)
 
-    const element = document.querySelector('.dnb-form-main-heading')
+    const element = document.querySelector('.dnb-forms-main-heading')
 
     expect(element.className).toContain('dnb-h--large')
   })

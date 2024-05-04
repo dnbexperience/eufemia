@@ -20,7 +20,7 @@ describe('Iterate.Array', () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
-        '[data-visual-test="animated-container"] .dnb-form-iterate-block',
+        '[data-visual-test="animated-container"] .dnb-forms-iterate-block',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -29,7 +29,7 @@ describe('Iterate.Array', () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
-        '[data-visual-test="view-and-edit-container"] .dnb-form-iterate-block',
+        '[data-visual-test="view-and-edit-container"] .dnb-forms-iterate-block',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -38,11 +38,11 @@ describe('Iterate.Array', () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
-      screenshotSelector: '.dnb-form-iterate-edit-block',
+      screenshotSelector: '.dnb-forms-iterate-edit-block',
       waitAfterSimulate: 100,
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="view-and-edit-container"] .dnb-form-iterate-push-button',
+        '[data-visual-test="view-and-edit-container"] .dnb-forms-iterate-push-button',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
