@@ -9,7 +9,7 @@ import countries, {
   type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -25,7 +25,7 @@ export type Props = FieldHelpProps &
     countries?: CountryFilterSet
 
     // Styling
-    width?: false | 'small' | 'medium' | 'large' | 'stretch'
+    width?: FieldBlockWidth
 
     /**
      * For internal use only.

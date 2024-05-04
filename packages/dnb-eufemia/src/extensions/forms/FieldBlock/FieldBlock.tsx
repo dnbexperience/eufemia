@@ -35,6 +35,7 @@ import {
   FormError,
   SubmitState,
   Identifier,
+  FieldBlockWidth,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
@@ -61,9 +62,9 @@ export type Props = Pick<
   /** Defines the layout of nested fields */
   composition?: FieldBlockContextProps['composition']
   /** Width of outer block element */
-  width?: false | 'small' | 'medium' | 'large' | 'stretch'
+  width?: FieldBlockWidth
   /** Width of contents block, while label etc can be wider if space is available */
-  contentWidth?: 'small' | 'medium' | 'large' | 'stretch'
+  contentWidth?: FieldBlockWidth
   contentClassName?: string
   /** To show the SubmitIndicator during async validation */
   fieldState?: SubmitState

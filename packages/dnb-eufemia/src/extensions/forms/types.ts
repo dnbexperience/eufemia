@@ -196,6 +196,13 @@ export type FieldBlockProps = {
   placeholder?: React.ReactNode
 }
 
+export type FieldBlockWidth =
+  | false
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'stretch'
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
