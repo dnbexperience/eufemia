@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
@@ -8,10 +9,13 @@ export type Props = ValueProps<boolean>
 
 function BooleanComponent(props: Props) {
   const translations = useTranslation().BooleanField
-  const { value, ...rest } = useValueProps(props)
+  const { value, className, ...rest } = useValueProps(props)
 
   return (
-    <ValueBlock {...rest}>
+    <ValueBlock
+      className={classnames('dnb-forms-value-boolean', className)}
+      {...rest}
+    >
       {value === true || value === false
         ? value === true
           ? translations.yes
