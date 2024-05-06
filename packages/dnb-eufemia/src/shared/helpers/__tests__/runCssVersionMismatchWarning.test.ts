@@ -1,7 +1,7 @@
 import { runCssVersionMismatchWarning } from '../runCssVersionMismatchWarning'
 
 describe('runCssVersionMismatchWarning', () => {
-  let consoleErrorSpy, originalGetComputedStyle
+  let consoleErrorSpy, consoleWarnSpy, originalGetComputedStyle
 
   const NODE_ENV = process.env.NODE_ENV
 
@@ -18,12 +18,14 @@ describe('runCssVersionMismatchWarning', () => {
     process.env.NODE_ENV = 'development'
     originalGetComputedStyle = window.getComputedStyle
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation()
   })
 
   afterEach(() => {
     process.env.NODE_ENV = NODE_ENV
     window.getComputedStyle = originalGetComputedStyle
     consoleErrorSpy?.mockRestore()
+    consoleWarnSpy?.mockRestore()
     if (window?.Eufemia) {
       delete window.Eufemia.version
     }
@@ -36,6 +38,7 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).not.toHaveBeenCalled()
 
     process.env.NODE_ENV = originalNodeEnv
   })
@@ -93,6 +96,7 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).not.toHaveBeenCalled()
 
     window.Eufemia.version = originalJsVersion
   })
@@ -117,7 +121,7 @@ describe('runCssVersionMismatchWarning', () => {
     window.Eufemia.version = originalJsVersion
   })
 
-  it('should log an error if cssVersion is not available', () => {
+  it('should log a warning if cssVersion is not available', () => {
     const originalJsVersion = window.Eufemia?.version
     window.Eufemia = { version: '1.0.0' }
 
@@ -127,8 +131,9 @@ describe('runCssVersionMismatchWarning', () => {
 
     runCssVersionMismatchWarning()
 
-    expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
+    expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
       'Eufemia CSS and JS version mismatch! CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"',
       '\nCSS: unknown',
       '\nJS: 1.0.0'
@@ -151,6 +156,7 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).not.toHaveBeenCalled()
     expect(addEventListener).toHaveBeenCalledWith(
       'load',
       expect.any(Function)
@@ -172,6 +178,7 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).not.toHaveBeenCalled()
     expect(requestAnimationFrameSpy).toHaveBeenCalledWith(
       expect.any(Function)
     )
@@ -191,6 +198,7 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).not.toHaveBeenCalled()
 
     Object.defineProperty(global, 'document', {
       configurable: true,

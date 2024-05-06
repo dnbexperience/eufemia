@@ -37,16 +37,23 @@ export function runCssVersionMismatchWarning() {
           'unknown'
 
         if (cssVersion !== jsVersion) {
-          const cssUnknownMessage =
-            cssVersion === 'unknown'
-              ? ' CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"'
-              : ''
+          const isUnknown = cssVersion === 'unknown'
 
-          console.error(
-            'Eufemia CSS and JS version mismatch!' + cssUnknownMessage,
+          const consoleArguments = [
+            `Eufemia CSS and JS version mismatch!${
+              isUnknown
+                ? ' CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"'
+                : ''
+            }`,
             `\nCSS: ${cssVersion}`,
-            `\nJS: ${jsVersion}`
-          )
+            `\nJS: ${jsVersion}`,
+          ]
+
+          if (isUnknown) {
+            console.warn(...consoleArguments)
+          } else {
+            console.error(...consoleArguments)
+          }
         }
       }
 
