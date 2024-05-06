@@ -99,6 +99,9 @@ export default {
       warningRequired:
         'You have not entered a mobile number. You can still use this number if it is correct.',
     },
+    PostalCodeAndCity: {
+      label: 'Postcode and city',
+    },
     PostalCode: {
       label: 'Postc.',
       errorRequired: 'You must enter a postcode.',

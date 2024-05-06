@@ -98,6 +98,9 @@ export default {
       warningRequired:
         'Du har ikke skrevet inn et mobilnummer. Du kan likevel bruke dette nummeret hvis det er riktig.',
     },
+    PostalCodeAndCity: {
+      label: 'Postnummer og sted',
+    },
     PostalCode: {
       label: 'Postnr.',
       errorRequired: 'Du må fylle inn et postnummer.',
