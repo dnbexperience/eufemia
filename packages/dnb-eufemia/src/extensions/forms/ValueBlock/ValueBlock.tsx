@@ -30,7 +30,7 @@ function ValueBlock(props: Props) {
 
   const {
     className,
-    label,
+    label: labelProp,
     inline,
     maxWidth = props.composition ? props.maxWidth : 'large',
     placeholder,
@@ -39,6 +39,8 @@ function ValueBlock(props: Props) {
     composition,
     gap = 'xx-small',
   } = props
+
+  const label = inline ? null : labelProp
 
   if (
     (children === undefined || children === null || children === false) &&
