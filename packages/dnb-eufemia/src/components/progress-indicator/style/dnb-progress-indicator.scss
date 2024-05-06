@@ -7,11 +7,16 @@
 
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
-  --progress-indicator-circular-circle: 88;
-  --progress-indicator-circular-circle-offset--min: 88;
-  --progress-indicator-circular-circle-offset--max: 1;
+  --progress-indicator-circular-circle: 314.159265359%;
+  --progress-indicator-circular-circle-offset--min: 314.159265359%;
+  --progress-indicator-circular-circle-offset--max: 1%;
+  --progress-indicator-circular-size: 2rem;
+  --progress-indicator-circular-stroke-width: calc(
+    var(--progress-indicator-circular-size) / 8
+  );
   --progress-indicator-circular-background-color: grey;
   --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: grey;
   --progress-indicator-linear-bar-color: var(--color-black);
 
@@ -54,13 +59,40 @@
     padding-top: 0.5rem;
   }
 
+  &--inside &__label {
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    padding: var(--progress-indicator-circular-stroke-width);
+  }
+
+  &--small {
+    --progress-indicator-circular-size: 1rem;
+    --progress-indicator-linear-size: 0.25rem;
+  }
+
+  &--medium {
+    --progress-indicator-circular-size: 1.5rem;
+    --progress-indicator-linear-size: 1rem;
+  }
+
+  &--large {
+    --progress-indicator-circular-size: 3.5rem;
+    --progress-indicator-linear-size: 1.5rem;
+  }
+
+  &--huge {
+    --progress-indicator-circular-size: 20rem;
+    --progress-indicator-linear-size: 2rem;
+  }
+
   // circular variant
   &__circular {
     position: relative;
 
     // default/basis size
-    width: 2rem;
-    height: 2rem;
+    width: var(--progress-indicator-circular-size);
+    height: var(--progress-indicator-circular-size);
 
     // since SVG is starting 90deg from top
     transform: rotate(-90deg);
@@ -70,6 +102,24 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+
+      &:not(:root) {
+        overflow: visible;
+      }
+    }
+
+    &__background-padding {
+      display: block;
+      height: 100%;
+      padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+    }
+
+    &__background {
+      display: block;
+      height: 100%;
+      background-color: transparent;
+      border-radius: 50%;
     }
 
     &__line {
@@ -114,6 +164,7 @@
 
     &__circle {
       stroke-linecap: round;
+      stroke-width: var(--progress-indicator-circular-stroke-width);
     }
 
     &__line.light &__circle {
@@ -122,47 +173,10 @@
 
     &__line.dark &__circle {
       stroke: var(--progress-indicator-circular-bar-color);
-    }
-
-    &--small {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    &--medium {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-
-    &--large {
-      width: 3.5rem;
-      height: 3.5rem;
-    }
-
-    &--huge {
-      width: 20rem;
-      height: 20rem;
-    }
-
-    // compensate for 'aliasing artifacts' seen when rendering same sized, lighter on dark elements
-    &--small &__line.dark &__circle {
-      stroke-width: 3.1;
-    }
-
-    &--medium &__line.dark &__circle {
-      stroke-width: 3.3;
-    }
-
-    &--default &__line.dark &__circle {
-      stroke-width: 3.5;
-    }
-
-    &--large &__line.dark &__circle {
-      stroke-width: 3.7;
-    }
-
-    &--huge &__line.dark &__circle {
-      stroke-width: 3.9;
+      // compensate for 'aliasing artifacts' seen when rendering same sized, lighter on dark elements
+      stroke-width: calc(
+        var(--progress-indicator-circular-stroke-width) - 0.5px
+      );
     }
   }
 
@@ -175,8 +189,8 @@
     will-change: transform;
 
     // default/basis size
-    height: 0.5rem;
-    border-radius: 0.25rem;
+    height: var(--progress-indicator-linear-size);
+    border-radius: calc(var(--progress-indicator-linear-size) / 2);
 
     &__bar {
       background-color: var(--progress-indicator-linear-bar-color);
@@ -203,26 +217,6 @@
       width: auto;
       animation: progress-indicator-linear-bar-2 2.1s
         cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
-    }
-
-    &--small {
-      height: 0.25rem;
-      border-radius: 0.125rem;
-    }
-
-    &--medium {
-      height: 1rem;
-      border-radius: 0.5rem;
-    }
-
-    &--large {
-      height: 1.5rem;
-      border-radius: 0.75rem;
-    }
-
-    &--huge {
-      height: 2rem;
-      border-radius: 1rem;
     }
 
     html[data-visual-test] &__bar1-animation {
@@ -254,7 +248,8 @@
     animation-duration: 0ms;
   }
 
-  &--no-animation {
+  &--no-animation,
+  &--no-animation#{&}--complete {
     animation-duration: 0ms;
   }
 

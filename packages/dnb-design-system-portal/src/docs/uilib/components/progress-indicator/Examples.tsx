@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   ProgressIndicator,
@@ -11,6 +12,8 @@ import {
   FormRow,
   Dialog,
   Flex,
+  IconPrimary,
+  NumberFormat,
 } from '@dnb/eufemia/src'
 
 export const ProgressIndicatorDefaultExample = () => (
@@ -44,6 +47,27 @@ export const ProgressIndicatorCircularLabelVerticalExample = () => (
       showDefaultLabel={true}
       labelDirection="vertical"
     />
+  </ComponentBox>
+)
+
+export const ProgressIndicatorCircularLabelInsideExample = () => (
+  <ComponentBox>
+    <ProgressIndicator
+      right
+      label={<IconPrimary icon="save" />}
+      type="circular"
+      labelDirection="inside"
+    />
+
+    <ProgressIndicator
+      progress={72}
+      size="large"
+      type="circular"
+      labelDirection="inside"
+      data-visual-test="progress-indicator-label-inside"
+    >
+      <span className="dnb-p dnb-p--bold dnb-p__size--small">{72}%</span>
+    </ProgressIndicator>
   </ComponentBox>
 )
 
@@ -327,5 +351,173 @@ export const ProgressIndicatorSizesExample = () => (
       <ProgressIndicator progress="50" />
       <ProgressIndicator progress="50" size="large" />
     </div>
+  </ComponentBox>
+)
+
+const StyledLabel = styled.span`
+  display: grid;
+  place-content: center;
+`
+const MyCustomLabel = ({ children, ...rest }) => (
+  <StyledLabel
+    className="dnb-p dnb-p--medium dnb-p__size--small"
+    {...rest}
+  >
+    {children}
+  </StyledLabel>
+)
+
+export const ProgressIndicatorCountdownExample = () => (
+  <ComponentBox scope={{ MyCustomLabel }}>
+    {() => {
+      const ChangeValue = () => {
+        const max = 60
+        const [current, setCurrent] = React.useState(10)
+
+        React.useEffect(() => {
+          const timer = setInterval(() => {
+            setCurrent(current === 0 ? max - 1 : current - 1)
+          }, 1000)
+          return () => clearTimeout(timer)
+        })
+
+        return (
+          <ProgressIndicator
+            type="countdown"
+            progress={(current / max) * 100}
+            title={current + ' av ' + max}
+            size="large"
+            labelDirection="inside"
+          >
+            <MyCustomLabel aria-hidden>{current}</MyCustomLabel>
+          </ProgressIndicator>
+        )
+      }
+
+      return <ChangeValue />
+    }}
+  </ComponentBox>
+)
+
+const DarkBackground = styled.div`
+  background-color: var(--color-emerald-green);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+`
+
+export const ProgressIndicatorCustomCountdown = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="progress-indicator-custom-countdown"
+    scope={{
+      DarkBackground,
+      MyCustomLabel,
+    }}
+  >
+    {() => {
+      const MyProgressIndicator = () => {
+        const StyledText = styled.span`
+          color: var(--color-white);
+          font-size: var(--font-size-small);
+        `
+
+        const StyledTitle = styled.span`
+          display: block;
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-medium);
+        `
+        const daysLeft = 20
+        const daysInMonth = 31
+
+        return (
+          <DarkBackground>
+            <ProgressIndicator
+              type="countdown"
+              progress={(daysLeft / daysInMonth) * 100}
+              size="6rem"
+              labelDirection="inside"
+              customColors={{
+                line: 'var(--color-summer-green)',
+                shaft: 'transparent',
+                background: 'var(--color-sea-green)',
+              }}
+              title={daysLeft + 'days left'}
+              customCircleWidth="0.5rem"
+            >
+              <StyledText>
+                <StyledTitle>{daysLeft} d</StyledTitle>
+                left
+              </StyledText>
+            </ProgressIndicator>
+          </DarkBackground>
+        )
+      }
+      return <MyProgressIndicator />
+    }}
+  </ComponentBox>
+)
+
+export const ProgressIndicatorCustomHorizontal = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="progress-indicator-custom-horizontal"
+    scope={{
+      DarkBackground,
+      MyCustomLabel,
+    }}
+  >
+    {() => {
+      const MyProgressIndicator = () => {
+        const StyledText = styled.span`
+          color: white;
+          font-size: var(--font-size-basis);
+        `
+        return (
+          <DarkBackground>
+            <ProgressIndicator
+              type="linear"
+              progress={75}
+              size="1rem"
+              labelDirection="vertical"
+              customColors={{
+                line: 'var(--color-summer-green)',
+                shaft: 'var(--color-sea-green)',
+              }}
+            >
+              <StyledText>
+                <NumberFormat percent value={75} /> done
+              </StyledText>
+            </ProgressIndicator>
+          </DarkBackground>
+        )
+      }
+
+      return <MyProgressIndicator />
+    }}
+  </ComponentBox>
+)
+
+export const ProgressIndicatorCustomizationExample = () => (
+  <ComponentBox data-visual-test="progress-indicator-customization">
+    <ProgressIndicator
+      type="linear"
+      progress={32}
+      customColors={{
+        line: 'red',
+        shaft: 'green',
+      }}
+      size="4rem"
+    />
+    <ProgressIndicator
+      type="circular"
+      progress={32}
+      customColors={{
+        line: 'red',
+        shaft: 'green',
+        background: 'blue',
+      }}
+      size="4rem"
+    />
   </ComponentBox>
 )

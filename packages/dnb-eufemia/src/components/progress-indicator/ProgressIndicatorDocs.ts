@@ -15,7 +15,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   type: {
     doc: 'Defines the type.',
-    type: [`'circular'`, `'linear'`],
+    type: [`'circular'`, `'linear'`, `'countdown'`],
     defaultValue: `'circular'`,
     status: 'optional',
   },
@@ -27,19 +27,32 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Defines the size.',
-    type: [`'default'`, `'small'`, `'medium'`, `'large'`, `'huge'`],
+    type: [
+      `'default'`,
+      `'small'`,
+      `'medium'`,
+      `'large'`,
+      `'huge'`,
+      'string',
+    ],
     defaultValue: `'default'`,
     status: 'optional',
   },
   label: {
-    doc: 'Show a custom label to the right or under the indicator.',
+    doc: 'Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)',
+    type: 'React.ReactNode',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Same as `label` prop (`label` prop has priority)',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Sets the position of the label.',
-    type: [`'horizontal'`, '`vertical`'],
+    doc: "Sets the position of the label. `'inside'` only works with `type='circular'.",
+    type: [`'horizontal'`, `'vertical'`, `'inside'`],
     defaultValue: `'horizontal'`,
     status: 'optional',
   },
@@ -61,9 +74,43 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
+  '[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)':
+    {
+      doc: 'Send in custom css colors that overrides any css. See below for data structure.',
+      type: 'object',
+      defaultValue: 'undefined',
+      status: 'optional',
+    },
+  customCircleWidth: {
+    doc: 'Send in custom css width for circle progress line. (`undefined` defaults to one eighth of the size).',
+    type: 'string',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const CustomColorsData: PropertiesTableProps = {
+  line: {
+    doc: 'Override the moving line color.',
+    type: 'string',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  shaft: {
+    doc: 'Override the background line color.',
+    type: 'string',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  background: {
+    doc: 'Set a background color for the center of the circle.',
+    type: 'string',
+    defaultValue: 'undefined',
     status: 'optional',
   },
 }
@@ -83,11 +130,6 @@ export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
     show_label: {
       doc: 'use `showDefaultLabel`.',
       type: 'boolean',
-      status: 'deprecated',
-    },
-    children: {
-      doc: 'use the `label` prop instead.',
-      type: 'React.ReactNode',
       status: 'deprecated',
     },
   }

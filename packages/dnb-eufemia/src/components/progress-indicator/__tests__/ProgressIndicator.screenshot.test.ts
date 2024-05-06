@@ -16,6 +16,13 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/progress-indicator/demos',
     })
 
+    it('with label inside', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="progress-indicator-label-inside"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match the static primary circular with 50 percentage', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -31,6 +38,32 @@ describe.each(['ui', 'sbanken'])(
         },
         selector:
           '[data-visual-test="progress-indicator-linear--primary"] .dnb-progress-indicator',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('with custom colors and size', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '20rem',
+        },
+        selector: '[data-visual-test="progress-indicator-customization"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match customized horizontal', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="progress-indicator-custom-horizontal"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match customized  countdown', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="progress-indicator-custom-countdown"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

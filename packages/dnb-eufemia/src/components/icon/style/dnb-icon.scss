@@ -79,6 +79,7 @@
   &--custom-size {
     width: auto; // only to feed the svg
     height: auto; // only to feed the svg
+    line-height: 0; // minimize line height when icon doesn't scale with font size
   }
 
   &--auto {

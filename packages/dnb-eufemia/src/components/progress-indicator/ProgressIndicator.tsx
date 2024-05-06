@@ -19,80 +19,29 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
-
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { SpacingProps } from '../space/types'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
 
-export type ProgressIndicatorProps = {
-  /**
-   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
-   */
-  visible?: boolean
-  /**
-   * Defines the type. Defaults to `circular`.
-   */
-  type?: 'circular' | 'linear'
-  /**
-   * Disables the fade-in and fade-out animation. Defaults to `false`.
-   */
-  noAnimation?: boolean
-  /**
-   * Defines the size. Defaults to `default`.
-   */
-  size?: 'default' | 'small' | 'medium' | 'large' | 'huge'
-  /**
-   * A number between 0-100, if not supplied a continous loading-type animation will be used. Defaults to `undefined`
-   */
-  progress?: string | number
-  /**
-   * Show a custom label to the right or under the indicator.
-   */
-  label?: React.ReactNode
-  /**
-   * Sets the position of the label. Defaults to `horizontal`.
-   */
-  labelDirection?: 'horizontal' | 'vertical'
-  /**
-   * If set to `true` a default label (from text locales) will be shown.
-   */
-  showDefaultLabel?: boolean
-  /**
-   * Use this to override the default label from text locales.
-   */
-  indicator_label?: string
-  /**
-   * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
-   */
-  title?: string
-  /**
-   * Will be called once it&#39;s no longer `visible`.
-   */
-  onComplete?: (...args: any[]) => any
-}
+import {
+  ProgressIndicatorAllProps,
+  ProgressIndicatorAnimationProps,
+  isValidSize,
+  CustomSize,
+} from './types'
 
 // deprecated, can be removed in v11
-type DeprecatedProgressIndicatorProps = {
+export type DeprecatedProgressIndicatorProps = {
   /** @deprecated use `noAnimation`. */
   no_animation?: boolean
   /** @deprecated use `labelDirection`. */
   label_direction?: string
   /** @deprecated use `showDefaultLabel`. */
   show_label?: boolean
-  /** @deprecated use the `label` prop instead. */
-  children?: React.ReactNode
   /**  @deprecated use `onComplete`. */
   on_complete?: (...args: any[]) => any
 }
-
-export type ProgressIndicatorAllProps = Omit<
-  React.HTMLProps<HTMLSpanElement>,
-  'ref' | 'label' | 'size'
-> &
-  SpacingProps &
-  ProgressIndicatorProps
 
 function ProgressIndicator(
   props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
@@ -109,6 +58,7 @@ function ProgressIndicator(
     noAnimation = false,
     onComplete,
     label,
+    children,
     indicator_label,
     labelDirection = 'horizontal',
     showDefaultLabel = false,
@@ -116,10 +66,18 @@ function ProgressIndicator(
     title,
     progress,
     visible = true,
+    customColors,
+    customCircleWidth,
+    style,
     ...rest
   } = allProps
 
   const remainingDOMProps = validateDOMAttributes(allProps, { ...rest })
+
+  const [sizeVariant, customSize]: [
+    ProgressIndicatorAnimationProps['size'],
+    CustomSize,
+  ] = isValidSize(size) ? [size, undefined] : ['custom-size', size]
 
   const completeTimeout = useRef<NodeJS.Timeout>()
   const fadeOutTimeout = useRef<NodeJS.Timeout>()
@@ -133,7 +91,7 @@ function ProgressIndicator(
       : undefined
 
   const indicatorLabel =
-    label || (isTrue(showDefaultLabel) && indicator_label)
+    label || children || (isTrue(showDefaultLabel) && indicator_label)
   const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
@@ -168,31 +126,43 @@ function ProgressIndicator(
         complete && 'dnb-progress-indicator--complete',
         type === 'linear' && 'dnb-progress-indicator--full-width',
         labelDirection && `dnb-progress-indicator--${labelDirection}`,
-        size && `dnb-progress-indicator--${size}`,
+        sizeVariant && `dnb-progress-indicator--${sizeVariant}`,
         isTrue(noAnimation) && 'dnb-progress-indicator--no-animation',
         createSpacingClasses(allProps),
         className
       )}
+      style={{
+        ...style,
+        ...{
+          '--progress-indicator-circular-size': customSize,
+          '--progress-indicator-circular-stroke-width': customCircleWidth,
+          '--progress-indicator-linear-size': customSize,
+        },
+      }}
       {...remainingDOMProps}
     >
-      {type === 'circular' && (
+      {(type === 'circular' || type === 'countdown') && (
         <ProgressIndicatorCircular
-          size={size}
+          size={sizeVariant}
           progress={progressNumber}
           visible={visible}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
+          customColors={customColors}
+          customCircleWidth={customCircleWidth}
+          counterClockwise={type === 'countdown'}
         />
       )}
       {type === 'linear' && (
         <ProgressIndicatorLinear
-          size={size}
+          size={sizeVariant}
           progress={progressNumber}
           visible={visible}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
+          customColors={customColors}
         />
       )}
       {indicatorLabel && (
@@ -230,7 +200,6 @@ function handleDeprecatedBehaviour(
   const {
     show_label: showDefaultLabel,
     indicator_label,
-    children: label,
     ...propsToConvertToCamelCase
   } = oldProps
 
@@ -238,7 +207,6 @@ function handleDeprecatedBehaviour(
   return {
     showDefaultLabel,
     indicator_label,
-    label,
     ...convertSnakeCaseProps(propsToConvertToCamelCase, {
       overrideExistingValue: false,
     }),

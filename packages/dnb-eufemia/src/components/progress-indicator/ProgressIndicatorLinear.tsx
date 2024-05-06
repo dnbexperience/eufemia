@@ -6,26 +6,7 @@
 import React, { useRef, useEffect } from 'react'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
-type ProgressIndicatorLinearProps = {
-  /**
-   * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
-   */
-  size?: string
-  /**
-   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
-   */
-  visible?: boolean
-  /**
-   * To visualize a static "percentage" (0-100) as a progress state. Defaults to `null`.
-   */
-  progress?: number
-  onComplete?: (...args: any[]) => any
-  callOnCompleteHandler?: (...args: any[]) => any
-  /**
-   * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
-   */
-  title?: string
-}
+import { ProgressIndicatorLinearAllProps } from './types'
 
 function usePrevious<P>(value: P): [P, P] {
   const ref = useRef<P>()
@@ -35,10 +16,7 @@ function usePrevious<P>(value: P): [P, P] {
   return [ref.current, value]
 }
 
-function ProgressIndicatorLine(
-  props: ProgressIndicatorLinearProps &
-    Omit<React.HTMLProps<HTMLElement>, 'size'>
-) {
+function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
   const {
     size,
     title,
@@ -46,6 +24,8 @@ function ProgressIndicatorLine(
     visible,
     onComplete,
     callOnCompleteHandler,
+    customColors,
+    style,
     ...rest
   } = props
 
@@ -80,6 +60,12 @@ function ProgressIndicatorLine(
         'dnb-progress-indicator__linear',
         size && `dnb-progress-indicator__linear--${size}`
       )}
+      style={{
+        ...style,
+        ...(customColors?.shaft && {
+          backgroundColor: customColors?.shaft,
+        }),
+      }}
       {...remainingDOMAttributes}
     >
       <span
@@ -90,7 +76,10 @@ function ProgressIndicatorLine(
           !hasProgressValue &&
             'dnb-progress-indicator__linear__bar1-animation'
         )}
-        style={hasProgressValue ? { transform } : {}}
+        style={{
+          backgroundColor: customColors?.line,
+          transform: hasProgressValue ? transform : undefined,
+        }}
       />
       {!hasProgressValue && (
         <span
@@ -98,6 +87,9 @@ function ProgressIndicatorLine(
             'dnb-progress-indicator__linear__bar',
             'dnb-progress-indicator__linear__bar2-animation'
           )}
+          style={{
+            backgroundColor: customColors?.line,
+          }}
         />
       )}
     </span>
