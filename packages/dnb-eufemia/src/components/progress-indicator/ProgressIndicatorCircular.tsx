@@ -99,7 +99,6 @@ function ProgressIndicatorCircular(
             callback()
           }
         } else if (visibleRef.current && ms % 1e3 > 950) {
-          console.log('start')
           // startAnimationFirstTime() // will not start completely from scratch
           stopNextRound = false
         }

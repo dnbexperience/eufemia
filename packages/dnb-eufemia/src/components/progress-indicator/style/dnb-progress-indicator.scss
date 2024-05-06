@@ -7,6 +7,7 @@
 
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
+  // 314.159...% is the full circumference of a circle (2πr). The radius is 50%, so the circumference is π * 100%
   --progress-indicator-circular-circle: 314.159265359%;
   --progress-indicator-circular-circle-offset--min: 314.159265359%;
   --progress-indicator-circular-circle-offset--max: 1%;
