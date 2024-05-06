@@ -69,10 +69,18 @@ export default {
     FirstName: {
       label: 'Fornavn',
       errorRequired: 'Du må fylle inn fornavn.',
+      errorPattern:
+        'Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.',
     },
     LastName: {
       label: 'Etternavn',
       errorRequired: 'Du må fylle inn etternavn.',
+      errorPattern:
+        'Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.',
+    },
+    CompanyName: {
+      label: 'Firmanavn',
+      errorRequired: 'Du må fylle inn firmanavn.',
     },
     NationalIdentityNumber: {
       label: 'Fødselsnummer (11 siffer)',

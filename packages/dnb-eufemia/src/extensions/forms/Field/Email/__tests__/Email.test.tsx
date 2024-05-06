@@ -9,6 +9,7 @@ describe('Field.Email', () => {
   it('should render with props', () => {
     const props: Props = {}
     render(<Field.Email {...props} />)
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
   it('should show errors if field is empty on submit', () => {
