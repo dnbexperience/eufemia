@@ -11,15 +11,4 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
-  '[ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/properties/)':
-    {
-      doc: 'ValueBlock properties.',
-      type: 'Various',
-      status: 'optional',
-    },
 }

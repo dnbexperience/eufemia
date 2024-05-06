@@ -3,8 +3,15 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldBlockProperties } from '@dnb/eufemia/src/extensions/forms/FieldBlock/FieldBlockDocs'
 import { PostalCodeAndCityProperties } from '@dnb/eufemia/src/extensions/forms/Field/PostalCodeAndCity/PostalCodeAndCityDocs'
 
 ## Properties
 
+## Component-specific props
+
 <PropertiesTable props={PostalCodeAndCityProperties} />
+
+### General props
+
+<PropertiesTable props={fieldBlockProperties} omit={['value']} />
