@@ -184,14 +184,8 @@ export type Locale = TranslationLocale | 'en-US'
 export type AnyLocale = string
 export type InternalLocale =
   | Locale
-
-  /** Used in tests and stories */
-  | 'no'
-  | 'en'
-  | 'sv-SE'
-  | 'de-CH'
-  | 'de-DE'
-  | 'fr-CH'
+  // more strict type definitions than string breaks applications using React Intl.
+  | AnyLocale
 export type ComponentTranslationsName = keyof ContextComponents | string
 export type ComponentTranslation = string
 export type Locales =
