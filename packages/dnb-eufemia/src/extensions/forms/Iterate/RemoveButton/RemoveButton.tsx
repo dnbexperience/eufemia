@@ -44,7 +44,7 @@ function RemoveButton(props: Props) {
   return (
     <Button
       className={classnames(
-        'dnb-form-iterate-remove-element-button',
+        'dnb-forms-iterate-remove-element-button',
         className
       )}
       variant={textContent ? 'tertiary' : 'secondary'}

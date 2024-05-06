@@ -16,7 +16,7 @@ describe('Toolbar', () => {
     )
 
     expect(
-      document.querySelector('.dnb-form-iterate-toolbar')
+      document.querySelector('.dnb-forms-iterate-toolbar')
     ).toHaveClass('dnb-space__top--large')
   })
 
@@ -29,7 +29,7 @@ describe('Toolbar', () => {
 
     expect(
       document.querySelector(
-        '.dnb-form-iterate-toolbar .dnb-flex-container'
+        '.dnb-forms-iterate-toolbar .dnb-flex-container'
       )
     ).toBeEmptyDOMElement()
   })

@@ -12,7 +12,7 @@ export default function Toolbar(props: Props) {
   return (
     <Space
       top="medium"
-      className={classnames('dnb-form-iterate-toolbar', className)}
+      className={classnames('dnb-forms-iterate-toolbar', className)}
       {...rest}
     >
       <Hr space={0} />

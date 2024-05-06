@@ -73,10 +73,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-form-iterate')
+          document.querySelectorAll('.dnb-forms-iterate')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-iterate')
+          document.querySelector('.dnb-forms-iterate')
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -96,10 +96,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-form-iterate')
+          document.querySelectorAll('.dnb-forms-iterate')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-iterate')
+          document.querySelector('.dnb-forms-iterate')
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -115,10 +115,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-form-iterate')
+          document.querySelectorAll('.dnb-forms-iterate')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-iterate')
+          document.querySelector('.dnb-forms-iterate')
         ).toHaveTextContent('Placeholder text')
       })
     })
@@ -260,7 +260,7 @@ describe('Iterate.Array', () => {
       fireEvent.click(addButton)
 
       const elements = document.querySelectorAll(
-        '.dnb-form-iterate__element'
+        '.dnb-forms-iterate__element'
       )
       expect(elements).toHaveLength(1)
 

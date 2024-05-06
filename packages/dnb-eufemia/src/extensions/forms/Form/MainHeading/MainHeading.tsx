@@ -13,7 +13,7 @@ function MainHeading({ level, ...props }: Props) {
   const { className, children, ...rest } = props
   return (
     <Heading
-      className={classnames('dnb-form-main-heading', className)}
+      className={classnames('dnb-forms-main-heading', className)}
       level={level || 2}
       size="large"
       {...rest}
