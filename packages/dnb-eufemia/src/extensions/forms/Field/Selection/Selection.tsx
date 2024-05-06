@@ -1,18 +1,36 @@
 import React, { useMemo, useCallback } from 'react'
+import classnames from 'classnames'
+import { makeUniqueId } from '../../../../shared/component-helper'
 import {
   ToggleButton,
   Dropdown,
   Radio,
   HelpButton,
+  Autocomplete,
 } from '../../../../components'
-import classnames from 'classnames'
-import { makeUniqueId } from '../../../../shared/component-helper'
-import OptionField from '../Option'
+import OptionField, { makeOptions } from '../Option'
 import { useFieldProps } from '../../hooks'
-import { FormError, FieldProps, FieldHelpProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import type { FormStatusText } from '../../../../components/FormStatus'
 import FieldBlock from '../../FieldBlock'
+import {
+  FormError,
+  FieldProps,
+  FieldHelpProps,
+  FieldBlockWidth,
+} from '../../types'
+import type { FormStatusText } from '../../../../components/FormStatus'
+import type {
+  AutocompleteAllProps,
+  AutocompleteProps,
+} from '../../../../components/Autocomplete'
+import type {
+  DropdownAllProps,
+  DropdownProps,
+} from '../../../../components/Dropdown'
+import {
+  convertCamelCaseProps,
+  ToCamelCase,
+} from '../../../../shared/helpers/withCamelCaseProps'
 
 interface IOption {
   title: string | React.ReactNode
@@ -20,12 +38,19 @@ interface IOption {
   status: FormStatusText
 }
 
+export type Data = AutocompleteAllProps['data'] | DropdownAllProps['data']
+
 export type Props = FieldHelpProps &
   FieldProps<IOption['value']> & {
-    children?: React.ReactNode
-    variant?: 'dropdown' | 'radio' | 'button'
+    variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
     optionsLayout?: 'horizontal' | 'vertical'
-    width?: 'small' | 'medium' | 'large' | 'stretch'
+    children?: React.ReactNode
+
+    // - Autocomplete and Dropdown specific props
+    autocompleteProps?: ToCamelCase<AutocompleteProps>
+    dropdownProps?: ToCamelCase<DropdownProps>
+    data?: Data
+    width?: FieldBlockWidth
   }
 
 function Selection(props: Props) {
@@ -53,6 +78,11 @@ function Selection(props: Props) {
     setHasFocus,
     handleChange,
     children,
+
+    // - Autocomplete and Dropdown specific props
+    data,
+    autocompleteProps,
+    dropdownProps,
   } = useFieldProps(props)
 
   const handleDropdownChange = useCallback(
@@ -180,56 +210,48 @@ function Selection(props: Props) {
       )
     }
 
+    case 'autocomplete':
     case 'dropdown': {
-      const optionsData = React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.type === OptionField) {
-          // Option components
-          return child.props.text
-            ? {
-                selectedKey: String(child.props.value ?? ''),
-                content: [
-                  child.props.children ?? child.props.title ?? (
-                    <em>Untitled</em>
-                  ),
-                  child.props.text,
-                ],
-              }
-            : {
-                selectedKey: child.props.value,
-                content: child.props.children ?? child.props.title,
-              }
-        }
-
-        if (child) {
-          // For other children, just show them as content
-          return {
-            content: child,
-          }
-        }
-      }).filter(Boolean)
+      const sharedProps: AutocompleteAllProps & DropdownAllProps = {
+        id,
+        list_class: 'dnb-forms-field-selection__list',
+        portal_class: 'dnb-forms-field-selection__portal',
+        title: placeholder,
+        value: String(value ?? ''),
+        status: (hasError || status) && 'error',
+        disabled,
+        ...htmlAttributes,
+        data: data ?? makeOptions<Data>(children),
+        suffix: help ? (
+          <HelpButton title={help.title}>{help.content}</HelpButton>
+        ) : undefined,
+        on_change: handleDropdownChange,
+        on_show: handleShow,
+        on_hide: handleHide,
+        stretch: true,
+      }
 
       return (
         <FieldBlock {...fieldBlockProps} width={width}>
-          <Dropdown
-            id={id}
-            list_class="dnb-forms-field-selection__list"
-            portal_class="dnb-forms-field-selection__portal"
-            title={placeholder}
-            value={String(value ?? '')}
-            status={(hasError || status) && 'error'}
-            disabled={disabled}
-            {...htmlAttributes}
-            data={optionsData}
-            suffix={
-              help ? (
-                <HelpButton title={help.title}>{help.content}</HelpButton>
-              ) : undefined
-            }
-            on_change={handleDropdownChange}
-            on_show={handleShow}
-            on_hide={handleHide}
-            stretch
-          />
+          {variant === 'autocomplete' ? (
+            <Autocomplete
+              {...sharedProps}
+              {...(autocompleteProps
+                ? (convertCamelCaseProps(
+                    autocompleteProps
+                  ) as AutocompleteAllProps)
+                : null)}
+            />
+          ) : (
+            <Dropdown
+              {...sharedProps}
+              {...(dropdownProps
+                ? (convertCamelCaseProps(
+                    dropdownProps
+                  ) as DropdownAllProps)
+                : null)}
+            />
+          )}
         </FieldBlock>
       )
     }

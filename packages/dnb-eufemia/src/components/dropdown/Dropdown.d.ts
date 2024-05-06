@@ -18,10 +18,7 @@ export type DropdownData = DrawerListData;
 type DropdownTitle = string | React.ReactNode;
 type DropdownAlignDropdown = 'left' | 'right';
 type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode;
-export interface DropdownProps
-  extends DrawerListProps,
-    SpacingProps,
-    Omit<React.HTMLProps<HTMLElement>, 'ref'> {
+export interface DropdownProps {
   /**
    * Give a title to let the users know what they have to do. Defaults to `Valgmeny`.
    */
@@ -104,10 +101,27 @@ export interface DropdownProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
+  suffix?: DrawerListSuffix;
   on_show_focus?: (...args: any[]) => any;
   on_hide_focus?: (...args: any[]) => any;
 }
-export default class Dropdown extends React.Component<DropdownProps, any> {
+export type DropdownAllProps = DropdownProps &
+  DrawerListProps &
+  SpacingProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'title'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+  >;
+export default class Dropdown extends React.Component<
+  DropdownAllProps,
+  any
+> {
   static defaultProps: object;
   static HorizontalItem: ({
     children
