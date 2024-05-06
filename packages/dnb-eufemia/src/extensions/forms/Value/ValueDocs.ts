@@ -12,7 +12,7 @@ export const ValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showEmpty: {
-    doc: 'Text showing in place of the value if no value is given.',
+    doc: 'Shows the value even if it is empty.',
     type: 'boolean',
     status: 'optional',
   },
@@ -39,6 +39,11 @@ export const ValueProperties: PropertiesTableProps = {
   transformIn: {
     doc: 'Transforms the `value` before its displayed in the value component.',
     type: 'function',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
     status: 'optional',
   },
 }

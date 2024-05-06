@@ -334,7 +334,7 @@ export interface ValueProps<Value>
   label?: React.ReactNode
 
   /**
-   * Field label to show above the data value.
+   * Shows the value even if it is empty.
    */
   showEmpty?: boolean
 

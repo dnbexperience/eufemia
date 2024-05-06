@@ -25,7 +25,7 @@ export const Placeholder = () => {
           onChange: (value) => console.log('postalCode onChange', value),
         }}
         city={{
-          placeholder: 'Your city..',
+          placeholder: 'Your city',
           onChange: (value) => console.log('city onChange', value),
         }}
       />
