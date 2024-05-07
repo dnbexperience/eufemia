@@ -2,8 +2,6 @@
 showTabs: true
 ---
 
-import Demos from 'Docs/uilib/extensions/forms/Form/Visibility/demos'
-
 ## Description
 
 The `Form.Visibility` component makes it possible to show or hide components on the screen based on the state of data. It can either be fed with the values directly via props, or it can read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) and show or hide components based on the data it points to.
@@ -20,4 +18,58 @@ render(
 )
 ```
 
-<Demos />
+## Accessibility
+
+Children of the `Form.Visibility` component will be hidden from screen readers when visually hidden, even if `keepInDOM` is enabled. You don't need to do anything to make the content additionally inaccessible.
+
+## Animate
+
+You can use the `animate` property to animate the visibility change. It can be used in combination with `keepInDOM`.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <>
+    <Field.Boolean path="/myState" />
+    <Form.Visibility pathTrue="/myState" animate>
+      show me when the state value is true
+    </Form.Visibility>
+  </>,
+)
+```
+
+## Keep in DOM
+
+You can use the `keepInDOM` property to keep the content in the DOM, even if it's not visible or accessible. This can be useful for fields that still needs to run validation.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <>
+    <Field.Boolean path="/myState" />
+    <Form.Visibility pathTrue="/myState" keepInDOM>
+      show me when the state value is true
+    </Form.Visibility>
+  </>,
+)
+```
+
+## Disable children when hidden
+
+You can disable children when they are hidden by using the `fieldPropsWhenHidden` property. It will pass the given props to the children when the visibility is hidden.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <>
+    <Field.Boolean path="/myState" />
+    <Form.Visibility
+      pathTrue="/myState"
+      keepInDOM
+      fieldPropsWhenHidden={{ disabled: true }}
+    >
+      <Field.String />
+    </Form.Visibility>
+  </>,
+)
+```
