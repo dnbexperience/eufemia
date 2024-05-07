@@ -5,5 +5,5 @@
  *
  */
 
-import './theme-eiendom/eiendom-theme-components.scss'
-import './theme-eiendom/eiendom-theme-basis.scss'
+import '../theme-eiendom/eiendom-theme-components.scss'
+import '../theme-eiendom/eiendom-theme-basis.scss'

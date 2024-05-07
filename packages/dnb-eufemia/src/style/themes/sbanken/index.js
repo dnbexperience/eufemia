@@ -5,5 +5,5 @@
  *
  */
 
-import './theme-sbanken/sbanken-theme-components.scss'
-import './theme-sbanken/sbanken-theme-basis.scss'
+import '../theme-sbanken/sbanken-theme-components.scss'
+import '../theme-sbanken/sbanken-theme-basis.scss'
