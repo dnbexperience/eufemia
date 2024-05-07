@@ -196,6 +196,13 @@ export type FieldBlockProps = {
   placeholder?: React.ReactNode
 }
 
+export type FieldBlockWidth =
+  | false
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'stretch'
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -327,7 +334,7 @@ export interface ValueProps<Value>
   label?: React.ReactNode
 
   /**
-   * Field label to show above the data value.
+   * Shows the value even if it is empty.
    */
   showEmpty?: boolean
 
@@ -438,7 +445,7 @@ export type OnSubmitParams = {
 }
 
 export type OnSubmit<Data = JsonObject> = (
-  data: Partial<Data>,
+  data: Data,
   { resetForm, clearData }: OnSubmitParams
 ) =>
   | EventReturnWithStateObject

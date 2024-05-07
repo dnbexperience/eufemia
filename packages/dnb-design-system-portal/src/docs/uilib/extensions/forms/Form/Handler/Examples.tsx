@@ -195,8 +195,8 @@ export const Autofill = () => {
           <Card stack>
             <Form.SubHeading>Your name</Form.SubHeading>
 
-            <Field.String label="First name" path="/firstName" required />
-            <Field.String label="Last name" path="/lastName" required />
+            <Field.Name.First path="/firstName" required />
+            <Field.Name.Last path="/lastName" required />
           </Card>
 
           <Card stack>
@@ -252,7 +252,7 @@ export const FilterData = () => {
             <Form.Handler
               id={id}
               onSubmit={(data) => console.log('onSubmit', data)}
-              filterData={filterDataHandler}
+              filterSubmitData={filterDataHandler}
             >
               <Flex.Stack spacing="medium">
                 <Field.Boolean label="Disabled" path="/disabled" />

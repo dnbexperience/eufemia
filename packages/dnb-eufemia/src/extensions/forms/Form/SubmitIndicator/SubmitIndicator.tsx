@@ -37,9 +37,9 @@ function SubmitIndicator(props: Props) {
 
   const params = {
     className: classnames(
-      'dnb-form-submit-indicator',
-      state && `dnb-form-submit-indicator--state-${state}`,
-      willWrap && 'dnb-form-submit-indicator--inline-wrap',
+      'dnb-forms-submit-indicator',
+      state && `dnb-forms-submit-indicator--state-${state}`,
+      willWrap && 'dnb-forms-submit-indicator--inline-wrap',
       className
     ),
     ...pickSpacingProps(rest),
@@ -57,7 +57,7 @@ function SubmitIndicator(props: Props) {
   const dot = <b>.</b>
   const indicator = (
     <span
-      className="dnb-form-submit-indicator__content"
+      className="dnb-forms-submit-indicator__content"
       {...ariaAttributes}
       {...omitSpacingProps(rest)}
     >

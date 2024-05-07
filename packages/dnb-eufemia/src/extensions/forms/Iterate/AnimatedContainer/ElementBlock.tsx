@@ -106,12 +106,12 @@ function ElementBlock(props: Props & FlexContainerProps) {
               if (
                 // But not when we focus is already inside our element
                 !document.activeElement?.closest(
-                  '.dnb-form-iterate__element'
+                  '.dnb-forms-iterate__element'
                 )
               ) {
                 const elements =
                   contextRef.current?.containerRef.current.querySelectorAll<HTMLDivElement>(
-                    '.dnb-form-iterate__element'
+                    '.dnb-forms-iterate__element'
                   )
                 elements[elements.length - 1].focus()
               }
@@ -141,10 +141,10 @@ function ElementBlock(props: Props & FlexContainerProps) {
     <ElementBlockContext.Provider value={{ handleRemoveBlock }}>
       <HeightAnimation
         className={classnames(
-          'dnb-form-iterate-block',
-          isNew && 'dnb-form-iterate-block--new',
+          'dnb-forms-iterate-block',
+          isNew && 'dnb-forms-iterate-block--new',
           contextRef.current.hasErrorAndShowIt &&
-            'dnb-form-iterate-block--error',
+            'dnb-forms-iterate-block--error',
           className
         )}
         open={openRef.current}
@@ -153,7 +153,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
         keepInDOM // Ensure fields get mounted so they will sync with the data context
       >
         <Flex.Stack
-          className="dnb-form-iterate-block__inner"
+          className="dnb-forms-iterate-block__inner"
           {...restProps}
           element="section"
           aria-label={ariaLabel}

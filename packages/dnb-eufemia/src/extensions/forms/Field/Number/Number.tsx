@@ -12,6 +12,7 @@ import {
   FieldHelpProps,
   AllJSONSchemaVersions,
   CustomErrorMessages,
+  FieldBlockWidth,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
@@ -49,7 +50,7 @@ export type Props = FieldHelpProps &
     multipleOf?: number
     // Styling
     size?: InputSize
-    width?: false | 'small' | 'medium' | 'large' | 'stretch'
+    width?: FieldBlockWidth
     align?: InputAlign
     showStepControls?: boolean
   }

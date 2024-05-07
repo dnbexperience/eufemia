@@ -40,10 +40,7 @@ type AutocompleteInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 type AutocompleteSearchInWordIndex = string | number;
-export interface AutocompleteProps
-  extends SpacingProps,
-    DrawerListProps,
-    Omit<React.HTMLProps<HTMLElement>, 'ref'> {
+export interface AutocompleteProps {
   /**
    * If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.
    */
@@ -206,6 +203,7 @@ export interface AutocompleteProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
+  suffix?: DrawerListSuffix;
   /**
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
@@ -216,8 +214,21 @@ export interface AutocompleteProps
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
+export type AutocompleteAllProps = AutocompleteProps &
+  DrawerListProps &
+  SpacingProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'title'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+  >;
 export default class Autocomplete extends React.Component<
-  AutocompleteProps,
+  AutocompleteAllProps,
   any
 > {
   static defaultProps: object;

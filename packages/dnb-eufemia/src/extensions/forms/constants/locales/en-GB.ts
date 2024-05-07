@@ -68,12 +68,20 @@ export default {
       errorPattern: 'Invalid Email address. Enter a valid Email address.',
     },
     FirstName: {
-      label: 'First name',
-      errorRequired: 'You must enter a first name.',
+      label: 'Given name',
+      errorRequired: 'You must enter a given name (first name).',
+      errorPattern:
+        'Enter a given name (first name) using only letters and characters such as hyphens and spaces.',
     },
     LastName: {
       label: 'Surname',
-      errorRequired: 'You must enter a surname.',
+      errorRequired: 'You must enter a surname (last name).',
+      errorPattern:
+        'Enter a surname (last name) using only letters and characters such as hyphens and spaces.',
+    },
+    CompanyName: {
+      label: 'Company name',
+      errorRequired: 'You must enter a company name.',
     },
     NationalIdentityNumber: {
       label: 'National identity number (11 digits)',
@@ -98,6 +106,9 @@ export default {
         'Mobile number must be filled in. If you don’t have a mobile number, you can enter another phone number.',
       warningRequired:
         'You have not entered a mobile number. You can still use this number if it is correct.',
+    },
+    PostalCodeAndCity: {
+      label: 'Postcode and city',
     },
     PostalCode: {
       label: 'Postc.',

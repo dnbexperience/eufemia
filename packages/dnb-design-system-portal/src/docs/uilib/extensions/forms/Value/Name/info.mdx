@@ -1,0 +1,24 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Value.SummaryList>
+      <Value.Name />
+      <Value.Name.First value="Nora" />
+      <Value.Name.Last value="Mørk" />
+      <Value.Name.Company value="DNB" />
+    </Value.SummaryList>
+  )
+}
+```
+
+There is a corresponding [Field.Name](/uilib/extensions/forms/feature-fields/Name) component.

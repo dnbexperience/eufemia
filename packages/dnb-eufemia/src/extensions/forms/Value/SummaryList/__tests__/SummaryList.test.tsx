@@ -11,7 +11,7 @@ describe('Field.SummaryList', () => {
   it('should forward HTML attributes', () => {
     render(<SummaryList aria-label="Aria Label">Aria Summary</SummaryList>)
 
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -24,7 +24,7 @@ describe('Field.SummaryList', () => {
     const { rerender } = render(
       <SummaryList top="x-large">Space Summary</SummaryList>
     )
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
 
     expect(element.classList).toContain('dnb-space__top--x-large')
 
@@ -38,10 +38,10 @@ describe('Field.SummaryList', () => {
       <SummaryList className="custom-class">Class Summary</SummaryList>
     )
 
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-form-summary-list',
+      'dnb-forms-summary-list',
       'custom-class',
       'dnb-dl',
     ])
@@ -50,14 +50,14 @@ describe('Field.SummaryList', () => {
   it('should set grid class', () => {
     render(<SummaryList layout="grid">Class Summary</SummaryList>)
 
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
     expect(element).toHaveClass('dnb-dl__layout--grid')
   })
 
   it('should render children', () => {
     render(<SummaryList>Children Summary</SummaryList>)
 
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
     const children = element.childNodes
 
     expect(children.length).toEqual(1)
@@ -71,7 +71,7 @@ describe('Field.SummaryList', () => {
       </SummaryList>
     )
 
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
     const children = element.childNodes
 
     expect(children.length).toEqual(2)
@@ -82,8 +82,8 @@ describe('Field.SummaryList', () => {
   it('should default to medium heading', () => {
     render(<SummaryList>Summary</SummaryList>)
 
-    const element = document.querySelector('.dnb-form-summary-list')
+    const element = document.querySelector('.dnb-forms-summary-list')
 
-    expect(element).toHaveClass('dnb-form-summary-list dnb-dl')
+    expect(element).toHaveClass('dnb-forms-summary-list dnb-dl')
   })
 })

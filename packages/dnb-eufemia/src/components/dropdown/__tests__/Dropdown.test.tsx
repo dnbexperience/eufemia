@@ -7,7 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Dropdown, { DropdownProps } from '../Dropdown'
+import Dropdown, { DropdownAllProps } from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
@@ -18,10 +18,10 @@ import {
 } from '../../../fragments/drawer-list'
 
 // use no_animation so we don't need to wait
-const mockProps: DropdownProps = {
+const mockProps: DropdownAllProps = {
   skip_portal: true,
 }
-const props: DropdownProps = {
+const props: DropdownAllProps = {
   id: 'dropdown-id',
   value: 2,
   skip_portal: true,
@@ -1314,7 +1314,7 @@ describe('Dropdown component', () => {
 
 describe('Dropdown markup', () => {
   it('should validate with ARIA rules', async () => {
-    const snapshotProps: DropdownProps = {
+    const snapshotProps: DropdownAllProps = {
       title: 'title',
       label: 'label',
       id: 'dropdown-id',

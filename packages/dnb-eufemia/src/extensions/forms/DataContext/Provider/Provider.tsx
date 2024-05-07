@@ -24,6 +24,7 @@ import {
   OnChange,
   EventReturnWithStateObject,
 } from '../../types'
+import { debounce } from '../../../../shared/helpers'
 import SharedProvider from '../../../../shared/Provider'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -34,6 +35,7 @@ import Context, {
   ContextState,
   EventListenerCall,
   FilterData,
+  TransformData,
 } from '../Context'
 
 /**
@@ -58,11 +60,11 @@ export interface Props<Data extends JsonObject> {
   /**
    * Default source data, only used if no other source is available, and not leading to updates if changed after mount
    */
-  defaultData?: Partial<Data>
+  defaultData?: Data
   /**
    * Source data, will be used instead of defaultData, and leading to updates if changed after mount
    */
-  data?: Partial<Data>
+  data?: Data
   /**
    * JSON Schema to validate the data against.
    */
@@ -76,9 +78,21 @@ export interface Props<Data extends JsonObject> {
    */
   errorMessages?: CustomErrorMessagesWithPaths
   /**
-   * Filter the internal data context based on your criteria: `(path, value, props) => !props?.disabled`. It will iterate on each data entry.
+   * Filter the `onSubmit` output data, based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.
+   */
+  filterSubmitData?: FilterData
+  /**
+   * @deprecated Use `filterSubmitData` instead
    */
   filterData?: FilterData
+  /**
+   * Transform the data context (internally as well) based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   */
+  transformIn?: TransformData
+  /**
+   * Mutate the data before it enters onSubmit or onChange based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   */
+  transformOut?: TransformData
   /**
    * Change handler for the whole data set.
    * You can provide an async function to show an indicator on the current label during a field change.
@@ -98,7 +112,7 @@ export interface Props<Data extends JsonObject> {
    * Will emit on a form submit – if validation has passed.
    * You can provide an async function to shows a submit indicator during submit. All form elements will be disabled during the submit.
    */
-  onSubmit?: OnSubmit
+  onSubmit?: OnSubmit<Data>
   /**
    * Submit was requested, but data was invalid
    */
@@ -158,6 +172,9 @@ export default function Provider<Data extends JsonObject>(
     asyncSubmitTimeout,
     sessionStorageId,
     ajvInstance,
+    transformIn,
+    transformOut,
+    filterSubmitData,
     filterData,
     errorMessages: contextErrorMessages,
     children,
@@ -216,7 +233,7 @@ export default function Provider<Data extends JsonObject>(
     return data ?? defaultData
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
-  const internalDataRef = useRef<Partial<Data>>(initialData)
+  const internalDataRef = useRef<Data>(initialData)
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
@@ -295,34 +312,53 @@ export default function Provider<Data extends JsonObject>(
   )
 
   /**
-   * Filter the data set based on the filterData function
+   * Mutate the data set based on the filterData function
    */
-  const filterDataHandler = useCallback(
-    (data: Data, filter = filterData) => {
-      if (filter) {
-        const filtered = { ...data }
+  const mutateDataHandler = useCallback(
+    (data: Data, fn: TransformData, remove = false) => {
+      if (fn) {
         Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
           const exists = pointer.has(data, path)
-          const result = filter(
-            path,
-            exists ? pointer.get(data, path) : undefined,
-            props,
-            {
+          if (exists) {
+            const result = fn(path, pointer.get(data, path), props, {
               error: fieldErrorRef.current?.[path],
+            })
+            if (remove) {
+              if (result === false) {
+                data = structuredClone(data)
+                pointer.remove(data, path)
+              }
+            } else {
+              if (typeof result !== 'undefined') {
+                data = structuredClone(data)
+                pointer.set(data, path, result)
+              }
             }
-          )
-          if (result === false && exists) {
-            pointer.remove(filtered, path)
           }
         })
 
-        return filtered
+        return data
       }
 
       return data
     },
-    [filterData]
+    []
   )
+
+  /**
+   * Filter the data set based on the filterData function
+   */
+  const filterDataHandler = useCallback(
+    (data: Data, filter = filterData || filterSubmitData) => {
+      if (filter) {
+        return mutateDataHandler(data, filter, true)
+      }
+
+      return data
+    },
+    [filterData, filterSubmitData, mutateDataHandler]
+  )
+
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
@@ -347,7 +383,7 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<{
-    filterDataHandler?: Props<Data>['filterData']
+    filterDataHandler?: Props<Data>['filterSubmitData']
     hasErrors?: ContextState['hasErrors']
     setShowAllErrors?: ContextState['setShowAllErrors']
     setSubmitState?: ContextState['setSubmitState']
@@ -443,7 +479,7 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors,
         setSubmitState,
       })
-      if (filterData) {
+      if (filterData || filterSubmitData) {
         rerenderUseDataHook?.()
       }
     }
@@ -451,12 +487,25 @@ export default function Provider<Data extends JsonObject>(
     extendAttachment,
     filterData,
     filterDataHandler,
+    filterSubmitData,
     hasErrors,
     id,
     rerenderUseDataHook,
     setShowAllErrors,
     setSubmitState,
   ])
+
+  const storeInSession = useMemo(() => {
+    return debounce(
+      () => {
+        window.sessionStorage?.setItem(
+          sessionStorageId,
+          JSON.stringify(internalDataRef.current)
+        )
+      },
+      process.env.NODE_ENV === 'test' ? 1 : 800
+    )
+  }, [sessionStorageId])
 
   /**
    * Update the data set
@@ -488,33 +537,37 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
+      // - Mutate the data context
+      if (transformIn) {
+        newData = mutateDataHandler(newData, transformIn)
+      }
+
       internalDataRef.current = newData
 
       if (id) {
         // Will ensure that Form.getData() gets the correct data
         extendSharedData?.(newData)
-        if (filterData) {
+        if (filterData || filterSubmitData) {
           rerenderUseDataHook?.()
         }
       }
 
       if (sessionStorageId && typeof window !== 'undefined') {
-        window.sessionStorage?.setItem(
-          sessionStorageId,
-          JSON.stringify(newData)
-        )
+        storeInSession()
       }
 
       forceUpdate()
-
-      return newData
     },
     [
-      id,
-      sessionStorageId,
       extendSharedData,
       filterData,
+      filterSubmitData,
+      id,
+      mutateDataHandler,
       rerenderUseDataHook,
+      sessionStorageId,
+      storeInSession,
+      transformIn,
     ]
   )
 
@@ -561,13 +614,24 @@ export default function Provider<Data extends JsonObject>(
 
       validateData()
 
+      const data = internalDataRef.current as Data
+      const transformedData = transformOut
+        ? mutateDataHandler(data, transformOut)
+        : data
+
       if (isAsync(onChange)) {
-        return await onChange(internalDataRef.current as Data)
+        return await onChange(transformedData)
       }
 
-      return onChange?.(internalDataRef.current as Data)
+      return onChange?.(transformedData)
     },
-    [handlePathChangeUnvalidated, onChange, validateData]
+    [
+      handlePathChangeUnvalidated,
+      mutateDataHandler,
+      onChange,
+      transformOut,
+      validateData,
+    ]
   )
 
   // - Mounted fields
@@ -717,7 +781,11 @@ export default function Provider<Data extends JsonObject>(
       handleSubmitCall({
         enableAsyncBehaviour: isAsync(onSubmit),
         onSubmit: async () => {
-          const args = filterDataHandler(internalDataRef.current as Data)
+          // - Mutate the data context
+          const data = internalDataRef.current
+          const filteredData = filterDataHandler(
+            transformOut ? mutateDataHandler(data, transformOut) : data
+          )
           const opts = {
             resetForm: () => {
               formElement?.reset?.()
@@ -731,7 +799,7 @@ export default function Provider<Data extends JsonObject>(
               forceUpdate() // in order to fill "empty fields" again with their internal states
             },
             clearData: () => {
-              internalDataRef.current = {}
+              internalDataRef.current = {} as Data
               if (id) {
                 setSharedData?.({} as Data)
               } else {
@@ -743,12 +811,15 @@ export default function Provider<Data extends JsonObject>(
           let result = undefined
 
           if (isAsync(onSubmit)) {
-            result = await onSubmit(args, opts)
+            result = await onSubmit(filteredData, opts)
           } else {
-            result = onSubmit?.(args, opts)
+            result = onSubmit?.(filteredData, opts)
           }
 
-          const completeResult = await onSubmitComplete?.(args, result)
+          const completeResult = await onSubmitComplete?.(
+            filteredData,
+            result
+          )
           if (completeResult) {
             result =
               Object.keys(result).length > 0
@@ -768,12 +839,14 @@ export default function Provider<Data extends JsonObject>(
       filterDataHandler,
       handleSubmitCall,
       id,
+      mutateDataHandler,
       onSubmit,
       onSubmitComplete,
       scrollToTop,
       scrollTopOnSubmit,
       sessionStorageId,
       setSharedData,
+      transformOut,
     ]
   )
 
@@ -838,7 +911,12 @@ export default function Provider<Data extends JsonObject>(
   })
 
   const submitState = submitStateRef.current
-  const disabled = rest?.['disabled'] ?? formState === 'pending'
+  const disabled =
+    typeof rest?.['disabled'] === 'boolean'
+      ? rest?.['disabled']
+      : (formState === 'pending') === true
+      ? true
+      : undefined
 
   return (
     <Context.Provider

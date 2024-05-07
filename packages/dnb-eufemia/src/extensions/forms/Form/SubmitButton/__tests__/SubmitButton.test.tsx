@@ -189,14 +189,14 @@ describe('Form.SubmitButton', () => {
 
     expect(
       buttonElement.querySelector(
-        '.dnb-form-submit-indicator--state-pending'
+        '.dnb-forms-submit-indicator--state-pending'
       )
     ).toBeTruthy()
 
     rerender(<Form.SubmitButton />)
 
     expect(
-      document.querySelector('.dnb-form-submit-indicator--state-pending')
+      document.querySelector('.dnb-forms-submit-indicator--state-pending')
     ).toBeNull()
   })
 
@@ -205,21 +205,21 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
     const indicatorElement = buttonElement.querySelector(
-      '.dnb-form-submit-indicator'
+      '.dnb-forms-submit-indicator'
     )
     const indicatorContentElement = buttonElement.querySelector(
-      '.dnb-form-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content'
     )
 
     expect(indicatorElement).not.toHaveClass(
-      'dnb-form-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending'
     )
 
     rerender(<Form.SubmitButton showIndicator />)
 
     expect(buttonElement).toHaveTextContent('Send...')
     expect(indicatorElement).toHaveClass(
-      'dnb-form-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending'
     )
     expect(indicatorContentElement).toHaveAttribute('role', 'status')
     expect(indicatorContentElement).toHaveAttribute(
@@ -233,18 +233,18 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
     const indicatorElement = buttonElement.querySelector(
-      '.dnb-form-submit-indicator'
+      '.dnb-forms-submit-indicator'
     )
 
     expect(indicatorElement).not.toHaveClass(
-      'dnb-form-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending'
     )
 
     rerender(<Form.SubmitButton text="Save" showIndicator />)
 
     expect(buttonElement).toHaveTextContent('Save...')
     expect(indicatorElement).toHaveClass(
-      'dnb-form-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending'
     )
   })
 })

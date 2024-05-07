@@ -10,7 +10,7 @@ function SummaryList(props: Props) {
   return (
     <SummaryListContext.Provider value={{ layout }}>
       <Dl
-        className={classnames('dnb-form-summary-list', className)}
+        className={classnames('dnb-forms-summary-list', className)}
         layout={layout}
         {...rest}
       >

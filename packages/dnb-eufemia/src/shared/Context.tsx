@@ -43,7 +43,7 @@ import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { NumberFormatCurrency } from '../components/NumberFormat'
-import type { ProgressIndicatorProps } from '../components/ProgressIndicator'
+import type { ProgressIndicatorProps } from '../components/progress-indicator/types'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -184,14 +184,8 @@ export type Locale = TranslationLocale | 'en-US'
 export type AnyLocale = string
 export type InternalLocale =
   | Locale
-
-  /** Used in tests and stories */
-  | 'no'
-  | 'en'
-  | 'sv-SE'
-  | 'de-CH'
-  | 'de-DE'
-  | 'fr-CH'
+  // more strict type definitions than string breaks applications using React Intl.
+  | AnyLocale
 export type ComponentTranslationsName = keyof ContextComponents | string
 export type ComponentTranslation = string
 export type Locales =

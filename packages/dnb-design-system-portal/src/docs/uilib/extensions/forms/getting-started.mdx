@@ -103,9 +103,10 @@ You can even handle the state outside the `Form.Handler` context. You can find m
 
 #### Filter data
 
-You can filter data by any given criteria. This is done by adding a `filterData` property with a handler to the [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+You can filter data by any given criteria. This is done by using the `filterData` method from:
 
-The callback function receives the path as the first argument, the value as the second argument, and the related field properties as the third argument. The callback function must return a boolean value or undefined. Return false to exclude an entry.
+- [useData](/uilib/extensions/forms/Form/useData/#filter-data)
+- [getData](/uilib/extensions/forms/Form/getData/#filter-data)
 
 ```tsx
 const filterDataHandler = (path, value, props, internal) => {
@@ -113,14 +114,28 @@ const filterDataHandler = (path, value, props, internal) => {
     return false
   }
 }
-render(<Form.Handler filterData={filterDataHandler} />)
+
+const MyForm = () => {
+  const { filterData } = Form.useData(id)
+  const filteredData = filterData(filterDataHandler)
+
+  return (
+    <Form.Handler id={id}>
+      <Field.String path="/foo" disabled />
+    </Form.Handler>
+  )
+}
 ```
+
+or `filterSubmitData` property from:
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/) (for `onSubmit`)
 
 Here is a working example of how to [filter data](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data).
 
 #### Transforming data
 
-Each field supports transformer functions. So you can transform a value before it is processed to the form data object and vis-a-versa:
+Each [field](/uilib/extensions/forms/all-fields/) supports transformer functions. So you can transform a value before it is processed to the form data object and vis-a-versa:
 
 ```tsx
 <Field.String
@@ -141,11 +156,11 @@ More details about the async form behavior can be found in the [async form behav
 
 ### Field components
 
-In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/fields/) section.
+In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/about-fields/) section.
 
 ### Value components
 
-Beside the interactive [Field](/uilib/extensions/forms/fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+Beside the interactive [Field](/uilib/extensions/forms/all-fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
 
 ### Async form behavior
 
@@ -175,7 +190,7 @@ You can use an async function for the `onChange` event handler, either on the fo
 <Form.Handler onChange={async () => {}}>...</Form.Handler>
 ```
 
-or on every [field](/uilib/extensions/forms/fields/):
+or on every [field](/uilib/extensions/forms/all-fields/):
 
 ```tsx
 <Field.PhoneNumber path="/myField" onChange={async () => {}} />

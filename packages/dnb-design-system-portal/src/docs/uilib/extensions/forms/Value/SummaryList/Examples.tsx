@@ -19,8 +19,8 @@ export const DefaultLayout = () => {
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList>
-            <Value.String label="First name" path="/firstName" />
-            <Value.String label="Last name" path="/lastName" />
+            <Value.Name.First path="/firstName" />
+            <Value.Name.Last path="/lastName" />
           </Value.SummaryList>
         </Card>
       </Form.Handler>
@@ -44,8 +44,8 @@ export const GridLayout = () => {
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList layout="grid">
-            <Value.String label="First name" path="/firstName" />
-            <Value.String label="Last name" path="/lastName" />
+            <Value.Name.First path="/firstName" />
+            <Value.Name.Last path="/lastName" />
           </Value.SummaryList>
         </Card>
       </Form.Handler>
@@ -73,8 +73,8 @@ export const CombinedLayout = () => {
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList>
-            <Value.String label="First name" path="/firstName" />
-            <Value.String label="Last name" path="/lastName" />
+            <Value.Name.First path="/firstName" />
+            <Value.Name.Last path="/lastName" />
 
             <Value.Composition label="Street">
               <Value.String path="/streetName" />

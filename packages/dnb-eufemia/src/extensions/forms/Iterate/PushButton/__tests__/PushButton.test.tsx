@@ -81,7 +81,7 @@ describe('PushButton', () => {
     render(<PushButton pushValue="push value">Push Button</PushButton>)
 
     const button = document.querySelector('button')
-    expect(button).toHaveClass('dnb-form-iterate-push-button')
+    expect(button).toHaveClass('dnb-forms-iterate-push-button')
   })
 
   it('should be a secondary variant', () => {
@@ -126,7 +126,7 @@ describe('PushButton', () => {
   it('should render with "add" icon', () => {
     render(<PushButton pushValue="push value">Push Button</PushButton>)
 
-    const button = document.querySelector('.dnb-form-iterate-push-button')
+    const button = document.querySelector('.dnb-forms-iterate-push-button')
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',

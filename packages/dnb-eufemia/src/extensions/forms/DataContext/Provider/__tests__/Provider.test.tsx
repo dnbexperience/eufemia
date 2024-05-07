@@ -364,7 +364,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should filter data based on the given "filterData" property method', () => {
+    it('should filter data based on the given "filterSubmitData" property method', () => {
       let filteredData = undefined
       const onSubmit = jest.fn((data) => (filteredData = data))
 
@@ -379,7 +379,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/foo" value="Include this value" />
           <Field.String path="/bar" value="bar" />
@@ -416,7 +416,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/foo" value="Skip this value" disabled />
           <Field.String path="/bar" value="bar value" />
@@ -454,6 +454,68 @@ describe('DataContext.Provider', () => {
       )
 
       expect(filteredData).toEqual({ bar: 'bar value' })
+    })
+
+    it('"filterSubmitData" should not mutate internal data', async () => {
+      const onSubmit = jest.fn()
+      const onChange = jest.fn()
+
+      const filterDataHandler: FilterData = jest.fn((path, value) => {
+        if (value === 'remove me') {
+          return false
+        }
+      })
+
+      let originalData = undefined
+      let filteredData = undefined
+
+      const MyForm = () => {
+        const { data: original, filterData } = Form.useData('my-form')
+        originalData = original
+
+        const data = filterData(filterDataHandler)
+        filteredData = data
+
+        return (
+          <DataContext.Provider
+            id="my-form"
+            onSubmit={onSubmit}
+            onChange={onChange}
+            filterSubmitData={filterDataHandler}
+          >
+            <Field.String path="/myField" />
+            <Form.SubmitButton>Submit</Form.SubmitButton>
+          </DataContext.Provider>
+        )
+      }
+
+      render(<MyForm />)
+
+      const submitButton = document.querySelector('button')
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, 'remove m')
+      expect(filteredData).toMatchObject({ myField: 'remove m' })
+      expect(originalData).toMatchObject({ myField: 'remove m' })
+      expect(onChange).toHaveBeenCalledTimes(8)
+      expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove m' })
+
+      fireEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myField: 'remove m' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, 'e')
+      expect(filteredData).toMatchObject({})
+      expect(originalData).toMatchObject({ myField: 'remove me' })
+      expect(onChange).toHaveBeenCalledTimes(9)
+      expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove me' })
+
+      fireEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
     })
 
     it('should call "onSubmitRequest" on invalid submit', () => {
@@ -578,7 +640,7 @@ describe('DataContext.Provider', () => {
 
       const submitButton = document.querySelector('button')
       const indicator = submitButton.querySelector(
-        '.dnb-form-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       fireEvent.click(submitButton)
@@ -586,7 +648,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(submitButton).toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
       })
 
@@ -602,7 +664,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(submitButton).toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
       })
     })
@@ -627,13 +689,15 @@ describe('DataContext.Provider', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -787,7 +851,7 @@ describe('DataContext.Provider', () => {
       const submitButton = document.querySelector('button')
       const input = document.querySelector('input')
       const indicator = submitButton.querySelector(
-        '.dnb-form-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       fireEvent.click(submitButton)
@@ -795,7 +859,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -817,7 +881,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -839,7 +903,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -888,7 +952,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -1071,7 +1135,7 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const pendingField = () =>
         document.querySelector(
-          '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+          '.dnb-forms-field-block .dnb-forms-submit-indicator--state-pending'
         )
 
       // 1. start the async validation
@@ -1098,7 +1162,7 @@ describe('DataContext.Provider', () => {
         expect(buttonElement).toBeDisabled()
         expect(
           buttonElement.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeTruthy()
       })
@@ -1181,7 +1245,7 @@ describe('DataContext.Provider', () => {
       const inputElement = document.querySelector('input')
       const pendingField = () =>
         document.querySelector(
-          '.dnb-forms-field-block .dnb-form-submit-indicator--state-pending'
+          '.dnb-forms-field-block .dnb-forms-submit-indicator--state-pending'
         )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1285,7 +1349,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-form-submit-indicator'
+        'label .dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1295,12 +1359,12 @@ describe('DataContext.Provider', () => {
 
       expect(indicator).toHaveTextContent('My label...')
       expect(indicator).toHaveClass(
-        'dnb-form-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending'
       )
 
       await waitFor(() => {
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator--state-complete'
         )
       })
     })
@@ -1319,7 +1383,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-form-submit-indicator'
+        'label .dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1329,12 +1393,12 @@ describe('DataContext.Provider', () => {
 
       expect(indicator).toHaveTextContent('My label...')
       expect(indicator).toHaveClass(
-        'dnb-form-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending'
       )
 
       await waitFor(() => {
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-success'
+          'dnb-forms-submit-indicator--state-success'
         )
       })
     })
@@ -1634,7 +1698,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-form-submit-indicator'
+        'label .dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1645,21 +1709,21 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(indicator).toHaveTextContent('My label...')
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
       })
 
       await waitFor(() => {
         expect(events).toEqual(['validator'])
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
       })
 
       await waitFor(() => {
         expect(events).toEqual(['validator', 'onChangeForm'])
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending'
         )
       })
 
@@ -1670,7 +1734,7 @@ describe('DataContext.Provider', () => {
           'onChangeField',
         ])
         expect(indicator).toHaveClass(
-          'dnb-form-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator--state-complete'
         )
       })
     })
@@ -1756,34 +1820,38 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(setItem).not.toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original123',
-        })
-      )
+      await waitFor(() => {
+        expect(setItem).not.toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original123',
+          })
+        )
+      })
 
       const inputElement = document.querySelector('input')
       await userEvent.type(inputElement, '123')
 
-      expect(setItem).toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original1',
-        })
-      )
-      expect(setItem).toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original12',
-        })
-      )
-      expect(setItem).toHaveBeenCalledWith(
-        'test-data',
-        JSON.stringify({
-          foo: 'original123',
-        })
-      )
+      await waitFor(() => {
+        expect(setItem).toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original1',
+          })
+        )
+        expect(setItem).toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original12',
+          })
+        )
+        expect(setItem).toHaveBeenCalledWith(
+          'test-data',
+          JSON.stringify({
+            foo: 'original123',
+          })
+        )
+      })
 
       setItem.mockRestore()
     })
@@ -2814,7 +2882,7 @@ describe('DataContext.Provider', () => {
       <Form.Handler
         id={id}
         onSubmit={onSubmit}
-        filterData={filterDataHandler}
+        filterSubmitData={filterDataHandler}
       >
         <Field.String path="/myField" disabled={true} value="foo" />
       </Form.Handler>
@@ -2839,7 +2907,7 @@ describe('DataContext.Provider', () => {
       <Form.Handler
         id={id}
         onSubmit={onSubmit}
-        filterData={filterDataHandler}
+        filterSubmitData={filterDataHandler}
       >
         <Field.String path="/myField" disabled={false} value="bar" />
       </Form.Handler>
@@ -3555,7 +3623,7 @@ describe('DataContext.Provider', () => {
         <Form.Handler
           id={id}
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/myField" disabled={true} />
         </Form.Handler>
@@ -3591,7 +3659,7 @@ describe('DataContext.Provider', () => {
         <Form.Handler
           id={id}
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/myField" disabled={false} />
         </Form.Handler>
@@ -3625,7 +3693,7 @@ describe('DataContext.Provider', () => {
         <Form.Handler
           id={id}
           onSubmit={onSubmit}
-          filterData={filterDataHandler}
+          filterSubmitData={filterDataHandler}
         >
           <Field.String path="/myField" disabled={true} />
         </Form.Handler>

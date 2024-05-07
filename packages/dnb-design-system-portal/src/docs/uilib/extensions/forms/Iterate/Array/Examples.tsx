@@ -194,23 +194,15 @@ export const ArrayFromFormHandler = () => {
                   />
                 }
               >
-                <Field.String
+                <Field.Name
                   itemPath="/nickname"
                   width="medium"
                   label="Nick name"
                 />
 
                 <Field.Composition>
-                  <Field.String
-                    itemPath="/firstName"
-                    width="medium"
-                    label="First name"
-                  />
-                  <Field.String
-                    itemPath="/lastName"
-                    width="medium"
-                    label="Last name"
-                  />
+                  <Field.Name.First itemPath="/firstName" width="medium" />
+                  <Field.Name.Last itemPath="/lastName" width="medium" />
                 </Field.Composition>
 
                 <Iterate.Toolbar>
@@ -245,15 +237,10 @@ export const ViewAndEditContainer = () => {
               titleWhenNew="New account holder"
             >
               <Field.Composition>
-                <Field.String
-                  itemPath="/firstName"
-                  width="medium"
-                  label="First name"
-                />
-                <Field.String
+                <Field.Name.First itemPath="/firstName" width="medium" />
+                <Field.Name.Last
                   itemPath="/lastName"
                   width="medium"
-                  label="Last name"
                   required
                 />
               </Field.Composition>
@@ -265,16 +252,8 @@ export const ViewAndEditContainer = () => {
           return (
             <Iterate.ViewContainer title="Account holder">
               <Value.SummaryList>
-                <Value.String
-                  label="First name"
-                  itemPath="/firstName"
-                  showEmpty
-                />
-                <Value.String
-                  label="Last name"
-                  itemPath="/lastName"
-                  placeholder="-"
-                />
+                <Value.Name.First itemPath="/firstName" showEmpty />
+                <Value.Name.Last itemPath="/lastName" placeholder="-" />
               </Value.SummaryList>
             </Iterate.ViewContainer>
           )

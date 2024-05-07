@@ -130,20 +130,14 @@ export const HorizontalAutoSize = () => {
       <FieldBlock label="Label">
         <Flex.Container>
           <Flex.Item size={{ small: 12, large: 'auto' }}>
-            <Field.String
+            <Field.Name.First
               path="/firstName"
-              label="First name"
               width="medium"
               minLength={2}
             />
           </Flex.Item>
           <Flex.Item size={{ small: 12, large: 'auto' }}>
-            <Field.String
-              path="/lastName"
-              label="Last name"
-              width="medium"
-              required
-            />
+            <Field.Name.Last path="/lastName" width="medium" required />
           </Flex.Item>
           <Flex.Item size={{ small: 12, large: 'auto' }}>
             <FieldBlock width="large">

@@ -73,10 +73,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-form-iterate')
+          document.querySelectorAll('.dnb-forms-iterate')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-iterate')
+          document.querySelector('.dnb-forms-iterate')
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -96,10 +96,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-form-iterate')
+          document.querySelectorAll('.dnb-forms-iterate')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-iterate')
+          document.querySelector('.dnb-forms-iterate')
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -115,10 +115,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-form-iterate')
+          document.querySelectorAll('.dnb-forms-iterate')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-iterate')
+          document.querySelector('.dnb-forms-iterate')
         ).toHaveTextContent('Placeholder text')
       })
     })
@@ -260,7 +260,7 @@ describe('Iterate.Array', () => {
       fireEvent.click(addButton)
 
       const elements = document.querySelectorAll(
-        '.dnb-form-iterate__element'
+        '.dnb-forms-iterate__element'
       )
       expect(elements).toHaveLength(1)
 
@@ -374,7 +374,7 @@ describe('Iterate.Array', () => {
           })
         })
 
-        it('should filter data based on the given "filterData" property method', () => {
+        it('should filter data based on the given "filterSubmitData" property method', () => {
           let filteredData = undefined
           const onSubmit = jest.fn((data) => (filteredData = data))
 
@@ -389,7 +389,7 @@ describe('Iterate.Array', () => {
           const { rerender } = render(
             <DataContext.Provider
               onSubmit={onSubmit}
-              filterData={filterDataHandler}
+              filterSubmitData={filterDataHandler}
             >
               <Iterate.Array
                 path="/myList"
@@ -476,7 +476,7 @@ describe('Iterate.Array', () => {
           rerender(
             <DataContext.Provider
               onSubmit={onSubmit}
-              filterData={filterDataHandler}
+              filterSubmitData={filterDataHandler}
             >
               <Iterate.Array
                 path="/myList"
@@ -508,9 +508,11 @@ describe('Iterate.Array', () => {
             '/myList',
             [
               {
+                foo: 'foo 1',
                 bar: 'bar 1',
               },
               {
+                foo: 'foo 2',
                 bar: 'bar 2',
               },
             ],

@@ -1,13 +1,16 @@
 @import '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-array-selection {
-  &--layout-vertical &__options {
+  &--options-layout-vertical &__options {
     display: flex;
     flex-flow: column;
     row-gap: var(--spacing-x-small);
   }
+  &--options-layout-vertical#{&}--layout-horizontal &__options {
+    row-gap: 0;
+  }
 
-  &--layout-horizontal &__options {
+  &--options-layout-horizontal &__options {
     display: flex;
     flex-flow: row wrap;
     column-gap: var(--spacing-small);

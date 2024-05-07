@@ -1,6 +1,6 @@
 @import '../../../../style/core/utilities.scss';
 
-.dnb-form-summary-list.dnb-dl {
+.dnb-forms-summary-list.dnb-dl {
   & .dnb-dt,
   & > .dnb-dd > .dnb-dl,
   &:not([class*='dnb-space']) > .dnb-dd > .dnb-dl {
@@ -24,9 +24,17 @@
 
   &--inline:not([class*='__composition']) {
     display: inline-block;
+    &::before,
+    &::after {
+      content: '\00A0'; // non-breaking space
+    }
+    .dnb-forms-value-block + & {
+      &::before {
+        content: none;
+      }
+    }
+
     font-size: inherit;
-    margin-left: var(--spacing-xx-small);
-    margin-right: var(--spacing-xx-small);
   }
 
   &__label,

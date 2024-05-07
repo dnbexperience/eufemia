@@ -3,7 +3,7 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex } from '@dnb/eufemia/src'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
-// Dropdown
+// - Dropdown
 
 export const DropdownEmpty = () => (
   <ComponentBox>
@@ -259,7 +259,39 @@ export const DropdownValidationRequired = () => (
   </ComponentBox>
 )
 
-// Radio
+// - Autocomplete
+
+export const AutocompleteLabel = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="autocomplete"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const AutocompleteValidationRequired = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="autocomplete"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+      onFocus={(value) => console.log('onFocus', value)}
+      onBlur={(value) => console.log('onBlur', value)}
+      required
+      validateInitially
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+// - Radio
 
 export const RadioEmpty = () => (
   <ComponentBox>
@@ -376,7 +408,7 @@ export const RadioError = () => (
   </ComponentBox>
 )
 
-// Button
+// - Button
 
 export const ButtonEmpty = () => (
   <ComponentBox>

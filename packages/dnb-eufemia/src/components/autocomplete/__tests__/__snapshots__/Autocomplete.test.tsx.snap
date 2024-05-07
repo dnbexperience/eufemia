@@ -86,6 +86,7 @@ exports[`Autocomplete scss has to match style dependencies css 1`] = `
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;
@@ -634,6 +635,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;
@@ -1393,6 +1395,7 @@ html[data-visual-test] .dnb-input__input {
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;
@@ -1486,6 +1489,7 @@ p > .dnb-icon {
 .dnb-icon--custom-size {
   width: auto;
   height: auto;
+  line-height: 0;
 }
 .dnb-icon--auto {
   font-size: 1em;
@@ -2401,11 +2405,16 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
  */
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
-  --progress-indicator-circular-circle: 88;
-  --progress-indicator-circular-circle-offset--min: 88;
-  --progress-indicator-circular-circle-offset--max: 1;
+  --progress-indicator-circular-circle: 314.159265359%;
+  --progress-indicator-circular-circle-offset--min: 314.159265359%;
+  --progress-indicator-circular-circle-offset--max: 1%;
+  --progress-indicator-circular-size: 2rem;
+  --progress-indicator-circular-stroke-width: calc(
+    var(--progress-indicator-circular-size) / 8
+  );
   --progress-indicator-circular-background-color: grey;
   --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: grey;
   --progress-indicator-linear-bar-color: var(--color-black);
   position: relative;
@@ -2438,10 +2447,32 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
   padding-top: 0.5rem;
 }
+.dnb-progress-indicator--inside .dnb-progress-indicator__label {
+  position: absolute;
+  width: 100%;
+  justify-content: center;
+  padding: var(--progress-indicator-circular-stroke-width);
+}
+.dnb-progress-indicator--small {
+  --progress-indicator-circular-size: 1rem;
+  --progress-indicator-linear-size: 0.25rem;
+}
+.dnb-progress-indicator--medium {
+  --progress-indicator-circular-size: 1.5rem;
+  --progress-indicator-linear-size: 1rem;
+}
+.dnb-progress-indicator--large {
+  --progress-indicator-circular-size: 3.5rem;
+  --progress-indicator-linear-size: 1.5rem;
+}
+.dnb-progress-indicator--huge {
+  --progress-indicator-circular-size: 20rem;
+  --progress-indicator-linear-size: 2rem;
+}
 .dnb-progress-indicator__circular {
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: var(--progress-indicator-circular-size);
+  height: var(--progress-indicator-circular-size);
   transform: rotate(-90deg);
 }
 .dnb-progress-indicator__circular svg {
@@ -2449,6 +2480,21 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   inset: 0;
   width: 100%;
   height: 100%;
+  padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+}
+.dnb-progress-indicator__circular svg:not(:root) {
+  overflow: visible;
+}
+.dnb-progress-indicator__circular__background-padding {
+  display: block;
+  height: 100%;
+  padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+}
+.dnb-progress-indicator__circular__background {
+  display: block;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 50%;
 }
 .dnb-progress-indicator__circular__line {
   animation-duration: 2s;
@@ -2477,43 +2523,14 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 .dnb-progress-indicator__circular__circle {
   stroke-linecap: round;
+  stroke-width: var(--progress-indicator-circular-stroke-width);
 }
 .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
   stroke: var(--progress-indicator-circular-background-color);
 }
 .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
   stroke: var(--progress-indicator-circular-bar-color);
-}
-.dnb-progress-indicator__circular--small {
-  width: 1rem;
-  height: 1rem;
-}
-.dnb-progress-indicator__circular--medium {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-.dnb-progress-indicator__circular--large {
-  width: 3.5rem;
-  height: 3.5rem;
-}
-.dnb-progress-indicator__circular--huge {
-  width: 20rem;
-  height: 20rem;
-}
-.dnb-progress-indicator__circular--small .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-  stroke-width: 3.1;
-}
-.dnb-progress-indicator__circular--medium .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-  stroke-width: 3.3;
-}
-.dnb-progress-indicator__circular--default .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-  stroke-width: 3.5;
-}
-.dnb-progress-indicator__circular--large .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-  stroke-width: 3.7;
-}
-.dnb-progress-indicator__circular--huge .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-  stroke-width: 3.9;
+  stroke-width: calc(var(--progress-indicator-circular-stroke-width) - 0.5px);
 }
 .dnb-progress-indicator__linear {
   background-color: var(--progress-indicator-linear-background-color);
@@ -2521,8 +2538,8 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   overflow: hidden;
   width: 100%;
   will-change: transform;
-  height: 0.5rem;
-  border-radius: 0.25rem;
+  height: var(--progress-indicator-linear-size);
+  border-radius: calc(var(--progress-indicator-linear-size) / 2);
 }
 .dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);
@@ -2544,22 +2561,6 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 .dnb-progress-indicator__linear__bar2-animation {
   width: auto;
   animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
-}
-.dnb-progress-indicator__linear--small {
-  height: 0.25rem;
-  border-radius: 0.125rem;
-}
-.dnb-progress-indicator__linear--medium {
-  height: 1rem;
-  border-radius: 0.5rem;
-}
-.dnb-progress-indicator__linear--large {
-  height: 1.5rem;
-  border-radius: 0.75rem;
-}
-.dnb-progress-indicator__linear--huge {
-  height: 2rem;
-  border-radius: 1rem;
 }
 html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
   left: -35%;
@@ -2584,7 +2585,7 @@ html[data-visual-test] .dnb-progress-indicator {
   opacity: 1;
   animation-duration: 0ms;
 }
-.dnb-progress-indicator--no-animation {
+.dnb-progress-indicator--no-animation, .dnb-progress-indicator--no-animation.dnb-progress-indicator--complete {
   animation-duration: 0ms;
 }
 html[data-visual-test] .dnb-progress-indicator__bar-transition {

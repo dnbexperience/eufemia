@@ -80,7 +80,7 @@ export function EditContainerWithoutToolbar(
   return (
     <ElementBlock
       mode="edit"
-      className={classnames('dnb-form-iterate-edit-block', className)}
+      className={classnames('dnb-forms-iterate-edit-block', className)}
       ariaLabel={ariaLabel}
       {...restProps}
     >

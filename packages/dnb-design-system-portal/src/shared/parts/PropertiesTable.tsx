@@ -76,65 +76,82 @@ export default function PropertiesTable({
   showDefaultValue: boolean
 }) {
   const keys = Object.keys(props)
-  const tableRows = Object.entries(props).map(
-    ([key, { type, defaultValue, doc, status }]) => {
-      if (omit && omit.includes(key)) {
-        return null
-      }
+  const tableRows = Object.entries(props).map(([key, props]) => {
+    if (!props) {
+      return null
+    }
+    const { type, defaultValue, doc, status } = props
+    if (omit && omit.includes(key)) {
+      return null
+    }
 
-      return (
-        <Tr key={key}>
-          <Td>
-            <FormattedCode
-              variant="prop"
-              strikethrough={status === 'deprecated'}
-            >
-              {formatName(camelCase ? toCamelCase(key) : key)}
-            </FormattedCode>
-          </Td>
-          <Td>
-            {(Array.isArray(type) ? type : [type])
-              .map((t) => {
-                if (typeof t === 'string') {
-                  if (String(t).includes('{valueType}')) {
-                    t = valueType as string
+    return (
+      <Tr key={key}>
+        <Td>
+          <FormattedCode
+            variant="prop"
+            strikethrough={status === 'deprecated'}
+          >
+            {formatName(camelCase ? toCamelCase(key) : key)}
+          </FormattedCode>
+        </Td>
+        <Td>
+          {(Array.isArray(type) ? type : [type])
+            .map((t) => {
+              if (typeof t === 'string') {
+                if (String(t).includes('{valueType}')) {
+                  if (Array.isArray(valueType)) {
+                    return valueType
+                      .map((t, i) => {
+                        return (
+                          <FormattedCode key={t + i} variant="type">
+                            {t}
+                          </FormattedCode>
+                        )
+                      })
+                      .reduce((prev, curr) => (
+                        <>
+                          {prev} <br /> {curr}
+                        </>
+                      ))
                   }
-                  return (
-                    <FormattedCode key={t} variant="type">
-                      {t}
-                    </FormattedCode>
-                  )
+
+                  t = valueType as string
                 }
-              })
-              .reduce((prev, curr) => (
-                <>
-                  {prev} <br /> {curr}
-                </>
-              ))}
-          </Td>
-          {showDefaultValue && (
-            <Td>
-              {defaultValue ? (
-                <FormattedCode variant="value">
-                  {defaultValue}
-                </FormattedCode>
-              ) : (
-                status === 'required' && 'REQUIRED'
-              )}
-            </Td>
-          )}
+
+                return (
+                  <FormattedCode key={t} variant="type">
+                    {t}
+                  </FormattedCode>
+                )
+              }
+            })
+            .reduce((prev, curr) => (
+              <>
+                {prev} <br /> {curr}
+              </>
+            ))}
+        </Td>
+        {showDefaultValue && (
           <Td>
-            {(!showDefaultValue || status === 'deprecated') && (
-              <em>({status}) </em>
+            {defaultValue ? (
+              <FormattedCode variant="value">{defaultValue}</FormattedCode>
+            ) : (
+              status === 'required' && 'REQUIRED'
             )}
-            <ReactMarkdown components={components}>
-              {camelCase ? convertToCamelCase(doc, keys) : doc}
-            </ReactMarkdown>
           </Td>
-        </Tr>
-      )
-    },
-  )
+        )}
+        <Td>
+          {(!showDefaultValue || status === 'deprecated') && (
+            <em>({status}) </em>
+          )}
+          <ReactMarkdown components={components}>
+            {camelCase ? convertToCamelCase(doc, keys) : doc}
+          </ReactMarkdown>
+        </Td>
+      </Tr>
+    )
+  })
 
   return (
     <Table.ScrollView>

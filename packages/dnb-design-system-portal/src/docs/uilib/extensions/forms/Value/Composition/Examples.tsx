@@ -99,8 +99,8 @@ export const WithSummaryListGridLayout = () => {
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList layout="grid">
-            <Value.String label="First name" path="/firstName" />
-            <Value.String label="Last name" path="/lastName" />
+            <Value.Name.First path="/firstName" />
+            <Value.Name.Last path="/lastName" />
 
             <Value.Composition label="Street">
               <Value.String path="/streetName" />

@@ -560,7 +560,9 @@ describe('Form.Handler', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -572,7 +574,9 @@ describe('Form.Handler', () => {
       )
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeNull()
     })
 
@@ -637,7 +641,9 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -653,7 +659,7 @@ describe('Form.Handler', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -665,7 +671,9 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -681,7 +689,7 @@ describe('Form.Handler', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -815,13 +823,15 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
@@ -840,16 +850,54 @@ describe('Form.Handler', () => {
       fireEvent.click(buttonElement)
 
       expect(
-        document.querySelector('.dnb-form-submit-indicator--state-pending')
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-form-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeNull()
       })
     })
+  })
+
+  it('onSubmit should return the data including the type', () => {
+    let result = null
+
+    render(
+      <Form.Handler
+        defaultData={{ firstName: 'Nora' }}
+        onSubmit={(data) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          result = data.firstName2
+
+          // Use the correct value
+          result = data.firstName
+        }}
+      >
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(result).toBe('Nora')
+  })
+
+  it('should not interfere disabled state of elements using "formElement"', () => {
+    render(
+      <Form.Handler>
+        <Field.Selection variant="radio" disabled>
+          <Field.Option />
+        </Field.Selection>
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toBeDisabled()
   })
 })

@@ -17,6 +17,7 @@ import type {
   FieldHelpProps,
   CustomErrorMessages,
   AllJSONSchemaVersions,
+  FieldBlockWidth,
 } from '../../types'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -34,7 +35,7 @@ export type Props = FieldHelpProps &
     multiline?: boolean
     inputClassName?: string
     innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
-    width?: false | 'small' | 'medium' | 'large' | 'stretch'
+    width?: FieldBlockWidth
     size?: InputProps['size'] | TextareaProps['size']
     keepPlaceholder?: InputProps['keep_placeholder']
 

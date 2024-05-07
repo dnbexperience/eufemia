@@ -9,6 +9,7 @@ import {
   ProgressIndicatorCircularExample,
   ProgressIndicatorCircularLabelHorizontalExample,
   ProgressIndicatorCircularLabelVerticalExample,
+  ProgressIndicatorCircularLabelInsideExample,
   ProgressIndicatorCircularPrimaryExample,
   ProgressIndicatorCircularRandomExample,
   ProgressIndicatorCircularRandomTransitionExample,
@@ -23,6 +24,10 @@ import {
   ProgressIndicatorLinearRandomTransitionExample,
   ProgressIndicatorLinearRandomOnCompleteExample,
   ProgressIndicatorLinearDialogExample,
+  ProgressIndicatorCountdownExample,
+  ProgressIndicatorCustomCountdown,
+  ProgressIndicatorCustomHorizontal,
+  ProgressIndicatorCustomizationExample,
 } from 'Docs/uilib/components/progress-indicator/Examples'
 
 ## Demos
@@ -42,6 +47,12 @@ import {
 ### Circular ProgressIndicator with a label in a vertical direction
 
 <ProgressIndicatorCircularLabelVerticalExample />
+
+### Circular ProgressIndicator with a label inside
+
+Inside labels must be carefully sized, and are generally meant for just an icon or a number.
+
+<ProgressIndicatorCircularLabelInsideExample />
 
 ### Shows a large Circular ProgressIndicator with a static 50% in progress
 
@@ -98,3 +109,18 @@ import {
 ### Linear ProgressIndicator inside a Dialog
 
 <ProgressIndicatorLinearDialogExample />
+
+### Countdown indicator
+
+<ProgressIndicatorCountdownExample />
+
+### Style customization
+
+The sizes and colors can be customized with the props `size`, `customColors`, and `customCircleWidth` if needed. The types `circular` and `countdown` has a few more options than `linear`.
+
+<ProgressIndicatorCustomCountdown />
+<ProgressIndicatorCustomHorizontal />
+
+<VisibleWhenVisualTest>
+  <ProgressIndicatorCustomizationExample />
+</VisibleWhenVisualTest>

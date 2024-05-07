@@ -7,7 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import DrawerList, {
-  DrawerListProps,
+  DrawerListAllProps,
   DrawerListDataObjectUnion,
   DrawerListData,
 } from '../DrawerList'
@@ -20,11 +20,11 @@ import {
 mockImplementationForDirectionObserver()
 
 // use no_animation so we don't need to wait
-const mockProps: DrawerListProps = {
+const mockProps: DrawerListAllProps = {
   skip_portal: true,
 }
 
-const props: DrawerListProps = {
+const props: DrawerListAllProps = {
   id: 'drawer-list-id',
   value: 2,
   skip_portal: true,
@@ -565,7 +565,7 @@ describe('DrawerList component', () => {
 
 describe('DrawerList markup', () => {
   it('should validate with ARIA rules', async () => {
-    const snapshotProps: DrawerListProps = {
+    const snapshotProps: DrawerListAllProps = {
       id: 'drawer-list-id',
       direction: 'bottom',
       value: 2,

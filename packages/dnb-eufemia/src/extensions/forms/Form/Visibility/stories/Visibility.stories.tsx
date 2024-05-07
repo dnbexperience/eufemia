@@ -45,6 +45,32 @@ export const Toggle = () => {
   )
 }
 
+export const RadioDisabled = () => {
+  return (
+    <Form.Handler id={id}>
+      <Flex.Stack>
+        <Field.Boolean
+          label="Visible"
+          variant="button"
+          path="/isVisible"
+        />
+        <Form.Visibility visible pathTrue="/isVisible" animate keepInDOM>
+          <Field.Selection
+            label="Radio"
+            variant="radio"
+            path="/otherValue"
+            value="foo"
+          >
+            <Field.Option value="foo" title="Foo" />
+            <Field.Option value="bar" title="Bar" />
+          </Field.Selection>
+        </Form.Visibility>
+        <span>bottom</span>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
 export const KeepInDOM = () => {
   const { data } = Form.useData(id, {
     showError: true,

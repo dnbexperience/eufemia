@@ -7,6 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Button, ProgressIndicator } from '../..'
+import styled from '@emotion/styled'
 
 export default {
   title: 'Eufemia/Components/ProgressIndicator',
@@ -60,5 +61,43 @@ const ProgressIndicatorCircular = () => {
         console.log('on_complete')
       }}
     />
+  )
+}
+
+export function Countdown() {
+  const StyledText = styled.span`
+    color: var(--color-white);
+    font-size: var(--font-size-small);
+    text-align: center;
+  `
+
+  const StyledTitle = styled.span`
+    display: block;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-medium);
+  `
+
+  const daysLeft = 20
+  const daysInMonth = 31
+
+  return (
+    <ProgressIndicator
+      type="countdown"
+      progress={(daysLeft / daysInMonth) * 100}
+      size="6rem"
+      labelDirection="inside"
+      customColors={{
+        line: 'var(--color-summer-green)',
+        shaft: 'transparent',
+        background: 'var(--color-sea-green)',
+      }}
+      title={`${daysLeft} days left`}
+      customCircleWidth="0.5rem"
+    >
+      <StyledText>
+        <StyledTitle>{daysLeft} d</StyledTitle>
+        left
+      </StyledText>
+    </ProgressIndicator>
   )
 }

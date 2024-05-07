@@ -419,9 +419,11 @@ export const toKebabCase = (str) =>
   str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 
 export function toCapitalized(str) {
-  return str
-    .toLowerCase()
-    .replace(/(?<=(^|\s))(.)/g, (l) => l.toUpperCase())
+  return typeof str === 'string'
+    ? str
+        .toLowerCase()
+        .replace(/(?<=(^|\s|-))(.)/g, (l) => l.toUpperCase())
+    : str
 }
 
 /**

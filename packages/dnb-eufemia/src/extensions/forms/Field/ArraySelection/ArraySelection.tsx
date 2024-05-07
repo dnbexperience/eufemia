@@ -44,7 +44,8 @@ function ArraySelection(props: Props) {
     forId: id,
     className: classnames(
       'dnb-forms-field-array-selection',
-      `dnb-forms-field-array-selection--layout-${optionsLayout}`,
+      `dnb-forms-field-array-selection--layout-${layout}`,
+      `dnb-forms-field-array-selection--options-layout-${optionsLayout}`,
       className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',

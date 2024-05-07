@@ -14,8 +14,8 @@ describe('ViewContainer', () => {
       </IterateElementContext.Provider>
     )
 
-    const element = document.querySelector('.dnb-form-iterate-block')
-    const inner = element.querySelector('.dnb-form-iterate-block__inner')
+    const element = document.querySelector('.dnb-forms-iterate-block')
+    const inner = element.querySelector('.dnb-forms-iterate-block__inner')
 
     expect(element).toBeInTheDocument()
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -69,7 +69,7 @@ describe('ViewContainer', () => {
     )
 
     expect(
-      document.querySelector('.dnb-form-iterate-view-block')
+      document.querySelector('.dnb-forms-iterate-view-block')
     ).toBeInTheDocument()
   })
 
@@ -82,7 +82,7 @@ describe('ViewContainer', () => {
 
     expect(
       document.querySelector(
-        '.dnb-form-iterate-view-block .dnb-form-iterate-block__inner'
+        '.dnb-forms-iterate-view-block .dnb-forms-iterate-block__inner'
       )
     ).toHaveAttribute('data-attr', 'value')
   })
