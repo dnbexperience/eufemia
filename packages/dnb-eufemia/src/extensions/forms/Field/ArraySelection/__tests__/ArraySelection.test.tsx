@@ -78,9 +78,9 @@ describe('ArraySelection', () => {
   })
 
   it('applies the correct layout class when optionsLayout prop is provided', () => {
-    const layout = 'horizontal'
+    const optionsLayout = 'horizontal'
     render(
-      <Field.ArraySelection optionsLayout={layout}>
+      <Field.ArraySelection optionsLayout={optionsLayout}>
         <Field.Option value="option1">Option 1</Field.Option>
         <Field.Option value="option2">Option 2</Field.Option>
       </Field.ArraySelection>
@@ -90,7 +90,7 @@ describe('ArraySelection', () => {
       '.dnb-forms-field-array-selection'
     )
     expect(element).toHaveClass(
-      `dnb-forms-field-array-selection--layout-${layout}`
+      `dnb-forms-field-array-selection--options-layout-${optionsLayout}`
     )
   })
 
