@@ -78,6 +78,7 @@ class Modal extends React.PureComponent<
   state = {
     hide: false,
     modalActive: false,
+    isInitialRender: true,
   }
 
   static defaultProps = {
@@ -164,6 +165,7 @@ class Modal extends React.PureComponent<
 
   componentDidMount() {
     this.openBasedOnStateUpdate()
+    this.setState({ isInitialRender: false })
   }
 
   componentWillUnmount() {
@@ -274,7 +276,7 @@ class Modal extends React.PureComponent<
   }
 
   handleSideEffects = () => {
-    const { modalActive } = this.state
+    const { modalActive, isInitialRender } = this.state
     const { close_modal, open_state, animation_duration } = this.props
 
     if (modalActive) {
@@ -286,9 +288,8 @@ class Modal extends React.PureComponent<
           this._onUnmount.push(fn)
         }
       }
-
       this.setActiveState(this._id)
-    } else if (modalActive === false) {
+    } else if (modalActive === false && !isInitialRender) {
       const focus = (elem: HTMLElement) => {
         // So we can omit showing a Tooltip on the trigger button
         elem.setAttribute('data-autofocus', 'true')
