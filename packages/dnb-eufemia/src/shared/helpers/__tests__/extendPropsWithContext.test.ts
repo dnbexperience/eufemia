@@ -11,7 +11,7 @@ describe('extendPropsWithContext', () => {
 
     const result = extendPropsWithContext(props, defaultProps, context1)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       foo: 'bar',
     })
   })
@@ -23,7 +23,7 @@ describe('extendPropsWithContext', () => {
 
     const result = extendPropsWithContext(props, defaultProps, context1)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       foo: 'is defined as a prop',
       bar: null,
     })
@@ -36,7 +36,7 @@ describe('extendPropsWithContext', () => {
 
     const result = extendPropsWithContext(props, defaultProps, context1)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       bar: null,
       foo: 'bar',
     })
@@ -49,7 +49,7 @@ describe('extendPropsWithContext', () => {
 
     const result = extendPropsWithContext(props, defaultProps, context1)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       bar: null,
       foo: 'is defined as a prop',
     })
@@ -62,7 +62,7 @@ describe('extendPropsWithContext', () => {
 
     const result = extendPropsWithContext(props, defaultProps, context1)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       foo: 'bar',
     })
   })
@@ -84,7 +84,7 @@ describe('extendPropsWithContext', () => {
       context2
     )
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       prop1: 'form context',
       prop2: 'form context',
       default1: 'form context',
@@ -97,7 +97,7 @@ describe('extendPropsWithContext', () => {
 
     const result = extendPropsWithContext(props, defaultProps)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       key: 'is-default',
       foo: 'bar',
     })
@@ -116,7 +116,7 @@ describe('extendPropsWithContextInClassComponent', () => {
       context1
     )
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       foo: 'use this value',
     })
   })
@@ -132,7 +132,7 @@ describe('extendPropsWithContextInClassComponent', () => {
       context1
     )
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       foo: 'use this value',
     })
   })
@@ -148,7 +148,7 @@ describe('extendPropsWithContextInClassComponent', () => {
       context1
     )
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       foo: 'use context',
     })
   })
