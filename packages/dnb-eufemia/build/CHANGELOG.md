@@ -3,6 +3,37 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.29.0](https://github.com/dnbexperience/eufemia/compare/v10.28.0...v10.29.0) (2024-05-07)
+
+
+### :memo: Documentation
+
+* **InputMasked:** fix import path of MultiInputMask ([#3469](https://github.com/dnbexperience/eufemia/issues/3469)) ([b678412](https://github.com/dnbexperience/eufemia/commit/b678412efc9552d66d8068bb136818a3334e9753))
+
+
+### :sparkles: Features
+
+* **forms:** add `autocomplete` variant to Field.Selection with `autocompleteProps` support ([#3521](https://github.com/dnbexperience/eufemia/issues/3521)) ([f79dd16](https://github.com/dnbexperience/eufemia/commit/f79dd16fb28015e27893e3f952188b5bd06f4f4d))
+* **forms:** add `Field.Name` and `Value.Name` ([#3528](https://github.com/dnbexperience/eufemia/issues/3528)) ([84fcce1](https://github.com/dnbexperience/eufemia/commit/84fcce1d93e448b79b8106f7590dc6cdacaa3287)), closes [#3529](https://github.com/dnbexperience/eufemia/issues/3529)
+* **forms:** add `transformIn` and `transformOut` to Form.Handler ([#3511](https://github.com/dnbexperience/eufemia/issues/3511)) ([48959b2](https://github.com/dnbexperience/eufemia/commit/48959b2b45d1f1ba1cfed6ccae4c9f1c5ab399bd))
+* **forms:** add `Value.OrganizationNumber` ([#3525](https://github.com/dnbexperience/eufemia/issues/3525)) ([46ff116](https://github.com/dnbexperience/eufemia/commit/46ff1162696b23d184f6d3d189d92b062b78b11b))
+* **forms:** add `Value.PostalCodeAndCity` ([#3527](https://github.com/dnbexperience/eufemia/issues/3527)) ([adb4cf5](https://github.com/dnbexperience/eufemia/commit/adb4cf59303ae6f1564acd80596d7c4d43c41771))
+* **forms:** add Wizard transition animation ([#3517](https://github.com/dnbexperience/eufemia/issues/3517)) ([c42dab7](https://github.com/dnbexperience/eufemia/commit/c42dab747952946ee394539384b71af6dedec34e))
+* **forms:** debounce session data storing to enhance performance ([#3508](https://github.com/dnbexperience/eufemia/issues/3508)) ([6aeaa96](https://github.com/dnbexperience/eufemia/commit/6aeaa96c4c982f1408fbb400269937209e57a98d))
+* **forms:** rename Form.Handler property `filterData` to `filterSubmitData` (deprecate) ([#3507](https://github.com/dnbexperience/eufemia/issues/3507)) ([b7aa69b](https://github.com/dnbexperience/eufemia/commit/b7aa69b94c257dfd849bb6d3b0e201d4f952b1ec))
+* **ProgressIndicator:** add `countdown` type, center label, and customization options ([#3487](https://github.com/dnbexperience/eufemia/issues/3487)) ([c29be5e](https://github.com/dnbexperience/eufemia/commit/c29be5ebc0638e419c3fe62f345b648df688e60b))
+
+
+### :bug: Bug Fixes
+
+* **forms:** (TypeScript) ensure `data` type is inherited in onSubmit ([#3530](https://github.com/dnbexperience/eufemia/issues/3530)) ([a5e63ad](https://github.com/dnbexperience/eufemia/commit/a5e63ad0df8b81b248372674d825fe0118d9e548))
+* **forms:** align form error when Wizard Sidebar is visible ([#3518](https://github.com/dnbexperience/eufemia/issues/3518)) ([bb6feab](https://github.com/dnbexperience/eufemia/commit/bb6feab96438a82aaae68528a1c5ba8572ec0529))
+* **forms:** enhance Radio buttons disabled state handling ([#3533](https://github.com/dnbexperience/eufemia/issues/3533)) ([1932143](https://github.com/dnbexperience/eufemia/commit/1932143c7a985033dca79cfca66a6926b8d254a7))
+* **forms:** ensure inline values don't show labels ([#3529](https://github.com/dnbexperience/eufemia/issues/3529)) ([b4dff2b](https://github.com/dnbexperience/eufemia/commit/b4dff2bc032963df17b2e88e6261e42ae8160bdd))
+* **forms:** fix spacing between checkboxes when in horizontal layout with vertical options ([#3531](https://github.com/dnbexperience/eufemia/issues/3531)) ([193d94f](https://github.com/dnbexperience/eufemia/commit/193d94f5e77f57c824425df9f1ea12ed9c32c0cf))
+* **HeightAnimation:** ensure Radio buttons persist their state ([#3535](https://github.com/dnbexperience/eufemia/issues/3535)) ([3e78976](https://github.com/dnbexperience/eufemia/commit/3e78976b496348d3b745cd070270f3faa4cae4e9))
+* **Locale:** revert to less strict local types (`string`) ([#3526](https://github.com/dnbexperience/eufemia/issues/3526)) ([aa79867](https://github.com/dnbexperience/eufemia/commit/aa79867c4bcd98be02bf776d56509b5e47c72ed1))
+
 ## [10.28.0](https://github.com/dnbexperience/eufemia/compare/v10.27.0...v10.28.0) (2024-04-29)
 
 
