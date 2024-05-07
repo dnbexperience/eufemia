@@ -911,7 +911,12 @@ export default function Provider<Data extends JsonObject>(
   })
 
   const submitState = submitStateRef.current
-  const disabled = rest?.['disabled'] ?? formState === 'pending'
+  const disabled =
+    typeof rest?.['disabled'] === 'boolean'
+      ? rest?.['disabled']
+      : (formState === 'pending') === true
+      ? true
+      : undefined
 
   return (
     <Context.Provider
