@@ -888,4 +888,16 @@ describe('Form.Handler', () => {
 
     expect(result).toBe('Nora')
   })
+
+  it('should not interfere disabled state of elements using "formElement"', () => {
+    render(
+      <Form.Handler>
+        <Field.Selection variant="radio" disabled>
+          <Field.Option />
+        </Field.Selection>
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toBeDisabled()
+  })
 })
