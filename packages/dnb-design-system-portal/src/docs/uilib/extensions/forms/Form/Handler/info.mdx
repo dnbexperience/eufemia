@@ -51,11 +51,11 @@ You can define the TypeScript type structure for your data like so:
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 type MyDataSet = {
-  lastName?: string
+  firstName?: string
 }
 
 const data: MyDataSet = {
-  lastName: 'Nora',
+  firstName: 'Nora',
 }
 
 // Method #1
@@ -64,7 +64,7 @@ function MyForm() {
     <Form.Handler
       data={data}
       onSubmit={(data) => {
-        console.log(data.lastName)
+        console.log(data.firstName)
       }}
     />
   )
@@ -72,7 +72,7 @@ function MyForm() {
 
 // Method #2
 const submitHandler = (data: MyDataSet) => {
-  console.log(data.lastName)
+  console.log(data.firstName)
 }
 function MyForm() {
   return <Form.Handler data={data} onSubmit={submitHandler} />
@@ -81,7 +81,7 @@ function MyForm() {
 // Method #3
 import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
 const submitHandler: OnSubmit<MyDataSet> = (data) => {
-  console.log(data.lastName)
+  console.log(data.firstName)
 }
 function MyForm() {
   return <Form.Handler data={data} onSubmit={submitHandler} />
@@ -111,7 +111,7 @@ You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/
 ```tsx
 <Form.Handler autoComplete={true}>
   <Field.String path="/firstName" />
-  <Field.String path="/lastName" />
+  <Field.String path="/firstName" />
 </Form.Handler>
 ```
 

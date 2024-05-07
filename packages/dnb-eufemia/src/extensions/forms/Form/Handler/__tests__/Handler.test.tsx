@@ -870,14 +870,14 @@ describe('Form.Handler', () => {
 
     render(
       <Form.Handler
-        defaultData={{ lastName: 'Nora' }}
+        defaultData={{ firstName: 'Nora' }}
         onSubmit={(data) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
-          result = data.lastName2
+          result = data.firstName2
 
           // Use the correct value
-          result = data.lastName
+          result = data.firstName
         }}
       >
         <Form.SubmitButton />
