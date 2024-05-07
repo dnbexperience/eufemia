@@ -60,11 +60,11 @@ export interface Props<Data extends JsonObject> {
   /**
    * Default source data, only used if no other source is available, and not leading to updates if changed after mount
    */
-  defaultData?: Partial<Data>
+  defaultData?: Data
   /**
    * Source data, will be used instead of defaultData, and leading to updates if changed after mount
    */
-  data?: Partial<Data>
+  data?: Data
   /**
    * JSON Schema to validate the data against.
    */
@@ -112,7 +112,7 @@ export interface Props<Data extends JsonObject> {
    * Will emit on a form submit – if validation has passed.
    * You can provide an async function to shows a submit indicator during submit. All form elements will be disabled during the submit.
    */
-  onSubmit?: OnSubmit
+  onSubmit?: OnSubmit<Data>
   /**
    * Submit was requested, but data was invalid
    */
@@ -233,7 +233,7 @@ export default function Provider<Data extends JsonObject>(
     return data ?? defaultData
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
-  const internalDataRef = useRef<Partial<Data>>(initialData)
+  const internalDataRef = useRef<Data>(initialData)
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
@@ -782,7 +782,7 @@ export default function Provider<Data extends JsonObject>(
         enableAsyncBehaviour: isAsync(onSubmit),
         onSubmit: async () => {
           // - Mutate the data context
-          const data = internalDataRef.current as Data
+          const data = internalDataRef.current
           const filteredData = filterDataHandler(
             transformOut ? mutateDataHandler(data, transformOut) : data
           )
@@ -799,7 +799,7 @@ export default function Provider<Data extends JsonObject>(
               forceUpdate() // in order to fill "empty fields" again with their internal states
             },
             clearData: () => {
-              internalDataRef.current = {}
+              internalDataRef.current = {} as Data
               if (id) {
                 setSharedData?.({} as Data)
               } else {

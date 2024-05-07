@@ -64,7 +64,7 @@ export default function FormHandler<Data extends JsonObject>({
     scrollTopOnSubmit,
     sessionStorageId,
     autoComplete,
-  } as Omit<ProviderProps<Data>, 'children'>
+  }
 
   return (
     <DataContextProvider {...providerProps}>

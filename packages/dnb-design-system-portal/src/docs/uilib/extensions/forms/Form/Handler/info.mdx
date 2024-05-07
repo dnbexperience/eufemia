@@ -11,6 +11,7 @@ The `Form.Handler` component provides a HTML form element.
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
+
 render(
   <Form.Handler
     data={existingData}
@@ -26,7 +27,8 @@ The form data can be handled outside of the form. This is useful if you want to 
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
-function Component() {
+
+function MyForm() {
   const {
     getValue, // Method to get a single value
     update, // Method to update a single value
@@ -40,6 +42,51 @@ function Component() {
 ```
 
 More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
+
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+type MyDataSet = {
+  firstName?: string
+}
+
+const data: MyDataSet = {
+  firstName: 'Nora',
+}
+
+// Method #1
+function MyForm() {
+  return (
+    <Form.Handler
+      data={data}
+      onSubmit={(data) => {
+        console.log(data.firstName)
+      }}
+    />
+  )
+}
+
+// Method #2
+const submitHandler = (data: MyDataSet) => {
+  console.log(data.firstName)
+}
+function MyForm() {
+  return <Form.Handler data={data} onSubmit={submitHandler} />
+}
+
+// Method #3
+import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
+const submitHandler: OnSubmit<MyDataSet> = (data) => {
+  console.log(data.firstName)
+}
+function MyForm() {
+  return <Form.Handler data={data} onSubmit={submitHandler} />
+}
+```
 
 ## Async `onChange` and `onSubmit` event handlers
 
@@ -64,7 +111,7 @@ You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/
 ```tsx
 <Form.Handler autoComplete={true}>
   <Field.String path="/firstName" />
-  <Field.String path="/lastName" />
+  <Field.String path="/firstName" />
 </Form.Handler>
 ```
 
