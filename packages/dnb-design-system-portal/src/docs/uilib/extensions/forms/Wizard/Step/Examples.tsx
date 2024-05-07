@@ -25,7 +25,7 @@ export const EditButton = () => {
             <Wizard.Step title={summaryTitle}>
               <Card stack>
                 <Value.SummaryList>
-                  <Value.String label="First name" path="/firstName" />
+                  <Value.Name.First path="/firstName" />
                 </Value.SummaryList>
 
                 <Hr />

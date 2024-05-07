@@ -55,15 +55,10 @@ const MyEditItem = () => {
       titleWhenNew="New account holder"
     >
       <Field.Composition>
-        <Field.String
-          itemPath="/firstName"
-          width="medium"
-          label="First name"
-        />
-        <Field.String
+        <Field.Name.First itemPath="/firstName" width="medium" />
+        <Field.Name.Last
           itemPath="/lastName"
           width="medium"
-          label="Last name"
           required
           // validateInitially
         />
@@ -76,12 +71,8 @@ const MyViewItem = () => {
   return (
     <Iterate.ViewContainer title="Account holder">
       <Value.SummaryList>
-        <Value.String label="First name" itemPath="/firstName" showEmpty />
-        <Value.String
-          label="Last name"
-          itemPath="/lastName"
-          placeholder="–"
-        />
+        <Value.Name.First itemPath="/firstName" showEmpty />
+        <Value.Name.Last itemPath="/lastName" placeholder="–" />
       </Value.SummaryList>
     </Iterate.ViewContainer>
   )

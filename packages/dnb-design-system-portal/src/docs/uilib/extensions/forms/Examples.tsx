@@ -170,15 +170,13 @@ export const CreateComposedFieldComponent = () => {
           return (
             <FieldBlock label={props.label ?? 'Name and age'}>
               <Flex.Horizontal>
-                <Field.String
+                <Field.Name.First
                   path="/firstName"
-                  label="First name"
                   width="medium"
                   minLength={2}
                 />
-                <Field.String
+                <Field.Name.Last
                   path="/lastName"
-                  label="Last name"
                   width="medium"
                   required
                 />
