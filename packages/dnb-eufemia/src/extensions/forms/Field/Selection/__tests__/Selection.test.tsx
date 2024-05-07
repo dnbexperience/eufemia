@@ -124,6 +124,18 @@ describe('variants', () => {
       expect(radioButtons[1]).toBeChecked()
     })
 
+    it('should disable options', () => {
+      render(
+        <Field.Selection variant="radio" disabled>
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+      const radioButtons = screen.queryAllByRole('radio')
+      expect(radioButtons[0]).toBeDisabled()
+      expect(radioButtons[1]).toBeDisabled()
+    })
+
     it('renders update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="radio" value="bar">
@@ -206,6 +218,18 @@ describe('variants', () => {
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
       expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+    })
+
+    it('should disable options', () => {
+      render(
+        <Field.Selection variant="button" disabled>
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0]).toBeDisabled()
+      expect(buttons[1]).toBeDisabled()
     })
 
     it('renders selected option', () => {
@@ -344,6 +368,19 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('false')
       expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('should disable dropdown', () => {
+      render(
+        <Field.Selection variant="dropdown" disabled>
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(
+        document.querySelector('.dnb-dropdown__trigger')
+      ).toBeDisabled()
     })
 
     it('renders selected option', () => {
@@ -509,6 +546,17 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('false')
       expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('should disable autocomplete', () => {
+      render(
+        <Field.Selection variant="autocomplete" disabled>
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
     })
 
     it('renders selected option', () => {
