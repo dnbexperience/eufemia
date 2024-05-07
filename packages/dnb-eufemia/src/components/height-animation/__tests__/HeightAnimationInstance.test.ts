@@ -107,6 +107,75 @@ describe('HeightAnimationInstance', () => {
       expect(removedNodes).toHaveLength(1)
     })
 
+    it('should create a cloned element and remove name and id attributes', async () => {
+      const element = document.createElement('span')
+      const input = document.createElement('input')
+      input.setAttribute('id', 'myId')
+      input.setAttribute('name', 'myName')
+      input.setAttribute('class', 'myClass')
+      element.appendChild(input)
+      document.body.appendChild(element)
+
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      mockHeight(100, element)
+
+      const addedNodes = []
+      const removedNodes = []
+
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            if (mutation.removedNodes?.length) {
+              removedNodes.push(mutation.removedNodes)
+            }
+            if (mutation.addedNodes?.length) {
+              addedNodes.push(mutation.addedNodes)
+            }
+          }
+        }
+      })
+
+      observer.observe(document.body, {
+        childList: true,
+      })
+
+      inst.getUnknownHeight()
+
+      await wait(1)
+
+      observer.disconnect()
+
+      expect(addedNodes).toHaveLength(1)
+      expect(removedNodes).toHaveLength(1)
+
+      const addedElement = removedNodes[0][0] as HTMLElement
+      expect(addedElement.querySelector('input')).toHaveAttribute(
+        'class',
+        'myClass'
+      )
+      expect(addedElement.querySelector('input')).not.toHaveAttribute('id')
+      expect(addedElement.querySelector('input')).not.toHaveAttribute(
+        'name'
+      )
+
+      const removedElement = removedNodes[0][0] as HTMLElement
+      expect(removedElement.querySelector('input')).toHaveAttribute(
+        'class',
+        'myClass'
+      )
+      expect(removedElement.querySelector('input')).not.toHaveAttribute(
+        'id'
+      )
+      expect(removedElement.querySelector('input')).not.toHaveAttribute(
+        'name'
+      )
+      expect(removedElement.outerHTML).toMatchInlineSnapshot(
+        `"<span data-height="100" style="visibility: hidden; opacity: 0; height: auto; width: auto; position: absolute;"><input class="myClass"></span>"`
+      )
+    })
+
     it('should create a cloned element with firstPaintStyle styles', async () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
