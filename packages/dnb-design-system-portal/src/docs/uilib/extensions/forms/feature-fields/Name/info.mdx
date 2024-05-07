@@ -1,0 +1,33 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.Name` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for first and last name and company names.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Field.SummaryList>
+      <Field.Name />
+      <Field.Name.First value="Nora" />
+      <Field.Name.Last value="Mørk" />
+      <Field.Name.Company value="DNB" />
+    </Field.SummaryList>
+  )
+}
+```
+
+There is a corresponding [Value.Name](/uilib/extensions/forms/Value/Name) component.
+
+## Characteristics
+
+- Only valid characters are allowed for first and last name (except company name).
+- Trailing spaces are removed.
+- The HTML `autocomplete` attribute is set to:
+  - `name` by default.
+  - `given-name` and `family-name` for first and last name.
+  - `organization-name` for company name.

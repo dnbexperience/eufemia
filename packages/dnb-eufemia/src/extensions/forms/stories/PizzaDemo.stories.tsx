@@ -80,12 +80,8 @@ export function PizzaDemo() {
             <Card stack>
               <Form.SubHeading>Your name</Form.SubHeading>
 
-              <Field.String
-                label="First name"
-                path="/firstName"
-                required
-              />
-              <Field.String label="Last name" path="/lastName" required />
+              <Field.Name.First path="/firstName" required />
+              <Field.Name.Last path="/lastName" required />
             </Card>
 
             <Card stack>
@@ -131,8 +127,8 @@ export function PizzaDemo() {
               <Form.SubHeading>Deliver address</Form.SubHeading>
 
               <Value.Composition>
-                <Value.String label="First name" path="/firstName" />
-                <Value.String label="Last name" path="/lastName" />
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
               </Value.Composition>
 
               <Value.Composition label="Street">

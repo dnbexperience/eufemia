@@ -468,6 +468,12 @@ describe('"toCapitalized" should', () => {
   it('capitalize the first letter of every word', () => {
     expect(toCapitalized('first word æøå')).toBe('First Word Æøå')
   })
+  it('capitalize the first letter after a dash', () => {
+    expect(toCapitalized('first-word')).toBe('First-Word')
+  })
+  it('capitalize supports non string values', () => {
+    expect(toCapitalized(undefined)).toBeUndefined()
+  })
 })
 
 describe('"makeUniqueId" should', () => {
