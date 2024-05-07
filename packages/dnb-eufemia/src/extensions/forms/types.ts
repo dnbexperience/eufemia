@@ -445,7 +445,7 @@ export type OnSubmitParams = {
 }
 
 export type OnSubmit<Data = JsonObject> = (
-  data: Partial<Data>,
+  data: Data,
   { resetForm, clearData }: OnSubmitParams
 ) =>
   | EventReturnWithStateObject

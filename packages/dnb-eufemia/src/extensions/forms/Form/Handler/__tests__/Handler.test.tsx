@@ -864,4 +864,28 @@ describe('Form.Handler', () => {
       })
     })
   })
+
+  it('onSubmit should return the data including the type', () => {
+    let result = null
+
+    render(
+      <Form.Handler
+        defaultData={{ lastName: 'Nora' }}
+        onSubmit={(data) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          result = data.lastName2
+
+          // Use the correct value
+          result = data.lastName
+        }}
+      >
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(result).toBe('Nora')
+  })
 })
