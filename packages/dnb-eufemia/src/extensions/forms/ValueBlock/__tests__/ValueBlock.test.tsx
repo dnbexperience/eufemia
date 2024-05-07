@@ -36,6 +36,13 @@ describe('ValueBlock', () => {
     expect(element).toHaveClass('dnb-forms-value-block--inline')
   })
 
+  it('renders no label when inline prop is true', () => {
+    render(
+      <ValueBlock inline label="Don't show me" placeholder="Placeholder" />
+    )
+    expect(document.querySelector('.dnb-form-label')).toBeNull()
+  })
+
   it('renders when showEmpty is provided', () => {
     render(<ValueBlock showEmpty />)
     const element = document.querySelector('.dnb-forms-value-block')
