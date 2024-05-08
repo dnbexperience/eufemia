@@ -235,6 +235,48 @@ export const Autofill = () => {
   )
 }
 
+export const Locale = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const myTranslations = {
+          'nb-NO': { PhoneNumber: { label: 'Egendefinert 🚀' } },
+          'en-GB': { PhoneNumber: { label: 'Custom 🚀' } },
+        }
+
+        const MyForm = () => {
+          const { data } = Form.useData('my-form', {
+            locale: 'en-GB',
+          })
+
+          return (
+            <Form.Handler
+              id="my-form"
+              locale={data?.locale}
+              translations={myTranslations}
+            >
+              <Card stack>
+                <Field.PhoneNumber />
+
+                <Field.Selection
+                  path="/locale"
+                  variant="button"
+                  optionsLayout="horizontal"
+                >
+                  <Field.Option value="nb-NO">Norsk</Field.Option>
+                  <Field.Option value="en-GB">English</Field.Option>
+                </Field.Selection>
+              </Card>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
 export const FilterData = () => {
   const id = 'disabled-fields'
   return (

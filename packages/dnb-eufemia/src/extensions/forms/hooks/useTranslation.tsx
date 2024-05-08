@@ -32,7 +32,9 @@ export default function useTranslation<T = FormsTranslation>(
 
     const Forms = translation?.Forms
     if (Forms) {
-      Object.assign(tr, Forms)
+      for (const key in Forms) {
+        tr[key] = Object.assign(tr?.[key] || {}, Forms[key])
+      }
     }
 
     return combineTranslations({

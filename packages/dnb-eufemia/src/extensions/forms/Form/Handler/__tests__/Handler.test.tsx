@@ -927,4 +927,36 @@ describe('Form.Handler', () => {
       nb.FirstName.label
     )
   })
+
+  it('should support nested translations prop', () => {
+    const translations = {
+      'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
+      'en-GB': { PhoneNumber: { label: 'Custom' } },
+    }
+    const { rerender } = render(
+      <Form.Handler locale="en-GB" translations={translations}>
+        <Field.PhoneNumber />
+      </Form.Handler>
+    )
+
+    const [countryCode, phoneNumber] = Array.from(
+      document.querySelectorAll('.dnb-form-label')
+    )
+
+    expect(countryCode).toHaveTextContent(en.PhoneNumber.countryCodeLabel)
+    expect(phoneNumber).toHaveTextContent(
+      translations['en-GB'].PhoneNumber.label
+    )
+
+    rerender(
+      <Form.Handler locale="nb-NO" translations={translations}>
+        <Field.PhoneNumber />
+      </Form.Handler>
+    )
+
+    expect(countryCode).toHaveTextContent(nb.PhoneNumber.countryCodeLabel)
+    expect(phoneNumber).toHaveTextContent(
+      translations['nb-NO'].PhoneNumber.label
+    )
+  })
 })

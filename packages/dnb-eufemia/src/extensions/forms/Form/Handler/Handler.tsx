@@ -42,6 +42,7 @@ export default function FormHandler<Data extends JsonObject>({
   sessionStorageId,
   autoComplete,
   locale,
+  translations,
   disabled,
   required,
   ...rest
@@ -68,6 +69,7 @@ export default function FormHandler<Data extends JsonObject>({
     sessionStorageId,
     autoComplete,
     locale,
+    translations,
     disabled,
     required,
   }

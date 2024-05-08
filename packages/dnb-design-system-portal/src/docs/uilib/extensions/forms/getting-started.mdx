@@ -351,27 +351,24 @@ Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisat
 
 #### Localization with translation
 
-In addition, you can customize the translations globally:
+In addition, you can customize the translations:
 
 ```tsx
-import { Provider } from '@dnb/eufemia/shared'
+const myTranslations = {
+  'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
+  'en-GB': { PhoneNumber: { label: 'Custom' } },
+}
 
 render(
-  <Provider
-    translations={{
-      'nb-NO': {
-        Forms: {
-          PhoneNumber: { label: 'Custom' },
-        },
-      },
-    }}
-  >
+  <Form.Handler translations={myTranslations}>
     <Field.PhoneNumber />
-  </Provider>,
+  </Form.Handler>,
 )
 ```
 
-Or use the `Form.useTranslation` hook to localize [your own field](/uilib/extensions/forms/create-component/#localization-and-translations).
+Here is an [example](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
+
+When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
 
 ### Layout
 

@@ -30,7 +30,7 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import { Locale } from '../../../../shared/Context'
+import { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import Context, {
   ContextState,
@@ -150,7 +150,11 @@ export interface Props<Data extends JsonObject> {
   /**
    * Locale to use for all nested Eufemia components
    */
-  locale?: Locale
+  locale?: ContextProps['locale']
+  /**
+   * Provide your own translations. Use the same format as defined in the translation files
+   */
+  translations?: ContextProps['translations']
   /**
    * Make all fields required
    */
@@ -187,6 +191,7 @@ export default function Provider<Data extends JsonObject>(
     filterSubmitData,
     filterData,
     locale,
+    translations,
     required,
     errorMessages: contextErrorMessages,
     children,
@@ -990,6 +995,7 @@ export default function Provider<Data extends JsonObject>(
         }
         disabled={disabled ? disabled : undefined}
         locale={locale ? locale : undefined}
+        translations={translations ? translations : undefined}
       >
         {children}
       </FieldProvider>
