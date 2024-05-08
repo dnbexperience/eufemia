@@ -1,0 +1,18 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Form.FieldProps` is a provider for forwarding fields properties, such as `required` or `disabld` to all nested field components.
+
+## Usage
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.FieldProps required disabled>
+    <Form.Input />
+  </Form.FieldProps>,
+)
+```

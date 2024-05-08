@@ -37,7 +37,7 @@ export function extendPropsWithContextInClassComponent<Props>(
   }
 }
 
-function reduceContext(contexts: Contexts) {
+export function reduceContext(contexts: Contexts) {
   return contexts.reduce((acc, cur) => {
     if (cur) {
       acc = { ...acc, ...cur }
