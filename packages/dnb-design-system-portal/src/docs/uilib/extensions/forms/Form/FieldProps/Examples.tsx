@@ -42,3 +42,24 @@ export const Disabled = () => {
     </ComponentBox>
   )
 }
+
+export const Inverted = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler disabled>
+        <Flex.Stack>
+          <Field.String label="Disabled" />
+
+          <Form.FieldProps disabled={false}>
+            <Flex.Stack>
+              <Field.String label="Not disabled" />
+              <Form.ButtonRow>
+                <Form.SubmitButton />
+              </Form.ButtonRow>
+            </Flex.Stack>
+          </Form.FieldProps>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

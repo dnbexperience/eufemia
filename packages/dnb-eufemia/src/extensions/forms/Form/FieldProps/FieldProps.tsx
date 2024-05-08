@@ -1,16 +1,18 @@
 import React, { useContext, useRef } from 'react'
 import DataContext, { ContextState } from '../../DataContext/Context'
+import { Props as DataContextProps } from '../../DataContext/Provider'
 import { UseFieldProps } from '../../types'
 import { FormStatusProps } from '../../../../components/FormStatus'
 import { assignPropsWithContext } from '../../../../shared/component-helper'
 import FieldPropsContext from './FieldPropsContext'
 import SharedProvider from '../../../../shared/Provider'
-import { ContextProps, Locale } from '../../../../shared/Context'
+import { ContextProps } from '../../../../shared/Context'
 
 export type FieldPropsProps = UseFieldProps & {
   children: React.ReactNode
-  FormStatus?: { globalStatus?: FormStatusProps }
-  locale?: Locale
+  FormStatus?: { globalStatus: FormStatusProps }
+  locale?: DataContextProps<unknown>['locale']
+  translations?: DataContextProps<unknown>['translations']
 }
 
 export default function FieldProps(props: FieldPropsProps) {
@@ -23,7 +25,7 @@ export default function FieldProps(props: FieldPropsProps) {
   const sharedProviderProps: ContextProps = {}
 
   // Extract props to be used in the shared global context
-  const { disabled, locale, ...restOfRest } = Object.assign(
+  const { disabled, locale, translations, ...restOfRest } = Object.assign(
     nestedContext?.inheritedContext || {},
     rest
   ) as ContextProps & {
@@ -37,6 +39,34 @@ export default function FieldProps(props: FieldPropsProps) {
   }
   if (locale) {
     sharedProviderProps.locale = locale
+  }
+  if (translations) {
+    sharedProviderProps.translations = {}
+    const trObj = translations as Record<
+      ContextProps['locale'],
+      Record<string, Record<string, string>>
+    >
+
+    for (const locale in trObj) {
+      const newObj: Record<
+        'Forms',
+        Record<string, Record<string, string>>
+      > = {
+        Forms: {},
+      }
+
+      for (const key in trObj[locale]) {
+        const newKeyObj: Record<string, string> = {}
+
+        for (const subKey in trObj[locale][key]) {
+          newKeyObj[subKey] = trObj[locale][key][subKey]
+        }
+
+        newObj.Forms[key] = newKeyObj
+      }
+
+      sharedProviderProps.translations[locale] = newObj
+    }
   }
 
   function extend<T>(fieldProps: T) {

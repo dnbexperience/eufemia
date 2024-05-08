@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Provider } from '../../../../../shared'
-import { Value } from '../../..'
+import { Form, Value } from '../../..'
 
 describe('Value.PhoneNumber', () => {
   it('should use the provided label', () => {
@@ -29,17 +28,15 @@ describe('Value.PhoneNumber', () => {
 
   it('should use the translation from the provider if not provided', () => {
     render(
-      <Provider
+      <Form.Handler
         translations={{
           'nb-NO': {
-            Forms: {
-              PhoneNumber: { label: 'Custom' },
-            },
+            PhoneNumber: { label: 'Custom' },
           },
         }}
       >
         <Value.PhoneNumber />
-      </Provider>
+      </Form.Handler>
     )
 
     const labelElement = document.querySelector(

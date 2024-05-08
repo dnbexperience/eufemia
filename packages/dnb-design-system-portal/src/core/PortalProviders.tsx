@@ -42,7 +42,7 @@ export const rootElement =
         <Provider
           skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
           locale={getLang()}
-          locales={enUS} // extend the available locales
+          translations={enUS} // extend the available locales
         >
           <SkeletonEnabled>
             <ThemeProvider>{element}</ThemeProvider>

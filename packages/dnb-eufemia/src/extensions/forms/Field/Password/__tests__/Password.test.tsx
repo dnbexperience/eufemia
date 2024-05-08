@@ -13,6 +13,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import { Provider } from '../../../../../shared'
 import { Locales } from '../../../../../shared/Context'
+import { Form } from '../../..'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
@@ -39,9 +40,9 @@ describe('Password component', () => {
 
   it('has correct aria-label', async () => {
     const { rerender } = render(
-      <Provider>
+      <Form.Handler>
         <Password />
-      </Provider>
+      </Form.Handler>
     )
 
     const button = () => document.querySelector('button')
@@ -57,9 +58,9 @@ describe('Password component', () => {
     )
 
     rerender(
-      <Provider locale="en-GB">
+      <Form.Handler locale="en-GB">
         <Password />
-      </Provider>
+      </Form.Handler>
     )
 
     expect(button().getAttribute('aria-label')).toBe(
@@ -227,22 +228,20 @@ describe('Password component', () => {
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 
-  it('should allow changing visibility-toggle aria-labels using the Provider', async () => {
+  it('should allow changing visibility-toggle aria-labels using the Form.Handler', async () => {
     const tr: Locales = {
       'nb-NO': {
-        Forms: {
-          Password: {
-            ariaLabelShow: 'Show it!',
-            ariaLabelHide: 'Hide it!',
-          },
+        Password: {
+          ariaLabelShow: 'Show it!',
+          ariaLabelHide: 'Hide it!',
         },
       },
     }
 
     render(
-      <Provider translations={tr}>
+      <Form.Handler translations={tr}>
         <Password />
-      </Provider>
+      </Form.Handler>
     )
     const button = () =>
       document.querySelector('.dnb-button--input-button')

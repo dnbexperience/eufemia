@@ -164,7 +164,7 @@ export const DatePickerSandbox = () => (
     </Box>
     <Box>
       <Provider
-        locales={{ ...nbNO, 'nb-NO': { myString: 'Custom string' } }}
+        translations={{ ...nbNO, 'nb-NO': { myString: 'Custom string' } }}
       >
         <CustomDate />
         <ChangeLocale />
