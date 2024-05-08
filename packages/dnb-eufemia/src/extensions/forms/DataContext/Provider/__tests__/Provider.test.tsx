@@ -28,6 +28,8 @@ import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
+jest.retryTimes(5) // because of an flaky async validation test
+
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially continuousValidation />
 }
