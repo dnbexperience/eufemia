@@ -18,12 +18,13 @@ There are several packages you can use and combine.
 ## Main Packages
 
 - **dnb-ui-core**: includes the _DNB Main Styles_ like [helper classes](/uilib/helpers), HTML and body reset (normalize).
-- **dnb-ui-basis**: includes everything from `dnb-ui-core`, except `dnb-ui-body`
-  - **NB:** needs a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
+  - We have an alternative package, **dnb-ui-basis**, that can be used if your page has other css that conflicts with Eufemia. It does the same,
+    but adds resets to the `.dnb-core-style` class instead of the `body` element so Eufemia styling can be scoped to just a part of your page.
+    **NB:** needs a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
 
 ## Theme Packages
 
-- **ui-theme-basis**: includes [optional class selectors for elements](/uilib/elements), [optional default spacing](#spacing), [default typography](/uilib/typography).
+- **ui-theme-basis**: includes css variables, fonts, [optional class selectors for elements](/uilib/elements), [optional default spacing](#spacing), [default typography](/uilib/typography).
 - **ui-theme-components**: includes all the styles for [components](/uilib/components).
 
 ### Additional Theme Packages
