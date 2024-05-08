@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.30.0](https://github.com/dnbexperience/eufemia/compare/v10.29.0...v10.30.0) (2024-05-08)
+
+
+### :bug: Bug Fixes
+
+* **Eufemia:** enhance CSS version check for dnb-core-style ([#3522](https://github.com/dnbexperience/eufemia/issues/3522)) ([eac2bcf](https://github.com/dnbexperience/eufemia/commit/eac2bcf6f0296d3b44277332847d0bb589627fff))
+
+
+### :sparkles: Features
+
+* **forms:** add `fieldPropsWhenHidden` to Visibility ([#3539](https://github.com/dnbexperience/eufemia/issues/3539)) ([5d8d6db](https://github.com/dnbexperience/eufemia/commit/5d8d6dba4c0c6b3e85b8b03a6a563d8384e20c08))
+* **forms:** add `Form.FieldProps` provider to forward a certain props to all fields ([#3536](https://github.com/dnbexperience/eufemia/issues/3536)) ([0f875bd](https://github.com/dnbexperience/eufemia/commit/0f875bdc722f929d609956c75cac3eea82eae5bf))
+* **forms:** add `locale`, `translations`, `required` and `disabled` prop support to `Form.Handler` ([#3537](https://github.com/dnbexperience/eufemia/issues/3537)) ([b95f215](https://github.com/dnbexperience/eufemia/commit/b95f215823f781a13f3ca468f635fa27104fdfee))
+
 ## [10.29.0](https://github.com/dnbexperience/eufemia/compare/v10.28.0...v10.29.0) (2024-05-07)
 
 
