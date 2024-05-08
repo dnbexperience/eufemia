@@ -7,12 +7,13 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
-import Modal, { OriginalComponent } from '../Modal'
+import Modal, { ANIMATION_DURATION, OriginalComponent } from '../Modal'
 import { ModalProps } from '../types'
 import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
+import userEvent from '@testing-library/user-event'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
@@ -30,7 +31,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  global.console.log = jest.fn()
+  // global.console.log = jest.fn()
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
   document.getElementById('dnb-modal-root')?.remove()
@@ -367,6 +368,39 @@ describe('Modal component', () => {
 
     await waitFor(() => {
       expect(document.activeElement).not.toHaveAttribute('data-autofocus')
+    })
+  })
+
+  it('should not set "data-autofocus" on mount when openState is "false"', async () => {
+    render(
+      <Modal openState={false}>
+        <DialogContent />
+      </Modal>
+    )
+
+    const trigger = document.querySelector('.dnb-modal__trigger')
+
+    // wait until handleSideEffects have run
+    await wait(ANIMATION_DURATION)
+
+    expect(document.activeElement).not.toBe(trigger)
+    expect(trigger).not.toHaveAttribute('data-autofocus')
+
+    await userEvent.click(trigger)
+    // using fireEvent instead of userEvent as userEvent.keyboard({'Escape'}) does not work
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    // wait until handleSideEffects have run
+    await wait(ANIMATION_DURATION)
+
+    expect(document.activeElement).toBe(trigger)
+    expect(trigger).toHaveAttribute('data-autofocus', 'true')
+
+    await waitFor(() => {
+      expect(trigger).not.toHaveAttribute('data-autofocus')
     })
   })
 
