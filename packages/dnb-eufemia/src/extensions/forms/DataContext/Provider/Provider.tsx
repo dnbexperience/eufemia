@@ -25,11 +25,12 @@ import {
   EventReturnWithStateObject,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
-import SharedProvider from '../../../../shared/Provider'
+import FieldProvider from '../../Form/FieldProps'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import Context, {
   ContextState,
@@ -146,6 +147,19 @@ export interface Props<Data extends JsonObject> {
    * Key for caching the data in session storage
    */
   sessionStorageId?: string
+  /**
+   * Locale to use for all nested Eufemia components
+   */
+  locale?: ContextProps['locale']
+  /**
+   * Provide your own translations. Use the same format as defined in the translation files
+   */
+  translations?: ContextProps['translations']
+  /**
+   * Make all fields required
+   */
+  required?: boolean
+
   children: React.ReactNode
 }
 
@@ -176,6 +190,9 @@ export default function Provider<Data extends JsonObject>(
     transformOut,
     filterSubmitData,
     filterData,
+    locale,
+    translations,
+    required,
     errorMessages: contextErrorMessages,
     children,
     ...rest
@@ -947,6 +964,7 @@ export default function Provider<Data extends JsonObject>(
         /** State handling */
         schema,
         disabled,
+        required,
         formState,
         submitState,
         contextErrorMessages,
@@ -963,7 +981,7 @@ export default function Provider<Data extends JsonObject>(
         ...rest,
       }}
     >
-      <SharedProvider
+      <FieldProvider
         FormStatus={
           globalStatusId
             ? {
@@ -975,10 +993,12 @@ export default function Provider<Data extends JsonObject>(
               }
             : undefined
         }
-        formElement={{ disabled }}
+        disabled={disabled ? disabled : undefined}
+        locale={locale ? locale : undefined}
+        translations={translations ? translations : undefined}
       >
         {children}
-      </SharedProvider>
+      </FieldProvider>
     </Context.Provider>
   )
 }

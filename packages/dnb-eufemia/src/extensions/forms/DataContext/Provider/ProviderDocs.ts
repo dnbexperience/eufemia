@@ -66,6 +66,21 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  required: {
+    doc: 'Make all fields required.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  disabled: {
+    doc: 'Disable all fields.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  locale: {
+    doc: 'Locale (language) to use for all nested Eufemia components.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',

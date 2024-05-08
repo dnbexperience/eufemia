@@ -1,9 +1,14 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { Form, Field } from '../../..'
-import type { Props as StringFieldProps } from '../../../Field/String'
 import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
+import { Form, Field } from '../../..'
+import type { Props as StringFieldProps } from '../../../Field/String'
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
+
+const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
   it('should call "onSubmit"', () => {
@@ -899,5 +904,59 @@ describe('Form.Handler', () => {
     )
 
     expect(document.querySelector('input')).toBeDisabled()
+  })
+
+  it('should support locale prop', () => {
+    const { rerender } = render(
+      <Form.Handler locale="en-GB">
+        <Field.Name.First />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      en.FirstName.label
+    )
+
+    rerender(
+      <Form.Handler locale="nb-NO">
+        <Field.Name.First />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.FirstName.label
+    )
+  })
+
+  it('should support nested translations prop', () => {
+    const translations = {
+      'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
+      'en-GB': { PhoneNumber: { label: 'Custom' } },
+    }
+    const { rerender } = render(
+      <Form.Handler locale="en-GB" translations={translations}>
+        <Field.PhoneNumber />
+      </Form.Handler>
+    )
+
+    const [countryCode, phoneNumber] = Array.from(
+      document.querySelectorAll('.dnb-form-label')
+    )
+
+    expect(countryCode).toHaveTextContent(en.PhoneNumber.countryCodeLabel)
+    expect(phoneNumber).toHaveTextContent(
+      translations['en-GB'].PhoneNumber.label
+    )
+
+    rerender(
+      <Form.Handler locale="nb-NO" translations={translations}>
+        <Field.PhoneNumber />
+      </Form.Handler>
+    )
+
+    expect(countryCode).toHaveTextContent(nb.PhoneNumber.countryCodeLabel)
+    expect(phoneNumber).toHaveTextContent(
+      translations['nb-NO'].PhoneNumber.label
+    )
   })
 })

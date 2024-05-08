@@ -25,7 +25,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 - [Value components](#value-components)
 - [Async form behavior](#async-form-behavior)
 - [Validation and error handling](#validation-and-error-handling)
-- [Localization](#localization)
+- [Localization](#localization-locale-and-translation)
 - [Layout](#layout)
 - [Best practices](#best-practices)
 - [Create your own component](#create-your-own-component)
@@ -254,6 +254,8 @@ The `required` property is a boolean that indicates whether the field is require
 <Field.PhoneNumber required />
 ```
 
+**NB:** You can also use the `required` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component or nested in the [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) component.
+
 #### pattern
 
 The `pattern` property is a regular expression (RegExp) that the value of the field must match:
@@ -329,41 +331,44 @@ const validator = debounceAsync(async function myValidator(value) {
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
-### Localization
+### Localization (locale) and translation
 
-In short, use the Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). This will ensure that the correct language is used for all the fields in your form.
+You can set the locale for your form by using the `locale` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component. This will ensure that the correct language is used for all the fields in your form.
 
 ```tsx
-import { Provider } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler locale="en-GB">
+      <Field.PhoneNumber />
+    </Form.Handler>
+  )
+}
+```
+
+Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). The locale will be inherited by all the components in your form.
+
+#### Localization with translation
+
+In addition, you can customize the translations:
+
+```tsx
+const myTranslations = {
+  'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
+  'en-GB': { PhoneNumber: { label: 'Custom' } },
+}
 
 render(
-  <Provider locale="en-GB">
+  <Form.Handler translations={myTranslations}>
     <Field.PhoneNumber />
-  </Provider>,
+  </Form.Handler>,
 )
 ```
 
-In addition, you can customize the translations globally:
+Here is an [example](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
 
-```tsx
-import { Provider } from '@dnb/eufemia/shared'
-
-render(
-  <Provider
-    locales={{
-      'nb-NO': {
-        Forms: {
-          PhoneNumber: { label: 'Custom' },
-        },
-      },
-    }}
-  >
-    <Field.PhoneNumber />
-  </Provider>,
-)
-```
-
-Or use the `Form.useTranslation` hook to localize [your own field](/uilib/extensions/forms/create-component/#localization-and-translations).
+When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
 
 ### Layout
 

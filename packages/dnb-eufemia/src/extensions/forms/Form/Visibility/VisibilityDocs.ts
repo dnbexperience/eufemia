@@ -61,6 +61,11 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  fieldPropsWhenHidden: {
+    doc: 'When visibility is hidden, and `keepInDOM` is true, pass these props to the children.',
+    type: 'various',
+    status: 'optional',
+  },
   element: {
     doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is true.',
     type: 'string or React.Element',

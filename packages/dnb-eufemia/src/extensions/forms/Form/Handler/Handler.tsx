@@ -41,6 +41,10 @@ export default function FormHandler<Data extends JsonObject>({
   scrollTopOnSubmit,
   sessionStorageId,
   autoComplete,
+  locale,
+  translations,
+  disabled,
+  required,
   ...rest
 }: ProviderProps<Data> & Omit<Props, keyof ProviderProps<Data>>) {
   const providerProps = {
@@ -64,6 +68,10 @@ export default function FormHandler<Data extends JsonObject>({
     scrollTopOnSubmit,
     sessionStorageId,
     autoComplete,
+    locale,
+    translations,
+    disabled,
+    required,
   }
 
   return (

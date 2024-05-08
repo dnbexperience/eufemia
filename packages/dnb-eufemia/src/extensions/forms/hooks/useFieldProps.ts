@@ -21,6 +21,7 @@ import {
   Path,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
+import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
@@ -69,11 +70,14 @@ export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
 >(props: Props): Props & FieldProps<Value> & ReturnAdditional<Value> {
+  const { extend } = useContext(FieldPropsContext)
+
   const {
     path,
     itemPath,
     emptyValue,
     required,
+    disabled: disabledProp,
     info,
     warning,
     error: errorProp,
@@ -104,9 +108,7 @@ export default function useFieldProps<
 
       return res
     },
-  } = props
-
-  const disabled = props.disabled ?? props.readOnly
+  } = extend<Props>(props)
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
@@ -141,6 +143,7 @@ export default function useFieldProps<
   } = dataContext ?? {}
   const onChangeContext = dataContext?.props?.onChange
 
+  const disabled = disabledProp ?? props.readOnly
   const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
