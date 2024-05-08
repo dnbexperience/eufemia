@@ -31,7 +31,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  // global.console.log = jest.fn()
+  global.console.log = jest.fn()
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
   document.getElementById('dnb-modal-root')?.remove()
