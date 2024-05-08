@@ -2396,7 +2396,7 @@ describe('useFieldProps', () => {
         wrapper: ({ children }) => (
           <SharedProvider
             locale="en-GB"
-            locales={{
+            translations={{
               'en-GB': {
                 Forms: {
                   Field: {

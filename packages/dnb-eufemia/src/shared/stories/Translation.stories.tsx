@@ -69,7 +69,7 @@ export const TranslationSandbox = () => (
     <Box>
       <Provider
         // locale="en-GB"
-        locales={{
+        translations={{
           'nb-NO': nbNOx,
           'en-GB': enGB,
         }}
@@ -81,7 +81,7 @@ export const TranslationSandbox = () => (
         ---
         <Provider
           // locale="en-GB"
-          locales={{
+          translations={{
             'nb-NO': nbNO,
             'en-GB': enGB,
           }}
