@@ -1,9 +1,14 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { Form, Field } from '../../..'
-import type { Props as StringFieldProps } from '../../../Field/String'
 import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
+import { Form, Field } from '../../..'
+import type { Props as StringFieldProps } from '../../../Field/String'
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
+
+const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
   it('should call "onSubmit"', () => {
@@ -899,5 +904,27 @@ describe('Form.Handler', () => {
     )
 
     expect(document.querySelector('input')).toBeDisabled()
+  })
+
+  it('should support locale prop', () => {
+    const { rerender } = render(
+      <Form.Handler locale="en-GB">
+        <Field.Name.First />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      en.FirstName.label
+    )
+
+    rerender(
+      <Form.Handler locale="nb-NO">
+        <Field.Name.First />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.FirstName.label
+    )
   })
 })
