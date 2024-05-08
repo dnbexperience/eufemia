@@ -289,4 +289,152 @@ describe('Visibility', () => {
     const element = document.querySelector('.dnb-height-animation')
     expect(element.tagName).toBe('SPAN')
   })
+
+  describe('fieldPropsWhenHidden', () => {
+    it('should disable children when target visibility is false', () => {
+      const { rerender } = render(
+        <Visibility
+          visible={true}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).not.toBeDisabled()
+
+      rerender(
+        <Visibility
+          visible={false}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+
+      rerender(
+        <Visibility
+          visible={true}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).not.toBeDisabled()
+    })
+
+    it('should not overwrite component properties', () => {
+      const { rerender } = render(
+        <Visibility
+          visible={true}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).not.toBeDisabled()
+
+      rerender(
+        <Visibility
+          visible={false}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String disabled />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+
+      rerender(
+        <Visibility
+          visible={true}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String disabled />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+
+      rerender(
+        <Visibility
+          visible={true}
+          keepInDOM
+          fieldPropsWhenHidden={{ disabled: true }}
+        >
+          <Field.String disabled={false} />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).not.toBeDisabled()
+    })
+
+    it('should not overwrite data context properties', () => {
+      const { rerender } = render(
+        <Form.Handler disabled>
+          <Visibility
+            visible={true}
+            keepInDOM
+            fieldPropsWhenHidden={{ disabled: false }}
+          >
+            <Field.String />
+          </Visibility>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+
+      rerender(
+        <Form.Handler disabled>
+          <Visibility
+            visible={false}
+            keepInDOM
+            fieldPropsWhenHidden={{ disabled: false }}
+          >
+            <Field.String />
+          </Visibility>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).not.toBeDisabled()
+
+      rerender(
+        <Form.Handler disabled>
+          <Visibility
+            visible={false}
+            keepInDOM
+            fieldPropsWhenHidden={{ disabled: true }}
+          >
+            <Field.String disabled />
+          </Visibility>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+
+      rerender(
+        <Form.Handler disabled>
+          <Visibility
+            visible={true}
+            keepInDOM
+            fieldPropsWhenHidden={{ disabled: true }}
+          >
+            <Field.String disabled={false} />
+          </Visibility>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).not.toBeDisabled()
+    })
+  })
 })

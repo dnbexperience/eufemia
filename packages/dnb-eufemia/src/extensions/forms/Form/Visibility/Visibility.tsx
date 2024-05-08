@@ -4,6 +4,8 @@ import * as DataContext from '../../DataContext'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
+import FieldProps from '../FieldProps'
+import type { UseFieldProps } from '../../types'
 
 export type Props = {
   visible?: boolean
@@ -29,6 +31,8 @@ export type Props = {
   animate?: boolean
   /** Keep the content in the DOM, even if it's not visible */
   keepInDOM?: boolean
+  /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
+  fieldPropsWhenHidden?: UseFieldProps
   element?: HeightAnimationProps['element']
   children: React.ReactNode
 }
@@ -46,6 +50,7 @@ function Visibility({
   inferData,
   animate,
   keepInDOM,
+  fieldPropsWhenHidden,
   children,
   ...rest
 }: Props) {
@@ -111,14 +116,17 @@ function Visibility({
   }
 
   if (animate) {
+    const open = Boolean(check())
     return (
       <HeightAnimation
-        open={Boolean(check())}
+        open={open}
         keepInDOM={keepInDOM}
         className="dnb-forms-visibility"
         {...rest}
       >
-        {children}
+        <FieldProps {...(open ? null : fieldPropsWhenHidden)}>
+          {children}
+        </FieldProps>
       </HeightAnimation>
     )
   }
@@ -130,7 +138,7 @@ function Visibility({
   if (keepInDOM) {
     return (
       <span className="dnb-forms-visibility" hidden>
-        {children}
+        <FieldProps {...fieldPropsWhenHidden}>{children}</FieldProps>
       </span>
     )
   }
