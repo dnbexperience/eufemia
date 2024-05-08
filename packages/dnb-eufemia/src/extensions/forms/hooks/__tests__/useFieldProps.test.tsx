@@ -1,6 +1,5 @@
 import React from 'react'
 import { act, render, renderHook, waitFor } from '@testing-library/react'
-import SharedProvider from '../../../../shared/Provider'
 import useFieldProps from '../useFieldProps'
 import { Provider } from '../../DataContext'
 import {
@@ -2394,20 +2393,18 @@ describe('useFieldProps', () => {
         }),
       {
         wrapper: ({ children }) => (
-          <SharedProvider
+          <Form.Handler
             locale="en-GB"
             translations={{
               'en-GB': {
-                Forms: {
-                  Field: {
-                    errorRequired: 'new required error message',
-                  },
+                Field: {
+                  errorRequired: 'new required error message',
                 },
               },
             }}
           >
             {children}
-          </SharedProvider>
+          </Form.Handler>
         ),
       }
     )

@@ -103,22 +103,17 @@ render(
 In addition, you can customize the translations globally:
 
 ```tsx
-import { Provider } from '@dnb/eufemia/shared'
-
+import { Form } from '@dnb/eufemia/extensions/forms'
 render(
-  <Provider
+  <Form.Handler
     translations={{
       'nb-NO': {
-        Forms: {
-          Field: { errorPattern: 'Custom pattern error' },
-        },
+        Field: { errorPattern: 'Custom pattern error' },
       },
     }}
   >
-    <Form.Handler>
-      <Field.String pattern="^([a-z]+)$" value="123" validateInitially />
-    </Form.Handler>
-  </Provider>,
+    <Field.String pattern="^([a-z]+)$" value="123" validateInitially />
+  </Form.Handler>,
 )
 ```
 
