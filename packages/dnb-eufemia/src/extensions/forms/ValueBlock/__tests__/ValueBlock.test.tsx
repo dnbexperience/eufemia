@@ -193,4 +193,50 @@ describe('ValueBlock', () => {
       ).toBeInTheDocument()
     })
   })
+
+  it('should warn when ValueBlocks are siblings without being in a SummaryList', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+      </>
+    )
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      'Value components as siblings should be wrapped inside a Value.SummaryList!'
+    )
+
+    render(<ValueBlock>Value</ValueBlock>)
+    expect(log).toHaveBeenCalledTimes(1)
+
+    render(
+      <>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+      </>
+    )
+    expect(log).toHaveBeenCalledTimes(3)
+
+    render(
+      <Value.SummaryList>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+      </Value.SummaryList>
+    )
+    expect(log).toHaveBeenCalledTimes(3)
+
+    render(
+      <Value.Composition>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+      </Value.Composition>
+    )
+    expect(log).toHaveBeenCalledTimes(3)
+
+    log.mockRestore()
+  })
 })

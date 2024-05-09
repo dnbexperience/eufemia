@@ -565,6 +565,8 @@ describe('Iterate.Array', () => {
 
   describe('should render without flex', () => {
     it('when "withoutFlex" is true', () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+
       const { container } = render(
         <Iterate.Array value={['one', 'two', 'three']} withoutFlex>
           <Value.String itemPath="/" />
@@ -573,6 +575,12 @@ describe('Iterate.Array', () => {
 
       expect(container.children).toHaveLength(3)
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Value components as siblings should be wrapped inside a Value.SummaryList!'
+      )
+
+      log.mockRestore()
     })
 
     it('when inside "SummaryList"', () => {

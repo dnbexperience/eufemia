@@ -1,5 +1,6 @@
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment, useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
+import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
 import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
@@ -42,6 +43,9 @@ function ValueBlock(props: Props) {
 
   const label = inline ? null : labelProp
 
+  const ref = useRef<HTMLElement>(null)
+  useNotInSummaryList(composition ? null : ref)
+
   if (
     (children === undefined || children === null || children === false) &&
     !showEmpty &&
@@ -52,12 +56,14 @@ function ValueBlock(props: Props) {
 
   let content = null
 
-  const compositionClass = classnames(
+  const compositionClass =
     composition &&
+    classnames(
+      'dnb-forms-value-block__composition',
       `dnb-forms-value-block__composition--${
         composition === true ? 'horizontal' : composition
       }`
-  )
+    )
 
   if (summaryListContext) {
     const Element = summaryListContext.isNested
@@ -123,6 +129,7 @@ function ValueBlock(props: Props) {
   } else {
     content = (
       <Span
+        ref={ref}
         className={classnames(
           'dnb-forms-value-block',
           inline && 'dnb-forms-value-block--inline',
@@ -164,6 +171,30 @@ function ValueBlock(props: Props) {
       {content}
     </ValueBlockContext.Provider>
   )
+}
+
+function useNotInSummaryList(ref: React.RefObject<HTMLElement>) {
+  useEffect(() => {
+    if (
+      ref?.current &&
+      !ref.current.closest('.dnb-forms-value-block__composition')
+    ) {
+      try {
+        const sibling = ref.current.previousElementSibling
+
+        if (
+          sibling?.classList.contains('dnb-forms-value-block') &&
+          !ref.current.closest('.dnb-forms-summary-list')
+        ) {
+          warn(
+            'Value components as siblings should be wrapped inside a Value.SummaryList!'
+          )
+        }
+      } catch (error) {
+        //
+      }
+    }
+  }, [ref])
 }
 
 ValueBlock._supportsSpacingProps = true
