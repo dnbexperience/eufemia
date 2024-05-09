@@ -5,20 +5,21 @@ import useStep from './useStep'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
-export default function useQueryLocator(id: string) {
+export default function useQueryLocator(id: string = undefined) {
   const { setFormError } = useStep(id)
+  const name = id ? `${id}-step` : 'step'
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
         const url = new URL(window.location.href)
-        url.searchParams.set(`${id}-step`, String(index))
+        url.searchParams.set(name, String(index))
         window.history.pushState({}, '', url.toString())
       } catch (error) {
         setFormError(error)
       }
     },
-    [id, setFormError]
+    [name, setFormError]
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
@@ -26,11 +27,11 @@ export default function useQueryLocator(id: string) {
   const getIndex = useCallback(() => {
     try {
       const searchParams = new URLSearchParams(window.location.search)
-      return parseFloat(searchParams.get(`${id}-step`))
+      return parseFloat(searchParams.get(name))
     } catch (error) {
       setFormError(error)
     }
-  }, [id, setFormError])
+  }, [name, setFormError])
 
   useLayoutEffect(() => {
     try {
