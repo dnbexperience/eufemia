@@ -77,6 +77,62 @@ describe('Form.FieldProps', () => {
       expect(input).not.toBeDisabled()
       expect(button).not.toBeDisabled()
     })
+
+    it('should handle nested FieldProps', () => {
+      const { rerender } = render(
+        <Form.FieldProps disabled={true}>
+          <Form.FieldProps>
+            <Field.String />
+            <Form.SubmitButton />
+          </Form.FieldProps>
+        </Form.FieldProps>
+      )
+
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+
+      expect(input).toBeDisabled()
+      expect(button).toBeDisabled()
+
+      rerender(
+        <Form.FieldProps disabled={true}>
+          <Form.FieldProps disabled={false}>
+            <Field.String />
+            <Form.SubmitButton />
+          </Form.FieldProps>
+        </Form.FieldProps>
+      )
+
+      expect(input).not.toBeDisabled()
+      expect(button).not.toBeDisabled()
+
+      rerender(
+        <Form.FieldProps disabled={true}>
+          <Form.FieldProps>
+            <Field.String disabled={false} />
+            <Form.SubmitButton disabled={false} />
+          </Form.FieldProps>
+        </Form.FieldProps>
+      )
+
+      expect(input).not.toBeDisabled()
+      expect(button).not.toBeDisabled()
+    })
+
+    it('should support data-* attributes in fields', () => {
+      render(
+        <Form.FieldProps data-exclude-field>
+          <Field.String />
+          <Form.SubmitButton />
+        </Form.FieldProps>
+      )
+
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+
+      expect(input).toHaveAttribute('data-exclude-field')
+      expect(button).not.toHaveAttribute('data-exclude-field')
+    })
   })
 
   describe('require', () => {

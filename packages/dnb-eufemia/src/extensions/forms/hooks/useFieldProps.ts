@@ -63,14 +63,17 @@ type AsyncProcessesBuffer = {
 }
 
 export type DataAttributes = {
-  [property: `data-${string}`]: string
+  [property: `data-${string}`]: string | boolean | number
 }
 
 export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
->(props: Props): Props & FieldProps<Value> & ReturnAdditional<Value> {
+>(
+  localeProps: Props
+): Props & FieldProps<Value> & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
+  const props = extend<Props>(localeProps)
 
   const {
     path,
@@ -108,7 +111,7 @@ export default function useFieldProps<
 
       return res
     },
-  } = extend<Props>(props)
+  } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { startProcess } = useProcessManager()
@@ -299,9 +302,6 @@ export default function useFieldProps<
     // because it will delay the execution of the following code
     cb?.()
   }, [])
-
-  // Put props into the surrounding data context
-  setPropsDataContext?.(identifier, props)
 
   const fieldStateRef = useRef<SubmitStateWithValidating>()
   const setFieldState = useCallback(
@@ -996,8 +996,14 @@ export default function useFieldProps<
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
+  // Put props into the surrounding data context
+  setPropsDataContext?.(identifier, props)
+
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)
+
+    // Run this twice, because when remounting happens, the props where removed by the unmount effect
+    setPropsDataContext?.(identifier, props)
 
     validateValue()
   })
