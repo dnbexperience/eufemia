@@ -103,18 +103,14 @@ export const GettingStarted = () => {
           return (
             <Form.Handler
               id="company-form"
-              data={existingData}
+              defaultData={existingData}
               onChange={console.log}
               onSubmit={console.log}
             >
               <Flex.Stack>
                 <Form.MainHeading>Bedrift</Form.MainHeading>
                 <Card stack>
-                  <Field.String
-                    path="/companyName"
-                    label="Bedriftens navn"
-                    required
-                  />
+                  <Field.Name.Company path="/companyName" required />
                   <Field.OrganizationNumber
                     path="/companyOrganizationNumber"
                     required
@@ -207,7 +203,7 @@ export const CreateComposedFieldComponent = () => {
 
         return (
           <DataContext.Provider
-            data={data}
+            defaultData={data}
             onChange={(data) => console.log('onChange', data)}
           >
             <MyComposedField label="My custom label" />
@@ -301,7 +297,7 @@ export const VisibilityBasedOnData = () => {
       }}
     >
       <Form.Handler
-        data={{
+        defaultData={{
           firstName: undefined,
           lastName: 'Smith',
           advanced: false,
@@ -355,7 +351,7 @@ export const UsingFormHandler = () => {
       }}
     >
       <Form.Handler
-        data={{
+        defaultData={{
           firstName: 'John',
           lastName: 'Smith',
           ssn: '20058512345',
@@ -394,7 +390,7 @@ export const Validation = () => {
       }}
     >
       <Form.Handler
-        data={{
+        defaultData={{
           firstName: undefined,
           lastName: 'Smith',
           ssn: '123',
@@ -432,7 +428,7 @@ export const UsingWizard = () => {
 
           return (
             <Form.Handler
-              data={{
+              defaultData={{
                 firstName: undefined,
                 lastName: 'Smith',
                 advanced: false,
@@ -556,16 +552,12 @@ export const QuickStart = () => {
           const existingData = { companyName: 'DNB' }
           return (
             <Form.Handler
-              data={existingData}
+              defaultData={existingData}
               onChange={console.log}
               onSubmit={console.log}
             >
               <Card stack>
-                <Field.String
-                  path="/companyName"
-                  label="Bedriftens navn"
-                  required
-                />
+                <Field.Name.Company path="/companyName" required />
                 <Field.OrganizationNumber
                   path="/companyOrganizationNumber"
                   required
@@ -581,6 +573,17 @@ export const QuickStart = () => {
                   />
                   <Field.Option value="other" title="Annet" />
                 </Field.Selection>
+                <Form.Visibility
+                  pathValue="/postalAddressSelect"
+                  whenValue="other"
+                  animate
+                >
+                  <Field.String
+                    path="/postalAddress"
+                    label="Sted for tilsendt post"
+                    required
+                  />
+                </Form.Visibility>
               </Card>
             </Form.Handler>
           )

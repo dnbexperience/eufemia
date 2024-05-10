@@ -2,21 +2,20 @@ import * as Examples from './Examples'
 
 ## Quick start
 
-Field components can be used directly as they are, for example `Field.Email`:
-
-```jsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-
-render(<Field.Email />)
-```
-
-**NB:** In the above example, only the email field will be a part of your application bundle. Unused code will be tree-shaken away.
-
-Heres how you can import the `Form` and `Field` components:
+Here's how you import the components from with scopes, such as `Form` and `Field`:
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 ```
+
+Field components can be used directly as they are, for example `Field.Email`:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Email />)
+```
+
+**NB:** In the above example, only the email field will be a part of your application bundle. Unused code will be tree-shaken away.
 
 And here is how you can use the `Form` component:
 

@@ -70,9 +70,9 @@ export const IfRuleSchema = () => {
             path="/customerType"
             label="Customer type (corporate or private)"
           />
-          <Field.String
+          <Field.Name.Company
             path="/companyName"
-            label="Company name (required for corporate customers)"
+            labelDescription="Company name (required for corporate customers)"
           />
         </Card>
 

@@ -45,6 +45,10 @@ export const basicComponents = {
     return CodeBlock(props.children.props)
   },
   code: ({ children, ...rest }) => {
+    if (rest?.inline) {
+      // So it does not appear in the HTML
+      delete rest.inline
+    }
     return (
       <Code {...rest}>
         <Copy>{children}</Copy>
