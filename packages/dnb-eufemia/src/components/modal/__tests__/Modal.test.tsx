@@ -7,7 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
-import Modal, { ANIMATION_DURATION, OriginalComponent } from '../Modal'
+import Modal, { OriginalComponent } from '../Modal'
 import { ModalProps } from '../types'
 import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
@@ -373,15 +373,12 @@ describe('Modal component', () => {
 
   it('should not set "data-autofocus" on mount when openState is "false"', async () => {
     render(
-      <Modal openState={false}>
+      <Modal openState={false} animation_duration={2}>
         <DialogContent />
       </Modal>
     )
 
     const trigger = document.querySelector('.dnb-modal__trigger')
-
-    // wait until handleSideEffects have run
-    await wait(ANIMATION_DURATION)
 
     expect(document.activeElement).not.toBe(trigger)
     expect(trigger).not.toHaveAttribute('data-autofocus')
@@ -393,11 +390,10 @@ describe('Modal component', () => {
       keyCode: 27,
     })
 
-    // wait until handleSideEffects have run
-    await wait(ANIMATION_DURATION)
-
-    expect(document.activeElement).toBe(trigger)
-    expect(trigger).toHaveAttribute('data-autofocus', 'true')
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+      expect(trigger).toHaveAttribute('data-autofocus', 'true')
+    })
 
     await waitFor(() => {
       expect(trigger).not.toHaveAttribute('data-autofocus')
