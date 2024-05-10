@@ -8,6 +8,7 @@ export const WithFieldString = () => {
       <Flex.Stack>
         <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" />
+        <Form.SubmitButton />
       </Flex.Stack>
     </ComponentBox>
   )

@@ -1,3 +1,6 @@
 .dnb-flex-stack + .dnb-flex-stack {
   margin-top: var(--spacing-small);
 }
+.dnb-flex-stack > .dnb-button {
+  align-self: flex-start;
+}
