@@ -122,6 +122,73 @@ describe('useQueryLocator', () => {
     )
   })
 
+  it('should work without id', async () => {
+    mockUrl()
+
+    const Step = () => {
+      const { activeIndex } = useStep()
+      const { getIndex } = useQueryLocator()
+      return (
+        <Wizard.Step>
+          <output>
+            {JSON.stringify({ activeIndex, index: getIndex() })}
+          </output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    render(
+      <Form.Handler>
+        <Wizard.Container mode="loose">
+          <Step />
+          <Step />
+          <Step />
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
+    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.history.pushState).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
+    expect(window.location.search).toBe(
+      `existing-query=foo&bar=baz&step=1`
+    )
+    expect(window.history.pushState).toHaveBeenCalledWith(
+      {},
+      '',
+      `http://localhost/?existing-query=foo&bar=baz&step=1`
+    )
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
+    expect(window.location.search).toBe(
+      `existing-query=foo&bar=baz&step=2`
+    )
+    expect(window.history.pushState).toHaveBeenCalledWith(
+      {},
+      '',
+      `http://localhost/?existing-query=foo&bar=baz&step=2`
+    )
+
+    await userEvent.click(previousButton())
+
+    expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
+    expect(window.location.search).toBe(
+      `existing-query=foo&bar=baz&step=1`
+    )
+    expect(window.history.pushState).toHaveBeenCalledWith(
+      {},
+      '',
+      `http://localhost/?existing-query=foo&bar=baz&step=1`
+    )
+  })
+
   it('should react to url change', async () => {
     mockUrl()
 

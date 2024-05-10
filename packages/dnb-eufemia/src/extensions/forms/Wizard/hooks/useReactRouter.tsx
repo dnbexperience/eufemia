@@ -5,27 +5,31 @@ import useStep from './useStep'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
-export default function useReactRouter(id: string, { useSearchParams }) {
+export default function useReactRouter(
+  id: string = null,
+  { useSearchParams }
+) {
+  const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)
   const [searchParams, setSearchParams] = useSearchParams()
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
-        searchParams.set(`${id}-step`, index)
+        searchParams.set(name, index)
         setSearchParams(searchParams)
       } catch (error) {
         setFormError(error)
       }
     },
-    [id, searchParams, setFormError, setSearchParams]
+    [name, searchParams, setFormError, setSearchParams]
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
 
   const getIndex = useCallback(
-    () => parseFloat(searchParams.get(`${id}-step`)),
-    [id, searchParams]
+    () => parseFloat(searchParams.get(name)),
+    [name, searchParams]
   )
 
   useLayoutEffect(() => {
