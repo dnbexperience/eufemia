@@ -278,13 +278,13 @@ export const Locale = () => {
 }
 
 export const FilterData = () => {
-  const id = 'disabled-fields'
   return (
-    <ComponentBox scope={{ id, replaceUndefinedValues }}>
+    <ComponentBox scope={{ replaceUndefinedValues }}>
       {() => {
+        const id = 'my-form'
         const filterDataHandler = (path, value, props) => !props.disabled
 
-        const MyComponent = () => {
+        const MyForm = () => {
           const { data } = Form.useData(id, {
             disabled: false,
             myField: 'Value',
@@ -338,7 +338,7 @@ export const FilterData = () => {
 
         return (
           <>
-            <MyComponent />
+            <MyForm />
             <Output />
           </>
         )

@@ -20,7 +20,6 @@ export function runCssVersionMismatchWarning() {
         }
 
         const getCssVersion = (element) => {
-          console.log(element)
           return element
             ? window
                 .getComputedStyle(element)

@@ -379,9 +379,18 @@ export default function Provider<Data extends JsonObject>(
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
+      // For async processing, we need to merge the props with the existing props
       fieldPropsRef.current[path] = {
         ...fieldPropsRef.current[path],
         ...props,
+      }
+
+      // If one of the given props is not in props anymore,
+      // it needs to be removed from the fieldPropsRef
+      for (const key in fieldPropsRef.current[path]) {
+        if (!Object.prototype.hasOwnProperty.call(props, key)) {
+          delete fieldPropsRef.current[path][key]
+        }
       }
     },
     []
@@ -993,7 +1002,7 @@ export default function Provider<Data extends JsonObject>(
               }
             : undefined
         }
-        disabled={disabled ? disabled : undefined}
+        formElement={disabled ? { disabled: true } : undefined}
         locale={locale ? locale : undefined}
         translations={translations ? translations : undefined}
       >

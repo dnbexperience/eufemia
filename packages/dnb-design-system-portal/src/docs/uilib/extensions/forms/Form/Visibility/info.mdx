@@ -54,9 +54,9 @@ render(
 )
 ```
 
-## Disable children when hidden
+## Disable children fields when hidden
 
-You can disable children when they are hidden by using the `fieldPropsWhenHidden` property. It will pass the given props to the children when the visibility is hidden.
+You can disable children fields when they are hidden by using the `fieldPropsWhenHidden` property. It will pass the given props to the children when the visibility is hidden. It needs to be used in combination with the `keepInDOM` property.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -73,3 +73,9 @@ render(
   </>,
 )
 ```
+
+Check out the [Nested visibility example](#nested-visibility-example) to see how you can use `fieldPropsWhenHidden` and `keepInDOM`.
+
+### Why is this usefull?
+
+In some cases, you want to keep the content in the DOM, even if it's not visible. This can be useful for fields that still needs to run validation.

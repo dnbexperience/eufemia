@@ -127,11 +127,17 @@ const MyForm = () => {
 }
 ```
 
-or `filterSubmitData` property from:
+**Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
 
-- [Form.Handler](/uilib/extensions/forms/Form/Handler/) (for `onSubmit`)
+Here is a [working example](/uilib/extensions/forms/Form/useData/#filter-your-data) of using an `data-exclude-field` attribute.
 
-Here is a working example of how to [filter data](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data).
+##### Filter data during submit
+
+For filtering data during form submit (`onSubmit`), you can use the `filterSubmitData` property from:
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/)
+
+Here is a working example of how to [filter data](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) during the submit event.
 
 #### Transforming data
 

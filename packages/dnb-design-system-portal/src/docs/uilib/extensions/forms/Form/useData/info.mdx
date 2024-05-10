@@ -133,7 +133,7 @@ function MyForm() {
 
 ## Filter data
 
-You can use the `filterData` method to filter your data.
+You can use the `filterData` method to filter your data. Check out [the example below](#filter-your-data).
 
 You simply give it the same kind of callback function as you would with the `Form.Handler` [filterSubmitData](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) property method.
 
@@ -148,20 +148,22 @@ The callback function should return a `boolean` or `undefined`. Return `false` t
 
 It returns the filtered form data.
 
+**Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
+
 ```tsx
 const filterDataHandler = (path, value, props, internal) => {
-  if (props.disabled === true) {
+  if (props['data-exclude-field']) {
     return false
   }
 }
 
 const MyForm = () => {
-  const { filterData } = Form.useData(id)
+  const { filterData } = Form.useData('my-form')
   const filteredData = filterData(filterDataHandler)
 
   return (
-    <Form.Handler id={id}>
-      <Field.String path="/foo" disabled />
+    <Form.Handler id="my-form">
+      <Field.String path="/foo" data-exclude-field />
     </Form.Handler>
   )
 }

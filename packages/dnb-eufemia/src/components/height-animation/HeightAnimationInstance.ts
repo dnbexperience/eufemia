@@ -179,20 +179,20 @@ export default class HeightAnimation {
       return this.__currentHeight
     }
 
-    const width = this.elem.clientWidth
     const clonedElem = this.elem.cloneNode(true) as HTMLElement
     const inputs = clonedElem.querySelectorAll('input')
     inputs.forEach((input) => {
       input.removeAttribute('name') // because type="radio" will be else effected negatively
       input.removeAttribute('id') // don't put IDs twice in the DOM
     })
-    this.elem.parentNode?.insertBefore(clonedElem, this.elem.nextSibling)
 
+    // Hide the cloned element
     for (const key in this.firstPaintStyle) {
       clonedElem.style[key] = this.firstPaintStyle[key]
     }
-    clonedElem.style.width = width ? `${String(width)}px` : 'auto' // set width because of the "position: absolute"
     clonedElem.style.position = 'absolute' // not a part of the "firstPaintStyle"
+
+    this.elem.parentNode?.insertBefore(clonedElem, this.elem.nextSibling)
 
     const height =
       parseFloat(String(clonedElem.clientHeight)) ||
@@ -282,6 +282,9 @@ export default class HeightAnimation {
 
     this.addEndEvent((e) => {
       if (e.target === e.currentTarget || !e.currentTarget) {
+        if (this.elem) {
+          this.elem.style.overflowY = ''
+        }
         this.setState('opened')
         this.readjust()
       }

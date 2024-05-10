@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Field, Form } from '../../..'
-import { Flex } from '../../../../../components'
+import { Flex, Section } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Visibility',
@@ -58,7 +58,7 @@ export const RadioDisabled = () => {
           <Field.Selection
             label="Radio"
             variant="radio"
-            path="/otherValue"
+            path="/myValue"
             value="foo"
           >
             <Field.Option value="foo" title="Foo" />
@@ -66,6 +66,83 @@ export const RadioDisabled = () => {
           </Field.Selection>
         </Form.Visibility>
         <span>bottom</span>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const filterDataHandler = (path, value, props, internal) => {
+  return !props['data-exclude-field']
+}
+
+const OutputWithoutId = () => {
+  const { data, filterData } = Form.useData<{
+    myValue: string
+  }>()
+  return (
+    <Section backgroundColor="sand-yellow" innerSpace>
+      <pre>Filtered: {JSON.stringify(filterData(filterDataHandler))}</pre>
+      <pre>All data: {JSON.stringify(data)}</pre>
+    </Section>
+  )
+}
+
+export const FilterData = () => {
+  const { data, filterData } = Form.useData<{
+    myValue: string
+  }>('my-form')
+
+  const OutputWithId = useCallback(() => {
+    return (
+      <Section backgroundColor="sand-yellow" innerSpace>
+        <pre>
+          Filtered: {JSON.stringify(filterData(filterDataHandler))}
+        </pre>
+        <pre>All data: {JSON.stringify(data)}</pre>
+      </Section>
+    )
+  }, [data, filterData])
+
+  return (
+    <Form.Handler id="my-form">
+      <Flex.Stack>
+        <Field.Boolean
+          label="Toggle visible"
+          variant="button"
+          path="/isVisible"
+          data-exclude-field
+        />
+        <Form.Visibility
+          visible
+          pathTrue="/isVisible"
+          animate
+          keepInDOM
+          fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+        >
+          <Field.Selection
+            label="Choose"
+            variant="radio"
+            path="/myValue"
+            value="less"
+          >
+            <Field.Option value="less" title="Less" />
+            <Field.Option value="more" title="More" />
+          </Field.Selection>
+
+          <Form.Visibility
+            visible
+            pathValue="/myValue"
+            whenValue="more"
+            animate
+            keepInDOM
+            fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+          >
+            <Field.String label="My String" path="/myString" value="foo" />
+          </Form.Visibility>
+        </Form.Visibility>
+
+        <OutputWithId />
+        <OutputWithoutId />
       </Flex.Stack>
     </Form.Handler>
   )

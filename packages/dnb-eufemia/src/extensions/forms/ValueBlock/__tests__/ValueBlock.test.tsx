@@ -193,4 +193,63 @@ describe('ValueBlock', () => {
       ).toBeInTheDocument()
     })
   })
+
+  it('should warn when ValueBlocks are siblings without being in a SummaryList', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <>
+        <ValueBlock label="Value A">Value</ValueBlock>
+        <ValueBlock label="Value B">Value</ValueBlock>
+      </>
+    )
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      'Value components as siblings should be wrapped inside a Value.SummaryList!',
+      'Value B'
+    )
+
+    render(<ValueBlock>Value</ValueBlock>)
+    expect(log).toHaveBeenCalledTimes(1)
+
+    render(
+      <>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+      </>
+    )
+    expect(log).toHaveBeenCalledTimes(3)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      'Value components as siblings should be wrapped inside a Value.SummaryList!'
+    )
+
+    render(
+      <Value.SummaryList>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+      </Value.SummaryList>
+    )
+    expect(log).toHaveBeenCalledTimes(3)
+
+    render(
+      <>
+        <ValueBlock>Value</ValueBlock>
+        <Value.Composition label="Composition label">
+          <ValueBlock>Value</ValueBlock>
+          <ValueBlock>Value</ValueBlock>
+        </Value.Composition>
+      </>
+    )
+    expect(log).toHaveBeenCalledTimes(4)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      'Value components as siblings should be wrapped inside a Value.SummaryList!',
+      'Composition label'
+    )
+
+    log.mockRestore()
+  })
 })

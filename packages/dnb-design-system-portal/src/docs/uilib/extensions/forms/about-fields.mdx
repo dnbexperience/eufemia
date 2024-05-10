@@ -17,17 +17,24 @@ import ListBaseToggleComponents from './fields/ListBaseToggleComponents'
 
 # About fields
 
-Both the naming and the way the components work are based on being data-driven.
+Fields are the building blocks of the form components in Eufemia Forms. They are data-driven React components – named and structured – according to the "type" of data they can display and produce, based on the user's input and action in the interface.
+
+Here's how you import the components from with the `Field` scope:
 
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 ```
+
+Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
+
+---
 
 **Table of Contents**
 
 - [Base fields](#base-fields)
 - [Feature fields](#feature-fields)
 - [More info](#more-info)
+
   - [Standardized properties](#standardized-properties)
   - [Controlled \& Uncontrolled](#controlled--uncontrolled)
   - [Creating custom field components](#creating-custom-field-components)
@@ -48,8 +55,6 @@ On top of these, a number of [feature fields](#feature-fields) have been built t
 ## Feature fields
 
 [Feature fields](/uilib/extensions/forms/feature-fields/) are built on top of the [base fields](#base-fields) (listed above) to add more specific features targeting a given type of data.
-
-- Here is a [list of all fields](/uilib/extensions/forms/all-fields/).
 
 ## More info
 

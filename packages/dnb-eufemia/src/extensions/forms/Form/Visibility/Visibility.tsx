@@ -1,11 +1,14 @@
-import React, { useContext } from 'react'
+import React, { AriaAttributes, useContext } from 'react'
 import pointer from 'json-pointer'
-import * as DataContext from '../../DataContext'
+import { warn } from '../../../../shared/helpers'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
+import DataContext from '../../DataContext/Context'
 import FieldProps from '../FieldProps'
 import type { UseFieldProps } from '../../types'
+import type { DataAttributes } from '../../hooks/useFieldProps'
 
 export type Props = {
   visible?: boolean
@@ -32,7 +35,7 @@ export type Props = {
   /** Keep the content in the DOM, even if it's not visible */
   keepInDOM?: boolean
   /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
-  fieldPropsWhenHidden?: UseFieldProps
+  fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
   element?: HeightAnimationProps['element']
   children: React.ReactNode
 }
@@ -54,7 +57,13 @@ function Visibility({
   children,
   ...rest
 }: Props) {
-  const dataContext = useContext(DataContext.Context)
+  const dataContext = useContext(DataContext)
+
+  useMountEffect(() => {
+    if (fieldPropsWhenHidden && !keepInDOM) {
+      warn('Using "fieldPropsWhenHidden" requires "keepInDOM" to be true.')
+    }
+  })
 
   const check = () => {
     if (visible === false) {
@@ -115,8 +124,11 @@ function Visibility({
     return true
   }
 
+  const open = Boolean(check())
+
   if (animate) {
-    const open = Boolean(check())
+    const props = !open ? fieldPropsWhenHidden : null
+
     return (
       <HeightAnimation
         open={open}
@@ -124,26 +136,21 @@ function Visibility({
         className="dnb-forms-visibility"
         {...rest}
       >
-        <FieldProps {...(open ? null : fieldPropsWhenHidden)}>
-          {children}
-        </FieldProps>
+        <FieldProps {...props}>{children}</FieldProps>
       </HeightAnimation>
     )
   }
 
-  if (check()) {
-    return <>{children}</>
-  }
-
   if (keepInDOM) {
+    const props = !open ? fieldPropsWhenHidden : null
     return (
-      <span className="dnb-forms-visibility" hidden>
-        <FieldProps {...fieldPropsWhenHidden}>{children}</FieldProps>
+      <span className="dnb-forms-visibility" hidden={!open}>
+        <FieldProps {...props}>{children}</FieldProps>
       </span>
     )
   }
 
-  return null
+  return open ? children : null
 }
 
 Visibility._supportsSpacingProps = 'children'

@@ -436,5 +436,120 @@ describe('Visibility', () => {
 
       expect(document.querySelector('input')).not.toBeDisabled()
     })
+
+    it('should forward data-* attributes', () => {
+      const { rerender } = render(
+        <Visibility
+          visible={true}
+          keepInDOM
+          fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+        >
+          <Field.String />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).not.toHaveAttribute(
+        'data-exclude-field'
+      )
+
+      rerender(
+        <Visibility
+          visible={false}
+          keepInDOM
+          fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+        >
+          <Field.String disabled />
+        </Visibility>
+      )
+
+      expect(document.querySelector('input')).toHaveAttribute(
+        'data-exclude-field'
+      )
+    })
+  })
+
+  describe('filterData', () => {
+    it('should filter data', async () => {
+      let result = undefined
+
+      const filterDataHandler = (path, value, props) => {
+        return !props['data-exclude-field']
+      }
+
+      const MockForm = () => {
+        const { filterData } = Form.useData('my-form')
+
+        const Output = React.useCallback(() => {
+          result = filterData(filterDataHandler)
+          return null
+        }, [filterData])
+
+        return (
+          <Form.Handler id="my-form">
+            <Field.Boolean
+              label="Toggle"
+              variant="button"
+              path="/isVisible"
+              data-exclude-field
+            />
+            <Form.Visibility
+              visible
+              pathTrue="/isVisible"
+              keepInDOM
+              fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+            >
+              <Field.Selection
+                label="Choose"
+                variant="radio"
+                path="/mySelection"
+                value="less"
+              >
+                <Field.Option value="less" title="Less" />
+                <Field.Option value="more" title="More" />
+              </Field.Selection>
+
+              <Form.Visibility
+                visible
+                pathValue="/mySelection"
+                whenValue="more"
+                keepInDOM
+                fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+              >
+                <Field.String
+                  label="My String"
+                  path="/myString"
+                  value="foo"
+                />
+              </Form.Visibility>
+            </Form.Visibility>
+
+            <Output />
+          </Form.Handler>
+        )
+      }
+
+      render(<MockForm />)
+
+      expect(result).toMatchObject({})
+
+      await userEvent.click(screen.getByText('Toggle'))
+
+      expect(result).toMatchObject({ mySelection: 'less' })
+
+      await userEvent.click(screen.getByText('More'))
+
+      expect(result).toMatchObject({
+        mySelection: 'more',
+        myString: 'foo',
+      })
+
+      await userEvent.click(screen.getByText('Less'))
+
+      expect(result).toMatchObject({ mySelection: 'less' })
+
+      await userEvent.click(screen.getByText('Toggle'))
+
+      expect(result).toMatchObject({})
+    })
   })
 })

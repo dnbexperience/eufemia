@@ -6,9 +6,10 @@ const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export default function useReachRouter(
-  id: string,
+  id: string = null,
   { useLocation, navigate }
 ) {
+  const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)
   const location = useLocation()
 
@@ -16,13 +17,13 @@ export default function useReachRouter(
     (index: number) => {
       try {
         const url = new URL(location.href)
-        url.searchParams.set(`${id}-step`, String(index))
+        url.searchParams.set(name, String(index))
         navigate(url.href)
       } catch (error) {
         setFormError(error)
       }
     },
-    [id, location.href, navigate, setFormError]
+    [location.href, name, navigate, setFormError]
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
@@ -30,11 +31,11 @@ export default function useReachRouter(
   const getIndex = useCallback(() => {
     try {
       const searchParams = new URLSearchParams(location.search)
-      return parseFloat(searchParams.get(`${id}-step`))
+      return parseFloat(searchParams.get(name))
     } catch (error) {
       setFormError(error)
     }
-  }, [id, location.search, setFormError])
+  }, [location.search, name, setFormError])
 
   useLayoutEffect(() => {
     const routerIndex = getIndex()

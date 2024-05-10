@@ -6,9 +6,10 @@ const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export default function useNextRouter(
-  id: string,
+  id: string = null,
   { useRouter, usePathname, useSearchParams }
 ) {
+  const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)
   const router = useRouter()
   const pathname = usePathname()
@@ -18,20 +19,20 @@ export default function useNextRouter(
     (index: number) => {
       try {
         const params = new URLSearchParams(searchParams.toString())
-        params.set(`${id}-step`, String(index))
+        params.set(name, String(index))
         router.push(`${pathname}?${params.toString()}`)
       } catch (error) {
         setFormError(error)
       }
     },
-    [id, pathname, router, searchParams, setFormError]
+    [name, pathname, router, searchParams, setFormError]
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
 
   const getIndex = useCallback(
-    () => parseFloat(searchParams.get(`${id}-step`)),
-    [id, searchParams]
+    () => parseFloat(searchParams.get(name)),
+    [name, searchParams]
   )
 
   useLayoutEffect(() => {

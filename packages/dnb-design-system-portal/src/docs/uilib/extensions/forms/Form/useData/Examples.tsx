@@ -2,6 +2,7 @@ import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex, Section } from '@dnb/eufemia/src'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
+import { ScrollView } from '@dnb/eufemia/src/fragments'
 
 export function Default() {
   return (
@@ -101,35 +102,79 @@ export function FilterData() {
   return (
     <ComponentBox>
       {() => {
-        const filterDataHandler = (path, value, props, internal) => {
-          if (value === 'removed') {
-            return false
-          }
-        }
+        const filterDataHandler = (path, value, props, internal) =>
+          !props['data-exclude-field']
 
-        const Component = () => {
-          const { data, filterData } = Form.useData('filter-data')
-
+        const MyForm = () => {
           return (
-            <>
-              <Form.Handler id="filter-data">
-                <Flex.Stack>
-                  <Field.String path="/foo" value="bar" />
-                  <Field.String path="/baz" value="removed" />
+            <Form.Handler id="my-form">
+              <Flex.Stack>
+                <Field.Boolean
+                  label="Toggle visible"
+                  variant="button"
+                  path="/isVisible"
+                  data-exclude-field
+                />
+                <Form.Visibility
+                  visible
+                  pathTrue="/isVisible"
+                  animate
+                  keepInDOM
+                  fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+                >
+                  <Field.Selection
+                    label="Choose"
+                    variant="radio"
+                    path="/myValue"
+                    value="less"
+                  >
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
 
-                  <Section backgroundColor="sand-yellow" innerSpace>
-                    <pre>{JSON.stringify(data)}</pre>
-                    <pre>
-                      {JSON.stringify(filterData(filterDataHandler))}
-                    </pre>
-                  </Section>
-                </Flex.Stack>
-              </Form.Handler>
-            </>
+                  <Form.Visibility
+                    visible
+                    pathValue="/myValue"
+                    whenValue="more"
+                    animate
+                    keepInDOM
+                    fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+                  >
+                    <Field.String
+                      label="My String"
+                      path="/myString"
+                      value="foo"
+                    />
+                  </Form.Visibility>
+                </Form.Visibility>
+
+                <Output />
+              </Flex.Stack>
+            </Form.Handler>
           )
         }
 
-        return <Component />
+        const Output = () => {
+          const { data, filterData } = Form.useData()
+
+          return (
+            <Section
+              element="output"
+              backgroundColor="sand-yellow"
+              style={{ maxWidth: '80vw' }}
+              innerSpace
+            >
+              <ScrollView>
+                <pre>
+                  Filtered: {JSON.stringify(filterData(filterDataHandler))}
+                </pre>
+                <pre>All data: {JSON.stringify(data)}</pre>
+              </ScrollView>
+            </Section>
+          )
+        }
+
+        return <MyForm />
       }}
     </ComponentBox>
   )

@@ -104,6 +104,8 @@ describe('Value.Composition', () => {
 
   describe('should validate with ARIA rules', () => {
     it('when used without SummaryList', async () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+
       const Comp = render(
         <>
           <Value.String
@@ -130,36 +132,41 @@ describe('Value.Composition', () => {
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()
+      expect(log).toHaveBeenCalledTimes(2)
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Value components as siblings should be wrapped inside a Value.SummaryList!'
+      )
+
+      log.mockRestore()
     })
 
     it('when wrapped in SummaryList', async () => {
       const Comp = render(
-        <>
-          <Value.SummaryList>
-            <Value.String label="Basic" value="value" />
+        <Value.SummaryList>
+          <Value.String label="Basic" value="value" />
 
-            <Value.Composition>
-              <Value.String label="First" value="value" />
-              <Value.String label="Second" value="value" />
-            </Value.Composition>
+          <Value.Composition>
+            <Value.String label="First" value="value" />
+            <Value.String label="Second" value="value" />
+          </Value.Composition>
 
-            <Value.Composition label="Composition Label">
-              <Value.String value="But without a value" />
-              <Value.String value="label" />
-            </Value.Composition>
+          <Value.Composition label="Composition Label">
+            <Value.String value="But without a value" />
+            <Value.String value="label" />
+          </Value.Composition>
 
-            <Value.Composition label="Composition Label">
-              <Value.String label="First" value="value" />
-              <Value.String label="Second" value="value" />
-            </Value.Composition>
+          <Value.Composition label="Composition Label">
+            <Value.String label="First" value="value" />
+            <Value.String label="Second" value="value" />
+          </Value.Composition>
 
-            <Value.Composition>
-              <Value.String value="With" />
-              <Value.String value="only a" />
-              <Value.String value="value" />
-            </Value.Composition>
-          </Value.SummaryList>
-        </>
+          <Value.Composition>
+            <Value.String value="With" />
+            <Value.String value="only a" />
+            <Value.String value="value" />
+          </Value.Composition>
+        </Value.SummaryList>
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -167,32 +174,30 @@ describe('Value.Composition', () => {
 
     it('when wrapped in SummaryList with grid layout', async () => {
       const Comp = render(
-        <>
-          <Value.SummaryList layout="grid">
-            <Value.String label="Basic" value="value" />
+        <Value.SummaryList layout="grid">
+          <Value.String label="Basic" value="value" />
 
-            <Value.Composition label="Composition Label">
-              <Value.String label="First" value="value" />
-              <Value.String label="Second" value="value" />
-            </Value.Composition>
+          <Value.Composition label="Composition Label">
+            <Value.String label="First" value="value" />
+            <Value.String label="Second" value="value" />
+          </Value.Composition>
 
-            <Value.Composition label="Composition Label">
-              <Value.String value="But without a value" />
-              <Value.String value="label" />
-            </Value.Composition>
+          <Value.Composition label="Composition Label">
+            <Value.String value="But without a value" />
+            <Value.String value="label" />
+          </Value.Composition>
 
-            <Value.Composition label="Composition Label">
-              <Value.String label="First" value="value" />
-              <Value.String label="Second" value="value" />
-            </Value.Composition>
+          <Value.Composition label="Composition Label">
+            <Value.String label="First" value="value" />
+            <Value.String label="Second" value="value" />
+          </Value.Composition>
 
-            <Value.Composition>
-              <Value.String value="With" />
-              <Value.String value="only a" />
-              <Value.String value="value" />
-            </Value.Composition>
-          </Value.SummaryList>
-        </>
+          <Value.Composition>
+            <Value.String value="With" />
+            <Value.String value="only a" />
+            <Value.String value="value" />
+          </Value.Composition>
+        </Value.SummaryList>
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()

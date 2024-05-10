@@ -3,6 +3,7 @@
  *
  */
 
+import React from 'react'
 import {
   render,
   screen,
@@ -11,7 +12,6 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Checkbox, { CheckboxProps } from '../Checkbox'
 import { Provider } from '../../../shared'
@@ -50,6 +50,24 @@ describe('Checkbox component', () => {
     rerender(<Checkbox {...props} checked={true} value={value} />)
     expect((screen.getByRole('checkbox') as HTMLInputElement).value).toBe(
       value
+    )
+  })
+
+  it('should return "checked" and "event" from onChange event', async () => {
+    const onChange = jest.fn()
+    render(<Checkbox onChange={onChange} value="foo" />)
+
+    const checkbox = document.querySelector('input')
+    await userEvent.click(checkbox)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        checked: true,
+        event: expect.objectContaining({
+          target: expect.objectContaining({ value: 'foo' }),
+        }),
+      })
     )
   })
 
