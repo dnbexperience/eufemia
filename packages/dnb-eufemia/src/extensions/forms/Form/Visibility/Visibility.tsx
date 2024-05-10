@@ -150,7 +150,7 @@ function Visibility({
     )
   }
 
-  return open ? children : null
+  return <>{open ? children : null}</>
 }
 
 Visibility._supportsSpacingProps = 'children'
