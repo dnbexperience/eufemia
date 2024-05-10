@@ -278,7 +278,7 @@ class Modal extends React.PureComponent<
   handleSideEffects = () => {
     const { modalActive, preventAutoFocus } = this.state
     const { close_modal, open_state, animation_duration } = this.props
-    console.log('preventAutoFocus', preventAutoFocus)
+
     if (modalActive) {
       if (typeof close_modal === 'function') {
         const fn = close_modal(() => {
@@ -293,8 +293,6 @@ class Modal extends React.PureComponent<
       const focus = (elem: HTMLElement) => {
         // So we can omit showing a Tooltip on the trigger button
         elem.setAttribute('data-autofocus', 'true')
-        console.log('setting auto-focus')
-
         elem.focus({ preventScroll: true })
 
         return new Promise<void>((resolve) => {
