@@ -48,7 +48,7 @@ export type CheckboxSize = 'default' | 'medium' | 'large'
 export type CheckboxAttributes = string | Record<string, unknown>
 export type OnChangeParams = {
   checked: boolean
-  event: React.ChangeEvent<HTMLInputElement> | KeyboardEvent
+  event: React.ChangeEvent<HTMLInputElement>
 }
 
 export type CheckboxProps = {
@@ -195,15 +195,15 @@ function Checkbox(localProps: CheckboxProps) {
     }
   }, [checked, prevChecked])
 
-  const callOnChange = useCallback(
-    (args: OnChangeParams) => {
+  const callOnChange: CheckboxProps['onChange'] = useCallback(
+    (args) => {
       onChange?.(args)
     },
     [onChange]
   )
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement> | KeyboardEvent) => {
+    (event: OnChangeParams['event']) => {
       if (readOnly) {
         return event.preventDefault()
       }
@@ -221,14 +221,14 @@ function Checkbox(localProps: CheckboxProps) {
   )
 
   const onChangeHandler = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: OnChangeParams['event']) => {
       handleChange(event)
     },
     [handleChange]
   )
 
   const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent) => {
+    (event: KeyboardEvent & OnChangeParams['event']) => {
       switch (keycode(event)) {
         case 'enter':
           handleChange(event)
