@@ -112,3 +112,70 @@ export const BasedOnContext = () => {
     </ComponentBox>
   )
 }
+
+export const NestedExample = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const filterDataHandler = (path, value, props, internal) =>
+          !props['data-exclude-field']
+
+        const MyForm = () => {
+          return (
+            <Form.Handler>
+              <Flex.Stack>
+                <Field.Boolean
+                  label="Toggle"
+                  variant="button"
+                  path="/isVisible"
+                  data-exclude-field
+                />
+                <Form.Visibility
+                  visible
+                  pathTrue="/isVisible"
+                  animate
+                  keepInDOM
+                  fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+                >
+                  <Field.Selection
+                    label="Choose"
+                    variant="radio"
+                    path="/mySelection"
+                    value="less"
+                  >
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
+
+                  <Form.Visibility
+                    visible
+                    pathValue="/mySelection"
+                    whenValue="more"
+                    animate
+                    keepInDOM
+                    fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+                  >
+                    <Field.String
+                      label="My String"
+                      path="/myString"
+                      value="foo"
+                    />
+                  </Form.Visibility>
+                </Form.Visibility>
+              </Flex.Stack>
+              <Log />
+            </Form.Handler>
+          )
+        }
+
+        const Log = () => {
+          const { filterData } = Form.useData()
+          console.log(filterData(filterDataHandler))
+          return null
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}

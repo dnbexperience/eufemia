@@ -21,6 +21,7 @@ import {
   OnChange,
   OnChangeValue,
 } from '../../../'
+import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
 import { ContextState, FilterData } from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
@@ -28,7 +29,9 @@ import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-jest.retryTimes(5) // because of an flaky async validation test
+if (isCI) {
+  jest.retryTimes(5) // because of an flaky async validation test
+}
 
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially continuousValidation />
@@ -366,158 +369,251 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should filter data based on the given "filterSubmitData" property method', () => {
-      let filteredData = undefined
-      const onSubmit = jest.fn((data) => (filteredData = data))
+    describe('filterSubmitData', () => {
+      it('should filter data based on the given "filterSubmitData" property method', () => {
+        let filteredData = undefined
+        const onSubmit = jest.fn((data) => (filteredData = data))
 
-      const filterDataHandler: FilterData = jest.fn(
-        (path, value, props) => {
-          if (props.disabled === true) {
-            return false
+        const filterDataHandler: FilterData = jest.fn(
+          (path, value, props) => {
+            if (props.disabled === true) {
+              return false
+            }
           }
-        }
-      )
+        )
 
-      const { rerender } = render(
-        <DataContext.Provider
-          onSubmit={onSubmit}
-          filterSubmitData={filterDataHandler}
-        >
-          <Field.String path="/foo" value="Include this value" />
-          <Field.String path="/bar" value="bar" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
-        </DataContext.Provider>
-      )
-
-      const submitButton = document.querySelector('button')
-
-      fireEvent.click(submitButton)
-
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenCalledWith(
-        { bar: 'bar', foo: 'Include this value' },
-        expect.anything()
-      )
-
-      expect(filterDataHandler).toHaveBeenCalledTimes(2)
-      expect(filterDataHandler).toHaveBeenNthCalledWith(
-        1,
-        '/foo',
-        'Include this value',
-        expect.anything(),
-        expect.anything()
-      )
-      expect(filterDataHandler).toHaveBeenNthCalledWith(
-        2,
-        '/bar',
-        'bar',
-        expect.anything(),
-        expect.anything()
-      )
-
-      rerender(
-        <DataContext.Provider
-          onSubmit={onSubmit}
-          filterSubmitData={filterDataHandler}
-        >
-          <Field.String path="/foo" value="Skip this value" disabled />
-          <Field.String path="/bar" value="bar value" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
-        </DataContext.Provider>
-      )
-
-      expect(filteredData).toEqual({
-        bar: 'bar',
-        foo: 'Include this value',
-      })
-
-      fireEvent.click(submitButton)
-
-      expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { bar: 'bar value' },
-        expect.anything()
-      )
-
-      expect(filterDataHandler).toHaveBeenCalledTimes(4)
-      expect(filterDataHandler).toHaveBeenNthCalledWith(
-        3,
-        '/foo',
-        'Skip this value',
-        expect.anything(),
-        expect.anything()
-      )
-      expect(filterDataHandler).toHaveBeenNthCalledWith(
-        4,
-        '/bar',
-        'bar value',
-        expect.anything(),
-        expect.anything()
-      )
-
-      expect(filteredData).toEqual({ bar: 'bar value' })
-    })
-
-    it('"filterSubmitData" should not mutate internal data', async () => {
-      const onSubmit = jest.fn()
-      const onChange = jest.fn()
-
-      const filterDataHandler: FilterData = jest.fn((path, value) => {
-        if (value === 'remove me') {
-          return false
-        }
-      })
-
-      let originalData = undefined
-      let filteredData = undefined
-
-      const MyForm = () => {
-        const { data: original, filterData } = Form.useData('my-form')
-        originalData = original
-
-        const data = filterData(filterDataHandler)
-        filteredData = data
-
-        return (
+        const { rerender } = render(
           <DataContext.Provider
-            id="my-form"
             onSubmit={onSubmit}
-            onChange={onChange}
             filterSubmitData={filterDataHandler}
           >
-            <Field.String path="/myField" />
+            <Field.String path="/foo" value="Include this value" />
+            <Field.String path="/bar" value="bar" />
             <Form.SubmitButton>Submit</Form.SubmitButton>
           </DataContext.Provider>
         )
-      }
 
-      render(<MyForm />)
+        const submitButton = document.querySelector('button')
 
-      const submitButton = document.querySelector('button')
-      const input = document.querySelector('input')
+        fireEvent.click(submitButton)
 
-      await userEvent.type(input, 'remove m')
-      expect(filteredData).toMatchObject({ myField: 'remove m' })
-      expect(originalData).toMatchObject({ myField: 'remove m' })
-      expect(onChange).toHaveBeenCalledTimes(8)
-      expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove m' })
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenCalledWith(
+          { bar: 'bar', foo: 'Include this value' },
+          expect.anything()
+        )
 
-      fireEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { myField: 'remove m' },
-        expect.anything()
-      )
+        expect(filterDataHandler).toHaveBeenCalledTimes(2)
+        expect(filterDataHandler).toHaveBeenNthCalledWith(
+          1,
+          '/foo',
+          'Include this value',
+          expect.anything(),
+          expect.anything()
+        )
+        expect(filterDataHandler).toHaveBeenNthCalledWith(
+          2,
+          '/bar',
+          'bar',
+          expect.anything(),
+          expect.anything()
+        )
 
-      await userEvent.type(input, 'e')
-      expect(filteredData).toMatchObject({})
-      expect(originalData).toMatchObject({ myField: 'remove me' })
-      expect(onChange).toHaveBeenCalledTimes(9)
-      expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove me' })
+        rerender(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            filterSubmitData={filterDataHandler}
+          >
+            <Field.String path="/foo" value="Skip this value" disabled />
+            <Field.String path="/bar" value="bar value" />
+            <Form.SubmitButton>Submit</Form.SubmitButton>
+          </DataContext.Provider>
+        )
 
-      fireEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+        expect(filteredData).toEqual({
+          bar: 'bar',
+          foo: 'Include this value',
+        })
+
+        fireEvent.click(submitButton)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { bar: 'bar value' },
+          expect.anything()
+        )
+
+        expect(filterDataHandler).toHaveBeenCalledTimes(4)
+        expect(filterDataHandler).toHaveBeenNthCalledWith(
+          3,
+          '/foo',
+          'Skip this value',
+          expect.anything(),
+          expect.anything()
+        )
+        expect(filterDataHandler).toHaveBeenNthCalledWith(
+          4,
+          '/bar',
+          'bar value',
+          expect.anything(),
+          expect.anything()
+        )
+
+        expect(filteredData).toEqual({ bar: 'bar value' })
+      })
+
+      it('"filterSubmitData" should not mutate internal data', async () => {
+        const onSubmit = jest.fn()
+        const onChange = jest.fn()
+
+        const filterDataHandler: FilterData = jest.fn((path, value) => {
+          if (value === 'remove me') {
+            return false
+          }
+        })
+
+        let originalData = undefined
+        let filteredData = undefined
+
+        const MyForm = () => {
+          const { data: original, filterData } = Form.useData('my-form')
+          originalData = original
+
+          const data = filterData(filterDataHandler)
+          filteredData = data
+
+          return (
+            <DataContext.Provider
+              id="my-form"
+              onSubmit={onSubmit}
+              onChange={onChange}
+              filterSubmitData={filterDataHandler}
+            >
+              <Field.String path="/myField" />
+              <Form.SubmitButton>Submit</Form.SubmitButton>
+            </DataContext.Provider>
+          )
+        }
+
+        render(<MyForm />)
+
+        const submitButton = document.querySelector('button')
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, 'remove m')
+        expect(filteredData).toMatchObject({ myField: 'remove m' })
+        expect(originalData).toMatchObject({ myField: 'remove m' })
+        expect(onChange).toHaveBeenCalledTimes(8)
+        expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove m' })
+
+        fireEvent.click(submitButton)
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myField: 'remove m' },
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'e')
+        expect(filteredData).toMatchObject({})
+        expect(originalData).toMatchObject({ myField: 'remove me' })
+        expect(onChange).toHaveBeenCalledTimes(9)
+        expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove me' })
+
+        fireEvent.click(submitButton)
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+      })
+
+      it('should add and remove fieldProps properly', async () => {
+        const onSubmit = jest.fn()
+
+        const filterDataHandler = (path, value, props) => {
+          return !props['data-exclude-field']
+        }
+
+        const MockForm = () => {
+          return (
+            <Form.Handler
+              onSubmit={onSubmit}
+              filterSubmitData={filterDataHandler}
+            >
+              <Field.Boolean
+                label="Toggle"
+                variant="button"
+                path="/isVisible"
+                data-exclude-field
+              />
+              <Form.Visibility
+                visible
+                pathTrue="/isVisible"
+                keepInDOM
+                fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+              >
+                <Field.Selection
+                  label="Choose"
+                  variant="radio"
+                  path="/mySelection"
+                  value="less"
+                >
+                  <Field.Option value="less" title="Less" />
+                  <Field.Option value="more" title="More" />
+                </Field.Selection>
+
+                <Form.Visibility
+                  visible
+                  pathValue="/mySelection"
+                  whenValue="more"
+                  keepInDOM
+                  fieldPropsWhenHidden={{ 'data-exclude-field': true }}
+                >
+                  <Field.String
+                    label="My String"
+                    path="/myString"
+                    value="foo"
+                  />
+                </Form.Visibility>
+              </Form.Visibility>
+            </Form.Handler>
+          )
+        }
+
+        render(<MockForm />)
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+
+        await userEvent.click(screen.getByText('Toggle'))
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { mySelection: 'less' },
+          expect.anything()
+        )
+
+        await userEvent.click(screen.getByText('More'))
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          {
+            mySelection: 'more',
+            myString: 'foo',
+          },
+          expect.anything()
+        )
+
+        await userEvent.click(screen.getByText('Less'))
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { mySelection: 'less' },
+          expect.anything()
+        )
+
+        await userEvent.click(screen.getByText('Toggle'))
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+      })
     })
 
     it('should call "onSubmitRequest" on invalid submit', () => {
