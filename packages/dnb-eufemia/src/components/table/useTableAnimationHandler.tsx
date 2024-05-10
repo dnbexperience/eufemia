@@ -31,7 +31,7 @@ export function useTableAnimationHandler({
         trRef.current
       ) as HTMLElement
       if (scrollView instanceof HTMLElement) {
-        scrollView.style.overflow = clip ? 'clip' : ''
+        scrollView.style.overflowY = clip ? 'clip' : ''
       }
     },
     [trRef]

@@ -172,7 +172,7 @@ describe('HeightAnimationInstance', () => {
         'name'
       )
       expect(removedElement.outerHTML).toMatchInlineSnapshot(
-        `"<span data-height="100" style="visibility: hidden; opacity: 0; height: auto; width: auto; position: absolute;"><input class="myClass"></span>"`
+        `"<span data-height="100" style="visibility: hidden; opacity: 0; height: auto; position: absolute;"><input class="myClass"></span>"`
       )
     })
 
@@ -206,7 +206,7 @@ describe('HeightAnimationInstance', () => {
 
       expect(styles).toHaveLength(1)
       expect(styles[0].getAttribute('style')).toBe(
-        'visibility: hidden; opacity: 0; height: auto; width: auto; position: absolute;'
+        'visibility: hidden; opacity: 0; height: auto; position: absolute;'
       )
     })
 
@@ -481,6 +481,30 @@ describe('HeightAnimationInstance', () => {
       expect(onEnd).toHaveBeenCalledTimes(1)
       expect(onStart).toHaveBeenLastCalledWith('opening')
       expect(onEnd).toHaveBeenLastCalledWith('opened')
+    })
+
+    it('open with animation should remove overflowY', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+      inst.setState('closed')
+
+      mockHeight(100, element)
+
+      inst.open()
+
+      nextAnimationFrame()
+      nextAnimationFrame()
+
+      // overflowY should be removed on animation end
+      element.style.overflowY = 'clip'
+      expect(element).toHaveAttribute(
+        'style',
+        'height: 100px; overflow-y: clip;'
+      )
+
+      simulateAnimationEnd(element)
+
+      expect(element).toHaveAttribute('style', 'height: auto;')
     })
   })
 
