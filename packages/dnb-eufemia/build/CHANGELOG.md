@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.30.2](https://github.com/dnbexperience/eufemia/compare/v10.30.1...v10.30.2) (2024-05-10)
+
+
+### :bug: Bug Fixes
+
+* **forms:** fix wrong TypeScript JSX return type ([#3550](https://github.com/dnbexperience/eufemia/issues/3550)) ([bdd68aa](https://github.com/dnbexperience/eufemia/commit/bdd68aacfa23bcaf89431a76e0952e892237f1a3))
+
 ## [10.30.1](https://github.com/dnbexperience/eufemia/compare/v10.30.0...v10.30.1) (2024-05-10)
 
 
