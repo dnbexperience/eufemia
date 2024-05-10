@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.30.1](https://github.com/dnbexperience/eufemia/compare/v10.30.0...v10.30.1) (2024-05-10)
+
+
+### :memo: Documentation
+
+* **Portal:** updates css import documentation ([#3542](https://github.com/dnbexperience/eufemia/issues/3542)) ([0b80110](https://github.com/dnbexperience/eufemia/commit/0b801103d40b4e6c43ea3270dfdb7914ebc9d7da))
+
+
+### :bug: Bug Fixes
+
+* **Checkbox:** fix types issues ([#3540](https://github.com/dnbexperience/eufemia/issues/3540)) ([ed7b1cd](https://github.com/dnbexperience/eufemia/commit/ed7b1cd3f5a3c5012f18dbc16994102bcc8c5466))
+* **Flex.Stack:** align Button to not stretch ([#3544](https://github.com/dnbexperience/eufemia/issues/3544)) ([931d80e](https://github.com/dnbexperience/eufemia/commit/931d80e438f66a988ce9de7457d943c01952f018))
+* **forms:** add `filterData` support to Visibility ([#3543](https://github.com/dnbexperience/eufemia/issues/3543)) ([7ee3f25](https://github.com/dnbexperience/eufemia/commit/7ee3f259c89007d3756c28b8f7e132c93232a16a))
+* **forms:** make id of Wizard location hooks optional ([#3545](https://github.com/dnbexperience/eufemia/issues/3545)) ([91f1026](https://github.com/dnbexperience/eufemia/commit/91f102649a65f30f98e6e8a7e94e317e91efd24b))
+* **forms:** warn when Value component should be wrapped within Value.SummaryList ([#3547](https://github.com/dnbexperience/eufemia/issues/3547)) ([7691eb9](https://github.com/dnbexperience/eufemia/commit/7691eb99889f30baa614e9a732624e828314f15e))
+* **HeightAnimation:** overcome flickering issue due to false height pre-calculation ([#3546](https://github.com/dnbexperience/eufemia/issues/3546)) ([62c08a3](https://github.com/dnbexperience/eufemia/commit/62c08a30b13faa6d4fc56d5fa9f776066540af89))
+
 ## [10.30.0](https://github.com/dnbexperience/eufemia/compare/v10.29.0...v10.30.0) (2024-05-08)
 
 
