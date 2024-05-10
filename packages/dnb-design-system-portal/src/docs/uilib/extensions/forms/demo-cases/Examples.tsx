@@ -49,11 +49,7 @@ export const BecomeCorporateCustomer = () => {
                       path="/companyOrganizationNumber"
                       required
                     />
-                    <Field.String
-                      path="/companyName"
-                      label="Bedriftens navn"
-                      required
-                    />
+                    <Field.Name.Company path="/companyName" required />
                     <Field.String
                       path="/companyAddress"
                       label="Forretningsadresse (NB! Ikke postadresse)"
