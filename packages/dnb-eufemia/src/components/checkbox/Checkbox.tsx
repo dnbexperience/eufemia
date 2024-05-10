@@ -125,7 +125,7 @@ export type CheckboxProps = {
 type DeprecatedCheckboxProps = {
   /** @deprecated use the `label` prop instead */
   children?: React.ReactNode
-  /**  @deprecated use `onComplete` */
+  /**  @deprecated use `onChange` */
   on_change?: (args: OnChangeParams) => void
   /**  @deprecated use `labelPosition` */
   label_position?: CheckboxLabelPosition
@@ -195,15 +195,15 @@ function Checkbox(localProps: CheckboxProps) {
     }
   }, [checked, prevChecked])
 
-  const callOnChange = useCallback(
-    (args: OnChangeParams) => {
+  const callOnChange: CheckboxProps['onChange'] = useCallback(
+    (args) => {
       onChange?.(args)
     },
     [onChange]
   )
 
-  const onChangeHandler = useCallback(
-    (event) => {
+  const handleChange = useCallback(
+    (event: OnChangeParams['event']) => {
       if (readOnly) {
         return event.preventDefault()
       }
@@ -220,15 +220,22 @@ function Checkbox(localProps: CheckboxProps) {
     [callOnChange, isChecked, readOnly, ref]
   )
 
+  const onChangeHandler = useCallback(
+    (event: OnChangeParams['event']) => {
+      handleChange(event)
+    },
+    [handleChange]
+  )
+
   const onKeyDownHandler = useCallback(
-    (event) => {
+    (event: KeyboardEvent & OnChangeParams['event']) => {
       switch (keycode(event)) {
         case 'enter':
-          onChangeHandler(event)
+          handleChange(event)
           break
       }
     },
-    [onChangeHandler]
+    [handleChange]
   )
 
   const mainParams = {
