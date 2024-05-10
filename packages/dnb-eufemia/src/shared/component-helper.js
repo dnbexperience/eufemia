@@ -637,7 +637,12 @@ export const getClosestScrollViewElement = (currentElement) => {
   return getPreviousSibling('.dnb-scroll-view', currentElement)
 }
 
-export const convertJsxToString = (elements, separator = undefined) => {
+export const convertJsxToString = (
+  elements,
+  separator = undefined,
+  // Please come up with a better name for param
+  processChildrenOfElement = false
+) => {
   if (!Array.isArray(elements)) {
     elements = [elements]
   }
@@ -647,7 +652,11 @@ export const convertJsxToString = (elements, separator = undefined) => {
       let children = word.props.children
 
       // fixes issue in autocomplete where `selected_values` of `ReactElement` would not renders as string when selected
-      if (!children && word.type()?.props?.children) {
+      if (
+        processChildrenOfElement &&
+        !children &&
+        word.type()?.props?.children
+      ) {
         children = word.type().props.children
       }
 
