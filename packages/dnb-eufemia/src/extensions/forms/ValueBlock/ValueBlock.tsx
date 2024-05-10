@@ -44,7 +44,7 @@ function ValueBlock(props: Props) {
   const label = inline ? null : labelProp
 
   const ref = useRef<HTMLElement>(null)
-  useNotInSummaryList(composition ? null : ref)
+  useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)
 
   if (
     (children === undefined || children === null || children === false) &&
@@ -59,7 +59,6 @@ function ValueBlock(props: Props) {
   const compositionClass =
     composition &&
     classnames(
-      'dnb-forms-value-block__composition',
       `dnb-forms-value-block__composition--${
         composition === true ? 'horizontal' : composition
       }`
@@ -173,12 +172,12 @@ function ValueBlock(props: Props) {
   )
 }
 
-function useNotInSummaryList(ref: React.RefObject<HTMLElement>) {
+function useNotInSummaryList(
+  ref: React.RefObject<HTMLElement>,
+  label?: React.ReactNode
+) {
   useEffect(() => {
-    if (
-      ref?.current &&
-      !ref.current.closest('.dnb-forms-value-block__composition')
-    ) {
+    if (ref?.current) {
       try {
         const sibling = ref.current.previousElementSibling
 
@@ -186,15 +185,19 @@ function useNotInSummaryList(ref: React.RefObject<HTMLElement>) {
           sibling?.classList.contains('dnb-forms-value-block') &&
           !ref.current.closest('.dnb-forms-summary-list')
         ) {
-          warn(
-            'Value components as siblings should be wrapped inside a Value.SummaryList!'
+          warn.apply(
+            warn,
+            [
+              'Value components as siblings should be wrapped inside a Value.SummaryList!',
+              label,
+            ].filter(Boolean)
           )
         }
       } catch (error) {
         //
       }
     }
-  }, [ref])
+  }, [label, ref])
 }
 
 ValueBlock._supportsSpacingProps = true

@@ -199,14 +199,15 @@ describe('ValueBlock', () => {
 
     render(
       <>
-        <ValueBlock>Value</ValueBlock>
-        <ValueBlock>Value</ValueBlock>
+        <ValueBlock label="Value A">Value</ValueBlock>
+        <ValueBlock label="Value B">Value</ValueBlock>
       </>
     )
     expect(log).toHaveBeenCalledTimes(1)
-    expect(log).toHaveBeenCalledWith(
+    expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
-      'Value components as siblings should be wrapped inside a Value.SummaryList!'
+      'Value components as siblings should be wrapped inside a Value.SummaryList!',
+      'Value B'
     )
 
     render(<ValueBlock>Value</ValueBlock>)
@@ -220,6 +221,10 @@ describe('ValueBlock', () => {
       </>
     )
     expect(log).toHaveBeenCalledTimes(3)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      'Value components as siblings should be wrapped inside a Value.SummaryList!'
+    )
 
     render(
       <Value.SummaryList>
@@ -230,12 +235,20 @@ describe('ValueBlock', () => {
     expect(log).toHaveBeenCalledTimes(3)
 
     render(
-      <Value.Composition>
+      <>
         <ValueBlock>Value</ValueBlock>
-        <ValueBlock>Value</ValueBlock>
-      </Value.Composition>
+        <Value.Composition label="Composition label">
+          <ValueBlock>Value</ValueBlock>
+          <ValueBlock>Value</ValueBlock>
+        </Value.Composition>
+      </>
     )
-    expect(log).toHaveBeenCalledTimes(3)
+    expect(log).toHaveBeenCalledTimes(4)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      'Value components as siblings should be wrapped inside a Value.SummaryList!',
+      'Composition label'
+    )
 
     log.mockRestore()
   })
