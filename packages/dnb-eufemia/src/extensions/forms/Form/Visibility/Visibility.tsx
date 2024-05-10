@@ -61,7 +61,7 @@ function Visibility({
 
   useMountEffect(() => {
     if (fieldPropsWhenHidden && !keepInDOM) {
-      warn('Using "fieldPropsWhenHidden" required "keepInDOM" to be true.')
+      warn('Using "fieldPropsWhenHidden" requires "keepInDOM" to be true.')
     }
   })
 
