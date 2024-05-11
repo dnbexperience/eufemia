@@ -6,6 +6,11 @@ export const StepProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  required: {
+    doc: 'Will make all nested form fields required.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',
