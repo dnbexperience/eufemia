@@ -29,6 +29,7 @@ import useMountEffect from '../../../shared/helpers/useMountEffect'
 import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
+import CompositeContext from '../Composite/CompositeContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import useProcessManager from './useProcessManager'
 import {
@@ -119,6 +120,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
+  const compositeContext = useContext(CompositeContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const translation = useTranslation()
 
@@ -159,6 +161,11 @@ export default function useFieldProps<
     path: iteratePath,
     handleChange: handleChangeIterateContext,
   } = iterateElementContext ?? {}
+  const {
+    path: compositePath,
+    handleChange: handleChangeCompositeContext,
+    errorPrioritization,
+  } = compositeContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 
   if (path && path.substring(0, 1) !== '/') {
@@ -177,20 +184,48 @@ export default function useFieldProps<
     )
   }
 
-  const identifier = useMemo(() => {
-    if (itemPath) {
-      const iterateValuePath = `${iteratePath}/${iterateElementIndex}${
+  const makeCompositePath = useCallback(
+    (path: Path) => {
+      return `${
+        compositePath && compositePath !== '/' ? compositePath : ''
+      }${path}`
+    },
+    [compositePath]
+  )
+
+  const makeIteratePath = useCallback(
+    (iteratePath: Path = '') => {
+      return `${iteratePath}/${iterateElementIndex}${
         itemPath && itemPath !== '/' ? itemPath : ''
       }`
-      return iterateValuePath
+    },
+    [itemPath, iterateElementIndex]
+  )
+
+  const identifier = useMemo(() => {
+    if (compositePath) {
+      return makeCompositePath(path)
+    }
+
+    if (itemPath) {
+      return makeIteratePath(iteratePath)
     }
 
     // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
     return path ?? id
-  }, [itemPath, path, id, iteratePath, iterateElementIndex])
+  }, [
+    compositePath,
+    itemPath,
+    path,
+    id,
+    makeCompositePath,
+    makeIteratePath,
+    iteratePath,
+  ])
 
   const externalValue = useExternalValue<Value>({
     path,
+    identifier,
     itemPath,
     props,
     transformers,
@@ -225,12 +260,20 @@ export default function useFieldProps<
         requiredList.push(schemaPart?.required)
       }
 
+      if (compositePath) {
+        paths.push(compositePath.substring(1))
+      }
+
       const collected = requiredList.flatMap((v) => v).filter(Boolean)
-      if (collected.includes(paths.at(-1))) {
+      if (
+        paths
+          .filter(Boolean)
+          .some((p) => collected.some((c) => c.includes(p)))
+      ) {
         return true
       }
     }
-  }, [dataContext?.schema, identifier, requiredProp, schema])
+  }, [compositePath, dataContext.schema, identifier, requiredProp, schema])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -585,6 +628,20 @@ export default function useFieldProps<
     [persistErrorState, defineAsyncProcess, setFieldState, showError]
   )
 
+  const prioritizeContextSchema = useMemo(() => {
+    if (errorPrioritization) {
+      const schemaPath = identifier.split('/').join('/properties/')
+      const hasContextSchema = pointer.has(
+        dataContext?.schema || {},
+        schemaPath
+      )
+      return (
+        hasContextSchema &&
+        errorPrioritization?.indexOf('contextSchema') === 0
+      )
+    }
+  }, [dataContext?.schema, errorPrioritization, identifier])
+
   /**
    * Validate the current state value by provided validator instructions
    */
@@ -605,10 +662,9 @@ export default function useFieldProps<
     validatedValue.current = null
 
     try {
-      // Validate required
       const requiredError = transformers.current.validateRequired(value, {
         emptyValue,
-        required: requiredProp,
+        required: requiredProp ?? required,
         isChanged: changedRef.current,
         error: new FormError('The value is required', {
           validationRule: 'required',
@@ -622,7 +678,8 @@ export default function useFieldProps<
       if (
         schemaValidatorRef.current &&
         value !== undefined &&
-        !schemaValidatorRef.current(value)
+        !schemaValidatorRef.current(value) &&
+        !prioritizeContextSchema
       ) {
         const error = ajvErrorsToOneFormError(
           schemaValidatorRef.current.errors,
@@ -662,6 +719,8 @@ export default function useFieldProps<
     clearErrorState,
     emptyValue,
     requiredProp,
+    required,
+    prioritizeContextSchema,
     validateInitially,
     callValidator,
     persistErrorState,
@@ -863,7 +922,7 @@ export default function useFieldProps<
         if (!hasError()) {
           setEventResult(
             (await handlePathChangeDataContext?.(
-              path
+              identifier
             )) as EventReturnWithStateObjectAndSuccess
           )
         } else {
@@ -872,7 +931,7 @@ export default function useFieldProps<
       } else {
         setEventResult(
           handlePathChangeDataContext?.(
-            path
+            identifier
           ) as EventReturnWithStateObjectAndSuccess
         )
       }
@@ -882,6 +941,7 @@ export default function useFieldProps<
   }, [
     asyncBehaviorIsEnabled,
     path,
+    identifier,
     hasError,
     yieldAsyncProcess,
     onChangeContext,
@@ -900,7 +960,9 @@ export default function useFieldProps<
 
       valueRef.current = newValue
 
-      handlePathChangeUnvalidatedDataContext(path, newValue)
+      if (path) {
+        handlePathChangeUnvalidatedDataContext(identifier, newValue)
+      }
 
       addToPool('validator', validateValue, isAsync(validatorRef.current))
 
@@ -915,13 +977,14 @@ export default function useFieldProps<
       })
     },
     [
-      handlePathChangeUnvalidatedDataContext,
       path,
       addToPool,
       validateValue,
       callOnChangeContext,
       onChangeContext,
       runPool,
+      handlePathChangeUnvalidatedDataContext,
+      identifier,
       handleError,
     ]
   )
@@ -947,12 +1010,11 @@ export default function useFieldProps<
       // Must be set before validation
       changedRef.current = true
 
+      handleChangeCompositeContext?.(identifier, transformedValue)
+
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
-        const iterateValuePath = `/${iterateElementIndex}${
-          itemPath && itemPath !== '/' ? itemPath : ''
-        }`
-        handleChangeIterateContext?.(iterateValuePath, transformedValue)
+        handleChangeIterateContext?.(makeIteratePath(), transformedValue)
       }
 
       if (asyncBehaviorIsEnabled) {
@@ -1019,19 +1081,21 @@ export default function useFieldProps<
       await runPool()
     },
     [
-      addToPool,
-      asyncBehaviorIsEnabled,
-      handleChangeIterateContext,
-      hasError,
-      hideError,
       itemPath,
-      iterateElementIndex,
+      asyncBehaviorIsEnabled,
       onChange,
       runPool,
-      defineAsyncProcess,
-      setEventResult,
+      handleChangeIterateContext,
+      makeIteratePath,
+      handleChangeCompositeContext,
+      identifier,
+      hideError,
       updateValue,
+      addToPool,
       yieldAsyncProcess,
+      defineAsyncProcess,
+      hasError,
+      setEventResult,
     ]
   )
 
@@ -1096,9 +1160,9 @@ export default function useFieldProps<
       let value = props.value
 
       // First, look for existing data in the context
-      const hasValue = pointer.has(dataContext.data, path)
+      const hasValue = pointer.has(dataContext.data, identifier)
       const existingValue = hasValue
-        ? pointer.get(dataContext.data, path)
+        ? pointer.get(dataContext.data, identifier)
         : undefined
 
       // If no data where found in the dataContext, look for shared data
@@ -1109,9 +1173,9 @@ export default function useFieldProps<
         typeof value === 'undefined'
       ) {
         const sharedState = createSharedState(dataContext.id)
-        const hasValue = pointer.has(sharedState.data, path)
+        const hasValue = pointer.has(sharedState.data, identifier)
         if (hasValue) {
-          const sharedValue = pointer.get(sharedState.data, path)
+          const sharedValue = pointer.get(sharedState.data, identifier)
           if (sharedValue) {
             value = sharedValue
           }
@@ -1126,13 +1190,14 @@ export default function useFieldProps<
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        updateDataValueDataContext?.(path, value)
+        updateDataValueDataContext?.(identifier, value)
         validateDataDataContext?.()
       }
     }
   }, [
     dataContext.data,
     dataContext.id,
+    identifier,
     path,
     props.value,
     updateDataValueDataContext,
@@ -1363,13 +1428,15 @@ function resolveValidatingState(state: SubmitStateWithValidating) {
 }
 
 export function useExternalValue<Value>({
+  identifier,
   path,
   itemPath,
   props,
   transformers,
   emptyValue = undefined,
 }: {
-  path?: Path
+  identifier: Path
+  path?: Path | undefined
   itemPath?: Path
   props: FieldProps<Value>
   transformers: React.MutableRefObject<{
@@ -1401,12 +1468,12 @@ export function useExternalValue<Value>({
 
     if (dataContext.data && path) {
       // There is a surrounding data context and a path for where in the source to find the data
-      if (path === '/') {
+      if (identifier === '/') {
         return dataContext.data
       }
 
-      return pointer.has(dataContext.data, path)
-        ? pointer.get(dataContext.data, path)
+      return pointer.has(dataContext.data, identifier)
+        ? pointer.get(dataContext.data, identifier)
         : emptyValue
     }
 
@@ -1420,5 +1487,6 @@ export function useExternalValue<Value>({
     path,
     transformers,
     iterateElementValue,
+    identifier,
   ])
 }

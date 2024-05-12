@@ -23,6 +23,7 @@ export default function useValueProps<
   })
 
   const externalValue = useExternalValue<Value>({
+    identifier: path,
     path,
     itemPath,
     props,
