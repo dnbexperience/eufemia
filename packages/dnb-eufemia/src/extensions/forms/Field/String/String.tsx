@@ -149,7 +149,6 @@ function StringComponent(props: Props) {
     id,
     name,
     className,
-
     innerRef,
     inputClassName,
     layout,
@@ -181,13 +180,11 @@ function StringComponent(props: Props) {
 
     // - Textarea props
     rows,
-    // formId,
     autoresizeMaxRows = 6,
     autoresize = true,
     characterCounter,
 
     // - Html props
-
     autoComplete,
     inputMode,
     autoCorrect,
