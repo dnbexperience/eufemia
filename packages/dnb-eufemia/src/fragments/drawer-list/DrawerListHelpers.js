@@ -240,12 +240,11 @@ export const parseContentTitle = (
 
   if (hasValue) {
     if (preferSelectedValue) {
-      ret = String(convertJsxToString(dataItem.selected_value))
+      ret = String(
+        convertJsxToString(dataItem.selected_value, undefined, true)
+      )
     } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
-      ret =
-        String(convertJsxToString(dataItem.selected_value)) +
-        separator +
-        ret
+      ret = String(convertJsxToString()) + separator + ret
     }
   }
 

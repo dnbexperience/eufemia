@@ -640,8 +640,7 @@ export const getClosestScrollViewElement = (currentElement) => {
 export const convertJsxToString = (
   elements,
   separator = undefined,
-  // Please come up with a better name for param
-  processChildrenOfElement = false
+  processJsxContent
 ) => {
   if (!Array.isArray(elements)) {
     elements = [elements]
@@ -652,11 +651,7 @@ export const convertJsxToString = (
       let children = word.props.children
 
       // fixes issue in autocomplete where `selected_values` of `ReactElement` would not renders as string when selected
-      if (
-        processChildrenOfElement &&
-        !children &&
-        word.type()?.props?.children
-      ) {
+      if (processJsxContent && !children && word.type()?.props?.children) {
         children = word.type().props.children
       }
 
