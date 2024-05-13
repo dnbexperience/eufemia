@@ -84,7 +84,9 @@ export default function FormHandler<Data extends JsonObject>({
 function FormElementWithState({ children, ...rest }) {
   const id = useId()
   const { submitState } = useContext(DataContext) || {}
-  const states = Object.entries(submitState).filter(([, value]) => value)
+  const states = Object.entries(submitState || {}).filter(
+    ([, value]) => value
+  )
 
   return (
     <FormElement
@@ -101,7 +103,7 @@ function FormElementWithState({ children, ...rest }) {
       {children}
 
       {['error', 'warning', 'info'].map((key) => {
-        const value = submitState[key]
+        const value = submitState?.[key]
         return (
           <FormStatus
             key={key}
