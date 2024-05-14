@@ -17,8 +17,8 @@ describe('Logo component', () => {
     expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
   })
 
-  it('should set correct class when inherit_color is set', () => {
-    render(<Logo inherit_color />)
+  it('should set correct class when inheritColor is set', () => {
+    render(<Logo inheritColor />)
     expect(document.querySelector('.dnb-logo').classList).toContain(
       'dnb-logo--inherit-color'
     )
@@ -26,6 +26,13 @@ describe('Logo component', () => {
 
   it('should set correct class when size="inherit" is set', () => {
     render(<Logo size="inherit" />)
+    expect(document.querySelector('.dnb-logo').classList).toContain(
+      'dnb-logo--inherit-size'
+    )
+  })
+
+  it('should set correct class when inheritSize is true', () => {
+    render(<Logo inheritSize />)
     expect(document.querySelector('.dnb-logo').classList).toContain(
       'dnb-logo--inherit-size'
     )
@@ -149,11 +156,10 @@ describe('Logo component', () => {
     )
 
     expect(attributes).toEqual([
-      'class',
       'role',
-      'alt',
-      'data-ratio',
       'aria-hidden',
+      'class',
+      'alt',
       'title',
     ])
   })

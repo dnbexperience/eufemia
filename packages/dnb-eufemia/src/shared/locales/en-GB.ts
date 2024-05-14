@@ -132,6 +132,7 @@ export default {
     },
     Logo: {
       alt: 'DNB Logo',
+      sbankenAlt: 'Sbanken - a concept from DNB',
     },
     Tag: {
       removeIconTitle: 'Remove',

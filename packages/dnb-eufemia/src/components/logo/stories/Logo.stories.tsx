@@ -7,6 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Logo } from '../..'
+import { Theme } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Logo',
@@ -20,11 +21,17 @@ export const LogoSandbox = () => {
       </Box>
       <Box>
         <h1 className="dnb-h--xx-large">
-          H1 with the DNB Logo <Logo size="auto" />
+          H1 with the DNB Logo <Logo />
         </h1>
         <p className="dnb-p">
           Text with the DNB Logo <Logo />
         </p>
+        <div style={{ height: '1rem' }}>
+          Text with the DNB Logo <Logo inheritSize />
+        </div>
+        <div style={{ height: '5rem' }}>
+          Text with the DNB Logo <Logo inheritSize />
+        </div>
       </Box>
       color property text value:
       <Box>
@@ -65,6 +72,19 @@ export const LogoSandbox = () => {
         <Logo color="var(--color-accent-yellow)" />
         <Logo color="var(--color-indigo)" />
         <Logo color="var(--color-violet)" />
+      </Box>
+      <Box>
+        <>
+          {[...Array(2)].map((_, i) => {
+            return <Logo key={i} height={`${(i + 1) * 1.2}rem`} />
+          })}
+        </>
+        <br />
+        <>
+          {[...Array(2)].map((_, i) => {
+            return <Logo key={i} width={`${(i + 1) * 1.2}rem`} />
+          })}
+        </>
       </Box>
     </Wrapper>
   )
