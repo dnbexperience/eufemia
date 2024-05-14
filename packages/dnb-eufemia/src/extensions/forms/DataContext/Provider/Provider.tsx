@@ -379,11 +379,11 @@ export default function Provider<Data extends JsonObject>(
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
-      // For async processing, we need to merge the props with the existing props
-      fieldPropsRef.current[path] = {
-        ...fieldPropsRef.current[path],
-        ...props,
+      if (!fieldPropsRef.current[path]) {
+        fieldPropsRef.current[path] = {}
       }
+      // For async processing, we need to merge the props with the existing props
+      Object.assign(fieldPropsRef.current[path], props)
 
       // If one of the given props is not in props anymore,
       // it needs to be removed from the fieldPropsRef
@@ -397,9 +397,11 @@ export default function Provider<Data extends JsonObject>(
   )
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldPropsRef.current) {
-      const props = fieldPropsRef.current[path]
-      if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
-        return true
+      if (mountedFieldPathsRef.current.includes(path)) {
+        const props = fieldPropsRef.current[path]
+        if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
+          return true
+        }
       }
     }
 
@@ -673,9 +675,6 @@ export default function Provider<Data extends JsonObject>(
       mountedFieldPathsRef.current,
       path
     )
-    if (fieldPropsRef.current?.[path]) {
-      delete fieldPropsRef.current[path]
-    }
   }, [])
 
   // - Features
@@ -982,7 +981,6 @@ export default function Provider<Data extends JsonObject>(
         showAllErrors: showAllErrorsRef.current,
         fieldPropsRef,
         ajvInstance: ajvRef.current,
-        fieldProps: fieldPropsRef.current,
 
         /** Additional */
         id,

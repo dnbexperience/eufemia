@@ -18,7 +18,7 @@ export default function FormElement({
    * Set to true,
    * this way we prevent "handleSubmit" to be called twice when the SubmitButton is pressed.
    */
-  dataContext._isInsideFormElement = true
+  dataContext.isInsideFormElement = true
 
   return (
     <Space

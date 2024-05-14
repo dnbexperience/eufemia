@@ -29,14 +29,14 @@ function SubmitButton(props: Props) {
     children ||
     (variant === 'send' ? translations.sendText : translations.text)
 
-  const { formState, handleSubmit, _isInsideFormElement } =
+  const { formState, handleSubmit, isInsideFormElement } =
     useContext(DataContext) || {}
 
   const onClickHandler = useCallback(() => {
-    if (!_isInsideFormElement) {
+    if (!isInsideFormElement) {
       handleSubmit?.()
     }
-  }, [_isInsideFormElement, handleSubmit])
+  }, [isInsideFormElement, handleSubmit])
 
   return (
     <Button
