@@ -16,12 +16,12 @@ export const CheckboxProperties: PropertiesTableProps = {
     type: 'ReactNode',
     status: 'optional',
   },
-  label_position: {
+  labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
     type: 'string',
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'string',
     status: 'optional',
@@ -41,12 +41,12 @@ export const CheckboxProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)',
     type: 'FormStatusProps',
     status: 'optional',
@@ -79,7 +79,7 @@ export const CheckboxProperties: PropertiesTableProps = {
 }
 
 export const CheckboxEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user.',
     type: '() => {checked: boolean; event: ChangeEvent}',
     status: 'optional',
