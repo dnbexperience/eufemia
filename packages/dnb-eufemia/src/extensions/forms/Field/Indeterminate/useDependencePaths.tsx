@@ -11,12 +11,12 @@ export default function useDependencePaths(
     useContext(DataContext) || {}
 
   const { allOn, allOff, indeterminate } = useMemo(() => {
-    if (!dependencePaths) {
+    if (!dependencePaths || !data) {
       return {}
     }
 
-    const check = ({ key, whenUndefined = false }) =>
-      dependencePaths?.every((path) => {
+    const check = ({ key, whenUndefined = false }) => {
+      return dependencePaths?.every((path) => {
         if (pointer.has(data, path)) {
           const value = pointer.get(data, path)
           if (
@@ -28,6 +28,7 @@ export default function useDependencePaths(
           }
         }
       })
+    }
 
     const allOn = check({ key: 'valueOn' })
     const allOff = check({ key: 'valueOff', whenUndefined: true })
@@ -56,26 +57,12 @@ export default function useDependencePaths(
   const setAllStates = useCallback(
     (checked: boolean) => {
       dependencePaths?.forEach((path) => {
-        handlePathChange?.(
-          path,
-          fieldProps?.[path]?.[
-            (
-              propagateIndeterminateState === 'auto'
-                ? checked
-                : propagateIndeterminateState === 'checked'
-            )
-              ? 'valueOn'
-              : 'valueOff'
-          ]
-        )
+        const fieldProp = checked ? 'valueOn' : 'valueOff'
+        const value = fieldProps?.[path]?.[fieldProp]
+        handlePathChange?.(path, value)
       })
     },
-    [
-      propagateIndeterminateState,
-      dependencePaths,
-      fieldProps,
-      handlePathChange,
-    ]
+    [dependencePaths, fieldProps, handlePathChange]
   )
 
   return {
