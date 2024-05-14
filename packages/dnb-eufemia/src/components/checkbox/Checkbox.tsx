@@ -125,7 +125,7 @@ export type CheckboxProps = {
   > &
   DeprecatedCheckboxProps
 
-// depracated, can be removed in v11
+// deprecated, can be removed in v11
 type DeprecatedCheckboxProps = {
   /** @deprecated use the `label` prop instead */
   children?: React.ReactNode
@@ -202,7 +202,7 @@ function Checkbox(localProps: CheckboxProps) {
 
   useEffect(() => {
     ref.current.indeterminate = indeterminate
-  }, [indeterminate])
+  }, [indeterminate, ref])
 
   const callOnChange: CheckboxProps['onChange'] = useCallback(
     (args) => {

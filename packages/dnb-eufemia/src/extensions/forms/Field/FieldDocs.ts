@@ -1,5 +1,5 @@
 import { PropertiesTableProps } from '../../../shared/types'
-import { fieldBlockProperties } from '../FieldBlock/FieldBlockDocs'
+import { fieldBlockSharedProperties } from '../FieldBlock/FieldBlockDocs'
 import {
   dataValueEvents,
   dataValueProperties,
@@ -7,7 +7,7 @@ import {
 
 export const fieldProperties: PropertiesTableProps = {
   ...dataValueProperties,
-  ...fieldBlockProperties,
+  ...fieldBlockSharedProperties,
 }
 
 export const fieldEvents: PropertiesTableProps = {

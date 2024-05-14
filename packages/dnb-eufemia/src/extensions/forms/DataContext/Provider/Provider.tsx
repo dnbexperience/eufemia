@@ -982,6 +982,7 @@ export default function Provider<Data extends JsonObject>(
         showAllErrors: showAllErrorsRef.current,
         fieldPropsRef,
         ajvInstance: ajvRef.current,
+        fieldProps: fieldPropsRef.current,
 
         /** Additional */
         id,
