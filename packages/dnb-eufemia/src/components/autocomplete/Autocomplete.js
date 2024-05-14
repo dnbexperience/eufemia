@@ -1430,7 +1430,7 @@ class AutocompleteInstance extends React.PureComponent {
         // make string out of it
         children = children.map((originalChild) => ({
           originalChild,
-          segment: convertJsxToString(originalChild, ' ', true),
+          segment: convertJsxToString(originalChild, ' '),
         }))
 
         children = children.map(({ originalChild, segment }, idx) => {
