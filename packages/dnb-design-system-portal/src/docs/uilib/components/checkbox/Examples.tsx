@@ -73,6 +73,20 @@ export const CheckboxBoundingArea = () => (
   </ShowBoundingArea>
 )
 
+export const CheckboxIndeterminate = () => (
+  <ComponentBox data-visual-test="checkbox-indeterminate">
+    <Checkbox label="Checkbox" indeterminate />
+  </ComponentBox>
+)
+
+export const CheckboxIndeterminateLarge = () => {
+  return (
+    <ComponentBox data-visual-test="checkbox-indeterminate-large">
+      <Checkbox label="Checkbox" indeterminate size="large" />
+    </ComponentBox>
+  )
+}
+
 const ShowBoundingArea = styled.div`
   .dnb-checkbox__input {
     opacity: 0.5;

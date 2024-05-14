@@ -31,6 +31,11 @@ export const CheckboxProperties: PropertiesTableProps = {
     type: ['string', 'number'],
     status: 'optional',
   },
+  indeterminate: {
+    doc: 'Controls the checkbox indeterminate (partial) state.',
+    type: 'boolean',
+    status: 'optional',
+  },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: 'string',
