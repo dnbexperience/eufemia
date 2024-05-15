@@ -393,6 +393,30 @@ describe('Anchor element', () => {
       document.querySelector('.dnb-anchor--icon-left')
     ).toBeInTheDocument()
   })
+
+  it('should support "to" prop type without forwarding to href', () => {
+    render(<Anchor to="/url">text</Anchor>)
+
+    expect(document.querySelector('a')).not.toHaveAttribute('href')
+  })
+
+  it('should support custom Link component with "to" prop', () => {
+    const Link = ({ children, to, ...rest }) => {
+      return (
+        <a {...rest} href={to}>
+          {children}
+        </a>
+      )
+    }
+
+    render(
+      <Anchor to="/url" element={Link}>
+        text
+      </Anchor>
+    )
+
+    expect(document.querySelector('a')).toHaveAttribute('href', '/url')
+  })
 })
 
 describe('Anchor scss', () => {
