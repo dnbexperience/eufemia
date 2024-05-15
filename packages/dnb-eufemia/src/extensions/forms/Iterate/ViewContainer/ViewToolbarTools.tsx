@@ -16,7 +16,7 @@ export default function ViewToolbarTools() {
   }, [switchContainerMode])
 
   return (
-    <Flex.Horizontal spacing="large">
+    <Flex.Horizontal gap="large">
       <Button
         variant="tertiary"
         icon={edit}

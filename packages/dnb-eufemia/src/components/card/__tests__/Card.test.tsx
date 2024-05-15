@@ -197,7 +197,7 @@ describe('Card', () => {
 
   it('should add spacing between elements', () => {
     const { rerender } = render(
-      <Card spacing="small">
+      <Card gap="small">
         <P>Paragraph</P>
         <P>Paragraph</P>
         <P>Paragraph</P>
@@ -222,7 +222,7 @@ describe('Card', () => {
     expect(children[2]).toHaveClass('dnb-space__bottom--zero')
 
     rerender(
-      <Card spacing="large">
+      <Card gap="large">
         <P>Paragraph</P>
         <P>Paragraph</P>
         <P>Paragraph</P>
