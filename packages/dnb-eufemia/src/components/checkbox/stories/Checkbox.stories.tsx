@@ -27,7 +27,38 @@ export const CheckboxSandbox = () => (
   <CustomStyle>
     <Wrapper>
       <Box>
+        <IndeterminateState />
+      </Box>
+
+      <Box>
         <ControlledVsUncontrolled />
+      </Box>
+
+      <Box>
+        <Checkbox />
+      </Box>
+
+      <Box>
+        <Checkbox checked />
+      </Box>
+
+      <Box>
+        partial:
+        <br />
+        <Checkbox left="small" checked disabled />
+        <Checkbox left="small" indeterminate />
+        <Checkbox left="small" indeterminate checked disabled />
+        <Checkbox left="small" indeterminate disabled />
+        <Checkbox left="small" indeterminate status="error" checked />
+        <Checkbox left="small" status="error" checked />
+        <Checkbox left="small" status="error" />
+        <Checkbox left="small" indeterminate status="error" />
+        <Checkbox left="small" indeterminate size="large" status="error" />
+        <Checkbox left="small" indeterminate size="large" status="error" />
+      </Box>
+
+      <Box>
+        <Checkbox skeleton />
       </Box>
 
       <Box>
@@ -46,7 +77,7 @@ export const CheckboxSandbox = () => (
       </Box>
 
       <Box>
-        <FormRow vertical disabled label="Without forId (select me)">
+        <FormRow disabled label="Without forId (select me)">
           <Checkbox label="Checkbox" />
         </FormRow>
       </Box>
@@ -128,12 +159,112 @@ export const CheckboxSandbox = () => (
           status="Potenti viverra ft quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         />
       </Box>
+
+      <Box>
+        <Checkbox disabled checked />
+        <Checkbox disabled />
+        <Checkbox disabled indeterminate checked />
+        <Checkbox disabled indeterminate />
+        <Checkbox disabled status="error" checked />
+        <Checkbox disabled status="error" />
+      </Box>
+
+      <Box>
+        <Checkbox skeleton checked />
+        <Checkbox skeleton />
+        <Checkbox skeleton indeterminate checked />
+        <Checkbox skeleton indeterminate />
+        <Checkbox skeleton status="error" checked />
+        <Checkbox skeleton status="error" />
+      </Box>
     </Wrapper>
   </CustomStyle>
 )
 
+function IndeterminateState() {
+  const [checkedParent, setCheckedParent] = React.useState(false)
+  const [parentIndeterminateState, setParentIndeterminateState] =
+    React.useState(false)
+
+  const [c1State, setC1State] = React.useState(false)
+  const [c2State, setC2State] = React.useState(false)
+
+  React.useEffect(() => {
+    if (c1State !== c2State) {
+      setParentIndeterminateState(true)
+    } else {
+      setParentIndeterminateState(false)
+    }
+
+    if (c1State && c2State) setCheckedParent(true)
+    if (!c1State && !c2State) setCheckedParent(false)
+  }, [c1State, c2State])
+
+  React.useEffect(() => {
+    if (checkedParent) {
+      setC1State(true)
+      setC2State(true)
+    }
+
+    if (!checkedParent) {
+      setC1State(false)
+      setC2State(false)
+    }
+  }, [checkedParent])
+
+  return (
+    <div>
+      {/* 
+      change the Field.Toggle api to behave like this?
+      <Field.Boolean
+        indeterminateRelationsPaths={[
+          '/myState1',
+          '/myState2',
+          '/myState3',
+        ]}
+      />
+
+      <Field.Boolean path="/myState1" />
+      <Field.Boolean path="/myState2" />
+      <Field.Boolean path="/myState3" /> */}
+
+      <h2>Indeterminate state</h2>
+
+      <Checkbox
+        label="parent"
+        checked={checkedParent}
+        indeterminate={parentIndeterminateState}
+        onChange={(args) => {
+          setCheckedParent(args?.checked)
+          console.log(args)
+        }}
+      />
+      <br />
+      <br />
+      <Checkbox
+        label="child 1"
+        checked={c1State}
+        onChange={() => {
+          setC1State(!c1State)
+        }}
+      />
+      <br />
+      <br />
+
+      <Checkbox
+        label="child 2"
+        checked={c2State}
+        onChange={() => {
+          setC2State(!c2State)
+        }}
+      />
+    </div>
+  )
+}
+
 function ControlledVsUncontrolled() {
   const [checked, setChecked] = React.useState(false)
+  const [indeterminate, setIndeterminate] = React.useState(false)
   const [random, setRandom] = React.useState(0)
 
   return (
@@ -141,6 +272,7 @@ function ControlledVsUncontrolled() {
       <Checkbox
         label="Checkbox 1"
         checked={checked}
+        indeterminate={indeterminate}
         id="checkbox1"
         on_change={({ checked }) => {
           setChecked(checked)
@@ -155,7 +287,20 @@ function ControlledVsUncontrolled() {
       <Button on_click={() => setChecked(null)} text="Reset null" />
       <Button on_click={() => setRandom(Math.random())} text="Rerender" />
       <br />
-      <code>{JSON.stringify({ checked, random })}</code>
+      <Button
+        on_click={() => setIndeterminate(true)}
+        text="set indeterminate"
+      />
+      <Button
+        on_click={() => setIndeterminate(undefined)}
+        text="set indeterminate undefined"
+      />
+      <Button
+        on_click={() => setIndeterminate(null)}
+        text="set indeterminate null"
+      />
+      <br />
+      <code>{JSON.stringify({ checked, indeterminate, random })}</code>
     </>
   )
 }

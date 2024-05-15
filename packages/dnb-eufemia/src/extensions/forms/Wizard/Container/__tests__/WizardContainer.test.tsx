@@ -1088,4 +1088,107 @@ describe('Wizard.Container', () => {
 
     log.mockRestore()
   })
+
+  it('should keep field props in memory during step change', async () => {
+    const filterDataHandler = (path, value, props) => {
+      if (props['data-exclude-field']) {
+        return false
+      }
+    }
+
+    let currentData = null
+    let filteredData = null
+
+    const MyForm = () => {
+      const { data, filterData } = Form.useData('my-form')
+      currentData = data
+      filteredData = filterData(filterDataHandler)
+
+      return (
+        <Form.Handler id="my-form">
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.String path="/fooStep1" />
+              <Field.String path="/barStep1" data-exclude-field />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Field.String path="/fooStep2" />
+              <Field.String path="/barStep2" data-exclude-field />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 3">
+              <output>Step 3</output>
+              <Field.String path="/fooStep3" />
+              <Field.String path="/barStep3" data-exclude-field />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    expect(currentData).toMatchObject({
+      barStep1: undefined,
+      fooStep1: undefined,
+    })
+
+    expect(filteredData).toMatchObject({
+      fooStep1: undefined,
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(currentData).toMatchObject({
+      barStep1: undefined,
+      fooStep1: undefined,
+      fooStep2: undefined,
+      barStep2: undefined,
+    })
+
+    expect(filteredData).toMatchObject({
+      fooStep1: undefined,
+      fooStep2: undefined,
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(currentData).toMatchObject({
+      barStep1: undefined,
+      fooStep1: undefined,
+      fooStep2: undefined,
+      barStep2: undefined,
+      fooStep3: undefined,
+      barStep3: undefined,
+    })
+
+    expect(filteredData).toMatchObject({
+      fooStep1: undefined,
+      fooStep2: undefined,
+      fooStep3: undefined,
+    })
+
+    await userEvent.click(previousButton())
+
+    expect(currentData).toMatchObject({
+      barStep1: undefined,
+      fooStep1: undefined,
+      fooStep2: undefined,
+      barStep2: undefined,
+      fooStep3: undefined,
+      barStep3: undefined,
+    })
+
+    expect(filteredData).toMatchObject({
+      fooStep1: undefined,
+      fooStep2: undefined,
+      fooStep3: undefined,
+    })
+  })
 })

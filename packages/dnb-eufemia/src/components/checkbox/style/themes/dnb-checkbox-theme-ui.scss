@@ -6,7 +6,7 @@
 .dnb-checkbox {
   // Normal state
   --checkbox-color-gfx-on: var(--color-white);
-  --checkbox-color-gfx-off: var(--color-sea-green);
+  --checkbox-color-gfx-off: var(--color-white);
   --checkbox-color-background-on: var(--color-sea-green);
   --checkbox-color-background-off: var(--color-white);
   --checkbox-color-border-on: transparent;
@@ -17,6 +17,9 @@
   --checkbox-color-background-off--disabled: var(--color-white);
   --checkbox-color-border-on--disabled: transparent;
   --checkbox-color-border-off--disabled: var(--color-mint-green-50);
+  --checkbox-color-gfx__indeterminate--disabled: var(
+    --color-mint-green-50
+  );
   // Active state
   --checkbox-color-background--active: var(--color-mint-green-50);
   --checkbox-color-border--active: transparent;
@@ -26,7 +29,7 @@
   --checkbox-color-border-on--hover: transparent;
   --checkbox-color-border-off--hover: var(--color-sea-green);
   // Focus state
-  --checkbox-color-gfx--focus: var(--color-sea-green);
+  --checkbox-color-gfx--focus: var(--color-emerald-green);
   --checkbox-color-background--focus: var(--color-mint-green-50);
   // Error state
   --checkbox-color-gfx--error: var(--color-fire-red-8);
@@ -34,4 +37,24 @@
   --checkbox-color-background-on--error: var(--color-fire-red);
   --checkbox-color-background--error-contrast: var(--color-fire-red-8);
   --checkbox-color-border--error: var(--color-fire-red);
+  // Error Hover state
+  --checkbox-color-gfx--error--hover: var(--color-fire-red);
+  --checkbox-color-background--error--hover: var(--color-fire-red-8);
+  --checkbox-color-border--error--hover: var(--color-fire-red);
+  // Indeterminate state
+  --checkbox-color-background-indeterminate: var(--color-white);
+  --checkbox-color-gfx-indeterminate: var(--color-sea-green);
+  // Indeterminate Active state
+  --checkbox-color-background-indeterminate--active: var(--color-white);
+  --checkbox-color-border-indeterminate--active: var(
+    --color-mint-green-50
+  );
+  --checkbox-color-gfx-indeterminate--active: var(--color-mint-green-50);
+  // Indeterminate Error state
+  --checkbox-color-gfx-indeterminate--error: var(--color-fire-red);
+  // Indeterminate shape
+  --checkbox-gfx-height__indeterminate: 0.625rem;
+  --checkbox-gfx-width__indeterminate: 0.625rem;
+  --checkbox-gfx-height__indeterminate--large: 0.875rem;
+  --checkbox-gfx-width__indeterminate--large: 0.875rem;
 }

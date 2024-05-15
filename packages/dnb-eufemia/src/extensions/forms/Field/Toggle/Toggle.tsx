@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
-import { Checkbox, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
+
+import { Checkbox, ToggleButton } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -9,13 +10,15 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 
-export type Props = FieldProps<unknown> & {
+export type ToggleProps = {
   valueOn: unknown
   valueOff: unknown
   variant?: 'checkbox' | 'checkbox-button' | 'button' | 'buttons'
   textOn?: string
   textOff?: string
 }
+
+export type Props = FieldProps<unknown> & ToggleProps
 
 function Toggle(props: Props) {
   const translations = useTranslation().BooleanField
@@ -94,7 +97,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             {...htmlAttributes}
           />
         </FieldBlock>

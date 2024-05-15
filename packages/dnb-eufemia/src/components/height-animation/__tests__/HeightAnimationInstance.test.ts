@@ -176,6 +176,47 @@ describe('HeightAnimationInstance', () => {
       )
     })
 
+    it('should set width when the cloned element is larger than the original', async () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      mockHeight(100, element)
+
+      element.setAttribute('data-width', String(200))
+      jest.spyOn(element, 'clientWidth', 'get').mockReturnValueOnce(100)
+
+      const addedNodes = []
+      const removedNodes = []
+
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            if (mutation.removedNodes?.length) {
+              removedNodes.push(mutation.removedNodes)
+            }
+            if (mutation.addedNodes?.length) {
+              addedNodes.push(mutation.addedNodes)
+            }
+          }
+        }
+      })
+
+      observer.observe(document.body, {
+        childList: true,
+      })
+
+      inst.getUnknownHeight()
+
+      await wait(1)
+
+      observer.disconnect()
+
+      expect(addedNodes).toHaveLength(1)
+      expect(addedNodes[0]).toHaveLength(1)
+      expect(addedNodes[0][0].style.width).toBe('100px')
+      expect(element).not.toHaveAttribute('style')
+    })
+
     it('should create a cloned element with firstPaintStyle styles', async () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)

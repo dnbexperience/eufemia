@@ -261,6 +261,48 @@ describe('Checkbox component', () => {
       document.querySelector('.dnb-checkbox__input').getAttribute('type')
     ).toBe('checkbox')
   })
+  describe('Indeterminate state', () => {
+    it('renders indeterminate state', () => {
+      render(<Checkbox indeterminate />)
+
+      expect(
+        document.querySelector('.dnb-checkbox__indeterminate')
+      ).toBeInTheDocument()
+    })
+
+    it('changes to no longer indeterminate when clicking indeterminate state', () => {
+      const mockOnChange = jest.fn()
+      render(<Checkbox indeterminate onChange={mockOnChange} />)
+
+      screen.getByRole('checkbox').click()
+
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.not.objectContaining({ indeterminate: true })
+      )
+
+      expect(screen.getByRole('checkbox')).not.toHaveClass(
+        '.dnb-checkbox__indeterminate'
+      )
+    })
+
+    it('sets the input indeterminate when setting indeterminate true', () => {
+      render(<Checkbox indeterminate />)
+
+      expect(
+        (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
+      ).toBe(true)
+    })
+
+    it('sets the input indeterminate to false when clicking an indeterminate checkbox', () => {
+      render(<Checkbox indeterminate />)
+
+      screen.getByRole('checkbox').click()
+
+      expect(
+        (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
+      ).toBe(false)
+    })
+  })
 })
 
 describe('Checkbox scss', () => {

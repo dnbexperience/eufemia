@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../shared/types'
 
-export const fieldBlockProperties: PropertiesTableProps = {
+export const fieldBlockSharedProperties: PropertiesTableProps = {
   label: {
     doc: 'Field label to show above / before the input feature.',
     type: 'string',
@@ -9,11 +9,6 @@ export const fieldBlockProperties: PropertiesTableProps = {
   labelDescription: {
     doc: 'A more discreet text displayed beside the label (i.e for "(optional)").',
     type: 'string',
-    status: 'optional',
-  },
-  labelSize: {
-    doc: 'Define one of the following [heading size](/uilib/elements/heading/): `medium` or `large`.',
-    type: ['string', 'false'],
     status: 'optional',
   },
   layout: {
@@ -31,9 +26,18 @@ export const fieldBlockProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  composition: {
-    doc: 'Use `true` for when you have more than one field wrapped.',
-    type: 'string',
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const fieldBlockProperties: PropertiesTableProps = {
+  ...fieldBlockSharedProperties,
+  labelSize: {
+    doc: 'Define one of the following [heading size](/uilib/elements/heading/): `medium` or `large`.',
+    type: ['string', 'false'],
     status: 'optional',
   },
   asFieldset: {
@@ -41,14 +45,14 @@ export const fieldBlockProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  composition: {
+    doc: 'Use `true` for when you have more than one field wrapped.',
+    type: 'string',
+    status: 'optional',
+  },
   disabled: {
     doc: 'Set `true` to make the inner [FormLabel](/uilib/components/form-label/) behave as disabled.',
     type: 'boolean',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
     status: 'optional',
   },
 }

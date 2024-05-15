@@ -5,7 +5,7 @@ export type CheckIconProps = {
 }
 
 // The new checkbox has too low contrast, as it is too thin on web
-function CheckIcon({ size, ...props }: CheckIconProps) {
+function CheckIcon({ size }: CheckIconProps) {
   let vB = 16
   if (size === 'large') {
     vB = 24
@@ -18,7 +18,6 @@ function CheckIcon({ size, ...props }: CheckIconProps) {
       fill="none"
       className="dnb-checkbox__gfx"
       aria-hidden
-      {...props}
     >
       <path
         d={size === 'large' ? 'M1.5 15L7.5 21L22.5 3' : 'M1 10L5 14L15 2'}

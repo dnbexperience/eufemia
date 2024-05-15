@@ -4,19 +4,22 @@
 */
 
 .dnb-checkbox {
+  --checkbox-border-width: 0.125rem;
+  --checkbox-border-width--hover: 0.125rem;
   // Normal state
   --checkbox-color-gfx-on: var(--sb-color-violet-light);
-  --checkbox-color-gfx-off: var(--sb-color-violet-light);
+  --checkbox-color-gfx-off: var(--sb-color-white);
   --checkbox-color-background-on: var(--sb-color-white);
   --checkbox-color-background-off: var(--sb-color-white);
   --checkbox-color-border-on: var(--sb-color-violet);
   --checkbox-color-border-off: var(--sb-color-violet);
   // Disabled state
   --checkbox-color-gfx--disabled: var(--sb-color-gray-dark);
-  --checkbox-color-background-on--disabled: var(--sb-color-gray-light);
   --checkbox-color-background-off--disabled: var(--sb-color-gray-light);
+  --checkbox-color-background-on--disabled: var(--sb-color-gray-light);
   --checkbox-color-border-on--disabled: var(--sb-color-gray-dark);
   --checkbox-color-border-off--disabled: var(--sb-color-gray-dark);
+  --checkbox-color-gfx__indeterminate--disabled: var(--sb-color-gray-dark);
   // Active state
   --checkbox-color-background--active: var(--sb-color-white);
   --checkbox-color-border--active: var(--sb-color-gray);
@@ -36,4 +39,27 @@
     --sb-color-magenta-light-2
   );
   --checkbox-color-border--error: var(--sb-color-magenta);
+  // Error Hover state
+  --checkbox-color-gfx--error--hover: var(--sb-color-magenta);
+  --checkbox-color-background--error--hover: var(
+    --sb-color-magenta-light-3
+  );
+  --checkbox-color-border--error--hover: transparent;
+  // Indeterminate state
+  --checkbox-color-background-indeterminate: var(--sb-color-white);
+  --checkbox-color-gfx-indeterminate: var(--sb-color-violet);
+  // Indeterminate Active state
+  --checkbox-color-background-indeterminate--active: var(--color-white);
+  --checkbox-color-border-indeterminate--active: var(--sb-color-gray);
+  --checkbox-color-gfx-indeterminate--active: var(--sb-color-violet);
+
+  // Indeterminate Error state
+  --checkbox-color-gfx-indeterminate--error: var(--sb-color-magenta);
+  // Indeterminate shape
+  --checkbox-gfx-width__indeterminate: 0.875rem;
+  --checkbox-gfx-height__indeterminate: 0.125rem;
+  --checkbox-gfx-height__indeterminate--large: 0.25rem;
+  --checkbox-gfx-width__indeterminate--large: 1.5rem;
+  --checkbox-border-radius: 0.125rem;
+  --checkbox-gfx-border-radius__indeterminate: 0rem;
 }

@@ -13,6 +13,7 @@ import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
+import userEvent from '@testing-library/user-event'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
@@ -367,6 +368,35 @@ describe('Modal component', () => {
 
     await waitFor(() => {
       expect(document.activeElement).not.toHaveAttribute('data-autofocus')
+    })
+  })
+
+  it('should not set "data-autofocus" on mount when openState is "false"', async () => {
+    render(
+      <Modal openState={false} animation_duration={2}>
+        <DialogContent />
+      </Modal>
+    )
+
+    const trigger = document.querySelector('.dnb-modal__trigger')
+
+    expect(document.activeElement).not.toBe(trigger)
+    expect(trigger).not.toHaveAttribute('data-autofocus')
+
+    await userEvent.click(trigger)
+    // using fireEvent instead of userEvent as userEvent.keyboard({'Escape'}) does not work
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+      expect(trigger).toHaveAttribute('data-autofocus', 'true')
+    })
+
+    await waitFor(() => {
+      expect(trigger).not.toHaveAttribute('data-autofocus')
     })
   })
 

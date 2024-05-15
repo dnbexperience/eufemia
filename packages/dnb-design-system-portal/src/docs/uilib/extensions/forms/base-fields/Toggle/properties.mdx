@@ -4,18 +4,13 @@ showTabs: true
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { ToggleProperties } from '@dnb/eufemia/src/extensions/forms/Field/Toggle/ToggleDocs'
 
 ## Properties
 
 ### Field-specific props
 
-| Property   | Type                          | Description                                                                                         |
-| ---------- | ----------------------------- | --------------------------------------------------------------------------------------------------- |
-| `valueOn`  | `string`, `number`, `boolean` | _(required)_ Source data value when the toggle is in the "on-state" (varies based on UI variant).   |
-| `valueOff` | `string`, `number`, `boolean` | _(required)_ Source data value when the toggle is in the "off-state".                               |
-| `textOn`   | `string`                      | _(optional)_ Text to show in the UI when in the "on-state".                                         |
-| `textOff`  | `string`                      | _(optional)_ Text to show in the UI when in the "off-state".                                        |
-| `variant`  | `string`                      | _(optional)_ Choice of input feature. Can be: `checkbox`, `button`, `checkbox-button` or `buttons`. |
+<PropertiesTable props={ToggleProperties} />
 
 ### General props
 

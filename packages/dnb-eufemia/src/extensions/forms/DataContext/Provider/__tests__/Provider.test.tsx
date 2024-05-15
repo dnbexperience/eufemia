@@ -65,6 +65,43 @@ describe('DataContext.Provider', () => {
       expect(input).toHaveValue('original')
     })
 
+    it('should set undefined value on first render', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String path="/foo" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { foo: undefined },
+        expect.anything()
+      )
+      expect(onSubmit.mock.calls[0][0].foo).toBeUndefined()
+      expect(Object.keys(onSubmit.mock.calls[0][0])).toHaveLength(1)
+
+      await userEvent.type(input, 'value')
+
+      expect(input).toHaveValue('value')
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { foo: 'value' },
+        expect.anything()
+      )
+      expect(Object.keys(onSubmit.mock.calls[1][0])).toHaveLength(1)
+    })
+
     it('should provide value from data and update based on changes', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>

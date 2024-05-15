@@ -134,5 +134,20 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match checkbox in indeterminate state', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-indeterminate"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+    it('have to match checkbox in indeterminate state with larger bounding area', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="checkbox-indeterminate-large"] .dnb-checkbox',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 })

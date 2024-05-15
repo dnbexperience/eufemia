@@ -1,0 +1,32 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox. It is an uncontrolled component, meaning that the state is managed automatically.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.Indeterminate
+    dependencePaths={['/checkbox1', '/checkbox2', '/checkbox3']}
+    path="/checkboxParent"
+  />,
+)
+```
+
+It should only be used in combination with checkbox looking variants.
+
+Under the hood the [Toggle](/uilib/extensions/forms/base-fields/Toggle/) base field is used. That means you can use all the props from the `Toggle` component.
+
+## Details about the state handling
+
+The indeterminate state of a parent checkbox should be shown when some children checkboxes are checked, but not all. In detail:
+
+- When all children are checked, the the parent should get checked.
+  - When the parent gets checked (clicked), all children should get checked.
+- When all children are unchecked, the parent should get unchecked.
+  - When the parent gets unchecked (clicked), all children should get unchecked.
+- When some children are checked, the parent should be set in an indeterminate state.
+  - When the parent gets clicked, all children should get checked. This behavior can be changed to the opposite or `auto` by using the `propagateIndeterminateState` prop. Auto means that the parent will switch from its current state to be inverted.

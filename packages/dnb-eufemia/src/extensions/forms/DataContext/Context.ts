@@ -76,8 +76,7 @@ export interface ContextState {
   checkFieldStateFor: (path: Path, state: SubmitState) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
-  // Mounted fields - Components telling the provider what fields is on screen at any time
-  mountedFieldPaths: string[]
+  fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   handleMountField: (path: Path) => void
   handleUnMountField: (path: Path) => void
   formState: SubmitState
@@ -111,6 +110,7 @@ export interface ContextState {
   submitState: Partial<EventStateObject>
   _isInsideFormElement?: boolean
   props: ProviderProps<unknown>
+  fieldProps?: Record<Path, unknown>
 }
 
 export const defaultContextState: ContextState = {
@@ -132,7 +132,6 @@ export const defaultContextState: ContextState = {
   setFieldEventListener: () => null,
   handleSubmitCall: () => null,
   setShowAllErrors: () => null,
-  mountedFieldPaths: [],
   handleMountField: () => null,
   handleUnMountField: () => null,
   hasErrors: () => false,

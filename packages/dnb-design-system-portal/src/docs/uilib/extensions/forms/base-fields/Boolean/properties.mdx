@@ -4,16 +4,13 @@ showTabs: true
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { BooleanProperties } from '@dnb/eufemia/src/extensions/forms/Field/Boolean/BooleanDocs'
 
 ## Properties
 
 ### Field-specific props
 
-| Property    | Type     | Description                                                                            |
-| ----------- | -------- | -------------------------------------------------------------------------------------- |
-| `trueText`  | `string` | Text to show in the UI when value is `true`.                                           |
-| `falseText` | `string` | Text to show in the UI when value is `false`.                                          |
-| `variant`   | `string` | Choice of input feature. Can be: `checkbox`, `button`, `checkbox-button` or `buttons`. |
+<PropertiesTable props={BooleanProperties} />
 
 ### General props
 
