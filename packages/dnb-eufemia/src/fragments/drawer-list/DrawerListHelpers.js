@@ -241,7 +241,7 @@ export const parseContentTitle = (
   if (hasValue) {
     if (preferSelectedValue) {
       ret = String(
-        convertJsxToString(dataItem.selected_value, undefined, (word) => {
+        convertJsxToString(dataItem.selected_value, separator, (word) => {
           const shouldTransform =
             !word.props.children && word.type().props.children
 

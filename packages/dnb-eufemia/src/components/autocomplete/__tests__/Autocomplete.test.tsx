@@ -1500,12 +1500,12 @@ describe('Autocomplete component', () => {
     await userEvent.click(input)
     await userEvent.click(options()[0])
 
-    expect(input.value).toBe('Kontonummer:123456789')
+    expect(input.value).toBe('Kontonummer: 123456789')
 
     await userEvent.click(input)
     await userEvent.click(options()[1])
 
-    expect(input.value).toBe('Kontonummer:987654321')
+    expect(input.value).toBe('Kontonummer: 987654321')
   })
 
   describe('should have correct values on input blur', () => {
