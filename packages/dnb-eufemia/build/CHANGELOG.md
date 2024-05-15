@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.31.0](https://github.com/dnbexperience/eufemia/compare/v10.30.2...v10.31.0) (2024-05-15)
+
+
+### :memo: Documentation
+
+* **Checkbox:** update props to camelCase ([#3555](https://github.com/dnbexperience/eufemia/issues/3555)) ([22accc9](https://github.com/dnbexperience/eufemia/commit/22accc989bc3bb4cad692c86d4372e32be40945d))
+
+
+### :bug: Bug Fixes
+
+* **Drawer:** prevent `auto-focus` from triggering in inital mount when `openState` is `false` ([#3534](https://github.com/dnbexperience/eufemia/issues/3534)) ([07c741f](https://github.com/dnbexperience/eufemia/commit/07c741f826cbb300f63048f3de788d82f56e93aa))
+* **forms:** keep field props in memory during Wizard step change ([#3553](https://github.com/dnbexperience/eufemia/issues/3553)) ([02329dd](https://github.com/dnbexperience/eufemia/commit/02329dd34d5fc7ba84fce8a85d2e79acfdafe322))
+* **HeightAnimation:** set width during height calculation ([#3557](https://github.com/dnbexperience/eufemia/issues/3557)) ([8e59eaf](https://github.com/dnbexperience/eufemia/commit/8e59eaf3a6aa64603d4c73a68f7cdad00087390f))
+
+
+### :sparkles: Features
+
+* **Checkbox:** add indeterminate state ([#3515](https://github.com/dnbexperience/eufemia/issues/3515)) ([d1ba274](https://github.com/dnbexperience/eufemia/commit/d1ba274338ca46ae4ae40be6af5f695e59889f13))
+* **forms:** add `required` prop to Wizard.Step ([#3556](https://github.com/dnbexperience/eufemia/issues/3556)) ([fbb47e4](https://github.com/dnbexperience/eufemia/commit/fbb47e40383539257fb6af77003797c3c9238f05))
+* **forms:** add Field.Indeterminate ([#3513](https://github.com/dnbexperience/eufemia/issues/3513)) ([7e84a11](https://github.com/dnbexperience/eufemia/commit/7e84a11aa0cda6c1187b3aa29c14e6a876ad2686))
+
 ## [10.30.2](https://github.com/dnbexperience/eufemia/compare/v10.30.1...v10.30.2) (2024-05-10)
 
 
