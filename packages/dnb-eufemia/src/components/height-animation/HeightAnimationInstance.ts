@@ -194,8 +194,21 @@ export default class HeightAnimation {
 
     this.elem.parentNode?.insertBefore(clonedElem, this.elem.nextSibling)
 
+    // When text is wrapped, we get different widths,
+    // so we need to set the width to the original width
+    const elemWidth = this.elem.clientWidth
+    const clonedWidth =
+      clonedElem.clientWidth ||
+      // data-width is used for mockup testing with "mockHeight"
+      parseFloat(clonedElem.getAttribute('data-width')) ||
+      0
+
+    if (clonedWidth > elemWidth) {
+      clonedElem.style.width = `${elemWidth}px`
+    }
+
     const height =
-      parseFloat(String(clonedElem.clientHeight)) ||
+      clonedElem.clientHeight ||
       // data-height is used for mockup testing with "mockHeight"
       parseFloat(clonedElem.getAttribute('data-height')) ||
       null
