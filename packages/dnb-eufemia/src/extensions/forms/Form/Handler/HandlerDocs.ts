@@ -11,6 +11,11 @@ export const HandlerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  required: {
+    doc: 'Will make all nested form fields required.',
+    type: 'boolean',
+    status: 'optional',
+  },
   autoComplete: {
     doc: 'Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.',
     type: 'boolean',

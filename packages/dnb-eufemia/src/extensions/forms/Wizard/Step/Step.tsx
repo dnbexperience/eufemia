@@ -5,6 +5,7 @@ import { Props as FlexContainerProps } from '../../../../components/flex/Contain
 import WizardContext from '../Context/WizardContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import FieldProps from '../../Form/FieldProps'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -22,10 +23,16 @@ export type Props = ComponentProps &
      * Used internally by the WizardContainer.
      */
     index?: number
+
+    /**
+     * Will make all the fields inside the step to be required.
+     */
+    required?: boolean
   }
 
 function Step(props: Props) {
-  const { className, title, index, children, ...restProps } = props
+  const { className, title, index, required, children, ...restProps } =
+    props
   const { activeIndex, stepElementRef } = useContext(WizardContext) || {}
 
   const ariaLabel = useMemo(() => {
@@ -49,6 +56,9 @@ function Step(props: Props) {
     return null
   }
 
+  const fieldProps =
+    typeof required === 'boolean' ? { required } : undefined
+
   return (
     <Flex.Stack
       className={classnames('dnb-forms-step', className)}
@@ -58,7 +68,11 @@ function Step(props: Props) {
       tabIndex={-1}
       {...restProps}
     >
-      {children}
+      {fieldProps ? (
+        <FieldProps {...fieldProps}>{children}</FieldProps>
+      ) : (
+        children
+      )}
     </Flex.Stack>
   )
 }

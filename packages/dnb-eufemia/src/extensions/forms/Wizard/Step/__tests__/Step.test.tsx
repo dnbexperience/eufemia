@@ -1,6 +1,6 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Wizard } from '../../..'
+import { fireEvent, render } from '@testing-library/react'
+import { Field, Form, Wizard } from '../../..'
 import WizardContext from '../../Context'
 
 describe('Step', () => {
@@ -93,5 +93,25 @@ describe('Step', () => {
 
     const stepElement = document.querySelector('.dnb-forms-step')
     expect(document.activeElement).not.toBe(stepElement)
+  })
+
+  it('should make all nested fields required, when the step is set to be required', () => {
+    render(
+      <Form.Handler>
+        <WizardContext.Provider value={{ activeIndex: 0 }}>
+          <Wizard.Step required index={0}>
+            <Field.String />
+          </Wizard.Step>
+        </WizardContext.Provider>
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    fireEvent.submit(form)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-required',
+      'true'
+    )
   })
 })
