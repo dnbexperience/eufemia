@@ -20,7 +20,10 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 // Local type for react-router-dom link with only the necessary props. Done this way to prevent react-router-dom dependency.
-type ReactRouterLink = {
+type ReactRouterLink = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> & {
   to: string | { pathname?: string; search?: string; has?: string }
 }
 
