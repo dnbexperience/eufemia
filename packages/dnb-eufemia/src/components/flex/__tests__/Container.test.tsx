@@ -585,7 +585,7 @@ describe('Flex.Container', () => {
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
                 class="dnb-space__top--zero dnb-space__bottom--zero test-item"
@@ -647,7 +647,7 @@ describe('Flex.Container', () => {
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
                 class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
@@ -695,19 +695,19 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
           >
             Content A 
           </div>
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
           >
             <p>
               Content B
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="dnb-space__top--large test-item"
           >
             content
           </div>
