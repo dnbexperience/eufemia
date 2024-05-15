@@ -361,7 +361,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--small')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--small')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
       <Flex.Container spacing="large">
@@ -378,7 +378,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--large')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--large')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
       <Flex.Container spacing="xx-small">
@@ -395,7 +395,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--xx-small')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--xx-small')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
   })
 
   it('should not apply spacing if set to false', () => {
@@ -613,10 +613,10 @@ describe('Flex.Container', () => {
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
         document.querySelectorAll('[class*="dnb-space__top"]')
-      ).toHaveLength(4)
+      ).toHaveLength(3)
       expect(
         document.querySelectorAll('.dnb-space__top--zero')
-      ).toHaveLength(2)
+      ).toHaveLength(1)
       expect(
         document.querySelectorAll('.dnb-space__top--small')
       ).toHaveLength(1)
@@ -672,7 +672,7 @@ describe('Flex.Container', () => {
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
         document.querySelectorAll('[class*="dnb-space__"]')
-      ).toHaveLength(3)
+      ).toHaveLength(2)
     })
 
     it('should handle fragments like _supportsSpacingProps=children', () => {
@@ -719,7 +719,7 @@ describe('Flex.Container', () => {
       ).toHaveLength(1)
       expect(
         document.querySelectorAll('[class*="dnb-space__"]')
-      ).toHaveLength(3)
+      ).toHaveLength(1)
     })
   })
 
