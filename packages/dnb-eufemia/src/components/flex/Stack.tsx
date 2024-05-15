@@ -11,7 +11,7 @@ function Stack(props: Props) {
     direction = 'vertical',
     alignSelf = 'stretch',
     align = 'stretch',
-    spacing = props.divider !== 'line' && props.divider !== 'line-framed'
+    gap = props.divider !== 'line' && props.divider !== 'line-framed'
       ? 'medium'
       : 'small',
     children,
@@ -25,7 +25,7 @@ function Stack(props: Props) {
       direction={direction}
       alignSelf={alignSelf}
       align={align}
-      spacing={spacing}
+      gap={gap}
       {...rest}
     >
       {children}

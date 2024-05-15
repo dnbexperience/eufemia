@@ -395,7 +395,7 @@ describe('Flex.Item', () => {
 
     it('should use given "spacing" size from FlexContainer', () => {
       const { rerender } = render(
-        <Flex.Container spacing="large">
+        <Flex.Container gap="large">
           <Flex.Item size={2}>FlexItem</Flex.Item>
           <Flex.Item size={2}>FlexItem</Flex.Item>
         </Flex.Container>

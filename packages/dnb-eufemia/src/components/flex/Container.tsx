@@ -17,6 +17,16 @@ import type { UseMediaQueries } from '../../shared/useMedia'
 import type { End, Start } from './types'
 import Item from './Item'
 
+type Gap =
+  | false
+  | 'xx-small'
+  | 'x-small'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'x-large'
+  | 'xx-large'
+
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
@@ -35,15 +45,9 @@ export type BasicProps = {
   /** When "line-framed" is used, a line will be shown between items and above the first and below the last item */
   divider?: 'space' | 'line' | 'line-framed'
   /** Spacing between items inside */
-  spacing?:
-    | false
-    | 'xx-small'
-    | 'x-small'
-    | 'small'
-    | 'medium'
-    | 'large'
-    | 'x-large'
-    | 'xx-large'
+  gap?: Gap
+  /** @deprecated Use `gap` instead */
+  spacing?: Gap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
@@ -62,6 +66,7 @@ const propNames: Array<keyof Props> = [
   'align',
   'divider',
   'spacing',
+  'gap',
 ]
 
 export function pickFlexContainerProps<T extends Props>(
@@ -95,6 +100,7 @@ function FlexContainer(props: Props) {
     align = 'flex-start',
     alignSelf,
     divider = 'space',
+    gap = 'small',
     spacing = 'small',
     breakpoints,
     queries,
@@ -181,8 +187,11 @@ function FlexContainer(props: Props) {
       !isHeading &&
       ((divider === 'line' && !isFirst) || divider === 'line-framed')
     ) {
-      const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
+      const spaceAboveLine =
+        getSpaceValue(end, previousChild) ?? gap ?? spacing
+      startSpacing = (getSpaceValue(start, child) ??
+        gap ??
+        spacing) as SpaceType
 
       return (
         <React.Fragment key={`element-${i}`}>
@@ -211,8 +220,9 @@ function FlexContainer(props: Props) {
       if (hasSizeProp) {
         // When we have a size prop, we don't expect the layout to wrap,
         // so we add space to the start of each item to mimic CSS gap.
-        startSpacing = isRowStart || isFirst ? 0 : sumTypes(spacing) / 2
-        endSpacing = isRowEnd || isLast ? 0 : sumTypes(spacing) / 2
+        startSpacing =
+          isRowStart || isFirst ? 0 : sumTypes(gap ?? spacing) / 2
+        endSpacing = isRowEnd || isLast ? 0 : sumTypes(gap ?? spacing) / 2
       } else {
         // Since we expect the layout to wrap, we add space only to the end of each item,
         // except for the last item. This will make the items align as long as not wrapped.
@@ -221,6 +231,7 @@ function FlexContainer(props: Props) {
           ? 0
           : getSpaceValue(start, child) ??
             getSpaceValue(end, previousChild) ??
+            gap ??
             spacing
       }
     } else {
@@ -232,6 +243,7 @@ function FlexContainer(props: Props) {
         startSpacing =
           getSpaceValue(start, child) ??
           getSpaceValue(end, previousChild) ??
+          gap ??
           spacing
       }
     }
@@ -277,14 +289,14 @@ function FlexContainer(props: Props) {
       return `${n}--row-gap-small`
     }
 
-    if (hasSizeProp && spacing) {
-      return `${n}--row-gap-${spacing}`
+    if (hasSizeProp && (gap ?? spacing)) {
+      return `${n}--row-gap-${gap ?? spacing}`
     }
 
     if (rowGap) {
       return `${n}--row-gap-${rowGap}`
     }
-  }, [direction, hasSizeProp, rowGap, spacing, wrap])
+  }, [direction, hasSizeProp, rowGap, gap, spacing, wrap])
 
   const cn = classnames(
     'dnb-flex-container',
@@ -292,7 +304,7 @@ function FlexContainer(props: Props) {
     justify && `${n}--justify-${justify}`,
     align && `${n}--align-${align}`,
     alignSelf && `${n}--align-self-${alignSelf}`,
-    spacing && `${n}--spacing-${spacing}`,
+    (gap ?? spacing) && `${n}--spacing-${gap ?? spacing}`,
     wrap && `${n}--wrap`,
     getRowGapClass(),
     hasSizeProp && `${n}--has-size`,
