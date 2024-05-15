@@ -62,6 +62,11 @@ describe('splitTypes', () => {
     expect(splitTypes(['large', 'medium'])).toEqual(['large', 'medium'])
     expect(splitTypes(2)).toEqual([2])
     expect(splitTypes(true)).toEqual(['small'])
+    expect(splitTypes(false)).toEqual([0])
+    expect(splitTypes(['large', false, 'small'])).toEqual([
+      'large',
+      'small',
+    ])
     expect(splitTypes(null)).toBeNull()
   })
 })
