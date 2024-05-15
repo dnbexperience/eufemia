@@ -2,7 +2,11 @@ import React from 'react'
 import { MainHeading, SubHeading } from '../../../extensions/forms/Form'
 import Heading from '../../Heading'
 import { H1, H2, H3, H4, H5, H6 } from '../../../elements'
-import { isHeadingElement, getSpaceVariant } from '../../flex/utils'
+import {
+  isHeadingElement,
+  getSpaceVariant,
+  pickSpacingProps,
+} from '../../flex/utils'
 
 describe('isHeadingElement', () => {
   it('should detect if a heading component is given', () => {
@@ -17,6 +21,38 @@ describe('isHeadingElement', () => {
     expect(isHeadingElement(<H5>Heading</H5>)).toBeTruthy()
     expect(isHeadingElement(<H6>Heading</H6>)).toBeTruthy()
     expect(isHeadingElement(<Heading>Heading</Heading>)).toBeTruthy()
+  })
+})
+
+describe('pickSpacingProps', () => {
+  it('should return the correct props', () => {
+    expect(
+      pickSpacingProps({
+        top: 'large',
+        right: 'large',
+        bottom: 'large',
+        left: 'large',
+        space: 'large',
+      })
+    ).toEqual({
+      top: 'large',
+      right: 'large',
+      bottom: 'large',
+      left: 'large',
+      space: 'large',
+    })
+  })
+
+  it('should return only given props', () => {
+    expect(
+      pickSpacingProps({
+        right: 'large',
+        left: 'large',
+      })
+    ).toEqual({
+      right: 'large',
+      left: 'large',
+    })
   })
 })
 
