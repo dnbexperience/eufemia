@@ -9,7 +9,6 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field } from '../../..'
-import { wait } from '@testing-library/user-event/dist/types/utils'
 
 describe('Selection', () => {
   it('renders selected option', () => {
