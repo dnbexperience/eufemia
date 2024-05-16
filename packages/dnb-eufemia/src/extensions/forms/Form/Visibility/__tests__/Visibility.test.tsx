@@ -205,6 +205,62 @@ describe('Visibility', () => {
     })
   })
 
+  describe('visibleWhen', () => {
+    it('should render children when hasValue matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility visibleWhen={{ path: '/myPath', hasValue: 'foo' }}>
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('should not render children when hasValue not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility visibleWhen={{ path: '/myPath', hasValue: 'bar' }}>
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should render children when withValue matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhen={{
+              path: '/myPath',
+              withValue: (value) => value === 'foo',
+            }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('should not render children when withValue not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhen={{
+              path: '/myPath',
+              withValue: (value) => value === 'bar',
+            }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+  })
+
   it('should be supported by Flex.Container', async () => {
     render(
       <Form.Handler>
@@ -258,7 +314,13 @@ describe('Visibility', () => {
   it('should have "height-animation" wrapper when animate is true', async () => {
     render(
       <Provider data={{ myPath: 'checked' }}>
-        <Visibility pathValue="/myPath" whenValue="checked" animate>
+        <Visibility
+          visibleWhen={{
+            path: '/myPath',
+            hasValue: 'checked',
+          }}
+          animate
+        >
           Child
         </Visibility>
       </Provider>
@@ -276,8 +338,10 @@ describe('Visibility', () => {
     render(
       <Provider data={{ myPath: 'checked' }}>
         <Visibility
-          pathValue="/myPath"
-          whenValue="checked"
+          visibleWhen={{
+            path: '/myPath',
+            hasValue: 'checked',
+          }}
           animate
           element="span"
         >
@@ -510,8 +574,10 @@ describe('Visibility', () => {
 
               <Form.Visibility
                 visible
-                pathValue="/mySelection"
-                whenValue="more"
+                visibleWhen={{
+                  path: '/mySelection',
+                  hasValue: 'more',
+                }}
                 keepInDOM
                 fieldPropsWhenHidden={{ 'data-exclude-field': true }}
               >

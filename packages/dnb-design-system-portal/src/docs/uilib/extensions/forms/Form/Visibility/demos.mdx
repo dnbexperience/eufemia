@@ -12,6 +12,19 @@ import * as Examples from './Examples'
 
 ### Matching value
 
+`visibleWhen` is pretty powerful. You can use it to show/hide based on the value of a `path`. You can also give it a `withValue` function that gives you the current value, so you can assert it and return a boolean based on that.
+
+```jsx
+<Form.Visibility
+  visibleWhen={{
+    path: '/toggleValue',
+    withValue: (value) => value === 'checked',
+  }}
+>
+  Content
+</Form.Visibility>
+```
+
 <Examples.PathValue />
 
 ### Direct properties
@@ -33,3 +46,4 @@ Use `fieldPropsWhenHidden` and `keepInDOM` to keep the content in the DOM, even 
 In this example we filter out all fields that have the `data-exclude-field` attribute. See the console output for the result.
 
 <Examples.NestedExample />
+import {on} from 'process'

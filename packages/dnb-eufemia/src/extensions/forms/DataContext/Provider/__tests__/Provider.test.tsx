@@ -598,8 +598,7 @@ describe('DataContext.Provider', () => {
 
                 <Form.Visibility
                   visible
-                  pathValue="/mySelection"
-                  whenValue="more"
+                  visibleWhen={{ path: '/mySelection', hasValue: 'more' }}
                   keepInDOM
                   fieldPropsWhenHidden={{ 'data-exclude-field': true }}
                 >

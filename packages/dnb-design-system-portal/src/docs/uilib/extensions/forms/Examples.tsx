@@ -574,8 +574,10 @@ export const QuickStart = () => {
                   <Field.Option value="other" title="Annet" />
                 </Field.Selection>
                 <Form.Visibility
-                  pathValue="/postalAddressSelect"
-                  whenValue="other"
+                  visibleWhen={{
+                    path: '/postalAddressSelect',
+                    hasValue: 'other',
+                  }}
                   animate
                 >
                   <Field.String
