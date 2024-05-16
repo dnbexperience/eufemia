@@ -5,12 +5,12 @@ import React, {
   useReducer,
   useMemo,
 } from 'react'
+import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import { Space, StepIndicator } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import DataContext from '../../DataContext/Context'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
   OnStepChange,
@@ -18,13 +18,16 @@ import WizardContext, {
   StepIndex,
   WizardContextState,
 } from '../Context/WizardContext'
+import DataContext, {
+  defaultContextState,
+} from '../../DataContext/Context'
 import Handler from '../../Form/Handler/Handler'
 import {
   SharedStateReturn,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
-import { ComponentProps, FieldProps } from '../../types'
+import { ComponentProps } from '../../types'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -32,15 +35,53 @@ const useLayoutEffect =
 
 export type Props = ComponentProps & {
   id?: string
+
+  /**
+   * The mode of the wizard.
+   */
   mode?: 'static' | 'strict' | 'loose'
+
+  /**
+   * If set to `true`, the wizard will not scroll to the first step when the user clicks on the next button.
+   */
   omitScrollManagement?: boolean
+
+  /**
+   * If set to `true`, the wizard will not focus on the next step when the user clicks on the next button.
+   */
   omitFocusManagement?: boolean
+
+  /**
+   * The index of the first step to be rendered.
+   */
   initialActiveIndex?: StepIndex
+
+  /**
+   * The callback function that will be called when the user clicks on the next button.
+   */
   onStepChange?: OnStepChange
-  children: React.ReactNode
+
+  /**
+   * The sidebar variant.
+   */
   variant?: 'sidebar' | 'drawer'
-  noAnimation?: boolean
   sidebarId?: string
+
+  /**
+   * If set to `true`, the wizard will not animate the steps.
+   */
+  noAnimation?: boolean
+
+  /**
+   * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
+   * Defaults to `true`.
+   */
+  prerenderFieldProps?: boolean
+
+  /**
+   * The children of the wizard container.
+   */
+  children: React.ReactNode
 
   /**
    * @deprecated Is enabled by default. You can disable it with "omitScrollManagement"
@@ -59,6 +100,7 @@ function WizardContainer(props: Props) {
     onStepChange,
     children,
     noAnimation = true,
+    prerenderFieldProps = true,
     variant = 'sidebar',
     sidebarId,
     ...rest
@@ -79,7 +121,6 @@ function WizardContainer(props: Props) {
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
   const stepElementRef = useRef<HTMLElement>()
-  const fieldPropsMemoryRef = useRef<Record<string, FieldProps>>()
 
   // - Handle shared state
   const sharedStateRef =
@@ -130,8 +171,6 @@ function WizardContainer(props: Props) {
       index: StepIndex
       mode: 'previous' | 'next'
     } & SetActiveIndexOptions) => {
-      fieldPropsMemoryRef.current = fieldPropsRef.current
-
       handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
@@ -157,9 +196,6 @@ function WizardContainer(props: Props) {
 
           if (!(result instanceof Error)) {
             handleLayoutEffect()
-
-            // Revert the fieldProps to the previous state before the next step is mounted
-            fieldPropsRef.current = fieldPropsMemoryRef.current
 
             activeIndexRef.current = index
             forceUpdate()
@@ -222,37 +258,9 @@ function WizardContainer(props: Props) {
   )
 
   const titlesRef = useRef([])
-  const Contents = useCallback(() => {
-    titlesRef.current = []
-    return React.Children.map(children, (child, index) => {
-      if (React.isValidElement(child)) {
-        let step = child
-
-        if (child?.type !== Step && typeof child.type === 'function') {
-          step = child.type.apply(child.type, [
-            child.props,
-          ]) as React.ReactElement
-
-          if (step?.type === Step) {
-            child = step
-          }
-        }
-
-        if (child?.type === Step) {
-          titlesRef.current.push(child.props.title ?? 'Title missing')
-          return React.cloneElement(
-            child as React.ReactElement<StepProps>,
-            {
-              key: `${index}-${activeIndexRef.current}`,
-              index,
-            }
-          )
-        }
-      }
-
-      return child
-    })
-  }, [children])
+  const prerenderFieldPropsRef = useRef<
+    Record<string, () => React.ReactElement>
+  >({})
 
   const activeIndex = activeIndexRef.current
   const totalSteps = titlesRef.current.length
@@ -262,6 +270,10 @@ function WizardContainer(props: Props) {
       activeIndex,
       totalSteps,
       stepElementRef,
+      titlesRef,
+      activeIndexRef,
+      prerenderFieldProps,
+      prerenderFieldPropsRef,
       setActiveIndex,
       handlePrevious,
       handleNext,
@@ -271,6 +283,7 @@ function WizardContainer(props: Props) {
       id,
       activeIndex,
       totalSteps,
+      prerenderFieldProps,
       setActiveIndex,
       handlePrevious,
       handleNext,
@@ -324,10 +337,123 @@ function WizardContainer(props: Props) {
         </aside>
 
         <div className="dnb-forms-wizard-layout__contents">
-          <Contents />
+          <Contents>{children}</Contents>
         </div>
       </Space>
+
+      {prerenderFieldProps && (
+        <PrerenderFieldPropsOfOtherSteps
+          prerenderFieldPropsRef={prerenderFieldPropsRef}
+        />
+      )}
     </WizardContext.Provider>
+  )
+}
+
+function Contents({ children }) {
+  const {
+    titlesRef,
+    activeIndexRef,
+    prerenderFieldProps,
+    prerenderFieldPropsRef,
+  } = useContext(WizardContext)
+
+  titlesRef.current = []
+  return React.Children.map(children, (child, index) => {
+    if (React.isValidElement(child)) {
+      let step = child
+
+      if (child?.type !== Step && typeof child.type === 'function') {
+        step = child.type.apply(child.type, [
+          child.props,
+        ]) as React.ReactElement
+
+        if (step?.type === Step) {
+          child = step
+        }
+      }
+
+      if (child?.type === Step) {
+        titlesRef.current.push(child.props.title ?? 'Title missing')
+        const key = `${index}-${activeIndexRef.current}`
+        const clone = (props) =>
+          React.cloneElement(child as React.ReactElement<StepProps>, props)
+
+        if (
+          prerenderFieldProps &&
+          typeof document !== 'undefined' &&
+          index !== activeIndexRef.current &&
+          typeof prerenderFieldPropsRef.current['step-' + index] ===
+            'undefined'
+        ) {
+          prerenderFieldPropsRef.current['step-' + index] = () =>
+            clone({
+              key,
+              index,
+              prerenderFieldProps: true,
+            })
+        }
+
+        return clone({
+          key,
+          index,
+        })
+      }
+    }
+
+    return child
+  })
+}
+
+function PrerenderFieldPropsOfOtherSteps({
+  prerenderFieldPropsRef,
+}: {
+  prerenderFieldPropsRef: WizardContextState['prerenderFieldPropsRef']
+}) {
+  const hasRenderedRef = useRef(true)
+  if (!hasRenderedRef.current) {
+    return null
+  }
+  hasRenderedRef.current = false
+
+  return (
+    <WizardPortal>
+      <PrerenderFieldPropsProvider>
+        <iframe title="Wizard Prerender" hidden>
+          {Object.values(prerenderFieldPropsRef.current).map((Fn, i) => (
+            <Fn key={i} />
+          ))}
+        </iframe>
+      </PrerenderFieldPropsProvider>
+    </WizardPortal>
+  )
+}
+
+function WizardPortal({ children }) {
+  if (typeof document !== 'undefined') {
+    return ReactDOM.createPortal(children, document.body)
+  }
+}
+
+function PrerenderFieldPropsProvider({ children }) {
+  const { data, setProps, updateDataValue } = useContext(DataContext)
+
+  return (
+    <DataContext.Provider
+      value={{
+        ...defaultContextState,
+
+        // Only update the props and the data value
+        data,
+        setProps,
+        updateDataValue,
+        prerenderFieldProps: true,
+      }}
+    >
+      <WizardContext.Provider value={{ prerenderFieldProps: true }}>
+        {children}
+      </WizardContext.Provider>
+    </DataContext.Provider>
   )
 }
 

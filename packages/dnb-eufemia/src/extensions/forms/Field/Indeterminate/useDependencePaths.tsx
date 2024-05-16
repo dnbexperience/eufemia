@@ -7,7 +7,7 @@ export default function useDependencePaths(
   dependencePaths: Props['dependencePaths'],
   propagateIndeterminateState: Props['propagateIndeterminateState']
 ) {
-  const { data, fieldProps, handlePathChange } =
+  const { data, fieldPropsRef, handlePathChange } =
     useContext(DataContext) || {}
 
   const { allOn, allOff, indeterminate } = useMemo(() => {
@@ -22,7 +22,7 @@ export default function useDependencePaths(
           if (
             // When value is undefined, we should also consider it as off
             (whenUndefined ? typeof value === 'undefined' : false) ||
-            value === fieldProps?.[path]?.[key]
+            value === fieldPropsRef?.current?.[path]?.[key]
           ) {
             return true
           }
@@ -39,7 +39,7 @@ export default function useDependencePaths(
       allOff,
       indeterminate,
     }
-  }, [data, dependencePaths, fieldProps])
+  }, [data, dependencePaths, fieldPropsRef])
 
   const keepStateRef = useRef<boolean>()
   useMemo(() => {
@@ -58,11 +58,11 @@ export default function useDependencePaths(
     (checked: boolean) => {
       dependencePaths?.forEach((path) => {
         const fieldProp = checked ? 'valueOn' : 'valueOff'
-        const value = fieldProps?.[path]?.[fieldProp]
+        const value = fieldPropsRef?.current?.[path]?.[fieldProp]
         handlePathChange?.(path, value)
       })
     },
-    [dependencePaths, fieldProps, handlePathChange]
+    [dependencePaths, fieldPropsRef, handlePathChange]
   )
 
   return {

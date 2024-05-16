@@ -996,13 +996,13 @@ export default function useFieldProps<
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
-  // Put props into the surrounding data context
+  // Put props into the surrounding data context as early as possible
   setPropsDataContext?.(identifier, props)
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)
 
-    // Run this twice, because when remounting happens, the props where removed by the unmount effect
+    // Run this twice, because when remounting, props where removed by the unmount effect
     setPropsDataContext?.(identifier, props)
 
     validateValue()

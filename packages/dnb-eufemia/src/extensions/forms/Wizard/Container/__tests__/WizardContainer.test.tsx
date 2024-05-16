@@ -9,7 +9,21 @@ const nb = nbNO['nb-NO']
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn()
+  global.console.log = jest.fn((...args) => {
+    if (
+      !String(args[1]).includes(
+        'You may wrap Wizard.Container in Form.Handler'
+      ) &&
+      !String(args[1]).includes(
+        'You have to provide a label to use show an indicator'
+      ) &&
+      !String(args[1]).includes(
+        'StepIndicator needs an unique "sidebar_id" property'
+      )
+    ) {
+      log(...args)
+    }
+  })
 })
 afterEach(() => {
   global.console.log = log
@@ -1089,106 +1103,270 @@ describe('Wizard.Container', () => {
     log.mockRestore()
   })
 
-  it('should keep field props in memory during step change', async () => {
-    const filterDataHandler = (path, value, props) => {
-      if (props['data-exclude-field']) {
-        return false
+  describe('prerenderFieldProps and filterData', () => {
+    it('should keep field props in memory during step change', async () => {
+      const filterDataHandler = jest.fn((path, value, props) => {
+        if (props['data-exclude-field']) {
+          return false
+        }
+      })
+
+      const onChange = jest.fn()
+
+      let currentData = null
+      let filteredData = null
+
+      const MyForm = () => {
+        const { data, filterData } = Form.useData('my-form')
+        currentData = data
+        filteredData = filterData(filterDataHandler)
+
+        return (
+          <Form.Handler
+            id="my-form"
+            defaultData={{
+              fooStep1: 'has value',
+              barStep1: 'has value',
+              fooStep2: 'has value',
+              barStep2: 'has value',
+            }}
+            onChange={onChange}
+          >
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <Field.String path="/fooStep1" />
+                <Field.String path="/barStep1" data-exclude-field />
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <Field.String path="/fooStep2" />
+                <Field.String path="/barStep2" data-exclude-field />
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 3">
+                <Field.String path="/fooStep3" />
+                <Field.String path="/barStep3" data-exclude-field />
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
       }
-    }
 
-    let currentData = null
-    let filteredData = null
+      render(<MyForm />)
 
-    const MyForm = () => {
-      const { data, filterData } = Form.useData('my-form')
-      currentData = data
-      filteredData = filterData(filterDataHandler)
+      expect(filterDataHandler).toHaveBeenCalledTimes(12)
 
-      return (
-        <Form.Handler id="my-form">
-          <Wizard.Container>
+      expect(currentData).toEqual({
+        barStep1: 'has value',
+        fooStep1: 'has value',
+        fooStep2: 'has value',
+        barStep2: 'has value',
+      })
+
+      expect(filteredData).toEqual({
+        fooStep1: 'has value',
+        fooStep2: 'has value',
+        fooStep3: undefined,
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(currentData).toEqual({
+        barStep1: 'has value',
+        fooStep1: 'has value',
+        fooStep2: 'has value',
+        barStep2: 'has value',
+      })
+
+      expect(filteredData).toEqual({
+        fooStep1: 'has value',
+        fooStep2: 'has value',
+        fooStep3: undefined,
+      })
+
+      await wait(10)
+      await userEvent.type(document.querySelector('input'), ' changed')
+
+      expect(onChange).toHaveBeenCalledTimes(8)
+      expect(onChange).toHaveBeenLastCalledWith({
+        barStep1: 'has value',
+        barStep2: 'has value',
+        barStep3: undefined,
+        fooStep1: 'has value',
+        fooStep2: 'has value changed',
+        fooStep3: undefined,
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(currentData).toEqual({
+        barStep1: 'has value',
+        fooStep1: 'has value',
+        fooStep2: 'has value changed',
+        barStep2: 'has value',
+        fooStep3: undefined,
+        barStep3: undefined,
+      })
+
+      expect(filteredData).toEqual({
+        fooStep1: 'has value',
+        fooStep2: 'has value changed',
+        fooStep3: undefined,
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(currentData).toEqual({
+        barStep1: 'has value',
+        fooStep1: 'has value',
+        fooStep2: 'has value changed',
+        barStep2: 'has value',
+        fooStep3: undefined,
+        barStep3: undefined,
+      })
+
+      expect(filteredData).toEqual({
+        fooStep1: 'has value',
+        fooStep2: 'has value changed',
+        fooStep3: undefined,
+      })
+
+      expect(filterDataHandler).toHaveBeenCalledTimes(60)
+    })
+
+    it('should set field props of all steps when "prerenderFieldProps" is set', () => {
+      const filterDataHandler = jest.fn((path, value, props) => {
+        if (props['data-exclude-field']) {
+          return false
+        }
+      })
+
+      let currentData = null
+      let filteredData = null
+
+      const MyWizard = () => {
+        const { data, filterData } = Form.useData()
+        currentData = data
+        filteredData = filterData(filterDataHandler)
+
+        return (
+          <Wizard.Container initialActiveIndex={2}>
             <Wizard.Step title="Step 1">
-              <output>Step 1</output>
               <Field.String path="/fooStep1" />
               <Field.String path="/barStep1" data-exclude-field />
               <Wizard.Buttons />
             </Wizard.Step>
 
             <Wizard.Step title="Step 2">
-              <output>Step 2</output>
               <Field.String path="/fooStep2" />
               <Field.String path="/barStep2" data-exclude-field />
               <Wizard.Buttons />
             </Wizard.Step>
 
             <Wizard.Step title="Step 3">
-              <output>Step 3</output>
               <Field.String path="/fooStep3" />
-              <Field.String path="/barStep3" data-exclude-field />
+              <Field.String
+                path="/barStep3"
+                // excludeFromFilterData
+                data-exclude-field
+              />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        )
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{
+            fooStep2: 'has value',
+            barStep2: 'has value',
+            fooStep3: 'has value',
+            barStep3: 'has value',
+          }}
+        >
+          <MyWizard />
+        </Form.Handler>
+      )
+
+      expect(currentData).toEqual({
+        barStep1: undefined,
+        fooStep1: undefined,
+        barStep2: 'has value',
+        fooStep2: 'has value',
+        barStep3: 'has value',
+        fooStep3: 'has value',
+      })
+
+      expect(filteredData).toEqual({
+        fooStep1: undefined,
+        fooStep2: 'has value',
+        fooStep3: 'has value',
+      })
+    })
+
+    it('should put prerendered fields in the portal inside an hidden iframe', async () => {
+      const addedNodes = []
+      const removedNodes = []
+
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            if (mutation.removedNodes?.length) {
+              removedNodes.push(mutation.removedNodes)
+            }
+            if (mutation.addedNodes?.length) {
+              addedNodes.push(mutation.addedNodes)
+            }
+          }
+        }
+      })
+
+      observer.observe(document.body, {
+        childList: true,
+      })
+
+      render(
+        <Form.Handler>
+          <Wizard.Container initialActiveIndex={1}>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/fooStep1" />
+              <Field.String path="/barStep1" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <Field.String path="/fooStep2" />
+              <Field.String path="/barStep2" />
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
         </Form.Handler>
       )
-    }
 
-    render(<MyForm />)
+      expect(document.querySelector('iframe')).toBeNull()
 
-    expect(currentData).toMatchObject({
-      barStep1: undefined,
-      fooStep1: undefined,
-    })
+      await wait(1)
 
-    expect(filteredData).toMatchObject({
-      fooStep1: undefined,
-    })
+      observer.disconnect()
 
-    await userEvent.click(nextButton())
+      expect(addedNodes).toHaveLength(2)
+      expect(addedNodes[0]).toHaveLength(1)
+      expect(addedNodes[0][0]).toBe(document.body.querySelector('div'))
+      expect(addedNodes[1][0].tagName).toBe('IFRAME')
 
-    expect(currentData).toMatchObject({
-      barStep1: undefined,
-      fooStep1: undefined,
-      fooStep2: undefined,
-      barStep2: undefined,
-    })
+      expect(removedNodes).toHaveLength(1)
+      expect(removedNodes[0][0].tagName).toBe('IFRAME')
 
-    expect(filteredData).toMatchObject({
-      fooStep1: undefined,
-      fooStep2: undefined,
-    })
+      const iframe = addedNodes[1][0]
 
-    await userEvent.click(nextButton())
-
-    expect(currentData).toMatchObject({
-      barStep1: undefined,
-      fooStep1: undefined,
-      fooStep2: undefined,
-      barStep2: undefined,
-      fooStep3: undefined,
-      barStep3: undefined,
-    })
-
-    expect(filteredData).toMatchObject({
-      fooStep1: undefined,
-      fooStep2: undefined,
-      fooStep3: undefined,
-    })
-
-    await userEvent.click(previousButton())
-
-    expect(currentData).toMatchObject({
-      barStep1: undefined,
-      fooStep1: undefined,
-      fooStep2: undefined,
-      barStep2: undefined,
-      fooStep3: undefined,
-      barStep3: undefined,
-    })
-
-    expect(filteredData).toMatchObject({
-      fooStep1: undefined,
-      fooStep2: undefined,
-      fooStep3: undefined,
+      expect(iframe).toHaveAttribute('hidden', '')
+      expect(iframe).toHaveAttribute('title', 'Wizard Prerender')
+      expect(iframe).toHaveTextContent('')
+      expect(iframe.parentElement).toBeNull()
     })
   })
 })

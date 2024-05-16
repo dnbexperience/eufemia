@@ -108,9 +108,9 @@ export interface ContextState {
   disabled?: boolean
   required?: boolean
   submitState: Partial<EventStateObject>
-  _isInsideFormElement?: boolean
+  isInsideFormElement?: boolean
+  prerenderFieldProps?: boolean
   props: ProviderProps<unknown>
-  fieldProps?: Record<Path, unknown>
 }
 
 export const defaultContextState: ContextState = {
@@ -142,7 +142,7 @@ export const defaultContextState: ContextState = {
   setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
-  _isInsideFormElement: false,
+  isInsideFormElement: false,
   props: null,
 }
 
