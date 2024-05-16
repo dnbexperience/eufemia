@@ -806,8 +806,11 @@ describe('validation and error handling', () => {
         )
         const selectionButton = screen.getByRole('button')
         await userEvent.click(selectionButton)
-        const option1 = screen.getByText('Fooo')
-        await userEvent.click(option1)
+
+        await waitFor(async () => {
+          const option1 = screen.getByText('Fooo')
+          await userEvent.click(option1)
+        })
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
