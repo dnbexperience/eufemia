@@ -79,7 +79,7 @@ export default function useFieldProps<
     path,
     itemPath,
     emptyValue,
-    required,
+    required: requiredProp,
     disabled: disabledProp,
     info,
     warning,
@@ -205,6 +205,20 @@ export default function useFieldProps<
   const valueRef = useRef<Value>(externalValue)
   const changedRef = useRef<boolean>(false)
   const hasFocusRef = useRef<boolean>(false)
+
+  const required = useMemo(() => {
+    if (requiredProp) {
+      return requiredProp
+    }
+    const requiredPath = identifier.replace(/^\//, '')
+    const required = [
+      schema?.['required'],
+      dataContext?.schema?.['required'],
+    ].flatMap((v) => v)
+    if (required.includes(requiredPath)) {
+      return true
+    }
+  }, [dataContext?.schema, identifier, requiredProp, schema])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -1197,7 +1211,7 @@ export default function useFieldProps<
     htmlAttributes['aria-invalid'] = error ? 'true' : 'false'
   }
   if (required) {
-    htmlAttributes['aria-required'] = required ? 'true' : 'false'
+    htmlAttributes['aria-required'] = 'true'
   }
   if (inFieldBlock) {
     // Mount the field in the field block context

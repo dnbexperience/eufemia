@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field } from '../../..'
+import { Field, Form, JSONSchema } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -525,5 +525,35 @@ describe('FieldBlock', () => {
       nb.Field.errorSummary + blockError + firstError + secondError
     )
     toHaveWarningAndInfo()
+  })
+
+  it('should respect required if given in schema', async () => {
+    const schema: JSONSchema = {
+      type: 'object',
+      required: ['first', 'last'],
+      properties: {
+        first: {
+          type: 'string',
+        },
+        last: {
+          type: 'string',
+        },
+      },
+    }
+
+    render(
+      <Form.Handler schema={schema}>
+        <Field.Composition>
+          <Field.String path="/first" />
+          <Field.String path="/last" />
+        </Field.Composition>
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    const statusMessages = document.querySelectorAll('.dnb-form-status')
+    expect(statusMessages).toHaveLength(1)
+    expect(statusMessages[0]).toHaveTextContent(nb.Field.errorRequired)
   })
 })
