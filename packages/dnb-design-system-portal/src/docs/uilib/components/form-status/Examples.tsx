@@ -146,17 +146,13 @@ export const FormStatusLarge = () => (
   </ComponentBox>
 )
 
-export const FormStatusWithIcons = ({
-  theme = 'ui',
-}: {
-  theme: string
-}) => (
+export const FormStatusWithIcons = () => (
   <ComponentBox
-    scope={{ InfoIcon, WarnIcon, ErrorIcon, MarketingIcon, theme }}
+    scope={{ InfoIcon, WarnIcon, ErrorIcon, MarketingIcon }}
     data-visual-test="form-status-icons"
   >
     <Icon
-      icon={<InfoIcon theme={theme} />}
+      icon={<InfoIcon />}
       size="medium"
       title="Some title"
       inherit_color={false}

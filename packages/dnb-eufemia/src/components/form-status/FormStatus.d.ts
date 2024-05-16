@@ -121,7 +121,6 @@ export interface InfoIconProps {
    * The `title` attribute in the status.
    */
   title?: string;
-  theme?: string;
 }
 export declare const InfoIcon: React.FC<InfoIconProps>;
 export interface MarketingIconProps {
