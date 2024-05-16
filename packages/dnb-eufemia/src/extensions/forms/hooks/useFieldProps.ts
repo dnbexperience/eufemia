@@ -1015,10 +1015,6 @@ export default function useFieldProps<
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)
-
-    // Run this twice, because when remounting, props where removed by the unmount effect
-    setPropsDataContext?.(identifier, props)
-
     validateValue()
   })
   useUnmountEffect(() => {
