@@ -27,7 +27,7 @@ import {
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
-import { ComponentProps, FieldProps } from '../../types'
+import { ComponentProps } from '../../types'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -121,7 +121,6 @@ function WizardContainer(props: Props) {
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
   const stepElementRef = useRef<HTMLElement>()
-  const fieldPropsMemoryRef = useRef<Record<string, FieldProps>>()
 
   // - Handle shared state
   const sharedStateRef =
@@ -172,8 +171,6 @@ function WizardContainer(props: Props) {
       index: StepIndex
       mode: 'previous' | 'next'
     } & SetActiveIndexOptions) => {
-      fieldPropsMemoryRef.current = fieldPropsRef?.current
-
       handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
@@ -199,9 +196,6 @@ function WizardContainer(props: Props) {
 
           if (!(result instanceof Error)) {
             handleLayoutEffect()
-
-            // Revert the fieldProps to the previous state before the next step is mounted
-            fieldPropsRef.current = fieldPropsMemoryRef.current
 
             activeIndexRef.current = index
             forceUpdate()
