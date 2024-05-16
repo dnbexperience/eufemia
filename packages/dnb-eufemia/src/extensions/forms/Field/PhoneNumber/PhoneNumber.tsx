@@ -23,6 +23,7 @@ import {
 } from '../SelectCountry'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -75,11 +76,11 @@ function PhoneNumber(props: Props) {
   const translations = useTranslation()
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const countryCodeRef = React.useRef(props?.emptyValue)
-  const numberRef = React.useRef(props?.emptyValue)
-  const dataRef = React.useRef(null)
-  const langRef = React.useRef(lang)
-  const wasFilled = React.useRef(false)
+  const countryCodeRef = React.useRef<Props['value']>(props?.emptyValue)
+  const numberRef = React.useRef<Props['value']>(props?.emptyValue)
+  const dataRef = React.useRef<Array<DrawerListDataObject>>(null)
+  const langRef = React.useRef<string>(lang)
+  const wasFilled = React.useRef<boolean>(false)
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.PhoneNumber.errorRequired,
@@ -181,10 +182,13 @@ function PhoneNumber(props: Props) {
   const updateCurrentDataSet = useCallback(() => {
     dataRef.current = getCountryData({
       lang,
-      filter: !wasFilled.current
-        ? (country) =>
-            `${formattCountryCode(country.cdc)}` === countryCodeRef.current
-        : filterCountries,
+      filter:
+        // Make sure the whole cc list is displayed when cc filter is set to specific region
+        ccFilter === 'Prioritized' && !wasFilled.current
+          ? (country) =>
+              `${formattCountryCode(country.cdc)}` ===
+              countryCodeRef.current
+          : filterCountries,
       sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       makeObject,
     })
