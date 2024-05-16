@@ -11,6 +11,11 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  variant: {
+    doc: 'Defines the variant of the container. Can be `outline` or `basic`. Defaults to `outline`.',
+    type: 'string',
+    status: 'optional',
+  },
   '[FlexVertical](/uilib/layout/flex/container/)': {
     doc: 'All Flex.Vertical properties.',
     type: 'Various',

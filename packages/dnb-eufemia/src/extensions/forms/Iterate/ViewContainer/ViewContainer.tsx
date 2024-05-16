@@ -4,7 +4,9 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import { Flex } from '../../../../components'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
-import ElementBlock from '../AnimatedContainer/ElementBlock'
+import ElementBlock, {
+  ElementBlockProps,
+} from '../AnimatedContainer/ElementBlock'
 import Toolbar from '../Toolbar'
 import ViewToolbarTools from './ViewToolbarTools'
 
@@ -15,7 +17,7 @@ export type Props = {
   title?: React.ReactNode
 }
 
-export type AllProps = Props & FlexContainerProps
+export type AllProps = Props & FlexContainerProps & ElementBlockProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, ...restProps } = props || {}
