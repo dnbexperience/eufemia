@@ -15,12 +15,20 @@ import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryC
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { ContainerMode } from '../Array/types'
 
+export type ElementBlockProps = {
+  /**
+   * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
+   * Defaults to `outline`.
+   */
+  variant?: 'outline' | 'basic'
+}
+
 export type Props = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
   openDelay?: number
-}
+} & ElementBlockProps
 
 function ElementBlock(props: Props & FlexContainerProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -54,6 +62,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
     className,
     children,
     openDelay = 100,
+    variant = 'outline',
     ...restProps
   } = props
 
@@ -142,6 +151,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
       <HeightAnimation
         className={classnames(
           'dnb-forms-iterate-block',
+          variant && `dnb-forms-iterate-block--variant-${variant}`,
           isNew && 'dnb-forms-iterate-block--new',
           contextRef.current.hasErrorAndShowIt &&
             'dnb-forms-iterate-block--error',

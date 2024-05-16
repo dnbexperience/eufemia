@@ -195,4 +195,44 @@ describe('EditContainer and ViewContainer', () => {
       expect(elements[0]).toHaveFocus()
     })
   })
+
+  it('should set variant to "outline" when variant is not set', async () => {
+    render(
+      <Iterate.Array value={['foo']}>
+        <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+        <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    const element = document.querySelector('.dnb-forms-iterate__element')
+    const [viewBlock, editBlock] = Array.from(
+      element.querySelectorAll('.dnb-forms-iterate-block')
+    )
+    expect(viewBlock).toHaveClass(
+      'dnb-forms-iterate-block--variant-outline'
+    )
+    expect(editBlock).toHaveClass(
+      'dnb-forms-iterate-block--variant-outline'
+    )
+  })
+
+  it('should set variant to "basic" when variant is set to "basic"', async () => {
+    render(
+      <Iterate.Array value={['foo', 'bar']}>
+        <Iterate.ViewContainer variant="basic">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer variant="basic">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    const element = document.querySelector('.dnb-forms-iterate__element')
+    const [viewBlock, editBlock] = Array.from(
+      element.querySelectorAll('.dnb-forms-iterate-block')
+    )
+    expect(viewBlock).toHaveClass('dnb-forms-iterate-block--variant-basic')
+    expect(editBlock).toHaveClass('dnb-forms-iterate-block--variant-basic')
+  })
 })
