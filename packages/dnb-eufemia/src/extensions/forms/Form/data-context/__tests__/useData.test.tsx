@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderHook, act, render } from '@testing-library/react'
+import { renderHook, act, render, fireEvent } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field } from '../../..'
 import Provider from '../../../DataContext/Provider'
@@ -281,7 +281,7 @@ describe('Form.useData', () => {
     })
   })
 
-  it('should return filterData to filter fields with', () => {
+  it('should return filterData to filter fields with handler', () => {
     const { result } = renderHook(() => useData(identifier), {
       wrapper: ({ children }) => (
         <Provider
@@ -323,5 +323,62 @@ describe('Form.useData', () => {
     expect(result.current.filterData(filterValue)).toEqual({
       field3: 'baz',
     })
+  })
+
+  it('should return filterData to filter fields with paths', () => {
+    type Data = {
+      field1: string
+      field2: string
+      field3: string
+    }
+
+    const data: Data = { field1: '', field2: '', field3: 'baz' }
+
+    const { result } = renderHook(() => useData<Data>(identifier), {
+      wrapper: ({ children }) => (
+        <Provider id={identifier} data={data}>
+          <Field.String path="/field1" disabled />
+          <Field.String path="/field2" />
+          <Field.String path="/field3" />
+          {children}
+        </Provider>
+      ),
+    })
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'foo' },
+    })
+
+    expect(
+      result.current.filterData({
+        '/field1': false,
+      } as FilterData<Data>)
+    ).toEqual({
+      field2: '',
+      field3: 'baz',
+    })
+
+    expect(
+      result.current.filterData({
+        '/field1': false,
+        '/field2': ({ value }) => {
+          return value !== ''
+        },
+      } as FilterData<Data>)
+    ).toEqual({
+      field3: 'baz',
+    })
+
+    expect(
+      result.current.filterData({
+        '/field1': false,
+        '/field2': ({ value }) => {
+          return value !== ''
+        },
+        '/field3': ({ data }) => {
+          return data.field2 !== ''
+        },
+      } as FilterData<Data>)
+    ).toEqual({})
   })
 })

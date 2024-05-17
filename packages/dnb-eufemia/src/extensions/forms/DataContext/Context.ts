@@ -27,22 +27,33 @@ export type FilterDataHandler<Data> = (
   data: Data,
   filter: FilterData
 ) => Partial<Data>
-export type FilterData = (
+export type FilterDataHandlerCallback<R> = (
   path: Path,
-  value: any,
+  value: unknown,
   props: FieldProps,
   internal: {
     error: Error | undefined
   }
+) => R
+export type FilterDataPathCondition<Data = unknown> = (
+  parameters: FilterDataPathConditionParameters<Data>
 ) => boolean | undefined
-export type TransformData = (
-  path: Path,
-  value: any,
-  props: FieldProps,
+export type FilterDataPathConditionParameters<Data = unknown> = {
+  value: unknown
+  props: FieldProps
+  data: Data
   internal: {
     error: Error | undefined
   }
-) => any
+}
+export type FilterDataPathObject<Data> = Record<
+  Path,
+  FilterDataPathCondition<Data> | boolean | undefined
+>
+export type FilterData<Data = unknown> =
+  | FilterDataPathObject<Data>
+  | FilterDataHandlerCallback<boolean | undefined>
+export type TransformData = FilterDataHandlerCallback<unknown>
 
 export interface ContextState {
   id?: Identifier

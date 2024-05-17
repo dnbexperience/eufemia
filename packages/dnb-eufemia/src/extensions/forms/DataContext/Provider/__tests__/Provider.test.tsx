@@ -23,7 +23,11 @@ import {
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
-import { ContextState, FilterData } from '../../Context'
+import {
+  ContextState,
+  FilterData,
+  FilterDataPathCondition,
+} from '../../Context'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -407,6 +411,110 @@ describe('DataContext.Provider', () => {
     })
 
     describe('filterSubmitData', () => {
+      it('should filter data based on the given "filterSubmitData" property paths', () => {
+        let filteredData = undefined
+        const onSubmit = jest.fn((data) => (filteredData = data))
+
+        const fooHandler: FilterDataPathCondition = jest.fn(
+          ({ props }) => {
+            if (props.disabled === true) {
+              return false
+            }
+          }
+        )
+        const barHandler: FilterDataPathCondition = jest.fn(
+          ({ props }) => {
+            if (props.disabled === true) {
+              return false
+            }
+          }
+        )
+
+        const filterDataPaths: FilterData = {
+          '/foo': fooHandler,
+          '/bar': barHandler,
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            filterSubmitData={filterDataPaths}
+          >
+            <Field.String path="/foo" value="Include this value" />
+            <Field.String path="/bar" value="bar" />
+            <Form.SubmitButton>Submit</Form.SubmitButton>
+          </DataContext.Provider>
+        )
+
+        const submitButton = document.querySelector('button')
+
+        fireEvent.click(submitButton)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenCalledWith(
+          { bar: 'bar', foo: 'Include this value' },
+          expect.anything()
+        )
+
+        expect(fooHandler).toHaveBeenCalledTimes(1)
+        expect(barHandler).toHaveBeenCalledTimes(1)
+
+        expect(fooHandler).toHaveBeenLastCalledWith({
+          value: 'Include this value',
+          props: expect.objectContaining({}),
+          data: { bar: 'bar', foo: 'Include this value' },
+          internal: { error: undefined },
+        })
+        expect(barHandler).toHaveBeenLastCalledWith({
+          value: 'bar',
+          props: expect.objectContaining({}),
+          data: { bar: 'bar', foo: 'Include this value' },
+          internal: { error: undefined },
+        })
+
+        rerender(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            filterSubmitData={filterDataPaths}
+          >
+            <Field.String path="/foo" value="Skip this value" disabled />
+            <Field.String path="/bar" value="bar value" />
+            <Form.SubmitButton>Submit</Form.SubmitButton>
+          </DataContext.Provider>
+        )
+
+        expect(filteredData).toEqual({
+          bar: 'bar',
+          foo: 'Include this value',
+        })
+
+        fireEvent.click(submitButton)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { bar: 'bar value' },
+          expect.anything()
+        )
+
+        expect(fooHandler).toHaveBeenCalledTimes(2)
+        expect(barHandler).toHaveBeenCalledTimes(2)
+
+        expect(fooHandler).toHaveBeenLastCalledWith({
+          value: 'Skip this value',
+          props: expect.objectContaining({}),
+          data: { bar: 'bar value', foo: 'Skip this value' },
+          internal: { error: undefined },
+        })
+        expect(barHandler).toHaveBeenLastCalledWith({
+          value: 'bar value',
+          props: expect.objectContaining({}),
+          data: { bar: 'bar value', foo: 'Skip this value' },
+          internal: { error: undefined },
+        })
+
+        expect(filteredData).toEqual({ bar: 'bar value' })
+      })
+
       it('should filter data based on the given "filterSubmitData" property method', () => {
         let filteredData = undefined
         const onSubmit = jest.fn((data) => (filteredData = data))
