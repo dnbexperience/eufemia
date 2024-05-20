@@ -120,7 +120,7 @@ export const NestedExample = () => {
   return (
     <ComponentBox>
       {() => {
-        const filterDataHandler = (path, value, props, internal) =>
+        const filterDataHandler = ({ props }) =>
           !props['data-exclude-field']
 
         const MyForm = () => {

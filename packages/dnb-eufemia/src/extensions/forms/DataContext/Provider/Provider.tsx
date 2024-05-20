@@ -79,7 +79,7 @@ export interface Props<Data extends JsonObject> {
    */
   errorMessages?: CustomErrorMessagesWithPaths
   /**
-   * Filter the `onSubmit` output data, based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.
+   * Filter the `onSubmit` output data, based on your criteria: `({ path, value, data, props, internal }) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.
    */
   filterSubmitData?: FilterData
   /**
@@ -87,11 +87,11 @@ export interface Props<Data extends JsonObject> {
    */
   filterData?: FilterData
   /**
-   * Transform the data context (internally as well) based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
    */
   transformIn?: TransformData
   /**
-   * Mutate the data before it enters onSubmit or onChange based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   * Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
    */
   transformOut?: TransformData
   /**
@@ -355,7 +355,13 @@ export default function Provider<Data extends JsonObject>(
             const internal = {
               error: fieldErrorRef.current?.[path],
             }
-            const result = filter(path, value, props, internal)
+            const result = filter({
+              path,
+              value,
+              data: internalDataRef.current,
+              props,
+              internal,
+            })
             mutate(path, result)
           }
         })

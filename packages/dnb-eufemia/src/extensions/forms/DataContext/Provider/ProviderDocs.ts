@@ -47,17 +47,17 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformIn: {
-    doc: "Mutate the data context (internally as well) based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).",
+    doc: "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
     type: 'function',
     status: 'optional',
   },
   transformOut: {
-    doc: "Mutate the data before it enters onSubmit or onChange based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).",
+    doc: "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
     type: 'function',
     status: 'optional',
   },
   filterSubmitData: {
-    doc: 'Filter the `onSubmit` output data, based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.',
+    doc: 'Filter the `onSubmit` output data, based on your criteria: `({ path, value, data, props, internal }) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.',
     type: 'function',
     status: 'optional',
   },

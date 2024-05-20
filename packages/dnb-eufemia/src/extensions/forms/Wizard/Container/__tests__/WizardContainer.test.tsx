@@ -1105,7 +1105,7 @@ describe('Wizard.Container', () => {
 
   describe('prerenderFieldProps and filterData', () => {
     it('should keep field props in memory during step change', async () => {
-      const filterDataHandler = jest.fn((path, value, props) => {
+      const filterDataHandler = jest.fn(({ props }) => {
         if (props['data-exclude-field']) {
           return false
         }
@@ -1238,7 +1238,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should set field props of all steps when "prerenderFieldProps" is set', () => {
-      const filterDataHandler = jest.fn((path, value, props) => {
+      const filterDataHandler = jest.fn(({ props }) => {
         if (props['data-exclude-field']) {
           return false
         }

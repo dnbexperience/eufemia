@@ -158,7 +158,8 @@ const filterDataPaths = {
 }
 
 // Method B – will iterate over all fields regardless of the path
-const filterDataHandler = (path, value, props, internal) => value !== 'bar'
+const filterDataHandler = ({ path, value, data, props, internal }) =>
+  value !== 'bar'
 
 const MyComponent = () => {
   const { filterData } = Form.useData()

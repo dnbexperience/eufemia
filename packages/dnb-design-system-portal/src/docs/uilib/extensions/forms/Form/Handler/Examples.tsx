@@ -282,7 +282,7 @@ export const FilterData = () => {
     <ComponentBox scope={{ replaceUndefinedValues }}>
       {() => {
         const id = 'my-form'
-        const filterDataHandler = (path, value, props) => !props.disabled
+        const filterDataHandler = ({ props }) => !props.disabled
 
         const MyForm = () => {
           const { data } = Form.useData(id, {

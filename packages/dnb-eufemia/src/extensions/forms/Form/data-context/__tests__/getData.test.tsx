@@ -134,7 +134,7 @@ describe('getData', () => {
   it('should provide filterData handler', () => {
     type Data = { foo: string }
 
-    const filterDataHandler = jest.fn((path, value, props) => {
+    const filterDataHandler = jest.fn(({ props }) => {
       if (props.disabled === true) {
         return false
       }

@@ -28,13 +28,12 @@ export type FilterDataHandler<Data> = (
   filter: FilterData
 ) => Partial<Data>
 export type FilterDataHandlerCallback<R> = (
-  path: Path,
-  value: unknown,
-  props: FieldProps,
-  internal: {
-    error: Error | undefined
-  }
+  parameters: FilterDataHandlerParameters
 ) => R
+export type FilterDataHandlerParameters =
+  FilterDataPathConditionParameters & {
+    path: Path
+  }
 export type FilterDataPathCondition<Data = unknown> = (
   parameters: FilterDataPathConditionParameters<Data>
 ) => boolean | undefined

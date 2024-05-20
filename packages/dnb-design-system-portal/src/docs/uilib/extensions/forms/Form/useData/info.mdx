@@ -151,7 +151,7 @@ It returns the filtered form data.
 **Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
 
 ```tsx
-const filterDataHandler = (path, value, props, internal) => {
+const filterDataHandler = ({ path, value, data, props, internal }) => {
   if (props['data-exclude-field']) {
     return false
   }
@@ -172,7 +172,7 @@ const MyForm = () => {
 The `internal` parameter contains `{ error: Error | undefined }` you can utilize if needed.
 
 ```tsx
-const filterDataHandler = (path, value, props, internal) => {
+const filterDataHandler = ({ path, value, data, props, internal }) => {
   return !(internal.error instanceof Error)
 }
 ```
