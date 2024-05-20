@@ -36,6 +36,11 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  visibleWhenNot: {
+    doc: 'Same as `visibleWhen`, but with inverted logic.',
+    type: 'object',
+    status: 'optional',
+  },
   inferData: {
     doc: 'Will be called to decide by external logic, and show/hide contents based on the return value.',
     type: 'function',

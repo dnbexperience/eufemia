@@ -113,7 +113,6 @@ export const FilterData = () => {
           data-exclude-field
         />
         <Form.Visibility
-          visible
           pathTrue="/isVisible"
           animate
           keepInDOM

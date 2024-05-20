@@ -261,6 +261,34 @@ describe('Visibility', () => {
     })
   })
 
+  describe('visibleWhenNot', () => {
+    it('should render children when hasValue matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhenNot={{ path: '/myPath', hasValue: 'foo' }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should not render children when hasValue not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhenNot={{ path: '/myPath', hasValue: 'bar' }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+  })
+
   it('should be supported by Flex.Container', async () => {
     render(
       <Form.Handler>
@@ -557,7 +585,6 @@ describe('Visibility', () => {
               data-exclude-field
             />
             <Form.Visibility
-              visible
               pathTrue="/isVisible"
               keepInDOM
               fieldPropsWhenHidden={{ 'data-exclude-field': true }}
@@ -573,11 +600,7 @@ describe('Visibility', () => {
               </Field.Selection>
 
               <Form.Visibility
-                visible
-                visibleWhen={{
-                  path: '/mySelection',
-                  hasValue: 'more',
-                }}
+                visibleWhen={{ path: '/mySelection', hasValue: 'more' }}
                 keepInDOM
                 fieldPropsWhenHidden={{ 'data-exclude-field': true }}
               >
@@ -672,13 +695,16 @@ describe('Visibility', () => {
     })
 
     it('should use filtered data based on given filterData paths', () => {
-      const filterData: FilterData = {
-        '/isVisible': () => false,
+      const filterDataPaths: FilterData = {
+        '/isVisible': false,
       }
 
       const { rerender } = render(
         <Form.Handler data={{ isVisible: false }}>
-          <Form.Visibility pathTrue="/isVisible" filterData={filterData}>
+          <Form.Visibility
+            pathTrue="/isVisible"
+            filterData={filterDataPaths}
+          >
             has filter
           </Form.Visibility>
 
@@ -693,7 +719,10 @@ describe('Visibility', () => {
 
       rerender(
         <Form.Handler data={{ isVisible: true }}>
-          <Form.Visibility pathTrue="/isVisible" filterData={filterData}>
+          <Form.Visibility
+            pathTrue="/isVisible"
+            filterData={filterDataPaths}
+          >
             has filter
           </Form.Visibility>
 

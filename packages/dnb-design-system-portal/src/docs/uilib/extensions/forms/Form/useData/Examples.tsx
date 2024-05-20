@@ -116,7 +116,6 @@ export function FilterData() {
                   data-exclude-field
                 />
                 <Form.Visibility
-                  visible
                   pathTrue="/isVisible"
                   animate
                   keepInDOM
@@ -133,7 +132,6 @@ export function FilterData() {
                   </Field.Selection>
 
                   <Form.Visibility
-                    visible
                     visibleWhen={{
                       path: '/myValue',
                       hasValue: 'more',
