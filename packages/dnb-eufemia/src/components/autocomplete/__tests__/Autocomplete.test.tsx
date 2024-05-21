@@ -1461,7 +1461,7 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  it('should render "select_value" when set to React.Element', async () => {
+  it('should render "selected_value" when set to React.Element', async () => {
     function ValueA() {
       return (
         <span>
