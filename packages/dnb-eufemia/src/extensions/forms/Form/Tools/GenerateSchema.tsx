@@ -22,11 +22,11 @@ export const schemaParams = [
 
 export default function GenerateSchema(props: GenerateSchemaProps) {
   const { generateRef, children } = props
-  const { fieldPropsRef, data } = useContext(DataContext)
+  const { fieldPropsRef, data, hasContext } = useContext(DataContext)
 
-  if (generateRef) {
+  if (hasContext) {
     generateRef.current = () => {
-      const schema = Object.entries(fieldPropsRef.current).reduce(
+      const schema = Object.entries(fieldPropsRef?.current || {}).reduce(
         (acc, [path, props]) => {
           if (path.startsWith('/')) {
             const objectKey = path.substring(1)
