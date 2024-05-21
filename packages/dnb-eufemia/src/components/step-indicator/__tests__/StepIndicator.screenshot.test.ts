@@ -8,13 +8,21 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('StepIndicator', () => {
+describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     pageViewport: {
       width: 1280,
       height: 1024,
     },
     url: '/uilib/components/step-indicator/demos',
+  })
+
+  it('have to match statuses', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="step-indicator-statuses"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match loose mode', async () => {
@@ -65,8 +73,9 @@ describe('StepIndicator', () => {
 })
 
 // eslint-disable-next-line jest/no-identical-title
-describe('StepIndicator', () => {
+describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/step-indicator/demos',
     pageViewport: {
       width: 500,

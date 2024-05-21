@@ -284,3 +284,34 @@ export const StepIndicatorRouter = () => (
     }}
   </ComponentBox>
 )
+
+export const StepIndicatorStatuses = () => (
+  <ComponentBox data-visual-test="step-indicator-statuses">
+    <StepIndicator.Sidebar sidebar_id="unique-id-statuses" />
+    <StepIndicator
+      sidebar_id="unique-id-statuses"
+      mode="loose"
+      current_step={0}
+      data={[
+        {
+          title: 'Current',
+        },
+        {
+          title: 'Warning',
+          status: 'Status message',
+          status_state: 'warn',
+        },
+        {
+          title: 'Error',
+          status: 'Status message',
+          status_state: 'error',
+        },
+        {
+          title: 'Info',
+          status: 'Status message',
+          status_state: 'info',
+        },
+      ]}
+    />
+  </ComponentBox>
+)
