@@ -210,13 +210,25 @@ export default function useFieldProps<
     if (requiredProp) {
       return requiredProp
     }
-    const requiredPath = identifier.replace(/^\//, '')
-    const required = [
-      schema?.['required'],
-      dataContext?.schema?.['required'],
-    ].flatMap((v) => v)
-    if (required.includes(requiredPath)) {
-      return true
+
+    const paths = identifier.split('/')
+    if (paths.length > 0 && (schema || dataContext?.schema)) {
+      const requiredList = [schema?.['required']]
+
+      if (paths.length > 1) {
+        const schema = dataContext.schema
+        const schemaPath = paths.slice(0, -1).join('/properties/')
+        const schemaPart = pointer.has(schema, schemaPath)
+          ? pointer.get(schema, schemaPath)
+          : schema
+
+        requiredList.push(schemaPart?.required)
+      }
+
+      const collected = requiredList.flatMap((v) => v).filter(Boolean)
+      if (collected.includes(paths.at(-1))) {
+        return true
+      }
     }
   }, [dataContext?.schema, identifier, requiredProp, schema])
 
