@@ -52,6 +52,7 @@ import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   drawerListPropTypes,
   parseContentTitle,
+  getCurrentDataTitle,
   getCurrentData,
   getCurrentIndex,
 } from '../../fragments/drawer-list/DrawerListHelpers'
@@ -346,7 +347,6 @@ export default class Autocomplete extends React.PureComponent {
 
     this._id = props.id || makeUniqueId()
   }
-
   render() {
     return (
       <DrawerListProvider
@@ -413,6 +413,11 @@ class AutocompleteInstance extends React.PureComponent {
       if (props.data !== state.prevData) {
         state.updateData(props.data)
         state.prevData = props.data
+
+        state.inputValue = getCurrentDataTitle(
+          state.selected_item,
+          props.data
+        )
       }
     }
 
