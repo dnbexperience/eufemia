@@ -29,6 +29,7 @@ function BooleanComponent(props: Props | IndeterminateProps) {
       valueOff={false}
       textOn={trueText ?? translations.yes}
       textOff={falseText ?? translations.no}
+      valueType="boolean"
     />
   )
 }

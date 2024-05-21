@@ -13,6 +13,7 @@ export { default as setData } from './data-context/setData'
 export { default as getData } from './data-context/getData'
 export { default as useError } from './data-context/useError'
 export { default as useTranslation } from '../hooks/useTranslation'
+export * as Tools from './Tools'
 
 /**
  * Can be removed in v11
