@@ -637,19 +637,27 @@ export const getClosestScrollViewElement = (currentElement) => {
   return getPreviousSibling('.dnb-scroll-view', currentElement)
 }
 
-export const convertJsxToString = (elements, separator = undefined) => {
+export const convertJsxToString = (
+  elements,
+  separator = undefined,
+  transformWord = undefined
+) => {
   if (!Array.isArray(elements)) {
     elements = [elements]
   }
 
   const process = (word) => {
     if (React.isValidElement(word)) {
+      if (transformWord) {
+        word = transformWord(word)
+      }
+
       if (typeof word.props.children === 'string') {
         word = word.props.children.trim()
       } else if (Array.isArray(word.props.children)) {
         word = word.props.children.reduce((acc, word) => {
           if (typeof word !== 'string') {
-            word = process(word)
+            word = process(word, separator, transformWord)
           }
           if (typeof word === 'string') {
             acc = (acc + (separator || '') + word).trim()
