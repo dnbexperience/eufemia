@@ -36,6 +36,7 @@
     --sizeCount--default: 12;
     --size--default: var(--small);
 
+    // Same logic as in the Flex.Container.tsx file
     .dnb-flex-container[data-media-key='small'] & {
       --size: var(--small, var(--medium));
     }

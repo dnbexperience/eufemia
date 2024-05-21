@@ -50,7 +50,7 @@ describe('Flex.Stack', () => {
   })
 
   it('should support "spacing" property', () => {
-    render(<Flex.Stack spacing="large">content</Flex.Stack>)
+    render(<Flex.Stack gap="large">content</Flex.Stack>)
 
     const element = document.querySelector('.dnb-flex-stack')
 
@@ -63,7 +63,7 @@ describe('Flex.Stack', () => {
   })
 
   it('should omit spacing when "spacing" is false', () => {
-    render(<Flex.Stack spacing={false}>content</Flex.Stack>)
+    render(<Flex.Stack gap={false}>content</Flex.Stack>)
 
     const element = document.querySelector('.dnb-flex-stack')
 

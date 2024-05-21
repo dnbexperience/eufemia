@@ -361,10 +361,10 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--small')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--small')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
-      <Flex.Container spacing="large">
+      <Flex.Container gap="large">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -378,10 +378,10 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--large')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--large')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
-      <Flex.Container spacing="xx-small">
+      <Flex.Container gap="xx-small">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -395,12 +395,12 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--xx-small')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--xx-small')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
   })
 
   it('should not apply spacing if set to false', () => {
     render(
-      <Flex.Container spacing={false}>
+      <Flex.Container gap={false}>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -585,7 +585,7 @@ describe('Flex.Container', () => {
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
                 class="dnb-space__top--zero dnb-space__bottom--zero test-item"
@@ -613,10 +613,10 @@ describe('Flex.Container', () => {
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
         document.querySelectorAll('[class*="dnb-space__top"]')
-      ).toHaveLength(4)
+      ).toHaveLength(3)
       expect(
         document.querySelectorAll('.dnb-space__top--zero')
-      ).toHaveLength(2)
+      ).toHaveLength(1)
       expect(
         document.querySelectorAll('.dnb-space__top--small')
       ).toHaveLength(1)
@@ -647,7 +647,7 @@ describe('Flex.Container', () => {
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
                 class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
@@ -672,7 +672,7 @@ describe('Flex.Container', () => {
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
         document.querySelectorAll('[class*="dnb-space__"]')
-      ).toHaveLength(3)
+      ).toHaveLength(2)
     })
 
     it('should handle fragments like _supportsSpacingProps=children', () => {
@@ -695,19 +695,19 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
           >
             Content A 
           </div>
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
           >
             <p>
               Content B
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="dnb-space__top--large test-item"
           >
             content
           </div>
@@ -719,8 +719,37 @@ describe('Flex.Container', () => {
       ).toHaveLength(1)
       expect(
         document.querySelectorAll('[class*="dnb-space__"]')
-      ).toHaveLength(3)
+      ).toHaveLength(1)
     })
+  })
+
+  it('should support spacing props for nested Flex.Containers', () => {
+    render(
+      <Flex.Container>
+        <Flex.Vertical
+          id="flex-container-space"
+          space={{
+            bottom: 'xx-large',
+            top: 'xx-large',
+            left: 'xx-large',
+            right: 'xx-large',
+          }}
+        >
+          <Flex.Item>FlexItem 1</Flex.Item>
+          <Flex.Item>FlexItem 2</Flex.Item>
+          <Flex.Item>FlexItem 3</Flex.Item>
+          <Flex.Item>FlexItem 4</Flex.Item>
+        </Flex.Vertical>
+      </Flex.Container>
+    )
+
+    const flexContainer = document.querySelector('#flex-container-space')
+    expect(flexContainer).toHaveClass(
+      'dnb-space__left--xx-large',
+      'dnb-space__right--xx-large',
+      'dnb-space__top--xx-large',
+      'dnb-space__bottom--xx-large'
+    )
   })
 
   it('should set custom element', () => {

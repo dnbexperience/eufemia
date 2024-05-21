@@ -17,7 +17,7 @@ export default function Toolbar(props: Props) {
     >
       <Hr space={0} />
 
-      <Flex.Horizontal top="x-small" spacing="large">
+      <Flex.Horizontal top="x-small" gap="large">
         {children}
       </Flex.Horizontal>
     </Space>

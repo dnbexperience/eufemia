@@ -112,7 +112,7 @@ export const FilterData = () => {
       onSubmit={(data) => console.log('onSubmit', data)}
       filterSubmitData={filterDataHandler}
     >
-      <Flex.Stack spacing="medium">
+      <Flex.Stack>
         <Field.Boolean label="Disabled" path="/disabled" />
         <Field.Boolean label="Validate" path="/validate" />
         <Field.String
