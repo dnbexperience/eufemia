@@ -519,13 +519,11 @@ describe('DataContext.Provider', () => {
         let filteredData = undefined
         const onSubmit = jest.fn((data) => (filteredData = data))
 
-        const filterDataHandler: FilterData = jest.fn(
-          (path, value, props) => {
-            if (props.disabled === true) {
-              return false
-            }
+        const filterDataHandler: FilterData = jest.fn(({ props }) => {
+          if (props.disabled === true) {
+            return false
           }
-        )
+        })
 
         const { rerender } = render(
           <DataContext.Provider
@@ -549,20 +547,34 @@ describe('DataContext.Provider', () => {
         )
 
         expect(filterDataHandler).toHaveBeenCalledTimes(2)
-        expect(filterDataHandler).toHaveBeenNthCalledWith(
-          1,
-          '/foo',
-          'Include this value',
-          expect.anything(),
-          expect.anything()
-        )
-        expect(filterDataHandler).toHaveBeenNthCalledWith(
-          2,
-          '/bar',
-          'bar',
-          expect.anything(),
-          expect.anything()
-        )
+        expect(filterDataHandler).toHaveBeenNthCalledWith(1, {
+          path: '/foo',
+          value: 'Include this value',
+          data: {
+            bar: 'bar',
+            foo: 'Include this value',
+          },
+          props: expect.objectContaining({
+            value: 'Include this value',
+          }),
+          internal: {
+            error: undefined,
+          },
+        })
+        expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
+          path: '/bar',
+          value: 'bar',
+          data: {
+            bar: 'bar',
+            foo: 'Include this value',
+          },
+          props: expect.objectContaining({
+            value: 'bar',
+          }),
+          internal: {
+            error: undefined,
+          },
+        })
 
         rerender(
           <DataContext.Provider
@@ -589,20 +601,34 @@ describe('DataContext.Provider', () => {
         )
 
         expect(filterDataHandler).toHaveBeenCalledTimes(4)
-        expect(filterDataHandler).toHaveBeenNthCalledWith(
-          3,
-          '/foo',
-          'Skip this value',
-          expect.anything(),
-          expect.anything()
-        )
-        expect(filterDataHandler).toHaveBeenNthCalledWith(
-          4,
-          '/bar',
-          'bar value',
-          expect.anything(),
-          expect.anything()
-        )
+        expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
+          path: '/foo',
+          value: 'Skip this value',
+          data: {
+            bar: 'bar value',
+            foo: 'Skip this value',
+          },
+          props: expect.objectContaining({
+            value: 'Skip this value',
+          }),
+          internal: {
+            error: undefined,
+          },
+        })
+        expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
+          path: '/bar',
+          value: 'bar value',
+          data: {
+            bar: 'bar value',
+            foo: 'Skip this value',
+          },
+          props: expect.objectContaining({
+            value: 'bar value',
+          }),
+          internal: {
+            error: undefined,
+          },
+        })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
       })
@@ -611,7 +637,7 @@ describe('DataContext.Provider', () => {
         const onSubmit = jest.fn()
         const onChange = jest.fn()
 
-        const filterDataHandler: FilterData = jest.fn((path, value) => {
+        const filterDataHandler: FilterData = jest.fn(({ value }) => {
           if (value === 'remove me') {
             return false
           }
@@ -672,7 +698,7 @@ describe('DataContext.Provider', () => {
       it('should add and remove fieldProps properly', async () => {
         const onSubmit = jest.fn()
 
-        const filterDataHandler = (path, value, props) => {
+        const filterDataHandler = ({ props }) => {
           return !props['data-exclude-field']
         }
 
@@ -3111,7 +3137,7 @@ describe('DataContext.Provider', () => {
 
   it('should run filterData with correct data in onSubmit', () => {
     const id = 'disabled-fields'
-    const filterDataHandler = jest.fn((path, value, props) => {
+    const filterDataHandler = jest.fn(({ props }) => {
       if (props.disabled === true) {
         return false
       }
@@ -3134,14 +3160,19 @@ describe('DataContext.Provider', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
     expect(filterDataHandler).toHaveBeenCalledTimes(1)
-    expect(filterDataHandler).toHaveBeenLastCalledWith(
-      '/myField',
-      'foo',
-      expect.objectContaining({
+    expect(filterDataHandler).toHaveBeenLastCalledWith({
+      path: '/myField',
+      value: 'foo',
+      data: {
+        myField: 'foo',
+      },
+      props: expect.objectContaining({
         disabled: true,
       }),
-      expect.anything()
-    )
+      internal: {
+        error: undefined,
+      },
+    })
 
     rerender(
       <Form.Handler
@@ -3161,14 +3192,19 @@ describe('DataContext.Provider', () => {
       expect.anything()
     )
     expect(filterDataHandler).toHaveBeenCalledTimes(2)
-    expect(filterDataHandler).toHaveBeenLastCalledWith(
-      '/myField',
-      'bar',
-      expect.objectContaining({
+    expect(filterDataHandler).toHaveBeenLastCalledWith({
+      path: '/myField',
+      value: 'bar',
+      data: {
+        myField: 'bar',
+      },
+      props: expect.objectContaining({
         disabled: false,
       }),
-      expect.anything()
-    )
+      internal: {
+        error: undefined,
+      },
+    })
   })
 
   it('should only render once', () => {
@@ -3848,7 +3884,7 @@ describe('DataContext.Provider', () => {
 
     it('should make filterData available in the hook', () => {
       const id = 'disabled-fields-hook'
-      const filterDataHandler = jest.fn((path, value, props) => {
+      const filterDataHandler = jest.fn(({ props }) => {
         if (props.disabled === true) {
           return false
         }
@@ -3882,14 +3918,19 @@ describe('DataContext.Provider', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
       expect(filterDataHandler).toHaveBeenCalledTimes(1)
-      expect(filterDataHandler).toHaveBeenLastCalledWith(
-        '/myField',
-        'foo',
-        expect.objectContaining({
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/myField',
+        value: 'foo',
+        data: {
+          myField: 'foo',
+        },
+        props: expect.objectContaining({
           disabled: true,
         }),
-        expect.anything()
-      )
+        internal: {
+          error: undefined,
+        },
+      })
 
       act(() => {
         result.current.set({ myField: 'bar' })
@@ -3920,14 +3961,19 @@ describe('DataContext.Provider', () => {
         expect.anything()
       )
       expect(filterDataHandler).toHaveBeenCalledTimes(2)
-      expect(filterDataHandler).toHaveBeenLastCalledWith(
-        '/myField',
-        'bar',
-        expect.objectContaining({
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/myField',
+        value: 'bar',
+        data: {
+          myField: 'bar',
+        },
+        props: expect.objectContaining({
           disabled: false,
         }),
-        expect.anything()
-      )
+        internal: {
+          error: undefined,
+        },
+      })
 
       rerender(
         <Form.Handler
@@ -3944,14 +3990,19 @@ describe('DataContext.Provider', () => {
       })
       expect(result.current.filterData(filterDataHandler)).toEqual({})
       expect(filterDataHandler).toHaveBeenCalledTimes(3)
-      expect(filterDataHandler).toHaveBeenLastCalledWith(
-        '/myField',
-        'bar',
-        expect.objectContaining({
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/myField',
+        value: 'bar',
+        data: {
+          myField: 'bar',
+        },
+        props: expect.objectContaining({
           disabled: true,
         }),
-        expect.anything()
-      )
+        internal: {
+          error: undefined,
+        },
+      })
     })
 
     describe('context support without id', () => {
@@ -4033,7 +4084,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should provide filterData handler', () => {
-        const filterDataHandler = jest.fn((path, value, props) => {
+        const filterDataHandler = jest.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }

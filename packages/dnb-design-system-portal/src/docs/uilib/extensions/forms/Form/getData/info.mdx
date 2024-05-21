@@ -61,7 +61,7 @@ const MyForm = () => {
   )
 }
 
-const filterDataHandler = (path, value, props, internal) => {
+const filterDataHandler = ({ path, value, data, props, internal }) => {
   if (props.disabled === true) {
     return false
   }

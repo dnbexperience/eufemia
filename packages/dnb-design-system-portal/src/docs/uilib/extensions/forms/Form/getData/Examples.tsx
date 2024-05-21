@@ -29,7 +29,13 @@ export function FilterData() {
   return (
     <ComponentBox>
       {() => {
-        const filterDataHandler = (path, value, props, internal) => {
+        // Method A (if you know the paths)
+        const filterDataPaths = {
+          '/foo': ({ value }) => value !== 'bar',
+        }
+
+        // Method B (will iterate over all fields regardless of the path)
+        const filterDataHandler = ({ value }) => {
           if (value === 'foo') {
             return false
           }
@@ -52,6 +58,7 @@ export function FilterData() {
 
             <Section backgroundColor="sand-yellow" innerSpace>
               <pre>{JSON.stringify(data)}</pre>
+              <pre>{JSON.stringify(filterData(filterDataPaths))}</pre>
               <pre>{JSON.stringify(filterData(filterDataHandler))}</pre>
             </Section>
           </>

@@ -92,7 +92,7 @@ export function Validation() {
 
 const id = 'form-with-disabled'
 
-const filterDataHandler = (path, value, props) => {
+const filterDataHandler = ({ props }) => {
   if (props.disabled === true) {
     return false
   }

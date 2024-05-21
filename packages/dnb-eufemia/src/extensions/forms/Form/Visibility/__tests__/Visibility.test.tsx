@@ -564,7 +564,7 @@ describe('Visibility', () => {
     it('should filter data with filterDataHandler based on props', async () => {
       let result = undefined
 
-      const filterDataHandler: FilterData = (path, value, props) => {
+      const filterDataHandler: FilterData = ({ props }) => {
         return !props['data-exclude-field']
       }
 
@@ -642,7 +642,7 @@ describe('Visibility', () => {
     })
 
     it('should use filtered data based on given filterData handler and mounted field path', async () => {
-      const filterDataHandler: FilterData = jest.fn((path, value) => {
+      const filterDataHandler: FilterData = jest.fn(({ path, value }) => {
         if (path === '/isVisible' && value === true) {
           return false
         }
@@ -673,12 +673,19 @@ describe('Visibility', () => {
       expect(first).toHaveAttribute('hidden', '')
       expect(second).toHaveAttribute('hidden', '')
       expect(filterDataHandler).toHaveBeenCalledTimes(1)
-      expect(filterDataHandler).toHaveBeenLastCalledWith(
-        '/isVisible',
-        false,
-        expect.any(Object),
-        expect.any(Object)
-      )
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/isVisible',
+        value: false,
+        data: {
+          isVisible: false,
+        },
+        props: expect.objectContaining({
+          path: '/isVisible',
+        }),
+        internal: {
+          error: undefined,
+        },
+      })
 
       await userEvent.click(document.querySelector('input'))
 
@@ -686,12 +693,19 @@ describe('Visibility', () => {
       expect(first).toHaveAttribute('hidden', '')
       expect(second).not.toHaveAttribute('hidden')
       expect(filterDataHandler).toHaveBeenCalledTimes(2)
-      expect(filterDataHandler).toHaveBeenLastCalledWith(
-        '/isVisible',
-        true,
-        expect.any(Object),
-        expect.any(Object)
-      )
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/isVisible',
+        value: true,
+        data: {
+          isVisible: true,
+        },
+        props: expect.objectContaining({
+          path: '/isVisible',
+        }),
+        internal: {
+          error: undefined,
+        },
+      })
     })
 
     it('should use filtered data based on given filterData paths', () => {

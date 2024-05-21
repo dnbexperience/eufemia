@@ -378,13 +378,11 @@ describe('Iterate.Array', () => {
           let filteredData = undefined
           const onSubmit = jest.fn((data) => (filteredData = data))
 
-          const filterDataHandler: FilterData = jest.fn(
-            (path, value, props) => {
-              if (props.disabled === true) {
-                return false
-              }
+          const filterDataHandler: FilterData = jest.fn(({ props }) => {
+            if (props.disabled === true) {
+              return false
             }
-          )
+          })
 
           const { rerender } = render(
             <DataContext.Provider
@@ -428,50 +426,73 @@ describe('Iterate.Array', () => {
           )
 
           expect(filterDataHandler).toHaveBeenCalledTimes(5)
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            1,
-            '/myList',
-            [
-              {
-                bar: 'bar 1',
-                foo: 'foo 1',
-              },
-              {
-                bar: 'bar 2',
-                foo: 'foo 2',
-              },
+          expect(filterDataHandler).toHaveBeenNthCalledWith(1, {
+            path: '/myList',
+            value: [
+              { bar: 'bar 1', foo: 'foo 1' },
+              { bar: 'bar 2', foo: 'foo 2' },
             ],
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            2,
-            '/myList/0/foo',
-            'foo 1',
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            3,
-            '/myList/0/bar',
-            'bar 1',
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            4,
-            '/myList/1/foo',
-            'foo 2',
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            5,
-            '/myList/1/bar',
-            'bar 2',
-            expect.anything(),
-            expect.anything()
-          )
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({ path: '/myList' }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
+            path: '/myList/0/foo',
+            value: 'foo 1',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({
+              itemPath: '/foo',
+            }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
+            path: '/myList/0/bar',
+            value: 'bar 1',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({
+              itemPath: '/bar',
+            }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
+            path: '/myList/1/foo',
+            value: 'foo 2',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({ itemPath: '/foo' }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
+            path: '/myList/1/bar',
+            value: 'bar 2',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({ itemPath: '/bar' }),
+            internal: { error: undefined },
+          })
 
           rerender(
             <DataContext.Provider
@@ -503,50 +524,77 @@ describe('Iterate.Array', () => {
           fireEvent.click(submitButton)
 
           expect(filterDataHandler).toHaveBeenCalledTimes(10)
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            6,
-            '/myList',
-            [
-              {
-                foo: 'foo 1',
-                bar: 'bar 1',
-              },
-              {
-                foo: 'foo 2',
-                bar: 'bar 2',
-              },
+          expect(filterDataHandler).toHaveBeenNthCalledWith(6, {
+            path: '/myList',
+            value: [
+              { bar: 'bar 1', foo: 'foo 1' },
+              { bar: 'bar 2', foo: 'foo 2' },
             ],
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            7,
-            '/myList/0/foo',
-            'foo 1',
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            8,
-            '/myList/0/bar',
-            'bar 1',
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            9,
-            '/myList/1/foo',
-            'foo 2',
-            expect.anything(),
-            expect.anything()
-          )
-          expect(filterDataHandler).toHaveBeenNthCalledWith(
-            10,
-            '/myList/1/bar',
-            'bar 2',
-            expect.anything(),
-            expect.anything()
-          )
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({ path: '/myList' }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(7, {
+            path: '/myList/0/foo',
+            value: 'foo 1',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({
+              itemPath: '/foo',
+            }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(8, {
+            path: '/myList/0/bar',
+            value: 'bar 1',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({
+              itemPath: '/bar',
+            }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(9, {
+            path: '/myList/1/foo',
+            value: 'foo 2',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({
+              itemPath: '/foo',
+            }),
+            internal: { error: undefined },
+          })
+          expect(filterDataHandler).toHaveBeenNthCalledWith(10, {
+            path: '/myList/1/bar',
+            value: 'bar 2',
+            data: {
+              myList: [
+                { bar: 'bar 1', foo: 'foo 1' },
+                { bar: 'bar 2', foo: 'foo 2' },
+              ],
+            },
+            props: expect.objectContaining({
+              itemPath: '/bar',
+            }),
+            internal: { error: undefined },
+          })
 
           expect(filteredData).toEqual({
             myList: [
