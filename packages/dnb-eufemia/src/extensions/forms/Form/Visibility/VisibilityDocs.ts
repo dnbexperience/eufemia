@@ -56,6 +56,11 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  filterData: {
+    doc: 'Filter data based on provided criteria. The first parameter is the path, the second is the value, and the third is the props, and the fourth is the internal. Return false to filter out the data.',
+    type: 'function',
+    status: 'optional',
+  },
   fieldPropsWhenHidden: {
     doc: 'When visibility is hidden, and `keepInDOM` is true, pass these props to the children.',
     type: 'various',

@@ -5,9 +5,9 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
-import DataContext from '../../DataContext/Context'
+import DataContext, { FilterData } from '../../DataContext/Context'
 import FieldProps from '../FieldProps'
-import type { UseFieldProps } from '../../types'
+import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 
 export type Props = {
@@ -36,6 +36,8 @@ export type Props = {
       }
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
+  /** Filter data based on provided criteria. The first parameter is the path, the second is the value, and the third is the props, and the fourth is the internal. Return false to filter out the data. */
+  filterData?: FilterData
   /** Animate the visibility change */
   animate?: boolean
   /** Keep the content in the DOM, even if it's not visible */
@@ -63,6 +65,7 @@ function Visibility({
   whenValue,
   visibleWhen,
   inferData,
+  filterData,
   animate,
   keepInDOM,
   fieldPropsWhenHidden,
@@ -82,43 +85,10 @@ function Visibility({
       return
     }
 
-    const data = dataContext.data
-
-    if (pathDefined && !pointer.has(data, pathDefined)) {
-      return
-    }
-    if (pathUndefined && pointer.has(data, pathUndefined)) {
-      return
-    }
-
-    if (
-      pathTruthy &&
-      (!pointer.has(data, pathTruthy) || !pointer.get(data, pathTruthy))
-    ) {
-      return
-    }
-    if (
-      pathFalsy &&
-      pointer.has(data, pathFalsy) &&
-      Boolean(pointer.get(data, pathFalsy))
-    ) {
-      return
-    }
-
-    if (
-      pathTrue &&
-      (!pointer.has(data, pathTrue) ||
-        pointer.get(data, pathTrue) !== true)
-    ) {
-      return
-    }
-    if (
-      pathFalse &&
-      (!pointer.has(data, pathFalse) ||
-        pointer.get(data, pathFalse) !== false)
-    ) {
-      return
-    }
+    const data =
+      (filterData &&
+        dataContext.filterDataHandler?.(dataContext.data, filterData)) ||
+      dataContext.data
 
     if (visibleWhen) {
       const hasValue = pointer.has(data, visibleWhen.path)
@@ -137,17 +107,37 @@ function Visibility({
       }
     }
 
-    if (
-      pathValue &&
-      !(
-        pointer.has(data, pathValue) &&
-        pointer.get(data, pathValue) === whenValue
-      )
-    ) {
+    if (pathDefined && !pointer.has(data, pathDefined)) {
+      return
+    }
+    if (pathUndefined && pointer.has(data, pathUndefined)) {
       return
     }
 
+    const getValue = (path: Path) => {
+      if (pointer.has(data, path)) {
+        return pointer.get(data, path)
+      }
+    }
+
+    if (pathTrue && getValue(pathTrue) !== true) {
+      return
+    }
+    if (pathFalse && getValue(pathFalse) !== false) {
+      return
+    }
+    if (pathTruthy && Boolean(getValue(pathTruthy)) === false) {
+      return
+    }
+    if (pathFalsy && Boolean(getValue(pathFalsy)) === true) {
+      return
+    }
     if (inferData && !inferData(data)) {
+      return
+    }
+
+    // Deprecated can be removed in v11
+    if (pathValue && getValue(pathValue) !== whenValue) {
       return
     }
 
@@ -162,7 +152,7 @@ function Visibility({
     return (
       <HeightAnimation
         open={open}
-        keepInDOM={keepInDOM}
+        keepInDOM={Boolean(keepInDOM)}
         className="dnb-forms-visibility"
         {...rest}
       >
