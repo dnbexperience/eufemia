@@ -41,8 +41,10 @@ export const PathValue = () => {
           value="unchecked"
         />
         <Form.Visibility
-          pathValue="/toggleValue"
-          whenValue="checked"
+          visibleWhen={{
+            path: '/toggleValue',
+            hasValue: 'checked',
+          }}
           animate
         >
           <P>This is visible</P>
@@ -149,8 +151,10 @@ export const NestedExample = () => {
 
                   <Form.Visibility
                     visible
-                    pathValue="/mySelection"
-                    whenValue="more"
+                    visibleWhen={{
+                      path: '/mySelection',
+                      hasValue: 'more',
+                    }}
                     animate
                     keepInDOM
                     fieldPropsWhenHidden={{ 'data-exclude-field': true }}

@@ -24,10 +24,16 @@ export type Props = {
   pathTrue?: string
   /** Given data context path must be false to show children */
   pathFalse?: string
-  /** Given data context path must match, as well as the "whenValue" value */
-  pathValue?: string
-  /** Given data context value must match this value to show children */
-  whenValue?: unknown
+  /** Provide a `path` and a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path. */
+  visibleWhen?:
+    | {
+        path: string
+        hasValue: unknown
+      }
+    | {
+        path: string
+        withValue: (value: unknown) => boolean
+      }
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
   /** Animate the visibility change */
@@ -38,6 +44,11 @@ export type Props = {
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
   element?: HeightAnimationProps['element']
   children: React.ReactNode
+
+  /** @deprecated Use `visibleWhen` instead */
+  pathValue?: string
+  /** @deprecated Use `visibleWhen` instead */
+  whenValue?: unknown
 }
 
 function Visibility({
@@ -50,6 +61,7 @@ function Visibility({
   pathFalse,
   pathValue,
   whenValue,
+  visibleWhen,
   inferData,
   animate,
   keepInDOM,
@@ -70,54 +82,72 @@ function Visibility({
       return
     }
 
-    if (pathDefined && !pointer.has(dataContext.data, pathDefined)) {
+    const data = dataContext.data
+
+    if (pathDefined && !pointer.has(data, pathDefined)) {
       return
     }
-    if (pathUndefined && pointer.has(dataContext.data, pathUndefined)) {
+    if (pathUndefined && pointer.has(data, pathUndefined)) {
       return
     }
 
     if (
       pathTruthy &&
-      (!pointer.has(dataContext.data, pathTruthy) ||
-        !pointer.get(dataContext.data, pathTruthy))
+      (!pointer.has(data, pathTruthy) || !pointer.get(data, pathTruthy))
     ) {
       return
     }
     if (
       pathFalsy &&
-      pointer.has(dataContext.data, pathFalsy) &&
-      Boolean(pointer.get(dataContext.data, pathFalsy))
+      pointer.has(data, pathFalsy) &&
+      Boolean(pointer.get(data, pathFalsy))
     ) {
       return
     }
 
     if (
       pathTrue &&
-      (!pointer.has(dataContext.data, pathTrue) ||
-        pointer.get(dataContext.data, pathTrue) !== true)
+      (!pointer.has(data, pathTrue) ||
+        pointer.get(data, pathTrue) !== true)
     ) {
       return
     }
     if (
       pathFalse &&
-      (!pointer.has(dataContext.data, pathFalse) ||
-        pointer.get(dataContext.data, pathFalse) !== false)
+      (!pointer.has(data, pathFalse) ||
+        pointer.get(data, pathFalse) !== false)
     ) {
       return
+    }
+
+    if (visibleWhen) {
+      const hasValue = pointer.has(data, visibleWhen.path)
+      if (hasValue) {
+        const value = pointer.get(data, visibleWhen.path)
+
+        const withValue = visibleWhen?.['withValue']
+        if (withValue && withValue?.(value) === false) {
+          return
+        } else if (
+          Object.prototype.hasOwnProperty.call(visibleWhen, 'hasValue') &&
+          visibleWhen?.['hasValue'] !== value
+        ) {
+          return
+        }
+      }
     }
 
     if (
       pathValue &&
       !(
-        pointer.has(dataContext.data, pathValue) &&
-        pointer.get(dataContext.data, pathValue) === whenValue
+        pointer.has(data, pathValue) &&
+        pointer.get(data, pathValue) === whenValue
       )
     ) {
       return
     }
 
-    if (inferData && !inferData(dataContext.data)) {
+    if (inferData && !inferData(data)) {
       return
     }
 

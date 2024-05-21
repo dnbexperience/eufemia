@@ -134,8 +134,10 @@ export function FilterData() {
 
                   <Form.Visibility
                     visible
-                    pathValue="/myValue"
-                    whenValue="more"
+                    visibleWhen={{
+                      path: '/myValue',
+                      hasValue: 'more',
+                    }}
                     animate
                     keepInDOM
                     fieldPropsWhenHidden={{ 'data-exclude-field': true }}
