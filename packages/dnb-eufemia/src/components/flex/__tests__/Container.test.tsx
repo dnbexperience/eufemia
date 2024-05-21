@@ -364,7 +364,7 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__right--small')
 
     rerender(
-      <Flex.Container spacing="large">
+      <Flex.Container gap="large">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -381,7 +381,7 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__right--large')
 
     rerender(
-      <Flex.Container spacing="xx-small">
+      <Flex.Container gap="xx-small">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -400,7 +400,7 @@ describe('Flex.Container', () => {
 
   it('should not apply spacing if set to false', () => {
     render(
-      <Flex.Container spacing={false}>
+      <Flex.Container gap={false}>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>

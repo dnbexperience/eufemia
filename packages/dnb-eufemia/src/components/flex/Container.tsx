@@ -14,6 +14,16 @@ import type { SpaceType } from '../space/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { End, Start } from './types'
 
+type Gap =
+  | false
+  | 'xx-small'
+  | 'x-small'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'x-large'
+  | 'xx-large'
+
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
@@ -32,15 +42,9 @@ export type BasicProps = {
   /** When "line-framed" is used, a line will be shown between items and above the first and below the last item */
   divider?: 'space' | 'line' | 'line-framed'
   /** Spacing between items inside */
-  spacing?:
-    | false
-    | 'xx-small'
-    | 'x-small'
-    | 'small'
-    | 'medium'
-    | 'large'
-    | 'x-large'
-    | 'xx-large'
+  gap?: Gap
+  /** @deprecated Use `gap` instead */
+  spacing?: Gap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
@@ -59,6 +63,7 @@ const propNames: Array<keyof Props> = [
   'align',
   'divider',
   'spacing',
+  'gap',
 ]
 
 export function pickFlexContainerProps<T extends Props>(
@@ -92,11 +97,14 @@ function FlexContainer(props: Props) {
     align = 'flex-start',
     alignSelf,
     divider = 'space',
-    spacing = 'small',
+    gap,
+    spacing: spacingProp,
     breakpoints,
     queries,
     ...rest
   } = props
+
+  let spacing = spacingProp ?? gap ?? 'small'
 
   const childrenArray = wrapChildren(props, children)
   const hasHeading = childrenArray.some((child, i) => {
@@ -140,7 +148,9 @@ function FlexContainer(props: Props) {
       ((divider === 'line' && !isFirst) || divider === 'line-framed')
     ) {
       const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
+      startSpacing = (getSpaceValue(start, child) ??
+        gap ??
+        spacing) as SpaceType
 
       return (
         <React.Fragment key={`element-${i}`}>
@@ -173,6 +183,7 @@ function FlexContainer(props: Props) {
       startSpacing =
         getSpaceValue(start, child) ??
         getSpaceValue(end, previousChild) ??
+        gap ??
         spacing
     }
 

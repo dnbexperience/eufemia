@@ -63,7 +63,7 @@ export function FlexWithChildren() {
 }
 
 const Item = () => (
-  <Flex.Stack divider="line-framed" spacing="x-small">
+  <Flex.Stack divider="line-framed" gap="x-small">
     <TestElement>FlexItem</TestElement>
     <TestElement>FlexItem</TestElement>
   </Flex.Stack>

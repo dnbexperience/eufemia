@@ -25,7 +25,7 @@ export const Interactive = () => {
               </output>
 
               <Iterate.Array path="/myList">
-                <Iterate.AnimatedContainer spacing={false}>
+                <Iterate.AnimatedContainer gap={false}>
                   <Flex.Horizontal align="center">
                     <strong>
                       <Value.Number itemPath="/" />
