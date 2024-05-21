@@ -379,19 +379,7 @@ export default function Provider<Data extends JsonObject>(
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
-      if (!fieldPropsRef.current[path]) {
-        fieldPropsRef.current[path] = {}
-      }
-      // For async processing, we need to merge the props with the existing props
-      Object.assign(fieldPropsRef.current[path], props)
-
-      // If one of the given props is not in props anymore,
-      // it needs to be removed from the fieldPropsRef
-      for (const key in fieldPropsRef.current[path]) {
-        if (!Object.prototype.hasOwnProperty.call(props, key)) {
-          delete fieldPropsRef.current[path][key]
-        }
-      }
+      fieldPropsRef.current[path] = props
     },
     []
   )
