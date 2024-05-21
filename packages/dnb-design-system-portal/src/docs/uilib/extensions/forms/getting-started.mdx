@@ -40,7 +40,39 @@ The needed styles are included in the Eufemia core package via `dnb-ui-component
 
 ### State management
 
-The state management is done via the [JSON Pointer](#what-is-a-json-pointer) directive (i.e `path="/firstName"`). This is a standardized way of pointing to a specific part of a JavaScript/JSON object. The JSON Pointer is used to both read and write data, and is also used to validate the data.
+While you can use a controlled method of handling the sate of fields or your form, it is recommended to use a declarative approach, where you keep the state of your form inside the data context, instead of pulling it out via your own `useState` hooks (imperative).
+
+- You don't need React **useState** to handle your form data.
+
+So how does that work?
+
+Lets say you have a form with a `name` field. In order to tell e.g. the `onSubmit` event what the data structure is, you define a declaration (`path`) about it right on the field itself:
+
+```jsx
+<Field.String path="/name" />
+```
+
+Why call it `path`?
+
+Because it can describe the structure of the data in several layers deep:
+
+```jsx
+<Field.String path="/user/name" />
+```
+
+Which results in the following data structure:
+
+```jsx
+{
+  user: {
+    name: 'Hanna'
+  }
+}
+```
+
+This is called a [JSON Pointer](#what-is-a-json-pointer), which is a standardized way of pointing to a specific part of a JavaScript/JSON object.
+
+These JSON pointers are used to both read and write data, and is also used to validate the form data.
 
 #### What is a JSON Pointer?
 
@@ -61,9 +93,13 @@ const pointer = '/foo/bar/0/baz' // points to 'value'
 
 #### Data handling
 
-You don't need React **useState** to handle your form data.
+How do I handle complex data logic?
 
-With [useData](/uilib/extensions/forms/Form/useData/), [getData](/uilib/extensions/forms/Form/getData/) and [setData](/uilib/extensions/forms/Form/setData/) you area able to access and modify your form data not only from nested components, but also outside the form context itself (`Form.Handler`).
+You can show or hide parts of your form based on your own logic. This is done by using the [Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it even can animate the visibility).
+
+And you can access and modify your form data with [useData](/uilib/extensions/forms/Form/useData/) or [getData](/uilib/extensions/forms/Form/getData/) or even [setData](/uilib/extensions/forms/Form/setData/).
+
+Here is an example of how to use these methods:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -83,7 +119,7 @@ function MyComponent() {
     set, // Method to set the whole dataset
     data, // The whole dataset (unvalidated)
     filterData, // Method to filter data with your own logic
-  } = Form.useData('optional-id')
+  } = Form.useData() // optionally provide an id (unique-id)
 }
 
 // You canalso use the setData:
@@ -97,39 +133,51 @@ const {
 } = Form.getData('unique-id')
 ```
 
-You can even handle the state outside the `Form.Handler` context. You can find more details in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
+As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
 
 <Examples.GettingStarted />
 
 #### Filter data
 
-You can filter data by any given criteria. This is done by using the `filterData` method from:
+The internal data will always contain all the fields, even if they are not visible. But you may want to filter out some data based on your own logic.
 
-- [useData](/uilib/extensions/forms/Form/useData/#filter-data)
-- [getData](/uilib/extensions/forms/Form/getData/#filter-data)
+You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
+
+- [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
+- [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
+- [Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
+
+You can provide either a function or an object with the paths you want to filter out.
+
+Here is an example of how filter out fields based on their `path` and `value`:
 
 ```tsx
-const filterDataHandler = (path, value, props, internal) => {
-  if (props.disabled === true) {
-    return false
-  }
+// Method A – if you know the paths
+const filterDataPaths = {
+  '/foo': ({ value, data, props, internal }) => value !== 'bar',
 }
 
-const MyForm = () => {
-  const { filterData } = Form.useData(id)
-  const filteredData = filterData(filterDataHandler)
+// Method B – will iterate over all fields regardless of the path
+const filterDataHandler = (path, value, props, internal) => value !== 'bar'
 
-  return (
-    <Form.Handler id={id}>
-      <Field.String path="/foo" disabled />
-    </Form.Handler>
-  )
+const MyComponent = () => {
+  const { filterData } = Form.useData()
+  const filteredDataA = filterData(filterDataPaths)
+  const filteredDataB = filterData(filterDataHandler)
+  console.log(filteredDataA)
+  console.log(filteredDataB)
+
+  return <Field.String path="/foo" />
 }
+
+render(
+  <Form.Handler>
+    <MyComponent />
+  </Form.Handler>,
+)
 ```
 
-**Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
-
-Here is a [working example](/uilib/extensions/forms/Form/useData/#filter-your-data) of using an `data-exclude-field` attribute.
+You may check out an [interactive example](/uilib/extensions/forms/Form/useData/#filter-your-data) of how to filter data.
 
 ##### Filter data during submit
 
@@ -137,7 +185,7 @@ For filtering data during form submit (`onSubmit`), you can use the `filterSubmi
 
 - [Form.Handler](/uilib/extensions/forms/Form/Handler/)
 
-Here is a working example of how to [filter data](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) during the submit event.
+You may check out an [interactive example](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) of how to filter data during the submit event.
 
 #### Transforming data
 
@@ -392,4 +440,4 @@ When building your application forms, preferably use the following layout compon
 
 Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
 
-Read more about [creating your own component](/uilib/extensions/forms/create-component).
+Read more about [creating your own component](/uilib/extensions/forms/create-component)

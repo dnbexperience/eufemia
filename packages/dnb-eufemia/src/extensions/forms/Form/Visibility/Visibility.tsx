@@ -10,6 +10,16 @@ import FieldProps from '../FieldProps'
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 
+type VisibleWhen =
+  | {
+      path: string
+      hasValue: unknown
+    }
+  | {
+      path: string
+      withValue: (value: unknown) => boolean
+    }
+
 export type Props = {
   visible?: boolean
   /** Given data context path must be defined to show children */
@@ -25,15 +35,9 @@ export type Props = {
   /** Given data context path must be false to show children */
   pathFalse?: string
   /** Provide a `path` and a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path. */
-  visibleWhen?:
-    | {
-        path: string
-        hasValue: unknown
-      }
-    | {
-        path: string
-        withValue: (value: unknown) => boolean
-      }
+  visibleWhen?: VisibleWhen
+  /** Same as `visibleWhen`, but with inverted logic. */
+  visibleWhenNot?: VisibleWhen
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
   /** Filter data based on provided criteria. The first parameter is the path, the second is the value, and the third is the props, and the fourth is the internal. Return false to filter out the data. */
@@ -64,6 +68,7 @@ function Visibility({
   pathValue,
   whenValue,
   visibleWhen,
+  visibleWhenNot,
   inferData,
   filterData,
   animate,
@@ -90,18 +95,25 @@ function Visibility({
         dataContext.filterDataHandler?.(dataContext.data, filterData)) ||
       dataContext.data
 
-    if (visibleWhen) {
+    if (visibleWhen || visibleWhenNot) {
+      if (visibleWhenNot) {
+        visibleWhen = visibleWhenNot
+      }
       const hasValue = pointer.has(data, visibleWhen.path)
       if (hasValue) {
         const value = pointer.get(data, visibleWhen.path)
 
         const withValue = visibleWhen?.['withValue']
-        if (withValue && withValue?.(value) === false) {
-          return
-        } else if (
-          Object.prototype.hasOwnProperty.call(visibleWhen, 'hasValue') &&
-          visibleWhen?.['hasValue'] !== value
-        ) {
+        const result =
+          (withValue && withValue?.(value) === false) ||
+          (Object.prototype.hasOwnProperty.call(visibleWhen, 'hasValue') &&
+            visibleWhen?.['hasValue'] !== value)
+
+        if (visibleWhenNot) {
+          if (!result) {
+            return
+          }
+        } else if (result) {
           return
         }
       }

@@ -332,28 +332,54 @@ export default function Provider<Data extends JsonObject>(
    * Mutate the data set based on the filterData function
    */
   const mutateDataHandler = useCallback(
-    (data: Data, fn: TransformData, remove = false) => {
-      if (fn) {
+    (data: Data, filter: FilterData | TransformData, remove = false) => {
+      const mutate = (path: Path, result: boolean | unknown) => {
+        if (remove) {
+          if (result === false) {
+            data = structuredClone(data)
+            pointer.remove(data, path)
+          }
+        } else {
+          if (typeof result !== 'undefined') {
+            data = structuredClone(data)
+            pointer.set(data, path, result)
+          }
+        }
+      }
+
+      if (typeof filter === 'function') {
         Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
           const exists = pointer.has(data, path)
           if (exists) {
-            const result = fn(path, pointer.get(data, path), props, {
+            const value = pointer.get(data, path)
+            const internal = {
               error: fieldErrorRef.current?.[path],
-            })
-            if (remove) {
-              if (result === false) {
-                data = structuredClone(data)
-                pointer.remove(data, path)
-              }
-            } else {
-              if (typeof result !== 'undefined') {
-                data = structuredClone(data)
-                pointer.set(data, path, result)
-              }
             }
+            const result = filter(path, value, props, internal)
+            mutate(path, result)
           }
         })
 
+        return data
+      } else if (filter) {
+        Object.entries(filter).forEach(([path, condition]) => {
+          const exists = pointer.has(data, path)
+          if (exists) {
+            const value = pointer.get(data, path)
+            const props = fieldPropsRef.current?.[path]
+            const internal = { error: fieldErrorRef.current?.[path] }
+            const result =
+              typeof condition === 'function'
+                ? condition({
+                    value,
+                    data: internalDataRef.current,
+                    props,
+                    internal,
+                  })
+                : condition
+            mutate(path, result)
+          }
+        })
         return data
       }
 
