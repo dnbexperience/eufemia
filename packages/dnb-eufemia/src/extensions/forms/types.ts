@@ -317,6 +317,11 @@ export interface UseFieldProps<
    * Transforms the given props `value` before any other step gets entered.
    */
   fromExternal?: (external: Value) => Value
+
+  /**
+   * For internal use only.
+   */
+  valueType?: string | number | boolean | Array<string | number | boolean>
 }
 
 export type FieldProps<

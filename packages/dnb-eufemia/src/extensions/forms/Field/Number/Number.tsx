@@ -169,6 +169,7 @@ function NumberComponent(props: Props) {
   ])
 
   const preparedProps: Props = {
+    valueType: 'number',
     ...props,
     errorMessages,
     schema,
