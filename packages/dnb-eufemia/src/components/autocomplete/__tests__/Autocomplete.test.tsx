@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import Autocomplete, { AutocompleteAllProps } from '../Autocomplete'
@@ -1506,6 +1506,34 @@ describe('Autocomplete component', () => {
     await userEvent.click(options()[1])
 
     expect(input.value).toBe('Kontonummer: 987654321')
+  it('should update input value when data prop changes', async () => {
+    const { rerender } = render(<Autocomplete {...mockProps} data={[]} />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).not.toHaveValue()
+
+    rerender(
+      <Autocomplete
+        {...mockProps}
+        data={[
+          {
+            selected_value: 'Bedriftskonto',
+            content: 'Bedriftskonto',
+          },
+          {
+            selected_value: 'Sparekonto',
+            content: 'Sparekonto',
+          },
+          {
+            selected_value: 'Felleskonto',
+            content: 'Felleskonto',
+          },
+        ]}
+      />
+    )
+
+    expect(input).toHaveValue('Bedriftskonto')
   })
 
   describe('should have correct values on input blur', () => {
