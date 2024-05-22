@@ -542,6 +542,34 @@ describe('Form.Handler', () => {
       expect(buttonElement).not.toBeDisabled()
     })
 
+    it('should set focus on previously activeElement when submit is completed', async () => {
+      const onSubmit = async () => null
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String />
+        </Form.Handler>
+      )
+
+      const inputElement = document.querySelector('input')
+
+      await userEvent.type(inputElement, 'something')
+      const activeElement = document.activeElement
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(inputElement).toBeDisabled()
+
+      // Ensure we loose focus
+      inputElement.removeAttribute('disabled')
+      inputElement.blur()
+
+      await waitFor(() => {
+        expect(activeElement).toBe(inputElement)
+        expect(activeElement).toBe(document.activeElement)
+      })
+    })
+
     it('should abort async submit when onSubmit returns error', async () => {
       const onSubmit = jest.fn(async () => {
         await wait(1)

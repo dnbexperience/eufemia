@@ -1082,6 +1082,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   }, [])
 
   const hadCompleteRef = useRef(false)
+  const activeElementRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     // This offset is used to calculate the delay,
@@ -1116,6 +1117,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     }
 
     if (formState === 'pending' && stateRef.current !== 'pending') {
+      activeElementRef.current = document.activeElement as HTMLElement
       clear()
       nowRef.current = Date.now()
       hadCompleteRef.current = false
@@ -1129,6 +1131,9 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
           if (hadCompleteRef.current) {
             setState('complete')
           }
+          window.requestAnimationFrame(() => {
+            activeElementRef.current?.focus?.()
+          })
         }, delay)
 
         timeoutRef.current.reset = setTimeout(() => {
