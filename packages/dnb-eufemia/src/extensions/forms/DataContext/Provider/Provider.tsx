@@ -300,6 +300,14 @@ export default function Provider<Data extends JsonObject>(
     },
     [checkFieldStateFor]
   )
+  const hasFieldError = useCallback(
+    (path: Path) => {
+      return mountedFieldPathsRef.current.some((p) => {
+        return p === path && checkFieldStateFor(p, 'error')
+      })
+    },
+    [checkFieldStateFor]
+  )
   const hasErrors = useCallback(() => {
     return hasFieldState('error')
   }, [hasFieldState])
@@ -433,6 +441,7 @@ export default function Provider<Data extends JsonObject>(
   const sharedAttachments = useSharedState<{
     filterDataHandler?: Props<Data>['filterSubmitData']
     hasErrors?: ContextState['hasErrors']
+    hasFieldError?: ContextState['hasFieldError']
     setShowAllErrors?: ContextState['setShowAllErrors']
     setSubmitState?: ContextState['setSubmitState']
     rerenderUseDataHook?: () => void
@@ -524,6 +533,7 @@ export default function Provider<Data extends JsonObject>(
       extendAttachment?.({
         filterDataHandler,
         hasErrors,
+        hasFieldError,
         setShowAllErrors,
         setSubmitState,
       })
@@ -537,6 +547,7 @@ export default function Provider<Data extends JsonObject>(
     filterDataHandler,
     filterSubmitData,
     hasErrors,
+    hasFieldError,
     id,
     rerenderUseDataHook,
     setShowAllErrors,
@@ -981,8 +992,8 @@ export default function Provider<Data extends JsonObject>(
         setFieldError,
         setProps,
         hasErrors,
+        hasFieldError,
         hasFieldState,
-        checkFieldStateFor,
         validateData,
         updateDataValue,
         setData,

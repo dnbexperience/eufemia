@@ -83,7 +83,7 @@ export interface ContextState {
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
-  checkFieldStateFor: (path: Path, state: SubmitState) => boolean
+  hasFieldError: (path: Path) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
@@ -146,7 +146,7 @@ export const defaultContextState: ContextState = {
   handleUnMountField: () => null,
   hasErrors: () => false,
   hasFieldState: () => false,
-  checkFieldStateFor: () => false,
+  hasFieldError: () => false,
   setFieldState: () => null,
   setFieldError: () => null,
   setProps: () => null,
