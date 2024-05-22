@@ -50,17 +50,25 @@ export type MediaQueryProperties = {
    * Reverts the defined queries as a whole.
    */
   not?: boolean
+} & MediaQueryCondition
 
+export type MediaQueryOptions = {
   /**
    * If set to true, no MediaQuery will be used.
    */
   disabled?: boolean
 
   /**
+   * Will correct the size of the media query ranges (e.g. medium will be from 40.0625em to 60em)
+   * Default: true
+   */
+  correctRange?: boolean
+
+  /**
    * For debugging
    */
   log?: boolean
-} & MediaQueryCondition
+}
 
 export type MediaQueryListener = () => void
 
@@ -71,7 +79,8 @@ export type MediaQueryProps = {
   matchOnSSR?: boolean
 
   children?: React.ReactNode
-} & MediaQueryProperties
+} & MediaQueryProperties &
+  MediaQueryOptions
 
 export type MediaQueryState = {
   match?: boolean | null
@@ -80,13 +89,6 @@ export type MediaQueryState = {
 
 /**
  * Adds a listener to a given MediaQuery
- *
- * @type {object} string or object { when: { min: 'small' } } that describes the media query
- * @property {string} query - media queries
- * @property {object} when - media queries
- * @property {boolean} not - reverses a media query
- * @param {function} callback function that gets emitted when the given media query
- * @returns function to remove listeners when called
  */
 export function onMediaQueryChange(
   property: MediaQueryProperties | string,
@@ -116,46 +118,32 @@ export function onMediaQueryChange(
 
 /**
  * Returns a boolean for whether window.matchMedia is supported or not
- *
- * @returns boolean
  */
 export const isMatchMediaSupported = (): boolean =>
   typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined'
 
 /**
  * Convert user defined media queries to an valid MediaQueryList we can assign a listener to
- *
- * @type {object} object that contains either a query, a when or not
- * @property {string} query - media queries
- * @property {object} when - media queries
- * @property {boolean} not - reverses a media query
- * @property {boolean} log - print used query to console
- * @returns MediaQueryList type
  */
 export function makeMediaQueryList(
-  {
-    query,
-    when,
-    not = null,
-    log = false,
-    disabled = false,
-  }: MediaQueryProperties = {},
-  breakpoints: MediaQueryBreakpoints = null
+  { query, when, not = null }: MediaQueryProperties = {},
+  breakpoints: MediaQueryBreakpoints = null,
+  options?: MediaQueryOptions
 ): MediaQueryList {
   const isSupported = isMatchMediaSupported()
 
-  if (disabled || !isSupported) {
+  if (options?.disabled || !isSupported) {
     return null
   }
 
   if (when) {
-    query = buildQuery({ query, when, not }, breakpoints)
+    query = buildQuery({ query, when, not }, breakpoints, options)
   }
 
-  const mediaQueryString = convertToMediaQuery(query, breakpoints)
+  const mediaQueryString = convertToMediaQuery(query, breakpoints, options)
   const mediaQueryList = window.matchMedia(mediaQueryString)
 
-  if (log) {
+  if (options?.log) {
     warn('MediaQuery:', mediaQueryString)
   }
 
@@ -164,10 +152,6 @@ export function makeMediaQueryList(
 
 /**
  * Adds a listener to the window.matchMedia Browser API
- *
- * @param {MatchMediaList} mediaQueryList a DOM MatchMediaList object
- * @param {function} callback callback function
- * @returns function to remove listeners when called
  */
 export function createMediaQueryListener(
   mediaQueryList: MediaQueryList,
@@ -195,16 +179,11 @@ export function createMediaQueryListener(
 
 /**
  * Builds a valid media query we can use on window.matchMedia(...)
- *
- * @type {object} object that contains either a query, a when or not
- * @property {string} query - media queries
- * @property {object} when - media queries
- * @property {boolean} not - reverses a media query
- * @returns media queries as a string
  */
 export function buildQuery(
   { query = null, when = null, not = null }: MediaQueryProperties = {},
-  breakpoints?: MediaQueryBreakpoints
+  breakpoints?: MediaQueryBreakpoints,
+  options?: MediaQueryOptions
 ) {
   if (when) {
     if (typeof when === 'string') {
@@ -215,10 +194,10 @@ export function buildQuery(
 
     if (Array.isArray(when)) {
       listOfQueries = listOfQueries.concat(
-        combineQueries(when, breakpoints)
+        combineQueries(when, breakpoints, options)
       )
     } else if (when && typeof when === 'object') {
-      const query = convertToMediaQuery(when, breakpoints)
+      const query = convertToMediaQuery(when, breakpoints, options)
       if (query) {
         listOfQueries.push(query)
       }
@@ -242,8 +221,6 @@ export function buildQuery(
 
 /**
  * Reverses a media query
- * @param {string} query media query to reverse with "not"
- * @returns reversed query
  */
 function reverseQuery(query: string) {
   if (query.startsWith('not')) {
@@ -257,13 +234,11 @@ function reverseQuery(query: string) {
 
 /**
  * Builds a list of queries based on sizing types, like small, medium
- *
- * @param {*} queries media query definitions as an array that contains either strings with size types or an object with all the media query definitions
- * @returns array of JavaScript based queries
  */
 function combineQueries(
   queries: Array<MediaQueryCondition>,
-  breakpoints: MediaQueryBreakpoints = null
+  breakpoints: MediaQueryBreakpoints = null,
+  options?: MediaQueryOptions
 ) {
   return queries
     .reduce((listOfQueries, when, i, arr) => {
@@ -271,7 +246,7 @@ function combineQueries(
         breakpoints = mergeBreakpoints(breakpoints)
       }
 
-      const query = convertToMediaQuery(when, breakpoints)
+      const query = convertToMediaQuery(when, breakpoints, options)
 
       if (query) {
         switch (arr[i - 1]) {
@@ -313,13 +288,11 @@ function mergeBreakpoints(breakpoints: MediaQueryBreakpoints) {
 
 /**
  * Convert a media query from various formats to a valid string based media query
- *
- * @param {array|object|string} query media query definitions
- * @returns media query string
  */
 export function convertToMediaQuery(
   query: MediaQueryCondition | Array<MediaQueryCondition>,
-  breakpoints: MediaQueryBreakpoints = null
+  breakpoints: MediaQueryBreakpoints = null,
+  options?: MediaQueryOptions
 ): string {
   if (typeof query === 'string') {
     return query
@@ -328,7 +301,7 @@ export function convertToMediaQuery(
   // Handling array of media queries
   if (Array.isArray(query)) {
     return query.reduce((acc, q, index) => {
-      acc += objToMediaQuery(q, breakpoints)
+      acc += objToMediaQuery(q, breakpoints, options)
       if (index < query.length - 1) {
         acc += ', '
       }
@@ -338,17 +311,16 @@ export function convertToMediaQuery(
   }
 
   // Handling single media query
-  return objToMediaQuery(query, breakpoints)
+  return objToMediaQuery(query, breakpoints, options)
 }
 
 /**
  * Converts an object with PascalCase defined properties to string based media queries
- * @param {object} obj Object with PascalCase defined properties and respective values
- * @returns media query string
  */
 function objToMediaQuery(
   obj: MediaQueryCondition,
-  breakpoints: MediaQueryBreakpoints = null
+  breakpoints: MediaQueryBreakpoints = null,
+  options?: MediaQueryOptions
 ): string {
   let hasNot = false
   let query: string | Array<null> = Object.keys(obj).reduce(
@@ -394,15 +366,23 @@ function objToMediaQuery(
     query = reverseQuery(query)
   }
 
+  if (options?.correctRange && /\(min-width: [0-9]+em\)/.test(query)) {
+    const size =
+      parseFloat(query.match(/\(min-width: ([0-9]+)em\)/)[1]) || 0
+    if (size > 0) {
+      const correctedSize = (size * 16 + 1) / 16
+      query = query.replace(
+        /(min-width: [0-9]+em)/,
+        `min-width: ${correctedSize}em`
+      )
+    }
+  }
+
   return query
 }
 
 /**
  * Corrects breakpoint types
- *
- * @param {string} value small, medium, large etc
- * @param {object} types breakpoints
- * @returns corrected value
  */
 function getValueByFeature(
   value: string,
