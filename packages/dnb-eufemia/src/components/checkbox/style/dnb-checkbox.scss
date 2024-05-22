@@ -377,7 +377,7 @@
     background-color: var(--checkbox-color-background--hover);
   }
 
-  &__input:not([disabled]):hover ~ &__gfx {
+  &__input:hover ~ &__gfx {
     color: var(--checkbox-color-gfx--hover);
   }
 

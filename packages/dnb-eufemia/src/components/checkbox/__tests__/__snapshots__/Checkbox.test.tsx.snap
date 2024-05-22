@@ -398,7 +398,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   border-color: var(--checkbox-color-border-off--hover);
   background-color: var(--checkbox-color-background--hover);
 }
-.dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--hover);
 }
 .dnb-checkbox__input:not([disabled]):checked:hover ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover ~ .dnb-checkbox__button {
