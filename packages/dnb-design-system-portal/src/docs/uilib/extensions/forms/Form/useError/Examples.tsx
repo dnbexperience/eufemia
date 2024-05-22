@@ -12,7 +12,7 @@ export function HasErrors() {
             showError: true,
             isVisible: true,
           })
-          const { hasErrors } = Form.useError('default-id')
+          const { hasErrors, hasFieldError } = Form.useError('default-id')
 
           return (
             <Form.Handler id="default-id">
@@ -25,6 +25,8 @@ export function HasErrors() {
                   <output>
                     <pre>
                       hasErrors: {JSON.stringify(hasErrors(), null, 2)}
+                      hasFieldError:{' '}
+                      {JSON.stringify(hasFieldError('/foo'), null, 2)}
                     </pre>
                   </output>
                 </Section>
