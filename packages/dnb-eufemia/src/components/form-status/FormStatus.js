@@ -518,7 +518,7 @@ WarnIcon.defaultProps = {
 
 export const InfoIcon = (props) => {
   const isSbankenTheme = useTheme()?.name === 'sbanken'
-  let fill = isSbankenTheme ? '#00785B' : '#007272'
+  let fill = isSbankenTheme ? '#7129E2' : '#007272'
   if (props && props?.state === 'success') {
     fill = isSbankenTheme ? '#00785B' : '#28B482'
   }
