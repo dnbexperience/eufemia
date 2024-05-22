@@ -47,6 +47,15 @@ So when dealing with naming of breakpoint ranges (between breakpoints), we actua
   alt="Breakpoint ranges clarification"
 />
 
+<br />
+<br />
+
+Here is how ranges breakes down in pixels:
+
+- The small range goes from 0 to 640px
+- The medium range goes from 641px to 960px
+- The large range goes from 961px to infinity
+
 ### UX Design and Breakpoints
 
 When dealing with breakpoints; UX often designs only for two sizes. This leads with an unknown size in between breakpoints. So check with your UXer your applications should behave for when the screen size is in between.
@@ -99,11 +108,7 @@ function Component() {
 
 The returned constants like `isLarge` etc. are within "breakpoint ranges" – likewise the SCSS mixins such as `allAbove` etc.
 
-| Name       | Range             | Columns |
-| ---------- | ----------------- | ------- |
-| `isSmall`  | from 0 to 40em    | 4       |
-| `isMedium` | from 40em to 60em | 6       |
-| `isLarge`  | from 60em         | 12      |
+See the [table above](#breakpoint-ranges) for the available breakpoints and their corresponding media queries.
 
 #### SSR (Server Side Render) usage
 
