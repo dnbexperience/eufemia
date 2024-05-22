@@ -527,33 +527,188 @@ describe('FieldBlock', () => {
     toHaveWarningAndInfo()
   })
 
-  it('should respect required if given in schema', async () => {
-    const schema: JSONSchema = {
-      type: 'object',
-      required: ['first', 'last'],
-      properties: {
-        first: {
-          type: 'string',
+  describe('schema', () => {
+    it('should show required error on submit', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        required: ['first', 'last'],
+        properties: {
+          first: {
+            type: 'string',
+          },
+          last: {
+            type: 'string',
+          },
         },
-        last: {
-          type: 'string',
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Composition>
+            <Field.Name.First path="/first" />
+            <Field.Name.Last path="/last" />
+          </Field.Composition>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      const statusMessages = document.querySelectorAll('.dnb-form-status')
+      expect(statusMessages).toHaveLength(1)
+      expect(statusMessages[0]).toHaveTextContent(
+        nb.FirstName.errorRequired
+      )
+      expect(statusMessages[0]).toHaveTextContent(
+        nb.LastName.errorRequired
+      )
+    })
+
+    it('should show required error initially when validateInitially is given', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        required: ['first', 'last'],
+        properties: {
+          first: {
+            type: 'string',
+          },
+          last: {
+            type: 'string',
+          },
         },
-      },
-    }
+      }
 
-    render(
-      <Form.Handler schema={schema}>
-        <Field.Composition>
-          <Field.String path="/first" />
-          <Field.String path="/last" />
-        </Field.Composition>
-      </Form.Handler>
-    )
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Composition>
+            <Field.Name.First path="/first" validateInitially />
+            <Field.Name.Last path="/last" validateInitially />
+          </Field.Composition>
+        </Form.Handler>
+      )
 
-    fireEvent.submit(document.querySelector('form'))
+      const statusMessages = document.querySelectorAll('.dnb-form-status')
+      expect(statusMessages).toHaveLength(1)
+      expect(statusMessages[0]).toHaveTextContent(
+        nb.FirstName.errorRequired
+      )
+      expect(statusMessages[0]).toHaveTextContent(
+        nb.LastName.errorRequired
+      )
+    })
 
-    const statusMessages = document.querySelectorAll('.dnb-form-status')
-    expect(statusMessages).toHaveLength(1)
-    expect(statusMessages[0]).toHaveTextContent(nb.Field.errorRequired)
+    it('should show minLength error initially when validateInitially is given', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          first: {
+            type: 'string',
+            minLength: 3,
+          },
+          last: {
+            type: 'string',
+            minLength: 6,
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Composition>
+            <Field.String path="/first" value="f" validateInitially />
+            <Field.String path="/last" value="l" validateInitially />
+          </Field.Composition>
+        </Form.Handler>
+      )
+
+      const statusMessages = document.querySelectorAll('.dnb-form-status')
+      expect(statusMessages).toHaveLength(1)
+      expect(statusMessages[0]).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessages[0]).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+    })
+
+    it('should validate error continuously when continuousValidation is given', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          first: {
+            type: 'string',
+            minLength: 3,
+          },
+          last: {
+            type: 'string',
+            minLength: 6,
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Composition>
+            <Field.String
+              path="/first"
+              value="f"
+              validateInitially
+              continuousValidation
+            />
+            <Field.String
+              path="/last"
+              value="l"
+              validateInitially
+              continuousValidation
+            />
+          </Field.Composition>
+        </Form.Handler>
+      )
+
+      const [first, last] = Array.from(document.querySelectorAll('input'))
+      const statusMessages = document.querySelectorAll('.dnb-form-status')
+      expect(statusMessages).toHaveLength(1)
+
+      const statusMessage = statusMessages[0]
+
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+
+      await userEvent.type(first, 'i')
+
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+
+      await userEvent.type(first, 'rst')
+
+      expect(statusMessage).not.toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+
+      await userEvent.type(last, 'ast name')
+
+      expect(statusMessage).not.toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessage).not.toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+
+      await userEvent.type(last, '{Backspace>4}')
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+    })
   })
 })

@@ -2861,6 +2861,9 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'The field at path="/myKey" value (some-value) type must be number'
+      )
 
       rerender(
         <DataContext.Provider schema={schema2} defaultData={data}>
