@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Card', () => {
+describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/card/demos',
   })
 
@@ -50,37 +51,40 @@ describe('Card', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+describe.each(['ui', 'sbanken'])(
+  'Card small screen for %s',
+  (themeName) => {
+    const params = {
+      themeName,
+      pageViewport: {
+        width: 400,
+      },
+      url: '/uilib/components/card/demos',
+    }
+    it('have to match border', async () => {
+      const screenshot = await makeScreenshot({
+        ...params,
+        selector: '[data-visual-test="layout-card-border"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
 
-describe('Card small screen', () => {
-  const params = {
-    pageViewport: {
-      width: 400,
-    },
-    url: '/uilib/components/card/demos',
+    it('have to match grid', async () => {
+      const screenshot = await makeScreenshot({
+        ...params,
+        selector: '[data-visual-test="layout-card-grid"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match flex', async () => {
+      const screenshot = await makeScreenshot({
+        ...params,
+        addWrapper: false,
+        selector:
+          '[data-visual-test="layout-card-flex"] .dnb-flex-container',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
-  it('have to match border', async () => {
-    const screenshot = await makeScreenshot({
-      ...params,
-      selector: '[data-visual-test="layout-card-border"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match grid', async () => {
-    const screenshot = await makeScreenshot({
-      ...params,
-      selector: '[data-visual-test="layout-card-grid"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match flex', async () => {
-    const screenshot = await makeScreenshot({
-      ...params,
-      addWrapper: false,
-      selector:
-        '[data-visual-test="layout-card-flex"] .dnb-flex-container',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+)
