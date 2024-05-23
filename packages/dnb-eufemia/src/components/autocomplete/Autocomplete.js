@@ -410,14 +410,15 @@ class AutocompleteInstance extends React.PureComponent {
         state.inputValue = props.input_value
       }
 
+      if (props?.data?.length > 0 && state?.prevData?.length === 0) {
+        state.inputValue = state.inputValue
+          ? state.inputValue
+          : getCurrentDataTitle(state.selected_item, props.data)
+      }
+
       if (props.data !== state.prevData) {
         state.updateData(props.data)
         state.prevData = props.data
-
-        state.inputValue = getCurrentDataTitle(
-          state.selected_item,
-          props.data
-        )
       }
     }
 
