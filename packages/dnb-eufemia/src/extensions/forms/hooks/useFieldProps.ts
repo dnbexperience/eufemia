@@ -153,7 +153,6 @@ export default function useFieldProps<
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext ?? {}
-  const inIterate = Boolean(iterateElementContext)
   const {
     index: iterateElementIndex,
     path: iteratePath,
@@ -161,20 +160,11 @@ export default function useFieldProps<
   } = iterateElementContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 
-  if (path && path.substring(0, 1) !== '/') {
-    throw new Error(
-      'Invalid path. Data value path JSON Pointers must be from root (starting with a /).'
-    )
+  if (path && !path.startsWith('/')) {
+    throw new Error(`path="${path}" must start with a slash`)
   }
-  if (itemPath && itemPath.substring(0, 1) !== '/') {
-    throw new Error(
-      'Invalid itemPath. Item pathJSON Pointers must be from root of iterate element (starting with a /).'
-    )
-  }
-  if (itemPath && !inIterate) {
-    throw new Error(
-      'itemPath cannot be used when not inside an iterate context. Wrap the component in an Iterate.Array.'
-    )
+  if (itemPath && !itemPath.startsWith('/')) {
+    throw new Error(`itemPath="${itemPath}" must start with a slash`)
   }
 
   const identifier = useMemo(() => {
