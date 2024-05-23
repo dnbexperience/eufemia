@@ -41,7 +41,9 @@ describe('MediaQuery', () => {
   })
 
   it('renders with props as an object', () => {
-    matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
+    matchMedia.useMediaQuery(
+      '(min-width: 60.0625em) and (max-width: 72em)'
+    )
 
     const props: MediaQueryProps = {
       when: { min: 'medium', max: 'large' },
@@ -53,7 +55,9 @@ describe('MediaQuery', () => {
   })
 
   it('should match for query with medium width', () => {
-    matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
+    matchMedia.useMediaQuery(
+      '(min-width: 60.0625em) and (max-width: 72em)'
+    )
 
     render(
       <MediaQuery when={{ min: 'medium', max: 'large' }}>
@@ -65,7 +69,7 @@ describe('MediaQuery', () => {
 
   it('should match for query when different breakpoints are given', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 40em) and (max-width: 80em), (min-width: 0) and (max-width: 30rem), (max-width: 90em)'
+      '(min-width: 40.0625em) and (max-width: 80em), (min-width: 0) and (max-width: 30rem), (max-width: 90em)'
     )
 
     render(
@@ -158,7 +162,7 @@ describe('MediaQuery', () => {
 
   it('should match for query with medium and large width', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 60em) and (max-width: 72em), (min-width: 72em) and (max-width: 80em)'
+      '(min-width: 60.0625em) and (max-width: 72em), (min-width: 72.0625em) and (max-width: 80em)'
     )
 
     render(

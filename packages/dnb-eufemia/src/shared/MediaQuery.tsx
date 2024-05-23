@@ -38,9 +38,12 @@ export default class MediaQuery extends React.PureComponent<
     }
 
     if (isMatchMediaSupported()) {
+      const { query, when, not } = props
+      const { disabled, correctRange = true, log } = props
       this.state.mediaQueryList = makeMediaQueryList(
-        props,
-        context?.breakpoints
+        { query, when, not },
+        context?.breakpoints,
+        { disabled, correctRange, log }
       )
 
       if (this.state.mediaQueryList?.matches) {

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
-import { removeSpaceProps } from '../space/SpacingUtils'
+import { isValidSpaceProp, removeSpaceProps } from '../space/SpacingUtils'
 import { End, Start } from './types'
 
 export const omitSpacingProps = removeSpaceProps
@@ -15,13 +15,13 @@ export const omitSpacingProps = removeSpaceProps
 export function pickSpacingProps<Props extends SpacingProps>(
   props: Props
 ): SpacingProps {
-  return {
-    space: props?.space,
-    top: props?.top,
-    bottom: props?.bottom,
-    left: props?.left,
-    right: props?.right,
+  const obj: SpacingProps = {}
+  for (const key in props as SpacingProps) {
+    if (isValidSpaceProp(key) && typeof props[key] !== 'undefined') {
+      obj[key] = props[key]
+    }
   }
+  return obj
 }
 
 /**

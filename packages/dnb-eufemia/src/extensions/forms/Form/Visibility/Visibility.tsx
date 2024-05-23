@@ -5,10 +5,20 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
-import DataContext from '../../DataContext/Context'
+import DataContext, { FilterData } from '../../DataContext/Context'
 import FieldProps from '../FieldProps'
-import type { UseFieldProps } from '../../types'
+import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
+
+type VisibleWhen =
+  | {
+      path: string
+      hasValue: unknown
+    }
+  | {
+      path: string
+      withValue: (value: unknown) => boolean
+    }
 
 export type Props = {
   visible?: boolean
@@ -24,12 +34,14 @@ export type Props = {
   pathTrue?: string
   /** Given data context path must be false to show children */
   pathFalse?: string
-  /** Given data context path must match, as well as the "whenValue" value */
-  pathValue?: string
-  /** Given data context value must match this value to show children */
-  whenValue?: unknown
+  /** Provide a `path` and a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path. */
+  visibleWhen?: VisibleWhen
+  /** Same as `visibleWhen`, but with inverted logic. */
+  visibleWhenNot?: VisibleWhen
   /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
   inferData?: (data: unknown) => boolean
+  /** Filter data based on provided criteria. The first parameter is the path, the second is the value, and the third is the props, and the fourth is the internal. Return false to filter out the data. */
+  filterData?: FilterData
   /** Animate the visibility change */
   animate?: boolean
   /** Keep the content in the DOM, even if it's not visible */
@@ -38,6 +50,11 @@ export type Props = {
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
   element?: HeightAnimationProps['element']
   children: React.ReactNode
+
+  /** @deprecated Use `visibleWhen` instead */
+  pathValue?: string
+  /** @deprecated Use `visibleWhen` instead */
+  whenValue?: unknown
 }
 
 function Visibility({
@@ -50,7 +67,10 @@ function Visibility({
   pathFalse,
   pathValue,
   whenValue,
+  visibleWhen,
+  visibleWhenNot,
   inferData,
+  filterData,
   animate,
   keepInDOM,
   fieldPropsWhenHidden,
@@ -70,54 +90,68 @@ function Visibility({
       return
     }
 
-    if (pathDefined && !pointer.has(dataContext.data, pathDefined)) {
+    const data =
+      (filterData &&
+        dataContext.filterDataHandler?.(dataContext.data, filterData)) ||
+      dataContext.data
+
+    if (visibleWhen || visibleWhenNot) {
+      if (visibleWhenNot) {
+        visibleWhen = visibleWhenNot
+      }
+      const hasPath = pointer.has(data, visibleWhen.path)
+      if (hasPath) {
+        const value = pointer.get(data, visibleWhen.path)
+
+        const withValue = visibleWhen?.['withValue']
+        const result =
+          (withValue && withValue?.(value) === false) ||
+          (Object.prototype.hasOwnProperty.call(visibleWhen, 'hasValue') &&
+            visibleWhen?.['hasValue'] !== value)
+
+        if (visibleWhenNot) {
+          if (!result) {
+            return
+          }
+        } else if (result) {
+          return
+        }
+      } else {
+        return
+      }
+    }
+
+    if (pathDefined && !pointer.has(data, pathDefined)) {
       return
     }
-    if (pathUndefined && pointer.has(dataContext.data, pathUndefined)) {
+    if (pathUndefined && pointer.has(data, pathUndefined)) {
       return
     }
 
-    if (
-      pathTruthy &&
-      (!pointer.has(dataContext.data, pathTruthy) ||
-        !pointer.get(dataContext.data, pathTruthy))
-    ) {
+    const getValue = (path: Path) => {
+      if (pointer.has(data, path)) {
+        return pointer.get(data, path)
+      }
+    }
+
+    if (pathTrue && getValue(pathTrue) !== true) {
       return
     }
-    if (
-      pathFalsy &&
-      pointer.has(dataContext.data, pathFalsy) &&
-      Boolean(pointer.get(dataContext.data, pathFalsy))
-    ) {
+    if (pathFalse && getValue(pathFalse) !== false) {
+      return
+    }
+    if (pathTruthy && Boolean(getValue(pathTruthy)) === false) {
+      return
+    }
+    if (pathFalsy && Boolean(getValue(pathFalsy)) === true) {
+      return
+    }
+    if (inferData && !inferData(data)) {
       return
     }
 
-    if (
-      pathTrue &&
-      (!pointer.has(dataContext.data, pathTrue) ||
-        pointer.get(dataContext.data, pathTrue) !== true)
-    ) {
-      return
-    }
-    if (
-      pathFalse &&
-      (!pointer.has(dataContext.data, pathFalse) ||
-        pointer.get(dataContext.data, pathFalse) !== false)
-    ) {
-      return
-    }
-
-    if (
-      pathValue &&
-      !(
-        pointer.has(dataContext.data, pathValue) &&
-        pointer.get(dataContext.data, pathValue) === whenValue
-      )
-    ) {
-      return
-    }
-
-    if (inferData && !inferData(dataContext.data)) {
+    // Deprecated can be removed in v11
+    if (pathValue && getValue(pathValue) !== whenValue) {
       return
     }
 
@@ -132,7 +166,7 @@ function Visibility({
     return (
       <HeightAnimation
         open={open}
-        keepInDOM={keepInDOM}
+        keepInDOM={Boolean(keepInDOM)}
         className="dnb-forms-visibility"
         {...rest}
       >

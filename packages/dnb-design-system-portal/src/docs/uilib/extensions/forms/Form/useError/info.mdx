@@ -14,8 +14,6 @@ You can use it in several ways. Like within the context of `Form.Handler`:
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
-  const { hasErrors } = Form.useError()
-
   return (
     <Form.Handler>
       ...
@@ -26,7 +24,11 @@ function MyForm() {
 }
 
 function Component() {
-  const { hasErrors } = Form.useError()
+  const { hasErrors, hasFieldError, setFormError } = Form.useError()
+
+  hasErrors() // true if any error is present
+  hasFieldError('/path/to/field') // true if the field has an error
+  setFormError(new Error('This is a global form error')) // report a form error
 }
 ```
 
@@ -45,7 +47,7 @@ function MyForm() {
 }
 
 function Component() {
-  const { hasErrors } = Form.useError('unique')
+  const { hasErrors, hasFieldError } = Form.useError('unique')
 }
 ```
 

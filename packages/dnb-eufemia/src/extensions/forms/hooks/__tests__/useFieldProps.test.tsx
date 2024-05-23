@@ -1875,17 +1875,106 @@ describe('useFieldProps', () => {
       expect(result.current.htmlAttributes).toEqual({})
     })
 
-    it('should return true on required', async () => {
-      const { result } = renderHook(() =>
-        useFieldProps({
-          value: undefined,
-          required: true,
-        })
-      )
+    describe('required', () => {
+      it('should return aria-required=true when required prop is true', async () => {
+        const { result } = renderHook(() =>
+          useFieldProps({
+            value: undefined,
+            required: true,
+          })
+        )
 
-      expect(result.current.error).not.toBeInstanceOf(Error)
-      expect(result.current.htmlAttributes).toEqual({
-        'aria-required': 'true',
+        expect(result.current.error).not.toBeInstanceOf(Error)
+        expect(result.current.htmlAttributes).toEqual({
+          'aria-required': 'true',
+        })
+      })
+
+      it('should return aria-required=true when defined in schema', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            myField: {
+              type: 'string',
+            },
+          },
+          required: ['myField'],
+        }
+
+        const { result } = renderHook(() =>
+          useFieldProps({
+            path: '/myField',
+            value: undefined,
+            schema,
+          })
+        )
+
+        expect(result.current.htmlAttributes).toEqual({
+          'aria-required': 'true',
+        })
+      })
+
+      it('should return aria-required=true when required in context schema', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            myField: {
+              type: 'string',
+            },
+          },
+          required: ['myField'],
+        }
+
+        const { result } = renderHook(
+          () =>
+            useFieldProps({
+              path: '/myField',
+              value: undefined,
+            }),
+          {
+            wrapper: ({ children }) => {
+              return <Provider schema={schema}>{children}</Provider>
+            },
+          }
+        )
+
+        expect(result.current.htmlAttributes).toEqual({
+          'aria-required': 'true',
+        })
+      })
+
+      it('should return aria-required=true when required inside nested context schema', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            myObject: {
+              type: 'object',
+              properties: {
+                myField: {
+                  type: 'string',
+                },
+              },
+              required: ['myField'],
+            },
+          },
+        }
+
+        const { result } = renderHook(
+          () =>
+            useFieldProps({
+              path: '/myObject/myField',
+              value: undefined,
+            }),
+          {
+            wrapper: ({ children }) => {
+              return <Provider schema={schema}>{children}</Provider>
+            },
+          }
+        )
+
+        expect(result.current.htmlAttributes).toEqual({
+          'aria-required': 'true',
+        })
       })
     })
 

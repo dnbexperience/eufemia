@@ -102,12 +102,23 @@ export function FilterData() {
   return (
     <ComponentBox>
       {() => {
-        const filterDataHandler = (path, value, props, internal) =>
-          !props['data-exclude-field']
+        const filterDataPaths = {
+          '/isVisible': false,
+          '/mySelection': ({ data }) => data.isVisible,
+          '/myString': ({ data }) => {
+            return data.isVisible && data.mySelection === 'more'
+          },
+        }
 
         const MyForm = () => {
           return (
-            <Form.Handler id="my-form">
+            <Form.Handler
+              defaultData={{
+                isVisible: false,
+                mySelection: 'less',
+                myString: 'foo',
+              }}
+            >
               <Flex.Stack>
                 <Field.Boolean
                   label="Toggle visible"
@@ -115,17 +126,11 @@ export function FilterData() {
                   path="/isVisible"
                   data-exclude-field
                 />
-                <Form.Visibility
-                  visible
-                  pathTrue="/isVisible"
-                  animate
-                  keepInDOM
-                  fieldPropsWhenHidden={{ 'data-exclude-field': true }}
-                >
+                <Form.Visibility pathTrue="/isVisible" animate>
                   <Field.Selection
                     label="Choose"
                     variant="radio"
-                    path="/myValue"
+                    path="/mySelection"
                     value="less"
                   >
                     <Field.Option value="less" title="Less" />
@@ -133,12 +138,11 @@ export function FilterData() {
                   </Field.Selection>
 
                   <Form.Visibility
-                    visible
-                    pathValue="/myValue"
-                    whenValue="more"
+                    visibleWhen={{
+                      path: '/mySelection',
+                      hasValue: 'more',
+                    }}
                     animate
-                    keepInDOM
-                    fieldPropsWhenHidden={{ 'data-exclude-field': true }}
                   >
                     <Field.String
                       label="My String"
@@ -147,9 +151,9 @@ export function FilterData() {
                     />
                   </Form.Visibility>
                 </Form.Visibility>
-
-                <Output />
               </Flex.Stack>
+
+              <Output />
             </Form.Handler>
           )
         }
@@ -166,7 +170,7 @@ export function FilterData() {
             >
               <ScrollView>
                 <pre>
-                  Filtered: {JSON.stringify(filterData(filterDataHandler))}
+                  Filtered: {JSON.stringify(filterData(filterDataPaths))}
                 </pre>
                 <pre>All data: {JSON.stringify(data)}</pre>
               </ScrollView>

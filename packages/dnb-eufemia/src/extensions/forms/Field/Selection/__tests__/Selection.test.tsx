@@ -1,6 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { screen, render, within, fireEvent } from '@testing-library/react'
+import {
+  screen,
+  render,
+  within,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field } from '../../..'
 
@@ -749,8 +755,10 @@ describe('event handlers', () => {
     const selectionButton = screen.getByRole('button')
     await userEvent.click(selectionButton)
 
-    expect(onFocus.mock.calls).toHaveLength(1)
-    expect(onFocus.mock.calls[0][0]).toEqual('bar')
+    await waitFor(() => {
+      expect(onFocus.mock.calls).toHaveLength(1)
+      expect(onFocus.mock.calls[0][0]).toEqual('bar')
+    })
   })
 
   it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
@@ -798,8 +806,11 @@ describe('validation and error handling', () => {
         )
         const selectionButton = screen.getByRole('button')
         await userEvent.click(selectionButton)
-        const option1 = screen.getByText('Fooo')
-        await userEvent.click(option1)
+
+        await waitFor(async () => {
+          const option1 = screen.getByText('Fooo')
+          await userEvent.click(option1)
+        })
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })

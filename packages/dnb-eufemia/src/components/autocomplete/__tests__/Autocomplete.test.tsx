@@ -1461,6 +1461,53 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
+  it('should render "selected_value" when set to React.Element', async () => {
+    function ValueA() {
+      return (
+        <span>
+          Kontonummer:<span>123456789</span>
+        </span>
+      )
+    }
+
+    function ValueB() {
+      return (
+        <span>
+          Kontonummer:<span> 987654321</span>
+        </span>
+      )
+    }
+
+    const data = [
+      {
+        selected_value: <ValueA />,
+        content: <ValueA />,
+      },
+      {
+        selected_value: <ValueB />,
+        content: <ValueB />,
+      },
+    ]
+
+    render(<Autocomplete data={data} />)
+
+    const input = document.querySelector('input')
+    const options = () =>
+      document.querySelectorAll('.dnb-drawer-list__option')
+
+    expect(input.value).toBeFalsy()
+
+    await userEvent.click(input)
+    await userEvent.click(options()[0])
+
+    expect(input.value).toBe('Kontonummer: 123456789')
+
+    await userEvent.click(input)
+    await userEvent.click(options()[1])
+
+    expect(input.value).toBe('Kontonummer: 987654321')
+  })
+
   describe('should have correct values on input blur', () => {
     it('when no selection is made and "keep_value" and "keep_value_and_selection" is false', async () => {
       const on_change = jest.fn()

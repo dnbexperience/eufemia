@@ -2809,7 +2809,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   background-color: var(--checkbox-color-background-on);
   border-color: var(--checkbox-color-border-on);
 }
-.dnb-checkbox__input:not([disabled]):not(:checked):not([data-checked=true]) ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__gfx {
   opacity: 0;
   transform: scale(0.8);
   color: var(--checkbox-color-gfx-off);
@@ -2880,7 +2880,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   border-color: var(--checkbox-color-border-off--hover);
   background-color: var(--checkbox-color-background--hover);
 }
-.dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--hover);
 }
 .dnb-checkbox__input:not([disabled]):checked:hover ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover ~ .dnb-checkbox__button {

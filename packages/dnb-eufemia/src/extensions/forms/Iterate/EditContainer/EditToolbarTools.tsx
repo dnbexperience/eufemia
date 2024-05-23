@@ -42,7 +42,7 @@ export default function EditToolbarTools() {
   }, [switchContainerMode])
 
   return (
-    <Flex.Horizontal spacing="large">
+    <Flex.Horizontal gap="large">
       <Button
         variant="tertiary"
         icon={check}

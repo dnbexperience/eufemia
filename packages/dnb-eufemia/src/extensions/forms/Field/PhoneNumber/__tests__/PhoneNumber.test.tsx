@@ -222,6 +222,63 @@ describe('Field.PhoneNumber', () => {
     expect(phoneElement.value).toEqual('')
   })
 
+  it('should display specified countries on drodpdown click, after user has entered a phonenumber', async () => {
+    const { rerender } = render(
+      <Field.PhoneNumber countries="Scandinavia" />
+    )
+
+    const [ccInput, phoneInput] = Array.from(
+      document.querySelectorAll('input')
+    )
+    const countries = () =>
+      document.querySelectorAll('li:not([aria-hidden])')
+
+    await userEvent.type(phoneInput, '123')
+    fireEvent.keyDown(ccInput, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const scandinavia = countries()
+
+    expect(scandinavia).toHaveLength(3)
+    expect(scandinavia[0]).toHaveTextContent('+45 Danmark')
+    expect(scandinavia[1]).toHaveTextContent('+47 Norge')
+    expect(scandinavia[2]).toHaveTextContent('+46 Sverige')
+
+    rerender(<Field.PhoneNumber countries="Nordic" />)
+
+    await userEvent.clear(phoneInput)
+    await userEvent.type(phoneInput, '123')
+    fireEvent.keyDown(ccInput, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const nordic = countries()
+
+    expect(nordic).toHaveLength(7)
+    expect(nordic[0]).toHaveTextContent('+45 Danmark')
+    expect(nordic[1]).toHaveTextContent('+298 Færøyene')
+    expect(nordic[2]).toHaveTextContent('+358 Finland')
+    expect(nordic[3]).toHaveTextContent('+299 Grønland')
+    expect(nordic[4]).toHaveTextContent('+354 Island')
+    expect(nordic[5]).toHaveTextContent('+47 Norge')
+    expect(nordic[6]).toHaveTextContent('+46 Sverige')
+
+    rerender(<Field.PhoneNumber countries="Europe" />)
+
+    await userEvent.clear(phoneInput)
+    await userEvent.type(phoneInput, '123')
+    fireEvent.keyDown(ccInput, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const europe = countries()
+    expect(europe).toHaveLength(51)
+  })
+
   it('should return correct value onChange event', async () => {
     const onChange = jest.fn()
     const onCountryCodeChange = jest.fn()

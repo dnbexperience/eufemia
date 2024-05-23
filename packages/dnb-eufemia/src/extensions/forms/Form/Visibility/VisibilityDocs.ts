@@ -31,14 +31,14 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  pathValue: {
-    doc: 'Given data context path must match, as well as the `whenValue` value.',
-    type: 'string',
+  visibleWhen: {
+    doc: 'Provide a `path` and a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path.',
+    type: 'object',
     status: 'optional',
   },
-  whenValue: {
-    doc: 'The value to match. Should be used together with `pathValue`.',
-    type: 'string',
+  visibleWhenNot: {
+    doc: 'Same as `visibleWhen`, but with inverted logic.',
+    type: 'object',
     status: 'optional',
   },
   inferData: {
@@ -59,6 +59,11 @@ export const VisibilityProperties: PropertiesTableProps = {
   keepInDOM: {
     doc: "Keep the content in the DOM, even if it's not visible. Can be used to let fields run validation.",
     type: 'boolean',
+    status: 'optional',
+  },
+  filterData: {
+    doc: 'Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.',
+    type: ['object', 'function'],
     status: 'optional',
   },
   fieldPropsWhenHidden: {

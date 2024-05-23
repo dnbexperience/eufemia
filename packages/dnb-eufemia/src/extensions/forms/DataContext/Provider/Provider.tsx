@@ -79,7 +79,7 @@ export interface Props<Data extends JsonObject> {
    */
   errorMessages?: CustomErrorMessagesWithPaths
   /**
-   * Filter the `onSubmit` output data, based on your criteria: `(path, value, props, internal) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.
+   * Filter the `onSubmit` output data, based on your criteria: `({ path, value, data, props, internal }) => !props?.disabled`. It will iterate on each data entry (/path). Return false to exclude the entry.
    */
   filterSubmitData?: FilterData
   /**
@@ -87,11 +87,11 @@ export interface Props<Data extends JsonObject> {
    */
   filterData?: FilterData
   /**
-   * Transform the data context (internally as well) based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
    */
   transformIn?: TransformData
   /**
-   * Mutate the data before it enters onSubmit or onChange based on your criteria: `(path, value, props, internal) => 'new value'`. It will iterate on each data entry (/path).
+   * Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
    */
   transformOut?: TransformData
   /**
@@ -300,6 +300,14 @@ export default function Provider<Data extends JsonObject>(
     },
     [checkFieldStateFor]
   )
+  const hasFieldError = useCallback(
+    (path: Path) => {
+      return mountedFieldPathsRef.current.some((p) => {
+        return p === path && checkFieldStateFor(p, 'error')
+      })
+    },
+    [checkFieldStateFor]
+  )
   const hasErrors = useCallback(() => {
     return hasFieldState('error')
   }, [hasFieldState])
@@ -332,28 +340,60 @@ export default function Provider<Data extends JsonObject>(
    * Mutate the data set based on the filterData function
    */
   const mutateDataHandler = useCallback(
-    (data: Data, fn: TransformData, remove = false) => {
-      if (fn) {
+    (data: Data, filter: FilterData | TransformData, remove = false) => {
+      const mutate = (path: Path, result: boolean | unknown) => {
+        if (remove) {
+          if (result === false) {
+            data = structuredClone(data)
+            pointer.remove(data, path)
+          }
+        } else {
+          if (typeof result !== 'undefined') {
+            data = structuredClone(data)
+            pointer.set(data, path, result)
+          }
+        }
+      }
+
+      if (typeof filter === 'function') {
         Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
           const exists = pointer.has(data, path)
           if (exists) {
-            const result = fn(path, pointer.get(data, path), props, {
+            const value = pointer.get(data, path)
+            const internal = {
               error: fieldErrorRef.current?.[path],
-            })
-            if (remove) {
-              if (result === false) {
-                data = structuredClone(data)
-                pointer.remove(data, path)
-              }
-            } else {
-              if (typeof result !== 'undefined') {
-                data = structuredClone(data)
-                pointer.set(data, path, result)
-              }
             }
+            const result = filter({
+              path,
+              value,
+              data: internalDataRef.current,
+              props,
+              internal,
+            })
+            mutate(path, result)
           }
         })
 
+        return data
+      } else if (filter) {
+        Object.entries(filter).forEach(([path, condition]) => {
+          const exists = pointer.has(data, path)
+          if (exists) {
+            const value = pointer.get(data, path)
+            const props = fieldPropsRef.current?.[path]
+            const internal = { error: fieldErrorRef.current?.[path] }
+            const result =
+              typeof condition === 'function'
+                ? condition({
+                    value,
+                    data: internalDataRef.current,
+                    props,
+                    internal,
+                  })
+                : condition
+            mutate(path, result)
+          }
+        })
         return data
       }
 
@@ -379,27 +419,17 @@ export default function Provider<Data extends JsonObject>(
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
   const setProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
-      // For async processing, we need to merge the props with the existing props
-      fieldPropsRef.current[path] = {
-        ...fieldPropsRef.current[path],
-        ...props,
-      }
-
-      // If one of the given props is not in props anymore,
-      // it needs to be removed from the fieldPropsRef
-      for (const key in fieldPropsRef.current[path]) {
-        if (!Object.prototype.hasOwnProperty.call(props, key)) {
-          delete fieldPropsRef.current[path][key]
-        }
-      }
+      fieldPropsRef.current[path] = props
     },
     []
   )
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldPropsRef.current) {
-      const props = fieldPropsRef.current[path]
-      if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
-        return true
+      if (mountedFieldPathsRef.current.includes(path)) {
+        const props = fieldPropsRef.current[path]
+        if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
+          return true
+        }
       }
     }
 
@@ -411,6 +441,7 @@ export default function Provider<Data extends JsonObject>(
   const sharedAttachments = useSharedState<{
     filterDataHandler?: Props<Data>['filterSubmitData']
     hasErrors?: ContextState['hasErrors']
+    hasFieldError?: ContextState['hasFieldError']
     setShowAllErrors?: ContextState['setShowAllErrors']
     setSubmitState?: ContextState['setSubmitState']
     rerenderUseDataHook?: () => void
@@ -502,6 +533,7 @@ export default function Provider<Data extends JsonObject>(
       extendAttachment?.({
         filterDataHandler,
         hasErrors,
+        hasFieldError,
         setShowAllErrors,
         setSubmitState,
       })
@@ -515,6 +547,7 @@ export default function Provider<Data extends JsonObject>(
     filterDataHandler,
     filterSubmitData,
     hasErrors,
+    hasFieldError,
     id,
     rerenderUseDataHook,
     setShowAllErrors,
@@ -673,9 +706,6 @@ export default function Provider<Data extends JsonObject>(
       mountedFieldPathsRef.current,
       path
     )
-    if (fieldPropsRef.current?.[path]) {
-      delete fieldPropsRef.current[path]
-    }
   }, [])
 
   // - Features
@@ -962,8 +992,8 @@ export default function Provider<Data extends JsonObject>(
         setFieldError,
         setProps,
         hasErrors,
+        hasFieldError,
         hasFieldState,
-        checkFieldStateFor,
         validateData,
         updateDataValue,
         setData,
@@ -982,7 +1012,6 @@ export default function Provider<Data extends JsonObject>(
         showAllErrors: showAllErrorsRef.current,
         fieldPropsRef,
         ajvInstance: ajvRef.current,
-        fieldProps: fieldPropsRef.current,
 
         /** Additional */
         id,
@@ -1064,6 +1093,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   }, [])
 
   const hadCompleteRef = useRef(false)
+  const activeElementRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     // This offset is used to calculate the delay,
@@ -1098,6 +1128,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     }
 
     if (formState === 'pending' && stateRef.current !== 'pending') {
+      activeElementRef.current = document.activeElement as HTMLElement
       clear()
       nowRef.current = Date.now()
       hadCompleteRef.current = false
@@ -1111,6 +1142,9 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
           if (hadCompleteRef.current) {
             setState('complete')
           }
+          window.requestAnimationFrame(() => {
+            activeElementRef.current?.focus?.()
+          })
         }, delay)
 
         timeoutRef.current.reset = setTimeout(() => {

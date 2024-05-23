@@ -49,7 +49,7 @@ export function CountCharactersInteractive() {
           })
           return (
             <Flex.Stack divider="line">
-              <Flex.Vertical spacing="x-small">
+              <Flex.Vertical gap="x-small">
                 <Field.String
                   label="Text"
                   path="/text"

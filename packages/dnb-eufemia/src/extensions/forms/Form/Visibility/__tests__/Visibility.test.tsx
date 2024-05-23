@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Provider } from '../../../DataContext'
+import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
 import { Field, Form } from '../../..'
 import { Flex } from '../../../../../components'
@@ -100,8 +100,8 @@ describe('Visibility', () => {
   describe('pathTruthy', () => {
     it('renders children when target path is truthy', () => {
       render(
-        <Provider data={{ isTrue: true }}>
-          <Visibility pathTruthy="/isTrue">Child</Visibility>
+        <Provider data={{ isTruthy: 'value' }}>
+          <Visibility pathTruthy="/isTruthy">Child</Visibility>
         </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -109,8 +109,8 @@ describe('Visibility', () => {
 
     it('does not render children when target path is not truthy', () => {
       render(
-        <Provider data={{ isFalse: false }}>
-          <Visibility pathTruthy="/isFalse">Child</Visibility>
+        <Provider data={{ isFalsy: null }}>
+          <Visibility pathTruthy="/isFalsy">Child</Visibility>
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
@@ -129,8 +129,8 @@ describe('Visibility', () => {
   describe('pathFalsy', () => {
     it('renders children when target path is falsy', () => {
       render(
-        <Provider data={{ isFalse: false }}>
-          <Visibility pathFalsy="/isFalse">Child</Visibility>
+        <Provider data={{ isFalsy: null }}>
+          <Visibility pathFalsy="/isFalsy">Child</Visibility>
         </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -147,8 +147,8 @@ describe('Visibility', () => {
 
     it('does not render children when target path is not falsy', () => {
       render(
-        <Provider data={{ isTrue: true }}>
-          <Visibility pathFalsy="/isTrue">Child</Visibility>
+        <Provider data={{ isTruthy: 'value' }}>
+          <Visibility pathFalsy="/isTruthy">Child</Visibility>
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
@@ -205,6 +205,103 @@ describe('Visibility', () => {
     })
   })
 
+  describe('visibleWhen', () => {
+    it('should render children when hasValue matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility visibleWhen={{ path: '/myPath', hasValue: 'foo' }}>
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('should not render children when hasValue not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility visibleWhen={{ path: '/myPath', hasValue: 'bar' }}>
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should not render children when path not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhen={{ path: '/nonExistingPath', hasValue: 'foo' }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should render children when withValue matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhen={{
+              path: '/myPath',
+              withValue: (value) => value === 'foo',
+            }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('should not render children when withValue not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhen={{
+              path: '/myPath',
+              withValue: (value) => value === 'bar',
+            }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('visibleWhenNot', () => {
+    it('should render children when hasValue matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhenNot={{ path: '/myPath', hasValue: 'foo' }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should not render children when hasValue not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhenNot={{ path: '/myPath', hasValue: 'bar' }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+  })
+
   it('should be supported by Flex.Container', async () => {
     render(
       <Form.Handler>
@@ -258,7 +355,13 @@ describe('Visibility', () => {
   it('should have "height-animation" wrapper when animate is true', async () => {
     render(
       <Provider data={{ myPath: 'checked' }}>
-        <Visibility pathValue="/myPath" whenValue="checked" animate>
+        <Visibility
+          visibleWhen={{
+            path: '/myPath',
+            hasValue: 'checked',
+          }}
+          animate
+        >
           Child
         </Visibility>
       </Provider>
@@ -276,8 +379,10 @@ describe('Visibility', () => {
     render(
       <Provider data={{ myPath: 'checked' }}>
         <Visibility
-          pathValue="/myPath"
-          whenValue="checked"
+          visibleWhen={{
+            path: '/myPath',
+            hasValue: 'checked',
+          }}
           animate
           element="span"
         >
@@ -469,10 +574,10 @@ describe('Visibility', () => {
   })
 
   describe('filterData', () => {
-    it('should filter data', async () => {
+    it('should filter data with filterDataHandler based on props', async () => {
       let result = undefined
 
-      const filterDataHandler = (path, value, props) => {
+      const filterDataHandler: FilterData = ({ props }) => {
         return !props['data-exclude-field']
       }
 
@@ -493,7 +598,6 @@ describe('Visibility', () => {
               data-exclude-field
             />
             <Form.Visibility
-              visible
               pathTrue="/isVisible"
               keepInDOM
               fieldPropsWhenHidden={{ 'data-exclude-field': true }}
@@ -509,9 +613,7 @@ describe('Visibility', () => {
               </Field.Selection>
 
               <Form.Visibility
-                visible
-                pathValue="/mySelection"
-                whenValue="more"
+                visibleWhen={{ path: '/mySelection', hasValue: 'more' }}
                 keepInDOM
                 fieldPropsWhenHidden={{ 'data-exclude-field': true }}
               >
@@ -550,6 +652,115 @@ describe('Visibility', () => {
       await userEvent.click(screen.getByText('Toggle'))
 
       expect(result).toMatchObject({})
+    })
+
+    it('should use filtered data based on given filterData handler and mounted field path', async () => {
+      const filterDataHandler: FilterData = jest.fn(({ path, value }) => {
+        if (path === '/isVisible' && value === true) {
+          return false
+        }
+      })
+
+      render(
+        <Form.Handler defaultData={{ isVisible: false }}>
+          <Field.Boolean path="/isVisible" />
+
+          <Form.Visibility
+            pathTrue="/isVisible"
+            filterData={filterDataHandler}
+            keepInDOM
+          >
+            <output data-is-hidden />
+          </Form.Visibility>
+
+          <Form.Visibility pathTrue="/isVisible" keepInDOM>
+            <output data-is-visible />
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('.dnb-forms-visibility')
+      )
+
+      expect(first).toHaveAttribute('hidden', '')
+      expect(second).toHaveAttribute('hidden', '')
+      expect(filterDataHandler).toHaveBeenCalledTimes(1)
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/isVisible',
+        value: false,
+        data: {
+          isVisible: false,
+        },
+        props: expect.objectContaining({
+          path: '/isVisible',
+        }),
+        internal: {
+          error: undefined,
+        },
+      })
+
+      await userEvent.click(document.querySelector('input'))
+
+      // First will be kept as hidden, second will be visible
+      expect(first).toHaveAttribute('hidden', '')
+      expect(second).not.toHaveAttribute('hidden')
+      expect(filterDataHandler).toHaveBeenCalledTimes(2)
+      expect(filterDataHandler).toHaveBeenLastCalledWith({
+        path: '/isVisible',
+        value: true,
+        data: {
+          isVisible: true,
+        },
+        props: expect.objectContaining({
+          path: '/isVisible',
+        }),
+        internal: {
+          error: undefined,
+        },
+      })
+    })
+
+    it('should use filtered data based on given filterData paths', () => {
+      const filterDataPaths: FilterData = {
+        '/isVisible': false,
+      }
+
+      const { rerender } = render(
+        <Form.Handler data={{ isVisible: false }}>
+          <Form.Visibility
+            pathTrue="/isVisible"
+            filterData={filterDataPaths}
+          >
+            has filter
+          </Form.Visibility>
+
+          <Form.Visibility pathTrue="/isVisible">
+            has no filter
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      expect(screen.queryByText('has filter')).not.toBeInTheDocument()
+      expect(screen.queryByText('has no filter')).not.toBeInTheDocument()
+
+      rerender(
+        <Form.Handler data={{ isVisible: true }}>
+          <Form.Visibility
+            pathTrue="/isVisible"
+            filterData={filterDataPaths}
+          >
+            has filter
+          </Form.Visibility>
+
+          <Form.Visibility pathTrue="/isVisible">
+            has no filter
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      expect(screen.queryByText('has filter')).not.toBeInTheDocument()
+      expect(screen.getByText('has no filter')).toBeInTheDocument()
     })
   })
 })

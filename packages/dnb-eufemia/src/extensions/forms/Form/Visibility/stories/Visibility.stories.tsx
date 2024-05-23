@@ -71,7 +71,7 @@ export const RadioDisabled = () => {
   )
 }
 
-export const filterDataHandler = (path, value, props, internal) => {
+export const filterDataHandler = ({ props }) => {
   return !props['data-exclude-field']
 }
 
@@ -113,7 +113,6 @@ export const FilterData = () => {
           data-exclude-field
         />
         <Form.Visibility
-          visible
           pathTrue="/isVisible"
           animate
           keepInDOM
@@ -130,9 +129,7 @@ export const FilterData = () => {
           </Field.Selection>
 
           <Form.Visibility
-            visible
-            pathValue="/myValue"
-            whenValue="more"
+            visibleWhen={{ path: '/myValue', hasValue: 'more' }}
             animate
             keepInDOM
             fieldPropsWhenHidden={{ 'data-exclude-field': true }}

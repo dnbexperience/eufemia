@@ -27,22 +27,32 @@ export type FilterDataHandler<Data> = (
   data: Data,
   filter: FilterData
 ) => Partial<Data>
-export type FilterData = (
-  path: Path,
-  value: any,
-  props: FieldProps,
-  internal: {
-    error: Error | undefined
+export type FilterDataHandlerCallback<R> = (
+  parameters: FilterDataHandlerParameters
+) => R
+export type FilterDataHandlerParameters =
+  FilterDataPathConditionParameters & {
+    path: Path
   }
+export type FilterDataPathCondition<Data = unknown> = (
+  parameters: FilterDataPathConditionParameters<Data>
 ) => boolean | undefined
-export type TransformData = (
-  path: Path,
-  value: any,
-  props: FieldProps,
+export type FilterDataPathConditionParameters<Data = unknown> = {
+  value: unknown
+  props: FieldProps
+  data: Data
   internal: {
     error: Error | undefined
   }
-) => any
+}
+export type FilterDataPathObject<Data> = Record<
+  Path,
+  FilterDataPathCondition<Data> | boolean | undefined
+>
+export type FilterData<Data = unknown> =
+  | FilterDataPathObject<Data>
+  | FilterDataHandlerCallback<boolean | undefined>
+export type TransformData = FilterDataHandlerCallback<unknown>
 
 export interface ContextState {
   id?: Identifier
@@ -73,7 +83,7 @@ export interface ContextState {
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
-  checkFieldStateFor: (path: Path, state: SubmitState) => boolean
+  hasFieldError: (path: Path) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
@@ -108,9 +118,9 @@ export interface ContextState {
   disabled?: boolean
   required?: boolean
   submitState: Partial<EventStateObject>
-  _isInsideFormElement?: boolean
+  isInsideFormElement?: boolean
+  prerenderFieldProps?: boolean
   props: ProviderProps<unknown>
-  fieldProps?: Record<Path, unknown>
 }
 
 export const defaultContextState: ContextState = {
@@ -136,13 +146,13 @@ export const defaultContextState: ContextState = {
   handleUnMountField: () => null,
   hasErrors: () => false,
   hasFieldState: () => false,
-  checkFieldStateFor: () => false,
+  hasFieldError: () => false,
   setFieldState: () => null,
   setFieldError: () => null,
   setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
-  _isInsideFormElement: false,
+  isInsideFormElement: false,
   props: null,
 }
 

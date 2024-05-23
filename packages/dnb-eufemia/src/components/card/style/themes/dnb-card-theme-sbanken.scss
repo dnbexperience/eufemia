@@ -1,0 +1,7 @@
+.dnb-card {
+  &.dnb-section {
+    --outline-color: var(--border-color, var(--sb-color-gray-light));
+    --outline-width: 0.0625rem;
+    --background-color: var(--sb-color-white);
+  }
+}

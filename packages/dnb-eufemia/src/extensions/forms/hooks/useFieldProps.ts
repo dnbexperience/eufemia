@@ -79,7 +79,7 @@ export default function useFieldProps<
     path,
     itemPath,
     emptyValue,
-    required,
+    required: requiredProp,
     disabled: disabledProp,
     info,
     warning,
@@ -147,11 +147,11 @@ export default function useFieldProps<
   const onChangeContext = dataContext?.props?.onChange
 
   const disabled = disabledProp ?? props.readOnly
-  const dataContextError = path ? dataContextErrors?.[path] : undefined
   const inFieldBlock = Boolean(fieldBlockContext)
   const {
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
+    mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext ?? {}
   const inIterate = Boolean(iterateElementContext)
   const {
@@ -206,6 +206,32 @@ export default function useFieldProps<
   const changedRef = useRef<boolean>(false)
   const hasFocusRef = useRef<boolean>(false)
 
+  const required = useMemo(() => {
+    if (requiredProp) {
+      return requiredProp
+    }
+
+    const paths = identifier.split('/')
+    if (paths.length > 0 && (schema || dataContext?.schema)) {
+      const requiredList = [schema?.['required']]
+
+      if (paths.length > 1) {
+        const schema = dataContext.schema
+        const schemaPath = paths.slice(0, -1).join('/properties/')
+        const schemaPart = pointer.has(schema, schemaPath)
+          ? pointer.get(schema, schemaPath)
+          : schema
+
+        requiredList.push(schemaPart?.required)
+      }
+
+      const collected = requiredList.flatMap((v) => v).filter(Boolean)
+      if (collected.includes(paths.at(-1))) {
+        return true
+      }
+    }
+  }, [dataContext?.schema, identifier, requiredProp, schema])
+
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
@@ -217,7 +243,11 @@ export default function useFieldProps<
     Partial<Record<PersistErrorStateMethod, Error | FormError>>
   >({})
   const localErrorRef = useRef<Error | FormError | undefined>()
+  const hasLocalErrorRef = useRef(false)
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
+  const dataContextError = useMemo(() => {
+    return path ? dataContextErrors?.[identifier] : undefined
+  }, [dataContextErrors, identifier, path])
   const contextErrorRef = useRef<Error | FormError | undefined>(
     dataContextError
   )
@@ -325,29 +355,6 @@ export default function useFieldProps<
     showFieldErrorFieldBlock?.(identifier, false)
   }, [showFieldErrorFieldBlock, identifier])
 
-  const error =
-    showErrorRef.current ||
-    // If the error is a type error, we want to show it even if the field as not been used
-    localErrorRef.current?.['validationRule'] === 'type'
-      ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-      : undefined
-
-  const hasVisibleError =
-    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
-  const hasError = useCallback(() => {
-    return Boolean(
-      errorProp ?? localErrorRef.current ?? contextErrorRef.current
-    )
-  }, [errorProp])
-
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
-
   /**
    * Prepare error from validation logic with correct error messages based on props
    */
@@ -379,6 +386,39 @@ export default function useFieldProps<
     },
     []
   )
+
+  contextErrorRef.current = useMemo(() => {
+    if (!dataContextError) {
+      return undefined
+    }
+    const error = prepareError(dataContextError)
+    if (errorChanged(error, contextErrorRef.current)) {
+      return error
+    }
+  }, [dataContextError, prepareError])
+
+  const error =
+    showErrorRef.current ||
+    // If the error is a type error, we want to show it even if the field as not been used
+    localErrorRef.current?.['validationRule'] === 'type'
+      ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+      : undefined
+
+  const hasVisibleError =
+    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
+  const hasError = useCallback(() => {
+    return Boolean(
+      errorProp ?? localErrorRef.current ?? contextErrorRef.current
+    )
+  }, [errorProp])
+
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: translation.Field.errorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, translation.Field.errorRequired])
 
   /**
    * Based on validation, update error state, locally and relevant surrounding contexts
@@ -445,6 +485,7 @@ export default function useFieldProps<
 
   const clearErrorState = useCallback(() => {
     persistErrorState('wipe')
+    hasLocalErrorRef.current = false
   }, [persistErrorState])
 
   const callValidator = useCallback(async () => {
@@ -567,7 +608,7 @@ export default function useFieldProps<
       // Validate required
       const requiredError = transformers.current.validateRequired(value, {
         emptyValue,
-        required,
+        required: requiredProp,
         isChanged: changedRef.current,
         error: new FormError('The value is required', {
           validationRule: 'required',
@@ -609,6 +650,7 @@ export default function useFieldProps<
       validatedValue.current = value
     } catch (error: unknown) {
       if (isProcessActive()) {
+        hasLocalErrorRef.current = true
         persistErrorState('weak', error as Error)
       }
     }
@@ -619,7 +661,7 @@ export default function useFieldProps<
     setFieldState,
     clearErrorState,
     emptyValue,
-    required,
+    requiredProp,
     validateInitially,
     callValidator,
     persistErrorState,
@@ -996,15 +1038,11 @@ export default function useFieldProps<
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
-  // Put props into the surrounding data context
+  // Put props into the surrounding data context as early as possible
   setPropsDataContext?.(identifier, props)
 
   useMountEffect(() => {
     dataContext?.handleMountField(identifier)
-
-    // Run this twice, because when remounting happens, the props where removed by the unmount effect
-    setPropsDataContext?.(identifier, props)
-
     validateValue()
   })
   useUnmountEffect(() => {
@@ -1031,12 +1069,27 @@ export default function useFieldProps<
   }, [externalValue, validateValue])
 
   useEffect(() => {
-    const error = prepareError(dataContextError)
-    if (errorChanged(error, contextErrorRef.current)) {
-      contextErrorRef.current = error
-      forceUpdate()
+    // Check against the local error state,
+    // so we prioritize the local error state over the context error state
+    if (!hasLocalErrorRef.current) {
+      const error = prepareError(dataContextError)
+      if (error) {
+        persistErrorState('weak', error)
+        if (validateInitially) {
+          handleError()
+        }
+      } else {
+        clearErrorState()
+      }
     }
-  }, [dataContextError, prepareError])
+  }, [
+    clearErrorState,
+    dataContextError,
+    handleError,
+    persistErrorState,
+    prepareError,
+    validateInitially,
+  ])
 
   useEffect(() => {
     if (path) {
@@ -1165,8 +1218,8 @@ export default function useFieldProps<
 
       return () => {
         // Unmount procedure
-        if (fieldBlockContext.mountedFieldsRef) {
-          fieldBlockContext.mountedFieldsRef.current[identifier] = true
+        if (mountedFieldsRefFieldBlock) {
+          mountedFieldsRefFieldBlock.current[identifier] = true
         }
       }
     }
@@ -1197,12 +1250,12 @@ export default function useFieldProps<
     htmlAttributes['aria-invalid'] = error ? 'true' : 'false'
   }
   if (required) {
-    htmlAttributes['aria-required'] = required ? 'true' : 'false'
+    htmlAttributes['aria-required'] = 'true'
   }
   if (inFieldBlock) {
     // Mount the field in the field block context
-    if (fieldBlockContext.mountedFieldsRef) {
-      fieldBlockContext.mountedFieldsRef.current[identifier] = true
+    if (mountedFieldsRefFieldBlock) {
+      mountedFieldsRefFieldBlock.current[identifier] = true
     }
 
     // Check if there are any state IDs to be added to the aria-describedby attribute

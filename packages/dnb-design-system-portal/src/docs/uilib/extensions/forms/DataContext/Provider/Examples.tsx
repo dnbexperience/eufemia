@@ -103,7 +103,7 @@ export const Default = () => {
       >
         <Flex.Stack>
           <Card stack>
-            <Flex.Vertical divider="line" spacing="small">
+            <Flex.Vertical divider="line" gap="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -193,7 +193,7 @@ export const ValidationWithJsonSchema = () => {
       >
         <Flex.Stack>
           <Card stack>
-            <Flex.Vertical divider="line" spacing="small">
+            <Flex.Vertical divider="line" gap="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"

@@ -1,10 +1,11 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex, P } from '@dnb/eufemia/src'
+import { Card, Flex, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
   TestElement,
+  Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const BooleanExample = () => {
@@ -41,8 +42,10 @@ export const PathValue = () => {
           value="unchecked"
         />
         <Form.Visibility
-          pathValue="/toggleValue"
-          whenValue="checked"
+          visibleWhen={{
+            path: '/toggleValue',
+            hasValue: 'checked',
+          }}
           animate
         >
           <P>This is visible</P>
@@ -117,21 +120,22 @@ export const NestedExample = () => {
   return (
     <ComponentBox>
       {() => {
-        const filterDataHandler = (path, value, props, internal) =>
+        const filterDataHandler = ({ props }) =>
           !props['data-exclude-field']
 
         const MyForm = () => {
           return (
-            <Form.Handler>
+            <Form.Handler
+              defaultData={{ isVisible: false, mySelection: 'less' }}
+            >
               <Flex.Stack>
                 <Field.Boolean
-                  label="Toggle"
+                  label="Visible"
                   variant="button"
                   path="/isVisible"
                   data-exclude-field
                 />
                 <Form.Visibility
-                  visible
                   pathTrue="/isVisible"
                   animate
                   keepInDOM
@@ -141,16 +145,16 @@ export const NestedExample = () => {
                     label="Choose"
                     variant="radio"
                     path="/mySelection"
-                    value="less"
                   >
                     <Field.Option value="less" title="Less" />
                     <Field.Option value="more" title="More" />
                   </Field.Selection>
 
                   <Form.Visibility
-                    visible
-                    pathValue="/mySelection"
-                    whenValue="more"
+                    visibleWhen={{
+                      path: '/mySelection',
+                      hasValue: 'more',
+                    }}
                     animate
                     keepInDOM
                     fieldPropsWhenHidden={{ 'data-exclude-field': true }}
@@ -171,6 +175,84 @@ export const NestedExample = () => {
         const Log = () => {
           const { filterData } = Form.useData()
           console.log(filterData(filterDataHandler))
+          return null
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const FilterData = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const filterDataPaths = {
+          '/isVisible': false,
+          '/mySelection': ({ data }) => data.isVisible,
+          '/myString': ({ data }) => {
+            return data.isVisible && data.mySelection === 'more'
+          },
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              defaultData={{
+                isVisible: false,
+                mySelection: 'less',
+                myString: 'foo',
+              }}
+            >
+              <Flex.Stack>
+                <Field.Boolean
+                  label="Visible"
+                  variant="button"
+                  path="/isVisible"
+                />
+                <Form.Visibility visible pathTrue="/isVisible" animate>
+                  <Field.Selection
+                    label="Choose"
+                    variant="radio"
+                    path="/mySelection"
+                  >
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
+
+                  <Form.Visibility
+                    visibleWhen={{
+                      path: '/mySelection',
+                      hasValue: 'more',
+                    }}
+                    animate
+                  >
+                    <Field.String label="My String" path="/myString" />
+                  </Form.Visibility>
+                </Form.Visibility>
+
+                <Form.Visibility
+                  pathDefined="/myString"
+                  filterData={filterDataPaths}
+                  animate
+                >
+                  <Card>
+                    <P>
+                      Result: <Value.String path="/myString" inline />
+                    </P>
+                  </Card>
+                </Form.Visibility>
+              </Flex.Stack>
+
+              <Log />
+            </Form.Handler>
+          )
+        }
+
+        const Log = () => {
+          const { filterData } = Form.useData()
+          console.log(filterData(filterDataPaths))
           return null
         }
 

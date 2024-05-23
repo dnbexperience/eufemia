@@ -1,0 +1,97 @@
+/*
+* StepIndicator theme
+* Warning, this is just a stop-gap theming to avoid dnb brand colors. This component is not fully "Sbanken-ready"
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-step-indicator-wrapper .dnb-step-indicator {
+  &__item {
+    .dnb-button {
+      --border-color: var(--sb-color-gray-light);
+    }
+
+    &--current .dnb-button {
+      --border-color: var(--sb-color-purple-alternative);
+      color: var(--sb-color-white);
+      background-color: var(--sb-color-purple-alternative);
+    }
+
+    &--visited .dnb-button {
+      --border-color: var(--sb-color-purple-alternative);
+      color: var(--sb-color-purple-alternative);
+      background-color: var(--sb-color-green-light-2);
+    }
+
+    &--inactive .dnb-button {
+      cursor: text;
+      pointer-events: initial;
+      user-select: initial;
+
+      &.dnb-button--secondary,
+      &.dnb-button--secondary:hover,
+      &.dnb-button--secondary:focus,
+      &.dnb-button--secondary:active {
+        color: var(--color-black-80);
+        background-color: var(--color-white);
+
+        @include fakeBorder(var(--color-black-20), 0.0625rem, inset);
+      }
+    }
+
+    &--inactive.dnb-step-indicator__item--current {
+      .dnb-button {
+        &.dnb-button--secondary,
+        &.dnb-button--secondary:hover,
+        &.dnb-button--secondary:focus,
+        &.dnb-button--secondary:active {
+          @include fakeBorder(var(--color-black-80), 0.125rem, inset);
+        }
+      }
+    }
+  }
+
+  &__label,
+  &__label.dnb-p {
+    font-size: var(--font-size-small);
+    margin-bottom: 0.5rem;
+  }
+
+  &__button__status {
+    &.dnb-button--secondary {
+      color: var(--sb-color-text);
+      background-color: var(--sb-color-yellow-light-3);
+    }
+
+    &--error.dnb-button--secondary {
+      color: var(--sb-color-text);
+      background-color: var(--sb-color-magenta-light-2);
+    }
+
+    &--info.dnb-button--secondary {
+      color: var(--sb-color-text);
+      background-color: var(--sb-color-gray-light-2);
+    }
+
+    .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: 1rem;
+      margin-right: 0.25rem;
+    }
+
+    .dnb-step-indicator__item-content {
+      &__number,
+      &__status {
+        font-weight: var(--font-weight-basis);
+      }
+
+      &__status {
+        margin-top: 0.5rem;
+
+        font-size: var(--font-size-x-small);
+        line-height: var(--font-size-basis);
+        color: var(--color-black-80);
+      }
+    }
+  }
+}

@@ -4,9 +4,10 @@ import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
 import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
+import ValueBlockContext from './ValueBlockContext'
+import DataContext from '../DataContext/Context'
 import { ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
-import ValueBlockContext from './ValueBlockContext'
 
 /**
  * Props are documented in ValueDocs.ts
@@ -28,6 +29,7 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
 function ValueBlock(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
+  const dataContext = useContext(DataContext)
 
   const {
     className,
@@ -47,9 +49,10 @@ function ValueBlock(props: Props) {
   useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)
 
   if (
-    (children === undefined || children === null || children === false) &&
-    !showEmpty &&
-    !placeholder
+    ((children === undefined || children === null || children === false) &&
+      !showEmpty &&
+      !placeholder) ||
+    dataContext?.prerenderFieldProps
   ) {
     return null
   }

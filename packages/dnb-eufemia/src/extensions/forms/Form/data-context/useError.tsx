@@ -7,6 +7,7 @@ import DataContext, { ContextState } from '../../DataContext/Context'
 
 type UseDataReturn = {
   hasErrors: ContextState['hasErrors']
+  hasFieldError: ContextState['hasFieldError']
   setFormError: (error: Error) => void
 }
 
@@ -26,6 +27,10 @@ export default function useError(
     sharedAttachmentsRef.current?.data?.hasErrors ||
     (!id && context?.hasErrors) ||
     fallback
+  const hasFieldError =
+    sharedAttachmentsRef.current?.data?.hasFieldError ||
+    (!id && context?.hasFieldError) ||
+    fallback
 
   // Error handling
   const setSubmitState =
@@ -35,13 +40,12 @@ export default function useError(
   const setFormError = useCallback(
     (error: Error) => {
       setSubmitState?.({ error })
-      // console.error(error)
     },
     [setSubmitState]
   )
 
   return useMemo(
-    () => ({ hasErrors, setFormError }),
-    [hasErrors, setFormError]
+    () => ({ hasErrors, hasFieldError, setFormError }),
+    [hasErrors, hasFieldError, setFormError]
   )
 }

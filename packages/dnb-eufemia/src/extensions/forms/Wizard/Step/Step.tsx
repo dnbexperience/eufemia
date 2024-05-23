@@ -28,20 +28,33 @@ export type Props = ComponentProps &
      * Will make all the fields inside the step to be required.
      */
     required?: boolean
+
+    /**
+     * If set to `true`, the step will always be rendered.
+     * For internal use only.
+     */
+    prerenderFieldProps?: boolean
   }
 
 function Step(props: Props) {
-  const { className, title, index, required, children, ...restProps } =
-    props
+  const {
+    className,
+    title,
+    index,
+    required,
+    prerenderFieldProps,
+    children,
+    ...restProps
+  } = props
   const { activeIndex, stepElementRef } = useContext(WizardContext) || {}
 
   const ariaLabel = useMemo(() => {
-    return convertJsxToString(title)
-  }, [title])
+    return !prerenderFieldProps && convertJsxToString(title)
+  }, [prerenderFieldProps, title])
 
   const currentElementRef = useRef<HTMLElement>()
   useLayoutEffect(() => {
-    if (typeof stepElementRef !== 'undefined') {
+    if (!prerenderFieldProps && typeof stepElementRef !== 'undefined') {
       if (currentElementRef.current) {
         stepElementRef.current = currentElementRef.current
       }
@@ -49,7 +62,11 @@ function Step(props: Props) {
         stepElementRef.current = null
       }
     }
-  }, [stepElementRef])
+  }, [prerenderFieldProps, stepElementRef])
+
+  if (prerenderFieldProps) {
+    return children
+  }
 
   if (activeIndex !== index) {
     // Another step is active

@@ -39,7 +39,8 @@ export type UseDataReturnGetValue<Data> = <P extends Path>(
 ) => PathType<Data, P>
 
 export type UseDataReturnFilterData<Data> = (
-  filterDataHandler: FilterData
+  filterDataHandler: FilterData,
+  data?: Data
 ) => Partial<Data>
 
 type UseDataReturn<Data> = {
@@ -130,9 +131,7 @@ export default function useData<Data>(
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
-    (filter) => {
-      const data = sharedDataRef.current.data
-
+    (filter, data = sharedDataRef.current.data) => {
       if (id) {
         return sharedAttachmentsRef.current.data?.filterDataHandler?.(
           data,

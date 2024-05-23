@@ -26,7 +26,7 @@ export const DataSetSchema = () => {
           required: ['name', 'address'],
         }}
       >
-        <Card spacing="small" bottom="small">
+        <Card gap="small" bottom="small">
           <Form.MainHeading>Company information</Form.MainHeading>
 
           <Field.String path="/name" label="Name" />
@@ -62,7 +62,7 @@ export const IfRuleSchema = () => {
           else: { required: ['name'] },
         }}
       >
-        <Card spacing="small" bottom="small">
+        <Card gap="small" bottom="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
 
           <Field.String path="/name" label="Name" />
@@ -147,16 +147,16 @@ export const DependantListSchema = () => {
           ],
         }}
       >
-        <Flex.Vertical spacing="small">
+        <Flex.Vertical gap="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
-          <Card spacing="small">
+          <Card gap="small">
             <Field.String path="/name" label="Name" />
             <Field.Email path="/email" label="E-mail" />
             <Field.PhoneNumber path="/phone" label="Phone number" />
           </Card>
 
           <Form.MainHeading>Accounts</Form.MainHeading>
-          <Card spacing="small">
+          <Card gap="small">
             <Form.SubHeading>Standard accounts</Form.SubHeading>
 
             <Iterate.Array path="/accounts">

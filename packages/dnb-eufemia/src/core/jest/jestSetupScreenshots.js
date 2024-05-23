@@ -48,6 +48,7 @@ module.exports.isCI = isCI
 const makeScreenshot = async ({
   page = global.page,
   url = null,
+  themeName = null,
   pageViewport = null,
   headers = null,
   reload = null,
@@ -74,6 +75,7 @@ const makeScreenshot = async ({
   await makePageReady({
     page,
     url,
+    themeName,
     pageViewport,
     headers,
     fullscreen,

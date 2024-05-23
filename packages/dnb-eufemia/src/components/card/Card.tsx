@@ -37,6 +37,7 @@ function Card(props: Props) {
     className,
     stack,
     direction,
+    gap,
     spacing,
     innerSpace,
     alignSelf = 'stretch',
@@ -94,7 +95,7 @@ function Card(props: Props) {
         divider={divider}
         alignSelf={alignSelf}
         wrap={!stack}
-        spacing={stack ? 'medium' : spacing || false}
+        gap={stack ? 'medium' : (gap ?? spacing) || false}
         rowGap={rowGap || false}
       >
         {title && (
