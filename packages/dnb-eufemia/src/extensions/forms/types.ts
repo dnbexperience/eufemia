@@ -196,6 +196,9 @@ export type FieldBlockProps = {
   placeholder?: React.ReactNode
 }
 
+/**
+ * The width of a field block
+ */
 export type FieldBlockWidth =
   | false
   | 'small'
