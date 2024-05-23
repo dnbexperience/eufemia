@@ -228,6 +228,19 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
+    it('should not render children when path not matches', () => {
+      render(
+        <Provider data={{ myPath: 'foo' }}>
+          <Visibility
+            visibleWhen={{ path: '/nonExistingPath', hasValue: 'foo' }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
     it('should render children when withValue matches', () => {
       render(
         <Provider data={{ myPath: 'foo' }}>
