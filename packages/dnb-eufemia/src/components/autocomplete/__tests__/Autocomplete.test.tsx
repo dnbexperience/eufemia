@@ -1008,7 +1008,6 @@ describe('Autocomplete component', () => {
     expect(on_show).toHaveBeenCalledTimes(3)
   })
 
-  // HERE
   it('updates its input value if value and data prop changes', async () => {
     const value = 0
     const data = mockData
@@ -1508,6 +1507,7 @@ describe('Autocomplete component', () => {
 
     expect(input.value).toBe('Kontonummer: 987654321')
   it('should update input value when data prop changes', async () => {
+  it('should update input value when data prop goes from emtpy to unempty', async () => {
     const { rerender } = render(<Autocomplete {...mockProps} data={[]} />)
 
     const input = document.querySelector('.dnb-input__input')
