@@ -1,4 +1,10 @@
-import React from 'react'
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import Context from './Context'
 import {
   makeMediaQueryList,
@@ -9,13 +15,14 @@ import type {
   MediaQueryListener,
   MediaQueryCondition,
   MediaQueryBreakpoints,
+  MediaQueryOptions,
 } from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
 
 const makeLayoutEffect = () => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
   return typeof window === 'undefined'
-    ? React.useEffect
+    ? useEffect
     : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
     ? () => null
     : React.useLayoutEffect
@@ -32,7 +39,7 @@ export type UseMediaProps = {
    * If set to true, no MediaQuery will be used.
    * Default: false
    */
-  disabled?: boolean
+  disabled?: MediaQueryOptions['disabled']
 
   /**
    * Provide a custom breakpoint
@@ -50,6 +57,12 @@ export type UseMediaProps = {
    * For debugging
    */
   log?: boolean
+
+  /**
+   * Not documented as of now. For internal use only.
+   * Default: true
+   */
+  correctRange?: MediaQueryOptions['correctRange']
 }
 
 export type UseMediaQueries = {
@@ -96,21 +109,21 @@ export default function useMedia(
   const {
     initialValue = null,
     disabled,
+    correctRange = true,
     breakpoints,
     queries = defaultQueries,
     log,
   } = props
 
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
-  const refs = React.useRef({})
-  const defaults = React.useRef({})
-  const isMounted = React.useRef(false)
-  const isDisabled = React.useRef(disabled)
-  const [result, updateRerender] =
-    React.useState<UseMediaResult>(makeResult)
+  const refs = useRef({})
+  const defaults = useRef({})
+  const isMounted = useRef(false)
+  const isDisabled = useRef(disabled)
+  const [result, updateRerender] = useState<UseMediaResult>(makeResult)
 
-  const useLayoutEffect = React.useMemo(makeLayoutEffect, [])
+  const useLayoutEffect = useMemo(makeLayoutEffect, [])
 
   useLayoutEffect(() => {
     if (!isMounted.current) {
@@ -187,13 +200,9 @@ export default function useMedia(
     }
 
     const mediaQueryList = makeMediaQueryList(
-      {
-        when,
-        disabled,
-        log,
-      },
-
-      breakpoints || context.breakpoints
+      { when },
+      breakpoints || context.breakpoints,
+      { disabled, correctRange, log }
     )
 
     const event = createMediaQueryListener(mediaQueryList, (match) => {

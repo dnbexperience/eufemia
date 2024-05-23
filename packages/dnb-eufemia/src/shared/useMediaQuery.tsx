@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useMemo, useRef, useState } from 'react'
 import { isTrue } from './component-helper'
 import Context from './Context'
 import {
@@ -11,13 +11,25 @@ import type {
   MediaQueryListener,
 } from './MediaQueryUtils'
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 export type { MediaQueryProps }
 
 export default function useMediaQuery(props: MediaQueryProps) {
-  const context = React.useContext(Context)
-  const { query, when, not, matchOnSSR, disabled } = props
+  const context = useContext(Context)
+  const {
+    query,
+    when,
+    not,
+    matchOnSSR,
+    disabled,
+    correctRange = true,
+    log,
+  } = props
 
-  let matches = React.useMemo(() => {
+  let matches = useMemo(() => {
     if (disabled) {
       return false // stop here
     }
@@ -25,17 +37,21 @@ export default function useMediaQuery(props: MediaQueryProps) {
     return isTrue(matchOnSSR) && !isMatchMediaSupported()
   }, [disabled, matchOnSSR])
 
-  const mediaQueryList = React.useRef(
-    makeMediaQueryList(props, context.breakpoints)
+  const mediaQueryList = useRef(
+    makeMediaQueryList({ query, when, not }, context.breakpoints, {
+      disabled,
+      correctRange,
+      log,
+    })
   )
   if (mediaQueryList.current?.matches) {
     matches = true
   }
 
-  const [match, matchUpdate] = React.useState(matches)
+  const [match, matchUpdate] = useState(matches)
 
-  const listenerRef = React.useRef<MediaQueryListener>()
-  React.useLayoutEffect(() => {
+  const listenerRef = useRef<MediaQueryListener>()
+  useLayoutEffect(() => {
     if (disabled) {
       return // stop here
     }
@@ -44,8 +60,9 @@ export default function useMediaQuery(props: MediaQueryProps) {
       listenerRef.current()
 
       mediaQueryList.current = makeMediaQueryList(
-        props,
-        context.breakpoints
+        { query, when, not },
+        context.breakpoints,
+        { disabled, correctRange, log }
       )
       matchUpdate(mediaQueryList.current?.matches)
     }

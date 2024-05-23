@@ -534,9 +534,9 @@ describe('useMedia', () => {
       it('will react to all possible sizes', async () => {
         setMedia({ width: ABOVE })
 
-        const SMALL = '39em' // 40em
-        const MEDIUM = '71em' // 72em
-        const LARGE = '79em' // 80em
+        const SMALL = '40em'
+        const MEDIUM = '60em'
+        const LARGE = '80em'
 
         const wrapper = (props) => (
           <Provider
@@ -631,13 +631,9 @@ describe('useMedia', () => {
       it('will use custom breakpoints', async () => {
         setMedia({ width: ABOVE })
 
-        const SMALL = '29em' // 40em
-        const MEDIUM = '39em' // 72em
-        const LARGE = '59em' // 80em
-
         const { result } = renderHook(() =>
           useMedia({
-            breakpoints: { small: '30em', medium: '40em', large: '60em' },
+            breakpoints: { small: '30em', medium: SMALL, large: MEDIUM },
           })
         )
 
@@ -670,7 +666,7 @@ describe('useMedia', () => {
             }),
           },
           {
-            width: MEDIUM,
+            width: SMALL,
             expectResult: expect.objectContaining({
               isSmall: false,
               isMedium: true,
@@ -679,7 +675,7 @@ describe('useMedia', () => {
             }),
           },
           {
-            width: LARGE,
+            width: MEDIUM,
             expectResult: expect.objectContaining({
               isSmall: false,
               isMedium: false,
@@ -688,7 +684,7 @@ describe('useMedia', () => {
             }),
           },
           {
-            width: SMALL,
+            width: '20rem',
             expectResult: expect.objectContaining({
               isSmall: true,
               isMedium: false,
@@ -822,9 +818,6 @@ describe('useMedia', () => {
   })
 
   describe('using jest-matchmedia-mock mocker', () => {
-    const SMALL = '40em'
-    const MEDIUM = '60em'
-
     const matchMedia = mockMediaQuery()
     const matchMediaMock = window.matchMedia // set in mockMediaQuery
 
@@ -833,7 +826,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isSmall', () => {
-      const query = `(min-width: 0em) and (max-width: ${SMALL})`
+      const query = `(min-width: 0em) and (max-width: 40em)`
       matchMedia.useMediaQuery(query)
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -849,7 +842,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isMedium', () => {
-      const query = `(min-width: ${SMALL}) and (max-width: ${MEDIUM})`
+      const query = `(min-width: 40.0625em) and (max-width: 60em)`
       matchMedia.useMediaQuery(query)
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -865,7 +858,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isLarge', () => {
-      const query = `(min-width: ${MEDIUM})`
+      const query = `(min-width: 60.0625em)`
       matchMedia.useMediaQuery(query)
 
       const { result } = renderHook(useMedia, { wrapper })
