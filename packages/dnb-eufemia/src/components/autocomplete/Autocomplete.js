@@ -55,6 +55,7 @@ import {
   getCurrentDataTitle,
   getCurrentData,
   getCurrentIndex,
+  normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Autocomplete extends React.PureComponent {
@@ -411,9 +412,15 @@ class AutocompleteInstance extends React.PureComponent {
       }
 
       if (props?.data?.length > 0 && state?.prevData?.length === 0) {
-        state.inputValue = state.inputValue
-          ? state.inputValue
-          : getCurrentDataTitle(state.selected_item, props.data)
+        const currentData = getCurrentData(
+          props.default_value ?? props.value ?? state.selected_item,
+          normalizeData(props.data)
+        )
+
+        state.inputValue = parseContentTitle(currentData, {
+          separator: ' ',
+          preferSelectedValue: true,
+        })
       }
 
       if (props.data !== state.prevData) {
