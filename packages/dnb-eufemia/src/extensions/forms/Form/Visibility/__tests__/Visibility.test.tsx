@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
-import { Field, Form } from '../../..'
+import { Composite, Field, Form } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
 
@@ -761,6 +761,105 @@ describe('Visibility', () => {
 
       expect(screen.queryByText('has filter')).not.toBeInTheDocument()
       expect(screen.getByText('has no filter')).toBeInTheDocument()
+    })
+  })
+
+  describe('with composite context', () => {
+    it('should combine composite path and field path', () => {
+      render(
+        <Form.Handler
+          data={{
+            myBlock: {
+              myField: 'value',
+            },
+          }}
+        >
+          <Composite.Block path="/myBlock">
+            <Field.String path="/myField" />
+            <Form.Visibility pathDefined="/myField">
+              inside composite
+            </Form.Visibility>
+          </Composite.Block>
+          <Form.Visibility pathDefined="/myField">
+            outside composite
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      expect(screen.getByRole('textbox')).toHaveValue('value')
+      expect(screen.getByText('inside composite')).toBeInTheDocument()
+      expect(
+        screen.queryByText('outside composite')
+      ).not.toBeInTheDocument()
+    })
+
+    it('visibleWhen', () => {
+      render(
+        <Form.Handler>
+          <Composite.Block path="/myBlock">
+            <Field.String path="/myField" value="foo" />
+            <Form.Visibility
+              visibleWhen={{ path: '/myField', hasValue: 'foo' }}
+            >
+              Child
+            </Form.Visibility>
+          </Composite.Block>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathTrue', () => {
+      render(
+        <Form.Handler>
+          <Composite.Block path="/myBlock">
+            <Field.Boolean path="/myField" value={true} />
+            <Form.Visibility pathTrue="/myField">Child</Form.Visibility>
+          </Composite.Block>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathFalse', () => {
+      render(
+        <Form.Handler>
+          <Composite.Block path="/myBlock">
+            <Field.Boolean path="/myField" value={false} />
+            <Form.Visibility pathFalse="/myField">Child</Form.Visibility>
+          </Composite.Block>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathTruthy', () => {
+      render(
+        <Form.Handler>
+          <Composite.Block path="/myBlock">
+            <Field.Number path="/myField" value={1} />
+            <Form.Visibility pathTruthy="/myField">Child</Form.Visibility>
+          </Composite.Block>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathFalsy', () => {
+      render(
+        <Form.Handler>
+          <Composite.Block path="/myBlock">
+            <Field.String path="/myField" value={null} />
+            <Form.Visibility pathFalsy="/myField">Child</Form.Visibility>
+          </Composite.Block>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
     })
   })
 })

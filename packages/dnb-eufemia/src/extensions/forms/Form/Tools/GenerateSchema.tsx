@@ -1,8 +1,12 @@
 import { useContext } from 'react'
-import pointer from 'json-pointer'
+import pointer, { JsonObject } from 'json-pointer'
 import DataContext from '../../DataContext/Context'
+import { JSONSchema } from '../../types'
 
-export type GenerateSchemaObject = Record<string, unknown>
+export type GenerateSchemaObject = {
+  schema: JSONSchema
+  data: JsonObject
+}
 export type GenerateSchemaProps = {
   generateRef: React.MutableRefObject<() => GenerateSchemaObject>
   children: React.ReactNode
@@ -22,11 +26,11 @@ export const schemaParams = [
 
 export default function GenerateSchema(props: GenerateSchemaProps) {
   const { generateRef, children } = props
-  const { fieldPropsRef, data } = useContext(DataContext)
+  const { fieldPropsRef, data, hasContext } = useContext(DataContext)
 
-  if (generateRef) {
+  if (hasContext) {
     generateRef.current = () => {
-      const schema = Object.entries(fieldPropsRef.current).reduce(
+      const schema = Object.entries(fieldPropsRef?.current || {}).reduce(
         (acc, [path, props]) => {
           if (path.startsWith('/')) {
             const objectKey = path.substring(1)
@@ -102,7 +106,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
         delete schema.required
       }
 
-      return { schema, data }
+      return { schema, data } as GenerateSchemaObject
     }
   }
 

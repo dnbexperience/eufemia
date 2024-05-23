@@ -1,23 +1,41 @@
 import React, { useContext, useRef } from 'react'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import { Props as DataContextProps } from '../../DataContext/Provider'
-import { UseFieldProps } from '../../types'
 import { FormStatusProps } from '../../../../components/FormStatus'
 import { assignPropsWithContext } from '../../../../shared/component-helper'
 import FieldPropsContext from './FieldPropsContext'
 import SharedProvider from '../../../../shared/Provider'
 import { ContextProps } from '../../../../shared/Context'
+import type { FieldProps, Path } from '../../types'
 
-export type FieldPropsProps = UseFieldProps & {
+export type FieldPropsProps = FieldProps & {
   children: React.ReactNode
-  formElement?: ContextProps['formElement']
-  FormStatus?: { globalStatus: FormStatusProps }
+
+  /**
+   * Locale to use for all nested Eufemia components
+   */
   locale?: DataContextProps<unknown>['locale']
+
+  /**
+   * Provide your own translations. Use the same format as defined in the translation files
+   */
   translations?: DataContextProps<unknown>['translations']
+
+  /** For internal use only */
+  overwriteProps?: {
+    [key: Path]: FieldProps
+  }
+
+  /** For internal use only */
+  formElement?: ContextProps['formElement']
+
+  /** For internal use only */
+  FormStatus?: { globalStatus: FormStatusProps }
 }
 
-export default function FieldProps(props: FieldPropsProps) {
-  const { children, formElement, FormStatus, ...rest } = props
+export default function FieldPropsProvider(props: FieldPropsProps) {
+  const { children, formElement, FormStatus, overwriteProps, ...rest } =
+    props
 
   const nestedContext = useContext(FieldPropsContext)
   const dataContextRef = useRef<ContextState>()
@@ -26,14 +44,16 @@ export default function FieldProps(props: FieldPropsProps) {
   const sharedProviderProps: ContextProps = {}
 
   // Extract props to be used in the shared global context
-  const { locale, translations, ...restOfRest } = Object.assign(
+  const { locale, translations, ...restWithNestedContext } = Object.assign(
     nestedContext?.inheritedContext || {},
     rest
   ) as ContextProps & {
     disabled?: boolean
   }
-  if (typeof restOfRest.disabled === 'boolean') {
-    sharedProviderProps.formElement = { disabled: restOfRest.disabled }
+  if (typeof restWithNestedContext.disabled === 'boolean') {
+    sharedProviderProps.formElement = {
+      disabled: restWithNestedContext.disabled,
+    }
   }
   if (formElement) {
     sharedProviderProps.formElement = formElement
@@ -48,12 +68,28 @@ export default function FieldProps(props: FieldPropsProps) {
     sharedProviderProps.translations = wrapFormsTranslations(translations)
   }
 
-  function extend<T>(fieldProps: T) {
+  function extend<T extends FieldProps>(fieldProps: T) {
     // Extract props from data context to be used in fields
     const { required } = dataContextRef.current
 
+    // Extract props from overwriteProps to be used in fields
+    const overwrite = overwriteProps?.[fieldProps?.path?.split('/')?.pop()]
+
+    // Overwrite given schema props
+    if (overwrite && fieldProps?.schema) {
+      Object.keys(fieldProps.schema).forEach((key) => {
+        if (overwrite?.[key]) {
+          fieldProps.schema[key] = overwrite[key]
+        }
+      })
+    }
+
     return nestedContext.extend(
-      assignPropsWithContext(fieldProps, { required }, restOfRest)
+      assignPropsWithContext(
+        overwrite ? { ...fieldProps, ...overwrite } : fieldProps,
+        { required },
+        restWithNestedContext
+      )
     ) as T
   }
 
