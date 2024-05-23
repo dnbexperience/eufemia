@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import Autocomplete, { AutocompleteAllProps } from '../Autocomplete'
@@ -1008,6 +1008,7 @@ describe('Autocomplete component', () => {
     expect(on_show).toHaveBeenCalledTimes(3)
   })
 
+  // HERE
   it('updates its input value if value and data prop changes', async () => {
     const value = 0
     const data = mockData
