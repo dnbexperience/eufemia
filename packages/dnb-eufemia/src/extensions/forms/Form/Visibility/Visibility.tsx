@@ -99,8 +99,8 @@ function Visibility({
       if (visibleWhenNot) {
         visibleWhen = visibleWhenNot
       }
-      const hasValue = pointer.has(data, visibleWhen.path)
-      if (hasValue) {
+      const hasPath = pointer.has(data, visibleWhen.path)
+      if (hasPath) {
         const value = pointer.get(data, visibleWhen.path)
 
         const withValue = visibleWhen?.['withValue']
@@ -116,6 +116,8 @@ function Visibility({
         } else if (result) {
           return
         }
+      } else {
+        return
       }
     }
 
