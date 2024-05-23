@@ -3,6 +3,40 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.32.0](https://github.com/dnbexperience/eufemia/compare/v10.31.0...v10.32.0) (2024-05-23)
+
+
+### :memo: Documentation
+
+* add more details about media query breakpoint ranges ([#3584](https://github.com/dnbexperience/eufemia/issues/3584)) ([4364436](https://github.com/dnbexperience/eufemia/commit/43644362c94b69c932d60583ee92ff9f441f87fb))
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** add TypeScript (strict) support for react-router-dom Link used as `element` ([#3559](https://github.com/dnbexperience/eufemia/issues/3559)) ([8f83e2a](https://github.com/dnbexperience/eufemia/commit/8f83e2a224eae02f7feb3d9bd0030cab380a5a20))
+* **Autocomplete:** fix issue where `React.Element` would not render when used as `selected_value`  ([#3505](https://github.com/dnbexperience/eufemia/issues/3505)) ([6e39785](https://github.com/dnbexperience/eufemia/commit/6e39785e36f20199111915efe01335f1666d66d8))
+* **Breakpoint:** ensure correct breakpoint ranges when using useMedia, useMediaQuery or MediaQuery ([#3588](https://github.com/dnbexperience/eufemia/issues/3588)) ([1b0e4d6](https://github.com/dnbexperience/eufemia/commit/1b0e4d69b2a1ad59eec1cbedc6232d46f5543243))
+* **Checkbox:** ensure correct disabled state ([#3587](https://github.com/dnbexperience/eufemia/issues/3587)) ([7017c50](https://github.com/dnbexperience/eufemia/commit/7017c50904f20af17049f9fecc14366bbc36b486))
+* **Field.PhoneNumber:** make country code show all relevant countries on click after phonenumber is entered ([#3567](https://github.com/dnbexperience/eufemia/issues/3567)) ([6287526](https://github.com/dnbexperience/eufemia/commit/62875265aa767c68ddea45b8ad748af8d66637ab))
+* **FieldBlock:** avoid 100% width when not needed ([#3561](https://github.com/dnbexperience/eufemia/issues/3561)) ([10cfdf7](https://github.com/dnbexperience/eufemia/commit/10cfdf7034e14eae2a4f26c0bbd9c3ca126538de))
+* **forms:** add schema `required` support to Field.Composition ([#3571](https://github.com/dnbexperience/eufemia/issues/3571)) ([bd21cd8](https://github.com/dnbexperience/eufemia/commit/bd21cd83bf61a2a60def3981a6e3ea136b7ef64a)), closes [#3554](https://github.com/dnbexperience/eufemia/issues/3554)
+* **forms:** add support for `filterData` with existing data when used inside Wizard ([#3568](https://github.com/dnbexperience/eufemia/issues/3568)) ([d22544d](https://github.com/dnbexperience/eufemia/commit/d22544d40b1a38e45a0edb659358ee411bb2824f))
+* **forms:** set focus back on existing element after async submission ([#3585](https://github.com/dnbexperience/eufemia/issues/3585)) ([b2f5620](https://github.com/dnbexperience/eufemia/commit/b2f5620e5773396dc2a469d1970b68190fc19286))
+* **Space:** ensure `false` yields to 0 (not to 1rem) ([#3562](https://github.com/dnbexperience/eufemia/issues/3562)) ([5f93866](https://github.com/dnbexperience/eufemia/commit/5f93866f8455993b3bcddfb5cef539183dc99aef))
+
+
+### :sparkles: Features
+
+* **Card:** preliminary sbanken theme ([#3582](https://github.com/dnbexperience/eufemia/issues/3582)) ([38cd6f8](https://github.com/dnbexperience/eufemia/commit/38cd6f817f1c092af57ea796ce7aa010aa4ae7b9))
+* **Flex:** deprecate `spacing` in favor of `gap` ([#3565](https://github.com/dnbexperience/eufemia/issues/3565)) ([39e2cf5](https://github.com/dnbexperience/eufemia/commit/39e2cf5aec0fba72a67cfb63cbc71c484f70bfc0))
+* **forms:** add `variant` prop to Iterate ViewContainer and EditContainer ([#3569](https://github.com/dnbexperience/eufemia/issues/3569)) ([f683aa0](https://github.com/dnbexperience/eufemia/commit/f683aa0f7fc79959f4a026e1ec4dbd7cd029052d)), closes [#3566](https://github.com/dnbexperience/eufemia/issues/3566)
+* **forms:** add filterData prop to Visibility component ([#3574](https://github.com/dnbexperience/eufemia/issues/3574)) ([447eaec](https://github.com/dnbexperience/eufemia/commit/447eaec4d8b2eb67d0ab08886d708a9bc4a7f2ae)), closes [#3572](https://github.com/dnbexperience/eufemia/issues/3572)
+* **forms:** add hasFieldError to useError ([#3586](https://github.com/dnbexperience/eufemia/issues/3586)) ([1edef36](https://github.com/dnbexperience/eufemia/commit/1edef36a180be7508a3b3eccbd451254ea6ec801))
+* **forms:** add path based `filterData` support ([#3576](https://github.com/dnbexperience/eufemia/issues/3576)) ([467b744](https://github.com/dnbexperience/eufemia/commit/467b744837b2d33c8856fa7938113139e974bbbc)), closes [#3574](https://github.com/dnbexperience/eufemia/issues/3574)
+* **forms:** change `filterData` method to return object based parameters `{ path, value, data, props, internal }` ([#3577](https://github.com/dnbexperience/eufemia/issues/3577)) ([05106ac](https://github.com/dnbexperience/eufemia/commit/05106ac9b397cc62d5689c6787eb0e167037670a)), closes [#3576](https://github.com/dnbexperience/eufemia/issues/3576)
+* **StepIndicator:** preliminary sbanken colors ([#3580](https://github.com/dnbexperience/eufemia/issues/3580)) ([733be8c](https://github.com/dnbexperience/eufemia/commit/733be8c7d5a23d0c579db30cf19bceb4c2042b21))
+* **Visibility:** deprecate `pathValue` in favour of `visibleWhen` ([#3572](https://github.com/dnbexperience/eufemia/issues/3572)) ([277d15c](https://github.com/dnbexperience/eufemia/commit/277d15c4b33b007130b0e3335aa737ed0635e0e1))
+
 ## [10.31.0](https://github.com/dnbexperience/eufemia/compare/v10.30.2...v10.31.0) (2024-05-15)
 
 
