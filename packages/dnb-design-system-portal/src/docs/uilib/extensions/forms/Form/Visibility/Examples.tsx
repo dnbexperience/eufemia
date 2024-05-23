@@ -125,9 +125,7 @@ export const NestedExample = () => {
 
         const MyForm = () => {
           return (
-            <Form.Handler
-              defaultData={{ isVisible: false, mySelection: 'less' }}
-            >
+            <Form.Handler defaultData={{ isVisible: false }}>
               <Flex.Stack>
                 <Field.Boolean
                   label="Visible"
@@ -144,6 +142,7 @@ export const NestedExample = () => {
                   <Field.Selection
                     label="Choose"
                     variant="radio"
+                    value="less"
                     path="/mySelection"
                   >
                     <Field.Option value="less" title="Less" />
@@ -200,8 +199,6 @@ export const FilterData = () => {
           return (
             <Form.Handler
               defaultData={{
-                isVisible: false,
-                mySelection: 'less',
                 myString: 'foo',
               }}
             >
@@ -215,6 +212,7 @@ export const FilterData = () => {
                   <Field.Selection
                     label="Choose"
                     variant="radio"
+                    value="less"
                     path="/mySelection"
                   >
                     <Field.Option value="less" title="Less" />

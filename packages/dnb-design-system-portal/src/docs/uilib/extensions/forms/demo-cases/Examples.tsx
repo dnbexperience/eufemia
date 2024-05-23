@@ -26,7 +26,9 @@ export const BecomeCorporateCustomer = () => {
               top
               bottom="large"
             >
-              JSON Output: <Code>{JSON.stringify(data, null, 4)}</Code>
+              <Code>
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+              </Code>
             </Section>
           )
         }
@@ -198,7 +200,9 @@ export function PizzaDemo() {
               top
               bottom="large"
             >
-              JSON Output: <Code>{JSON.stringify(data, null, 4)}</Code>
+              <Code>
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+              </Code>
             </Section>
           )
         }
