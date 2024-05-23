@@ -411,10 +411,22 @@ class AutocompleteInstance extends React.PureComponent {
       }
 
       if (props?.data?.length > 0 && state?.prevData?.length === 0) {
+        let selectedItem = state.selected_item
+
+        if (props.default_value) {
+          selectedItem = props.default_value
+        }
+
+        if (
+          !props.default_value &&
+          props.value &&
+          props.value !== 'initval'
+        ) {
+          selectedItem = props.value
+        }
+
         const currentData = getCurrentData(
-          props.default_value ??
-            (props.value && props.value !== 'initval') ??
-            state.selected_item,
+          selectedItem,
           normalizeData(props.data)
         )
 
