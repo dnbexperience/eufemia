@@ -52,7 +52,6 @@ import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   drawerListPropTypes,
   parseContentTitle,
-  getCurrentDataTitle,
   getCurrentData,
   getCurrentIndex,
   normalizeData,
