@@ -1506,7 +1506,8 @@ describe('Autocomplete component', () => {
     await userEvent.click(options()[1])
 
     expect(input.value).toBe('Kontonummer: 987654321')
-  it('should update input value when data prop changes', async () => {
+  })
+
   it('should update input value when data prop goes from emtpy to unempty', async () => {
     const { rerender } = render(<Autocomplete {...mockProps} data={[]} />)
 
