@@ -1508,7 +1508,7 @@ describe('Autocomplete component', () => {
     expect(input.value).toBe('Kontonummer: 987654321')
   })
 
-  it('should update input value when data prop goes from emtpy to unempty', async () => {
+  it('should update input value when data prop goes from emtpy to unempty and value is given', async () => {
     const { rerender } = render(<Autocomplete {...mockProps} data={[]} />)
 
     const input = document.querySelector('.dnb-input__input')
@@ -1518,6 +1518,7 @@ describe('Autocomplete component', () => {
     rerender(
       <Autocomplete
         {...mockProps}
+        value={1}
         data={[
           {
             selected_value: 'Bedriftskonto',
@@ -1535,7 +1536,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    expect(input).toHaveValue('Bedriftskonto')
+    expect(input).toHaveValue('Sparekonto')
   })
 
   describe('should have correct values on input blur', () => {
