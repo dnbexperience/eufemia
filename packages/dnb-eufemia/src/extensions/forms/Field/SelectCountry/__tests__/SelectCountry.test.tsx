@@ -9,6 +9,7 @@ describe('Field.SelectCountry', () => {
   it('should render with props', () => {
     const props: Props = {}
     render(<Field.SelectCountry {...props} />)
+    expect(document.querySelector('input')).toBeInTheDocument()
   })
 
   it('should return correct value onChange event', () => {
@@ -205,6 +206,20 @@ describe('Field.SelectCountry', () => {
     fireEvent.click(buttonElement)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+  })
+
+  it('should use value from path', () => {
+    render(
+      <Form.Handler defaultData={{ country: 'NO' }}>
+        <Field.SelectCountry path="/country" />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    expect(inputElement.value).toBe('Norge')
   })
 
   it('should execute validateInitially if required', () => {

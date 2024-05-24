@@ -102,20 +102,20 @@ function SelectCountry(props: Props) {
       dataRef.current = getCountryData({
         lang,
         filter: !wasFilled.current
-          ? (country) => country.iso === props.value
+          ? (country) => country.iso === value
           : filterCountries,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
 
       // To force Autocomplete to re-evaluate the internal data
-      if (isLangChange && props.value && typeof window !== 'undefined') {
+      if (isLangChange && value && typeof window !== 'undefined') {
         updateValue(null)
         window.requestAnimationFrame(() => {
-          updateValue(props.value)
+          updateValue(value)
         })
       }
     }
-  }, [lang, filterCountries, ccFilter, updateValue, props.value])
+  }, [lang, filterCountries, ccFilter, updateValue, value])
 
   const handleCountryChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
