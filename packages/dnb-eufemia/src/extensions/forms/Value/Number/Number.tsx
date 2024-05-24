@@ -16,12 +16,13 @@ export type Props = ValueProps<number> &
   IncludeCamelCase<NumberFormatProps>
 
 function NumberValue(props: Props) {
-  const { value, className, ...rest } = useValueProps(props)
+  const { value, inline, className, ...rest } = useValueProps(props)
   const numberFormatProps = convertCamelCaseProps(omitSpacingProps(rest))
 
   return (
     <ValueBlock
       className={classnames('dnb-forms-value-number', className)}
+      inline={inline}
       {...rest}
     >
       {value && <NumberFormat value={value} {...numberFormatProps} />}

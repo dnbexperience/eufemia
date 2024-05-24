@@ -71,7 +71,7 @@ export type Props = Pick<
   fieldState?: SubmitState
   /** Typography size */
   labelSize?: 'medium' | 'large'
-  children: React.ReactNode
+  children?: React.ReactNode
 } & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {

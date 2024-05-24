@@ -1,0 +1,39 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.Slider` is a wrapper component for the [Slider](/uilib/components/slider/) component to make it easier to use inside a form.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Slider />)
+```
+
+## Multithub support
+
+You can use the `paths` property to define an array with JSON Pointers for multiple thumb buttons.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Slider paths={['/myValue', '/mySecondValue']} />)
+```
+
+Or values in an array:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Slider value={[30, 60]} />)
+```
+
+## Min, max and step values
+
+The `min`, `max` and `step` properties can be used to define the minimum and maximum value of the slider.
+
+You can provider a JSON Pointer path as well:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Slider min="/minValue" max="/maxValue" step="/stepValue" />)
+```

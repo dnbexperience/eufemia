@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { SliderFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/Slider/SliderDocs'
+
+## Properties
+
+### Field-specific props
+
+<PropertiesTable props={SliderFieldProperties} />
+
+### General props
+
+<PropertiesTable
+  props={fieldProperties}
+  valueType={['number', 'Array<number>']}
+/>
