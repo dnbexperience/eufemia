@@ -243,7 +243,9 @@ export const parseContentTitle = (
       ret = String(
         convertJsxToString(dataItem.selected_value, separator, (word) => {
           const shouldTransform =
-            !word.props.children && word.type().props.children
+            !word.props.children &&
+            typeof word?.type === 'function' &&
+            word?.type().props.children
 
           return shouldTransform ? word.type() : word
         })
