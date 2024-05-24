@@ -7,6 +7,9 @@
   row-gap: var(--row-gap, 0);
   column-gap: var(--column-gap, 0);
 
+  &--row-gap-x-small {
+    --row-gap: var(--spacing-x-small);
+  }
   &--row-gap-small {
     --row-gap: var(--spacing-small);
   }
@@ -17,6 +20,9 @@
     --row-gap: var(--spacing-large);
   }
 
+  &--column-gap-x-small {
+    --column-gap: var(--spacing-x-small);
+  }
   &--column-gap-small {
     --column-gap: var(--spacing-small);
   }
