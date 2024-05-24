@@ -321,17 +321,16 @@ export const FilterData = () => {
               innerSpace
               backgroundColor="sand-yellow"
               breakout={false}
+              element="output"
             >
-              <output>
-                hasErrors: {JSON.stringify(hasErrors(), null, 2)}
-                <pre>
-                  {JSON.stringify(
-                    replaceUndefinedValues(filterData(filterDataHandler)),
-                    null,
-                    2,
-                  )}
-                </pre>
-              </output>
+              hasErrors: {JSON.stringify(hasErrors(), null, 2)}
+              <pre>
+                {JSON.stringify(
+                  replaceUndefinedValues(filterData(filterDataHandler)),
+                  null,
+                  2,
+                )}
+              </pre>
             </Section>
           )
         }

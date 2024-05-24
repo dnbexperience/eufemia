@@ -21,14 +21,13 @@ export function HasErrors() {
                   innerSpace
                   backgroundColor="sand-yellow"
                   breakout={false}
+                  element="output"
                 >
-                  <output>
-                    <pre>
-                      hasErrors: {JSON.stringify(hasErrors(), null, 2)}
-                      hasFieldError:{' '}
-                      {JSON.stringify(hasFieldError('/foo'), null, 2)}
-                    </pre>
-                  </output>
+                  <pre>
+                    hasErrors: {JSON.stringify(hasErrors(), null, 2)}
+                    hasFieldError:{' '}
+                    {JSON.stringify(hasFieldError('/foo'), null, 2)}
+                  </pre>
                 </Section>
 
                 <Field.Boolean
