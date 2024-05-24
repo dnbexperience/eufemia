@@ -24,7 +24,7 @@ function PushButton(props: Props) {
   const { value, handleChange, children } = useFieldProps(restProps)
 
   if (value !== undefined && !Array.isArray(value)) {
-    throw new Error('PushButton received a non-array value.')
+    throw new Error('PushButton received a non-array value')
   }
 
   const handleClick = useCallback(() => {

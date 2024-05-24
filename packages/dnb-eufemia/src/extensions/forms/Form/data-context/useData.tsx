@@ -82,8 +82,14 @@ export default function useData<Data>(
 
   // If no id is provided, use the context data
   const context = useContext(DataContext)
-  if (!id && context?.data) {
-    sharedDataRef.current.data = context.data
+  if (!id) {
+    if (context?.data) {
+      sharedDataRef.current.data = context.data
+    } else if (!context?.hasContext) {
+      throw new Error(
+        'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+      )
+    }
   }
   const updateDataValue = context?.updateDataValue
   const setData = context?.setData

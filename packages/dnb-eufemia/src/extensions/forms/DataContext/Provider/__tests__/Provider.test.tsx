@@ -48,6 +48,26 @@ describe('DataContext.Provider', () => {
     identifier = makeUniqueId()
   })
 
+  it('should throw error when nested', () => {
+    const log = jest.spyOn(console, 'error').mockImplementation()
+
+    const renderComponent = () => {
+      render(
+        <DataContext.Provider>
+          <DataContext.Provider>
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        </DataContext.Provider>
+      )
+    }
+
+    expect(renderComponent).toThrow(
+      'DataContext (Form.Handler) can not be nested'
+    )
+
+    log.mockRestore()
+  })
+
   describe('props', () => {
     it('should provide value from defaultData but ignore changes', () => {
       const { rerender } = render(
@@ -2139,22 +2159,23 @@ describe('DataContext.Provider', () => {
       expect(screen.getByDisplayValue('Ipsum')).toBeInTheDocument()
     })
 
-    it('should throw error if both data and sessionStorageId is provided', () => {
-      const errorSpy = jest
-        .spyOn(global.console, 'error')
-        .mockImplementation()
+    it('should throw when both data and sessionStorageId is provided', () => {
+      const log = jest.spyOn(global.console, 'error').mockImplementation()
 
-      render(
-        <DataContext.Provider
-          data={{ foo: 'bar' }}
-          sessionStorageId="sourcedata"
-        >
-          <Field.String path="/foo" />
-        </DataContext.Provider>
+      expect(() => {
+        render(
+          <DataContext.Provider
+            data={{ foo: 'original' }}
+            sessionStorageId="test-data"
+          >
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        )
+      }).toThrow(
+        'Use "defaultData" instead of "data" when using sessionStorageId'
       )
 
-      expect(errorSpy).toHaveBeenCalled()
-      errorSpy.mockRestore()
+      log.mockRestore()
     })
   })
 

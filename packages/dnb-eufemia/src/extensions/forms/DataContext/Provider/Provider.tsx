@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useReducer,
   useEffect,
+  useContext,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
@@ -200,9 +201,14 @@ export default function Provider<Data extends JsonObject>(
 
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
-    console.error(
-      'Providing both data and sessionStorageId could lead to competing data sources. To provide default data to use only before anything is changed in the interface, use defaultData.'
+    throw new Error(
+      'Use "defaultData" instead of "data" when using sessionStorageId'
     )
+  }
+
+  const nestedContext = useContext(Context)
+  if (nestedContext?.hasContext) {
+    throw new Error('DataContext (Form.Handler) can not be nested')
   }
 
   // - Locale
