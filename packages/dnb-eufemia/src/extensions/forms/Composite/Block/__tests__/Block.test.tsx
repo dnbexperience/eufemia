@@ -2,7 +2,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import * as Composite from '../../'
-import { Field, Form, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema, Value } from '../../..'
 import { BlockProps } from '../Block'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Form/FieldProps'
@@ -27,14 +27,22 @@ describe('Composite.Block', () => {
     )
   }
 
-  it('should render block with children', () => {
-    render(<MyBlock />)
-
-    const [first, last] = Array.from(document.querySelectorAll('input'))
-
-    expect(first).toBeInTheDocument()
-    expect(last).toBeInTheDocument()
-  })
+  const MyOuterBlock = ({
+    children,
+    ...props
+  }: BlockProps<{
+    innerBlock: { lastName: FieldNameProps }
+  }> & {
+    children?: React.ReactNode
+  }) => {
+    return (
+      <Composite.Block {...props}>
+        <MyBlock path="/innerBlock" />
+        <Field.String path="/otherField" />
+        {children}
+      </Composite.Block>
+    )
+  }
 
   it('should throw then "path" without slash was given', () => {
     const log = jest.spyOn(console, 'error').mockImplementation()
@@ -48,6 +56,15 @@ describe('Composite.Block', () => {
     )
 
     log.mockRestore()
+  })
+
+  it('should render block with children', () => {
+    render(<MyBlock />)
+
+    const [first, last] = Array.from(document.querySelectorAll('input'))
+
+    expect(first).toBeInTheDocument()
+    expect(last).toBeInTheDocument()
   })
 
   it('should make all fields required when required is true', () => {
@@ -148,91 +165,139 @@ describe('Composite.Block', () => {
     `)
   })
 
-  it('should call onChange without path', () => {
-    const onChange = jest.fn()
+  describe('onChange', () => {
+    it('should call onChange without path', () => {
+      const onChange = jest.fn()
 
-    render(<MyBlock onChange={onChange} />)
+      render(<MyBlock onChange={onChange} />)
 
-    const [first, last] = Array.from(document.querySelectorAll('input'))
+      const [first, last] = Array.from(document.querySelectorAll('input'))
 
-    fireEvent.change(first, { target: { value: 'foo' } })
+      fireEvent.change(first, { target: { value: 'foo' } })
 
-    expect(onChange).toHaveBeenLastCalledWith({
-      firstName: 'foo',
+      expect(onChange).toHaveBeenLastCalledWith({
+        firstName: 'foo',
+      })
+
+      fireEvent.change(last, { target: { value: 'bar' } })
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({
+        firstName: 'foo',
+        lastName: 'bar',
+      })
     })
 
-    fireEvent.change(last, { target: { value: 'bar' } })
+    it('should call onChange with path', () => {
+      const onChange = jest.fn()
 
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith({
-      firstName: 'foo',
-      lastName: 'bar',
+      render(<MyBlock path="/myBlock" onChange={onChange} />)
+
+      const [first, last] = Array.from(document.querySelectorAll('input'))
+
+      fireEvent.change(first, { target: { value: 'foo' } })
+
+      expect(onChange).toHaveBeenLastCalledWith({
+        myBlock: { firstName: 'foo' },
+      })
+
+      fireEvent.change(last, { target: { value: 'bar' } })
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({
+        myBlock: { firstName: 'foo', lastName: 'bar' },
+      })
     })
-  })
 
-  it('should call onChange with path', () => {
-    const onChange = jest.fn()
+    it('should call onChange on Form.Handler without a path', () => {
+      const onChange = jest.fn()
 
-    render(<MyBlock path="/myBlock" onChange={onChange} />)
+      render(
+        <Form.Handler onChange={onChange}>
+          <MyBlock />
+        </Form.Handler>
+      )
 
-    const [first, last] = Array.from(document.querySelectorAll('input'))
+      const [first, last] = Array.from(document.querySelectorAll('input'))
 
-    fireEvent.change(first, { target: { value: 'foo' } })
+      fireEvent.change(first, { target: { value: 'foo' } })
+      fireEvent.change(last, { target: { value: 'bar' } })
 
-    expect(onChange).toHaveBeenLastCalledWith({
-      myBlock: { firstName: 'foo' },
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenNthCalledWith(1, { firstName: 'foo' })
+      expect(onChange).toHaveBeenNthCalledWith(2, {
+        firstName: 'foo',
+        lastName: 'bar',
+      })
     })
 
-    fireEvent.change(last, { target: { value: 'bar' } })
+    it('should call onChange on Form.Handler with a path', () => {
+      const onChange = jest.fn()
 
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith({
-      myBlock: { firstName: 'foo', lastName: 'bar' },
+      render(
+        <Form.Handler onChange={onChange}>
+          <MyBlock path="/myBlock" />
+        </Form.Handler>
+      )
+
+      const [first, last] = Array.from(document.querySelectorAll('input'))
+
+      fireEvent.change(first, { target: { value: 'foo' } })
+      fireEvent.change(last, { target: { value: 'bar' } })
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenNthCalledWith(1, {
+        myBlock: { firstName: 'foo' },
+      })
+      expect(onChange).toHaveBeenNthCalledWith(2, {
+        myBlock: { firstName: 'foo', lastName: 'bar' },
+      })
     })
-  })
 
-  it('should call onChange on Form.Handler without a path', () => {
-    const onChange = jest.fn()
+    it('should call onChange from nested fields', () => {
+      const onChange = jest.fn()
 
-    render(
-      <Form.Handler onChange={onChange}>
-        <MyBlock />
-      </Form.Handler>
-    )
+      render(
+        <Form.Handler>
+          <MyOuterBlock path="/myBlock" onChange={onChange} />
+        </Form.Handler>
+      )
 
-    const [first, last] = Array.from(document.querySelectorAll('input'))
+      const [first, last, addition] = Array.from(
+        document.querySelectorAll('input')
+      )
 
-    fireEvent.change(first, { target: { value: 'foo' } })
-    fireEvent.change(last, { target: { value: 'bar' } })
+      fireEvent.change(first, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenLastCalledWith({
+        myBlock: {
+          innerBlock: {
+            firstName: 'foo',
+          },
+        },
+      })
 
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenNthCalledWith(1, { firstName: 'foo' })
-    expect(onChange).toHaveBeenNthCalledWith(2, {
-      firstName: 'foo',
-      lastName: 'bar',
-    })
-  })
+      fireEvent.change(last, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenLastCalledWith({
+        myBlock: {
+          innerBlock: {
+            firstName: 'foo',
+            lastName: 'bar',
+          },
+        },
+      })
 
-  it('should call onChange on Form.Handler with a path', () => {
-    const onChange = jest.fn()
+      fireEvent.change(addition, { target: { value: 'baz' } })
+      expect(onChange).toHaveBeenLastCalledWith({
+        myBlock: {
+          innerBlock: {
+            firstName: 'foo',
+            lastName: 'bar',
+          },
+          otherField: 'baz',
+        },
+      })
 
-    render(
-      <Form.Handler onChange={onChange}>
-        <MyBlock path="/myBlock" />
-      </Form.Handler>
-    )
-
-    const [first, last] = Array.from(document.querySelectorAll('input'))
-
-    fireEvent.change(first, { target: { value: 'foo' } })
-    fireEvent.change(last, { target: { value: 'bar' } })
-
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenNthCalledWith(1, {
-      myBlock: { firstName: 'foo' },
-    })
-    expect(onChange).toHaveBeenNthCalledWith(2, {
-      myBlock: { firstName: 'foo', lastName: 'bar' },
+      expect(onChange).toHaveBeenCalledTimes(3)
     })
   })
 
@@ -453,6 +518,256 @@ describe('Composite.Block', () => {
         myBlock: { bar: 'bar', foo: 'foo' },
       })
     })
+
+    describe('nested', () => {
+      it('should include correct types', () => {
+        render(
+          <Form.Handler>
+            <MyOuterBlock
+              path="/myBlock"
+              overwriteProps={{
+                innerBlock: {
+                  firstName: {
+                    label: 'Custom',
+                    value: 'Foo',
+                    required: true,
+
+                    // @ts-expect-error
+                    something: 'else',
+                  },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('input[name="firstName"]')
+        ).toHaveAttribute('aria-required', 'true')
+        expect(document.querySelector('label')).toHaveTextContent('Custom')
+      })
+
+      it('should overwrite "label"', () => {
+        render(
+          <Form.Handler>
+            <MyOuterBlock
+              path="/myBlock"
+              overwriteProps={{
+                innerBlock: {
+                  firstName: { label: 'Label A' },
+                  lastName: { label: 'Label B' },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        const [first, last] = Array.from(
+          document.querySelectorAll('label')
+        )
+        expect(first).toHaveTextContent('Label A')
+        expect(last).toHaveTextContent('Label B')
+      })
+
+      it('should add "onChange" event to field', () => {
+        const onChange = jest.fn()
+
+        render(
+          <Form.Handler>
+            <MyOuterBlock
+              overwriteProps={{
+                innerBlock: {
+                  lastName: { onChange },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        const [first, last] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        fireEvent.change(first)
+        expect(onChange).toHaveBeenCalledTimes(0)
+
+        fireEvent.change(last, { target: { value: 'bar' } })
+        expect(onChange).toHaveBeenLastCalledWith('bar')
+      })
+
+      it('should overwrite "required"', () => {
+        const { rerender } = render(
+          <Form.Handler>
+            <MyOuterBlock path="/myBlock" />
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('input[name="firstName"]')
+        ).not.toHaveAttribute('aria-required')
+        expect(
+          document.querySelector('input[name="lastName"]')
+        ).toHaveAttribute('aria-required', 'true')
+
+        rerender(
+          <Form.Handler>
+            <MyOuterBlock
+              path="/myBlock"
+              overwriteProps={{
+                innerBlock: {
+                  firstName: { required: true },
+                  lastName: { required: false },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('input[name="firstName"]')
+        ).toHaveAttribute('aria-required', 'true')
+        expect(
+          document.querySelector('input[name="lastName"]')
+        ).not.toHaveAttribute('aria-required')
+      })
+
+      it('should set "required" prop via FieldProps', () => {
+        render(
+          <Form.Handler>
+            <FieldPropsProvider required>
+              <MyOuterBlock path="/myBlock" />
+            </FieldPropsProvider>
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('input[name="firstName"]')
+        ).toHaveAttribute('aria-required', 'true')
+        expect(
+          document.querySelector('input[name="lastName"]')
+        ).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should not overwrite "required" prop via FieldProps', () => {
+        render(
+          <Form.Handler>
+            <FieldPropsProvider required={false}>
+              <MyOuterBlock path="/myBlock" />
+            </FieldPropsProvider>
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('input[name="firstName"]')
+        ).not.toHaveAttribute('aria-required')
+        expect(
+          document.querySelector('input[name="lastName"]')
+        ).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should disable "required" via overwrite props', () => {
+        render(
+          <Form.Handler>
+            <MyOuterBlock
+              path="/myBlock"
+              overwriteProps={{
+                innerBlock: {
+                  firstName: { required: false },
+                  lastName: { required: false },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('input[name="firstName"]')
+        ).not.toHaveAttribute('aria-required')
+        expect(
+          document.querySelector('input[name="lastName"]')
+        ).not.toHaveAttribute('aria-required')
+      })
+
+      it('should change minLength via overwrite props', () => {
+        render(
+          <Form.Handler>
+            <MyOuterBlock
+              path="/myBlock"
+              overwriteProps={{
+                innerBlock: {
+                  lastName: {
+                    minLength: 30,
+                    value: 'f',
+                    validateInitially: true,
+                  },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        const statusMessage = document.querySelector('.dnb-form-status')
+
+        expect(statusMessage).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '30')
+        )
+      })
+
+      it('should overwrite "path"', () => {
+        const onChange = jest.fn()
+
+        render(
+          <Form.Handler onChange={onChange}>
+            <MyOuterBlock
+              path="/myBlock"
+              overwriteProps={{
+                innerBlock: {
+                  firstName: { path: '/foo' },
+                  lastName: { path: '/bar' },
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+
+        const [first, last, addition] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        fireEvent.change(first, { target: { value: 'foo' } })
+        fireEvent.change(last, { target: { value: 'bar' } })
+        fireEvent.change(addition, { target: { value: 'baz' } })
+
+        expect(onChange).toHaveBeenCalledTimes(3)
+        expect(onChange).toHaveBeenNthCalledWith(1, {
+          myBlock: {
+            innerBlock: {
+              bar: undefined,
+              foo: 'foo',
+            },
+            otherField: undefined,
+          },
+        })
+        expect(onChange).toHaveBeenNthCalledWith(2, {
+          myBlock: {
+            innerBlock: {
+              bar: 'bar',
+              foo: 'foo',
+            },
+            otherField: undefined,
+          },
+        })
+        expect(onChange).toHaveBeenNthCalledWith(3, {
+          myBlock: {
+            innerBlock: {
+              bar: 'bar',
+              foo: 'foo',
+            },
+            otherField: 'baz',
+          },
+        })
+      })
+    })
   })
 
   describe('schema', () => {
@@ -561,6 +876,68 @@ describe('Composite.Block', () => {
       expect(statusMessage).toHaveTextContent(
         nb.StringField.errorMinLength.replace('{minLength}', '30')
       )
+    })
+  })
+
+  describe('Value', () => {
+    const MyValueBlock = ({
+      children,
+      ...props
+    }: BlockProps & {
+      children?: React.ReactNode
+    }) => {
+      return (
+        <Composite.Block {...props}>
+          <Value.Name.First path="/firstName" />
+          <Value.Name.Last path="/lastName" />
+          {children}
+        </Composite.Block>
+      )
+    }
+
+    it('should not render children when data is given', () => {
+      render(<MyValueBlock />)
+      expect(document.body).toHaveTextContent('')
+    })
+
+    it('should render block without path', () => {
+      render(
+        <Form.Handler
+          data={{
+            firstName: 'foo',
+            lastName: 'bar',
+          }}
+        >
+          <MyValueBlock />
+        </Form.Handler>
+      )
+
+      const [first, last] = Array.from(
+        document.querySelectorAll('.dnb-forms-value-block__content')
+      )
+      expect(first).toHaveTextContent('foo')
+      expect(last).toHaveTextContent('bar')
+    })
+
+    it('should render block with path', () => {
+      render(
+        <Form.Handler
+          data={{
+            myBlock: {
+              firstName: 'foo',
+              lastName: 'bar',
+            },
+          }}
+        >
+          <MyValueBlock path="/myBlock" />
+        </Form.Handler>
+      )
+
+      const [first, last] = Array.from(
+        document.querySelectorAll('.dnb-forms-value-block__content')
+      )
+      expect(first).toHaveTextContent('foo')
+      expect(last).toHaveTextContent('bar')
     })
   })
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, Form, JSONSchema } from '../..'
 import { Composite } from '../../'
 import { BlockProps } from '../Block'
-import { Flex } from '../../../../components'
+import { Card, Flex } from '../../../../components'
 import { Props as FieldNameProps } from '../../Field/Name'
 
 export default {
@@ -138,5 +138,65 @@ export const CompositeBlock = () => {
       </Flex.Stack>
     </Form.Handler>
     // </React.StrictMode>
+  )
+}
+
+export const NestedBlocks = () => {
+  const MyNameBlock = (props: BlockProps) => {
+    return (
+      <Composite.Block {...props}>
+        <Field.Composition width="large">
+          <Field.Name.First path="/first" />
+          <Field.Name.Last path="/last" />
+        </Field.Composition>
+      </Composite.Block>
+    )
+  }
+
+  const MyAddressBlock = (props: BlockProps) => {
+    return (
+      <Composite.Block {...props}>
+        <Field.Composition width="large">
+          <Field.String
+            label="Gateadresse"
+            path="/street"
+            width="stretch"
+          />
+          <Field.String label="Nr." path="/nr" width="small" />
+        </Field.Composition>
+      </Composite.Block>
+    )
+  }
+
+  const MyBlock = (props: BlockProps) => {
+    return (
+      <Composite.Block {...props}>
+        <Card stack>
+          <MyNameBlock path="/name" />
+          <MyAddressBlock path="/address" required />
+        </Card>
+      </Composite.Block>
+    )
+  }
+
+  return (
+    <Form.Handler
+      onSubmit={console.log}
+      defaultData={{
+        nestedPath: {
+          name: {
+            first: 'Nora',
+            last: 'Mørk',
+          },
+          address: {
+            street: 'Strøget',
+            nr: '',
+          },
+        },
+      }}
+    >
+      <MyBlock path="/nestedPath" />
+      <Form.SubmitButton variant="send" />
+    </Form.Handler>
   )
 }
