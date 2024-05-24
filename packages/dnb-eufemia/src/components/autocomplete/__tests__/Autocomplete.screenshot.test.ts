@@ -8,9 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Autocomplete', () => {
+describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
   setupPageScreenshot({
-    each: true,
+    themeName,
     url: '/uilib/components/autocomplete/demos',
     pageViewport: {
       width: 1280,
@@ -21,14 +21,6 @@ describe('Autocomplete', () => {
   it('have to match different sizes', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-sizes"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match disabled state', async () => {
-    const screenshot = await makeScreenshot({
-      url: '/uilib/components/autocomplete/visual-tests',
-      selector: '[data-visual-test="autocomplete-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -70,21 +62,6 @@ describe('Autocomplete', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match autocomplete opened list', async () => {
-    const screenshot = await makeScreenshot({
-      url: '/uilib/components/autocomplete/visual-tests',
-      selector: '[data-visual-test="autocomplete-opened"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
-      waitAfterSimulate: 200,
-      simulate: 'click',
-      style: {
-        height: '40rem',
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match autocomplete with suffix value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-suffix"]',
@@ -106,17 +83,50 @@ describe('Autocomplete', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/autocomplete/demos',
+    pageViewport: {
+      width: 700,
+    },
+  })
 
   it('have to match small screen autocomplete with suffix value', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/autocomplete/demos',
-      pageViewport: {
-        width: 700,
-        height: 200,
-      },
       selector: '[data-visual-test="autocomplete-suffix"]',
       style: {
         height: '4rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/autocomplete/visual-tests',
+  })
+
+  it('have to match disabled state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="autocomplete-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match autocomplete opened list', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="autocomplete-opened"]',
+      simulateSelector:
+        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
+      waitAfterSimulate: 200,
+      simulate: 'click',
+      style: {
+        height: '40rem',
       },
     })
     expect(screenshot).toMatchImageSnapshot()

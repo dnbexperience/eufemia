@@ -202,14 +202,12 @@ export type DrawerListItemProps = {
     value: string;
   }) => void;
 };
-
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
     'ref' | 'size' | 'label' | 'placeholder' | 'data' | 'children'
   >;
-
 export default class DrawerList extends React.Component<
   DrawerListAllProps,
   any
