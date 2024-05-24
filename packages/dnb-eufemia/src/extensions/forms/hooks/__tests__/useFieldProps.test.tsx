@@ -83,42 +83,6 @@ describe('useFieldProps', () => {
     })
   })
 
-  it('should throw error when "path" without slash is given', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
-
-    const renderComponent = () => {
-      renderHook(() =>
-        useFieldProps({
-          path: 'withoutSlash',
-        })
-      )
-    }
-
-    expect(renderComponent).toThrow(
-      'path="withoutSlash" must start with a slash'
-    )
-
-    log.mockRestore()
-  })
-
-  it('should throw then "itemPath" without slash was given', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
-
-    const renderComponent = () => {
-      renderHook(() =>
-        useFieldProps({
-          itemPath: 'withoutSlash',
-        })
-      )
-    }
-
-    expect(renderComponent).toThrow(
-      'itemPath="withoutSlash" must start with a slash'
-    )
-
-    log.mockRestore()
-  })
-
   describe('using focus callbacks', () => {
     it('should return the error only when the value is invalid AND it is not in focus', async () => {
       const { result } = renderHook(() =>

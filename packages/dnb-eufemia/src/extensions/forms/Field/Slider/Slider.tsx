@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import pointer from 'json-pointer'
 import {
   FieldBlockWidth,
   FieldHelpProps,
@@ -12,6 +11,7 @@ import Slider, { SliderProps } from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { HelpButton } from '../../../../components'
 import DataContext, { ContextState } from '../../DataContext/Context'
+import useDataValue from '../../hooks/useDataValue'
 
 export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
   value: string
@@ -47,16 +47,7 @@ function SliderComponent(props: Props) {
   const dataContextRef = useRef<ContextState>()
   dataContextRef.current = useContext<ContextState>(DataContext)
 
-  const getValue = useCallback((source: Path | number) => {
-    if (typeof source === 'number') {
-      return source
-    }
-
-    return pointer.has(dataContextRef.current?.data, source)
-      ? pointer.get(dataContextRef.current.data, source)
-      : undefined
-  }, [])
-
+  const { getValue } = useDataValue()
   const getValues = useCallback(
     (source: SliderValue | Path | Array<Path>) => {
       if (Array.isArray(source)) {

@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { ValueProps } from '../types'
-import { useExternalValue } from './useFieldProps'
+// import { useExternalValue } from './useExternalValue'
+import useExternalValue from './useExternalValue'
+import usePath from './usePath'
 
 export type Props<Value> = ValueProps<Value>
 
@@ -9,8 +11,9 @@ export default function useValueProps<
   Props extends ValueProps<Value> = ValueProps<Value>,
 >(props: Props): Props & ValueProps<Value> {
   const {
-    path,
+    path: pathProp,
     itemPath,
+    value,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -22,11 +25,12 @@ export default function useValueProps<
     fromExternal,
   })
 
+  const { path } = usePath({ path: pathProp, itemPath })
+
   const externalValue = useExternalValue<Value>({
-    identifier: path,
     path,
     itemPath,
-    props,
+    value,
     transformers,
   })
 
