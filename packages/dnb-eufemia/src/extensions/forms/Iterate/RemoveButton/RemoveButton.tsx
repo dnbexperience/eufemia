@@ -19,9 +19,7 @@ function RemoveButton(props: Props) {
   const { handleRemove } = iterateElementContext ?? {}
 
   if (!iterateElementContext) {
-    throw new Error(
-      'RemoveButton must be inside an Iterate.Array component.'
-    )
+    throw new Error('RemoveButton must be inside an Iterate.Array')
   }
 
   const { className, ...restProps } = props

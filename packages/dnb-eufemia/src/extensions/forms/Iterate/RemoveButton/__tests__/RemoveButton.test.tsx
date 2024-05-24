@@ -16,7 +16,7 @@ describe('RemoveButton', () => {
   )
 
   it('should call handleRemove when clicked inside an Iterate element', () => {
-    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
+    render(<RemoveButton>Remove Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
     fireEvent.click(button)
@@ -25,33 +25,29 @@ describe('RemoveButton', () => {
   })
 
   it('should throw an error if value is not an array', () => {
-    const consoleErrorSpy = jest
-      .spyOn(console, 'error')
-      .mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation()
     const invalidValue = 'invalid value'
-    const error = 'RemoveButton must be inside an Iterate.Array component.'
 
     expect(() => {
       render(
         <RemoveButton value={invalidValue as unknown as string[]}>
-          Push Button
+          Remove Button
         </RemoveButton>
       )
-    }).toThrow()
+    }).toThrow('RemoveButton must be inside an Iterate.Array')
 
-    expect(consoleErrorSpy.mock.calls[0][0].toString()).toContain(error)
-    consoleErrorSpy.mockRestore()
+    log.mockRestore()
   })
 
   it('should render with the correct class name', () => {
-    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
+    render(<RemoveButton>Remove Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-forms-iterate-remove-element-button')
   })
 
   it('should be a tertiary variant', () => {
-    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
+    render(<RemoveButton>Remove Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-button--tertiary')
@@ -90,7 +86,7 @@ describe('RemoveButton', () => {
   })
 
   it('should render with "trash" icon', () => {
-    render(<RemoveButton>Push Button</RemoveButton>, { wrapper })
+    render(<RemoveButton>Remove Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector(
       '.dnb-forms-iterate-remove-element-button'

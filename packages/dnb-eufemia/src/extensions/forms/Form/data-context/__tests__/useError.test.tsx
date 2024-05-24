@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { act, render, renderHook, waitFor } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field, Form } from '../../..'
-import Provider from '../../../DataContext/Provider'
 import useError from '../useError'
 import userEvent from '@testing-library/user-event'
 
@@ -69,8 +68,7 @@ describe('useError', () => {
             <Form.Handler>
               <Field.String path="/foo" />
               <MockComponent />
-            </Form.Handler>,
-            { wrapper: (props) => <Provider {...props} /> }
+            </Form.Handler>
           )
 
           const output = document.querySelector('output')
@@ -82,8 +80,7 @@ describe('useError', () => {
             <Form.Handler>
               <Field.String path="/foo" required />
               <MockComponent />
-            </Form.Handler>,
-            { wrapper: (props) => <Provider {...props} /> }
+            </Form.Handler>
           )
 
           const output = document.querySelector('output')
@@ -95,8 +92,7 @@ describe('useError', () => {
             <Form.Handler>
               <Field.String path="/foo" required />
               <MockComponent />
-            </Form.Handler>,
-            { wrapper: (props) => <Provider {...props} /> }
+            </Form.Handler>
           )
 
           const input = document.querySelector('input')
