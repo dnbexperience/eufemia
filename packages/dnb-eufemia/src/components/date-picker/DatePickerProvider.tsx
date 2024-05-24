@@ -16,46 +16,43 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
-import DatePickerContext from './DatePickerContext'
+import DatePickerContext, {
+  DatePickerContextValues,
+} from './DatePickerContext'
 import useViews, { CalendarViews } from './hooks/useViews'
-import useDates from './hooks/useDates'
-import useLastEventCallCache from './hooks/useLastEventCallCache'
+import useDates, { Dates } from './hooks/useDates'
+import useLastEventCallCache, {
+  LastEventCallCache,
+} from './hooks/useLastEventCallCache'
 
 type DatePickerProviderProps = DatePickerProps & {
-  setReturnObject: (...args: any[]) => any
+  setReturnObject: (
+    func: DatePickerContextValues['getReturnObject']
+  ) => DatePickerContextValues['getReturnObject']
   enhanceWithMethods?: Record<string, unknown>
   attributes?: Record<string, unknown>
   children: React.ReactNode
 }
 
-export type DatePickerProviderState = {
-  lastEventCallCache?: { startDate?: Date; endDate?: Date }
-  date?: Date | string
-  startDate?: Date
-  endDate?: Date
-  minDate?: Date
-  maxDate?: Date
-  startMonth?: Date
-  endMonth?: Date
-  partialStartDate?: Date
-  partialEndDate?: Date
-  views?: CalendarViews
-  hasHadValidDate?: boolean
-  hoverDate?: Date
-  __startDay?: string
-  __startMonth?: string
-  __startYear?: string
-  __endDay?: string
-  __endMonth?: string
-  __endYear?: string
+export type GetReturnObjectParams = Dates & { event?: Event }
+export type ReturnObject = {
+  days_between?: number
+  date?: string
+  start_date?: string
+  end_date?: string
+  is_valid?: boolean
+  is_valid_start_date?: boolean
+  is_valid_end_date?: boolean
+  partialStartDate?: string
+  partialEndDate?: string
 }
 
+export type DatePickerProviderState = Dates &
+  CalendarViews &
+  LastEventCallCache
+
 const defaultProps = {
-  min_date: null,
-  max_date: null,
   return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-  attributes: null,
-  enhanceWithMethods: null,
 }
 
 function DatePickerProvider(externalProps: DatePickerProviderProps) {
@@ -101,6 +98,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     hasHadValidDate: hasValidStartDate || hasValidEndDate,
   })
 
+  // Is this at any point something other than a function?
   if (typeof props.setReturnObject === 'function') {
     props.setReturnObject(getReturnObject)
   }
@@ -123,7 +121,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     ) {
       return // stop here
     }
-
+    console.log('callOnChangeHandler', args)
     dispatchCustomElementEvent(
       { on_change: props.on_change },
       'on_change',
@@ -136,7 +134,10 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     })
   }
 
-  function getReturnObject({ event = null, ...rest } = {}) {
+  function getReturnObject({
+    event = null,
+    ...rest
+  }: GetReturnObjectParams = {}): ReturnObject {
     const { startDate, endDate, partialStartDate, partialEndDate } = {
       ...state,
       ...views,

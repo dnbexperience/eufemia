@@ -40,17 +40,44 @@ import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
+import { Dates, InputDates } from './hooks/useDates'
+
+export type CalendarDay = {
+  date: Date
+  isDisabled?: boolean
+  isEndDate?: boolean
+  isInactive?: boolean
+  isLastMonth?: boolean
+  isNextMonth?: boolean
+  isPreview?: boolean
+  isSelectable?: boolean
+  isStartDate?: boolean
+  isToday?: boolean
+  isWithinSelection?: boolean
+  className?: string
+}
 
 type CalendarLocales = {
   // eslint-disable-next-line no-unused-vars
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
-
+// Easy to acces objects containing the only, in our case, needed functions for date-fns format
 const locales: CalendarLocales = {
   'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
   'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
   'en-US': { localize: enLocalize, formatLong: enFormatLong },
 }
+
+type CalendarNavigationEvent = {
+  nr: number
+}
+
+export type CalendarSelectEvent = Dates &
+  InputDates & {
+    event: React.MouseEvent<HTMLButtonElement>
+    hidePicker: boolean
+    nr: number
+  }
 
 export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
   id?: string
@@ -69,10 +96,15 @@ export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
   noAutofocus?: boolean
-  onHover?: (...args: any[]) => any
-  onSelect?: (...args: any[]) => any
-  onPrev?: (...args: any[]) => any
-  onNext?: (...args: any[]) => any
+  onHover?: (day: Date) => void
+  onSelect?: (event: CalendarSelectEvent) => void
+  onPrev?: (event: CalendarNavigationEvent) => void
+  onNext?: (event: CalendarNavigationEvent) => void
+  onKeyDown?: (
+    event: React.KeyboardEvent<HTMLTableElement>,
+    tableRef: React.MutableRefObject<HTMLTableElement>,
+    nr: number
+  ) => void
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
@@ -80,7 +112,6 @@ export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
   rtl?: boolean
   isRange?: boolean
   resetDate?: boolean
-  onKeyDown?: (...args: any[]) => any
 }
 
 const defaultProps: DatePickerCalendarProps = {
@@ -103,10 +134,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const context = useContext(DatePickerContext)
 
-  const listRef = useRef<HTMLTableElement>()
+  const listRef = useRef<React.ElementRef<'table'>>()
   const labelRef = useRef<HTMLLabelElement>()
-  const days = useRef<Record<string, any>>({})
-  const cache = useRef<Record<string, any>>({})
+  const days = useRef<Record<string, Array<CalendarDay>>>({})
+  const cache = useRef<Record<string, CalendarDay[][]>>({})
 
   useEffect(() => {
     if (!props.noAutofocus && props.nr === 0) {
@@ -766,8 +797,16 @@ function onSelectRange({
   }
 }
 
-function onHoverDay({ day, hoverDate, onHover }) {
-  if (!isSameDay(day.date, hoverDate)) {
-    onHover && onHover(day.date)
+function onHoverDay({
+  day,
+  hoverDate,
+  onHover,
+}: {
+  day: CalendarDay
+  hoverDate?: Date
+  onHover: DatePickerCalendarProps['onHover']
+}) {
+  if (!isSameDay(day.date, hoverDate) && onHover) {
+    onHover(day.date)
   }
 }

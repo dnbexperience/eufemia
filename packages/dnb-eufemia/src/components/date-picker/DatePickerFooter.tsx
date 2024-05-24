@@ -8,12 +8,18 @@ import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
 import { useTranslation } from '../../shared'
+import { InputDates } from './hooks/useDates'
+
+type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
+  InputDates & {
+    event: React.MouseEvent<HTMLButtonElement>
+  }
 
 export type DatePickerFooterProps = React.HTMLProps<HTMLElement> & {
   isRange: boolean
-  onSubmit?: (...args: any[]) => void
-  onCancel?: (...args: any[]) => void
-  onReset?: (...args: any[]) => void
+  onSubmit?: (event: DatePickerFooterEvent) => void
+  onCancel?: (event: DatePickerFooterEvent) => void
+  onReset?: (event: DatePickerFooterEvent) => void
   submitButtonText?: string
   cancelButtonText?: string
   resetButtonText?: string
@@ -85,13 +91,11 @@ function DatePickerFooter({
     </div>
   )
 
-  function onSubmitHandler(args) {
-    if (onSubmit) {
-      onSubmit(args)
-    }
+  function onSubmitHandler(args: DatePickerFooterEvent) {
+    onSubmit?.(args)
   }
 
-  function onCancelHandler(args) {
+  function onCancelHandler(args: DatePickerFooterEvent) {
     const { date_format } = context.props
 
     const startDate = context.previousDates.startDate
@@ -119,14 +123,12 @@ function DatePickerFooter({
         endDate,
       },
       (forward) => {
-        if (onCancel) {
-          onCancel({ ...args, ...forward })
-        }
+        onCancel?.({ ...args, ...forward })
       }
     )
   }
 
-  function onResetHandler(args) {
+  function onResetHandler(args: DatePickerFooterEvent) {
     if (args && args.event) {
       args.event.persist()
     }
@@ -138,9 +140,7 @@ function DatePickerFooter({
         endDate: undefined,
       },
       (forward) => {
-        if (onReset) {
-          onReset({ ...args, ...forward })
-        }
+        onReset?.({ ...args, ...forward })
       }
     )
   }

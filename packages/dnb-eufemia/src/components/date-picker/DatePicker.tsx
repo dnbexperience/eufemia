@@ -49,9 +49,18 @@ import { SkeletonShow } from '../Skeleton'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { ChangeEvent } from 'rollup'
-import { DatePickerCalendarProps } from './DatePickerCalendar'
+import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
+import { DatePickerContextValues } from './DatePickerContext'
+
+export type DatePickerEventAttributes = {
+  day?: string
+  year?: string
+  start?: string
+  end?: string
+} & Record<string, unknown>
 
 export type DatePickerEvent<T> = T & {
+  attributes?: DatePickerEventAttributes
   date?: string
   start_date?: string
   end_date?: string
@@ -65,21 +74,6 @@ export type DatePickerEvent<T> = T & {
     : T extends React.ChangeEvent
     ? ChangeEvent
     : MouseEvent
-}
-
-type CalendarDays = {
-  date: Date
-  isDisabled?: boolean
-  isEndDate?: boolean
-  isInactive?: boolean
-  isLastMonth?: boolean
-  isNextMonth?: boolean
-  isPreview?: boolean
-  isSelectable?: boolean
-  isStartDate?: boolean
-  isToday?: boolean
-  isWithinSelection?: boolean
-  className?: string
 }
 
 export type DatePickerProps = Omit<
@@ -283,7 +277,7 @@ export type DatePickerProps = Omit<
      * Will be called right before every new calendar view gets rendered. See the example above.
      */
     on_days_render?: (
-      days: Array<CalendarDays>,
+      days: Array<CalendarDay>,
       nr?: DatePickerCalendarProps['nr']
     ) => void
     /**
@@ -386,7 +380,8 @@ function DatePicker(externalProps: DatePickerProps) {
   const innerRef = useRef<HTMLSpanElement>()
   const triangleRef = useRef<HTMLSpanElement>()
   const submitButtonRef = useRef<HTMLButtonElement>()
-  const getReturnObject = useRef<(...args: any) => void>()
+  const getReturnObject =
+    useRef<DatePickerContextValues['getReturnObject']>()
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
 

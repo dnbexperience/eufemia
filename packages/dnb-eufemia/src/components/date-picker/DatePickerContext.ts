@@ -6,8 +6,12 @@
 import React from 'react'
 import { DatePickerProps } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
-import { DatePickerProviderState } from './DatePickerProvider'
-import { DateProps, Dates } from './hooks/useDates'
+import {
+  DatePickerProviderState,
+  GetReturnObjectParams,
+  ReturnObject,
+} from './DatePickerProvider'
+import { DateProps, Dates, InputDates } from './hooks/useDates'
 
 export type DatePickerView = {
   month: Date
@@ -25,32 +29,28 @@ export type DatePickerContextValues = ContextProps & {
   views: Array<DatePickerView>
   hasHadValidDate: boolean
   updateState: (
-    states: any,
+    states: DatePickerProviderState,
     callback?: (state: DatePickerProviderState) => void
   ) => void
-  updateDates: (dates: any, callback?: (dates: Dates) => void) => void
-  setState?: (state: any) => void
+  updateDates: (dates: Dates, callback?: (dates: Dates) => void) => void
+  setState?: (state: DatePickerProviderState) => void
   setViews: (views: DatePickerView[], callback?: () => void) => void
-  callOnChangeHandler: (...args: any[]) => void
-  hidePicker: (...args: any[]) => void
+  callOnChangeHandler: (
+    args: Dates &
+      InputDates & {
+        nr: number
+        hidePicker: boolean
+        event: React.MouseEvent<HTMLButtonElement>
+      }
+  ) => void
+  hidePicker: (
+    params: Dates & {
+      focusOnHide?: boolean
+    }
+  ) => void
+
   previousDates: DateProps
-  getReturnObject: ({
-    startDate,
-    endDate,
-    partialStartDate,
-    partialEndDate,
-    event,
-  }: {
-    startDate?: Date
-    endDate?: Date
-    partialStartDate?: Date
-    partialEndDate?: Date
-    event: React.FocusEvent | React.ChangeEvent
-  }) => {
-    is_valid: boolean
-    is_valid_start_date: boolean
-    is_valid_end_date: boolean
-  }
+  getReturnObject: (params: GetReturnObjectParams) => ReturnObject
 }
 
 const DatePickerContext = React.createContext<DatePickerContextValues>(

@@ -216,7 +216,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             focusMode.current === 'start' ? 'startDate' : 'endDate'
 
           if (date) {
-            context.updateState({
+            context.updateDates({
               [mode]: date,
             })
           }
