@@ -340,7 +340,7 @@ export interface FieldHelpProps {
   }
 }
 
-export interface ValueProps<Value>
+export interface ValueProps<Value = unknown>
   extends DataValueReadComponentProps<Value> {
   /**
    * Field label to show above the data value.

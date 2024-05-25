@@ -1,8 +1,8 @@
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { ValueProps } from '../types'
-// import { useExternalValue } from './useExternalValue'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
+import DataContext from '../DataContext/Context'
 
 export type Props<Value> = ValueProps<Value>
 
@@ -33,6 +33,9 @@ export default function useValueProps<
     value,
     transformers,
   })
+
+  const dataContext = useContext(DataContext)
+  dataContext?.setValueProps?.(path, props)
 
   return {
     ...props,

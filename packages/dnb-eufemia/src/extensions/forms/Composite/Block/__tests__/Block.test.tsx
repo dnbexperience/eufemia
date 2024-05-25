@@ -2,11 +2,12 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import * as Composite from '../../'
-import { Field, Form, JSONSchema, Value } from '../../..'
+import { Field, Form, JSONSchema, Tools, Value } from '../../..'
 import { BlockProps } from '../Block'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Form/FieldProps'
-import { GenerateSchemaProps } from '../../../Form/Tools/GenerateSchema'
+import { ListAllPropsProps } from '../../../Tools/ListAllProps'
+import { GenerateSchemaProps } from '../../../Tools/GenerateSchema'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -92,51 +93,79 @@ describe('Composite.Block', () => {
 
   it('should match snapshot', () => {
     const generateSchemaRef =
-      React.createRef<GenerateSchemaProps['generateRef']['current']>()
+      React.createRef<ListAllPropsProps['generateRef']['current']>()
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.ListAllProps generateRef={generateSchemaRef}>
           <MyBlock />
-        </Form.Tools.GenerateSchema>
+        </Tools.ListAllProps>
       </Form.Handler>
     )
 
-    const { schema } = generateSchemaRef.current()
+    const { propsOfFields, propsOfValues } = generateSchemaRef.current()
 
-    expect(schema).toMatchInlineSnapshot(`
+    expect(propsOfFields).toMatchInlineSnapshot(`
       {
-        "properties": {
-          "firstName": {
+        "firstName": {
+          "autoComplete": "given-name",
+          "errorMessages": {
+            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+            "pattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
+            "required": "Du må fylle inn fornavn.",
+          },
+          "label": "Fornavn",
+          "path": "/firstName",
+          "pattern": "^[\\p{L}\\p{M} \\-]+$",
+          "schema": {
+            "maxLength": undefined,
+            "minLength": undefined,
             "pattern": "^[\\p{L}\\p{M} \\-]+$",
             "type": "string",
           },
-          "lastName": {
+          "trim": true,
+          "width": "large",
+        },
+        "lastName": {
+          "autoComplete": "family-name",
+          "errorMessages": {
+            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+            "pattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
+            "required": "Du må fylle inn etternavn.",
+          },
+          "label": "Etternavn",
+          "minLength": 2,
+          "path": "/lastName",
+          "pattern": "^[\\p{L}\\p{M} \\-]+$",
+          "required": true,
+          "schema": {
+            "maxLength": undefined,
             "minLength": 2,
             "pattern": "^[\\p{L}\\p{M} \\-]+$",
             "type": "string",
           },
+          "trim": true,
+          "width": "large",
         },
-        "required": [
-          "lastName",
-        ],
-        "type": "object",
       }
     `)
+    expect(propsOfValues).toMatchInlineSnapshot(`{}`)
   })
 
-  it('should match snapshot with prop change', () => {
+  it('should match schema snapshot with prop change', () => {
     const generateSchemaRef =
       React.createRef<GenerateSchemaProps['generateRef']['current']>()
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <MyBlock
             overwriteProps={{
               firstName: { required: true },
               lastName: { minLength: 0 },
             }}
           />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -888,8 +917,10 @@ describe('Composite.Block', () => {
     }) => {
       return (
         <Composite.Block {...props}>
-          <Value.Name.First path="/firstName" />
-          <Value.Name.Last path="/lastName" />
+          <Value.SummaryList>
+            <Value.Name.First path="/firstName" />
+            <Value.Name.Last path="/lastName" />
+          </Value.SummaryList>
           {children}
         </Composite.Block>
       )

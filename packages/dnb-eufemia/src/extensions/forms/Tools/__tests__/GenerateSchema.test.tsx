@@ -1,19 +1,19 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Ajv, Field, Form } from '../../..'
+import { Ajv, Field, Form, Value, Tools } from '../../'
 import { GenerateSchemaProps } from '../GenerateSchema'
 
 type GenerateRef = GenerateSchemaProps['generateRef']['current']
 
-describe('Form.Tools.GenerateSchema', () => {
+describe('Tools.GenerateSchema', () => {
   it('should generate a schema', () => {
     const generateSchemaRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -31,14 +31,40 @@ describe('Form.Tools.GenerateSchema', () => {
     `)
   })
 
-  it('should return data with local value', () => {
+  it('should console log a schema', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <Form.Handler>
+        <Tools.GenerateSchema log>
+          <Field.String
+            path="/myString"
+            pattern="^[a-z]{2}[0-9]+$"
+            required
+          />
+        </Tools.GenerateSchema>
+      </Form.Handler>
+    )
+
+    expect(log).toHaveBeenCalledWith({
+      properties: {
+        myString: { type: 'string', pattern: '^[a-z]{2}[0-9]+$' },
+      },
+      required: ['myString'],
+      type: 'object',
+    })
+
+    log.mockRestore()
+  })
+
+  it('should return "data" with local value', () => {
     const generateSchemaRef = React.createRef<GenerateRef>()
 
     const { rerender } = render(
       <Form.Handler data={{ myString: 'my string' }}>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -50,9 +76,9 @@ describe('Form.Tools.GenerateSchema', () => {
 
     rerender(
       <Form.Handler data={{ myString: 'my string' }}>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" value="local value" />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -63,12 +89,200 @@ describe('Form.Tools.GenerateSchema', () => {
     `)
   })
 
+  it('should return "propsOfFields" with object that contains all props', () => {
+    const generateSchemaRef = React.createRef<GenerateRef>()
+
+    const { rerender } = render(
+      <Form.Handler data={{ nested: { myString: 'my string' } }}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+          <Field.String path="/myField" label="My field" />
+          <Field.String path="/nested/myString" required minLength={2} />
+        </Tools.GenerateSchema>
+      </Form.Handler>
+    )
+
+    expect(generateSchemaRef.current().propsOfFields)
+      .toMatchInlineSnapshot(`
+      {
+        "myField": {
+          "errorMessages": {
+            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+            "pattern": "Verdien er ugyldig.",
+            "required": "Dette feltet må fylles ut.",
+          },
+          "label": "My field",
+          "path": "/myField",
+          "schema": {
+            "maxLength": undefined,
+            "minLength": undefined,
+            "pattern": undefined,
+            "type": "string",
+          },
+          "width": "large",
+        },
+        "nested": {
+          "myString": {
+            "errorMessages": {
+              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+              "pattern": "Verdien er ugyldig.",
+              "required": "Dette feltet må fylles ut.",
+            },
+            "minLength": 2,
+            "path": "/nested/myString",
+            "required": true,
+            "schema": {
+              "maxLength": undefined,
+              "minLength": 2,
+              "pattern": undefined,
+              "type": "string",
+            },
+            "width": "large",
+          },
+        },
+      }
+    `)
+
+    rerender(
+      <Form.Handler data={{ myString: 'my string' }}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+          <Field.String
+            path="/myString"
+            value="local value"
+            required
+            minLength={2}
+          />
+        </Tools.GenerateSchema>
+      </Form.Handler>
+    )
+
+    expect(generateSchemaRef.current().propsOfFields)
+      .toMatchInlineSnapshot(`
+      {
+        "myField": {
+          "errorMessages": {
+            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+            "pattern": "Verdien er ugyldig.",
+            "required": "Dette feltet må fylles ut.",
+          },
+          "label": "My field",
+          "path": "/myField",
+          "schema": {
+            "maxLength": undefined,
+            "minLength": undefined,
+            "pattern": undefined,
+            "type": "string",
+          },
+          "width": "large",
+        },
+        "myString": {
+          "errorMessages": {
+            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+            "pattern": "Verdien er ugyldig.",
+            "required": "Dette feltet må fylles ut.",
+          },
+          "minLength": 2,
+          "path": "/myString",
+          "required": true,
+          "schema": {
+            "maxLength": undefined,
+            "minLength": 2,
+            "pattern": undefined,
+            "type": "string",
+          },
+          "value": "local value",
+          "width": "large",
+        },
+        "nested": {
+          "myString": {
+            "errorMessages": {
+              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
+              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
+              "pattern": "Verdien er ugyldig.",
+              "required": "Dette feltet må fylles ut.",
+            },
+            "minLength": 2,
+            "path": "/nested/myString",
+            "required": true,
+            "schema": {
+              "maxLength": undefined,
+              "minLength": 2,
+              "pattern": undefined,
+              "type": "string",
+            },
+            "width": "large",
+          },
+        },
+      }
+    `)
+  })
+
+  it('should return "propsOfValues" with object that contains all props', () => {
+    const generateSchemaRef = React.createRef<GenerateRef>()
+
+    const { rerender } = render(
+      <Form.Handler data={{ nested: { myString: 'my string' } }}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+          <Value.String path="/myValue" label="My field" />
+          <Value.String path="/nested/myString" placeholder="-" />
+        </Tools.GenerateSchema>
+      </Form.Handler>
+    )
+
+    expect(generateSchemaRef.current().propsOfValues)
+      .toMatchInlineSnapshot(`
+      {
+        "myValue": {
+          "label": "My field",
+          "path": "/myValue",
+        },
+        "nested": {
+          "myString": {
+            "path": "/nested/myString",
+            "placeholder": "-",
+          },
+        },
+      }
+    `)
+
+    rerender(
+      <Form.Handler data={{ myString: 'my string' }}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+          <Value.String path="/myString" value="local value" />
+        </Tools.GenerateSchema>
+      </Form.Handler>
+    )
+
+    expect(generateSchemaRef.current().propsOfValues)
+      .toMatchInlineSnapshot(`
+      {
+        "myString": {
+          "path": "/myString",
+          "value": "local value",
+        },
+        "myValue": {
+          "label": "My field",
+          "path": "/myValue",
+        },
+        "nested": {
+          "myString": {
+            "path": "/nested/myString",
+            "placeholder": "-",
+          },
+        },
+      }
+    `)
+  })
+
   it('should generate schema with different types', () => {
     const generateSchemaRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" />
           <Field.Number path="/myNumber" />
           <Field.Boolean path="/myBoolean" />
@@ -77,7 +291,7 @@ describe('Form.Tools.GenerateSchema', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -107,7 +321,7 @@ describe('Form.Tools.GenerateSchema', () => {
   it('should generate schema with various properties', () => {
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" minLength={5} maxLength={5} />
           <Field.String
             path="/myObject/withString"
@@ -124,7 +338,7 @@ describe('Form.Tools.GenerateSchema', () => {
             exclusiveMinimum={15}
             exclusiveMaximum={25}
           />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -167,7 +381,7 @@ describe('Form.Tools.GenerateSchema', () => {
 
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String
             path="/myObject/withString"
             minLength={10}
@@ -181,7 +395,7 @@ describe('Form.Tools.GenerateSchema', () => {
             exclusiveMinimum={15}
             exclusiveMaximum={25}
           />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -220,7 +434,7 @@ describe('Form.Tools.GenerateSchema', () => {
 
     render(
       <Form.Handler>
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" required />
           <Field.String
             path="/myObject/withString"
@@ -235,7 +449,7 @@ describe('Form.Tools.GenerateSchema', () => {
             maximum={20}
             required
           />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 
@@ -289,7 +503,7 @@ describe('Form.Tools.GenerateSchema', () => {
           myBoolean: true,
         }}
       >
-        <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateSchemaRef}>
           <Field.String path="/myString" required />
           <Field.String
             path="/myObject/withString"
@@ -304,7 +518,7 @@ describe('Form.Tools.GenerateSchema', () => {
             maximum={20}
             required
           />
-        </Form.Tools.GenerateSchema>
+        </Tools.GenerateSchema>
       </Form.Handler>
     )
 

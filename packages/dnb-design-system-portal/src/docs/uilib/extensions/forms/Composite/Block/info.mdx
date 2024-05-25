@@ -177,38 +177,21 @@ render(
 One way to ensure a "contract" of what you expect a block to be outlined as, is to create a snapshot test:
 
 ```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+import { Form, Tools } from '@dnb/eufemia/extensions/forms'
 
 it('MyBlock should match snapshot', () => {
-  const generateSchemaRef = React.createRef()
+  const generateRef = React.createRef()
 
   render(
     <Form.Handler>
-      <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+      <Tools.ListAllProps generateRef={generateRef}>
         <MyBlock />
-      </Form.Tools.GenerateSchema>
+      </Tools.ListAllProps>
     </Form.Handler>,
   )
 
-  const { schema } = generateSchemaRef.current()
-  expect(schema).toMatchInlineSnapshot(`
-    {
-      "type": "object",
-      "properties": {
-        "firstName": {
-          "type": "string",
-          "pattern": "^[\\p{L}\\p{M} \\-]+$",
-        },
-        "lastName": {
-          "type": "string",
-          "minLength": 2,
-          "pattern": "^[\\p{L}\\p{M} \\-]+$",
-        },
-      },
-      "required": [
-        "lastName",
-      ],
-    }
-  `)
+  const { propsOfFields, propsOfValues } = generateRef.current()
+  expect(propsOfFields).toMatchInlineSnapshot(`...`)
+  expect(propsOfValues).toMatchInlineSnapshot(`...`)
 })
 ```

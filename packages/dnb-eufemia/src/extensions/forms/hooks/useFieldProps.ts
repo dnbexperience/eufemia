@@ -147,7 +147,7 @@ export default function useFieldProps<
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
-    setProps: setPropsDataContext,
+    setFieldProps: setPropsDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
