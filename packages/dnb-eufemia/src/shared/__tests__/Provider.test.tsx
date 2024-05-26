@@ -10,7 +10,7 @@ import ToggleButton from '../../components/toggle-button/ToggleButton'
 import Context, {
   ContextProps,
   TranslationFlat,
-  Locales,
+  Translations,
 } from '../Context'
 import Provider, { ProviderProps } from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
@@ -26,13 +26,13 @@ describe('Provider', () => {
     'HelpButton.title': title_gb,
   }
 
-  const defaultLocales: Locales = {
+  const defaultTranslations: Translations = {
     'nb-NO': nbNO,
     'en-GB': enGB,
   }
 
   const LocalProvider = (props: ProviderProps) => {
-    return <Provider translations={defaultLocales} {...props} />
+    return <Provider translations={defaultTranslations} {...props} />
   }
 
   const ChangeLocale = () => {

@@ -161,12 +161,12 @@ export type ContextProps = ContextComponents & {
   /**
    * Overwrite existing internal translation strings or define new strings via the Provider
    */
-  translations?: Locales | TranslationCustomLocales
+  translations?: Translations | TranslationCustomLocales
 
   /**
    * @deprecated Use `translations` instead
    */
-  locales?: Locales | TranslationCustomLocales
+  locales?: Translations | TranslationCustomLocales
 
   // -- For internal use --
   __context__?: Record<string, unknown>
@@ -190,7 +190,7 @@ export type InternalLocale =
   | AnyLocale
 export type ComponentTranslationsName = keyof ContextComponents | string
 export type ComponentTranslation = string
-export type Locales =
+export type Translations =
   | Partial<Record<InternalLocale, Translation | TranslationFlat>>
   | Partial<Record<InternalLocale, FormsTranslation>>
 export type TranslationDefaultLocales = typeof defaultLocales
@@ -222,7 +222,7 @@ export type TranslationFlat = Record<
 export function prepareContext<Props>(
   props: ContextProps = {}
 ): Props & ContextProps {
-  const locales: Locales =
+  const translations: Translations =
     props.translations || props.locales
       ? extend(defaultLocales, props.translations || props.locales)
       : defaultLocales
@@ -232,8 +232,8 @@ export function prepareContext<Props>(
     delete props.__context__
   }
 
-  const key = handleLocaleFallbacks(props.locale || LOCALE, locales)
-  const translation = locales[key] || defaultLocales[LOCALE] || {} // here we could use Object.freeze
+  const key = handleLocaleFallbacks(props.locale || LOCALE, translations)
+  const translation = translations[key] || defaultLocales[LOCALE] || {} // here we could use Object.freeze
 
   /**
    * The code above adds support for strings, defined like:
@@ -241,8 +241,11 @@ export function prepareContext<Props>(
    *    "Modal.close_title": "Lukk",
    * }
    */
-  if (locales[key]) {
-    locales[key] = destruct(locales[key] as TranslationFlat, translation)
+  if (translations[key]) {
+    translations[key] = destruct(
+      translations[key] as TranslationFlat,
+      translation
+    )
   }
 
   const context = {
@@ -266,7 +269,7 @@ export function prepareContext<Props>(
       return context.translation
     },
 
-    locales,
+    translations,
     locale: null,
     breakpoints: null,
     skeleton: null,
@@ -284,9 +287,9 @@ export function prepareContext<Props>(
 
 function handleLocaleFallbacks(
   locale: InternalLocale | AnyLocale,
-  locales: Locales
+  translations: Translations
 ) {
-  if (!locales[locale]) {
+  if (!translations[locale]) {
     if (locale === 'en' || locale.split('-')[0] === 'en') {
       return 'en-GB'
     }
