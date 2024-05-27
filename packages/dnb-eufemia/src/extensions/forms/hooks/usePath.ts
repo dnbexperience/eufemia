@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import { Path } from '../types'
 import useId from '../../../shared/helpers/useId'
-import CompositeContext from '../Composite/CompositeContext'
+import SectionContext from '../Form/Section/SectionContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 
 export type Props = {
@@ -13,7 +13,7 @@ export type Props = {
 export default function usePath(props: Props = {}) {
   const { path: pathProp, itemPath: itemPathProp } = props
   const id = useId(props.id)
-  const { path: compositePath } = useContext(CompositeContext) ?? {}
+  const { path: sectionPath } = useContext(SectionContext) ?? {}
   const { path: iteratePath, index: iterateElementIndex } =
     useContext(IterateElementContext) ?? {}
 
@@ -24,28 +24,28 @@ export default function usePath(props: Props = {}) {
     throw new Error(`itemPath="${itemPathProp}" must start with a slash`)
   }
 
-  const makeCompositePath = useCallback(
+  const makeSectionPath = useCallback(
     (path: Path) => {
       return `${
-        compositePath && compositePath !== '/' ? compositePath : ''
+        sectionPath && sectionPath !== '/' ? sectionPath : ''
       }${path}`
     },
-    [compositePath]
+    [sectionPath]
   )
 
   const makeIteratePath = useCallback(
     (iteratePath: Path = '') => {
       let root = ''
 
-      if (compositePath) {
-        root = makeCompositePath('')
+      if (sectionPath) {
+        root = makeSectionPath('')
       }
 
       return `${root}${iteratePath}/${iterateElementIndex}${
         itemPathProp && itemPathProp !== '/' ? itemPathProp : ''
       }`
     },
-    [compositePath, itemPathProp, iterateElementIndex, makeCompositePath]
+    [sectionPath, itemPathProp, iterateElementIndex, makeSectionPath]
   )
 
   const itemPath = useMemo(() => {
@@ -60,14 +60,14 @@ export default function usePath(props: Props = {}) {
         return itemPath
       }
 
-      if (compositePath) {
-        return makeCompositePath(path)
+      if (sectionPath) {
+        return makeSectionPath(path)
       }
 
       // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
       return path
     },
-    [itemPath, compositePath, makeCompositePath]
+    [itemPath, sectionPath, makeSectionPath]
   )
 
   const path = useMemo(() => {
@@ -81,6 +81,6 @@ export default function usePath(props: Props = {}) {
     itemPath,
     makePath,
     makeIteratePath,
-    makeCompositePath,
+    makeSectionPath,
   }
 }

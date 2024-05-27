@@ -1,7 +1,7 @@
 import React from 'react'
-import { Composite, Field, Form } from '../../..'
+import { Field, Form } from '../../..'
 import { Flex } from '../../../../../components'
-import { BlockProps } from '../../../Composite/Block'
+import { SectionProps } from '../../../Form/Section'
 
 const translations = {
   'nb-NO': { MyBlock: { MyField: { label: 'Felt label' } } },
@@ -9,11 +9,11 @@ const translations = {
 }
 type Translation = (typeof translations)[keyof typeof translations]
 
-export default function FirstBlock(props: BlockProps) {
+export default function FirstBlock(props: SectionProps) {
   return (
-    <Composite.Block translations={translations} required {...props}>
+    <Form.Section translations={translations} required {...props}>
       <Content />
-    </Composite.Block>
+    </Form.Section>
   )
 }
 

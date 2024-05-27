@@ -28,7 +28,7 @@ import useMountEffect from '../../../shared/helpers/useMountEffect'
 import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
-import CompositeContext from '../Composite/CompositeContext'
+import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
@@ -125,7 +125,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
-  const compositeContext = useContext(CompositeContext)
+  const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const translation = useTranslation()
 
@@ -163,10 +163,10 @@ export default function useFieldProps<
   const { handleChange: handleChangeIterateContext } =
     iterateElementContext ?? {}
   const {
-    path: compositePath,
-    handleChange: handleChangeCompositeContext,
+    path: sectionPath,
+    handleChange: handleChangeSectionContext,
     errorPrioritization,
-  } = compositeContext ?? {}
+  } = sectionContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 
   const hasPath = Boolean(pathProp)
@@ -212,8 +212,8 @@ export default function useFieldProps<
         requiredList.push(schemaPart?.required)
       }
 
-      if (compositePath) {
-        paths.push(compositePath.substring(1))
+      if (sectionPath) {
+        paths.push(sectionPath.substring(1))
       }
 
       const collected = requiredList.flatMap((v) => v).filter(Boolean)
@@ -225,7 +225,7 @@ export default function useFieldProps<
         return true
       }
     }
-  }, [compositePath, dataContext.schema, identifier, requiredProp, schema])
+  }, [sectionPath, dataContext.schema, identifier, requiredProp, schema])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -962,7 +962,7 @@ export default function useFieldProps<
       // Must be set before validation
       changedRef.current = true
 
-      handleChangeCompositeContext?.(identifier, transformedValue)
+      handleChangeSectionContext?.(identifier, transformedValue)
 
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
@@ -1039,7 +1039,7 @@ export default function useFieldProps<
       runPool,
       handleChangeIterateContext,
       makeIteratePath,
-      handleChangeCompositeContext,
+      handleChangeSectionContext,
       identifier,
       hideError,
       updateValue,
@@ -1303,7 +1303,7 @@ export default function useFieldProps<
     }
   }
 
-  const fieldBlockProps = {
+  const fieldSectionProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
@@ -1322,11 +1322,11 @@ export default function useFieldProps<
   }
 
   const sharedData = useSharedState(id)
-  sharedData.set(fieldBlockProps)
+  sharedData.set(fieldSectionProps)
 
   return {
     ...props,
-    ...fieldBlockProps,
+    ...fieldSectionProps,
 
     /** HTML Attributes */
     name: props.name || props.path?.replace('/', '') || id,

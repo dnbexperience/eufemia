@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
-import { Composite, Field, Form } from '../../..'
+import { Field, Form } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
 
@@ -764,46 +764,44 @@ describe('Visibility', () => {
     })
   })
 
-  describe('with composite context', () => {
-    it('should combine composite path and field path', () => {
+  describe('with section context', () => {
+    it('should combine section path and field path', () => {
       render(
         <Form.Handler
           data={{
-            myBlock: {
+            mySection: {
               myField: 'value',
             },
           }}
         >
-          <Composite.Block path="/myBlock">
+          <Form.Section path="/mySection">
             <Field.String path="/myField" />
             <Form.Visibility pathDefined="/myField">
-              inside composite
+              inside section
             </Form.Visibility>
-          </Composite.Block>
+          </Form.Section>
           <Form.Visibility pathDefined="/myField">
-            outside composite
+            outside section
           </Form.Visibility>
         </Form.Handler>
       )
 
       expect(screen.getByRole('textbox')).toHaveValue('value')
-      expect(screen.getByText('inside composite')).toBeInTheDocument()
-      expect(
-        screen.queryByText('outside composite')
-      ).not.toBeInTheDocument()
+      expect(screen.getByText('inside section')).toBeInTheDocument()
+      expect(screen.queryByText('outside section')).not.toBeInTheDocument()
     })
 
     it('visibleWhen', () => {
       render(
         <Form.Handler>
-          <Composite.Block path="/myBlock">
+          <Form.Section path="/mySection">
             <Field.String path="/myField" value="foo" />
             <Form.Visibility
               visibleWhen={{ path: '/myField', hasValue: 'foo' }}
             >
               Child
             </Form.Visibility>
-          </Composite.Block>
+          </Form.Section>
         </Form.Handler>
       )
 
@@ -813,10 +811,10 @@ describe('Visibility', () => {
     it('pathTrue', () => {
       render(
         <Form.Handler>
-          <Composite.Block path="/myBlock">
+          <Form.Section path="/mySection">
             <Field.Boolean path="/myField" value={true} />
             <Form.Visibility pathTrue="/myField">Child</Form.Visibility>
-          </Composite.Block>
+          </Form.Section>
         </Form.Handler>
       )
 
@@ -826,10 +824,10 @@ describe('Visibility', () => {
     it('pathFalse', () => {
       render(
         <Form.Handler>
-          <Composite.Block path="/myBlock">
+          <Form.Section path="/mySection">
             <Field.Boolean path="/myField" value={false} />
             <Form.Visibility pathFalse="/myField">Child</Form.Visibility>
-          </Composite.Block>
+          </Form.Section>
         </Form.Handler>
       )
 
@@ -839,10 +837,10 @@ describe('Visibility', () => {
     it('pathTruthy', () => {
       render(
         <Form.Handler>
-          <Composite.Block path="/myBlock">
+          <Form.Section path="/mySection">
             <Field.Number path="/myField" value={1} />
             <Form.Visibility pathTruthy="/myField">Child</Form.Visibility>
-          </Composite.Block>
+          </Form.Section>
         </Form.Handler>
       )
 
@@ -852,10 +850,10 @@ describe('Visibility', () => {
     it('pathFalsy', () => {
       render(
         <Form.Handler>
-          <Composite.Block path="/myBlock">
+          <Form.Section path="/mySection">
             <Field.String path="/myField" value={null} />
             <Form.Visibility pathFalsy="/myField">Child</Form.Visibility>
-          </Composite.Block>
+          </Form.Section>
         </Form.Handler>
       )
 

@@ -1,25 +1,23 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import pointer from 'json-pointer'
-import CompositeContext, {
-  CompositeContextState,
-} from '../CompositeContext'
-import FieldPropsProvider from '../../Form/FieldProps'
+import SectionContext, { SectionContextState } from './SectionContext'
+import FieldPropsProvider from '../FieldProps'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
-import type { FieldBlockProps, Path, FieldProps } from '../../types'
+import type { FieldSectionProps, Path, FieldProps } from '../../types'
 
 export type OverwritePropsDefaults = {
-  [key: Path]: (FieldProps & FieldBlockProps) | OverwritePropsDefaults
+  [key: Path]: (FieldProps & FieldSectionProps) | OverwritePropsDefaults
 }
-export type BlockProps<overwriteProps = OverwritePropsDefaults> = {
+export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   /**
-   * Path to the block.
-   * When defined, fields inside the block will get this path as a prefix of their own path.
+   * Path to the section.
+   * When defined, fields inside the section will get this path as a prefix of their own path.
    */
   path?: Path
 
   /**
-   * Overwrite field props for the block.
+   * Overwrite field props for the section.
    */
   overwriteProps?: overwriteProps | OverwritePropsDefaults
 
@@ -34,23 +32,23 @@ export type BlockProps<overwriteProps = OverwritePropsDefaults> = {
   required?: boolean
 
   /**
-   * Callback when fields in the block are changed.
+   * Callback when fields in the section are changed.
    */
   onChange?: (data: unknown) => void
 
   /**
    * Only for internal use and undocumented for now.
-   * Prioritize error techniques for the block.
-   * Can be `fieldSchema`, `blockSchema` or `contextSchema.
+   * Prioritize error techniques for the section.
+   * Can be `fieldSchema`, `sectionSchema` or `contextSchema.
    */
-  errorPrioritization?: CompositeContextState['errorPrioritization']
+  errorPrioritization?: SectionContextState['errorPrioritization']
 }
 
-export type LocalProps = BlockProps & {
+export type LocalProps = SectionProps & {
   children: React.ReactNode
 }
 
-function BlockComponent(props: LocalProps) {
+function SectionComponent(props: LocalProps) {
   const {
     path,
     overwriteProps,
@@ -69,7 +67,7 @@ function BlockComponent(props: LocalProps) {
     path: nestedPath,
     handleChange: handleNestedChange,
     props: nestedProps,
-  } = useContext(CompositeContext) || {}
+  } = useContext(SectionContext) || {}
 
   const dataRef = useRef<unknown>({})
   const handleChange = useCallback(
@@ -89,7 +87,7 @@ function BlockComponent(props: LocalProps) {
   const fieldProps = required ? { required: true } : undefined
 
   return (
-    <CompositeContext.Provider
+    <SectionContext.Provider
       value={{
         path: identifier,
         errorPrioritization,
@@ -109,9 +107,16 @@ function BlockComponent(props: LocalProps) {
       >
         {children}
       </FieldPropsProvider>
-    </CompositeContext.Provider>
+    </SectionContext.Provider>
   )
 }
 
-BlockComponent._supportsSpacingProps = 'children'
-export default BlockComponent
+SectionComponent._supportsSpacingProps = 'children'
+export default SectionComponent
+
+/**
+ * @deprecated use "Form.Section" instead of "Composite.Block"
+ */
+export function Block(props: LocalProps) {
+  return <SectionComponent {...props} />
+}

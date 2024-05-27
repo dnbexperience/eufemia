@@ -64,7 +64,7 @@ function Toggle(props: Props) {
 
   const cn = classnames('dnb-forms-field-toggle', className)
 
-  const fieldBlockPropsWithoutLabel = {
+  const fieldSectionPropsWithoutLabel = {
     forId: id,
     className: cn,
     ...pickSpacingProps(props),
@@ -74,8 +74,8 @@ function Toggle(props: Props) {
     disabled,
   }
 
-  const fieldBlockProps = {
-    ...fieldBlockPropsWithoutLabel,
+  const fieldSectionProps = {
+    ...fieldSectionPropsWithoutLabel,
     layout,
     label,
     labelDescription,
@@ -89,7 +89,7 @@ function Toggle(props: Props) {
     default:
     case 'checkbox':
       return (
-        <FieldBlock {...fieldBlockPropsWithoutLabel}>
+        <FieldBlock {...fieldSectionPropsWithoutLabel}>
           <Checkbox
             id={id}
             className={cn}
@@ -109,7 +109,7 @@ function Toggle(props: Props) {
       )
     case 'button':
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldSectionProps}>
           <ToggleButton
             id={id}
             text={
@@ -128,7 +128,7 @@ function Toggle(props: Props) {
       )
     case 'buttons':
       return (
-        <FieldBlock {...fieldBlockProps} asFieldset>
+        <FieldBlock {...fieldSectionProps} asFieldset>
           <ButtonRow bottom="x-small">
             <ToggleButtonGroupContext.Provider
               value={{
@@ -154,7 +154,7 @@ function Toggle(props: Props) {
       )
     case 'checkbox-button':
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldSectionProps}>
           <ToggleButton
             id={id}
             variant="checkbox"
