@@ -1,9 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form, Tools, Value } from '../../'
-import { ListAllPropsProps } from '../ListAllProps'
-
-type GenerateRef = ListAllPropsProps['generateRef']['current']
+import { GenerateRef } from '../ListAllProps'
 
 describe('Tools.ListAllProps', () => {
   it('should console log a all props', () => {

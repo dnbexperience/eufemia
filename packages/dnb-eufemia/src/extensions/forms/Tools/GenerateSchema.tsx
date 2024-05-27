@@ -15,6 +15,7 @@ export type GenerateSchemaProps = {
   filterData?: FilterData
   children: React.ReactNode
 }
+export type GenerateRef = GenerateSchemaProps['generateRef']['current']
 
 export const schemaParams = [
   'minLength',

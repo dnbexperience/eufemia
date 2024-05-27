@@ -12,6 +12,7 @@ export type ListAllPropsProps = {
   filterData?: FilterData
   children: React.ReactNode
 }
+export type GenerateRef = ListAllPropsProps['generateRef']['current']
 
 export default function ListAllProps(props: ListAllPropsProps) {
   const { log, generateRef, filterData, children } = props || {}

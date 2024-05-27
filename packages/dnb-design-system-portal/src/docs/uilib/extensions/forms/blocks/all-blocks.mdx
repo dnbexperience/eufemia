@@ -1,0 +1,81 @@
+---
+title: 'Blocks'
+hideInMenu: true
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Blocks
+    href: /uilib/extensions/forms/all-block/
+---
+
+import { FirstBlock } from './Examples'
+
+# Blocks
+
+These blocks are in an alpha state and are not yet production ready. Get in touch with us if you are interested in using them.
+
+## Usage
+
+Blocks are a collection of reusable fields and values. They can also be 100% cstomized and nested in each other. This makes it easy to reuse the same blocks in different contexts.
+
+Read about how to create a block by using a [Composite.Block](/uilib/extensions/forms/Composite/Block/).
+
+### Import a block
+
+You import a block like this:
+
+```jsx
+import { Category } from '@dnb/eufemia/src/extensions/forms/blocks'
+render(<Category.FirstBlock />)
+```
+
+### Optional `path` support
+
+Optionally you can define a `path` to the block component. This makes it possible to reuse the same block component in different contexts.
+
+### Customization
+
+The `overwriteProps` prop lets you overwrite all of the field props if needed:
+
+```tsx
+import { Category } from '@dnb/eufemia/src/extensions/forms/blocks'
+
+render(
+  <Category.FirstBlock
+    overwriteProps={{
+      firstName: { label: 'Custom label' },
+      lastName: { required: false, minLength: 0 },
+    }}
+  />,
+)
+```
+
+### Text translations
+
+You can change the text used inside of blocks via the [Form.Handler](/uilib/extensions/forms/Form/Handler/):
+
+```tsx
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import { Category } from '@dnb/eufemia/src/extensions/forms/blocks'
+
+const myTranslations = {
+  'nb-NO': { FirstBlock: { MyField: { label: 'Egendefinert' } } },
+  'en-GB': { FirstBlock: { MyField: { label: 'Custom label' } } },
+}
+
+export function MyForm() {
+  return (
+    <Form.Handler translations={myTranslations}>
+      <Category.FirstBlock />
+    </Form.Handler>
+  )
+}
+```
+
+## Category
+
+### FirstBlock
+
+<FirstBlock />
+
+<br />

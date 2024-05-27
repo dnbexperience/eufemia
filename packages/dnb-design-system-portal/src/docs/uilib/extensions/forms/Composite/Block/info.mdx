@@ -226,9 +226,10 @@ One way to ensure a "contract" of what you expect a block to be outlined as, is 
 
 ```tsx
 import { Form, Tools } from '@dnb/eufemia/extensions/forms'
+import { GenerateRef } from '@dnb/eufemia/extensions/forms/Tools/ListAllProps'
 
 it('MyBlock should match snapshot', () => {
-  const generateRef = React.createRef()
+  const generateRef = React.createRef<GenerateRef>()
 
   render(
     <Form.Handler>
