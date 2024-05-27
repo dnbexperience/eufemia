@@ -21,7 +21,10 @@ import {
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
-import { combineDescribedBy } from '../../../shared/component-helper'
+import {
+  combineDescribedBy,
+  convertJsxToString,
+} from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import useMountEffect from '../../../shared/helpers/useMountEffect'
@@ -83,6 +86,7 @@ export default function useFieldProps<
   const {
     path: pathProp,
     value: valueProp,
+    label: labelProp,
     itemPath,
     emptyValue,
     required: requiredProp,
@@ -160,7 +164,7 @@ export default function useFieldProps<
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext ?? {}
-  const { handleChange: handleChangeIterateContext } =
+  const { handleChange: handleChangeIterateContext, index: iterateIndex } =
     iterateElementContext ?? {}
   const {
     path: sectionPath,
@@ -1303,6 +1307,16 @@ export default function useFieldProps<
     }
   }
 
+  const label = useMemo(() => {
+    if (iterateIndex !== undefined) {
+      return convertJsxToString(labelProp).replace(
+        '{itemNr}',
+        String(iterateIndex + 1)
+      )
+    }
+    return labelProp
+  }, [iterateIndex, labelProp])
+
   const fieldSectionProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
@@ -1339,6 +1353,7 @@ export default function useFieldProps<
     value: transformers.current.transformIn(
       transformers.current.toInput(valueRef.current)
     ),
+    label,
     hasError: hasVisibleError,
     isChanged: changedRef.current,
     htmlAttributes,

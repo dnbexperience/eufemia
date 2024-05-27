@@ -11,6 +11,16 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  countPath: {
+    doc: 'A path (JSON Pointer) to the array length.',
+    type: 'string',
+    status: 'optional',
+  },
+  countPathTransform: {
+    doc: 'Will transform the current value before it is displayed.',
+    type: 'function',
+    status: 'optional',
+  },
   withoutFlex: {
     doc: 'When `true` it will omit the Flex.Stack wrapper so it can be used for tables and lists.',
     type: 'boolean',

@@ -1,4 +1,4 @@
-import { UseFieldProps } from '../../types'
+import { Path, UseFieldProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 
 export type ContainerMode = 'view' | 'edit'
@@ -9,7 +9,9 @@ export type ElementChild =
 export type Props = Omit<FlexContainerProps, 'children' | 'width'> & {
   children: ElementChild | Array<ElementChild>
   value?: UseFieldProps<Value, undefined | Value>['value']
-  path?: UseFieldProps<Value, undefined | Value>['path']
+  path?: Path
+  countPath?: Path
+  countPathTransform?: (params: { value: any; index: number }) => any
   withoutFlex?: boolean
   emptyValue?: UseFieldProps<Value, undefined | Value>['emptyValue']
   placeholder?: React.ReactNode

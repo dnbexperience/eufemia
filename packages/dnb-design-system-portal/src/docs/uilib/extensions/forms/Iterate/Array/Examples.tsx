@@ -302,3 +302,24 @@ export const ViewAndEditContainer = () => {
     </ComponentBox>
   )
 }
+
+export const DynamicPathValue = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      <Form.Handler defaultData={{ count: 0 }}>
+        <Flex.Stack>
+          <Field.Number path="/count" width="small" showStepControls />
+          <Iterate.Array
+            countPath="/count"
+            countPathTransform={({ value: age }) =>
+              age?.age ? age : { age }
+            }
+            path="/items"
+          >
+            <Field.Number itemPath="/age" label="Item no. {itemNr}" />
+          </Iterate.Array>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

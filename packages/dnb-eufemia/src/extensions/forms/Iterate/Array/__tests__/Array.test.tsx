@@ -122,6 +122,25 @@ describe('Iterate.Array', () => {
         ).toHaveTextContent('Placeholder text')
       })
     })
+
+    describe('label', () => {
+      it('should replace {itemNr} in labels for fields and values', () => {
+        render(
+          <Iterate.Array value={['foo', 'bar']}>
+            <Field.String itemPath="/" label="Field label {itemNr}" />
+            <Value.String itemPath="/" label="Value label {itemNr}" />
+          </Iterate.Array>
+        )
+
+        const [fieldLabel1, valueLabel1, fieldLabel2, valueLabel2] =
+          Array.from(document.querySelectorAll('.dnb-form-label'))
+
+        expect(fieldLabel1).toHaveTextContent('Field label 1')
+        expect(fieldLabel2).toHaveTextContent('Field label 2')
+        expect(valueLabel1).toHaveTextContent('Value label 1')
+        expect(valueLabel2).toHaveTextContent('Value label 2')
+      })
+    })
   })
 
   describe('with object elements', () => {
