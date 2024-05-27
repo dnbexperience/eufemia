@@ -7,17 +7,12 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { H3 } from '../../..'
+// import { H3 } from '../../..'
 
 import '../style'
 import '../style/themes/ui'
-import PaymentCard, {
-  getCardData,
-  Designs,
-  CardType,
-  ProductType,
-  BankAxeptType,
-} from '../../../extensions/payment-card'
+import { PaymentCard, getCardData } from './../PaymentCard' // BankAxeptType, // ProductType, // getCardData,
+import H3 from '../../../elements/H3'
 import cardData from '../utils/cardProducts'
 
 export default {
@@ -28,19 +23,32 @@ const CustomWrapper = styled(Wrapper)`
   /* empty */
 `
 
-const customData = {
-  productCode: 'UNDEFINED',
-  productName: 'DNB Custom Card',
-  displayName: 'Custom card', // Only showed in compact variant
-  cardDesign: Designs.gold,
-  cardType: CardType.Visa,
-  productType: ProductType.Business,
-  bankAxept: BankAxeptType.BankAxept,
-}
+// const customData = {
+//   productCode: 'UNDEFINED',
+//   productName: 'DNB Custom Card',
+//   displayName: 'Custom card', // Only showed in compact variant
+//   cardDesign: 'gold',
+//   cardType: 'Visa',
+//   productType: 'Business',
+//   bankAxept: 'BankAxept',
+// }
 
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
     <Box>
+      <PaymentCard
+        product_code={'NK1'}
+        card_number={'123123123123'}
+        card_status="active"
+      />
+      <PaymentCard
+        product_code={'NK2'}
+        card_number={'123123123123'}
+        card_status="blocked"
+      />
+    </Box>
+
+    {/* <Box>
       <PaymentCard
         locale="en-GB"
         product_code="DNB"
@@ -63,7 +71,8 @@ export const PaymentCards = () => (
         variant="compact"
         card_number="************1337"
       />
-    </Box>
+    </Box> */}
+
     <Box>
       {cards.map((product_code) => {
         const cardData = getCardData(product_code)
@@ -84,11 +93,11 @@ export const PaymentCards = () => (
                 product_code={product_code}
                 card_number="************1337"
               />
-              {/* <PaymentCard
+              <PaymentCard
                 variant="compact"
                 product_code={product_code}
                 card_number="************1337"
-              /> */}
+              />
             </div>
           </div>
         )
