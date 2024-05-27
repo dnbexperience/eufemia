@@ -19,9 +19,8 @@
   --checkbox-gfx-width__indeterminate: 0.625rem;
   --checkbox-gfx-height__indeterminate--large: 0.875rem;
   --checkbox-gfx-width__indeterminate--large: 0.875rem;
-  --checkbox-border-width: 0.125rem;
-  --checkbox-border-width--hover: 0.125rem;
   // Normal state
+  --checkbox-border-width: 0.09375rem;
   --checkbox-color-gfx-on: black;
   --checkbox-color-gfx-off: white;
   --checkbox-color-background-on: white;
@@ -29,6 +28,7 @@
   --checkbox-color-border-on: black;
   --checkbox-color-border-off: black;
   // Disabled state
+  --checkbox-border-width--disabled: 0.125rem;
   --checkbox-color-gfx--disabled: grey;
   --checkbox-color-background-on--disabled: lightgrey;
   --checkbox-color-background-off--disabled: lightgrey;
@@ -39,6 +39,7 @@
   --checkbox-color-background--active: lightgrey;
   --checkbox-color-border--active: transparent;
   // Hover state
+  --checkbox-border-width--hover: 0.125rem;
   --checkbox-color-gfx--hover: grey;
   --checkbox-color-background--hover: white;
   --checkbox-color-border-on--hover: grey;
@@ -47,6 +48,7 @@
   --checkbox-color-gfx--focus: grey;
   --checkbox-color-background--focus: lightgrey;
   // Error state
+  --checkbox-border-width--error: 0.125rem;
   --checkbox-color-gfx--error: lavenderblush;
   --checkbox-color-gfx--error-contrast: red;
   --checkbox-color-background-on--error: red;
@@ -315,6 +317,11 @@
 
   /** Disabled state **/
 
+  // General
+  &__input[disabled]:checked ~ &__button {
+    border-width: var(--checkbox-border-width--disabled);
+  }
+
   // On
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {
@@ -375,6 +382,7 @@
   &__input:not([disabled]):not(:active):hover ~ &__button {
     border-color: var(--checkbox-color-border-off--hover);
     background-color: var(--checkbox-color-background--hover);
+    border-width: var(--checkbox-border-width--hover);
   }
 
   &__input:hover ~ &__gfx {
@@ -427,7 +435,7 @@
     display: block;
     @include fakeBorder(
       var(--checkbox-color-border--error),
-      var(--checkbox-border-width)
+      var(--checkbox-border-width--error)
     );
   }
 
