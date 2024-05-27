@@ -971,4 +971,56 @@ describe('Composite.Block', () => {
       expect(last).toHaveTextContent('bar')
     })
   })
+
+  describe('translations', () => {
+    it('should handle nested translations', () => {
+      const blockTranslations = {
+        'nb-NO': { MyBlock: { CustomField: { label: 'Block nb' } } },
+        'en-GB': { MyBlock: { CustomField: { label: 'Block en' } } },
+      }
+      type BlockTranslation =
+        (typeof blockTranslations)[keyof typeof blockTranslations]
+
+      const MyBlockContent = () => {
+        const { MyBlock } = Form.useTranslation<BlockTranslation>()
+        return (
+          <Field.String
+            label={MyBlock.CustomField.label}
+            path="/myField"
+          />
+        )
+      }
+
+      const MyBlock = () => {
+        return (
+          <Composite.Block translations={blockTranslations}>
+            <MyBlockContent />
+          </Composite.Block>
+        )
+      }
+
+      const formTranslations = {
+        'nb-NO': { MyBlock: { CustomField: { label: 'Form nb' } } },
+        'en-GB': { MyBlock: { CustomField: { label: 'Form en' } } },
+      }
+
+      const { rerender } = render(
+        <Form.Handler>
+          <MyBlock />
+        </Form.Handler>
+      )
+
+      const label = document.querySelector('label')
+
+      expect(label).toHaveTextContent('Block nb')
+
+      rerender(
+        <Form.Handler locale="en-GB" translations={formTranslations}>
+          <MyBlock />
+        </Form.Handler>
+      )
+
+      expect(label).toHaveTextContent('Form en')
+    })
+  })
 })

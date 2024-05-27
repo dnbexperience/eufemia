@@ -180,9 +180,13 @@ const myFieldTranslations = {
     MyField: { label: 'Mitt felt', required: 'Obligatorisk felt melding' },
   },
 }
+type Translation =
+  (typeof myFieldTranslations)[keyof typeof myFieldTranslations]
 
 const MyField = (props) => {
-  const translations = Form.useTranslation(myFieldTranslations)
+  const translations = Form.useTranslation<Translation>(
+    myFieldTranslations,
+  )
   const { label, required } = translations.MyField
 
   const preparedProps = {

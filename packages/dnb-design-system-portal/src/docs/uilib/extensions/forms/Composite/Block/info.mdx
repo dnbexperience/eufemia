@@ -172,6 +172,54 @@ render(
 )
 ```
 
+## Translations
+
+You can use the `translations` prop to provide translations for the block:
+
+```tsx
+import { Composite, Field, Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  // Its optional to wrap the translations in an additional "MyBlock" object
+  'nb-NO': { MyBlock: { MyField: { label: 'Felt label' } } },
+  'en-GB': { MyBlock: { MyField: { label: 'Field label' } } },
+}
+type Translation = (typeof translations)[keyof typeof translations]
+
+export function MyBlock() {
+  return (
+    <Composite.Block translations={translations}>
+      <ContentOfMyBlock />
+    </Composite.Block>
+  )
+}
+
+function ContentOfMyBlock() {
+  const { MyField } = Form.useTranslation<Translation>().MyBlock
+  return <Field.String label={MyField.label} path="/custom" />
+}
+```
+
+This way it is possible to "extend" or change the translations for a specific block from a `Form.handler`:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { MyBlock } from './form-blocks'
+
+const myTranslations = {
+  'nb-NO': { MyBlock: { MyField: { label: 'Egendefinert' } } },
+  'en-GB': { MyBlock: { MyField: { label: 'Custom' } } },
+}
+
+export function MyForm() {
+  return (
+    <Form.Handler translations={myTranslations}>
+      <MyBlock />
+    </Form.Handler>
+  )
+}
+```
+
 ## Snapshot testing of a composite block
 
 One way to ensure a "contract" of what you expect a block to be outlined as, is to create a snapshot test:

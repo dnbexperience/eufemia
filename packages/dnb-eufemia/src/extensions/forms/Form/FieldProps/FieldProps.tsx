@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import { Props as DataContextProps } from '../../DataContext/Provider'
 import { FormStatusProps } from '../../../../components/FormStatus'
@@ -43,7 +43,7 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
     FormStatus,
     overwriteProps,
     deep,
-    ...rest
+    ...restProps
   } = props
 
   const nestedContext = useContext(FieldPropsContext)
@@ -53,15 +53,23 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
   const sharedProviderProps: ContextProps = {}
 
   // Extract props to be used in the shared global context
-  const { locale, translations, ...restContextProps } = Object.assign(
-    nestedContext?.inheritedProps || {},
-    rest
-  ) as ContextProps
-  const restFromNestedContext = restContextProps as UseFieldProps
+  const { locale, translations } = useMemo(() => {
+    return {
+      ...restProps,
+      ...removeUndefined(nestedContext?.inheritedProps),
+    } as ContextProps
+  }, [nestedContext?.inheritedProps, restProps])
 
-  if (typeof restFromNestedContext.disabled === 'boolean') {
+  const nestedFieldProps = useMemo(() => {
+    return Object.assign(
+      nestedContext?.inheritedProps || {},
+      restProps
+    ) as UseFieldProps
+  }, [nestedContext?.inheritedProps, restProps])
+
+  if (typeof nestedFieldProps.disabled === 'boolean') {
     sharedProviderProps.formElement = {
-      disabled: restFromNestedContext.disabled,
+      disabled: nestedFieldProps.disabled,
     }
   }
   if (formElement) {
@@ -101,20 +109,20 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
           required:
             requiredByContext ?? nestedContext?.inheritedContext?.required,
         },
-        restFromNestedContext as Record<string, unknown>
-      ) as UseFieldProps
+        nestedFieldProps as Record<string, unknown>
+      )
 
       return (deep ? nestedContext.extend(value) : value) as T
     },
-    [deep, nestedContext, overwriteProps, restFromNestedContext]
+    [deep, nestedContext, overwriteProps, nestedFieldProps]
   )
 
   return (
     <FieldPropsContext.Provider
       value={{
         extend,
-        inheritedProps: rest,
-        inheritedContext: restFromNestedContext,
+        inheritedProps: restProps,
+        inheritedContext: nestedFieldProps,
       }}
     >
       <SharedProvider {...sharedProviderProps}>{children}</SharedProvider>
@@ -152,5 +160,15 @@ function wrapFormsTranslations(
     result[locale] = newObj
   }
 
+  return result
+}
+
+function removeUndefined(obj = {}) {
+  const result = {}
+  for (const key in obj) {
+    if (obj[key] !== undefined) {
+      result[key] = obj[key]
+    }
+  }
   return result
 }
