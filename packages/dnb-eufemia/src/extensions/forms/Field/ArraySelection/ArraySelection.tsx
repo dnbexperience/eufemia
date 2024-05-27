@@ -14,7 +14,7 @@ interface IOption {
   handleSelect: () => void
 }
 
-export type Props = FieldProps<Array<string | number>> & {
+export type Props = FieldProps<Array<string | number> | undefined> & {
   children?: React.ReactNode
   variant?: 'checkbox' | 'button'
   optionsLayout?: 'horizontal' | 'vertical'
