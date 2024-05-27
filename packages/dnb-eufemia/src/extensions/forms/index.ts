@@ -69,8 +69,3 @@ StepsLayout.PreviousButton = PreviousButton
  */
 StepsLayout.Buttons = Buttons
 StepsLayout.useStep = useStep
-
-/**
- * @deprecated use "Form.Section" instead of "Composite.Block"
- */
-export * as Composite from './Composite'

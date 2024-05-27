@@ -113,10 +113,3 @@ function SectionComponent(props: LocalProps) {
 
 SectionComponent._supportsSpacingProps = 'children'
 export default SectionComponent
-
-/**
- * @deprecated use "Form.Section" instead of "Composite.Block"
- */
-export function Block(props: LocalProps) {
-  return <SectionComponent {...props} />
-}
