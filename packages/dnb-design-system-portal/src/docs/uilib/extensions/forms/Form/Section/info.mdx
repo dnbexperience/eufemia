@@ -1,0 +1,254 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+`Form.Section` lets you compose together sections of fields and values to be reused in different contexts.
+
+It lets you overwrite all of the given props if needed and even move the nested `Form.Section`s to a different location in the data context. This makes it super easy to reuse the same collection of fields and values in different contexts.
+
+Here is a list of [reusable sections](/uilib/extensions/forms/sections/all-sections/) (alpha).
+
+## Usage
+
+1. Export the section component:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+export const MySection = (props) => {
+  return (
+    <Form.Section {...props}>
+      {/* Fields*/}
+      <Field.PhoneNumber path="/phoneNumber" required />
+
+      {/* Views*/}
+      <View.PhoneNumber path="/phoneNumber" />
+    </Form.Section>
+  )
+}
+```
+
+2. Import the section component and use it in a form:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { MySection } from './form-sections'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <MySection />
+    </Form.Handler>
+  )
+}
+```
+
+## Overwrite props
+
+It lets you overwrite all of the given props if needed by using `overwriteProps`:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const MySection = (props) => {
+  return (
+    <Form.Section {...props}>
+      <Field.Name.First path="/firstName" />
+      <Field.Name.Last path="/lastName" required minLength={2} />
+    </Form.Section>
+  )
+}
+
+render(
+  <Form.Handler>
+    <MySection
+      overwriteProps={{
+        firstName: { label: '/Custom label' },
+        lastName: { required: false, minLength: 0 },
+      }}
+    />
+  </Form.Handler>,
+)
+```
+
+## Optional `path` support
+
+Optionally you can define a `path` to the section component. Fields inside the section will get this path as a prefix of their own path. This makes it possible to reuse the same section component in different contexts.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const MySection = (props) => {
+  return (
+    <Form.Section {...props}>
+      <Field.Name.First path="/firstName" />
+      <Field.Name.Last path="/lastName" />
+    </Form.Section>
+  )
+}
+
+render(
+  <Form.Handler
+    defaultData={{
+      // MySection has a path="/nestedPath" and therefore it is nested in the data context
+      nestedPath: {
+        firstName: 'Nora',
+      },
+    }}
+  >
+    <MySection path="/nestedPath" />
+  </Form.Handler>,
+)
+```
+
+## Required prop
+
+Optionally you can define a `required` prop to the section component. Fields inside the section then be required.
+
+```tsx
+render(
+  <Form.Section required={true}>
+    <Field.Name.First path="/firstName" />
+    <Field.Name.Last path="/lastName" />
+  </Form.Section>,
+)
+```
+
+## TypeScript support
+
+Optionally you can define what the props of the nested fields should accept:
+
+```tsx
+import { Form, Field, SectionProps } from '@dnb/eufemia/extensions/forms'
+import type { Props as PhoneNumberProps } from '@dnb/eufemia/extensions/forms/Field/PhoneNumber'
+
+const MySection = (
+  props: SectionProps<{ phoneNumber?: PhoneNumberProps }>,
+) => {
+  return (
+    <Form.Section {...props}>
+      <Field.Name.Last path="/phoneNumber" required />
+    </Form.Section>
+  )
+}
+
+render(
+  <Form.Handler>
+    <MySection />
+  </Form.Handler>,
+)
+```
+
+## Schema support
+
+You can also use a `schema` to define the properties of the nested fields:
+
+```tsx
+import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+
+const MySection = (props) => {
+  return (
+    <Form.Section {...props}>
+      <Field.PhoneNumber path="/phoneNumber" />
+    </Form.Section>
+  )
+}
+
+const schema: JSONSchema = {
+  type: 'object',
+  properties: {
+    mySection: {
+      type: 'object',
+      properties: {
+        phoneNumber: {
+          type: 'string',
+          pattern: '^[0-9]{10}$',
+        },
+      },
+      required: ['phoneNumber'],
+    },
+  },
+}
+
+render(
+  <Form.Handler schema={schema}>
+    <MySection path="/mySection" />
+  </Form.Handler>,
+)
+```
+
+## Translations
+
+You can use the `translations` prop to provide translations for the section:
+
+```tsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  // Its optional to wrap the translations in an additional "MySection" object
+  'nb-NO': { MySection: { MyField: { label: 'Felt label' } } },
+  'en-GB': { MySection: { MyField: { label: 'Field label' } } },
+}
+type Translation = (typeof translations)[keyof typeof translations]
+
+export function MySection() {
+  return (
+    <Form.Section translations={translations}>
+      <ContentOfMySection />
+    </Form.Section>
+  )
+}
+
+function ContentOfMySection() {
+  const { MyField } = Form.useTranslation<Translation>().MySection
+  return <Field.String label={MyField.label} path="/custom" />
+}
+```
+
+This way it is possible to "extend" or change the translations for a specific section from a `Form.handler`:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { MySection } from './form-sections'
+
+const myTranslations = {
+  'nb-NO': { MySection: { MyField: { label: 'Egendefinert' } } },
+  'en-GB': { MySection: { MyField: { label: 'Custom' } } },
+}
+
+export function MyForm() {
+  return (
+    <Form.Handler translations={myTranslations}>
+      <MySection />
+    </Form.Handler>
+  )
+}
+```
+
+## Snapshot testing of a section/block
+
+One way to ensure a "contract" of what you expect a section to be outlined as, is to create a snapshot test:
+
+```tsx
+import { Form, Tools } from '@dnb/eufemia/extensions/forms'
+import { GenerateRef } from '@dnb/eufemia/extensions/forms/Tools/ListAllProps'
+
+it('MySection should match snapshot', () => {
+  const generateRef = React.createRef<GenerateRef>()
+
+  render(
+    <Form.Handler>
+      <Tools.ListAllProps generateRef={generateRef}>
+        <MySection />
+      </Tools.ListAllProps>
+    </Form.Handler>,
+  )
+
+  const { propsOfFields, propsOfValues } = generateRef.current()
+  expect(propsOfFields).toMatchInlineSnapshot(`...`)
+  expect(propsOfValues).toMatchInlineSnapshot(`...`)
+})
+```

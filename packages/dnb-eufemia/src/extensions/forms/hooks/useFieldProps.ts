@@ -18,7 +18,6 @@ import {
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
-  Path,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
@@ -29,14 +28,17 @@ import useMountEffect from '../../../shared/helpers/useMountEffect'
 import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
+import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import useProcessManager from './useProcessManager'
+import usePath from './usePath'
 import {
   createSharedState,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
+import useExternalValue from './useExternalValue'
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -66,6 +68,9 @@ export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
 }
 
+// Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
+// useEffect depend on them (like the external `value`)
+
 export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
@@ -76,7 +81,8 @@ export default function useFieldProps<
   const props = extend<Props>(localeProps)
 
   const {
-    path,
+    path: pathProp,
+    value: valueProp,
     itemPath,
     emptyValue,
     required: requiredProp,
@@ -119,6 +125,7 @@ export default function useFieldProps<
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
+  const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const translation = useTranslation()
 
@@ -140,7 +147,7 @@ export default function useFieldProps<
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
-    setProps: setPropsDataContext,
+    setFieldProps: setPropsDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
@@ -153,46 +160,26 @@ export default function useFieldProps<
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext ?? {}
-  const inIterate = Boolean(iterateElementContext)
+  const { handleChange: handleChangeIterateContext } =
+    iterateElementContext ?? {}
   const {
-    index: iterateElementIndex,
-    path: iteratePath,
-    handleChange: handleChangeIterateContext,
-  } = iterateElementContext ?? {}
+    path: sectionPath,
+    handleChange: handleChangeSectionContext,
+    errorPrioritization,
+  } = sectionContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 
-  if (path && path.substring(0, 1) !== '/') {
-    throw new Error(
-      'Invalid path. Data value path JSON Pointers must be from root (starting with a /).'
-    )
-  }
-  if (itemPath && itemPath.substring(0, 1) !== '/') {
-    throw new Error(
-      'Invalid itemPath. Item pathJSON Pointers must be from root of iterate element (starting with a /).'
-    )
-  }
-  if (itemPath && !inIterate) {
-    throw new Error(
-      'itemPath cannot be used when not inside an iterate context. Wrap the component in an Iterate.Array.'
-    )
-  }
-
-  const identifier = useMemo(() => {
-    if (itemPath) {
-      const iterateValuePath = `${iteratePath}/${iterateElementIndex}${
-        itemPath && itemPath !== '/' ? itemPath : ''
-      }`
-      return iterateValuePath
-    }
-
-    // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
-    return path ?? id
-  }, [itemPath, path, id, iteratePath, iterateElementIndex])
+  const hasPath = Boolean(pathProp)
+  const { path, identifier, makeIteratePath } = usePath({
+    id,
+    path: pathProp,
+    itemPath,
+  })
 
   const externalValue = useExternalValue<Value>({
     path,
     itemPath,
-    props,
+    value: valueProp,
     transformers,
     emptyValue,
   })
@@ -225,12 +212,20 @@ export default function useFieldProps<
         requiredList.push(schemaPart?.required)
       }
 
+      if (sectionPath) {
+        paths.push(sectionPath.substring(1))
+      }
+
       const collected = requiredList.flatMap((v) => v).filter(Boolean)
-      if (collected.includes(paths.at(-1))) {
+      if (
+        paths
+          .filter(Boolean)
+          .some((p) => collected.some((c) => c.includes(p)))
+      ) {
         return true
       }
     }
-  }, [dataContext?.schema, identifier, requiredProp, schema])
+  }, [sectionPath, dataContext.schema, identifier, requiredProp, schema])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -585,6 +580,20 @@ export default function useFieldProps<
     [persistErrorState, defineAsyncProcess, setFieldState, showError]
   )
 
+  const prioritizeContextSchema = useMemo(() => {
+    if (errorPrioritization) {
+      const schemaPath = identifier.split('/').join('/properties/')
+      const hasContextSchema = pointer.has(
+        dataContext?.schema || {},
+        schemaPath
+      )
+      return (
+        hasContextSchema &&
+        errorPrioritization?.indexOf('contextSchema') === 0
+      )
+    }
+  }, [dataContext?.schema, errorPrioritization, identifier])
+
   /**
    * Validate the current state value by provided validator instructions
    */
@@ -605,10 +614,9 @@ export default function useFieldProps<
     validatedValue.current = null
 
     try {
-      // Validate required
       const requiredError = transformers.current.validateRequired(value, {
         emptyValue,
-        required: requiredProp,
+        required: requiredProp ?? required,
         isChanged: changedRef.current,
         error: new FormError('The value is required', {
           validationRule: 'required',
@@ -622,7 +630,8 @@ export default function useFieldProps<
       if (
         schemaValidatorRef.current &&
         value !== undefined &&
-        !schemaValidatorRef.current(value)
+        !schemaValidatorRef.current(value) &&
+        !prioritizeContextSchema
       ) {
         const error = ajvErrorsToOneFormError(
           schemaValidatorRef.current.errors,
@@ -662,6 +671,8 @@ export default function useFieldProps<
     clearErrorState,
     emptyValue,
     requiredProp,
+    required,
+    prioritizeContextSchema,
     validateInitially,
     callValidator,
     persistErrorState,
@@ -855,7 +866,7 @@ export default function useFieldProps<
       })
     }
 
-    if (path) {
+    if (hasPath) {
       if (isAsync(onChangeContext)) {
         defineAsyncProcess('onChangeContext')
 
@@ -863,7 +874,7 @@ export default function useFieldProps<
         if (!hasError()) {
           setEventResult(
             (await handlePathChangeDataContext?.(
-              path
+              identifier
             )) as EventReturnWithStateObjectAndSuccess
           )
         } else {
@@ -872,7 +883,7 @@ export default function useFieldProps<
       } else {
         setEventResult(
           handlePathChangeDataContext?.(
-            path
+            identifier
           ) as EventReturnWithStateObjectAndSuccess
         )
       }
@@ -881,7 +892,8 @@ export default function useFieldProps<
     forceUpdate()
   }, [
     asyncBehaviorIsEnabled,
-    path,
+    hasPath,
+    identifier,
     hasError,
     yieldAsyncProcess,
     onChangeContext,
@@ -900,7 +912,9 @@ export default function useFieldProps<
 
       valueRef.current = newValue
 
-      handlePathChangeUnvalidatedDataContext(path, newValue)
+      if (hasPath) {
+        handlePathChangeUnvalidatedDataContext(identifier, newValue)
+      }
 
       addToPool('validator', validateValue, isAsync(validatorRef.current))
 
@@ -915,13 +929,14 @@ export default function useFieldProps<
       })
     },
     [
-      handlePathChangeUnvalidatedDataContext,
-      path,
+      hasPath,
       addToPool,
       validateValue,
       callOnChangeContext,
       onChangeContext,
       runPool,
+      handlePathChangeUnvalidatedDataContext,
+      identifier,
       handleError,
     ]
   )
@@ -947,12 +962,11 @@ export default function useFieldProps<
       // Must be set before validation
       changedRef.current = true
 
+      handleChangeSectionContext?.(identifier, transformedValue)
+
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
-        const iterateValuePath = `/${iterateElementIndex}${
-          itemPath && itemPath !== '/' ? itemPath : ''
-        }`
-        handleChangeIterateContext?.(iterateValuePath, transformedValue)
+        handleChangeIterateContext?.(makeIteratePath(), transformedValue)
       }
 
       if (asyncBehaviorIsEnabled) {
@@ -1019,19 +1033,21 @@ export default function useFieldProps<
       await runPool()
     },
     [
-      addToPool,
-      asyncBehaviorIsEnabled,
-      handleChangeIterateContext,
-      hasError,
-      hideError,
       itemPath,
-      iterateElementIndex,
+      asyncBehaviorIsEnabled,
       onChange,
       runPool,
-      defineAsyncProcess,
-      setEventResult,
+      handleChangeIterateContext,
+      makeIteratePath,
+      handleChangeSectionContext,
+      identifier,
+      hideError,
       updateValue,
+      addToPool,
       yieldAsyncProcess,
+      defineAsyncProcess,
+      hasError,
+      setEventResult,
     ]
   )
 
@@ -1092,13 +1108,13 @@ export default function useFieldProps<
   ])
 
   useEffect(() => {
-    if (path) {
+    if (hasPath) {
       let value = props.value
 
       // First, look for existing data in the context
-      const hasValue = pointer.has(dataContext.data, path)
+      const hasValue = pointer.has(dataContext.data, identifier)
       const existingValue = hasValue
-        ? pointer.get(dataContext.data, path)
+        ? pointer.get(dataContext.data, identifier)
         : undefined
 
       // If no data where found in the dataContext, look for shared data
@@ -1109,9 +1125,9 @@ export default function useFieldProps<
         typeof value === 'undefined'
       ) {
         const sharedState = createSharedState(dataContext.id)
-        const hasValue = pointer.has(sharedState.data, path)
+        const hasValue = pointer.has(sharedState.data, identifier)
         if (hasValue) {
-          const sharedValue = pointer.get(sharedState.data, path)
+          const sharedValue = pointer.get(sharedState.data, identifier)
           if (sharedValue) {
             value = sharedValue
           }
@@ -1126,14 +1142,15 @@ export default function useFieldProps<
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        updateDataValueDataContext?.(path, value)
+        updateDataValueDataContext?.(identifier, value)
         validateDataDataContext?.()
       }
     }
   }, [
     dataContext.data,
     dataContext.id,
-    path,
+    identifier,
+    hasPath,
     props.value,
     updateDataValueDataContext,
     validateDataDataContext,
@@ -1286,7 +1303,7 @@ export default function useFieldProps<
     }
   }
 
-  const fieldBlockProps = {
+  const fieldSectionProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
@@ -1305,11 +1322,11 @@ export default function useFieldProps<
   }
 
   const sharedData = useSharedState(id)
-  sharedData.set(fieldBlockProps)
+  sharedData.set(fieldSectionProps)
 
   return {
     ...props,
-    ...fieldBlockProps,
+    ...fieldSectionProps,
 
     /** HTML Attributes */
     name: props.name || props.path?.replace('/', '') || id,
@@ -1360,65 +1377,4 @@ export interface ReturnAdditional<Value> {
 
 function resolveValidatingState(state: SubmitStateWithValidating) {
   return state === 'validating' ? 'pending' : state
-}
-
-export function useExternalValue<Value>({
-  path,
-  itemPath,
-  props,
-  transformers,
-  emptyValue = undefined,
-}: {
-  path?: Path
-  itemPath?: Path
-  props: FieldProps<Value>
-  transformers: React.MutableRefObject<{
-    fromExternal: FieldProps<Value>['fromExternal']
-  }>
-  emptyValue?: FieldProps<Value>['emptyValue']
-}) {
-  const dataContext = useContext(DataContext)
-  const iterateElementContext = useContext(IterateElementContext)
-  const inIterate = Boolean(iterateElementContext)
-  const { value: iterateElementValue } = iterateElementContext ?? {}
-
-  return useMemo(() => {
-    if (props.value !== emptyValue) {
-      // Value-prop sent directly to the field has highest priority, overriding any surrounding source
-      return transformers.current.fromExternal(props.value)
-    }
-
-    if (inIterate && itemPath) {
-      // This field is inside an iterate, and has a pointer from the base of the element being iterated
-      if (itemPath === '/') {
-        return iterateElementValue
-      }
-
-      return pointer.has(iterateElementValue, itemPath)
-        ? pointer.get(iterateElementValue, itemPath)
-        : emptyValue
-    }
-
-    if (dataContext.data && path) {
-      // There is a surrounding data context and a path for where in the source to find the data
-      if (path === '/') {
-        return dataContext.data
-      }
-
-      return pointer.has(dataContext.data, path)
-        ? pointer.get(dataContext.data, path)
-        : emptyValue
-    }
-
-    return emptyValue
-  }, [
-    props.value,
-    emptyValue,
-    inIterate,
-    itemPath,
-    dataContext.data,
-    path,
-    transformers,
-    iterateElementValue,
-  ])
 }

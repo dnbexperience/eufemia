@@ -2,7 +2,19 @@
 showTabs: true
 ---
 
-## Description
+## Table of Contents
+
+- [About schemas](#about-schemas)
+- [Using schema with DataContext](#using-schema-with-datacontext)
+- [Fields which are disabled or read-only](#fields-which-are-disabled-or-read-only)
+- [JSONSchema and TypeScript](#jsonschema-and-typescript)
+- [Complex schemas](#complex-schemas)
+  - [Custom Ajv instance and keywords](#custom-ajv-instance-and-keywords)
+  - [Custom Ajv keyword in a field](#custom-ajv-keyword-in-a-field)
+  - [Custom error messages](#custom-error-messages)
+- [Generate schema from fields](#generate-schema-from-fields)
+
+## About schemas
 
 JSON Schema is a vocabulary for annotating and validating data in js. More about JSON Schema on [json-schema.org](https://json-schema.org/)
 
@@ -42,7 +54,7 @@ Results in:
 }
 ```
 
-### Using schema with DataContext
+## Using schema with DataContext
 
 These two examples will result in the same validation for the user:
 
@@ -85,11 +97,11 @@ This makes it possible to create a uniform, testable description and requirement
 
 Also, note you can describe the schema without using the `type` property, as the type is inferred from schema type. More on that topic in the [Ajv docs](https://ajv.js.org/guide/typescript.html#utility-types-for-schemas).
 
-### Fields which are disabled or read-only
+## Fields which are disabled or read-only
 
 Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
 
-### JSONSchema and TypeScript
+## JSONSchema and TypeScript
 
 You can import the `JSONSchema` type from the `@dnb/eufemia/extensions/forms` package.
 
@@ -121,7 +133,7 @@ const schema: JSONSchemaType<MyData> = {
 }
 ```
 
-### Complex schemas
+## Complex schemas
 
 In addition to basic validation as in the example above, JSON Schema can be used for more complex. Examples of definitions supported by the standard are:
 
@@ -139,7 +151,7 @@ In addition to basic validation as in the example above, JSON Schema can be used
 
 To learn more about what is possible with the JSON Schema standard, see [json-schema.org](https://json-schema.org/).
 
-#### Custom Ajv instance and keywords
+### Custom Ajv instance and keywords
 
 You can provide your custom `validate` function with your own keywords to your schema. Below are two examples of how to do that.
 
@@ -192,7 +204,7 @@ render(
 )
 ```
 
-#### Custom Ajv keyword in a field
+### Custom Ajv keyword in a field
 
 Here is another example of a custom keyword, used in one field only:
 
@@ -231,7 +243,7 @@ render(
 
 You can find more info about error messages in the [Error messages](/uilib/extensions/forms/Form/error-messages/) docs.
 
-#### Custom error messages
+### Custom error messages
 
 When having a custom keyword, you can provide custom error message on four levels with the `errorMessage` or `errorMessages` prop:
 
@@ -279,3 +291,70 @@ render(
 ```
 
 You can find more info about error messages in the [Error messages](/uilib/extensions/forms/Form/error-messages/) docs.
+
+## Generate schema from fields
+
+You can also generate a Ajv schema from a set of fields, by using the `log` prop on the `Tools.GenerateSchema` component. I will console log the generated schema.
+
+```tsx
+import { Form, Field, Tools } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Tools.GenerateSchema log>
+      <Field.String path="/myString" pattern="^[a-z]{2}[0-9]+$" required />
+    </Tools.GenerateSchema>
+  </Form.Handler>,
+)
+```
+
+```json
+// console.log output:
+{
+  "properties": {
+    "myString": { "type": "string", "pattern": "^[a-z]{2}[0-9]+$" }
+  },
+  "required": ["myString"],
+  "type": "object"
+}
+```
+
+Or by using the `generateRef` prop on the `Tools.GenerateSchema` component. Here is an example of how to do that within a test:
+
+```tsx
+import { Form, Field, Tools } from '@dnb/eufemia/extensions/forms'
+
+it('should match generated schema snapshot', () => {
+  const generateRef = React.createRef<>()
+
+  render(
+    <Form.Handler>
+      <Tools.GenerateSchema generateRef={generateRef}>
+        <Field.Name.First path="/firstName" />
+        <Field.Name.Last path="/lastName" minLength={2} required />
+      </Tools.GenerateSchema>
+    </Form.Handler>,
+  )
+
+  const { schema } = generateRef.current()
+  expect(schema).toMatchInlineSnapshot(`
+    {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "pattern": "^[\\p{L}\\p{M} \\-]+$",
+        },
+        "lastName": {
+          "type": "string",
+          "minLength": 2,
+          "pattern": "^[\\p{L}\\p{M} \\-]+$",
+        },
+      },
+      "required": [
+        "lastName",
+      ],
+    }
+  `)
+})
+```

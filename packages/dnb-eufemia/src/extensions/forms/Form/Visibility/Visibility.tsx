@@ -1,4 +1,4 @@
-import React, { AriaAttributes, useContext } from 'react'
+import React, { AriaAttributes, useCallback, useContext } from 'react'
 import pointer from 'json-pointer'
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
@@ -6,6 +6,7 @@ import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
 import DataContext, { FilterData } from '../../DataContext/Context'
+import SectionContext from '../Section/SectionContext'
 import FieldProps from '../FieldProps'
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
@@ -78,6 +79,17 @@ function Visibility({
   ...rest
 }: Props) {
   const dataContext = useContext(DataContext)
+  const sectionContext = useContext(SectionContext)
+
+  const sectionPath = sectionContext?.path
+  const composePath = useCallback(
+    (path: Path) => {
+      return `${
+        sectionPath && sectionPath !== '/' ? sectionPath : ''
+      }${path}`
+    },
+    [sectionPath]
+  )
 
   useMountEffect(() => {
     if (fieldPropsWhenHidden && !keepInDOM) {
@@ -99,9 +111,9 @@ function Visibility({
       if (visibleWhenNot) {
         visibleWhen = visibleWhenNot
       }
-      const hasPath = pointer.has(data, visibleWhen.path)
+      const hasPath = pointer.has(data, composePath(visibleWhen.path))
       if (hasPath) {
-        const value = pointer.get(data, visibleWhen.path)
+        const value = pointer.get(data, composePath(visibleWhen.path))
 
         const withValue = visibleWhen?.['withValue']
         const result =
@@ -121,10 +133,10 @@ function Visibility({
       }
     }
 
-    if (pathDefined && !pointer.has(data, pathDefined)) {
+    if (pathDefined && !pointer.has(data, composePath(pathDefined))) {
       return
     }
-    if (pathUndefined && pointer.has(data, pathUndefined)) {
+    if (pathUndefined && pointer.has(data, composePath(pathUndefined))) {
       return
     }
 
@@ -134,16 +146,19 @@ function Visibility({
       }
     }
 
-    if (pathTrue && getValue(pathTrue) !== true) {
+    if (pathTrue && getValue(composePath(pathTrue)) !== true) {
       return
     }
-    if (pathFalse && getValue(pathFalse) !== false) {
+    if (pathFalse && getValue(composePath(pathFalse)) !== false) {
       return
     }
-    if (pathTruthy && Boolean(getValue(pathTruthy)) === false) {
+    if (
+      pathTruthy &&
+      Boolean(getValue(composePath(pathTruthy))) === false
+    ) {
       return
     }
-    if (pathFalsy && Boolean(getValue(pathFalsy)) === true) {
+    if (pathFalsy && Boolean(getValue(composePath(pathFalsy))) === true) {
       return
     }
     if (inferData && !inferData(data)) {
@@ -151,7 +166,7 @@ function Visibility({
     }
 
     // Deprecated can be removed in v11
-    if (pathValue && getValue(pathValue) !== whenValue) {
+    if (pathValue && getValue(composePath(pathValue)) !== whenValue) {
       return
     }
 

@@ -50,7 +50,6 @@ fieldset.dnb-forms-field-block {
 
   &--width {
     &-stretch {
-      width: 100%;
       flex-grow: 1;
     }
     @include allAbove(x-small) {

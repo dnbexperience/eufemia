@@ -109,6 +109,21 @@ export const Widths = () => {
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
+
+        <Flex.Horizontal gap={false}>
+          <FieldBlock
+            width="stretch"
+            style={{ backgroundColor: 'var(--color-mint-green)' }}
+          >
+            Left content
+          </FieldBlock>
+          <FieldBlock
+            width="stretch"
+            style={{ backgroundColor: 'var(--color-pistachio)' }}
+          >
+            Right content
+          </FieldBlock>
+        </Flex.Horizontal>
       </Flex.Stack>
     </ComponentBox>
   )

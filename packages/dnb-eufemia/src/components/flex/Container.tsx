@@ -104,7 +104,7 @@ function FlexContainer(props: Props) {
     ...rest
   } = props
 
-  let spacing = spacingProp ?? gap ?? 'small'
+  const spacing = spacingProp ?? gap ?? 'small'
 
   const childrenArray = wrapChildren(props, children)
   const hasHeading = childrenArray.some((child, i) => {
@@ -148,9 +148,7 @@ function FlexContainer(props: Props) {
       ((divider === 'line' && !isFirst) || divider === 'line-framed')
     ) {
       const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ??
-        gap ??
-        spacing) as SpaceType
+      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
 
       return (
         <React.Fragment key={`element-${i}`}>
@@ -183,7 +181,6 @@ function FlexContainer(props: Props) {
       startSpacing =
         getSpaceValue(start, child) ??
         getSpaceValue(end, previousChild) ??
-        gap ??
         spacing
     }
 

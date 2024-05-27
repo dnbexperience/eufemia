@@ -10,7 +10,7 @@ import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '@dnb/eufemia/src/icons'
-import { Accordion, P, Icon } from '@dnb/eufemia/src'
+import { Accordion, P, Icon, Grid, Flex, Heading } from '@dnb/eufemia/src'
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
@@ -225,3 +225,71 @@ export const AccordionFilledExample = () => (
     </Accordion>
   </ComponentBox>
 )
+
+export const AccordionInColumns = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const items = [
+          <Accordion key="one" variant="filled">
+            <Accordion.Header>
+              Sit amet suscipit ipsum tincidunt id?
+            </Accordion.Header>
+            <Accordion.Content space>
+              <P>
+                Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+                gravida himenaeos nostra mollis volutpat bibendum convallis
+                cum condimentum dictumst blandit rutrum vehicula
+              </P>
+            </Accordion.Content>
+          </Accordion>,
+          <Accordion key="two" variant="filled">
+            <Accordion.Header>
+              Cras eget quam eget tortor placerat viverra?
+            </Accordion.Header>
+            <Accordion.Content space>
+              <P>
+                Morbi condimentum odio ut enim vulputate, rutrum
+                ullamcorper sem vestibulum. Ut luctus tempus leo vel
+                finibus. Pellentesque ultrices interdum nisi, sit amet
+                suscipit ipsum tincidunt id. Praesent sodales vel eros ut
+                accumsan.
+              </P>
+            </Accordion.Content>
+          </Accordion>,
+          <Accordion key="three" variant="filled">
+            <Accordion.Header>
+              Nam porta nec ipsum id porta
+            </Accordion.Header>
+            <Accordion.Content space>
+              <P>
+                Nam porta nec ipsum id porta. Cras eget quam eget tortor
+                placerat viverra.
+              </P>
+            </Accordion.Content>
+          </Accordion>,
+        ]
+
+        return (
+          <>
+            <Heading size="large">Accordion in columns</Heading>
+            <Grid.Container columns={2} columnGap="small" rowGap="x-small">
+              <Grid.Item
+                span={{ small: [1, 2], medium: [1, 1], large: [1, 1] }}
+              >
+                <Flex.Stack gap="x-small">{items}</Flex.Stack>
+              </Grid.Item>
+              <Grid.Item
+                span={{ small: [1, 2], medium: [2, 2], large: [2, 2] }}
+              >
+                <Flex.Stack gap="x-small">
+                  {[...items].reverse()}
+                </Flex.Stack>
+              </Grid.Item>
+            </Grid.Container>
+          </>
+        )
+      }}
+    </ComponentBox>
+  )
+}

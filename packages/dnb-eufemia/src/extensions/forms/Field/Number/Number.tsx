@@ -235,7 +235,7 @@ function NumberComponent(props: Props) {
     [handleChange, maximum, minimum, showStepControls, step, value]
   )
 
-  const fieldBlockProps = {
+  const fieldSectionProps = {
     className: classnames(
       'dnb-forms-field-number',
       'dnb-input__border--tokens', // Used by "dnb-input__border"
@@ -340,7 +340,7 @@ function NumberComponent(props: Props) {
 
   if (showStepControls) {
     return (
-      <FieldBlock {...fieldBlockProps} asFieldset={false}>
+      <FieldBlock {...fieldSectionProps} asFieldset={false}>
         <span className="dnb-input__border dnb-input__border--root">
           {<Button {...decreaseProps} />}
           <InputMasked {...inputProps} />
@@ -356,7 +356,7 @@ function NumberComponent(props: Props) {
   }
 
   return (
-    <FieldBlock {...fieldBlockProps} asFieldset={false}>
+    <FieldBlock {...fieldSectionProps} asFieldset={false}>
       <InputMasked {...inputProps} />
     </FieldBlock>
   )

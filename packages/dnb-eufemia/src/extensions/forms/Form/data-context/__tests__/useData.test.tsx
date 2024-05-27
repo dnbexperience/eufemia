@@ -18,6 +18,20 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual(undefined)
   })
 
+  it('should throw when used without a valid id', () => {
+    const log = jest.spyOn(console, 'error').mockImplementation()
+
+    const renderComponent = () => {
+      renderHook(() => useData())
+    }
+
+    expect(renderComponent).toThrow(
+      'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+    )
+
+    log.mockRestore()
+  })
+
   it('should return "getValue" method that lets you get a single path value', () => {
     const props = {
       deep: {

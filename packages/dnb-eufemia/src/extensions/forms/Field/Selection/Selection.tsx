@@ -127,7 +127,7 @@ function Selection(props: Props) {
     className
   )
 
-  const fieldBlockProps = {
+  const fieldSectionProps = {
     forId: id,
     className: cn,
     ...pickSpacingProps(props),
@@ -180,7 +180,7 @@ function Selection(props: Props) {
       ) as typeof Radio & typeof ToggleButton
 
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldSectionProps}>
           <Component.Group
             className={cn}
             layout_direction={
@@ -232,7 +232,7 @@ function Selection(props: Props) {
       }
 
       return (
-        <FieldBlock {...fieldBlockProps} width={width}>
+        <FieldBlock {...fieldSectionProps} width={width}>
           {variant === 'autocomplete' ? (
             <Autocomplete
               {...sharedProps}

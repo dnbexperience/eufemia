@@ -56,11 +56,9 @@ describe('PushButton', () => {
   })
 
   it('should throw an error if value is not an array', () => {
-    const consoleErrorSpy = jest
-      .spyOn(console, 'error')
-      .mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation()
     const invalidValue = 'invalid value'
-    const error = 'PushButton received a non-array value.'
+    const error = 'PushButton received a non-array value'
 
     expect(() => {
       render(
@@ -73,8 +71,8 @@ describe('PushButton', () => {
       )
     }).toThrow()
 
-    expect(consoleErrorSpy.mock.calls[0][0].toString()).toContain(error)
-    consoleErrorSpy.mockRestore()
+    expect(log.mock.calls[0][0].toString()).toContain(error)
+    log.mockRestore()
   })
 
   it('should render with the correct class name', () => {

@@ -7,13 +7,13 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Password, { PasswordProps } from '../Password'
+import { PasswordProps } from '../Password'
+import { Provider } from '../../../../../shared'
+import { Translations } from '../../../../../shared/Context'
+import { Field, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
-import { Provider } from '../../../../../shared'
-import { Locales } from '../../../../../shared/Context'
-import { Form } from '../../..'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
@@ -21,15 +21,25 @@ const en = enGB['en-GB']
 describe('Password component', () => {
   it('has correct type by default', () => {
     const props: PasswordProps = {}
-    render(<Password {...props} id="input" />)
+    render(<Field.Password {...props} id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('type')
     ).toBe('password')
   })
 
+  it('should show error when required and value is empty', async () => {
+    render(<Field.Password value="a" required />)
+    const input = document.querySelector('input')
+    await userEvent.type(input, '{Backspace}')
+    fireEvent.blur(input)
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+  })
+
   it('has correct state after "focus" trigger', () => {
-    render(<Password id="input" />)
+    render(<Field.Password id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
 
@@ -41,7 +51,7 @@ describe('Password component', () => {
   it('has correct aria-label', async () => {
     const { rerender } = render(
       <Form.Handler>
-        <Password />
+        <Field.Password />
       </Form.Handler>
     )
 
@@ -59,7 +69,7 @@ describe('Password component', () => {
 
     rerender(
       <Form.Handler locale="en-GB">
-        <Password />
+        <Field.Password />
       </Form.Handler>
     )
 
@@ -75,7 +85,7 @@ describe('Password component', () => {
   })
 
   it('has aria-describedby and aria-controls', () => {
-    render(<Password id="input" />)
+    render(<Field.Password id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
     expect(
@@ -91,7 +101,7 @@ describe('Password component', () => {
   })
 
   it('has correct aria-controls id', () => {
-    render(<Password id="input" />)
+    render(<Field.Password id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('id')
@@ -103,7 +113,7 @@ describe('Password component', () => {
   })
 
   it('has a submit button which gets focus', () => {
-    render(<Password />)
+    render(<Field.Password />)
 
     const Button = document.querySelector('button')
     expect(Button).toBeInTheDocument()
@@ -117,7 +127,7 @@ describe('Password component', () => {
   })
 
   it('can change the visibility of the password', async () => {
-    render(<Password />)
+    render(<Field.Password />)
 
     const button = () => document.querySelector('button')
 
@@ -142,13 +152,13 @@ describe('Password component', () => {
   })
 
   it('events gets triggered on interaction', async () => {
-    const on_show_password = jest.fn()
-    const on_hide_password = jest.fn()
+    const onShowPassword = jest.fn()
+    const onHidePassword = jest.fn()
 
     render(
-      <Password
-        on_show_password={on_show_password}
-        on_hide_password={on_hide_password}
+      <Field.Password
+        onShowPassword={onShowPassword}
+        onHidePassword={onHidePassword}
       />
     )
 
@@ -157,29 +167,29 @@ describe('Password component', () => {
 
     await userEvent.type(input(), 'password123')
     await userEvent.click(button())
-    expect(on_show_password).toHaveBeenCalledTimes(1)
-    expect(on_show_password).toHaveBeenLastCalledWith(
+    expect(onShowPassword).toHaveBeenCalledTimes(1)
+    expect(onShowPassword).toHaveBeenLastCalledWith(
       expect.objectContaining({ value: 'password123' })
     )
-    expect(on_hide_password).not.toHaveBeenCalled()
+    expect(onHidePassword).not.toHaveBeenCalled()
 
     await userEvent.click(button())
-    expect(on_show_password).toHaveBeenCalledTimes(1)
-    expect(on_hide_password).toHaveBeenCalledTimes(1)
-    expect(on_hide_password).toHaveBeenLastCalledWith(
+    expect(onShowPassword).toHaveBeenCalledTimes(1)
+    expect(onHidePassword).toHaveBeenCalledTimes(1)
+    expect(onHidePassword).toHaveBeenLastCalledWith(
       expect.objectContaining({ value: 'password123' })
     )
 
     await userEvent.click(button())
-    expect(on_show_password).toHaveBeenCalledTimes(2)
-    expect(on_show_password).toHaveBeenLastCalledWith(
+    expect(onShowPassword).toHaveBeenCalledTimes(2)
+    expect(onShowPassword).toHaveBeenLastCalledWith(
       expect.objectContaining({ value: 'password123' })
     )
-    expect(on_hide_password).toHaveBeenCalledTimes(1)
+    expect(onHidePassword).toHaveBeenCalledTimes(1)
   })
 
   it('should support spacing props', () => {
-    render(<Password top="large" />)
+    render(<Field.Password top="large" />)
 
     const element = document.querySelector('.dnb-forms-field-password')
 
@@ -195,7 +205,7 @@ describe('Password component', () => {
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ label_direction: 'vertical' }}>
-        <Password label="Label" />
+        <Field.Password label="Label" />
       </Provider>
     )
 
@@ -223,13 +233,13 @@ describe('Password component', () => {
 
   it('should validate with ARIA rules as a input with a label', async () => {
     const result = render(
-      <Password id="input" label="label" value="some value" />
+      <Field.Password id="input" label="label" value="some value" />
     )
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 
   it('should allow changing visibility-toggle aria-labels using the Form.Handler', async () => {
-    const tr: Locales = {
+    const tr: Translations = {
       'nb-NO': {
         Password: {
           ariaLabelShow: 'Show it!',
@@ -240,7 +250,7 @@ describe('Password component', () => {
 
     render(
       <Form.Handler translations={tr}>
-        <Password />
+        <Field.Password />
       </Form.Handler>
     )
     const button = () =>

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import CodeBlock, { CodeBlockProps } from './CodeBlock'
+import CodeBlock, { CodeSectionProps } from './CodeBlock'
 import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
@@ -22,7 +22,7 @@ if (!globalThis.ComponentBoxMemo) {
   globalThis.ComponentBoxMemo = {}
 }
 
-function ComponentBox(props: CodeBlockProps) {
+function ComponentBox(props: CodeSectionProps) {
   const { children, scope = {}, ...rest } = props
 
   const hash = children as string

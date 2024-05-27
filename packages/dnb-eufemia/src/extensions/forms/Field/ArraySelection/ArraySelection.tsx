@@ -14,7 +14,7 @@ interface IOption {
   handleSelect: () => void
 }
 
-export type Props = FieldProps<Array<string | number>> & {
+export type Props = FieldProps<Array<string | number> | undefined> & {
   children?: React.ReactNode
   variant?: 'checkbox' | 'button'
   optionsLayout?: 'horizontal' | 'vertical'
@@ -40,7 +40,7 @@ function ArraySelection(props: Props) {
     children,
   } = useFieldProps(props)
 
-  const fieldBlockProps = {
+  const fieldSectionProps = {
     forId: id,
     className: classnames(
       'dnb-forms-field-array-selection',
@@ -84,7 +84,7 @@ function ArraySelection(props: Props) {
   switch (variant) {
     case 'button':
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldSectionProps}>
           <ToggleButtonGroupContext.Provider
             value={{
               status: hasError ? 'error' : undefined,
@@ -104,7 +104,7 @@ function ArraySelection(props: Props) {
       )
     case 'checkbox':
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldSectionProps}>
           {options.map((option, i) => (
             <Checkbox
               key={`option-${i}-${option.value}`}

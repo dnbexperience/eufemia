@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useReducer,
   useEffect,
+  useContext,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
@@ -23,6 +24,7 @@ import {
   OnSubmit,
   OnChange,
   EventReturnWithStateObject,
+  ValueProps,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
 import FieldProvider from '../../Form/FieldProps'
@@ -200,9 +202,14 @@ export default function Provider<Data extends JsonObject>(
 
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
-    console.error(
-      'Providing both data and sessionStorageId could lead to competing data sources. To provide default data to use only before anything is changed in the interface, use defaultData.'
+    throw new Error(
+      'Use "defaultData" instead of "data" when using sessionStorageId'
     )
+  }
+
+  const nestedContext = useContext(Context)
+  if (nestedContext?.hasContext) {
+    throw new Error('DataContext (Form.Handler) can not be nested')
   }
 
   // - Locale
@@ -417,9 +424,16 @@ export default function Provider<Data extends JsonObject>(
   )
 
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
-  const setProps = useCallback(
+  const valuePropsRef = useRef<Record<Path, ValueProps<unknown>>>({})
+  const setFieldProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       fieldPropsRef.current[path] = props
+    },
+    []
+  )
+  const setValueProps = useCallback(
+    (path: Path, props: Record<string, unknown>) => {
+      valuePropsRef.current[path] = props
     },
     []
   )
@@ -990,7 +1004,8 @@ export default function Provider<Data extends JsonObject>(
         setFieldEventListener,
         setFieldState,
         setFieldError,
-        setProps,
+        setFieldProps,
+        setValueProps,
         hasErrors,
         hasFieldError,
         hasFieldState,
@@ -1011,6 +1026,7 @@ export default function Provider<Data extends JsonObject>(
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
         fieldPropsRef,
+        valuePropsRef,
         ajvInstance: ajvRef.current,
 
         /** Additional */

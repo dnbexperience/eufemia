@@ -177,7 +177,7 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type FieldBlockProps = {
+export type FieldSectionProps = {
   /**
    * The layout of the field block
    */
@@ -196,6 +196,9 @@ export type FieldBlockProps = {
   placeholder?: React.ReactNode
 }
 
+/**
+ * The width of a field block
+ */
 export type FieldBlockWidth =
   | false
   | 'small'
@@ -328,7 +331,7 @@ export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
+> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldSectionProps
 
 export interface FieldHelpProps {
   help?: {
@@ -337,7 +340,7 @@ export interface FieldHelpProps {
   }
 }
 
-export interface ValueProps<Value>
+export interface ValueProps<Value = unknown>
   extends DataValueReadComponentProps<Value> {
   /**
    * Field label to show above the data value.

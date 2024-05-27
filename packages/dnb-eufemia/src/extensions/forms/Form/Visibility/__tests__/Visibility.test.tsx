@@ -763,4 +763,101 @@ describe('Visibility', () => {
       expect(screen.getByText('has no filter')).toBeInTheDocument()
     })
   })
+
+  describe('with section context', () => {
+    it('should combine section path and field path', () => {
+      render(
+        <Form.Handler
+          data={{
+            mySection: {
+              myField: 'value',
+            },
+          }}
+        >
+          <Form.Section path="/mySection">
+            <Field.String path="/myField" />
+            <Form.Visibility pathDefined="/myField">
+              inside section
+            </Form.Visibility>
+          </Form.Section>
+          <Form.Visibility pathDefined="/myField">
+            outside section
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      expect(screen.getByRole('textbox')).toHaveValue('value')
+      expect(screen.getByText('inside section')).toBeInTheDocument()
+      expect(screen.queryByText('outside section')).not.toBeInTheDocument()
+    })
+
+    it('visibleWhen', () => {
+      render(
+        <Form.Handler>
+          <Form.Section path="/mySection">
+            <Field.String path="/myField" value="foo" />
+            <Form.Visibility
+              visibleWhen={{ path: '/myField', hasValue: 'foo' }}
+            >
+              Child
+            </Form.Visibility>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathTrue', () => {
+      render(
+        <Form.Handler>
+          <Form.Section path="/mySection">
+            <Field.Boolean path="/myField" value={true} />
+            <Form.Visibility pathTrue="/myField">Child</Form.Visibility>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathFalse', () => {
+      render(
+        <Form.Handler>
+          <Form.Section path="/mySection">
+            <Field.Boolean path="/myField" value={false} />
+            <Form.Visibility pathFalse="/myField">Child</Form.Visibility>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathTruthy', () => {
+      render(
+        <Form.Handler>
+          <Form.Section path="/mySection">
+            <Field.Number path="/myField" value={1} />
+            <Form.Visibility pathTruthy="/myField">Child</Form.Visibility>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('pathFalsy', () => {
+      render(
+        <Form.Handler>
+          <Form.Section path="/mySection">
+            <Field.String path="/myField" value={null} />
+            <Form.Visibility pathFalsy="/myField">Child</Form.Visibility>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+  })
 })

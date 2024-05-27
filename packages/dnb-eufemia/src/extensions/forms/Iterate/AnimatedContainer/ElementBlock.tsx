@@ -15,7 +15,7 @@ import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryC
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { ContainerMode } from '../Array/types'
 
-export type ElementBlockProps = {
+export type ElementSectionProps = {
   /**
    * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
    * Defaults to `outline`.
@@ -28,7 +28,7 @@ export type Props = {
   open?: boolean | undefined
   ariaLabel?: string
   openDelay?: number
-} & ElementBlockProps
+} & ElementSectionProps
 
 function ElementBlock(props: Props & FlexContainerProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})

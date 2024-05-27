@@ -12,8 +12,8 @@ export type Media = {
 
 export type BasicProps = {
   columns?: Media | Columns
-  rowGap?: 'small' | 'medium' | 'large' | boolean
-  columnGap?: 'small' | 'medium' | 'large' | boolean
+  rowGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
+  columnGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
 }
 
 export type AllProps = BasicProps & SpaceAllProps

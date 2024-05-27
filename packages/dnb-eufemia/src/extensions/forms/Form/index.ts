@@ -7,13 +7,13 @@ export { default as ButtonRow } from './ButtonRow'
 export { default as MainHeading } from './MainHeading'
 export { default as SubHeading } from './SubHeading'
 export { default as Visibility } from './Visibility'
+export { default as Section } from './Section'
 export { default as FieldProps } from './FieldProps'
 export { default as useData } from './data-context/useData'
 export { default as setData } from './data-context/setData'
 export { default as getData } from './data-context/getData'
 export { default as useError } from './data-context/useError'
 export { default as useTranslation } from '../hooks/useTranslation'
-export * as Tools from './Tools'
 
 /**
  * Can be removed in v11

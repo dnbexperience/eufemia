@@ -10,6 +10,7 @@ import {
   Identifier,
   FieldProps,
   FormError,
+  ValueProps,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 
@@ -78,18 +79,14 @@ export interface ContextState {
   validateData: () => void
   handleSubmit: (props?: HandleSubmitProps) => any
   scrollToTop: () => void
-  // Error status
-  showAllErrors: boolean
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
   hasFieldError: (path: Path) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
-  fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   handleMountField: (path: Path) => void
   handleUnMountField: (path: Path) => void
-  formState: SubmitState
   setFormState?: (state: SubmitState) => void
   setSubmitState?: (state: EventStateObject) => void
   handleSubmitCall: ({
@@ -111,7 +108,12 @@ export interface ContextState {
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
   ) => void
-  setProps: (path: Path, props: any) => void
+  setFieldProps?: (path: Path, props: any) => void
+  setValueProps?: (path: Path, props: any) => void
+  fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
+  valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
+  showAllErrors: boolean
+  formState: SubmitState
   ajvInstance: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
@@ -149,7 +151,6 @@ export const defaultContextState: ContextState = {
   hasFieldError: () => false,
   setFieldState: () => null,
   setFieldError: () => null,
-  setProps: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
   isInsideFormElement: false,
