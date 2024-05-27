@@ -3,6 +3,29 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.33.0](https://github.com/dnbexperience/eufemia/compare/v10.32.0...v10.33.0) (2024-05-27)
+
+
+### :memo: Documentation
+
+* add Accordion in Grid columns example ([#3601](https://github.com/dnbexperience/eufemia/issues/3601)) ([8e695ff](https://github.com/dnbexperience/eufemia/commit/8e695ff252f85a4629107b4d9722c3219b718fe8))
+
+
+### :sparkles: Features
+
+* **forms:** add `Composite.Block` to compose reusable blocks of fields and values ([#3594](https://github.com/dnbexperience/eufemia/issues/3594)) ([67d1538](https://github.com/dnbexperience/eufemia/commit/67d1538a7480e72444a644e3e747d6eb193af0d0))
+* **forms:** add `Form.Section` to compose reusable blocks of fields and values ([#3609](https://github.com/dnbexperience/eufemia/issues/3609)) ([32848e2](https://github.com/dnbexperience/eufemia/commit/32848e2b2080c8eadf24caee4f65fe95ebfa3133)), closes [#3594](https://github.com/dnbexperience/eufemia/issues/3594)
+* **forms:** add Field.Slider ([#3597](https://github.com/dnbexperience/eufemia/issues/3597)) ([d94f691](https://github.com/dnbexperience/eufemia/commit/d94f691d26c1559ec24451684d46254a16fa3a6e))
+
+
+### :bug: Bug Fixes
+
+* **ArraySelection:** make explicit type of value can be undefined ([#3610](https://github.com/dnbexperience/eufemia/issues/3610)) ([cd4add9](https://github.com/dnbexperience/eufemia/commit/cd4add9f7c7f749951e561aec18919325aee6946))
+* **DrawerList:** check if string converted jsx is of type function ([#3606](https://github.com/dnbexperience/eufemia/issues/3606)) ([6a59d6c](https://github.com/dnbexperience/eufemia/commit/6a59d6c8ed4b15e727ea89312b3d51ba2ff9b0b8))
+* **FieldBlock:** make it possible to be used in horizontal flex layout when width="stretch" is used ([#3596](https://github.com/dnbexperience/eufemia/issues/3596)) ([fde04b5](https://github.com/dnbexperience/eufemia/commit/fde04b5e7b3dccb76cd9b1f86bd4879df89f58a5))
+* **forms:** add support for `trueText` and `falseText` to Boolean checkbox variant ([#3607](https://github.com/dnbexperience/eufemia/issues/3607)) ([198164a](https://github.com/dnbexperience/eufemia/commit/198164a2137d55f912d5d18827787fad5228aca4))
+* **SelectCountry:** use given path value ([#3598](https://github.com/dnbexperience/eufemia/issues/3598)) ([9ca7953](https://github.com/dnbexperience/eufemia/commit/9ca7953cb4dee7c7f9c482d1e184e0f9dce859ae))
+
 ## [10.32.0](https://github.com/dnbexperience/eufemia/compare/v10.31.0...v10.32.0) (2024-05-23)
 
 
