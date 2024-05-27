@@ -93,7 +93,12 @@ function Toggle(props: Props) {
           <Checkbox
             id={id}
             className={cn}
-            label={label}
+            label={
+              label ??
+              (isOn
+                ? textOn ?? translations.yes
+                : textOff ?? translations.no)
+            }
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}

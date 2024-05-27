@@ -23,6 +23,19 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders trueText', async () => {
+      render(
+        <Field.Boolean
+          variant="checkbox"
+          trueText="True text"
+          falseText="False text"
+        />
+      )
+      expect(screen.getByText('False text')).toBeInTheDocument()
+      await userEvent.click(screen.getByText('False text'))
+      expect(screen.getByText('True text')).toBeInTheDocument()
+    })
+
     it('shows error border', () => {
       render(
         <Field.Boolean
@@ -141,6 +154,19 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders trueText', async () => {
+      render(
+        <Field.Boolean
+          variant="button"
+          trueText="True text"
+          falseText="False text"
+        />
+      )
+      expect(screen.getByText('False text')).toBeInTheDocument()
+      await userEvent.click(screen.getByText('False text'))
+      expect(screen.getByText('True text')).toBeInTheDocument()
+    })
+
     it('shows error border', () => {
       render(
         <Field.Boolean
@@ -245,6 +271,19 @@ describe('Field.Boolean', () => {
       expect(
         screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
+    })
+
+    it('renders trueText', async () => {
+      render(
+        <Field.Boolean
+          variant="checkbox-button"
+          trueText="True text"
+          falseText="False text"
+        />
+      )
+      expect(screen.getByText('False text')).toBeInTheDocument()
+      await userEvent.click(screen.getByText('False text'))
+      expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
     it('shows error border', () => {
@@ -382,6 +421,18 @@ describe('Field.Boolean', () => {
       expect(
         screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
+    })
+
+    it('renders trueText', async () => {
+      render(
+        <Field.Boolean
+          variant="buttons"
+          trueText="True text"
+          falseText="False text"
+        />
+      )
+      expect(screen.getByText('False text')).toBeInTheDocument()
+      expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
     it('shows error border', () => {
