@@ -325,18 +325,18 @@ Or by using the `generateRef` prop on the `Tools.GenerateSchema` component. Here
 import { Form, Field, Tools } from '@dnb/eufemia/extensions/forms'
 
 it('should match generated schema snapshot', () => {
-  const generateSchemaRef = React.createRef()
+  const generateRef = React.createRef<>()
 
   render(
     <Form.Handler>
-      <Tools.GenerateSchema generateRef={generateSchemaRef}>
+      <Tools.GenerateSchema generateRef={generateRef}>
         <Field.Name.First path="/firstName" />
         <Field.Name.Last path="/lastName" minLength={2} required />
       </Tools.GenerateSchema>
     </Form.Handler>,
   )
 
-  const { schema } = generateSchemaRef.current()
+  const { schema } = generateRef.current()
   expect(schema).toMatchInlineSnapshot(`
     {
       "type": "object",

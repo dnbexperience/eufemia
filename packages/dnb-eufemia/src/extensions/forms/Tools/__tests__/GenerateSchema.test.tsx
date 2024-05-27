@@ -1,23 +1,21 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Ajv, Field, Form, Value, Tools } from '../../'
-import { GenerateSchemaProps } from '../GenerateSchema'
-
-type GenerateRef = GenerateSchemaProps['generateRef']['current']
+import { GenerateRef } from '../GenerateSchema'
 
 describe('Tools.GenerateSchema', () => {
   it('should generate a schema', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" />
         </Tools.GenerateSchema>
       </Form.Handler>
     )
 
-    const { schema } = generateSchemaRef.current()
+    const { schema } = generateRef.current()
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -58,17 +56,17 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "data" with local value', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     const { rerender } = render(
       <Form.Handler data={{ myString: 'my string' }}>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" />
         </Tools.GenerateSchema>
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().data).toMatchInlineSnapshot(`
+    expect(generateRef.current().data).toMatchInlineSnapshot(`
       {
         "myString": "my string",
       }
@@ -76,13 +74,13 @@ describe('Tools.GenerateSchema', () => {
 
     rerender(
       <Form.Handler data={{ myString: 'my string' }}>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" value="local value" />
         </Tools.GenerateSchema>
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().data).toMatchInlineSnapshot(`
+    expect(generateRef.current().data).toMatchInlineSnapshot(`
       {
         "myString": "local value",
       }
@@ -90,19 +88,18 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "propsOfFields" with object that contains all props', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     const { rerender } = render(
       <Form.Handler data={{ nested: { myString: 'my string' } }}>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myField" label="My field" />
           <Field.String path="/nested/myString" required minLength={2} />
         </Tools.GenerateSchema>
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().propsOfFields)
-      .toMatchInlineSnapshot(`
+    expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
           "errorMessages": {
@@ -146,7 +143,7 @@ describe('Tools.GenerateSchema', () => {
 
     rerender(
       <Form.Handler data={{ myString: 'my string' }}>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String
             path="/myString"
             value="local value"
@@ -157,8 +154,7 @@ describe('Tools.GenerateSchema', () => {
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().propsOfFields)
-      .toMatchInlineSnapshot(`
+    expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
           "errorMessages": {
@@ -221,19 +217,18 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "propsOfValues" with object that contains all props', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     const { rerender } = render(
       <Form.Handler data={{ nested: { myString: 'my string' } }}>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Value.String path="/myValue" label="My field" />
           <Value.String path="/nested/myString" placeholder="-" />
         </Tools.GenerateSchema>
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().propsOfValues)
-      .toMatchInlineSnapshot(`
+    expect(generateRef.current().propsOfValues).toMatchInlineSnapshot(`
       {
         "myValue": {
           "label": "My field",
@@ -250,14 +245,13 @@ describe('Tools.GenerateSchema', () => {
 
     rerender(
       <Form.Handler data={{ myString: 'my string' }}>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Value.String path="/myString" value="local value" />
         </Tools.GenerateSchema>
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().propsOfValues)
-      .toMatchInlineSnapshot(`
+    expect(generateRef.current().propsOfValues).toMatchInlineSnapshot(`
       {
         "myString": {
           "path": "/myString",
@@ -278,11 +272,11 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with different types', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" />
           <Field.Number path="/myNumber" />
           <Field.Boolean path="/myBoolean" />
@@ -295,7 +289,7 @@ describe('Tools.GenerateSchema', () => {
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().schema).toMatchInlineSnapshot(`
+    expect(generateRef.current().schema).toMatchInlineSnapshot(`
       {
         "properties": {
           "myBoolean": {
@@ -316,12 +310,12 @@ describe('Tools.GenerateSchema', () => {
     `)
   })
 
-  const generateSchemaRef = React.createRef<GenerateRef>()
+  const generateRef = React.createRef<GenerateRef>()
 
   it('should generate schema with various properties', () => {
     render(
       <Form.Handler>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" minLength={5} maxLength={5} />
           <Field.String
             path="/myObject/withString"
@@ -342,7 +336,7 @@ describe('Tools.GenerateSchema', () => {
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().schema).toMatchInlineSnapshot(`
+    expect(generateRef.current().schema).toMatchInlineSnapshot(`
       {
         "properties": {
           "myBoolean": {
@@ -377,11 +371,11 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with nested paths', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String
             path="/myObject/withString"
             minLength={10}
@@ -399,7 +393,7 @@ describe('Tools.GenerateSchema', () => {
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().schema).toMatchInlineSnapshot(`
+    expect(generateRef.current().schema).toMatchInlineSnapshot(`
       {
         "properties": {
           "myObject": {
@@ -430,11 +424,11 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with required', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" required />
           <Field.String
             path="/myObject/withString"
@@ -453,7 +447,7 @@ describe('Tools.GenerateSchema', () => {
       </Form.Handler>
     )
 
-    expect(generateSchemaRef.current().schema).toMatchInlineSnapshot(`
+    expect(generateRef.current().schema).toMatchInlineSnapshot(`
       {
         "properties": {
           "myBoolean": {
@@ -490,7 +484,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should validate with generated schema', () => {
-    const generateSchemaRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<GenerateRef>()
 
     render(
       <Form.Handler
@@ -503,7 +497,7 @@ describe('Tools.GenerateSchema', () => {
           myBoolean: true,
         }}
       >
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" required />
           <Field.String
             path="/myObject/withString"
@@ -522,7 +516,7 @@ describe('Tools.GenerateSchema', () => {
       </Form.Handler>
     )
 
-    const { schema, data } = generateSchemaRef.current()
+    const { schema, data } = generateRef.current()
 
     expect(data).toMatchInlineSnapshot(`
       {

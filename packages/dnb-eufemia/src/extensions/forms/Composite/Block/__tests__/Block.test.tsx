@@ -6,8 +6,8 @@ import { Field, Form, JSONSchema, Tools, Value } from '../../..'
 import { BlockProps } from '../Block'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Form/FieldProps'
-import { ListAllPropsProps } from '../../../Tools/ListAllProps'
-import { GenerateSchemaProps } from '../../../Tools/GenerateSchema'
+import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
+import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -92,17 +92,16 @@ describe('Composite.Block', () => {
   })
 
   it('should match snapshot', () => {
-    const generateSchemaRef =
-      React.createRef<ListAllPropsProps['generateRef']['current']>()
+    const generateRef = React.createRef<GeneratePropsRef>()
     render(
       <Form.Handler>
-        <Tools.ListAllProps generateRef={generateSchemaRef}>
+        <Tools.ListAllProps generateRef={generateRef}>
           <MyBlock />
         </Tools.ListAllProps>
       </Form.Handler>
     )
 
-    const { propsOfFields, propsOfValues } = generateSchemaRef.current()
+    const { propsOfFields, propsOfValues } = generateRef.current()
 
     expect(propsOfFields).toMatchInlineSnapshot(`
       {
@@ -154,11 +153,10 @@ describe('Composite.Block', () => {
   })
 
   it('should match schema snapshot with prop change', () => {
-    const generateSchemaRef =
-      React.createRef<GenerateSchemaProps['generateRef']['current']>()
+    const generateRef = React.createRef<GenerateSchemaRef>()
     render(
       <Form.Handler>
-        <Tools.GenerateSchema generateRef={generateSchemaRef}>
+        <Tools.GenerateSchema generateRef={generateRef}>
           <MyBlock
             overwriteProps={{
               firstName: { required: true },
@@ -169,7 +167,7 @@ describe('Composite.Block', () => {
       </Form.Handler>
     )
 
-    const { schema } = generateSchemaRef.current()
+    const { schema } = generateRef.current()
 
     expect(schema.required).toEqual(['firstName', 'lastName'])
     expect(schema.properties.lastName).not.toContain('minLength')
