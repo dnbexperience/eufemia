@@ -280,6 +280,95 @@ export const WithVisibility = () => {
   )
 }
 
+export const NestedBlocks = () => {
+  return (
+    <ComponentBox scope={{ Composite }}>
+      {() => {
+        return (
+          <Form.Handler
+            onSubmit={console.log}
+            defaultData={{
+              nestedPath: {
+                name: {
+                  first: 'Nora',
+                  last: 'Mørk',
+                },
+                address: {
+                  street: 'Strøget',
+                  nr: '',
+                },
+              },
+            }}
+          >
+            <MyBlock path="/nestedPath" required />
+            <Form.SubmitButton variant="send" />
+          </Form.Handler>
+        )
+
+        function MyBlock(props: BlockProps) {
+          return (
+            <Composite.Block {...props}>
+              <Card stack>
+                <MyNameBlock path="/name" />
+                <MyAddressBlock path="/address" />
+                <MyValueBlock />
+              </Card>
+            </Composite.Block>
+          )
+        }
+
+        function MyNameBlock(props: BlockProps) {
+          return (
+            <Composite.Block {...props}>
+              <Field.Composition width="large">
+                <Field.Name.First path="/first" />
+                <Field.Name.Last path="/last" />
+              </Field.Composition>
+            </Composite.Block>
+          )
+        }
+
+        function MyAddressBlock(props: BlockProps) {
+          return (
+            <Composite.Block {...props}>
+              <Field.Composition width="large">
+                <Field.String
+                  label="Gateadresse"
+                  path="/street"
+                  width="stretch"
+                />
+                <Field.String label="Nr." path="/nr" width="small" />
+              </Field.Composition>
+            </Composite.Block>
+          )
+        }
+
+        function MyValueBlock(props: BlockProps) {
+          return (
+            <Composite.Block {...props}>
+              <Value.SummaryList>
+                <Composite.Block path="/name">
+                  <Value.Composition gap="small">
+                    <Value.Name.First path="/first" />
+                    <Value.Name.Last path="/last" />
+                  </Value.Composition>
+                </Composite.Block>
+
+                <Composite.Block path="/address">
+                  <Value.Composition gap="small">
+                    <Value.String label="Gateadresse" path="/street" />
+                    <Value.String label="Nr." path="/nr" placeholder="–" />
+                  </Value.Composition>
+                </Composite.Block>
+              </Value.SummaryList>
+            </Composite.Block>
+          )
+        }
+      }}
+    </ComponentBox>
+  )
+}
+
 const Output = () => {
   const { data } = Form.useData()
 

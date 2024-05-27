@@ -1,14 +1,15 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import pointer from 'json-pointer'
 import CompositeContext, {
   CompositeContextState,
 } from '../CompositeContext'
 import FieldPropsProvider from '../../Form/FieldProps'
 
+import type { Props as DataContextProps } from '../../DataContext/Provider'
 import type { FieldBlockProps, Path, FieldProps } from '../../types'
 
 export type OverwritePropsDefaults = {
-  [key: Path]: FieldProps & FieldBlockProps
+  [key: Path]: (FieldProps & FieldBlockProps) | OverwritePropsDefaults
 }
 export type BlockProps<overwriteProps = OverwritePropsDefaults> = {
   /**
@@ -21,6 +22,11 @@ export type BlockProps<overwriteProps = OverwritePropsDefaults> = {
    * Overwrite field props for the block.
    */
   overwriteProps?: overwriteProps | OverwritePropsDefaults
+
+  /**
+   * Provide your own translations. Use the same format as defined in the translation files
+   */
+  translations?: DataContextProps<unknown>['translations']
 
   /**
    * Makes all fields inside it required.
@@ -48,37 +54,64 @@ function BlockComponent(props: LocalProps) {
   const {
     path,
     overwriteProps,
+    translations,
     required,
     onChange,
     errorPrioritization = ['contextSchema'],
     children,
   } = props
-  const dataRef = useRef<unknown>({})
 
   if (path && !path.startsWith('/')) {
     throw new Error(`path="${path}" must start with a slash`)
   }
 
+  const {
+    path: nestedPath,
+    handleChange: handleNestedChange,
+    props: nestedProps,
+  } = useContext(CompositeContext) || {}
+
+  const dataRef = useRef<unknown>({})
   const handleChange = useCallback(
     (path: Path, value: unknown) => {
       pointer.set(dataRef.current, path, value)
       onChange?.(dataRef.current)
+      handleNestedChange?.(path, value)
     },
-    [onChange]
+    [handleNestedChange, onChange]
   )
 
+  const identifier = useMemo(() => {
+    return `${nestedPath && nestedPath !== '/' ? nestedPath : ''}${
+      path || ''
+    }`
+  }, [path, nestedPath])
   const fieldProps = required ? { required: true } : undefined
 
   return (
     <CompositeContext.Provider
-      value={{ path, errorPrioritization, handleChange }}
+      value={{
+        path: identifier,
+        errorPrioritization,
+        handleChange,
+        props,
+      }}
     >
-      <FieldPropsProvider overwriteProps={overwriteProps} {...fieldProps}>
+      <FieldPropsProvider
+        overwriteProps={{
+          ...overwriteProps,
+          ...(nestedProps?.overwriteProps?.[
+            path.substring(1)
+          ] as OverwritePropsDefaults),
+        }}
+        translations={translations}
+        {...fieldProps}
+      >
         {children}
       </FieldPropsProvider>
     </CompositeContext.Provider>
   )
 }
 
-BlockComponent._supportsSpacingProps = true
+BlockComponent._supportsSpacingProps = 'children'
 export default BlockComponent

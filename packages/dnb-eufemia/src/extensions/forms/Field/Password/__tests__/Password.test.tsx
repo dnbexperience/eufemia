@@ -9,7 +9,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { PasswordProps } from '../Password'
 import { Provider } from '../../../../../shared'
-import { Locales } from '../../../../../shared/Context'
+import { Translations } from '../../../../../shared/Context'
 import { Field, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -239,7 +239,7 @@ describe('Password component', () => {
   })
 
   it('should allow changing visibility-toggle aria-labels using the Form.Handler', async () => {
-    const tr: Locales = {
+    const tr: Translations = {
       'nb-NO': {
         Password: {
           ariaLabelShow: 'Show it!',

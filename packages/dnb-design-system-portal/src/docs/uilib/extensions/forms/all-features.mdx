@@ -26,6 +26,7 @@ import ListIterateComponents from './Iterate/ListIterateComponents'
 - [FieldBlock](#fieldblock)
 - [ValueBlock](#valueblock)
 - [useFieldProps](#usefieldprops)
+- [useValueProps](#usevalueprops)
 
 ## Intro
 
@@ -85,6 +86,10 @@ You can also [create your own Ajv instance](/uilib/extensions/forms/Form/schema-
 
 This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
 
+#### Generate schema from fields
+
+You can also easily generate a Ajv schema from a set of fields (JSX), by using the `log` prop on the `Tools.GenerateSchema` component. I will e.gc. console log the generated schema. More info about this feature can be found [on a separate page](/uilib/extensions/forms/Form/schema-validation/#generate-schema-from-fields)
+
 ## [Wizard](/uilib/extensions/forms/Wizard/)
 
 Wizard is a wrapper component for showing forms with a StepIndicator for navigation between several pages (multi-steps). It also includes components for navigating between steps.
@@ -135,4 +140,8 @@ Here is a list of all available `Wizard.*` components:
 
 ## [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/)
 
-The useFieldProps hook standardize handling of the value flow for a single consumer component representing one data point.
+The useFieldProps hook standardize handling of the value flow for a single consumer component for one data point.
+
+## [useValueProps](/uilib/extensions/forms/create-component/useValueProps/)
+
+The useValueProps hook standardize handling of the value flow for a single presentation component for one data point.

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Path } from '../types'
+import { BlockProps } from './Block'
 
 export interface CompositeContextState {
   path?: Path
@@ -7,6 +8,7 @@ export interface CompositeContextState {
     'fieldSchema' | 'blockSchema' | 'contextSchema'
   >
   handleChange?: (path: Path, data: unknown) => void
+  props?: BlockProps
 }
 
 const CompositeContext = React.createContext<

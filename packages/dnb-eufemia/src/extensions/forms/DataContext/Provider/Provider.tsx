@@ -24,6 +24,7 @@ import {
   OnSubmit,
   OnChange,
   EventReturnWithStateObject,
+  ValueProps,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
 import FieldProvider from '../../Form/FieldProps'
@@ -423,9 +424,16 @@ export default function Provider<Data extends JsonObject>(
   )
 
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
-  const setProps = useCallback(
+  const valuePropsRef = useRef<Record<Path, ValueProps<unknown>>>({})
+  const setFieldProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       fieldPropsRef.current[path] = props
+    },
+    []
+  )
+  const setValueProps = useCallback(
+    (path: Path, props: Record<string, unknown>) => {
+      valuePropsRef.current[path] = props
     },
     []
   )
@@ -996,7 +1004,8 @@ export default function Provider<Data extends JsonObject>(
         setFieldEventListener,
         setFieldState,
         setFieldError,
-        setProps,
+        setFieldProps,
+        setValueProps,
         hasErrors,
         hasFieldError,
         hasFieldState,
@@ -1017,6 +1026,7 @@ export default function Provider<Data extends JsonObject>(
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
         fieldPropsRef,
+        valuePropsRef,
         ajvInstance: ajvRef.current,
 
         /** Additional */

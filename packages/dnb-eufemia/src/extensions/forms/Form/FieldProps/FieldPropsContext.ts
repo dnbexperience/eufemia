@@ -3,6 +3,7 @@ import { UseFieldProps } from '../../types'
 
 export type FieldPropsContextProps = {
   extend: <T = UseFieldProps>(props: T) => T
+  inheritedProps?: UseFieldProps
   inheritedContext?: UseFieldProps
 }
 

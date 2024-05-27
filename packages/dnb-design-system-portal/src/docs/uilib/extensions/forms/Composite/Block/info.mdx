@@ -7,12 +7,16 @@ hideInMenu: true
 
 `Composite.Block` lets you compose together blocks of fields and values to be reused in different contexts.
 
+You can also nest `Composite.Block` inside other `Composite.Block`s.
+
 ## Usage
+
+1. Export the block component:
 
 ```tsx
 import { Composite, Field } from '@dnb/eufemia/extensions/forms'
 
-const MyBlock = (props) => {
+export const MyBlock = (props) => {
   return (
     <Composite.Block {...props}>
       <Field.PhoneNumber path="/phoneNumber" required />
@@ -21,9 +25,24 @@ const MyBlock = (props) => {
 }
 ```
 
-## Path support
+2. Import the block component and use it in a form:
 
-Optionally you can define a path to the block component. Fields inside the block will get this path as a prefix of their own path. This makes it possible to reuse the same block component in different contexts.
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { MyBlock } from './form-blocks'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <MyBlock />
+    </Form.Handler>
+  )
+}
+```
+
+## Optional `path` support
+
+Optionally you can define a `path` to the block component. Fields inside the block will get this path as a prefix of their own path. This makes it possible to reuse the same block component in different contexts.
 
 ```tsx
 import { Composite, Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -102,7 +121,7 @@ render(
   <Form.Handler>
     <MyBlock
       overwriteProps={{
-        firstName: { path: '/firstName2' },
+        firstName: { label: '/Custom label' },
         lastName: { required: false, minLength: 0 },
       }}
     />
@@ -153,43 +172,74 @@ render(
 )
 ```
 
+## Translations
+
+You can use the `translations` prop to provide translations for the block:
+
+```tsx
+import { Composite, Field, Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  // Its optional to wrap the translations in an additional "MyBlock" object
+  'nb-NO': { MyBlock: { MyField: { label: 'Felt label' } } },
+  'en-GB': { MyBlock: { MyField: { label: 'Field label' } } },
+}
+type Translation = (typeof translations)[keyof typeof translations]
+
+export function MyBlock() {
+  return (
+    <Composite.Block translations={translations}>
+      <ContentOfMyBlock />
+    </Composite.Block>
+  )
+}
+
+function ContentOfMyBlock() {
+  const { MyField } = Form.useTranslation<Translation>().MyBlock
+  return <Field.String label={MyField.label} path="/custom" />
+}
+```
+
+This way it is possible to "extend" or change the translations for a specific block from a `Form.handler`:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { MyBlock } from './form-blocks'
+
+const myTranslations = {
+  'nb-NO': { MyBlock: { MyField: { label: 'Egendefinert' } } },
+  'en-GB': { MyBlock: { MyField: { label: 'Custom' } } },
+}
+
+export function MyForm() {
+  return (
+    <Form.Handler translations={myTranslations}>
+      <MyBlock />
+    </Form.Handler>
+  )
+}
+```
+
 ## Snapshot testing of a composite block
 
 One way to ensure a "contract" of what you expect a block to be outlined as, is to create a snapshot test:
 
 ```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+import { Form, Tools } from '@dnb/eufemia/extensions/forms'
 
 it('MyBlock should match snapshot', () => {
-  const generateSchemaRef = React.createRef()
+  const generateRef = React.createRef()
 
   render(
     <Form.Handler>
-      <Form.Tools.GenerateSchema generateRef={generateSchemaRef}>
+      <Tools.ListAllProps generateRef={generateRef}>
         <MyBlock />
-      </Form.Tools.GenerateSchema>
+      </Tools.ListAllProps>
     </Form.Handler>,
   )
 
-  const { schema } = generateSchemaRef.current()
-  expect(schema).toMatchInlineSnapshot(`
-    {
-      "type": "object",
-      "properties": {
-        "firstName": {
-          "type": "string",
-          "pattern": "^[\\p{L}\\p{M} \\-]+$",
-        },
-        "lastName": {
-          "type": "string",
-          "minLength": 2,
-          "pattern": "^[\\p{L}\\p{M} \\-]+$",
-        },
-      },
-      "required": [
-        "lastName",
-      ],
-    }
-  `)
+  const { propsOfFields, propsOfValues } = generateRef.current()
+  expect(propsOfFields).toMatchInlineSnapshot(`...`)
+  expect(propsOfValues).toMatchInlineSnapshot(`...`)
 })
 ```
