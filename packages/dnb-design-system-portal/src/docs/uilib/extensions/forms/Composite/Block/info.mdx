@@ -19,7 +19,11 @@ import { Composite, Field } from '@dnb/eufemia/extensions/forms'
 export const MyBlock = (props) => {
   return (
     <Composite.Block {...props}>
+      {/* Fields*/}
       <Field.PhoneNumber path="/phoneNumber" required />
+
+      {/* Views*/}
+      <View.PhoneNumber path="/phoneNumber" />
     </Composite.Block>
   )
 }
@@ -38,6 +42,36 @@ const MyForm = () => {
     </Form.Handler>
   )
 }
+```
+
+## Overwrite props
+
+It lets you overwrite all of the given props if needed by using `overwriteProps`:
+
+```tsx
+import { Composite, Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const MyBlock = (props) => {
+  return (
+    <Composite.Block {...props}>
+      <Flex.Stack>
+        <Field.Name.First path="/firstName" />
+        <Field.Name.Last path="/lastName" required minLength={2} />
+      </Flex.Stack>
+    </Composite.Block>
+  )
+}
+
+render(
+  <Form.Handler>
+    <MyBlock
+      overwriteProps={{
+        firstName: { label: '/Custom label' },
+        lastName: { required: false, minLength: 0 },
+      }}
+    />
+  </Form.Handler>,
+)
 ```
 
 ## Optional `path` support
@@ -63,8 +97,7 @@ render(
     defaultData={{
       // MyBlock has a path="/nestedPath" and therefore it is nested in the data context
       nestedPath: {
-        firstName: 'Thor',
-        lastName: 'Odinson',
+        firstName: 'Nora',
       },
     }}
   >
@@ -95,36 +128,6 @@ const MyBlock = (
 render(
   <Form.Handler>
     <MyBlock />
-  </Form.Handler>,
-)
-```
-
-## Overwrite props
-
-It lets you overwrite all of the given props if needed by using `overwriteProps`:
-
-```tsx
-import { Composite, Form, Field } from '@dnb/eufemia/extensions/forms'
-
-const MyBlock = (props) => {
-  return (
-    <Composite.Block {...props}>
-      <Flex.Stack>
-        <Field.Name.First path="/firstName" />
-        <Field.Name.Last path="/lastName" required minLength={2} />
-      </Flex.Stack>
-    </Composite.Block>
-  )
-}
-
-render(
-  <Form.Handler>
-    <MyBlock
-      overwriteProps={{
-        firstName: { label: '/Custom label' },
-        lastName: { required: false, minLength: 0 },
-      }}
-    />
   </Form.Handler>,
 )
 ```
