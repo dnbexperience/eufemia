@@ -1,17 +1,15 @@
 import React from 'react'
-import { Field, Form, JSONSchema } from '../..'
-import { Composite } from '../../'
-import { BlockProps } from '../Block'
-import { Card, Flex } from '../../../../components'
-import { Props as FieldNameProps } from '../../Field/Name'
+import { Field, Form, JSONSchema, SectionProps } from '../../..'
+import { Card, Flex } from '../../../../../components'
+import { Props as FieldNameProps } from '../../../Field/Name'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/Composite',
+  title: 'Eufemia/Extensions/Forms/Form/Section',
 }
 
-const MyBlock = (props: BlockProps<{ lastName?: FieldNameProps }>) => {
+const MySection = (props: SectionProps<{ lastName?: FieldNameProps }>) => {
   return (
-    <Composite.Block {...props}>
+    <Form.Section {...props}>
       <Flex.Stack>
         <Field.Composition width="large">
           <Field.Name.First
@@ -41,14 +39,14 @@ const MyBlock = (props: BlockProps<{ lastName?: FieldNameProps }>) => {
           <Field.PostalCodeAndCity />
         </Form.Visibility>
       </Flex.Stack>
-    </Composite.Block>
+    </Form.Section>
   )
 }
 
 const mySchema: JSONSchema = {
   type: 'object',
   properties: {
-    myBlock: {
+    mySection: {
       type: 'object',
       properties: {
         firstName: {
@@ -77,7 +75,7 @@ const mySchema: JSONSchema = {
   },
 
   // properties: {
-  //   'myBlock/lastName': {
+  //   'mySection/lastName': {
   //     type: 'string',
   //     minLength: 20,
   //   },
@@ -87,15 +85,15 @@ const mySchema: JSONSchema = {
   //   },
   // },
   required: [
-    // 'myBlock',
-    // 'myBlock/firstName',
-    // 'myBlock/lastName',
+    // 'mySection',
+    // 'mySection/firstName',
+    // 'mySection/lastName',
     'firstName',
     'lastName',
   ],
 }
 
-export const CompositeBlock = () => {
+export const FormSection = () => {
   // const { data } = Form.useData('myForm')
   // console.dir('data', data)
   return (
@@ -105,7 +103,7 @@ export const CompositeBlock = () => {
       onSubmit={console.log}
       // defaultData={{
       //   // firstName: 'Tobias',
-      //   myBlock: {
+      //   mySection: {
       //     lastName: 'Høegh',
       //   },
       // }}
@@ -113,9 +111,9 @@ export const CompositeBlock = () => {
       // id="myForm"
     >
       <Flex.Stack>
-        <MyBlock
+        <MySection
           // required
-          path="/myBlock"
+          path="/mySection"
           // onChange={console.log}
           overwriteProps={{
             firstName: {
@@ -141,21 +139,21 @@ export const CompositeBlock = () => {
   )
 }
 
-export const NestedBlocks = () => {
-  const MyNameBlock = (props: BlockProps) => {
+export const NestedSections = () => {
+  const MyNameSection = (props: SectionProps) => {
     return (
-      <Composite.Block {...props}>
+      <Form.Section {...props}>
         <Field.Composition width="large">
           <Field.Name.First path="/first" />
           <Field.Name.Last path="/last" />
         </Field.Composition>
-      </Composite.Block>
+      </Form.Section>
     )
   }
 
-  const MyAddressBlock = (props: BlockProps) => {
+  const MyAddressSection = (props: SectionProps) => {
     return (
-      <Composite.Block {...props}>
+      <Form.Section {...props}>
         <Field.Composition width="large">
           <Field.String
             label="Gateadresse"
@@ -164,18 +162,18 @@ export const NestedBlocks = () => {
           />
           <Field.String label="Nr." path="/nr" width="small" />
         </Field.Composition>
-      </Composite.Block>
+      </Form.Section>
     )
   }
 
-  const MyBlock = (props: BlockProps) => {
+  const MySection = (props: SectionProps) => {
     return (
-      <Composite.Block {...props}>
+      <Form.Section {...props}>
         <Card stack>
-          <MyNameBlock path="/name" />
-          <MyAddressBlock path="/address" required />
+          <MyNameSection path="/name" />
+          <MyAddressSection path="/address" required />
         </Card>
-      </Composite.Block>
+      </Form.Section>
     )
   }
 
@@ -195,7 +193,7 @@ export const NestedBlocks = () => {
         },
       }}
     >
-      <MyBlock path="/nestedPath" />
+      <MySection path="/nestedPath" />
       <Form.SubmitButton variant="send" />
     </Form.Handler>
   )

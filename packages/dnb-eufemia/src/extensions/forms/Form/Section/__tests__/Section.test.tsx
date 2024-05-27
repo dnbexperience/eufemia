@@ -1,47 +1,46 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import * as Composite from '../../'
 import { Field, Form, JSONSchema, Tools, Value } from '../../..'
-import { BlockProps } from '../Block'
+import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
-import FieldPropsProvider from '../../../Form/FieldProps'
+import FieldPropsProvider from '../../FieldProps'
 import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
 import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-describe('Composite.Block', () => {
-  const MyBlock = ({
+describe('Form.Section', () => {
+  const MySection = ({
     children,
     ...props
-  }: BlockProps<{ lastName: FieldNameProps }> & {
+  }: SectionProps<{ lastName: FieldNameProps }> & {
     children?: React.ReactNode
   }) => {
     return (
-      <Composite.Block {...props}>
+      <Form.Section {...props}>
         <Field.Name.First path="/firstName" />
         <Field.Name.Last path="/lastName" required minLength={2} />
         {children}
-      </Composite.Block>
+      </Form.Section>
     )
   }
 
-  const MyOuterBlock = ({
+  const MyOuterSection = ({
     children,
     ...props
-  }: BlockProps<{
-    innerBlock: { lastName: FieldNameProps }
+  }: SectionProps<{
+    innerSection: { lastName: FieldNameProps }
   }> & {
     children?: React.ReactNode
   }) => {
     return (
-      <Composite.Block {...props}>
-        <MyBlock path="/innerBlock" />
+      <Form.Section {...props}>
+        <MySection path="/innerSection" />
         <Field.String path="/otherField" />
         {children}
-      </Composite.Block>
+      </Form.Section>
     )
   }
 
@@ -49,7 +48,7 @@ describe('Composite.Block', () => {
     const log = jest.spyOn(console, 'error').mockImplementation()
 
     const renderComponent = () => {
-      render(<MyBlock path="withoutSlash" />)
+      render(<MySection path="withoutSlash" />)
     }
 
     expect(renderComponent).toThrow(
@@ -59,8 +58,8 @@ describe('Composite.Block', () => {
     log.mockRestore()
   })
 
-  it('should render block with children', () => {
-    render(<MyBlock />)
+  it('should render section with children', () => {
+    render(<MySection />)
 
     const [first, last] = Array.from(document.querySelectorAll('input'))
 
@@ -69,7 +68,7 @@ describe('Composite.Block', () => {
   })
 
   it('should make all fields required when required is true', () => {
-    render(<MyBlock required />)
+    render(<MySection required />)
 
     expect(
       document.querySelector('input[name="firstName"]')
@@ -81,9 +80,9 @@ describe('Composite.Block', () => {
 
   it('should mark fields given in children as required', () => {
     render(
-      <MyBlock required>
+      <MySection required>
         <Field.String path="/customChild" required />
-      </MyBlock>
+      </MySection>
     )
 
     expect(
@@ -96,7 +95,7 @@ describe('Composite.Block', () => {
     render(
       <Form.Handler>
         <Tools.ListAllProps generateRef={generateRef}>
-          <MyBlock />
+          <MySection />
         </Tools.ListAllProps>
       </Form.Handler>
     )
@@ -157,7 +156,7 @@ describe('Composite.Block', () => {
     render(
       <Form.Handler>
         <Tools.GenerateSchema generateRef={generateRef}>
-          <MyBlock
+          <MySection
             overwriteProps={{
               firstName: { required: true },
               lastName: { minLength: 0 },
@@ -196,7 +195,7 @@ describe('Composite.Block', () => {
     it('should call onChange without path', () => {
       const onChange = jest.fn()
 
-      render(<MyBlock onChange={onChange} />)
+      render(<MySection onChange={onChange} />)
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
 
@@ -218,21 +217,21 @@ describe('Composite.Block', () => {
     it('should call onChange with path', () => {
       const onChange = jest.fn()
 
-      render(<MyBlock path="/myBlock" onChange={onChange} />)
+      render(<MySection path="/mySection" onChange={onChange} />)
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
 
       fireEvent.change(first, { target: { value: 'foo' } })
 
       expect(onChange).toHaveBeenLastCalledWith({
-        myBlock: { firstName: 'foo' },
+        mySection: { firstName: 'foo' },
       })
 
       fireEvent.change(last, { target: { value: 'bar' } })
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith({
-        myBlock: { firstName: 'foo', lastName: 'bar' },
+        mySection: { firstName: 'foo', lastName: 'bar' },
       })
     })
 
@@ -241,7 +240,7 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler onChange={onChange}>
-          <MyBlock />
+          <MySection />
         </Form.Handler>
       )
 
@@ -263,7 +262,7 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler onChange={onChange}>
-          <MyBlock path="/myBlock" />
+          <MySection path="/mySection" />
         </Form.Handler>
       )
 
@@ -274,10 +273,10 @@ describe('Composite.Block', () => {
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenNthCalledWith(1, {
-        myBlock: { firstName: 'foo' },
+        mySection: { firstName: 'foo' },
       })
       expect(onChange).toHaveBeenNthCalledWith(2, {
-        myBlock: { firstName: 'foo', lastName: 'bar' },
+        mySection: { firstName: 'foo', lastName: 'bar' },
       })
     })
 
@@ -286,7 +285,7 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler>
-          <MyOuterBlock path="/myBlock" onChange={onChange} />
+          <MyOuterSection path="/mySection" onChange={onChange} />
         </Form.Handler>
       )
 
@@ -296,8 +295,8 @@ describe('Composite.Block', () => {
 
       fireEvent.change(first, { target: { value: 'foo' } })
       expect(onChange).toHaveBeenLastCalledWith({
-        myBlock: {
-          innerBlock: {
+        mySection: {
+          innerSection: {
             firstName: 'foo',
           },
         },
@@ -305,8 +304,8 @@ describe('Composite.Block', () => {
 
       fireEvent.change(last, { target: { value: 'bar' } })
       expect(onChange).toHaveBeenLastCalledWith({
-        myBlock: {
-          innerBlock: {
+        mySection: {
+          innerSection: {
             firstName: 'foo',
             lastName: 'bar',
           },
@@ -315,8 +314,8 @@ describe('Composite.Block', () => {
 
       fireEvent.change(addition, { target: { value: 'baz' } })
       expect(onChange).toHaveBeenLastCalledWith({
-        myBlock: {
-          innerBlock: {
+        mySection: {
+          innerSection: {
             firstName: 'foo',
             lastName: 'bar',
           },
@@ -332,8 +331,8 @@ describe('Composite.Block', () => {
     it('should include correct types', () => {
       render(
         <Form.Handler>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               firstName: {
                 label: 'Custom',
@@ -368,8 +367,8 @@ describe('Composite.Block', () => {
     it('should overwrite "label"', () => {
       render(
         <Form.Handler>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               firstName: { label: 'Label A' },
               lastName: { label: 'Label B' },
@@ -388,7 +387,7 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler>
-          <MyBlock
+          <MySection
             overwriteProps={{
               lastName: { onChange },
             }}
@@ -408,7 +407,7 @@ describe('Composite.Block', () => {
     it('should overwrite "required"', () => {
       const { rerender } = render(
         <Form.Handler>
-          <MyBlock path="/myBlock" />
+          <MySection path="/mySection" />
         </Form.Handler>
       )
 
@@ -421,8 +420,8 @@ describe('Composite.Block', () => {
 
       rerender(
         <Form.Handler>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               firstName: { required: true },
               lastName: { required: false },
@@ -443,7 +442,7 @@ describe('Composite.Block', () => {
       render(
         <Form.Handler>
           <FieldPropsProvider required>
-            <MyBlock path="/myBlock" />
+            <MySection path="/mySection" />
           </FieldPropsProvider>
         </Form.Handler>
       )
@@ -460,7 +459,7 @@ describe('Composite.Block', () => {
       render(
         <Form.Handler>
           <FieldPropsProvider required={false}>
-            <MyBlock path="/myBlock" />
+            <MySection path="/mySection" />
           </FieldPropsProvider>
         </Form.Handler>
       )
@@ -476,8 +475,8 @@ describe('Composite.Block', () => {
     it('should disable "required" via overwrite props', () => {
       render(
         <Form.Handler>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               firstName: { required: false },
               lastName: { required: false },
@@ -497,8 +496,8 @@ describe('Composite.Block', () => {
     it('should change minLength via overwrite props', () => {
       render(
         <Form.Handler>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               lastName: {
                 minLength: 30,
@@ -522,8 +521,8 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler onChange={onChange}>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               firstName: { path: '/foo' },
               lastName: { path: '/bar' },
@@ -539,10 +538,10 @@ describe('Composite.Block', () => {
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenNthCalledWith(1, {
-        myBlock: { bar: undefined, foo: 'foo' },
+        mySection: { bar: undefined, foo: 'foo' },
       })
       expect(onChange).toHaveBeenNthCalledWith(2, {
-        myBlock: { bar: 'bar', foo: 'foo' },
+        mySection: { bar: 'bar', foo: 'foo' },
       })
     })
 
@@ -550,10 +549,10 @@ describe('Composite.Block', () => {
       it('should include correct types', () => {
         render(
           <Form.Handler>
-            <MyOuterBlock
-              path="/myBlock"
+            <MyOuterSection
+              path="/mySection"
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   firstName: {
                     label: 'Custom',
                     value: 'Foo',
@@ -577,10 +576,10 @@ describe('Composite.Block', () => {
       it('should overwrite "label"', () => {
         render(
           <Form.Handler>
-            <MyOuterBlock
-              path="/myBlock"
+            <MyOuterSection
+              path="/mySection"
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   firstName: { label: 'Label A' },
                   lastName: { label: 'Label B' },
                 },
@@ -601,9 +600,9 @@ describe('Composite.Block', () => {
 
         render(
           <Form.Handler>
-            <MyOuterBlock
+            <MyOuterSection
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   lastName: { onChange },
                 },
               }}
@@ -625,7 +624,7 @@ describe('Composite.Block', () => {
       it('should overwrite "required"', () => {
         const { rerender } = render(
           <Form.Handler>
-            <MyOuterBlock path="/myBlock" />
+            <MyOuterSection path="/mySection" />
           </Form.Handler>
         )
 
@@ -638,10 +637,10 @@ describe('Composite.Block', () => {
 
         rerender(
           <Form.Handler>
-            <MyOuterBlock
-              path="/myBlock"
+            <MyOuterSection
+              path="/mySection"
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   firstName: { required: true },
                   lastName: { required: false },
                 },
@@ -662,7 +661,7 @@ describe('Composite.Block', () => {
         render(
           <Form.Handler>
             <FieldPropsProvider required>
-              <MyOuterBlock path="/myBlock" />
+              <MyOuterSection path="/mySection" />
             </FieldPropsProvider>
           </Form.Handler>
         )
@@ -679,7 +678,7 @@ describe('Composite.Block', () => {
         render(
           <Form.Handler>
             <FieldPropsProvider required={false}>
-              <MyOuterBlock path="/myBlock" />
+              <MyOuterSection path="/mySection" />
             </FieldPropsProvider>
           </Form.Handler>
         )
@@ -695,10 +694,10 @@ describe('Composite.Block', () => {
       it('should disable "required" via overwrite props', () => {
         render(
           <Form.Handler>
-            <MyOuterBlock
-              path="/myBlock"
+            <MyOuterSection
+              path="/mySection"
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   firstName: { required: false },
                   lastName: { required: false },
                 },
@@ -718,10 +717,10 @@ describe('Composite.Block', () => {
       it('should change minLength via overwrite props', () => {
         render(
           <Form.Handler>
-            <MyOuterBlock
-              path="/myBlock"
+            <MyOuterSection
+              path="/mySection"
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   lastName: {
                     minLength: 30,
                     value: 'f',
@@ -745,10 +744,10 @@ describe('Composite.Block', () => {
 
         render(
           <Form.Handler onChange={onChange}>
-            <MyOuterBlock
-              path="/myBlock"
+            <MyOuterSection
+              path="/mySection"
               overwriteProps={{
-                innerBlock: {
+                innerSection: {
                   firstName: { path: '/foo' },
                   lastName: { path: '/bar' },
                 },
@@ -767,8 +766,8 @@ describe('Composite.Block', () => {
 
         expect(onChange).toHaveBeenCalledTimes(3)
         expect(onChange).toHaveBeenNthCalledWith(1, {
-          myBlock: {
-            innerBlock: {
+          mySection: {
+            innerSection: {
               bar: undefined,
               foo: 'foo',
             },
@@ -776,8 +775,8 @@ describe('Composite.Block', () => {
           },
         })
         expect(onChange).toHaveBeenNthCalledWith(2, {
-          myBlock: {
-            innerBlock: {
+          mySection: {
+            innerSection: {
               bar: 'bar',
               foo: 'foo',
             },
@@ -785,8 +784,8 @@ describe('Composite.Block', () => {
           },
         })
         expect(onChange).toHaveBeenNthCalledWith(3, {
-          myBlock: {
-            innerBlock: {
+          mySection: {
+            innerSection: {
               bar: 'bar',
               foo: 'foo',
             },
@@ -801,12 +800,12 @@ describe('Composite.Block', () => {
     it('should set "required" for firstName', () => {
       const schema: JSONSchema = {
         type: 'object',
-        required: ['myBlock/firstName'],
+        required: ['mySection/firstName'],
       }
 
       render(
         <Form.Handler schema={schema}>
-          <MyBlock path="/myBlock" />
+          <MySection path="/mySection" />
         </Form.Handler>
       )
 
@@ -818,15 +817,15 @@ describe('Composite.Block', () => {
       ).toHaveAttribute('aria-required', 'true')
     })
 
-    it('should set "required" for the whole block', () => {
+    it('should set "required" for the whole section', () => {
       const schema: JSONSchema = {
         type: 'object',
-        required: ['myBlock'],
+        required: ['mySection'],
       }
 
       render(
         <Form.Handler schema={schema}>
-          <MyBlock path="/myBlock" />
+          <MySection path="/mySection" />
         </Form.Handler>
       )
 
@@ -842,7 +841,7 @@ describe('Composite.Block', () => {
       const schema: JSONSchema = {
         type: 'object',
         properties: {
-          myBlock: {
+          mySection: {
             type: 'object',
             properties: {
               firstName: {
@@ -856,7 +855,7 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler schema={schema}>
-          <MyBlock path="/myBlock" />
+          <MySection path="/mySection" />
         </Form.Handler>
       )
 
@@ -872,7 +871,7 @@ describe('Composite.Block', () => {
       const schema: JSONSchema = {
         type: 'object',
         properties: {
-          myBlock: {
+          mySection: {
             type: 'object',
             properties: {
               lastName: {
@@ -886,8 +885,8 @@ describe('Composite.Block', () => {
 
       render(
         <Form.Handler schema={schema}>
-          <MyBlock
-            path="/myBlock"
+          <MySection
+            path="/mySection"
             overwriteProps={{
               lastName: {
                 value: 'f',
@@ -907,29 +906,29 @@ describe('Composite.Block', () => {
   })
 
   describe('Value', () => {
-    const MyValueBlock = ({
+    const MyValueSection = ({
       children,
       ...props
-    }: BlockProps & {
+    }: SectionProps & {
       children?: React.ReactNode
     }) => {
       return (
-        <Composite.Block {...props}>
+        <Form.Section {...props}>
           <Value.SummaryList>
             <Value.Name.First path="/firstName" />
             <Value.Name.Last path="/lastName" />
           </Value.SummaryList>
           {children}
-        </Composite.Block>
+        </Form.Section>
       )
     }
 
     it('should not render children when data is given', () => {
-      render(<MyValueBlock />)
+      render(<MyValueSection />)
       expect(document.body).toHaveTextContent('')
     })
 
-    it('should render block without path', () => {
+    it('should render section without path', () => {
       render(
         <Form.Handler
           data={{
@@ -937,7 +936,7 @@ describe('Composite.Block', () => {
             lastName: 'bar',
           }}
         >
-          <MyValueBlock />
+          <MyValueSection />
         </Form.Handler>
       )
 
@@ -948,17 +947,17 @@ describe('Composite.Block', () => {
       expect(last).toHaveTextContent('bar')
     })
 
-    it('should render block with path', () => {
+    it('should render section with path', () => {
       render(
         <Form.Handler
           data={{
-            myBlock: {
+            mySection: {
               firstName: 'foo',
               lastName: 'bar',
             },
           }}
         >
-          <MyValueBlock path="/myBlock" />
+          <MyValueSection path="/mySection" />
         </Form.Handler>
       )
 
@@ -972,49 +971,49 @@ describe('Composite.Block', () => {
 
   describe('translations', () => {
     it('should handle nested translations', () => {
-      const blockTranslations = {
-        'nb-NO': { MyBlock: { CustomField: { label: 'Block nb' } } },
-        'en-GB': { MyBlock: { CustomField: { label: 'Block en' } } },
+      const sectionTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Section nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Section en' } } },
       }
-      type BlockTranslation =
-        (typeof blockTranslations)[keyof typeof blockTranslations]
+      type SectionTranslation =
+        (typeof sectionTranslations)[keyof typeof sectionTranslations]
 
-      const MyBlockContent = () => {
-        const { MyBlock } = Form.useTranslation<BlockTranslation>()
+      const MySectionContent = () => {
+        const { MySection } = Form.useTranslation<SectionTranslation>()
         return (
           <Field.String
-            label={MyBlock.CustomField.label}
+            label={MySection.CustomField.label}
             path="/myField"
           />
         )
       }
 
-      const MyBlock = () => {
+      const MySection = () => {
         return (
-          <Composite.Block translations={blockTranslations}>
-            <MyBlockContent />
-          </Composite.Block>
+          <Form.Section translations={sectionTranslations}>
+            <MySectionContent />
+          </Form.Section>
         )
       }
 
       const formTranslations = {
-        'nb-NO': { MyBlock: { CustomField: { label: 'Form nb' } } },
-        'en-GB': { MyBlock: { CustomField: { label: 'Form en' } } },
+        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
       }
 
       const { rerender } = render(
         <Form.Handler>
-          <MyBlock />
+          <MySection />
         </Form.Handler>
       )
 
       const label = document.querySelector('label')
 
-      expect(label).toHaveTextContent('Block nb')
+      expect(label).toHaveTextContent('Section nb')
 
       rerender(
         <Form.Handler locale="en-GB" translations={formTranslations}>
-          <MyBlock />
+          <MySection />
         </Form.Handler>
       )
 

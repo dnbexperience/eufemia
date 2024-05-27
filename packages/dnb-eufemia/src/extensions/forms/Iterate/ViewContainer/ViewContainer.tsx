@@ -5,7 +5,7 @@ import { Flex } from '../../../../components'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
 import ElementBlock, {
-  ElementBlockProps,
+  ElementSectionProps,
 } from '../AnimatedContainer/ElementBlock'
 import Toolbar from '../Toolbar'
 import ViewToolbarTools from './ViewToolbarTools'
@@ -17,7 +17,7 @@ export type Props = {
   title?: React.ReactNode
 }
 
-export type AllProps = Props & FlexContainerProps & ElementBlockProps
+export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, ...restProps } = props || {}

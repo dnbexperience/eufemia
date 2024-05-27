@@ -1,36 +1,35 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Card, Code, Flex, P, Section } from '@dnb/eufemia/src'
 import {
-  Composite,
   Field,
   Form,
   JSONSchema,
+  SectionProps,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
-import { BlockProps } from '@dnb/eufemia/src/extensions/forms/Composite/Block'
 
 export const WithoutDataContext = () => {
   return (
-    <ComponentBox scope={{ Composite }}>
-      <Composite.Block onChange={console.log}>
+    <ComponentBox>
+      <Form.Section onChange={console.log}>
         <Field.String path="/myField" />
-      </Composite.Block>
+      </Form.Section>
     </ComponentBox>
   )
 }
 
-export const NestedPathBlock = () => {
+export const NestedPathSection = () => {
   return (
-    <ComponentBox scope={{ Composite }}>
+    <ComponentBox>
       {() => {
-        const MyNameBlock = (props: BlockProps) => {
+        const MyNameSection = (props: SectionProps) => {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Card stack>
                 <Field.Name.First path="/firstName" />
                 <Field.Name.Last path="/lastName" />
               </Card>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
@@ -44,7 +43,7 @@ export const NestedPathBlock = () => {
               },
             }}
           >
-            <MyNameBlock path="/nestedPath" />
+            <MyNameSection path="/nestedPath" />
             <Form.SubmitButton variant="send" />
           </Form.Handler>
         )
@@ -55,11 +54,11 @@ export const NestedPathBlock = () => {
 
 export const OverwriteProps = () => {
   return (
-    <ComponentBox scope={{ Composite }}>
+    <ComponentBox>
       {() => {
-        const MyNameBlock = (props) => {
+        const MyNameSection = (props) => {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Card stack>
                 <Field.Composition width="large">
                   <Field.Name.First path="/firstName" />
@@ -70,7 +69,7 @@ export const OverwriteProps = () => {
                   />
                 </Field.Composition>
               </Card>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
@@ -84,7 +83,7 @@ export const OverwriteProps = () => {
               },
             }}
           >
-            <MyNameBlock
+            <MyNameSection
               path="/nestedPath"
               overwriteProps={{
                 firstName: {
@@ -107,35 +106,35 @@ export const OverwriteProps = () => {
 
 export const AllFieldsRequired = () => {
   return (
-    <ComponentBox scope={{ Composite }}>
+    <ComponentBox>
       {() => {
-        const MyNameBlock = (props: BlockProps) => {
+        const MyNameSection = (props: SectionProps) => {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Card stack>
                 <Field.Composition width="large">
                   <Field.Name.First path="/firstName" />
                   <Field.Name.Last path="/lastName" />
                 </Field.Composition>
               </Card>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
         const schema: JSONSchema = {
           type: 'object',
-          required: ['myRequiredBlock'],
+          required: ['myRequiredSection'],
         }
 
         return (
           <Flex.Stack>
             <Form.Handler onSubmit={console.log}>
-              <MyNameBlock required />
+              <MyNameSection required />
               <Form.SubmitButton variant="send" />
             </Form.Handler>
 
             <Form.Handler onSubmit={console.log} schema={schema}>
-              <MyNameBlock path="/myRequiredBlock" />
+              <MyNameSection path="/myRequiredSection" />
               <Form.SubmitButton variant="send" />
             </Form.Handler>
           </Flex.Stack>
@@ -147,11 +146,11 @@ export const AllFieldsRequired = () => {
 
 export const SchemaSupport = () => {
   return (
-    <ComponentBox scope={{ Composite }}>
+    <ComponentBox>
       {() => {
-        const MyNameBlock = (props: BlockProps) => {
+        const MyNameSection = (props: SectionProps) => {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Card stack>
                 <Field.Composition width="large">
                   <Field.Name.First path="/firstName" />
@@ -162,7 +161,7 @@ export const SchemaSupport = () => {
                   />
                 </Field.Composition>
               </Card>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
@@ -197,7 +196,7 @@ export const SchemaSupport = () => {
               },
             }}
           >
-            <MyNameBlock path="/nestedPath" />
+            <MyNameSection path="/nestedPath" />
             <Form.SubmitButton variant="send" />
           </Form.Handler>
         )
@@ -208,11 +207,11 @@ export const SchemaSupport = () => {
 
 export const WithVisibility = () => {
   return (
-    <ComponentBox scope={{ Composite, Output }}>
+    <ComponentBox scope={{ Output }}>
       {() => {
-        const MyBlock = ({ children, ...props }) => {
+        const MySection = ({ children, ...props }) => {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Card stack>
                 <Field.Boolean
                   label="Are you sure?"
@@ -244,7 +243,7 @@ export const WithVisibility = () => {
               </Card>
 
               <Output />
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
@@ -259,7 +258,7 @@ export const WithVisibility = () => {
               },
             }}
           >
-            <MyBlock path="/nestedPath">
+            <MySection path="/nestedPath">
               <Form.Visibility
                 visibleWhen={{
                   path: '/myString',
@@ -272,7 +271,7 @@ export const WithVisibility = () => {
                   <Value.String path="/nestedPath/myString" inline />
                 </P>
               </Form.Visibility>
-            </MyBlock>
+            </MySection>
           </Form.Handler>
         )
       }}
@@ -280,9 +279,9 @@ export const WithVisibility = () => {
   )
 }
 
-export const NestedBlocks = () => {
+export const NestedSections = () => {
   return (
-    <ComponentBox scope={{ Composite }}>
+    <ComponentBox>
       {() => {
         return (
           <Form.Handler
@@ -300,37 +299,37 @@ export const NestedBlocks = () => {
               },
             }}
           >
-            <MyBlock path="/nestedPath" required />
+            <MySection path="/nestedPath" required />
             <Form.SubmitButton variant="send" />
           </Form.Handler>
         )
 
-        function MyBlock(props: BlockProps) {
+        function MySection(props: SectionProps) {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Card stack>
-                <MyNameBlock path="/name" />
-                <MyAddressBlock path="/address" />
-                <MyValueBlock />
+                <MyNameSection path="/name" />
+                <MyAddressSection path="/address" />
+                <MyValueSection />
               </Card>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
-        function MyNameBlock(props: BlockProps) {
+        function MyNameSection(props: SectionProps) {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Field.Composition width="large">
                 <Field.Name.First path="/first" />
                 <Field.Name.Last path="/last" />
               </Field.Composition>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
-        function MyAddressBlock(props: BlockProps) {
+        function MyAddressSection(props: SectionProps) {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Field.Composition width="large">
                 <Field.String
                   label="Gateadresse"
@@ -339,29 +338,29 @@ export const NestedBlocks = () => {
                 />
                 <Field.String label="Nr." path="/nr" width="small" />
               </Field.Composition>
-            </Composite.Block>
+            </Form.Section>
           )
         }
 
-        function MyValueBlock(props: BlockProps) {
+        function MyValueSection(props: SectionProps) {
           return (
-            <Composite.Block {...props}>
+            <Form.Section {...props}>
               <Value.SummaryList>
-                <Composite.Block path="/name">
+                <Form.Section path="/name">
                   <Value.Composition gap="small">
                     <Value.Name.First path="/first" />
                     <Value.Name.Last path="/last" />
                   </Value.Composition>
-                </Composite.Block>
+                </Form.Section>
 
-                <Composite.Block path="/address">
+                <Form.Section path="/address">
                   <Value.Composition gap="small">
                     <Value.String label="Gateadresse" path="/street" />
                     <Value.String label="Nr." path="/nr" placeholder="–" />
                   </Value.Composition>
-                </Composite.Block>
+                </Form.Section>
               </Value.SummaryList>
-            </Composite.Block>
+            </Form.Section>
           )
         }
       }}

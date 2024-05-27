@@ -6,7 +6,7 @@ import { Props as FlexContainerProps } from '../../../../components/flex/Contain
 import IterateElementContext from '../IterateElementContext'
 import EditToolbarTools from './EditToolbarTools'
 import ElementBlock, {
-  ElementBlockProps,
+  ElementSectionProps,
 } from '../AnimatedContainer/ElementBlock'
 import Toolbar from '../Toolbar'
 
@@ -34,7 +34,7 @@ export type Props = {
   toolbar?: React.ReactNode
 }
 
-export type AllProps = Props & FlexContainerProps & ElementBlockProps
+export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 export default function EditContainer(props: AllProps) {
   return (

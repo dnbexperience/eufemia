@@ -32,7 +32,7 @@ import {
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
 import { ContextProps } from '@dnb/eufemia/src/shared/Context'
 
-export type CodeBlockProps = {
+export type CodeSectionProps = {
   scope?: Record<string, unknown>
   noInline?: boolean
   hideToolbar?: boolean
@@ -52,7 +52,7 @@ const CodeBlock = ({
   children: exampleCode,
   reactLive: isReactLive,
   ...props
-}: CodeBlockProps) => {
+}: CodeSectionProps) => {
   const context = React.useContext(Context)
 
   if (!language) {
@@ -109,7 +109,7 @@ export default CodeBlock
 type LiveCodeProps = {
   code: string
   noFragments?: boolean
-} & Omit<CodeBlockProps, 'children'>
+} & Omit<CodeSectionProps, 'children'>
 
 class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
   static contextType = Context

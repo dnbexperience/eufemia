@@ -6,7 +6,7 @@ import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
 import DataContext, { FilterData } from '../../DataContext/Context'
-import CompositeContext from '../../Composite/CompositeContext'
+import SectionContext from '../Section/SectionContext'
 import FieldProps from '../FieldProps'
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
@@ -79,16 +79,16 @@ function Visibility({
   ...rest
 }: Props) {
   const dataContext = useContext(DataContext)
-  const compositeContext = useContext(CompositeContext)
+  const sectionContext = useContext(SectionContext)
 
-  const compositePath = compositeContext?.path
+  const sectionPath = sectionContext?.path
   const composePath = useCallback(
     (path: Path) => {
       return `${
-        compositePath && compositePath !== '/' ? compositePath : ''
+        sectionPath && sectionPath !== '/' ? sectionPath : ''
       }${path}`
     },
-    [compositePath]
+    [sectionPath]
   )
 
   useMountEffect(() => {

@@ -7,11 +7,13 @@ export * as Form from './Form'
 export * as Wizard from './Wizard'
 export * as DataContext from './DataContext'
 export * as Iterate from './Iterate'
-export * as Composite from './Composite'
 export * as Tools from './Tools'
 export { default as FieldBlock } from './FieldBlock'
 export { default as ValueBlock } from './ValueBlock'
 export { default as Ajv } from 'ajv/dist/2020'
+
+// Types
+export type { SectionProps } from './Form/Section'
 
 import {
   Container,
