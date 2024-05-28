@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Field, Form, Tools, Value } from '../../'
+import { Field, Form, Iterate, Tools, Value } from '../../'
 import { GenerateRef } from '../ListAllProps'
 
 describe('Tools.ListAllProps', () => {
@@ -312,7 +312,7 @@ describe('Tools.ListAllProps', () => {
 
   const generateRef = React.createRef<GenerateRef>()
 
-  it('should generate schema with various properties', () => {
+  it('should generate props object with various properties', () => {
     render(
       <Form.Handler>
         <Tools.ListAllProps generateRef={generateRef}>
@@ -418,7 +418,7 @@ describe('Tools.ListAllProps', () => {
     `)
   })
 
-  it('should generate schema with nested paths', () => {
+  it('should generate props object with nested paths', () => {
     const generateRef = React.createRef<GenerateRef>()
 
     render(
@@ -498,7 +498,7 @@ describe('Tools.ListAllProps', () => {
     `)
   })
 
-  it('should generate schema with required', () => {
+  it('should generate props object with required', () => {
     const generateRef = React.createRef<GenerateRef>()
 
     render(
@@ -598,6 +598,105 @@ describe('Tools.ListAllProps', () => {
           },
         },
         "propsOfValues": {},
+      }
+    `)
+  })
+
+  it('should filter out React elements', () => {
+    const generateRef = React.createRef<GenerateRef>()
+
+    render(
+      <Form.Handler data={{ count: 2 }}>
+        <Tools.ListAllProps generateRef={generateRef}>
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathTransform={({ value, index }) =>
+              Object.prototype.hasOwnProperty.call(value || {}, 'item')
+                ? value
+                : { item: index }
+            }
+          >
+            <Field.Number
+              itemPath="/item"
+              label="My field"
+              suffix="suffix"
+              showStepControls
+            />
+          </Iterate.Array>
+        </Tools.ListAllProps>
+      </Form.Handler>
+    )
+
+    expect(
+      generateRef.current().propsOfFields?.items?.children?.type?.name
+    ).not.toBe('NumberComponent')
+    expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
+      {
+        "items": {
+          "0": {
+            "item": {
+              "errorMessages": {
+                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
+                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
+                "maximum": "Verdien må være maksimalt {maximum}.",
+                "minimum": "Verdien må være minst {minimum}.",
+                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
+                "required": "Dette feltet må fylles ut.",
+              },
+              "itemPath": "/item",
+              "label": "My field",
+              "schema": {
+                "exclusiveMaximum": undefined,
+                "exclusiveMinimum": undefined,
+                "maximum": undefined,
+                "minimum": undefined,
+                "multipleOf": undefined,
+                "type": "number",
+              },
+              "showStepControls": true,
+              "suffix": "suffix",
+              "valueType": "number",
+              "width": "medium",
+            },
+          },
+          "1": {
+            "item": {
+              "errorMessages": {
+                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
+                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
+                "maximum": "Verdien må være maksimalt {maximum}.",
+                "minimum": "Verdien må være minst {minimum}.",
+                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
+                "required": "Dette feltet må fylles ut.",
+              },
+              "itemPath": "/item",
+              "label": "My field",
+              "schema": {
+                "exclusiveMaximum": undefined,
+                "exclusiveMinimum": undefined,
+                "maximum": undefined,
+                "minimum": undefined,
+                "multipleOf": undefined,
+                "type": "number",
+              },
+              "showStepControls": true,
+              "suffix": "suffix",
+              "valueType": "number",
+              "width": "medium",
+            },
+          },
+          "countPath": "/count",
+          "path": "/items",
+          "value": [
+            {
+              "item": 0,
+            },
+            {
+              "item": 1,
+            },
+          ],
+        },
       }
     `)
   })
