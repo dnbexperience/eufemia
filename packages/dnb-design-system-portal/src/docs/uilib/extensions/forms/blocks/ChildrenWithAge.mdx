@@ -1,0 +1,46 @@
+---
+title: 'ChildrenWithAge'
+hideInMenu: true
+showTabs: false
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Blocks
+    href: /uilib/extensions/forms/blocks/collection/
+  - text: ChildrenWithAge
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ChildrenWithAgeProperties } from '@dnb/eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAgeDocs'
+import { ChildrenWithAge, ChildrenWithAgeWizard } from './Examples'
+
+# ChildrenWithAge
+
+`ChildrenWithAge` is a block for displaying children with age. Check out the [source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/blocks/ChildrenWithAge) for more information.
+
+## Usage
+
+```tsx
+import { ChildrenWithAge } from '@dnb/eufemia/src/extensions/forms/blocks'
+render(<ChildrenWithAge />)
+```
+
+## In Wizard
+
+<ChildrenWithAgeWizard />
+
+## Basic
+
+<ChildrenWithAge />
+
+## With `joint-responsibility` question
+
+<ChildrenWithAge enableAdditionalQuestions={['joint-responsibility']} />
+
+## With `daycare` question
+
+<ChildrenWithAge enableAdditionalQuestions={['daycare']} />
+
+## Properties
+
+<PropertiesTable props={ChildrenWithAgeProperties} />
