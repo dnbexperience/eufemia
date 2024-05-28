@@ -59,3 +59,17 @@ If field components inside `Iterate.Array` are given an `itemPath` prop, this wi
 If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render prop. It works a bit like an array-map call. The render function receives the value of the element as the first argument, and the index of which element you are on as the second.
 
 Examples of both the use of `itemPath` and Render Props in `Iterate.Array` can be found on [demos](/uilib/extensions/forms/Iterate/Array/demos).
+
+## Number in labels
+
+You can use the `{itemNr}` variable in the label to display the current item number. This is useful when you have a list of items and you want to display the item number in the label.
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array value={['foo', 'bar']}>
+    <Field.String itemPath="/" label="Item no. {itemNr}" />
+  </Iterate.Array>,
+)
+```

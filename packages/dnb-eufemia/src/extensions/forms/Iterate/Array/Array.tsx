@@ -33,6 +33,7 @@ import type { Identifier, Path } from '../../types'
  * So its a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
+import useDataValue from '../../hooks/useDataValue'
 
 export type * from './types'
 
@@ -41,6 +42,30 @@ function ArrayComponent(props: Props) {
 
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
+
+  const { getValue } = useDataValue()
+  const preparedProps = useMemo(() => {
+    const { path, countPath, countPathTransform } = props
+
+    if (countPath) {
+      const arrayValue = getValue(path)
+      const countValue = getValue(countPath)
+      if (arrayValue?.length !== countValue) {
+        const newValue = []
+        for (let i = 0, l = countValue; i < l; i++) {
+          const value = arrayValue?.[i]
+          newValue.push(countPathTransform?.({ value, index: i }))
+        }
+
+        return {
+          ...props,
+          value: newValue,
+        }
+      }
+    }
+
+    return props
+  }, [getValue, props])
 
   const {
     path,
@@ -51,7 +76,7 @@ function ArrayComponent(props: Props) {
     handleChange,
     onChange,
     children,
-  } = useFieldProps<Value, Props>(props)
+  } = useFieldProps<Value, Props>(preparedProps)
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})

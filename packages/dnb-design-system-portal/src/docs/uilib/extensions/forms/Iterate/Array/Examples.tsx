@@ -302,3 +302,26 @@ export const ViewAndEditContainer = () => {
     </ComponentBox>
   )
 }
+
+export const DynamicPathValue = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      <Form.Handler defaultData={{ count: 0 }}>
+        <Flex.Stack>
+          <Field.Number path="/count" width="small" showStepControls />
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathTransform={({ value, index }) =>
+              Object.prototype.hasOwnProperty.call(value || {}, 'myObject')
+                ? value
+                : { myObject: index }
+            }
+          >
+            <Field.Number itemPath="/myObject" label="Item no. {itemNr}" />
+          </Iterate.Array>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
