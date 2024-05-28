@@ -310,13 +310,15 @@ export const DynamicPathValue = () => {
         <Flex.Stack>
           <Field.Number path="/count" width="small" showStepControls />
           <Iterate.Array
-            countPath="/count"
-            countPathTransform={({ value: age }) =>
-              age?.age ? age : { age }
-            }
             path="/items"
+            countPath="/count"
+            countPathTransform={({ value, index }) =>
+              Object.prototype.hasOwnProperty.call(value || {}, 'myObject')
+                ? value
+                : { myObject: index }
+            }
           >
-            <Field.Number itemPath="/age" label="Item no. {itemNr}" />
+            <Field.Number itemPath="/myObject" label="Item no. {itemNr}" />
           </Iterate.Array>
         </Flex.Stack>
       </Form.Handler>
