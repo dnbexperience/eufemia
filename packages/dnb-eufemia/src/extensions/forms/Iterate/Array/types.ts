@@ -6,7 +6,10 @@ export type Value = Array<unknown | Record<string, unknown>>
 export type ElementChild =
   | React.ReactNode
   | ((value: any, index: number) => React.ReactNode)
-export type Props = Omit<FlexContainerProps, 'children' | 'width'> & {
+export type Props = Omit<
+  FlexContainerProps,
+  'children' | 'width' | 'defaultValue'
+> & {
   children: ElementChild | Array<ElementChild>
   value?: UseFieldProps<Value, undefined | Value>['value']
   path?: Path

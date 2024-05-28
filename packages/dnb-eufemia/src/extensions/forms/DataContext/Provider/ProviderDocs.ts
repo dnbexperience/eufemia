@@ -11,6 +11,11 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'object',
     status: 'required',
   },
+  id: {
+    doc: 'Unique id for connecting Form.Handler and helper tools such as Form.useData.',
+    type: 'string',
+    status: 'optional',
+  },
   schema: {
     doc: 'JSON Schema for validation of the data set.',
     type: 'object',

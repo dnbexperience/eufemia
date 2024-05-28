@@ -40,6 +40,55 @@ describe('useFieldProps', () => {
     })
   })
 
+  it('should update data context with initially given "defaultValue"', () => {
+    const defaultValue = 'include this'
+
+    const { result } = renderHook(
+      () => useFieldProps({ path: '/foo', defaultValue }),
+      { wrapper: Provider }
+    )
+
+    expect(result.current.dataContext.data).toEqual({
+      foo: defaultValue,
+    })
+  })
+
+  it('given "value" should take precedence over data context value', () => {
+    const value = 'include this'
+    const givenValue = 'given value'
+
+    const { result } = renderHook(
+      () => useFieldProps({ path: '/foo', value }),
+      {
+        wrapper: (props) => (
+          <Provider data={{ foo: givenValue }} {...props} />
+        ),
+      }
+    )
+
+    expect(result.current.dataContext.data).toEqual({
+      foo: value,
+    })
+  })
+
+  it('given "defaultValue" should not take precedence over data context value', () => {
+    const givenValue = 'given value'
+    const defaultValue = 'include this'
+
+    const { result } = renderHook(
+      () => useFieldProps({ path: '/foo', defaultValue }),
+      {
+        wrapper: (props) => (
+          <Provider data={{ foo: givenValue }} {...props} />
+        ),
+      }
+    )
+
+    expect(result.current.dataContext.data).toEqual({
+      foo: givenValue,
+    })
+  })
+
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
     const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
