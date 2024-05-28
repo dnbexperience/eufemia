@@ -101,6 +101,9 @@ export interface DropdownProps {
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
+  /**
+   * Text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component.
+   */
   suffix?: DrawerListSuffix;
   on_show_focus?: (...args: any[]) => any;
   on_hide_focus?: (...args: any[]) => any;
