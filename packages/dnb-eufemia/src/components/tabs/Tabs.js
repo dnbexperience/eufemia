@@ -658,12 +658,8 @@ export default class Tabs extends React.PureComponent {
       }
     }
 
-    if (window.IS_TEST) {
-      delay()
-    } else {
-      // Delay so Chrome/Safari makes the transition / animation smooth
-      window.requestAnimationFrame(delay)
-    }
+    // Delay so Chrome/Safari makes the transition / animation smooth
+    window.requestAnimationFrame(delay)
   }
 
   onMouseDown = (event) => {
