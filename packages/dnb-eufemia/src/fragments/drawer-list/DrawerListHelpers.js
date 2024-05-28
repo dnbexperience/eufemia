@@ -245,7 +245,7 @@ export const parseContentTitle = (
           const nestedChildren =
             !word.props.children &&
             typeof word?.type === 'function' &&
-            word?.type?.()
+            word.type()
 
           return nestedChildren?.props?.children ? nestedChildren : word
         })
