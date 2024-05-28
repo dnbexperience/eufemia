@@ -212,8 +212,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           break
       }
     } else {
-      // const state = {...context}
-      const state: {
+      const dates: {
         startDate?: Date
         endDate?: Date
       } = {}
@@ -240,7 +239,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         currentMonth &&
         !isSameMonth(context[`${type}Date`], currentMonth)
       ) {
-        state[`${type}Month`] = newDate
+        dates[`${type}Month`] = newDate
       }
 
       newDate = findValid(newDate, keyCode)
@@ -249,44 +248,38 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return
       }
 
-      state[`${type}Date`] = newDate
+      dates[`${type}Date`] = newDate
 
       // set fallbacks
       if (!isRange) {
-        state.endDate = newDate
+        dates.endDate = newDate
       } else {
         if (!context.startDate) {
-          state.startDate = newDate
+          dates.startDate = newDate
         }
         if (!context.endDate) {
-          state.endDate = newDate
+          dates.endDate = newDate
         }
       }
 
       // make sure we stay on the same month
       if (onlyMonth || hideNav) {
         if (
-          !isSameMonth(state.startDate, context.startDate) ||
-          !isSameMonth(state.endDate, context.startDate) // Heads up, should this not be context.endDate?
+          !isSameMonth(dates.startDate, context.startDate) ||
+          !isSameMonth(dates.endDate, context.startDate) // Heads up, should this not be context.endDate?
         ) {
           return
         }
       }
 
-      context.updateDates(
-        {
-          startDate: state.startDate,
-          endDate: state.endDate,
-        },
-        () => {
-          // call after state update, so the input get's the latest state as well
-          callOnSelect({
-            event,
-            nr,
-            hidePicker: false,
-          })
-        }
-      )
+      context.updateDates(dates, () => {
+        // call after state update, so the input get's the latest state as well
+        callOnSelect({
+          event,
+          nr,
+          hidePicker: false,
+        })
+      })
 
       // and set the focus back again
       if (listRef && listRef.current) {
