@@ -242,7 +242,11 @@ export const parseContentTitle = (
     if (preferSelectedValue) {
       ret = String(
         convertJsxToString(dataItem.selected_value, separator, (word) => {
-          const nestedChildren = !word.props.children && word?.type?.()
+          const nestedChildren =
+            !word.props.children &&
+            typeof word?.type === 'function' &&
+            word?.type?.()
+
           return nestedChildren?.props?.children ? nestedChildren : word
         })
       )
