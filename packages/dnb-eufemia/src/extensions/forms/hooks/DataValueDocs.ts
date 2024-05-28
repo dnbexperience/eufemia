@@ -2,32 +2,32 @@ import { PropertiesTableProps } from '../../../shared/types'
 
 export const dataValueProperties: PropertiesTableProps = {
   value: {
-    doc: 'Source data value for the input.',
+    doc: 'Source data value for the field.',
+    type: '{valueType}',
+    status: 'optional',
+  },
+  defaultValue: {
+    doc: 'Source data value for the field.',
     type: '{valueType}',
     status: 'optional',
   },
   path: {
-    doc: 'JSON Pointer for where the data for this input is located in the source dataset (when using Form.Handler or DataContext). The `path` will also be set as the `name` attribute for the [string](/uilib/extensions/forms/base-fields/String/)-field.',
-    type: 'string',
-    status: 'optional',
-  },
-  id: {
-    doc: 'Unique id for connecting Form.Handler and helper tools such as Form.useData.',
+    doc: 'JSON Pointer for where the data for the field is located in the source dataset (when using Form.Handler or DataContext). The `path` will also be set as the `name` attribute for the [string](/uilib/extensions/forms/base-fields/String/)-field.',
     type: 'string',
     status: 'optional',
   },
   info: {
-    doc: 'Info message shown below / after the input.',
+    doc: 'Info message shown below / after the field.',
     type: 'React.Node',
     status: 'optional',
   },
   warning: {
-    doc: 'Warning message shown below / after the input.',
+    doc: 'Warning message shown below / after the field.',
     type: 'React.Node',
     status: 'optional',
   },
   error: {
-    doc: 'Error message shown below / after the input.',
+    doc: 'Error message shown below / after the field.',
     type: 'Error',
     status: 'optional',
   },
@@ -42,7 +42,7 @@ export const dataValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   required: {
-    doc: 'When set `true`, the input will give an error if the value cannot be empty.',
+    doc: 'When set `true`, the field will give an error if the value cannot be empty.',
     type: 'boolean',
     status: 'optional',
   },

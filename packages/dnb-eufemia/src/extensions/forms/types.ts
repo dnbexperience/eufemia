@@ -73,7 +73,10 @@ export interface DataValueReadProps<Value = unknown> {
   path?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
   itemPath?: string
+  /** Source data value for the field. Will take precedence over the path value given in the data context */
   value?: Value
+  /** Default source data value for the field. Will not take precedence over the path value given in the data context */
+  defaultValue?: Value
 }
 
 const dataValueReadProps = ['path', 'itemPath', 'value']

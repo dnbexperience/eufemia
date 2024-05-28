@@ -87,6 +87,7 @@ export default function useFieldProps<
     path: pathProp,
     value: valueProp,
     label: labelProp,
+    defaultValue,
     itemPath,
     emptyValue,
     required: requiredProp,
@@ -180,13 +181,14 @@ export default function useFieldProps<
     itemPath,
   })
 
-  const externalValue = useExternalValue<Value>({
-    path,
-    itemPath,
-    value: valueProp,
-    transformers,
-    emptyValue,
-  })
+  const externalValue =
+    useExternalValue<Value>({
+      path,
+      itemPath,
+      value: valueProp,
+      transformers,
+      emptyValue,
+    }) ?? defaultValue
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -1113,7 +1115,7 @@ export default function useFieldProps<
 
   useEffect(() => {
     if (hasPath) {
-      let value = props.value
+      let value = valueProp
 
       // First, look for existing data in the context
       const hasValue = pointer.has(dataContext.data, identifier)
@@ -1139,6 +1141,13 @@ export default function useFieldProps<
       }
 
       if (
+        typeof defaultValue !== 'undefined' &&
+        typeof value === 'undefined'
+      ) {
+        value = defaultValue
+      }
+
+      if (
         !hasValue ||
         (value !== existingValue &&
           // Prevents an infinite loop by skipping the update if the value hasn't changed
@@ -1153,11 +1162,12 @@ export default function useFieldProps<
   }, [
     dataContext.data,
     dataContext.id,
-    identifier,
+    defaultValue,
     hasPath,
-    props.value,
+    identifier,
     updateDataValueDataContext,
     validateDataDataContext,
+    valueProp,
   ])
 
   useEffect(() => {
