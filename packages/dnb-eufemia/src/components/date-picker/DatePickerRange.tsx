@@ -13,7 +13,8 @@ import DatePickerCalendar, {
   CalendarSelectEvent,
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
-import DatePickerContext, { DatePickerView } from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
+import { CalendarView } from './hooks/useViews'
 
 export type DatePickerRangeViews = number | Record<string, unknown>[]
 
@@ -27,7 +28,7 @@ export type DatePickerRangeProps = React.HTMLProps<HTMLElement> &
     hideNav?: boolean
     views?: [{ nextBtn: false; prevBtn: false }]
     onChange?: (event: CalendarSelectEvent) => void
-    onNav?: (views: Array<DatePickerView>) => void
+    onNav?: (views: Array<CalendarView>) => void
   }
 
 function DatePickerRange(props: DatePickerRangeProps) {
@@ -61,15 +62,17 @@ function DatePickerRange(props: DatePickerRangeProps) {
     })
   }
 
+  // Unused, remove
   function callOnNav() {
     props.onNav && props.onNav(context.views)
   }
-
-  function setNavState(state) {
-    context.updateState(state)
+  // TOTYPE
+  function setNavState(views: CalendarView) {
+    console.log('setNavState', views)
+    context.setViews([views])
   }
-
-  function onNext({ nr }) {
+  // Combine onNext and onPrev and put in useCallback
+  function onNext({ nr }: CalendarView) {
     const views = context.views.map((c) => {
       if (c.nr === nr) {
         const month = addMonths(c.month, 1)
@@ -92,7 +95,7 @@ function DatePickerRange(props: DatePickerRangeProps) {
     context.setViews(views, callOnNav)
   }
 
-  function onPrev({ nr }) {
+  function onPrev({ nr }: CalendarView) {
     const views = context.views.map((c) => {
       if (c.nr === nr) {
         const month = subMonths(c.month, 1)
@@ -114,7 +117,7 @@ function DatePickerRange(props: DatePickerRangeProps) {
     })
     context.setViews(views, callOnNav)
   }
-
+  // TOTYPE
   function onHover(hoverDate) {
     context.updateDates({ hoverDate })
   }

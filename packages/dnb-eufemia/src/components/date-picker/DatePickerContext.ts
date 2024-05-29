@@ -12,21 +12,17 @@ import {
   ReturnObject,
 } from './DatePickerProvider'
 import { DateProps, Dates, InputDates } from './hooks/useDates'
-
-export type DatePickerView = {
-  month: Date
-  nr: number
-}
+import { CalendarView } from './hooks/useViews'
 
 export type DatePickerContextValues = ContextProps & {
   props: DatePickerProps
-  startDate: Date
-  endDate: Date
-  minDate: Date
-  maxDate: Date
-  hoverDate: Date
+  startDate?: Date
+  endDate?: Date
+  minDate?: Date
+  maxDate?: Date
+  hoverDate?: Date
   translation: ContextProps['translation']
-  views: Array<DatePickerView>
+  views: Array<CalendarView>
   hasHadValidDate: boolean
   updateState: (
     states: DatePickerProviderState,
@@ -34,13 +30,16 @@ export type DatePickerContextValues = ContextProps & {
   ) => void
   updateDates: (dates: Dates, callback?: (dates: Dates) => void) => void
   setState?: (state: DatePickerProviderState) => void
-  setViews: (views: DatePickerView[], callback?: () => void) => void
+  setViews: (views: Array<CalendarView>, callback?: () => void) => void
   callOnChangeHandler: (
     args: Dates &
       InputDates & {
-        nr: number
-        hidePicker: boolean
-        event: React.MouseEvent<HTMLButtonElement>
+        nr?: number
+        hidePicker?: boolean
+        event:
+          | React.MouseEvent<HTMLButtonElement>
+          | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
+          | React.FocusEvent<HTMLInputElement>
       }
   ) => void
   hidePicker: (

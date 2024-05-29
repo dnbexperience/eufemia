@@ -19,7 +19,7 @@ import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
-import useViews, { CalendarViews } from './hooks/useViews'
+import useViews, { CalendarView } from './hooks/useViews'
 import useDates, { Dates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
@@ -29,12 +29,17 @@ type DatePickerProviderProps = DatePickerProps & {
   setReturnObject: (
     func: DatePickerContextValues['getReturnObject']
   ) => DatePickerContextValues['getReturnObject']
-  enhanceWithMethods?: Record<string, unknown>
+  hidePicker?: DatePickerContextValues['hidePicker']
   attributes?: Record<string, unknown>
   children: React.ReactNode
 }
 
-export type GetReturnObjectParams = Dates & { event?: Event }
+export type GetReturnObjectParams = Dates & {
+  event?:
+    | React.MouseEvent<HTMLButtonElement>
+    | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
+    | React.FocusEvent<HTMLInputElement>
+}
 export type ReturnObject = {
   days_between?: number
   date?: string
@@ -48,7 +53,7 @@ export type ReturnObject = {
 }
 
 export type DatePickerProviderState = Dates &
-  CalendarViews &
+  Array<CalendarView> &
   LastEventCallCache
 
 const defaultProps = {
@@ -103,11 +108,13 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     props.setReturnObject(getReturnObject)
   }
 
+  // TOTYPE
   function updateState(state, cb = null) {
     setState((currentState) => ({ ...currentState, ...state }))
     cb?.()
   }
 
+  // TOTYPE
   function callOnChangeHandler(args) {
     /**
      * Prevent on_change to be fired twice if date not has actually changed
@@ -121,7 +128,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     ) {
       return // stop here
     }
-    console.log('callOnChangeHandler', args)
+
     dispatchCustomElementEvent(
       { on_change: props.on_change },
       'on_change',
@@ -217,8 +224,8 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         updateDates,
         getReturnObject,
         callOnChangeHandler,
+        hidePicker: props.hidePicker,
         props,
-        ...props.enhanceWithMethods,
         ...state,
         ...dates,
         previousDates,

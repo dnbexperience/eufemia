@@ -1,16 +1,14 @@
 import addMonths from 'date-fns/addMonths'
 import { useEffect, useState } from 'react'
-import { DatePickerProviderState } from '../DatePickerProvider'
+import { Dates } from './useDates'
 
-export type CalendarViews =
-  | { nr: number; month: Date }
-  | Array<{ nr: number; month: Date }>
+export type CalendarView = { nr: number; month?: Date }
 
 export type ViewDates = {
-  startDate?: DatePickerProviderState['startDate']
-  endDate?: DatePickerProviderState['endDate']
-  startMonth?: DatePickerProviderState['startMonth']
-  endMonth?: DatePickerProviderState['endMonth']
+  startDate?: Dates['startDate']
+  endDate?: Dates['endDate']
+  startMonth?: Dates['startMonth']
+  endMonth?: Dates['endMonth']
 }
 
 export type UseViewsParams = ViewDates & {
@@ -19,11 +17,17 @@ export type UseViewsParams = ViewDates & {
 
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const [prevDates, setPrevDates] = useState(dates)
-  const [views, setViews] = useState<CalendarViews>(
+  const [views, setViews] = useState<Array<CalendarView>>(
     getViews({ ...dates, views: undefined, isRange })
   )
 
-  function updateViews(views, cb = null) {
+  useEffect(() => console.log('newview', views), [views])
+
+  // TOTYPE
+  function updateViews(
+    views: Array<CalendarView>,
+    cb: (...args: unknown[]) => void = null
+  ) {
     setViews(views)
     cb?.()
   }
@@ -52,7 +56,10 @@ export function getViews({
   views,
   isRange,
   ...dates
-}: ViewDates & UseViewsParams & { views: CalendarViews }): CalendarViews {
+}: ViewDates &
+  UseViewsParams & {
+    views?: CalendarView | Array<CalendarView>
+  }): Array<CalendarView> {
   // fill the views with the calendar data getMonth()
   return (
     Array.isArray(views)
@@ -70,7 +77,7 @@ export function getViews({
 
 function getMonthView(
   { startDate, endDate, startMonth, endMonth }: ViewDates,
-  nr: number
+  nr: CalendarView['nr']
 ) {
   if ((startMonth || startDate) && nr === 0) {
     return startMonth || startDate

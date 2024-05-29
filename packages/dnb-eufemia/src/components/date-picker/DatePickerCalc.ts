@@ -247,10 +247,11 @@ export function correctV1Format(date: string) {
   return date
 }
 
+// TOTYPE params
 export function convertStringToDate(
   date: string,
   { date_format = null }: { date_format?: string | null } = {}
-) {
+): Date {
   if (date === null) {
     return null
   }

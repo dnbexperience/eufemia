@@ -426,6 +426,7 @@ function DatePicker(externalProps: DatePickerProps) {
     }
   }, [])
 
+  // TOTYPE
   function hidePicker(args) {
     if (props.prevent_close) {
       return // stop here
@@ -498,6 +499,7 @@ function DatePicker(externalProps: DatePickerProps) {
     }
   }
 
+  // TOTYPE
   function onPickerChange({
     hidePicker: shouldHidePicker = true,
     ...args
@@ -514,6 +516,7 @@ function DatePicker(externalProps: DatePickerProps) {
     setEndDate(args.endDate)
   }
 
+  // TOTYPE
   function onSubmitHandler(args) {
     hidePicker(args)
     dispatchCustomElementEvent(
@@ -523,6 +526,7 @@ function DatePicker(externalProps: DatePickerProps) {
     )
   }
 
+  // TOTYPE
   function onCancelHandler(args) {
     hidePicker(args)
     dispatchCustomElementEvent(
@@ -532,6 +536,7 @@ function DatePicker(externalProps: DatePickerProps) {
     )
   }
 
+  // TOTYPE
   function onResetHandler(args) {
     hidePicker(args)
     dispatchCustomElementEvent(
@@ -540,7 +545,7 @@ function DatePicker(externalProps: DatePickerProps) {
       getReturnObject.current(args)
     )
   }
-
+  // TOTYPE
   function showPicker(args?) {
     if (hideTimeout.current) {
       clearTimeout(hideTimeout.current)
@@ -558,7 +563,7 @@ function DatePicker(externalProps: DatePickerProps) {
     setTrianglePosition()
     setOutsideClickHandler()
   }
-
+  // TOTYPE
   function togglePicker(args) {
     !opened
       ? showPicker((args && args.event) || args)
@@ -719,9 +724,7 @@ function DatePicker(externalProps: DatePickerProps) {
       {...props}
       attributes={attributes}
       setReturnObject={(fn) => (getReturnObject.current = fn)}
-      enhanceWithMethods={{
-        hidePicker,
-      }}
+      hidePicker={hidePicker}
     >
       <span {...mainParams}>
         {label && (
@@ -811,7 +814,6 @@ function DatePicker(externalProps: DatePickerProps) {
                     />
                     {(addon_element || shortcuts) && (
                       <DatePickerAddon
-                        {...props}
                         renderElement={addon_element}
                         shortcuts={shortcuts}
                       />

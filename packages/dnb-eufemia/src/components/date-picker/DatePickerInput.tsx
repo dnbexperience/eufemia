@@ -180,6 +180,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     }
   }, [props.maskOrder])
 
+  // TOTYPE
   async function shortcutHandler(e) {
     if (focusMode.current) {
       const success = (
@@ -230,7 +231,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   function callOnChangeAsInvalid(state: {
     endDate?: Date
     starDate?: Date
-    event: React.SyntheticEvent
+    event: React.ChangeEvent<HTMLInputElement>
   }) {
     context.updateDates(
       {
@@ -256,7 +257,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   }: {
     startDate?: Date
     endDate?: Date
-    event: React.SyntheticEvent
+    event: React.ChangeEvent<HTMLInputElement>
   }) {
     const state = {}
     if (typeof startDate !== 'undefined' && isValid(startDate)) {
@@ -279,6 +280,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     })
   }
 
+  // TOTYPE
   function callOnType({ event }) {
     const getDates = () =>
       ['start', 'end'].reduce(
@@ -353,6 +355,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     dispatchCustomElementEvent(context, 'on_type', returnObject)
   }
 
+  // TOTYPE
   async function prepareCounting({ keyCode, target, event }) {
     try {
       const isDate = target
@@ -400,12 +403,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     }
   }
 
+  // TOTYPE
   function selectStart(target) {
     target.focus()
     target.setSelectionRange(0, 0)
   }
 
-  function onFocusHandler(event) {
+  function onFocusHandler(event: React.FocusEvent<HTMLInputElement>) {
     try {
       selectAll(event.target)
     } catch (e) {
@@ -431,6 +435,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     })
   }
 
+  // TOTYPE
   async function onKeyDownHandler(event) {
     const keyCode = keycode(event)
     const target = event.target
@@ -508,34 +513,33 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   }
 
   const dateSetters = {
-    set_startDay: (event: React.SyntheticEvent) => {
+    set_startDay: (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event, 'start', 'Day')
     },
 
-    set_startMonth: (event: React.SyntheticEvent) => {
+    set_startMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event, 'start', 'Month')
     },
 
-    set_startYear: (event: React.SyntheticEvent) => {
+    set_startYear: (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event, 'start', 'Year')
     },
 
-    set_endDay: (event: React.SyntheticEvent) => {
+    set_endDay: (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event, 'end', 'Day')
     },
 
-    set_endMonth: (event: React.SyntheticEvent) => {
+    set_endMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event, 'end', 'Month')
     },
 
-    set_endYear: (event: React.SyntheticEvent) => {
+    set_endYear: (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event, 'end', 'Year')
     },
   }
 
-  // Fix ref logic
   function setDate(
-    event: React.SyntheticEvent,
+    event: React.ChangeEvent<HTMLInputElement>,
     mode: 'start' | 'end',
     type: 'Day' | 'Month' | 'Year'
   ) {
@@ -602,6 +606,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     })
   }
 
+  // TOTYPE
   function renderInputElement(params) {
     const { id, isRange } = props
     refList.current = []
@@ -621,11 +626,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     )
   }
 
+  // TOTYPE
   function getPlaceholderChar(value) {
     const index = props.maskOrder.indexOf(value)
     return props.maskPlaceholder[index]
   }
 
+  // TOTYPE
   function generateDateList(params, mode) {
     return maskList.map((value, i) => {
       const state = value.slice(0, 1)
@@ -820,7 +827,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     submitAttributes.ref = null
   }
 
-  // Fix lang.code type casting
   return (
     <fieldset className="dnb-date-picker__fieldset" lang={lang}>
       {context.props.label && (
@@ -874,6 +880,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
 export default DatePickerInput
 
+// TOTYPE
 const selectAll = (target) => {
   target.focus()
   target.select()
@@ -899,4 +906,5 @@ function InputElement({ className, value, ...props }: TextMaskProps) {
   )
 }
 
-const wait = (t) => new Promise((r) => setTimeout(r, t))
+const wait = (duration: number) =>
+  new Promise((r) => setTimeout(r, duration))
