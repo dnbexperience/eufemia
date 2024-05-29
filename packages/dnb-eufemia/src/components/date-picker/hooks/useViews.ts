@@ -21,9 +21,6 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     getViews({ ...dates, views: undefined, isRange })
   )
 
-  useEffect(() => console.log('newview', views), [views])
-
-  // TOTYPE
   function updateViews(
     views: Array<CalendarView>,
     cb: (...args: unknown[]) => void = null
