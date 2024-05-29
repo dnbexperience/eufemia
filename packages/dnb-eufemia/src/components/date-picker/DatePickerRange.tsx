@@ -28,7 +28,6 @@ export type DatePickerRangeProps = React.HTMLProps<HTMLElement> &
     hideNav?: boolean
     views?: [{ nextBtn: false; prevBtn: false }]
     onChange?: (event: CalendarSelectEvent) => void
-    onNav?: (views: Array<CalendarView>) => void
   }
 
 function DatePickerRange(props: DatePickerRangeProps) {
@@ -62,13 +61,8 @@ function DatePickerRange(props: DatePickerRangeProps) {
     })
   }
 
-  // Unused, remove
-  function callOnNav() {
-    props.onNav && props.onNav(context.views)
-  }
   // TOTYPE
   function setNavState(views: CalendarView) {
-    console.log('setNavState', views)
     context.setViews([views])
   }
   // Combine onNext and onPrev and put in useCallback
@@ -92,7 +86,7 @@ function DatePickerRange(props: DatePickerRangeProps) {
       }
       return c
     })
-    context.setViews(views, callOnNav)
+    context.setViews(views)
   }
 
   function onPrev({ nr }: CalendarView) {
@@ -115,7 +109,7 @@ function DatePickerRange(props: DatePickerRangeProps) {
       }
       return c
     })
-    context.setViews(views, callOnNav)
+    context.setViews(views)
   }
   // TOTYPE
   function onHover(hoverDate) {
