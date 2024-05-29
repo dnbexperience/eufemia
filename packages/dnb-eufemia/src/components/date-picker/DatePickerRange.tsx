@@ -16,7 +16,6 @@ import DatePickerCalendar, {
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
 import DatePickerContext from './DatePickerContext'
-import { CalendarView } from './hooks/useViews'
 import { Dates } from './hooks/useDates'
 
 export type DatePickerRangeViews = number | Record<string, unknown>[]
