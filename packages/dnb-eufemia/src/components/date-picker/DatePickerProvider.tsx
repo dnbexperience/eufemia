@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import type { DatePickerProps } from './DatePicker'
 
 import isValid from 'date-fns/isValid'
@@ -96,22 +96,9 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       endDate: dates.endDate,
     })
 
-  const hasValidStartDate = isValid(dates.startDate)
-  const hasValidEndDate = isValid(dates.endDate)
-
-  const [state, setState] = useState<DatePickerProviderState>({
-    hasHadValidDate: hasValidStartDate || hasValidEndDate,
-  })
-
   // Is this at any point something other than a function?
   if (typeof props.setReturnObject === 'function') {
     props.setReturnObject(getReturnObject)
-  }
-
-  // TOTYPE
-  function updateState(state, cb = null) {
-    setState((currentState) => ({ ...currentState, ...state }))
-    cb?.()
   }
 
   // TOTYPE
@@ -146,7 +133,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     ...rest
   }: GetReturnObjectParams = {}): ReturnObject {
     const { startDate, endDate, partialStartDate, partialEndDate } = {
-      ...state,
       ...views,
       ...dates,
       ...rest,
@@ -220,13 +206,11 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       value={{
         translation: sharedContext.translation,
         setViews,
-        updateState,
         updateDates,
         getReturnObject,
         callOnChangeHandler,
         hidePicker: props.hidePicker,
         props,
-        ...state,
         ...dates,
         previousDates,
         hasHadValidDate,
