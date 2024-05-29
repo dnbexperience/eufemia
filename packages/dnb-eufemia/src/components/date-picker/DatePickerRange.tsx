@@ -55,16 +55,12 @@ function DatePickerRange(props: DatePickerRangeProps) {
   const onNav = useCallback(
     ({ nr, type }: CalendarNavigationEvent) => {
       const updatedViews = views.map((view) => {
-        if (view.nr === nr) {
+        if (view.nr === nr || (isLink && view.nr === 1)) {
           const month = monthHandlers[type](view.month, 1)
 
           return { ...view, month }
         }
-        if (isLink && view.nr === 1) {
-          const month = monthHandlers[type](view.month, 1)
 
-          return { ...view, month }
-        }
         return view
       })
       setViews(updatedViews)
