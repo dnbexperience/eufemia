@@ -17,6 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
+  DatePickerChangeEvent,
   DatePickerContextValues,
 } from './DatePickerContext'
 import useViews, { CalendarView } from './hooks/useViews'
@@ -101,8 +102,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     props.setReturnObject(getReturnObject)
   }
 
-  // TOTYPE
-  function callOnChangeHandler(args) {
+  function callOnChangeHandler(event: DatePickerChangeEvent) {
     /**
      * Prevent on_change to be fired twice if date not has actually changed
      * We clear the cache inside getDerivedStateFromProps
@@ -110,8 +110,8 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
      */
     if (
       lastEventCallCache &&
-      lastEventCallCache.startDate === args.startDate &&
-      lastEventCallCache.endDate === args.endDate
+      lastEventCallCache.startDate === event.startDate &&
+      lastEventCallCache.endDate === event.endDate
     ) {
       return // stop here
     }
@@ -119,12 +119,12 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     dispatchCustomElementEvent(
       { on_change: props.on_change },
       'on_change',
-      getReturnObject({ ...dates, ...args })
+      getReturnObject({ ...dates, ...event })
     )
 
     setLastEventCallCache({
-      startDate: args.startDate,
-      endDate: args.endDate,
+      startDate: event.startDate,
+      endDate: event.endDate,
     })
   }
 
@@ -199,8 +199,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     return ret
   }
 
-  const { children } = props
-
   return (
     <DatePickerContext.Provider
       value={{
@@ -217,7 +215,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         views,
       }}
     >
-      {children}
+      {props.children}
     </DatePickerContext.Provider>
   )
 }
