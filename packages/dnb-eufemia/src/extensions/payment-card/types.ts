@@ -35,8 +35,24 @@ export type PaymentCardProps = {
   class?: string
   className?: string
   children?: React.ReactNode
+
+  /**
+   * Translations
+   */
 } & Omit<React.HTMLProps<HTMLElement>, 'ref'> &
-  SpacingProps
+  SpacingProps &
+  PaymentCardTranslations
+
+type PaymentCardTranslations = {
+  text_card_number?: string
+  text_expired?: string
+  text_blocked?: string
+  text_not_active?: string
+  text_order_in_process?: string
+  text_renewed?: string
+  text_replaced?: string
+  text_unknown?: string
+}
 
 export type PaymentCardRawData = {
   productCode: string
