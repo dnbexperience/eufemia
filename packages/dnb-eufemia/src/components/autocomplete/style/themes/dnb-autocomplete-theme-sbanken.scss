@@ -42,12 +42,21 @@
 }
 
 .dnb-autocomplete__root .dnb-drawer-list__option {
+  &--focus,
   &__item:nth-of-type(1) {
     font-weight: var(--font-weight-basis);
   }
 
   &__item:nth-of-type(n + 2) {
-    color: var(--sb-color-gray-dark-2-neutral);
+    color: var(--sb-color-gray-dark-2);
+  }
+
+  &--selected:not(.dnb-drawer-list__option--focus)
+    .dnb-drawer-list__option__item:nth-of-type(n + 2) {
+    &,
+    & .dnb-anchor {
+      color: var(--sb-color-white);
+    }
   }
 
   &__item--highlight {
