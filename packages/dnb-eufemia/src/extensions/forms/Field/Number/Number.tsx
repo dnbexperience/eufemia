@@ -256,7 +256,8 @@ function NumberComponent(props: Props) {
     error,
     disabled,
     width:
-      width === 'stretch' || fieldBlockContext?.composition
+      (width === 'stretch' || fieldBlockContext?.composition) &&
+      !showStepControls
         ? width
         : undefined,
     contentWidth: width !== false ? width : undefined,

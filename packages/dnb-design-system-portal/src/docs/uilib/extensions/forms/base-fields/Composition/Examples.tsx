@@ -36,3 +36,14 @@ export const CompositionMultipleStatuses = () => {
     </ComponentBox>
   )
 }
+
+export const Alignment = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-composition-alignment">
+      <Field.Composition label="Label text" align="center">
+        <Field.Number width="small" defaultValue={0} showStepControls />
+        <Field.Boolean />
+      </Field.Composition>
+    </ComponentBox>
+  )
+}

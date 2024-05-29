@@ -21,6 +21,7 @@ import FieldBlockContext, {
   StateBasis,
 } from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
+import IterateElementContext from '../Iterate/IterateElementContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
@@ -66,6 +67,9 @@ export type Props = Pick<
   width?: FieldBlockWidth
   /** Width of contents block, while label etc can be wider if space is available */
   contentWidth?: FieldBlockWidth
+  /** For composition only: Align the contents vertically */
+  align?: 'center' | 'bottom'
+  /** Class name for the contents block */
   contentClassName?: string
   /** To show the SubmitIndicator during async validation */
   fieldState?: SubmitState
@@ -84,7 +88,7 @@ function FieldBlock(props: Props) {
     forId,
     layout = 'vertical',
     composition,
-    label,
+    label: labelProp,
     labelDescription,
     asFieldset,
     info,
@@ -94,11 +98,15 @@ function FieldBlock(props: Props) {
     disabled,
     width,
     contentWidth,
+    align,
     labelSize,
     contentClassName,
     children,
     ...rest
   } = Object.assign({}, sharedData.data, props)
+
+  const iterateElementContext = useContext(IterateElementContext)
+  const { index: iterateIndex } = iterateElementContext ?? {}
 
   const blockId = useId(props.id)
   const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
@@ -109,6 +117,16 @@ function FieldBlock(props: Props) {
   const hasInitiallyErrorProp = useMemo(() => {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const label = useMemo(() => {
+    if (iterateIndex !== undefined) {
+      return convertJsxToString(labelProp).replace(
+        '{itemNr}',
+        String(iterateIndex + 1)
+      )
+    }
+    return labelProp
+  }, [iterateIndex, labelProp])
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
@@ -412,9 +430,10 @@ function FieldBlock(props: Props) {
           <div
             className={classnames(
               'dnb-forms-field-block__contents',
-              contentWidth !== undefined &&
+              contentWidth &&
                 `dnb-forms-field-block__contents--width-${contentWidth}`,
-              composition !== undefined &&
+              align && `dnb-forms-field-block__contents--align-${align}`,
+              composition &&
                 `dnb-forms-field-block__contents__composition--${
                   composition === true ? 'horizontal' : composition
                 }`,
