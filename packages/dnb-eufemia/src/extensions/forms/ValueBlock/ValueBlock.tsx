@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useEffect, useRef } from 'react'
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react'
 import classnames from 'classnames'
 import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
@@ -8,6 +14,8 @@ import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
 import { ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
+import IterateElementContext from '../Iterate/IterateElementContext'
+import { convertJsxToString } from '../../../shared/component-helper'
 
 /**
  * Props are documented in ValueDocs.ts
@@ -30,6 +38,8 @@ function ValueBlock(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const dataContext = useContext(DataContext)
+  const iterateElementContext = useContext(IterateElementContext)
+  const { index: iterateIndex } = iterateElementContext ?? {}
 
   const {
     className,
@@ -43,7 +53,18 @@ function ValueBlock(props: Props) {
     gap = 'xx-small',
   } = props
 
-  const label = inline ? null : labelProp
+  const label = useMemo(() => {
+    if (inline) {
+      return null
+    }
+    if (iterateIndex !== undefined) {
+      return convertJsxToString(labelProp).replace(
+        '{itemNr}',
+        String(iterateIndex + 1)
+      )
+    }
+    return labelProp
+  }, [inline, iterateIndex, labelProp])
 
   const ref = useRef<HTMLElement>(null)
   useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)

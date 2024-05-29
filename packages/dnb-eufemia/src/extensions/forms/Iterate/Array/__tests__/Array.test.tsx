@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
-import { Field, Form, Value } from '../../..'
+import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
 import { FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
@@ -139,6 +139,27 @@ describe('Iterate.Array', () => {
         expect(fieldLabel2).toHaveTextContent('Field label 2')
         expect(valueLabel1).toHaveTextContent('Value label 1')
         expect(valueLabel2).toHaveTextContent('Value label 2')
+      })
+
+      it('should replace {itemNr} in labels for FieldBlock and ValueBlock', () => {
+        render(
+          <Iterate.Array value={['foo', 'bar']}>
+            <FieldBlock label="FieldBlock label {itemNr}">
+              content
+            </FieldBlock>
+            <ValueBlock label="ValueBlock label {itemNr}">
+              content
+            </ValueBlock>
+          </Iterate.Array>
+        )
+
+        const [FieldBlock1, ValueBlock1, FieldBlock2, ValueBlock2] =
+          Array.from(document.querySelectorAll('.dnb-form-label'))
+
+        expect(FieldBlock1).toHaveTextContent('FieldBlock label 1')
+        expect(ValueBlock1).toHaveTextContent('ValueBlock label 1')
+        expect(FieldBlock2).toHaveTextContent('FieldBlock label 2')
+        expect(ValueBlock2).toHaveTextContent('ValueBlock label 2')
       })
     })
   })

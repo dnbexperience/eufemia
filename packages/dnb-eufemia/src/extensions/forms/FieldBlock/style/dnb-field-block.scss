@@ -123,7 +123,11 @@ fieldset.dnb-forms-field-block {
         column-gap: var(--spacing-small);
 
         @include allAbove(x-small) {
-          align-items: flex-end;
+          align-items: flex-end; // To support fields with labels of different size
+
+          &[class*='align-center'] {
+            align-items: center; // To support fields without labels, but different heights
+          }
         }
         @include allBelow(x-small) {
           row-gap: var(--spacing-x-small);
