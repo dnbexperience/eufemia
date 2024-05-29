@@ -34,6 +34,7 @@ export type DatePickerRangeProps = React.HTMLProps<HTMLElement> &
   }
 
 const monthHandlers: {
+  // eslint-disable-next-line no-unused-vars
   [key in CalendarButtonProps['type']]: typeof subMonths
 } = {
   prev: subMonths,
