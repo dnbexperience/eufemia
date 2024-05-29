@@ -11,10 +11,7 @@ import format from 'date-fns/format'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 
 import SharedContext from '../../shared/Context'
-import {
-  isTrue,
-  dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerChangeEvent,
@@ -145,7 +142,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
     let ret = null
 
-    if (isTrue(props.range)) {
+    if (props.range) {
       ret = {
         event,
         attributes,
@@ -173,7 +170,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     }
 
     if (props.min_date || props.max_date) {
-      if (isTrue(props.range)) {
+      if (props.range) {
         if (
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
