@@ -7,13 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 import styled from '@emotion/styled'
-import {
-  HelpButton,
-  Space,
-  Input,
-  Flex,
-  FormLabel,
-} from '@dnb/eufemia/src'
+import { HelpButton, Span, Input, Flex, FormLabel } from '@dnb/eufemia/src'
 import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 
@@ -139,11 +133,7 @@ export const InputExampleSuffix = () => (
   <Wrapper>
     <ComponentBox>
       <Input
-        label={
-          <Space element="span" className="dnb-h--large">
-            Fødselsnummer
-          </Space>
-        }
+        label={<Span className="dnb-p--lead">Fødselsnummer</Span>}
         label_direction="vertical"
         autocomplete="on"
         placeholder="Placeholder text"
