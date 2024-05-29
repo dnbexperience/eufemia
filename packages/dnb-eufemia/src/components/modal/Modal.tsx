@@ -80,6 +80,8 @@ class Modal extends React.PureComponent<
     hide: false,
     modalActive: false,
     preventAutoFocus: true,
+    animation_duration: ANIMATION_DURATION,
+    no_animation: false,
   }
 
   static defaultProps = {
@@ -132,19 +134,28 @@ class Modal extends React.PureComponent<
   }
 
   static getDerivedStateFromProps(props, state) {
+    state.animation_duration =
+      typeof window !== 'undefined' && window['IS_TEST']
+        ? 0
+        : props.animation_duration
+    state.no_animation =
+      typeof window !== 'undefined' && window['IS_TEST']
+        ? 0
+        : props.no_animation
+
     if (props.open_state !== state._open_state) {
       switch (props.open_state) {
         case 'opened':
         case true:
           state.hide = false
-          if (isTrue(props.no_animation)) {
+          if (isTrue(state.no_animation)) {
             state.modalActive = true
           }
           break
         case 'closed':
         case false:
           state.hide = true
-          if (isTrue(props.no_animation)) {
+          if (isTrue(state.no_animation)) {
             state.modalActive = false
           }
           break
@@ -211,7 +222,7 @@ class Modal extends React.PureComponent<
       const {
         animation_duration = ANIMATION_DURATION,
         no_animation = false,
-      } = this.props
+      } = this.state
       const timeoutDuration =
         typeof animation_duration === 'string'
           ? parseFloat(animation_duration)
@@ -249,7 +260,8 @@ class Modal extends React.PureComponent<
     }
 
     const waitBeforeOpen = () => {
-      const { open_delay, no_animation } = this.props
+      const { open_delay } = this.props
+      const { no_animation } = this.state
       const delay =
         typeof open_delay === 'string'
           ? parseFloat(open_delay)
@@ -276,8 +288,9 @@ class Modal extends React.PureComponent<
   }
 
   handleSideEffects = () => {
-    const { modalActive, preventAutoFocus } = this.state
-    const { close_modal, open_state, animation_duration } = this.props
+    const { modalActive, preventAutoFocus, animation_duration } =
+      this.state
+    const { close_modal, open_state } = this.props
 
     if (modalActive) {
       if (typeof close_modal === 'function') {

@@ -16,7 +16,6 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       width: 700,
       height: 600,
     },
-    each: true,
   })
 
   it('have to match default dialog trigger', async () => {
@@ -47,6 +46,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-help-button"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'button.dnb-modal__close-button',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content', // leave one with the background
       rootClassName: 'hide-page-content',
     })
@@ -59,6 +64,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-fullscreen"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'button.dnb-modal__close-button',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -71,6 +82,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-custom-trigger"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'button.dnb-modal__close-button',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -83,6 +100,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="full-dialog"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'button.dnb-modal__close-button',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -95,6 +118,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-default"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'button.dnb-modal__close-button',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -107,6 +136,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-default"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'div#dnb-modal-root button.dnb-button--primary',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -119,6 +154,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-delete"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'div#dnb-modal-root button.dnb-button--primary',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -131,6 +172,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-loggedout"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'div#dnb-modal-root button.dnb-button--primary',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -143,6 +190,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-cookie"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: 'div#dnb-modal-root button.dnb-button--primary',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -155,6 +208,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-progress-indicator"] button:first-of-type',
+      simulateAfter: [
+        {
+          action: 'click',
+          selector: '.dnb-modal__content',
+        },
+      ],
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       rootClassName: 'hide-page-content',
     })
@@ -180,6 +239,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
         simulateSelector:
           '[data-visual-test="dialog-scroll-content"] button:first-of-type',
         waitAfterSimulateSelector: '.dnb-scroll-view',
+        simulateAfter: [
+          {
+            action: 'click',
+            selector: 'div#dnb-modal-root button.dnb-button--primary',
+          },
+        ],
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
@@ -193,6 +258,12 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
         simulateSelector:
           '[data-visual-test="dialog-scroll-content"] button:first-of-type',
         waitAfterSimulateSelector: '.dnb-scroll-view',
+        simulateAfter: [
+          {
+            action: 'click',
+            selector: 'div#dnb-modal-root button.dnb-button--primary',
+          },
+        ],
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: ['hide-page-content', 'scroll-to-bottom'],
       })

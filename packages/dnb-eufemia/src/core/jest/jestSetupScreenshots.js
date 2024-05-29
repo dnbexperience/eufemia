@@ -60,6 +60,7 @@ const makeScreenshot = async ({
   executeBeforeSimulate = null,
   executeBeforeScreenshot = null,
   simulate = null,
+  simulateAfter = null,
   waitBeforeFinish = null,
   waitBeforeSimulate = null,
   waitAfterSimulate = null,
@@ -106,7 +107,7 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeSimulate)
   }
 
-  const { delaySimulation } = await handleSimulation({
+  let { delaySimulation, lastAction } = await handleSimulation({
     page,
     element,
     simulate,
@@ -134,7 +135,7 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeScreenshot)
   }
 
-  if (simulate && simulate === 'click') {
+  if (lastAction === 'click' || lastAction === 'forceclick') {
     await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
   }
 
@@ -143,6 +144,15 @@ const makeScreenshot = async ({
     screenshotElement,
     screenshotSelector,
   })
+
+  if (simulateAfter) {
+    const { lastAction: lastActionAfter } = await handleSimulation({
+      page,
+      element,
+      simulate: simulateAfter,
+    })
+    lastAction = lastActionAfter
+  }
 
   // Only for dev
   if (!isCI && !isHeadless) {
@@ -161,7 +171,7 @@ const makeScreenshot = async ({
 
   await page.mouse.move(0, 0)
 
-  if (simulate && simulate === 'active') {
+  if (lastAction === 'active') {
     await page.mouse.up() // reset mouse.down() after move (to avoid a click) for subsequent tests
   }
 
@@ -446,7 +456,7 @@ async function handleSimulation({
   const elementToSimulate = element
   const elementsToDispose = []
   let delaySimulation = 0
-
+  let lastAction = undefined
   if (simulate) {
     const simulations = Array.isArray(simulate) ? simulate : [simulate]
     for await (const simulate of simulations) {
@@ -460,7 +470,7 @@ async function handleSimulation({
         }
         await page.mouse.move(0, 0) // reset between simulations
       }
-
+      lastAction = action
       switch (action) {
         case 'hover': {
           await element.hover({ force: true })
@@ -515,7 +525,11 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementsToDispose, delaySimulation }
+  return {
+    elementsToDispose,
+    delaySimulation,
+    lastAction,
+  }
 }
 
 async function wrapperCleanup({ page, selector, addWrapper }) {
