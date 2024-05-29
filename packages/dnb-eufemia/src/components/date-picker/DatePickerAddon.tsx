@@ -24,9 +24,10 @@ export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
   renderElement?: React.ReactNode
 }
 
-function DatePickerAddon(props) {
+function DatePickerAddon(props: DatePickerAddonProps) {
   const context = useContext(DatePickerContext)
 
+  // TOTYPE
   function setDate({ shortcut, event }) {
     const start_date = shortcut.date || shortcut.start_date
     const end_date = shortcut.end_date
@@ -37,6 +38,7 @@ function DatePickerAddon(props) {
         : start_date
         ? convertStringToDate(start_date)
         : null
+
     const endDate =
       typeof end_date === 'function'
         ? end_date(getCurrentDates())
@@ -69,9 +71,9 @@ function DatePickerAddon(props) {
     endDate,
     event = null,
   }: {
-    startDate?: string | Date
-    endDate?: string | Date
-    event?: React.ChangeEvent<HTMLElement>
+    startDate?: Date
+    endDate?: Date
+    event?: React.MouseEvent<HTMLButtonElement>
   } = {}) {
     context.updateDates({ startDate, endDate })
     context.callOnChangeHandler({ startDate, endDate, event })
@@ -92,7 +94,7 @@ function DatePickerAddon(props) {
 
   const shortcutElements = hasShortcuts && (
     <>
-      {shortcutsArray.map(({ title, ...shortcut }, i) => {
+      {shortcutsArray.map(({ title, ...shortcut }, i: number) => {
         return (
           <Button
             key={i}
