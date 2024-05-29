@@ -4,7 +4,14 @@ showTabs: true
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
+import { BooleanProperties } from '@dnb/eufemia/src/extensions/forms/Value/Boolean/BooleanDocs'
 
 ## Properties
+
+### Field-specific props
+
+<PropertiesTable props={BooleanProperties} />
+
+### General props
 
 <PropertiesTable props={ValueProperties} valueType="boolean" />
