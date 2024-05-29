@@ -24,10 +24,6 @@ export type DatePickerContextValues = ContextProps & {
   translation: ContextProps['translation']
   views: Array<CalendarView>
   hasHadValidDate: boolean
-  updateState: (
-    states: DatePickerProviderState,
-    callback?: (state: DatePickerProviderState) => void
-  ) => void
   updateDates: (dates: Dates, callback?: (dates: Dates) => void) => void
   setState?: (state: DatePickerProviderState) => void
   setViews: (views: Array<CalendarView>, callback?: () => void) => void
