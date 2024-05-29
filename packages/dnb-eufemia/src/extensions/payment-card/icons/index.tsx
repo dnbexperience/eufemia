@@ -116,7 +116,7 @@ const BankAxeptLogo = ({ bankAxept }: BankAxeptProps) => {
       return <BankAxept className={classname} fill="#BFA970" />
     case 'Credit':
       return (
-        <Credit className={'dnb-payment-card__card__credit'} fill="#fff" />
+        <Credit className="dnb-payment-card__card__credit" fill="#fff" />
       )
     case 'None':
     default:

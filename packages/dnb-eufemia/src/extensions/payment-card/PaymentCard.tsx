@@ -25,7 +25,6 @@ import {
   PaymentCardProps,
   PaymentCardRawData,
 } from './types'
-import { getTranslation } from '../../shared/Translation'
 
 const defaultCard: (productCode: string) => PaymentCardRawData = (
   productCode
@@ -64,7 +63,7 @@ const defaultProps = {
   text_unknown: null,
 }
 
-export function PaymentCard(props: PaymentCardProps) {
+export default function PaymentCard(props: PaymentCardProps) {
   const context = useContext(Context)
 
   // const translations = context.getTranslation(props)
