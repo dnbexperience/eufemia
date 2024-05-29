@@ -87,7 +87,7 @@ describe('Value.Currency', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('NOK −12 345,68')
+      ).toHaveTextContent('NOK -12 345,68')
     })
 
     it('formats currency with aria version', () => {

@@ -232,7 +232,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'NOK −12 345 678,99'
+      'NOK -12 345 678,99'
     )
   })
 
@@ -242,7 +242,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'kr −12 345 678,99'
+      'kr -12 345 678,99'
     )
 
     expect(
@@ -615,7 +615,7 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component currency>invalid</Component>)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '– kr'
+      '- kr'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
