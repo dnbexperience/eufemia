@@ -9,4 +9,8 @@
   &--inherit-color {
     color: currentcolor;
   }
+
+  svg text {
+    color: blue;
+  }
 }

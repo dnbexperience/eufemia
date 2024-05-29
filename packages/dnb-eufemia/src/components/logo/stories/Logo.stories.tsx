@@ -13,6 +13,14 @@ export default {
   title: 'Eufemia/Components/Logo',
 }
 
+export const SbankenLogo = () => {
+  return (
+    <Theme name="sbanken">
+      <Logo height="80" />
+    </Theme>
+  )
+}
+
 export const LogoSandbox = () => {
   return (
     <Wrapper>
