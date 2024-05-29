@@ -3,7 +3,6 @@ import {
   BankLogo,
   ProductLogo,
   BankAxeptLogo,
-  TypeLogo,
   StatusIcon,
   CardProviderLogo,
 } from './icons'
@@ -26,6 +25,7 @@ import {
   PaymentCardProps,
   PaymentCardRawData,
 } from './types'
+import { getTranslation } from '../../shared/Translation'
 
 const defaultCard: (productCode: string) => PaymentCardRawData = (
   productCode
@@ -65,7 +65,8 @@ const defaultProps = {
 }
 
 export function PaymentCard(props: PaymentCardProps) {
-  const context = useContext(Context).PaymentCard
+  const context = useContext(Context)
+
   // const translations = context.getTranslation(props)
 
   const {
@@ -82,40 +83,33 @@ export function PaymentCard(props: PaymentCardProps) {
     class: _className,
     children, //eslint-disable-line
 
-    // text_card_number,
-    // text_expired,
-    // text_blocked,
-    // text_not_active,
-    // text_order_in_process,
-    // text_renewed,
-    // text_replaced,
-    // text_unknown,
+    text_card_number,
+    text_expired,
+    text_blocked,
+    text_not_active,
+    text_order_in_process,
+    text_renewed,
+    text_replaced,
+    text_unknown,
 
     ...attributes
-  } = extendPropsWithContext(
-    props,
-    defaultProps,
-    // { translations },
-    {
-      skeleton: context?.skeleton,
-    }
-  )
+  } = extendPropsWithContext(props, defaultProps, context?.PaymentCard, {
+    skeleton: context?.skeleton,
+  })
 
   const cardData: PaymentCardRawData =
     raw_data || getCardData(product_code)
 
-  console.log('cardData', cardData)
-
-  // const translations = {
-  //   text_card_number,
-  //   text_expired,
-  //   text_blocked,
-  //   text_not_active,
-  //   text_order_in_process,
-  //   text_renewed,
-  //   text_replaced,
-  //   text_unknown,
-  // }
+  const translations = {
+    text_card_number,
+    text_expired,
+    text_blocked,
+    text_not_active,
+    text_order_in_process,
+    text_renewed,
+    text_replaced,
+    text_unknown,
+  }
 
   const params = {
     className: classnames(
@@ -135,13 +129,13 @@ export function PaymentCard(props: PaymentCardProps) {
   validateDOMAttributes(props, params)
 
   const cardStatusMap = {
-    not_active: 'not_active', // 'translations.text_not_active',
-    order_in_process: 'order_in_process', // 'translations.text_order_in_process',
-    renewed: 'renewed', // 'translations.text_renewed',
-    replaced: 'replaced', // 'translations.text_replaced',
-    blocked: 'blocked', // 'translations.text_blocked',
-    expired: 'expired', // 'translations.text_expired',
-    unknown: 'unknown', // 'translations.text_unknown',
+    not_active: translations.text_not_active,
+    order_in_process: translations.text_order_in_process,
+    renewed: translations.text_renewed,
+    replaced: translations.text_replaced,
+    blocked: translations.text_blocked,
+    expired: translations.text_expired,
+    unknown: translations.text_unknown,
   }
 
   return (
@@ -167,21 +161,14 @@ export function PaymentCard(props: PaymentCardProps) {
           <div className="dnb-payment-card__card__top">
             <BankLogo
               logoType={cardData.cardDesign.bankLogo}
-              height={undefined}
+              color={cardData.cardDesign.bankLogoColors}
             />
             <ProductLogo
               productType={cardData.productType}
               cardDesign={cardData.cardDesign.cardDesign}
             />
 
-            {/* 
-             productType: ProductType
-              cardDesign: CardDesign
-             */}
-            <BankAxeptLogo
-              bankAxept={cardData.bankAxept}
-              // cardDesign={cardData.cardDesign}
-            />
+            <BankAxeptLogo bankAxept={cardData.bankAxept} />
           </div>
           <div className="dnb-payment-card__card__bottom">
             <span

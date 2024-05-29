@@ -49,11 +49,11 @@ export type PaymentCardRawData = {
 }
 
 export type CardDesignData = {
-  name: string
-  cardStyle: string
-  bankLogo: LogoType
-  cardType: CardTypeDesign
-  bankAxept: BankAxeptType
+  name?: string
+  cardStyle?: string
+  bankLogo?: LogoType
+  cardType?: CardTypeDesign
+  bankAxept?: BankAxeptType
   cardStatus?: CardStatus
   productType?: ProductType
   cardDesign?: CardDesign

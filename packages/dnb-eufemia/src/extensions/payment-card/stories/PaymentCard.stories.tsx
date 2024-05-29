@@ -14,6 +14,7 @@ import '../style/themes/ui'
 import { PaymentCard, getCardData } from './../PaymentCard' // BankAxeptType, // ProductType, // getCardData,
 import H3 from '../../../elements/H3'
 import cardData from '../utils/cardProducts'
+import { PaymentCardRawData } from '../types'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -23,15 +24,16 @@ const CustomWrapper = styled(Wrapper)`
   /* empty */
 `
 
-// const customData = {
-//   productCode: 'UNDEFINED',
-//   productName: 'DNB Custom Card',
-//   displayName: 'Custom card', // Only showed in compact variant
-//   cardDesign: 'gold',
-//   cardType: 'Visa',
-//   productType: 'Business',
-//   bankAxept: 'BankAxept',
-// }
+const customData: PaymentCardRawData = {
+  productCode: 'UNDEFINED',
+  productName: 'DNB Custom Card',
+  displayName: 'Custom card', // Only showed in compact variant
+  // cardDesign: 'gold',
+  cardDesign: { cardDesign: 'SagaGold' },
+  cardType: 'VisaColored',
+  productType: 'Business',
+  bankAxept: 'BankAxeptBlack',
+}
 
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
@@ -48,9 +50,9 @@ export const PaymentCards = () => (
       />
     </Box>
 
-    {/* <Box>
+    <Box>
       <PaymentCard
-        locale="en-GB"
+        // locale="en-GB"
         product_code="DNB"
         card_number="************1337"
         card_status="expired"
@@ -71,7 +73,7 @@ export const PaymentCards = () => (
         variant="compact"
         card_number="************1337"
       />
-    </Box> */}
+    </Box>
 
     <Box>
       {cards.map((product_code) => {

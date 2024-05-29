@@ -1,14 +1,5 @@
 import properties from '../../../style/themes/theme-ui/properties'
-import {
-  LogoType,
-  ProductType,
-  CardDesign,
-  BankAxeptType,
-  CardStatus,
-  CardTypeDesign,
-  CardDesignData,
-} from '../types'
-// import { PaymentCardRawData, RawCardData } from '../PaymentCard'
+import { CardDesignData } from '../types'
 import { myFirstImg, youthImg, ungImg } from './backgrounds'
 
 const defaultDesign: CardDesignData = {
@@ -31,173 +22,162 @@ const pluss: CardDesignData = {
   bankAxept: 'BankAxeptWhite',
 }
 
-// const young: RawCardData = {
-//   name: 'Ung',
-//   cardStyle: 'card--design-ung',
-//   bankLogo: DNB.Colored,
-//   bankLogoColors: properties['--color-sea-green']
-//   visa: Visa.Colored(properties['--color-black-80']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.Black,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-//   backgroundImage: ungImg,
-// }
+const young: CardDesignData = {
+  name: 'Ung',
+  cardStyle: 'card--design-ung',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-sea-green'],
+  visaColors: properties['--color-black-80'],
+  cardType: 'MastercardDefault',
+  bankAxept: 'BankAxeptBlack',
+  productType: 'Saga',
+  backgroundImage: ungImg,
+}
 
-// const myFirst: RawCardData = {
-//   name: 'My first',
-//   cardStyle: 'card--design-my-first',
-//   bankLogo: DNB.Colored(properties['--color-ocean-green']),
-//   visa: Visa.Colored(properties['--color-black-80']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.Black,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-//   backgroundImage: myFirstImg,
-// }
+const myFirst: CardDesignData = {
+  name: 'My first',
+  cardStyle: 'card--design-my-first',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-ocean-green'],
+  cardType: 'VisaColored',
+  visaColors: properties['--color-black-80'],
+  bankAxept: 'BankAxeptBlack',
+  backgroundImage: myFirstImg,
+}
 
-// const youth: RawCardData = {
-//   name: 'Youth',
-//   cardStyle: 'card--design-youth',
-//   bankLogo: DNB.Colored(properties['--color-sea-green']),
-//   visa: Visa.Colored(properties['--color-black-80']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.Black,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-//   backgroundImage: youthImg,
-// }
+const youth: CardDesignData = {
+  name: 'Youth',
+  cardStyle: 'card--design-youth',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-sea-green'],
+  cardType: 'VisaColored',
+  visaColors: properties['--color-black-80'],
+  bankAxept: 'BankAxeptBlack',
+  backgroundImage: youthImg,
+}
 
-// const gold: RawCardData = {
-//   name: 'Gold',
-//   cardStyle: 'card--design-gold',
-//   bankLogo: DNB.Colored(properties['--color-white']),
-//   visa: Visa.Colored(properties['--color-white']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.White,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-// }
+const gold: CardDesignData = {
+  name: 'Gold',
+  cardStyle: 'card--design-gold',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-white'],
+  cardType: 'VisaColored',
+  visaColors: properties['--color-white'],
+  bankAxept: 'BankAxeptWhite',
+}
 
-// const saga: RawCardData = {
-//   name: 'Saga',
-//   cardStyle: 'card--design-saga',
-//   bankLogo: DNB.Colored('#BFA970'),
-//   visa: Visa.Colored('#BFA970'),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.Gold,
-//   saga: Saga.Gold,
-//   privateBanking: PB.None,
-// }
+const saga: CardDesignData = {
+  name: 'Saga',
+  cardStyle: 'card--design-saga',
+  bankLogo: 'DNB',
+  bankLogoColors: '#BFA970',
+  visaColors: '#BFA970',
+  cardType: 'MastercardDefault',
+  bankAxept: 'BankAxeptGold',
+  cardDesign: 'SagaGold',
+}
 
-// const sagaPlatinum: RawCardData = {
-//   name: 'Saga platinum',
-//   cardStyle: 'card--design-saga',
-//   bankLogo: DNB.Colored('#b2b4b3'),
-//   visa: Visa.Colored('#cccccc'),
-//   mastercard: Mastercard.Dark,
-//   bankAxept: BankAxept.Black20,
-//   saga: Saga.Platinum,
-//   privateBanking: PB.None,
-// }
+const sagaPlatinum: CardDesignData = {
+  name: 'Saga platinum',
+  cardStyle: 'card--design-saga',
+  bankLogo: 'DNB',
+  bankLogoColors: '#b2b4b3',
+  cardType: 'MastercardDark',
+  visaColors: '#cccccc',
+  bankAxept: 'BankAxeptBlack20',
+  cardDesign: 'SagaPlatinum',
+}
 
-// const privateBanking: RawCardData = {
-//   name: 'Private Banking',
-//   cardStyle: 'card--design-private',
-//   bankLogo: DNB.Colored('#b2b4b3'),
-//   visa: Visa.Platinum,
-//   mastercard: Mastercard.Dark,
-//   bankAxept: BankAxept.Gray,
-//   saga: Saga.None,
-//   privateBanking: PB.Default,
-// }
+const privateBanking: CardDesignData = {
+  name: 'Private Banking',
+  cardStyle: 'card--design-private',
+  bankLogo: 'DNB',
+  bankLogoColors: '#b2b4b3',
+  cardType: 'VisaPlatinum',
+  bankAxept: 'BankAxeptGray',
+}
 
-// const mcBlack: RawCardData = {
-//   name: 'Mastercard Black',
-//   cardStyle: 'card--design-black',
-//   bankLogo: DNB.Colored(properties['--color-black-80']),
-//   visa: Visa.Colored('#b2b4b3'),
-//   mastercard: Mastercard.Dark,
-//   bankAxept: BankAxept.White,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-// }
+const mcBlack: CardDesignData = {
+  name: 'Mastercard Black',
+  cardStyle: 'card--design-black',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-black-80'],
+  cardType: 'MastercardDark',
+  visaColors: '#b2b4b3',
+  bankAxept: 'BankAxeptWhite',
+}
 
-// const businessNoVisa: RawCardData = {
-//   name: 'Bedriftskort BankAxept',
-//   cardStyle: 'card--design-business-no-visa',
-//   bankLogo: DNB.Colored(properties['--color-mint-green']),
-//   visa: Visa.Colored(properties['--color-white']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.White,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-// }
+const businessNoVisa: CardDesignData = {
+  name: 'Bedriftskort BankAxept',
+  cardStyle: 'card--design-business-no-visa',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-mint-green'],
+  cardType: 'VisaColored',
+  visaColors: properties['--color-white'],
+  bankAxept: 'BankAxeptWhite',
+}
 
-// const businessWithVisa: RawCardData = {
-//   name: 'Bedriftskort Visa',
-//   cardStyle: 'card--design-business-with-visa',
-//   bankLogo: DNB.Colored(properties['--color-mint-green']),
-//   visa: Visa.Colored(properties['--color-white']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.White,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-// }
+const businessWithVisa: CardDesignData = {
+  name: 'Bedriftskort Visa',
+  cardStyle: 'card--design-business-with-visa',
+  bankLogo: 'DNB',
+  bankLogoColors: properties['--color-mint-green'],
+  cardType: 'VisaColored',
+  visaColors: properties['--color-white'],
+  bankAxept: 'BankAxeptWhite',
+}
 
-// const sbankenVisa: RawCardData = {
-//   name: 'Sbanken',
-//   cardStyle: 'card--design-sbanken-visa',
-//   bankLogo: DNB.Sbanken(properties['--sb-color-text']),
-//   visa: Visa.Colored('#0F357F'),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.GrayDark,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-// }
+const sbankenVisa: CardDesignData = {
+  name: 'Sbanken',
+  cardStyle: 'card--design-sbanken-visa',
+  bankLogo: 'sbanken',
+  bankLogoColors: properties['--sb-color-text'],
+  cardType: 'VisaColored',
+  visaColors: '#0F357F',
+  bankAxept: 'BankAxeptGrayDark',
+}
 
-// const sbankenMastercard: RawCardData = {
-//   name: 'Sbanken Mastercard',
-//   cardStyle: 'card--design-sbanken-mastercard',
-//   bankLogo: DNB.Sbanken(properties['--color-white']),
-//   visa: Visa.Colored(properties['--color-white']),
-//   mastercard: Mastercard.Default,
-//   bankAxept: BankAxept.Gray,
-//   saga: Saga.None,
-//   privateBanking: PB.None,
-// }
+const sbankenMastercard: CardDesignData = {
+  name: 'Sbanken Mastercard',
+  cardStyle: 'card--design-sbanken-mastercard',
+  bankLogo: 'sbanken',
+  bankLogoColors: 'var(--color-white)',
+  cardType: 'MastercardDefault',
+  visaColors: properties['--color-white'],
+  bankAxept: 'BankAxeptGray',
+}
 
 const Designs = {
   defaultDesign,
-  // young,
-  // myFirst,
-  // youth,
+  young,
+  myFirst,
+  youth,
   pluss,
-  // gold,
-  // saga,
-  // sagaPlatinum,
-  // privateBanking,
-  // mcBlack,
-  // businessNoVisa,
-  // businessWithVisa,
-  // sbankenVisa,
-  // sbankenMastercard,
+  gold,
+  saga,
+  sagaPlatinum,
+  privateBanking,
+  mcBlack,
+  businessNoVisa,
+  businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard,
 }
 export default Designs
 
 export {
   defaultDesign,
   pluss,
-  // young,
-  // myFirst,
-  // youth,
-  // gold,
-  // saga,
-  // sagaPlatinum,
-  // privateBanking,
-  // mcBlack,
-  // businessNoVisa,
-  // businessWithVisa,
-  // sbankenVisa,
-  // sbankenMastercard,
+  young,
+  myFirst,
+  youth,
+  gold,
+  saga,
+  sagaPlatinum,
+  privateBanking,
+  mcBlack,
+  businessNoVisa,
+  businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard,
 }
