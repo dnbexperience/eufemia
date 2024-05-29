@@ -86,7 +86,8 @@ function Selection(props: Props) {
   } = useFieldProps(props)
 
   const handleDropdownChange = useCallback(
-    ({ data: { selectedKey } }) => {
+    ({ data }) => {
+      const selectedKey = data?.selectedKey
       handleChange?.(
         !selectedKey || selectedKey === clearValue
           ? emptyValue
