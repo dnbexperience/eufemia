@@ -2,7 +2,7 @@
  * Web Logo Component
  */
 
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
@@ -14,7 +14,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../space/types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
-import LogoSvg, { LogoType } from './LogoSvg'
+import LogoSvg from './LogoSvg'
 
 export type LogoWidth = number | string
 export type LogoHeight = number | string
@@ -49,8 +49,6 @@ export type LogoProps = {
    * Set to `true` if you want the logo to inherit the parent size
    */
   inheritSize?: boolean
-  class?: string
-  className?: string
 } & SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'> &
   DeprecatedLogoProps
@@ -75,7 +73,7 @@ const defaultProps: LogoProps = {
 function Logo(localProps: LogoProps) {
   const context = useContext(Context)
 
-  // Two diffrent translations for sbanken and dnb as different props: {alt, sbankenAlt}
+  // Two different translations for sbanken and dnb as different props: {alt, sbankenAlt}
   const translations = context.getTranslation(localProps).Logo
 
   const props = extendPropsWithContext(
@@ -85,74 +83,78 @@ function Logo(localProps: LogoProps) {
   )
 
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    alt,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    size,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ratio,
+    alt, // eslint-disable-line
+    size, // eslint-disable-line
+    ratio, // eslint-disable-line
     width,
     inheritSize,
     height,
-    brand: _brand,
+    brand: brandProp,
     variant,
     color,
     inheritColor,
-    className,
-    class: _className,
+    className: classNameProp,
     ...rest
-  } = convertDimentionalPropsToString(props)
+  } = convertDimensionalPropsToString(props)
 
-  let brand = _brand
+  // Attempt to get theme from context
+  const brand = context.theme ? context.theme.name : brandProp
 
-  if (brand == null && context.theme) {
-    // Attempt to get theme from context
-    brand = context.theme.name
-  }
-
-  let logoType: LogoType = 'dnb'
-
-  if (brand === 'sbanken') {
-    if (variant === 'compact') {
-      logoType = 'sbankenCompact'
-    } else if (variant === 'compactHorizontal') {
-      logoType = 'sbankenHorizontal'
-    } else {
-      logoType = 'sbankenDefault'
+  const logoType = useMemo(() => {
+    if (brand === 'sbanken') {
+      if (variant === 'compact') {
+        return 'sbankenCompact'
+      } else if (variant === 'compactHorizontal') {
+        return 'sbankenHorizontal'
+      } else {
+        return 'sbankenDefault'
+      }
     }
-  }
+
+    return 'dnb'
+  }, [brand, variant])
 
   const altText =
     logoType === 'dnb' ? translations.alt : translations.sbankenAlt
 
+  const sharedClasses = classnames(
+    classNameProp,
+    createSpacingClasses(props)
+  )
+  const className = useMemo(() => {
+    if (logoType === 'dnb') {
+      return classnames(
+        'dnb-logo',
+        sharedClasses,
+        (parseFloat(width) > 0 || parseFloat(height) > 0) &&
+          'dnb-logo--has-size',
+        (inheritSize || size === 'inherit') && 'dnb-logo--inherit-size',
+        inheritColor && 'dnb-logo--inherit-color'
+      )
+    }
+
+    return classnames(
+      'sbanken-logo',
+      sharedClasses,
+      (parseFloat(width) > 0 || parseFloat(height) > 0) &&
+        'sbanken-logo--has-size',
+      (inheritSize || size === 'inherit') && 'sbanken-logo--inherit-size',
+      inheritColor && 'sbanken-logo--inherit-color'
+    )
+  }, [
+    logoType,
+    sharedClasses,
+    width,
+    height,
+    inheritSize,
+    size,
+    inheritColor,
+  ])
+
   const rootParams = {
     role: 'img',
-    ['aria-hidden']: true,
-    className:
-      logoType === 'dnb'
-        ? classnames(
-            'dnb-logo',
-            className,
-            _className,
-            createSpacingClasses(props),
-            (parseFloat(width) > 0 || parseFloat(height) > 0) &&
-              'dnb-logo--has-size',
-            (inheritSize || size === 'inherit') &&
-              'dnb-logo--inherit-size',
-            inheritColor && 'dnb-logo--inherit-color'
-          )
-        : classnames(
-            'sbanken-logo',
-            className,
-            _className,
-            createSpacingClasses(props),
-            (parseFloat(width) > 0 || parseFloat(height) > 0) &&
-              'sbanken-logo--has-size',
-            (inheritSize || size === 'inherit') &&
-              'sbanken-logo--inherit-size',
-            inheritColor && 'sbanken-logo--inherit-color'
-          ),
-
+    'aria-hidden': true,
+    className,
     alt: altText,
     ...rest,
   }
@@ -173,7 +175,10 @@ function Logo(localProps: LogoProps) {
   )
 }
 
-function convertDimentionalPropsToString(allProps: LogoProps) {
+/**
+ * @deprecated Can be removed in v11
+ */
+function convertDimensionalPropsToString(allProps: LogoProps) {
   return {
     ...allProps,
     size: handleTypeToString(allProps.size),
