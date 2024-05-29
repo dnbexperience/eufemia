@@ -61,15 +61,16 @@ type CalendarLocales = {
   // eslint-disable-next-line no-unused-vars
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
-// Easy to acces objects containing the only, in our case, needed functions for date-fns format
+// Easy to acces objects containing the only (in our case) needed functions for date-fns format
 const locales: CalendarLocales = {
   'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
   'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
   'en-US': { localize: enLocalize, formatLong: enFormatLong },
 }
 
-type CalendarNavigationEvent = {
+export type CalendarNavigationEvent = {
   nr: number
+  type?: CalendarButtonProps['type']
 }
 
 export type CalendarSelectEvent = Dates &
@@ -695,14 +696,20 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
 export default DatePickerCalendar
 
-type CalendarButtonProps = {
+export type CalendarButtonProps = {
   type: 'prev' | 'next'
   nr: number
   date: Date
   month: Date
   locale: CalendarLocales[keyof CalendarLocales]
   showButton: boolean
-  onClick: ({ nr }: { nr: number }) => void
+  onClick: ({
+    nr,
+    type,
+  }: {
+    nr: number
+    type: CalendarButtonProps['type']
+  }) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
 }
 
@@ -738,7 +745,7 @@ function CalendarButton({
       icon={icon}
       size="small"
       aria-label={title}
-      onClick={() => onClick && !disabled && onClick({ nr })}
+      onClick={() => onClick && !disabled && onClick({ nr, type })}
       onKeyDown={onKeyDown}
     />
   )
