@@ -11,10 +11,11 @@ import styled from '@emotion/styled'
 
 import '../style'
 import '../style/themes/ui'
-import { PaymentCard, getCardData } from './../PaymentCard' // BankAxeptType, // ProductType, // getCardData,
+import PaymentCard, { getCardData } from './../PaymentCard'
 import H3 from '../../../elements/H3'
 import cardData from '../utils/cardProducts'
 import { PaymentCardRawData } from '../types'
+import { H2 } from '../../../elements'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -38,6 +39,24 @@ const customData: PaymentCardRawData = {
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
     <Box>
+      <H3>Test</H3>
+
+      <PaymentCard
+        product_code={null}
+        card_number={'123123123'}
+        raw_data={{
+          productCode: 'UNDEFINED',
+          productName: ' ',
+          displayName: ' ',
+          cardDesign: {},
+          cardType: 'None',
+          productType: 'None',
+          bankAxept: 'None',
+        }}
+      />
+    </Box>
+
+    {/* <Box>
       <PaymentCard
         product_code={'NK1'}
         card_number={'123123123123'}
@@ -73,9 +92,11 @@ export const PaymentCards = () => (
         variant="compact"
         card_number="************1337"
       />
-    </Box>
+    </Box> */}
 
     <Box>
+      <H2>All Cards</H2>
+
       {cards.map((product_code) => {
         const cardData = getCardData(product_code)
         return (
