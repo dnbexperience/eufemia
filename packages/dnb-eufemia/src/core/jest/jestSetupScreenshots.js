@@ -510,6 +510,9 @@ async function handleSimulation({
           break
         }
       }
+      if (simulate.keypress) {
+        await page.keyboard.press(simulate.keypress)
+      }
 
       elementsToDispose.push(element)
     }

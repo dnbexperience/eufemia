@@ -134,14 +134,13 @@ class Modal extends React.PureComponent<
   }
 
   static getDerivedStateFromProps(props, state) {
-    state.animation_duration =
-      typeof window !== 'undefined' && window['IS_TEST']
-        ? 0
-        : props.animation_duration
-    state.no_animation =
-      typeof window !== 'undefined' && window['IS_TEST']
-        ? 0
-        : props.no_animation
+    if (typeof window !== 'undefined' && window['IS_TEST']) {
+      state.animation_duration = 0
+      state.no_animation = true
+    } else {
+      state.animation_duration = props.animation_duration
+      state.no_animation = props.no_animation
+    }
 
     if (props.open_state !== state._open_state) {
       switch (props.open_state) {
@@ -420,12 +419,21 @@ class Modal extends React.PureComponent<
   }
 
   render() {
+    const visualTestsPropsOverride =
+      typeof window !== 'undefined' && window['IS_TEST']
+        ? {
+            animation_duration: 0,
+            no_animation: true,
+          }
+        : {}
+
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
       Modal.defaultProps,
       this.context.getTranslation(this.props).Modal,
-      this.context.Modal
+      this.context.Modal,
+      visualTestsPropsOverride
     )
 
     const {

@@ -8,18 +8,10 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-const rootClassName = 'hide-page-content'
-const executeBeforeScreenshot = () => {
-  setTimeout(() => {
-    document.querySelector('.dnb-scroll-view').scroll({ top: 0 })
-  }, 100)
-}
-
 describe('Drawer', () => {
   describe('large', () => {
     setupPageScreenshot({
       url: '/uilib/components/drawer/demos',
-      each: true,
     })
 
     it('have to match default drawer trigger with title', async () => {
@@ -53,14 +45,7 @@ describe('Drawer', () => {
     setupPageScreenshot({
       url: '/uilib/components/drawer/demos',
       pageViewport,
-      each: true,
     })
-
-    const defaults = {
-      rootClassName,
-      executeBeforeScreenshot,
-      waitAfterSimulateSelector: '.dnb-scroll-view',
-    }
 
     it('have to match simple drawer window', async () => {
       const screenshot = await makeScreenshot({
@@ -69,7 +54,7 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="simple-drawer"] button:first-of-type',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        ...defaults,
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -81,7 +66,7 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="fullscreen-drawer"] button:first-of-type',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        ...defaults,
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -93,7 +78,7 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="left-placement-drawer"] button:first-of-type',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        ...defaults,
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -105,7 +90,7 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="full-drawer"] button:first-of-type',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        ...defaults,
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -117,7 +102,7 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="callback-drawer"] button:first-of-type',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        ...defaults,
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -129,21 +114,18 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="drawer-no-animation"] button:first-of-type',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        ...defaults,
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
     it('have to match correct scroll view setup', async () => {
       const screenshot = await makeScreenshot({
-        url: '/uilib/components/drawer/visual-tests/hidden-tests',
-        pageViewport,
         selector: '[data-visual-test="drawer-scroll-view"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="drawer-scroll-view"] button:first-of-type',
         screenshotSelector: '.drawer-scroll-view',
-        rootClassName,
       })
       expect(screenshot).toMatchImageSnapshot()
     })
