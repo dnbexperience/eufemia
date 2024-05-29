@@ -1,6 +1,6 @@
 /*
-* Autocomplete theme
-*
+* Autocomplete theme for sbanken
+* TODO: this theme is just a prelimenary fix to avoid dnb colors
 */
 
 @import '../../../../style/core/utilities.scss';
@@ -8,7 +8,7 @@
 .dnb-autocomplete {
   &__show-all {
     .dnb-drawer-list__option__inner {
-      color: var(--color-sea-green);
+      color: var(--sb-color-violet);
     }
   }
 
@@ -18,14 +18,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--color-sea-green), 0.125rem);
-    }
-
-    .dnb-input__submit-button__button {
-      border-radius: 0;
-      color: var(--color-white);
-      background-color: var(--color-sea-green);
-      box-shadow: none;
+      @include fakeBorder(var(--sb-color-violet), 0.125rem);
     }
   }
 
@@ -43,31 +36,30 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
+      @include fakeBorder(var(--sb-color-red), 0.125rem);
     }
   }
 }
 
 .dnb-autocomplete__root .dnb-drawer-list__option {
+  &--focus,
   &__item:nth-of-type(1) {
     font-weight: var(--font-weight-basis);
   }
 
   &__item:nth-of-type(n + 2) {
-    color: var(--color-black-55);
+    color: var(--sb-color-gray-dark-2);
+  }
+
+  &--selected:not(.dnb-drawer-list__option--focus)
+    .dnb-drawer-list__option__item:nth-of-type(n + 2) {
+    &,
+    & .dnb-anchor {
+      color: var(--sb-color-white);
+    }
   }
 
   &__item--highlight {
     font-weight: var(--font-weight-bold);
   }
-}
-
-.dnb-autocomplete__root
-  .dnb-drawer-list__option--selected
-  .dnb-drawer-list__option__item:nth-of-type(n + 2) {
-  color: var(--color-white);
-}
-
-.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
-  color: var(--color-white);
 }
