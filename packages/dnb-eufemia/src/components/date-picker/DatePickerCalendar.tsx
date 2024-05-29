@@ -79,7 +79,10 @@ export type CalendarSelectEvent = Dates &
     nr: number
   }
 
-export type DatePickerCalendarProps = React.HTMLProps<HTMLElement> & {
+export type DatePickerCalendarProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  'onSelect'
+> & {
   id?: string
   nr?: number
   /**
@@ -153,6 +156,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     })
   }
 
+  // TOTYPE
   function onKeyDownHandler(event) {
     if (String(event?.target?.nodeName).toLowerCase() === 'td') {
       try {
@@ -287,11 +291,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       }
     }
   }
-
+  // TOTYPE
   function callOnSelect(args) {
     props.onSelect?.(args)
   }
-
+  // TOTYPE
   function keyNavCalc(date, keyCode) {
     // only to process key up and down press
     switch (keyCode) {
@@ -311,7 +315,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
     return date
   }
-
+  // TOTYPE
   function findValid(date, keyCode) {
     if (context.props.on_days_render) {
       const month = format(date, 'yyyy-MM')
@@ -739,7 +743,7 @@ function CalendarButton({
     />
   )
 }
-
+// TOTYPE
 function onSelectRange({
   day,
   isRange,
