@@ -89,6 +89,7 @@ export interface ContextState {
   handleUnMountField: (path: Path) => void
   setFormState?: (state: SubmitState) => void
   setSubmitState?: (state: EventStateObject) => void
+  addOnChangeHandler?: (callback: (data: unknown) => void) => void
   handleSubmitCall: ({
     onSubmit,
     enableAsyncBehaviour,

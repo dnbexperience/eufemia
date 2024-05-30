@@ -7,18 +7,25 @@ hideInMenu: true
 
 `Form.Section` lets you compose together sections of fields and values to be reused in different contexts.
 
-It lets you overwrite all of the given props if needed and even move the nested `Form.Section`s to a different location in the data context. This makes it super easy to reuse the same collection of fields and values in different contexts.
+### Good to know
 
-Here is a list of [reusable sections](/uilib/extensions/forms/sections/all-sections/) (alpha).
+- It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out e.g. the `overwriteProps` and `path` props for more information.
+- When defining a default value for a field or value, you can use the `defaultValue` prop instead of value. It will not take precedence over the data context like value does.
+- Use [Visibility](/uilib/extensions/forms/Form/Visibility/) to handle logic and hide parts of your form based on the data context.
+- To provide localization for all used texts defined in the `translations` prop of the section, you can create a localization easily.
+- Only imported sections with their localizations are included in the production bundle.
+- It is possible to overwrite the translations later by using the `Form.Handler` component.
+- A single section can be used without `Form.Handler`, just like any other field and value.
+- Here is a [list of blocks](/uilib/extensions/forms/blocks/) ready to use.
 
 ## Usage
 
-1. Export the section component:
+1. Create the section component and export it:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
-export const MySection = (props) => {
+export function MySection(props) {
   return (
     <Form.Section {...props}>
       {/* Fields*/}
@@ -37,7 +44,7 @@ export const MySection = (props) => {
 import { Form } from '@dnb/eufemia/extensions/forms'
 import { MySection } from './form-sections'
 
-const MyForm = () => {
+function MyForm() {
   return (
     <Form.Handler>
       <MySection />
@@ -228,7 +235,7 @@ export function MyForm() {
 }
 ```
 
-## Snapshot testing of a section/block
+## Snapshot testing of a section (block)
 
 One way to ensure a "contract" of what you expect a section to be outlined as, is to create a snapshot test:
 

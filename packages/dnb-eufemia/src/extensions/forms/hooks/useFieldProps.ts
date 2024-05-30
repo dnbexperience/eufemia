@@ -163,11 +163,7 @@ export default function useFieldProps<
   } = fieldBlockContext ?? {}
   const { handleChange: handleChangeIterateContext } =
     iterateElementContext ?? {}
-  const {
-    path: sectionPath,
-    handleChange: handleChangeSectionContext,
-    errorPrioritization,
-  } = sectionContext ?? {}
+  const { path: sectionPath, errorPrioritization } = sectionContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 
   const hasPath = Boolean(pathProp)
@@ -964,8 +960,6 @@ export default function useFieldProps<
       // Must be set before validation
       changedRef.current = true
 
-      handleChangeSectionContext?.(identifier, transformedValue)
-
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
         handleChangeIterateContext?.(makeIteratePath(), transformedValue)
@@ -1041,8 +1035,6 @@ export default function useFieldProps<
       runPool,
       handleChangeIterateContext,
       makeIteratePath,
-      handleChangeSectionContext,
-      identifier,
       hideError,
       updateValue,
       addToPool,

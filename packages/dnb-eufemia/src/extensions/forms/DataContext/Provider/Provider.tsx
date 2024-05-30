@@ -692,6 +692,14 @@ export default function Provider<Data extends JsonObject>(
         ? mutateDataHandler(data, transformOut)
         : data
 
+      for (const cb of changeHandlerStackRef.current) {
+        if (isAsync(onChange)) {
+          await cb(transformedData)
+        } else {
+          cb(transformedData)
+        }
+      }
+
       if (isAsync(onChange)) {
         return await onChange(transformedData)
       }
@@ -705,6 +713,19 @@ export default function Provider<Data extends JsonObject>(
       transformOut,
       validateData,
     ]
+  )
+
+  const changeHandlerStackRef = useRef<Array<OnChange<Data>>>([])
+  const addOnChangeHandler = useCallback(
+    (callback: (data: unknown) => void) => {
+      const exists = changeHandlerStackRef.current.some((cb) => {
+        return callback === cb
+      })
+      if (!exists) {
+        changeHandlerStackRef.current.push(callback)
+      }
+    },
+    []
   )
 
   // - Mounted fields
@@ -1013,6 +1034,7 @@ export default function Provider<Data extends JsonObject>(
         updateDataValue,
         setData,
         filterDataHandler,
+        addOnChangeHandler,
         scrollToTop,
 
         /** State handling */
