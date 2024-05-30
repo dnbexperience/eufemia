@@ -38,7 +38,9 @@ import FormStatus, {
   FormStatusState,
   FormStatusText,
 } from '../form-status/FormStatus'
-import DatePickerProvider from './DatePickerProvider'
+import DatePickerProvider, {
+  type ReturnObject,
+} from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
 import DatePickerAddon, { DatePickerAddonProps } from './DatePickerAddon'
@@ -48,7 +50,6 @@ import { InputInputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { ChangeEvent } from 'rollup'
 import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues } from './DatePickerContext'
 
@@ -59,22 +60,7 @@ export type DatePickerEventAttributes = {
   end?: string
 } & Record<string, unknown>
 
-export type DatePickerEvent<T> = T & {
-  attributes?: DatePickerEventAttributes
-  date?: string
-  start_date?: string
-  end_date?: string
-  partialStartDate?: string
-  partialEndDate?: string
-  is_valid_end_date?: boolean
-  is_valid_start_date?: boolean
-  days_between?: number
-  event?: T extends React.FocusEvent
-    ? FocusEvent
-    : T extends React.ChangeEvent
-    ? ChangeEvent
-    : MouseEvent
-}
+export type DatePickerEvent<T> = T & ReturnObject<T>
 
 export type DatePickerProps = Omit<
   React.HTMLProps<HTMLElement>,

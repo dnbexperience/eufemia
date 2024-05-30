@@ -42,9 +42,8 @@ export type DatePickerContextValues = ContextProps & {
   setViews: (views: Array<CalendarView>, callback?: () => void) => void
   callOnChangeHandler: (event: DatePickerChangeEvent) => void
   hidePicker: (event: HidePickerEvent) => void
-
   previousDates: DateProps
-  getReturnObject: (params: GetReturnObjectParams) => ReturnObject
+  getReturnObject: <E>(params: GetReturnObjectParams<E>) => ReturnObject<E>
 }
 
 const DatePickerContext = React.createContext<DatePickerContextValues>(

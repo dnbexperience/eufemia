@@ -38,6 +38,7 @@ import type {
   FormStatusText,
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
+import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEvent } from './DatePicker'
 
 export type DatePickerInputProps = Omit<
@@ -89,19 +90,23 @@ export type DatePickerInputProps = Omit<
    */
   opened?: boolean
   showInput?: boolean
-  onSubmit?: (event: React.FormEvent<HTMLInputElement>) => void
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSubmit?: (
+    event: DatePickerEvent<React.FormEvent<HTMLInputElement>>
+  ) => void
+  onChange?: (
+    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+  ) => void
   /**
    * Will be called once the input gets focus.
    */
   onFocus?: (
-    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+    event: ReturnObject<React.FocusEvent<HTMLInputElement>>
   ) => void
   /**
    * Will be called once the input lose focus.
    */
   onBlur?: (
-    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+    event: ReturnObject<React.FocusEvent<HTMLInputElement>>
   ) => void
 }
 
