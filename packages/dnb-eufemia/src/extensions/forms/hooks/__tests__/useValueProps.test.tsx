@@ -81,6 +81,23 @@ describe('useValueProps', () => {
     expect(result.current.value).toBe(givenValue)
   })
 
+  it('changed "defaultValue" should update value', () => {
+    const defaultValue = 'use this value'
+    const changedValue = 'changed value'
+
+    const { result, rerender } = renderHook(useValueProps, {
+      initialProps: {
+        defaultValue,
+      },
+    })
+
+    expect(result.current.value).toBe(defaultValue)
+
+    rerender({ defaultValue: changedValue })
+
+    expect(result.current.value).toBe(changedValue)
+  })
+
   it('should forward other props', () => {
     const value = 'value'
 

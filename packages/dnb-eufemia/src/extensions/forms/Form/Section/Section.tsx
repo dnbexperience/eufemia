@@ -1,10 +1,16 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import pointer from 'json-pointer'
+import React, { useCallback, useContext, useMemo } from 'react'
 import SectionContext, { SectionContextState } from './SectionContext'
+import DataContext from '../../DataContext/Context'
+import Provider from '../../DataContext/Provider/Provider'
 import FieldPropsProvider from '../FieldProps'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
-import type { FieldSectionProps, Path, FieldProps } from '../../types'
+import type {
+  FieldSectionProps,
+  Path,
+  FieldProps,
+  OnChange,
+} from '../../types'
 
 export type OverwritePropsDefaults = {
   [key: Path]: (FieldProps & FieldSectionProps) | OverwritePropsDefaults
@@ -22,19 +28,9 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   overwriteProps?: overwriteProps | OverwritePropsDefaults
 
   /**
-   * Provide your own translations. Use the same format as defined in the translation files
-   */
-  translations?: DataContextProps<unknown>['translations']
-
-  /**
    * Makes all fields inside it required.
    */
   required?: boolean
-
-  /**
-   * Callback when fields in the section are changed.
-   */
-  onChange?: (data: unknown) => void
 
   /**
    * Only for internal use and undocumented for now.
@@ -42,7 +38,10 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
    * Can be `fieldSchema`, `sectionSchema` or `contextSchema.
    */
   errorPrioritization?: SectionContextState['errorPrioritization']
-}
+} & Pick<
+  DataContextProps<unknown>,
+  'data' | 'defaultData' | 'onChange' | 'translations'
+>
 
 export type LocalProps = SectionProps & {
   children: React.ReactNode
@@ -54,6 +53,8 @@ function SectionComponent(props: LocalProps) {
     overwriteProps,
     translations,
     required,
+    data,
+    defaultData,
     onChange,
     errorPrioritization = ['contextSchema'],
     children,
@@ -63,21 +64,16 @@ function SectionComponent(props: LocalProps) {
     throw new Error(`path="${path}" must start with a slash`)
   }
 
-  const {
-    path: nestedPath,
-    handleChange: handleNestedChange,
-    props: nestedProps,
-  } = useContext(SectionContext) || {}
+  const { hasContext, addOnChangeHandler } = useContext(DataContext)
 
-  const dataRef = useRef<unknown>({})
-  const handleChange = useCallback(
-    (path: Path, value: unknown) => {
-      pointer.set(dataRef.current, path, value)
-      onChange?.(dataRef.current)
-      handleNestedChange?.(path, value)
-    },
-    [handleNestedChange, onChange]
+  const { path: nestedPath, props: nestedProps } =
+    useContext(SectionContext) || {}
+
+  const handleChange = useCallback<OnChange<unknown>>(
+    (...args) => onChange?.(...args),
+    [onChange]
   )
+  addOnChangeHandler?.(handleChange)
 
   const identifier = useMemo(() => {
     return `${nestedPath && nestedPath !== '/' ? nestedPath : ''}${
@@ -86,12 +82,19 @@ function SectionComponent(props: LocalProps) {
   }, [path, nestedPath])
   const fieldProps = required ? { required: true } : undefined
 
+  if (!hasContext) {
+    return (
+      <Provider data={data} defaultData={defaultData}>
+        <SectionComponent {...props} />
+      </Provider>
+    )
+  }
+
   return (
     <SectionContext.Provider
       value={{
         path: identifier,
         errorPrioritization,
-        handleChange,
         props,
       }}
     >

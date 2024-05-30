@@ -294,6 +294,7 @@ describe('Form.Section', () => {
       )
 
       fireEvent.change(first, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith({
         mySection: {
           innerSection: {
@@ -303,6 +304,7 @@ describe('Form.Section', () => {
       })
 
       fireEvent.change(last, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith({
         mySection: {
           innerSection: {
@@ -313,6 +315,7 @@ describe('Form.Section', () => {
       })
 
       fireEvent.change(addition, { target: { value: 'baz' } })
+      expect(onChange).toHaveBeenCalledTimes(3)
       expect(onChange).toHaveBeenLastCalledWith({
         mySection: {
           innerSection: {
@@ -322,8 +325,49 @@ describe('Form.Section', () => {
           otherField: 'baz',
         },
       })
+    })
 
+    it('should support onChange without Form.Handler', () => {
+      const onChange = jest.fn()
+
+      render(<MyOuterSection path="/mySection" onChange={onChange} />)
+
+      const [first, last, addition] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      fireEvent.change(first, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith({
+        mySection: {
+          innerSection: {
+            firstName: 'foo',
+          },
+        },
+      })
+
+      fireEvent.change(last, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({
+        mySection: {
+          innerSection: {
+            firstName: 'foo',
+            lastName: 'bar',
+          },
+        },
+      })
+
+      fireEvent.change(addition, { target: { value: 'baz' } })
       expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith({
+        mySection: {
+          innerSection: {
+            firstName: 'foo',
+            lastName: 'bar',
+          },
+          otherField: 'baz',
+        },
+      })
     })
   })
 
@@ -1018,6 +1062,64 @@ describe('Form.Section', () => {
       )
 
       expect(label).toHaveTextContent('Form en')
+    })
+  })
+
+  describe('data', () => {
+    it('should support data context', () => {
+      const { rerender } = render(
+        <Form.Section
+          data={{
+            myField: 'foo',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('foo')
+
+      rerender(
+        <Form.Section
+          data={{
+            myField: 'bar',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      expect(input).toHaveValue('bar')
+    })
+
+    it('should support defaultData context', () => {
+      const { rerender } = render(
+        <Form.Section
+          defaultData={{
+            myField: 'foo',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('foo')
+
+      rerender(
+        <Form.Section
+          defaultData={{
+            myField: 'ignore-me',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      expect(input).toHaveValue('foo')
     })
   })
 })

@@ -89,6 +89,48 @@ describe('useFieldProps', () => {
     })
   })
 
+  it('should not update data context with changed "defaultValue" after rerendering', () => {
+    const givenValue = 'given value'
+    const defaultValue = 'include this'
+
+    const { result, rerender } = renderHook(useFieldProps, {
+      initialProps: {
+        path: '/foo',
+        defaultValue,
+      },
+      wrapper: (props) => (
+        <Provider data={{ foo: givenValue }} {...props} />
+      ),
+    })
+
+    expect(result.current.dataContext.data).toEqual({
+      foo: givenValue,
+    })
+
+    rerender({ path: '/foo', defaultValue: 'new value' })
+
+    expect(result.current.dataContext.data).toEqual({
+      foo: givenValue,
+    })
+  })
+
+  it('changed "defaultValue" should update value', () => {
+    const defaultValue = 'use this value'
+    const changedValue = 'changed value'
+
+    const { result, rerender } = renderHook(useFieldProps, {
+      initialProps: {
+        defaultValue,
+      },
+    })
+
+    expect(result.current.value).toBe(defaultValue)
+
+    rerender({ defaultValue: changedValue })
+
+    expect(result.current.value).toBe(changedValue)
+  })
+
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
     const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
