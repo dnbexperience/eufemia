@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import type { DatePickerProps } from './DatePicker'
 
 import isValid from 'date-fns/isValid'
@@ -101,110 +101,127 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       endDate: dates.endDate,
     })
 
-  // Is this at any point something other than a function?
-  if (typeof props.setReturnObject === 'function') {
-    props.setReturnObject(getReturnObject)
-  }
-
-  function callOnChangeHandler(event: DatePickerChangeEvent) {
-    /**
-     * Prevent on_change to be fired twice if date not has actually changed
-     * We clear the cache inside getDerivedStateFromProps
-     * Can be removed when dispatchCustomElementEvent is deprecated
-     */
-    if (
-      lastEventCallCache &&
-      lastEventCallCache.startDate === event.startDate &&
-      lastEventCallCache.endDate === event.endDate
-    ) {
-      return // stop here
-    }
-
-    dispatchCustomElementEvent(
-      { on_change: props.on_change },
-      'on_change',
-      getReturnObject({ ...dates, ...event })
-    )
-
-    setLastEventCallCache({
-      startDate: event.startDate,
-      endDate: event.endDate,
-    })
-  }
-
-  function getReturnObject({
-    event = null,
-    ...rest
-  }: GetReturnObjectParams = {}): ReturnObject {
-    const { startDate, endDate, partialStartDate, partialEndDate } = {
-      ...views,
-      ...dates,
-      ...rest,
-    }
-
-    const returnFormat = correctV1Format(props.return_format)
-    const startDateIsValid = Boolean(startDate && isValid(startDate))
-    const endDateIsValid = Boolean(endDate && isValid(endDate))
-    const hasMinOrMaxDates = props.min_date || props.max_date
-
-    let returnObject: ReturnObject = {
-      event,
-      attributes: props.attributes || {},
-      partialStartDate,
-    }
-
-    // Handle range props
-    if (props.range) {
-      returnObject = {
-        ...returnObject,
-        days_between:
-          startDateIsValid && endDateIsValid
-            ? differenceInCalendarDays(endDate, startDate)
-            : null,
-        start_date: startDateIsValid
-          ? format(startDate, returnFormat)
-          : null,
-        end_date: endDateIsValid ? format(endDate, returnFormat) : null,
-        is_valid_start_date: startDateIsValid,
-        is_valid_end_date: endDateIsValid,
-        partialEndDate,
+  const getReturnObject = useCallback(
+    ({ event = null, ...rest }: GetReturnObjectParams = {}) => {
+      const { startDate, endDate, partialStartDate, partialEndDate } = {
+        ...views,
+        ...dates,
+        ...rest,
       }
 
-      if (hasMinOrMaxDates) {
+      const returnFormat = correctV1Format(props.return_format)
+      const startDateIsValid = Boolean(startDate && isValid(startDate))
+      const endDateIsValid = Boolean(endDate && isValid(endDate))
+      const hasMinOrMaxDates = props.min_date || props.max_date
+
+      let returnObject: ReturnObject = {
+        event,
+        attributes: props.attributes || {},
+        partialStartDate,
+      }
+
+      // Handle range props
+      if (props.range) {
+        returnObject = {
+          ...returnObject,
+          days_between:
+            startDateIsValid && endDateIsValid
+              ? differenceInCalendarDays(endDate, startDate)
+              : null,
+          start_date: startDateIsValid
+            ? format(startDate, returnFormat)
+            : null,
+          end_date: endDateIsValid ? format(endDate, returnFormat) : null,
+          is_valid_start_date: startDateIsValid,
+          is_valid_end_date: endDateIsValid,
+          partialEndDate,
+        }
+
+        if (hasMinOrMaxDates) {
+          if (
+            startDateIsValid &&
+            isDisabled(startDate, dates.minDate, dates.maxDate)
+          ) {
+            returnObject.is_valid_start_date = false
+          }
+
+          if (
+            endDateIsValid &&
+            isDisabled(endDate, dates.minDate, dates.maxDate)
+          ) {
+            returnObject.is_valid_end_date = false
+          }
+        }
+        // Non range props
+      } else {
+        returnObject = {
+          ...returnObject,
+          date: startDateIsValid ? format(startDate, returnFormat) : null,
+          is_valid: startDateIsValid,
+        }
+
         if (
+          hasMinOrMaxDates &&
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
         ) {
-          returnObject.is_valid_start_date = false
-        }
-
-        if (
-          endDateIsValid &&
-          isDisabled(endDate, dates.minDate, dates.maxDate)
-        ) {
-          returnObject.is_valid_end_date = false
+          {
+            returnObject.is_valid = false
+          }
         }
       }
-      // Non range props
-    } else {
-      returnObject = {
-        ...returnObject,
-        date: startDateIsValid ? format(startDate, returnFormat) : null,
-        is_valid: startDateIsValid,
-      }
 
+      return returnObject
+    },
+    [
+      dates,
+      views,
+      props.attributes,
+      props.max_date,
+      props.min_date,
+      props.range,
+      props.return_format,
+    ]
+  )
+
+  const callOnChangeHandler = useCallback(
+    (event: DatePickerChangeEvent) => {
+      /**
+       * Prevent on_change to be fired twice if date not has actually changed
+       * We clear the cache inside getDerivedStateFromProps
+       * Can be removed when dispatchCustomElementEvent is deprecated
+       */
       if (
-        hasMinOrMaxDates &&
-        startDateIsValid &&
-        isDisabled(startDate, dates.minDate, dates.maxDate)
+        lastEventCallCache &&
+        lastEventCallCache.startDate === event.startDate &&
+        lastEventCallCache.endDate === event.endDate
       ) {
-        {
-          returnObject.is_valid = false
-        }
+        return // stop here
       }
-    }
 
-    return returnObject
+      dispatchCustomElementEvent(
+        { on_change: props.on_change },
+        'on_change',
+        getReturnObject({ ...dates, ...event })
+      )
+
+      setLastEventCallCache({
+        startDate: event.startDate,
+        endDate: event.endDate,
+      })
+    },
+    [
+      getReturnObject,
+      lastEventCallCache,
+      setLastEventCallCache,
+      dates,
+      props.on_change,
+    ]
+  )
+
+  // Is this at any point something other than a function?
+  if (typeof props.setReturnObject === 'function') {
+    props.setReturnObject(getReturnObject)
   }
 
   return (
