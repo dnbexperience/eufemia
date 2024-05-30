@@ -37,14 +37,11 @@ type DatePickerProviderProps = DatePickerProps & {
   children: React.ReactNode
 }
 
-export type GetReturnObjectParams = Dates & {
-  event?:
-    | React.MouseEvent<HTMLButtonElement>
-    | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
-    | React.FocusEvent<HTMLInputElement>
+export type GetReturnObjectParams<E> = Dates & {
+  event?: E
 }
-export type ReturnObject = {
-  event?: GetReturnObjectParams['event']
+export type ReturnObject<E> = {
+  event?: E
   attributes?: Record<string, unknown>
   days_between?: number
   date?: string
@@ -102,7 +99,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     })
 
   const getReturnObject = useCallback(
-    ({ event = null, ...rest }: GetReturnObjectParams = {}) => {
+    <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
       const { startDate, endDate, partialStartDate, partialEndDate } = {
         ...views,
         ...dates,
@@ -114,7 +111,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const endDateIsValid = Boolean(endDate && isValid(endDate))
       const hasMinOrMaxDates = props.min_date || props.max_date
 
-      let returnObject: ReturnObject = {
+      let returnObject: ReturnObject<E> = {
         event,
         attributes: props.attributes || {},
         partialStartDate,
