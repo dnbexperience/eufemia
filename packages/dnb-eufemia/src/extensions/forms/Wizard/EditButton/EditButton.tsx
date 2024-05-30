@@ -7,6 +7,11 @@ import { StepIndex } from '../Context/WizardContext'
 import useTranslation from '../../hooks/useTranslation'
 import useStep from '../hooks/useStep'
 import { edit } from '../../../../icons'
+import Hr from '../../../../elements/Hr'
+import {
+  omitSpacingProps,
+  pickSpacingProps,
+} from '../../../../components/flex/utils'
 
 export type Props = ComponentProps & ButtonProps & { toStep?: StepIndex }
 
@@ -31,14 +36,15 @@ function EditButton(props: Props) {
   }, [toStep, setActiveIndex])
 
   return (
-    <ButtonRow>
+    <ButtonRow {...pickSpacingProps(props)}>
+      <Hr space={0} />
       <Button
         className={classnames('dnb-forms-edit-button', className)}
         variant={variant}
         icon_position={icon_position}
         icon={edit || icon}
         on_click={handleClick}
-        {...rest}
+        {...omitSpacingProps(rest)}
       >
         {children}
       </Button>
