@@ -12,8 +12,11 @@ import {
   convertCamelCaseProps,
 } from '../../../../shared/helpers/withCamelCaseProps'
 
-export type Props = ValueProps<number> &
-  IncludeCamelCase<NumberFormatProps>
+export type Props = Omit<ValueProps<number>, 'defaultValue'> &
+  IncludeCamelCase<NumberFormatProps> &
+  Partial<{
+    defaultValue?: number | string
+  }>
 
 function NumberValue(props: Props) {
   const { value, inline, showEmpty, className, ...rest } =

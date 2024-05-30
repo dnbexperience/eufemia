@@ -70,9 +70,9 @@ export interface DefaultErrorMessages {
 
 export interface DataValueReadProps<Value = unknown> {
   /** JSON Pointer for where the data for this field is located in the source dataset */
-  path?: string
+  path?: Path
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  itemPath?: string
+  itemPath?: Path
   /** Source data value for the field. Will take precedence over the path value given in the data context */
   value?: Value
   /** Default source data value for the field. Will not take precedence over the path value given in the data context */

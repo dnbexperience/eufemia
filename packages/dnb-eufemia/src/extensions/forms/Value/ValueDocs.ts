@@ -2,7 +2,12 @@ import { PropertiesTableProps } from '../../../shared/types'
 
 export const ValueProperties: PropertiesTableProps = {
   value: {
-    doc: 'Source data value for the input.',
+    doc: 'Value for the value component. Will take precedence over the path value given in the data context.',
+    type: '{valueType}',
+    status: 'optional',
+  },
+  defaultValue: {
+    doc: 'Default value for the value component. Will not take precedence over the path value given in the data context.',
     type: '{valueType}',
     status: 'optional',
   },
