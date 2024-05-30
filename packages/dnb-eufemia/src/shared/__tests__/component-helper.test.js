@@ -328,6 +328,7 @@ describe('"extendDeep" should', () => {
     const object2 = { key: 'value' }
     expect(extendDeep(object1, object2)).toBe(object1)
   })
+
   it('extend an object and have correct object shape', () => {
     expect(extendDeep({ key: null }, { key: 'value' })).toEqual({
       key: 'value',
@@ -336,6 +337,7 @@ describe('"extendDeep" should', () => {
       key: null,
     })
   })
+
   it('extend an object recursively and have correct object shape', () => {
     expect(
       extendDeep({ key1: { key2: null } }, { key1: { key2: 'value' } })
@@ -355,6 +357,19 @@ describe('"extendDeep" should', () => {
     ).toEqual({
       key1: { key2: null, foo: 'bar' },
     })
+  })
+
+  it('should ensure that the prototype is not polluted', () => {
+    const target = {}
+    const source = {
+      __proto__: {
+        pollute: 'polluted',
+      },
+    }
+
+    extendDeep(target, source)
+
+    expect(target.pollute).toBeUndefined()
   })
 })
 

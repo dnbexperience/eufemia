@@ -284,18 +284,18 @@ export function extendDeep(target = {}, ...sources) {
   for (const source of sources) {
     if (isObject(source)) {
       for (const key in source) {
-        if (
-          Object.prototype.hasOwnProperty.call(source, key) &&
-          isObject(target)
-        ) {
-          if (isObject(source[key])) {
-            if (!isObject(target[key])) {
-              target[key] = {}
-            }
-            extendDeep(target[key], source[key])
-          } else {
-            target[key] = source[key]
+        // Prototype-polluting checks etc.
+        if (key === '__proto__' || key === 'constructor') continue
+        if (!Object.prototype.hasOwnProperty.call(source, key)) continue
+        if (!isObject(target)) continue
+
+        if (isObject(source[key])) {
+          if (!isObject(target[key])) {
+            target[key] = {}
           }
+          extendDeep(target[key], source[key])
+        } else {
+          target[key] = source[key]
         }
       }
     }
