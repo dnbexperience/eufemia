@@ -2,7 +2,10 @@ import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import { Props as DataContextProps } from '../../DataContext/Provider'
 import { FormStatusProps } from '../../../../components/FormStatus'
-import { assignPropsWithContext } from '../../../../shared/component-helper'
+import {
+  assignPropsWithContext,
+  extendDeep,
+} from '../../../../shared/component-helper'
 import FieldPropsContext from './FieldPropsContext'
 import SharedProvider from '../../../../shared/Provider'
 import { ContextProps } from '../../../../shared/Context'
@@ -54,10 +57,10 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
 
   // Extract props to be used in the shared global context
   const { locale, translations } = useMemo(() => {
-    return {
-      ...restProps,
-      ...removeUndefined(nestedContext?.inheritedProps),
-    } as ContextProps
+    return extendDeep(
+      { ...restProps },
+      removeUndefined(nestedContext?.inheritedProps)
+    ) as ContextProps
   }, [nestedContext?.inheritedProps, restProps])
 
   const nestedFieldProps = useMemo(() => {
@@ -81,8 +84,13 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
   if (locale) {
     sharedProviderProps.locale = locale
   }
-  if (translations) {
-    sharedProviderProps.translations = wrapFormsTranslations(translations)
+  const formTranslations = useMemo(() => {
+    if (translations) {
+      return transformTranslations(translations)
+    }
+  }, [translations])
+  if (formTranslations) {
+    sharedProviderProps.translations = formTranslations
   }
 
   const extend = useCallback(
@@ -130,7 +138,10 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
   )
 }
 
-function wrapFormsTranslations(
+/**
+ * Transform translations into { 'nb-NO': { Forms: { ... } } }
+ */
+function transformTranslations(
   translations: ContextProps['translations']
 ) {
   const result = {}

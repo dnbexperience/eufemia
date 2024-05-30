@@ -21,6 +21,16 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  defaultData: {
+    doc: 'Provide default data to the section fields and values, in case the data context (Form.Handler) is not available.',
+    type: 'object',
+    status: 'optional',
+  },
+  data: {
+    doc: 'Provide data to the section fields and values, in case the data context (Form.Handler) is not available.',
+    type: 'object',
+    status: 'optional',
+  },
   children: {
     doc: 'All the fields and values inside the section.',
     type: 'React.Node',

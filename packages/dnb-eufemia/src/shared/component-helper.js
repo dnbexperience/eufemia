@@ -237,9 +237,8 @@ export const processChildren = (props) => {
   return res
 }
 
-// extends given objects recursively and removes entries with null values
-// makes sure that we by default return a totally new object every time
-export const extend = (...objects) => {
+/** @deprecated Can be removed in v11 */
+export const extendGracefully = (...objects) => {
   let first = {}
   const keepRef = objects[0]
 
@@ -261,7 +260,7 @@ export const extend = (...objects) => {
           if (value !== null) {
             // go recursively
             if (typeof value === 'object') {
-              value = extend(acc1[key] || {}, value)
+              value = extendGracefully(acc1[key] || {}, value)
               if (Object.keys(value).length > 0) {
                 acc2[key] = value
               }
@@ -275,6 +274,34 @@ export const extend = (...objects) => {
     }
     return acc1
   }, first)
+}
+
+export function isObject(item) {
+  return item && typeof item === 'object' && !Array.isArray(item)
+}
+
+export function extendDeep(target = {}, ...sources) {
+  for (const source of sources) {
+    if (isObject(source)) {
+      for (const key in source) {
+        // Prototype-polluting checks etc.
+        if (key === '__proto__' || key === 'constructor') continue
+        if (!Object.prototype.hasOwnProperty.call(source, key)) continue
+        if (!isObject(target)) continue
+
+        if (isObject(source[key])) {
+          if (!isObject(target[key])) {
+            target[key] = {}
+          }
+          extendDeep(target[key], source[key])
+        } else {
+          target[key] = source[key]
+        }
+      }
+    }
+  }
+
+  return target
 }
 
 // check if value is "truthy"

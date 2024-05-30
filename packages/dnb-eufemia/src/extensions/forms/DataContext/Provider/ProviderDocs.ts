@@ -4,12 +4,12 @@ export const ProviderProperties: PropertiesTableProps = {
   defaultData: {
     doc: 'Default source data, only used if no other source is available, and not leading to updates if changed after mount.',
     type: 'object',
-    status: 'required',
+    status: 'optional',
   },
   data: {
     doc: 'Dynamic source data used as both initial data, and updates internal data if changed after mount.',
     type: 'object',
-    status: 'required',
+    status: 'optional',
   },
   id: {
     doc: 'Unique id for connecting Form.Handler and helper tools such as Form.useData.',

@@ -9,7 +9,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  extend,
+  extendGracefully,
   extendPropsWithContextInClassComponent,
   isTrue,
   makeUniqueId,
@@ -229,7 +229,7 @@ export default class FormRow extends React.PureComponent {
       skeleton,
     }
 
-    const providerContext = extend(this.context, {
+    const providerContext = extendGracefully(this.context, {
       locale: locale ? locale : this.context.locale,
       formElement,
       FormRow: formElement,
