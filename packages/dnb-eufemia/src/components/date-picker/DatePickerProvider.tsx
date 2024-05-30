@@ -28,7 +28,12 @@ type DatePickerProviderProps = DatePickerProps & {
     func: DatePickerContextValues['getReturnObject']
   ) => DatePickerContextValues['getReturnObject']
   hidePicker?: DatePickerContextValues['hidePicker']
-  attributes?: Record<string, unknown>
+  attributes?: {
+    day?: string
+    year?: string
+    start?: string
+    end?: string
+  } & Record<string, unknown>
   children: React.ReactNode
 }
 
@@ -39,6 +44,8 @@ export type GetReturnObjectParams = Dates & {
     | React.FocusEvent<HTMLInputElement>
 }
 export type ReturnObject = {
+  event?: GetReturnObjectParams['event']
+  attributes?: Record<string, unknown>
   days_between?: number
   date?: string
   start_date?: string
@@ -135,17 +142,21 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       ...rest,
     }
 
-    const attributes = props.attributes || {}
     const returnFormat = correctV1Format(props.return_format)
     const startDateIsValid = Boolean(startDate && isValid(startDate))
     const endDateIsValid = Boolean(endDate && isValid(endDate))
+    const hasMinOrMaxDates = props.min_date || props.max_date
 
-    let ret = null
+    let returnObject: ReturnObject = {
+      event,
+      attributes: props.attributes || {},
+      partialStartDate,
+    }
 
+    // Handle range props
     if (props.range) {
-      ret = {
-        event,
-        attributes,
+      returnObject = {
+        ...returnObject,
         days_between:
           startDateIsValid && endDateIsValid
             ? differenceInCalendarDays(endDate, startDate)
@@ -156,44 +167,44 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         end_date: endDateIsValid ? format(endDate, returnFormat) : null,
         is_valid_start_date: startDateIsValid,
         is_valid_end_date: endDateIsValid,
-        partialStartDate,
         partialEndDate,
       }
-    } else {
-      ret = {
-        event,
-        attributes,
-        date: startDateIsValid ? format(startDate, returnFormat) : null,
-        partialStartDate,
-        is_valid: startDateIsValid,
-      }
-    }
 
-    if (props.min_date || props.max_date) {
-      if (props.range) {
+      if (hasMinOrMaxDates) {
         if (
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
         ) {
-          ret.is_valid_start_date = false
+          returnObject.is_valid_start_date = false
         }
+
         if (
           endDateIsValid &&
           isDisabled(endDate, dates.minDate, dates.maxDate)
         ) {
-          ret.is_valid_end_date = false
+          returnObject.is_valid_end_date = false
         }
-      } else {
-        if (
-          startDateIsValid &&
-          isDisabled(startDate, dates.minDate, dates.maxDate)
-        ) {
-          ret.is_valid = false
+      }
+      // Non range props
+    } else {
+      returnObject = {
+        ...returnObject,
+        date: startDateIsValid ? format(startDate, returnFormat) : null,
+        is_valid: startDateIsValid,
+      }
+
+      if (
+        hasMinOrMaxDates &&
+        startDateIsValid &&
+        isDisabled(startDate, dates.minDate, dates.maxDate)
+      ) {
+        {
+          returnObject.is_valid = false
         }
       }
     }
 
-    return ret
+    return returnObject
   }
 
   return (
