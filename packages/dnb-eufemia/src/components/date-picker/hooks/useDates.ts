@@ -38,8 +38,8 @@ export type Dates = {
   maxDate?: Date
   startMonth?: Date
   endMonth?: Date
-  partialStartDate?: Date
-  partialEndDate?: Date
+  partialStartDate?: string
+  partialEndDate?: string
   hasHadValidDate?: boolean
   hoverDate?: Date
 } & InputDates
