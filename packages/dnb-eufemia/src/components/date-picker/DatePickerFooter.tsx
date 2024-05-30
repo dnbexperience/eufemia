@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
@@ -34,16 +34,87 @@ function DatePickerFooter({
   onCancel,
   onReset,
 }: DatePickerFooterProps) {
-  const context = useContext(DatePickerContext)
+  const {
+    updateDates,
+    previousDates,
+    props: rops,
+  } = useContext(DatePickerContext)
 
-  const { show_reset_button, show_cancel_button, show_submit_button } =
-    context.props
+  const {
+    show_reset_button,
+    show_cancel_button,
+    show_submit_button,
+    date_format,
+  } = rops
 
   const {
     submit_button_text: submit_button_text_translation,
     cancel_button_text: cancel_button_text_translation,
     reset_button_text: reset_button_text_translation,
   } = useTranslation().DatePicker
+
+  const onSubmitHandler = useCallback(
+    (args: DatePickerFooterEvent) => {
+      onSubmit?.(args)
+    },
+    [onSubmit]
+  )
+
+  const onCancelHandler = useCallback(
+    (args: DatePickerFooterEvent) => {
+      if (args && args.event) {
+        args.event.persist()
+      }
+
+      const startDate = previousDates.startDate
+        ? convertStringToDate(String(previousDates.startDate), {
+            date_format,
+          })
+        : previousDates.date
+        ? convertStringToDate(String(previousDates.date), {
+            date_format,
+          })
+        : null
+
+      const endDate = previousDates.endDate
+        ? convertStringToDate(String(previousDates.startDate), {
+            date_format,
+          })
+        : startDate
+
+      updateDates(
+        {
+          startDate,
+          endDate,
+        },
+        (dates) => {
+          onCancel?.({ ...args, ...dates })
+        }
+      )
+    },
+    [date_format, updateDates, previousDates, onCancel]
+  )
+
+  const onResetHandler = useCallback(
+    (args: DatePickerFooterEvent) => {
+      if (args && args.event) {
+        args.event.persist()
+      }
+
+      updateDates(
+        {
+          date: undefined,
+          startDate: undefined,
+          endDate: undefined,
+        },
+        (dates) => {
+          onReset?.({ ...args, ...dates })
+        }
+      )
+    },
+    [updateDates, onReset]
+  )
+
   if (
     !isRange &&
     !show_submit_button &&
@@ -90,60 +161,6 @@ function DatePickerFooter({
       </span>
     </div>
   )
-
-  function onSubmitHandler(args: DatePickerFooterEvent) {
-    onSubmit?.(args)
-  }
-
-  function onCancelHandler(args: DatePickerFooterEvent) {
-    const { date_format } = context.props
-
-    const startDate = context.previousDates.startDate
-      ? convertStringToDate(String(context.previousDates.startDate), {
-          date_format,
-        })
-      : context.previousDates.date
-      ? convertStringToDate(String(context.previousDates.date), {
-          date_format,
-        })
-      : null
-    const endDate = context.previousDates.endDate
-      ? convertStringToDate(String(context.previousDates.startDate), {
-          date_format,
-        })
-      : startDate
-
-    if (args && args.event) {
-      args.event.persist()
-    }
-
-    context.updateDates(
-      {
-        startDate,
-        endDate,
-      },
-      (forward) => {
-        onCancel?.({ ...args, ...forward })
-      }
-    )
-  }
-
-  function onResetHandler(args: DatePickerFooterEvent) {
-    if (args && args.event) {
-      args.event.persist()
-    }
-
-    context.updateDates(
-      {
-        date: undefined,
-        startDate: undefined,
-        endDate: undefined,
-      },
-      (forward) => {
-        onReset?.({ ...args, ...forward })
-      }
-    )
-  }
 }
 
 export default DatePickerFooter
