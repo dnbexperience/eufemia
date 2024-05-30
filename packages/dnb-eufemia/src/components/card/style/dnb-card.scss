@@ -92,4 +92,8 @@
   & > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view) {
     width: 100%;
   }
+
+  & > .dnb-flex-container--align-stretch > .dnb-button {
+    align-self: flex-start;
+  }
 }
