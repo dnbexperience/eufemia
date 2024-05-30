@@ -6,7 +6,7 @@
 import React from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
-import { extend } from './component-helper'
+import { extendDeep } from './component-helper'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
@@ -124,7 +124,7 @@ export type ContextProps = ContextComponents & {
   locale?: InternalLocale
 
   /**
-   * Provide your own translations. Use the same format as defined in the translation files
+   * Internal translations used by the components and hooks
    */
   translation?: Translation
 
@@ -224,7 +224,10 @@ export function prepareContext<Props>(
 ): Props & ContextProps {
   const translations: Translations =
     props.translations || props.locales
-      ? extend(defaultLocales, props.translations || props.locales)
+      ? extendDeep(
+          { ...defaultLocales },
+          props.translations || props.locales
+        )
       : defaultLocales
 
   if (props.__context__) {

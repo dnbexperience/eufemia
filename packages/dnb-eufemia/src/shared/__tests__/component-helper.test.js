@@ -8,7 +8,8 @@ import { render, screen } from '@testing-library/react'
 
 import {
   isTrue,
-  extend,
+  extendGracefully,
+  extendDeep,
   defineNavigator,
   validateDOMAttributes,
   processChildren,
@@ -276,40 +277,83 @@ describe('"processChildren" should', () => {
   })
 })
 
-describe('"extend" should', () => {
+/** @deprecated Can be removed in v11 */
+describe('"extendGracefully" should', () => {
   it('keep the object reference', () => {
     const object1 = { key: null }
     const object2 = { key: 'value' }
-    expect(extend(true, object1, object2)).toBe(object1)
-    expect(extend(true, object2, object1)).toBe(object2)
-    expect(extend(false, object2, object1)).not.toBe(object2)
+    expect(extendGracefully(true, object1, object2)).toBe(object1)
+    expect(extendGracefully(true, object2, object1)).toBe(object2)
+    expect(extendGracefully(false, object2, object1)).not.toBe(object2)
   })
   it('extend an object and have correct object shape', () => {
-    expect(extend({ key: null }, { key: 'value' })).toEqual({
+    expect(extendGracefully({ key: null }, { key: 'value' })).toEqual({
       key: 'value',
     })
-    expect(extend({ key: 'value' }, { key: null })).toEqual({
+    expect(extendGracefully({ key: 'value' }, { key: null })).toEqual({
       key: 'value',
     })
   })
   it('extend an object recursively and have correct object shape', () => {
     expect(
-      extend({ key1: { key2: null } }, { key1: { key2: 'value' } })
+      extendGracefully(
+        { key1: { key2: null } },
+        { key1: { key2: 'value' } }
+      )
     ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
-      extend({ key1: { key2: 'value' } }, { key1: { key2: null } })
+      extendGracefully(
+        { key1: { key2: 'value' } },
+        { key1: { key2: null } }
+      )
     ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
-      extend(
+      extendGracefully(
         { key1: { key2: 'value' } },
         { key1: { key2: null, foo: 'bar' } }
       )
     ).toEqual({
       key1: { key2: 'value', foo: 'bar' },
+    })
+  })
+})
+
+describe('"extendDeep" should', () => {
+  it('keep the object reference', () => {
+    const object1 = { key: null }
+    const object2 = { key: 'value' }
+    expect(extendDeep(object1, object2)).toBe(object1)
+  })
+  it('extend an object and have correct object shape', () => {
+    expect(extendDeep({ key: null }, { key: 'value' })).toEqual({
+      key: 'value',
+    })
+    expect(extendDeep({ key: 'value' }, { key: null })).toEqual({
+      key: null,
+    })
+  })
+  it('extend an object recursively and have correct object shape', () => {
+    expect(
+      extendDeep({ key1: { key2: null } }, { key1: { key2: 'value' } })
+    ).toEqual({
+      key1: { key2: 'value' },
+    })
+    expect(
+      extendDeep({ key1: { key2: 'value' } }, { key1: { key2: null } })
+    ).toEqual({
+      key1: { key2: null },
+    })
+    expect(
+      extendDeep(
+        { key1: { key2: 'value' } },
+        { key1: { key2: null, foo: 'bar' } }
+      )
+    ).toEqual({
+      key1: { key2: null, foo: 'bar' },
     })
   })
 })

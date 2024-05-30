@@ -11,7 +11,7 @@ import classnames from 'classnames'
 import {
   isTrue,
   makeUniqueId,
-  extend,
+  extendGracefully,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   processChildren,
@@ -123,7 +123,7 @@ export default class FormSet extends React.PureComponent {
 
     const content = FormSet.getContent(this.props)
 
-    const providerContext = extend(this.context, {
+    const providerContext = extendGracefully(this.context, {
       locale: locale ? locale : this.context.locale,
       FormRow: allowedProps,
       // isInsideFormSet: true // We may consider to use this later to check if we are inside FormSet

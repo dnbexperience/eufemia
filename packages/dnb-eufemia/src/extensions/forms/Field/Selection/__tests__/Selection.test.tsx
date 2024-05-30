@@ -773,8 +773,10 @@ describe('event handlers', () => {
     const selectionButton = screen.getByRole('button')
     await userEvent.click(selectionButton)
 
-    const option1 = screen.getByText('Fooo')
-    await userEvent.click(option1)
+    await waitFor(async () => {
+      const option1 = screen.getByText('Fooo')
+      await userEvent.click(option1)
+    })
 
     expect(onBlur.mock.calls).toHaveLength(1)
     expect(onBlur.mock.calls[0][0]).toEqual('foo')
