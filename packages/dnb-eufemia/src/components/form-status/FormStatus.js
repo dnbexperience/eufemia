@@ -28,6 +28,10 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import ui from '../../style/themes/theme-ui/properties'
+import sbanken from '../../style/themes/theme-sbanken/properties'
+
+const properties = { ui, sbanken }
 
 export default class FormStatus extends React.PureComponent {
   static contextType = Context
@@ -452,8 +456,12 @@ export default class FormStatus extends React.PureComponent {
 
 export const ErrorIcon = (props) => {
   const isSbankenTheme = useTheme()?.name === 'sbanken'
-  const fill = isSbankenTheme ? '#FF3C64' : '#DC2A2A'
-  const line = isSbankenTheme ? '#FFDBE9' : '#fff'
+  const fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-magenta']
+    : properties.ui['--color-fire-red']
+  const line = isSbankenTheme
+    ? properties.sbanken['--sb-color-magenta-light-2']
+    : properties.ui['--color-white']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -485,8 +493,12 @@ ErrorIcon.defaultProps = {
 
 export const WarnIcon = (props) => {
   const isSbankenTheme = useTheme()?.name === 'sbanken'
-  const fill = isSbankenTheme ? '#F7BF16' : '#FDBB31'
-  const line = isSbankenTheme ? '#000' : '#333'
+  const fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-yellow-dark']
+    : properties.ui['--color-accent-yellow']
+  const line = isSbankenTheme
+    ? properties.sbanken['--sb-color-black']
+    : properties.ui['--color-black-80']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -518,12 +530,18 @@ WarnIcon.defaultProps = {
 
 export const InfoIcon = (props) => {
   const isSbankenTheme = useTheme()?.name === 'sbanken'
-  let fill = isSbankenTheme ? '#7129E2' : '#007272'
+  let fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-violet-light']
+    : properties.ui['--color-sea-green']
   if (props && props?.state === 'success') {
-    fill = isSbankenTheme ? '#00785B' : '#28B482'
+    fill = isSbankenTheme
+      ? properties.sbanken['--sb-color-green-dark-3']
+      : properties.ui['--color-summer-green']
   }
 
-  const line = isSbankenTheme ? '#E5FFF7' : '#fff'
+  const line = isSbankenTheme
+    ? properties.sbanken['--sb-color-green-light-2']
+    : properties.ui['--color-white']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -556,7 +574,9 @@ InfoIcon.defaultProps = {
 
 export const MarketingIcon = (props) => {
   const isSbankenTheme = useTheme()?.name === 'sbanken'
-  const fill = isSbankenTheme ? '#7129E2' : '#333'
+  const fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-violet-light']
+    : properties.ui['--color-black-80']
 
   return (
     <svg
