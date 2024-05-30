@@ -573,6 +573,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
   overflow: visible;
 }
+.dnb-card .dnb-table__container {
+  width: 100%;
+}
 
 /*
 * Table component
