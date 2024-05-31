@@ -11,11 +11,12 @@ import styled from '@emotion/styled'
 
 import '../style'
 import '../style/themes/ui'
-import PaymentCard, { getCardData } from './../PaymentCard'
 import H3 from '../../../elements/H3'
 import cardData from '../utils/cardProducts'
 import { PaymentCardRawData } from '../types'
 import { H2 } from '../../../elements'
+
+import PaymentCard, { getCardData, Designs } from '../'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -30,10 +31,10 @@ const customData: PaymentCardRawData = {
   productName: 'DNB Custom Card',
   displayName: 'Custom card', // Only showed in compact variant
   // cardDesign: 'gold',
-  cardDesign: { cardDesign: 'SagaGold' },
-  cardType: 'VisaColored',
-  productType: 'Business',
-  bankAxept: 'BankAxeptBlack',
+  cardDesign: Designs.gold,
+  cardType: 'MastercardDefault',
+  productType: 'Saga',
+  bankAxept: 'BankAxeptWhite',
 }
 
 export const PaymentCards = () => (
@@ -42,70 +43,91 @@ export const PaymentCards = () => (
       <H3>Test</H3>
 
       <PaymentCard
-        product_code={null}
-        card_number={'123123123'}
-        raw_data={{
-          productCode: 'UNDEFINED',
-          productName: ' ',
-          displayName: ' ',
-          cardDesign: {},
-          cardType: 'None',
+        rawData={customData}
+        productCode=""
+        cardNumber={'123123123123'}
+      />
+
+      <PaymentCard productCode={null} cardNumber={'123123123'} />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="blocked"
+      />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="expired"
+      />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="not_active"
+      />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="order_in_process"
+      />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="renewed"
+      />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="replaced"
+      />
+      <PaymentCard
+        productCode={null}
+        cardNumber={'123123123'}
+        cardStatus="unknown"
+      />
+    </Box>
+
+    <Box>
+      <PaymentCard
+        productCode={undefined}
+        cardNumber={'123123123'}
+        skeleton
+      />
+
+      <PaymentCard
+        productCode={undefined}
+        cardNumber={'123123123'}
+        rawData={{
+          productCode: 'string',
+          productName: 'string',
+          displayName: '',
+          cardDesign: {
+            cardStyle: '',
+            bankLogo: 'DNB',
+            bankLogoColors: 'red',
+            cardDesign: 'None',
+            backgroundImage: '',
+            visaColors: '',
+          },
+          cardType: 'VisaColored',
           productType: 'None',
-          bankAxept: 'None',
+          bankAxept: 'BankAxeptBlack',
         }}
+        skeleton
       />
     </Box>
-
-    {/* <Box>
-      <PaymentCard
-        product_code={'NK1'}
-        card_number={'123123123123'}
-        card_status="active"
-      />
-      <PaymentCard
-        product_code={'NK2'}
-        card_number={'123123123123'}
-        card_status="blocked"
-      />
-    </Box>
-
-    <Box>
-      <PaymentCard
-        // locale="en-GB"
-        product_code="DNB"
-        card_number="************1337"
-        card_status="expired"
-        variant="compact"
-      />
-    </Box>
-    <Box>
-      <PaymentCard
-        variant="compact"
-        product_code="VG1"
-        card_number="************1337"
-      />
-    </Box>
-    <Box>
-      <PaymentCard
-        product_code="UNDEFINED"
-        raw_data={customData}
-        variant="compact"
-        card_number="************1337"
-      />
-    </Box> */}
 
     <Box>
       <H2>All Cards</H2>
 
-      {cards.map((product_code) => {
-        const cardData = getCardData(product_code)
+      {cards.map((productCode) => {
+        const cardData = getCardData(productCode)
         return (
-          <div key={product_code}>
+          <div key={productCode}>
             <H3>
-              {cardData.cardDesign.name}({product_code})
+              {cardData.cardDesign.name}({productCode})
             </H3>
             <div
-              key={product_code}
+              key={productCode}
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -113,13 +135,13 @@ export const PaymentCards = () => (
               }}
             >
               <PaymentCard
-                product_code={product_code}
-                card_number="************1337"
+                productCode={productCode}
+                cardNumber="************1337"
               />
               <PaymentCard
                 variant="compact"
-                product_code={product_code}
-                card_number="************1337"
+                productCode={productCode}
+                cardNumber="************1337"
               />
             </div>
           </div>

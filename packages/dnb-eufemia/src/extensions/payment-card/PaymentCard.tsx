@@ -25,6 +25,7 @@ import {
   PaymentCardProps,
   PaymentCardRawData,
 } from './types'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 const defaultCard: (productCode: string) => PaymentCardRawData = (
   productCode
@@ -45,10 +46,9 @@ const defaultProps = {
   variant: 'normal',
 
   id: null,
-  raw_data: null,
+  rawData: null,
 
   skeleton: false,
-  class: null,
   className: null,
   children: null,
 
@@ -66,49 +66,32 @@ const defaultProps = {
 export default function PaymentCard(props: PaymentCardProps) {
   const context = useContext(Context)
 
-  // const translations = context.getTranslation(props)
+  const translations = context.getTranslation(props).PaymentCard
 
   const {
-    product_code,
-    card_number,
-    card_status,
+    productCode,
+    cardNumber,
+    cardStatus,
     variant,
     digits,
     id,
-    raw_data,
+    rawData,
     // locale,
     skeleton,
     className,
-    class: _className,
     children, //eslint-disable-line
 
-    text_card_number,
-    text_expired,
-    text_blocked,
-    text_not_active,
-    text_order_in_process,
-    text_renewed,
-    text_replaced,
-    text_unknown,
-
     ...attributes
-  } = extendPropsWithContext(props, defaultProps, context?.PaymentCard, {
-    skeleton: context?.skeleton,
-  })
+  } = extendPropsWithContext(
+    convertSnakeCaseProps(props),
+    defaultProps,
+    context?.PaymentCard,
+    {
+      skeleton: context?.skeleton,
+    }
+  )
 
-  const cardData: PaymentCardRawData =
-    raw_data || getCardData(product_code)
-
-  const translations = {
-    text_card_number,
-    text_expired,
-    text_blocked,
-    text_not_active,
-    text_order_in_process,
-    text_renewed,
-    text_replaced,
-    text_unknown,
-  }
+  const cardData: PaymentCardRawData = rawData || getCardData(productCode)
 
   const params = {
     className: classnames(
@@ -116,8 +99,7 @@ export default function PaymentCard(props: PaymentCardProps) {
       `dnb-payment-card--${variant}`,
       createSkeletonClass(null, skeleton, context),
       createSpacingClasses(props),
-      className,
-      _className
+      className
     ),
     ...attributes,
   }
@@ -180,10 +162,10 @@ export default function PaymentCard(props: PaymentCardProps) {
                 className="dnb-payment-card__card__holder"
                 modifier="x-small medium"
               >
-                {'translations.text_card_number'}
+                {translations.text_card_number}
               </P>
               <P className="dnb-payment-card__card__numbers">
-                {formatCardNumber(card_number)}
+                {formatCardNumber(cardNumber, digits)}
               </P>
             </span>
             <CardProviderLogo
@@ -193,17 +175,17 @@ export default function PaymentCard(props: PaymentCardProps) {
           </div>
         </div>
 
-        <BlockingOverlay card_status={card_status} />
+        <BlockingOverlay cardStatus={cardStatus} />
       </div>
     </figure>
   )
 
   function BlockingOverlay({
-    card_status,
+    cardStatus,
   }: {
-    card_status: PaymentCardCardStatus
+    cardStatus: PaymentCardCardStatus
   }) {
-    return cardStatusMap[card_status] ? (
+    return cardStatusMap[cardStatus] ? (
       <div
         className={classnames(
           'dnb-payment-card__blocking__overlay',
@@ -211,8 +193,8 @@ export default function PaymentCard(props: PaymentCardProps) {
         )}
       >
         <div className="dnb-payment-card__blocking__center">
-          <StatusIcon status={card_status} />
-          <P top="xx-small">{cardStatusMap[card_status]}</P>
+          <StatusIcon status={cardStatus} />
+          <P top="xx-small">{cardStatusMap[cardStatus]}</P>
         </div>
       </div>
     ) : null
