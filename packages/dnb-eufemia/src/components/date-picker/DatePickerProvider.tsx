@@ -18,7 +18,7 @@ import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
 import useViews, { CalendarView } from './hooks/useViews'
-import useDates, { Dates } from './hooks/useDates'
+import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
@@ -37,7 +37,7 @@ type DatePickerProviderProps = DatePickerProps & {
   children: React.ReactNode
 }
 
-export type GetReturnObjectParams<E> = Dates & {
+export type GetReturnObjectParams<E> = DatePickerDates & {
   event?: E
 }
 export type ReturnObject<E> = {
@@ -54,7 +54,7 @@ export type ReturnObject<E> = {
   partialEndDate?: string
 }
 
-export type DatePickerProviderState = Dates &
+export type DatePickerProviderState = DatePickerDates &
   Array<CalendarView> &
   LastEventCallCache
 
