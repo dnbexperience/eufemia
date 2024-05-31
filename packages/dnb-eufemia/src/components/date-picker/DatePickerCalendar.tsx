@@ -40,7 +40,7 @@ import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
-import { Dates, InputDates } from './hooks/useDates'
+import { DatePickerDates, DatePickerInputDates } from './hooks/useDates'
 
 export type CalendarDay = {
   date: Date
@@ -73,8 +73,8 @@ export type CalendarNavigationEvent = {
   type?: CalendarButtonProps['type']
 }
 
-export type CalendarSelectEvent = Dates &
-  InputDates & {
+export type CalendarSelectEvent = DatePickerDates &
+  DatePickerInputDates & {
     event: React.MouseEvent<HTMLButtonElement>
     hidePicker: boolean
     nr: number
