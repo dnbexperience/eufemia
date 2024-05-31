@@ -15,6 +15,7 @@ function SubHeading({ level, ...props }: Props) {
     <Heading
       className={classnames('dnb-forms-sub-heading', className)}
       level={level || 3}
+      skip_correction
       size="medium"
       {...rest}
     >
