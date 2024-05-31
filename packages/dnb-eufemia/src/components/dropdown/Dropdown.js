@@ -458,7 +458,6 @@ class DropdownInstance extends React.PureComponent {
       max_height,
       default_value,
       className,
-      class: _className,
       disabled,
       stretch,
       skeleton,
@@ -524,7 +523,6 @@ class DropdownInstance extends React.PureComponent {
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
         createSpacingClasses(props),
-        _className,
         className
       ),
     }

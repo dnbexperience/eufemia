@@ -105,7 +105,6 @@ export interface TextareaProps
    * Set a number to define how many rows the Textarea can auto grow.
    */
   autoresize_max_rows?: TextareaAutoresizeMaxRows;
-  class?: string;
   textarea_class?: string;
   textarea_attributes?: TextareaTextareaAttributes;
   readOnly?: boolean;

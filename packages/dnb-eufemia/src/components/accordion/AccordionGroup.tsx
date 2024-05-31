@@ -67,7 +67,6 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     group, // eslint-disable-line
     onInit, // eslint-disable-line
     className,
-    class: _className,
 
     id: _id, // eslint-disable-line
     children, // eslint-disable-line
@@ -79,8 +78,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     'dnb-accordion-group',
     isTrue(single_container) && 'dnb-accordion-group--single-container',
     createSpacingClasses(extendedProps),
-    className,
-    _className
+    className
   )
 
   const params = {

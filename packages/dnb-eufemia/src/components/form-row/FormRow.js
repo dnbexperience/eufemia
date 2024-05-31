@@ -52,7 +52,6 @@ export const formRowPropTypes = {
   responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
 
   skipContentWrapperIfNested: PropTypes.bool,
 
@@ -86,7 +85,6 @@ export const formRowDefaultProps = {
   responsive: null,
   disabled: null,
   skeleton: null,
-  class: null,
 
   skipContentWrapperIfNested: false,
   className: null,
@@ -162,7 +160,6 @@ export default class FormRow extends React.PureComponent {
       skeleton,
       wrap,
       className,
-      class: _className,
       skipContentWrapperIfNested,
 
       id: _id, // eslint-disable-line
@@ -200,8 +197,7 @@ export default class FormRow extends React.PureComponent {
         centered && 'dnb-form-row--centered',
         isNested && 'dnb-form-row--nested',
         createSpacingClasses(props),
-        className,
-        _className
+        className
       ),
       ...attributes,
     }

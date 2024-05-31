@@ -17,7 +17,6 @@ export interface CustomContentProps
   disabled?: boolean;
   children?: CustomContentChildren;
   className?: string;
-  class?: string;
 }
 export default class CustomContent extends React.Component<
   CustomContentProps,

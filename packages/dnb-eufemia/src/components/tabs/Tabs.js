@@ -102,7 +102,6 @@ export default class Tabs extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.object,
@@ -136,7 +135,6 @@ export default class Tabs extends React.PureComponent {
     scroll: null,
     skeleton: null,
     id: null,
-    class: null,
 
     className: null,
     children: null,

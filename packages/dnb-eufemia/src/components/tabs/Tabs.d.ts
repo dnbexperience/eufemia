@@ -100,7 +100,6 @@ export interface TabsProps
    */
   skeleton?: SkeletonShow;
   id?: string;
-  class?: string;
   className?: string;
   /**
    * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.

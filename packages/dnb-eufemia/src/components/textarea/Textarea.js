@@ -94,7 +94,6 @@ export default class Textarea extends React.PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
-    class: PropTypes.string,
     textarea_class: PropTypes.string,
     textarea_attributes: PropTypes.oneOfType([
       PropTypes.string,
@@ -145,7 +144,6 @@ export default class Textarea extends React.PureComponent {
     autoresize_max_rows: null,
     characterCounter: null,
     textarea_class: null,
-    class: null,
     textarea_attributes: null,
     readOnly: false,
     rows: null,
@@ -410,7 +408,6 @@ export default class Textarea extends React.PureComponent {
       textarea_class,
       readOnly,
       textarea_attributes,
-      class: _className,
       className,
       autoresize,
       characterCounter,
@@ -488,7 +485,6 @@ export default class Textarea extends React.PureComponent {
         'dnb-form-component',
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
-        _className,
         className
       ),
     }

@@ -85,7 +85,6 @@ export default class Radio extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
@@ -113,7 +112,6 @@ export default class Radio extends React.PureComponent {
     attributes: null,
     readOnly: false,
     skeleton: null,
-    class: null,
 
     className: null,
     children: null,
@@ -306,7 +304,6 @@ export default class Radio extends React.PureComponent {
             readOnly,
             skeleton,
             className,
-            class: _className,
             id: _id, // eslint-disable-line
             group: _group, // eslint-disable-line
             value: _value, // eslint-disable-line
@@ -348,8 +345,7 @@ export default class Radio extends React.PureComponent {
               label &&
                 `dnb-radio--label-position-${label_position || 'right'}`,
               createSpacingClasses(props),
-              className,
-              _className
+              className
             ),
           }
 

@@ -81,7 +81,6 @@ export default class FormSet extends React.PureComponent {
       prevent_submit, // eslint-disable-line
       id, // eslint-disable-line
       className,
-      class: _className,
 
       ...rest
     } = props
@@ -108,8 +107,7 @@ export default class FormSet extends React.PureComponent {
       className: classnames(
         'dnb-form-set',
         createSpacingClasses(this.props),
-        className,
-        _className
+        className
       ),
       ...attributes,
     }

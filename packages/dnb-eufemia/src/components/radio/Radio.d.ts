@@ -75,7 +75,6 @@ export interface RadioProps
   attributes?: RadioAttributes;
   skeleton?: SkeletonShow;
   readOnly?: boolean;
-  class?: string;
   className?: string;
   children?: RadioChildren;
   /**

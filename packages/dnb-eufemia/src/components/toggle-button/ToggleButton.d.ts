@@ -91,7 +91,6 @@ export interface ToggleButtonProps
   icon_size?: IconSize;
   attributes?: ToggleButtonAttributes;
   readOnly?: boolean;
-  class?: string;
   className?: string;
   children?: ToggleButtonChildren;
   /**

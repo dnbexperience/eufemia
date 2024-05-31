@@ -86,7 +86,6 @@ export default class Logo extends React.PureComponent {
       inherit_color,
       alt,
       className,
-      class: _className,
       ...rest
     } = props
 
@@ -120,7 +119,6 @@ export default class Logo extends React.PureComponent {
         className: classnames(
           'dnb-logo',
           className,
-          _className,
           createSpacingClasses(props),
           (width > 0 || height > 0) && 'dnb-logo--has-size',
           size === 'inherit' && 'dnb-logo--inherit-size',
@@ -136,7 +134,6 @@ export default class Logo extends React.PureComponent {
         className: classnames(
           'sbanken-logo',
           className,
-          _className,
           createSpacingClasses(props),
           (width > 0 || height > 0) && 'sbanken-logo--has-size',
           size === 'inherit' && 'sbanken-logo--inherit-size',
