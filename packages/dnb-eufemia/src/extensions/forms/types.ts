@@ -6,11 +6,18 @@ import { AriaAttributes } from 'react'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
-export type AllJSONSchemaVersions =
+export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchema4
   | JSONSchema6
   | JSONSchema7
-  | JSONSchemaType<unknown>
+  | JSONSchemaType<DataType>
+export type AllJSONSchemaVersions<DataType = unknown> =
+  | AllJSONSchemaVersionsBasis<DataType>
+
+  // In order to support "schema = { ... } as const"
+  | (Omit<AllJSONSchemaVersionsBasis<DataType>, 'required'> & {
+      required?: readonly string[]
+    })
 export { JSONSchemaType }
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
@@ -240,7 +247,7 @@ export interface UseFieldProps<
 
   // - Validation
   required?: boolean
-  schema?: AllJSONSchemaVersions
+  schema?: AllJSONSchemaVersions<Value>
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages
