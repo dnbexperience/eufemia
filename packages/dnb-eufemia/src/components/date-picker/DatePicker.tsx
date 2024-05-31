@@ -64,7 +64,7 @@ export type DatePickerEvent<T> = T & ReturnObject<T>
 
 export type DatePickerProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'ref' | 'children' | 'label' | 'size' | 'onBlur' | 'onFocus'
+  'ref' | 'children' | 'label' | 'size' | 'onBlur' | 'onFocus' | 'start'
 > &
   SpacingProps & {
     id?: string
