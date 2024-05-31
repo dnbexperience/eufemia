@@ -254,5 +254,7 @@ function correctDates({ startDate, endDate, minDate, maxDate, isRange }) {
 }
 
 export function pad(num: string, size: number) {
-  return ('000000000' + num).substring(-size)
+  const dateWithPadding = '000000000' + num
+
+  return dateWithPadding.substring(dateWithPadding.length - size)
 }
