@@ -4,7 +4,10 @@
  */
 
 import React, { useCallback, useContext } from 'react'
-import type { DatePickerProps } from './DatePicker'
+import type {
+  DatePickerEventAttributes,
+  DatePickerProps,
+} from './DatePicker'
 
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
@@ -28,12 +31,7 @@ type DatePickerProviderProps = DatePickerProps & {
     func: DatePickerContextValues['getReturnObject']
   ) => DatePickerContextValues['getReturnObject']
   hidePicker?: DatePickerContextValues['hidePicker']
-  attributes?: {
-    day?: string
-    year?: string
-    start?: string
-    end?: string
-  } & Record<string, unknown>
+  attributes?: DatePickerEventAttributes
   children: React.ReactNode
 }
 
