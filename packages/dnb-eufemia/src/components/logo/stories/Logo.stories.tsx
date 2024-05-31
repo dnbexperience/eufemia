@@ -7,7 +7,6 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Logo } from '../..'
-import { Theme } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Logo',
