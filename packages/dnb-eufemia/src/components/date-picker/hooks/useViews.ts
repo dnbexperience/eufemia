@@ -1,14 +1,14 @@
 import addMonths from 'date-fns/addMonths'
 import { useEffect, useState } from 'react'
-import { Dates } from './useDates'
+import { DatePickerDates } from './useDates'
 
 export type CalendarView = { nr: number; month?: Date }
 
 export type ViewDates = {
-  startDate?: Dates['startDate']
-  endDate?: Dates['endDate']
-  startMonth?: Dates['startMonth']
-  endMonth?: Dates['endMonth']
+  startDate?: DatePickerDates['startDate']
+  endDate?: DatePickerDates['endDate']
+  startMonth?: DatePickerDates['startMonth']
+  endMonth?: DatePickerDates['endMonth']
 }
 
 export type UseViewsParams = ViewDates & {
