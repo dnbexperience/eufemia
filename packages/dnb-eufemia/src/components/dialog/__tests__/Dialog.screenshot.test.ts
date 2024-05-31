@@ -179,7 +179,6 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
         height: 400,
       },
       headers: { 'User-Agent': 'iPhone OS 15' },
-      each: true,
     })
 
     it('have to match scrolled to top', async () => {

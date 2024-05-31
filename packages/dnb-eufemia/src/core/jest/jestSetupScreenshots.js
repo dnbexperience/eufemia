@@ -55,6 +55,9 @@ const makeScreenshot = async ({
   fullscreen = false,
   selector,
   style = null,
+  /**
+   * Adds a class (or list of classes) to the <html> element during the test
+   */
   rootClassName = null,
   addWrapper = true,
   executeBeforeSimulate = null,
