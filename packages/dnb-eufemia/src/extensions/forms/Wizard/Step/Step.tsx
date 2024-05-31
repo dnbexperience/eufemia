@@ -30,6 +30,11 @@ export type Props = ComponentProps &
     required?: boolean
 
     /**
+     * If set to `false`, the step will not be rendered.
+     */
+    active?: boolean
+
+    /**
      * If set to `true`, the step will always be rendered.
      * For internal use only.
      */
@@ -41,16 +46,21 @@ function Step(props: Props) {
     className,
     title,
     index,
+    active = true,
     required,
     prerenderFieldProps,
     children,
     ...restProps
   } = props
-  const { activeIndex, stepElementRef } = useContext(WizardContext) || {}
+  const { activeIndex, titlesRef, stepElementRef } =
+    useContext(WizardContext) || {}
 
   const ariaLabel = useMemo(() => {
-    return !prerenderFieldProps && convertJsxToString(title)
-  }, [prerenderFieldProps, title])
+    return (
+      (!prerenderFieldProps && titlesRef?.current?.[index]) ??
+      convertJsxToString(title)
+    )
+  }, [index, prerenderFieldProps, title, titlesRef])
 
   const currentElementRef = useRef<HTMLElement>()
   useLayoutEffect(() => {
@@ -68,7 +78,7 @@ function Step(props: Props) {
     return children
   }
 
-  if (activeIndex !== index) {
+  if (activeIndex !== index || active === false) {
     // Another step is active
     return null
   }

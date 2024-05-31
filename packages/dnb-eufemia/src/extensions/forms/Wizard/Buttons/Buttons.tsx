@@ -12,7 +12,9 @@ export type Props = ComponentProps & {
 
 function Buttons(props: Props) {
   const { className } = props
-  const { activeIndex, totalSteps } = useContext(WizardContext) || {}
+  const { activeIndex, titlesRef } = useContext(WizardContext) || {}
+
+  const totalSteps = Object.keys(titlesRef?.current || {}).length || 0
   const showPreviousButton = activeIndex > 0
   const showNextButton = activeIndex < totalSteps - 1
 
