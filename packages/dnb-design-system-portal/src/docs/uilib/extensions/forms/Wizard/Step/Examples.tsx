@@ -1,10 +1,10 @@
-import { Card, Hr, P } from '@dnb/eufemia/src'
+import { Card, P } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Value, Wizard } from '@dnb/eufemia/src/extensions/forms'
 
 export const EditButton = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="wizard-edit-button">
       {() => {
         const Step = ({ title }) => {
           return (
@@ -27,8 +27,6 @@ export const EditButton = () => {
                 <Value.SummaryList>
                   <Value.Name.First path="/firstName" />
                 </Value.SummaryList>
-
-                <Hr />
 
                 <Wizard.EditButton toStep={0} />
               </Card>

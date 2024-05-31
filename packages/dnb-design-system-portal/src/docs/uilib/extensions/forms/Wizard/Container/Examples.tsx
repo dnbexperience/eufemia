@@ -8,7 +8,7 @@ import {
   Value,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Card, Hr, P } from '@dnb/eufemia/src'
+import { Card, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -74,8 +74,6 @@ export const Default = () => {
                     <Value.String path="/city" />
                   </Value.Composition>
                 </Value.SummaryList>
-
-                <Hr />
 
                 <Wizard.EditButton toStep={1} />
               </Card>
