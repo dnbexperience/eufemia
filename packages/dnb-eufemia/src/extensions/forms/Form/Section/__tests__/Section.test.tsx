@@ -1040,11 +1040,6 @@ describe('Form.Section', () => {
         )
       }
 
-      const formTranslations = {
-        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
-        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
-      }
-
       const { rerender } = render(
         <Form.Handler>
           <MySection />
@@ -1055,6 +1050,11 @@ describe('Form.Section', () => {
 
       expect(label).toHaveTextContent('Section nb')
 
+      const formTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
+      }
+
       rerender(
         <Form.Handler locale="en-GB" translations={formTranslations}>
           <MySection />
@@ -1062,6 +1062,81 @@ describe('Form.Section', () => {
       )
 
       expect(label).toHaveTextContent('Form en')
+    })
+
+    it('should replace translations gracefully from Form.Handler', () => {
+      const myTranslations = {
+        'en-GB': {
+          FirstName: { label: 'Custom label' },
+        },
+      }
+
+      render(
+        <Form.Handler translations={myTranslations} locale="en-GB">
+          <MySection path="/should-not-matter" />
+        </Form.Handler>
+      )
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('label')
+      )
+      expect(first).toHaveTextContent('Custom label')
+      expect(second).toHaveTextContent('Surname')
+    })
+
+    it('should not mutate translations object', () => {
+      const sectionTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Section nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Section en' } } },
+      }
+      type SectionTranslation =
+        (typeof sectionTranslations)[keyof typeof sectionTranslations]
+
+      const MySectionContent = () => {
+        const { MySection } = Form.useTranslation<SectionTranslation>()
+        return (
+          <Field.String
+            label={MySection.CustomField.label}
+            path="/myField"
+          />
+        )
+      }
+
+      const MySection = () => {
+        return (
+          <Form.Section translations={sectionTranslations}>
+            <MySectionContent />
+          </Form.Section>
+        )
+      }
+
+      const formTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
+      }
+
+      render(
+        <Form.Handler translations={formTranslations}>
+          <MySection />
+          <MySection />
+          <MySection />
+        </Form.Handler>
+      )
+
+      {
+        const [label1, label2] = Array.from(
+          document.querySelectorAll('label')
+        )
+        expect(label1).toHaveTextContent('Form nb')
+        expect(label2).toHaveTextContent('Form nb')
+      }
+
+      expect(
+        sectionTranslations['nb-NO'].MySection.CustomField.label
+      ).toBe('Section nb')
+      expect(
+        sectionTranslations['en-GB'].MySection.CustomField.label
+      ).toBe('Section en')
     })
   })
 

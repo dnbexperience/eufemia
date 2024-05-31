@@ -27,7 +27,7 @@ import {
   ValueProps,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
-import FieldProvider from '../../Form/FieldProps'
+import FieldPropsProvider from '../../Form/FieldProps'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -1058,7 +1058,7 @@ export default function Provider<Data extends JsonObject>(
         ...rest,
       }}
     >
-      <FieldProvider
+      <FieldPropsProvider
         FormStatus={
           globalStatusId
             ? {
@@ -1075,7 +1075,7 @@ export default function Provider<Data extends JsonObject>(
         translations={translations ? translations : undefined}
       >
         {children}
-      </FieldProvider>
+      </FieldPropsProvider>
     </Context.Provider>
   )
 }

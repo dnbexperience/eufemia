@@ -14,6 +14,7 @@ export type Props = Omit<
   value?: UseFieldProps<Value, undefined | Value>['value']
   path?: Path
   countPath?: Path
+  countPathLimit?: number
   countPathTransform?: (params: { value: any; index: number }) => any
   withoutFlex?: boolean
   emptyValue?: UseFieldProps<Value, undefined | Value>['emptyValue']

@@ -55,13 +55,15 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
 
   const sharedProviderProps: ContextProps = {}
 
-  // Extract props to be used in the shared global context
-  const { locale, translations } = useMemo(() => {
-    return extendDeep(
-      { ...restProps },
-      removeUndefined(nestedContext?.inheritedProps)
-    ) as ContextProps
-  }, [nestedContext?.inheritedProps, restProps])
+  /**
+   * Always use data context as the last source for localization
+   */
+  const locale = dataContextRef.current?.props?.locale ?? restProps?.locale
+  const translations = extendDeep(
+    {},
+    restProps?.translations,
+    dataContextRef.current?.props?.translations
+  ) as ContextProps
 
   const nestedFieldProps = useMemo(() => {
     return Object.assign(
@@ -171,15 +173,5 @@ function transformTranslations(
     result[locale] = newObj
   }
 
-  return result
-}
-
-function removeUndefined(obj = {}) {
-  const result = {}
-  for (const key in obj) {
-    if (obj[key] !== undefined) {
-      result[key] = obj[key]
-    }
-  }
   return result
 }

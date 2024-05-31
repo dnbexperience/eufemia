@@ -21,6 +21,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  countPathLimit: {
+    doc: 'Will limit the iterate amount by given "countPathLimit" value.',
+    type: 'number',
+    status: 'optional',
+  },
   withoutFlex: {
     doc: 'When `true` it will omit the Flex.Stack wrapper so it can be used for tables and lists.',
     type: 'boolean',
