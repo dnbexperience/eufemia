@@ -40,19 +40,6 @@ describe('useFieldProps', () => {
     })
   })
 
-  it('should update data context with initially given "defaultValue"', () => {
-    const defaultValue = 'include this'
-
-    const { result } = renderHook(
-      () => useFieldProps({ path: '/foo', defaultValue }),
-      { wrapper: Provider }
-    )
-
-    expect(result.current.dataContext.data).toEqual({
-      foo: defaultValue,
-    })
-  })
-
   it('given "value" should take precedence over data context value', () => {
     const value = 'include this'
     const givenValue = 'given value'
@@ -71,64 +58,79 @@ describe('useFieldProps', () => {
     })
   })
 
-  it('given "defaultValue" should not take precedence over data context value', () => {
-    const givenValue = 'given value'
-    const defaultValue = 'include this'
+  describe('defaultValue', () => {
+    it('should update data context with initially given "defaultValue"', () => {
+      const defaultValue = 'include this'
 
-    const { result } = renderHook(
-      () => useFieldProps({ path: '/foo', defaultValue }),
-      {
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', defaultValue }),
+        { wrapper: Provider }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: defaultValue,
+      })
+    })
+
+    it('given "defaultValue" should not take precedence over data context value', () => {
+      const givenValue = 'given value'
+      const defaultValue = 'include this'
+
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', defaultValue }),
+        {
+          wrapper: (props) => (
+            <Provider data={{ foo: givenValue }} {...props} />
+          ),
+        }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: givenValue,
+      })
+    })
+
+    it('should not update data context with changed "defaultValue" after rerendering', () => {
+      const givenValue = 'given value'
+      const defaultValue = 'include this'
+
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/foo',
+          defaultValue,
+        },
         wrapper: (props) => (
           <Provider data={{ foo: givenValue }} {...props} />
         ),
-      }
-    )
+      })
 
-    expect(result.current.dataContext.data).toEqual({
-      foo: givenValue,
-    })
-  })
+      expect(result.current.dataContext.data).toEqual({
+        foo: givenValue,
+      })
 
-  it('should not update data context with changed "defaultValue" after rerendering', () => {
-    const givenValue = 'given value'
-    const defaultValue = 'include this'
+      rerender({ path: '/foo', defaultValue: 'new value' })
 
-    const { result, rerender } = renderHook(useFieldProps, {
-      initialProps: {
-        path: '/foo',
-        defaultValue,
-      },
-      wrapper: (props) => (
-        <Provider data={{ foo: givenValue }} {...props} />
-      ),
+      expect(result.current.dataContext.data).toEqual({
+        foo: givenValue,
+      })
     })
 
-    expect(result.current.dataContext.data).toEqual({
-      foo: givenValue,
+    it('changed "defaultValue" should not update value', () => {
+      const defaultValue = 'use this value'
+      const changedValue = 'changed value'
+
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          defaultValue,
+        },
+      })
+
+      expect(result.current.value).toBe(defaultValue)
+
+      rerender({ defaultValue: changedValue })
+
+      expect(result.current.value).toBe(defaultValue)
     })
-
-    rerender({ path: '/foo', defaultValue: 'new value' })
-
-    expect(result.current.dataContext.data).toEqual({
-      foo: givenValue,
-    })
-  })
-
-  it('changed "defaultValue" should update value', () => {
-    const defaultValue = 'use this value'
-    const changedValue = 'changed value'
-
-    const { result, rerender } = renderHook(useFieldProps, {
-      initialProps: {
-        defaultValue,
-      },
-    })
-
-    expect(result.current.value).toBe(defaultValue)
-
-    rerender({ defaultValue: changedValue })
-
-    expect(result.current.value).toBe(changedValue)
   })
 
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {

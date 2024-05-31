@@ -173,6 +173,7 @@ export default function useFieldProps<
     itemPath,
   })
 
+  const defaultValueRef = useRef(defaultValue)
   const externalValue =
     useExternalValue<Value>({
       path,
@@ -180,7 +181,7 @@ export default function useFieldProps<
       value: valueProp,
       transformers,
       emptyValue,
-    }) ?? defaultValue
+    }) ?? defaultValueRef.current
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -1129,10 +1130,11 @@ export default function useFieldProps<
       }
 
       if (
-        typeof defaultValue !== 'undefined' &&
+        typeof defaultValueRef.current !== 'undefined' &&
         typeof value === 'undefined'
       ) {
-        value = defaultValue
+        value = defaultValueRef.current
+        defaultValueRef.current = undefined
       }
 
       if (
@@ -1150,7 +1152,6 @@ export default function useFieldProps<
   }, [
     dataContext.data,
     dataContext.id,
-    defaultValue,
     hasPath,
     identifier,
     updateDataValueDataContext,

@@ -513,6 +513,26 @@ describe('Field.Number', () => {
       expect(input).toHaveValue('0')
     })
 
+    it('should handle "defaultValue"', async () => {
+      const { rerender } = render(
+        <Field.Number showStepControls defaultValue={1} />
+      )
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '{Backspace}3')
+      expect(input).toHaveValue('3')
+
+      await userEvent.type(input, '{Backspace}')
+      expect(input).toHaveValue('')
+
+      await userEvent.type(input, '2')
+      expect(input).toHaveValue('2')
+
+      rerender(<Field.Number showStepControls defaultValue={99} />)
+
+      expect(input).toHaveValue('2')
+    })
+
     it('increases input value from "startWith" value using control buttons', () => {
       render(<Field.Number showStepControls startWith={-1} />)
       const input = document.querySelector('input')
