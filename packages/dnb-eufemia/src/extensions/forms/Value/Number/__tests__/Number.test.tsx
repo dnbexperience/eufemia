@@ -33,6 +33,20 @@ describe('Value.Number', () => {
     )
   })
 
+  it('renders given minimum value', () => {
+    render(<Value.Number value={10} minimum={20} />)
+    expect(
+      document.querySelector('.dnb-forms-value-number')
+    ).toHaveTextContent('20')
+  })
+
+  it('renders given maximum value', () => {
+    render(<Value.Number value={20} maximum={10} />)
+    expect(
+      document.querySelector('.dnb-forms-value-number')
+    ).toHaveTextContent('10')
+  })
+
   it('renders placeholder', () => {
     render(<Value.Number placeholder="Enter some number" />)
     expect(screen.getByText('Enter some number')).toBeInTheDocument()
