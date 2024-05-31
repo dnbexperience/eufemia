@@ -94,6 +94,7 @@ function Card(props: Props) {
         direction={direction ?? 'vertical'}
         divider={divider}
         alignSelf={alignSelf}
+        align={stack ? 'stretch' : undefined}
         wrap={!stack}
         gap={stack ? 'medium' : (gap ?? spacing) || false}
         rowGap={rowGap || false}

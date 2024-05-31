@@ -117,6 +117,21 @@ describe('Card', () => {
     expect(children[1]).toHaveClass('dnb-space__top--medium')
   })
 
+  it('should have correct classes when "stack" is set', () => {
+    render(
+      <Card stack>
+        <P>Paragraph</P>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    const container = element.querySelector('.dnb-flex-container')
+
+    expect(container).toHaveClass('dnb-flex-container--align-stretch')
+    expect(container).toHaveClass('dnb-flex-container--align-self-stretch')
+  })
+
   it('should stack children divided by lines', () => {
     render(
       <Card stack divider="line">

@@ -5,6 +5,7 @@ import {
   Flex,
   Grid,
   H2,
+  Hr,
   P,
   Table,
   Td,
@@ -160,6 +161,8 @@ export const Stack = () => {
       <Card stack>
         <Field.String label="Label" value="Value" />
         <Field.String label="Label" value="Value" />
+        <Hr />
+        <Form.SubmitButton />
       </Card>
     </ComponentBox>
   )
