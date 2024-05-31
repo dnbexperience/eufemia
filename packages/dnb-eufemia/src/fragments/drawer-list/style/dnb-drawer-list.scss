@@ -443,10 +443,12 @@
   from {
     opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height)));
+    pointer-events: none;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 }
 
@@ -476,9 +478,11 @@
   from {
     opacity: 0;
     transform: translateY(calc(1px + var(--drawer-list-height)));
+    pointer-events: none;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 }

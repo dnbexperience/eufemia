@@ -355,10 +355,12 @@ html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawe
   from {
     opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height)));
+    pointer-events: none;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 }
 @keyframes drawer-list-slide-top-up {
@@ -385,10 +387,12 @@ html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawe
   from {
     opacity: 0;
     transform: translateY(calc(1px + var(--drawer-list-height)));
+    pointer-events: none;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 }"
 `;

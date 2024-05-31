@@ -230,8 +230,6 @@ export const DropdownDirections = () => {
       return {}
     }
     return {
-      opened: true,
-      prevent_close: true,
       direction: 'top',
     }
   }
@@ -256,10 +254,7 @@ export const DropdownDirections = () => {
               <P>alignment</P>
             </Dropdown.HorizontalItem>,
           ]}
-          {...visualTestProps(
-            globalThis.IS_TEST &&
-              window.location.search.includes('item-directions'),
-          )}
+          {...visualTestProps(globalThis.IS_TEST)}
         />
       </ComponentBox>
     </Wrapper>
@@ -338,8 +333,6 @@ export const DropdownMoreMenu = () => {
       return {}
     }
     return {
-      opened: true,
-      prevent_close: true,
       independent_width: true,
       direction: 'bottom',
     }
@@ -362,10 +355,7 @@ export const DropdownMoreMenu = () => {
             <>Custom component</>,
           ]}
           right="small"
-          {...visualTestProps(
-            globalThis.IS_TEST &&
-              window.location.search.includes('left-side'),
-          )}
+          {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
           prevent_selection={true}
@@ -383,10 +373,7 @@ export const DropdownMoreMenu = () => {
             third: <>Custom component</>,
           })}
           right="small"
-          {...visualTestProps(
-            globalThis.IS_TEST &&
-              window.location.search.includes('right-side'),
-          )}
+          {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
           more_menu={true}
@@ -455,7 +442,6 @@ export const DropdownCustomEvent = () => {
       return {}
     }
     return {
-      opened: true,
       prevent_close: true,
       independent_width: true,
       skip_portal: true,
@@ -512,10 +498,7 @@ export const DropdownCustomEvent = () => {
               suffix={
                 <HelpButton title="Modal Title">Modal content</HelpButton>
               }
-              {...visualTestProps(
-                globalThis.IS_TEST &&
-                  window.location.search.includes('action_menu-custom'),
-              )}
+              {...visualTestProps(globalThis.IS_TEST)}
             />
           )
         }}
