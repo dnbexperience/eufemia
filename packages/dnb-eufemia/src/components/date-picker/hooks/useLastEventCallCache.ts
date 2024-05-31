@@ -6,22 +6,22 @@ export type LastEventCallCache = {
   endDate?: Dates['startDate']
 }
 
-type NonCachedDates = LastEventCallCache
+type uncachedDates = LastEventCallCache
 
 export default function useLastEventCallCache(
-  nonCachedDates: NonCachedDates
+  uncachedDates: uncachedDates
 ) {
   const [cache, setCache] = useState<LastEventCallCache>(undefined)
 
   useEffect(() => {
     if (
       cache &&
-      (cache.startDate !== nonCachedDates.startDate ||
-        cache.endDate !== nonCachedDates.endDate)
+      (cache.startDate !== uncachedDates.startDate ||
+        cache.endDate !== uncachedDates.endDate)
     ) {
       setCache(undefined)
     }
-  }, [nonCachedDates, cache])
+  }, [uncachedDates, cache])
 
   return [cache, setCache] as const
 }
