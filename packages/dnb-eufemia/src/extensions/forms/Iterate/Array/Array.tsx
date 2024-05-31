@@ -45,11 +45,22 @@ function ArrayComponent(props: Props) {
 
   const { getValue } = useDataValue()
   const preparedProps = useMemo(() => {
-    const { path, countPath, countPathTransform } = props
+    const {
+      path,
+      countPath,
+      countPathLimit = Infinity,
+      countPathTransform,
+    } = props
 
     if (countPath) {
       const arrayValue = getValue(path)
-      const countValue = getValue(countPath)
+      let countValue = parseFloat(getValue(countPath))
+      if (!(countValue >= 0)) {
+        countValue = 0
+      }
+      if (countValue > countPathLimit) {
+        countValue = countPathLimit
+      }
       if (arrayValue?.length !== countValue) {
         const newValue = []
         for (let i = 0, l = countValue; i < l; i++) {

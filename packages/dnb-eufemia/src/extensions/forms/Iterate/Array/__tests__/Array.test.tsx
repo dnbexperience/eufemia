@@ -220,6 +220,84 @@ describe('Iterate.Array', () => {
     })
   })
 
+  describe('countPath', () => {
+    it('should iterate over the amount given in countPath', () => {
+      render(
+        <Form.Handler data={{ count: 2 }}>
+          <Iterate.Array path="/items" countPath="/count">
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+    })
+
+    it('should render input value defined by "countPathTransform"', () => {
+      render(
+        <Form.Handler data={{ count: 2 }}>
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathTransform={({ value, index }) =>
+              Object.prototype.hasOwnProperty.call(value || {}, 'item')
+                ? value
+                : { item: index }
+            }
+          >
+            <Field.Number itemPath="/item" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('0')
+      expect(inputs[1]).toHaveValue('1')
+    })
+
+    it('should not iterate over invalid countPath', () => {
+      render(
+        <Form.Handler data={{ count: '' }}>
+          <Iterate.Array path="/items" countPath="/count">
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(0)
+    })
+
+    it('should not iterate over negative countPath', () => {
+      render(
+        <Form.Handler data={{ count: -1 }}>
+          <Iterate.Array path="/items" countPath="/count">
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(0)
+    })
+
+    it('should limit the iterate amount by given "countPathLimit" value', () => {
+      render(
+        <Form.Handler data={{ count: 10 }}>
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathLimit={2}
+          >
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+    })
+  })
+
   describe('using single render prop', () => {
     describe('with primitive elements', () => {
       it('should call renderers with each element value', () => {
