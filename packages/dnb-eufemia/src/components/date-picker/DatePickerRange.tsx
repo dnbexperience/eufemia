@@ -16,7 +16,7 @@ import DatePickerCalendar, {
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
 import DatePickerContext from './DatePickerContext'
-import { Dates } from './hooks/useDates'
+import { DatePickerDates } from './hooks/useDates'
 
 export type DatePickerRangeViews = number | Record<string, unknown>[]
 
@@ -83,7 +83,7 @@ function DatePickerRange(props: DatePickerRangeProps) {
   )
 
   const onHover = useCallback(
-    (hoverDate: Dates['hoverDate']) => {
+    (hoverDate: DatePickerDates['hoverDate']) => {
       updateDates({ hoverDate })
     },
     [updateDates]

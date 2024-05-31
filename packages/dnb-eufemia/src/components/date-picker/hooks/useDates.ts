@@ -4,7 +4,7 @@ import isValid from 'date-fns/isValid'
 import usePreviousProps from './usePreviousValue'
 import format from 'date-fns/format'
 
-export type DateProps = {
+export type DatePickerInitialDates = {
   date?: Date | string
   startDate?: Date | string
   endDate?: Date | string
@@ -21,7 +21,7 @@ type UseDatesOptions = {
   shouldCorrectDate: boolean
 }
 
-export type InputDates = {
+export type DatePickerInputDates = {
   __startDay?: string
   __startMonth?: string
   __startYear?: string
@@ -30,7 +30,7 @@ export type InputDates = {
   __endYear?: string
 }
 
-export type Dates = {
+export type DatePickerDates = {
   date?: Date | string
   startDate?: Date
   endDate?: Date
@@ -42,10 +42,10 @@ export type Dates = {
   partialEndDate?: string
   hasHadValidDate?: boolean
   hoverDate?: Date
-} & InputDates
+} & DatePickerInputDates
 
 export default function useDates(
-  initialDates: DateProps,
+  initialDates: DatePickerInitialDates,
   {
     dateFormat,
     isRange = false,
@@ -131,7 +131,7 @@ export default function useDates(
   }, [initialDates, dateFormat, isRange, shouldCorrectDate])
 
   const previousDates = usePreviousProps(initialDates)
-  const [dates, setDates] = useState<Dates>({
+  const [dates, setDates] = useState<DatePickerDates>({
     date:
       previousDates.date !== initialDates.date
         ? initialDates.date
@@ -142,7 +142,10 @@ export default function useDates(
   const hasHadValidDate = useRef<boolean>(false)
 
   const updateDates = useCallback(
-    (newDates, callback?: (dates: Dates) => void) => {
+    (
+      newDates: DatePickerDates,
+      callback?: (dates: DatePickerDates) => void
+    ) => {
       const correctedDates = shouldCorrectDate
         ? correctDates({
             startDate: newDates.startDate ?? dates.startDate,
@@ -250,4 +253,6 @@ function correctDates({ startDate, endDate, minDate, maxDate, isRange }) {
   return correctedDates
 }
 
-export const pad = (num, size) => ('000000000' + num).substr(-size)
+export function pad(num: string, size: number) {
+  return ('000000000' + num).substring(-size)
+}
