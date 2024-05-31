@@ -71,7 +71,7 @@ export interface Props<Data extends JsonObject> {
   /**
    * JSON Schema to validate the data against.
    */
-  schema?: AllJSONSchemaVersions
+  schema?: AllJSONSchemaVersions<Data>
   /**
    * Custom Ajv instance, if you want to use your own
    */
