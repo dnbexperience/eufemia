@@ -3,15 +3,14 @@
  * github.com/GoogleChrome/puppeteer/blob/master/docs/api.md
  */
 
-const fs = require('fs-extra')
-const path = require('path')
-const os = require('os')
-const ora = require('ora')
-const { isCI } = require('repo-utils')
-const { slugify } = require('../../../src/shared/component-helper')
-const { makeUniqueId } = require('../../shared/component-helper')
-const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
-const screenshotConfig = require('../../../jest.config.screenshots')
+import fs from 'fs-extra'
+import path from 'path'
+import os from 'os'
+import ora from 'ora'
+import { isCI } from 'repo-utils'
+import { slugify, makeUniqueId } from '../../shared/component-helper'
+import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
+import screenshotConfig from '../../../jest.config.screenshots'
 
 const playwrightSettings =
   screenshotConfig.testEnvironmentOptions['jest-playwright']
@@ -20,7 +19,7 @@ const isHeadless = playwrightSettings.launchOptions.headless
 
 const log = ora()
 
-const config = {
+export const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
@@ -42,40 +41,69 @@ const config = {
   // We may use one of these: load, domcontentloaded, networkidle2
   waitUntil: isCI ? 'load' : 'load',
 }
-module.exports.config = config
-module.exports.isCI = isCI
+export { isCI }
 
-const makeScreenshot = async ({
-  page = global.page,
-  url = null,
-  themeName = null,
-  pageViewport = null,
-  headers = null,
-  reload = null,
-  fullscreen = false,
-  selector,
-  style = null,
-  /**
-   * Adds a class (or list of classes) to the <html> element during the test
-   */
-  rootClassName = null,
-  addWrapper = true,
-  executeBeforeSimulate = null,
-  executeBeforeScreenshot = null,
-  simulate = null,
-  simulateAfter = null,
-  waitBeforeFinish = null,
-  waitBeforeSimulate = null,
-  waitAfterSimulate = null,
-  waitAfterSimulateSelector = null,
-  screenshotSelector = null,
-  styleSelector = null,
-  simulateSelector = null,
-  wrapperStyle = null,
-  measureElement = null,
-  matchConfig = null,
-  recalculateHeightAfterSimulate = false,
-} = {}) => {
+type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
+type Action = { action?: ActionName; selector?: string; keypress?: string }
+type Simulation = Action | ActionName
+
+export const makeScreenshot = async (
+  {
+    page = global.page,
+    url = null,
+    themeName = null,
+    pageViewport = null,
+    headers = null,
+    reload = null,
+    fullscreen = false,
+    selector,
+    style = null,
+    rootClassName = null,
+    addWrapper = true,
+    executeBeforeSimulate = null,
+    executeBeforeScreenshot = null,
+    simulate = null,
+    simulateAfter = null,
+    waitBeforeFinish = null,
+    waitBeforeSimulate = null,
+    waitAfterSimulate = null,
+    waitAfterSimulateSelector = null,
+    screenshotSelector = null,
+    styleSelector = null,
+    simulateSelector = null,
+    wrapperStyle = null,
+    measureElement = null,
+    matchConfig = null,
+    recalculateHeightAfterSimulate = false,
+  }: {
+    page?
+    url?: string
+    themeName?: string
+    pageViewport?: { width?: number; height?: number }
+    headers?
+    reload?: boolean
+    fullscreen?: boolean
+    selector: string
+    style?: Record<string, string>
+    rootClassName?: string | string[]
+    addWrapper?: boolean
+    executeBeforeSimulate?: () => void
+    executeBeforeScreenshot?: () => void
+    simulate?: Simulation | Simulation[]
+    simulateAfter?: Simulation | Simulation[]
+    waitBeforeFinish?: number
+    waitBeforeSimulate?: number
+    waitAfterSimulate?: number
+    waitAfterSimulateSelector?: string
+    screenshotSelector?: string
+    styleSelector?: string
+    simulateSelector?: string
+    wrapperStyle?: Record<string, string>
+    measureElement?: string
+    matchConfig?
+    recalculateHeightAfterSimulate?: boolean
+  } = { selector: undefined }
+) => {
   await makePageReady({
     page,
     url,
@@ -110,7 +138,7 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeSimulate)
   }
 
-  let { delaySimulation, lastAction } = await handleSimulation({
+  const simulationValues = await handleSimulation({
     page,
     element,
     simulate,
@@ -119,6 +147,8 @@ const makeScreenshot = async ({
     waitAfterSimulate,
     waitBeforeSimulate,
   })
+  const { delaySimulation } = simulationValues
+  let { lastMouseAction } = simulationValues
 
   if (recalculateHeightAfterSimulate) {
     await handleWrapperHeightChange({
@@ -138,7 +168,7 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeScreenshot)
   }
 
-  if (lastAction === 'click' || lastAction === 'forceclick') {
+  if (lastMouseAction === 'click' || lastMouseAction === 'focusclick') {
     await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
   }
 
@@ -149,12 +179,13 @@ const makeScreenshot = async ({
   })
 
   if (simulateAfter) {
-    const { lastAction: lastActionAfter } = await handleSimulation({
-      page,
-      element,
-      simulate: simulateAfter,
-    })
-    lastAction = lastActionAfter
+    const { lastMouseAction: lastMouseActionAfter } =
+      await handleSimulation({
+        page,
+        element,
+        simulate: simulateAfter,
+      })
+    lastMouseAction = lastMouseActionAfter
   }
 
   // Only for dev
@@ -174,19 +205,18 @@ const makeScreenshot = async ({
 
   await page.mouse.move(0, 0)
 
-  if (lastAction === 'active') {
+  if (lastMouseAction === 'active') {
     await page.mouse.up() // reset mouse.down() after move (to avoid a click) for subsequent tests
   }
 
-  if (waitBeforeFinish > 0) {
+  if (waitBeforeFinish) {
     await page.waitForTimeout(waitBeforeFinish)
   }
 
   return screenshot
 }
-module.exports.makeScreenshot = makeScreenshot
 
-const setMatchConfig = (matchConfig) => {
+export const setMatchConfig = (matchConfig) => {
   const cfg = {
     ...config.matchConfig,
     ...matchConfig,
@@ -194,19 +224,19 @@ const setMatchConfig = (matchConfig) => {
   const toMatchImageSnapshot = configureToMatchImageSnapshot(cfg)
   expect.extend({ toMatchImageSnapshot })
 }
-module.exports.setMatchConfig = setMatchConfig
 
-const setupPageScreenshot = ({
-  page = global.page,
-  url,
-  themeName = null,
-  pageViewport = null,
-  headers = null,
-  fullscreen = false,
-  each = false,
-  timeout = null,
-  matchConfig = null,
-} = {}) => {
+export const setupPageScreenshot = (
+  {
+    page = global.page,
+    url,
+    themeName = null,
+    pageViewport = null,
+    headers = null,
+    fullscreen = false,
+    timeout = null,
+    matchConfig = null,
+  } = { url: undefined }
+) => {
   if (matchConfig) {
     // The cleanup happens in "setupJestScreenshot"
     beforeEach(() => {
@@ -225,13 +255,8 @@ const setupPageScreenshot = ({
     })
   }
 
-  if (each) {
-    beforeEach(before, timeout)
-  } else {
-    beforeAll(before, timeout)
-  }
+  beforeAll(before, timeout)
 }
-module.exports.setupPageScreenshot = setupPageScreenshot
 
 async function handleElement({
   page,
@@ -337,8 +362,8 @@ async function makePageReady({
   global.IS_TEST = true
   await page.evaluate(() => {
     try {
-      window.IS_TEST = true
-      document.documentElement.setAttribute('data-visual-test', true)
+      window['IS_TEST'] = true
+      document.documentElement.setAttribute('data-visual-test', 'true')
     } catch (e) {
       //
     }
@@ -443,74 +468,87 @@ async function handleSimulation({
   page,
   element,
   simulate,
-  simulateSelector,
-  waitAfterSimulateSelector,
-  waitAfterSimulate,
-  waitBeforeSimulate,
+  simulateSelector = undefined,
+  waitAfterSimulateSelector = undefined,
+  waitAfterSimulate = undefined,
+  waitBeforeSimulate = undefined,
+}: {
+  page
+  element
+  simulate: Simulation | Simulation[]
+  simulateSelector?: string
+  waitAfterSimulateSelector?: string
+  waitAfterSimulate?: number
+  waitBeforeSimulate?: number
 }) {
   if (simulateSelector) {
     element = await page.$(simulateSelector)
   }
 
-  if (parseFloat(waitBeforeSimulate) > 0) {
+  if (waitBeforeSimulate) {
     await page.waitForTimeout(waitBeforeSimulate)
   }
 
   const elementToSimulate = element
   const elementsToDispose = []
   let delaySimulation = 0
-  let lastAction = undefined
+  let lastMouseAction: ActionName = undefined
   if (simulate) {
     const simulations = Array.isArray(simulate) ? simulate : [simulate]
-    for await (const simulate of simulations) {
+    for await (const simulateRaw of simulations) {
+      const simulate =
+        typeof simulateRaw === 'string'
+          ? { action: simulateRaw }
+          : simulateRaw
+
       let element = elementToSimulate
 
-      let action = simulate
-      if (simulate?.action) {
-        action = simulate.action
-        if (simulate.selector) {
-          element = await page.$(simulate.selector)
-        }
+      if (simulate.selector) {
+        element = await page.$(simulate.selector)
         await page.mouse.move(0, 0) // reset between simulations
       }
-      lastAction = action
-      switch (action) {
-        case 'hover': {
-          await element.hover({ force: true })
-          break
-        }
 
-        case 'click': {
-          await element.click()
-          break
-        }
+      if (simulate.action) {
+        lastMouseAction = simulate.action
 
-        /**
-         * Useful in situations,
-         * where a click with a focus is needed (ToggleButton).
-         */
-        case 'focusclick': {
-          delaySimulation = isCI ? 200 : 100
-          await element.click({
-            force: true,
-          })
+        switch (simulate.action) {
+          case 'hover': {
+            await element.hover({ force: true })
+            break
+          }
 
-          await page.keyboard.press('Tab')
-          await element.focus()
-          break
-        }
+          case 'click': {
+            await element.click()
+            break
+          }
 
-        case 'active': {
-          await element.hover({ force: true }) // Slider needs "force: true", in order to ignore "pointer-events: none"
-          await page.mouse.down()
+          /**
+           * Useful in situations,
+           * where a click with a focus is needed (ToggleButton).
+           */
+          case 'focusclick': {
+            delaySimulation = isCI ? 200 : 100
+            await element.click({
+              force: true,
+            })
 
-          break
-        }
+            await page.keyboard.press('Tab')
+            await element.focus()
+            break
+          }
 
-        case 'focus': {
-          await page.keyboard.press('Tab') // to simulate pressing tab key before focus
-          await element.focus({ force: true })
-          break
+          case 'active': {
+            await element.hover({ force: true }) // Slider needs "force: true", in order to ignore "pointer-events: none"
+            await page.mouse.down()
+
+            break
+          }
+
+          case 'focus': {
+            await page.keyboard.press('Tab') // to simulate pressing tab key before focus
+            await element.focus({ force: true })
+            break
+          }
         }
       }
       if (simulate.keypress) {
@@ -527,14 +565,14 @@ async function handleSimulation({
       visible: true,
     })
   }
-  if (parseFloat(waitAfterSimulate) > 0) {
+  if (waitAfterSimulate) {
     await page.waitForTimeout(waitAfterSimulate)
   }
 
   return {
     elementsToDispose,
     delaySimulation,
-    lastAction,
+    lastMouseAction,
   }
 }
 
@@ -602,7 +640,7 @@ async function handleWrapper({
     const { height, y } = await element.boundingBox()
 
     // prevent 1px height rounding error by moving wrapper to a whole numbered coordinate
-    var yDecimals = y.toString().split('.')[1] || 0
+    const yDecimals = y.toString().split('.')[1] || 0
 
     // build the styles
     const style = makeStyles({
@@ -625,7 +663,7 @@ async function handleWrapper({
         element.parentNode.appendChild(wrapperElement)
         wrapperElement.appendChild(element)
 
-        wrapperElement.style = style
+        wrapperElement.setAttribute('style', style)
 
         const elRec = element.getBoundingClientRect()
         const wrRec = wrapperElement.getBoundingClientRect()
@@ -682,7 +720,7 @@ async function handleWrapperHeightChange({ page, selector, element }) {
   )
 }
 
-module.exports.loadImage = async (imagePath) =>
+export const loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
