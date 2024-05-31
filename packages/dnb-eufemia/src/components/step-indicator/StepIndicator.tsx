@@ -3,9 +3,8 @@
  *
  */
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { warn } from '../../shared/component-helper'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 
 import StepIndicatorModal from './StepIndicatorModal'
@@ -154,14 +153,6 @@ function StepIndicator({
   }
 
   const sidebarId = useId(props.sidebar_id)
-
-  useEffect(() => {
-    if (!props.sidebar_id && props.mode) {
-      warn(
-        'StepIndicator needs an unique "sidebar_id" property, also on the <StepIndicator.Sidebar... />'
-      )
-    }
-  }, [props.mode, props.sidebar_id])
 
   return (
     <StepIndicatorProvider {...props} sidebar_id={sidebarId}>
