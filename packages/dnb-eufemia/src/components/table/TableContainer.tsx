@@ -139,7 +139,7 @@ export function TableContainerFoot(
     </div>
   )
 }
-
 TableContainer.Body = TableContainerBody
 TableContainer.Head = TableContainerHead
 TableContainer.Foot = TableContainerFoot
+TableContainer._supportsSpacingProps = true

@@ -98,4 +98,9 @@
   .dnb-modal__content & .dnb-table__scroll-view {
     overflow: visible;
   }
+
+  // When used in a Card
+  .dnb-card & {
+    width: 100%;
+  }
 }
