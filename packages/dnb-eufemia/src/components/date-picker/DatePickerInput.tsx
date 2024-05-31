@@ -94,19 +94,19 @@ export type DatePickerInputProps = Omit<
     event: DatePickerEvent<React.FormEvent<HTMLInputElement>>
   ) => void
   onChange?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+    event: ReturnObject<React.ChangeEvent<HTMLInputElement>>
   ) => void
   /**
    * Will be called once the input gets focus.
    */
   onFocus?: (
-    event: ReturnObject<React.FocusEvent<HTMLInputElement>>
+    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
   ) => void
   /**
    * Will be called once the input lose focus.
    */
   onBlur?: (
-    event: ReturnObject<React.FocusEvent<HTMLInputElement>>
+    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
   ) => void
 }
 
