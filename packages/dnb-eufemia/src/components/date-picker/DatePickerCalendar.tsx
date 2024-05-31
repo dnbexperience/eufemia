@@ -149,7 +149,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         listRef.current.focus({ preventScroll: true })
       }
     }
-  }, [])
+  }, [props.noAutofocus, props.nr])
 
   function onMouseLeaveHandler() {
     context.updateDates({
