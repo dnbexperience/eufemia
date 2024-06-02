@@ -40,5 +40,20 @@ export default function useStep(
     data.setFormError = setFormError
   }
 
-  return data || context
+  const value = data || context
+  const { titlesRef } = value || {}
+  const setTotalSteps = useCallback(() => {
+    const totalSteps = Object.keys(titlesRef?.current || {}).length || 0
+    if (value.totalSteps !== totalSteps) {
+      value.totalSteps = totalSteps
+    }
+  }, [titlesRef, value])
+  if (data) {
+    setTotalSteps()
+  }
+  useLayoutEffect(() => {
+    setTotalSteps()
+  }, [setTotalSteps, titlesRef, value])
+
+  return value
 }

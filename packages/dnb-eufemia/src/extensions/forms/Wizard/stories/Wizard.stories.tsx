@@ -15,10 +15,36 @@ export default {
   title: 'Eufemia/Extensions/Forms/WizardContainer',
 }
 
-const Step1 = () => {
+export const Basic = () => {
+  const onStepChange = useCallback(async (index, mode) => {
+    console.log('onStepChange', index, mode)
+  }, [])
   return (
-    <Wizard.Step title="Step 1">
-      <Form.MainHeading>Heading</Form.MainHeading>
+    <Form.Handler>
+      <Wizard.Container
+        onStepChange={onStepChange}
+        mode="loose"
+        variant="drawer"
+      >
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Wizard.NextButton />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.PreviousButton />
+          <Wizard.NextButton />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+
+const Step1 = (props) => {
+  return (
+    <Wizard.Step title="Step 1" {...props}>
+      <Form.MainHeading>Heading Step 1</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
         <P>Contents</P>
@@ -31,10 +57,10 @@ const Step1 = () => {
     </Wizard.Step>
   )
 }
-const Step2 = () => {
+const Step2 = (props) => {
   return (
-    <Wizard.Step title="Step 2">
-      <Form.MainHeading>Heading</Form.MainHeading>
+    <Wizard.Step title="Step 2" {...props}>
+      <Form.MainHeading>Heading Step 2</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
         <P>Contents</P>
@@ -43,11 +69,11 @@ const Step2 = () => {
     </Wizard.Step>
   )
 }
-const Step3 = () => {
+const Step3 = (props) => {
   const { summaryTitle } = Form.useLocale().Step
 
   return (
-    <Wizard.Step title={summaryTitle}>
+    <Wizard.Step title={summaryTitle} {...props}>
       <Form.MainHeading>Summary</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
@@ -60,12 +86,49 @@ const Step3 = () => {
 }
 
 export const WizardContainerFlex = () => {
+  const [step1, setStep1] = React.useState(true)
+  const [step2, setStep2] = React.useState(true)
+  const [step3, setStep3] = React.useState(true)
   return (
-    <Wizard.Container mode="loose" variant="drawer">
-      <Step1 />
-      <Step2 />
-      <Step3 />
-    </Wizard.Container>
+    <>
+      <Field.Boolean
+        bottom
+        label="Toggle step 1"
+        variant="button"
+        value={step1}
+        onChange={() => {
+          setStep1(!step1)
+        }}
+      />
+      <Field.Boolean
+        bottom
+        label="Toggle step 2"
+        variant="button"
+        value={step2}
+        onChange={() => {
+          setStep2(!step2)
+        }}
+      />
+      <Field.Boolean
+        bottom
+        label="Toggle step 3"
+        variant="button"
+        value={step3}
+        onChange={() => {
+          setStep3(!step3)
+        }}
+      />
+      <Form.Handler>
+        <Wizard.Container mode="loose">
+          {/* <Step1 active={step1} />
+          <Step2 active={step2} />
+          <Step3 active={step3} /> */}
+          {step1 && <Step1 />}
+          {step2 && <Step2 />}
+          {step3 && <Step3 />}
+        </Wizard.Container>
+      </Form.Handler>
+    </>
   )
 }
 

@@ -15,6 +15,7 @@ function MainHeading({ level, ...props }: Props) {
     <Heading
       className={classnames('dnb-forms-main-heading', className)}
       level={level || 2}
+      skip_correction
       size="large"
       {...rest}
     >

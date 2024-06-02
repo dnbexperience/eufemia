@@ -21,7 +21,8 @@ export interface WizardContextState {
   totalSteps?: number
   activeIndex?: StepIndex
   stepElementRef?: React.MutableRefObject<HTMLElement>
-  titlesRef?: React.MutableRefObject<Array<string>>
+  titlesRef?: React.MutableRefObject<Record<string, string>>
+  updateTitlesRef?: React.MutableRefObject<() => void>
   activeIndexRef?: React.MutableRefObject<StepIndex>
   prerenderFieldPropsRef?: React.MutableRefObject<
     Record<string, () => React.ReactElement>

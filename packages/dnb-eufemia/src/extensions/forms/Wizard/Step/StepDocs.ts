@@ -11,6 +11,11 @@ export const StepProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  active: {
+    doc: 'If set to `false`, the step will not be rendered.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',
