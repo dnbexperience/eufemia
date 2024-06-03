@@ -98,7 +98,7 @@ export type DatePickerCalendarProps = Omit<
   hideDays?: boolean
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
-  noAutofocus?: boolean
+  noAutoFocus?: boolean
   onHover?: (day: Date) => void
   onSelect?: (event: DatePickerChangeEvent) => void
   onPrev?: (event: CalendarNavigationEvent) => void
@@ -142,7 +142,7 @@ const defaultProps: DatePickerCalendarProps = {
   hideDays: false,
   onlyMonth: false,
   hideNextMonthWeek: false,
-  noAutofocus: false,
+  noAutoFocus: false,
   rtl: false,
   resetDate: true,
 }
@@ -153,7 +153,45 @@ const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
 
-  const { updateDates, ...context } = useContext(DatePickerContext)
+  const {
+    updateDates,
+    startDate,
+    endDate,
+    hoverDate,
+    maxDate,
+    minDate,
+    startMonth,
+    endMonth,
+    translation: {
+      DatePicker: { selected_month },
+    },
+    props: { on_days_render },
+  } = useContext(DatePickerContext)
+
+  const {
+    id,
+    nr,
+    rtl,
+    month,
+    isRange,
+    titleFormat,
+    firstDayOfWeek,
+    dayOfWeekFormat,
+    hideNav,
+    locale: localeCode,
+    hideDays,
+    onPrev,
+    onNext,
+    onSelect,
+    onHover,
+    onKeyDown,
+    resetDate,
+    prevBtn,
+    nextBtn,
+    noAutoFocus,
+    hideNextMonthWeek,
+    onlyMonth,
+  } = props
 
   const listRef = useRef<React.ElementRef<'table'>>()
   const labelRef = useRef<HTMLLabelElement>()
@@ -161,12 +199,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const cache = useRef<Record<string, CalendarDay[][]>>({})
 
   useEffect(() => {
-    if (!props.noAutofocus && props.nr === 0) {
+    if (!noAutoFocus && nr === 0) {
       if (listRef.current) {
         listRef.current.focus({ preventScroll: true })
       }
     }
-  }, [props.noAutofocus, props.nr])
+  }, [noAutoFocus, nr])
 
   const onMouseLeaveHandler = useCallback(() => {
     updateDates({
@@ -176,17 +214,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const callOnSelect = useCallback(
     (args: DatePickerChangeEvent) => {
-      props.onSelect?.(args)
+      onSelect?.(args)
     },
-    [props]
+    [onSelect]
   )
 
   const getDays = useCallback(
     (month: Date): DayObject[] => {
-      const { nr, firstDayOfWeek, onlyMonth, hideNextMonthWeek } = props
-
-      const { startDate, endDate, hoverDate, maxDate, minDate } = context
-
       let daysFromCalendar = getCalendar(
         month || new Date(),
         dayOffset(firstDayOfWeek),
@@ -205,11 +239,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         })
       )
 
-      if (context.props.on_days_render) {
-        const changedDays = context.props.on_days_render(
-          daysFromCalendar,
-          nr
-        )
+      if (on_days_render) {
+        const changedDays = on_days_render(daysFromCalendar, nr)
         if (Array.isArray(changedDays)) {
           daysFromCalendar = changedDays
         }
@@ -220,23 +251,37 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       return daysFromCalendar
     },
-    [context, props]
+    [
+      endDate,
+      firstDayOfWeek,
+      hideNextMonthWeek,
+      hoverDate,
+      maxDate,
+      minDate,
+      nr,
+      on_days_render,
+      onlyMonth,
+      startDate,
+    ]
   )
 
   const keyNavCalc = useCallback((date: Date, keyCode: string) => {
+    // Return date if arrow keys are not pressed
     if (!arrowKeys.includes(keyCode)) {
       return date
     }
 
-    const dateHandler = /(Left|Right)/g.test(keyCode) ? addDays : addWeeks
-    const shiftAmount = /(Left|Up)/g.test(keyCode) ? -1 : 1
+    const dateHandler = /(ArrowLeft|ArrowRight)/g.test(keyCode)
+      ? addDays
+      : addWeeks
+    const shiftAmount = /(ArrowLeft|ArrowUp)/g.test(keyCode) ? -1 : 1
 
     return dateHandler(date, shiftAmount)
   }, [])
 
   const findValid = useCallback(
     (date: Date, keyCode: string) => {
-      if (!context.props.on_days_render) {
+      if (!on_days_render) {
         return date
       }
 
@@ -273,18 +318,16 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       return date
     },
-    [context, getDays, keyNavCalc]
+    [on_days_render, getDays, keyNavCalc]
   )
 
   const hasReachedEnd = useCallback(
-    (date: Date) => isDisabled(date, context.minDate, context.maxDate),
-    [context]
+    (date: Date) => isDisabled(date, minDate, maxDate),
+    [minDate, maxDate]
   )
 
   const onKeyDownHandler = useCallback(
     (event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>) => {
-      const { nr, isRange, onlyMonth, hideNav, onKeyDown } = props
-
       const pressedKey = event.code
 
       // call onKeyDown prop if given
@@ -299,12 +342,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       event.preventDefault()
       event.persist() // since we use the event after setState
 
+      const currentDates = { startDate, endDate, startMonth, endMonth }
       const dateType = !isRange || nr === 0 ? 'start' : 'end'
-      const currentDate = context[`${dateType}Date`]
+      const currentDate = currentDates[`${dateType}Date`]
 
       let newDate = currentDate
         ? keyNavCalc(currentDate, pressedKey)
-        : context[`${dateType}Month`] ||
+        : currentDates[`${dateType}Month`] ||
           (isRange && nr === 1 ? addMonths(new Date(), 1) : new Date())
 
       if (
@@ -325,7 +369,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         endMonth?: Date
       } = {}
 
-      const currentMonth = context[`${dateType}Month`]
+      const currentMonth = currentDates[`${dateType}Month`]
 
       if (
         // in case we don't have a start/end date, then we use the current month date
@@ -357,10 +401,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       if (!isRange) {
         dates.endDate = newDate
       } else {
-        if (!context.startDate) {
+        if (!startDate) {
           dates.startDate = newDate
         }
-        if (!context.endDate) {
+        if (!endDate) {
           dates.endDate = newDate
         }
       }
@@ -368,8 +412,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       // make sure we stay on the same month
       if (onlyMonth || hideNav) {
         if (
-          !isSameMonth(dates.startDate, context.startDate) ||
-          !isSameMonth(dates.endDate, context.startDate) // Heads up, should this not be context.endDate?
+          !isSameMonth(dates.startDate, startDate) ||
+          !isSameMonth(dates.endDate, startDate) // Heads up, should this not be context.endDate?
         ) {
           return
         }
@@ -389,31 +433,25 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         listRef.current.focus({ preventScroll: true })
       }
     },
-    [callOnSelect, findValid, hasReachedEnd, context, props, updateDates]
+    [
+      callOnSelect,
+      findValid,
+      hasReachedEnd,
+      onKeyDown,
+      startDate,
+      endDate,
+      updateDates,
+      hideNav,
+      isRange,
+      keyNavCalc,
+      nr,
+      onlyMonth,
+      endMonth,
+      startMonth,
+    ]
   )
 
-  const buildClassNames = useCallback((day: DayObject) => {
-    return classnames(
-      {
-        'dnb-date-picker__day--start-date': day.isStartDate,
-        'dnb-date-picker__day--end-date': day.isEndDate,
-        'dnb-date-picker__day--preview': day.isPreview,
-        'dnb-date-picker__day--within-selection': day.isWithinSelection,
-        'dnb-date-picker__day--selectable': day.isSelectable,
-        'dnb-date-picker__day--inactive': day.isInactive,
-        'dnb-date-picker__day--disabled': day.isDisabled,
-        'dnb-date-picker__day--today': day.isToday,
-      },
-      day.className
-    )
-  }, [])
-
   const cacheKey = useMemo(() => {
-    const { nr, month, firstDayOfWeek, onlyMonth, hideNextMonthWeek } =
-      props
-
-    const { startDate, endDate, hoverDate, maxDate, minDate } = context
-
     return [
       nr,
       month,
@@ -426,7 +464,18 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       maxDate,
       minDate,
     ].join('|')
-  }, [props, context])
+  }, [
+    nr,
+    month,
+    firstDayOfWeek,
+    onlyMonth,
+    hideNextMonthWeek,
+    startDate,
+    endDate,
+    hoverDate,
+    maxDate,
+    minDate,
+  ])
 
   const memorizedDays = useMemo(() => {
     // Cache the result, just because we then avoid at least double calc because of reconciliation,
@@ -437,8 +486,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     }
 
     let count = 0
+
     return (cache.current[cacheKey] = Object.values(
-      getDays(props.month).reduce((acc, cur, i) => {
+      getDays(month).reduce((acc, cur, i) => {
         // Normalize the data for table consumption
         acc[count] = acc[count] || []
         acc[count].push(cur)
@@ -448,38 +498,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return acc
       }, {})
     ))
-  }, [cacheKey, getDays, props.month])
-
-  const {
-    id,
-    nr,
-    rtl,
-    month,
-    isRange,
-    titleFormat,
-    firstDayOfWeek,
-    dayOfWeekFormat,
-    hideNav,
-    locale: localeCode,
-    hideDays,
-    onPrev,
-    onNext,
-    resetDate,
-    onHover,
-    prevBtn,
-    nextBtn,
-  } = props
-
-  const {
-    startDate,
-    endDate,
-    hoverDate,
-    maxDate,
-    minDate,
-    translation: {
-      DatePicker: { selected_month },
-    },
-  } = context
+  }, [cacheKey, getDays, month])
 
   const weekDays = memorizedDays
 
@@ -613,7 +632,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                       className={classnames(
                         'dnb-date-picker__day',
                         'dnb-no-focus',
-                        buildClassNames(day)
+                        buildDayClassNames(day)
                       )}
                       {...paramsCell}
                     >
@@ -808,4 +827,20 @@ function onHoverDay({
   if (!isSameDay(day.date, hoverDate) && onHover) {
     onHover(day.date)
   }
+}
+
+function buildDayClassNames(day: DayObject) {
+  return classnames(
+    {
+      'dnb-date-picker__day--start-date': day.isStartDate,
+      'dnb-date-picker__day--end-date': day.isEndDate,
+      'dnb-date-picker__day--preview': day.isPreview,
+      'dnb-date-picker__day--within-selection': day.isWithinSelection,
+      'dnb-date-picker__day--selectable': day.isSelectable,
+      'dnb-date-picker__day--inactive': day.isInactive,
+      'dnb-date-picker__day--disabled': day.isDisabled,
+      'dnb-date-picker__day--today': day.isToday,
+    },
+    day.className
+  )
 }
