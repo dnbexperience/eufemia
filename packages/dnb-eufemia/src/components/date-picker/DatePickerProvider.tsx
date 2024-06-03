@@ -127,25 +127,19 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             ? format(startDate, returnFormat)
             : null,
           end_date: endDateIsValid ? format(endDate, returnFormat) : null,
-          is_valid_start_date: startDateIsValid,
-          is_valid_end_date: endDateIsValid,
-          partialEndDate,
-        }
-
-        if (hasMinOrMaxDates) {
-          if (
+          is_valid_start_date:
+            hasMinOrMaxDates &&
             startDateIsValid &&
             isDisabled(startDate, dates.minDate, dates.maxDate)
-          ) {
-            returnObject.is_valid_start_date = false
-          }
-
-          if (
+              ? false
+              : startDateIsValid,
+          is_valid_end_date:
+            hasMinOrMaxDates &&
             endDateIsValid &&
             isDisabled(endDate, dates.minDate, dates.maxDate)
-          ) {
-            returnObject.is_valid_end_date = false
-          }
+              ? false
+              : endDateIsValid,
+          partialEndDate,
         }
 
         return returnObject
@@ -154,17 +148,12 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       returnObject = {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
-        is_valid: startDateIsValid,
-      }
-
-      if (
-        hasMinOrMaxDates &&
-        startDateIsValid &&
-        isDisabled(startDate, dates.minDate, dates.maxDate)
-      ) {
-        {
-          returnObject.is_valid = false
-        }
+        is_valid:
+          hasMinOrMaxDates &&
+          startDateIsValid &&
+          isDisabled(startDate, dates.minDate, dates.maxDate)
+            ? false
+            : startDateIsValid,
       }
 
       return returnObject
