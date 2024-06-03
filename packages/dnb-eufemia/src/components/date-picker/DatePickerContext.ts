@@ -18,9 +18,12 @@ export type DatePickerChangeEvent = DatePickerDates & {
   nr?: number
   hidePicker?: boolean
   event:
-    | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+    | React.MouseEvent<
+        HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement
+      >
     | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
     | React.FocusEvent<HTMLInputElement>
+    | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
 }
 
 export type HidePickerEvent = React.MouseEvent<
