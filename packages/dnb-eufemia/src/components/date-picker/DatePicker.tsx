@@ -794,7 +794,7 @@ function DatePicker(externalProps: DatePickerProps) {
                       }
                       onlyMonth={only_month}
                       hideNextMonthWeek={hide_last_week}
-                      noAutofocus={disable_autofocus}
+                      noAutoFocus={disable_autofocus}
                       onChange={onPickerChange}
                       locale={context.locale}
                     />
