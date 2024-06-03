@@ -392,7 +392,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       newDate = findValid(newDate, pressedKey)
 
       if (hasReachedEnd(newDate)) {
-        return
+        return // Stop here
       }
 
       dates[`${dateType}Date`] = newDate
