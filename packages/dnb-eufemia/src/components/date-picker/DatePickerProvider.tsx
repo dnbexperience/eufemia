@@ -147,22 +147,23 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             returnObject.is_valid_end_date = false
           }
         }
-        // Non range props
-      } else {
-        returnObject = {
-          ...returnObject,
-          date: startDateIsValid ? format(startDate, returnFormat) : null,
-          is_valid: startDateIsValid,
-        }
 
-        if (
-          hasMinOrMaxDates &&
-          startDateIsValid &&
-          isDisabled(startDate, dates.minDate, dates.maxDate)
-        ) {
-          {
-            returnObject.is_valid = false
-          }
+        return returnObject
+      }
+
+      returnObject = {
+        ...returnObject,
+        date: startDateIsValid ? format(startDate, returnFormat) : null,
+        is_valid: startDateIsValid,
+      }
+
+      if (
+        hasMinOrMaxDates &&
+        startDateIsValid &&
+        isDisabled(startDate, dates.minDate, dates.maxDate)
+      ) {
+        {
+          returnObject.is_valid = false
         }
       }
 
