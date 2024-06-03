@@ -33,27 +33,25 @@ export type HidePickerEvent = React.MouseEvent<
     focusOnHide?: boolean
   }
 
-export type DatePickerContextValues = ContextProps & {
-  props: DatePickerProps
-  startDate?: Date
-  endDate?: Date
-  minDate?: Date
-  maxDate?: Date
-  hoverDate?: Date
-  translation: ContextProps['translation']
-  views: Array<CalendarView>
-  hasHadValidDate: boolean
-  updateDates: (
-    dates: DatePickerDates,
-    callback?: (dates: DatePickerDates) => void
-  ) => void
-  setState?: (state: DatePickerProviderState) => void
-  setViews: (views: Array<CalendarView>, callback?: () => void) => void
-  callOnChangeHandler: (event: DatePickerChangeEvent) => void
-  hidePicker: (event: HidePickerEvent) => void
-  previousDates: DatePickerInitialDates
-  getReturnObject: <E>(params: GetReturnObjectParams<E>) => ReturnObject<E>
-}
+export type DatePickerContextValues = ContextProps &
+  DatePickerDates & {
+    props: DatePickerProps
+    translation: ContextProps['translation']
+    views: Array<CalendarView>
+    hasHadValidDate: boolean
+    updateDates: (
+      dates: DatePickerDates,
+      callback?: (dates: DatePickerDates) => void
+    ) => void
+    setState?: (state: DatePickerProviderState) => void
+    setViews: (views: Array<CalendarView>, callback?: () => void) => void
+    callOnChangeHandler: (event: DatePickerChangeEvent) => void
+    hidePicker: (event: HidePickerEvent) => void
+    previousDates: DatePickerInitialDates
+    getReturnObject: <E>(
+      params: GetReturnObjectParams<E>
+    ) => ReturnObject<E>
+  }
 
 const DatePickerContext = React.createContext<DatePickerContextValues>(
   {} as DatePickerContextValues
