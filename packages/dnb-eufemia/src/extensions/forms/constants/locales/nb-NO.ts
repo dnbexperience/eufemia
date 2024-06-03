@@ -29,8 +29,8 @@ export default {
     Field: {
       stateSummary: 'Oppsummering:',
       errorSummary: 'Feil som må rettes:',
-      errorRequired: 'Dette feltet må fylles ut.',
-      errorPattern: 'Verdien er ugyldig.',
+      errorRequired: 'Du må fylle inn {label|dette feltet}.',
+      errorPattern: 'Verdien er ugyldig. Skriv inn en {label|verdi}.',
     },
     StringField: {
       errorMinLength:
