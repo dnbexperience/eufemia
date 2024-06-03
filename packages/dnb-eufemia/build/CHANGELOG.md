@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.34.0](https://github.com/dnbexperience/eufemia/compare/v10.33.0...v10.34.0) (2024-06-03)
+
+
+### :bug: Bug Fixes
+
+* **DrawerList:** prevent call attempt for word if not function ([#3613](https://github.com/dnbexperience/eufemia/issues/3613)) ([66e04ba](https://github.com/dnbexperience/eufemia/commit/66e04babd088da6792ebabd171e680a517b1702d))
+* **forms:** add align prop to Field.Composition ([#3622](https://github.com/dnbexperience/eufemia/issues/3622)) ([b8cfcd4](https://github.com/dnbexperience/eufemia/commit/b8cfcd44d179c681c2b66f363a4dc554a6da68e7))
+* **forms:** enhance handling of schema TypeScript support ([#3635](https://github.com/dnbexperience/eufemia/issues/3635)) ([8e09651](https://github.com/dnbexperience/eufemia/commit/8e096512252c26e3244c91009f0bb70c7adf69f1)), closes [#3621](https://github.com/dnbexperience/eufemia/issues/3621)
+* **forms:** ensure Value.Number renders with 0 ([#3620](https://github.com/dnbexperience/eufemia/issues/3620)) ([9f4a4d3](https://github.com/dnbexperience/eufemia/commit/9f4a4d3e1c1290cf8df362b857b22af6a272ec90))
+* **TableContainer:** take full width when inside `Card` ([#3630](https://github.com/dnbexperience/eufemia/issues/3630)) ([c4d5c14](https://github.com/dnbexperience/eufemia/commit/c4d5c143bae9c6d89df1bf976e1233f25e8af6df))
+
+
+### :sparkles: Features
+
+* **Autocomplete:** preliminary sbanken colors ([#3604](https://github.com/dnbexperience/eufemia/issues/3604)) ([fe42538](https://github.com/dnbexperience/eufemia/commit/fe425385f04d17dcbac27f29d02ac5f80150c739))
+* **Blocks:** add ChildrenWithAge block ([#3619](https://github.com/dnbexperience/eufemia/issues/3619)) ([118932c](https://github.com/dnbexperience/eufemia/commit/118932c43b1a39dbc64c625c7dad90a6766bc85d))
+* **Card:** stretch content inside when `stack` is true ([#3633](https://github.com/dnbexperience/eufemia/issues/3633)) ([d9177e9](https://github.com/dnbexperience/eufemia/commit/d9177e9ccd93f87604581eda46bb92a09bffc54d))
+* **Checkbox, Radio:** fix border width for Sbanken brand ([#3612](https://github.com/dnbexperience/eufemia/issues/3612)) ([624ecf2](https://github.com/dnbexperience/eufemia/commit/624ecf215a96565161e7be0211767345836a2f8a))
+* **forms:** add `active` prop to Wizard.Step ([#3639](https://github.com/dnbexperience/eufemia/issues/3639)) ([2804041](https://github.com/dnbexperience/eufemia/commit/2804041a43be9500cd3835a9c76023c26d469514))
+* **forms:** add `countPath` prop to Iterate.Array ([#3615](https://github.com/dnbexperience/eufemia/issues/3615)) ([dfe96f5](https://github.com/dnbexperience/eufemia/commit/dfe96f560fa70aac45a465f7bcc707a9523d3200))
+* **forms:** add `defaultValue` to all `Value.*` components ([#3627](https://github.com/dnbexperience/eufemia/issues/3627)) ([4fdc778](https://github.com/dnbexperience/eufemia/commit/4fdc778fb52e597e9b5b92f75574cc4c3e9ba8d1))
+* **forms:** add `defaultValue` to all fields ([#3616](https://github.com/dnbexperience/eufemia/issues/3616)) ([58d698a](https://github.com/dnbexperience/eufemia/commit/58d698ad18a7e44c5e4a5e1afe2b0dab285e9136)), closes [#3615](https://github.com/dnbexperience/eufemia/issues/3615)
+* **forms:** add `trueText` and `falseText` to Value.Boolean ([#3624](https://github.com/dnbexperience/eufemia/issues/3624)) ([c9cae37](https://github.com/dnbexperience/eufemia/commit/c9cae372a51fc8ef387626a50560e4f778b32ef1))
+* **forms:** add hr to Wizard.EditButton ([#3637](https://github.com/dnbexperience/eufemia/issues/3637)) ([2018d16](https://github.com/dnbexperience/eufemia/commit/2018d16921a5a4d7179b04f52f27a4f7eb8eaff5))
+* **forms:** add minimum and maximum to Value.Number ([#3636](https://github.com/dnbexperience/eufemia/issues/3636)) ([bbe3b2b](https://github.com/dnbexperience/eufemia/commit/bbe3b2bc66d6c82ce9a74ee42d0f2ab1e34dcd21))
+* **forms:** add startWith prop to Field.Number ([#3632](https://github.com/dnbexperience/eufemia/issues/3632)) ([b6d177a](https://github.com/dnbexperience/eufemia/commit/b6d177a5593090bc3d10ce6599b24bdbad6fa0b1))
+* **FormStatus, Section:** change sbanken info color to purple ([#3589](https://github.com/dnbexperience/eufemia/issues/3589)) ([5356eb8](https://github.com/dnbexperience/eufemia/commit/5356eb8acbfb8fa62626e99fcc4e4b051a89f47f))
+
 ## [10.33.0](https://github.com/dnbexperience/eufemia/compare/v10.32.0...v10.33.0) (2024-05-27)
 
 
