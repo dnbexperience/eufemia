@@ -12,15 +12,17 @@ import {
 
 ## Description
 
-The Skeleton component is a visual building block helper. It will provide loading placeholders that display a non-interactive preview of the app’s actual UI to visually communicate that content is being processed.
+The Skeleton component is a visual building block that helps provide loading placeholders. It displays a non-interactive preview of the actual UI of the app, visually communicating that content is being processed.
 
-### Take in consideration
+After 5 seconds an animation is shown that times out after 30 seconds.
 
-It has to be used carefully and not as a quick loading indicator replacement. The reason lays in that, that the browser will use additional resources to render the additional state. And if it is misused, like showing not a nearly identical UI or it is shown for just a fraction of a second, then it will rather distract the user experience, than enhance it.
+## Take in consideration
 
-Also, the fact, that in some setups, the user is first downloading almost the whole web application before we actually are able to show some skeletons during the API calls.
+It should be used carefully and not as a quick loading indicator replacement. The browser will use additional resources to render the additional state. If it is misused, such as showing a significantly different UI or being shown for just a fraction of a second, it can distract from the user experience rather than enhancing it.
 
-#### Gatsby
+Also, in some setups, the user may need to download almost the entire web application before skeletons can be shown during API calls.
+
+### Gatsby
 
 Gatsby as a framework makes the perfect fit to utilize a good skeleton user experience from the very first-page visit. Every page is optimized to load as fast as possible (in addition to page preloading and PWA). We can take advantage of this and show our skeleton as our initial state.
 
@@ -29,33 +31,33 @@ Gatsby as a framework makes the perfect fit to utilize a good skeleton user expe
 1. Now our applications renders.
 1. And finally, we have the user data to display.
 
-### Accessibility
+## Accessibility
 
 - Elements and components should be still responsive to screen width and font-size.
 - Screen readers will get a mention that the loading state has finished as a aria-live update.
 - Components and interactive elements are not accessible for keyboard users.
 
-### When not to use
+## When not to use
 
 - For low-traffic pages, such as super-user-only admin pages, use a loading spinner instead.
 - For a tiny, inline action or feedback, e.g. clicked a button and the action will take time, use the [ProgressIndicator](/uilib/components/progress-indicator) instead (animation).
 - For fast processes that take less than `300ms`, consider the [ProgressIndicator](/uilib/components/progress-indicator) or no loading state at all.
 - For a background process or a long-running process, e.g. importing data or exporting reports, use the [ProgressIndicator](/uilib/components/progress-indicator) instead (percentage).
 
-### When to use
+## When to use
 
 - Use on high-traffic pages and landing pages, if they require a loading state.
 - Use when there’s more than one element loading at the same time that requires an indicator.
 - Use when the process would take more than `300ms` to load on an average internet connection.
 - Use the Skeleton component when the [ProgressIndicator](/uilib/components/progress-indicator) is not prominent enough.
 
-### How to use
+## How to use
 
 You can use the Skeleton component as a provider for all underlying components, like inputs and buttons. This way, you can simply toggle on and off the skeletons. And all the spacing and sizing will be given from the components themselves.
 
 But you can also use the Skeleton component to show a fake article or other figures.
 
-### How it works
+## How it works
 
 Every Eufemia component should support a skeleton natively. But for simplification, you can use the Skeleton component as a provider, so enable the skeletons for a group of components.
 
@@ -65,25 +67,25 @@ But the Skeleton component also supports a set of ready-to-use figures. Use it l
 
 <SkeletonInfoProvider />
 
-### Global Provider
+## Global Provider
 
 You can also use the global [Eufemia Provider](/uilib/usage/customisation/provider) to enable the underlying skeletons. You can even have multiple providers wrapped.
 
 <SkeletonInfoGlobalProvider />
 
-### Exclude a part
+## Exclude a part
 
 You can easily exclude a part from being transformed to a skeleton by using `Skeleton.Exclude`.
 
 <SkeletonInfoExclude />
 
-### Suspense
+## Suspense
 
 You can take advantage of an async component by using the React Suspense with a skeleton fallback.
 
 <SkeletonInfoSuspense />
 
-### Create a custom skeleton
+## Create a custom skeleton
 
 In order to create the same skeletons as the build-ins, you can make use of a couple of helper tools.
 
