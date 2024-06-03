@@ -45,7 +45,7 @@ export { isCI }
 
 type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
 type Action = { action?: ActionName; selector?: string; keypress?: string }
-type Simulation = Action | ActionName
+type Simulate = Action | ActionName | (Action | ActionName)[]
 
 export const makeScreenshot = async (
   {
@@ -81,26 +81,50 @@ export const makeScreenshot = async (
     themeName?: string
     pageViewport?: { width?: number; height?: number }
     headers?
+    /** Reloads the page before making changes to the elements */
     reload?: boolean
     fullscreen?: boolean
+    /** Main selector for the element to prepare, screenshot, and simulate. */
     selector: string
+    /** Custom style to apply to the selected element */
     style?: Record<string, string>
+    /** A css class, or list of classes, that is added to the `<html>` tag. Is removed in the next test. */
     rootClassName?: string | string[]
+    /**
+     * Set to `false` to skip adding a wrapper. Used when the wrapper styling ruins the screenshot.
+     *
+     * Default: `true`
+     */
     addWrapper?: boolean
     executeBeforeSimulate?: () => void
     executeBeforeScreenshot?: () => void
-    simulate?: Simulation | Simulation[]
-    simulateAfter?: Simulation | Simulation[]
+    /** An action, or list of action, to simulate */
+    simulate?: Simulate
+    /** An action, or list of action, to simulate right after screenshot is taken, used for cleanup before the next test */
+    simulateAfter?: Simulate
+    /** Delay at the end, right before returning the reslult */
     waitBeforeFinish?: number
+    /** Delay right before running simulations and right after simulation element has been selected */
     waitBeforeSimulate?: number
+    /** Delay after all simulations have run */
     waitAfterSimulate?: number
+    /** Selector for an element. After all simulations have run, delay until this element is visible. */
     waitAfterSimulateSelector?: string
+    /** Overrides the main selector when the screenshot is taken */
     screenshotSelector?: string
+    /** Overrides the main selector when applying custom style */
     styleSelector?: string
+    /** Overrides the main selector when simulating action */
     simulateSelector?: string
+    /** Custom style to apply to the element wrapping the selected element */
     wrapperStyle?: Record<string, string>
     measureElement?: string
     matchConfig?
+    /**
+     * Used if your simulation changes the height of the component
+     *
+     * Default `false`
+     */
     recalculateHeightAfterSimulate?: boolean
   } = { selector: undefined }
 ) => {
@@ -307,7 +331,7 @@ async function handleElement({
     )
   }
 
-  if (rootClassName) {
+  if (rootClassName || global.rootClassName) {
     await handleRootClassName({ page, rootClassName })
   }
 
@@ -475,7 +499,7 @@ async function handleSimulation({
 }: {
   page
   element
-  simulate: Simulation | Simulation[]
+  simulate: Simulate
   simulateSelector?: string
   waitAfterSimulateSelector?: string
   waitAfterSimulate?: number
@@ -489,22 +513,21 @@ async function handleSimulation({
     await page.waitForTimeout(waitBeforeSimulate)
   }
 
-  const elementToSimulate = element
   const elementsToDispose = []
   let delaySimulation = 0
   let lastMouseAction: ActionName = undefined
   if (simulate) {
     const simulations = Array.isArray(simulate) ? simulate : [simulate]
-    for await (const simulateRaw of simulations) {
+    for await (const simulation of simulations) {
       const simulate =
-        typeof simulateRaw === 'string'
-          ? { action: simulateRaw }
-          : simulateRaw
+        typeof simulation === 'string'
+          ? { action: simulation }
+          : simulation
 
-      let element = elementToSimulate
+      let elementToSimulate = element
 
       if (simulate.selector) {
-        element = await page.$(simulate.selector)
+        elementToSimulate = await page.$(simulate.selector)
         await page.mouse.move(0, 0) // reset between simulations
       }
 
@@ -513,12 +536,12 @@ async function handleSimulation({
 
         switch (simulate.action) {
           case 'hover': {
-            await element.hover({ force: true })
+            await elementToSimulate.hover({ force: true })
             break
           }
 
           case 'click': {
-            await element.click()
+            await elementToSimulate.click()
             break
           }
 
@@ -528,17 +551,17 @@ async function handleSimulation({
            */
           case 'focusclick': {
             delaySimulation = isCI ? 200 : 100
-            await element.click({
+            await elementToSimulate.click({
               force: true,
             })
 
             await page.keyboard.press('Tab')
-            await element.focus()
+            await elementToSimulate.focus()
             break
           }
 
           case 'active': {
-            await element.hover({ force: true }) // Slider needs "force: true", in order to ignore "pointer-events: none"
+            await elementToSimulate.hover({ force: true }) // Slider needs "force: true", in order to ignore "pointer-events: none"
             await page.mouse.down()
 
             break
@@ -546,11 +569,12 @@ async function handleSimulation({
 
           case 'focus': {
             await page.keyboard.press('Tab') // to simulate pressing tab key before focus
-            await element.focus({ force: true })
+            await elementToSimulate.focus({ force: true })
             break
           }
         }
       }
+
       if (simulate.keypress) {
         await page.keyboard.press(simulate.keypress)
       }
