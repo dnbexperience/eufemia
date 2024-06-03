@@ -39,7 +39,7 @@ export type FieldPropsProps = FieldProps & {
   FormStatus?: { globalStatus: FormStatusProps }
 }
 
-export default function FieldPropsProvider(props: FieldPropsProps) {
+function FieldPropsProvider(props: FieldPropsProps) {
   const {
     children,
     formElement,
@@ -175,3 +175,6 @@ function transformTranslations(
 
   return result
 }
+
+FieldPropsProvider._supportsSpacingProps = 'children'
+export default FieldPropsProvider

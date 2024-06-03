@@ -6,6 +6,10 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Form.FieldProps', () => {
+  it('should have constant of _supportsSpacingProps="children"', () => {
+    expect(Form.FieldProps._supportsSpacingProps).toBe('children')
+  })
+
   describe('disable', () => {
     it('should disable the input and button', () => {
       render(
