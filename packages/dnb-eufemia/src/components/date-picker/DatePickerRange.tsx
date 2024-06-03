@@ -12,10 +12,11 @@ import subMonths from 'date-fns/subMonths'
 import DatePickerCalendar, {
   CalendarButtonProps,
   CalendarNavigationEvent,
-  CalendarSelectEvent,
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
-import DatePickerContext from './DatePickerContext'
+import DatePickerContext, {
+  DatePickerChangeEvent,
+} from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 
 export type DatePickerRangeViews = number | Record<string, unknown>[]
@@ -29,7 +30,7 @@ export type DatePickerRangeProps = React.HTMLProps<HTMLElement> &
     onlyMonth?: boolean
     hideNav?: boolean
     views?: [{ nextBtn: false; prevBtn: false }]
-    onChange?: (event: CalendarSelectEvent) => void
+    onChange?: (event: DatePickerChangeEvent) => void
   }
 
 const monthHandlers: {
@@ -69,7 +70,7 @@ function DatePickerRange(props: DatePickerRangeProps) {
   )
 
   const onSelect = useCallback(
-    (event: CalendarSelectEvent) => {
+    (event: DatePickerChangeEvent) => {
       callOnChangeHandler(event)
 
       onChange?.({
