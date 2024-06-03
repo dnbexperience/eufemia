@@ -2,7 +2,10 @@ import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import { Props as DataContextProps } from '../../DataContext/Provider'
 import { FormStatusProps } from '../../../../components/FormStatus'
-import { assignPropsWithContext } from '../../../../shared/component-helper'
+import {
+  assignPropsWithContext,
+  extendDeep,
+} from '../../../../shared/component-helper'
 import FieldPropsContext from './FieldPropsContext'
 import SharedProvider from '../../../../shared/Provider'
 import { ContextProps } from '../../../../shared/Context'
@@ -52,13 +55,15 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
 
   const sharedProviderProps: ContextProps = {}
 
-  // Extract props to be used in the shared global context
-  const { locale, translations } = useMemo(() => {
-    return {
-      ...restProps,
-      ...removeUndefined(nestedContext?.inheritedProps),
-    } as ContextProps
-  }, [nestedContext?.inheritedProps, restProps])
+  /**
+   * Always use data context as the last source for localization
+   */
+  const locale = dataContextRef.current?.props?.locale ?? restProps?.locale
+  const translations = extendDeep(
+    {},
+    restProps?.translations,
+    dataContextRef.current?.props?.translations
+  ) as ContextProps
 
   const nestedFieldProps = useMemo(() => {
     return Object.assign(
@@ -81,8 +86,13 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
   if (locale) {
     sharedProviderProps.locale = locale
   }
-  if (translations) {
-    sharedProviderProps.translations = wrapFormsTranslations(translations)
+  const formTranslations = useMemo(() => {
+    if (translations) {
+      return transformTranslations(translations)
+    }
+  }, [translations])
+  if (formTranslations) {
+    sharedProviderProps.translations = formTranslations
   }
 
   const extend = useCallback(
@@ -130,7 +140,10 @@ export default function FieldPropsProvider(props: FieldPropsProps) {
   )
 }
 
-function wrapFormsTranslations(
+/**
+ * Transform translations into { 'nb-NO': { Forms: { ... } } }
+ */
+function transformTranslations(
   translations: ContextProps['translations']
 ) {
   const result = {}
@@ -160,15 +173,5 @@ function wrapFormsTranslations(
     result[locale] = newObj
   }
 
-  return result
-}
-
-function removeUndefined(obj = {}) {
-  const result = {}
-  for (const key in obj) {
-    if (obj[key] !== undefined) {
-      result[key] = obj[key]
-    }
-  }
   return result
 }

@@ -33,6 +33,20 @@ describe('Value.Number', () => {
     )
   })
 
+  it('renders given minimum value', () => {
+    render(<Value.Number value={10} minimum={20} />)
+    expect(
+      document.querySelector('.dnb-forms-value-number')
+    ).toHaveTextContent('20')
+  })
+
+  it('renders given maximum value', () => {
+    render(<Value.Number value={20} maximum={10} />)
+    expect(
+      document.querySelector('.dnb-forms-value-number')
+    ).toHaveTextContent('10')
+  })
+
   it('renders placeholder', () => {
     render(<Value.Number placeholder="Enter some number" />)
     expect(screen.getByText('Enter some number')).toBeInTheDocument()
@@ -66,6 +80,28 @@ describe('Value.Number', () => {
     ).toHaveTextContent('−12 345 %')
   })
 
+  it('should render value={0} with prefix and suffix', () => {
+    render(<Value.Number value={0} prefix="prefix" suffix="suffix" />)
+
+    expect(
+      document.querySelector('.dnb-forms-value-number')
+    ).toHaveTextContent('prefix 0 suffix')
+  })
+
+  it('should not render when value is undefined', () => {
+    render(<Value.Number value={undefined} />)
+
+    expect(document.querySelector('.dnb-forms-value-number')).toBeNull()
+  })
+
+  it('should render – when value is undefined and showEmpty is true', () => {
+    render(<Value.Number value={undefined} showEmpty suffix="suffix" />)
+
+    expect(
+      document.querySelector('.dnb-forms-value-number')
+    ).toHaveTextContent('– suffix')
+  })
+
   it('formats with percent and decimals', () => {
     render(<Value.Number value={-12345.6789} percent decimals={2} />)
 
@@ -86,7 +122,7 @@ describe('Value.Number', () => {
 
     expect(
       document.querySelector('.dnb-forms-value-number')
-    ).toHaveTextContent('NOK −12 345,68')
+    ).toHaveTextContent('NOK -12 345,68')
   })
 
   it('formats currency with aria version', () => {

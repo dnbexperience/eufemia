@@ -1,1 +1,1 @@
-export * as Category from './Category'
+export { default as ChildrenWithAge } from './ChildrenWithAge'

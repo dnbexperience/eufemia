@@ -228,7 +228,7 @@ export const AccordionFilledExample = () => (
 
 export const AccordionInColumns = () => {
   return (
-    <ComponentBox>
+    <ComponentBox background="white">
       {() => {
         const items = [
           <Accordion key="one" variant="filled">

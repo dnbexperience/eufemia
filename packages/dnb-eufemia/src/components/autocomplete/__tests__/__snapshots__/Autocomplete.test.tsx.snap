@@ -2724,7 +2724,6 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--color-sea-green);
 }
 .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-drawer-list__option__item {
   display: flex;
@@ -2905,6 +2904,9 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+.dnb-autocomplete__show-all .dnb-drawer-list__option__inner {
+  color: var(--color-sea-green);
+}
 .dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;

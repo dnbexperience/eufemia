@@ -1,8 +1,10 @@
+/* eslint-disable jest/expect-expect */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { Form, Field } from '../../..'
+import { Form, Field, JSONSchema, JSONSchemaType } from '../../..'
 import type { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -986,5 +988,117 @@ describe('Form.Handler', () => {
     expect(phoneNumber).toHaveTextContent(
       translations['nb-NO'].PhoneNumber.label
     )
+  })
+
+  describe('schema types', () => {
+    let log: jest.SpyInstance
+    beforeEach(() => {
+      log = jest.spyOn(global.console, 'error').mockImplementation()
+    })
+    afterEach(() => {
+      log.mockRestore()
+    })
+
+    it('should accept schema without type', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          foo: {
+            title: 'Foo',
+          },
+        },
+        required: ['foo'],
+      }
+
+      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      expect(document.body).toHaveTextContent('content')
+    })
+
+    it('should accept schema with as const', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          foo: {
+            title: 'Foo',
+          },
+        },
+        required: ['foo'],
+      } as const
+
+      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      expect(document.body).toHaveTextContent('content')
+    })
+
+    it('should accept schema with JSONSchema', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          foo: {
+            title: 'Foo',
+          },
+        },
+        required: ['foo'],
+
+        // @ts-expect-error
+        invalid: 'something',
+      }
+
+      expect(() => {
+        render(<Form.Handler schema={schema}>content</Form.Handler>)
+      }).toThrow('strict mode: unknown keyword: "invalid"')
+    })
+
+    it('should accept schema without required', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          foo: {
+            title: 'Foo',
+          },
+        },
+      }
+
+      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      expect(document.body).toHaveTextContent('content')
+    })
+
+    it('should have error when type is invalid', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          foo: {
+            // @ts-expect-error
+            type: 'invalid',
+            title: 'Foo',
+          },
+        },
+      }
+
+      expect(() => {
+        render(<Form.Handler schema={schema}>content</Form.Handler>)
+      }).toThrow(
+        'schema is invalid: data/properties/foo/type must be equal to one of the allowed values, data/properties/foo/type must be array, data/properties/foo/type must match a schema in anyOf'
+      )
+    })
+
+    it('should support JSONSchemaType', () => {
+      type DataType = {
+        foo: string
+      }
+
+      // strictNullChecks must be true in tsconfig to use JSONSchemaType
+      // @ts-expect-error
+      const schema: JSONSchemaType<DataType> = {
+        type: 'object',
+        properties: {
+          foo: {
+            title: 'Foo',
+          },
+        },
+      }
+
+      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      expect(document.body).toHaveTextContent('content')
+    })
   })
 })

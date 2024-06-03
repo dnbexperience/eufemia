@@ -4,7 +4,7 @@ import {
   Field,
   FieldBlock,
   Form,
-  JSONSchema,
+  AllJSONSchemaVersions,
   useFieldProps,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Slider } from '@dnb/eufemia/src'
@@ -27,7 +27,7 @@ export const CustomComponentExample = () => {
             }),
             [props.errorMessages],
           )
-          const schema = React.useMemo<JSONSchema>(
+          const schema = React.useMemo<AllJSONSchemaVersions>(
             () =>
               props.schema ?? {
                 type: 'number',

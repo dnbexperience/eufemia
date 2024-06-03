@@ -17,6 +17,7 @@
       margin-bottom: var(--space);
       padding: var(--padding, 1rem);
 
+      .dnb-forms-iterate-block--variant-basic &,
       &:not([class*='dnb-flex-container--spacing']) {
         --padding: 0;
       }

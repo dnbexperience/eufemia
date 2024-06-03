@@ -11,7 +11,7 @@ export const GridContainerProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  columnsGap: {
+  columnGap: {
     doc: 'Defines how much the gap between columns should be. Can be `large`, `medium`, `small`, `x-small` or `false` for no gap. Defaults to `false`.',
     type: ['string', 'false'],
     status: 'optional',

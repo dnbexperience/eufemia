@@ -38,6 +38,7 @@ export type Props = FieldHelpProps &
     percent?: InputMaskedProps['as_percent']
     mask?: InputMaskedProps['mask']
     step?: number
+    startWith?: number
     // Formatting
     decimalLimit?: number
     prefix?: string
@@ -103,7 +104,7 @@ function NumberComponent(props: Props) {
 
   const toInput = useCallback((external: number | undefined) => {
     if (external === undefined) {
-      return ''
+      return null
     }
     return external
   }, [])
@@ -192,6 +193,7 @@ function NumberComponent(props: Props) {
     label,
     labelDescription,
     value,
+    startWith = null,
     minimum = Number.MIN_SAFE_INTEGER,
     maximum = Number.MAX_SAFE_INTEGER,
     disabled,
@@ -219,10 +221,18 @@ function NumberComponent(props: Props) {
 
       switch (key) {
         case 'ArrowUp':
-          numberValue = clamp((value as number) + step, minimum, maximum)
+          numberValue = clamp(
+            (value ?? startWith) + step,
+            minimum,
+            maximum
+          )
           break
         case 'ArrowDown':
-          numberValue = clamp((value as number) - step, minimum, maximum)
+          numberValue = clamp(
+            (value ?? startWith) - step,
+            minimum,
+            maximum
+          )
           break
       }
 
@@ -232,10 +242,18 @@ function NumberComponent(props: Props) {
         handleChange({ numberValue })
       }
     },
-    [handleChange, maximum, minimum, showStepControls, step, value]
+    [
+      handleChange,
+      maximum,
+      minimum,
+      showStepControls,
+      startWith,
+      step,
+      value,
+    ]
   )
 
-  const fieldSectionProps = {
+  const fieldBlockProps = {
     className: classnames(
       'dnb-forms-field-number',
       'dnb-input__border--tokens', // Used by "dnb-input__border"
@@ -256,12 +274,19 @@ function NumberComponent(props: Props) {
     error,
     disabled,
     width:
-      width === 'stretch' || fieldBlockContext?.composition
+      (width === 'stretch' || fieldBlockContext?.composition) &&
+      !showStepControls
         ? width
         : undefined,
     contentWidth: width !== false ? width : undefined,
     ...pickSpacingProps(props),
   }
+
+  const increaseClickHandler = useCallback(() => {
+    handleChange({
+      numberValue: clamp((value ?? startWith) + step, minimum, maximum),
+    })
+  }, [handleChange, maximum, minimum, startWith, step, value])
 
   const increaseProps: ButtonProps = showStepControls && {
     'aria-hidden': true,
@@ -271,16 +296,18 @@ function NumberComponent(props: Props) {
     size: (size || 'small') as ButtonSize,
     tabIndex: -1,
     disabled: disabled || value >= maximum,
-    onClick: () => {
-      handleChange({
-        numberValue: clamp((value as number) + step, minimum, maximum),
-      })
-    },
+    onClick: increaseClickHandler,
     title: sharedContext?.translation.Slider.addTitle?.replace(
       '%s',
       String(value + step)
     ),
   }
+
+  const decreaseClickHandler = useCallback(() => {
+    handleChange({
+      numberValue: clamp((value ?? startWith) - step, minimum, maximum),
+    })
+  }, [handleChange, maximum, minimum, startWith, step, value])
 
   const decreaseProps: ButtonProps = showStepControls && {
     ...increaseProps,
@@ -288,11 +315,7 @@ function NumberComponent(props: Props) {
     icon: 'subtract',
     size: (size || 'small') as ButtonSize,
     disabled: disabled || value <= minimum,
-    onClick: () => {
-      handleChange({
-        numberValue: clamp((value as number) - step, minimum, maximum),
-      })
-    },
+    onClick: decreaseClickHandler,
     title: sharedContext?.translation.Slider.subtractTitle?.replace(
       '%s',
       String(value - step)
@@ -340,7 +363,7 @@ function NumberComponent(props: Props) {
 
   if (showStepControls) {
     return (
-      <FieldBlock {...fieldSectionProps} asFieldset={false}>
+      <FieldBlock {...fieldBlockProps} asFieldset={false}>
         <span className="dnb-input__border dnb-input__border--root">
           {<Button {...decreaseProps} />}
           <InputMasked {...inputProps} />
@@ -356,7 +379,7 @@ function NumberComponent(props: Props) {
   }
 
   return (
-    <FieldBlock {...fieldSectionProps} asFieldset={false}>
+    <FieldBlock {...fieldBlockProps} asFieldset={false}>
       <InputMasked {...inputProps} />
     </FieldBlock>
   )

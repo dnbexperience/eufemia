@@ -45,6 +45,11 @@ export const fieldBlockProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  align: {
+    doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
+    type: ['string', 'false'],
+    status: 'optional',
+  },
   composition: {
     doc: 'Use `true` for when you have more than one field wrapped.',
     type: 'string',

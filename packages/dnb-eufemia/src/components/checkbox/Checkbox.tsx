@@ -254,7 +254,7 @@ function Checkbox(localProps: CheckboxProps) {
       size && `dnb-checkbox--${size}`,
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
-      createSkeletonClass(null, skeleton),
+      createSkeletonClass(null, skeleton, context),
       createSpacingClasses(props),
       className
     ),

@@ -6,11 +6,18 @@ import { AriaAttributes } from 'react'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
-export type AllJSONSchemaVersions =
+export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchema4
   | JSONSchema6
   | JSONSchema7
-  | JSONSchemaType<unknown>
+  | JSONSchemaType<DataType>
+export type AllJSONSchemaVersions<DataType = unknown> =
+  | AllJSONSchemaVersionsBasis<DataType>
+
+  // In order to support "schema = { ... } as const"
+  | (Omit<AllJSONSchemaVersionsBasis<DataType>, 'required'> & {
+      required?: readonly string[]
+    })
 export { JSONSchemaType }
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
@@ -70,10 +77,13 @@ export interface DefaultErrorMessages {
 
 export interface DataValueReadProps<Value = unknown> {
   /** JSON Pointer for where the data for this field is located in the source dataset */
-  path?: string
+  path?: Path
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  itemPath?: string
+  itemPath?: Path
+  /** Source data value for the field. Will take precedence over the path value given in the data context */
   value?: Value
+  /** Default source data value for the field. Will not take precedence over the path value given in the data context */
+  defaultValue?: Value
 }
 
 const dataValueReadProps = ['path', 'itemPath', 'value']
@@ -237,7 +247,7 @@ export interface UseFieldProps<
 
   // - Validation
   required?: boolean
-  schema?: AllJSONSchemaVersions
+  schema?: AllJSONSchemaVersions<Value>
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages

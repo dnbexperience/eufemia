@@ -46,7 +46,7 @@ describe('Node', () => {
       style: 'currency',
       currency: 'NOK',
     })
-    expect(intl.format(value)).toBe('kr 12 345 678,99') // Rounds
+    expect(intl.format(value)).toBe('12 345 678,99 kr') // Rounds
   })
   it('supports setting navigator.language (JSDOM)', () => {
     expect(navigator.language).toBe(LOCALE)
@@ -321,7 +321,7 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'no',
       })
-    ).toBe('kr −123 456 789,50')
+    ).toBe('kr -123 456 789,50')
     expect(
       format(number, {
         currency: true,

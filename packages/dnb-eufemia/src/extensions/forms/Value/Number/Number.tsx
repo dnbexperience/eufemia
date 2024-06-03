@@ -12,20 +12,44 @@ import {
   convertCamelCaseProps,
 } from '../../../../shared/helpers/withCamelCaseProps'
 
-export type Props = ValueProps<number> &
-  IncludeCamelCase<NumberFormatProps>
+export type Props = Omit<ValueProps<number>, 'defaultValue'> &
+  IncludeCamelCase<NumberFormatProps> &
+  Partial<{
+    defaultValue?: number | string
+    minimum?: number
+    maximum?: number
+  }>
 
 function NumberValue(props: Props) {
-  const { value, inline, className, ...rest } = useValueProps(props)
+  const {
+    value: valueProp,
+    minimum = Number.MIN_SAFE_INTEGER,
+    maximum = Number.MAX_SAFE_INTEGER,
+    inline,
+    showEmpty,
+    className,
+    ...rest
+  } = useValueProps(props)
   const numberFormatProps = convertCamelCaseProps(omitSpacingProps(rest))
+
+  let value = valueProp
+  if (value < minimum) {
+    value = minimum
+  }
+  if (value > maximum) {
+    value = maximum
+  }
 
   return (
     <ValueBlock
       className={classnames('dnb-forms-value-number', className)}
       inline={inline}
+      showEmpty={showEmpty}
       {...rest}
     >
-      {value && <NumberFormat value={value} {...numberFormatProps} />}
+      {typeof value !== 'undefined' || showEmpty ? (
+        <NumberFormat value={value} {...numberFormatProps} />
+      ) : null}
     </ValueBlock>
   )
 }

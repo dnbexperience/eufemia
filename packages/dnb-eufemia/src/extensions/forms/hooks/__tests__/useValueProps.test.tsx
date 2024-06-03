@@ -43,6 +43,61 @@ describe('useValueProps', () => {
     expect(result.current.value).toBe(undefined)
   })
 
+  it('given "value" should take precedence over data context value', () => {
+    const givenValue = 'given value'
+    const value = 'use this value'
+
+    const { result } = renderHook(
+      () => useValueProps({ path: '/foo', value }),
+      {
+        wrapper: (props) => (
+          <Provider data={{ foo: givenValue }} {...props} />
+        ),
+      }
+    )
+
+    expect(result.current.value).toBe(value)
+  })
+
+  it('given "defaultValue" should not take precedence over data context value', () => {
+    const givenValue = 'given value'
+    const defaultValue = 'use this value'
+
+    const { result, rerender } = renderHook(useValueProps, {
+      initialProps: {
+        path: '/foo',
+        value: defaultValue,
+        defaultValue: undefined,
+      },
+      wrapper: (props) => (
+        <Provider data={{ foo: givenValue }} {...props} />
+      ),
+    })
+
+    expect(result.current.value).toBe(defaultValue)
+
+    rerender({ path: '/foo', value: undefined, defaultValue })
+
+    expect(result.current.value).toBe(givenValue)
+  })
+
+  it('changed "defaultValue" should update value', () => {
+    const defaultValue = 'use this value'
+    const changedValue = 'changed value'
+
+    const { result, rerender } = renderHook(useValueProps, {
+      initialProps: {
+        defaultValue,
+      },
+    })
+
+    expect(result.current.value).toBe(defaultValue)
+
+    rerender({ defaultValue: changedValue })
+
+    expect(result.current.value).toBe(changedValue)
+  })
+
   it('should forward other props', () => {
     const value = 'value'
 

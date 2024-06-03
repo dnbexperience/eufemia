@@ -8,7 +8,10 @@ import React, {
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import { Space, StepIndicator } from '../../../../components'
-import { warn } from '../../../../shared/component-helper'
+import {
+  convertJsxToString,
+  warn,
+} from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
 import Step, { Props as StepProps } from '../Step'
@@ -113,7 +116,6 @@ function WizardContainer(props: Props) {
     setShowAllErrors,
     showAllErrors,
     setSubmitState,
-    fieldPropsRef,
   } = useContext(DataContext)
 
   const id = useId(idProp)
@@ -207,7 +209,6 @@ function WizardContainer(props: Props) {
     },
     [
       callOnStepChange,
-      fieldPropsRef,
       handleLayoutEffect,
       handleSubmitCall,
       isInteractionRef,
@@ -257,20 +258,20 @@ function WizardContainer(props: Props) {
     [setSubmitState]
   )
 
-  const titlesRef = useRef([])
+  const titlesRef = useRef({})
+  const updateTitlesRef = useRef<() => void>()
   const prerenderFieldPropsRef = useRef<
     Record<string, () => React.ReactElement>
   >({})
 
   const activeIndex = activeIndexRef.current
-  const totalSteps = titlesRef.current.length
-  const providerValue = useMemo(
-    () => ({
+  const providerValue = useMemo(() => {
+    return {
       id,
       activeIndex,
-      totalSteps,
       stepElementRef,
       titlesRef,
+      updateTitlesRef,
       activeIndexRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
@@ -278,18 +279,16 @@ function WizardContainer(props: Props) {
       handlePrevious,
       handleNext,
       setFormError,
-    }),
-    [
-      id,
-      activeIndex,
-      totalSteps,
-      prerenderFieldProps,
-      setActiveIndex,
-      handlePrevious,
-      handleNext,
-      setFormError,
-    ]
-  )
+    }
+  }, [
+    activeIndex,
+    handleNext,
+    handlePrevious,
+    id,
+    prerenderFieldProps,
+    setActiveIndex,
+    setFormError,
+  ])
 
   // - Handle shared state
   useLayoutEffect(() => {
@@ -297,6 +296,11 @@ function WizardContainer(props: Props) {
       sharedStateRef.current?.extend?.(providerValue)
     }
   }, [id, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useLayoutEffect(() => {
+    updateTitlesRef.current?.()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [children])
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')
@@ -317,27 +321,16 @@ function WizardContainer(props: Props) {
         )}
         {...rest}
       >
-        <aside className="dnb-forms-wizard-layout__sidebar">
-          <StepIndicator.Sidebar sidebar_id={id} />
-          <StepIndicator
-            bottom
-            current_step={activeIndexRef.current}
-            data={titlesRef.current}
-            mode={mode}
-            no_animation={noAnimation}
-            on_change={handleChange}
-            sidebar_id={
-              variant === 'drawer' && !sidebarId
-                ? ''
-                : sidebarId
-                ? sidebarId
-                : id
-            }
-          />
-        </aside>
+        <DisplaySteps
+          mode={mode}
+          variant={variant}
+          noAnimation={noAnimation}
+          handleChange={handleChange}
+          sidebarId={sidebarId}
+        />
 
         <div className="dnb-forms-wizard-layout__contents">
-          <Contents>{children}</Contents>
+          <IterateOverSteps>{children}</IterateOverSteps>
         </div>
       </Space>
 
@@ -350,7 +343,40 @@ function WizardContainer(props: Props) {
   )
 }
 
-function Contents({ children }) {
+function DisplaySteps({
+  mode,
+  variant,
+  noAnimation,
+  handleChange,
+  sidebarId,
+}) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const { id, activeIndexRef, titlesRef, updateTitlesRef } =
+    useContext(WizardContext) || {}
+  updateTitlesRef.current = () => {
+    forceUpdate()
+  }
+
+  const sidebar_id =
+    variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
+
+  return (
+    <aside className="dnb-forms-wizard-layout__indicator">
+      <StepIndicator.Sidebar sidebar_id={sidebar_id} />
+      <StepIndicator
+        bottom
+        current_step={activeIndexRef.current}
+        data={Object.values(titlesRef.current)}
+        mode={mode}
+        no_animation={noAnimation}
+        on_change={handleChange}
+        sidebar_id={sidebar_id}
+      />
+    </aside>
+  )
+}
+
+function IterateOverSteps({ children }) {
   const {
     titlesRef,
     activeIndexRef,
@@ -358,8 +384,11 @@ function Contents({ children }) {
     prerenderFieldPropsRef,
   } = useContext(WizardContext)
 
-  titlesRef.current = []
-  return React.Children.map(children, (child, index) => {
+  titlesRef.current = {}
+  let incrementIndex = -1
+  let decrementIndex = -1
+
+  const childrenArray = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       let step = child
 
@@ -374,7 +403,22 @@ function Contents({ children }) {
       }
 
       if (child?.type === Step) {
-        titlesRef.current.push(child.props.title ?? 'Title missing')
+        if (child.props.active === false) {
+          return null
+        }
+
+        if (child.props.active === false) {
+          decrementIndex--
+        } else {
+          incrementIndex++
+        }
+        const index =
+          child.props.active === false ? decrementIndex : incrementIndex
+
+        titlesRef.current[index] =
+          child.props.title !== undefined
+            ? convertJsxToString(child.props.title)
+            : 'Title missing'
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
           React.cloneElement(child as React.ReactElement<StepProps>, props)
@@ -403,6 +447,16 @@ function Contents({ children }) {
 
     return child
   })
+
+  // Ensure we never have a higher index than the available children
+  // else we get a white screen
+  if (childrenArray.length === 0) {
+    activeIndexRef.current = 0
+  } else if (childrenArray.length < activeIndexRef.current + 1) {
+    activeIndexRef.current = childrenArray.length - 1
+  }
+
+  return childrenArray
 }
 
 function PrerenderFieldPropsOfOtherSteps({

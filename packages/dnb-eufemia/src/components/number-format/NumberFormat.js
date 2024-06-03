@@ -16,7 +16,7 @@ import {
   validateDOMAttributes,
   convertJsxToString,
   extendPropsWithContextInClassComponent,
-  extend,
+  extendDeep,
   detectOutsideClick,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
@@ -318,8 +318,7 @@ export default class NumberFormat extends React.PureComponent {
     }
 
     // use only the props from context, who are available here anyway
-    const useContext = extend(
-      true,
+    const useContext = extendDeep(
       { locale: null, currency: null },
       this.context
     )

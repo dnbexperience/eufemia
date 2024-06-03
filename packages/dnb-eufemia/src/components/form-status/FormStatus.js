@@ -8,7 +8,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
+import { useTheme, Context } from '../../shared'
 import {
   isTrue,
   makeUniqueId,
@@ -28,6 +28,10 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import ui from '../../style/themes/theme-ui/properties'
+import sbanken from '../../style/themes/theme-sbanken/properties'
+
+const properties = { ui, sbanken }
 
 export default class FormStatus extends React.PureComponent {
   static contextType = Context
@@ -127,7 +131,7 @@ export default class FormStatus extends React.PureComponent {
     return state
   }
 
-  static getIcon({ state, icon, icon_size, theme }) {
+  static getIcon({ state, icon, icon_size }) {
     if (typeof icon !== 'string') {
       return icon
     }
@@ -152,7 +156,7 @@ export default class FormStatus extends React.PureComponent {
 
     return (
       <Icon
-        icon={<IconToLoad title={null} state={state} theme={theme} />}
+        icon={<IconToLoad title={null} state={state} />}
         size={icon_size}
         inherit_color={false}
       />
@@ -374,7 +378,6 @@ export default class FormStatus extends React.PureComponent {
       state,
       icon,
       icon_size,
-      theme: this.context?.theme?.name,
     })
 
     const contentToRender = FormStatus.getContent(this.props)
@@ -451,26 +454,36 @@ export default class FormStatus extends React.PureComponent {
   }
 }
 
-export const ErrorIcon = (props) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-    {props && props.title && <title>{props.title}</title>}
-    <path
-      d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-      fill="#DC2A2A"
-    />
-    <path
-      d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-      fill="#fff"
-    />
-    <path
-      d="M12 13.818v-5"
-      stroke="#fff"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+export const ErrorIcon = (props) => {
+  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-magenta']
+    : properties.ui['--color-fire-red']
+  const line = isSbankenTheme
+    ? properties.sbanken['--sb-color-magenta-light-2']
+    : properties.ui['--color-white']
+
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      {props && props.title && <title>{props.title}</title>}
+      <path
+        d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+        fill={fill}
+      />
+      <path
+        d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+        fill={line}
+      />
+      <path
+        d="M12 13.818v-5"
+        stroke={line}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 ErrorIcon.propTypes = {
   title: PropTypes.string,
 }
@@ -478,26 +491,36 @@ ErrorIcon.defaultProps = {
   title: 'error',
 }
 
-export const WarnIcon = (props) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-    {props && props.title && <title>{props.title}</title>}
-    <path
-      d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-      fill="#FDBB31"
-    />
-    <path
-      d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-      fill="#333"
-    />
-    <path
-      d="M12 13.818v-5"
-      stroke="#333"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+export const WarnIcon = (props) => {
+  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-yellow-dark']
+    : properties.ui['--color-accent-yellow']
+  const line = isSbankenTheme
+    ? properties.sbanken['--sb-color-black']
+    : properties.ui['--color-black-80']
+
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      {props && props.title && <title>{props.title}</title>}
+      <path
+        d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+        fill={fill}
+      />
+      <path
+        d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+        fill={line}
+      />
+      <path
+        d="M12 13.818v-5"
+        stroke={line}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 WarnIcon.propTypes = {
   title: PropTypes.string,
 }
@@ -506,11 +529,19 @@ WarnIcon.defaultProps = {
 }
 
 export const InfoIcon = (props) => {
-  const isSbankenTheme = props && props?.theme === 'sbanken'
-  let fill = isSbankenTheme ? '#000' : '#007272'
+  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  let fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-violet-light']
+    : properties.ui['--color-sea-green']
   if (props && props?.state === 'success') {
-    fill = isSbankenTheme ? '#02A56A' : '#28B482'
+    fill = isSbankenTheme
+      ? properties.sbanken['--sb-color-green-dark-3']
+      : properties.ui['--color-summer-green']
   }
+
+  const line = isSbankenTheme
+    ? properties.sbanken['--sb-color-green-light-2']
+    : properties.ui['--color-white']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -521,10 +552,10 @@ export const InfoIcon = (props) => {
         d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
         fill={fill}
       />
-      <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke="#fff" />
+      <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke={line} />
       <path
         d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
-        stroke="#fff"
+        stroke={line}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -535,29 +566,34 @@ export const InfoIcon = (props) => {
 InfoIcon.propTypes = {
   title: PropTypes.string,
   state: PropTypes.string,
-  theme: PropTypes.string,
 }
 InfoIcon.defaultProps = {
   title: 'info',
   state: 'info',
-  theme: 'ui',
 }
 
-export const MarketingIcon = (props) => (
-  <svg
-    width="24"
-    height="24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    {props && props.title && <title>{props.title}</title>}
-    <path
-      d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
-      fill="#333"
-    />
-  </svg>
-)
+export const MarketingIcon = (props) => {
+  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const fill = isSbankenTheme
+    ? properties.sbanken['--sb-color-violet-light']
+    : properties.ui['--color-black-80']
+
+  return (
+    <svg
+      width="24"
+      height="24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      {props && props.title && <title>{props.title}</title>}
+      <path
+        d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
+        fill={fill}
+      />
+    </svg>
+  )
+}
 MarketingIcon.propTypes = {
   title: PropTypes.string,
 }

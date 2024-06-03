@@ -83,6 +83,7 @@ export default function useFieldProps<
   const {
     path: pathProp,
     value: valueProp,
+    defaultValue,
     itemPath,
     emptyValue,
     required: requiredProp,
@@ -162,11 +163,7 @@ export default function useFieldProps<
   } = fieldBlockContext ?? {}
   const { handleChange: handleChangeIterateContext } =
     iterateElementContext ?? {}
-  const {
-    path: sectionPath,
-    handleChange: handleChangeSectionContext,
-    errorPrioritization,
-  } = sectionContext ?? {}
+  const { path: sectionPath, errorPrioritization } = sectionContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 
   const hasPath = Boolean(pathProp)
@@ -176,13 +173,15 @@ export default function useFieldProps<
     itemPath,
   })
 
-  const externalValue = useExternalValue<Value>({
-    path,
-    itemPath,
-    value: valueProp,
-    transformers,
-    emptyValue,
-  })
+  const defaultValueRef = useRef(defaultValue)
+  const externalValue =
+    useExternalValue<Value>({
+      path,
+      itemPath,
+      value: valueProp,
+      transformers,
+      emptyValue,
+    }) ?? defaultValueRef.current
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -962,8 +961,6 @@ export default function useFieldProps<
       // Must be set before validation
       changedRef.current = true
 
-      handleChangeSectionContext?.(identifier, transformedValue)
-
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
         handleChangeIterateContext?.(makeIteratePath(), transformedValue)
@@ -1039,8 +1036,6 @@ export default function useFieldProps<
       runPool,
       handleChangeIterateContext,
       makeIteratePath,
-      handleChangeSectionContext,
-      identifier,
       hideError,
       updateValue,
       addToPool,
@@ -1109,7 +1104,7 @@ export default function useFieldProps<
 
   useEffect(() => {
     if (hasPath) {
-      let value = props.value
+      let value = valueProp
 
       // First, look for existing data in the context
       const hasValue = pointer.has(dataContext.data, identifier)
@@ -1135,6 +1130,14 @@ export default function useFieldProps<
       }
 
       if (
+        typeof defaultValueRef.current !== 'undefined' &&
+        typeof value === 'undefined'
+      ) {
+        value = defaultValueRef.current
+        defaultValueRef.current = undefined
+      }
+
+      if (
         !hasValue ||
         (value !== existingValue &&
           // Prevents an infinite loop by skipping the update if the value hasn't changed
@@ -1149,11 +1152,11 @@ export default function useFieldProps<
   }, [
     dataContext.data,
     dataContext.id,
-    identifier,
     hasPath,
-    props.value,
+    identifier,
     updateDataValueDataContext,
     validateDataDataContext,
+    valueProp,
   ])
 
   useEffect(() => {

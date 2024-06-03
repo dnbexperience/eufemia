@@ -133,7 +133,7 @@ export default class GlobalStatus extends React.PureComponent {
     on_hide: null,
   }
 
-  static getIcon({ state, icon, icon_size, theme }) {
+  static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
       let IconToLoad = icon
 
@@ -154,7 +154,7 @@ export default class GlobalStatus extends React.PureComponent {
 
       icon = (
         <Icon
-          icon={<IconToLoad state={state} theme={theme} />}
+          icon={<IconToLoad state={state} />}
           size={icon_size}
           inherit_color={false}
         />

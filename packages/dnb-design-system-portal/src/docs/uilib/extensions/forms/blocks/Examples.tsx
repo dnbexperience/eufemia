@@ -1,38 +1,88 @@
-import { useRef } from 'react'
-import { Flex, Lead, Section } from '@dnb/eufemia/src'
-import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
+import { useMemo, useRef } from 'react'
+import ComponentBox from '../../../../../shared/tags/ComponentBox'
+import { Flex, HelpButton, Lead, Section } from '@dnb/eufemia/src'
+import {
+  Field,
+  Form,
+  Tools,
+  Wizard,
+} from '@dnb/eufemia/src/extensions/forms'
 import { GenerateRef as GeneratePropsRef } from '@dnb/eufemia/src/extensions/forms/Tools/ListAllProps'
 import { GenerateRef as GenerateSchemaRef } from '@dnb/eufemia/src/extensions/forms/Tools/GenerateSchema'
-import { Category } from '@dnb/eufemia/src/extensions/forms/blocks'
+import * as Blocks from '@dnb/eufemia/src/extensions/forms/blocks'
+import { useData } from '@dnb/eufemia/src/extensions/forms/Form'
 
-export const FirstBlock = () => {
-  const myTranslations = {
-    'nb-NO': { MyBlock: { MyField: { label: 'Egendefinert' } } },
-    'en-GB': { MyBlock: { MyField: { label: 'Custom' } } },
-  }
-
+export const ChildrenWithAge = (props) => {
   return (
-    <Form.Handler
-      data={{ firstName: 'Nora' }}
-      translations={myTranslations}
-    >
-      <WithTools>
-        <Category.FirstBlock />
-      </WithTools>
+    <Form.Handler>
+      <WithToolbar>
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge {...props} />
+          <Blocks.ChildrenWithAge mode="summary" {...props} />
+        </Flex.Stack>
+      </WithToolbar>
     </Form.Handler>
   )
 }
+export const ChildrenWithAgeWizard = (props) => {
+  return (
+    <ComponentBox scope={{ Blocks, props }}>
+      {() => {
+        const MyForm = () => {
+          const { summaryTitle } = Form.useLocale().Step
+          return (
+            <Form.Handler>
+              <Wizard.Container>
+                <Wizard.Step title="Step 1">
+                  <Blocks.ChildrenWithAge {...props} />
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-const filterDataPaths = {
-  '/showProps': false,
-  '/showSchema': false,
+                <Wizard.Step title={summaryTitle}>
+                  <Blocks.ChildrenWithAge
+                    mode="summary"
+                    toWizardStep={0}
+                    {...props}
+                  />
+
+                  <Form.ButtonRow>
+                    <Wizard.Buttons />
+                    <Form.SubmitButton variant="send" />
+                  </Form.ButtonRow>
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
 }
-function WithTools({ children }) {
+
+export function WithToolbar({ children }) {
+  const { filterData } = useData()
+
+  const filterDataPaths = useMemo(
+    () => ({
+      '/toggleToolOf': false,
+    }),
+    [],
+  )
+
+  const generateDataRef = useMemo(() => {
+    return {
+      current: () => {
+        return filterData(filterDataPaths)
+      },
+    }
+  }, [filterData, filterDataPaths])
   const generatePropsRef = useRef<GeneratePropsRef>()
   const generateSchemaRef = useRef<GenerateSchemaRef>()
 
   return (
-    <>
+    <Flex.Stack top="large">
       <Tools.ListAllProps
         generateRef={generatePropsRef}
         filterData={filterDataPaths}
@@ -41,41 +91,53 @@ function WithTools({ children }) {
           generateRef={generateSchemaRef}
           filterData={filterDataPaths}
         >
-          <Section innerSpace backgroundColor="white">
-            {children}
-          </Section>
+          {children}
         </Tools.GenerateSchema>
       </Tools.ListAllProps>
 
       <Section backgroundColor="sand-yellow" innerSpace>
         <Flex.Horizontal align="center">
           <Form.SubmitButton text="Submit" />
-          <Field.Boolean
-            path="/showProps"
+          <Field.Selection
+            path="/toggleToolOf"
             variant="button"
-            trueText="Hide Props"
-            falseText="Show Props"
-          />
-          <Field.Boolean
-            path="/showSchema"
-            variant="button"
-            trueText="Hide Schema"
-            falseText="Show Schema"
-          />
+            optionsLayout="horizontal"
+          >
+            <Field.Option value="off" title="Off" />
+            <Field.Option value="data" title="Data" />
+            <Field.Option value="props" title="Props" />
+            <Field.Option value="schema" title="Schema" />
+          </Field.Selection>
+          <HelpButton title="About Data, Props and Schema">
+            Data, Props and Schema will show block relevant information.
+            Schema is an automatically generated Ajv schema, while props
+            shows all used props to define the block functionality.
+          </HelpButton>
         </Flex.Horizontal>
       </Section>
 
-      <Form.Visibility pathTrue="/showProps" animate>
-        <Output title="Props:" generateRef={generatePropsRef} />
+      <Form.Visibility
+        visibleWhen={{ path: '/toggleToolOf', hasValue: 'data' }}
+      >
+        <Output title="Data" generateRef={generateDataRef} />
       </Form.Visibility>
-      <Form.Visibility pathTrue="/showSchema" animate>
+
+      <Form.Visibility
+        visibleWhen={{ path: '/toggleToolOf', hasValue: 'props' }}
+      >
+        <Output title="Props" generateRef={generatePropsRef} />
+      </Form.Visibility>
+
+      <Form.Visibility
+        visibleWhen={{ path: '/toggleToolOf', hasValue: 'schema' }}
+      >
         <Output
-          title="Schema:"
+          title="Schema"
           generateRef={generateSchemaRef}
           transform={(data) => data.schema}
         />
       </Form.Visibility>
-    </>
+    </Flex.Stack>
   )
 }
 
@@ -83,9 +145,11 @@ function Output({ title, generateRef, transform = (data) => data }) {
   const data = transform(generateRef.current())
 
   return (
-    <Section element="output" innerSpace backgroundColor="sand-yellow">
+    <>
       <Lead>{title}</Lead>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </Section>
+      <Section element="output" innerSpace backgroundColor="sand-yellow">
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </Section>
+    </>
   )
 }

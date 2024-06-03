@@ -1,0 +1,887 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChildrenWithAge should match snapshot 1`] = `
+{
+  "children": {
+    "0": {
+      "age": {
+        "errorMessages": {
+          "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
+          "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
+          "maximum": "Verdien må være maksimalt {maximum}.",
+          "minimum": "Verdien må være minst {minimum}.",
+          "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
+          "required": "Du må skrive inn alder på barnet.",
+        },
+        "itemPath": "/age",
+        "maximum": 100,
+        "minimum": 0,
+        "placeholder": "0",
+        "required": true,
+        "schema": {
+          "exclusiveMaximum": undefined,
+          "exclusiveMinimum": undefined,
+          "maximum": 100,
+          "minimum": 0,
+          "multipleOf": undefined,
+          "type": "number",
+        },
+        "showStepControls": true,
+        "startWith": -1,
+        "translations": {
+          "en-GB": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Age of child no. {itemNr}",
+                "required": "You must enter the age of the child.",
+                "suffix": "years old",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Joint parental responsibility",
+              },
+              "countChildren": {
+                "fieldLabel": "Number of children under the age of 18",
+                "required": "You must enter the number of children.",
+                "suffix": "children",
+                "valueVale": "Number of children under the age of 18",
+              },
+              "daycareFalse": "without SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Do you have children under the age of 18?",
+                "required": "You must state whether you have children under 18 or not.",
+                "title": "Number of children",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Has SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+              },
+              "jointResponsibilityFalse": "not joint parental responsibility",
+              "jointResponsibilityTrue": "joint parental responsibility",
+              "usesDaycare": {
+                "fieldLabel": "Do you have SFO/AKS for any of the children?",
+                "required": "You must state whether you have SFO/AKS for any of the children.",
+              },
+            },
+          },
+          "nb-NO": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Alder på barn nr. {itemNr}",
+                "required": "Du må skrive inn alder på barnet.",
+                "suffix": "år",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Delt omsorg",
+              },
+              "countChildren": {
+                "fieldLabel": "Antall barn under 18 år",
+                "required": "Du må skrive inn antall barn.",
+                "suffix": "barn",
+                "valueVale": "Antall barn under 18 år",
+              },
+              "daycareFalse": "uten SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Har du/dere barn under 18 år?",
+                "required": "Du må angi om du har barn under 18 år eller ikke.",
+                "title": "Antall barn",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Er på SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Har du delt omsorg for noen av barna?",
+              },
+              "jointResponsibilityFalse": "ikke delt omsorg",
+              "jointResponsibilityTrue": "delt omsorg",
+              "usesDaycare": {
+                "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+                "required": "Du må angi om du har SFO/AKS for noen av barna.",
+              },
+            },
+          },
+        },
+        "valueType": "number",
+        "width": "small",
+      },
+      "hasDaycare": {
+        "defaultValue": false,
+        "itemPath": "/hasDaycare",
+        "label": "Er på SFO/AKS",
+        "required": true,
+        "textOff": "Nei",
+        "textOn": "Ja",
+        "translations": {
+          "en-GB": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Age of child no. {itemNr}",
+                "required": "You must enter the age of the child.",
+                "suffix": "years old",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Joint parental responsibility",
+              },
+              "countChildren": {
+                "fieldLabel": "Number of children under the age of 18",
+                "required": "You must enter the number of children.",
+                "suffix": "children",
+                "valueVale": "Number of children under the age of 18",
+              },
+              "daycareFalse": "without SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Do you have children under the age of 18?",
+                "required": "You must state whether you have children under 18 or not.",
+                "title": "Number of children",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Has SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+              },
+              "jointResponsibilityFalse": "not joint parental responsibility",
+              "jointResponsibilityTrue": "joint parental responsibility",
+              "usesDaycare": {
+                "fieldLabel": "Do you have SFO/AKS for any of the children?",
+                "required": "You must state whether you have SFO/AKS for any of the children.",
+              },
+            },
+          },
+          "nb-NO": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Alder på barn nr. {itemNr}",
+                "required": "Du må skrive inn alder på barnet.",
+                "suffix": "år",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Delt omsorg",
+              },
+              "countChildren": {
+                "fieldLabel": "Antall barn under 18 år",
+                "required": "Du må skrive inn antall barn.",
+                "suffix": "barn",
+                "valueVale": "Antall barn under 18 år",
+              },
+              "daycareFalse": "uten SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Har du/dere barn under 18 år?",
+                "required": "Du må angi om du har barn under 18 år eller ikke.",
+                "title": "Antall barn",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Er på SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Har du delt omsorg for noen av barna?",
+              },
+              "jointResponsibilityFalse": "ikke delt omsorg",
+              "jointResponsibilityTrue": "delt omsorg",
+              "usesDaycare": {
+                "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+                "required": "Du må angi om du har SFO/AKS for noen av barna.",
+              },
+            },
+          },
+        },
+        "valueOff": false,
+        "valueOn": true,
+        "valueType": "boolean",
+      },
+      "jointResponsibility": {
+        "defaultValue": false,
+        "itemPath": "/jointResponsibility",
+        "label": "Delt omsorg",
+        "required": true,
+        "textOff": "Nei",
+        "textOn": "Ja",
+        "translations": {
+          "en-GB": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Age of child no. {itemNr}",
+                "required": "You must enter the age of the child.",
+                "suffix": "years old",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Joint parental responsibility",
+              },
+              "countChildren": {
+                "fieldLabel": "Number of children under the age of 18",
+                "required": "You must enter the number of children.",
+                "suffix": "children",
+                "valueVale": "Number of children under the age of 18",
+              },
+              "daycareFalse": "without SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Do you have children under the age of 18?",
+                "required": "You must state whether you have children under 18 or not.",
+                "title": "Number of children",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Has SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+              },
+              "jointResponsibilityFalse": "not joint parental responsibility",
+              "jointResponsibilityTrue": "joint parental responsibility",
+              "usesDaycare": {
+                "fieldLabel": "Do you have SFO/AKS for any of the children?",
+                "required": "You must state whether you have SFO/AKS for any of the children.",
+              },
+            },
+          },
+          "nb-NO": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Alder på barn nr. {itemNr}",
+                "required": "Du må skrive inn alder på barnet.",
+                "suffix": "år",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Delt omsorg",
+              },
+              "countChildren": {
+                "fieldLabel": "Antall barn under 18 år",
+                "required": "Du må skrive inn antall barn.",
+                "suffix": "barn",
+                "valueVale": "Antall barn under 18 år",
+              },
+              "daycareFalse": "uten SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Har du/dere barn under 18 år?",
+                "required": "Du må angi om du har barn under 18 år eller ikke.",
+                "title": "Antall barn",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Er på SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Har du delt omsorg for noen av barna?",
+              },
+              "jointResponsibilityFalse": "ikke delt omsorg",
+              "jointResponsibilityTrue": "delt omsorg",
+              "usesDaycare": {
+                "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+                "required": "Du må angi om du har SFO/AKS for noen av barna.",
+              },
+            },
+          },
+        },
+        "valueOff": false,
+        "valueOn": true,
+        "valueType": "boolean",
+      },
+    },
+    "1": {
+      "age": {
+        "errorMessages": {
+          "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
+          "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
+          "maximum": "Verdien må være maksimalt {maximum}.",
+          "minimum": "Verdien må være minst {minimum}.",
+          "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
+          "required": "Du må skrive inn alder på barnet.",
+        },
+        "itemPath": "/age",
+        "maximum": 100,
+        "minimum": 0,
+        "placeholder": "0",
+        "required": true,
+        "schema": {
+          "exclusiveMaximum": undefined,
+          "exclusiveMinimum": undefined,
+          "maximum": 100,
+          "minimum": 0,
+          "multipleOf": undefined,
+          "type": "number",
+        },
+        "showStepControls": true,
+        "startWith": -1,
+        "translations": {
+          "en-GB": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Age of child no. {itemNr}",
+                "required": "You must enter the age of the child.",
+                "suffix": "years old",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Joint parental responsibility",
+              },
+              "countChildren": {
+                "fieldLabel": "Number of children under the age of 18",
+                "required": "You must enter the number of children.",
+                "suffix": "children",
+                "valueVale": "Number of children under the age of 18",
+              },
+              "daycareFalse": "without SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Do you have children under the age of 18?",
+                "required": "You must state whether you have children under 18 or not.",
+                "title": "Number of children",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Has SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+              },
+              "jointResponsibilityFalse": "not joint parental responsibility",
+              "jointResponsibilityTrue": "joint parental responsibility",
+              "usesDaycare": {
+                "fieldLabel": "Do you have SFO/AKS for any of the children?",
+                "required": "You must state whether you have SFO/AKS for any of the children.",
+              },
+            },
+          },
+          "nb-NO": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Alder på barn nr. {itemNr}",
+                "required": "Du må skrive inn alder på barnet.",
+                "suffix": "år",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Delt omsorg",
+              },
+              "countChildren": {
+                "fieldLabel": "Antall barn under 18 år",
+                "required": "Du må skrive inn antall barn.",
+                "suffix": "barn",
+                "valueVale": "Antall barn under 18 år",
+              },
+              "daycareFalse": "uten SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Har du/dere barn under 18 år?",
+                "required": "Du må angi om du har barn under 18 år eller ikke.",
+                "title": "Antall barn",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Er på SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Har du delt omsorg for noen av barna?",
+              },
+              "jointResponsibilityFalse": "ikke delt omsorg",
+              "jointResponsibilityTrue": "delt omsorg",
+              "usesDaycare": {
+                "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+                "required": "Du må angi om du har SFO/AKS for noen av barna.",
+              },
+            },
+          },
+        },
+        "valueType": "number",
+        "width": "small",
+      },
+      "hasDaycare": {
+        "defaultValue": false,
+        "itemPath": "/hasDaycare",
+        "label": "Er på SFO/AKS",
+        "required": true,
+        "textOff": "Nei",
+        "textOn": "Ja",
+        "translations": {
+          "en-GB": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Age of child no. {itemNr}",
+                "required": "You must enter the age of the child.",
+                "suffix": "years old",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Joint parental responsibility",
+              },
+              "countChildren": {
+                "fieldLabel": "Number of children under the age of 18",
+                "required": "You must enter the number of children.",
+                "suffix": "children",
+                "valueVale": "Number of children under the age of 18",
+              },
+              "daycareFalse": "without SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Do you have children under the age of 18?",
+                "required": "You must state whether you have children under 18 or not.",
+                "title": "Number of children",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Has SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+              },
+              "jointResponsibilityFalse": "not joint parental responsibility",
+              "jointResponsibilityTrue": "joint parental responsibility",
+              "usesDaycare": {
+                "fieldLabel": "Do you have SFO/AKS for any of the children?",
+                "required": "You must state whether you have SFO/AKS for any of the children.",
+              },
+            },
+          },
+          "nb-NO": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Alder på barn nr. {itemNr}",
+                "required": "Du må skrive inn alder på barnet.",
+                "suffix": "år",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Delt omsorg",
+              },
+              "countChildren": {
+                "fieldLabel": "Antall barn under 18 år",
+                "required": "Du må skrive inn antall barn.",
+                "suffix": "barn",
+                "valueVale": "Antall barn under 18 år",
+              },
+              "daycareFalse": "uten SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Har du/dere barn under 18 år?",
+                "required": "Du må angi om du har barn under 18 år eller ikke.",
+                "title": "Antall barn",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Er på SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Har du delt omsorg for noen av barna?",
+              },
+              "jointResponsibilityFalse": "ikke delt omsorg",
+              "jointResponsibilityTrue": "delt omsorg",
+              "usesDaycare": {
+                "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+                "required": "Du må angi om du har SFO/AKS for noen av barna.",
+              },
+            },
+          },
+        },
+        "valueOff": false,
+        "valueOn": true,
+        "valueType": "boolean",
+      },
+      "jointResponsibility": {
+        "defaultValue": false,
+        "itemPath": "/jointResponsibility",
+        "label": "Delt omsorg",
+        "required": true,
+        "textOff": "Nei",
+        "textOn": "Ja",
+        "translations": {
+          "en-GB": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Age of child no. {itemNr}",
+                "required": "You must enter the age of the child.",
+                "suffix": "years old",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Joint parental responsibility",
+              },
+              "countChildren": {
+                "fieldLabel": "Number of children under the age of 18",
+                "required": "You must enter the number of children.",
+                "suffix": "children",
+                "valueVale": "Number of children under the age of 18",
+              },
+              "daycareFalse": "without SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Do you have children under the age of 18?",
+                "required": "You must state whether you have children under 18 or not.",
+                "title": "Number of children",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Has SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+              },
+              "jointResponsibilityFalse": "not joint parental responsibility",
+              "jointResponsibilityTrue": "joint parental responsibility",
+              "usesDaycare": {
+                "fieldLabel": "Do you have SFO/AKS for any of the children?",
+                "required": "You must state whether you have SFO/AKS for any of the children.",
+              },
+            },
+          },
+          "nb-NO": {
+            "ChildrenWithAge": {
+              "childrenAge": {
+                "fieldLabel": "Alder på barn nr. {itemNr}",
+                "required": "Du må skrive inn alder på barnet.",
+                "suffix": "år",
+              },
+              "confirmJointResponsibility": {
+                "fieldLabel": "Delt omsorg",
+              },
+              "countChildren": {
+                "fieldLabel": "Antall barn under 18 år",
+                "required": "Du må skrive inn antall barn.",
+                "suffix": "barn",
+                "valueVale": "Antall barn under 18 år",
+              },
+              "daycareFalse": "uten SFO/AKS",
+              "daycareTrue": "SFO/AKS",
+              "hasChildren": {
+                "fieldLabel": "Har du/dere barn under 18 år?",
+                "required": "Du må angi om du har barn under 18 år eller ikke.",
+                "title": "Antall barn",
+              },
+              "hasDaycare": {
+                "fieldLabel": "Er på SFO/AKS",
+              },
+              "hasJointResponsibility": {
+                "fieldLabel": "Har du delt omsorg for noen av barna?",
+              },
+              "jointResponsibilityFalse": "ikke delt omsorg",
+              "jointResponsibilityTrue": "delt omsorg",
+              "usesDaycare": {
+                "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+                "required": "Du må angi om du har SFO/AKS for noen av barna.",
+              },
+            },
+          },
+        },
+        "valueOff": false,
+        "valueOn": true,
+        "valueType": "boolean",
+      },
+    },
+    "countPath": "/countChildren",
+    "countPathLimit": 20,
+    "path": "/children",
+    "required": true,
+    "space": {
+      "bottom": 0,
+      "top": "medium",
+    },
+    "translations": {
+      "en-GB": {
+        "ChildrenWithAge": {
+          "childrenAge": {
+            "fieldLabel": "Age of child no. {itemNr}",
+            "required": "You must enter the age of the child.",
+            "suffix": "years old",
+          },
+          "confirmJointResponsibility": {
+            "fieldLabel": "Joint parental responsibility",
+          },
+          "countChildren": {
+            "fieldLabel": "Number of children under the age of 18",
+            "required": "You must enter the number of children.",
+            "suffix": "children",
+            "valueVale": "Number of children under the age of 18",
+          },
+          "daycareFalse": "without SFO/AKS",
+          "daycareTrue": "SFO/AKS",
+          "hasChildren": {
+            "fieldLabel": "Do you have children under the age of 18?",
+            "required": "You must state whether you have children under 18 or not.",
+            "title": "Number of children",
+          },
+          "hasDaycare": {
+            "fieldLabel": "Has SFO/AKS",
+          },
+          "hasJointResponsibility": {
+            "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+          },
+          "jointResponsibilityFalse": "not joint parental responsibility",
+          "jointResponsibilityTrue": "joint parental responsibility",
+          "usesDaycare": {
+            "fieldLabel": "Do you have SFO/AKS for any of the children?",
+            "required": "You must state whether you have SFO/AKS for any of the children.",
+          },
+        },
+      },
+      "nb-NO": {
+        "ChildrenWithAge": {
+          "childrenAge": {
+            "fieldLabel": "Alder på barn nr. {itemNr}",
+            "required": "Du må skrive inn alder på barnet.",
+            "suffix": "år",
+          },
+          "confirmJointResponsibility": {
+            "fieldLabel": "Delt omsorg",
+          },
+          "countChildren": {
+            "fieldLabel": "Antall barn under 18 år",
+            "required": "Du må skrive inn antall barn.",
+            "suffix": "barn",
+            "valueVale": "Antall barn under 18 år",
+          },
+          "daycareFalse": "uten SFO/AKS",
+          "daycareTrue": "SFO/AKS",
+          "hasChildren": {
+            "fieldLabel": "Har du/dere barn under 18 år?",
+            "required": "Du må angi om du har barn under 18 år eller ikke.",
+            "title": "Antall barn",
+          },
+          "hasDaycare": {
+            "fieldLabel": "Er på SFO/AKS",
+          },
+          "hasJointResponsibility": {
+            "fieldLabel": "Har du delt omsorg for noen av barna?",
+          },
+          "jointResponsibilityFalse": "ikke delt omsorg",
+          "jointResponsibilityTrue": "delt omsorg",
+          "usesDaycare": {
+            "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+            "required": "Du må angi om du har SFO/AKS for noen av barna.",
+          },
+        },
+      },
+    },
+  },
+  "countChildren": {
+    "defaultValue": 1,
+    "errorMessages": {
+      "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
+      "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
+      "maximum": "Verdien må være maksimalt {maximum}.",
+      "minimum": "Du må skrive inn antall barn.",
+      "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
+      "required": "Dette feltet må fylles ut.",
+    },
+    "label": "Antall barn under 18 år",
+    "maximum": 20,
+    "minimum": 1,
+    "path": "/countChildren",
+    "required": true,
+    "schema": {
+      "exclusiveMaximum": undefined,
+      "exclusiveMinimum": undefined,
+      "maximum": 20,
+      "minimum": 1,
+      "multipleOf": undefined,
+      "type": "number",
+    },
+    "showStepControls": true,
+    "space": {
+      "bottom": 0,
+      "top": 0,
+    },
+    "translations": {
+      "en-GB": {
+        "ChildrenWithAge": {
+          "childrenAge": {
+            "fieldLabel": "Age of child no. {itemNr}",
+            "required": "You must enter the age of the child.",
+            "suffix": "years old",
+          },
+          "confirmJointResponsibility": {
+            "fieldLabel": "Joint parental responsibility",
+          },
+          "countChildren": {
+            "fieldLabel": "Number of children under the age of 18",
+            "required": "You must enter the number of children.",
+            "suffix": "children",
+            "valueVale": "Number of children under the age of 18",
+          },
+          "daycareFalse": "without SFO/AKS",
+          "daycareTrue": "SFO/AKS",
+          "hasChildren": {
+            "fieldLabel": "Do you have children under the age of 18?",
+            "required": "You must state whether you have children under 18 or not.",
+            "title": "Number of children",
+          },
+          "hasDaycare": {
+            "fieldLabel": "Has SFO/AKS",
+          },
+          "hasJointResponsibility": {
+            "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+          },
+          "jointResponsibilityFalse": "not joint parental responsibility",
+          "jointResponsibilityTrue": "joint parental responsibility",
+          "usesDaycare": {
+            "fieldLabel": "Do you have SFO/AKS for any of the children?",
+            "required": "You must state whether you have SFO/AKS for any of the children.",
+          },
+        },
+      },
+      "nb-NO": {
+        "ChildrenWithAge": {
+          "childrenAge": {
+            "fieldLabel": "Alder på barn nr. {itemNr}",
+            "required": "Du må skrive inn alder på barnet.",
+            "suffix": "år",
+          },
+          "confirmJointResponsibility": {
+            "fieldLabel": "Delt omsorg",
+          },
+          "countChildren": {
+            "fieldLabel": "Antall barn under 18 år",
+            "required": "Du må skrive inn antall barn.",
+            "suffix": "barn",
+            "valueVale": "Antall barn under 18 år",
+          },
+          "daycareFalse": "uten SFO/AKS",
+          "daycareTrue": "SFO/AKS",
+          "hasChildren": {
+            "fieldLabel": "Har du/dere barn under 18 år?",
+            "required": "Du må angi om du har barn under 18 år eller ikke.",
+            "title": "Antall barn",
+          },
+          "hasDaycare": {
+            "fieldLabel": "Er på SFO/AKS",
+          },
+          "hasJointResponsibility": {
+            "fieldLabel": "Har du delt omsorg for noen av barna?",
+          },
+          "jointResponsibilityFalse": "ikke delt omsorg",
+          "jointResponsibilityTrue": "delt omsorg",
+          "usesDaycare": {
+            "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+            "required": "Du må angi om du har SFO/AKS for noen av barna.",
+          },
+        },
+      },
+    },
+    "valueType": "number",
+    "width": "small",
+  },
+  "hasChildren": {
+    "defaultValue": false,
+    "errorMessages": {
+      "required": "Du må angi om du har barn under 18 år eller ikke.",
+    },
+    "label": "Har du/dere barn under 18 år?",
+    "path": "/hasChildren",
+    "required": true,
+    "space": {
+      "bottom": 0,
+      "top": "medium",
+    },
+    "textOff": "Nei",
+    "textOn": "Ja",
+    "translations": {
+      "en-GB": {
+        "ChildrenWithAge": {
+          "childrenAge": {
+            "fieldLabel": "Age of child no. {itemNr}",
+            "required": "You must enter the age of the child.",
+            "suffix": "years old",
+          },
+          "confirmJointResponsibility": {
+            "fieldLabel": "Joint parental responsibility",
+          },
+          "countChildren": {
+            "fieldLabel": "Number of children under the age of 18",
+            "required": "You must enter the number of children.",
+            "suffix": "children",
+            "valueVale": "Number of children under the age of 18",
+          },
+          "daycareFalse": "without SFO/AKS",
+          "daycareTrue": "SFO/AKS",
+          "hasChildren": {
+            "fieldLabel": "Do you have children under the age of 18?",
+            "required": "You must state whether you have children under 18 or not.",
+            "title": "Number of children",
+          },
+          "hasDaycare": {
+            "fieldLabel": "Has SFO/AKS",
+          },
+          "hasJointResponsibility": {
+            "fieldLabel": "Do you have joint parental responsibility for any of the children?",
+          },
+          "jointResponsibilityFalse": "not joint parental responsibility",
+          "jointResponsibilityTrue": "joint parental responsibility",
+          "usesDaycare": {
+            "fieldLabel": "Do you have SFO/AKS for any of the children?",
+            "required": "You must state whether you have SFO/AKS for any of the children.",
+          },
+        },
+      },
+      "nb-NO": {
+        "ChildrenWithAge": {
+          "childrenAge": {
+            "fieldLabel": "Alder på barn nr. {itemNr}",
+            "required": "Du må skrive inn alder på barnet.",
+            "suffix": "år",
+          },
+          "confirmJointResponsibility": {
+            "fieldLabel": "Delt omsorg",
+          },
+          "countChildren": {
+            "fieldLabel": "Antall barn under 18 år",
+            "required": "Du må skrive inn antall barn.",
+            "suffix": "barn",
+            "valueVale": "Antall barn under 18 år",
+          },
+          "daycareFalse": "uten SFO/AKS",
+          "daycareTrue": "SFO/AKS",
+          "hasChildren": {
+            "fieldLabel": "Har du/dere barn under 18 år?",
+            "required": "Du må angi om du har barn under 18 år eller ikke.",
+            "title": "Antall barn",
+          },
+          "hasDaycare": {
+            "fieldLabel": "Er på SFO/AKS",
+          },
+          "hasJointResponsibility": {
+            "fieldLabel": "Har du delt omsorg for noen av barna?",
+          },
+          "jointResponsibilityFalse": "ikke delt omsorg",
+          "jointResponsibilityTrue": "delt omsorg",
+          "usesDaycare": {
+            "fieldLabel": "Har du/dere SFO/AKS for noen av barna?",
+            "required": "Du må angi om du har SFO/AKS for noen av barna.",
+          },
+        },
+      },
+    },
+    "valueOff": false,
+    "valueOn": true,
+    "valueType": "boolean",
+    "variant": "buttons",
+  },
+}
+`;
+
+exports[`ChildrenWithAge should match snapshot 2`] = `
+{
+  "children": [
+    {
+      "age": {
+        "defaultValue": "–",
+        "itemPath": "/age",
+        "suffix": "år",
+      },
+      "hasDaycare": {
+        "defaultValue": false,
+        "falseText": "uten SFO/AKS",
+        "inline": true,
+        "itemPath": "/hasDaycare",
+        "trueText": "SFO/AKS",
+      },
+      "jointResponsibility": {
+        "defaultValue": false,
+        "falseText": "ikke delt omsorg",
+        "inline": true,
+        "itemPath": "/jointResponsibility",
+        "trueText": "delt omsorg",
+      },
+    },
+  ],
+  "countChildren": {
+    "defaultValue": 0,
+    "label": "Antall barn under 18 år",
+    "maximum": 20,
+    "path": "/countChildren",
+    "suffix": "barn",
+  },
+}
+`;

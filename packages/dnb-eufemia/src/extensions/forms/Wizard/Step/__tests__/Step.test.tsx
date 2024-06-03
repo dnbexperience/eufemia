@@ -82,6 +82,13 @@ describe('Step', () => {
     expect(stepElement).toHaveAttribute('aria-label', 'Other Aria Label')
   })
 
+  it('should not render when active is false', () => {
+    render(<Wizard.Step active={false}>Step Content</Wizard.Step>)
+
+    const stepElement = document.querySelector('.dnb-forms-step')
+    expect(stepElement).toBeNull()
+  })
+
   it('should not focus the step element when activeIndex does not match the index prop', () => {
     const activeIndex = 1
     const index = 0

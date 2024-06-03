@@ -203,6 +203,9 @@ export interface AutocompleteProps {
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
+  /**
+   * Text describing the content of the Autocomplete more than the label. You can also send in a React component, so it gets wrapped inside the Autocomplete component.
+   */
   suffix?: DrawerListSuffix;
   /**
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.

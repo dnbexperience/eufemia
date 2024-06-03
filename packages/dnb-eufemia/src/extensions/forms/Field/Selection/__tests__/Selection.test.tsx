@@ -728,15 +728,19 @@ describe('event handlers', () => {
     const selectionButton = screen.getByRole('button')
     await userEvent.click(selectionButton)
 
-    const option1 = screen.getByText('Fooo')
-    await userEvent.click(option1)
+    await waitFor(async () => {
+      const option1 = screen.getByText('Fooo')
+      await userEvent.click(option1)
+    })
 
     expect(onChange.mock.calls).toHaveLength(1)
     expect(onChange.mock.calls[0][0]).toEqual('foo')
 
-    await userEvent.click(selectionButton)
-    const option2 = screen.getByText('Baar')
-    await userEvent.click(option2)
+    await waitFor(async () => {
+      await userEvent.click(selectionButton)
+      const option2 = screen.getByText('Baar')
+      await userEvent.click(option2)
+    })
 
     expect(onChange.mock.calls).toHaveLength(2)
     expect(onChange.mock.calls[0][0]).toEqual('foo')
@@ -773,8 +777,10 @@ describe('event handlers', () => {
     const selectionButton = screen.getByRole('button')
     await userEvent.click(selectionButton)
 
-    const option1 = screen.getByText('Fooo')
-    await userEvent.click(option1)
+    await waitFor(async () => {
+      const option1 = screen.getByText('Fooo')
+      await userEvent.click(option1)
+    })
 
     expect(onBlur.mock.calls).toHaveLength(1)
     expect(onBlur.mock.calls[0][0]).toEqual('foo')

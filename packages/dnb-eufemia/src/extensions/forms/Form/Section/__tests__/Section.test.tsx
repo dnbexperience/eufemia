@@ -294,6 +294,7 @@ describe('Form.Section', () => {
       )
 
       fireEvent.change(first, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith({
         mySection: {
           innerSection: {
@@ -303,6 +304,7 @@ describe('Form.Section', () => {
       })
 
       fireEvent.change(last, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith({
         mySection: {
           innerSection: {
@@ -313,6 +315,7 @@ describe('Form.Section', () => {
       })
 
       fireEvent.change(addition, { target: { value: 'baz' } })
+      expect(onChange).toHaveBeenCalledTimes(3)
       expect(onChange).toHaveBeenLastCalledWith({
         mySection: {
           innerSection: {
@@ -322,8 +325,49 @@ describe('Form.Section', () => {
           otherField: 'baz',
         },
       })
+    })
 
+    it('should support onChange without Form.Handler', () => {
+      const onChange = jest.fn()
+
+      render(<MyOuterSection path="/mySection" onChange={onChange} />)
+
+      const [first, last, addition] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      fireEvent.change(first, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith({
+        mySection: {
+          innerSection: {
+            firstName: 'foo',
+          },
+        },
+      })
+
+      fireEvent.change(last, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({
+        mySection: {
+          innerSection: {
+            firstName: 'foo',
+            lastName: 'bar',
+          },
+        },
+      })
+
+      fireEvent.change(addition, { target: { value: 'baz' } })
       expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith({
+        mySection: {
+          innerSection: {
+            firstName: 'foo',
+            lastName: 'bar',
+          },
+          otherField: 'baz',
+        },
+      })
     })
   })
 
@@ -996,11 +1040,6 @@ describe('Form.Section', () => {
         )
       }
 
-      const formTranslations = {
-        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
-        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
-      }
-
       const { rerender } = render(
         <Form.Handler>
           <MySection />
@@ -1011,6 +1050,11 @@ describe('Form.Section', () => {
 
       expect(label).toHaveTextContent('Section nb')
 
+      const formTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
+      }
+
       rerender(
         <Form.Handler locale="en-GB" translations={formTranslations}>
           <MySection />
@@ -1018,6 +1062,139 @@ describe('Form.Section', () => {
       )
 
       expect(label).toHaveTextContent('Form en')
+    })
+
+    it('should replace translations gracefully from Form.Handler', () => {
+      const myTranslations = {
+        'en-GB': {
+          FirstName: { label: 'Custom label' },
+        },
+      }
+
+      render(
+        <Form.Handler translations={myTranslations} locale="en-GB">
+          <MySection path="/should-not-matter" />
+        </Form.Handler>
+      )
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('label')
+      )
+      expect(first).toHaveTextContent('Custom label')
+      expect(second).toHaveTextContent('Surname')
+    })
+
+    it('should not mutate translations object', () => {
+      const sectionTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Section nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Section en' } } },
+      }
+      type SectionTranslation =
+        (typeof sectionTranslations)[keyof typeof sectionTranslations]
+
+      const MySectionContent = () => {
+        const { MySection } = Form.useTranslation<SectionTranslation>()
+        return (
+          <Field.String
+            label={MySection.CustomField.label}
+            path="/myField"
+          />
+        )
+      }
+
+      const MySection = () => {
+        return (
+          <Form.Section translations={sectionTranslations}>
+            <MySectionContent />
+          </Form.Section>
+        )
+      }
+
+      const formTranslations = {
+        'nb-NO': { MySection: { CustomField: { label: 'Form nb' } } },
+        'en-GB': { MySection: { CustomField: { label: 'Form en' } } },
+      }
+
+      render(
+        <Form.Handler translations={formTranslations}>
+          <MySection />
+          <MySection />
+          <MySection />
+        </Form.Handler>
+      )
+
+      {
+        const [label1, label2] = Array.from(
+          document.querySelectorAll('label')
+        )
+        expect(label1).toHaveTextContent('Form nb')
+        expect(label2).toHaveTextContent('Form nb')
+      }
+
+      expect(
+        sectionTranslations['nb-NO'].MySection.CustomField.label
+      ).toBe('Section nb')
+      expect(
+        sectionTranslations['en-GB'].MySection.CustomField.label
+      ).toBe('Section en')
+    })
+  })
+
+  describe('data', () => {
+    it('should support data context', () => {
+      const { rerender } = render(
+        <Form.Section
+          data={{
+            myField: 'foo',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('foo')
+
+      rerender(
+        <Form.Section
+          data={{
+            myField: 'bar',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      expect(input).toHaveValue('bar')
+    })
+
+    it('should support defaultData context', () => {
+      const { rerender } = render(
+        <Form.Section
+          defaultData={{
+            myField: 'foo',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('foo')
+
+      rerender(
+        <Form.Section
+          defaultData={{
+            myField: 'ignore-me',
+          }}
+        >
+          <Field.String path="/myField" />
+        </Form.Section>
+      )
+
+      expect(input).toHaveValue('foo')
     })
   })
 })

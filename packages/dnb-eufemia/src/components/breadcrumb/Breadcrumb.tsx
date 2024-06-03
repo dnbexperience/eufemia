@@ -13,6 +13,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Section, {
   SectionSpacing,
   SectionStyleTypes,
+  SectionVariants,
 } from '../section/Section'
 import Button from '../button/Button'
 
@@ -30,7 +31,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
-import { useMedia } from '../../shared'
+import { useMedia, useTheme } from '../../shared'
 
 export type BreadcrumbProps = {
   /**
@@ -114,10 +115,10 @@ export type BreadcrumbProps = {
   styleType?: SectionStyleTypes
 
   /**
-   * Use one of the Section component style types (style_type)
-   * Default: pistachio
+   * Use one of the Section component variants
+   * Default: info
    */
-  collapsedStyleType?: SectionStyleTypes
+  collapsedStyleType?: SectionVariants
 
   /**
    * Include spacing properties from the Section component in breadcrumb. If only `true` is given, the spacing will be `small`.
@@ -221,6 +222,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   const innerSpace = isTrue(spacing) ? 'small' : spacing
 
+  const overrideSbankenSectionColor =
+    useTheme()?.isSbanken && collapsedStyleType === 'info'
   return (
     <nav
       aria-label={convertJsxToString(navText)}
@@ -276,8 +279,15 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
       {(currentVariant === 'collapse' ||
         currentVariant === 'responsive') && (
         <Section
-          variant={collapsedStyleType}
+          variant={
+            overrideSbankenSectionColor ? undefined : collapsedStyleType
+          }
           className="dnb-breadcrumb__collapse"
+          backgroundColor={
+            overrideSbankenSectionColor
+              ? 'var(--sb-color-gray-light-2)'
+              : undefined
+          }
         >
           <BreadcrumbMultiple
             data={data}

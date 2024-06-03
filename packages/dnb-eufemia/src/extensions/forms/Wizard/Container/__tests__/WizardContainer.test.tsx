@@ -16,9 +16,6 @@ beforeEach(() => {
       ) &&
       !String(args[1]).includes(
         'You have to provide a label to use show an indicator'
-      ) &&
-      !String(args[1]).includes(
-        'StepIndicator needs an unique "sidebar_id" property'
       )
     ) {
       log(...args)
@@ -95,6 +92,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
 
     await userEvent.click(firstStep.querySelector('.dnb-button'))
+    await wait(1000)
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
@@ -453,6 +451,110 @@ describe('Wizard.Container', () => {
     })
   })
 
+  it('should not render inactive steps', async () => {
+    render(
+      <Wizard.Container mode="loose">
+        <Wizard.Step title="Step 1" active={false}>
+          <output>Step 1</output>
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    ).toHaveLength(1)
+  })
+
+  it('should render dynamically enabled steps', async () => {
+    const { rerender } = render(
+      <Wizard.Container mode="loose">
+        <Wizard.Step title="Step 1" active={false}>
+          <output>Step 1</output>
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(
+      document.querySelector('.dnb-step-indicator')
+    ).toHaveTextContent('Steg 1 av 1')
+    expect(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    ).toHaveLength(1)
+
+    rerender(
+      <Wizard.Container mode="loose">
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String path="/something" />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(
+      document.querySelector('.dnb-step-indicator')
+    ).toHaveTextContent('Steg 2 av 2')
+    expect(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    ).toHaveLength(2)
+
+    rerender(
+      <Wizard.Container mode="loose">
+        <Wizard.Step title="Step 1" active={false}>
+          <output>Step 1</output>
+          <Field.String path="/something" />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(
+      document.querySelector('.dnb-step-indicator')
+    ).toHaveTextContent('Steg 1 av 1')
+    expect(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    ).toHaveLength(1)
+
+    rerender(
+      <Wizard.Container mode="loose">
+        <Wizard.Step title="Step 1" active={false}>
+          <output>Step 1</output>
+          <Field.String path="/something" />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2" active={false}>
+          <output>Step 2</output>
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    expect(output()).toBeNull()
+    expect(
+      document.querySelector('.dnb-step-indicator')
+    ).toHaveTextContent('')
+    expect(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    ).toHaveLength(0)
+  })
+
   it('should support drawer variant', () => {
     const { rerender } = render(
       <Wizard.Container variant="drawer">
@@ -467,7 +569,7 @@ describe('Wizard.Container', () => {
     )
 
     const sidebar = document.querySelector(
-      '.dnb-forms-wizard-layout__sidebar'
+      '.dnb-forms-wizard-layout__indicator'
     )
 
     const stepTrigger = () =>

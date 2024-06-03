@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
-import { Field, Form, Value } from '../../..'
+import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
 import { FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
@@ -122,6 +122,46 @@ describe('Iterate.Array', () => {
         ).toHaveTextContent('Placeholder text')
       })
     })
+
+    describe('label', () => {
+      it('should replace {itemNr} in labels for fields and values', () => {
+        render(
+          <Iterate.Array value={['foo', 'bar']}>
+            <Field.String itemPath="/" label="Field label {itemNr}" />
+            <Value.String itemPath="/" label="Value label {itemNr}" />
+          </Iterate.Array>
+        )
+
+        const [fieldLabel1, valueLabel1, fieldLabel2, valueLabel2] =
+          Array.from(document.querySelectorAll('.dnb-form-label'))
+
+        expect(fieldLabel1).toHaveTextContent('Field label 1')
+        expect(fieldLabel2).toHaveTextContent('Field label 2')
+        expect(valueLabel1).toHaveTextContent('Value label 1')
+        expect(valueLabel2).toHaveTextContent('Value label 2')
+      })
+
+      it('should replace {itemNr} in labels for FieldBlock and ValueBlock', () => {
+        render(
+          <Iterate.Array value={['foo', 'bar']}>
+            <FieldBlock label="FieldBlock label {itemNr}">
+              content
+            </FieldBlock>
+            <ValueBlock label="ValueBlock label {itemNr}">
+              content
+            </ValueBlock>
+          </Iterate.Array>
+        )
+
+        const [FieldBlock1, ValueBlock1, FieldBlock2, ValueBlock2] =
+          Array.from(document.querySelectorAll('.dnb-form-label'))
+
+        expect(FieldBlock1).toHaveTextContent('FieldBlock label 1')
+        expect(ValueBlock1).toHaveTextContent('ValueBlock label 1')
+        expect(FieldBlock2).toHaveTextContent('FieldBlock label 2')
+        expect(ValueBlock2).toHaveTextContent('ValueBlock label 2')
+      })
+    })
   })
 
   describe('with object elements', () => {
@@ -177,6 +217,84 @@ describe('Iterate.Array', () => {
         { foo: 'foo 1', bar: 'bar 1' },
         { foo: 'foo 2c', bar: 'bar 2' },
       ])
+    })
+  })
+
+  describe('countPath', () => {
+    it('should iterate over the amount given in countPath', () => {
+      render(
+        <Form.Handler data={{ count: 2 }}>
+          <Iterate.Array path="/items" countPath="/count">
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+    })
+
+    it('should render input value defined by "countPathTransform"', () => {
+      render(
+        <Form.Handler data={{ count: 2 }}>
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathTransform={({ value, index }) =>
+              Object.prototype.hasOwnProperty.call(value || {}, 'item')
+                ? value
+                : { item: index }
+            }
+          >
+            <Field.Number itemPath="/item" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('0')
+      expect(inputs[1]).toHaveValue('1')
+    })
+
+    it('should not iterate over invalid countPath', () => {
+      render(
+        <Form.Handler data={{ count: '' }}>
+          <Iterate.Array path="/items" countPath="/count">
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(0)
+    })
+
+    it('should not iterate over negative countPath', () => {
+      render(
+        <Form.Handler data={{ count: -1 }}>
+          <Iterate.Array path="/items" countPath="/count">
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(0)
+    })
+
+    it('should limit the iterate amount by given "countPathLimit" value', () => {
+      render(
+        <Form.Handler data={{ count: 10 }}>
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathLimit={2}
+          >
+            <Field.Number itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(2)
     })
   })
 

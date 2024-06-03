@@ -4,13 +4,17 @@
 */
 
 .dnb-radio {
+  --radio-dot--medium: 0.875rem;
+  --radio-dot--large: 1.5rem;
   // Normal state
+  --radio-border-width: 0.0625rem;
   --radio-color-dot-on: var(--sb-color-violet);
   --radio-color-background-on: var(--sb-color-white);
   --radio-color-border-on: var(--sb-color-violet);
   --radio-color-background-off: var(--sb-color-white);
   --radio-color-border-off: var(--sb-color-violet);
   // Disabled state
+  --radio-border-width--disabled: 0.0625rem;
   --radio-color-dot-on--disabled: var(--sb-color-gray-dark);
   --radio-color-background--disabled: var(--sb-color-gray-light);
   --radio-color-border-on--disabled: var(--sb-color-gray-dark);
@@ -22,9 +26,11 @@
   --radio-color-border-off--active: var(--sb-color-gray);
   // Hover state
   --radio-color-dot-on--hover: var(--sb-color-violet);
+  --radio-border-width-on--hover: 0.0625rem;
   --radio-color-background-on--hover: var(--sb-color-violet-light-3);
   --radio-color-background-off--hover: var(--sb-color-violet-light-3);
   // Focus state
+  --radio-border-width--focus: 0.1875rem;
   --radio-color-background-on--focus: var(--sb-color-blue-light-3);
   --radio-color-background-off--focus: var(--sb-color-blue-light-3);
   // Error state

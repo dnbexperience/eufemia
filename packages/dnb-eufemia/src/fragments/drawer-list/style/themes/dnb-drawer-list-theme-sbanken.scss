@@ -31,7 +31,7 @@
 
   &__option__inner {
     overflow: visible;
-    background-color: transparent;
+    background-color: inherit;
     padding: 1rem 0.75rem;
 
     &::before {
@@ -63,6 +63,10 @@
     border-right-color: transparent; // Fix ugly border with scrollbar
     background-color: transparent;
     z-index: 0;
+
+    &__item.item-nr-1 {
+      font-weight: var(--font-weight-medium);
+    }
 
     @include hover() {
       border-color: var(--sb-color-violet);
@@ -112,6 +116,13 @@
 
         background-size: cover;
         background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K');
+      }
+    }
+
+    @include allAbove(small) {
+      &--selected &__suffix {
+        z-index: 2; // over check icon
+        background-color: inherit; // to "hide" the check icon
       }
     }
 

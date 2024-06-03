@@ -14,6 +14,7 @@ export default function useValueProps<
     path: pathProp,
     itemPath,
     value,
+    defaultValue,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -27,12 +28,13 @@ export default function useValueProps<
 
   const { path } = usePath({ path: pathProp, itemPath })
 
-  const externalValue = useExternalValue<Value>({
-    path,
-    itemPath,
-    value,
-    transformers,
-  })
+  const externalValue =
+    useExternalValue<Value>({
+      path,
+      itemPath,
+      value,
+      transformers,
+    }) ?? defaultValue
 
   const dataContext = useContext(DataContext)
   dataContext?.setValueProps?.(path, props)

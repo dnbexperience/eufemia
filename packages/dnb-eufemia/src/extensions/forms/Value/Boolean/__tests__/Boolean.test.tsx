@@ -24,6 +24,24 @@ describe('Value.Boolean', () => {
     ).toHaveTextContent(nb.BooleanField.no)
   })
 
+  it('renders positive trueText', () => {
+    render(<Value.Boolean value={true} trueText="True Text" />)
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('True Text')
+  })
+
+  it('renders negative falseText', () => {
+    render(<Value.Boolean value={false} falseText="False Text" />)
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('False Text')
+  })
+
   it('renders label when showEmpty is true', () => {
     render(<Value.Boolean label="The Label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(

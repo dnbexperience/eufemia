@@ -1,4 +1,4 @@
-import { useCallback, useContext, useRef } from 'react'
+import { isValidElement, useCallback, useContext, useRef } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import DataContext, { FilterData } from '../DataContext/Context'
 
@@ -32,7 +32,8 @@ export default function ListAllProps(props: ListAllPropsProps) {
         for (const prop in props) {
           if (
             props[prop] !== undefined &&
-            typeof props[prop] !== 'function'
+            typeof props[prop] !== 'function' &&
+            !isValidElement(props[prop])
           ) {
             propertyValue[prop] = props[prop]
           }
@@ -55,7 +56,8 @@ export default function ListAllProps(props: ListAllPropsProps) {
         for (const prop in props) {
           if (
             props[prop] !== undefined &&
-            typeof props[prop] !== 'function'
+            typeof props[prop] !== 'function' &&
+            !isValidElement(props[prop])
           ) {
             propertyValue[prop] = props[prop]
           }

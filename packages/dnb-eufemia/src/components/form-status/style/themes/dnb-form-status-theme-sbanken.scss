@@ -15,7 +15,7 @@
 
   &--info &__shell,
   &--marketing &__shell {
-    background-color: var(--sb-color-gray-light-2);
+    background-color: var(--sb-color-violet-light-4);
   }
 
   &--warn &__shell {
@@ -30,6 +30,6 @@
   }
   &__variant--outlined#{&}--info &__shell,
   &__variant--outlined#{&}--marketing &__shell {
-    @include fakeBorder(var(--sb-color-gray-dark-2));
+    @include fakeBorder(var(--sb-color-violet-light));
   }
 }

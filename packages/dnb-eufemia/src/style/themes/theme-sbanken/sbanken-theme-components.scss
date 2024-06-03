@@ -19,6 +19,7 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 
 @import '../../../components/accordion/style/themes/dnb-accordion-theme-sbanken.scss';
 @import '../../../components/anchor/style/themes/dnb-anchor-theme-sbanken.scss';
+@import '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-sbanken.scss';
 @import '../../../components/avatar/style/themes/dnb-avatar-theme-sbanken.scss';
 @import '../../../components/breadcrumb/style/themes/dnb-breadcrumb-theme-sbanken.scss';
 @import '../../../components/button/style/themes/dnb-button-theme-sbanken.scss';
@@ -48,7 +49,6 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 @import '../../../components/upload/style/themes/dnb-upload-theme-sbanken.scss';
 @import '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-sbanken.scss';
 @import '../../../fragments/text-counter/style/themes/dnb-text-counter-theme-sbanken.scss';
-@import '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-ui.scss';
 @import '../../../components/badge/style/themes/dnb-badge-theme-ui.scss';
 @import '../../../components/date-picker/style/themes/dnb-date-picker-theme-ui.scss';
 @import '../../../components/drawer/style/themes/dnb-drawer-theme-ui.scss';
