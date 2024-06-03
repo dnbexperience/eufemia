@@ -10,7 +10,8 @@ export const Required = () => {
           <Field.String label="Not required" />
 
           <Form.FieldProps required>
-            <Field.String label="Required" />
+            <Field.String label="Required A" />
+            <Field.Number label="Required B" />
           </Form.FieldProps>
 
           <Form.ButtonRow>
