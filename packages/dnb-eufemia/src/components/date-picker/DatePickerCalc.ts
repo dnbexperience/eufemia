@@ -247,7 +247,6 @@ export function correctV1Format(date: string) {
   return date
 }
 
-// TOTYPE params
 export function convertStringToDate(
   date: string,
   { date_format = null }: { date_format?: string | null } = {}
@@ -255,7 +254,8 @@ export function convertStringToDate(
   if (date === null) {
     return null
   }
-  let dateObject
+
+  let dateObject: Date
   dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
 
   // check one more time if we can generate a valid date
