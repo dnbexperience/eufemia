@@ -820,18 +820,24 @@ export const AccordionRow = () => {
             label: 'Expanded 1.1',
           },
           {
-            label: 'Expanded 1.2',
+            label: 'Expanded 1.2 with a lot of text',
           },
         ]
         return (
           <Table.ScrollView>
-            <Table accordion accordionChevronPlacement="end">
+            <Table accordion accordionChevronPlacement="end" fixed>
               <thead>
                 <Tr>
-                  <Th>Column A</Th>
-                  <Th>Column B</Th>
-                  <Th>Column C</Th>
-                  <Th>Column D</Th>
+                  <Th width="25%" noWrap>
+                    Column A
+                  </Th>
+                  <Th width="25%" noWrap>
+                    Column B
+                  </Th>
+                  <Th width="25%" noWrap>
+                    Column C
+                  </Th>
+                  <Th width="25%">Column D with long text</Th>
                 </Tr>
               </thead>
 
@@ -859,7 +865,7 @@ export const AccordionRow = () => {
                   <Td>Row 2</Td>
 
                   <Tr.AccordionContent>
-                    <Td>Expanded 2.1</Td>
+                    <Td>Expanded 2.1 with a lot of text</Td>
                     <Td>Expanded 2.1</Td>
                     <Td>Expanded 2.1</Td>
                     <Td>Expanded 2.1</Td>
@@ -867,7 +873,7 @@ export const AccordionRow = () => {
 
                   <Tr.AccordionContent>
                     <Td>Expanded 2.2</Td>
-                    <Td>Expanded 2.2</Td>
+                    <Td>Expanded 2.2 with a lot of text</Td>
                     <Td>Expanded 2.2</Td>
                     <Td>Expanded 2.2</Td>
                   </Tr.AccordionContent>
@@ -875,7 +881,7 @@ export const AccordionRow = () => {
                   <Tr.AccordionContent>
                     <Td>Expanded 2.3</Td>
                     <Td>Expanded 2.3</Td>
-                    <Td>Expanded 2.3</Td>
+                    <Td>Expanded 2.3 with a lot of text</Td>
                     <Td>Expanded 2.3</Td>
                   </Tr.AccordionContent>
                 </Tr>
