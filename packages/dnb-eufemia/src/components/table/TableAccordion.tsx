@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classnames from 'classnames'
 import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'
@@ -27,6 +27,7 @@ export function useTableAccordion({
   onClick,
   onOpened,
   onClosed,
+  count,
 }) {
   const tableContext = React.useContext(TableContext)
 
@@ -44,6 +45,14 @@ export function useTableAccordion({
   })
   const [trIsHover, setHover] = React.useState(false)
   const [trHadClick, setHadClick] = React.useState(false)
+
+  useEffect(() => {
+    if (tableContext?.collapseTrCallbacks?.current && count) {
+      tableContext.collapseTrCallbacks.current[count] = () => {
+        setOpen(false)
+      }
+    }
+  }, [count, tableContext?.collapseTrCallbacks])
 
   if (!tableContext?.allProps?.accordion) {
     return null

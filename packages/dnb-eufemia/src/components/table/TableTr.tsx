@@ -79,7 +79,7 @@ export default function Tr(
     ...props
   } = componentProps
 
-  const { currentVariant, isLast } = useHandleTrVariant({
+  const { currentVariant, isLast, count } = useHandleTrVariant({
     variant,
   })
 
@@ -101,6 +101,7 @@ export default function Tr(
     onClick,
     onOpened,
     onClosed,
+    count,
   })
 
   if (accordionTr) {
@@ -164,6 +165,7 @@ function useHandleTrVariant({ variant }) {
   return {
     currentVariant,
     isLast,
+    count,
   }
 }
 
