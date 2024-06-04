@@ -105,7 +105,6 @@ export default class NumberFormat extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
@@ -137,7 +136,6 @@ export default class NumberFormat extends React.PureComponent {
     element: 'span', // span or abbr
     tooltip: null,
     skeleton: null,
-    class: null,
 
     className: null,
     children: null,

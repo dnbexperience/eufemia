@@ -31,7 +31,6 @@ export default class Logo extends React.PureComponent {
     alt: PropTypes.string,
     color: PropTypes.string,
     inherit_color: PropTypes.bool,
-    class: PropTypes.string,
 
     ...spacingPropTypes,
 
@@ -48,7 +47,6 @@ export default class Logo extends React.PureComponent {
     alt: 'DNB Logo',
     color: null,
     inherit_color: null,
-    class: null,
     className: null,
   }
 

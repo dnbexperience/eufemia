@@ -84,7 +84,6 @@ export default class PaymentCard extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -103,7 +102,6 @@ export default class PaymentCard extends React.PureComponent {
     raw_data: null,
 
     skeleton: false,
-    class: null,
     className: null,
     children: null,
 

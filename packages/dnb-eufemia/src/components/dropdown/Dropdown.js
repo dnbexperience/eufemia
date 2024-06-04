@@ -156,7 +156,6 @@ export default class Dropdown extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -218,7 +217,6 @@ export default class Dropdown extends React.PureComponent {
     disabled: null,
     stretch: null,
     skeleton: null,
-    class: null,
 
     className: null,
     children: null,

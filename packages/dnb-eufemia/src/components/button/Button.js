@@ -357,7 +357,6 @@ Button.defaultProps = {
   rel: null,
   to: null,
   id: null,
-  class: null,
   custom_content: null,
   wrap: null,
   bounding: null,

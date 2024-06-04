@@ -448,14 +448,12 @@ DrawerList.Options.propTypes = {
   cache_hash: PropTypes.string,
   showFocusRing: PropTypes.bool,
   className: PropTypes.string,
-  class: PropTypes.string,
   triangleRef: PropTypes.object,
 }
 DrawerList.Options.defaultProps = {
   cache_hash: null,
   showFocusRing: false,
   className: null,
-  class: null,
   triangleRef: null,
 }
 
