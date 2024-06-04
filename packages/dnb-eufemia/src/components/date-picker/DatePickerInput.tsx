@@ -878,9 +878,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   validateDOMAttributes(props, attributes)
   validateDOMAttributes(null, submitAttributes)
 
-  const SubmitElement: React.ElementType = showInput
-    ? SubmitButton
-    : Button
+  const SubmitElement: React.ElementType = useMemo(
+    () => (showInput ? SubmitButton : Button),
+    [showInput]
+  )
 
   if (!showInput) {
     // Use Button inner ref
