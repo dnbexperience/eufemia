@@ -23,7 +23,9 @@ export type DatePickerChangeEvent = DatePickerDates & {
       >
     | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
     | React.FocusEvent<HTMLInputElement>
-    | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
+    | React.KeyboardEvent<
+        HTMLTableElement | HTMLButtonElement | HTMLInputElement
+      >
 }
 
 export type HidePickerEvent = React.MouseEvent<
