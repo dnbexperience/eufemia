@@ -5,8 +5,10 @@
 
 import React, {
   HTMLProps,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -52,6 +54,7 @@ import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues } from './DatePickerContext'
+import { DatePickerDates } from './hooks/useDates'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -61,6 +64,14 @@ export type DatePickerEventAttributes = {
 } & Record<string, unknown>
 
 export type DatePickerEvent<T> = T & ReturnObject<T>
+
+export type HidePickerEvent = React.MouseEvent<
+  HTMLButtonElement | HTMLAnchorElement
+> &
+  DatePickerDates & {
+    focusOnHide?: boolean
+    event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  }
 
 export type DatePickerProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -371,29 +382,17 @@ function DatePicker(externalProps: DatePickerProps) {
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
 
-  const componentReference = {
-    id,
-    props,
-    context,
-    state: { opened, showInput, hidden, startDate, endDate },
-    innerRef,
-    triangleRef,
-    submitButtonRef,
-    getReturnObject: getReturnObject.current,
-    hideTimeout: hideTimeout.current,
-    outsideClick: outsideClick.current,
-    hidePicker,
-    setTrianglePosition,
-    setOutsideClickHandler,
-    removeOutsideClickHandler,
-    onPickerChange,
-    onSubmitHandler,
-    onCancelHandler,
-    onResetHandler,
-    showPicker,
-    togglePicker,
-    formatSelectedDateTitle,
-  }
+  // Can be removed with dispatchCustomEvent is remo
+  const componentReference = useMemo(
+    () => ({
+      on_submit: props.on_submit,
+      on_reset: props.on_reset,
+      on_cancel: props.on_cancel,
+      on_hide: props.on_hide,
+      on_show: props.on_show,
+    }),
+    [props]
+  )
 
   if (props.end_date && !props.range) {
     warn(
@@ -412,44 +411,47 @@ function DatePicker(externalProps: DatePickerProps) {
     }
   }, [])
 
-  // TOTYPE
-  function hidePicker(args) {
-    if (props.prevent_close) {
-      return // stop here
-    }
+  // TODO: Update dependency
+  const hidePicker = useCallback(
+    (args: HidePickerEvent) => {
+      if (props.prevent_close) {
+        return // stop here
+      }
 
-    if (args && args.event && args.event.persist) {
-      args.event.persist()
-    }
+      if (args && args.event && args.event.persist) {
+        args.event.persist()
+      }
 
-    setOpened(false)
+      setOpened(false)
 
-    dispatchCustomElementEvent(
-      componentReference,
-      'on_hide',
-      getReturnObject.current(args)
-    )
+      dispatchCustomElementEvent(
+        componentReference,
+        'on_hide',
+        getReturnObject.current(args)
+      )
 
-    hideTimeout.current = setTimeout(
-      () => {
-        setHidden(true)
-        if (args?.focusOnHide) {
-          try {
-            this._submitButtonRef.current.focus({
-              preventScroll: true,
-            })
-          } catch (e) {
-            warn(e)
+      hideTimeout.current = setTimeout(
+        () => {
+          setHidden(true)
+          if (args?.focusOnHide) {
+            try {
+              this._submitButtonRef.current.focus({
+                preventScroll: true,
+              })
+            } catch (e) {
+              warn(e)
+            }
           }
-        }
-      },
-      props.no_animation ? 1 : blurDelay
-    ) // wait until animation is over
+        },
+        props.no_animation ? 1 : blurDelay
+      ) // wait until animation is over
 
-    removeOutsideClickHandler()
-  }
-
-  function setTrianglePosition() {
+      removeOutsideClickHandler()
+    },
+    [componentReference, props]
+  )
+  // TODO: Update dependency
+  const setTrianglePosition = useCallback(() => {
     const { show_input, align_picker } = props
     const triangleWidth = 16
     if (show_input && triangleRef.current && innerRef.current) {
@@ -471,92 +473,111 @@ function DatePicker(externalProps: DatePickerProps) {
         warn(e)
       }
     }
-  }
+  }, [props])
 
-  function setOutsideClickHandler() {
+  const setOutsideClickHandler = useCallback(() => {
     outsideClick.current = detectOutsideClick(innerRef.current, (e) => {
       hidePicker({ focusOnHide: e?.event?.key })
     })
-  }
+  }, [hidePicker])
 
-  function removeOutsideClickHandler() {
+  const removeOutsideClickHandler = useCallback(() => {
     if (outsideClick.current) {
       outsideClick.current.remove()
     }
-  }
+  }, [])
 
   // TOTYPE
-  function onPickerChange({
-    hidePicker: shouldHidePicker = true,
-    ...args
-  }) {
-    if (
-      shouldHidePicker &&
-      !props.show_submit_button &&
-      !props.show_cancel_button
-    ) {
+  // TODO: Update dependency
+  const onPickerChange = useCallback(
+    ({ hidePicker: shouldHidePicker = true, ...args }) => {
+      if (
+        shouldHidePicker &&
+        !props.show_submit_button &&
+        !props.show_cancel_button
+      ) {
+        hidePicker(args)
+      }
+
+      setStartDate(args.startDate)
+      setEndDate(args.endDate)
+    },
+    [hidePicker, props]
+  )
+
+  // TOTYPE
+  const onSubmitHandler = useCallback(
+    (args) => {
       hidePicker(args)
-    }
-
-    setStartDate(args.startDate)
-    setEndDate(args.endDate)
-  }
-
-  // TOTYPE
-  function onSubmitHandler(args) {
-    hidePicker(args)
-    dispatchCustomElementEvent(
-      componentReference,
-      'on_submit',
-      getReturnObject.current(args)
-    )
-  }
+      dispatchCustomElementEvent(
+        componentReference,
+        'on_submit',
+        getReturnObject.current(args)
+      )
+    },
+    [componentReference, hidePicker]
+  )
 
   // TOTYPE
-  function onCancelHandler(args) {
-    hidePicker(args)
-    dispatchCustomElementEvent(
-      componentReference,
-      'on_cancel',
-      getReturnObject.current(args)
-    )
-  }
+  const onCancelHandler = useCallback(
+    (args) => {
+      hidePicker(args)
+      dispatchCustomElementEvent(
+        componentReference,
+        'on_cancel',
+        getReturnObject.current(args)
+      )
+    },
+    [componentReference, hidePicker]
+  )
 
   // TOTYPE
-  function onResetHandler(args) {
-    hidePicker(args)
-    dispatchCustomElementEvent(
-      componentReference,
-      'on_reset',
-      getReturnObject.current(args)
-    )
-  }
+  const onResetHandler = useCallback(
+    (args) => {
+      hidePicker(args)
+      dispatchCustomElementEvent(
+        componentReference,
+        'on_reset',
+        getReturnObject.current(args)
+      )
+    },
+    [componentReference, hidePicker]
+  )
+
   // TOTYPE
-  function showPicker(args?) {
-    if (hideTimeout.current) {
-      clearTimeout(hideTimeout.current)
-    }
+  const showPicker = useCallback(
+    (args?) => {
+      if (hideTimeout.current) {
+        clearTimeout(hideTimeout.current)
+      }
 
-    setOpened(true)
-    setHidden(false)
+      setOpened(true)
+      setHidden(false)
 
-    dispatchCustomElementEvent(
-      componentReference,
-      'on_show',
-      getReturnObject.current(args)
-    )
+      dispatchCustomElementEvent(
+        componentReference,
+        'on_show',
+        getReturnObject.current(args)
+      )
 
-    setTrianglePosition()
-    setOutsideClickHandler()
-  }
+      setTrianglePosition()
+      setOutsideClickHandler()
+    },
+    [setTrianglePosition, setOutsideClickHandler, componentReference]
+  )
+
   // TOTYPE
-  function togglePicker(args) {
-    !opened
-      ? showPicker((args && args.event) || args)
-      : hidePicker((args && args.event) || args)
-  }
+  const togglePicker = useCallback(
+    (args) => {
+      !opened
+        ? showPicker((args && args.event) || args)
+        : hidePicker((args && args.event) || args)
+    },
+    [opened, showPicker, hidePicker]
+  )
 
-  function formatSelectedDateTitle() {
+  // TODO: Update dependency
+  const formatSelectedDateTitle = useCallback(() => {
     const { range } = props
 
     const { selected_date, start, end } =
@@ -572,7 +593,7 @@ function DatePicker(externalProps: DatePickerProps) {
     }
 
     return currentDate ? selected_date.replace(/%s/, currentDate) : ''
-  }
+  }, [props, context, startDate, endDate])
 
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
