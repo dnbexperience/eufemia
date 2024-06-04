@@ -122,6 +122,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
 
   const [focusState, setFocusState] = useState<string>('virgin')
+  // Could be moved to useDates hook?
   const [partialDates, setpartialDates] = useState({
     partialStartDate: '',
     partialEndDate: '',
@@ -877,7 +878,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   validateDOMAttributes(props, attributes)
   validateDOMAttributes(null, submitAttributes)
 
-  const UsedButton: React.ElementType = showInput ? SubmitButton : Button
+  const SubmitElement: React.ElementType = showInput
+    ? SubmitButton
+    : Button
 
   if (!showInput) {
     // Use Button inner ref
@@ -907,7 +910,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         status_state={status_state}
         {...status_props}
         submit_element={
-          <UsedButton
+          <SubmitElement
             id={id}
             disabled={disabled}
             skeleton={skeleton}
