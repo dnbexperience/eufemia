@@ -127,5 +127,16 @@
         width: var(--number-control-button-width--large);
       }
     }
+    &--has-controls.dnb-forms-field-block__contents--width-stretch {
+      .dnb-button--control-before,
+      .dnb-button--control-after {
+        width: var(--number-control-button-width--large);
+      }
+
+      /* stylelint-disable-next-line no-descending-specificity */
+      .dnb-input__border {
+        flex-grow: 1;
+      }
+    }
   }
 }
