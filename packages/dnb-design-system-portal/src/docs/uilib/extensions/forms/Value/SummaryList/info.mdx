@@ -4,13 +4,14 @@ showTabs: true
 
 ## Description
 
-`Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.
+The `Value.SummaryList` component ensures that the wrapped `Value.*` components are rendered as definition lists, which helps maintain semantic correctness.
 
 ```jsx
 import { Value } from '@dnb/eufemia/extensions/forms'
 render(
-  <Value.SummaryList layout="grid">
-    <Value.String label="Label" path="/myValue" />
+  <Value.SummaryList>
+    <Value.String label="First value" path="/myValue" />
+    <Value.String label="Second value" path="/mySecondValue" />
   </Value.SummaryList>,
 )
 ```
