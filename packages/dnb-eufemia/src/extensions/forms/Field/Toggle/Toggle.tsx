@@ -83,6 +83,10 @@ function Toggle(props: Props) {
     disabled,
   }
 
+  const suffix = help ? (
+    <HelpButton title={help.title}>{help.content}</HelpButton>
+  ) : undefined
+
   const isOn = value === valueOn
   const isOff = value === valueOff
 
@@ -103,11 +107,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            suffix={
-              help ? (
-                <HelpButton title={help.title}>{help.content}</HelpButton>
-              ) : undefined
-            }
+            suffix={suffix}
             onChange={handleCheckboxChange}
             {...htmlAttributes}
           />
@@ -126,11 +126,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            suffix={
-              help ? (
-                <HelpButton title={help.title}>{help.content}</HelpButton>
-              ) : undefined
-            }
+            suffix={suffix}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
             {...htmlAttributes}
@@ -147,11 +143,7 @@ function Toggle(props: Props) {
                 onChange: handleToggleChange,
                 status: hasError ? 'error' : undefined,
                 disabled,
-                suffix: help ? (
-                  <HelpButton title={help.title}>
-                    {help.content}
-                  </HelpButton>
-                ) : undefined,
+                suffix,
               }}
             >
               <ToggleButton
@@ -182,11 +174,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            suffix={
-              help ? (
-                <HelpButton title={help.title}>{help.content}</HelpButton>
-              ) : undefined
-            }
+            suffix={suffix}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
             {...htmlAttributes}
