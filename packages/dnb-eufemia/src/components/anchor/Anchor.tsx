@@ -183,23 +183,32 @@ export function scrollToHashHandler(
   // Only continue, when we are sure we are on the same page,
   // because, the same ID may exists occasionally on the current page.
   if (isSamePath) {
-    const id = href.split(/#/g).reverse()[0]
-    const anchorElem = document.getElementById(id)
+    return scrollToHash(href)
+  }
+}
 
-    if (anchorElem instanceof HTMLElement) {
-      try {
-        const scrollPadding = parseFloat(
-          window.getComputedStyle(document.documentElement)
-            .scrollPaddingTop
-        )
-        const top = getOffsetTop(anchorElem) - scrollPadding || 0
+export function scrollToHash(hash: string) {
+  if (typeof document === 'undefined' || !hash || !hash.includes('#')) {
+    return // stop here
+  }
 
-        window.scroll({ top })
+  // Only continue, when we are sure we are on the same page,
+  // because, the same ID may exists occasionally on the current page.
+  const id = hash.split(/#/g).reverse()[0]
+  const anchorElem = document.getElementById(id)
 
-        return { element: anchorElem }
-      } catch (error) {
-        console.error(error)
-      }
+  if (anchorElem instanceof HTMLElement) {
+    try {
+      const scrollPadding = parseFloat(
+        window.getComputedStyle(document.documentElement).scrollPaddingTop
+      )
+      const top = getOffsetTop(anchorElem) - scrollPadding || 0
+
+      window.scroll({ top })
+
+      return { element: anchorElem }
+    } catch (error) {
+      console.error(error)
     }
   }
 }
