@@ -107,7 +107,6 @@ class Modal extends React.PureComponent<
     container_placement: null,
     open_state: null,
     direct_dom_return: false,
-    class: null,
     root_id: 'root',
     omit_trigger_button: false,
 
@@ -488,7 +487,6 @@ class Modal extends React.PureComponent<
               className={classnames(
                 'dnb-modal__trigger',
                 createSpacingClasses(props),
-                triggerAttributes.class,
                 triggerAttributes.className
               )}
             />

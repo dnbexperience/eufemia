@@ -147,7 +147,6 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     icon_size?: IconSize
     attributes?: AccordionAttributes
-    class?: string
     className?: string
     children?: React.ReactNode
     /**
@@ -326,7 +325,6 @@ function Accordion({
             const {
               variant,
               className,
-              class: _className,
               prerender,
               prevent_rerender,
               prevent_rerender_conditional,
@@ -364,8 +362,7 @@ function Accordion({
                 variant && `dnb-accordion__variant--${variant}`,
                 prerender && 'dnb-accordion--prerender',
                 createSpacingClasses(extendedProps),
-                className,
-                _className
+                className
               ),
             } as HTMLProps<HTMLDivElement>
 

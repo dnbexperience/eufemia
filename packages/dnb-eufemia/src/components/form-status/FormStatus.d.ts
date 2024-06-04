@@ -68,7 +68,6 @@ export interface FormStatusProps
   text_id?: string;
   width_selector?: string;
   width_element?: Record<string, unknown>;
-  class?: string;
   /**
    * NB: Animation is disabled as of now. <del>use `true` to omit the animation on content visibility. Defaults to `false`.</del>
    */

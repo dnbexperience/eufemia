@@ -98,10 +98,6 @@ export type ButtonProps = {
   globalStatus?: GlobalStatusConfigObject;
   id?: string;
   /**
-   * Any extra modifying class.
-   */
-  class?: string;
-  /**
    * If you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button.
    */
   href?: string;

@@ -80,7 +80,6 @@ export default class RadioGroup extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -112,7 +111,6 @@ export default class RadioGroup extends React.PureComponent {
     layout_direction: 'row',
     value: undefined,
     attributes: null,
-    class: null,
 
     className: null,
     children: null,
@@ -182,7 +180,6 @@ export default class RadioGroup extends React.PureComponent {
       disabled,
       skeleton,
       className,
-      class: _className,
 
       id: _id, // eslint-disable-line
       name: _name, // eslint-disable-line
@@ -204,8 +201,7 @@ export default class RadioGroup extends React.PureComponent {
       `dnb-radio-group--${layout_direction}`,
       'dnb-form-component',
       createSpacingClasses(props),
-      className,
-      _className
+      className
     )
 
     const params = {

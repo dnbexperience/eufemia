@@ -145,7 +145,6 @@ export interface DrawerListProps {
    */
   skip_keysearch?: boolean;
   opened?: boolean;
-  class?: string;
   /**
    * The data we want to fill the list with. Provide the data as a JSON string, array, or object in the specified data structure. If you don't have to define a value, you can also send in a function which will be called once the user opens the DrawerList.
    */

@@ -62,7 +62,6 @@ export const drawerListPropTypes = {
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([
       PropTypes.string,
@@ -157,7 +156,6 @@ export const drawerListDefaultProps = {
   independent_width: false,
   skip_keysearch: false,
   opened: null,
-  class: null,
   data: null,
   prepared_data: null,
   raw_data: null,

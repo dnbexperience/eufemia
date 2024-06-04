@@ -70,7 +70,6 @@ export interface RadioGroupProps
    */
   value?: string;
   attributes?: RadioGroupAttributes;
-  class?: string;
   className?: string;
   children?: RadioGroupChildren;
   /**

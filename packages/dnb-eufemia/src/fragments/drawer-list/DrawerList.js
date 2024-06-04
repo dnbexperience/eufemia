@@ -164,7 +164,6 @@ class DrawerListInstance extends React.PureComponent {
       ignore_events,
       options_render,
       className,
-      class: _className,
       cache_hash: _cache_hash, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
       triangle_position: _triangle_position, // eslint-disable-line
@@ -224,7 +223,6 @@ class DrawerListInstance extends React.PureComponent {
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
         createSpacingClasses(props),
-        _className,
         className
       ),
       ...attributes,
@@ -411,7 +409,6 @@ DrawerList.Options = React.memo(
     const {
       children,
       className,
-      class: _className,
       triangleRef = null,
       cache_hash, // eslint-disable-line
       showFocusRing,
@@ -423,8 +420,7 @@ DrawerList.Options = React.memo(
         className={classnames(
           'dnb-drawer-list__options',
           showFocusRing && 'dnb-drawer-list__options--focusring',
-          className,
-          _className
+          className
         )}
         {...rest}
         ref={ref}
@@ -470,7 +466,6 @@ DrawerList.Item = React.forwardRef((props, ref) => {
     hash, // eslint-disable-line
     children, // eslint-disable-line
     className, // eslint-disable-line
-    class: _className, // eslint-disable-line
     on_click, // eslint-disable-line
     selected, // eslint-disable-line
     active, // eslint-disable-line
@@ -481,7 +476,6 @@ DrawerList.Item = React.forwardRef((props, ref) => {
   const params = {
     className: classnames(
       className,
-      _className,
       'dnb-drawer-list__option',
       selected && 'dnb-drawer-list__option--selected',
       active && 'dnb-drawer-list__option--focus'
@@ -527,7 +521,6 @@ DrawerList.Item.propTypes = {
     PropTypes.object,
   ]).isRequired,
   className: PropTypes.string,
-  class: PropTypes.string,
   on_click: PropTypes.func,
   selected: PropTypes.bool,
   active: PropTypes.bool,
@@ -537,7 +530,6 @@ DrawerList.Item.defaultProps = {
   role: 'option',
   hash: '',
   className: null,
-  class: null,
   on_click: null,
   selected: null,
   active: null,

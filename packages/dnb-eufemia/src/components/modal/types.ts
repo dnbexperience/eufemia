@@ -255,11 +255,6 @@ export interface ModalContentProps {
   container_placement?: 'left' | 'right' | 'top' | 'bottom'
 
   /**
-   * Give the inner Dialog or Drawer component a class (only works with mode)
-   */
-  class?: string
-
-  /**
    * Give the content wrapper a custom class name (maps to `dnb-modal__content`).
    */
   content_class?: string

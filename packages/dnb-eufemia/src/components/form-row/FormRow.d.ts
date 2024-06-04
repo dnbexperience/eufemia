@@ -32,7 +32,6 @@ export interface FormRowProps
   responsive?: boolean;
   disabled?: boolean;
   skeleton?: SkeletonShow;
-  class?: string;
   skipContentWrapperIfNested?: boolean;
   className?: string;
   children?: FormRowChildren;

@@ -313,7 +313,6 @@ export const prepareIcon = (props, context) => {
     alt,
     title,
     skeleton,
-    class: _className,
     className,
     ...attributes
   } = props
@@ -365,7 +364,6 @@ export const prepareIcon = (props, context) => {
     sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
-    _className,
     className
   )
 

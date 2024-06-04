@@ -95,7 +95,6 @@ const paginationPropTypes = {
 
   ...spacingPropTypes,
 
-  class: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
@@ -133,7 +132,6 @@ const paginationDefaultProps = {
   disabled: null,
   skeleton: null,
 
-  class: null,
   className: null,
   children: null,
 
@@ -183,7 +181,6 @@ class PaginationInstance extends React.PureComponent {
       align,
       children,
       className,
-      class: _className,
 
       disabled: _disabled, // eslint-disable-line
       skeleton: _skeleton, // eslint-disable-line
@@ -210,8 +207,7 @@ class PaginationInstance extends React.PureComponent {
           'dnb-pagination',
           align && `dnb-pagination--${align}`,
           createSpacingClasses(props),
-          className,
-          _className
+          className
         ),
         ...attributes,
       }

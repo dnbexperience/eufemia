@@ -94,7 +94,6 @@ export interface GlobalStatusProps
    */
   status_anchor_text?: React.ReactNode;
   skeleton?: SkeletonShow;
-  class?: string;
   className?: string;
   /**
    * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.

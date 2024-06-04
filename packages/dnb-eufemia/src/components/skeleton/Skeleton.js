@@ -39,7 +39,6 @@ export default class Skeleton extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -56,7 +55,6 @@ export default class Skeleton extends React.PureComponent {
     aria_busy: null,
     aria_ready: null,
     element: null,
-    class: null,
     className: null,
     children: null,
   }
@@ -127,7 +125,6 @@ export default class Skeleton extends React.PureComponent {
       aria_busy,
       aria_ready, // eslint-disable-line
       className,
-      class: _className,
       children,
 
       ...attributes
@@ -146,8 +143,7 @@ export default class Skeleton extends React.PureComponent {
         isTrue(showSkeleton) && 'dnb-skeleton',
         isTrue(no_animation) && 'dnb-skeleton--no-animation',
         createSpacingClasses(props),
-        className,
-        _className
+        className
       ),
       // role: 'status',// is not needed as for now
       'aria-busy': showSkeleton,

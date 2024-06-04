@@ -35,7 +35,6 @@ export interface FormSetProps
   section_spacing?: SectionSpacing;
   globalStatus?: GlobalStatusConfigObject;
   responsive?: boolean;
-  class?: string;
   skipContentWrapperIfNested?: boolean;
   className?: string;
   children?: FormSetChildren;

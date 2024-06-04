@@ -82,7 +82,6 @@ export default class Switch extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
@@ -110,7 +109,6 @@ export default class Switch extends React.PureComponent {
     attributes: null,
     readOnly: false,
     skeleton: null,
-    class: null,
 
     className: null,
     children: null,
@@ -233,7 +231,6 @@ export default class Switch extends React.PureComponent {
       readOnly,
       skeleton,
       className,
-      class: _className,
 
       id: _id, // eslint-disable-line
       checked: _checked, // eslint-disable-line
@@ -259,8 +256,7 @@ export default class Switch extends React.PureComponent {
         'dnb-form-component',
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
-        className,
-        _className
+        className
       ),
     }
 

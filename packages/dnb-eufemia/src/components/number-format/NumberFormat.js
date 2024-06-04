@@ -284,7 +284,6 @@ export default class NumberFormat extends React.PureComponent {
       clean_copy_value,
       srLabel,
       element,
-      class: _className,
       className,
       ..._rest
     } = props
@@ -378,7 +377,6 @@ export default class NumberFormat extends React.PureComponent {
       className: classnames(
         'dnb-number-format',
         className,
-        _className,
         (isTrue(currency) || typeof currency === 'string') &&
           'dnb-number-format--currency',
         isTrue(selectall) && 'dnb-number-format--selectall',

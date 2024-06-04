@@ -85,7 +85,6 @@ export default class GlobalStatus extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -121,7 +120,6 @@ export default class GlobalStatus extends React.PureComponent {
     delay: null,
     status_anchor_text: null,
     skeleton: null,
-    class: null,
 
     className: null,
     children: null,
@@ -574,7 +572,6 @@ export default class GlobalStatus extends React.PureComponent {
       no_animation,
       hide_close_button,
       close_text,
-      class: _className,
       status_anchor_text,
       skeleton,
 
@@ -601,8 +598,7 @@ export default class GlobalStatus extends React.PureComponent {
         'dnb-no-focus',
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
-        className,
-        _className
+        className
       ),
       'aria-live': isActive ? 'assertive' : 'off',
       onKeyDown: this.onKeyDownHandler,

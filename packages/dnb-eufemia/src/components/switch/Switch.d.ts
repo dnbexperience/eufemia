@@ -72,7 +72,6 @@ export interface SwitchProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-  class?: string;
   className?: string;
   children?: SwitchChildren;
   /**

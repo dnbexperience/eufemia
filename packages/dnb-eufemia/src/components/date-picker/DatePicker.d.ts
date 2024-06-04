@@ -231,7 +231,6 @@ export interface DatePickerProps
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
   align_picker?: DatePickerAlignPicker;
-  class?: string;
   className?: string;
   /**
    * Will be called right before every new calendar view gets rendered. See the example above.

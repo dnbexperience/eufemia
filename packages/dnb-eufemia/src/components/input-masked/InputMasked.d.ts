@@ -150,7 +150,6 @@ export interface InputMaskedProps
   stretch?: boolean;
   disabled?: boolean;
   skeleton?: SkeletonShow;
-  class?: string;
   input_class?: string;
   input_attributes?: InputInputAttributes;
   input_element?: InputInputElement;
