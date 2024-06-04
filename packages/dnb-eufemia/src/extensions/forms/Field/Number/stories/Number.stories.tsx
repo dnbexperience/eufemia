@@ -1,4 +1,5 @@
 import { Field } from '../../..'
+import { Flex } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Number',
@@ -6,8 +7,8 @@ export default {
 
 export const Number = () => {
   return (
-    <>
-      <Field.Number label="Label" bottom />
+    <Flex.Stack>
+      <Field.Number label="Label" bottom width="stretch" value={5} />
       <Field.Number
         label="Label"
         showStepControls
@@ -37,6 +38,7 @@ export const Number = () => {
         // validateInitially
         disabled
       />
-    </>
+      <Field.Number showStepControls width="stretch" value={1} />
+    </Flex.Stack>
   )
 }
