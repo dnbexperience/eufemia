@@ -40,6 +40,7 @@ import type {
 import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEvent, DatePickerEventAttributes } from './DatePicker'
+import { useTranslation } from '../../shared'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -113,6 +114,7 @@ export type DatePickerInputProps = Omit<
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
+  // Probably do not need to be a prop, as its not documented or used internaly, thus default only used
   separatorRexExp: /[-/ ]/g,
   status_state: 'error',
   opened: false,
@@ -120,6 +122,33 @@ const defaultProps: DatePickerInputProps = {
 
 function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
+  // Destructure for dependency array optimization
+  const {
+    id,
+    title,
+    submitAttributes,
+    isRange,
+    maskOrder,
+    maskPlaceholder,
+    separatorRexExp,
+    onChange, // eslint-disable-line
+    onFocus,
+    onSubmit,
+    onBlur,
+    selectedDateTitle,
+    showInput,
+    input_element,
+    lang,
+    disabled,
+    skeleton,
+    opened,
+    size,
+    status,
+    status_state,
+    status_props,
+
+    ...attributes
+  } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
   // Could be moved to useDates hook?
@@ -128,7 +157,34 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     partialEndDate: '',
   })
 
-  const context = useContext(DatePickerContext)
+  // Destructure for dependency array optimization
+  const {
+    updateDates,
+    callOnChangeHandler,
+    hasHadValidDate,
+    startDate,
+    endDate,
+    getReturnObject,
+    __startDay,
+    __startMonth,
+    __startYear,
+    __endDay,
+    __endMonth,
+    __endYear,
+    props: contextProps,
+    ...context
+  } = useContext(DatePickerContext)
+
+  const translation = useTranslation().DatePicker
+
+  const inputDates = {
+    __startDay,
+    __startMonth,
+    __startYear,
+    __endDay,
+    __endMonth,
+    __endYear,
+  }
 
   // Used in reflist, and initatied inside object to to maintain the way of accessing mimiic `this`, used in this component
   // Should probably refactor at one point
@@ -159,69 +215,84 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const focusMode = useRef(null)
   const maskList = useMemo(() => {
-    const separators = props.maskOrder.match(props.separatorRexExp)
+    const separators = maskOrder.match(separatorRexExp)
 
-    return props.maskOrder
-      .split(props.separatorRexExp)
-      .reduce((acc, cur) => {
-        if (cur) {
-          acc.push(cur)
-          if (separators.length > 0) {
-            acc.push(separators.shift())
-          }
+    return maskOrder
+      .split(separatorRexExp)
+      .reduce<Array<string>>((acc, cur) => {
+        if (!cur) {
+          return acc
         }
+
+        acc.push(cur)
+
+        if (separators.length > 0) {
+          // makes sure that seperators are added at the correct places and removed from array when added
+          acc.push(separators.shift())
+        }
+
         return acc
       }, [])
-  }, [props])
+  }, [maskOrder, separatorRexExp])
 
   const pasteHandler = useCallback(
     async (event: React.ClipboardEvent<HTMLInputElement>) => {
-      if (focusMode.current) {
-        const success = (
-          event.clipboardData ||
-          (typeof window !== 'undefined' && window['clipboardData'])
-        ).getData('text')
+      if (!focusMode.current) {
+        return // Stop here
+      }
 
-        if (success) {
-          event.preventDefault()
-          try {
-            const separators = ['.', '/']
-            const possibleFormats = ['yyyy-MM-dd']
+      const success = (
+        event.clipboardData ||
+        (typeof window !== 'undefined' && window['clipboardData'])
+      ).getData('text')
+      console.log('success', success)
+      if (!success) {
+        return // Stop here
+      }
 
-            possibleFormats.forEach((date) => {
-              separators.forEach((sep) => {
-                possibleFormats.push(date.replace(/-/g, sep))
-              })
-            })
-            possibleFormats.forEach((date) => {
-              possibleFormats.push(date.split('').reverse().join(''))
-            })
+      event.preventDefault()
 
-            let date
+      try {
+        const separators = ['.', '/']
+        const possibleFormats = ['yyyy-MM-dd']
 
-            for (let i = 0, l = possibleFormats.length; i < l; ++i) {
-              date = convertStringToDate(success, {
-                date_format: possibleFormats[i],
-              })
-              if (date) {
-                break
-              }
-            }
-            const mode =
-              focusMode.current === 'start' ? 'startDate' : 'endDate'
+        // TODO: Merge these loops
+        possibleFormats.forEach((date) => {
+          separators.forEach((sep) => {
+            possibleFormats.push(date.replace(/-/g, sep))
+          })
+        })
 
-            if (date) {
-              context.updateDates({
-                [mode]: date,
-              })
-            }
-          } catch (e) {
-            warn(e)
+        possibleFormats.forEach((date) => {
+          possibleFormats.push(date.split('').reverse().join(''))
+        })
+
+        let date: Date
+        let index = 0
+
+        for (index; index < possibleFormats.length; ++index) {
+          date = convertStringToDate(success, {
+            date_format: possibleFormats[index],
+          })
+
+          if (date) {
+            break
           }
         }
+
+        const mode =
+          focusMode.current === 'start' ? 'startDate' : 'endDate'
+
+        if (date) {
+          updateDates({
+            [mode]: date,
+          })
+        }
+      } catch (error: unknown) {
+        warn(error)
       }
     },
-    [context]
+    [updateDates]
   )
 
   const callOnChangeAsInvalid = useCallback(
@@ -230,23 +301,22 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       starDate?: Date
       event: React.ChangeEvent<HTMLInputElement>
     }) => {
-      context.updateDates(
+      updateDates(
         {
           hoverDate: null,
         },
-        (forward) => {
-          if (context.hasHadValidDate) {
+        (dates) => {
+          if (hasHadValidDate) {
             const { startDate, endDate, event } = {
-              ...context,
               ...state,
-              ...forward,
+              ...dates,
             }
-            context.callOnChangeHandler({ startDate, endDate, event })
+            callOnChangeHandler({ startDate, endDate, event })
           }
         }
       )
     },
-    [context]
+    [updateDates, callOnChangeHandler, hasHadValidDate]
   )
 
   const callOnChange = useCallback(
@@ -265,23 +335,23 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       if (typeof startDate !== 'undefined' && isValid(startDate)) {
         state['startDate'] = startDate
       }
-      if (!props.isRange) {
+      if (isRange) {
         endDate = startDate
       }
       if (typeof endDate !== 'undefined' && isValid(endDate)) {
         state['endDate'] = endDate
       }
 
-      context.updateDates(state, (forward) => {
+      updateDates(state, (dates) => {
         if (
           (typeof startDate !== 'undefined' && isValid(startDate)) ||
           (typeof endDate !== 'undefined' && isValid(endDate))
         ) {
-          context.callOnChangeHandler({ event, ...forward })
+          callOnChangeHandler({ event, ...dates })
         }
       })
     },
-    [context, props]
+    [updateDates, callOnChangeHandler, isRange]
   )
 
   const callOnType = useCallback(
@@ -291,13 +361,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           (acc, mode) => {
             acc[`${mode}Date`] = [
               dateRefs[`${mode}Year`].current ||
-                context[`__${mode}Year`] ||
+                inputDates[`__${mode}Year`] ||
                 'yyyy',
               dateRefs[`${mode}Month`].current ||
-                context[`__${mode}Month`] ||
+                inputDates[`__${mode}Month`] ||
                 'mm',
               dateRefs[`${mode}Day`].current ||
-                context[`__${mode}Day`] ||
+                inputDates[`__${mode}Day`] ||
                 'dd',
             ].join('-')
             return acc
@@ -327,7 +397,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         endDate = null
       }
 
-      let returnObject = context.getReturnObject({
+      let returnObject = getReturnObject({
         startDate,
         endDate,
         event,
@@ -343,7 +413,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       ) {
         const { startDate, endDate } = getDates()
 
-        const typedDates = props.isRange
+        const typedDates = isRange
           ? {
               start_date: startDate,
               end_date: endDate,
@@ -355,10 +425,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           ...typedDates,
         }
       }
-
+      // Needs to be replaced at one point to prevent function from being remade everytime there is a change to the context
       dispatchCustomElementEvent(context, 'on_type', returnObject)
     },
-    [context, dateRefs, props]
+    [inputDates, context, dateRefs, isRange, getReturnObject]
   )
 
   const prepareCounting = useCallback(
@@ -371,7 +441,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       target: HTMLInputElement
       event: React.KeyboardEvent<HTMLInputElement>
     }) => {
-      console.log('prepareCounting', event)
       try {
         const isDate = target
           .getAttribute('class')
@@ -381,8 +450,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           .getAttribute('id')
           .match(/-([start|end]+)-/)[1]
 
-        let date =
-          isInRange === 'start' ? context.startDate : context.endDate
+        let date = isInRange === 'start' ? startDate : endDate
 
         // do nothing if date is not set yet
         if (!date) {
@@ -417,7 +485,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         warn(e)
       }
     },
-    [callOnChange, context]
+    [callOnChange, startDate, endDate]
   )
 
   const selectStart = useCallback((target: HTMLInputElement) => {
@@ -435,12 +503,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       setFocusState('focus')
 
-      props?.onFocus?.({
+      onFocus?.({
         ...event,
-        ...context.getReturnObject({ event }),
+        ...getReturnObject({ event }),
       })
     },
-    [context, props]
+    [getReturnObject, onFocus]
   )
 
   const onBlurHandler = useCallback(
@@ -448,13 +516,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       focusMode.current = null
       setFocusState('blur')
 
-      props?.onBlur?.({
+      onBlur?.({
         ...event,
-        ...context.getReturnObject({ event }),
+        ...getReturnObject({ event }),
         ...partialDates,
       })
     },
-    [props, context, partialDates]
+    [onBlur, getReturnObject, partialDates]
   )
 
   const onKeyDownHandler = useCallback(
@@ -560,7 +628,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     },
   }
 
-  // HERE BE DEPENDENCY
   const setDate = useCallback(
     (
       event: React.ChangeEvent<HTMLInputElement>,
@@ -573,8 +640,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       dateRefs[`${mode}${type}`].current = value
 
-      if (context[`${mode}Date`]) {
-        temporaryDates[`${mode}Date`].current = context[`${mode}Date`]
+      if (inputDates[`${mode}Date`]) {
+        temporaryDates[`${mode}Date`].current = inputDates[`${mode}Date`]
       }
 
       const fallback = temporaryDates[`${mode}Date`].current
@@ -612,10 +679,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           event,
         })
       } else {
-        context.updateDates({
+        updateDates({
           [`${mode}Date`]: null,
         })
-        context.updateDates({
+        updateDates({
           [`__${mode}${type}`]: value,
         })
 
@@ -628,10 +695,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       callOnType(event)
     },
     [
+      updateDates,
       callOnChange,
       callOnChangeAsInvalid,
       callOnType,
-      context,
+      inputDates,
       dateRefs,
       temporaryDates,
     ]
@@ -639,10 +707,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const getPlaceholderChar = useCallback(
     (value: string) => {
-      const index = props.maskOrder.indexOf(value)
-      return props.maskPlaceholder[index]
+      const index = maskOrder.indexOf(value)
+      return maskPlaceholder[index]
     },
-    [props]
+    [maskOrder, maskPlaceholder]
   )
 
   const generateDateList = useCallback(
@@ -654,11 +722,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       return maskList.map((value, i) => {
         const state = value.slice(0, 1)
         const placeholderChar = getPlaceholderChar(value)
-        const { input_element, separatorRexExp, isRange, size } = props
-        const { day, month, year } = context.translation.DatePicker
-        const isRangeLabel = isRange
-          ? `${context.translation.DatePicker[mode]} `
-          : ''
+        const { day, month, year } = translation
+        const isRangeLabel = isRange ? `${translation[mode]} ` : ''
 
         if (!separatorRexExp.test(value)) {
           if (!input_element) {
@@ -692,7 +757,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 <React.Fragment key={'dd' + i}>
                   <DateField
                     {...element}
-                    id={`${props.id}-${mode}-day`}
+                    id={`${id}-${mode}-day`}
                     key={'di' + i}
                     className={classnames(
                       element.className,
@@ -704,14 +769,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     mask={[/[0-3]/, /[0-9]/]}
                     inputRef={inputRefs[`${mode}DayRef`]}
                     onChange={dateSetters[`set_${mode}Day`]}
-                    value={context[`__${mode}Day`] || ''}
-                    aria-labelledby={`${props.id}-${mode}-day-label`}
+                    value={inputDates[`__${mode}Day`] || ''}
+                    aria-labelledby={`${id}-${mode}-day-label`}
                   />
                   <label
                     key={'dl' + i}
                     hidden
-                    id={`${props.id}-${mode}-day-label`}
-                    htmlFor={`${props.id}-${mode}-day`}
+                    id={`${id}-${mode}-day-label`}
+                    htmlFor={`${id}-${mode}-day`}
                   >
                     {isRangeLabel + day}
                   </label>
@@ -724,7 +789,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 <React.Fragment key={'mm' + i}>
                   <DateField
                     {...element}
-                    id={`${props.id}-${mode}-month`}
+                    id={`${id}-${mode}-month`}
                     key={'mi' + i}
                     className={classnames(
                       element.className,
@@ -736,14 +801,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     mask={[/[0-1]/, /[0-9]/]}
                     inputRef={inputRefs[`${mode}MonthRef`]}
                     onChange={dateSetters[`set_${mode}Month`]}
-                    value={context[`__${mode}Month`] || ''}
-                    aria-labelledby={`${props.id}-${mode}-month-label`}
+                    value={inputDates[`__${mode}Month`] || ''}
+                    aria-labelledby={`${id}-${mode}-month-label`}
                   />
                   <label
                     key={'ml' + i}
                     hidden
-                    id={`${props.id}-${mode}-month-label`}
-                    htmlFor={`${props.id}-${mode}-month`}
+                    id={`${id}-${mode}-month-label`}
+                    htmlFor={`${id}-${mode}-month`}
                   >
                     {isRangeLabel + month}
                   </label>
@@ -756,7 +821,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 <React.Fragment key={'yy' + i}>
                   <DateField
                     {...element}
-                    id={`${props.id}-${mode}-year`}
+                    id={`${id}-${mode}-year`}
                     key={'yi' + i}
                     className={classnames(
                       element.className,
@@ -768,14 +833,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                     inputRef={inputRefs[`${mode}YearRef`]}
                     onChange={dateSetters[`set_${mode}Year`]}
-                    value={context[`__${mode}Year`] || ''}
-                    aria-labelledby={`${props.id}-${mode}-year-label`}
+                    value={inputDates[`__${mode}Year`] || ''}
+                    aria-labelledby={`${id}-${mode}-year-label`}
                   />
                   <label
                     key={'yl' + i}
                     hidden
-                    id={`${props.id}-${mode}-year-label`}
-                    htmlFor={`${props.id}-${mode}-year`}
+                    id={`${id}-${mode}-year-label`}
+                    htmlFor={`${id}-${mode}-year`}
                   >
                     {isRangeLabel + year}
                   </label>
@@ -795,7 +860,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       })
     },
     [
-      context,
+      id,
+      input_element,
+      isRange,
+      size,
+      translation,
+      separatorRexExp,
       dateSetters,
       inputRefs,
       maskList,
@@ -804,17 +874,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       getPlaceholderChar,
       pasteHandler,
       onKeyDownHandler,
-      props,
+      inputDates,
     ]
   )
 
-  // HERE BE DEPENDENCY
   const renderInputElement = useCallback(
     (
       element: React.HTMLProps<HTMLInputElement> &
         DatePickerEventAttributes
     ) => {
-      const { id, isRange } = props
       refList.current = []
       const startDateList = generateDateList(element, 'start')
       const endDateList = generateDateList(element, 'end')
@@ -834,46 +902,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         </span>
       )
     },
-    [props, generateDateList]
+    [id, isRange, generateDateList]
   )
 
   const formatDate = useMemo(() => {
-    const { open_picker_text } = context.translation.DatePicker
-
-    const { selectedDateTitle } = props
-
     return selectedDateTitle
-      ? `${selectedDateTitle}, ${open_picker_text}`
-      : open_picker_text
-  }, [context, props])
-
-  const {
-    id,
-    title,
-
-    submitAttributes,
-    isRange, // eslint-disable-line
-    maskOrder, // eslint-disable-line
-    maskPlaceholder, // eslint-disable-line
-    separatorRexExp, // eslint-disable-line
-    onChange, // eslint-disable-line
-    onFocus, // eslint-disable-line
-    onSubmit, // eslint-disable-line
-    onBlur, // eslint-disable-line
-    selectedDateTitle, // eslint-disable-line
-    showInput, // eslint-disable-line
-    input_element,
-    lang,
-    disabled,
-    skeleton,
-    opened,
-    size,
-    status,
-    status_state,
-    status_props,
-
-    ...attributes
-  } = props
+      ? `${selectedDateTitle}, ${translation.open_picker_text}`
+      : translation.open_picker_text
+  }, [selectedDateTitle, translation])
 
   validateDOMAttributes(props, attributes)
   validateDOMAttributes(null, submitAttributes)
@@ -891,8 +927,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   return (
     <fieldset className="dnb-date-picker__fieldset" lang={lang}>
-      {context.props.label && (
-        <legend className="dnb-sr-only">{context.props.label}</legend>
+      {contextProps.label && (
+        <legend className="dnb-sr-only">{contextProps.label}</legend>
       )}
       <Input
         id={`${id}__input`}
