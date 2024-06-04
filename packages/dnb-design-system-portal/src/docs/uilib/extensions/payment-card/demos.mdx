@@ -30,11 +30,25 @@ Basic card using productCode.
 
 <PaymentCardBasicExample />
 
+### Basic card using a status
+
+<PaymentCardStatusExample />
+
+Basic card using product code and status.
+
+The supported statuses are `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
+
+### Basic card in compact variant
+
+**NB:** The compact variant have to be aligned to a not yet defined SSOT style.
+
+<PaymentCardCompactExample />
+
 ### Custom card using rawData
 
 You may have to import the extra named exports:
 
-```js
+```ts
 import PaymentCard, {
   getCardData,
   Designs,
@@ -45,18 +59,6 @@ import PaymentCard, {
 ```
 
 <PaymentCardCustomExample />
-
-### Basic card using a status
-
-<PaymentCardStatusExample />
-
-Basic card using product code and status.
-
-### Basic card in compact variant
-
-**NB:** The compact variant have to be aligned to a not yet defined SSOT style.
-
-<PaymentCardCompactExample />
 
 ### Demo cards
 

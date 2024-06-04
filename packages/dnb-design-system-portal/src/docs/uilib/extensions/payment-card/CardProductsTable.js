@@ -1,5 +1,5 @@
 import React from 'react'
-import data from '@dnb/eufemia/src/extensions/payment-card/utils/cardProducts.js'
+import data from '@dnb/eufemia/src/extensions/payment-card/utils/cardProducts.ts'
 import { Table } from '@dnb/eufemia/src/components'
 
 export default function CardProductsTable() {
