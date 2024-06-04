@@ -80,7 +80,7 @@ function Step(props: Props) {
 
   if (activeIndex !== index || active === false) {
     // Another step is active
-    return null
+    return <></>
   }
 
   const fieldProps =
