@@ -130,10 +130,6 @@ export default {
       text_replaced: 'Replaced',
       text_unknown: 'Unknown',
     },
-    Logo: {
-      alt: 'DNB Logo',
-      sbankenAlt: 'Sbanken - a concept from DNB',
-    },
     Tag: {
       removeIconTitle: 'Remove',
       addIconTitle: 'Add',

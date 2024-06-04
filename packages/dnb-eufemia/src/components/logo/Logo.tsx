@@ -73,9 +73,6 @@ const defaultProps: LogoProps = {
 function Logo(localProps: LogoProps) {
   const context = useContext(Context)
 
-  // Two different translations for sbanken and dnb as different props: {alt, sbankenAlt}
-  const translations = context.getTranslation(localProps).Logo
-
   const props = extendPropsWithContext(
     convertSnakeCaseProps(localProps),
     defaultProps,
@@ -114,8 +111,9 @@ function Logo(localProps: LogoProps) {
     return 'dnb'
   }, [brand, variant])
 
+  // Alt text for the logo does not need to be translated. DNB alt will be the same in english, and sbanken alt should always be in norwegian
   const altText =
-    logoType === 'dnb' ? translations.alt : translations.sbankenAlt
+    logoType === 'dnb' ? 'DNB Logo' : 'Sbanken - et konsept fra DNB logo'
 
   const sharedClasses = classnames(
     classNameProp,

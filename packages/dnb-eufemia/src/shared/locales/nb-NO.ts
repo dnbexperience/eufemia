@@ -130,10 +130,6 @@ export default {
       text_replaced: 'Erstattet',
       text_unknown: 'Ukjent',
     },
-    Logo: {
-      alt: 'DNB Logo',
-      sbankenAlt: 'Sbanken - et konsept fra DNB logo',
-    },
     Tag: {
       removeIconTitle: 'Fjern',
       addIconTitle: 'Legg til',
