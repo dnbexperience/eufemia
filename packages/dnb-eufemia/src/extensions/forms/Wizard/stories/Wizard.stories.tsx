@@ -41,10 +41,24 @@ export const Basic = () => {
   )
 }
 
-const Step1 = (props) => {
+const Step1 = () => {
+  const { data } = Form.useData<typeof initialData>()
   return (
-    <Wizard.Step title="Step 1" {...props}>
+    <Wizard.Step title="Step 1" active={data?.step1}>
       <Form.MainHeading>Heading Step 1</Form.MainHeading>
+
+      <Field.Boolean
+        bottom
+        label="Toggle step 2"
+        variant="buttons"
+        path="/step2"
+        // help={{
+        //   title: 'Help is available',
+        //   content:
+        //     'Helping others, without expecting anything in return is what true self-worth is all about.',
+        // }}
+      />
+
       <Card stack>
         <P>Contents</P>
         <P>Contents</P>
@@ -57,9 +71,10 @@ const Step1 = (props) => {
     </Wizard.Step>
   )
 }
-const Step2 = (props) => {
+const Step2 = () => {
+  const { data } = Form.useData<typeof initialData>()
   return (
-    <Wizard.Step title="Step 2" {...props}>
+    <Wizard.Step title="Step 2" active={data?.step2}>
       <Form.MainHeading>Heading Step 2</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
@@ -69,11 +84,12 @@ const Step2 = (props) => {
     </Wizard.Step>
   )
 }
-const Step3 = (props) => {
+const Step3 = () => {
+  const { data } = Form.useData<typeof initialData>()
   const { summaryTitle } = Form.useLocale().Step
 
   return (
-    <Wizard.Step title={summaryTitle} {...props}>
+    <Wizard.Step title={summaryTitle} active={data?.step3}>
       <Form.MainHeading>Summary</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
@@ -85,47 +101,23 @@ const Step3 = (props) => {
   )
 }
 
-export const WizardContainerFlex = () => {
-  const [step1, setStep1] = React.useState(true)
-  const [step2, setStep2] = React.useState(true)
-  const [step3, setStep3] = React.useState(true)
+const initialData = {
+  step1: true,
+  step2: true,
+  step3: true,
+}
+
+export const WizardDynamicSteps = () => {
   return (
     <>
-      <Field.Boolean
-        bottom
-        label="Toggle step 1"
-        variant="button"
-        value={step1}
-        onChange={() => {
-          setStep1(!step1)
-        }}
-      />
-      <Field.Boolean
-        bottom
-        label="Toggle step 2"
-        variant="button"
-        value={step2}
-        onChange={() => {
-          setStep2(!step2)
-        }}
-      />
-      <Field.Boolean
-        bottom
-        label="Toggle step 3"
-        variant="button"
-        value={step3}
-        onChange={() => {
-          setStep3(!step3)
-        }}
-      />
-      <Form.Handler>
+      <Form.Handler id="my-wizard" defaultData={initialData}>
         <Wizard.Container mode="loose">
-          {/* <Step1 active={step1} />
-          <Step2 active={step2} />
-          <Step3 active={step3} /> */}
-          {step1 && <Step1 />}
-          {step2 && <Step2 />}
-          {step3 && <Step3 />}
+          <Step1 />
+          <Step2 />
+          <Step3 />
+          {/* {data?.step1 && <Step1 />}
+          {data?.step2 && <Step2 />}
+          {data?.step3 && <Step3 />} */}
         </Wizard.Container>
       </Form.Handler>
     </>
