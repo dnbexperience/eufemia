@@ -326,7 +326,6 @@ export default class Autocomplete extends React.PureComponent {
     observer_element: null,
     enable_body_lock: false,
 
-    class: null,
     className: null,
     children: null,
 

@@ -586,7 +586,7 @@ describe('Wizard.Container', () => {
 
       const MyForm = () => {
         return (
-          <Form.Handler defaultData={initialData} onChange={console.log}>
+          <Form.Handler defaultData={initialData}>
             <Wizard.Container>
               <Step1 />
               <Step2 />
