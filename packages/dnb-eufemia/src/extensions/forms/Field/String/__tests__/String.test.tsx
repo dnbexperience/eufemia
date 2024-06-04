@@ -52,6 +52,25 @@ describe('Field.String', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders help', () => {
+      render(
+        <Field.String
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
+      )
+      expect(document.querySelector('input')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document.querySelector('input').getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-input__suffix').id)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
+
     it('renders label once', () => {
       render(<Field.String label="The label" />)
       expect(screen.getByLabelText('The label')).toBeInTheDocument()

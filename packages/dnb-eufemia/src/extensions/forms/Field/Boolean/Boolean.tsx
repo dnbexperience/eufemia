@@ -1,7 +1,7 @@
 import React from 'react'
 import ToggleField, { Props as ToggleFieldProps } from '../Toggle'
 import useTranslation from '../../hooks/useTranslation'
-import { FieldProps, Path } from '../../types'
+import { FieldHelpProps, FieldProps, Path } from '../../types'
 
 type BooleanProps = {
   trueText?: string
@@ -16,7 +16,7 @@ type NeverBooleanProps = {
 export type IndeterminateProps = FieldProps<unknown> & {
   dependencePaths: Array<Path>
 } & NeverBooleanProps
-export type Props = FieldProps<unknown> & BooleanProps
+export type Props = FieldHelpProps & FieldProps<unknown> & BooleanProps
 
 function BooleanComponent(props: Props | IndeterminateProps) {
   const { trueText, falseText, ...restProps } = props

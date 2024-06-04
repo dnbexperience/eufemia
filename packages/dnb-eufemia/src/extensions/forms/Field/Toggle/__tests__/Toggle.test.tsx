@@ -1,6 +1,6 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { Props } from '../Toggle'
 import { Field, FieldBlock } from '../../..'
 
@@ -38,6 +38,40 @@ describe('Field.Toggle', () => {
 
   describe('variants', () => {
     describe('button', () => {
+      it('renders label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="button"
+            label="Toggle label"
+          />
+        )
+        expect(screen.getByText('Toggle label')).toBeInTheDocument()
+      })
+
+      it('renders help', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="button"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        )
+        expect(document.querySelector('button')).toHaveAttribute(
+          'aria-describedby'
+        )
+        expect(
+          document.querySelector('button').getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+        expect(
+          document
+            .querySelector('.dnb-help-button')
+            .getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      })
+
       it('should render correct HTML', () => {
         const onChange = jest.fn()
 
@@ -167,6 +201,40 @@ describe('Field.Toggle', () => {
     })
 
     describe('buttons', () => {
+      it('renders label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            label="Toggle label"
+          />
+        )
+        expect(screen.getByText('Toggle label')).toBeInTheDocument()
+      })
+
+      it('renders help', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        )
+        expect(document.querySelector('button')).toHaveAttribute(
+          'aria-describedby'
+        )
+        expect(
+          document.querySelector('button').getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+        expect(
+          document
+            .querySelector('.dnb-help-button')
+            .getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      })
+
       it('should render correct HTML', () => {
         const onChange = jest.fn()
 
@@ -342,6 +410,40 @@ describe('Field.Toggle', () => {
     })
 
     describe('checkbox-button', () => {
+      it('renders label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox-button"
+            label="Toggle label"
+          />
+        )
+        expect(screen.getByText('Toggle label')).toBeInTheDocument()
+      })
+
+      it('renders help', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox-button"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        )
+        expect(document.querySelector('button')).toHaveAttribute(
+          'aria-describedby'
+        )
+        expect(
+          document.querySelector('button').getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+        expect(
+          document
+            .querySelector('.dnb-help-button')
+            .getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      })
+
       it('should render correct HTML', () => {
         const onChange = jest.fn()
 
@@ -473,6 +575,40 @@ describe('Field.Toggle', () => {
     })
 
     describe('checkbox', () => {
+      it('renders label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            label="Toggle label"
+          />
+        )
+        expect(screen.getByLabelText('Toggle label')).toBeInTheDocument()
+      })
+
+      it('renders help', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        )
+        expect(document.querySelector('input')).toHaveAttribute(
+          'aria-describedby'
+        )
+        expect(
+          document.querySelector('input').getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-checkbox__suffix').id)
+        expect(
+          document
+            .querySelector('.dnb-help-button')
+            .getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      })
+
       it('should render correct HTML', () => {
         const onChange = jest.fn()
 
