@@ -164,10 +164,10 @@ function Logo(localProps: LogoProps) {
     alt: altText,
   }
 
-  validateDOMAttributes(props, rootParams)
+  const remainingDOMProps = validateDOMAttributes(props, rootParams)
 
   return (
-    <span {...rootParams}>
+    <span {...remainingDOMProps}>
       <LogoSvg logoType={logoType} svgParams={svgParams} />
     </span>
   )
