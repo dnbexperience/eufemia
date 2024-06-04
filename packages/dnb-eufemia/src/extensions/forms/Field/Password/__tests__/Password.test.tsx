@@ -84,6 +84,14 @@ describe('Password component', () => {
     )
   })
 
+  it('sets correct class when size prop is large', () => {
+    render(<Field.Password size="large" />)
+
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--large'
+    )
+  })
+
   it('has aria-describedby and aria-controls', () => {
     render(<Field.Password id="input" />)
 
