@@ -547,7 +547,7 @@ const getRow = (
   }
 
   return (
-    <tr>
+    <tr key={color}>
       <td>{color}</td>
       <td>{type || 'N/A'}</td>
       <td>{brandName || 'N/A'}</td>
