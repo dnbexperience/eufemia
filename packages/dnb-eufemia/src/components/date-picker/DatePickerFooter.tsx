@@ -15,7 +15,10 @@ type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
     event: React.MouseEvent<HTMLButtonElement>
   }
 
-export type DatePickerFooterProps = React.HTMLProps<HTMLElement> & {
+export type DatePickerFooterProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  'onSubmit' | 'onCancel' | 'onReset'
+> & {
   isRange: boolean
   onSubmit?: (event: DatePickerFooterEvent) => void
   onCancel?: (event: DatePickerFooterEvent) => void
@@ -37,7 +40,7 @@ function DatePickerFooter({
   const {
     updateDates,
     previousDates,
-    props: rops,
+    props: contextProps,
   } = useContext(DatePickerContext)
 
   const {
@@ -45,7 +48,7 @@ function DatePickerFooter({
     show_cancel_button,
     show_submit_button,
     date_format,
-  } = rops
+  } = contextProps
 
   const {
     submit_button_text: submit_button_text_translation,

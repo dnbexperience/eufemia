@@ -14,14 +14,16 @@ import DatePickerCalendar, {
   CalendarNavigationEvent,
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
-import DatePickerContext, {
-  DatePickerChangeEvent,
-} from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
+import { DatePickerChangeEvent } from './DatePickerProvider'
 
 export type DatePickerRangeViews = number | Record<string, unknown>[]
 
-export type DatePickerRangeProps = React.HTMLProps<HTMLElement> &
+export type DatePickerRangeProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  'onChange'
+> &
   DatePickerCalendarProps & {
     id?: string
     isRange?: boolean

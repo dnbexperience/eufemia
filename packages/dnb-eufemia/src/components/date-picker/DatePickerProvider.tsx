@@ -17,7 +17,6 @@ import SharedContext from '../../shared/Context'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
-  DatePickerChangeEvent,
   DatePickerContextValues,
 } from './DatePickerContext'
 import useViews, { CalendarView } from './hooks/useViews'
@@ -33,6 +32,20 @@ type DatePickerProviderProps = DatePickerProps & {
   hidePicker?: DatePickerContextValues['hidePicker']
   attributes?: DatePickerEventAttributes
   children: React.ReactNode
+}
+
+export type DatePickerChangeEvent = DatePickerDates & {
+  nr?: number
+  hidePicker?: boolean
+  event:
+    | React.MouseEvent<
+        HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement
+      >
+    | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
+    | React.FocusEvent<HTMLInputElement>
+    | React.KeyboardEvent<
+        HTMLTableElement | HTMLButtonElement | HTMLInputElement
+      >
 }
 
 export type GetReturnObjectParams<E> = DatePickerDates & {
@@ -98,6 +111,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
+      console.log('rest', rest)
       const { startDate, endDate, partialStartDate, partialEndDate } = {
         ...views,
         ...dates,
