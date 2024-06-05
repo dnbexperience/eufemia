@@ -36,7 +36,6 @@ export interface SkeletonProps
    * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.
    */
   element?: React.ReactNode;
-  class?: string;
   className?: string;
   children?: SkeletonChildren;
 }

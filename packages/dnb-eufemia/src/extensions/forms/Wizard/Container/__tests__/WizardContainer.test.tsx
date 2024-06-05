@@ -451,108 +451,179 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('should not render inactive steps', async () => {
-    render(
-      <Wizard.Container mode="loose">
-        <Wizard.Step title="Step 1" active={false}>
-          <output>Step 1</output>
-        </Wizard.Step>
+  describe('dynamic steps', () => {
+    it('should not render inactive steps', () => {
+      render(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" active={false}>
+            <output>Step 1</output>
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
 
-    expect(output()).toHaveTextContent('Step 2')
-    expect(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    ).toHaveLength(1)
-  })
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+    })
 
-  it('should render dynamically enabled steps', async () => {
-    const { rerender } = render(
-      <Wizard.Container mode="loose">
-        <Wizard.Step title="Step 1" active={false}>
-          <output>Step 1</output>
-        </Wizard.Step>
+    it('should render dynamically enabled steps', () => {
+      const { rerender } = render(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" active={false}>
+            <output>Step 1</output>
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
 
-    expect(output()).toHaveTextContent('Step 2')
-    expect(
-      document.querySelector('.dnb-step-indicator')
-    ).toHaveTextContent('Steg 1 av 1')
-    expect(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    ).toHaveLength(1)
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
 
-    rerender(
-      <Wizard.Container mode="loose">
-        <Wizard.Step title="Step 1">
-          <output>Step 1</output>
-          <Field.String path="/something" />
-        </Wizard.Step>
+      rerender(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String path="/something" />
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
 
-    expect(output()).toHaveTextContent('Step 1')
-    expect(
-      document.querySelector('.dnb-step-indicator')
-    ).toHaveTextContent('Steg 2 av 2')
-    expect(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    ).toHaveLength(2)
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 2 av 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
 
-    rerender(
-      <Wizard.Container mode="loose">
-        <Wizard.Step title="Step 1" active={false}>
-          <output>Step 1</output>
-          <Field.String path="/something" />
-        </Wizard.Step>
+      rerender(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" active={false}>
+            <output>Step 1</output>
+            <Field.String path="/something" />
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
 
-    expect(output()).toHaveTextContent('Step 2')
-    expect(
-      document.querySelector('.dnb-step-indicator')
-    ).toHaveTextContent('Steg 1 av 1')
-    expect(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    ).toHaveLength(1)
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
 
-    rerender(
-      <Wizard.Container mode="loose">
-        <Wizard.Step title="Step 1" active={false}>
-          <output>Step 1</output>
-          <Field.String path="/something" />
-        </Wizard.Step>
+      rerender(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" active={false}>
+            <output>Step 1</output>
+            <Field.String path="/something" />
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 2" active={false}>
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
+          <Wizard.Step title="Step 2" active={false}>
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
 
-    expect(output()).toBeNull()
-    expect(
-      document.querySelector('.dnb-step-indicator')
-    ).toHaveTextContent('')
-    expect(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    ).toHaveLength(0)
+      expect(output()).toBeNull()
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
+    })
+
+    it('should update active steps without rerendering', async () => {
+      const initialData = {
+        showStep1: true,
+        showStep2: true,
+      }
+
+      const Step1 = () => {
+        const { data } = Form.useData<typeof initialData>()
+        return (
+          <Wizard.Step title="Step 1" active={data?.showStep1}>
+            <output>Step 1</output>
+            <Field.Boolean id="toggleStep2" path="/showStep2" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const Step2 = () => {
+        const { data } = Form.useData<typeof initialData>()
+        return (
+          <Wizard.Step title="Step 2" active={data?.showStep2}>
+            <output>Step 2</output>
+            <Field.Boolean id="toggleStep1" path="/showStep1" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const MyForm = () => {
+        return (
+          <Form.Handler defaultData={initialData}>
+            <Wizard.Container>
+              <Step1 />
+              <Step2 />
+            </Wizard.Container>
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+      expect(
+        document.querySelector('.dnb-forms-next-button')
+      ).toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('#toggleStep2'))
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+      expect(
+        document.querySelector('.dnb-forms-next-button')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('#toggleStep2'))
+
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+      expect(
+        document.querySelector('.dnb-forms-next-button')
+      ).toBeInTheDocument()
+    })
   })
 
   it('should support drawer variant', () => {

@@ -105,7 +105,6 @@ export default class Button extends React.PureComponent {
     )
 
     const {
-      class: class_name,
       className,
       variant,
       size,
@@ -208,7 +207,6 @@ export default class Button extends React.PureComponent {
         this.context
       ),
       createSpacingClasses(props),
-      class_name,
       className,
       props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
       Element === Anchor && 'dnb-anchor--no-style'
@@ -311,7 +309,6 @@ Button.propTypes = {
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   id: PropTypes.string,
-  class: PropTypes.string,
   href: PropTypes.string,
   target: PropTypes.string,
   rel: PropTypes.string,
@@ -360,7 +357,6 @@ Button.defaultProps = {
   rel: null,
   to: null,
   id: null,
-  class: null,
   custom_content: null,
   wrap: null,
   bounding: null,

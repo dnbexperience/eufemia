@@ -100,7 +100,6 @@ export default class ToggleButton extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
@@ -133,7 +132,6 @@ export default class ToggleButton extends React.PureComponent {
     icon_size: null,
     attributes: null,
     readOnly: false,
-    class: null,
 
     className: null,
     children: null,
@@ -308,7 +306,6 @@ export default class ToggleButton extends React.PureComponent {
             title,
             readOnly,
             className,
-            class: _className,
             disabled,
             skeleton,
             variant,
@@ -364,8 +361,7 @@ export default class ToggleButton extends React.PureComponent {
               checked && `dnb-toggle-button--checked`,
               label_direction && `dnb-toggle-button--${label_direction}`,
               createSpacingClasses(props),
-              className,
-              _className
+              className
             ),
           }
 

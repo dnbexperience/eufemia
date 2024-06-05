@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
 import {
   AnchorAllProps as Props,
@@ -25,6 +25,16 @@ const PortalLink = React.forwardRef(function Link<TState>(
   { href, onClick = null, ...props }: AnchorProps,
   ref,
 ) {
+  const clickHandler = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      startPageTransition()
+      if (onClick) {
+        onClick(event)
+      }
+    },
+    [onClick],
+  )
+
   return (
     <GatsbyLink
       to={href}
@@ -33,13 +43,6 @@ const PortalLink = React.forwardRef(function Link<TState>(
       onClick={clickHandler}
     />
   )
-
-  function clickHandler(event: React.MouseEvent<HTMLAnchorElement>) {
-    startPageTransition()
-    if (onClick) {
-      onClick(event)
-    }
-  }
 })
 
 export { PortalLink as Link }
@@ -69,6 +72,25 @@ export default function Anchor({
 
   const element = (isAbsoluteUrl ? 'a' : PortalLink) as Props['element']
 
+  const clickHandler = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (onClick) {
+        onClick(event)
+      }
+      try {
+        const element = scrollToHashHandler(event)?.element?.parentElement
+
+        if (element) {
+          element.classList.add('focus')
+          setTimeout(() => element.classList.remove('focus'), 3000)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    [onClick],
+  )
+
   return (
     <EufemiaAnchor
       href={href}
@@ -77,20 +99,4 @@ export default function Anchor({
       onClick={clickHandler}
     />
   )
-
-  function clickHandler(event: React.MouseEvent<HTMLAnchorElement>) {
-    if (onClick) {
-      onClick(event)
-    }
-    try {
-      const element = scrollToHashHandler(event)?.element?.parentElement
-
-      if (element) {
-        element.classList.add('focus')
-        setTimeout(() => element.classList.remove('focus'), 3000)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
 }

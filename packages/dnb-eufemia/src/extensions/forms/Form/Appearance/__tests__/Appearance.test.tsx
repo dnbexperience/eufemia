@@ -3,6 +3,10 @@ import { render } from '@testing-library/react'
 import { Form, Field } from '../../..'
 
 describe('Form.Appearance', () => {
+  it('should have constant of _supportsSpacingProps="children"', () => {
+    expect(Form.Appearance._supportsSpacingProps).toBe('children')
+  })
+
   describe('size', () => {
     it('String', () => {
       const { rerender } = render(

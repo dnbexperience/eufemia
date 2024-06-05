@@ -326,7 +326,6 @@ export default class Autocomplete extends React.PureComponent {
     observer_element: null,
     enable_body_lock: false,
 
-    class: null,
     className: null,
     children: null,
 
@@ -1756,7 +1755,6 @@ class AutocompleteInstance extends React.PureComponent {
       drawer_class,
       input_ref, // eslint-disable-line
       className,
-      class: _className,
       disabled,
       stretch,
       skeleton,
@@ -1819,7 +1817,6 @@ class AutocompleteInstance extends React.PureComponent {
         showStatus && 'dnb-autocomplete__form-status',
         'dnb-form-component',
         createSpacingClasses(props),
-        _className,
         className
       ),
     }

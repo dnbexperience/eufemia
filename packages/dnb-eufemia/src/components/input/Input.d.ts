@@ -120,7 +120,6 @@ export interface InputProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-  class?: string;
   /**
    * In case we have to set a custom input class.
    */

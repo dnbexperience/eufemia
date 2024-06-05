@@ -90,7 +90,6 @@ export const inputPropTypes = {
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
   input_class: PropTypes.string,
   input_attributes: PropTypes.oneOfType([
     PropTypes.string,
@@ -166,7 +165,6 @@ export default class Input extends React.PureComponent {
     disabled: null,
     skeleton: null,
     input_class: null,
-    class: null,
     input_attributes: null,
     input_element: null,
     inner_ref: null,
@@ -378,7 +376,6 @@ export default class Input extends React.PureComponent {
       icon,
       icon_position,
       icon_size,
-      class: _className,
       className,
 
       id: _id, //eslint-disable-line
@@ -429,7 +426,6 @@ export default class Input extends React.PureComponent {
         isTrue(keep_placeholder) && 'dnb-input--keep-placeholder',
         'dnb-form-component',
         createSpacingClasses(props),
-        _className,
         className
       ),
       'data-input-state': inputState,

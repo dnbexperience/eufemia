@@ -84,7 +84,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -118,7 +117,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
     value: undefined,
     values: undefined,
     attributes: null,
-    class: null,
 
     className: null,
     children: null,
@@ -218,7 +216,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       disabled,
       skeleton,
       className,
-      class: _className,
 
       multiselect,
       id: _id, // eslint-disable-line
@@ -243,8 +240,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       `dnb-toggle-button-group--${layout_direction}`,
       'dnb-form-component',
       createSpacingClasses(props),
-      className,
-      _className
+      className
     )
 
     const params = {

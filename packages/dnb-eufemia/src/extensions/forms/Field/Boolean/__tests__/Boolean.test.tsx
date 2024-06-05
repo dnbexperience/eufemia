@@ -11,6 +11,26 @@ describe('Field.Boolean', () => {
       expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
     })
 
+    it('renders help', () => {
+      render(
+        <Field.Boolean
+          variant="checkbox"
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
+      )
+      expect(document.querySelector('input')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document.querySelector('input').getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-checkbox__suffix').id)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
+
     it('renders error', () => {
       render(
         <Field.Boolean
@@ -142,6 +162,26 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
 
+    it('renders help', () => {
+      render(
+        <Field.Boolean
+          variant="button"
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
+      )
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document.querySelector('button').getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
+
     it('renders error', () => {
       render(
         <Field.Boolean
@@ -259,6 +299,26 @@ describe('Field.Boolean', () => {
         <Field.Boolean variant="checkbox-button" label="Boolean label" />
       )
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Boolean
+          variant="checkbox-button"
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
+      )
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document.querySelector('button').getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('renders error', () => {
@@ -388,6 +448,26 @@ describe('Field.Boolean', () => {
     it('renders label', () => {
       render(<Field.Boolean variant="buttons" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Boolean
+          variant="buttons"
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
+      )
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document.querySelector('button').getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('has no selected value by default', () => {

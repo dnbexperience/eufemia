@@ -81,7 +81,6 @@ export interface ToggleButtonGroupProps
    */
   values?: ToggleButtonGroupValues;
   attributes?: ToggleButtonGroupAttributes;
-  class?: string;
   className?: string;
   children?: ToggleButtonGroupChildren;
   /**

@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import classnames from 'classnames'
 
-import { Checkbox, ToggleButton } from '../../../../components'
+import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
@@ -18,7 +18,7 @@ export type ToggleProps = {
   textOff?: string
 }
 
-export type Props = FieldProps<unknown> & ToggleProps
+export type Props = FieldHelpProps & FieldProps<unknown> & ToggleProps
 
 function Toggle(props: Props) {
   const translations = useTranslation().BooleanField
@@ -41,6 +41,7 @@ function Toggle(props: Props) {
     textOn,
     textOff,
     value,
+    help,
     info,
     warning,
     error,
@@ -82,6 +83,10 @@ function Toggle(props: Props) {
     disabled,
   }
 
+  const suffix = help ? (
+    <HelpButton title={help.title}>{help.content}</HelpButton>
+  ) : undefined
+
   const isOn = value === valueOn
   const isOff = value === valueOff
 
@@ -102,6 +107,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
+            suffix={suffix}
             onChange={handleCheckboxChange}
             {...htmlAttributes}
           />
@@ -120,6 +126,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
+            suffix={suffix}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
             {...htmlAttributes}
@@ -136,6 +143,7 @@ function Toggle(props: Props) {
                 onChange: handleToggleChange,
                 status: hasError ? 'error' : undefined,
                 disabled,
+                suffix,
               }}
             >
               <ToggleButton
@@ -166,6 +174,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
+            suffix={suffix}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
             {...htmlAttributes}

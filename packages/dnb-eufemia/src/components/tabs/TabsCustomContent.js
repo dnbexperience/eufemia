@@ -31,7 +31,6 @@ export default class CustomContent extends React.PureComponent {
 
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     className: PropTypes.string,
-    class: PropTypes.string,
   }
   static defaultProps = {
     displayName: 'CustomContent',
@@ -41,7 +40,6 @@ export default class CustomContent extends React.PureComponent {
     disabled: null,
     children: null,
     className: null,
-    class: null,
   }
   render() {
     const {
@@ -51,7 +49,6 @@ export default class CustomContent extends React.PureComponent {
       selected, // eslint-disable-line
       disabled, // eslint-disable-line
       className,
-      class: _className,
       ...rest
     } = this.props
 
@@ -64,8 +61,7 @@ export default class CustomContent extends React.PureComponent {
         className={classnames(
           'dnb-tabs__content__inner',
           createSpacingClasses(rest),
-          className,
-          _className
+          className
         )}
       >
         {this.props.children}

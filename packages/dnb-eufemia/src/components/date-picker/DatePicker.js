@@ -174,7 +174,6 @@ export default class DatePicker extends React.PureComponent {
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
-    class: PropTypes.string,
     className: PropTypes.string,
 
     ...spacingPropTypes,
@@ -247,7 +246,6 @@ export default class DatePicker extends React.PureComponent {
     no_animation: false,
     direction: 'auto',
     align_picker: null,
-    class: null,
     className: null,
 
     on_days_render: null,
@@ -540,7 +538,6 @@ export default class DatePicker extends React.PureComponent {
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line
       className,
-      class: _className,
       show_submit_button, // eslint-disable-line
       show_cancel_button, // eslint-disable-line
       show_reset_button, // eslint-disable-line
@@ -596,7 +593,6 @@ export default class DatePicker extends React.PureComponent {
         'dnb-form-component',
         size && `dnb-date-picker--${size}`,
         createSpacingClasses(props),
-        _className,
         className
       ),
     }

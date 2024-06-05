@@ -5,6 +5,7 @@
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 import { rootElement, pageElement } from './src/core/PortalProviders'
+import { scrollToHash } from '@dnb/eufemia/src/components/Anchor'
 import ReactDOM from 'react-dom/client'
 
 if (typeof window !== 'undefined') {
@@ -53,5 +54,8 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   //  then we apply the page content focus for accessibility
   if (prevLocation && prevLocation?.pathname !== location?.pathname) {
     applyPageFocus('content')
+    if (location.hash) {
+      scrollToHash(location.hash)
+    }
   }
 }

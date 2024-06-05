@@ -300,7 +300,7 @@ function WizardContainer(props: Props) {
   useLayoutEffect(() => {
     updateTitlesRef.current?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children])
+  }, [titlesRef.current])
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')

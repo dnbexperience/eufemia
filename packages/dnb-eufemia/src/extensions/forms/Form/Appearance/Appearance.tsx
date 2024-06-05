@@ -21,4 +21,5 @@ function FormAppearance({ children, size = null, ...rest }: Props) {
   )
 }
 
+FormAppearance._supportsSpacingProps = 'children'
 export default FormAppearance

@@ -143,7 +143,6 @@ function Password({
             ? IconView
             : IconViewOff
         }
-        // status={hasError ? 'error' : undefined}
         disabled={disabled}
         skeleton={sharedContext.skeleton}
         onClick={toggleVisibility}
@@ -170,6 +169,7 @@ function Password({
       aria-describedby={id + '-submit-button'}
       submitElement={<ToggleVisibilityButton />}
       disabled={disabled}
+      size={size}
       {...props}
     />
   )

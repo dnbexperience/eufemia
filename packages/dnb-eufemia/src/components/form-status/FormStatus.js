@@ -68,7 +68,6 @@ export default class FormStatus extends React.PureComponent {
     text_id: PropTypes.string,
     width_selector: PropTypes.string,
     width_element: PropTypes.object,
-    class: PropTypes.string,
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -100,7 +99,6 @@ export default class FormStatus extends React.PureComponent {
     text_id: null,
     width_selector: null,
     width_element: null,
-    class: null,
     no_animation: null,
     skeleton: null,
     stretch: null,
@@ -354,7 +352,6 @@ export default class FormStatus extends React.PureComponent {
       className,
       stretch,
       shellSpace,
-      class: _className,
       text_id,
 
       show, // eslint-disable-line
@@ -394,8 +391,7 @@ export default class FormStatus extends React.PureComponent {
         stretch && 'dnb-form-status--stretch',
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
-        className,
-        _className
+        className
       ),
       id: !String(id).startsWith('null') ? this.state.id : null,
       title,

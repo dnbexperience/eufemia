@@ -105,7 +105,6 @@ export default class NumberFormat extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
@@ -137,7 +136,6 @@ export default class NumberFormat extends React.PureComponent {
     element: 'span', // span or abbr
     tooltip: null,
     skeleton: null,
-    class: null,
 
     className: null,
     children: null,
@@ -284,7 +282,6 @@ export default class NumberFormat extends React.PureComponent {
       clean_copy_value,
       srLabel,
       element,
-      class: _className,
       className,
       ..._rest
     } = props
@@ -378,7 +375,6 @@ export default class NumberFormat extends React.PureComponent {
       className: classnames(
         'dnb-number-format',
         className,
-        _className,
         (isTrue(currency) || typeof currency === 'string') &&
           'dnb-number-format--currency',
         isTrue(selectall) && 'dnb-number-format--selectall',

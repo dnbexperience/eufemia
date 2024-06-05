@@ -28,21 +28,13 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     context.HelpButton
   )
 
-  const {
-    size,
-    icon,
-    on_click,
-    className,
-    class: _className,
-    ...rest
-  } = props
+  const { size, icon, on_click, className, ...rest } = props
 
   const params = {
     className: classnames(
       'dnb-help-button',
       createSpacingClasses(props),
-      className,
-      _className
+      className
     ),
     size,
     icon,

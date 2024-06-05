@@ -25,6 +25,7 @@ export function Boolean() {
           label="Has Employees"
           path="/hasEmployees"
           validateInitially
+          help={{ title: 'Help title', content: 'Help content' }}
         />
 
         <Form.SubmitButton />
