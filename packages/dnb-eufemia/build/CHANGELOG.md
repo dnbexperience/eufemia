@@ -3,6 +3,22 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.34.1](https://github.com/dnbexperience/eufemia/compare/v10.34.0...v10.34.1) (2024-06-05)
+
+
+### :memo: Documentation
+
+* ensure anchor #hash links to scroll to target ([#3643](https://github.com/dnbexperience/eufemia/issues/3643)) ([d04d893](https://github.com/dnbexperience/eufemia/commit/d04d893798bb2a018734623a9d09da5b4ff5602b))
+
+
+### :bug: Bug Fixes
+
+* **forms:** add Flex layout support to `Form.FieldProps` and `Form.Section` ([#3642](https://github.com/dnbexperience/eufemia/issues/3642)) ([032ca4e](https://github.com/dnbexperience/eufemia/commit/032ca4e2fe7166b9d6daa27e2e45866c975d0e06))
+* **forms:** add help prop to Boolean and Toggle fields ([#3645](https://github.com/dnbexperience/eufemia/issues/3645)) ([8c3c36f](https://github.com/dnbexperience/eufemia/commit/8c3c36fbf3577d501fc8498b705a530516f3bff5))
+* **forms:** ensure active prop in Wizard.Step is resolving correctly on internal re-renders  ([#3644](https://github.com/dnbexperience/eufemia/issues/3644)) ([2433a8b](https://github.com/dnbexperience/eufemia/commit/2433a8ba6410f35155532fad48771417a17c6447))
+* **forms:** ensure Field.Number with showStepControls can stretch when defined ([#3648](https://github.com/dnbexperience/eufemia/issues/3648)) ([231d8a7](https://github.com/dnbexperience/eufemia/commit/231d8a7b341fb79563522430898b864f38aa06da))
+* **forms:** ensure Field.Password supports size prop ([#3647](https://github.com/dnbexperience/eufemia/issues/3647)) ([da1f25a](https://github.com/dnbexperience/eufemia/commit/da1f25a6863ad362dfa9f17f6871f424d033ab0a))
+
 ## [10.34.0](https://github.com/dnbexperience/eufemia/compare/v10.33.0...v10.34.0) (2024-06-03)
 
 
