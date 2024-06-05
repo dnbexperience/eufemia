@@ -42,11 +42,10 @@ import {
   getCalendar,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
-import DatePickerContext, {
-  DatePickerChangeEvent,
-} from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
 import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
+import { DatePickerChangeEvent } from './DatePickerProvider'
 
 export type CalendarDay = {
   date: Date
@@ -81,7 +80,7 @@ export type CalendarNavigationEvent = {
 
 export type DatePickerCalendarProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'onSelect'
+  'onSelect' | 'onChange'
 > & {
   id?: string
   nr?: number
@@ -213,8 +212,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }, [updateDates])
 
   const callOnSelect = useCallback(
-    (args: DatePickerChangeEvent) => {
-      onSelect?.(args)
+    (event: DatePickerChangeEvent) => {
+      onSelect?.(event)
     },
     [onSelect]
   )

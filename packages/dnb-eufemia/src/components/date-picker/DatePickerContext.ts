@@ -4,36 +4,16 @@
  */
 
 import React from 'react'
-import { DatePickerProps } from './DatePicker'
+import { DatePickerProps, DisplayPickerEvent } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
 import {
+  DatePickerChangeEvent,
   DatePickerProviderState,
   GetReturnObjectParams,
   ReturnObject,
 } from './DatePickerProvider'
 import { DatePickerInitialDates, DatePickerDates } from './hooks/useDates'
 import { CalendarView } from './hooks/useViews'
-
-export type DatePickerChangeEvent = DatePickerDates & {
-  nr?: number
-  hidePicker?: boolean
-  event:
-    | React.MouseEvent<
-        HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement
-      >
-    | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
-    | React.FocusEvent<HTMLInputElement>
-    | React.KeyboardEvent<
-        HTMLTableElement | HTMLButtonElement | HTMLInputElement
-      >
-}
-
-export type HidePickerEvent = React.MouseEvent<
-  HTMLButtonElement | HTMLAnchorElement
-> &
-  DatePickerDates & {
-    focusOnHide?: boolean
-  }
 
 export type DatePickerContextValues = ContextProps &
   DatePickerDates & {
@@ -48,7 +28,7 @@ export type DatePickerContextValues = ContextProps &
     setState?: (state: DatePickerProviderState) => void
     setViews: (views: Array<CalendarView>, callback?: () => void) => void
     callOnChangeHandler: (event: DatePickerChangeEvent) => void
-    hidePicker: (event: HidePickerEvent) => void
+    hidePicker: (event: DisplayPickerEvent) => void
     previousDates: DatePickerInitialDates
     getReturnObject: <E>(
       params: GetReturnObjectParams<E>
