@@ -47,7 +47,7 @@ export const TabsProperties: PropertiesTableProps = {
   data: {
     doc: "defines the data structure to load as a JSON. e.g. `[{title: '...', content: 'Current tab', key: '...', hash: '...'}]`",
     type: [
-      'stting',
+      'string',
       '{title: string | React.ReactNode, key: string | number, selected?: boolean, disabled?: boolean}',
     ],
     status: 'required',

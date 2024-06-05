@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const ProgressIndicatorProperties: PropertiesTableProps = {
   progress: {
-    doc: 'A number between 0-100, if not supplied a continous loading-type animation will be used.',
+    doc: 'A number between 0-100, if not supplied a continuous loading-type animation will be used.',
     type: ['string', 'number'],
     defaultValue: 'undefined',
     status: 'optional',

@@ -186,7 +186,7 @@ function PhoneNumber(props: Props) {
         // Make sure the whole cc list is displayed when cc filter is set to specific region
         ccFilter === 'Prioritized' && !wasFilled.current
           ? (country) =>
-              `${formattCountryCode(country.cdc)}` ===
+              `${formatCountryCode(country.cdc)}` ===
               countryCodeRef.current
           : filterCountries,
       sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
@@ -277,7 +277,7 @@ function PhoneNumber(props: Props) {
           : value
         const country = countries.find(({ cdc }) => cdc === cdcVal)
         if (country?.cdc) {
-          const countryCode = (countryCodeRef.current = formattCountryCode(
+          const countryCode = (countryCodeRef.current = formatCountryCode(
             country.cdc
           ))
 
@@ -378,15 +378,15 @@ function PhoneNumber(props: Props) {
 
 function makeObject(country: CountryType, lang: string) {
   return {
-    selectedKey: formattCountryCode(country.cdc),
-    selected_value: `${country.iso} (${formattCountryCode(country.cdc)})`,
-    content: `${formattCountryCode(country.cdc)} ${
+    selectedKey: formatCountryCode(country.cdc),
+    selected_value: `${country.iso} (${formatCountryCode(country.cdc)})`,
+    content: `${formatCountryCode(country.cdc)} ${
       country.i18n[lang] ?? country.i18n.en
     }`,
   }
 }
 
-function formattCountryCode(value: string) {
+function formatCountryCode(value: string) {
   return `+${value}`
 }
 
