@@ -62,7 +62,7 @@ For more information on how to replace these, check out [these docs](/uilib/layo
 
 ## Tag
 
-- Find prop `onDelete` and replace with `onClick`, add prop `variant='removable'`
+- Find prop `onDelete` and replace with `onClick`, add prop `variant='removable'`.
 
 ## Definition lists
 
@@ -80,12 +80,12 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 
 ## ProgressIndicator
 
-- replace `no_animation` with `noAnimation`
-- replace `label_direction` with `labelDirection`
-- replace `show_label` with `showDefaultLabel`
-- replace `on_complete` with `onComplete`
-- replace `class` with `className`
-- replace `children` with `label`
+- replace `no_animation` with `noAnimation`.
+- replace `label_direction` with `labelDirection`.
+- replace `show_label` with `showDefaultLabel`.
+- replace `on_complete` with `onComplete`.
+- replace `class` with `className`.
+- replace `children` with `label`.
 
 ## Hr-line (Divider)
 
@@ -98,11 +98,19 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 
 ## Checkbox
 
-- replace `label_position` with `labelPosition`
-- replace `label_sr_only` with `labelSrOnly`
-- replace `status_state` with `statusState`
-- replace `status_props` with `statusProps`
-- replace `on_change` with `onChange`
-- replace `children` with `label`
+- replace `label_position` with `labelPosition`.
+- replace `label_sr_only` with `labelSrOnly`.
+- replace `status_state` with `statusState`.
+- replace `status_props` with `statusProps`.
+- replace `on_change` with `onChange`.
+- replace `children` with `label`.
+
+## Logo
+
+- remove `size`. replace it with `height` if it contains a numeric value and with `inheritSize` where `size='inherit'`.
+- remove the following props: `alt` and `ratio`.
+- replace `inherit_color` with `inheritColor`.
+- change `width` from number to string.
+- change `height`from number to string.
 
 _February, 6. 2024_
