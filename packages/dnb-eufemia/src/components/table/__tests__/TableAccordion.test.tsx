@@ -154,7 +154,7 @@ describe('TableAccordion', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['colspan', 'class'])
+    expect(attributes).toEqual(['class', 'colspan'])
     expect(Array.from(element.classList)).toContain('dnb-table__td')
     expect(element.getAttribute('colspan')).toBe('2')
   })
@@ -180,7 +180,7 @@ describe('TableAccordion', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['role', 'colspan', 'class'])
+    expect(attributes).toEqual(['role', 'class', 'colspan'])
     expect(Array.from(element.classList)).toContain('dnb-table__td')
     expect(element.getAttribute('colspan')).toBe('3')
     expect(element.getAttribute('role')).toBe('cell')

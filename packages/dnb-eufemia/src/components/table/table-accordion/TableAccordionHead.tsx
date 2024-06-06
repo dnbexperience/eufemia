@@ -1,32 +1,31 @@
 import React, { useEffect } from 'react'
 import classnames from 'classnames'
-import Button from '../button/Button'
-import IconPrimary from '../icon/IconPrimary'
-import Th from './TableTh'
-import Td from './TableTd'
-import { TableAccordionContext, TableContext } from './TableContext'
 import keycode from 'keycode'
-import { hasSelectedText } from '../../shared/helpers'
+import { hasSelectedText } from '../../../shared/helpers'
+import Button from '../../button/Button'
+import IconPrimary from '../../icon/IconPrimary'
+import Th from '../TableTh'
+import Td from '../TableTd'
+import { TableContext } from '../TableContext'
+import { TableAccordionContext } from './TableAccordionContext'
+import {
+  TableAccordionContentSingle,
+  TableAccordionContentRow,
+} from './TableAccordionContent'
 
-import TableAccordionTd from './TableAccordionTd'
-import TableAccordionTr from './TableAccordionTr'
-import type { TableAccordionTdProps } from './TableAccordionTd'
-import type { TableAccordionTrProps } from './TableAccordionTr'
-import type { TableTrProps } from './TableTr'
+import type {
+  TableAccordionContentSingleProps,
+  TableAccordionContentRowProps,
+} from './TableAccordionContent'
+import type { TableTrProps } from '../TableTr'
 
-type TableAccordionContentProps =
-  | TableAccordionTdProps
-  | TableAccordionTrProps
-
-type TableAccordionProps = {
+export type TableAccordionHeadProps = {
+  /** The row number */
   count: number
-}
+} & TableTrProps &
+  React.TableHTMLAttributes<HTMLTableRowElement>
 
-export function TableAccordion(
-  allProps: TableAccordionProps &
-    TableTrProps &
-    React.TableHTMLAttributes<HTMLTableRowElement>
-) {
+export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const {
     children,
     className,
@@ -72,7 +71,9 @@ export function TableAccordion(
     (element: React.ReactElement) => {
       return isAccordionElement(element)
     }
-  ) as React.ReactElement<TableAccordionContentProps>[]
+  ) as React.ReactElement<
+    TableAccordionContentSingleProps | TableAccordionContentRowProps
+  >[]
 
   const hasAccordionContent =
     accordionContent.length !== 0 &&
@@ -243,7 +244,8 @@ export function TableAccordionToggleButton() {
 }
 
 const isAccordionElement = (element: React.ReactElement) =>
-  element.type === TableAccordionTd || element.type === TableAccordionTr
+  element.type === TableAccordionContentSingle ||
+  element.type === TableAccordionContentRow
 
 const isTableHead = (children: React.ReactNode[]) =>
   children.some((element: React.ReactElement) => element.type === Th)

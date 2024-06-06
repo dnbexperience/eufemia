@@ -1,8 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
-import { TableAccordion } from './TableAccordion'
+import { TableAccordionHead } from './table-accordion/TableAccordionHead'
+import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
 import { TableContext } from './TableContext'
-import TableAccordionTr from './TableAccordionTr'
 
 export type TableTrProps = {
   /**
@@ -87,7 +87,7 @@ export default function Tr(
   const tableContext = React.useContext(TableContext)
   if (tableContext?.allProps?.accordion) {
     return (
-      <TableAccordion
+      <TableAccordionHead
         count={count}
         className={className}
         {...accordionProps}
@@ -96,12 +96,12 @@ export default function Tr(
   }
 
   const {
-    expanded,
-    disabled,
-    noAnimation,
-    onClick,
-    onOpened,
-    onClosed,
+    expanded, // eslint-disable-line @typescript-eslint/no-unused-vars
+    disabled, // eslint-disable-line @typescript-eslint/no-unused-vars
+    noAnimation, // eslint-disable-line @typescript-eslint/no-unused-vars
+    onClick, // eslint-disable-line @typescript-eslint/no-unused-vars
+    onOpened, // eslint-disable-line @typescript-eslint/no-unused-vars
+    onClosed, // eslint-disable-line @typescript-eslint/no-unused-vars
     ...trProps
   } = accordionProps
 
@@ -189,4 +189,4 @@ export function useHandleOddEven({ children }) {
   }
 }
 
-Tr.AccordionContent = TableAccordionTr
+Tr.AccordionContent = TableAccordionContentRow
