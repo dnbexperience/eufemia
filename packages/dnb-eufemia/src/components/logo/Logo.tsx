@@ -26,7 +26,7 @@ export type LogoProps = {
    */
   width?: LogoWidth // v11: replace with string
   /**
-   * Or define the height of the logo.
+   * Define the height of the logo.
    */
   height?: LogoHeight // v11: replace with string
   /**

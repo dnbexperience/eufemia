@@ -27,7 +27,7 @@ export const LogoProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: 'Define either the width of the logo.',
+    doc: 'Define the width of the logo.',
     type: 'string',
     status: 'optional',
   },
