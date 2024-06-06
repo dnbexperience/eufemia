@@ -166,12 +166,17 @@ function Selection(props: Props) {
             React.isValidElement(child) && child.type === OptionField
         )
         .map((option: React.ReactElement) => {
-          const { error, title, children, ...rest } = option.props
+          const { error, title, help, children, ...rest } = option.props
           const status = getStatus(error)
 
           return {
             title: title ?? children,
             status,
+            suffix: help ? (
+              <HelpButton size="small" title={help.title}>
+                {help.content}
+              </HelpButton>
+            ) : undefined,
             ...rest,
           }
         })

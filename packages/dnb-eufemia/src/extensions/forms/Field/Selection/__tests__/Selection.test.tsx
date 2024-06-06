@@ -130,6 +130,37 @@ describe('variants', () => {
       expect(radioButtons[1]).toBeChecked()
     })
 
+    it('renders help', () => {
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option
+            value="foo"
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            Fooo
+          </Field.Option>
+          <Field.Option
+            value="bar"
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            Baar
+          </Field.Option>
+        </Field.Selection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(2)
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(first).toHaveAttribute(
+        'aria-describedby',
+        expect.stringContaining('-suffix')
+      )
+      expect(second).toHaveAttribute(
+        'aria-describedby',
+        expect.stringContaining('-suffix')
+      )
+    })
+
     it('should disable options', () => {
       render(
         <Field.Selection variant="radio" disabled>
@@ -224,6 +255,37 @@ describe('variants', () => {
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
       expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Selection variant="button">
+          <Field.Option
+            value="foo"
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            Fooo
+          </Field.Option>
+          <Field.Option
+            value="bar"
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            Baar
+          </Field.Option>
+        </Field.Selection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(2)
+      const [first, second] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button')
+      )
+      expect(first.querySelector('button')).toHaveAttribute(
+        'aria-describedby',
+        expect.stringContaining('-suffix')
+      )
+      expect(second.querySelector('button')).toHaveAttribute(
+        'aria-describedby',
+        expect.stringContaining('-suffix')
+      )
     })
 
     it('should disable options', () => {
@@ -374,6 +436,27 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('false')
       expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Selection
+          variant="dropdown"
+          help={{ title: 'Help title', content: 'Help content' }}
+        >
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      expect(
+        document.querySelector('.dnb-dropdown__trigger')
+      ).toHaveAttribute('aria-describedby')
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('should disable dropdown', () => {
@@ -552,6 +635,27 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('false')
       expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          help={{ title: 'Help title', content: 'Help content' }}
+        >
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      expect(document.querySelector('input')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('should disable autocomplete', () => {
