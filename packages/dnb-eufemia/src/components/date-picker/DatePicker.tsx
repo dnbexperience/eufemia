@@ -54,6 +54,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
+import { useTranslation } from '../../shared'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -359,7 +360,25 @@ const defaultProps: DatePickerProps = {
 function DatePicker(externalProps: DatePickerProps) {
   const props = { ...defaultProps, ...externalProps }
 
-  const [opened, setOpened] = useState<boolean>(props.opened)
+  const {
+    prevent_close,
+    on_hide,
+    on_show,
+    on_submit,
+    on_cancel,
+    on_reset,
+    no_animation,
+    show_input,
+    align_picker,
+    show_submit_button,
+    show_cancel_button,
+    range,
+    hide_days,
+    hide_navigation,
+    opened: propsOpened,
+  } = props
+
+  const [opened, setOpened] = useState<boolean>(propsOpened)
   const [hidden, setHidden] = useState(!opened)
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
@@ -378,27 +397,23 @@ function DatePicker(externalProps: DatePickerProps) {
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
 
+  const translation = useTranslation().DatePicker
+
   if (props.end_date && !props.range) {
     warn(
       `The DatePicker got a "end_date". You have to set range={true} as well!.`
     )
   }
 
-  useEffect(() => {
-    if (props.opened) {
-      showPicker()
-    }
-
-    return () => {
-      clearTimeout(hideTimeout.current)
-      removeOutsideClickHandler()
+  const removeOutsideClickHandler = useCallback(() => {
+    if (outsideClick.current) {
+      outsideClick.current.remove()
     }
   }, [])
 
-  // TODO: Update dependency
   const hidePicker = useCallback(
     (args: DisplayPickerEvent | DatePickerChangeEvent) => {
-      if (props.prevent_close) {
+      if (prevent_close) {
         return // stop here
       }
 
@@ -408,7 +423,8 @@ function DatePicker(externalProps: DatePickerProps) {
 
       setOpened(false)
 
-      props?.on_hide?.({ ...args, ...getReturnObject.current(args) })
+      // TODO: Simplify type
+      on_hide?.({ ...args, ...getReturnObject.current(args) })
 
       hideTimeout.current = setTimeout(
         () => {
@@ -423,25 +439,35 @@ function DatePicker(externalProps: DatePickerProps) {
             }
           }
         },
-        props.no_animation ? 1 : blurDelay
+        no_animation ? 1 : blurDelay
       ) // wait until animation is over
 
       removeOutsideClickHandler()
     },
-    [props]
+    [no_animation, prevent_close, on_hide, removeOutsideClickHandler]
   )
-  // TODO: Update dependency
+
+  const setOutsideClickHandler = useCallback(() => {
+    outsideClick.current = detectOutsideClick(
+      innerRef.current,
+      ({ event }: { event: MouseEvent | KeyboardEvent }) => {
+        hidePicker({ ...event, focusOnHide: event?.['code'] })
+      }
+    )
+  }, [hidePicker])
+
   const setTrianglePosition = useCallback(() => {
-    const { show_input, align_picker } = props
     const triangleWidth = 16
     if (show_input && triangleRef.current && innerRef.current) {
       try {
         const shellWidth = innerRef.current
           .querySelector('.dnb-input__shell')
           .getBoundingClientRect().width
+
         const buttonWidth = innerRef.current
           .querySelector('.dnb-input__submit-button__button')
           .getBoundingClientRect().width
+
         if (align_picker === 'right') {
           const distance = buttonWidth / 2 - triangleWidth / 2
           triangleRef.current.style.marginRight = `${distance / 16}rem`
@@ -453,66 +479,7 @@ function DatePicker(externalProps: DatePickerProps) {
         warn(e)
       }
     }
-  }, [props])
-
-  const setOutsideClickHandler = useCallback(() => {
-    outsideClick.current = detectOutsideClick(
-      innerRef.current,
-      ({ event }: { event: MouseEvent | KeyboardEvent }) => {
-        hidePicker({ ...event, focusOnHide: event?.['code'] })
-      }
-    )
-  }, [hidePicker])
-
-  const removeOutsideClickHandler = useCallback(() => {
-    if (outsideClick.current) {
-      outsideClick.current.remove()
-    }
-  }, [])
-
-  // TODO: Update dependency
-  const onPickerChange = useCallback(
-    ({
-      hidePicker: shouldHidePicker = true,
-      ...args
-    }: DatePickerChangeEvent) => {
-      if (
-        shouldHidePicker &&
-        !props.show_submit_button &&
-        !props.show_cancel_button
-      ) {
-        hidePicker(args)
-      }
-
-      setStartDate(args.startDate)
-      setEndDate(args.endDate)
-    },
-    [hidePicker, props]
-  )
-
-  const onSubmitHandler = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      hidePicker(event)
-
-      props.on_submit?.({
-        ...event,
-        ...getReturnObject.current({ event }),
-      })
-    },
-    [hidePicker, props]
-  )
-
-  const onCancelHandler = useCallback((event: DatePickerChangeEvent) => {
-    props.on_cancel?.({ ...event, ...getReturnObject.current(event) })
-  }, [])
-
-  const onResetHandler = useCallback(
-    (event: DatePickerChangeEvent) => {
-      hidePicker(event)
-      props.on_reset?.({ ...event, ...getReturnObject.current(event) })
-    },
-    [hidePicker, props]
-  )
+  }, [show_input, align_picker])
 
   const showPicker = useCallback(
     (event?: DisplayPickerEvent) => {
@@ -523,12 +490,65 @@ function DatePicker(externalProps: DatePickerProps) {
       setOpened(true)
       setHidden(false)
 
-      props.on_show?.({ ...event, ...getReturnObject.current(event) })
+      on_show?.({ ...event, ...getReturnObject.current(event) })
 
       setTrianglePosition()
       setOutsideClickHandler()
     },
-    [setTrianglePosition, setOutsideClickHandler]
+    [setTrianglePosition, setOutsideClickHandler, on_show]
+  )
+
+  useEffect(() => {
+    if (propsOpened) {
+      showPicker()
+    }
+
+    return () => {
+      clearTimeout(hideTimeout.current)
+      removeOutsideClickHandler()
+    }
+  }, [propsOpened, removeOutsideClickHandler, showPicker])
+
+  const onPickerChange = useCallback(
+    ({
+      hidePicker: shouldHidePicker = true,
+      ...args
+    }: DatePickerChangeEvent) => {
+      if (shouldHidePicker && !show_submit_button && !show_cancel_button) {
+        hidePicker(args)
+      }
+
+      setStartDate(args.startDate)
+      setEndDate(args.endDate)
+    },
+    [hidePicker, show_submit_button, show_cancel_button]
+  )
+
+  const onSubmitHandler = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      hidePicker(event)
+
+      on_submit?.({
+        ...event,
+        ...getReturnObject.current({ event }),
+      })
+    },
+    [hidePicker, on_submit]
+  )
+
+  const onCancelHandler = useCallback(
+    (event: DatePickerChangeEvent) => {
+      on_cancel?.({ ...event, ...getReturnObject.current(event) })
+    },
+    [on_cancel]
+  )
+
+  const onResetHandler = useCallback(
+    (event: DatePickerChangeEvent) => {
+      hidePicker(event)
+      on_reset?.({ ...event, ...getReturnObject.current(event) })
+    },
+    [hidePicker, on_reset]
   )
 
   const togglePicker = useCallback(
@@ -544,12 +564,8 @@ function DatePicker(externalProps: DatePickerProps) {
     [opened, showPicker, hidePicker]
   )
 
-  // TODO: Update dependency
   const formatSelectedDateTitle = useCallback(() => {
-    const { range } = props
-
-    const { selected_date, start, end } =
-      context.getTranslation(props).DatePicker
+    const { selected_date, start, end } = translation
 
     let currentDate = startDate ? format(startDate, 'PPPP') : null
 
@@ -561,7 +577,7 @@ function DatePicker(externalProps: DatePickerProps) {
     }
 
     return currentDate ? selected_date.replace(/%s/, currentDate) : ''
-  }, [props, context, startDate, endDate])
+  }, [range, translation, startDate, endDate])
 
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
@@ -584,8 +600,6 @@ function DatePicker(externalProps: DatePickerProps) {
     disable_autofocus,
     enable_keyboard_nav, // eslint-disable-line
     hide_navigation_buttons,
-    show_input, // eslint-disable-line
-    range,
     first_day,
     reset_date,
     locale,
@@ -606,11 +620,9 @@ function DatePicker(externalProps: DatePickerProps) {
     suffix,
     mask_order,
     mask_placeholder,
-    align_picker,
     submit_button_text,
     cancel_button_text,
     reset_button_text,
-
     hide_navigation: _hide_navigation, // eslint-disable-line
     return_format: _return_format, // eslint-disable-line
     date_format: _date_format, // eslint-disable-line
@@ -627,21 +639,18 @@ function DatePicker(externalProps: DatePickerProps) {
     id: __id, // eslint-disable-line
     className,
     class: _className,
-    show_submit_button, // eslint-disable-line
-    show_cancel_button, // eslint-disable-line
     show_reset_button, // eslint-disable-line
     tooltip,
 
     ...attributes
   } = extendedProps
 
-  let { hide_navigation, hide_days } = props
-
-  // never show days and navigation
-  if (only_month) {
-    hide_days = true
-    hide_navigation = hide_navigation_buttons ? false : true
-  }
+  const shouldHideDays = only_month ? true : hide_days
+  const shouldHideNavigation = only_month
+    ? hide_navigation_buttons
+      ? false
+      : true
+    : hide_navigation
 
   const showStatus = getStatusState(status)
 
@@ -774,8 +783,8 @@ function DatePicker(externalProps: DatePickerProps) {
                       isRange={range}
                       isLink={link}
                       isSync={sync}
-                      hideDays={hide_days}
-                      hideNav={hide_navigation}
+                      hideDays={shouldHideDays}
+                      hideNav={shouldHideNavigation}
                       views={
                         hide_navigation_buttons
                           ? [{ nextBtn: false, prevBtn: false }]
