@@ -725,6 +725,240 @@ describe('Iterate.Array', () => {
             ],
           })
         })
+
+        it('should filter data based on the given "filterSubmitData" property paths', () => {
+          let filteredData = undefined
+          const onSubmit = jest.fn((data) => (filteredData = data))
+
+          const Content = () => {
+            return (
+              <>
+                <Iterate.Array
+                  path="/myList"
+                  value={[
+                    { foo: 'foo 1', bar: 'bar 1' },
+                    { foo: 'foo 2', bar: 'bar 2' },
+                  ]}
+                >
+                  <Field.String itemPath="/foo" />
+                  <Field.String itemPath="/bar" />
+                </Iterate.Array>
+
+                <Form.SubmitButton>Submit</Form.SubmitButton>
+              </>
+            )
+          }
+
+          const { rerender } = render(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterSubmitData={{
+                '/myList/0/foo': false,
+              }}
+            >
+              <Content />
+            </DataContext.Provider>
+          )
+
+          const submitButton = document.querySelector('button')
+
+          fireEvent.click(submitButton)
+
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+          expect(onSubmit).toHaveBeenLastCalledWith(
+            {
+              myList: [
+                {
+                  bar: 'bar 1',
+                },
+                {
+                  bar: 'bar 2',
+                  foo: 'foo 2',
+                },
+              ],
+            },
+            expect.anything()
+          )
+          expect(filteredData).toEqual({
+            myList: [
+              {
+                bar: 'bar 1',
+              },
+              {
+                bar: 'bar 2',
+                foo: 'foo 2',
+              },
+            ],
+          })
+
+          rerender(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterSubmitData={{
+                '/myList/1': false,
+              }}
+            >
+              <Content />
+            </DataContext.Provider>
+          )
+
+          fireEvent.click(submitButton)
+
+          expect(onSubmit).toHaveBeenCalledTimes(2)
+          expect(onSubmit).toHaveBeenLastCalledWith(
+            {
+              myList: [
+                {
+                  bar: 'bar 1',
+                  foo: 'foo 1',
+                },
+              ],
+            },
+            expect.anything()
+          )
+          expect(filteredData).toEqual({
+            myList: [
+              {
+                bar: 'bar 1',
+                foo: 'foo 1',
+              },
+            ],
+          })
+
+          rerender(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterSubmitData={{
+                '/myList/*/foo': false,
+              }}
+            >
+              <Content />
+            </DataContext.Provider>
+          )
+
+          fireEvent.click(submitButton)
+
+          expect(onSubmit).toHaveBeenCalledTimes(3)
+          expect(onSubmit).toHaveBeenLastCalledWith(
+            {
+              myList: [
+                {
+                  bar: 'bar 1',
+                },
+                {
+                  bar: 'bar 2',
+                },
+              ],
+            },
+            expect.anything()
+          )
+          expect(filteredData).toEqual({
+            myList: [
+              {
+                bar: 'bar 1',
+              },
+              {
+                bar: 'bar 2',
+              },
+            ],
+          })
+        })
+
+        it('should filter data based with multi wildcard paths', () => {
+          let filteredData = undefined
+          const onSubmit = jest.fn((data) => (filteredData = data))
+
+          render(
+            <DataContext.Provider
+              onSubmit={onSubmit}
+              filterSubmitData={{
+                '/firstList/0/secondList/*/foo': false,
+                '/firstList/1/secondList/*/bar': false,
+              }}
+              data={{
+                firstList: [
+                  {
+                    foo: 'foo 1',
+                    secondList: [
+                      { foo: 'foo 1', bar: 'bar 1' },
+                      { foo: 'foo 2', bar: 'bar 2' },
+                    ],
+                  },
+                  {
+                    foo: 'foo 2',
+                    secondList: [
+                      { foo: 'foo 1', bar: 'bar 1' },
+                      { foo: 'foo 2', bar: 'bar 2' },
+                    ],
+                  },
+                ],
+              }}
+            >
+              <Form.SubmitButton>Submit</Form.SubmitButton>
+            </DataContext.Provider>
+          )
+
+          const submitButton = document.querySelector('button')
+
+          fireEvent.click(submitButton)
+
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+          expect(onSubmit).toHaveBeenLastCalledWith(
+            {
+              firstList: [
+                {
+                  foo: 'foo 1',
+                  secondList: [
+                    {
+                      bar: 'bar 1',
+                    },
+                    {
+                      bar: 'bar 2',
+                    },
+                  ],
+                },
+                {
+                  foo: 'foo 2',
+                  secondList: [
+                    {
+                      foo: 'foo 1',
+                    },
+                    {
+                      foo: 'foo 2',
+                    },
+                  ],
+                },
+              ],
+            },
+            expect.anything()
+          )
+          expect(filteredData).toEqual({
+            firstList: [
+              {
+                foo: 'foo 1',
+                secondList: [
+                  {
+                    bar: 'bar 1',
+                  },
+                  {
+                    bar: 'bar 2',
+                  },
+                ],
+              },
+              {
+                foo: 'foo 2',
+                secondList: [
+                  {
+                    foo: 'foo 1',
+                  },
+                  {
+                    foo: 'foo 2',
+                  },
+                ],
+              },
+            ],
+          })
+        })
       })
     })
   })

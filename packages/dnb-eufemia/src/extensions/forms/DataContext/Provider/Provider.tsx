@@ -383,7 +383,7 @@ export default function Provider<Data extends JsonObject>(
 
         return data
       } else if (filter) {
-        Object.entries(filter).forEach(([path, condition]) => {
+        const runFilter = ({ path, condition }) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
@@ -400,7 +400,44 @@ export default function Provider<Data extends JsonObject>(
                 : condition
             mutate(path, result)
           }
+        }
+
+        const wildcardPaths = []
+
+        Object.entries(filter).forEach(([path, condition]) => {
+          if (path.includes('*')) {
+            const parts = path.split(/\/\*/g)
+            const exists = pointer.has(data, parts[0])
+            if (exists) {
+              const traverse = (
+                subData: unknown,
+                subPath: string,
+                idx: number
+              ) => {
+                if (idx === parts.length - 1) {
+                  wildcardPaths.push({ path: subPath, condition })
+                  return
+                }
+                const list = pointer.get(subData, subPath)
+                if (Array.isArray(list)) {
+                  list.forEach((_, i) => {
+                    traverse(
+                      list[i],
+                      `${subPath}/${i}${parts[idx + 1]}`,
+                      idx + 1
+                    )
+                  })
+                }
+              }
+              traverse(data, parts[0], 0)
+            }
+          } else {
+            runFilter({ path, condition })
+          }
         })
+
+        wildcardPaths.forEach(runFilter)
+
         return data
       }
 
