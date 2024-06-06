@@ -25,6 +25,7 @@ import {
   hideSidebarToggleButtonStyle,
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
+import GithubLogo from '../../docs/contribute/assets/github-logo.js'
 
 export default function StickyMenuBar({
   hideSidebarToggleButton = false,
@@ -105,6 +106,15 @@ export default function StickyMenuBar({
                 ? 'Hide section content menu'
                 : 'Show section content menu'
             }
+          />
+          <Button
+            id="github-button"
+            href="https://github.com/dnbexperience/eufemia/"
+            size="large"
+            target="_blank"
+            icon={GithubLogo}
+            title="Navigates to Eufemia's GitHub repository"
+            left="x-small"
           />
           <PortalToolsMenu />
         </span>
