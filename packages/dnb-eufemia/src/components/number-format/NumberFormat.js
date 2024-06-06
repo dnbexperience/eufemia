@@ -77,6 +77,7 @@ export default class NumberFormat extends React.PureComponent {
     // can be tel or sms
     link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
+    monospace: PropTypes.bool,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -124,6 +125,7 @@ export default class NumberFormat extends React.PureComponent {
     org: null,
     percent: null,
     link: null,
+    monospace: false,
     options: null,
     decimals: null,
     selectall: true,
@@ -270,6 +272,7 @@ export default class NumberFormat extends React.PureComponent {
       org,
       percent,
       link: _link,
+      monospace,
       tooltip,
       skeleton,
       options,
@@ -380,6 +383,7 @@ export default class NumberFormat extends React.PureComponent {
         isTrue(selectall) && 'dnb-number-format--selectall',
         this.state.selected && 'dnb-number-format--selected',
         link && 'dnb-anchor',
+        monospace && 'dnb-number-format--monospace',
         createSpacingClasses(this.props)
       ),
 

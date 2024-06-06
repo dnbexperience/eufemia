@@ -83,6 +83,13 @@ describe('NumberFormat', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match monospace', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="number-format-monospace"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('NumberFormat with skeleton', () => {
