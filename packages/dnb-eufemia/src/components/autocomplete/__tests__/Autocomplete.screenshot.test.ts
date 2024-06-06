@@ -54,7 +54,8 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
-      waitAfterSimulate: 200,
+      waitAfterSimulateSelector:
+        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--opened',
       style: {
         height: '30rem',
       },
@@ -67,7 +68,8 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
       selector: '[data-visual-test="autocomplete-suffix"]',
       simulateSelector:
         '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
-      waitAfterSimulate: 200,
+      waitAfterSimulateSelector:
+        '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete--opened',
       simulate: 'click',
       style: {
         height: '25rem',
@@ -123,7 +125,8 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
       selector: '[data-visual-test="autocomplete-opened"]',
       simulateSelector:
         '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
-      waitAfterSimulate: 200,
+      waitAfterSimulateSelector:
+        '[data-visual-test="autocomplete-opened"] .dnb-autocomplete--opened',
       simulate: 'click',
       style: {
         height: '40rem',

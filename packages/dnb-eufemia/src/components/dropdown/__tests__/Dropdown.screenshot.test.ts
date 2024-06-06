@@ -12,7 +12,6 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/uilib/components/dropdown/demos',
-    each: true,
   })
 
   it('have to match the closed dropdown', async () => {
@@ -129,12 +128,22 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the dropdown action menu with custom items', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="dropdown-action_menu-custom"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
-describe('Dropdown', () => {
+describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
   setupPageScreenshot({
-    url: '/uilib/components/dropdown/demos?item-directions',
-    each: true,
+    themeName,
+    url: '/uilib/components/dropdown/demos',
     pageViewport: {
       width: 480,
       height: 480,
@@ -147,64 +156,45 @@ describe('Dropdown', () => {
         'padding-top': '16rem',
       },
       selector: '[data-visual-test="dropdown-item-directions"]',
+      simulate: 'click',
       simulateSelector:
         '[data-visual-test="dropdown-item-directions"] .dnb-dropdown__trigger',
-      waitAfterSimulate: 200, // it takes time for the portal to align
-      simulate: 'click',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-// eslint-disable-next-line jest/no-identical-title
-describe('Dropdown', () => {
-  it('have to match the dropdown action menu with custom items', async () => {
-    const screenshot = await makeScreenshot({
-      url: '/uilib/components/dropdown/demos?action_menu-custom',
-      pageViewport: {
-        width: 2000,
-      },
-      selector: '[data-visual-test="dropdown-action_menu-custom"]',
+      simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown action menu in mobile view', async () => {
-    const screenshot = await makeScreenshot({
-      url: '/uilib/components/dropdown/demos?action_menu-custom',
-      pageViewport: {
-        width: 600,
-      },
-      selector: '[data-visual-test="dropdown-action_menu-custom"]',
-      style: {
-        width: '14rem',
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-// eslint-disable-next-line jest/no-identical-title
-describe('Dropdown', () => {
   it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/dropdown/demos?left-side',
-      pageViewport: {
-        width: 480,
-      },
       selector: '[data-visual-test="dropdown-more_menu"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:first-child button',
+      simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/dropdown/demos?right-side',
-      pageViewport: {
-        width: 480,
-        height: 480,
-      },
       selector: '[data-visual-test="dropdown-more_menu"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:nth-child(2) button',
+      simulateAfter: { keypress: 'Escape' },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the dropdown action menu in mobile view', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="dropdown-action_menu-custom"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
+      style: {
+        width: '14rem',
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
