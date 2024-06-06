@@ -98,10 +98,10 @@ describe('ElementBlock', () => {
     expect(elements).toHaveLength(2)
 
     expect(
-      elements[0].querySelector('.dnb-forms-iterate-block--new')
+      elements[0].querySelector('.dnb-forms-section-block--new')
     ).toBeFalsy()
     expect(
-      elements[1].querySelector('.dnb-forms-iterate-block--new')
+      elements[1].querySelector('.dnb-forms-section-block--new')
     ).toBeTruthy()
   })
 
@@ -127,7 +127,7 @@ describe('ElementBlock', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-block--error')
+      document.querySelector('.dnb-forms-section-block--error')
     ).toBeFalsy()
 
     const addButton = document.querySelector('button')
@@ -139,19 +139,19 @@ describe('ElementBlock', () => {
     expect(elements).toHaveLength(2)
 
     expect(
-      elements[0].querySelector('.dnb-forms-iterate-block--error')
+      elements[0].querySelector('.dnb-forms-section-block--error')
     ).toBeFalsy()
     expect(
-      elements[1].querySelector('.dnb-forms-iterate-block--error')
+      elements[1].querySelector('.dnb-forms-section-block--error')
     ).toBeFalsy()
 
     fireEvent.submit(document.querySelector('form'))
 
     expect(
-      elements[0].querySelector('.dnb-forms-iterate-block--error')
+      elements[0].querySelector('.dnb-forms-section-block--error')
     ).toBeFalsy()
     expect(
-      elements[1].querySelector('.dnb-forms-iterate-block--error')
+      elements[1].querySelector('.dnb-forms-section-block--error')
     ).toBeTruthy()
   })
 
@@ -171,7 +171,7 @@ describe('ElementBlock', () => {
       { wrapper }
     )
 
-    const block = document.querySelector('.dnb-forms-iterate-block')
+    const block = document.querySelector('.dnb-forms-section-block')
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
     rerender(
@@ -198,7 +198,7 @@ describe('ElementBlock', () => {
     render(<ElementBlock mode="view">Content</ElementBlock>, { wrapper })
 
     expect(
-      document.querySelector('.dnb-forms-iterate-block__inner').tagName
+      document.querySelector('.dnb-forms-section-block__inner').tagName
     ).toBe('SECTION')
   })
 
@@ -217,7 +217,7 @@ describe('ElementBlock', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-block__inner')
+      document.querySelector('.dnb-forms-section-block__inner')
     ).toHaveAttribute('aria-label', 'Aria Label')
   })
 })

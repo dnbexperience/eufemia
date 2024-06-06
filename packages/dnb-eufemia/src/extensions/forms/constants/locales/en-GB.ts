@@ -16,11 +16,12 @@ export default {
     Form: {
       errorSummaryTitle: 'Please correct the following errors',
     },
-    Iterate: {
+    Section: {
       remove: 'Remove',
       done: 'Done',
       cancel: 'Cancel',
       edit: 'Edit',
+      errorInSection: 'Please correct the errors above',
     },
 
     /**

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Field, Form, JSONSchema, SectionProps } from '../../..'
+import { Field, Form, JSONSchema, SectionProps, Value } from '../../..'
 import { Card, Flex } from '../../../../../components'
 import { Props as FieldNameProps } from '../../../Field/Name'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/Form/Section',
+  title: 'Eufemia/Extensions/Forms/Section',
 }
 
 const MySection = (props: SectionProps<{ lastName?: FieldNameProps }>) => {
@@ -195,6 +195,52 @@ export const NestedSections = () => {
     >
       <MySection path="/nestedPath" />
       <Form.SubmitButton variant="send" />
+    </Form.Handler>
+  )
+}
+
+export function EditViewContainer() {
+  const EditContainer = () => {
+    return (
+      <Form.Section.EditContainer title="Account holder" variant="basic">
+        <Field.Name.First path="/firstName" />
+        <Field.Name.Last path="/lastName" />
+      </Form.Section.EditContainer>
+    )
+  }
+  const ViewContainer = () => {
+    return (
+      <Form.Section.ViewContainer title="Account holder" variant="basic">
+        <Value.SummaryList>
+          <Value.Name.First path="/firstName" placeholder="–" />
+          <Value.Name.Last path="/lastName" placeholder="–" />
+        </Value.SummaryList>
+      </Form.Section.ViewContainer>
+    )
+  }
+
+  return (
+    <Form.Handler
+      onSubmit={console.log}
+      defaultData={{
+        nestedPath: {
+          firstName: 'Nora',
+        },
+      }}
+    >
+      <Card stack>
+        <Form.SubHeading>Your account</Form.SubHeading>
+        <Form.Section
+          path="/nestedPath"
+          required
+          onChange={console.log}
+          // containerMode="edit"
+        >
+          <EditContainer />
+          <ViewContainer />
+        </Form.Section>
+        <Form.SubmitButton />
+      </Card>
     </Form.Handler>
   )
 }

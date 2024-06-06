@@ -73,10 +73,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-forms-iterate')
+          document.querySelectorAll('.dnb-forms-section')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-forms-iterate')
+          document.querySelector('.dnb-forms-section')
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -96,10 +96,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-forms-iterate')
+          document.querySelectorAll('.dnb-forms-section')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-forms-iterate')
+          document.querySelector('.dnb-forms-section')
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -115,10 +115,10 @@ describe('Iterate.Array', () => {
         )
 
         expect(
-          document.querySelectorAll('.dnb-forms-iterate')
+          document.querySelectorAll('.dnb-forms-section')
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-forms-iterate')
+          document.querySelector('.dnb-forms-section')
         ).toHaveTextContent('Placeholder text')
       })
     })

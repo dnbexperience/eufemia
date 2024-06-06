@@ -201,7 +201,11 @@ function ArrayComponent(props: Props) {
   const flexProps: FlexContainerProps & {
     innerRef: FlexContainerAllProps['innerRef']
   } = {
-    className: classnames('dnb-forms-iterate', props?.className),
+    className: classnames(
+      'dnb-forms-iterate',
+      'dnb-forms-section',
+      props?.className
+    ),
     ...pickFlexContainerProps(props as FlexContainerProps),
     ...pickSpacingProps(props),
     innerRef: containerRef,

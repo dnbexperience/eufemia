@@ -9,7 +9,7 @@ export default function ViewToolbarTools() {
   const iterateElementContext = useContext(IterateElementContext)
   const { switchContainerMode } = iterateElementContext ?? {}
 
-  const translation = useTranslation().Iterate
+  const translation = useTranslation().Section
 
   const editHandler = useCallback(() => {
     switchContainerMode?.('edit')

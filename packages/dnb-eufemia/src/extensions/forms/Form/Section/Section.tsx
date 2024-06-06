@@ -3,8 +3,12 @@ import SectionContext, { SectionContextState } from './SectionContext'
 import DataContext from '../../DataContext/Context'
 import Provider from '../../DataContext/Provider/Provider'
 import FieldPropsProvider from '../FieldProps'
+import SectionContainerProvider from './containers/SectionContainerProvider'
+import ViewContainer from './ViewContainer'
+import EditContainer from './EditContainer'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
+import type { ContainerMode } from './containers/SectionContainer'
 import type {
   FieldSectionProps,
   Path,
@@ -33,6 +37,12 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   required?: boolean
 
   /**
+   * Defines the container mode. Can be `view` or `edit`.
+   * Defaults to `view`.
+   */
+  containerMode?: ContainerMode
+
+  /**
    * Only for internal use and undocumented for now.
    * Prioritize error techniques for the section.
    * Can be `fieldSchema`, `sectionSchema` or `contextSchema.
@@ -55,6 +65,7 @@ function SectionComponent(props: LocalProps) {
     required,
     data,
     defaultData,
+    containerMode = 'view',
     onChange,
     errorPrioritization = ['contextSchema'],
     children,
@@ -98,21 +109,26 @@ function SectionComponent(props: LocalProps) {
         props,
       }}
     >
-      <FieldPropsProvider
-        overwriteProps={{
-          ...overwriteProps,
-          ...(nestedProps?.overwriteProps?.[
-            path.substring(1)
-          ] as OverwritePropsDefaults),
-        }}
-        translations={translations}
-        {...fieldProps}
-      >
-        {children}
-      </FieldPropsProvider>
+      <SectionContainerProvider containerMode={containerMode}>
+        <FieldPropsProvider
+          overwriteProps={{
+            ...overwriteProps,
+            ...(nestedProps?.overwriteProps?.[
+              path.substring(1)
+            ] as OverwritePropsDefaults),
+          }}
+          translations={translations}
+          {...fieldProps}
+        >
+          {children}
+        </FieldPropsProvider>
+      </SectionContainerProvider>
     </SectionContext.Provider>
   )
 }
 
-SectionComponent._supportsSpacingProps = 'children'
+SectionComponent.ViewContainer = ViewContainer
+SectionComponent.EditContainer = EditContainer
+
+SectionComponent._supportsSpacingProps = undefined
 export default SectionComponent

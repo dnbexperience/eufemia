@@ -4,7 +4,7 @@ import IterateElementContext from '../../IterateElementContext'
 import ViewContainer from '../ViewContainer'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Iterate
+const nb = nbNO['nb-NO'].Section
 
 describe('ViewContainer', () => {
   it('renders content and without errors', () => {
@@ -14,8 +14,8 @@ describe('ViewContainer', () => {
       </IterateElementContext.Provider>
     )
 
-    const element = document.querySelector('.dnb-forms-iterate-block')
-    const inner = element.querySelector('.dnb-forms-iterate-block__inner')
+    const element = document.querySelector('.dnb-forms-section-block')
+    const inner = element.querySelector('.dnb-forms-section-block__inner')
 
     expect(element).toBeInTheDocument()
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -69,7 +69,7 @@ describe('ViewContainer', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-view-block')
+      document.querySelector('.dnb-forms-section-view-block')
     ).toBeInTheDocument()
   })
 
@@ -82,7 +82,7 @@ describe('ViewContainer', () => {
 
     expect(
       document.querySelector(
-        '.dnb-forms-iterate-view-block .dnb-forms-iterate-block__inner'
+        '.dnb-forms-section-view-block .dnb-forms-section-block__inner'
       )
     ).toHaveAttribute('data-attr', 'value')
   })

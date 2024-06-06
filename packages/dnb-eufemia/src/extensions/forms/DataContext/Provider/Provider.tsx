@@ -222,12 +222,24 @@ export default function Provider<Data extends JsonObject>(
   const mountedFieldPathsRef = useRef<Path[]>([])
 
   // - Errors from provider validation (the whole data set)
+  const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
   const errorsRef = useRef<Record<Path, FormError> | undefined>()
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
   }, [])
+  const setHasVisibleError = useCallback(
+    (path: Path, hasError: boolean) => {
+      if (hasError) {
+        hasVisibleErrorRef.current[path] = hasError
+      } else {
+        delete hasVisibleErrorRef.current[path]
+      }
+      forceUpdate()
+    },
+    []
+  )
   const submitStateRef = useRef<Partial<EventStateObject>>({})
   const setSubmitState = useCallback((state: EventStateObject) => {
     Object.assign(submitStateRef.current, state)
@@ -1059,6 +1071,7 @@ export default function Provider<Data extends JsonObject>(
         setFormState,
         setSubmitState,
         setShowAllErrors,
+        setHasVisibleError,
         setFieldEventListener,
         setFieldState,
         setFieldError,
@@ -1084,6 +1097,8 @@ export default function Provider<Data extends JsonObject>(
         hasContext: true,
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
+        hasVisibleError:
+          Object.keys(hasVisibleErrorRef.current).length > 0,
         fieldPropsRef,
         valuePropsRef,
         ajvInstance: ajvRef.current,
