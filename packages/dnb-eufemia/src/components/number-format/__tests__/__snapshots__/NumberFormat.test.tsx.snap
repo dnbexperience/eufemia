@@ -187,6 +187,9 @@ html[data-visual-test] .dnb-tooltip--hide {
   z-index: 3;
   user-select: all;
 }
+.dnb-number-format--monospace {
+  font-family: var(--font-family-monospace);
+}
 .dnb-number-format.dnb-skeleton, .dnb-skeleton .dnb-number-format {
   -webkit-text-fill-color: var(--skeleton-color);
 }"
