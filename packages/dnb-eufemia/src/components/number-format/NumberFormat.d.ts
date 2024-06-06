@@ -88,6 +88,10 @@ export type NumberFormatProps = {
    */
   link?: NumberFormatLink;
   /**
+   * Sets font to monospace
+   */
+  monospace?: boolean;
+  /**
    * Accepts all <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString">number.toLocaleString</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat">Intl.NumberFormat</a> options as an object - can also be a JSON given as the parameter e.g. `options={{ &#39;minimumFractionDigits&#39;: 2 }}`.
    */
   options?: NumberFormatOptions;

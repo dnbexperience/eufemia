@@ -6,7 +6,7 @@
 import React, { useLayoutEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
-import { P } from '../../..'
+import { H3, P } from '../../..'
 import Provider from '../../../shared/Provider'
 import NumberFormat from '../../NumberFormat'
 // import Dropdown from '../../Dropdown'
@@ -186,6 +186,35 @@ export const NumberFormatSandbox = () => {
               <NumberFormat value="18089212345" nin /> random
               identification number
             </P>
+          </Box>
+
+          <Box>
+            <H3>Not Monospace</H3>
+            <div>
+              <NumberFormat value="1111111.11" currency="NOK" />
+            </div>
+            <div>
+              <NumberFormat value="2222222.22" currency="AAA" />
+            </div>
+            <div>
+              <NumberFormat value="1212121.12" currency="III" />
+            </div>
+            <div>
+              <NumberFormat value="1010101.01" currency="LLL" />
+            </div>
+            <H3>Monospace</H3>
+            <div>
+              <NumberFormat monospace value="1111111.11" currency="NOK" />
+            </div>
+            <div>
+              <NumberFormat monospace value="2222222.22" currency="AAA" />
+            </div>
+            <div>
+              <NumberFormat monospace value="1212121.12" currency="III" />
+            </div>
+            <div>
+              <NumberFormat monospace value="1010101.01" currency="LLL" />
+            </div>
           </Box>
         </Wrapper>
       </Provider>
