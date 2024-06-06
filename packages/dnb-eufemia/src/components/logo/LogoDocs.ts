@@ -32,7 +32,7 @@ export const LogoProperties: PropertiesTableProps = {
     status: 'optional',
   },
   height: {
-    doc: 'Or define the height of the logo.',
+    doc: 'Define the height of the logo.',
     type: 'string',
     status: 'optional',
   },
