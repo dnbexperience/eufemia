@@ -71,6 +71,15 @@ export default function StickyMenuBar({
           icon="chevron_left"
           icon_position="left"
         />
+        <Button
+          id="toggle-main-menu-small-screen"
+          variant="primary"
+          title="Eufemia main sections"
+          href="/"
+          element={Link}
+          icon="chevron_left"
+          icon_position="left"
+        />
 
         <span aria-hidden className={centerWrapperStyle}>
           <Icon

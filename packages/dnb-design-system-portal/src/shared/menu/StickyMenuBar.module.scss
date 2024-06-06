@@ -44,7 +44,12 @@
     #github-button {
       display: inline-flex;
     }
-
+    #toggle-main-menu {
+      display: inline-flex;
+    }
+    #toggle-main-menu-small-screen {
+      display: none;
+    }
     /*
     God for a mobile menu instead
     make sure that Content main "styled.main" gets the same max-width
@@ -58,15 +63,11 @@
       }
     }
     @include allBelow(small) {
-      /* make the button round */
-      .dnb-button:nth-of-type(1) {
-        padding: 0 0.25rem;
-        .dnb-button__text {
-          display: none;
-        }
-        .dnb-button__icon {
-          transform: translateY(0);
-        }
+      #toggle-main-menu {
+        display: none;
+      }
+      #toggle-main-menu-small-screen {
+        display: inline-flex;
       }
     }
   }
