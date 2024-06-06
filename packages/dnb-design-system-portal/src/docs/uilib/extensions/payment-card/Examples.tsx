@@ -6,8 +6,8 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import PaymentCard, {
-  getCardData,
-  Designs,
+  getCardDesign,
+  CustomCard,
   // ProductType,
   // CardType,
   // BankAxeptType,
@@ -17,7 +17,7 @@ import { H4 } from '@dnb/eufemia/src'
 export function PaymentCardAllCardsExample() {
   return (
     <ComponentBox
-      scope={{ PaymentCard, getCardData }}
+      scope={{ PaymentCard, getCardDesign }}
       data-visual-test="all-cards"
     >
       {() => {
@@ -70,15 +70,15 @@ export function PaymentCardAllCardsExample() {
         const Cards = () => (
           <>
             {demoCards.map((product_code) => {
-              const cardData = getCardData(product_code)
+              const cardData = getCardDesign(product_code)
               return (
                 <article key={product_code}>
                   <H4>
-                    {cardData.cardDesign.name}({product_code})
+                    {cardData.displayName}({product_code})
                   </H4>
                   <PaymentCard
-                    product_code={product_code}
-                    card_number="************1337"
+                    productCode={product_code}
+                    cardNumber="************1337"
                   />
                 </article>
               )
@@ -105,25 +105,23 @@ export const PaymentCardCustomExample = () => (
   <ComponentBox
     scope={{
       PaymentCard,
-      Designs,
+      // Designs,
       //   ProductType, CardType, BankAxeptType
     }}
   >
     {() => {
-      const customData = {
-        productCode: '',
-        productName: 'DNB Custom Card',
-        displayName: 'Custom card',
-        cardDesign: Designs.gold,
-        cardType: 'VisaColored',
-        productType: 'None',
-        bankAxept: 'BankAxeptWhite',
+      const customData: CustomCard = {
+        displayName: 'custom card',
+        bankLogo: { type: 'DNB' },
+        cardProvider: { type: 'Mastercard' },
+        paymentType: { type: 'BankAxept' },
+        background: 'gold',
       }
       return (
         <PaymentCard
-          product_code=""
-          raw_data={customData}
-          card_number="************1337"
+          productCode=""
+          customCard={customData}
+          cardNumber="************1337"
         />
       )
     }}
@@ -136,9 +134,9 @@ export const PaymentCardStatusExample = () => (
     data-visual-test="payment-card-status"
   >
     <PaymentCard
-      product_code="VG2"
-      card_status="blocked"
-      card_number="************1337"
+      productCode="VG2"
+      cardStatus="blocked"
+      cardNumber="************1337"
     />
   </ComponentBox>
 )
@@ -150,8 +148,8 @@ export const PaymentCardCompactExample = () => (
   >
     <PaymentCard
       variant="compact"
-      product_code="VG1"
-      card_number="************1337"
+      productCode="VG1"
+      cardNumber="************1337"
     />
   </ComponentBox>
 )

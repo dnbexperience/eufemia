@@ -16,7 +16,7 @@ import cardData from '../utils/cardProducts'
 import { PaymentCardRawData } from '../types'
 import { H2 } from '../../../elements'
 
-import PaymentCard, { getCardData, Designs } from '../'
+import PaymentCard, { getCardDesign, Designs } from '../'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -26,16 +26,16 @@ const CustomWrapper = styled(Wrapper)`
   /* empty */
 `
 
-const customData: PaymentCardRawData = {
-  productCode: 'UNDEFINED',
-  productName: 'DNB Custom Card',
-  displayName: 'Custom card', // Only showed in compact variant
-  // cardDesign: 'gold',
-  cardDesign: Designs.gold,
-  cardType: 'MastercardDefault',
-  productType: 'Saga',
-  bankAxept: 'BankAxeptWhite',
-}
+// const customData: PaymentCardRawData = {
+//   productCode: 'UNDEFINED',
+//   productName: 'DNB Custom Card',
+//   displayName: 'Custom card', // Only showed in compact variant
+//   // cardDesign: 'gold',
+//   cardDesign: Designs.gold,
+//   cardType: 'MastercardDefault',
+//   productType: 'Saga',
+//   bankAxept: 'BankAxeptWhite',
+// }
 
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
@@ -43,7 +43,7 @@ export const PaymentCards = () => (
       <H3>Test</H3>
 
       <PaymentCard
-        rawData={customData}
+        // rawData={customData}
         productCode=""
         cardNumber={'123123123123'}
       />
@@ -96,22 +96,22 @@ export const PaymentCards = () => (
       <PaymentCard
         productCode={undefined}
         cardNumber={'123123123'}
-        rawData={{
-          productCode: 'string',
-          productName: 'string',
-          displayName: '',
-          cardDesign: {
-            cardStyle: '',
-            bankLogo: 'DNB',
-            bankLogoColors: 'red',
-            cardDesign: 'None',
-            backgroundImage: '',
-            visaColors: '',
-          },
-          cardType: 'VisaColored',
-          productType: 'None',
-          bankAxept: 'BankAxeptBlack',
-        }}
+        // rawData={{
+        //   productCode: 'string',
+        //   productName: 'string',
+        //   displayName: '',
+        //   cardDesign: {
+        //     cardStyle: '',
+        //     bankLogo: 'DNB',
+        //     bankLogoColors: 'red',
+        //     cardDesign: 'None',
+        //     backgroundImage: '',
+        //     visaColors: '',
+        //   },
+        //   cardType: 'VisaColored',
+        //   productType: 'None',
+        //   bankAxept: 'BankAxeptBlack',
+        // }}
         skeleton
       />
     </Box>
@@ -120,11 +120,11 @@ export const PaymentCards = () => (
       <H2>All Cards</H2>
 
       {cards.map((productCode) => {
-        const cardData = getCardData(productCode)
+        const cardData = getCardDesign(productCode)
         return (
           <div key={productCode}>
             <H3>
-              {cardData.cardDesign.name}({productCode})
+              {cardData.displayName}({productCode})
             </H3>
             <div
               key={productCode}

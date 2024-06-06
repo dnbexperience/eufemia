@@ -24,7 +24,8 @@ export type PaymentCardProps = {
   /**
    * Useful if you want to create custom cards. See Card data properties.
    */
-  rawData?: PaymentCardRawData
+  customCard?: CustomCard
+  // rawData?: PaymentCardRawData
   id?: string
   /**
    * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
@@ -48,8 +49,8 @@ type DeprecatedPaymentCardProps = {
   card_number?: string
   /** @deprecated use `cardStatus` */
   card_status?: PaymentCardCardStatus
-  /** @deprecated use `rawData` */
-  raw_data?: PaymentCardRawData
+  // /** @deprecated use `rawData` */
+  // raw_data?: PaymentCardRawData
 }
 
 type PaymentCardTranslations = {
@@ -63,48 +64,6 @@ type PaymentCardTranslations = {
   text_unknown?: string
 }
 
-// Testing new structure
-type PaymentCardData = {
-  productCode: string
-  productName: string
-  // cardDesign: CardDesignData // rename?
-  cardType?: CardTypeDesign
-  productType?: ProductType
-  paymentTypeVariant?: BankAxeptType
-  cardStyle?: string
-  bankLogo?: LogoType
-  bankLogoColor?: string
-  cardDesign?: CardDesign
-  backgroundImage?: string
-  visaColor?: string
-}
-
-export type PaymentCardRawData = {
-  productCode: string
-  productName: string
-  cardDesign: CardDesignData // rename?
-  cardType: CardTypeDesign
-  productType: ProductType
-  bankAxept: BankAxeptType // PaymentSystemVariant
-  // remove?
-  displayName: string // not used
-}
-
-export type CardDesignData = {
-  cardStyle?: string
-  bankLogo?: LogoType
-  bankLogoColors?: string
-  cardDesign?: CardDesign
-  backgroundImage?: string
-  visaColors?: string
-  // Remove?
-  name?: string
-  cardType?: CardTypeDesign
-  bankAxept?: BankAxeptType
-  cardStatus?: CardStatus
-  productType?: ProductType
-}
-
 export type PaymentCardCardStatus =
   | 'active'
   | 'blocked'
@@ -114,28 +73,113 @@ export type PaymentCardCardStatus =
   | 'renewed'
   | 'replaced'
   | 'unknown'
-export type PaymentCardVariant = 'normal' | 'compact'
 
-export type LogoType = 'DNB' | 'sbanken'
+// // Testing new structure
+// type PaymentCardData = {
+//   productCode: string
+//   productName: string
+//   // cardDesign: CardDesignData // rename?
+//   cardType?: CardTypeDesign
+//   productType?: ProductType
+//   paymentTypeVariant?: BankAxeptType
+//   cardStyle?: string
+//   bankLogo?: LogoType
+//   bankLogoColor?: string
+//   cardDesign?: CardDesign
+//   backgroundImage?: string
+//   visaColor?: string
+// }
+
+// export type CustomCard = {
+//   productCode?: string
+//   displayName?: string
+//   bankLogo?: 'sbanken' | 'DNB'
+//   cardClassName?: string // css class
+//   bankLogoColor?: string // default #ffff
+//   productType?: ProductType
+//   background?: string // default dnb green
+//   backgroundImage?: string
+//   cardProvider?: CardProvider
+//   cardProviderColor?: string
+//   paymentType?: PaymentType
+//   paymentTypeColor?:
+//     | 'white'
+//     | 'black20'
+//     | 'gray'
+//     | 'darkGray'
+//     | 'black'
+//     | 'gold'
+//     | string
+// }
+
+export type CustomCard = {
+  productCode?: string
+  displayName?: string
+  cardClassName?: string // css class
+  background?: string // default dnb green
+  backgroundImage?: string
+  bankLogo?: { type: BankLogoType; color?: string }
+  productType?: { type: ProductType; color?: string }
+  cardProvider?: { type: CardProvider; color?: string }
+  paymentType?: { type: PaymentType; color?: string }
+}
+
+type paymentTypeColor =
+  | 'white'
+  | 'black20'
+  | 'gray'
+  | 'darkGray'
+  | 'black'
+  | 'gold'
+  | string
+
+export type BankLogoType = 'sbanken' | 'DNB'
+
+export type CardProvider =
+  | 'Mastercard'
+  | 'MastercardDark'
+  | 'Visa'
+  | 'VisaPlatinum'
+
+export type PaymentType = 'BankAxept' | 'Credit'
+
 export type ProductType =
-  | 'Saga'
+  | 'SagaGold'
+  | 'SagaPlatinum'
   | 'Pluss'
   | 'Intro'
   | 'Business'
   | 'Bedrift'
   | 'PrivateBanking'
-  | 'None'
-export type CardDesign = 'SagaGold' | 'SagaPlatinum' | 'None' | 'PBDefault'
 
-export type BankAxeptType =
-  | 'BankAxeptWhite'
-  | 'BankAxeptBlack20'
-  | 'BankAxeptGray'
-  | 'BankAxeptGrayDark'
-  | 'BankAxeptBlack'
-  | 'BankAxeptGold'
-  | 'Credit'
-  | 'None'
+// export type PaymentCardRawData = {
+//   productCode: string
+//   productName: string
+//   cardDesign: CardDesignData // rename?
+//   cardType: CardTypeDesign
+//   productType: ProductType
+//   bankAxept: BankAxeptType // PaymentSystemVariant
+//   // remove?
+//   displayName: string // not used
+// }
+
+// export type CardDesignData = {
+//   cardStyle?: string
+//   bankLogo?: LogoType
+//   bankLogoColors?: string
+//   cardDesign?: CardDesign
+//   backgroundImage?: string
+//   visaColors?: string
+//   // Remove?
+//   name?: string
+//   cardType?: CardTypeDesign
+//   bankAxept?: BankAxeptType
+//   cardStatus?: CardStatus
+//   productType?: ProductType
+// }
+
+export type PaymentCardVariant = 'normal' | 'compact'
+// export type LogoType = 'DNB' | 'sbanken'
 
 export type CardStatus =
   | 'expired'
@@ -147,6 +191,16 @@ export type CardStatus =
   | 'unknown'
   | 'active'
 
+export type CardDesign = 'SagaGold' | 'SagaPlatinum' | 'None' | 'PBDefault'
+export type BankAxeptType =
+  | 'BankAxeptWhite'
+  | 'BankAxeptBlack20'
+  | 'BankAxeptGray'
+  | 'BankAxeptGrayDark'
+  | 'BankAxeptBlack'
+  | 'BankAxeptGold'
+  | 'Credit'
+  | 'None'
 export type CardTypeDesign =
   | 'VisaColored'
   | 'VisaPlatinum'

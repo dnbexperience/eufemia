@@ -29,20 +29,22 @@ import {
   BankAxeptType,
   CardStatus,
   CardTypeDesign,
+  PaymentType,
+  CardProvider,
+  BankLogoType,
 } from '../types'
 
 type BankLogoProps = {
-  logoType?: LogoType
+  type?: BankLogoType
   color?: string
-  height?: string
 }
 
-function BankLogo({ logoType, color, height }: BankLogoProps) {
-  switch (logoType) {
+function BankLogo({ type, color }: BankLogoProps) {
+  switch (type) {
     case 'DNB':
       return (
         <DNB
-          height={height}
+          // height={height}
           fill={color}
           className="dnb-payment-card__card__bank-logo"
         />
@@ -51,33 +53,29 @@ function BankLogo({ logoType, color, height }: BankLogoProps) {
     case 'sbanken':
       return (
         <Sbanken
-          height={height}
+          // height={height}
           fill={color}
           className="dnb-payment-card__card__bank-logo"
         />
       )
+    default:
+      return null
   }
 }
 
 type ProductLogoProps = {
-  productType: ProductType
-  cardDesign: CardDesign
+  type?: ProductType
+  // color?: string
 }
 
-function ProductLogo({ productType, cardDesign }: ProductLogoProps) {
+function ProductLogo({ type }: ProductLogoProps) {
   const classname = 'dnb-payment-card__card__product-type'
 
-  switch (productType) {
-    case 'Saga':
-      switch (cardDesign) {
-        case 'SagaGold':
-          return <SagaGold className={classname} />
-        case 'SagaPlatinum':
-          return <SagaPlatinum className={classname} />
-        case 'None':
-        default:
-          return null
-      }
+  switch (type) {
+    case 'SagaGold':
+      return <SagaGold className={classname} />
+    case 'SagaPlatinum':
+      return <SagaPlatinum className={classname} />
     case 'Pluss':
       return <Pluss className={classname} />
     case 'Intro':
@@ -87,38 +85,30 @@ function ProductLogo({ productType, cardDesign }: ProductLogoProps) {
     case 'Bedrift':
       return <Bedrift className={classname} />
     case 'PrivateBanking':
-      return cardDesign !== 'None' ? <PB className={classname} /> : null
-    case 'None':
+      return <PB className={classname} />
     default:
       return null
   }
 }
 
-type BankAxeptProps = {
-  bankAxept: BankAxeptType
+type PaymentTypeProps = {
+  type: PaymentType
+  color: string
 }
 
-const BankAxeptLogo = ({ bankAxept }: BankAxeptProps) => {
-  const classname = 'dnb-payment-card__card__bank-axept'
-
-  switch (bankAxept) {
-    case 'BankAxeptWhite':
-      return <BankAxept className={classname} fill="#ffffff" />
-    case 'BankAxeptBlack20':
-      return <BankAxept className={classname} fill="#cccccc" />
-    case 'BankAxeptGray':
-      return <BankAxept className={classname} fill="#b2b4b3" />
-    case 'BankAxeptGrayDark':
-      return <BankAxept className={classname} fill="#55565A" />
-    case 'BankAxeptBlack':
-      return <BankAxept className={classname} fill="#333333" />
-    case 'BankAxeptGold':
-      return <BankAxept className={classname} fill="#BFA970" />
+const PaymentTypeLogo = ({ type, color }: PaymentTypeProps) => {
+  switch (type) {
+    case 'BankAxept':
+      return (
+        <BankAxept
+          className="dnb-payment-card__card__bank-axept"
+          fill={color}
+        />
+      )
     case 'Credit':
       return (
-        <Credit className="dnb-payment-card__card__credit" fill="#fff" />
+        <Credit className="dnb-payment-card__card__credit" fill={color} />
       )
-    case 'None':
     default:
       return null
   }
@@ -154,26 +144,43 @@ const StatusIcon = ({ status }: { status: CardStatus }) => {
 }
 
 const CardProviderLogo = ({
-  cardTypeDesign,
+  type,
   color,
 }: {
-  cardTypeDesign: CardTypeDesign
+  type: CardProvider
   color?: string
 }) => {
   const id = 'dnb-payment-card__card__credit-type'
 
-  switch (cardTypeDesign) {
-    case 'VisaColored':
-      return <VisaDefault className={id} fill={color} />
-    case 'VisaPlatinum':
-      return <VisaPlatinum className={id} />
-    case 'MastercardDefault':
+  switch (type) {
+    case 'Mastercard':
       return <MastercardDefault className={id} />
+
     case 'MastercardDark':
       return <MastercardDark className={id} />
-    case 'None':
+
+    case 'Visa':
+      return <VisaDefault className={id} fill={color} />
+
+    case 'VisaPlatinum':
+      return <VisaPlatinum className={id} fill={color} />
+
+    default:
       return null
   }
+
+  // switch (cardTypeDesign) {
+  //   case 'VisaColored':
+  //     return <VisaDefault className={id} fill={color} />
+  //   case 'VisaPlatinum':
+  //     return <VisaPlatinum className={id} />
+  //   case 'MastercardDefault':
+  //     return <MastercardDefault className={id} />
+  //   case 'MastercardDark':
+  //     return <MastercardDark className={id} />
+  //   case 'None':
+  //     return null
+  // }
 }
 
 export {
@@ -181,5 +188,5 @@ export {
   ProductLogo,
   StatusIcon,
   CardProviderLogo,
-  BankAxeptLogo,
+  PaymentTypeLogo,
 }

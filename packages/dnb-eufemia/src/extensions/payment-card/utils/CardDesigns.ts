@@ -1,183 +1,139 @@
 import properties from '../../../style/themes/theme-ui/properties'
-import { CardDesignData } from '../types'
+import { CustomCard } from '../types'
 import { myFirstImg, youthImg, ungImg } from './backgrounds'
 
-const defaultDesign: CardDesignData = {
-  name: 'Default',
-  cardStyle: 'card--design-default',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-white'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-white'],
-  bankAxept: 'BankAxeptWhite',
+export const defaultDesign: CustomCard = {
+  cardClassName: 'card--design-default',
+  bankLogo: { type: 'DNB', color: properties['--color-white'] },
+  cardProvider: { type: 'Visa', color: properties['--color-white'] },
+  paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-const pluss: CardDesignData = {
-  name: 'Pluss',
-  cardStyle: 'card--design-pluss',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-white'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-white'],
-  bankAxept: 'BankAxeptWhite',
+export const pluss: CustomCard = {
+  // name: 'Pluss',
+  cardClassName: 'card--design-pluss',
+  bankLogo: { type: 'DNB', color: properties['--color-white'] },
+  cardProvider: { type: 'Visa', color: properties['--color-white'] },
+  paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-const young: CardDesignData = {
-  name: 'Ung',
-  cardStyle: 'card--design-ung',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-sea-green'],
-  visaColors: properties['--color-black-80'],
-  cardType: 'MastercardDefault',
-  bankAxept: 'BankAxeptBlack',
-  productType: 'Saga',
+export const young: CustomCard = {
+  // name: 'Ung',
+  cardClassName: 'card--design-ung',
   backgroundImage: ungImg,
+  bankLogo: { type: 'DNB', color: properties['--color-sea-green'] },
+  cardProvider: { type: 'Mastercard' },
+  paymentType: {
+    type: 'BankAxept',
+    color: properties['--color-black-80'],
+  },
 }
 
-const myFirst: CardDesignData = {
-  name: 'My first',
-  cardStyle: 'card--design-my-first',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-ocean-green'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-black-80'],
-  bankAxept: 'BankAxeptBlack',
+export const myFirst: CustomCard = {
+  // name: 'My first',
+  cardClassName: 'card--design-my-first',
   backgroundImage: myFirstImg,
+  bankLogo: { type: 'DNB', color: properties['--color-ocean-green'] },
+  cardProvider: { type: 'Visa', color: properties['--color-black-80'] },
+  paymentType: {
+    type: 'BankAxept',
+    color: properties['--color-black-80'],
+  },
 }
 
-const youth: CardDesignData = {
-  name: 'Youth',
-  cardStyle: 'card--design-youth',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-sea-green'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-black-80'],
-  bankAxept: 'BankAxeptBlack',
+export const youth: CustomCard = {
+  // name: 'Youth',
+  cardClassName: 'card--design-youth',
   backgroundImage: youthImg,
+  bankLogo: { type: 'DNB', color: properties['--color-sea-green'] },
+  cardProvider: { type: 'Visa', color: properties['--color-black-80'] },
+  paymentType: {
+    type: 'BankAxept',
+    color: properties['--color-black-80'],
+  },
 }
 
-const gold: CardDesignData = {
-  name: 'Gold',
-  cardStyle: 'card--design-gold',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-white'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-white'],
-  bankAxept: 'BankAxeptWhite',
+export const gold: CustomCard = {
+  // name: 'Gold',
+  cardClassName: 'card--design-gold',
+  bankLogo: { type: 'DNB', color: properties['--color-white'] },
+  cardProvider: { type: 'Visa', color: properties['--color-white'] },
+  paymentType: {
+    type: 'BankAxept',
+    color: properties['--color-white'],
+  },
 }
 
-const saga: CardDesignData = {
-  name: 'Saga',
-  cardStyle: 'card--design-saga',
-  bankLogo: 'DNB',
-  bankLogoColors: '#BFA970',
-  visaColors: '#BFA970',
-  cardType: 'MastercardDefault',
-  bankAxept: 'BankAxeptGold',
-  cardDesign: 'SagaGold',
+export const saga: CustomCard = {
+  // name: 'Saga',
+  cardClassName: 'card--design-saga',
+  bankLogo: { type: 'DNB', color: '#BFA970' },
+  cardProvider: { type: 'Mastercard', color: '#BFA970' },
+  paymentType: {
+    type: 'BankAxept',
+    color: '#BFA970',
+  },
 }
 
-const sagaPlatinum: CardDesignData = {
-  name: 'Saga platinum',
-  cardStyle: 'card--design-saga',
-  bankLogo: 'DNB',
-  bankLogoColors: '#b2b4b3',
-  cardType: 'MastercardDark',
-  visaColors: '#cccccc',
-  bankAxept: 'BankAxeptBlack20',
-  cardDesign: 'SagaPlatinum',
+export const sagaPlatinum: CustomCard = {
+  // name: 'Saga platinum',
+  cardClassName: 'card--design-saga',
+  bankLogo: { type: 'DNB', color: '#b2b4b3' },
+  cardProvider: {
+    type: 'MastercardDark',
+    // TODO: sjekk
+    color: '#cccccc',
+  },
+  paymentType: {
+    type: 'BankAxept',
+    color: properties['--color-black-20'],
+  },
 }
 
-const privateBanking: CardDesignData = {
-  name: 'Private Banking',
-  cardStyle: 'card--design-private',
-  bankLogo: 'DNB',
-  bankLogoColors: '#b2b4b3',
-  cardType: 'VisaPlatinum',
-  bankAxept: 'BankAxeptGray',
+export const privateBanking: CustomCard = {
+  // name: 'Private Banking',
+  cardClassName: 'card--design-private',
+  bankLogo: { type: 'DNB', color: '#b2b4b3' },
+  cardProvider: { type: 'VisaPlatinum' },
+  paymentType: { type: 'BankAxept', color: '#b2b4b3' },
 }
 
-const mcBlack: CardDesignData = {
-  name: 'Mastercard Black',
-  cardStyle: 'card--design-black',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-black-80'],
-  cardType: 'MastercardDark',
-  visaColors: '#b2b4b3',
-  bankAxept: 'BankAxeptWhite',
+export const mcBlack: CustomCard = {
+  // name: 'Mastercard Black',
+  cardClassName: 'card--design-black',
+  bankLogo: { type: 'DNB', color: properties['--color-black-80'] },
+  paymentType: { type: 'BankAxept', color: properties['--color-white'] },
+  cardProvider: { type: 'MastercardDark', color: '#b2b4b3' },
 }
 
-const businessNoVisa: CardDesignData = {
-  name: 'Bedriftskort BankAxept',
-  cardStyle: 'card--design-business-no-visa',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-mint-green'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-white'],
-  bankAxept: 'BankAxeptWhite',
+export const businessNoVisa: CustomCard = {
+  // name: 'Bedriftskort BankAxept',
+  cardClassName: 'card--design-business-no-visa',
+  bankLogo: { type: 'DNB', color: properties['--color-mint-green'] },
+  cardProvider: { type: 'Visa', color: properties['--color-white'] },
+  paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-const businessWithVisa: CardDesignData = {
-  name: 'Bedriftskort Visa',
-  cardStyle: 'card--design-business-with-visa',
-  bankLogo: 'DNB',
-  bankLogoColors: properties['--color-mint-green'],
-  cardType: 'VisaColored',
-  visaColors: properties['--color-white'],
-  bankAxept: 'BankAxeptWhite',
+export const businessWithVisa: CustomCard = {
+  // name: 'Bedriftskort Visa',
+  cardClassName: 'card--design-business-with-visa',
+  bankLogo: { type: 'DNB', color: properties['--color-mint-green'] },
+  cardProvider: { type: 'Visa', color: properties['--color-white'] },
+  paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-const sbankenVisa: CardDesignData = {
-  name: 'Sbanken',
-  cardStyle: 'card--design-sbanken-visa',
-  bankLogo: 'sbanken',
-  bankLogoColors: properties['--sb-color-text'],
-  cardType: 'VisaColored',
-  visaColors: '#0F357F',
-  bankAxept: 'BankAxeptGrayDark',
+export const sbankenVisa: CustomCard = {
+  // name: 'Sbanken',
+  cardClassName: 'card--design-sbanken-visa',
+  bankLogo: { type: 'sbanken', color: properties['--sb-color-text'] },
+  cardProvider: { type: 'Visa', color: '#0F357F' },
+  paymentType: { type: 'BankAxept', color: '#55565A' },
 }
 
-const sbankenMastercard: CardDesignData = {
-  name: 'Sbanken Mastercard',
-  cardStyle: 'card--design-sbanken-mastercard',
-  bankLogo: 'sbanken',
-  bankLogoColors: 'var(--color-white)',
-  cardType: 'MastercardDefault',
-  visaColors: properties['--color-white'],
-  bankAxept: 'BankAxeptGray',
-}
-
-const Designs = {
-  defaultDesign,
-  young,
-  myFirst,
-  youth,
-  pluss,
-  gold,
-  saga,
-  sagaPlatinum,
-  privateBanking,
-  mcBlack,
-  businessNoVisa,
-  businessWithVisa,
-  sbankenVisa,
-  sbankenMastercard,
-}
-export default Designs
-
-export {
-  defaultDesign,
-  pluss,
-  young,
-  myFirst,
-  youth,
-  gold,
-  saga,
-  sagaPlatinum,
-  privateBanking,
-  mcBlack,
-  businessNoVisa,
-  businessWithVisa,
-  sbankenVisa,
-  sbankenMastercard,
+export const sbankenMastercard: CustomCard = {
+  // name: 'Sbanken Mastercard',
+  cardClassName: 'card--design-sbanken-mastercard',
+  bankLogo: { type: 'sbanken', color: properties['--color-white'] },
+  cardProvider: { type: 'Mastercard', color: properties['--color-white'] },
+  paymentType: { type: 'Credit', color: properties['--color-white'] },
 }

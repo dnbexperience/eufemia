@@ -2,9 +2,9 @@ import classnames from 'classnames'
 import {
   BankLogo,
   ProductLogo,
-  BankAxeptLogo,
   StatusIcon,
   CardProviderLogo,
+  PaymentTypeLogo,
 } from './icons'
 import Context from '../../shared/Context'
 import {
@@ -19,24 +19,19 @@ import {
 import { useContext } from 'react'
 import { createSpacingClasses } from '../../components/space/SpacingUtils'
 import cardProducts from './utils/cardProducts'
-import { defaultDesign } from './utils/CardDesigns'
 import {
+  CustomCard,
   PaymentCardCardStatus,
   PaymentCardProps,
-  PaymentCardRawData,
 } from './types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+import { defaultDesign } from './utils/CardDesigns'
 
-const defaultCard: (productCode: string) => PaymentCardRawData = (
+const defaultCard: (productCode: string) => CustomCard = (
   productCode
 ) => ({
   productCode,
-  productName: '',
-  displayName: '',
-  cardDesign: defaultDesign,
-  cardType: 'None',
-  productType: 'None',
-  bankAxept: 'None',
+  ...defaultDesign,
 })
 
 const defaultProps = {
@@ -46,7 +41,9 @@ const defaultProps = {
   variant: 'normal',
 
   id: null,
-  rawData: null,
+
+  customCard: null,
+  // rawData: null,
 
   skeleton: false,
   className: null,
@@ -75,7 +72,8 @@ export default function PaymentCard(props: PaymentCardProps) {
     variant,
     digits,
     id,
-    rawData,
+    customCard: cardDesignProp,
+    // rawData,
     // locale,
     skeleton,
     className,
@@ -91,7 +89,12 @@ export default function PaymentCard(props: PaymentCardProps) {
     }
   )
 
-  const cardData: PaymentCardRawData = rawData || getCardData(productCode)
+  const cardDesign = {
+    ...getCardDesign(productCode),
+    ...cardDesignProp,
+  }
+
+  // const cardData: CustomCard = rawData || getCardData(productCode)
 
   const params = {
     className: classnames(
@@ -122,34 +125,29 @@ export default function PaymentCard(props: PaymentCardProps) {
   return (
     <figure {...params}>
       <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
-        {cardData.productName}
+        {cardDesign.displayName}
       </figcaption>
       <div
         id={id}
         className={classnames(
           'dnb-payment-card__card',
-          `dnb-payment-card__${cardData.cardDesign.cardStyle}`
+          `dnb-payment-card__${cardDesign.cardClassName}` // kan denne overskrives?
         )}
-        {...(cardData.cardDesign.backgroundImage
+        {...(cardDesign.backgroundImage
           ? {
               style: {
-                backgroundImage: `url(${cardData.cardDesign.backgroundImage})`,
+                backgroundImage: `url(${cardDesign.backgroundImage})`,
               },
             }
           : {})}
       >
         <div className="dnb-payment-card__card__content">
           <div className="dnb-payment-card__card__top">
-            <BankLogo
-              logoType={cardData.cardDesign.bankLogo}
-              color={cardData.cardDesign.bankLogoColors}
-            />
-            <ProductLogo
-              productType={cardData.productType}
-              cardDesign={cardData.cardDesign.cardDesign}
-            />
+            <BankLogo {...cardDesign.bankLogo} />
 
-            <BankAxeptLogo bankAxept={cardData.bankAxept} />
+            <ProductLogo {...cardDesign.productType} />
+
+            <PaymentTypeLogo {...cardDesign.paymentType} />
           </div>
           <div className="dnb-payment-card__card__bottom">
             <span
@@ -168,10 +166,7 @@ export default function PaymentCard(props: PaymentCardProps) {
                 {formatCardNumber(cardNumber, digits)}
               </P>
             </span>
-            <CardProviderLogo
-              cardTypeDesign={cardData.cardType}
-              color={cardData.cardDesign.visaColors}
-            />
+            <CardProviderLogo {...cardDesign.cardProvider} />
           </div>
         </div>
 
@@ -216,11 +211,18 @@ export function formatCardNumber(cardNumber, digits = 8) {
   return cardNumber.replace(formatCardNumberRegex, ' ').trim()
 }
 
-export const getCardData: (productCode: string) => PaymentCardRawData = (
-  productCode
-) => {
-  const card = cardProducts.find(
-    (item) => item.productCode === productCode
+export function getCardDesign(productCode: string): CustomCard {
+  return (
+    cardProducts.find((item) => item.productCode === productCode) ||
+    defaultCard(productCode)
   )
-  return card || defaultCard(productCode)
 }
+
+// export const getCardData: (productCode: string) => PaymentCardRawData = (
+//   productCode
+// ) => {
+//   const card = cardProducts.find(
+//     (item) => item.productCode === productCode
+//   )
+//   return card || defaultCard(productCode)
+// }
