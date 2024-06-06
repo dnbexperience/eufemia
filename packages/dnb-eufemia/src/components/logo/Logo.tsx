@@ -22,7 +22,7 @@ export type LogoVariant = 'default' | 'compact' | 'compactHorizontal'
 
 export type LogoProps = {
   /**
-   * Define either the width of the logo.
+   * Define the width of the logo.
    */
   width?: LogoWidth // v11: replace with string
   /**
