@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { useTableAccordion } from './TableAccordion'
+import { TableAccordion } from './TableAccordion'
 import { TableContext } from './TableContext'
 import TableAccordionTr from './TableAccordionTr'
 
@@ -68,15 +68,8 @@ export default function Tr(
   const {
     variant,
     noWrap,
-    expanded,
-    disabled,
-    noAnimation,
-    onClick,
-    onOpened,
-    onClosed,
-    children,
     className: _className,
-    ...props
+    ...accordionProps
   } = componentProps
 
   const { currentVariant, isLast, count } = useHandleTrVariant({
@@ -91,28 +84,28 @@ export default function Tr(
     _className
   )
 
-  const accordionTr = useTableAccordion({
-    className,
-    children,
-    props,
+  const tableContext = React.useContext(TableContext)
+  if (tableContext?.allProps?.accordion) {
+    return (
+      <TableAccordion
+        count={count}
+        className={className}
+        {...accordionProps}
+      />
+    )
+  }
+
+  const {
     expanded,
     disabled,
     noAnimation,
     onClick,
     onOpened,
     onClosed,
-    count,
-  })
+    ...trProps
+  } = accordionProps
 
-  if (accordionTr) {
-    return accordionTr
-  }
-
-  return (
-    <tr role="row" className={className} {...props}>
-      {children}
-    </tr>
-  )
+  return <tr role="row" className={className} {...trProps} />
 }
 
 function useHandleTrVariant({ variant }) {
