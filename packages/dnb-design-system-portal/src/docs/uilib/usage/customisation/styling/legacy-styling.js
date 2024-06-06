@@ -26,15 +26,6 @@ const LegacyCodeStyling = () => (
         Further down on this page you find visual examples of how to deal
         with legacy styling.
       </p>
-      <p>
-        Check out the{' '}
-        <a
-          className="dnb-anchor"
-          href="https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-styling/src/App.jsx"
-        >
-          source code for further explanation
-        </a>
-      </p>
       <Hr />
       <InlineImg
         src={LegacyCodeStylingExample}
