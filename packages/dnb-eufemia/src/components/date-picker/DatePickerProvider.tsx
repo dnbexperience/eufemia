@@ -37,7 +37,7 @@ type DatePickerProviderProps = DatePickerProps & {
 export type DatePickerChangeEvent = DatePickerDates & {
   nr?: number
   hidePicker?: boolean
-  event:
+  event?:
     | React.MouseEvent<
         HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement
       >
