@@ -28,6 +28,10 @@ export default function HelpButton(localProps: HelpButtonProps) {
 
   const { children, render, ...params } = props
 
+  if (params.size === 'small') {
+    params.bounding = true
+  }
+
   if (params.icon === null) {
     params.icon = 'question'
   }
