@@ -210,7 +210,12 @@ export const NumberSpacing = () => (
 export const NumberMonospace = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-monospace">
-      <NumberFormat value="123456" currency monospace />
+      <NumberFormat
+        value="123456"
+        locale="en-GB"
+        currency="NOK"
+        monospace
+      />
     </ComponentBox>
   </Style>
 )
