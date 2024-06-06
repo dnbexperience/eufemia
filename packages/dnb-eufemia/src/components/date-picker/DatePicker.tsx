@@ -8,7 +8,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -18,7 +17,6 @@ import {
   warn,
   makeUniqueId,
   extendPropsWithContext,
-  dispatchCustomElementEvent,
   detectOutsideClick,
   getStatusState,
   combineDescribedBy,
@@ -295,14 +293,13 @@ export type DatePickerProps = Omit<
     /**
      * Will be called once date-picker is visible.
      */
-    on_show?: (
-      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-    ) => void
+    on_show?: (event: DisplayPickerEvent) => void
     /**
      * Will be called once date-picker is hidden.
      */
     on_hide?: (
-      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+      event: (DisplayPickerEvent | DatePickerChangeEvent) &
+        ReturnObject<DisplayPickerEvent | DatePickerChangeEvent>
     ) => void
     /**
      * Will be called once a user presses the submit button.
@@ -313,15 +310,11 @@ export type DatePickerProps = Omit<
     /**
      * Will be called once a user presses the cancel button.
      */
-    on_cancel?: (
-      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-    ) => void
+    on_cancel?: (event: DatePickerChangeEvent) => void
     /**
      * Will be called once a user presses the reset button.
      */
-    on_reset?: (
-      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-    ) => void
+    on_reset?: (event: DatePickerChangeEvent) => void
     /**
      * Will be called once the input gets focus.
      */
@@ -385,18 +378,6 @@ function DatePicker(externalProps: DatePickerProps) {
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
 
-  // Can be removed with dispatchCustomEvent is removed
-  const componentReference = useMemo(
-    () => ({
-      on_submit: props.on_submit,
-      on_reset: props.on_reset,
-      on_cancel: props.on_cancel,
-      on_hide: props.on_hide,
-      on_show: props.on_show,
-    }),
-    [props]
-  )
-
   if (props.end_date && !props.range) {
     warn(
       `The DatePicker got a "end_date". You have to set range={true} as well!.`
@@ -427,11 +408,7 @@ function DatePicker(externalProps: DatePickerProps) {
 
       setOpened(false)
 
-      dispatchCustomElementEvent(
-        componentReference,
-        'on_hide',
-        getReturnObject.current(args)
-      )
+      props?.on_hide?.({ ...args, ...getReturnObject.current(args) })
 
       hideTimeout.current = setTimeout(
         () => {
@@ -451,7 +428,7 @@ function DatePicker(externalProps: DatePickerProps) {
 
       removeOutsideClickHandler()
     },
-    [componentReference, props]
+    [props]
   )
   // TODO: Update dependency
   const setTrianglePosition = useCallback(() => {
@@ -516,36 +493,25 @@ function DatePicker(externalProps: DatePickerProps) {
   const onSubmitHandler = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       hidePicker(event)
-      dispatchCustomElementEvent(
-        componentReference,
-        'on_submit',
-        getReturnObject.current({ event })
-      )
+
+      props.on_submit?.({
+        ...event,
+        ...getReturnObject.current({ event }),
+      })
     },
-    [componentReference, hidePicker]
+    [hidePicker, props]
   )
 
-  const onCancelHandler = useCallback(
-    (event: DatePickerChangeEvent) => {
-      dispatchCustomElementEvent(
-        componentReference,
-        'on_cancel',
-        getReturnObject.current(event)
-      )
-    },
-    [componentReference]
-  )
+  const onCancelHandler = useCallback((event: DatePickerChangeEvent) => {
+    props.on_cancel?.({ ...event, ...getReturnObject.current(event) })
+  }, [])
 
   const onResetHandler = useCallback(
     (event: DatePickerChangeEvent) => {
       hidePicker(event)
-      dispatchCustomElementEvent(
-        componentReference,
-        'on_reset',
-        getReturnObject.current(event)
-      )
+      props.on_reset?.({ ...event, ...getReturnObject.current(event) })
     },
-    [componentReference, hidePicker]
+    [hidePicker, props]
   )
 
   const showPicker = useCallback(
@@ -557,16 +523,12 @@ function DatePicker(externalProps: DatePickerProps) {
       setOpened(true)
       setHidden(false)
 
-      dispatchCustomElementEvent(
-        componentReference,
-        'on_show',
-        getReturnObject.current(event)
-      )
+      props.on_show?.({ ...event, ...getReturnObject.current(event) })
 
       setTrianglePosition()
       setOutsideClickHandler()
     },
-    [setTrianglePosition, setOutsideClickHandler, componentReference]
+    [setTrianglePosition, setOutsideClickHandler]
   )
 
   const togglePicker = useCallback(
