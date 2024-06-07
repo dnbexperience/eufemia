@@ -2,16 +2,21 @@ import React, { useContext } from 'react'
 import {
   TranslationArguments,
   TranslationId,
+  TranslationIdAsFunction,
   formatMessage,
 } from './useTranslation'
-import Context from './Context'
+import Context, { TranslationCustomLocales } from './Context'
 
-export type Props = {
-  id?: TranslationId
+export type TranslationProps<T = TranslationCustomLocales> = {
+  id?: TranslationId | TranslationIdAsFunction<T>
   children?: TranslationId
 } & TranslationArguments
 
-export default function Translation({ id, children, ...params }: Props) {
+export default function Translation({
+  id,
+  children,
+  ...params
+}: TranslationProps) {
   const { translation } = useContext(Context)
   return formatMessage(id || children, params, translation)
 }
