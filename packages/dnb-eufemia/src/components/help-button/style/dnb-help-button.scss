@@ -4,3 +4,9 @@
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
  */
+
+.dnb-help-button {
+  & .dnb-button__bounding {
+    transform: scale(1.5);
+  }
+}
