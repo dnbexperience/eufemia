@@ -259,6 +259,15 @@ export default function useFieldProps<
     schema ? dataContext.ajvInstance?.compile(schema) : undefined
   )
 
+  // Needs to be placed before "prepareError"
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: translation.Field.errorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, translation.Field.errorRequired])
+
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
     return isAsync(onChange) || isAsync(onChangeContext)
@@ -405,14 +414,6 @@ export default function useFieldProps<
       errorProp ?? localErrorRef.current ?? contextErrorRef.current
     )
   }, [errorProp])
-
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
 
   /**
    * Based on validation, update error state, locally and relevant surrounding contexts
