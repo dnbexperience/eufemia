@@ -137,3 +137,22 @@ export const sbankenMastercard: CustomCard = {
   cardProvider: { type: 'Mastercard', color: properties['--color-white'] },
   paymentType: { type: 'Credit', color: properties['--color-white'] },
 }
+
+const Designs = {
+  defaultDesign,
+  pluss,
+  young,
+  myFirst,
+  youth,
+  gold,
+  saga,
+  sagaPlatinum,
+  privateBanking,
+  mcBlack,
+  businessNoVisa,
+  businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard,
+}
+
+export default Designs

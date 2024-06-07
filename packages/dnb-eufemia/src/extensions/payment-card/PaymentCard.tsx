@@ -43,7 +43,6 @@ const defaultProps = {
   id: null,
 
   customCard: null,
-  // rawData: null,
 
   skeleton: false,
   className: null,
@@ -73,8 +72,7 @@ export default function PaymentCard(props: PaymentCardProps) {
     digits,
     id,
     customCard: cardDesignProp,
-    // rawData,
-    // locale,
+    // locale
     skeleton,
     className,
     children, //eslint-disable-line
@@ -93,8 +91,6 @@ export default function PaymentCard(props: PaymentCardProps) {
     ...getCardDesign(productCode),
     ...cardDesignProp,
   }
-
-  // const cardData: CustomCard = rawData || getCardData(productCode)
 
   const params = {
     className: classnames(
@@ -217,12 +213,3 @@ export function getCardDesign(productCode: string): CustomCard {
     defaultCard(productCode)
   )
 }
-
-// export const getCardData: (productCode: string) => PaymentCardRawData = (
-//   productCode
-// ) => {
-//   const card = cardProducts.find(
-//     (item) => item.productCode === productCode
-//   )
-//   return card || defaultCard(productCode)
-// }

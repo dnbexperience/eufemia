@@ -93,7 +93,7 @@ function ProductLogo({ type }: ProductLogoProps) {
 
 type PaymentTypeProps = {
   type: PaymentType
-  color: string
+  color?: string
 }
 
 const PaymentTypeLogo = ({ type, color }: PaymentTypeProps) => {

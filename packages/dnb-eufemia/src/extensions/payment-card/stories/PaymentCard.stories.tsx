@@ -26,17 +26,6 @@ const CustomWrapper = styled(Wrapper)`
   /* empty */
 `
 
-// const customData: PaymentCardRawData = {
-//   productCode: 'UNDEFINED',
-//   productName: 'DNB Custom Card',
-//   displayName: 'Custom card', // Only showed in compact variant
-//   // cardDesign: 'gold',
-//   cardDesign: Designs.gold,
-//   cardType: 'MastercardDefault',
-//   productType: 'Saga',
-//   bankAxept: 'BankAxeptWhite',
-// }
-
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
     <Box>
@@ -84,6 +73,11 @@ export const PaymentCards = () => (
         cardNumber={'123123123'}
         cardStatus="unknown"
       />
+    </Box>
+
+    <Box>
+      <H3>Custom Card</H3>
+      <PaymentCard customCard={Designs.saga} />
     </Box>
 
     <Box>

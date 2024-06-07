@@ -74,43 +74,7 @@ export type PaymentCardCardStatus =
   | 'replaced'
   | 'unknown'
 
-// // Testing new structure
-// type PaymentCardData = {
-//   productCode: string
-//   productName: string
-//   // cardDesign: CardDesignData // rename?
-//   cardType?: CardTypeDesign
-//   productType?: ProductType
-//   paymentTypeVariant?: BankAxeptType
-//   cardStyle?: string
-//   bankLogo?: LogoType
-//   bankLogoColor?: string
-//   cardDesign?: CardDesign
-//   backgroundImage?: string
-//   visaColor?: string
-// }
-
-// export type CustomCard = {
-//   productCode?: string
-//   displayName?: string
-//   bankLogo?: 'sbanken' | 'DNB'
-//   cardClassName?: string // css class
-//   bankLogoColor?: string // default #ffff
-//   productType?: ProductType
-//   background?: string // default dnb green
-//   backgroundImage?: string
-//   cardProvider?: CardProvider
-//   cardProviderColor?: string
-//   paymentType?: PaymentType
-//   paymentTypeColor?:
-//     | 'white'
-//     | 'black20'
-//     | 'gray'
-//     | 'darkGray'
-//     | 'black'
-//     | 'gold'
-//     | string
-// }
+export type PaymentCardVariant = 'normal' | 'compact'
 
 export type CustomCard = {
   productCode?: string
@@ -123,15 +87,6 @@ export type CustomCard = {
   cardProvider?: { type: CardProvider; color?: string }
   paymentType?: { type: PaymentType; color?: string }
 }
-
-type paymentTypeColor =
-  | 'white'
-  | 'black20'
-  | 'gray'
-  | 'darkGray'
-  | 'black'
-  | 'gold'
-  | string
 
 export type BankLogoType = 'sbanken' | 'DNB'
 
@@ -151,59 +106,3 @@ export type ProductType =
   | 'Business'
   | 'Bedrift'
   | 'PrivateBanking'
-
-// export type PaymentCardRawData = {
-//   productCode: string
-//   productName: string
-//   cardDesign: CardDesignData // rename?
-//   cardType: CardTypeDesign
-//   productType: ProductType
-//   bankAxept: BankAxeptType // PaymentSystemVariant
-//   // remove?
-//   displayName: string // not used
-// }
-
-// export type CardDesignData = {
-//   cardStyle?: string
-//   bankLogo?: LogoType
-//   bankLogoColors?: string
-//   cardDesign?: CardDesign
-//   backgroundImage?: string
-//   visaColors?: string
-//   // Remove?
-//   name?: string
-//   cardType?: CardTypeDesign
-//   bankAxept?: BankAxeptType
-//   cardStatus?: CardStatus
-//   productType?: ProductType
-// }
-
-export type PaymentCardVariant = 'normal' | 'compact'
-// export type LogoType = 'DNB' | 'sbanken'
-
-export type CardStatus =
-  | 'expired'
-  | 'not_active'
-  | 'blocked'
-  | 'order_in_process'
-  | 'renewed'
-  | 'replaced'
-  | 'unknown'
-  | 'active'
-
-export type CardDesign = 'SagaGold' | 'SagaPlatinum' | 'None' | 'PBDefault'
-export type BankAxeptType =
-  | 'BankAxeptWhite'
-  | 'BankAxeptBlack20'
-  | 'BankAxeptGray'
-  | 'BankAxeptGrayDark'
-  | 'BankAxeptBlack'
-  | 'BankAxeptGold'
-  | 'Credit'
-  | 'None'
-export type CardTypeDesign =
-  | 'VisaColored'
-  | 'VisaPlatinum'
-  | 'MastercardDefault'
-  | 'MastercardDark'
-  | 'None'
