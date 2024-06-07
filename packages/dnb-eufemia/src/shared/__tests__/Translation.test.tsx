@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Translation, { getTranslation } from '../Translation'
+import Translation, {
+  TranslationProps,
+  getTranslation,
+} from '../Translation'
 
 import Context from '../Context'
 import Provider from '../Provider'
@@ -12,7 +15,7 @@ const given_nbNO = '{foo} ({bar} av {max})'
 const given_enGB = '{foo} ({bar} of {max})'
 const expected_nbNO = 'foo (bar av max)'
 
-describe('Translation', () => {
+describe('flatten translations', () => {
   const nbNO = {
     'Modal.close_title': 'Steng',
     'other.string': given_nbNO,
@@ -45,7 +48,7 @@ describe('Translation', () => {
     )
   })
 
-  it('"Translation" should return requested string inside render', () => {
+  it('should return requested string inside render', () => {
     render(
       <Provider translations={defaultLocales}>
         <span className="Translation">
@@ -131,5 +134,35 @@ describe('Context.getTranslation', () => {
     expect(document.querySelector('p.other-string').textContent).toBe(
       given_enGB
     )
+  })
+})
+
+describe('Translation', () => {
+  it('should support translations as a function', () => {
+    const translations = {
+      'nb-NO': { my: { string: 'streng {foo}' } },
+      'en-GB': { my: { string: 'string {foo}' } },
+    }
+    type Translation = (typeof translations)[keyof typeof translations]
+
+    const MyTranslation = (props: TranslationProps<Translation>) => (
+      <Translation {...props} />
+    )
+
+    const { rerender } = render(
+      <Provider translations={translations}>
+        <MyTranslation id={(t) => t.my.string} foo="bar" />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('streng bar')
+
+    rerender(
+      <Provider locale="en-GB" translations={translations}>
+        <MyTranslation id={(t) => t.my.string} foo={() => 'baz'} />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('string baz')
   })
 })

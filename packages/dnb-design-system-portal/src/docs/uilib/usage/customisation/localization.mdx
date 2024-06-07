@@ -257,6 +257,33 @@ render(
 )
 ```
 
+For TypeScript support, you can use the `Translation` component with a function. You may also want to make a wrapper, so you can use your own translation types:
+
+```tsx
+import {
+  Translation,
+  TranslationProps,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
+
+const translations = {
+  'nb-NO': { my: { string: 'streng {foo}' } },
+  'en-GB': { my: { string: 'string {foo}' } },
+}
+type Translation = (typeof translations)[keyof typeof translations]
+
+// Make a wrapper, so we can use your translation types
+const MyTranslation = (props: TranslationProps<Translation>) => (
+  <Translation {...props} />
+)
+
+render(
+  <EufemiaProvider locale="nb-NO" translations={translations}>
+    <MyTranslation id={(t) => t.my.string} foo="bar" />
+  </EufemiaProvider>,
+)
+```
+
 ## How add new locales
 
 Create a new file (`sv-SE.js`) containing all the strings:

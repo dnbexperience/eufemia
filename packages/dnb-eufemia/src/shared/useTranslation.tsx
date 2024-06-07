@@ -8,6 +8,9 @@ import Context, {
 import defaultLocales from './locales'
 
 export type TranslationId = string
+export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
+  messages: T & Translation
+) => string
 export type TranslationArguments = Record<TranslationId, unknown>
 export type UseTranslationMessages<T = Translation> =
   | TranslationId
@@ -75,26 +78,27 @@ export function combineTranslations({
 }
 
 export function formatMessage(
-  id: TranslationId,
+  id: TranslationId | TranslationIdAsFunction,
   args: TranslationArguments,
   messages: TranslationCustomLocales
 ) {
   let str = undefined
 
-  if (messages[id]) {
+  if (typeof id === 'function') {
+    str = id(messages)
+  } else if (messages[id]) {
     str = messages[id]
-  } else if (id.includes('.')) {
+  } else if (id?.includes?.('.')) {
     const keys = id.split('.')
-    let obj = messages
     for (const key of keys) {
-      if (obj[key]) {
-        obj = obj[key]
+      if (messages[key]) {
+        messages = messages[key]
       } else {
         break
       }
     }
-    if (typeof obj === 'string') {
-      str = obj
+    if (typeof messages === 'string') {
+      str = messages
     }
   }
 
