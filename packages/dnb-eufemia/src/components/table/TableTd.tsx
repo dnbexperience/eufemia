@@ -11,7 +11,7 @@ export type TableTdProps = {
 
   /**
    * Set to `horizontal` for padding on left and right side
-   * Default: false
+   * Default: undefined
    */
   spacing?: 'horizontal'
 

@@ -41,19 +41,19 @@ export type TableTrProps = {
    * Will emit when user clicks/expands the table row
    * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
    */
-  onClick?: (event?: React.SyntheticEvent) => void
+  onClick?: (event: React.SyntheticEvent) => void
 
   /**
    * Will emit when table row is expanded
    * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
    */
-  onOpened?: (event?: React.SyntheticEvent) => void
+  onOpened?: (event: React.SyntheticEvent) => void
 
   /**
    * Will emit when table row is closed (after it was open)
    * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
    */
-  onClosed?: (event?: React.SyntheticEvent) => void
+  onClosed?: (event: React.SyntheticEvent) => void
 
   /**
    * The content of the component.

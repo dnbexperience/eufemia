@@ -48,7 +48,7 @@ export const FormattedCode = ({
       case 'value': {
         style.color = children.startsWith(`'`)
           ? colorString
-          : children === 'undefined'
+          : children === 'undefined' || children === 'null'
           ? colorUndefined
           : colorValue
         // falls through
@@ -90,7 +90,7 @@ export default function PropertiesTable({
         <Td>
           <FormattedCode
             variant="prop"
-            strikethrough={status === 'deprecated'}
+            strikethrough={status === 'deprecated' || status === 'coming'}
           >
             {formatName(camelCase ? toCamelCase(key) : key)}
           </FormattedCode>
@@ -142,9 +142,9 @@ export default function PropertiesTable({
           </Td>
         )}
         <Td>
-          {(!showDefaultValue || status === 'deprecated') && (
-            <em>({status}) </em>
-          )}
+          {(!showDefaultValue ||
+            status === 'deprecated' ||
+            status === 'coming') && <em>({status}) </em>}
           <ReactMarkdown components={components}>
             {camelCase ? convertToCamelCase(doc, keys) : doc}
           </ReactMarkdown>
