@@ -44,6 +44,14 @@ export type DatePickerDates = {
   hoverDate?: Date
 } & DatePickerInputDates
 
+function getDate(date: Date | string, dateFormat: string) {
+  return date instanceof Date
+    ? date
+    : convertStringToDate(date ?? '', {
+        date_format: dateFormat,
+      })
+}
+
 export default function useDates(
   initialDates: DatePickerInitialDates,
   {
@@ -52,17 +60,14 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
+  // TODO: cleanup init functionality
   const initDates = useCallback(() => {
-    const startDate = convertStringToDate(
+    const startDate =
       typeof initialDates?.startDate !== 'undefined'
-        ? String(initialDates.startDate)
+        ? getDate(initialDates.startDate, dateFormat)
         : typeof initialDates?.date !== 'undefined'
-        ? String(initialDates.date)
-        : '',
-      {
-        date_format: dateFormat,
-      }
-    )
+        ? getDate(initialDates.date, dateFormat)
+        : ''
 
     const endDate = !isRange
       ? startDate
