@@ -85,7 +85,7 @@ function Logo(localProps: LogoProps) {
     ratio, // eslint-disable-line
     width,
     inheritSize,
-    height,
+    height: heightProp,
     brand: brandProp,
     variant,
     color,
@@ -110,6 +110,9 @@ function Logo(localProps: LogoProps) {
 
     return 'dnb'
   }, [brand, variant])
+
+  /** @deprecated Can remove this in v11 */
+  const height = parseFloat(size) > 0 ? size : heightProp
 
   // Alt text for the logo does not need to be translated. DNB alt will be the same in english, and sbanken alt should always be in norwegian
   const altText =
