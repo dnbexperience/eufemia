@@ -630,7 +630,7 @@ export default function Provider<Data extends JsonObject>(
         path === '/'
           ? // When setting the root of the data, the whole data set should be the new value
             value
-          : // For sub paths, use the the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
+          : // For sub paths, use the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
             internalDataRef.current ??
             (path.match(isArrayJsonPointer) ? [] : {})
       ) as Data

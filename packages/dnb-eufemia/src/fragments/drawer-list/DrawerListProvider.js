@@ -811,7 +811,7 @@ export default class DrawerListProvider extends React.PureComponent {
                  * so it's the last one we focus, within our active element.
                  *
                  * When the users tabs to it,
-                 * we return the focus the the users prev focus element, e.g. autocomplete input
+                 * we return the focus the users prev focus element, e.g. autocomplete input
                  *
                  * Why is this needed? Because we have our list in a portal, outside of the tab order
                  */
