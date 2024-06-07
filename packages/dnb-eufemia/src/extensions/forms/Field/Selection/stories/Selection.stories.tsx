@@ -72,9 +72,46 @@ export function Autocomplete() {
           showSubmitButton: true,
           submitButtonTitle: 'Custom title',
         }}
+        help={{
+          title: 'Title',
+          content: 'Content',
+        }}
       >
         <Field.Option value="foo" title="Foo!" />
         <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+    </Card>
+  )
+}
+
+export function HelpButton() {
+  return (
+    <Card stack>
+      <Field.Selection
+        label="Label"
+        variant="button"
+        // variant="radio"
+        help={{
+          title: 'Title',
+          content: 'Content',
+        }}
+      >
+        <Field.Option
+          value="foo"
+          title="Foo!"
+          help={{
+            title: 'Title',
+            content: 'Content',
+          }}
+        />
+        <Field.Option
+          value="bar"
+          title="Baar!"
+          help={{
+            title: 'Title',
+            content: 'Content',
+          }}
+        />
       </Field.Selection>
     </Card>
   )
