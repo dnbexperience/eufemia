@@ -13,7 +13,7 @@ export const LogoDefaultExample = () => (
   </ComponentBox>
 )
 
-export const LogoAutoSizeExample = () => (
+export const LogoInheritFontSizeExample = () => (
   <ComponentBox data-visual-test="logo-auto-size">
     <span style={{ fontSize: '6rem' }}>
       <Logo />
@@ -21,7 +21,7 @@ export const LogoAutoSizeExample = () => (
   </ComponentBox>
 )
 
-export const LogoInheritSizeExample = () => (
+export const LogoInheritHeightExample = () => (
   <ComponentBox data-visual-test="logo-inherit-size">
     <span style={{ height: '6rem' }}>
       <Logo inheritSize />
