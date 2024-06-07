@@ -111,7 +111,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
-      console.log('rest', rest)
       const { startDate, endDate, partialStartDate, partialEndDate } = {
         ...views,
         ...dates,
