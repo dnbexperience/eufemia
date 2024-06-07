@@ -413,7 +413,7 @@ function DatePicker(externalProps: DatePickerProps) {
   }, [])
 
   const hidePicker = useCallback(
-    (args: DisplayPickerEvent | DatePickerChangeEvent) => {
+    (args: DisplayPickerEvent) => {
       if (prevent_close) {
         return // stop here
       }
@@ -424,8 +424,7 @@ function DatePicker(externalProps: DatePickerProps) {
 
       setOpened(false)
 
-      // TODO: Simplify type
-      on_hide?.({ ...args, ...getReturnObject.current(args) })
+      on_hide?.({ ...getReturnObject.current(args) })
 
       hideTimeout.current = setTimeout(
         () => {
