@@ -67,7 +67,7 @@ export default function useDates(
         ? getDate(initialDates.startDate, dateFormat)
         : typeof initialDates?.date !== 'undefined'
         ? getDate(initialDates.date, dateFormat)
-        : ''
+        : null
 
     const endDate = !isRange
       ? startDate
