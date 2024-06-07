@@ -44,14 +44,6 @@ export type DatePickerDates = {
   hoverDate?: Date
 } & DatePickerInputDates
 
-function getDate(date: Date | string, dateFormat: string) {
-  return date instanceof Date
-    ? date
-    : convertStringToDate(date ?? '', {
-        date_format: dateFormat,
-      })
-}
-
 export default function useDates(
   initialDates: DatePickerInitialDates,
   {
@@ -256,6 +248,14 @@ function correctDates({ startDate, endDate, minDate, maxDate, isRange }) {
   }
 
   return correctedDates
+}
+
+function getDate(date: Date | string, dateFormat: string) {
+  return date instanceof Date
+    ? date
+    : convertStringToDate(date ?? '', {
+        date_format: dateFormat,
+      })
 }
 
 export function pad(date: string, size: number) {
