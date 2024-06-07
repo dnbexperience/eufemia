@@ -130,7 +130,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
       // Handle range props
       if (props.range) {
-        returnObject = {
+        return {
           ...returnObject,
           days_between:
             startDateIsValid && endDateIsValid
@@ -154,11 +154,9 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
               : endDateIsValid,
           partialEndDate,
         }
-
-        return returnObject
       }
 
-      returnObject = {
+      return {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
         is_valid:
@@ -168,8 +166,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             ? false
             : startDateIsValid,
       }
-
-      return returnObject
     },
     [
       dates,
