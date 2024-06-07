@@ -614,7 +614,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const index = refListArray.findIndex(
         ({ current }) => current === target
       )
-      console.log('isValid', isValid)
+
       if (
         index < refListArray.length - 1 &&
         ((secondSelectionStart === size &&

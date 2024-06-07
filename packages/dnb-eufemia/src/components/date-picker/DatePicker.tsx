@@ -376,6 +376,7 @@ function DatePicker(externalProps: DatePickerProps) {
     hide_days,
     hide_navigation,
     opened: propsOpened,
+    end_date,
   } = props
 
   const [opened, setOpened] = useState<boolean>(propsOpened)
@@ -399,7 +400,7 @@ function DatePicker(externalProps: DatePickerProps) {
 
   const translation = useTranslation().DatePicker
 
-  if (props.end_date && !props.range) {
+  if (end_date && !range) {
     warn(
       `The DatePicker got a "end_date". You have to set range={true} as well!.`
     )
@@ -641,6 +642,7 @@ function DatePicker(externalProps: DatePickerProps) {
     class: _className,
     show_reset_button, // eslint-disable-line
     tooltip,
+    range: _range, // eslint-disable-line
 
     ...attributes
   } = extendedProps
