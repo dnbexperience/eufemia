@@ -213,3 +213,19 @@ export const VariantButtons = () => {
     </ComponentBox>
   )
 }
+
+export const VariantButtonsWithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="toggle-variant-buttons-with-help">
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="buttons"
+        label="Buttons variant"
+        help={{ title: 'Help title', content: 'Help content' }}
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
