@@ -147,17 +147,21 @@ You can filter data by any given criteria. This is done by utilizing the `filter
 - [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
 - [Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
 
-You can provide either a function or an object with the paths you want to filter out.
+You can provide either a function handler or an object with the paths (JSON Pointer) you want to filter out.
 
-Here is an example of how filter out fields based on their `path` and `value`:
+Return `false` to exclude an entry:
 
 ```tsx
-// Method A – if you know the paths
+// 1. Method – by using paths (JSON Pointer)
 const filterDataPaths = {
   '/foo': ({ value, data, props, internal }) => value !== 'bar',
+  '/foo': false, // Will exclude the field with the path "/foo"
+  '/array/0': false, // Will exclude the first item of the array
+  '/array/*/objectKey': false, // Will exclude all objects inside the array with a key of "objectKey"
 }
 
-// Method B – will iterate over all fields regardless of the path
+// 2. Method – by using a handler.
+// It will iterate over all fields regardless what path they have.
 const filterDataHandler = ({ path, value, data, props, internal }) =>
   value !== 'bar'
 

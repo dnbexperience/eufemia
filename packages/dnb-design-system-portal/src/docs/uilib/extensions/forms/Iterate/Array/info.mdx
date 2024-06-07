@@ -73,3 +73,42 @@ render(
   </Iterate.Array>,
 )
 ```
+
+## Filter data
+
+You can filter data by paths specific or all paths.
+
+- `/myList/0` will filter out the first item of the list, including `foo` and `bar`.
+- `/myList/1/foo` will filter out `foo` inside the second item of the list.
+- `/myList/*/foo` will filter out all `foo` object keys from all items of the list.
+- `/myList/*/subList/*/foo` does support multi wildcard paths.
+
+In the example below, the data given in `onSubmit` will still have "foo2" and "bar2" of the list.
+
+```tsx
+import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const filterSubmitData = {
+  '/myList/0': false,
+}
+
+render(
+  <Form.Handler
+    filterSubmitData={filterSubmitData}
+    data={{
+      myList: [
+        { foo: 'foo1', bar: 'bar1' },
+        { foo: 'foo2', bar: 'bar2' },
+      ],
+    }}
+    onSubmit={console.log}
+  >
+    <Iterate.Array path="/myList">
+      <Field.String itemPath="/foo" label="Foo no. {itemNr}" />
+      <Field.String itemPath="/bar" label="Bar no. {itemNr}" />
+    </Iterate.Array>
+  </Form.Handler>,
+)
+```
+
+Instead of `false` you can provide a function that returns `false` based on your logic.

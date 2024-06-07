@@ -353,7 +353,7 @@ export const GlobalStatusInfoExample3 = () => (
 export const GlobalStatusInfoExampleManipulate1 = () => (
   <ComponentBox hidePreview hideToolbar>
     {() => {
-      // 1. Update / extend the the status like so:
+      // 1. Update / extend the status like so:
 
       const statusOne = GlobalStatus.create({
         id: 'other-global-status', // or main
