@@ -35,7 +35,7 @@ import type {
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
-import { DatePickerEvent, DatePickerEventAttributes } from './DatePicker'
+import { DatePickerEventAttributes } from './DatePicker'
 import { useTranslation } from '../../shared'
 
 export type DatePickerInputProps = Omit<
@@ -87,9 +87,7 @@ export type DatePickerInputProps = Omit<
    */
   opened?: boolean
   showInput?: boolean
-  onSubmit?: (
-    event: DatePickerEvent<React.FormEvent<HTMLInputElement>>
-  ) => void
+  onSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onChange?: (
     event: ReturnObject<React.ChangeEvent<HTMLInputElement>>
   ) => void
@@ -97,13 +95,13 @@ export type DatePickerInputProps = Omit<
    * Will be called once the input gets focus.
    */
   onFocus?: (
-    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+    event: ReturnObject<React.FocusEvent<HTMLInputElement>>
   ) => void
   /**
    * Will be called once the input lose focus.
    */
   onBlur?: (
-    event: DatePickerEvent<React.FocusEvent<HTMLInputElement>>
+    event: ReturnObject<React.FocusEvent<HTMLInputElement>>
   ) => void
 }
 
@@ -460,7 +458,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           ...typedDates,
         }
       }
-      // TODO: Fix type
+
       on_type?.({ ...returnObject })
     },
     [isRange, dateRefs, getReturnObject, inputDates, on_type]
@@ -562,12 +560,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const onKeyDownHandler = useCallback(
     async (event: React.KeyboardEvent<HTMLInputElement>) => {
-      //  Values keys that are not the arrow keys are set to undefined, with the old keycode function
-      const keyCode = /(Arrow(Up|Down|Left|Right)|Tab|Backspace)/g.test(
-        event.key
-      )
-        ? event.key
-        : undefined
+      const keyCode = event.key
       const target = event.target as HTMLInputElement
 
       if (target.selectionStart !== target.selectionEnd) {
@@ -597,7 +590,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const secondSelectionStart = target.selectionStart
       // Always false (since the old keycode function set number keys to undefined) but needed to not break tests
-      const isValid = /[0-9]/.test(keyCode)
+      const isValid = /[0-9]/g.test(keyCode)
       const refListArray = refList.current
 
       const index = refListArray.findIndex(
