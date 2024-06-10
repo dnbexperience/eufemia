@@ -7,16 +7,14 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-// import { H3 } from '../../..'
-
 import '../style'
 import '../style/themes/ui'
 import H3 from '../../../elements/H3'
 import cardData from '../utils/cardProducts'
-import { PaymentCardRawData } from '../types'
 import { H2 } from '../../../elements'
 
 import PaymentCard, { getCardDesign, Designs } from '../'
+import { Table } from '../../../components'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -29,6 +27,54 @@ const CustomWrapper = styled(Wrapper)`
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
     <Box>
+      <Box>
+        <H3>Custom Card</H3>
+        <PaymentCard cardNumber="123123123" customCard={Designs.saga} />
+        <PaymentCard
+          cardNumber="123123123"
+          customCard={{
+            ...Designs.gold,
+            paymentType: { type: 'BankAxept', color: 'red' },
+            cardProvider: { type: 'Mastercard' },
+            bankLogo: { type: 'DNB', color: 'green' },
+          }}
+        />
+      </Box>
+
+      <Table>
+        <thead>
+          <tr>
+            <th>Product Id</th>
+            <th>Card Display Name</th>
+            {/* <th>Background</th> */}
+            <th>Bank Logo Properties</th>
+            <th>Product Logo Variant</th>
+            <th>Product Type Variants</th>
+            <th>Card Provider Variants</th>
+            <th>Payment type variants</th>
+            <th>className</th>
+            <th>background image</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cardData.map((card) => {
+            return (
+              <tr key={card.productCode}>
+                <td>{card?.productCode}</td>
+                <td>{card?.displayName}</td>
+                {/* <td>{card?.background}</td> */}
+                <td>{`${card?.bankLogo?.type} (${card?.bankLogo?.color})`}</td>
+                <td>{`${card?.productType?.type} (${card?.productType?.color})`}</td>
+                <td>{`${card?.cardProvider?.type} (${card?.cardProvider?.color})`}</td>
+                <td>{`${card?.paymentType?.type} (${card?.paymentType?.color})`}</td>
+                <td>{card?.cardClassName}</td>
+                <td>{card?.backgroundImage}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </Table>
+
       <H3>Test</H3>
 
       <PaymentCard
@@ -73,11 +119,6 @@ export const PaymentCards = () => (
         cardNumber={'123123123'}
         cardStatus="unknown"
       />
-    </Box>
-
-    <Box>
-      <H3>Custom Card</H3>
-      <PaymentCard customCard={Designs.saga} />
     </Box>
 
     <Box>
