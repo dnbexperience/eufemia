@@ -11,6 +11,9 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import * as DataContext from '../../../DataContext'
 import { Field, FieldBlock } from '../../..'
+import enGB from '../../../../../shared/locales/en-GB'
+
+const gb = enGB['en-GB']
 
 async function expectNever(callable: () => unknown): Promise<void> {
   await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
@@ -1058,7 +1061,11 @@ describe('Field.String', () => {
       </Provider>
     )
 
-    expect(counter).toHaveTextContent('9 characters over the limit of 8')
+    expect(counter).toHaveTextContent(
+      gb.TextCounter.characterExceeded
+        .replace('%count', '1')
+        .replace('%max', '8')
+    )
   })
 
   it('gets valid ref element', () => {

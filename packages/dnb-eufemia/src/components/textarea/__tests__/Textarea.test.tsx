@@ -9,6 +9,11 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Textarea, { TextareaProps } from '../Textarea'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
+import enGB from '../../../shared/locales/en-GB'
+import nbNO from '../../../shared/locales/nb-NO'
+
+const gb = enGB['en-GB']
+const nb = nbNO['nb-NO']
 
 const props: TextareaProps = {
   id: 'textarea',
@@ -391,23 +396,43 @@ describe('Textarea component', () => {
     const textarea = document.querySelector('textarea')
     const ariaLive = document.querySelector('.dnb-aria-live')
 
-    expect(counter).toHaveTextContent('5 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent(
+      nb.TextCounter.characterDown
+        .replace('%count', '5')
+        .replace('%max', '8')
+    )
     expect(ariaLive).toHaveTextContent('')
 
     await userEvent.type(textarea, 'bar')
 
-    expect(counter).toHaveTextContent('2 av 8 tegn gjenstår')
-    expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
+    expect(counter).toHaveTextContent(
+      nb.TextCounter.characterDown
+        .replace('%count', '2')
+        .replace('%max', '8')
+    )
+    expect(ariaLive).toHaveTextContent(
+      nb.TextCounter.characterDown
+        .replace('%count', '2')
+        .replace('%max', '8')
+    )
 
     rerender(
       <Textarea characterCounter={{ max: 8 }} value="foo" lang="en-GB" />
     )
 
-    expect(counter).toHaveTextContent('2 of 8 characters remaining')
+    expect(counter).toHaveTextContent(
+      gb.TextCounter.characterDown
+        .replace('%count', '2')
+        .replace('%max', '8')
+    )
 
     await userEvent.type(textarea, 'baz')
 
-    expect(ariaLive).toHaveTextContent('1 characters over the limit of 8')
+    expect(ariaLive).toHaveTextContent(
+      gb.TextCounter.characterExceeded
+        .replace('%count', '1')
+        .replace('%max', '8')
+    )
 
     rerender(
       <Textarea
@@ -417,7 +442,11 @@ describe('Textarea component', () => {
       />
     )
 
-    expect(counter).toHaveTextContent('1 characters over the limit of 8')
+    expect(counter).toHaveTextContent(
+      gb.TextCounter.characterExceeded
+        .replace('%count', '1')
+        .replace('%max', '8')
+    )
 
     rerender(
       <Textarea
@@ -427,7 +456,11 @@ describe('Textarea component', () => {
       />
     )
 
-    expect(counter).toHaveTextContent('9 characters over the limit of 8')
+    expect(counter).toHaveTextContent(
+      gb.TextCounter.characterExceeded
+        .replace('%count', '1')
+        .replace('%max', '8')
+    )
   })
 
   describe('sets the resize-- modifier class based on the user agent', () => {
