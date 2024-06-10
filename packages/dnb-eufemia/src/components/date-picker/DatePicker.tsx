@@ -308,11 +308,11 @@ export type DatePickerProps = Omit<
     /**
      * Will be called once a user presses the cancel button.
      */
-    on_cancel?: (event: DatePickerChangeEvent) => void
+    on_cancel?: (event: DatePickerEvent<DatePickerChangeEvent>) => void
     /**
      * Will be called once a user presses the reset button.
      */
-    on_reset?: (event: DatePickerChangeEvent) => void
+    on_reset?: (event: DatePickerEvent<DatePickerChangeEvent>) => void
     /**
      * Will be called once the input gets focus.
      */
@@ -539,7 +539,7 @@ function DatePicker(externalProps: DatePickerProps) {
 
   const onCancelHandler = useCallback(
     (event: DatePickerChangeEvent) => {
-      on_cancel?.({ ...event, ...getReturnObject.current(event) })
+      on_cancel?.({ ...getReturnObject.current(event) })
     },
     [on_cancel]
   )
@@ -547,7 +547,7 @@ function DatePicker(externalProps: DatePickerProps) {
   const onResetHandler = useCallback(
     (event: DatePickerChangeEvent) => {
       hidePicker()
-      on_reset?.({ ...event, ...getReturnObject.current(event) })
+      on_reset?.({ ...getReturnObject.current(event) })
     },
     [hidePicker, on_reset]
   )
