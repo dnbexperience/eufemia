@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
-import usePreviousProps from './usePreviousValue'
+import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
 
 export type DatePickerInitialDates = {
@@ -52,7 +52,7 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const previousDates = usePreviousProps(initialDates)
+  const previousDates = usePreviousValue(initialDates)
   const [dates, setDates] = useState<DatePickerDates>({
     date:
       previousDates.date !== initialDates.date
