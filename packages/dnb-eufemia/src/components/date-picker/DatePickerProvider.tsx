@@ -67,22 +67,41 @@ const defaultProps = {
 function DatePickerProvider(externalProps: DatePickerProviderProps) {
   const props = { ...defaultProps, ...externalProps }
 
+  const {
+    date,
+    start_date,
+    end_date,
+    start_month,
+    end_month,
+    min_date,
+    max_date,
+    date_format,
+    range,
+    correct_invalid_date,
+    attributes,
+    return_format,
+    children,
+    on_change,
+    setReturnObject,
+    hidePicker,
+  } = props
+
   const sharedContext = useContext(SharedContext)
 
   const [dates, updateDates, hasHadValidDate, previousDates] = useDates(
     {
-      date: props.date,
-      startDate: props.start_date,
-      endDate: props.end_date,
-      startMonth: props.start_month,
-      endMonth: props.end_month,
-      minDate: props.min_date,
-      maxDate: props.max_date,
+      date: date,
+      startDate: start_date,
+      endDate: end_date,
+      startMonth: start_month,
+      endMonth: end_month,
+      minDate: min_date,
+      maxDate: max_date,
     },
     {
-      dateFormat: props.date_format,
-      isRange: props.range,
-      shouldCorrectDate: props.correct_invalid_date,
+      dateFormat: date_format,
+      isRange: range,
+      shouldCorrectDate: correct_invalid_date,
     }
   )
 
@@ -91,7 +110,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     startDate: dates.startDate,
     endDate: dates.endDate,
     endMonth: dates.endMonth,
-    isRange: props.range,
+    isRange: range,
   })
 
   const [lastEventCallCache, setLastEventCallCache] =
@@ -108,19 +127,19 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         ...rest,
       }
 
-      const returnFormat = correctV1Format(props.return_format)
+      const returnFormat = correctV1Format(return_format)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
-      const hasMinOrMaxDates = props.min_date || props.max_date
+      const hasMinOrMaxDates = min_date || max_date
 
       const returnObject: ReturnObject<E> = {
         event,
-        attributes: props.attributes || {},
+        attributes: attributes || {},
         partialStartDate,
       }
 
       // Handle range props
-      if (props.range) {
+      if (range) {
         return {
           ...returnObject,
           days_between:
@@ -158,15 +177,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [
-      dates,
-      views,
-      props.attributes,
-      props.max_date,
-      props.min_date,
-      props.range,
-      props.return_format,
-    ]
+    [dates, views, attributes, max_date, min_date, range, return_format]
   )
 
   const callOnChangeHandler = useCallback(
@@ -182,19 +193,25 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         return // stop here
       }
 
-      props.on_change?.(getReturnObject({ ...dates, ...event }))
+      on_change?.(getReturnObject({ ...dates, ...event }))
 
       setLastEventCallCache({
         startDate: event.startDate,
         endDate: event.endDate,
       })
     },
-    [getReturnObject, dates, props.on_change]
+    [
+      getReturnObject,
+      dates,
+      on_change,
+      lastEventCallCache,
+      setLastEventCallCache,
+    ]
   )
 
   // Is this at any point something other than a function?
-  if (typeof props.setReturnObject === 'function') {
-    props.setReturnObject(getReturnObject)
+  if (typeof setReturnObject === 'function') {
+    setReturnObject(getReturnObject)
   }
 
   return (
@@ -205,7 +222,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         updateDates,
         getReturnObject,
         callOnChangeHandler,
-        hidePicker: props.hidePicker,
+        hidePicker: hidePicker,
         props,
         ...dates,
         previousDates,
@@ -213,7 +230,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         views,
       }}
     >
-      {props.children}
+      {children}
     </DatePickerContext.Provider>
   )
 }
