@@ -99,7 +99,12 @@ export type DatePickerCalendarProps = Omit<
   hideNextMonthWeek?: boolean
   noAutoFocus?: boolean
   onHover?: (day: Date) => void
-  onSelect?: (event: DatePickerChangeEvent) => void
+  onSelect?: (
+    event: DatePickerChangeEvent<
+      | React.MouseEvent<HTMLSpanElement>
+      | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
+    >
+  ) => void
   onPrev?: (event: CalendarNavigationEvent) => void
   onNext?: (event: CalendarNavigationEvent) => void
   onKeyDown?: (
@@ -212,7 +217,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }, [updateDates])
 
   const callOnSelect = useCallback(
-    (event: DatePickerChangeEvent) => {
+    (
+      event: DatePickerChangeEvent<
+        | React.MouseEvent<HTMLSpanElement>
+        | React.KeyboardEvent<HTMLTableElement>
+      >
+    ) => {
       onSelect?.(event)
     },
     [onSelect]
@@ -326,7 +336,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>) => {
+    (event: React.KeyboardEvent<HTMLTableElement>) => {
       const pressedKey = event.code
 
       // call onKeyDown prop if given

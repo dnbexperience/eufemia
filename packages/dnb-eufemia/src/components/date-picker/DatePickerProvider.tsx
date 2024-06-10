@@ -173,9 +173,9 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
   const callOnChangeHandler = useCallback(
     (
       event: DatePickerChangeEvent<
-        | React.MouseEvent<HTMLSpanElement>
-        | React.KeyboardEvent<HTMLTableElement>
+        | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
         | React.ChangeEvent<HTMLInputElement>
+        | React.KeyboardEvent<HTMLInputElement>
       >
     ) => {
       /**
