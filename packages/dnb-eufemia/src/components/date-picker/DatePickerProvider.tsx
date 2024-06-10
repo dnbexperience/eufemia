@@ -14,7 +14,6 @@ import format from 'date-fns/format'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 
 import SharedContext from '../../shared/Context'
-import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerContextValues,
@@ -171,17 +170,9 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
   )
 
   const callOnChangeHandler = useCallback(
-    (
-      event: DatePickerChangeEvent<
-        | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-        | React.ChangeEvent<HTMLInputElement>
-        | React.KeyboardEvent<HTMLInputElement>
-      >
-    ) => {
+    <E,>(event: E & DatePickerDates) => {
       /**
        * Prevent on_change to be fired twice if date not has actually changed
-       * We clear the cache inside getDerivedStateFromProps
-       * Can be removed when dispatchCustomElementEvent is deprecated
        */
       if (
         lastEventCallCache &&
@@ -191,25 +182,14 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         return // stop here
       }
 
-      // TODO: remove
-      dispatchCustomElementEvent(
-        { on_change: props.on_change },
-        'on_change',
-        getReturnObject({ ...dates, ...event })
-      )
+      props.on_change?.(getReturnObject({ ...dates, ...event }))
 
       setLastEventCallCache({
         startDate: event.startDate,
         endDate: event.endDate,
       })
     },
-    [
-      getReturnObject,
-      lastEventCallCache,
-      setLastEventCallCache,
-      dates,
-      props.on_change,
-    ]
+    [getReturnObject, dates, props.on_change]
   )
 
   // Is this at any point something other than a function?

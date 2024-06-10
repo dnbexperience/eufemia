@@ -27,15 +27,7 @@ export type DatePickerContextValues = ContextProps &
     ) => void
     setState?: (state: DatePickerProviderState) => void
     setViews: (views: Array<CalendarView>, callback?: () => void) => void
-    callOnChangeHandler: (
-      event: DatePickerChangeEvent<
-        | React.MouseEvent<
-            HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement
-          >
-        | React.ChangeEvent<HTMLInputElement>
-        | React.KeyboardEvent<HTMLTableElement | HTMLInputElement>
-      >
-    ) => void
+    callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
     hidePicker: (event: DisplayPickerEvent) => void
     previousDates: DatePickerInitialDates
     getReturnObject: <E>(
