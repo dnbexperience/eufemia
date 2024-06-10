@@ -36,27 +36,9 @@ const defaultCard: (productCode: string) => CustomCard = (
 
 const defaultProps = {
   digits: 8,
-  //   locale: null,
-  card_status: 'active',
+  cardStatus: 'active',
   variant: 'normal',
-
-  id: null,
-
-  customCard: null,
-
   skeleton: false,
-  className: null,
-  children: null,
-
-  // translations
-  text_card_number: null,
-  text_expired: null,
-  text_blocked: null,
-  text_not_active: null,
-  text_order_in_process: null,
-  text_renewed: null,
-  text_replaced: null,
-  text_unknown: null,
 }
 
 export default function PaymentCard(props: PaymentCardProps) {
@@ -72,11 +54,9 @@ export default function PaymentCard(props: PaymentCardProps) {
     digits,
     id,
     customCard: cardDesignProp,
-    // locale
     skeleton,
     className,
     children, //eslint-disable-line
-
     ...attributes
   } = extendPropsWithContext(
     convertSnakeCaseProps(props),
@@ -103,10 +83,10 @@ export default function PaymentCard(props: PaymentCardProps) {
     ...attributes,
   }
 
-  skeletonDOMAttributes(params, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(props, params)
+  const validatedParameters = validateDOMAttributes(
+    props,
+    skeletonDOMAttributes(params, skeleton, context)
+  )
 
   const cardStatusMap = {
     not_active: translations.text_not_active,
@@ -119,7 +99,7 @@ export default function PaymentCard(props: PaymentCardProps) {
   }
 
   return (
-    <figure {...params}>
+    <figure {...validatedParameters}>
       <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
         {cardDesign.displayName}
       </figcaption>
@@ -127,7 +107,7 @@ export default function PaymentCard(props: PaymentCardProps) {
         id={id}
         className={classnames(
           'dnb-payment-card__card',
-          `dnb-payment-card__${cardDesign.cardClassName}` // kan denne overskrives?
+          cardDesign.cardClassName && cardDesign.cardClassName
         )}
         {...(cardDesign.backgroundImage
           ? {
@@ -192,7 +172,7 @@ export default function PaymentCard(props: PaymentCardProps) {
   }
 }
 
-export function formatCardNumber(cardNumber, digits = 8) {
+export function formatCardNumber(cardNumber: string, digits: number) {
   const formatCardNumberRegex = /(?=(?:....)*$)/g
 
   if (!cardNumber) {

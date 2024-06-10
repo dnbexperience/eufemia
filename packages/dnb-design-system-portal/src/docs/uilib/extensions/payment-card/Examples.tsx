@@ -8,9 +8,6 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import PaymentCard, {
   getCardDesign,
   CustomCard,
-  // ProductType,
-  // CardType,
-  // BankAxeptType,
 } from '@dnb/eufemia/src/extensions/payment-card'
 import { H4 } from '@dnb/eufemia/src'
 
@@ -69,15 +66,15 @@ export function PaymentCardAllCardsExample() {
 
         const Cards = () => (
           <>
-            {demoCards.map((product_code) => {
-              const cardData = getCardDesign(product_code)
+            {demoCards.map((productCode) => {
+              const cardData = getCardDesign(productCode)
               return (
-                <article key={product_code}>
+                <article key={productCode}>
                   <H4>
-                    {cardData.displayName}({product_code})
+                    {cardData.displayName}({productCode})
                   </H4>
                   <PaymentCard
-                    productCode={product_code}
+                    productCode={productCode}
                     cardNumber="************1337"
                   />
                 </article>
@@ -97,7 +94,7 @@ export const PaymentCardBasicExample = () => (
     scope={{ PaymentCard }}
     data-visual-test="payment-card-basic"
   >
-    <PaymentCard product_code="NK1" card_number="************1337" />
+    <PaymentCard productCode="NK1" cardNumber="************1337" />
   </ComponentBox>
 )
 
@@ -105,8 +102,6 @@ export const PaymentCardCustomExample = () => (
   <ComponentBox
     scope={{
       PaymentCard,
-      // Designs,
-      //   ProductType, CardType, BankAxeptType
     }}
   >
     {() => {

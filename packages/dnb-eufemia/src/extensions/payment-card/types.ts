@@ -25,18 +25,11 @@ export type PaymentCardProps = {
    * Useful if you want to create custom cards. See Card data properties.
    */
   customCard?: CustomCard
-  // rawData?: PaymentCardRawData
-  id?: string
   /**
    * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
-  // locale?: InternalLocale,
   skeleton?: boolean
   className?: string
-  children?: React.ReactNode
-  /**
-   * Translations
-   */
 } & Omit<React.HTMLProps<HTMLElement>, 'ref'> &
   SpacingProps &
   PaymentCardTranslations &
@@ -49,8 +42,6 @@ type DeprecatedPaymentCardProps = {
   card_number?: string
   /** @deprecated use `cardStatus` */
   card_status?: PaymentCardCardStatus
-  // /** @deprecated use `rawData` */
-  // raw_data?: PaymentCardRawData
 }
 
 type PaymentCardTranslations = {
@@ -79,8 +70,8 @@ export type PaymentCardVariant = 'normal' | 'compact'
 export type CustomCard = {
   productCode?: string
   displayName?: string
-  cardClassName?: string // css class
-  background?: string // default dnb green
+  cardClassName?: string
+  background?: string
   backgroundImage?: string
   bankLogo?: { type: BankLogoType; color?: string }
   productType?: { type: ProductType; color?: string }

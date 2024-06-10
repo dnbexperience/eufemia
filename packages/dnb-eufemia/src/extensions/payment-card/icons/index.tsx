@@ -23,12 +23,8 @@ import VisaPlatinum from './VisaPlatinum'
 import Sbanken from './Sbanken'
 import Credit from './Credit'
 import {
-  CardDesign,
-  LogoType,
   ProductType,
-  BankAxeptType,
-  CardStatus,
-  CardTypeDesign,
+  PaymentCardCardStatus,
   PaymentType,
   CardProvider,
   BankLogoType,
@@ -114,7 +110,7 @@ const PaymentTypeLogo = ({ type, color }: PaymentTypeProps) => {
   }
 }
 
-const StatusIcon = ({ status }: { status: CardStatus }) => {
+const StatusIcon = ({ status }: { status: PaymentCardCardStatus }) => {
   switch (status) {
     case 'expired':
       return <Expired />

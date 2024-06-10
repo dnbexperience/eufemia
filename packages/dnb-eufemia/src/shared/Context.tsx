@@ -54,6 +54,7 @@ import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
+import { PaymentCardProps } from '../extensions/payment-card'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -91,6 +92,8 @@ export type ContextComponents = {
   Logo?: Partial<LogoProps>
   Icon?: Partial<IconProps>
   IconPrimary?: Partial<IconPrimaryProps>
+
+  PaymentCard?: Partial<PaymentCardProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
