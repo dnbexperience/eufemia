@@ -248,7 +248,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>(null)
 
-  const shortcuts = useRef<Record<string, unknown>>(null)
   const focusMode = useRef<string>(null)
 
   const maskList = useMemo(() => {
@@ -271,15 +270,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         return acc
       }, [])
   }, [maskOrder, separatorRexExp])
-
-  useEffect(() => {
-    return () => {
-      if (shortcuts.current) {
-        // OS specific shortcuts set somewhere? Could be removed, cannot find any references to this in the rest of the codebase
-        shortcuts.current?.remove(this.osShortcut)
-      }
-    }
-  }, [maskOrder])
 
   const pasteHandler = useCallback(
     async (event: React.ClipboardEvent<HTMLInputElement>) => {
