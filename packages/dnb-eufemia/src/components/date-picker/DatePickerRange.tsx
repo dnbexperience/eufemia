@@ -32,7 +32,12 @@ export type DatePickerRangeProps = Omit<
     onlyMonth?: boolean
     hideNav?: boolean
     views?: [{ nextBtn: false; prevBtn: false }]
-    onChange?: (event: DatePickerChangeEvent) => void
+    onChange?: (
+      event: DatePickerChangeEvent<
+        | React.MouseEvent<HTMLSpanElement>
+        | React.KeyboardEvent<HTMLTableElement>
+      >
+    ) => void
   }
 
 const monthHandlers: {
@@ -72,7 +77,12 @@ function DatePickerRange(props: DatePickerRangeProps) {
   )
 
   const onSelect = useCallback(
-    (event: DatePickerChangeEvent) => {
+    (
+      event: DatePickerChangeEvent<
+        | React.MouseEvent<HTMLSpanElement>
+        | React.KeyboardEvent<HTMLTableElement>
+      >
+    ) => {
       callOnChangeHandler(event)
 
       onChange?.({
