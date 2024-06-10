@@ -289,7 +289,7 @@ export type DatePickerProps = Omit<
      * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
      */
     on_type?: (
-      event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+      event: ReturnObject<React.ChangeEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called once date-picker is visible.
