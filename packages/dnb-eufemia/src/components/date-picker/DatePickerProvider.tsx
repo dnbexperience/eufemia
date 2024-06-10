@@ -34,18 +34,10 @@ type DatePickerProviderProps = DatePickerProps & {
   children: React.ReactNode
 }
 
-export type DatePickerChangeEvent = DatePickerDates & {
+export type DatePickerChangeEvent<E> = DatePickerDates & {
   nr?: number
   hidePicker?: boolean
-  event?:
-    | React.MouseEvent<
-        HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement
-      >
-    | React.ChangeEvent<HTMLButtonElement | HTMLInputElement>
-    | React.FocusEvent<HTMLInputElement>
-    | React.KeyboardEvent<
-        HTMLTableElement | HTMLButtonElement | HTMLInputElement
-      >
+  event?: E
 }
 
 export type GetReturnObjectParams<E> = DatePickerDates & {
@@ -122,7 +114,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const endDateIsValid = Boolean(endDate && isValid(endDate))
       const hasMinOrMaxDates = props.min_date || props.max_date
 
-      let returnObject: ReturnObject<E> = {
+      const returnObject: ReturnObject<E> = {
         event,
         attributes: props.attributes || {},
         partialStartDate,
@@ -179,7 +171,13 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
   )
 
   const callOnChangeHandler = useCallback(
-    (event: DatePickerChangeEvent) => {
+    (
+      event: DatePickerChangeEvent<
+        | React.MouseEvent<HTMLSpanElement>
+        | React.KeyboardEvent<HTMLTableElement>
+        | React.ChangeEvent<HTMLInputElement>
+      >
+    ) => {
       /**
        * Prevent on_change to be fired twice if date not has actually changed
        * We clear the cache inside getDerivedStateFromProps
@@ -193,6 +191,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         return // stop here
       }
 
+      // TODO: remove
       dispatchCustomElementEvent(
         { on_change: props.on_change },
         'on_change',
