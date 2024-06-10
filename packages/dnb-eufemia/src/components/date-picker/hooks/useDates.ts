@@ -90,13 +90,11 @@ export default function useDates(
         }
       })
 
-      if (callback) {
-        callback({
-          ...dates,
-          ...newDates,
-          ...correctedDates,
-        })
-      }
+      callback?.({
+        ...dates,
+        ...newDates,
+        ...correctedDates,
+      })
     },
     [dates, shouldCorrectDate, isRange]
   )
