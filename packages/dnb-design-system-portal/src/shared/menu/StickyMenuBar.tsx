@@ -83,6 +83,7 @@ export default function StickyMenuBar({
             className={classnames(
               sloganStyle,
               createSkeletonClass('font', context.skeleton),
+              'dnb-eufemia-logo',
             )}
           >
             {slogan}
