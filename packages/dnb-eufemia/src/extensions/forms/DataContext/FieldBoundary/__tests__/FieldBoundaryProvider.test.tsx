@@ -36,7 +36,8 @@ describe('FieldBoundaryProvider', () => {
     )
 
     expect(contextRef.current.hasError).toBe(false)
-    expect(contextRef.current.hasErrorAndShowIt).toBe(false)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(false)
     expect(contextRef.current.errorsRef.current).toMatchObject({})
 
     rerender(
@@ -49,7 +50,8 @@ describe('FieldBoundaryProvider', () => {
     )
 
     expect(contextRef.current.hasError).toBe(true)
-    expect(contextRef.current.hasErrorAndShowIt).toBe(false)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(false)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       'id-r0': true,
     })
@@ -66,8 +68,19 @@ describe('FieldBoundaryProvider', () => {
 
     await userEvent.click(document.querySelector('button'))
 
+    expect(contextRef.current).toEqual({
+      errorsRef: {
+        current: { 'id-r0': true },
+      },
+      hasError: true,
+      hasSubmitError: true,
+      hasVisibleError: true,
+      setFieldError: expect.any(Function),
+    })
+
     expect(contextRef.current.hasError).toBe(true)
-    expect(contextRef.current.hasErrorAndShowIt).toBe(true)
+    expect(contextRef.current.hasSubmitError).toBe(true)
+    expect(contextRef.current.hasVisibleError).toBe(true)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       'id-r0': true,
     })
@@ -83,7 +96,8 @@ describe('FieldBoundaryProvider', () => {
     )
 
     expect(contextRef.current.hasError).toBe(false)
-    expect(contextRef.current.hasErrorAndShowIt).toBe(false)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(true)
     expect(contextRef.current.errorsRef.current).toMatchObject({})
 
     rerender(
@@ -99,7 +113,8 @@ describe('FieldBoundaryProvider', () => {
     await userEvent.click(document.querySelector('button'))
 
     expect(contextRef.current.hasError).toBe(true)
-    expect(contextRef.current.hasErrorAndShowIt).toBe(true)
+    expect(contextRef.current.hasSubmitError).toBe(true)
+    expect(contextRef.current.hasVisibleError).toBe(true)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       '/bar': true,
     })

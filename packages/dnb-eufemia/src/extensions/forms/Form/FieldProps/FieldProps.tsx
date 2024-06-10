@@ -101,7 +101,7 @@ function FieldPropsProvider(props: FieldPropsProps) {
       const { required: requiredByContext } = dataContextRef.current
 
       // Extract props from overwriteProps to be used in fields
-      const key = fieldProps?.path?.split('/')?.pop()
+      const key = overwriteProps && fieldProps?.path?.split('/')?.pop()
       const overwrite = overwriteProps?.[key]
 
       // Overwrite given schema props
@@ -124,7 +124,7 @@ function FieldPropsProvider(props: FieldPropsProps) {
 
       return (deep ? nestedContext.extend(value) : value) as T
     },
-    [deep, nestedContext, overwriteProps, nestedFieldProps]
+    [deep, nestedContext, nestedFieldProps, overwriteProps]
   )
 
   return (

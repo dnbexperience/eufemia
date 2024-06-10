@@ -149,6 +149,7 @@ export default function useFieldProps<
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
     setFieldProps: setPropsDataContext,
+    setHasVisibleError: setHasVisibleErrorDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
@@ -351,12 +352,16 @@ export default function useFieldProps<
   const showError = useCallback(() => {
     showErrorRef.current = true
     showFieldErrorFieldBlock?.(identifier, true)
-  }, [showFieldErrorFieldBlock, identifier])
+    if (localErrorRef.current) {
+      setHasVisibleErrorDataContext?.(identifier, true)
+    }
+  }, [showFieldErrorFieldBlock, identifier, setHasVisibleErrorDataContext])
 
   const hideError = useCallback(() => {
     showErrorRef.current = false
     showFieldErrorFieldBlock?.(identifier, false)
-  }, [showFieldErrorFieldBlock, identifier])
+    setHasVisibleErrorDataContext?.(identifier, false)
+  }, [setHasVisibleErrorDataContext, identifier, showFieldErrorFieldBlock])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -893,11 +898,11 @@ export default function useFieldProps<
   }, [
     asyncBehaviorIsEnabled,
     hasPath,
-    identifier,
-    hasError,
     yieldAsyncProcess,
+    identifier,
     onChangeContext,
     defineAsyncProcess,
+    hasError,
     setEventResult,
     handlePathChangeDataContext,
   ])

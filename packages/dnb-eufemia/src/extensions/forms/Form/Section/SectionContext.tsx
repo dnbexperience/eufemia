@@ -1,5 +1,5 @@
 import React from 'react'
-import { OnChange, Path } from '../../types'
+import { Path } from '../../types'
 import { SectionProps } from '.'
 
 export interface SectionContextState {
@@ -8,7 +8,6 @@ export interface SectionContextState {
   errorPrioritization?: Array<
     'fieldSchema' | 'sectionSchema' | 'contextSchema'
   >
-  handleChange?: OnChange<unknown>
 }
 
 const SectionContext = React.createContext<

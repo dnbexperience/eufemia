@@ -6,11 +6,11 @@ import DataContext from '../Context'
 import { Path } from '../../types'
 
 export default function FieldBoundaryProvider({ children }) {
-  const { showAllErrors } = useContext(DataContext)
+  const { showAllErrors, hasVisibleError } = useContext(DataContext)
 
   const errorsRef = useRef<Record<Path, boolean>>({})
   const hasError = Object.keys(errorsRef.current || {}).length > 0
-  const hasErrorAndShowIt = showAllErrors && hasError
+  const hasSubmitError = showAllErrors && hasError
 
   const setFieldError = useCallback((path: Path, error: Error) => {
     if (error) {
@@ -22,7 +22,8 @@ export default function FieldBoundaryProvider({ children }) {
 
   const context: FieldBoundaryContextState = {
     hasError,
-    hasErrorAndShowIt,
+    hasSubmitError,
+    hasVisibleError,
     errorsRef,
     setFieldError,
   }

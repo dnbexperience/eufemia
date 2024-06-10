@@ -18,23 +18,56 @@ export default function useDataValue<Value>({
 
   const { makePath } = usePath()
 
+  const getValueByPath = useCallback(
+    (path: Path) => {
+      if (isPath(path)) {
+        const selector = makePath(path)
+        if (selector === '/') {
+          return dataContextRef.current?.data
+        }
+        return pointer.has(dataContextRef.current?.data, selector)
+          ? pointer.get(dataContextRef.current.data, selector)
+          : undefined
+      }
+    },
+    [makePath]
+  )
+
+  const getData = useCallback(
+    (path: Path, options?: { includeCurrentPath?: boolean }) => {
+      if (isPath(path)) {
+        const value = getValueByPath(path)
+
+        if (options?.includeCurrentPath && path !== '/') {
+          const data = {}
+          pointer.set(data, path, value)
+          return data
+        }
+
+        return value
+      }
+    },
+    [getValueByPath]
+  )
+
   const getValue = useCallback(
     (source: Path | Value) => {
-      if (typeof source === 'string') {
-        const path = makePath(source)
-        return pointer.has(dataContextRef.current?.data, path)
-          ? pointer.get(dataContextRef.current.data, path)
-          : undefined
+      if (typeof source === 'string' && isPath(source)) {
+        return getValueByPath(source)
       }
 
       return source
     },
-    [makePath]
+    [getValueByPath]
   )
 
   if (pathProp) {
     value = getValue(pathProp)
   }
 
-  return { getValue, value }
+  return { getValue, getValueByPath, getData, value }
+}
+
+function isPath(path: Path | unknown) {
+  return typeof path === 'string' && path.startsWith('/')
 }

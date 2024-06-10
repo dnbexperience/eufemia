@@ -16,6 +16,7 @@ hideInMenu: true
 - Only imported sections with their localizations are included in the production bundle.
 - It is possible to overwrite the translations later by using the `Form.Handler` component.
 - A single section can be used without `Form.Handler`, just like any other field and value.
+- An [EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container is available to be used.
 - Here is a [list of blocks](/uilib/extensions/forms/blocks/) ready to use.
 
 ## Usage
@@ -234,6 +235,50 @@ export function MyForm() {
   )
 }
 ```
+
+## Edit and View container
+
+The `Form.Section` supports an [EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container. The edit container should be used for data input with fields. While the view container is used to display the data in a read-only way.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+function MyEditContainer() {
+  return (
+    <Form.Section.EditContainer>
+      <Field.Name.First path="/firstName" />
+      <Field.Name.Last path="/lastName" />
+    </Form.Section.EditContainer>
+  )
+}
+
+function MyViewContainer() {
+  return (
+    <Form.Section.EditContainer>
+      <Value.Name.First path="/firstName" />
+      <Value.Name.Last path="/lastName" />
+    </Form.Section.EditContainer>
+  )
+}
+
+function MySection() {
+  return (
+    <Form.Section>
+      <MyEditContainer />
+      <MyViewContainer />
+    </Form.Section>
+  )
+}
+
+render(
+  <Form.Handler>
+    <MySection />
+    <Form.SubmitButton />
+  </Form.Handler>,
+)
+```
+
+Note: The reason `Done` and not `Save` is used in the toolbar button is because validation is done in fields. If we decouple the data entered in a section, the `Form.Handler` will not be able to validate the data on submit. This can also lead to missing data because the user can press the submit button before `Save` is pressed.
 
 ## Snapshot testing of a section (block)
 

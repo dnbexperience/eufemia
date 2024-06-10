@@ -1,0 +1,12 @@
+// More styles are in "dnb-form-section.scss"
+
+.dnb-forms-iterate {
+  &__element {
+    outline: none; // for JavaSCript focus
+  }
+
+  & > &__element:has(> &-block) {
+    // To make Animation not jump, we add "margin-bottom" in the inner element
+    margin-top: 0;
+  }
+}

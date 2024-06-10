@@ -5,7 +5,7 @@ import Toolbar from '../Toolbar'
 import nbNO from '../../../constants/locales/nb-NO'
 import RemoveButton from '../../RemoveButton'
 
-const nb = nbNO['nb-NO'].Iterate
+const nb = nbNO['nb-NO'].Section
 
 describe('Toolbar', () => {
   it('supports spacing props', () => {

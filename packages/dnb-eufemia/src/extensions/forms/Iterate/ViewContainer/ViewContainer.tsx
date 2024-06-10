@@ -27,7 +27,7 @@ function ViewContainer(props: AllProps) {
     <ElementBlock
       mode="view"
       ariaLabel={ariaLabel}
-      className={classnames('dnb-forms-iterate-view-block', className)}
+      className={classnames('dnb-forms-section-view-block', className)}
       {...restProps}
     >
       <Flex.Stack>

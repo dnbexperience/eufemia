@@ -7,7 +7,7 @@ import { Field, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Iterate
+const nb = nbNO['nb-NO'].Section
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', async () => {
@@ -27,10 +27,10 @@ describe('EditContainer and ViewContainer', () => {
 
     {
       const [viewBlock, editBlock] = Array.from(
-        firstElement.querySelectorAll('.dnb-forms-iterate-block')
+        firstElement.querySelectorAll('.dnb-forms-section-block')
       )
-      expect(viewBlock).toHaveClass('dnb-forms-iterate-view-block')
-      expect(editBlock).toHaveClass('dnb-forms-iterate-edit-block')
+      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
 
       // Switch to edit mode
       fireEvent.click(viewBlock.querySelector('button'))
@@ -47,10 +47,10 @@ describe('EditContainer and ViewContainer', () => {
 
     {
       const [viewBlock, editBlock] = Array.from(
-        secondElement.querySelectorAll('.dnb-forms-iterate-block')
+        secondElement.querySelectorAll('.dnb-forms-section-block')
       )
-      expect(viewBlock).toHaveClass('dnb-forms-iterate-view-block')
-      expect(editBlock).toHaveClass('dnb-forms-iterate-edit-block')
+      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
 
       // Switch to edit mode
       fireEvent.click(viewBlock.querySelector('button'))
@@ -116,13 +116,13 @@ describe('EditContainer and ViewContainer', () => {
 
     const firstElement = elements[0]
     const [viewBlock, editBlock] = Array.from(
-      firstElement.querySelectorAll('.dnb-forms-iterate-block')
+      firstElement.querySelectorAll('.dnb-forms-section-block')
     )
     const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
     const [cancelButton] = Array.from(editBlock.querySelectorAll('button'))
 
-    expect(viewBlock).toHaveClass('dnb-forms-iterate-view-block')
-    expect(editBlock).toHaveClass('dnb-forms-iterate-edit-block')
+    expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+    expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
 
     expect(document.body).toHaveFocus()
 
@@ -172,14 +172,14 @@ describe('EditContainer and ViewContainer', () => {
 
     const firstElement = elements[0]
     const [viewBlock, editBlock] = Array.from(
-      firstElement.querySelectorAll('.dnb-forms-iterate-block')
+      firstElement.querySelectorAll('.dnb-forms-section-block')
     )
     const [, removeButton] = Array.from(
       viewBlock.querySelectorAll('button')
     )
 
-    expect(viewBlock).toHaveClass('dnb-forms-iterate-view-block')
-    expect(editBlock).toHaveClass('dnb-forms-iterate-edit-block')
+    expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+    expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
 
     expect(document.body).toHaveFocus()
 
@@ -206,13 +206,13 @@ describe('EditContainer and ViewContainer', () => {
 
     const element = document.querySelector('.dnb-forms-iterate__element')
     const [viewBlock, editBlock] = Array.from(
-      element.querySelectorAll('.dnb-forms-iterate-block')
+      element.querySelectorAll('.dnb-forms-section-block')
     )
     expect(viewBlock).toHaveClass(
-      'dnb-forms-iterate-block--variant-outline'
+      'dnb-forms-section-block--variant-outline'
     )
     expect(editBlock).toHaveClass(
-      'dnb-forms-iterate-block--variant-outline'
+      'dnb-forms-section-block--variant-outline'
     )
   })
 
@@ -230,9 +230,9 @@ describe('EditContainer and ViewContainer', () => {
 
     const element = document.querySelector('.dnb-forms-iterate__element')
     const [viewBlock, editBlock] = Array.from(
-      element.querySelectorAll('.dnb-forms-iterate-block')
+      element.querySelectorAll('.dnb-forms-section-block')
     )
-    expect(viewBlock).toHaveClass('dnb-forms-iterate-block--variant-basic')
-    expect(editBlock).toHaveClass('dnb-forms-iterate-block--variant-basic')
+    expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
+    expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
   })
 })

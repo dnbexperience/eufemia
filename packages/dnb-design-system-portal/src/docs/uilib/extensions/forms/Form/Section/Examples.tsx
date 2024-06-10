@@ -35,7 +35,7 @@ export const NestedPathSection = () => {
 
         return (
           <Form.Handler
-            onSubmit={console.log}
+            onSubmit={async (data) => console.log('onSubmit', data)}
             defaultData={{
               nestedPath: {
                 firstName: 'Nora',
@@ -45,6 +45,105 @@ export const NestedPathSection = () => {
           >
             <MyNameSection path="/nestedPath" />
             <Form.SubmitButton variant="send" />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ViewAndEditContainer = () => {
+  return (
+    <ComponentBox data-visual-test="view-and-edit-container" hideCode>
+      {() => {
+        const MyEditContainer = () => {
+          return (
+            <Form.Section.EditContainer>
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>
+          )
+        }
+
+        const MyViewContainer = () => {
+          return (
+            <Form.Section.ViewContainer>
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>
+          )
+        }
+
+        return (
+          <Form.Handler
+            onSubmit={async (data) => console.log('onSubmit', data)}
+            defaultData={{
+              nestedPath: {
+                firstName: 'Nora',
+              },
+            }}
+          >
+            <Card stack>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Card>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const BasicViewAndEditContainer = () => {
+  return (
+    <ComponentBox
+      data-visual-test="basic-view-and-edit-container"
+      hideCode
+    >
+      {() => {
+        const MyEditContainer = () => {
+          return (
+            <Form.Section.EditContainer variant="basic">
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>
+          )
+        }
+
+        const MyViewContainer = () => {
+          return (
+            <Form.Section.ViewContainer variant="basic">
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>
+          )
+        }
+
+        return (
+          <Form.Handler
+            onSubmit={async (data) => console.log('onSubmit', data)}
+            defaultData={{
+              nestedPath: {
+                firstName: 'Nora',
+              },
+            }}
+          >
+            <Card stack>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Card>
+            <Form.SubmitButton />
           </Form.Handler>
         )
       }}
@@ -75,7 +174,7 @@ export const OverwriteProps = () => {
 
         return (
           <Form.Handler
-            onSubmit={console.log}
+            onSubmit={async (data) => console.log('onSubmit', data)}
             defaultData={{
               nestedPath: {
                 firstName: '',
@@ -128,12 +227,17 @@ export const AllFieldsRequired = () => {
 
         return (
           <Flex.Stack>
-            <Form.Handler onSubmit={console.log}>
+            <Form.Handler
+              onSubmit={async (data) => console.log('onSubmit', data)}
+            >
               <MyNameSection required />
               <Form.SubmitButton variant="send" />
             </Form.Handler>
 
-            <Form.Handler onSubmit={console.log} schema={schema}>
+            <Form.Handler
+              onSubmit={async (data) => console.log('onSubmit', data)}
+              schema={schema}
+            >
               <MyNameSection path="/myRequiredSection" />
               <Form.SubmitButton variant="send" />
             </Form.Handler>
@@ -187,7 +291,7 @@ export const SchemaSupport = () => {
 
         return (
           <Form.Handler
-            onSubmit={console.log}
+            onSubmit={async (data) => console.log('onSubmit', data)}
             schema={mySchema}
             defaultData={{
               nestedPath: {
@@ -285,7 +389,7 @@ export const NestedSections = () => {
       {() => {
         return (
           <Form.Handler
-            onSubmit={console.log}
+            onSubmit={async (data) => console.log('onSubmit', data)}
             defaultData={{
               nestedPath: {
                 name: {
