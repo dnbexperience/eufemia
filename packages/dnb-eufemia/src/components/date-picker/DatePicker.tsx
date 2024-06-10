@@ -298,10 +298,7 @@ export type DatePickerProps = Omit<
     /**
      * Will be called once date-picker is hidden.
      */
-    on_hide?: (
-      event: (DisplayPickerEvent | DatePickerChangeEvent) &
-        ReturnObject<DisplayPickerEvent | DatePickerChangeEvent>
-    ) => void
+    on_hide?: (event: DisplayPickerEvent) => void
     /**
      * Will be called once a user presses the submit button.
      */
@@ -413,7 +410,7 @@ function DatePicker(externalProps: DatePickerProps) {
   }, [])
 
   const hidePicker = useCallback(
-    (args: DisplayPickerEvent) => {
+    (args?: DisplayPickerEvent) => {
       if (prevent_close) {
         return // stop here
       }
@@ -424,7 +421,11 @@ function DatePicker(externalProps: DatePickerProps) {
 
       setOpened(false)
 
-      on_hide?.({ ...getReturnObject.current(args) })
+      // Double check and compare return
+      on_hide?.({
+        ...args,
+        ...getReturnObject.current(args),
+      })
 
       hideTimeout.current = setTimeout(
         () => {
@@ -515,7 +516,7 @@ function DatePicker(externalProps: DatePickerProps) {
       ...args
     }: DatePickerChangeEvent) => {
       if (shouldHidePicker && !show_submit_button && !show_cancel_button) {
-        hidePicker(args)
+        hidePicker()
       }
 
       setStartDate(args.startDate)
@@ -545,7 +546,7 @@ function DatePicker(externalProps: DatePickerProps) {
 
   const onResetHandler = useCallback(
     (event: DatePickerChangeEvent) => {
-      hidePicker(event)
+      hidePicker()
       on_reset?.({ ...event, ...getReturnObject.current(event) })
     },
     [hidePicker, on_reset]
