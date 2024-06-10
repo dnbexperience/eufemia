@@ -7,7 +7,6 @@ import React, {
   MutableRefObject,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
