@@ -760,13 +760,6 @@ describe('DatePicker component', () => {
     await userEvent.type(elem, '01')
 
     expect(on_change).toHaveBeenCalledTimes(2)
-    // expect(on_change).toHaveBeenNthCalledWith(
-    //   1,
-    //   expect.objectContaining({
-    //     is_valid_start_date: false,
-    //     start_date: null,
-    //   })
-    // )
     expect(on_change).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
@@ -777,7 +770,7 @@ describe('DatePicker component', () => {
     // change the date to a valid date
     await userEvent.type(elem, '{Backspace>2}03')
 
-    expect(on_change).toHaveBeenCalledTimes(4)
+    expect(on_change).toHaveBeenCalledTimes(3)
     expect(on_change).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
