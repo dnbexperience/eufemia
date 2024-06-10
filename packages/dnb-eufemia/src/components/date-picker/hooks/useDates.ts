@@ -52,88 +52,17 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  // TODO: cleanup init functionality
-  const initDates = useCallback(() => {
-    const startDate =
-      typeof initialDates?.startDate !== 'undefined'
-        ? getDate(initialDates.startDate, dateFormat)
-        : typeof initialDates?.date !== 'undefined'
-        ? getDate(initialDates.date, dateFormat)
-        : null
-
-    const endDate = !isRange
-      ? startDate
-      : convertStringToDate(
-          String(initialDates?.endDate) || String(initialDates?.date),
-          {
-            date_format: dateFormat,
-          }
-        ) || undefined
-
-    const startMonth = convertStringToDate(
-      String(initialDates.startMonth),
-      {
-        date_format: dateFormat,
-      }
-    )
-
-    const endMonth = convertStringToDate(String(initialDates.endMonth), {
-      date_format: dateFormat,
-    })
-
-    const minDate = convertStringToDate(String(initialDates.minDate), {
-      date_format: dateFormat,
-    })
-
-    const maxDate = convertStringToDate(String(initialDates.maxDate), {
-      date_format: dateFormat,
-    })
-
-    const hasValidStartDate = isValid(startDate)
-    const hasValidEndDate = isValid(endDate)
-
-    const correctedDates = shouldCorrectDate
-      ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
-      : {}
-
-    const dates = {
-      startDate,
-      endDate,
-      startMonth,
-      endMonth,
-      minDate,
-      maxDate,
-      ...correctedDates,
-    }
-
-    return {
-      ...dates,
-      __startDay: hasValidStartDate
-        ? pad(format(dates.startDate, 'dd'), 2)
-        : null,
-      __startMonth: hasValidStartDate
-        ? pad(format(dates.startDate, 'MM'), 2)
-        : null,
-      __startYear: hasValidStartDate
-        ? format(dates.startDate, 'yyyy')
-        : null,
-      __endDay: hasValidEndDate
-        ? pad(format(dates.endDate, 'dd'), 2)
-        : null,
-      __endMonth: hasValidEndDate
-        ? pad(format(dates.endDate, 'MM'), 2)
-        : null,
-      __endYear: hasValidEndDate ? format(dates.endDate, 'yyyy') : null,
-    }
-  }, [initialDates, dateFormat, isRange, shouldCorrectDate])
-
   const previousDates = usePreviousProps(initialDates)
   const [dates, setDates] = useState<DatePickerDates>({
     date:
       previousDates.date !== initialDates.date
         ? initialDates.date
         : previousDates.date,
-    ...initDates(),
+    ...initializeDates(initialDates, {
+      dateFormat,
+      isRange,
+      shouldCorrectDate,
+    }),
   })
 
   const hasHadValidDate = useRef<boolean>(false)
@@ -179,9 +108,23 @@ export default function useDates(
     })
 
     if (hasDatePropsChanged) {
-      updateDates({ date: initialDates.date, ...initDates() })
+      updateDates({
+        date: initialDates.date,
+        ...initializeDates(initialDates, {
+          dateFormat,
+          isRange,
+          shouldCorrectDate,
+        }),
+      })
     }
-  }, [initialDates, previousDates, initDates, updateDates])
+  }, [
+    initialDates,
+    previousDates,
+    updateDates,
+    dateFormat,
+    isRange,
+    shouldCorrectDate,
+  ])
 
   // Updated input dates based on start and end dates
   useEffect(() => {
@@ -229,6 +172,78 @@ export default function useDates(
     hasHadValidDate.current,
     previousDates,
   ] as const
+}
+
+function initializeDates(
+  initialDates: DatePickerInitialDates,
+  { dateFormat, isRange, shouldCorrectDate }: UseDatesOptions
+) {
+  const startDate =
+    typeof initialDates?.startDate !== 'undefined'
+      ? getDate(initialDates.startDate, dateFormat)
+      : typeof initialDates?.date !== 'undefined'
+      ? getDate(initialDates.date, dateFormat)
+      : null
+
+  const endDate = !isRange
+    ? startDate
+    : convertStringToDate(
+        String(initialDates?.endDate) || String(initialDates?.date),
+        {
+          date_format: dateFormat,
+        }
+      ) || undefined
+
+  const startMonth = convertStringToDate(String(initialDates.startMonth), {
+    date_format: dateFormat,
+  })
+
+  const endMonth = convertStringToDate(String(initialDates.endMonth), {
+    date_format: dateFormat,
+  })
+
+  const minDate = convertStringToDate(String(initialDates.minDate), {
+    date_format: dateFormat,
+  })
+
+  const maxDate = convertStringToDate(String(initialDates.maxDate), {
+    date_format: dateFormat,
+  })
+
+  const hasValidStartDate = isValid(startDate)
+  const hasValidEndDate = isValid(endDate)
+
+  const correctedDates = shouldCorrectDate
+    ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
+    : {}
+
+  const dates = {
+    startDate,
+    endDate,
+    startMonth,
+    endMonth,
+    minDate,
+    maxDate,
+    ...correctedDates,
+  }
+
+  return {
+    ...dates,
+    __startDay: hasValidStartDate
+      ? pad(format(dates.startDate, 'dd'), 2)
+      : null,
+    __startMonth: hasValidStartDate
+      ? pad(format(dates.startDate, 'MM'), 2)
+      : null,
+    __startYear: hasValidStartDate
+      ? format(dates.startDate, 'yyyy')
+      : null,
+    __endDay: hasValidEndDate ? pad(format(dates.endDate, 'dd'), 2) : null,
+    __endMonth: hasValidEndDate
+      ? pad(format(dates.endDate, 'MM'), 2)
+      : null,
+    __endYear: hasValidEndDate ? format(dates.endDate, 'yyyy') : null,
+  }
 }
 
 function correctDates({ startDate, endDate, minDate, maxDate, isRange }) {
