@@ -1,6 +1,7 @@
 import { useMemo, useContext } from 'react'
 import SharedContext from '../../../shared/Context'
-import { combineTranslations } from '../../../shared/useTranslation'
+import { combineWithExternalTranslations } from '../../../shared/useTranslation'
+import { extendDeep } from '../../../shared/component-helper'
 import { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
 import formsLocales from '../constants/locales'
@@ -25,22 +26,20 @@ export default function useTranslation<T = FormsTranslation>(
     | CustomLocales
     | Record<FormsTranslationLocale, T>
 ) {
-  const { locale, translation } = useContext(SharedContext)
+  const { locale, translation: globalTranslation } =
+    useContext(SharedContext)
 
   return useMemo(() => {
-    const tr = formsLocales[locale] || formsLocales[LOCALE]
+    const translation = extendDeep(
+      {},
+      formsLocales[locale] || formsLocales[LOCALE],
+      globalTranslation
+    )
 
-    const Forms = translation?.Forms
-    if (Forms) {
-      for (const key in Forms) {
-        tr[key] = Object.assign(tr?.[key] || {}, Forms[key])
-      }
-    }
-
-    return combineTranslations({
-      translation: tr,
+    return combineWithExternalTranslations({
+      translation,
       messages,
       locale,
     }) as T
-  }, [locale, messages, translation])
+  }, [globalTranslation, locale, messages])
 }

@@ -958,7 +958,7 @@ describe('Form.Handler', () => {
     )
   })
 
-  it('should support nested translations prop', () => {
+  it('should support translations prop', () => {
     const translations = {
       'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
       'en-GB': { PhoneNumber: { label: 'Custom' } },

@@ -3,10 +3,11 @@
  *
  */
 
-import React from 'react'
+import { createContext } from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extendDeep } from './component-helper'
+import pointer from 'json-pointer'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
@@ -200,9 +201,7 @@ export type TranslationLocale = keyof TranslationDefaultLocales
 export type TranslationKeys =
   keyof TranslationDefaultLocales[TranslationLocale]
 export type TranslationValues =
-  TranslationDefaultLocales[TranslationLocale] & {
-    Forms?: Record<string, unknown>
-  }
+  TranslationDefaultLocales[TranslationLocale]
 export type TranslationCustomLocales = Record<
   never,
   string | Record<string, string>
@@ -221,24 +220,35 @@ export type TranslationFlat = Record<
   TranslationKeys | ComponentTranslation
 >
 
+export type TranslationFlatToObject<T> = T extends Record<string, unknown>
+  ? {
+      // eslint-disable-next-line no-unused-vars
+      [K in keyof T as K extends `${infer First}.${infer Rest}`
+        ? First
+        : // eslint-disable-next-line no-unused-vars
+          K]: K extends `${infer First}.${infer Rest}`
+        ? TranslationFlatToObject<Record<Rest, T[K]>>
+        : T[K]
+    }
+  : T
+
 export function prepareContext<Props>(
   props: ContextProps = {}
 ): Props & ContextProps {
-  const translations: Translations =
-    props.translations || props.locales
-      ? extendDeep(
-          { ...defaultLocales },
-          props.translations || props.locales
-        )
-      : defaultLocales
-
-  if (props.__context__) {
-    Object.assign(props, props.__context__)
+  if (props?.__context__) {
+    props = Object.assign({}, props, props.__context__)
     delete props.__context__
   }
 
-  const key = handleLocaleFallbacks(props.locale || LOCALE, translations)
-  const translation = translations[key] || defaultLocales[LOCALE] || {} // here we could use Object.freeze
+  const translations: Translations =
+    props.translations || props.locales
+      ? extendDeep({}, defaultLocales, props.translations || props.locales)
+      : extendDeep({}, defaultLocales)
+
+  const localeWithFallback = handleLocaleFallbacks(
+    props.locale || LOCALE,
+    props.translations || props.locales
+  )
 
   /**
    * The code above adds support for strings, defined like:
@@ -246,56 +256,57 @@ export function prepareContext<Props>(
    *    "Modal.close_title": "Lukk",
    * }
    */
-  if (translations[key]) {
-    translations[key] = destruct(
-      translations[key] as TranslationFlat,
-      translation
+  for (const locale in translations) {
+    translations[locale] = destructFlatTranslation(
+      translations[locale] as TranslationFlat
     )
   }
 
+  const translation =
+    translations[localeWithFallback] || defaultLocales[LOCALE] || {}
+
   const context = {
-    // We may use that in future
-    updateTranslation: (locale, translation) => {
-      context.translation = (context.translations || context.locales)[
-        locale
-      ] = translation
+    ...props,
+    updateTranslation: (locale, newTranslations) => {
+      context.translation = newTranslations[locale]
+      context.translations = newTranslations
+
+      if (context.locales) {
+        context.locales = context.translations
+      }
     },
-    getTranslation: (props) => {
-      if (props) {
-        const lang = props.lang || props.locale
+    getTranslation: (localProps) => {
+      if (localProps) {
+        const locale = localProps.lang || localProps.locale
         if (
-          lang &&
-          (context.translations || context.locales)[lang] &&
-          lang !== key
+          locale &&
+          (context.translations || context.locales)[locale] &&
+          locale !== localeWithFallback
         ) {
-          return (context.translations || context.locales)[lang]
+          const tr = context.translations || context.locales
+          return tr[locale]
         }
       }
-      return context.translation
+      return context.translation || defaultLocales[LOCALE]
     },
-
-    translations,
-    locale: null,
-    breakpoints: null,
-    skeleton: null,
-
-    ...props,
 
     /**
      * Make sure we set this after props, since we update this one!
      */
+    locales: translations, // @deprecated – can be removed in v11
+    translations,
     translation,
   } as Props & ContextProps
 
-  return context
+  return { ...context }
 }
 
 function handleLocaleFallbacks(
   locale: InternalLocale | AnyLocale,
-  translations: Translations
+  translations: Translations = {}
 ) {
   if (!translations[locale]) {
-    if (locale === 'en' || locale.split('-')[0] === 'en') {
+    if (locale === 'en' || String(locale).split('-')[0] === 'en') {
       return 'en-GB'
     }
   }
@@ -303,7 +314,7 @@ function handleLocaleFallbacks(
 }
 
 // If no provider is given, we use the default context from here
-const Context = React.createContext<ContextProps>(
+const Context = createContext<ContextProps>(
   prepareContext({
     locale: LOCALE,
     currency: CURRENCY,
@@ -313,27 +324,19 @@ const Context = React.createContext<ContextProps>(
 
 export default Context
 
-function destruct(
-  source: TranslationFlat,
-  validKeys: Record<string, unknown>
-): TranslationFlat {
+export function destructFlatTranslation(source: TranslationFlat) {
+  let hasFlatTr = false
+  const destructed = {}
+
   for (const k in source) {
     if (String(k).includes('.')) {
-      const list = k.split('.')
-
-      if (validKeys[list[0]]) {
-        const val = source[k]
-        const last = list.length - 1
-
-        list.forEach((k, i) => {
-          source[k] = i === last ? val : source[k]
-
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          source = source[k] || {}
-        })
-      }
+      pointer.set(destructed, '/' + k.replace(/\./g, '/'), source[k])
+      hasFlatTr = true
     }
+  }
+
+  if (hasFlatTr) {
+    return extendDeep({}, source, destructed)
   }
 
   return source

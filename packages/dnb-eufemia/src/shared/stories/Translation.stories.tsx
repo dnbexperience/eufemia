@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Dialog, Dropdown } from '../../components'
 import { Provider, Context, useTranslation } from '../'
-import Translation, { getTranslation } from '../Translation'
+import Translation from '../Translation'
 import { P } from '../..'
 
 // import nbNO from '../locales/nb-NO'
@@ -86,12 +86,6 @@ export const TranslationSandbox = () => (
             'en-GB': enGB,
           }}
         >
-          {getTranslation('other.string', {
-            foo: 'foo',
-            bar: 'riskScore',
-            max: 'max',
-          })}
-
           <Translation
             id="other.string"
             foo="foo"
