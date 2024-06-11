@@ -10,8 +10,10 @@ import Provider from '../../../../shared/Provider'
 import { LOCALE as defaultLocale } from '../../../../shared/defaults'
 
 // Translations
-import nbNO from '../../constants/locales/nb-NO'
-import enGB from '../../constants/locales/en-GB'
+import forms_nbNO from '../../constants/locales/nb-NO'
+import forms_enGB from '../../constants/locales/en-GB'
+import global_nbNO from '../../../../shared/locales/nb-NO'
+import global_enGB from '../../../../shared/locales/en-GB'
 
 describe('Form.useTranslation', () => {
   it('should default to nb-NO if no locale is specified in context', () => {
@@ -20,9 +22,13 @@ describe('Form.useTranslation', () => {
     })
 
     expect(result.current).toEqual(
-      Object.assign(nbNO[defaultLocale], {
-        formatMessage: expect.any(Function),
-      })
+      Object.assign(
+        forms_nbNO[defaultLocale],
+        global_nbNO[defaultLocale],
+        {
+          formatMessage: expect.any(Function),
+        }
+      )
     )
   })
 
@@ -34,7 +40,9 @@ describe('Form.useTranslation', () => {
     })
 
     expect(resultGB.current).toEqual(
-      Object.assign(enGB['en-GB'], { formatMessage: expect.any(Function) })
+      Object.assign(forms_enGB['en-GB'], global_enGB['en-GB'], {
+        formatMessage: expect.any(Function),
+      })
     )
 
     const { result: resultNO } = renderHook(() => useTranslation(), {
@@ -44,7 +52,9 @@ describe('Form.useTranslation', () => {
     })
 
     expect(resultNO.current).toEqual(
-      Object.assign(nbNO['nb-NO'], { formatMessage: expect.any(Function) })
+      Object.assign(forms_nbNO['nb-NO'], {
+        formatMessage: expect.any(Function),
+      })
     )
   })
 
