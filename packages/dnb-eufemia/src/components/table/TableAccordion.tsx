@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classnames from 'classnames'
 import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'
@@ -12,22 +12,33 @@ import TableAccordionTd from './TableAccordionTd'
 import TableAccordionTr from './TableAccordionTr'
 import type { TableAccordionTdProps } from './TableAccordionTd'
 import type { TableAccordionTrProps } from './TableAccordionTr'
+import type { TableTrProps } from './TableTr'
 
 type TableAccordionContentProps =
   | TableAccordionTdProps
   | TableAccordionTrProps
 
-export function useTableAccordion({
-  children,
-  className,
-  props,
-  expanded,
-  disabled,
-  noAnimation,
-  onClick,
-  onOpened,
-  onClosed,
-}) {
+type TableAccordionProps = {
+  count: number
+}
+
+export function TableAccordion(
+  allProps: TableAccordionProps &
+    TableTrProps &
+    React.TableHTMLAttributes<HTMLTableRowElement>
+) {
+  const {
+    children,
+    className,
+    expanded,
+    disabled,
+    noAnimation,
+    onClick,
+    onOpened,
+    onClosed,
+    count,
+    ...props
+  } = allProps
   const tableContext = React.useContext(TableContext)
 
   const [trIsOpen, setOpen] = React.useState(() => {
@@ -44,10 +55,6 @@ export function useTableAccordion({
   })
   const [trIsHover, setHover] = React.useState(false)
   const [trHadClick, setHadClick] = React.useState(false)
-
-  if (!tableContext?.allProps?.accordion) {
-    return null
-  }
 
   let headerContent = React.Children.toArray(children)
 
@@ -70,6 +77,18 @@ export function useTableAccordion({
   const hasAccordionContent =
     accordionContent.length !== 0 &&
     accordionContent.every((element) => React.isValidElement(element))
+
+  useEffect(() => {
+    if (
+      hasAccordionContent &&
+      tableContext?.collapseTrCallbacks?.current &&
+      count
+    ) {
+      tableContext.collapseTrCallbacks.current[count] = () => {
+        setOpen(false)
+      }
+    }
+  }, [count, tableContext?.collapseTrCallbacks, hasAccordionContent])
 
   const trParams =
     !disabled && hasAccordionContent
@@ -141,8 +160,8 @@ export function useTableAccordion({
     </TableAccordionContext.Provider>
   )
 
-  function onKeydownHandler(event: KeyboardEvent) {
-    switch (keycode(event)) {
+  function onKeydownHandler(event: React.SyntheticEvent) {
+    switch (keycode(event.nativeEvent)) {
       case 'space':
       case 'enter':
         {
@@ -166,7 +185,7 @@ export function useTableAccordion({
     setHadClick(false)
   }
   function toggleOpenTr(
-    event: MouseEvent,
+    event: React.SyntheticEvent,
     allowInteractiveElement = false
   ) {
     const target = event.target as HTMLElement

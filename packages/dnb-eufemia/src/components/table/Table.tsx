@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -79,6 +79,13 @@ export type TableProps = {
    * Default: null.
    */
   fixed?: boolean
+
+  /**
+   * ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.
+   *
+   * Default: `undefined`
+   */
+  collapseAllHandleRef?: React.MutableRefObject<() => void>
 } & StickyTableHeaderProps
 
 export type TableAllProps = TableProps &
@@ -116,11 +123,21 @@ const Table = (componentProps: TableAllProps) => {
     outline,
     accordion,
     accordionChevronPlacement, // eslint-disable-line
+    collapseAllHandleRef,
     ...props
   } = allProps
 
   const { elementRef } = useStickyHeader(allProps)
   const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
+  const collapseTrCallbacks = React.useRef<(() => void)[]>([])
+
+  useEffect(() => {
+    if (collapseAllHandleRef) {
+      collapseAllHandleRef.current = () => {
+        collapseTrCallbacks.current.forEach((callback) => callback())
+      }
+    }
+  }, [collapseAllHandleRef])
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
@@ -133,6 +150,7 @@ const Table = (componentProps: TableAllProps) => {
         value={{
           trCountRef,
           rerenderAlias,
+          collapseTrCallbacks,
           allProps: {
             ...allProps,
             ...context.getTranslation(componentProps).Table,
