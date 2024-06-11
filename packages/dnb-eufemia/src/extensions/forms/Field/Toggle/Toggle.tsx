@@ -170,7 +170,6 @@ function Toggle(props: Props) {
               <ToggleButton
                 text={textOff ?? translations.no}
                 value="off"
-                // suffix={suffix}
                 {...htmlAttributes}
               />
             </ToggleButtonGroupContext.Provider>

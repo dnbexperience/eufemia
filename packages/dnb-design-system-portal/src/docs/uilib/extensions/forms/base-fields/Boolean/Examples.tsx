@@ -286,3 +286,15 @@ export const ButtonsError = () => {
     </ComponentBox>
   )
 }
+
+export const VariantButtonsWithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="boolean-variant-buttons-with-help">
+      <Field.Boolean
+        variant="buttons"
+        label="Buttons variant"
+        help={{ title: 'Help title', content: 'Help content' }}
+      />
+    </ComponentBox>
+  )
+}
