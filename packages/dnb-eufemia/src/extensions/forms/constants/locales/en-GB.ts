@@ -3,6 +3,13 @@ export default {
     /**
      * General
      */
+    Field: {
+      errorSummaryTitle: 'Please correct the following errors',
+      stateSummary: 'Summary:',
+      errorSummary: 'Please correct the following errors:',
+      errorRequired: 'This field is required.',
+      errorPattern: 'The value is invalid.',
+    },
     SubmitButton: {
       text: 'Send',
       sendText: 'Send',
@@ -12,9 +19,6 @@ export default {
       previous: 'Back',
       edit: 'Edit',
       summaryTitle: 'Summary',
-    },
-    Form: {
-      errorSummaryTitle: 'Please correct the following errors',
     },
     Section: {
       remove: 'Remove',
@@ -27,12 +31,6 @@ export default {
     /**
      * Base fields
      */
-    Field: {
-      stateSummary: 'Summary:',
-      errorSummary: 'Please correct the following errors:',
-      errorRequired: 'This field is required.',
-      errorPattern: 'The value is invalid.',
-    },
     StringField: {
       errorMinLength:
         'The value can not be shorter than {minLength} characters.',

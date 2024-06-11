@@ -21,7 +21,7 @@ const colorString = 'var(--color-fire-red)'
 const colorType = 'var(--color-violet)'
 const colorUndefined = 'var(--color-black-55)'
 
-const FormattedCode = ({
+export const FormattedCode = ({
   variant,
   strikethrough,
   children,
@@ -178,7 +178,7 @@ function convertToCamelCase(doc: string, keys: string[]) {
   return doc
 }
 
-function formatName(name: string): React.ReactNode | string {
+export function formatName(name: string): React.ReactNode | string {
   if (name.includes('/')) {
     return <ReactMarkdown components={components}>{name}</ReactMarkdown>
   }

@@ -2,6 +2,7 @@
 showTabs: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
@@ -17,3 +18,7 @@ import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDo
 ### General props
 
 <PropertiesTable props={fieldProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['Email', 'Field']} />
