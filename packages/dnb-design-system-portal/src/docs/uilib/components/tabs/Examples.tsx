@@ -138,7 +138,9 @@ export const TabsExampleScrollable = () => (
       data-visual-test="tabs-tablist-scrollable"
       scope={{ manyTabs, manyTabsContent }}
     >
-      <Tabs data={manyTabs}>{manyTabsContent}</Tabs>
+      <Tabs selected_key="second" data={manyTabs}>
+        {manyTabsContent}
+      </Tabs>
     </ComponentBox>
   </Wrapper>
 )

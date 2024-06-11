@@ -41,6 +41,9 @@
     #toggle-sidebar-menu {
       display: none;
     }
+    #github-button {
+      display: inline-flex;
+    }
 
     /*
     God for a mobile menu instead
@@ -49,6 +52,9 @@
     @include allBelow(medium) {
       #toggle-sidebar-menu {
         display: flex;
+      }
+      #github-button {
+        display: none;
       }
     }
     @include allBelow(small) {

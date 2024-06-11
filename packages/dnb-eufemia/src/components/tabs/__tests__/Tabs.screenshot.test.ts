@@ -12,7 +12,6 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/uilib/components/tabs/demos',
-    each: true,
   })
 
   it('have to match the "Tablist"', async () => {
@@ -39,16 +38,6 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
   it('have to match a tablist with a click handler', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match horizontally aligned tabs', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        width: '60rem',
-      },
-      selector: '[data-visual-test="tabs-horizontally-aligned"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -111,22 +100,22 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match a tab button in focus state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
+      simulateSelector:
+        '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the "Tablist" on focus state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       style: { margin: '0 2rem' },
       simulateSelector:
         '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist',
-      simulate: 'focus',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match a tab button in focus state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
-      simulateSelector:
-        '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
       simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -154,7 +143,6 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     pageViewport: {
       width: 480, // 30rem
     },
-    each: true,
   })
 
   it('have to match scrollable tabs narrow', async () => {
@@ -176,7 +164,16 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     pageViewport: {
       width: 800, // 50rem
     },
-    each: true,
+  })
+
+  it('have to match horizontally aligned tabs', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        width: '50rem',
+      },
+      selector: '[data-visual-test="tabs-horizontally-aligned"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match scrollable tabs', async () => {
@@ -198,7 +195,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
       simulateSelector:
-        '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:first-of-type button',
+        '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__scroll-nav-button:first-child',
       simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()

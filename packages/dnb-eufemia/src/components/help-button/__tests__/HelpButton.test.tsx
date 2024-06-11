@@ -60,9 +60,15 @@ describe('HelpButton', () => {
     expect(
       document
         .querySelector('.dnb-button')
-
         .getAttribute('aria-roledescription')
     ).toBe('Hjelp-knapp')
+  })
+
+  it('should have larger bounding class when size is set to small', () => {
+    render(<HelpButton {...props} size="small" />)
+    expect(
+      document.querySelector('.dnb-button .dnb-button__bounding')
+    ).toBeInTheDocument()
   })
 
   describe('with bell icon', () => {

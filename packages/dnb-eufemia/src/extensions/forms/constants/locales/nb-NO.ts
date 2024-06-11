@@ -16,11 +16,12 @@ export default {
     Form: {
       errorSummaryTitle: 'Feil som må rettes',
     },
-    Iterate: {
+    Section: {
       remove: 'Fjern',
       done: 'Ferdig',
       cancel: 'Avbryt',
       edit: 'Endre',
+      errorInSection: 'Feilene ovenfor må rettes',
     },
 
     /**

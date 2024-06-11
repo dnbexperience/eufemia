@@ -95,7 +95,8 @@ This document provides a set of best practices to follow when creating forms for
 </Wizard.Container>
 ```
 
-- [Iterate](/uilib/extensions/forms/Iterate/) component also includes focus management by default similar as the Wizard step change.
+- The [Iterate](/uilib/extensions/forms/Iterate/) component includes focus management for its Edit and View containers when opening, closing and deleting items.
+- The [Form.Section](/uilib/extensions/forms/Form/Section/) component also has focus management by default like `Iterate` does.
 
 ```jsx
 <Wizard.Container>
@@ -104,3 +105,14 @@ This document provides a set of best practices to follow when creating forms for
   </Iterate.Array>
 </Wizard.Container>
 ```
+
+{/* prettier-ignore */}
+<div align="center" aria-hidden>
+{`
+   🕯🕯🕯
+  🍓🍓🍓🍓🍓🍓
+ 🎂🎂🎂🎂🎂🎂🎂
+ 🎂🎂🎂🎂🎂🎂🎂
+🍰🍰🍰🍰🍰🍰🍰🍰🍰
+`.split('\n').map((line, i) => (<div key={i}>{line}</div>))}
+</div>

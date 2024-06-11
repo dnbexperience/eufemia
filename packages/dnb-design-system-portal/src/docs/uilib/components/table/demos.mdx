@@ -40,17 +40,35 @@ A `small` sized table is only for special circumstances, where a lot of data nee
 
 ### Table with accordion
 
-##### Expand a single container
+#### Expand a single container
 
 The second table uses both a `border` and an `outline`.
 
 <Examples.Accordion />
 
-##### Expand additional rows
+#### Expand additional rows
 
 It's also possible to use accordion to expand the table with more rows.
 
 <Examples.AccordionRow />
+
+##### Collapse all rows at once
+
+You can collapse all expanded rows by sending a ref to the `collapseAllHandleRef` prop and calling the `.current()` function on your ref.
+
+```jsx
+const myTableCollapseAll = React.useRef<() => void>()
+
+return (
+  <button onClick={() => myTableCollapseAll.current()}>
+    Close all rows
+  </button>
+
+  <Table accordion collapseAllHandleRef={myTableCollapseAll}>
+    {/* ... your table code */}
+  </Table>
+)
+```
 
 ### Table with sticky header
 

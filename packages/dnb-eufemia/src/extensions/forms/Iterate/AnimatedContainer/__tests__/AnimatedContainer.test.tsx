@@ -11,8 +11,8 @@ describe('ElementBlock', () => {
       <ElementBlock mode="view">content</ElementBlock>
     )
 
-    const element = document.querySelector('.dnb-forms-iterate-block')
-    const inner = element.querySelector('.dnb-forms-iterate-block__inner')
+    const element = document.querySelector('.dnb-forms-section-block')
+    const inner = element.querySelector('.dnb-forms-section-block__inner')
 
     expect(element).toBeInTheDocument()
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -37,7 +37,7 @@ describe('ElementBlock', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-block')
+      document.querySelector('.dnb-forms-section-block')
     ).not.toHaveClass('open')
   })
 
@@ -72,7 +72,7 @@ describe('ElementBlock', () => {
       </IterateElementContext.Provider>
     )
 
-    const element = document.querySelector('.dnb-forms-iterate-block')
+    const element = document.querySelector('.dnb-forms-section-block')
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
@@ -91,7 +91,7 @@ describe('ElementBlock', () => {
       </IterateElementContext.Provider>
     )
 
-    const element = document.querySelector('.dnb-forms-iterate-block')
+    const element = document.querySelector('.dnb-forms-section-block')
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
@@ -111,7 +111,7 @@ describe('ElementBlock', () => {
       </ElementBlock>
     )
 
-    const element = document.querySelector('.dnb-forms-iterate-block')
+    const element = document.querySelector('.dnb-forms-section-block')
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
@@ -141,7 +141,7 @@ describe('ElementBlock', () => {
       </IterateElementContext.Provider>
     )
 
-    const element = document.querySelector('.dnb-forms-iterate-block')
+    const element = document.querySelector('.dnb-forms-section-block')
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
   })

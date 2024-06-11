@@ -4,7 +4,7 @@ import IterateElementContext from '../../IterateElementContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Iterate
+const nb = nbNO['nb-NO'].Section
 
 describe('RemoveButton', () => {
   const handleRemove = jest.fn()

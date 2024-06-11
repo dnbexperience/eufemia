@@ -569,7 +569,10 @@ button.dnb-button::-moz-focus-inner {
  *
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
- */"
+ */
+.dnb-help-button .dnb-button__bounding {
+  transform: scale(1.5);
+}"
 `;
 
 exports[`HelpButton scss have to match default theme snapshot 1`] = `

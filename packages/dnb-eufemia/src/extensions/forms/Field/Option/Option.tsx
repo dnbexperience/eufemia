@@ -1,13 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
-import type { FieldProps } from '../../types'
+import type { FieldHelpProps, FieldProps } from '../../types'
 import { DrawerListProps } from '../../../../fragments/DrawerList'
 
-export type Props = FieldProps<number | string> & {
-  title?: string
-  text?: string
-  children?: React.ReactNode
-}
+export type Props = FieldHelpProps &
+  FieldProps<number | string> & {
+    title?: string
+    text?: string
+    children?: React.ReactNode
+  }
 
 export default function Option({
   className,

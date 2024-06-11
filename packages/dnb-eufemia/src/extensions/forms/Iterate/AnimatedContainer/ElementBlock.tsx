@@ -36,18 +36,18 @@ function ElementBlock(props: Props & FlexContainerProps) {
   const contextRef = useRef<
     IterateElementContextState & {
       hasError?: boolean
-      hasErrorAndShowIt?: boolean
+      hasSubmitError?: boolean
     }
   >()
   contextRef.current = useContext(IterateElementContext) || {}
 
-  const { hasError, hasErrorAndShowIt } =
+  const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
   contextRef.current.hasError = hasError
-  contextRef.current.hasErrorAndShowIt = hasErrorAndShowIt
+  contextRef.current.hasSubmitError = hasSubmitError
 
   // - Set the container mode to "edit" if we have an error
-  if (hasErrorAndShowIt) {
+  if (hasSubmitError) {
     contextRef.current.containerMode = 'edit'
   }
 
@@ -98,12 +98,11 @@ function ElementBlock(props: Props & FlexContainerProps) {
   const handleAnimationEnd = useCallback(
     (state) => {
       // - Keep the block open if we have an error
-      if (contextRef.current.hasErrorAndShowIt) {
-        switchContainerMode('edit')
+      if (contextRef.current.hasSubmitError) {
+        switchContainerMode?.('edit')
       }
 
-      const preventFocusOnErrorOpening =
-        !contextRef.current.hasErrorAndShowIt
+      const preventFocusOnErrorOpening = !contextRef.current.hasSubmitError
       if (preventFocusOnErrorOpening) {
         if (state === 'opened') {
           contextRef.current?.elementRef?.current?.focus?.()
@@ -150,11 +149,11 @@ function ElementBlock(props: Props & FlexContainerProps) {
     <ElementBlockContext.Provider value={{ handleRemoveBlock }}>
       <HeightAnimation
         className={classnames(
-          'dnb-forms-iterate-block',
-          variant && `dnb-forms-iterate-block--variant-${variant}`,
-          isNew && 'dnb-forms-iterate-block--new',
-          contextRef.current.hasErrorAndShowIt &&
-            'dnb-forms-iterate-block--error',
+          'dnb-forms-section-block',
+          variant && `dnb-forms-section-block--variant-${variant}`,
+          isNew && 'dnb-forms-section-block--new',
+          contextRef.current.hasSubmitError &&
+            'dnb-forms-section-block--error',
           className
         )}
         open={openRef.current}
@@ -163,7 +162,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
         keepInDOM // Ensure fields get mounted so they will sync with the data context
       >
         <Flex.Stack
-          className="dnb-forms-iterate-block__inner"
+          className="dnb-forms-section-block__inner"
           {...restProps}
           element="section"
           aria-label={ariaLabel}

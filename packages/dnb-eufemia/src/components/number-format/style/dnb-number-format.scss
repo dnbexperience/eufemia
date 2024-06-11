@@ -57,6 +57,10 @@
     user-select: all; // makes the "copy_selection" feature actually work
   }
 
+  &--monospace {
+    font-family: var(--font-family-monospace);
+  }
+
   &.dnb-skeleton,
   .dnb-skeleton & {
     -webkit-text-fill-color: var(--skeleton-color);

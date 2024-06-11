@@ -13,5 +13,6 @@ export { default as useMediaQuery } from './useMediaQuery'
 export { default as useMedia } from './useMedia'
 export { default as useTranslation } from './useTranslation'
 export { default as Translation } from './Translation'
+export * from './Translation'
 
 export type { ThemeNames } from './Theme'

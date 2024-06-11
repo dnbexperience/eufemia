@@ -23,7 +23,6 @@ const defaultTheme = process.env.GATSBY_EUFEMIA_THEME || 'ui'
 const ignoreAsPage = [
   '**/Examples.*',
   '**/*_not_in_use*',
-  '**/demos/layout/Layout.js',
   '**/skip-link-example.tsx',
   '**/CardProductsTable.js',
   '**/ColorTable.tsx',

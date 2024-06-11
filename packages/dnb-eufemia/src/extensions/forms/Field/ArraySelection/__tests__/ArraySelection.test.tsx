@@ -3,95 +3,118 @@ import { render, fireEvent, screen } from '@testing-library/react'
 import { Field, FieldBlock } from '../../..'
 
 describe('ArraySelection', () => {
-  it('renders correctly', () => {
-    render(
-      <Field.ArraySelection>
-        <Field.Option value="option1">Option 1</Field.Option>
-        <Field.Option value="option2">Option 2</Field.Option>
-      </Field.ArraySelection>
-    )
+  describe('variant: checkbox', () => {
+    it('renders correctly', () => {
+      render(
+        <Field.ArraySelection>
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
 
-    expect(screen.getByText('Option 1')).toBeInTheDocument()
-    expect(screen.getByText('Option 2')).toBeInTheDocument()
-  })
+      expect(screen.getByText('Option 1')).toBeInTheDocument()
+      expect(screen.getByText('Option 2')).toBeInTheDocument()
+    })
 
-  it('handles selection correctly', () => {
-    const handleChange = jest.fn()
-    render(
-      <Field.ArraySelection onChange={handleChange}>
-        <Field.Option value="option1">Option 1</Field.Option>
-        <Field.Option value="option2">Option 2</Field.Option>
-      </Field.ArraySelection>
-    )
+    it('renders help', () => {
+      render(
+        <Field.ArraySelection
+          help={{ title: 'Help title', content: 'Help content' }}
+        >
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
 
-    fireEvent.click(screen.getByText('Option 1'))
-    expect(handleChange).toHaveBeenCalledWith(['option1'])
+    it('handles selection correctly', () => {
+      const handleChange = jest.fn()
+      render(
+        <Field.ArraySelection onChange={handleChange}>
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
 
-    fireEvent.click(screen.getByText('Option 2'))
-    expect(handleChange).toHaveBeenCalledWith(['option1', 'option2'])
+      fireEvent.click(screen.getByText('Option 1'))
+      expect(handleChange).toHaveBeenCalledWith(['option1'])
 
-    fireEvent.click(screen.getByText('Option 1'))
-    expect(handleChange).toHaveBeenCalledWith(['option2'])
-  })
+      fireEvent.click(screen.getByText('Option 2'))
+      expect(handleChange).toHaveBeenCalledWith(['option1', 'option2'])
 
-  it('handles emptyValue correctly', () => {
-    const handleChange = jest.fn()
-    render(
-      <Field.ArraySelection onChange={handleChange} emptyValue="empty">
-        <Field.Option value="option1">Option 1</Field.Option>
-        <Field.Option value="option2">Option 2</Field.Option>
-      </Field.ArraySelection>
-    )
+      fireEvent.click(screen.getByText('Option 1'))
+      expect(handleChange).toHaveBeenCalledWith(['option2'])
+    })
 
-    fireEvent.click(screen.getByText('Option 1'))
-    fireEvent.click(screen.getByText('Option 1'))
-    expect(handleChange).toHaveBeenCalledWith('empty')
-  })
+    it('handles emptyValue correctly', () => {
+      const handleChange = jest.fn()
+      render(
+        <Field.ArraySelection onChange={handleChange} emptyValue="empty">
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
 
-  it('displays error message when error prop is provided', () => {
-    const errorMessage = new Error('This is what is wrong...')
-    render(
-      <Field.ArraySelection error={errorMessage}>
-        <Field.Option value="option1">Option 1</Field.Option>
-        <Field.Option value="option2">Option 2</Field.Option>
-      </Field.ArraySelection>
-    )
+      fireEvent.click(screen.getByText('Option 1'))
+      fireEvent.click(screen.getByText('Option 1'))
+      expect(handleChange).toHaveBeenCalledWith('empty')
+    })
 
-    const element = document.querySelector('.dnb-form-status')
+    it('displays error message when error prop is provided', () => {
+      const errorMessage = new Error('This is what is wrong...')
+      render(
+        <Field.ArraySelection error={errorMessage}>
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
 
-    expect(element).toBeInTheDocument()
-    expect(element).toHaveClass('dnb-form-status--error')
-    expect(element).toHaveTextContent('This is what is wrong...')
-  })
+      const element = document.querySelector('.dnb-form-status')
 
-  it('applies the correct layout class when layout prop is provided', () => {
-    const layout = 'horizontal'
-    render(
-      <Field.ArraySelection layout={layout}>
-        <Field.Option value="option1">Option 1</Field.Option>
-        <Field.Option value="option2">Option 2</Field.Option>
-      </Field.ArraySelection>
-    )
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveClass('dnb-form-status--error')
+      expect(element).toHaveTextContent('This is what is wrong...')
+    })
 
-    const element = document.querySelector('.dnb-forms-field-block__grid')
-    expect(element).toHaveClass(`dnb-forms-field-block--layout-${layout}`)
-  })
+    it('applies the correct layout class when layout prop is provided', () => {
+      const layout = 'horizontal'
+      render(
+        <Field.ArraySelection layout={layout}>
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
 
-  it('applies the correct layout class when optionsLayout prop is provided', () => {
-    const optionsLayout = 'horizontal'
-    render(
-      <Field.ArraySelection optionsLayout={optionsLayout}>
-        <Field.Option value="option1">Option 1</Field.Option>
-        <Field.Option value="option2">Option 2</Field.Option>
-      </Field.ArraySelection>
-    )
+      const element = document.querySelector(
+        '.dnb-forms-field-block__grid'
+      )
+      expect(element).toHaveClass(
+        `dnb-forms-field-block--layout-${layout}`
+      )
+    })
 
-    const element = document.querySelector(
-      '.dnb-forms-field-array-selection'
-    )
-    expect(element).toHaveClass(
-      `dnb-forms-field-array-selection--options-layout-${optionsLayout}`
-    )
+    it('applies the correct layout class when optionsLayout prop is provided', () => {
+      const optionsLayout = 'horizontal'
+      render(
+        <Field.ArraySelection optionsLayout={optionsLayout}>
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const element = document.querySelector(
+        '.dnb-forms-field-array-selection'
+      )
+      expect(element).toHaveClass(
+        `dnb-forms-field-array-selection--options-layout-${optionsLayout}`
+      )
+    })
   })
 
   describe('checkbox variant', () => {
@@ -109,6 +132,24 @@ describe('ArraySelection', () => {
       )
       expect(option1).toBeInTheDocument()
       expect(option2).toBeInTheDocument()
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.ArraySelection
+          variant="checkbox"
+          help={{ title: 'Help title', content: 'Help content' }}
+        >
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('disables all options when disabled prop is true', () => {

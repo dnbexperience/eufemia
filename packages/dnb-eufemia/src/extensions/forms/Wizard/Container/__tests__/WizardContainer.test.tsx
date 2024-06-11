@@ -1276,6 +1276,60 @@ describe('Wizard.Container', () => {
     log.mockRestore()
   })
 
+  it('should support schema', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string',
+        },
+        bar: {
+          type: 'string',
+        },
+      },
+      required: ['foo', 'bar'],
+    } as const
+
+    render(
+      <Form.Handler schema={schema}>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String path="/foo" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.String path="/bar" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    fireEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    await userEvent.type(document.querySelector('input'), 'valid')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(screen.queryByRole('alert')).toBeNull()
+
+    await userEvent.click(submitButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
   describe('prerenderFieldProps and filterData', () => {
     it('should keep field props in memory during step change', async () => {
       const filterDataHandler = jest.fn(({ props }) => {

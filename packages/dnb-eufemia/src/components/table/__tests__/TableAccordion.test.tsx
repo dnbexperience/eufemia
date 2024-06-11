@@ -1,5 +1,10 @@
 import React from 'react'
-import { render, fireEvent, createEvent } from '@testing-library/react'
+import {
+  render,
+  fireEvent,
+  createEvent,
+  act,
+} from '@testing-library/react'
 import Table from '../Table'
 import Tr from '../TableTr'
 import Td from '../TableTd'
@@ -824,6 +829,68 @@ describe('TableAccordion', () => {
 
       expect(onOpened).toHaveBeenCalledTimes(2)
       expect(onClosed).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('closeAllHandle', () => {
+    it('should close all tr when called', () => {
+      const collapseAllHandleRef = React.createRef<() => void>()
+
+      render(
+        <Table accordion collapseAllHandleRef={collapseAllHandleRef}>
+          <tbody>
+            <Tr expanded>
+              <Td>Accordion single</Td>
+              <Td.AccordionContent>single content</Td.AccordionContent>
+            </Tr>
+            <Tr expanded>
+              <Td>Accordion row</Td>
+              <Tr.AccordionContent>
+                <Td>row content</Td>
+              </Tr.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const trElements = document.querySelectorAll(
+        'tr.dnb-table__tr--has-accordion-content'
+      )
+      const accordionElems = document.querySelectorAll(
+        'tr.dnb-table__tr__accordion-content'
+      )
+
+      // Assert all are expanded
+      expect(Array.from(trElements[0].classList)).toContain(
+        'dnb-table__tr--expanded'
+      )
+      expect(Array.from(trElements[1].classList)).toContain(
+        'dnb-table__tr--expanded'
+      )
+      expect(Array.from(accordionElems[0].classList)).toContain(
+        'dnb-table__tr__accordion-content--expanded'
+      )
+      expect(Array.from(accordionElems[1].classList)).toContain(
+        'dnb-table__tr__accordion-content--expanded'
+      )
+
+      act(() => {
+        collapseAllHandleRef.current()
+      })
+
+      // Assert all are closed
+      expect(Array.from(trElements[0].classList)).not.toContain(
+        'dnb-table__tr--expanded'
+      )
+      expect(Array.from(trElements[1].classList)).not.toContain(
+        'dnb-table__tr--expanded'
+      )
+      expect(Array.from(accordionElems[0].classList)).not.toContain(
+        'dnb-table__tr__accordion-content--expanded'
+      )
+      expect(Array.from(accordionElems[1].classList)).not.toContain(
+        'dnb-table__tr__accordion-content--expanded'
+      )
     })
   })
 })

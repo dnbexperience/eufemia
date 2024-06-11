@@ -59,6 +59,9 @@ describe('Field.Toggle', () => {
             help={{ title: 'Help title', content: 'Help content' }}
           />
         )
+        expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
+          1
+        )
         expect(document.querySelector('button')).toHaveAttribute(
           'aria-describedby'
         )
@@ -222,12 +225,12 @@ describe('Field.Toggle', () => {
             help={{ title: 'Help title', content: 'Help content' }}
           />
         )
+        expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
+          1
+        )
         expect(document.querySelector('button')).toHaveAttribute(
           'aria-describedby'
         )
-        expect(
-          document.querySelector('button').getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
         expect(
           document
             .querySelector('.dnb-help-button')
@@ -431,6 +434,9 @@ describe('Field.Toggle', () => {
             help={{ title: 'Help title', content: 'Help content' }}
           />
         )
+        expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
+          1
+        )
         expect(document.querySelector('button')).toHaveAttribute(
           'aria-describedby'
         )
@@ -595,6 +601,9 @@ describe('Field.Toggle', () => {
             variant="checkbox"
             help={{ title: 'Help title', content: 'Help content' }}
           />
+        )
+        expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
+          1
         )
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'

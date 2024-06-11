@@ -6,7 +6,7 @@ import ViewToolbarTools from '../ViewToolbarTools'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Iterate
+const nb = nbNO['nb-NO'].Section
 
 describe('ViewToolbarTools', () => {
   it('to have buttons with correct text', () => {

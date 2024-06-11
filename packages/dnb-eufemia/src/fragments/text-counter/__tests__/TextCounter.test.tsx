@@ -39,15 +39,33 @@ describe('TextCounter', () => {
     expect(element).toHaveTextContent('0 av 10 tegn gjenstår')
   })
 
-  it('handles text length exceeding max correctly', () => {
-    render(<TextCounter text="this is a long text" max={10} />)
+  it('handles text length exceeding max correctly in down variant', () => {
+    render(
+      <TextCounter text="this is a long text" max={10} variant="down" />
+    )
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('9 tegn over grensen på 10.')
   })
 
-  it('handles negative max correctly', () => {
-    render(<TextCounter text="test" max={-10} />)
+  it('handles negative max correctly in down variant', () => {
+    render(<TextCounter text="test" max={-10} variant="down" />)
+
+    const element = document.querySelector('.dnb-text-counter')
+    expect(element).toHaveTextContent('')
+  })
+
+  it('handles text length exceeding max correctly in up variant', () => {
+    render(
+      <TextCounter text="this is a long text" max={10} variant="up" />
+    )
+
+    const element = document.querySelector('.dnb-text-counter')
+    expect(element.textContent).toBe('9 tegn over grensen på 10.')
+  })
+
+  it('handles negative max correctly in up variant', () => {
+    render(<TextCounter text="test" max={-10} variant="up" />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('')
@@ -115,7 +133,7 @@ describe('TextCounter', () => {
     rerender(<TextCounter text="testing" max={4} variant="up" />)
 
     expect(element).toHaveClass('dnb-text-counter--exceeded')
-    expect(element).toHaveTextContent('7 tegn over grensen på 4.')
+    expect(element).toHaveTextContent('3 tegn over grensen på 4.')
   })
 
   it('should have empty AriaLive message before a text change is made', () => {

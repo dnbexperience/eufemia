@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field } from '../../..'
+import { Field, Iterate } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -131,6 +131,37 @@ describe('Field.PostalCodeAndCity', () => {
 
     expect(code).toHaveAttribute('autocomplete', 'postal-code')
     expect(city).toHaveAttribute('autocomplete', 'address-level2')
+  })
+
+  it('should iterate over array with itemPath support', () => {
+    render(
+      <Iterate.Array
+        value={[
+          {
+            postalCode: '0788',
+            city: 'Oslo',
+          },
+          {
+            postalCode: '0789',
+            city: 'Bergen',
+          },
+        ]}
+      >
+        <Field.PostalCodeAndCity
+          postalCode={{ itemPath: '/postalCode' }}
+          city={{ itemPath: '/city' }}
+        />
+      </Iterate.Array>
+    )
+
+    const [code1, city1, code2, city2] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(code1).toHaveValue('0788')
+    expect(city1).toHaveValue('Oslo')
+    expect(code2).toHaveValue('0789')
+    expect(city2).toHaveValue('Bergen')
   })
 
   describe('ARIA', () => {

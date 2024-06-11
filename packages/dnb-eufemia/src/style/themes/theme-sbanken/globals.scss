@@ -34,7 +34,8 @@
 .dnb-selection ::selection,
 [class^='dnb-']::selection,
 [class^='dnb-'] ::selection {
-  background-color: var(--sb-color-blue-light-2);
-  color: var(--sb-color-black);
+  // Chrome does not support CSS variables in ::selection, so we use a fallback
+  background-color: var(--sb-color-blue-light-2, #bfe3ff);
+  color: var(--sb-color-black, #000);
   text-shadow: none;
 }

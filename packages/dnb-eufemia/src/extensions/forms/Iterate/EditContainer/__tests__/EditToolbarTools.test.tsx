@@ -6,7 +6,7 @@ import EditToolbarTools from '../EditToolbarTools'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Iterate
+const nb = nbNO['nb-NO'].Section
 
 describe('EditToolbarTools', () => {
   it('calls "switchContainerMode" when remove button is clicked', () => {

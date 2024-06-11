@@ -135,7 +135,24 @@ function Toggle(props: Props) {
       )
     case 'buttons':
       return (
-        <FieldBlock {...fieldSectionProps} asFieldset>
+        <FieldBlock
+          {...fieldSectionProps}
+          asFieldset
+          labelDescription={
+            <>
+              {labelDescription}
+              {help ? (
+                <HelpButton
+                  size="small"
+                  left={labelDescription ? 'x-small' : false}
+                  title={help.title}
+                >
+                  {help.content}
+                </HelpButton>
+              ) : undefined}
+            </>
+          }
+        >
           <ButtonRow bottom="x-small">
             <ToggleButtonGroupContext.Provider
               value={{
@@ -143,7 +160,6 @@ function Toggle(props: Props) {
                 onChange: handleToggleChange,
                 status: hasError ? 'error' : undefined,
                 disabled,
-                suffix,
               }}
             >
               <ToggleButton

@@ -109,11 +109,13 @@ export interface ContextState {
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
   ) => void
+  setHasVisibleError?: (path: Path, hasError: boolean) => void
   setFieldProps?: (path: Path, props: any) => void
   setValueProps?: (path: Path, props: any) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
   showAllErrors: boolean
+  hasVisibleError: boolean
   formState: SubmitState
   ajvInstance: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
@@ -139,6 +141,7 @@ export const defaultContextState: ContextState = {
   handleSubmit: () => null,
   scrollToTop: () => null,
   showAllErrors: false,
+  hasVisibleError: false,
   formState: undefined,
   setFormState: () => null,
   setSubmitState: () => null,

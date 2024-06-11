@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
-import { Checkbox, ToggleButton } from '../../../../components'
+import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import OptionField from '../Option'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 
@@ -14,11 +14,12 @@ interface IOption {
   handleSelect: () => void
 }
 
-export type Props = FieldProps<Array<string | number> | undefined> & {
-  children?: React.ReactNode
-  variant?: 'checkbox' | 'button'
-  optionsLayout?: 'horizontal' | 'vertical'
-}
+export type Props = FieldHelpProps &
+  FieldProps<Array<string | number> | undefined> & {
+    children?: React.ReactNode
+    variant?: 'checkbox' | 'button'
+    optionsLayout?: 'horizontal' | 'vertical'
+  }
 
 function ArraySelection(props: Props) {
   const {
@@ -32,6 +33,7 @@ function ArraySelection(props: Props) {
     value,
     error,
     hasError,
+    help,
     info,
     warning,
     disabled,
@@ -49,12 +51,26 @@ function ArraySelection(props: Props) {
       className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
+    help,
     info,
     warning,
     error,
     layout,
     label,
-    labelDescription,
+    labelDescription: (
+      <>
+        {labelDescription}
+        {help ? (
+          <HelpButton
+            size="small"
+            left={labelDescription ? 'x-small' : false}
+            title={help.title}
+          >
+            {help.content}
+          </HelpButton>
+        ) : undefined}
+      </>
+    ),
     ...pickSpacingProps(props),
   }
 

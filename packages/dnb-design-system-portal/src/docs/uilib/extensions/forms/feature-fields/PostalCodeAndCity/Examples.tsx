@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -145,6 +145,30 @@ export const LongLabel = () => {
           label: 'With a very long label',
         }}
       />
+    </ComponentBox>
+  )
+}
+
+export const IterateArray = () => {
+  return (
+    <ComponentBox>
+      <Iterate.Array
+        value={[
+          {
+            postalCode: '0788',
+            city: 'Oslo',
+          },
+          {
+            postalCode: '0789',
+            city: 'Bergen',
+          },
+        ]}
+      >
+        <Field.PostalCodeAndCity
+          postalCode={{ itemPath: '/postalCode' }}
+          city={{ itemPath: '/city' }}
+        />
+      </Iterate.Array>
     </ComponentBox>
   )
 }

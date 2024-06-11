@@ -12,7 +12,6 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/uilib/components/accordion/demos',
-    each: true,
   })
 
   it('have to match in closed state', async () => {
@@ -78,19 +77,9 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
       style: { width: '20rem' },
       styleSelector: '[data-visual-test="accordion-default"]',
       selector: '[data-visual-test="accordion-default"]',
-      recalculateHeightAfterSimulate: true,
-      simulate: [
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
-        },
-        {
-          action: 'hover',
-          selector:
-            '[data-visual-test="accordion-default"] .dnb-accordion-group .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
-        },
-      ],
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="accordion-default"] .dnb-accordion-group .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

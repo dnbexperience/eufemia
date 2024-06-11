@@ -10,6 +10,7 @@ import {
   DataContext,
   ValueBlock,
   Wizard,
+  Iterate,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicValueComponent = () => {
@@ -498,6 +499,132 @@ export const UsingWizard = () => {
                   </Form.ButtonRow>
                 </Wizard.Step>
               </Wizard.Container>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const UsingFormSection = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyEditContainer = () => {
+          return (
+            <Form.Section.EditContainer variant="basic">
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>
+          )
+        }
+
+        const MyViewContainer = () => {
+          return (
+            <Form.Section.ViewContainer variant="basic">
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>
+          )
+        }
+
+        return (
+          <Form.Handler
+            onSubmit={async (data) => console.log('onSubmit', data)}
+            defaultData={{
+              nestedPath: {
+                firstName: 'Nora',
+                lastName: undefined, // initiate error
+              },
+            }}
+          >
+            <Card stack>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Card>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const UsingIterate = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      {() => {
+        const MyEditItem = () => {
+          return (
+            <Iterate.EditContainer
+              title="Edit account holder"
+              titleWhenNew="New account holder"
+            >
+              <Field.Composition>
+                <Field.Name.First itemPath="/firstName" width="medium" />
+                <Field.Name.Last
+                  itemPath="/lastName"
+                  width="medium"
+                  required
+                />
+              </Field.Composition>
+            </Iterate.EditContainer>
+          )
+        }
+
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer title="Account holder">
+              <Value.SummaryList>
+                <Value.Name.First itemPath="/firstName" showEmpty />
+                <Value.Name.Last itemPath="/lastName" placeholder="-" />
+              </Value.SummaryList>
+            </Iterate.ViewContainer>
+          )
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              data={{
+                accounts: [
+                  {
+                    firstName: 'Tony',
+                    lastName: undefined, // initiate error
+                  },
+                ],
+              }}
+              onChange={(data) =>
+                console.log('DataContext/onChange', data)
+              }
+              onSubmit={async (data) => console.log('onSubmit', data)}
+            >
+              <Flex.Vertical>
+                <Form.MainHeading>Accounts</Form.MainHeading>
+
+                <Card stack>
+                  <Iterate.Array path="/accounts">
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
+
+                  <Iterate.PushButton
+                    text="Add another account"
+                    path="/accounts"
+                    pushValue={{}}
+                  />
+                </Card>
+
+                <Form.SubmitButton variant="send" />
+              </Flex.Vertical>
             </Form.Handler>
           )
         }

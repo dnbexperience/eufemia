@@ -17,7 +17,7 @@ describe('useTranslation without an ID', () => {
     })
 
     expect(result.current).toEqual(
-      Object.assign(nbNO[defaultLocale], {
+      Object.assign({}, nbNO[defaultLocale], {
         formatMessage: expect.any(Function),
       })
     )
@@ -31,7 +31,9 @@ describe('useTranslation without an ID', () => {
     })
 
     expect(resultGB.current).toEqual(
-      Object.assign(enGB['en-GB'], { formatMessage: expect.any(Function) })
+      Object.assign({}, enGB['en-GB'], {
+        formatMessage: expect.any(Function),
+      })
     )
 
     const { result: resultNO } = renderHook(() => useTranslation(), {
@@ -41,7 +43,9 @@ describe('useTranslation without an ID', () => {
     })
 
     expect(resultNO.current).toEqual(
-      Object.assign(nbNO['nb-NO'], { formatMessage: expect.any(Function) })
+      Object.assign({}, nbNO['nb-NO'], {
+        formatMessage: expect.any(Function),
+      })
     )
   })
 
@@ -214,7 +218,7 @@ describe('useTranslation with an ID', () => {
       'en-GB': enGB_nested,
     }
 
-    const RenderGetTranslation = () => {
+    const RenderUseTranslation = () => {
       return useTranslation('other.string', {
         foo: 'foo',
         bar: 'bar',
@@ -251,7 +255,7 @@ describe('useTranslation with an ID', () => {
       render(
         <Provider translations={defaultLocales}>
           <output>
-            <RenderGetTranslation />
+            <RenderUseTranslation />
           </output>
         </Provider>
       )
@@ -265,7 +269,7 @@ describe('useTranslation with an ID', () => {
       render(
         <Provider translations={defaultLocales}>
           <output>
-            <RenderGetTranslation />
+            <RenderUseTranslation />
           </output>
           <ChangeLocale />
         </Provider>
@@ -291,7 +295,7 @@ describe('useTranslation with an ID', () => {
 
           <Provider translations={nestedLocales}>
             <span className="nested">
-              <RenderGetTranslation />
+              <RenderUseTranslation />
             </span>
 
             <ChangeLocale className="nested" />

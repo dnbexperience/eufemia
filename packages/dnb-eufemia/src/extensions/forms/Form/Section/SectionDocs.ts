@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   path: {
-    doc: 'A path (JSON Pointer) to the array to iterate over.',
+    doc: 'A path to the section (JSON Pointer). When defined, fields inside the section will get this path as a prefix of their own path.',
     type: 'string',
     status: 'optional',
   },
@@ -29,6 +29,11 @@ export const SectionProperties: PropertiesTableProps = {
   data: {
     doc: 'Provide data to the section fields and values, in case the data context (Form.Handler) is not available.',
     type: 'object',
+    status: 'optional',
+  },
+  containerMode: {
+    doc: 'Defines the container mode. Can be `view` or `edit`. Defaults to `view`.',
+    type: 'string',
     status: 'optional',
   },
   children: {

@@ -149,6 +149,7 @@ export default function useFieldProps<
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
     setFieldProps: setPropsDataContext,
+    setHasVisibleError: setHasVisibleErrorDataContext,
     errors: dataContextErrors,
     contextErrorMessages,
   } = dataContext ?? {}
@@ -259,6 +260,15 @@ export default function useFieldProps<
     schema ? dataContext.ajvInstance?.compile(schema) : undefined
   )
 
+  // Needs to be placed before "prepareError"
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: translation.Field.errorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, translation.Field.errorRequired])
+
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
     return isAsync(onChange) || isAsync(onChangeContext)
@@ -342,12 +352,16 @@ export default function useFieldProps<
   const showError = useCallback(() => {
     showErrorRef.current = true
     showFieldErrorFieldBlock?.(identifier, true)
-  }, [showFieldErrorFieldBlock, identifier])
+    if (localErrorRef.current) {
+      setHasVisibleErrorDataContext?.(identifier, true)
+    }
+  }, [showFieldErrorFieldBlock, identifier, setHasVisibleErrorDataContext])
 
   const hideError = useCallback(() => {
     showErrorRef.current = false
     showFieldErrorFieldBlock?.(identifier, false)
-  }, [showFieldErrorFieldBlock, identifier])
+    setHasVisibleErrorDataContext?.(identifier, false)
+  }, [setHasVisibleErrorDataContext, identifier, showFieldErrorFieldBlock])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -405,14 +419,6 @@ export default function useFieldProps<
       errorProp ?? localErrorRef.current ?? contextErrorRef.current
     )
   }, [errorProp])
-
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
 
   /**
    * Based on validation, update error state, locally and relevant surrounding contexts
@@ -892,11 +898,11 @@ export default function useFieldProps<
   }, [
     asyncBehaviorIsEnabled,
     hasPath,
-    identifier,
-    hasError,
     yieldAsyncProcess,
+    identifier,
     onChangeContext,
     defineAsyncProcess,
+    hasError,
     setEventResult,
     handlePathChangeDataContext,
   ])

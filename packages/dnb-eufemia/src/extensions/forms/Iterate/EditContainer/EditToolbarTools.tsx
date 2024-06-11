@@ -1,5 +1,11 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import { Button, Flex } from '../../../../components'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { Button, Flex, FormStatus } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateElementContext from '../IterateElementContext'
 import { check, close } from '../../../../icons'
@@ -16,11 +22,12 @@ export default function EditToolbarTools() {
     index,
     isNew,
   } = useContext(IterateElementContext) || {}
-  const { hasErrorAndShowIt } = useContext(FieldBoundaryContext) || {}
+  const { hasVisibleError } = useContext(FieldBoundaryContext) || {}
 
-  const translation = useTranslation().Iterate
+  const translation = useTranslation().Section
   const valueBackupRef = useRef<unknown>()
   const wasNew = useWasNew({ isNew, containerMode })
+  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     if (containerMode === 'edit' && !valueBackupRef.current) {
@@ -35,37 +42,47 @@ export default function EditToolbarTools() {
     if (valueBackupRef.current) {
       restoreOriginalValue?.(valueBackupRef.current)
     }
+    setShowError(false)
     switchContainerMode?.('view')
   }, [restoreOriginalValue, switchContainerMode])
   const doneHandler = useCallback(() => {
-    switchContainerMode?.('view')
-  }, [switchContainerMode])
+    if (hasVisibleError) {
+      setShowError(true)
+    } else {
+      setShowError(false)
+      switchContainerMode?.('view')
+    }
+  }, [hasVisibleError, switchContainerMode])
 
   return (
-    <Flex.Horizontal gap="large">
-      <Button
-        variant="tertiary"
-        icon={check}
-        icon_position="left"
-        on_click={doneHandler}
-        disabled={hasErrorAndShowIt}
-      >
-        {translation.done}
-      </Button>
-
-      {wasNew ? (
-        <RemoveButton />
-      ) : (
+    <>
+      <FormStatus show={showError && hasVisibleError} no_animation={false}>
+        {translation.errorInSection}
+      </FormStatus>
+      <Flex.Horizontal gap="large">
         <Button
           variant="tertiary"
-          icon={close}
+          icon={check}
           icon_position="left"
-          on_click={cancelHandler}
+          on_click={doneHandler}
         >
-          {translation.cancel}
+          {translation.done}
         </Button>
-      )}
-    </Flex.Horizontal>
+
+        {wasNew ? (
+          <RemoveButton />
+        ) : (
+          <Button
+            variant="tertiary"
+            icon={close}
+            icon_position="left"
+            on_click={cancelHandler}
+          >
+            {translation.cancel}
+          </Button>
+        )}
+      </Flex.Horizontal>
+    </>
   )
 }
 

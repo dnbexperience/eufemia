@@ -156,6 +156,18 @@ export const CheckboxError = () => (
   </ComponentBox>
 )
 
+export const CheckboxWithHelp = () => (
+  <ComponentBox>
+    <Field.ArraySelection
+      label="Label text"
+      help={{ title: 'Help title', content: 'Help content' }}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
 // Button
 
 export const ButtonEmpty = () => (
@@ -315,6 +327,19 @@ export const ButtonError = () => (
       <Field.Option value="bar" title="Baar!" />
       <Field.Option value="baz" title="Bazz!" />
       <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
+export const ButtonWithHelp = () => (
+  <ComponentBox>
+    <Field.ArraySelection
+      variant="button"
+      label="Label text"
+      help={{ title: 'Help title', content: 'Help content' }}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
     </Field.ArraySelection>
   </ComponentBox>
 )

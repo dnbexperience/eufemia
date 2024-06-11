@@ -222,12 +222,24 @@ export default function Provider<Data extends JsonObject>(
   const mountedFieldPathsRef = useRef<Path[]>([])
 
   // - Errors from provider validation (the whole data set)
+  const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
   const errorsRef = useRef<Record<Path, FormError> | undefined>()
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
   }, [])
+  const setHasVisibleError = useCallback(
+    (path: Path, hasError: boolean) => {
+      if (hasError) {
+        hasVisibleErrorRef.current[path] = hasError
+      } else {
+        delete hasVisibleErrorRef.current[path]
+      }
+      forceUpdate()
+    },
+    []
+  )
   const submitStateRef = useRef<Partial<EventStateObject>>({})
   const setSubmitState = useCallback((state: EventStateObject) => {
     Object.assign(submitStateRef.current, state)
@@ -383,7 +395,7 @@ export default function Provider<Data extends JsonObject>(
 
         return data
       } else if (filter) {
-        Object.entries(filter).forEach(([path, condition]) => {
+        const runFilter = ({ path, condition }) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
@@ -400,7 +412,44 @@ export default function Provider<Data extends JsonObject>(
                 : condition
             mutate(path, result)
           }
+        }
+
+        const wildcardPaths = []
+
+        Object.entries(filter).forEach(([path, condition]) => {
+          if (path.includes('*')) {
+            const parts = path.split(/\/\*/g)
+            const exists = pointer.has(data, parts[0])
+            if (exists) {
+              const traverse = (
+                subData: unknown,
+                subPath: string,
+                idx: number
+              ) => {
+                if (idx === parts.length - 1) {
+                  wildcardPaths.push({ path: subPath, condition })
+                  return
+                }
+                const list = pointer.get(subData, subPath)
+                if (Array.isArray(list)) {
+                  list.forEach((_, i) => {
+                    traverse(
+                      list[i],
+                      `${subPath}/${i}${parts[idx + 1]}`,
+                      idx + 1
+                    )
+                  })
+                }
+              }
+              traverse(data, parts[0], 0)
+            }
+          } else {
+            runFilter({ path, condition })
+          }
         })
+
+        wildcardPaths.forEach(runFilter)
+
         return data
       }
 
@@ -593,7 +642,7 @@ export default function Provider<Data extends JsonObject>(
         path === '/'
           ? // When setting the root of the data, the whole data set should be the new value
             value
-          : // For sub paths, use the the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
+          : // For sub paths, use the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
             internalDataRef.current ??
             (path.match(isArrayJsonPointer) ? [] : {})
       ) as Data
@@ -1022,6 +1071,7 @@ export default function Provider<Data extends JsonObject>(
         setFormState,
         setSubmitState,
         setShowAllErrors,
+        setHasVisibleError,
         setFieldEventListener,
         setFieldState,
         setFieldError,
@@ -1047,6 +1097,8 @@ export default function Provider<Data extends JsonObject>(
         hasContext: true,
         errors: errorsRef.current,
         showAllErrors: showAllErrorsRef.current,
+        hasVisibleError:
+          Object.keys(hasVisibleErrorRef.current).length > 0,
         fieldPropsRef,
         valuePropsRef,
         ajvInstance: ajvRef.current,

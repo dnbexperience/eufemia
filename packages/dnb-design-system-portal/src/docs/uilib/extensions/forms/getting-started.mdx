@@ -122,7 +122,7 @@ function MyComponent() {
   } = Form.useData() // optionally provide an id (unique-id)
 }
 
-// You canalso use the setData:
+// You can also use the setData:
 Form.setData('unique-id', { companyName: 'DNB' })
 
 // ... and the getData – method when ever you need to:
@@ -147,17 +147,21 @@ You can filter data by any given criteria. This is done by utilizing the `filter
 - [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
 - [Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
 
-You can provide either a function or an object with the paths you want to filter out.
+You can provide either a function handler or an object with the paths (JSON Pointer) you want to filter out.
 
-Here is an example of how filter out fields based on their `path` and `value`:
+Return `false` to exclude an entry:
 
 ```tsx
-// Method A – if you know the paths
+// 1. Method – by using paths (JSON Pointer)
 const filterDataPaths = {
   '/foo': ({ value, data, props, internal }) => value !== 'bar',
+  '/foo': false, // Will exclude the field with the path "/foo"
+  '/array/0': false, // Will exclude the first item of the array
+  '/array/*/objectKey': false, // Will exclude all objects inside the array with a key of "objectKey"
 }
 
-// Method B – will iterate over all fields regardless of the path
+// 2. Method – by using a handler.
+// It will iterate over all fields regardless what path they have.
 const filterDataHandler = ({ path, value, data, props, internal }) =>
   value !== 'bar'
 
@@ -386,7 +390,7 @@ const validator = debounceAsync(async function myValidator(value) {
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
-### Localization (locale) and translation
+### Localization
 
 You can set the locale for your form by using the `locale` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component. This will ensure that the correct language is used for all the fields in your form.
 
@@ -402,16 +406,38 @@ function MyForm() {
 }
 ```
 
-Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/localization/) to set the locale for your application (forms). The locale will be inherited by all the components in your form.
+#### Customize translations
 
-#### Localization with translation
-
-In addition, you can customize the translations:
+You can customize the internal translations in a flat structure:
 
 ```tsx
-const myTranslations = {
+{
+  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.label': 'Custom' },
+}
+```
+
+or an object based structure:
+
+```tsx
+{
   'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
   'en-GB': { PhoneNumber: { label: 'Custom' } },
+}
+```
+
+#### How to customize translations in a form
+
+You can customize the translations in a form by using the `translations` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+
+Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/localization/) (example further down).
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const myTranslations = {
+  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.label': 'Custom' },
 }
 
 render(
@@ -421,9 +447,90 @@ render(
 )
 ```
 
-Here is an [example](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
+You can consume them with the `useTranslation` hook:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import { useTranslation } from '@dnb/eufemia/shared'
+
+const myTranslations = {
+  'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
+  'en-GB': { 'custom.string': 'My custom string' },
+}
+
+const MyComponent = () => {
+  const t = useTranslation<typeof myTranslations>()
+  return t.custom.string
+}
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+Or customize them with the `<Translation />` component:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import { Translation, TranslationProps } from '@dnb/eufemia/shared'
+
+const myTranslations = {
+  'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
+  'en-GB': { 'custom.string': 'My custom string' },
+}
+
+// For TypeScript support
+type Tr<T> = TranslationProps<T[keyof T]>
+const Tr = (props: Tr<typeof myTranslations>) => <Translation {...props} />
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <Form.MainHeading>
+      <Translation id="custom.string" />
+    </Form.MainHeading>
+
+    <Form.SubHeading>
+      <Tr id={(t) => t.custom.string} />
+    </Form.SubHeading>
+  </Form.Handler>,
+)
+```
+
+Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
 
 When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
+
+#### Use the shared Provider to customize translations
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import { Provider, Translation } from '@dnb/eufemia/shared'
+
+const myTranslations = {
+  'nb-NO': {
+    'PhoneNumber.label': 'Egendefinert',
+    'custom.string': 'Min egendefinerte streng',
+  },
+  'en-GB': {
+    'PhoneNumber.label': 'Custom',
+    'custom.string': 'My custom string',
+  },
+}
+
+render(
+  <Provider translations={myTranslations}>
+    <Heading>
+      <Translation id="custom.string" />
+    </Heading>
+
+    <Form.Handler>
+      <Field.PhoneNumber />
+    </Form.Handler>
+  </Provider>,
+)
+```
 
 ### Layout
 
@@ -437,7 +544,7 @@ When building your application forms, preferably use the following layout compon
 
 - [Best practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
 
-## Create your own componet
+## Create your own component
 
 Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
 

@@ -270,7 +270,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/table',
+      url: '/uilib/components/table/demos',
     })
 
     it('have to match default state', async () => {
@@ -367,7 +367,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/table',
+      url: '/uilib/components/table/demos',
     })
 
     it('have to match default state', async () => {

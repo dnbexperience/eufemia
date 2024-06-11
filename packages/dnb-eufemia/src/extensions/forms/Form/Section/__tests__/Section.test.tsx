@@ -44,8 +44,8 @@ describe('Form.Section', () => {
     )
   }
 
-  it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(Form.Section._supportsSpacingProps).toBe('children')
+  it('should have constant of _supportsSpacingProps="undefined"', () => {
+    expect(Form.Section._supportsSpacingProps).toBeUndefined()
   })
 
   it('should throw then "path" without slash was given', () => {

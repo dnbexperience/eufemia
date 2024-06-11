@@ -3,9 +3,12 @@
  *
  */
 
-import React from 'react'
-import Context, { prepareContext } from './Context'
-import type { ContextProps, InternalLocale } from './Context'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
+import Context, {
+  prepareContext,
+  ContextProps,
+  InternalLocale,
+} from './Context'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 
 export type ProviderProps = {
@@ -23,44 +26,70 @@ export type ProviderProps = {
 export default function Provider<Props>(
   localProps: ProviderProps & Props
 ) {
-  const { children, ...props } = localProps
+  const { children, props } = useMemo(() => {
+    const { children, ...props } = localProps
+    return { children, props }
+  }, [localProps])
 
-  const context = React.useContext(Context)
-  const [localContext, setLocalContext] = React.useState(null)
+  const nestedContext = useContext(Context)
+  const [localContext, setLocalContext] = useState(null)
 
-  let value = mergeContext(context, { ...localContext, ...props })
-
-  if (context) {
-    value = prepareContext(value)
-    context.updateTranslation(value.locale, value.translation)
-  }
-
-  value.update = updateAll
-  value.setLocale = setAllLocale
-  value.updateCurrent = updateCurrent
-  value.setCurrentLocale = setCurrentLocale
-
-  return <Context.Provider value={value}>{children}</Context.Provider>
-
-  function updateCurrent(props: ContextProps) {
+  const updateCurrent = useCallback((props: ContextProps) => {
     setLocalContext({ __context__: props })
-  }
+  }, [])
 
-  function setCurrentLocale(locale: InternalLocale) {
+  const setCurrentLocale = useCallback((locale: InternalLocale) => {
     setLocalContext({ __context__: { locale } })
-  }
+  }, [])
 
-  function setAllLocale(locale: InternalLocale) {
-    updateAll({ locale })
-  }
+  const update = useCallback(
+    (props: ContextProps) => {
+      nestedContext.update?.(props)
+      setLocalContext({ __context__: props })
+    },
+    [nestedContext]
+  )
 
-  function updateAll(props: ContextProps) {
-    if (typeof context.update === 'function') {
-      context.update(props)
+  const setLocale = useCallback(
+    (locale: InternalLocale) => {
+      update({ locale })
+    },
+    [update]
+  )
+
+  const value = useMemo(() => {
+    const preparedContext = {
+      // Make copy to avoid extending the root context
+      ...prepareContext(
+        mergeContextWithProps(nestedContext, {
+          ...localContext,
+          ...props,
+        })
+      ),
     }
 
-    setLocalContext({ __context__: props })
-  }
+    preparedContext.update = update
+    preparedContext.setLocale = setLocale
+    preparedContext.updateCurrent = updateCurrent
+    preparedContext.setCurrentLocale = setCurrentLocale
+
+    nestedContext.updateTranslation(
+      preparedContext.locale,
+      preparedContext.translations
+    )
+
+    return preparedContext
+  }, [
+    nestedContext,
+    localContext,
+    props,
+    setLocale,
+    setCurrentLocale,
+    update,
+    updateCurrent,
+  ])
+
+  return <Context.Provider value={value}>{children}</Context.Provider>
 }
 
 type MergeContext = {
@@ -70,24 +99,24 @@ type MergeContextProps = {
   value: ProviderProps
 } & MergeContext
 
-function mergeContext<ContextT, PropsT>(
+function mergeContextWithProps<ContextT, PropsT>(
   context: ContextT & ContextProps,
-  props: PropsT & MergeContextProps
+  providerProps: PropsT & MergeContextProps
 ) {
   // When value is given as so: <Provider value={{}} />
-  const { value, ...rest } = props
+  const { value, ...rest } = providerProps
 
   // Make sure we create a copy, because we add some custom methods to it
-  const merge = { ...value, ...rest }
+  const props = { ...value, ...rest }
 
   // Merge our new values with an existing context
-  const mergedContext = { ...context, ...merge }
+  const mergedContext = { ...context, ...props }
 
   // Because we don't want to deep merge, we merge formElement additionally
-  if (context?.formElement && merge.formElement) {
+  if (context?.formElement && props.formElement) {
     mergedContext.formElement = {
       ...context.formElement,
-      ...merge.formElement,
+      ...props.formElement,
     }
     mergedContext.formElement = prepareFormElementContext(
       mergedContext.formElement
@@ -95,10 +124,10 @@ function mergeContext<ContextT, PropsT>(
   }
 
   // Deprecated – can be removed in v11
-  if (context?.FormRow && merge.FormRow) {
+  if (context?.FormRow && props.FormRow) {
     mergedContext.FormRow = {
       ...context.FormRow,
-      ...merge.FormRow,
+      ...props.FormRow,
     }
     mergedContext.FormRow = prepareFormElementContext(
       mergedContext.FormRow

@@ -31,7 +31,7 @@ export type ProgressIndicatorProps = {
    */
   size?: ValidSizes | CustomSize
   /**
-   * A number between 0-100, if not supplied a continous loading-type animation will be used. Defaults to `undefined`
+   * A number between 0-100, if not supplied a continuous loading-type animation will be used. Defaults to `undefined`
    */
   progress?: string | number
   /**

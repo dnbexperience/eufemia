@@ -8,7 +8,7 @@ import {
 } from '../../../../shared/component-helper'
 import FieldPropsContext from './FieldPropsContext'
 import SharedProvider from '../../../../shared/Provider'
-import { ContextProps } from '../../../../shared/Context'
+import SharedContext, { ContextProps } from '../../../../shared/Context'
 import type { FieldProps, Path, UseFieldProps } from '../../types'
 
 export type FieldPropsProps = FieldProps & {
@@ -49,21 +49,16 @@ function FieldPropsProvider(props: FieldPropsProps) {
     ...restProps
   } = props
 
+  const sharedProviderParams: ContextProps = {}
   const nestedContext = useContext(FieldPropsContext)
+  const sharedContext = useContext(SharedContext)
   const dataContextRef = useRef<ContextState>()
-  dataContextRef.current = useContext<ContextState>(DataContext)
-
-  const sharedProviderProps: ContextProps = {}
+  dataContextRef.current = useContext(DataContext)
 
   /**
    * Always use data context as the last source for localization
    */
   const locale = dataContextRef.current?.props?.locale ?? restProps?.locale
-  const translations = extendDeep(
-    {},
-    restProps?.translations,
-    dataContextRef.current?.props?.translations
-  ) as ContextProps
 
   const nestedFieldProps = useMemo(() => {
     return Object.assign(
@@ -73,27 +68,29 @@ function FieldPropsProvider(props: FieldPropsProps) {
   }, [nestedContext?.inheritedProps, restProps])
 
   if (typeof nestedFieldProps.disabled === 'boolean') {
-    sharedProviderProps.formElement = {
+    sharedProviderParams.formElement = {
       disabled: nestedFieldProps.disabled,
     }
   }
   if (formElement) {
-    sharedProviderProps.formElement = formElement
+    sharedProviderParams.formElement = formElement
   }
   if (FormStatus) {
-    sharedProviderProps.FormStatus = FormStatus
+    sharedProviderParams.FormStatus = FormStatus
   }
   if (locale) {
-    sharedProviderProps.locale = locale
+    sharedProviderParams.locale = locale
   }
-  const formTranslations = useMemo(() => {
-    if (translations) {
-      return transformTranslations(translations)
-    }
-  }, [translations])
-  if (formTranslations) {
-    sharedProviderProps.translations = formTranslations
-  }
+  sharedProviderParams.translations = useMemo(() => {
+    const translations = extendDeep(
+      {},
+      sharedContext.translations,
+      restProps?.translations,
+      dataContextRef.current?.props?.translations
+    ) as ContextProps
+
+    return translations
+  }, [restProps?.translations, sharedContext.translations])
 
   const extend = useCallback(
     <T extends FieldProps>(fieldProps: T) => {
@@ -101,7 +98,7 @@ function FieldPropsProvider(props: FieldPropsProps) {
       const { required: requiredByContext } = dataContextRef.current
 
       // Extract props from overwriteProps to be used in fields
-      const key = fieldProps?.path?.split('/')?.pop()
+      const key = overwriteProps && fieldProps?.path?.split('/')?.pop()
       const overwrite = overwriteProps?.[key]
 
       // Overwrite given schema props
@@ -124,7 +121,7 @@ function FieldPropsProvider(props: FieldPropsProps) {
 
       return (deep ? nestedContext.extend(value) : value) as T
     },
-    [deep, nestedContext, overwriteProps, nestedFieldProps]
+    [deep, nestedContext, nestedFieldProps, overwriteProps]
   )
 
   return (
@@ -135,45 +132,9 @@ function FieldPropsProvider(props: FieldPropsProps) {
         inheritedContext: nestedFieldProps,
       }}
     >
-      <SharedProvider {...sharedProviderProps}>{children}</SharedProvider>
+      <SharedProvider {...sharedProviderParams}>{children}</SharedProvider>
     </FieldPropsContext.Provider>
   )
-}
-
-/**
- * Transform translations into { 'nb-NO': { Forms: { ... } } }
- */
-function transformTranslations(
-  translations: ContextProps['translations']
-) {
-  const result = {}
-  const trObj = translations as Record<
-    ContextProps['locale'],
-    Record<string, Record<string, string>>
-  >
-
-  for (const locale in trObj) {
-    const newObj: Record<
-      'Forms',
-      Record<string, Record<string, string>>
-    > = {
-      Forms: {},
-    }
-
-    for (const key in trObj[locale]) {
-      const newKeyObj: Record<string, string> = {}
-
-      for (const subKey in trObj[locale][key]) {
-        newKeyObj[subKey] = trObj[locale][key][subKey]
-      }
-
-      newObj.Forms[key] = newKeyObj
-    }
-
-    result[locale] = newObj
-  }
-
-  return result
 }
 
 FieldPropsProvider._supportsSpacingProps = 'children'

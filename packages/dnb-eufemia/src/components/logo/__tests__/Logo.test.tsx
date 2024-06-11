@@ -17,16 +17,31 @@ describe('Logo component', () => {
     expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
   })
 
-  it('should set correct class when inherit_color is set', () => {
-    render(<Logo inherit_color />)
-    expect(document.querySelector('.dnb-logo').classList).toContain(
+  it('should set correct class when inheritColor is set', () => {
+    render(<Logo inheritColor />)
+    expect(document.querySelector('.dnb-logo')).toHaveClass(
       'dnb-logo--inherit-color'
     )
   })
 
   it('should set correct class when size="inherit" is set', () => {
     render(<Logo size="inherit" />)
-    expect(document.querySelector('.dnb-logo').classList).toContain(
+    expect(document.querySelector('.dnb-logo')).toHaveClass(
+      'dnb-logo--inherit-size'
+    )
+  })
+
+  it('should set height when size is number', () => {
+    render(<Logo size="48" />)
+    expect(document.querySelector('.dnb-logo svg')).toHaveAttribute(
+      'height',
+      '48'
+    )
+  })
+
+  it('should set correct class when inheritSize is true', () => {
+    render(<Logo inheritSize />)
+    expect(document.querySelector('.dnb-logo')).toHaveClass(
       'dnb-logo--inherit-size'
     )
   })
@@ -73,7 +88,7 @@ describe('Logo component', () => {
 
   it('should set custom class', () => {
     render(<Logo className="custom-selector" />)
-    expect(document.querySelector('[role="img"]').classList).toContain(
+    expect(document.querySelector('[role="img"]')).toHaveClass(
       'custom-selector'
     )
   })
@@ -149,11 +164,10 @@ describe('Logo component', () => {
     )
 
     expect(attributes).toEqual([
-      'class',
       'role',
-      'alt',
-      'data-ratio',
       'aria-hidden',
+      'class',
+      'alt',
       'title',
     ])
   })

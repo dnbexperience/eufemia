@@ -130,9 +130,6 @@ export default {
       text_replaced: 'Replaced',
       text_unknown: 'Unknown',
     },
-    Logo: {
-      alt: 'DNB Logo',
-    },
     Tag: {
       removeIconTitle: 'Remove',
       addIconTitle: 'Add',

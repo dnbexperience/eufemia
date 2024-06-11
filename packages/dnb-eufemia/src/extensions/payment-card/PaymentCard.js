@@ -2,7 +2,7 @@
  * Web PaymentCard Component
  *
  * This is a legacy component.
- * For refferencing while developing new features, please use a Functional component.
+ * For referencing while developing new features, please use a Functional component.
  */
 import React from 'react'
 import PropTypes from 'prop-types'

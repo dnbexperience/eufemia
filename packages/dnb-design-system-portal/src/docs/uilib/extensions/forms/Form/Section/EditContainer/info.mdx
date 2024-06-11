@@ -1,0 +1,36 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+`EditContainer` enables users to toggle (with animation) the content of each item between the [ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) and this edit container.
+
+By default, it features a toolbar containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
+
+```tsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Section>
+    <Form.Section.EditContainer title="Edit account holder">
+      <Field.Name.First path="/firstName" />
+      <Field.Name.Last path="/lastName" />
+    </Form.Section.EditContainer>
+
+    <Form.Section.ViewContainer title="Account holder">
+      <Value.SummaryList>
+        <Value.Name.First path="/firstName" />
+        <Value.Name.Last path="/lastName" />
+      </Value.SummaryList>
+    </Form.Section.ViewContainer>
+  </Form.Section>,
+)
+```
+
+## Accessibility
+
+The `EditContainer` component has an `aria-label` attribute, which is set to the `title` prop value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.
+
+When the edit container becomes active, it will automatically receive the active element focus. And when the edit container switches to the view container, the focus will be set to the view container.
