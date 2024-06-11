@@ -3,6 +3,40 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.35.0](https://github.com/dnbexperience/eufemia/compare/v10.34.1...v10.35.0) (2024-06-11)
+
+
+### :memo: Documentation
+
+* add link to Eufemia's GitHub repository in menu bar ([#3670](https://github.com/dnbexperience/eufemia/issues/3670)) ([cdecbb3](https://github.com/dnbexperience/eufemia/commit/cdecbb38ef5e189cb41998ca1b1f990406d72c3c))
+* fix heading levels ([#3660](https://github.com/dnbexperience/eufemia/issues/3660)) ([d0bb28d](https://github.com/dnbexperience/eufemia/commit/d0bb28d19cbf3fea0d270fd651036974b65f2f4b))
+* **Forms:** fix broken link to forms/Wizard/Container ([#3656](https://github.com/dnbexperience/eufemia/issues/3656)) ([53cb041](https://github.com/dnbexperience/eufemia/commit/53cb041bce4dfcb7064f4daa3e05d6ceeb18dbcc))
+* **Forms:** reqruied -> required ([#3655](https://github.com/dnbexperience/eufemia/issues/3655)) ([be82a51](https://github.com/dnbexperience/eufemia/commit/be82a519680a8ef1dbdf99e1aa1c44910830769a))
+* remove demos ([#3668](https://github.com/dnbexperience/eufemia/issues/3668)) ([90638ce](https://github.com/dnbexperience/eufemia/commit/90638ce12d34f72ddbc87f2111bb46e985f20af2))
+
+
+### :bug: Bug Fixes
+
+* add support for ::selection color for Chromium based browsers ([#3689](https://github.com/dnbexperience/eufemia/issues/3689)) ([6e49a9b](https://github.com/dnbexperience/eufemia/commit/6e49a9b1ca57b0f3ca1e2ffb91612cb3f3f53f01))
+* **forms:** add help button to Field.Option ([#3678](https://github.com/dnbexperience/eufemia/issues/3678)) ([9210281](https://github.com/dnbexperience/eufemia/commit/921028122fc43739d0ada14fd7b0fb0346d466ea))
+* **forms:** ensure help button is rendered only once in Toggle and Boolean fields ([#3675](https://github.com/dnbexperience/eufemia/issues/3675)) ([d9e9478](https://github.com/dnbexperience/eufemia/commit/d9e947892a87ee7d227cd478aa7e9535df5e7ce5))
+* **forms:** solve issue when schema is used in Wizard ([#3680](https://github.com/dnbexperience/eufemia/issues/3680)) ([8699b0c](https://github.com/dnbexperience/eufemia/commit/8699b0c728fb7e7555a2b2925ca15a563a65cb11))
+* **TextCounter:** exceeded message when variant up ([#3688](https://github.com/dnbexperience/eufemia/issues/3688)) ([22f1507](https://github.com/dnbexperience/eufemia/commit/22f1507df97ac74089eab53bbb5ae0ba95e474e2))
+
+
+### :sparkles: Features
+
+* **assets:** add sbanken logo svgs ([#3674](https://github.com/dnbexperience/eufemia/issues/3674)) ([1d7bcc0](https://github.com/dnbexperience/eufemia/commit/1d7bcc0c51fac997bc10a99bc87e209526218e14))
+* **filter:** add support to filter array data based on wildcard `*` ([#3679](https://github.com/dnbexperience/eufemia/issues/3679)) ([1d93ac4](https://github.com/dnbexperience/eufemia/commit/1d93ac4ffff5c1808f28ed4139cb6ceb36413adb))
+* **forms:** add edit and view containers to `Form.Section` ([#3652](https://github.com/dnbexperience/eufemia/issues/3652)) ([51bf7a2](https://github.com/dnbexperience/eufemia/commit/51bf7a236f1193cae47ad8adba825709c277713d))
+* **forms:** add help property to ArraySelection field ([#3694](https://github.com/dnbexperience/eufemia/issues/3694)) ([f6b1224](https://github.com/dnbexperience/eufemia/commit/f6b1224e757e83e7fa7b9ed70f4bef5d1ed749cd))
+* **HelpButton:** ensure larger bounding area when size is set to small ([#3677](https://github.com/dnbexperience/eufemia/issues/3677)) ([97ca056](https://github.com/dnbexperience/eufemia/commit/97ca056025259cc48ce57db50dc6c163f40e668c))
+* **Logo:** Refactor Logo to ts ([#3611](https://github.com/dnbexperience/eufemia/issues/3611)) ([b1ca771](https://github.com/dnbexperience/eufemia/commit/b1ca771603c74b003365ebf7b1daee09f7edad96))
+* **NumberFormat:** add monospace support ([#3669](https://github.com/dnbexperience/eufemia/issues/3669)) ([940ddb6](https://github.com/dnbexperience/eufemia/commit/940ddb6c1a67c665cc7cb2e3c393f8de79b01806))
+* refactor internal translation logic to not mutate the root context ([#3691](https://github.com/dnbexperience/eufemia/issues/3691)) ([49b0b45](https://github.com/dnbexperience/eufemia/commit/49b0b4589c113799ddd28bdd3cbef6e7181b580a))
+* **Table:** added handle to collapse all accordion rows ([#3666](https://github.com/dnbexperience/eufemia/issues/3666)) ([c09a697](https://github.com/dnbexperience/eufemia/commit/c09a6976c24fb082f66062e5018d7d2b00323cf7))
+* **Translation:** add support for type-safe keys ([#3681](https://github.com/dnbexperience/eufemia/issues/3681)) ([437ba83](https://github.com/dnbexperience/eufemia/commit/437ba8371910691d4908b0001fb3fa2409792548))
+
 ## [10.34.1](https://github.com/dnbexperience/eufemia/compare/v10.34.0...v10.34.1) (2024-06-05)
 
 
