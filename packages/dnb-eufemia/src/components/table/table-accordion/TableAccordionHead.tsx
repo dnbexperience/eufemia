@@ -137,7 +137,6 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         trIsOpen,
         noAnimation,
         countTds,
-        hasAccordionContent,
         onOpened,
         onClosed,
       }}
@@ -221,9 +220,10 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
 export function TableAccordionToggleButton() {
   const tableAccordionContext = React.useContext(TableAccordionContext)
-  const allProps = React.useContext(TableContext)?.allProps
+  const tableContextAllProps = React.useContext(TableContext)?.allProps
   const iconSize =
-    allProps.size === 'medium' || allProps.size === 'small'
+    tableContextAllProps?.size === 'medium' ||
+    tableContextAllProps?.size === 'small'
       ? 'basis'
       : 'medium'
 
@@ -233,7 +233,7 @@ export function TableAccordionToggleButton() {
       <Button
         className="dnb-sr-only"
         tabIndex={-1}
-        aria-label={allProps?.accordionToggleButtonSR}
+        aria-label={tableContextAllProps?.accordionToggleButtonSR}
         aria-expanded={Boolean(tableAccordionContext?.trIsOpen)}
         on_click={(event) =>
           tableAccordionContext?.toggleOpenTr(event, true)

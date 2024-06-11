@@ -138,13 +138,13 @@ export const trEventProperties: PropertiesTableProps = {
   },
   onOpened: {
     doc: 'Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.',
-    type: '(event) => void',
+    type: '({ target }) => void',
     defaultValue: 'undefined',
     status: 'optional',
   },
   onClosed: {
     doc: 'Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.',
-    type: '(event) => void',
+    type: '({ target }) => void',
     defaultValue: 'undefined',
     status: 'optional',
   },

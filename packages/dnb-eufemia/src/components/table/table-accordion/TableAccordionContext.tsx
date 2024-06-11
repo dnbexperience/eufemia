@@ -4,5 +4,19 @@
  */
 
 import React from 'react'
+import type { TableTrProps } from '../TableTr'
 
-export const TableAccordionContext = React.createContext(null)
+type TableAccordionContextProps = {
+  toggleOpenTr: (
+    event: React.SyntheticEvent,
+    allowInteractiveElement?: boolean
+  ) => void
+  trIsOpen: boolean
+  countTds: number
+  noAnimation: TableTrProps['noAnimation']
+  onOpened: TableTrProps['onOpened']
+  onClosed: TableTrProps['onClosed']
+}
+
+export const TableAccordionContext =
+  React.createContext<TableAccordionContextProps>(null)

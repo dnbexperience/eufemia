@@ -38,7 +38,7 @@ function TableAccordionContent(
     ...props
   } = componentProps
 
-  const allProps = React.useContext(TableContext)?.allProps
+  const tableContextAllProps = React.useContext(TableContext)?.allProps
   const innerRef = React.useRef<HTMLDivElement>(null)
   const trRef = React.useRef<HTMLTableRowElement>(null)
   const {
@@ -57,7 +57,7 @@ function TableAccordionContent(
   const chevronTdProps = {
     ariaLive,
     isInDOM,
-    accordionMoreContentSR: allProps?.accordionMoreContentSR,
+    accordionMoreContentSR: tableContextAllProps?.accordionMoreContentSR,
   }
 
   return (
@@ -87,11 +87,11 @@ function TableAccordionContent(
     >
       {variant === 'row' && (
         <>
-          {allProps.accordionChevronPlacement !== 'end' && (
+          {tableContextAllProps?.accordionChevronPlacement !== 'end' && (
             <ChevronTd {...chevronTdProps} />
           )}
           {isInDOM && children}
-          {allProps.accordionChevronPlacement === 'end' && (
+          {tableContextAllProps?.accordionChevronPlacement === 'end' && (
             <ChevronTd {...chevronTdProps} />
           )}
         </>
