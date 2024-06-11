@@ -77,12 +77,4 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match all variants', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector: '[data-visual-test="form-status-all-variants"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })

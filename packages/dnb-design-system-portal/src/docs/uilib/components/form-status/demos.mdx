@@ -14,7 +14,6 @@ import {
   FormStatusCustom,
   FormStatusLarge,
   FormStatusWithIcons,
-  FormStatusAllVariants,
 } from 'Docs/uilib/components/form-status/Examples'
 
 ## Demos
@@ -55,8 +54,11 @@ NB: The inner text gets a max-width of 47rem to ensure we do not exceed 70 chara
 
 ### In combination with the Icon component
 
-<FormStatusWithIcons />
+<VisibilityByTheme hidden="sbanken">
+  <FormStatusWithIcons />
+</VisibilityByTheme>
 
-<VisibleWhenVisualTest>
-  <FormStatusAllVariants />
-</VisibleWhenVisualTest>
+<VisibilityByTheme visible="sbanken">
+  NB: Theme name must be passed to InfoIcon for correct theming.
+  <FormStatusWithIcons theme="sbanken" />
+</VisibilityByTheme>

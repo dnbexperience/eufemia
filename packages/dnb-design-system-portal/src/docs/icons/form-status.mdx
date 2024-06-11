@@ -7,10 +7,18 @@ import {
 
 ## Use the [**FormStatus**](/uilib/components/form-status) icons only
 
-- `InfoIcon` <InfoIcon />
-- `WarnIcon` <WarnIcon />
-- `ErrorIcon` <ErrorIcon />
-- `MarketingIcon` <MarketingIcon />
+<VisibilityByTheme hidden="sbanken">
+  - `InfoIcon` <InfoIcon />
+  - `WarnIcon` <WarnIcon />
+  - `ErrorIcon` <ErrorIcon />
+  - `MarketingIcon` <MarketingIcon />
+</VisibilityByTheme>
+<VisibilityByTheme visible="sbanken">
+  - `InfoIcon` <InfoIcon theme="sbanken" />
+  - `WarnIcon` <WarnIcon />
+  - `ErrorIcon` <ErrorIcon />
+  - `MarketingIcon` <MarketingIcon />
+</VisibilityByTheme>
 
 ```jsx
 import { InfoIcon } from '@dnb/eufemia/components/FormStatus

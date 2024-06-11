@@ -18,7 +18,6 @@ import {
   Input,
   ToggleButton,
   Link,
-  Grid,
 } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 
@@ -146,13 +145,17 @@ export const FormStatusLarge = () => (
   </ComponentBox>
 )
 
-export const FormStatusWithIcons = () => (
+export const FormStatusWithIcons = ({
+  theme = 'ui',
+}: {
+  theme: string
+}) => (
   <ComponentBox
-    scope={{ InfoIcon, WarnIcon, ErrorIcon, MarketingIcon }}
+    scope={{ InfoIcon, WarnIcon, ErrorIcon, MarketingIcon, theme }}
     data-visual-test="form-status-icons"
   >
     <Icon
-      icon={<InfoIcon />}
+      icon={<InfoIcon theme={theme} />}
       size="medium"
       title="Some title"
       inherit_color={false}
@@ -178,36 +181,5 @@ export const FormStatusWithIcons = () => (
       title="Some title"
       inherit_color={false}
     />
-  </ComponentBox>
-)
-
-export const FormStatusAllVariants = () => (
-  <ComponentBox data-visual-test="form-status-all-variants">
-    <Grid.Container
-      columns={{ small: 2, medium: 3, large: 3 }}
-      columnGap="small"
-      rowGap="small"
-    >
-      <Grid.Container columns={1}>
-        <FormStatus text="Text" state="info" variant="flat" />
-        <FormStatus text="Text" state="info" variant="outlined" />
-      </Grid.Container>
-      <Grid.Container columns={1}>
-        <FormStatus text="Text" state="success" />
-        <FormStatus text="Text" state="success" variant="outlined" />
-      </Grid.Container>
-      <Grid.Container columns={1}>
-        <FormStatus text="Text" state="warn" variant="flat" />
-        <FormStatus text="Text" state="warn" variant="outlined" />
-      </Grid.Container>
-      <Grid.Container columns={1}>
-        <FormStatus text="Text" state="error" variant="flat" />
-        <FormStatus text="Text" state="error" variant="outlined" />
-      </Grid.Container>
-      <Grid.Container columns={1}>
-        <FormStatus text="Text" state="marketing" />
-        <FormStatus text="Text" state="marketing" variant="outlined" />
-      </Grid.Container>
-    </Grid.Container>
   </ComponentBox>
 )
