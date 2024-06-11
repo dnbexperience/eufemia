@@ -90,7 +90,7 @@ export default function PropertiesTable({
         <Td>
           <FormattedCode
             variant="prop"
-            strikethrough={status === 'deprecated' || status === 'coming'}
+            strikethrough={status === 'deprecated'}
           >
             {formatName(camelCase ? toCamelCase(key) : key)}
           </FormattedCode>
@@ -142,9 +142,9 @@ export default function PropertiesTable({
           </Td>
         )}
         <Td>
-          {(!showDefaultValue ||
-            status === 'deprecated' ||
-            status === 'coming') && <em>({status}) </em>}
+          {(!showDefaultValue || status === 'deprecated') && (
+            <em>({status}) </em>
+          )}
           <ReactMarkdown components={components}>
             {camelCase ? convertToCamelCase(doc, keys) : doc}
           </ReactMarkdown>

@@ -49,12 +49,6 @@ export const tableProperties: PropertiesTableProps = {
     defaultValue: 'null',
     status: 'optional',
   },
-  variant: {
-    doc: 'Defines the style variant of the table.',
-    type: [`'generic'`],
-    defaultValue: `'generic'`,
-    status: 'coming',
-  },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
