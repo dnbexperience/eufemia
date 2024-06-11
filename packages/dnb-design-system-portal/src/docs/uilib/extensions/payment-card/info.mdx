@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-The PaymentCard component is a dynamic defined visual component imitate a physical payment card. It exists as an independent extension to Eufemia.
+The PaymentCard component is a dynamic defined visual component imitating a physical payment card. It exists as an independent extension to Eufemia.
 
 The main way to use this component is to with the product code of the card you want to show. All the product codes of credit and debit cards provided by DNB are supported.
 
@@ -15,32 +15,43 @@ import PaymentCard from '@dnb/eufemia/extensions/payment-card'
 render(<PaymentCard productCode="..." />)
 ```
 
-While the preffered way to use this component is to define the styling using the product code, you can also define your own style.
+While the preffered way to use this component is to define the styling using the product code, you can also define your own style. The most practical way of doing this is to start with one of the default designs exposed through the object `Designs`, and modifying this until you get what you want.
+
+```jsx
+import '@dnb/eufemia/extensions/payment-card/style'
+import PaymentCard, { Designs } from '@dnb/eufemia/extensions/payment-card'
+
+// custom defined card style with a gold card and a red bank axept logo
+render(
+  <PaymentCard
+    customCard={{
+      ...Designs.gold,
+      paymentType: { type: 'BankAxept', color: 'red' },
+    }}
+  />,
+)
+```
+
+Alternativly, if we for example want a custom background image we can do the following
 
 ```jsx
 import '@dnb/eufemia/extensions/payment-card/style'
 import PaymentCard from '@dnb/eufemia/extensions/payment-card'
 
+// custom defined card style with custom image
 render(
   <PaymentCard
-    // custom defined card style
-    rawData={
-      productCode: ''
-      productName: ''
-      displayName: 'custom card'
-
-      cardType: CardTypeDesign
-      productType: ProductType
-      bankAxept: BankAxeptType
-      cardDesign: {
-
-      }
-    }
-
-
-  />
-  )
+    customCard={{
+      backgroundImage: base64EncodedImage
+      paymentType: { type: 'BankAxept' },
+      bankLogo: {type: 'DNB'}
+      cardProvider: {type: 'Visa'}
+    }}
+  />,
+)
 ```
+
+It's worth noting that if you don't provide a `productCode` the design will be the same as `customCard={Designs.defaultDesign}`, but all the values can be overwritten.
 
 Resources:
 

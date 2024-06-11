@@ -71,7 +71,6 @@ export type CustomCard = {
   productCode?: string
   displayName?: string
   cardClassName?: string
-  background?: string
   backgroundImage?: string
   bankLogo?: { type: BankLogoType; color?: string }
   productType?: { type: ProductType; color?: string }

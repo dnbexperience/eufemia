@@ -110,11 +110,10 @@ export const PaymentCardCustomExample = () => (
         bankLogo: { type: 'DNB' },
         cardProvider: { type: 'Mastercard' },
         paymentType: { type: 'BankAxept' },
-        background: 'gold',
       }
       return (
         <PaymentCard
-          productCode=""
+          productCode="11111"
           customCard={customData}
           cardNumber="************1337"
         />
