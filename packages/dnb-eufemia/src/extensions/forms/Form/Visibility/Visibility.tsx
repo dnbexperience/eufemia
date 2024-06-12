@@ -1,15 +1,16 @@
-import React, { AriaAttributes, useCallback, useContext } from 'react'
-import pointer from 'json-pointer'
+import React, { AriaAttributes } from 'react'
+
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
-import DataContext, { FilterData } from '../../DataContext/Context'
-import SectionContext from '../Section/SectionContext'
 import FieldProps from '../FieldProps'
-import type { Path, UseFieldProps } from '../../types'
+import useVisibility from './useVisibility'
+
+import type { UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
+import { FilterData } from '../../DataContext'
 
 type VisibleWhen =
   | {
@@ -78,102 +79,28 @@ function Visibility({
   children,
   ...rest
 }: Props) {
-  const dataContext = useContext(DataContext)
-  const sectionContext = useContext(SectionContext)
-
-  const sectionPath = sectionContext?.path
-  const composePath = useCallback(
-    (path: Path) => {
-      return `${
-        sectionPath && sectionPath !== '/' ? sectionPath : ''
-      }${path}`
-    },
-    [sectionPath]
-  )
-
   useMountEffect(() => {
     if (fieldPropsWhenHidden && !keepInDOM) {
       warn('Using "fieldPropsWhenHidden" requires "keepInDOM" to be true.')
     }
   })
 
-  const check = () => {
-    if (visible === false) {
-      return
-    }
-
-    const data =
-      (filterData &&
-        dataContext.filterDataHandler?.(dataContext.data, filterData)) ||
-      dataContext.data
-
-    if (visibleWhen || visibleWhenNot) {
-      if (visibleWhenNot) {
-        visibleWhen = visibleWhenNot
-      }
-      const hasPath = pointer.has(data, composePath(visibleWhen.path))
-      if (hasPath) {
-        const value = pointer.get(data, composePath(visibleWhen.path))
-
-        const withValue = visibleWhen?.['withValue']
-        const result =
-          (withValue && withValue?.(value) === false) ||
-          (Object.prototype.hasOwnProperty.call(visibleWhen, 'hasValue') &&
-            visibleWhen?.['hasValue'] !== value)
-
-        if (visibleWhenNot) {
-          if (!result) {
-            return
-          }
-        } else if (result) {
-          return
-        }
-      } else {
-        return
-      }
-    }
-
-    if (pathDefined && !pointer.has(data, composePath(pathDefined))) {
-      return
-    }
-    if (pathUndefined && pointer.has(data, composePath(pathUndefined))) {
-      return
-    }
-
-    const getValue = (path: Path) => {
-      if (pointer.has(data, path)) {
-        return pointer.get(data, path)
-      }
-    }
-
-    if (pathTrue && getValue(composePath(pathTrue)) !== true) {
-      return
-    }
-    if (pathFalse && getValue(composePath(pathFalse)) !== false) {
-      return
-    }
-    if (
-      pathTruthy &&
-      Boolean(getValue(composePath(pathTruthy))) === false
-    ) {
-      return
-    }
-    if (pathFalsy && Boolean(getValue(composePath(pathFalsy))) === true) {
-      return
-    }
-    if (inferData && !inferData(data)) {
-      return
-    }
-
-    // Deprecated can be removed in v11
-    if (pathValue && getValue(composePath(pathValue)) !== whenValue) {
-      return
-    }
-
-    return true
-  }
-
-  const open = Boolean(check())
+  const { check } = useVisibility({
+    visible,
+    pathDefined,
+    pathUndefined,
+    pathTruthy,
+    pathFalsy,
+    pathTrue,
+    pathFalse,
+    pathValue,
+    whenValue,
+    visibleWhen,
+    visibleWhenNot,
+    inferData,
+    filterData,
+  })
+  const open = check()
 
   if (animate) {
     const props = !open ? fieldPropsWhenHidden : null
