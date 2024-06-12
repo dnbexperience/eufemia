@@ -26,6 +26,7 @@ import {
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
 import GithubLogo from '../../docs/contribute/assets/github-logo.js'
+import type { IconSize } from '@dnb/eufemia/src/components/Icon'
 
 export default function StickyMenuBar({
   hideSidebarToggleButton = false,
@@ -75,7 +76,7 @@ export default function StickyMenuBar({
         <span aria-hidden className={centerWrapperStyle}>
           <Icon
             icon={PortalLogo}
-            size={48}
+            size={48 as IconSize}
             right="x-small"
             color="var(--color-black-80, #333)"
           />

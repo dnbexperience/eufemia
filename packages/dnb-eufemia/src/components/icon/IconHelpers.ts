@@ -1,6 +1,8 @@
+import { IconIcon } from './Icon'
+
 // to replace icon names
-export const iconCase = (name) =>
-  name
+export const iconCase = (name: IconIcon) =>
+  String(name)
     .replace(/((?!^)[A-Z])/g, '_$1')
     .toLowerCase()
     .replace(/^[0-9]/g, '$1')

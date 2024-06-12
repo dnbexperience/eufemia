@@ -77,10 +77,7 @@ const defaultProps = {
   skeleton: null,
 }
 
-const determineIcon: IconIcon = (
-  variant: string,
-  isSmallScreen: boolean
-) => {
+const determineIcon = (variant: string, isSmallScreen: boolean) => {
   switch (variant) {
     case 'home':
       return 'home-icon'
