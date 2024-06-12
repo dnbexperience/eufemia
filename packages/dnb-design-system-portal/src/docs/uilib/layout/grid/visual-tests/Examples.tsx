@@ -35,7 +35,7 @@ export function PageLayoutExample() {
         `}
       />
 
-      <ComponentBox hideCode scope={{ useMedia }}>
+      <ComponentBox hideCode>
         {() => {
           const Wrapper = styled.div`
             .pageContainer {

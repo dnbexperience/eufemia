@@ -182,6 +182,7 @@ export const calcSize = (props) => {
     } else {
       if (typeof icon === 'function') {
         const elem = icon()
+        console.log(elem)
         if (elem.props) {
           let potentialSize = -1
           if (elem.props.width) {
@@ -316,6 +317,11 @@ export const prepareIcon = (props, context) => {
     className,
     ...attributes
   } = props
+
+  console.log('------------------------')
+  console.log(alt)
+  console.log(icon)
+  console.log('------------------------')
 
   const { sizeAsString, iconParams } = calcSize({
     icon,

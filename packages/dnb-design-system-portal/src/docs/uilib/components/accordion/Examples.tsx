@@ -239,7 +239,7 @@ export const AccordionInColumns = () => {
 
         return (
           <Wrapper>
-            <Accordion key="one" variant="filled">
+            <Accordion key="one" variant="filled" className="superduper">
               <Accordion.Header>
                 Sit amet suscipit ipsum tincidunt id?
               </Accordion.Header>
@@ -249,33 +249,6 @@ export const AccordionInColumns = () => {
                   gravida himenaeos nostra mollis volutpat bibendum
                   convallis cum condimentum dictumst blandit rutrum
                   vehicula
-                </P>
-              </Accordion.Content>
-            </Accordion>
-            ,
-            <Accordion key="two" variant="filled">
-              <Accordion.Header>
-                Cras eget quam eget tortor placerat viverra?
-              </Accordion.Header>
-              <Accordion.Content space>
-                <P>
-                  Morbi condimentum odio ut enim vulputate, rutrum
-                  ullamcorper sem vestibulum. Ut luctus tempus leo vel
-                  finibus. Pellentesque ultrices interdum nisi, sit amet
-                  suscipit ipsum tincidunt id. Praesent sodales vel eros ut
-                  accumsan.
-                </P>
-              </Accordion.Content>
-            </Accordion>
-            ,
-            <Accordion key="three" variant="filled">
-              <Accordion.Header>
-                Nam porta nec ipsum id porta
-              </Accordion.Header>
-              <Accordion.Content space>
-                <P>
-                  Nam porta nec ipsum id porta. Cras eget quam eget tortor
-                  placerat viverra.
                 </P>
               </Accordion.Content>
             </Accordion>

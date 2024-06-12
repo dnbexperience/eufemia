@@ -8,6 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Icon, { IconProps } from '../Icon'
 import { question } from './test-files'
+import { ErrorIcon } from './../../FormStatus'
 
 const props: IconProps = {
   icon: question,
@@ -117,6 +118,13 @@ describe('Icon component', () => {
         data-testid="custom-data-testid-value"
       />
     )
+    expect(
+      document.querySelector('span.dnb-icon').getAttribute('data-testid')
+    ).toBe('custom-data-testid-value')
+  })
+
+  it('should something', () => {
+    render(<Icon icon={ErrorIcon} inherit_color={false} />)
     expect(
       document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('custom-data-testid-value')
