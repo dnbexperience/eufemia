@@ -58,7 +58,7 @@ export default function useDates(
       previousDates.date !== initialDates.date
         ? initialDates.date
         : previousDates.date,
-    ...initializeDates(initialDates, {
+    ...mapDates(initialDates, {
       dateFormat,
       isRange,
       shouldCorrectDate,
@@ -108,7 +108,7 @@ export default function useDates(
     if (hasDatePropsChanged) {
       updateDates({
         date: initialDates.date,
-        ...initializeDates(initialDates, {
+        ...mapDates(initialDates, {
           dateFormat,
           isRange,
           shouldCorrectDate,
@@ -172,7 +172,7 @@ export default function useDates(
   ] as const
 }
 
-function initializeDates(
+function mapDates(
   initialDates: DatePickerInitialDates,
   { dateFormat, isRange, shouldCorrectDate }: UseDatesOptions
 ) {
@@ -244,7 +244,19 @@ function initializeDates(
   }
 }
 
-function correctDates({ startDate, endDate, minDate, maxDate, isRange }) {
+function correctDates({
+  startDate,
+  endDate,
+  minDate,
+  maxDate,
+  isRange,
+}: {
+  startDate: Date
+  endDate: Date
+  minDate: Date
+  maxDate: Date
+  isRange: boolean
+}) {
   const correctedDates = {}
 
   if (isDisabled(startDate, minDate, maxDate)) {
