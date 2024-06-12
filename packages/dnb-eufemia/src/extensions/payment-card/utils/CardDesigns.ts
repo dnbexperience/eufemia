@@ -1,15 +1,15 @@
 import properties from '../../../style/themes/theme-ui/properties'
-import { CustomCard } from '../types'
+import { PaymentCardType } from '../types'
 import { myFirstImg, youthImg, ungImg } from './backgrounds'
 
-export const defaultDesign: CustomCard = {
+export const defaultDesign: PaymentCardType = {
   cardClassName: 'dnb-payment-card__card--design-default',
   bankLogo: { type: 'DNB', color: properties['--color-white'] },
   cardProvider: { type: 'Visa', color: properties['--color-white'] },
   paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-export const pluss: CustomCard = {
+export const pluss: PaymentCardType = {
   // name: 'Pluss',
   cardClassName: 'dnb-payment-card__card--design-pluss',
   bankLogo: { type: 'DNB', color: properties['--color-white'] },
@@ -17,7 +17,7 @@ export const pluss: CustomCard = {
   paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-export const young: CustomCard = {
+export const young: PaymentCardType = {
   // name: 'Ung',
   cardClassName: 'dnb-payment-card__card--design-ung',
   backgroundImage: ungImg,
@@ -29,7 +29,7 @@ export const young: CustomCard = {
   },
 }
 
-export const myFirst: CustomCard = {
+export const myFirst: PaymentCardType = {
   // name: 'My first',
   cardClassName: 'dnb-payment-card__card--design-my-first',
   backgroundImage: myFirstImg,
@@ -41,7 +41,7 @@ export const myFirst: CustomCard = {
   },
 }
 
-export const youth: CustomCard = {
+export const youth: PaymentCardType = {
   // name: 'Youth',
   cardClassName: 'dnb-payment-card__card--design-youth',
   backgroundImage: youthImg,
@@ -53,7 +53,7 @@ export const youth: CustomCard = {
   },
 }
 
-export const gold: CustomCard = {
+export const gold: PaymentCardType = {
   // name: 'Gold',
   cardClassName: 'dnb-payment-card__card--design-gold',
   bankLogo: { type: 'DNB', color: properties['--color-white'] },
@@ -64,7 +64,7 @@ export const gold: CustomCard = {
   },
 }
 
-export const saga: CustomCard = {
+export const saga: PaymentCardType = {
   // name: 'Saga',
   cardClassName: 'dnb-payment-card__card--design-saga',
   bankLogo: { type: 'DNB', color: '#BFA970' },
@@ -75,7 +75,7 @@ export const saga: CustomCard = {
   },
 }
 
-export const sagaPlatinum: CustomCard = {
+export const sagaPlatinum: PaymentCardType = {
   // name: 'Saga platinum',
   cardClassName: 'dnb-payment-card__card--design-saga',
   bankLogo: { type: 'DNB', color: '#b2b4b3' },
@@ -90,7 +90,7 @@ export const sagaPlatinum: CustomCard = {
   },
 }
 
-export const privateBanking: CustomCard = {
+export const privateBanking: PaymentCardType = {
   // name: 'Private Banking',
   cardClassName: 'dnb-payment-card__card--design-private',
   bankLogo: { type: 'DNB', color: '#b2b4b3' },
@@ -98,7 +98,7 @@ export const privateBanking: CustomCard = {
   paymentType: { type: 'BankAxept', color: '#b2b4b3' },
 }
 
-export const mcBlack: CustomCard = {
+export const mcBlack: PaymentCardType = {
   // name: 'Mastercard Black',
   cardClassName: 'dnb-payment-card__card--design-black',
   bankLogo: { type: 'DNB', color: properties['--color-black-80'] },
@@ -106,7 +106,7 @@ export const mcBlack: CustomCard = {
   cardProvider: { type: 'MastercardDark', color: '#b2b4b3' },
 }
 
-export const businessNoVisa: CustomCard = {
+export const businessNoVisa: PaymentCardType = {
   // name: 'Bedriftskort BankAxept',
   cardClassName: 'dnb-payment-card__card--design-business-no-visa',
   bankLogo: { type: 'DNB', color: properties['--color-mint-green'] },
@@ -114,7 +114,7 @@ export const businessNoVisa: CustomCard = {
   paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-export const businessWithVisa: CustomCard = {
+export const businessWithVisa: PaymentCardType = {
   // name: 'Bedriftskort Visa',
   cardClassName: 'dnb-payment-card__card--design-business-with-visa',
   bankLogo: { type: 'DNB', color: properties['--color-mint-green'] },
@@ -122,7 +122,7 @@ export const businessWithVisa: CustomCard = {
   paymentType: { type: 'BankAxept', color: properties['--color-white'] },
 }
 
-export const sbankenVisa: CustomCard = {
+export const sbankenVisa: PaymentCardType = {
   // name: 'Sbanken',
   cardClassName: 'dnb-payment-card__card--design-sbanken-visa',
   bankLogo: { type: 'sbanken', color: properties['--sb-color-text'] },
@@ -130,7 +130,7 @@ export const sbankenVisa: CustomCard = {
   paymentType: { type: 'BankAxept', color: '#55565A' },
 }
 
-export const sbankenMastercard: CustomCard = {
+export const sbankenMastercard: PaymentCardType = {
   // name: 'Sbanken Mastercard',
   cardClassName: 'dnb-payment-card__card--design-sbanken-mastercard',
   bankLogo: { type: 'sbanken', color: properties['--color-white'] },

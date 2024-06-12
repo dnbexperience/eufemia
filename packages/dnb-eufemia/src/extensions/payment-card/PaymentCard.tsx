@@ -20,14 +20,14 @@ import { useContext } from 'react'
 import { createSpacingClasses } from '../../components/space/SpacingUtils'
 import cardProducts from './utils/cardProducts'
 import {
-  CustomCard,
+  PaymentCardType,
   PaymentCardCardStatus,
   PaymentCardProps,
 } from './types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { defaultDesign } from './utils/CardDesigns'
 
-const defaultCard: (productCode: string) => CustomCard = (
+const defaultCard: (productCode: string) => PaymentCardType = (
   productCode
 ) => ({
   productCode,
@@ -35,6 +35,7 @@ const defaultCard: (productCode: string) => CustomCard = (
 })
 
 const defaultProps = {
+  cardNumber: '****************',
   digits: 8,
   cardStatus: 'active',
   variant: 'normal',
@@ -187,7 +188,7 @@ export function formatCardNumber(cardNumber: string, digits: number) {
   return cardNumber.replace(formatCardNumberRegex, ' ').trim()
 }
 
-export function getCardDesign(productCode: string): CustomCard {
+export function getCardDesign(productCode: string): PaymentCardType {
   return (
     cardProducts.find((item) => item.productCode === productCode) ||
     defaultCard(productCode)

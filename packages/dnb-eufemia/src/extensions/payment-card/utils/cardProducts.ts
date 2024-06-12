@@ -15,9 +15,9 @@ import {
   sbankenMastercard,
 } from './CardDesigns'
 
-import { CustomCard } from '../types'
+import { PaymentCardType } from '../types'
 
-const cardData: CustomCard[] = [
+const cardData: PaymentCardType[] = [
   {
     productCode: 'NK1',
     displayName: 'DNB Kortet',

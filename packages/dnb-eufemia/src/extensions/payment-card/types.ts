@@ -24,7 +24,7 @@ export type PaymentCardProps = {
   /**
    * Useful if you want to create custom cards. See Card data properties.
    */
-  customCard?: CustomCard
+  customCard?: PaymentCardType
   /**
    * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
@@ -67,7 +67,7 @@ export type PaymentCardCardStatus =
 
 export type PaymentCardVariant = 'normal' | 'compact'
 
-export type CustomCard = {
+export type PaymentCardType = {
   productCode?: string
   displayName?: string
   cardClassName?: string
