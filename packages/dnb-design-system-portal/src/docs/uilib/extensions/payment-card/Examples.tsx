@@ -7,9 +7,11 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import PaymentCard, {
   getCardDesign,
-  CustomCard,
+  PaymentCardType,
+  Designs,
 } from '@dnb/eufemia/src/extensions/payment-card'
 import { H4 } from '@dnb/eufemia/src'
+import styled from '@emotion/styled'
 
 export function PaymentCardAllCardsExample() {
   return (
@@ -89,6 +91,22 @@ export function PaymentCardAllCardsExample() {
   )
 }
 
+export function PaymentCardDesignsExample() {
+  return (
+    <ComponentBox
+      scope={{ PaymentCard, Designs }}
+      data-visual-test="all-cards"
+    >
+      <PaymentCard
+        customCard={{
+          ...Designs.gold,
+          cardProvider: { type: 'Mastercard' },
+        }}
+      />
+    </ComponentBox>
+  )
+}
+
 export const PaymentCardBasicExample = () => (
   <ComponentBox
     scope={{ PaymentCard }}
@@ -105,18 +123,27 @@ export const PaymentCardCustomExample = () => (
     }}
   >
     {() => {
-      const customData: CustomCard = {
+      const Wrapper = styled.div`
+        .custom-card-background {
+          background-color: var(--color-lavender);
+          color: var(--color-indigo);
+        }
+      `
+
+      const customData: PaymentCardType = {
+        cardClassName: 'custom-card-background',
         displayName: 'custom card',
         bankLogo: { type: 'DNB' },
-        cardProvider: { type: 'Mastercard' },
+        cardProvider: { type: 'MastercardDark' },
         paymentType: { type: 'BankAxept' },
       }
       return (
-        <PaymentCard
-          productCode="11111"
-          customCard={customData}
-          cardNumber="************1337"
-        />
+        <Wrapper>
+          <PaymentCard
+            customCard={customData}
+            cardNumber="************1337"
+          />
+        </Wrapper>
       )
     }}
   </ComponentBox>

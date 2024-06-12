@@ -14,6 +14,7 @@ import {
   PaymentCardStatusExample,
   PaymentCardCompactExample,
   PaymentCardAllCardsExample,
+  PaymentCardDesignsExample,
 } from './Examples'
 
 ## Demos
@@ -31,11 +32,11 @@ Basic card using productCode.
 
 ### Basic card using a status
 
-<PaymentCardStatusExample />
-
 Basic card using product code and status.
 
 The supported statuses are `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
+
+<PaymentCardStatusExample />
 
 ### Basic card in compact variant
 
@@ -43,19 +44,19 @@ The supported statuses are `active`, `not_active`, `blocked`, `expired`, `renewe
 
 <PaymentCardCompactExample />
 
-### Custom card using rawData
+### Custom card using customCard
 
-You may have to import the extra named exports:
+While the preffered way to use this component is using the product code, you can also define your own style. The most practical way of doing this is to start with one of the default designs exposed through the object `Designs`, and modifying this until you get what you want.
 
 ```ts
-import PaymentCard, {
-  getCardData,
-  Designs,
-  ProductType,
-  CardType,
-  BankAxeptType,
-} from '@dnb/eufemia/extensions/PaymentCard'
+import PaymentCard, { Designs } from '@dnb/eufemia/extensions/PaymentCard'
 ```
+
+The default for the gold card design is with a white Visa logo, here we overwrite it to the mastercard logo instead.
+
+<PaymentCardDesignsExample />
+
+Providing a custom class in the `customData` object can controll atributes like background color and color witch is not supported otherwise.
 
 <PaymentCardCustomExample />
 

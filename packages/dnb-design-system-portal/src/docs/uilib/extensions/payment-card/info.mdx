@@ -12,10 +12,10 @@ The main way to use this component is to with the product code of the card you w
 import '@dnb/eufemia/extensions/payment-card/style'
 import PaymentCard from '@dnb/eufemia/extensions/payment-card'
 
-render(<PaymentCard productCode="..." />)
+render(<PaymentCard productCode="NK1" />)
 ```
 
-While the preffered way to use this component is to define the styling using the product code, you can also define your own style. The most practical way of doing this is to start with one of the default designs exposed through the object `Designs`, and modifying this until you get what you want.
+---
 
 ```jsx
 import '@dnb/eufemia/extensions/payment-card/style'
@@ -32,7 +32,7 @@ render(
 )
 ```
 
-Alternativly, if we for example want a custom background image we can do the following
+Alternativly, if we for example want a custom background image we can do the following.
 
 ```jsx
 import '@dnb/eufemia/extensions/payment-card/style'
@@ -43,9 +43,9 @@ render(
   <PaymentCard
     customCard={{
       backgroundImage: base64EncodedImage
-      paymentType: { type: 'BankAxept' },
-      bankLogo: {type: 'DNB'}
-      cardProvider: {type: 'Visa'}
+      paymentType: { type: 'BankAxept', color: '#fff' },
+      bankLogo: {type: 'DNB', color: '#fff'}
+      cardProvider: {type: 'Visa', color: '#fff'}
     }}
   />,
 )
