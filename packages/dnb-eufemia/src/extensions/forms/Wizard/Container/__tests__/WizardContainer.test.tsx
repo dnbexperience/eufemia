@@ -653,9 +653,9 @@ describe('Wizard.Container', () => {
     expect(wizardList()).not.toBeInTheDocument()
 
     rerender(
-      <Wizard.Container sidebarId="drawer-please">
+      <Wizard.Container variant="drawer">
         <Wizard.Step title="Step 1">
-          <output>Step 1</output>
+          <output>ensure re-render</output>
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
@@ -664,6 +664,7 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
+    expect(output()).toHaveTextContent('ensure re-render')
     expect(stepTrigger()).toBeInTheDocument()
     expect(wizardList()).not.toBeInTheDocument()
   })

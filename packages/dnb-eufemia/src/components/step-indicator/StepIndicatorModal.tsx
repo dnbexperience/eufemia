@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import ReactDOM from 'react-dom'
 import Drawer from '../drawer/Drawer'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
@@ -23,22 +29,22 @@ function StepIndicatorModal() {
     )
 
     setContainer(container)
-  }, [])
+  }, [context.sidebar_id])
 
-  function closeHandler() {
+  const closeHandler = useCallback(() => {
     if (context.hasSidebar) {
       triggerRef.current?.focus()
     }
     context.closeHandler()
-  }
+  }, [context])
 
-  function renderPortal() {
+  const renderPortal = useCallback(() => {
     if (!container) {
       return null
     }
 
     return ReactDOM.createPortal(<StepIndicatorList />, container)
-  }
+  }, [container])
 
   if (context.sidebarIsVisible) {
     return renderPortal()

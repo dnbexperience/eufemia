@@ -3,7 +3,14 @@
  *
  */
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import classnames from 'classnames'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -45,7 +52,9 @@ function StepIndicatorSidebar({
   data = stepIndicatorDefaultProps.data,
   ...restOfProps
 }: StepIndicatorSidebarProps) {
-  const props = { current_step, data, ...restOfProps }
+  const props = useMemo(() => {
+    return { current_step, data, ...restOfProps }
+  }, [current_step, data, restOfProps])
 
   const context = useContext(Context)
 
@@ -57,9 +66,9 @@ function StepIndicatorSidebar({
     if (!props.showInitialData) {
       setShowInitialData(false)
     }
-  }, [])
+  }, [props.showInitialData])
 
-  function getContextAndProps() {
+  const getContextAndProps = useCallback(() => {
     const providerProps = extendPropsWithContext(
       props,
       stepIndicatorDefaultProps,
@@ -76,7 +85,7 @@ function StepIndicatorSidebar({
     }
 
     return providerProps
-  }
+  }, [context, props])
 
   const providerProps = showInitialData ? getContextAndProps() : null
 
