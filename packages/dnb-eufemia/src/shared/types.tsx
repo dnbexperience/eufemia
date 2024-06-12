@@ -46,7 +46,7 @@ export type PropertiesTableProps = Record<
     type: string | string[]
     defaultValue?: string
     doc: string
-    status: 'optional' | 'internal' | 'required' | 'deprecated' | 'coming'
+    status: 'optional' | 'internal' | 'required' | 'deprecated'
   }
 >
 
