@@ -30,7 +30,6 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import Space from '../Space'
 
 export default class ToggleButtonGroup extends React.PureComponent {
   static contextType = Context
