@@ -46,13 +46,38 @@ export type AnchorProps = {
 
   /** @deprecated use innerRef instead */
   inner_ref?: React.RefObject<HTMLAnchorElement>
+  /**
+   * Removes default animation.
+   * Default: `false`
+   */
+  noAnimation?: boolean
+  /**
+   * Removes default styling.
+   * Default: `false`
+   */
+  noStyle?: boolean
+  /**
+   * Removes default hover style.
+   * Default: `false`
+   */
+  noHover?: boolean
+  /**
+   * Removes underline.
+   * Default: `false`
+   */
+  noUnderline?: boolean
 }
 
 export type AnchorAllProps = AnchorProps &
   Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'> &
   SpacingProps
 
-const defaultProps = {}
+const defaultProps = {
+  noAnimation: false,
+  noStyle: false,
+  noHover: false,
+  noUnderline: false,
+}
 
 export function AnchorInstance(localProps: AnchorAllProps) {
   const context = React.useContext(Context)
@@ -85,6 +110,10 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     omitClass,
     innerRef,
     targetBlankTitle,
+    noAnimation,
+    noHover,
+    noStyle,
+    noUnderline,
     ...rest
   } = allProps
 
@@ -121,7 +150,11 @@ export function AnchorInstance(localProps: AnchorAllProps) {
               'dnb-anchor',
               prefix && 'dnb-anchor--icon-left',
               suffix && 'dnb-anchor--icon-right',
-              typeof children !== 'string' && 'dnb-anchor--was-node'
+              typeof children !== 'string' && 'dnb-anchor--was-node',
+              noAnimation && 'dnb-anchor--no-animation',
+              noHover && 'dnb-anchor--no-hover',
+              noStyle && 'dnb-anchor--no-style',
+              noUnderline && 'dnb-anchor--no-underline'
             ),
           className
         )}
