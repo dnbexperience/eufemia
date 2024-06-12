@@ -3595,18 +3595,14 @@ button .dnb-form-status__text {
   margin-right: 1rem;
 }
 .dnb-toggle-button-group {
-  --toggle-button-group-margin-right: 1rem;
-  --toggle-button-group-margin-bottom: 1rem;
+  --toggle-button-group-column-gap: 1rem;
+  --toggle-button-group-row-gap: 1rem;
   display: inline-flex;
 }
 .dnb-toggle-button-group fieldset {
   margin: 0;
   padding: 0;
   border: none;
-}
-.dnb-toggle-button-group .dnb-toggle-button {
-  margin-right: var(--toggle-button-group-margin-right);
-  margin-bottom: var(--toggle-button-group-margin-bottom);
 }
 .dnb-toggle-button-group--column .dnb-toggle-button {
   display: flex;
@@ -3618,9 +3614,21 @@ button .dnb-form-status__text {
 .dnb-toggle-button-group__shell {
   display: flex;
   flex-direction: column;
+  row-gap: var(--toggle-button-group-row-gap);
 }
 .dnb-toggle-button-group__shell__children {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: var(--toggle-button-group-column-gap);
+  row-gap: var(--toggle-button-group-row-gap);
   order: 1;
+}
+.dnb-toggle-button-group__shell__children--row {
+  flex-direction: row;
+}
+.dnb-toggle-button-group__shell__children--column {
+  flex-direction: column;
 }
 .dnb-toggle-button-group__shell > .dnb-form-status {
   order: 2;
