@@ -115,19 +115,12 @@
   }
 
   &-group {
-    --toggle-button-group-margin-right: 1rem;
-    --toggle-button-group-margin-bottom: 1rem;
-
+    --toggle-button-group-column-gap: 1rem;
+    --toggle-button-group-row-gap: 1rem;
     display: inline-flex;
 
     fieldset {
       @include fieldsetReset();
-    }
-
-    // default spacing
-    .dnb-toggle-button {
-      margin-right: var(--toggle-button-group-margin-right);
-      margin-bottom: var(--toggle-button-group-margin-bottom);
     }
 
     &--column .dnb-toggle-button {
@@ -143,9 +136,23 @@
     &__shell {
       display: flex;
       flex-direction: column;
+      row-gap: var(--toggle-button-group-row-gap);
 
       &__children {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        column-gap: var(--toggle-button-group-column-gap);
+        row-gap: var(--toggle-button-group-row-gap);
+
         order: 1;
+
+        &--row {
+          flex-direction: row;
+        }
+        &--column {
+          flex-direction: column;
+        }
       }
 
       & > .dnb-form-status {
