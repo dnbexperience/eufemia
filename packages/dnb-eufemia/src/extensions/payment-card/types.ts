@@ -25,9 +25,6 @@ export type PaymentCardProps = {
    * Useful if you want to create custom cards. See Card data properties.
    */
   customCard?: PaymentCardType
-  /**
-   * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
-   */
   skeleton?: boolean
   className?: string
 } & Omit<React.HTMLProps<HTMLElement>, 'ref'> &

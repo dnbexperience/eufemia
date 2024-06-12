@@ -173,13 +173,13 @@ export default function PaymentCard(props: PaymentCardProps) {
   }
 }
 
-export function formatCardNumber(cardNumber: string, digits: number) {
+export function formatCardNumber(cardNumber: string, digits = 8) {
   const formatCardNumberRegex = /(?=(?:....)*$)/g
 
   if (!cardNumber) {
     return cardNumber
   }
-  if (digits && digits <= cardNumber.length) {
+  if (digits <= cardNumber.length) {
     return cardNumber
       .slice(cardNumber.length - digits, cardNumber.length)
       .replace(formatCardNumberRegex, ' ')
