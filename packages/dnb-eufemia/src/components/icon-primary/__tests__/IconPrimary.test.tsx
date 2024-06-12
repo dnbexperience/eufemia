@@ -5,10 +5,10 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import IconPrimary, { IconPrimaryProps } from '../IconPrimary'
+import IconPrimary, { IconPrimaryAllProps } from '../IconPrimary'
 import { render } from '@testing-library/react'
 
-const props: IconPrimaryProps = {
+const props: IconPrimaryAllProps = {
   icon: 'question',
 }
 

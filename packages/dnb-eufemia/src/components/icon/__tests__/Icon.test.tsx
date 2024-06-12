@@ -6,10 +6,10 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Icon, { IconProps } from '../Icon'
+import Icon, { IconAllProps } from '../Icon'
 import { question } from './test-files'
 
-const props: IconProps = {
+const props: IconAllProps = {
   icon: question,
   alt: 'question mark',
   'aria-hidden': null,
@@ -17,7 +17,7 @@ const props: IconProps = {
 
 describe('Icon component', () => {
   it('renders with props as an object', () => {
-    const props: IconProps = { icon: question }
+    const props: IconAllProps = { icon: question }
 
     render(<Icon {...props} />)
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
