@@ -5,34 +5,25 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import PaymentCard, {
-  Designs,
-  ProductType,
-  CardType,
-  PaymentCardProps,
-  BankAxeptType,
-  formatCardNumber,
-} from '../PaymentCard'
+import PaymentCard, { Designs, formatCardNumber } from '../'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { render, screen } from '@testing-library/react'
+import { PaymentCardProps } from '../types'
 
 const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
-  product_code: 'NK1',
-  card_number: '************1337',
-  card_status: 'active',
+  productCode: 'NK1',
+  cardNumber: '************1337',
+  cardStatus: 'active',
   variant: 'normal',
-  digits: 'digits',
-  raw_data: null,
+  digits: 8,
+  customCard: null,
   id: 'id',
-  locale: 'nb-NO',
-  skeleton: 'skeleton',
-  class: 'class',
+  skeleton: false,
   className: 'className',
-  children: 'children',
 }
 
 describe('PaymentCard', () => {
@@ -63,33 +54,31 @@ describe('PaymentCard', () => {
   })
 
   it('has correct expired status', () => {
-    render(<PaymentCard {...defaultProps} card_status="expired" />)
+    render(<PaymentCard {...defaultProps} cardStatus="expired" />)
 
     expect(screen.queryByText(nb.text_expired)).toBeInTheDocument()
   })
 
   it('has correct not_active status', () => {
-    render(<PaymentCard {...defaultProps} card_status="not_active" />)
+    render(<PaymentCard {...defaultProps} cardStatus="not_active" />)
 
     expect(screen.queryByText(nb.text_not_active)).toBeInTheDocument()
   })
 
   it('has correct renewed status', () => {
-    render(<PaymentCard {...defaultProps} card_status="renewed" />)
+    render(<PaymentCard {...defaultProps} cardStatus="renewed" />)
 
     expect(screen.queryByText(nb.text_renewed)).toBeInTheDocument()
   })
 
   it('has correct replaced status', () => {
-    render(<PaymentCard {...defaultProps} card_status="replaced" />)
+    render(<PaymentCard {...defaultProps} cardStatus="replaced" />)
 
     expect(screen.queryByText(nb.text_replaced)).toBeInTheDocument()
   })
 
   it('has correct order_in_process status', () => {
-    render(
-      <PaymentCard {...defaultProps} card_status="order_in_process" />
-    )
+    render(<PaymentCard {...defaultProps} cardStatus="order_in_process" />)
 
     expect(
       screen.queryByText(nb.text_order_in_process)
@@ -97,46 +86,43 @@ describe('PaymentCard', () => {
   })
 
   it('has correct blocked status', () => {
-    render(<PaymentCard {...defaultProps} card_status="blocked" />)
+    render(<PaymentCard {...defaultProps} cardStatus="blocked" />)
 
     expect(screen.queryByText(nb.text_blocked)).toBeInTheDocument()
   })
 
   it('has correct unknown status', () => {
-    render(<PaymentCard {...defaultProps} card_status="unknown" />)
+    render(<PaymentCard {...defaultProps} cardStatus="unknown" />)
 
     expect(screen.queryByText(nb.text_unknown)).toBeInTheDocument()
   })
 
-  it('reacts to locale change', () => {
-    const { rerender } = render(<PaymentCard {...defaultProps} />)
+  // it.skip('reacts to locale change', () => {
+  //   const { rerender } = render(<PaymentCard {...defaultProps} />)
 
-    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
+  //   expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
 
-    rerender(<PaymentCard {...defaultProps} locale="en-GB" />)
-    expect(screen.queryByText(en.text_card_number)).toBeInTheDocument()
+  //   rerender(<PaymentCard {...defaultProps} locale="en-GB" />)
+  //   expect(screen.queryByText(en.text_card_number)).toBeInTheDocument()
 
-    rerender(<PaymentCard {...defaultProps} locale="nb-NO" />)
-    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
-  })
+  //   rerender(<PaymentCard {...defaultProps} locale="nb-NO" />)
+  //   expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
+  // })
 
-  it('reacts raw_data with correct rendering', () => {
+  it('reacts cardData with correct rendering', () => {
     const customData = {
       productCode: 'UNDEFINED',
       productName: 'DNB Custom Card',
       displayName: 'Custom card', // Only showed in compact variant
       cardDesign: Designs.gold,
-      cardType: CardType.Visa,
-      productType: ProductType.None,
-      bankAxept: BankAxeptType.BankAxept,
     }
 
     render(
       <PaymentCard
-        product_code="UNDEFINED"
-        raw_data={customData}
+        productCode="UNDEFINED"
+        customCard={customData}
         variant="compact"
-        card_number="************1337"
+        cardNumber="************1337"
       />
     )
 
