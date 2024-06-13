@@ -12,7 +12,7 @@ import type { UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import { FilterData } from '../../DataContext'
 
-type VisibleWhen =
+export type VisibleWhen =
   | {
       path: string
       hasValue: unknown
