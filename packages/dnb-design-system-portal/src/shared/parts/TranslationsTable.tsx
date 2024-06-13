@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { Anchor, P, Table, Td, Th, Tr } from '@dnb/eufemia/src'
-import { extendDeep } from '@dnb/eufemia/src/shared/component-helper'
+import { extendDeep, warn } from '@dnb/eufemia/src/shared/component-helper'
 import globalTranslations from '@dnb/eufemia/src/shared/locales'
 import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/locales'
 import { FormattedCode } from './PropertiesTable'
@@ -39,20 +39,22 @@ export default function TranslationsTable({
 
   Object.entries(allTranslations).forEach(([locale, translations]) => {
     localeKeys.forEach((localeKey) => {
-      Object.entries(translations[localeKey]).forEach(
-        ([key, translation]) => {
-          key = `${localeKey}.${key}`
-          if (
-            allowList[localeKey] &&
-            !allowList[localeKey].includes(key)
-          ) {
-            return
-          }
-          entries[key] = Object.assign(entries[key] || {}, {
-            [locale]: translation,
-          })
-        },
-      )
+      const translationsObj = translations[localeKey]
+      if (!translationsObj) {
+        warn(
+          `TranslationsTable: Could not find any translations for key: "${localeKey}", perhaps you misspelled the key's name?`,
+        )
+        return
+      }
+      Object.entries(translationsObj).forEach(([key, translation]) => {
+        key = `${localeKey}.${key}`
+        if (allowList[localeKey] && !allowList[localeKey].includes(key)) {
+          return
+        }
+        entries[key] = Object.assign(entries[key] || {}, {
+          [locale]: translation,
+        })
+      })
     })
   })
 
@@ -77,6 +79,13 @@ export default function TranslationsTable({
       </Tr>
     )
   })
+
+  if (tableRows.length == 0) {
+    warn(
+      `TranslationsTable: Not able to find any translations for input : "${localeKey}", hence not rendering the translations table.`,
+    )
+    return
+  }
 
   return (
     <>
