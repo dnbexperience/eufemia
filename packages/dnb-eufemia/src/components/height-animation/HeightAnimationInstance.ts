@@ -44,7 +44,11 @@ export default class HeightAnimation {
   isAnimating: boolean
   __currentHeight: number
 
-  firstPaintStyle = {
+  firstPaintStyle: {
+    visibility: 'hidden'
+    opacity: '0'
+    height: 'auto'
+  } = {
     visibility: 'hidden',
     opacity: '0', // prevents before/after elements to be visible
     height: 'auto',

@@ -151,11 +151,14 @@ export function useHeightAnimation(
    * Returns the first paint style, to be used for the initial render,
    * to avoid flickering.
    */
-  const firstPaintStyle = ((open &&
-    !isVisible &&
-    !isAnimating &&
-    instRef.current?.firstPaintStyle) ||
-    {}) as React.CSSProperties
+  const firstPaintStyle:
+    | typeof instRef.current.firstPaintStyle
+    | Record<string, never> =
+    (open &&
+      !isVisible &&
+      !isAnimating &&
+      instRef.current?.firstPaintStyle) ||
+    {}
   const isInDOM = open || isVisible
 
   return {

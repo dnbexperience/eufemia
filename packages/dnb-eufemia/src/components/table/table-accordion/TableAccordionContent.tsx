@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import useTableAnimationHandler from '../useTableAnimationHandler'
+import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'
 import { TableAccordionContext } from './TableAccordionContext'
 
