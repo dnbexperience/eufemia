@@ -454,7 +454,7 @@ describe('Anchor element', () => {
     expect(anchor.className).toContain('dnb-anchor--no-style')
   })
 
-  it('should not have animations if "noUnderline" props is true', () => {
+  it('should have no-underline class if "noUnderline" props is true', () => {
     const { rerender } = render(<Anchor />)
 
     const anchor = document.querySelector('.dnb-anchor')
