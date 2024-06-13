@@ -430,7 +430,7 @@ describe('Anchor element', () => {
     expect(anchor.className).toContain('dnb-anchor--no-animation')
   })
 
-  it('should not have animations if "noHover" props is true', () => {
+  it('shouldhave no-hover class if "noHover" props is true', () => {
     const { rerender } = render(<Anchor />)
 
     const anchor = document.querySelector('.dnb-anchor')
