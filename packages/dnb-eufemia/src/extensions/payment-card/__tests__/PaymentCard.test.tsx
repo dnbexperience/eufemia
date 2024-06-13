@@ -7,12 +7,12 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import PaymentCard, { Designs, formatCardNumber } from '../'
 import nbNO from '../../../shared/locales/nb-NO'
-import enGB from '../../../shared/locales/en-GB'
+// import enGB from '../../../shared/locales/en-GB'
 import { render, screen } from '@testing-library/react'
 import { PaymentCardProps } from '../types'
 
 const nb = nbNO['nb-NO'].PaymentCard
-const en = enGB['en-GB'].PaymentCard
+// const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
   productCode: 'NK1',

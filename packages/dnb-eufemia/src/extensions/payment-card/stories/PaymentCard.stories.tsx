@@ -14,7 +14,6 @@ import cardData from '../utils/cardProducts'
 import { H2 } from '../../../elements'
 
 import PaymentCard, { getCardDesign, Designs } from '../'
-import { Table } from '../../../components'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -50,38 +49,6 @@ export const PaymentCards = () => (
           }}
         />
       </Box>
-
-      <Table>
-        <thead>
-          <tr>
-            <th>Product Id</th>
-            <th>Card Display Name</th>
-            <th>Bank Logo Properties</th>
-            <th>Product Logo Variant</th>
-            <th>Product Type Variants</th>
-            <th>Card Provider Variants</th>
-            <th>Payment type variants</th>
-            <th>className</th>
-            <th>background image</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cardData.map((card) => {
-            return (
-              <tr key={card.productCode}>
-                <td>{card?.productCode}</td>
-                <td>{card?.displayName}</td>
-                <td>{`${card?.bankLogo?.type} (${card?.bankLogo?.color})`}</td>
-                <td>{`${card?.productType?.type} (${card?.productType?.color})`}</td>
-                <td>{`${card?.cardProvider?.type} (${card?.cardProvider?.color})`}</td>
-                <td>{`${card?.paymentType?.type} (${card?.paymentType?.color})`}</td>
-                <td>{card?.cardClassName}</td>
-                <td>{card?.backgroundImage}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </Table>
 
       <H3>Test</H3>
 

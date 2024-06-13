@@ -131,6 +131,7 @@ export const PaymentCardCustomExample = () => (
       `
 
       const customData: PaymentCardType = {
+        // Changing the background and all the text can be done by providing a css class
         cardClassName: 'custom-card-background',
         displayName: 'custom card',
         bankLogo: { type: 'DNB' },
