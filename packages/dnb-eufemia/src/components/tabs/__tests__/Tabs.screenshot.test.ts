@@ -4,6 +4,7 @@
  */
 
 import {
+  isCI,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
@@ -95,6 +96,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         width: '80rem',
         padding: '0 2rem 4rem 2rem',
       },
+      waitAfterSimulate: isCI ? 100 : 0, // ensure the buttons are "hidden", so give time for a slow CI
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
     })
     expect(screenshot).toMatchImageSnapshot()
