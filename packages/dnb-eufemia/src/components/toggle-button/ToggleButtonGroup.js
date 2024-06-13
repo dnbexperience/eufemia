@@ -299,7 +299,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
                   ? 'vertical'
                   : 'horizontal'
               }
-              spacing={vertical ? 'x-small' : 'small'}
+              gap={vertical ? 'x-small' : 'small'}
             >
               {label && (
                 <FormLabel
@@ -330,7 +330,12 @@ export default class ToggleButtonGroup extends React.PureComponent {
                   {...status_props}
                 />
 
-                <span className="dnb-toggle-button-group__children">
+                <span
+                  className={classnames(
+                    'dnb-toggle-button-group__shell__children',
+                    `dnb-toggle-button-group__shell__children--${layout_direction}`
+                  )}
+                >
                   {children}
 
                   {suffix && (
