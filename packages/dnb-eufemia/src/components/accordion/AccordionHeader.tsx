@@ -20,7 +20,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 
 import type { HeadingLevel } from '../Heading'
-import type { IconSize } from '../Icon'
+import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type {
   AccordionIcon,
@@ -89,11 +89,10 @@ function AccordionHeaderContainer({
 }
 
 type AccordionHeaderIconIcon =
-  | React.ReactNode
-  | ((...args: any[]) => React.ReactNode)
+  | IconIcon
   | {
-      closed?: React.ReactNode | ((...args: any[]) => React.ReactNode)
-      expanded?: React.ReactNode | ((...args: any[]) => React.ReactNode)
+      closed?: IconIcon
+      expanded?: IconIcon
     }
 
 export type AccordionHeaderIconProps = {
@@ -104,11 +103,19 @@ export type AccordionHeaderIconProps = {
 }
 
 function AccordionHeaderIcon({
-  icon,
+  icon: iconProp,
   expanded,
   size = 'medium',
   icon_position,
 }: AccordionHeaderIconProps) {
+  const icon = (
+    iconProp &&
+    typeof iconProp === 'object' &&
+    'expanded' in iconProp &&
+    typeof iconProp?.expanded !== 'undefined'
+      ? iconProp[expanded ? 'expanded' : 'closed']
+      : iconProp || 'chevron-down'
+  ) as IconIcon
   return (
     <span
       className={classnames(
@@ -116,20 +123,7 @@ function AccordionHeaderIcon({
         icon_position && `dnb-accordion__header__icon--${icon_position}`
       )}
     >
-      <IconPrimary
-        size={size}
-        // There has to be a better way than to do so much casting
-        icon={
-          icon &&
-          typeof icon === 'object' &&
-          'expanded' in icon &&
-          typeof icon?.expanded !== 'undefined'
-            ? icon[expanded ? 'expanded' : 'closed']
-            : (icon as React.ReactNode | ((...args: any[]) => any)) ||
-              'chevron-down'
-        }
-        aria-hidden
-      />
+      <IconPrimary size={size} icon={icon} aria-hidden />
     </span>
   )
 }

@@ -44,11 +44,11 @@ export type AccordionHeading = boolean | React.ReactNode
 export type AccordionIcon =
   | IconIcon
   | {
-      closed?: React.ReactNode | ((...args: any[]) => any)
+      closed?: IconIcon
       /**
        * If set to `true` the accordion will be expanded as its initial state.
        */
-      expanded?: React.ReactNode | ((...args: any[]) => any)
+      expanded?: IconIcon
     }
 
 export type AccordionAttributes = string | Record<string, unknown>
