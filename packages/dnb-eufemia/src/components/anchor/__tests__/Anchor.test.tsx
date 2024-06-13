@@ -418,7 +418,7 @@ describe('Anchor element', () => {
     expect(document.querySelector('a')).toHaveAttribute('href', '/url')
   })
 
-  it('should not have animations if "noAnimation" props is true', () => {
+  it('should have no-animation class if "noAnimation" props is true', () => {
     const { rerender } = render(<Anchor />)
 
     const anchor = document.querySelector('.dnb-anchor')
