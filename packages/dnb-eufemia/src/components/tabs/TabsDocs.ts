@@ -44,12 +44,9 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  data: {
-    doc: "defines the data structure to load as a JSON. e.g. `[{title: '...', content: 'Current tab', key: '...', hash: '...'}]`",
-    type: [
-      'string',
-      '{title: string | React.ReactNode, key: string | number, selected?: boolean, disabled?: boolean}',
-    ],
+  '[data](/uilib/components/tabs/properties/#data-object)': {
+    doc: 'defines the data structure to load as an object.',
+    type: 'object',
     status: 'required',
   },
   children: {
@@ -100,6 +97,34 @@ export const TabsProperties: PropertiesTableProps = {
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const TabsDataObject: PropertiesTableProps = {
+  title: {
+    doc: 'The title of the tab.',
+    type: ['string', 'React.ReactNode'],
+    status: 'required',
+  },
+  key: {
+    doc: 'The unique key of the tab.',
+    type: ['string', 'number'],
+    status: 'required',
+  },
+  content: {
+    doc: 'The content of the tab.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  selected: {
+    doc: 'If set to `true`, the tab will be selected.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  disabled: {
+    doc: 'If set to `true`, the tab will be disabled.',
+    type: 'boolean',
     status: 'optional',
   },
 }
