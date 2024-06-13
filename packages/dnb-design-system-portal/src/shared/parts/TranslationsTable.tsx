@@ -82,7 +82,7 @@ export default function TranslationsTable({
 
   if (tableRows.length == 0) {
     warn(
-      `TranslationsTable: Not able to find any translations for your input : "${localeKey}", hence not rendering the translations table.`,
+      `TranslationsTable: Not able to find any translations for input : "${localeKey}", hence not rendering the translations table.`,
     )
     return
   }
