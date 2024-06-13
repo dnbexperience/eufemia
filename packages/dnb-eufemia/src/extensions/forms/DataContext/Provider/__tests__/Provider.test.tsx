@@ -2372,7 +2372,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-global-status__title')
-          ).toHaveTextContent(nb.Form.errorSummaryTitle)
+          ).toHaveTextContent(nb.Field.errorSummaryTitle)
         })
 
         await userEvent.type(input, 'foo')
@@ -2434,7 +2434,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-global-status__title')
-          ).toHaveTextContent(nb.Form.errorSummaryTitle)
+          ).toHaveTextContent(nb.Field.errorSummaryTitle)
         })
 
         await userEvent.type(input, 'foo')

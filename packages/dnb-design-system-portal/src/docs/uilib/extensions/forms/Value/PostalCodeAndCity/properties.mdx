@@ -2,6 +2,7 @@
 showTabs: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
 import { PostalCodeAndCityProperties } from '@dnb/eufemia/src/extensions/forms/Value/PostalCodeAndCity/PostalCodeAndCityDocs'
@@ -13,3 +14,7 @@ import { PostalCodeAndCityProperties } from '@dnb/eufemia/src/extensions/forms/V
 ## Properties
 
 <PropertiesTable props={ValueProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['PostalCodeAndCity']} />

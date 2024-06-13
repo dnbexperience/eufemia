@@ -213,7 +213,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   // - Locale
-  const translation = useTranslation().Form
+  const translation = useTranslation().Field
 
   // - Ajv
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))

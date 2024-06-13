@@ -3,6 +3,13 @@ export default {
     /**
      * General
      */
+    Field: {
+      errorSummaryTitle: 'Feil som må rettes',
+      stateSummary: 'Oppsummering:',
+      errorSummary: 'Feil som må rettes:',
+      errorRequired: 'Dette feltet må fylles ut.',
+      errorPattern: 'Verdien er ugyldig.',
+    },
     SubmitButton: {
       text: 'Send',
       sendText: 'Send inn',
@@ -12,9 +19,6 @@ export default {
       previous: 'Tilbake',
       edit: 'Endre',
       summaryTitle: 'Oppsummering',
-    },
-    Form: {
-      errorSummaryTitle: 'Feil som må rettes',
     },
     Section: {
       remove: 'Fjern',
@@ -27,12 +31,6 @@ export default {
     /**
      * Base fields
      */
-    Field: {
-      stateSummary: 'Oppsummering:',
-      errorSummary: 'Feil som må rettes:',
-      errorRequired: 'Dette feltet må fylles ut.',
-      errorPattern: 'Verdien er ugyldig.',
-    },
     StringField: {
       errorMinLength:
         'Verdien kan ikke være kortere enn {minLength} tegn.',

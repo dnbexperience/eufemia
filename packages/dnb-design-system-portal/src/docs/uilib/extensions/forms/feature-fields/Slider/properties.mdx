@@ -2,6 +2,7 @@
 showTabs: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { SliderFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/Slider/SliderDocs'
@@ -18,3 +19,7 @@ import { SliderFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/S
   props={fieldProperties}
   valueType={['number', 'Array<number>']}
 />
+
+## Translations
+
+<TranslationsTable localeKey={['Field']} />
