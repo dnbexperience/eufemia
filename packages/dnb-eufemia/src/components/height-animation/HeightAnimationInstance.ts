@@ -44,15 +44,11 @@ export default class HeightAnimation {
   isAnimating: boolean
   __currentHeight: number
 
-  firstPaintStyle: {
-    visibility: 'hidden'
-    opacity: '0'
-    height: 'auto'
-  } = {
+  firstPaintStyle = {
     visibility: 'hidden',
     opacity: '0', // prevents before/after elements to be visible
     height: 'auto',
-  }
+  } as const
 
   constructor(opts: HeightAnimationOptions = {}) {
     this.isInBrowser = typeof window !== 'undefined'
