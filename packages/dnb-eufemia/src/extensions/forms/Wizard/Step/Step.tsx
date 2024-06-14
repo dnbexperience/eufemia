@@ -6,7 +6,7 @@ import WizardContext from '../Context/WizardContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import FieldProps from '../../Form/FieldProps'
-import { Props as VisibilityProps } from '../../Form/Visibility/useVisibility'
+import type { VisibleWhen } from '../../Form/Visibility'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -38,7 +38,7 @@ export type Props = ComponentProps &
     /**
      * Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path.
      */
-    activeWhen?: VisibilityProps['visibleWhen']
+    activeWhen?: VisibleWhen
 
     /**
      * If set to `true`, the step will always be rendered.
