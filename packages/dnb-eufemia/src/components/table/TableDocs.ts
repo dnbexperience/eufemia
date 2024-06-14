@@ -26,7 +26,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sticky: {
-    doc: "Use `true? to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
+    doc: "Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
     type: ['boolean', `'css-position'`],
     defaultValue: 'false',
     status: 'optional',
@@ -125,7 +125,7 @@ export const TrProperties: PropertiesTableProps = {
 
 export const TrEventProperties: PropertiesTableProps = {
   onClick: {
-    doc: 'will emit when user clicks/expands the table row. Returns a native click.  ',
+    doc: 'will emit when user clicks/expands the table row. Returns a native click.',
     type: '(event) => void',
     defaultValue: 'undefined',
     status: 'optional',
