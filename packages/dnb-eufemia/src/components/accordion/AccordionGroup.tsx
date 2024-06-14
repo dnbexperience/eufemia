@@ -58,7 +58,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     expanded_id, // eslint-disable-line
     prerender, // eslint-disable-line
     prevent_rerender, // eslint-disable-line
-    single_container, // eslint-disable-line
+    single_container, // eslint-disable-linecloseAllHandleRef
     contentRef, // eslint-disable-line
     allow_close_all, // eslint-disable-line
     remember_state, // eslint-disable-line
@@ -70,7 +70,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
     id: _id, // eslint-disable-line
     children, // eslint-disable-line
-    collapseAllHandleRef,
+    closeAllHandleRef,
 
     ...restOfExtendedProps
   } = extendedProps
@@ -78,14 +78,14 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   const collapseAccordionCallbacks = useRef<(() => void)[]>([])
 
   useEffect(() => {
-    if (collapseAllHandleRef) {
-      collapseAllHandleRef.current = () => {
+    if (closeAllHandleRef) {
+      closeAllHandleRef.current = () => {
         collapseAccordionCallbacks.current.forEach((callback) =>
           callback()
         )
       }
     }
-  }, [collapseAllHandleRef])
+  }, [closeAllHandleRef])
 
   const classes = classnames(
     'dnb-accordion-group',

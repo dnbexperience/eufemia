@@ -443,7 +443,7 @@ export type GroupProps = AccordionProps & {
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  closeAllHandleRef?: React.MutableRefObject<() => void>
   expanded_id?: string
 }
 
