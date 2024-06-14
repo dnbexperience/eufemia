@@ -24,6 +24,7 @@ export type PaymentCardProps = {
   /**
    * Useful if you want to create custom cards. See Card data properties.
    */
+
   customCard?: PaymentCardType
   skeleton?: boolean
   className?: string

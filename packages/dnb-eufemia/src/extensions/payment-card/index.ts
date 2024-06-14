@@ -5,10 +5,11 @@
 
 import PaymentCard from './PaymentCard'
 import Designs from './utils/CardDesigns'
+import { formatCardNumber } from './utils/formatCardNumber'
 
 export default PaymentCard
 export * from './PaymentCard'
 
-export { Designs }
+export { Designs, formatCardNumber }
 
 export * from './types'

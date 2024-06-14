@@ -95,7 +95,7 @@ export function PaymentCardDesignsExample() {
   return (
     <ComponentBox
       scope={{ PaymentCard, Designs }}
-      data-visual-test="all-cards"
+      data-visual-test="design-cards"
     >
       <PaymentCard
         customCard={{

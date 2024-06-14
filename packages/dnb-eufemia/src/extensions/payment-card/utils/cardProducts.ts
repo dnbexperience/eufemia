@@ -22,16 +22,19 @@ const cardData: PaymentCardType[] = [
     productCode: 'NK1',
     displayName: 'DNB Kortet',
     ...defaultDesign,
+    cardProvider: null,
   },
   {
     productCode: 'NK4',
     displayName: 'DNB Kortet',
     ...defaultDesign,
+    cardProvider: null,
   },
   {
     productCode: 'NK5',
     displayName: 'DNB Kortet',
     ...defaultDesign,
+    cardProvider: null,
   },
   {
     productCode: 'VE1',
@@ -66,8 +69,9 @@ const cardData: PaymentCardType[] = [
     productCode: '053',
     // productName: 'SAGA Gull Mastercard',
     displayName: 'SAGA Gull',
-    productType: { type: 'SagaGold' },
     ...saga,
+    productType: { type: 'SagaGold' },
+    paymentType: null,
   },
   {
     productCode: 'VK2',
@@ -126,6 +130,7 @@ const cardData: PaymentCardType[] = [
     // productName: 'Ung Mastercard(student)',
     displayName: 'Ung Mastercard',
     ...young,
+    paymentType: null,
   },
   {
     productCode: 'VO1',
@@ -138,7 +143,7 @@ const cardData: PaymentCardType[] = [
     displayName: 'SAGA Platinum',
     productType: { type: 'SagaPlatinum' },
     ...sagaPlatinum,
-    cardProvider: { type: 'MastercardDark' },
+    cardProvider: { type: 'Visa', color: sagaPlatinum.paymentType.color },
   },
   {
     productCode: 'VP3',
@@ -161,6 +166,7 @@ const cardData: PaymentCardType[] = [
     displayName: 'SAGA Platinum',
     productType: { type: 'SagaPlatinum' },
     ...sagaPlatinum,
+    paymentType: null,
   },
   {
     productCode: 'VP5',
@@ -176,11 +182,13 @@ const cardData: PaymentCardType[] = [
     productType: { type: 'PrivateBanking' },
     ...privateBanking,
     cardProvider: { type: 'MastercardDark' },
+    paymentType: null,
   },
   {
     productCode: 'VX1',
     displayName: 'Mitt første kort',
     ...myFirst,
+    paymentType: null,
   },
   {
     productCode: 'VX3',
@@ -206,6 +214,7 @@ const cardData: PaymentCardType[] = [
     displayName: 'DNB Mastercard',
     ...gold,
     cardProvider: { type: 'Mastercard' },
+    paymentType: null,
   },
   {
     productCode: '044',
@@ -220,6 +229,7 @@ const cardData: PaymentCardType[] = [
     productType: { type: 'Pluss' },
     ...pluss,
     cardProvider: { type: 'Mastercard' },
+    paymentType: null,
   },
   {
     productCode: '098',
@@ -227,6 +237,7 @@ const cardData: PaymentCardType[] = [
     displayName: 'SAGA Gull',
     productType: { type: 'SagaGold' },
     ...saga,
+    paymentType: null,
   },
   {
     productCode: '074',
@@ -240,8 +251,9 @@ const cardData: PaymentCardType[] = [
     productCode: '062',
     // productName: 'Private Banking Mastercard',
     displayName: 'Private Banking',
-    productType: { type: 'PrivateBanking' },
     ...privateBanking,
+    productType: { type: 'PrivateBanking' },
+    cardProvider: { type: 'MastercardDark' },
     paymentType: null,
   },
   {

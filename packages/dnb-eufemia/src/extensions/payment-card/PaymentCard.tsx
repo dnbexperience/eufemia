@@ -16,7 +16,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { createSpacingClasses } from '../../components/space/SpacingUtils'
 import cardProducts from './utils/cardProducts'
 import {
@@ -26,6 +26,7 @@ import {
 } from './types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { defaultDesign } from './utils/CardDesigns'
+import { formatCardNumber } from './utils/formatCardNumber'
 
 const defaultCard: (productCode: string) => PaymentCardType = (
   productCode
@@ -57,7 +58,6 @@ export default function PaymentCard(props: PaymentCardProps) {
     customCard: cardDesignProp,
     skeleton,
     className,
-    children, //eslint-disable-line
     ...attributes
   } = extendPropsWithContext(
     convertSnakeCaseProps(props),
@@ -171,21 +171,6 @@ export default function PaymentCard(props: PaymentCardProps) {
       </div>
     ) : null
   }
-}
-
-export function formatCardNumber(cardNumber: string, digits = 8) {
-  const formatCardNumberRegex = /(?=(?:....)*$)/g
-
-  if (!cardNumber) {
-    return cardNumber
-  }
-  if (digits <= cardNumber.length) {
-    return cardNumber
-      .slice(cardNumber.length - digits, cardNumber.length)
-      .replace(formatCardNumberRegex, ' ')
-      .trim()
-  }
-  return cardNumber.replace(formatCardNumberRegex, ' ').trim()
 }
 
 export function getCardDesign(productCode: string): PaymentCardType {

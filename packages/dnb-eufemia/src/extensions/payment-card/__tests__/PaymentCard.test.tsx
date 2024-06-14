@@ -7,12 +7,12 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import PaymentCard, { Designs, formatCardNumber } from '../'
 import nbNO from '../../../shared/locales/nb-NO'
-// import enGB from '../../../shared/locales/en-GB'
+import enGB from '../../../shared/locales/en-GB'
 import { render, screen } from '@testing-library/react'
-import { PaymentCardProps } from '../types'
+import { PaymentCardProps, PaymentCardType } from '../types'
 
 const nb = nbNO['nb-NO'].PaymentCard
-// const en = enGB['en-GB'].PaymentCard
+const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
   productCode: 'NK1',
@@ -20,7 +20,6 @@ const defaultProps: PaymentCardProps = {
   cardStatus: 'active',
   variant: 'normal',
   digits: 8,
-  customCard: null,
   id: 'id',
   skeleton: false,
   className: 'className',
@@ -42,7 +41,7 @@ describe('PaymentCard', () => {
   })
 
   it('has a correct formatted card number', () => {
-    render(<PaymentCard {...defaultProps} />)
+    render(<PaymentCard {...defaultProps} digits={16} />)
 
     expect(screen.queryByText('**** **** **** 1337')).toBeInTheDocument()
   })
@@ -97,24 +96,23 @@ describe('PaymentCard', () => {
     expect(screen.queryByText(nb.text_unknown)).toBeInTheDocument()
   })
 
-  // it.skip('reacts to locale change', () => {
-  //   const { rerender } = render(<PaymentCard {...defaultProps} />)
+  it('reacts to locale change', () => {
+    const { rerender } = render(<PaymentCard {...defaultProps} />)
 
-  //   expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
+    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
 
-  //   rerender(<PaymentCard {...defaultProps} locale="en-GB" />)
-  //   expect(screen.queryByText(en.text_card_number)).toBeInTheDocument()
+    rerender(<PaymentCard {...defaultProps} lang="en-GB" />)
+    expect(screen.queryByText(en.text_card_number)).toBeInTheDocument()
 
-  //   rerender(<PaymentCard {...defaultProps} locale="nb-NO" />)
-  //   expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
-  // })
+    rerender(<PaymentCard {...defaultProps} lang="nb-NO" />)
+    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
+  })
 
   it('reacts cardData with correct rendering', () => {
-    const customData = {
+    const customData: PaymentCardType = {
+      ...Designs.gold,
       productCode: 'UNDEFINED',
-      productName: 'DNB Custom Card',
-      displayName: 'Custom card', // Only showed in compact variant
-      cardDesign: Designs.gold,
+      displayName: 'custom name',
     }
 
     render(
@@ -126,8 +124,8 @@ describe('PaymentCard', () => {
       />
     )
 
-    expect(screen.queryByText(customData.productName)).toBeInTheDocument()
-    expect(screen.queryByText(customData.productName).tagName).toEqual(
+    expect(screen.queryByText(customData.displayName)).toBeInTheDocument()
+    expect(screen.queryByText(customData.displayName).tagName).toEqual(
       'FIGCAPTION'
     )
     expect(
