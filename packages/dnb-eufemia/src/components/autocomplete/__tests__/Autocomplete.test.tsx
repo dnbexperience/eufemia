@@ -3227,6 +3227,18 @@ describe('Autocomplete component', () => {
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.tagName).toBe('INPUT')
   })
+
+  it('should change input value when prop changes', () => {
+    const { rerender } = render(<Autocomplete input_value="first value" />)
+
+    const input = document.querySelector('input')
+
+    expect(input.value).toBe('first value')
+
+    rerender(<Autocomplete input_value="second value" />)
+
+    expect(input.value).toBe('second value')
+  })
 })
 
 describe('Autocomplete markup', () => {

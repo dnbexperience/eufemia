@@ -403,7 +403,6 @@ class AutocompleteInstance extends React.PureComponent {
 
       if (
         props.input_value !== 'initval' &&
-        typeof state.inputValue === 'undefined' &&
         props.input_value?.length > 0
       ) {
         state.inputValue = props.input_value
