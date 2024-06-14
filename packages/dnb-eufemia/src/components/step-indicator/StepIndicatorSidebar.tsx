@@ -78,8 +78,7 @@ function StepIndicatorSidebar({
     )
 
     if (!(providerProps.data?.length > 0)) {
-      const text = 'Skeleton text'
-      providerProps.data = [text.slice(10), text, text, text.slice(4)]
+      providerProps.data = ['Loading...']
       providerProps.skeleton = true
       hasSkeletonData.current = true
     }
