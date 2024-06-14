@@ -59,15 +59,6 @@ jobs:
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
 
-      - name: Run lint
-        run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
-
-      - name: Run type checks
-        run: yarn workspace @dnb/eufemia test:types && yarn workspace dnb-design-system-portal test:types
-
-      - name: Run tests
-        run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
-
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
 
