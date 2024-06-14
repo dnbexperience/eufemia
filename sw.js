@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "de929dffa61ed659c37ee2f1d638234f"
+    "revision": "723bd7d368deae1b2c2e0a0705c804b5"
   },
   {
     "url": "500.html",
-    "revision": "bfc227291105fdef7eb191805be11e36"
+    "revision": "9fa14b536079526dcc9a5591b4ae9188"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,35 +44,35 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "c4fdbc132f28bb0c059f8a9d98658bf3"
+    "revision": "8a7ca06731409f7ba7b6c3e00bc8fc4b"
   },
   {
-    "url": "commons.3025e309868ca123f41d.css"
+    "url": "commons.c11dbb7075f609dad5cc.css"
   },
   {
     "url": "framework-c5df6d12579f33233478.js"
   },
   {
-    "url": "ui.6a2fdbff1895d6b4fb71.css"
+    "url": "ui.912bc77282bcc3c70bb9.css"
   },
   {
-    "url": "sbanken.2b369420c480e19817c6.css"
+    "url": "sbanken.2df93b04cf073f4655a4.css"
   },
   {
-    "url": "eiendom.98fb10e4246790c55c05.css"
+    "url": "eiendom.d2ac5e77803b51fd2691.css"
   },
   {
-    "url": "aaa5778d-ee02ba389cf0be842987.js"
+    "url": "aaa5778d-fa1cef314fc34a7107fa.js"
   },
   {
-    "url": "app-b87a21906aa193710ef6.js"
+    "url": "app-213244a6469ebfada4fc.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "5aa1f84e1ac13699a6ea5a8cf7d4891d"
+    "revision": "e7f7bc5e2faa1b050f8d7c8551b4463f"
   },
   {
-    "url": "webpack-runtime-8eec6a53fe3f21458520.js"
+    "url": "webpack-runtime-c66992ab71abcb31f89c.js"
   },
   {
     "url": "manifest.webmanifest",
@@ -186,7 +186,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-b87a21906aa193710ef6.js`))) {
+  if (!resources || !(await caches.match(`/app-213244a6469ebfada4fc.js`))) {
     return await fetch(event.request)
   }
 
