@@ -40,7 +40,7 @@ export default function useReachRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
-      setActiveIndex(routerIndex, {
+      setActiveIndex?.(routerIndex, {
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })
