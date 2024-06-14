@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 
 import classnames from 'classnames'
 import {
@@ -70,9 +70,22 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
     id: _id, // eslint-disable-line
     children, // eslint-disable-line
+    collapseAllHandleRef,
 
     ...restOfExtendedProps
   } = extendedProps
+
+  const collapseAccordionCallbacks = useRef<(() => void)[]>([])
+
+  useEffect(() => {
+    if (collapseAllHandleRef) {
+      collapseAllHandleRef.current = () => {
+        collapseAccordionCallbacks.current.forEach((callback) =>
+          callback()
+        )
+      }
+    }
+  }, [collapseAllHandleRef])
 
   const classes = classnames(
     'dnb-accordion-group',
@@ -96,6 +109,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     ...extendedProps,
     id,
     onChange: onChangeHandler,
+    collapseAccordionCallbacks,
   }
 
   return (
