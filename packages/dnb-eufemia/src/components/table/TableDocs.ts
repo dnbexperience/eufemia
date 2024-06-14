@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const tableProperties: PropertiesTableProps = {
+export const TableProperties: PropertiesTableProps = {
   accordion: {
     doc: 'Set to true if you have one or more rows that contains an accordion content.',
     type: 'boolean',
@@ -73,7 +73,7 @@ export const tableProperties: PropertiesTableProps = {
   },
 }
 
-export const tableEventProperties: PropertiesTableProps = {
+export const TableEventProperties: PropertiesTableProps = {
   collapseAllHandleRef: {
     doc: 'ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.',
     type: 'React.MutableRefObject<() => void>',
@@ -82,7 +82,7 @@ export const tableEventProperties: PropertiesTableProps = {
   },
 }
 
-export const trProperties: PropertiesTableProps = {
+export const TrProperties: PropertiesTableProps = {
   /**
    * The variant of the tr
    */
@@ -123,7 +123,7 @@ export const trProperties: PropertiesTableProps = {
   },
 }
 
-export const trEventProperties: PropertiesTableProps = {
+export const TrEventProperties: PropertiesTableProps = {
   onClick: {
     doc: 'will emit when user clicks/expands the table row. Returns a native click.  ',
     type: '(event) => void',
@@ -144,7 +144,7 @@ export const trEventProperties: PropertiesTableProps = {
   },
 }
 
-export const thProperties: PropertiesTableProps = {
+export const ThProperties: PropertiesTableProps = {
   sortable: {
     doc: 'Defines the table header as sortable if set to `true` (ascending).',
     type: 'boolean',
@@ -177,7 +177,7 @@ export const thProperties: PropertiesTableProps = {
   },
 }
 
-export const tdProperties: PropertiesTableProps = {
+export const TdProperties: PropertiesTableProps = {
   noSpacing: {
     doc: 'If set to `true`, no padding will be added.',
     type: 'boolean',
