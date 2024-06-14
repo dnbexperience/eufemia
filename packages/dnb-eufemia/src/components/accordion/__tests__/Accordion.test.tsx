@@ -295,14 +295,14 @@ describe('Accordion group component', () => {
             condimentum dictumst blandit rutrum vehicula
           </Accordion.Content>
         </Accordion>
-        <Accordion top>
+        <Accordion>
           <Accordion.Header>Accordion title 2</Accordion.Header>
           <Accordion.Content>
             Nec sit mattis natoque interdum sagittis cubilia nibh nullam
             etiam
           </Accordion.Content>
         </Accordion>
-        <Accordion top>
+        <Accordion>
           <Accordion.Header>Accordion title 2</Accordion.Header>
           <Accordion.Content>
             Nec sit mattis natoque interdum sagittis cubilia nibh nullam

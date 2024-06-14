@@ -10,7 +10,15 @@ import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '@dnb/eufemia/src/icons'
-import { Accordion, P, Icon, Grid, Flex, Heading } from '@dnb/eufemia/src'
+import {
+  Accordion,
+  P,
+  Icon,
+  Grid,
+  Flex,
+  Heading,
+  Button,
+} from '@dnb/eufemia/src'
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
@@ -291,5 +299,63 @@ export const AccordionInColumns = () => {
         )
       }}
     </ComponentBox>
+  )
+}
+
+export function AccordionCloseAllInGroup() {
+  const collapseAll = React.createRef<() => void>()
+
+  return (
+    <>
+      <Button
+        bottom="large"
+        variant="secondary"
+        onClick={() => collapseAll.current()}
+      >
+        Close All
+      </Button>
+      <Accordion.Group
+        expanded
+        allow_close_all
+        closeAllHandleRef={collapseAll}
+      >
+        <Accordion expanded>
+          <Accordion.Header>Accordion title 1</Accordion.Header>
+          <Accordion.Content>
+            <P>
+              Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+              gravida himenaeos nostra mollis volutpat bibendum convallis
+              cum condimentum dictumst blandit rutrum vehicula
+            </P>
+          </Accordion.Content>
+        </Accordion>
+        <Accordion expanded>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            {() => {
+              return (
+                <P>
+                  Nec sit mattis natoque interdum sagittis cubilia nibh
+                  nullam etiam
+                </P>
+              )
+            }}
+          </Accordion.Content>
+        </Accordion>
+        <Accordion expanded>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            {() => {
+              return (
+                <P>
+                  Nec sit mattis natoque interdum sagittis cubilia nibh
+                  nullam etiam
+                </P>
+              )
+            }}
+          </Accordion.Content>
+        </Accordion>
+      </Accordion.Group>
+    </>
   )
 }
