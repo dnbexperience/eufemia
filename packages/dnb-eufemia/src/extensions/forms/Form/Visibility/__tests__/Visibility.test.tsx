@@ -257,7 +257,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('should not render children when withValue not matches', () => {
+    it('should not render children when withValue does not match', () => {
       render(
         <Provider data={{ myPath: 'foo' }}>
           <Visibility

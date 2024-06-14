@@ -44,7 +44,16 @@ export const Basic = () => {
 const Step1 = () => {
   const { data } = Form.useData<typeof initialData>()
   return (
-    <Wizard.Step title="Step 1" active={data?.step1}>
+    <Wizard.Step
+      title="Step 1"
+      active={data?.step1}
+      activeWhen={{
+        path: '/enabledStep',
+        withValue: (value) => {
+          return value === '1' || value === undefined
+        },
+      }}
+    >
       <Form.MainHeading>Heading Step 1</Form.MainHeading>
 
       <Field.Boolean
@@ -74,7 +83,11 @@ const Step1 = () => {
 const Step2 = () => {
   const { data } = Form.useData<typeof initialData>()
   return (
-    <Wizard.Step title="Step 2" active={data?.step2}>
+    <Wizard.Step
+      title="Step 2"
+      active={data?.step2}
+      activeWhen={{ path: '/enabledStep', hasValue: '2' }}
+    >
       <Form.MainHeading>Heading Step 2</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
@@ -89,7 +102,11 @@ const Step3 = () => {
   const { summaryTitle } = Form.useLocale().Step
 
   return (
-    <Wizard.Step title={summaryTitle} active={data?.step3}>
+    <Wizard.Step
+      title={summaryTitle}
+      active={data?.step3}
+      activeWhen={{ path: '/enabledStep', hasValue: '3' }}
+    >
       <Form.MainHeading>Summary</Form.MainHeading>
       <Card stack>
         <P>Contents</P>
@@ -109,18 +126,38 @@ const initialData = {
 
 export const WizardDynamicSteps = () => {
   return (
-    <>
-      <Form.Handler id="my-wizard" defaultData={initialData}>
-        <Wizard.Container mode="loose">
-          <Step1 />
-          <Step2 />
-          <Step3 />
-          {/* {data?.step1 && <Step1 />}
+    <Form.Handler id="my-wizard" defaultData={initialData}>
+      <Wizard.Container mode="loose">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+        {/* {data?.step1 && <Step1 />}
           {data?.step2 && <Step2 />}
           {data?.step3 && <Step3 />} */}
-        </Wizard.Container>
-      </Form.Handler>
-    </>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+
+export const WizardDynamicStepsActiveWhen = () => {
+  return (
+    <Form.Handler>
+      <Field.Selection
+        path="/enabledStep"
+        variant="button"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="1" title="1" />
+        <Field.Option value="2" title="2" />
+        <Field.Option value="3" title="3" />
+      </Field.Selection>
+
+      <Wizard.Container mode="loose">
+        <Step1 />
+        <Step2 />
+        <Step3 />
+      </Wizard.Container>
+    </Form.Handler>
   )
 }
 
