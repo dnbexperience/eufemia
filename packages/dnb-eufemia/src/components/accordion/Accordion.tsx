@@ -230,7 +230,6 @@ function Accordion({
   }, [context.flush_remembered_state, context.expanded_id])
 
   // Add callback for closing all accordions inside a group
-
   if (
     !hasAddedCallbackRef.current &&
     context?.collapseAccordionCallbacks
