@@ -23,8 +23,9 @@ describe('useQueryLocator', () => {
   const output = () => {
     return document.querySelector('output')
   }
-  const mockUrl = () => {
-    const search = 'existing-query=foo&bar=baz'
+  const mockUrl = (
+    { search } = { search: 'existing-query=foo&bar=baz' }
+  ) => {
     Object.defineProperty(window, 'location', {
       value: {
         href: `http://localhost/?${search}`,
@@ -273,5 +274,39 @@ describe('useQueryLocator', () => {
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       'URL is not a constructor'
     )
+  })
+
+  it('should set initial state given by the url', () => {
+    const search = `existing-query=foo&bar=baz&${identifier}-step=1`
+    mockUrl({ search })
+
+    const Step = () => {
+      const { activeIndex } = useStep(identifier)
+      return (
+        <Wizard.Step>
+          <output>{JSON.stringify({ activeIndex })}</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    const MyForm = () => {
+      useQueryLocator(identifier)
+
+      return (
+        <Form.Handler>
+          <Wizard.Container mode="loose" id={identifier}>
+            <Step />
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    expect(output()).toHaveTextContent('{"activeIndex":1}')
+    expect(window.history.pushState).toHaveBeenCalledTimes(0)
   })
 })
