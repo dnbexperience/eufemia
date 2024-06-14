@@ -10,7 +10,7 @@ import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '../../../icons'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, act } from '@testing-library/react'
 import MatchMediaMock from 'jest-matchmedia-mock'
 
 new MatchMediaMock()
@@ -276,6 +276,55 @@ describe('Accordion group component', () => {
       document.querySelector('#accordion-1 .dnb-accordion__header')
     )
     expect(my_event.mock.calls[2][0].expanded).toBe(true)
+  })
+
+  it('should close all accordions inside a group with collapseAllHandleRef', () => {
+    const closeAll = React.createRef<() => void>()
+
+    render(
+      <Accordion.Group
+        expanded
+        allow_close_all
+        closeAllHandleRef={closeAll}
+      >
+        <Accordion>
+          <Accordion.Header>Accordion title 1</Accordion.Header>
+          <Accordion.Content>
+            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+            gravida himenaeos nostra mollis volutpat bibendum convallis cum
+            condimentum dictumst blandit rutrum vehicula
+          </Accordion.Content>
+        </Accordion>
+        <Accordion top>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+            etiam
+          </Accordion.Content>
+        </Accordion>
+        <Accordion top>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+            etiam
+          </Accordion.Content>
+        </Accordion>
+      </Accordion.Group>
+    )
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-accordion')
+    )
+
+    expect(first.className).toContain('--expanded')
+    expect(second.className).toContain('--expanded')
+    expect(third.className).toContain('--expanded')
+
+    act(() => closeAll.current())
+
+    expect(first.className).not.toContain('--expanded')
+    expect(second.className).not.toContain('--expanded')
+    expect(third.className).not.toContain('--expanded')
   })
 })
 
