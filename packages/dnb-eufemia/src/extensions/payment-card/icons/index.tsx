@@ -39,17 +39,12 @@ function BankLogo({ type, color }: BankLogoProps) {
   switch (type) {
     case 'DNB':
       return (
-        <DNB
-          // height={height}
-          fill={color}
-          className="dnb-payment-card__card__bank-logo"
-        />
+        <DNB fill={color} className="dnb-payment-card__card__bank-logo" />
       )
 
     case 'sbanken':
       return (
         <Sbanken
-          // height={height}
           fill={color}
           className="dnb-payment-card__card__bank-logo"
         />
@@ -61,27 +56,30 @@ function BankLogo({ type, color }: BankLogoProps) {
 
 type ProductLogoProps = {
   type?: ProductType
-  // color?: string
+  color?: string
 }
 
-function ProductLogo({ type }: ProductLogoProps) {
-  const classname = 'dnb-payment-card__card__product-type'
+function ProductLogo({ type, color }: ProductLogoProps) {
+  const props = {
+    className: 'dnb-payment-card__card__product-type',
+    color,
+  }
 
   switch (type) {
     case 'SagaGold':
-      return <SagaGold className={classname} />
+      return <SagaGold {...props} />
     case 'SagaPlatinum':
-      return <SagaPlatinum className={classname} />
+      return <SagaPlatinum {...props} />
     case 'Pluss':
-      return <Pluss className={classname} />
+      return <Pluss {...props} />
     case 'Intro':
-      return <Intro className={classname} />
+      return <Intro {...props} />
     case 'Business':
-      return <Business className={classname} />
+      return <Business {...props} />
     case 'Bedrift':
-      return <Bedrift className={classname} />
+      return <Bedrift {...props} />
     case 'PrivateBanking':
-      return <PB className={classname} />
+      return <PB {...props} />
     default:
       return null
   }
@@ -164,19 +162,6 @@ const CardProviderLogo = ({
     default:
       return null
   }
-
-  // switch (cardTypeDesign) {
-  //   case 'VisaColored':
-  //     return <VisaDefault className={id} fill={color} />
-  //   case 'VisaPlatinum':
-  //     return <VisaPlatinum className={id} />
-  //   case 'MastercardDefault':
-  //     return <MastercardDefault className={id} />
-  //   case 'MastercardDark':
-  //     return <MastercardDark className={id} />
-  //   case 'None':
-  //     return null
-  // }
 }
 
 export {

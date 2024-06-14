@@ -48,11 +48,6 @@ export const PaymentCardProperties: PropertiesTableProps = {
 }
 
 export const PaymentCardTypeProperties: PropertiesTableProps = {
-  //   productCode: {
-  //     doc: '',
-  //     type: 'string',
-  //     status: 'optional',
-  //   },
   displayName: {
     doc: 'used by the screan reader.',
     type: 'string',
