@@ -4,7 +4,16 @@
  */
 
 import React from 'react'
+import type { Translation } from '../../shared/Context'
+import type { TableAllProps } from './Table'
 
-export const TableContext = React.createContext(null)
+type TableContextProps = {
+  trCountRef: React.MutableRefObject<{
+    count: number
+  }>
+  rerenderAlias: Record<string, never>
+  collapseTrCallbacks: React.MutableRefObject<(() => void)[]>
+  allProps: TableAllProps & Translation['Table']
+}
 
-export const TableAccordionContext = React.createContext(null)
+export const TableContext = React.createContext<TableContextProps>(null)

@@ -3,7 +3,15 @@
  *
  */
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react'
 import Context, { ContextProps } from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -95,23 +103,131 @@ export function StepIndicatorProvider({
   isSidebar = false,
   ...restOfProps
 }: StepIndicatorProviderProps) {
-  const props = { isSidebar, ...restOfProps }
+  const props = useMemo(() => {
+    return { isSidebar, ...restOfProps }
+  }, [isSidebar, restOfProps])
 
-  const data = getData(props)
-  const countSteps = data.length
+  const data = useMemo(() => {
+    if (typeof props.data === 'string') {
+      return props.data[0] === '[' ? JSON.parse(props.data) : []
+    }
+
+    return props.data || []
+  }, [props])
 
   const [hasSidebar, setHasSidebar] = useState<boolean>(true)
   const [hideSidebar, setHideSidebar] = useState<boolean>(false)
-  const [activeStep, setActiveStep] = useState<number>(
-    getActiveStepFromProps()
-  )
   const [openState, setOpenState] = useState<boolean>(false)
 
-  const listOfReachedSteps = useRef([activeStep].filter(Boolean)).current
+  const onChangeState = useCallback(() => {
+    setOpenState(false)
+  }, [])
 
+  const openHandler = useCallback(() => {
+    setOpenState(true)
+  }, [])
+
+  const closeHandler = useCallback(() => {
+    setOpenState(false)
+  }, [])
+
+  const getActiveStepFromProps = useCallback(() => {
+    if (typeof data[0] === 'string') {
+      return props.current_step
+    }
+
+    const dataWithItems = data as StepIndicatorDataItem[]
+
+    const itemWithCurrentStep = dataWithItems.find(
+      (item) => item.is_current
+    )
+    // Is current on data item has precedence(?) over current_step prop
+    return itemWithCurrentStep
+      ? dataWithItems.indexOf(itemWithCurrentStep)
+      : props.current_step
+  }, [data, props.current_step])
+
+  const countSteps = data.length
+  const activeStepRef = useRef<number>(getActiveStepFromProps())
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const setActiveStep = useCallback((step: number) => {
+    activeStepRef.current = step
+    forceUpdate()
+  }, [])
+  const listOfReachedSteps = useRef(
+    [activeStepRef.current].filter(Boolean)
+  ).current
   const mediaQueryListener = useRef(null)
-
   const context = useContext(Context)
+
+  const updateStepTitle = useCallback(
+    (title: string) => {
+      return title
+        ?.replace('%step', String((activeStepRef.current || 0) + 1))
+        .replace('%count', String(data?.length || 1))
+    },
+    [data?.length]
+  )
+
+  const makeContextValue = useCallback(() => {
+    const globalContext = extendPropsWithContext(
+      props,
+      stepIndicatorDefaultProps,
+      { skeleton: context?.skeleton },
+      context.getTranslation(context).StepIndicator,
+      context.StepIndicator
+    )
+
+    const value = extendSafe(
+      { filterAttributes },
+      globalContext,
+      // Props
+      {
+        defaultProps: stepIndicatorDefaultProps,
+        props,
+      },
+      // State
+      {
+        hasSidebar,
+        hideSidebar,
+        activeStep: activeStepRef.current,
+        openState,
+        listOfReachedSteps,
+        data,
+        countSteps,
+        stepsLabel: updateStepTitle(globalContext.step_title),
+        stepsLabelExtended: updateStepTitle(
+          globalContext.step_title_extended
+        ),
+      },
+      // Functions
+      {
+        setActiveStep,
+        onChangeState,
+        openHandler,
+        closeHandler,
+      }
+    ) as StepIndicatorContextValues
+
+    value.sidebarIsVisible = value.hasSidebar && !value.hideSidebar
+
+    return value
+  }, [
+    closeHandler,
+    context,
+    countSteps,
+    data,
+    hasSidebar,
+    hideSidebar,
+    listOfReachedSteps,
+    onChangeState,
+    openHandler,
+    openState,
+    props,
+    setActiveStep,
+    updateStepTitle,
+  ])
+
   const contextValue = makeContextValue() as StepIndicatorContextValues
 
   // Mount and dismount
@@ -138,112 +254,24 @@ export function StepIndicatorProvider({
         mediaQueryListener.current()
       }
     }
-  }, [])
+  }, [props.sidebar_id])
 
   // Keeps the activeStep state updated with changes to the current_step and data props
   useEffect(() => {
     const currentStepFromProps = getActiveStepFromProps()
 
-    if (currentStepFromProps !== activeStep) {
+    if (currentStepFromProps !== activeStepRef.current) {
       setActiveStep(currentStepFromProps)
     }
-  }, [props.current_step, data])
+  }, [props.current_step, data, getActiveStepFromProps, setActiveStep])
 
   // Keeps the listOfReachedSteps state up to date with the activeStep state
+  const activeStep = activeStepRef.current
   useEffect(() => {
     if (!listOfReachedSteps.includes(activeStep)) {
       listOfReachedSteps.push(activeStep)
     }
-  }, [activeStep])
-
-  function onChangeState() {
-    setOpenState(false)
-  }
-
-  function openHandler() {
-    setOpenState(true)
-  }
-
-  function closeHandler() {
-    setOpenState(false)
-  }
-
-  function getData(
-    props: StepIndicatorProviderProps
-  ): string[] | StepIndicatorDataItem[] {
-    if (typeof props.data === 'string') {
-      return props.data[0] === '[' ? JSON.parse(props.data) : []
-    }
-
-    return props.data || []
-  }
-
-  function getActiveStepFromProps() {
-    if (typeof data[0] === 'string') {
-      return props.current_step
-    }
-
-    const dataWithItems = data as StepIndicatorDataItem[]
-
-    const itemWithCurrentStep = dataWithItems.find(
-      (item) => item.is_current
-    )
-    // Is current on data item has precedence(?) over current_step prop
-    return itemWithCurrentStep
-      ? dataWithItems.indexOf(itemWithCurrentStep)
-      : props.current_step
-  }
-
-  function makeContextValue() {
-    const globalContext = extendPropsWithContext(
-      props,
-      stepIndicatorDefaultProps,
-      { skeleton: context?.skeleton },
-      context.getTranslation(context).StepIndicator,
-      context.StepIndicator
-    )
-
-    const value = extendSafe(
-      { filterAttributes },
-      globalContext,
-      // Props
-      {
-        defaultProps: stepIndicatorDefaultProps,
-        props,
-      },
-      // State
-      {
-        hasSidebar,
-        hideSidebar,
-        activeStep,
-        openState,
-        listOfReachedSteps,
-        data,
-        countSteps,
-        stepsLabel: updateStepTitle(globalContext.step_title),
-        stepsLabelExtended: updateStepTitle(
-          globalContext.step_title_extended
-        ),
-      },
-      // Functions
-      {
-        setActiveStep,
-        onChangeState,
-        openHandler,
-        closeHandler,
-      }
-    ) as StepIndicatorContextValues
-
-    value.sidebarIsVisible = value.hasSidebar && !value.hideSidebar
-
-    return value
-  }
-
-  function updateStepTitle(title: string) {
-    return title
-      ?.replace('%step', String((activeStep || 0) + 1))
-      .replace('%count', String(data?.length || 1))
-  }
+  }, [activeStep, listOfReachedSteps])
 
   if (typeof window !== 'undefined' && window['IS_TEST']) {
     contextValue['no_animation'] = true

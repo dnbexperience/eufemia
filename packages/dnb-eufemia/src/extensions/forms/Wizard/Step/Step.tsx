@@ -6,6 +6,7 @@ import WizardContext from '../Context/WizardContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import FieldProps from '../../Form/FieldProps'
+import type { VisibleWhen } from '../../Form/Visibility'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -35,6 +36,11 @@ export type Props = ComponentProps &
     active?: boolean
 
     /**
+     * Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path.
+     */
+    activeWhen?: VisibleWhen
+
+    /**
      * If set to `true`, the step will always be rendered.
      * For internal use only.
      */
@@ -47,12 +53,13 @@ function Step(props: Props) {
     title,
     index,
     active = true,
+    activeWhen,
     required,
     prerenderFieldProps,
     children,
     ...restProps
   } = props
-  const { activeIndex, titlesRef, stepElementRef } =
+  const { check, activeIndex, titlesRef, stepElementRef } =
     useContext(WizardContext) || {}
 
   const ariaLabel = useMemo(() => {
@@ -78,7 +85,11 @@ function Step(props: Props) {
     return children
   }
 
-  if (activeIndex !== index || active === false) {
+  if (
+    activeIndex !== index ||
+    active === false ||
+    (activeWhen && !check({ visibleWhen: activeWhen }))
+  ) {
     // Another step is active
     return <></>
   }

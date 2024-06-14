@@ -1508,6 +1508,37 @@ describe('Autocomplete component', () => {
     expect(input.value).toBe('Kontonummer: 987654321')
   })
 
+  it('should update input value when data prop goes from emtpy to unempty and value is given', async () => {
+    const { rerender } = render(<Autocomplete {...mockProps} data={[]} />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).not.toHaveValue()
+
+    rerender(
+      <Autocomplete
+        {...mockProps}
+        value={1}
+        data={[
+          {
+            selected_value: 'Bedriftskonto',
+            content: 'Bedriftskonto',
+          },
+          {
+            selected_value: 'Sparekonto',
+            content: 'Sparekonto',
+          },
+          {
+            selected_value: 'Felleskonto',
+            content: 'Felleskonto',
+          },
+        ]}
+      />
+    )
+
+    expect(input).toHaveValue('Sparekonto')
+  })
+
   describe('should have correct values on input blur', () => {
     it('when no selection is made and "keep_value" and "keep_value_and_selection" is false', async () => {
       const on_change = jest.fn()
@@ -3226,6 +3257,18 @@ describe('Autocomplete component', () => {
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('should change input value when prop changes', () => {
+    const { rerender } = render(<Autocomplete input_value="first value" />)
+
+    const input = document.querySelector('input')
+
+    expect(input.value).toBe('first value')
+
+    rerender(<Autocomplete input_value="second value" />)
+
+    expect(input.value).toBe('second value')
   })
 })
 

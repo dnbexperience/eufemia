@@ -47,6 +47,8 @@ import type { NumberFormatCurrency } from '../components/NumberFormat'
 import type { ProgressIndicatorProps } from '../components/progress-indicator/types'
 import type { FormStatusProps } from '../components/FormStatus'
 import type { LogoProps } from '../components/Logo'
+import type { IconProps } from '../components/Icon'
+import type { IconPrimaryProps } from '../components/IconPrimary'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -87,6 +89,8 @@ export type ContextComponents = {
   ProgressIndicator?: Partial<ProgressIndicatorProps>
   FormStatus?: Partial<FormStatusProps>
   Logo?: Partial<LogoProps>
+  Icon?: Partial<IconProps>
+  IconPrimary?: Partial<IconPrimaryProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>

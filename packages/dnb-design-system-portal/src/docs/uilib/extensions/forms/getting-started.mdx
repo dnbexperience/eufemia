@@ -25,7 +25,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 - [Value components](#value-components)
 - [Async form behavior](#async-form-behavior)
 - [Validation and error handling](#validation-and-error-handling)
-- [Localization](#localization-locale-and-translation)
+- [Localization and translation](#localization-and-translation)
 - [Layout](#layout)
 - [Best practices](#best-practices)
 - [Create your own component](#create-your-own-component)
@@ -390,7 +390,7 @@ const validator = debounceAsync(async function myValidator(value) {
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
-### Localization
+### Localization and translation
 
 You can set the locale for your form by using the `locale` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component. This will ensure that the correct language is used for all the fields in your form.
 

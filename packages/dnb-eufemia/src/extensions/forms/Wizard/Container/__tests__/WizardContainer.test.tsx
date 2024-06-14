@@ -601,9 +601,8 @@ describe('Wizard.Container', () => {
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(2)
-      expect(
-        document.querySelector('.dnb-forms-next-button')
-      ).toBeInTheDocument()
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeInTheDocument()
 
       await userEvent.click(document.querySelector('#toggleStep2'))
 
@@ -611,18 +610,168 @@ describe('Wizard.Container', () => {
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(1)
-      expect(
-        document.querySelector('.dnb-forms-next-button')
-      ).not.toBeInTheDocument()
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).not.toBeInTheDocument()
 
       await userEvent.click(document.querySelector('#toggleStep2'))
 
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(2)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeInTheDocument()
+    })
+
+    it('should not render inactive steps based on paths and activeWhen', () => {
+      render(
+        <Form.Handler
+          data={{
+            enabledStep: 'does not match',
+          }}
+        >
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              activeWhen={{ path: '/enabledStep', hasValue: 'match me' }}
+            >
+              <output>Step 1</output>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-forms-next-button')
-      ).toBeInTheDocument()
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+    })
+
+    it('should render inactive steps based on paths and activeWhen with withValue', () => {
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-1' }}>
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              activeWhen={{
+                path: '/enabledStep',
+                withValue: (value) => {
+                  return value === 'group-1'
+                },
+              }}
+            >
+              <output>Step 1</output>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+    })
+
+    it('should render dynamically enabled steps based on paths and activeWhen', async () => {
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+          <Field.Selection path="/enabledStep" variant="button">
+            <Field.Option value="group-1" title="1" />
+            <Field.Option value="group-2" title="2" />
+            <Field.Option value="invalid" title="invalid" />
+          </Field.Selection>
+
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              activeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+            >
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 2"
+              activeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+            >
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 3"
+              activeWhen={{
+                path: '/enabledStep',
+                withValue: (value) => {
+                  return value === 'group-1'
+                },
+              }}
+            >
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeNull()
+
+      await userEvent.click(
+        document.querySelectorAll('.dnb-toggle-button button')[0]
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeInTheDocument()
+
+      await userEvent.click(
+        document.querySelectorAll('.dnb-toggle-button button')[1]
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeNull()
+
+      await userEvent.click(
+        document.querySelectorAll('.dnb-toggle-button button')[2]
+      )
+
+      expect(output()).toBeNull()
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeNull()
     })
   })
 
@@ -653,9 +802,9 @@ describe('Wizard.Container', () => {
     expect(wizardList()).not.toBeInTheDocument()
 
     rerender(
-      <Wizard.Container sidebarId="drawer-please">
+      <Wizard.Container variant="drawer">
         <Wizard.Step title="Step 1">
-          <output>Step 1</output>
+          <output>ensure re-render</output>
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
@@ -664,6 +813,7 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
+    expect(output()).toHaveTextContent('ensure re-render')
     expect(stepTrigger()).toBeInTheDocument()
     expect(wizardList()).not.toBeInTheDocument()
   })

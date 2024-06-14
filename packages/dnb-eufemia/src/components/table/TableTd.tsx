@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import TableAccordionTd from './TableAccordionTd'
+import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'
 
 export type TableTdProps = {
   /**
@@ -11,7 +11,7 @@ export type TableTdProps = {
 
   /**
    * Set to `horizontal` for padding on left and right side
-   * Default: false
+   * Default: undefined
    */
   spacing?: 'horizontal'
 
@@ -45,4 +45,4 @@ export default function Td(
   )
 }
 
-Td.AccordionContent = TableAccordionTd
+Td.AccordionContent = TableAccordionContentSingle

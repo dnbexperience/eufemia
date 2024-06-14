@@ -39,7 +39,10 @@ function StepIndicatorTriggerButton(
   const item = context.data[context.activeStep || 0]
   const label = context.stepsLabel
 
-  const { data, ...contextWithoutData } = context
+  const {
+    data, // eslint-disable-line
+    ...contextWithoutData
+  } = context
 
   const triggerParams = {
     ...contextWithoutData,

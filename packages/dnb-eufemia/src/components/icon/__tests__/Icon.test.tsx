@@ -6,10 +6,10 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Icon, { IconProps } from '../Icon'
+import Icon, { IconAllProps } from '../Icon'
 import { question } from './test-files'
 
-const props: IconProps = {
+const props: IconAllProps = {
   icon: question,
   alt: 'question mark',
   'aria-hidden': null,
@@ -17,7 +17,7 @@ const props: IconProps = {
 
 describe('Icon component', () => {
   it('renders with props as an object', () => {
-    const props: IconProps = { icon: question }
+    const props: IconAllProps = { icon: question }
 
     render(<Icon {...props} />)
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -120,6 +120,23 @@ describe('Icon component', () => {
     expect(
       document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('custom-data-testid-value')
+  })
+
+  it('should work when icon property is provided a functional component with a hook', () => {
+    const FunctionalComponentWithHookIcon = () => {
+      const [title] = React.useState('banana')
+
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <title>{title}</title>
+          <path d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z" />
+        </svg>
+      )
+    }
+    render(
+      <Icon icon={FunctionalComponentWithHookIcon} inherit_color={false} />
+    )
+    expect(document.querySelector('svg title').textContent).toBe('banana')
   })
 
   it('should validate with ARIA rules', async () => {

@@ -38,7 +38,7 @@ export default function useQueryLocator(id: string = undefined) {
       const popstateListener = () => {
         const routerIndex = getIndex()
         if (!isNaN(routerIndex)) {
-          setActiveIndex(routerIndex, {
+          setActiveIndex?.(routerIndex, {
             skipStepChangeCallFromHook: true,
             skipStepChangeCallBeforeMounted: true,
           })

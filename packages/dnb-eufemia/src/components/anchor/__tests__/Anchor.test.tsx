@@ -417,6 +417,54 @@ describe('Anchor element', () => {
 
     expect(document.querySelector('a')).toHaveAttribute('href', '/url')
   })
+
+  it('should have no-animation class if "noAnimation" props is true', () => {
+    const { rerender } = render(<Anchor />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor.className).not.toContain('dnb-anchor--no-animation')
+
+    rerender(<Anchor noAnimation />)
+
+    expect(anchor.className).toContain('dnb-anchor--no-animation')
+  })
+
+  it('shouldhave no-hover class if "noHover" props is true', () => {
+    const { rerender } = render(<Anchor />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor.className).not.toContain('dnb-anchor--no-hover')
+
+    rerender(<Anchor noHover />)
+
+    expect(anchor.className).toContain('dnb-anchor--no-hover')
+  })
+
+  it('should have no-style class if "noStyle" props is true', () => {
+    const { rerender } = render(<Anchor />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor.className).not.toContain('dnb-anchor--no-style')
+
+    rerender(<Anchor noStyle />)
+
+    expect(anchor.className).toContain('dnb-anchor--no-style')
+  })
+
+  it('should have no-underline class if "noUnderline" props is true', () => {
+    const { rerender } = render(<Anchor />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor.className).not.toContain('dnb-anchor--no-underline')
+
+    rerender(<Anchor noUnderline />)
+
+    expect(anchor.className).toContain('dnb-anchor--no-underline')
+  })
 })
 
 describe('Anchor scss', () => {

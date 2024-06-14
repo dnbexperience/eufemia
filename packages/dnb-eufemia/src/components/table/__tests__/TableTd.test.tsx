@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import TableTd, { TableTdProps } from '../TableTd'
-import TableAccordionTd from '../TableAccordionTd'
+import { TableAccordionContentSingle } from '../table-accordion/TableAccordionContent'
 
 describe('TableTd', () => {
   it('renders with props as an object', () => {
@@ -123,6 +123,6 @@ describe('TableTd', () => {
   })
 
   it('should have Td.AccordionContent', () => {
-    expect(TableTd.AccordionContent).toBe(TableAccordionTd)
+    expect(TableTd.AccordionContent).toBe(TableAccordionContentSingle)
   })
 })

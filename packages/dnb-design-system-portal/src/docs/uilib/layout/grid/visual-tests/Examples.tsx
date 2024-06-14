@@ -37,47 +37,11 @@ export function PageLayoutExample() {
 
       <ComponentBox hideCode scope={{ useMedia }}>
         {() => {
-          const Wrapper = styled.div`
-            .pageContainer {
-              --sidebar-width: 17rem;
-              --page-container-gap: 1.5rem;
-              --page-width: var(--layout-large);
-
-              max-width: calc(
-                var(--sidebar-width) + var(--page-container-gap) +
-                  var(--page-width)
-              );
-
-              margin: auto;
-
-              background-color: var(--color-lavender);
-              box-shadow: 0 0 0 1px black;
-            }
-
-            .sidebarContent {
-              background-color: var(--color-sand-yellow);
-            }
-
-            .pageContent {
-            }
-
-            .columnItem {
-              display: grid;
-              place-content: center;
-
-              html:not([data-visual-test]) & {
-                min-height: 70vh;
-              }
-
-              text-align: center;
-            }
-          `
-
           function PageLayout() {
             const { isSmall, isMedium, isLarge } = useMedia()
 
             const { minimizedSidebar, Toggle } = useMinimizeSidebar()
-            const showSidebar = !isMedium
+            const renderWideSidebar = !isMedium
             const sidebarColumns = isSmall ? 0 : minimizedSidebar ? 1 : 3
             const pageColumns = isSmall
               ? 4
@@ -88,28 +52,69 @@ export function PageLayoutExample() {
               : 0
 
             return (
-              <Wrapper>
+              <PageContainerWithStyles>
+                {renderWideSidebar && (
+                  <SidebarContent
+                    columns={sidebarColumns}
+                    Toggle={Toggle}
+                  />
+                )}
+
                 <Grid.Container
                   className="pageContainer"
-                  columns={pageColumns + sidebarColumns}
+                  columns={pageColumns}
                   columnGap="medium"
                 >
-                  {showSidebar && (
-                    <Grid.Item span={[1, sidebarColumns]}>
-                      <SidebarContent
-                        columns={sidebarColumns}
-                        Toggle={Toggle}
-                      />
-                    </Grid.Item>
-                  )}
-
-                  <Grid.Item
-                    span={[showSidebar ? sidebarColumns + 1 : 1, 'end']}
-                  >
+                  <Grid.Item span={[1, 'end']}>
                     <PageContent columns={pageColumns} />
                   </Grid.Item>
                 </Grid.Container>
-              </Wrapper>
+              </PageContainerWithStyles>
+            )
+          }
+
+          function SidebarContent({ columns, Toggle }) {
+            const content = useColumns({ columns, color: colors[1] })
+
+            return (
+              columns > 0 && (
+                <Grid.Container
+                  className="sidebarContent"
+                  data-columns={columns}
+                  columnGap
+                  columns={columns}
+                  element="aside"
+                  aria-label="Main Menu"
+                >
+                  {content}
+
+                  <Grid.Item
+                    span="full"
+                    style={{
+                      display: 'grid',
+                      placeContent: 'center',
+                    }}
+                  >
+                    <Toggle />
+                  </Grid.Item>
+                </Grid.Container>
+              )
+            )
+          }
+
+          function PageContent({ columns }) {
+            const content = useColumns({
+              columns,
+              color: colors[0],
+            })
+            return (
+              <Grid.Container
+                className="pageContent"
+                columns={columns}
+                columnGap
+              >
+                {content}
+              </Grid.Container>
             )
           }
 
@@ -150,47 +155,62 @@ export function PageLayoutExample() {
             }
           }
 
-          function SidebarContent({ columns, Toggle }) {
-            const content = useColumns({ columns, color: colors[1] })
+          const PageContainerWithStyles = styled.div`
+            --sidebar-width: 17rem;
+            --page-container-gap: var(--spacing-medium);
+            --page-width: var(--layout-large);
 
-            return (
-              columns > 0 && (
-                <Grid.Container
-                  className="sidebarContent"
-                  columnGap
-                  columns={columns}
-                >
-                  {content}
+            // horizontal layout
+            display: flex;
 
-                  <Grid.Item
-                    span="full"
-                    style={{
-                      display: 'grid',
-                      placeContent: 'center',
-                    }}
-                  >
-                    <Toggle />
-                  </Grid.Item>
-                </Grid.Container>
-              )
-            )
-          }
+            // the gap between the sidebar and the page content
+            column-gap: var(--page-container-gap);
 
-          function PageContent({ columns }) {
-            const content = useColumns({
-              columns,
-              color: colors[0],
-            })
-            return (
-              <Grid.Container
-                className="pageContent"
-                columns={columns}
-                columnGap
-              >
-                {content}
-              </Grid.Container>
-            )
-          }
+            // center everything
+            margin: auto;
+
+            // max page width
+            max-width: calc(
+              var(--sidebar-width) + var(--page-container-gap) +
+                var(--page-width)
+            );
+
+            .sidebarContent {
+              --width: var(--sidebar-width);
+              &[data-columns='1'] {
+                --width: calc(var(--sidebar-width) / 3);
+              }
+
+              width: var(--width);
+            }
+
+            .pageContainer {
+              flex-grow: 1;
+            }
+
+            .pageContent {
+            }
+
+            // for demo purposes
+            background-color: var(--color-lavender);
+            box-shadow: 0 0 0 1px black;
+
+            .columnItem {
+              display: grid;
+              place-content: center;
+
+              html:not([data-visual-test]) & {
+                min-height: 70vh;
+              }
+
+              text-align: center;
+            }
+
+            .sidebarContent {
+              transition: width 400ms var(--easing-default);
+              background-color: var(--color-sand-yellow);
+            }
+          `
 
           const colors = [
             { background: 'var(--color-sea-green-30)' },

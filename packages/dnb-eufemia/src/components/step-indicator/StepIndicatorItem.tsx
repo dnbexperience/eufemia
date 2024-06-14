@@ -3,13 +3,7 @@
  *
  */
 
-import React, {
-  HTMLProps,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { HTMLProps, useCallback, useContext, useMemo } from 'react'
 
 import classnames from 'classnames'
 import {
@@ -84,67 +78,62 @@ function StepIndicatorItem({
   disabled: disabled_default = false,
   ...restOfProps
 }: StepIndicatorItemProps) {
-  const props: StepIndicatorItemProps = {
-    status_state: status_state_default,
-    inactive: inactive_default,
-    disabled: disabled_default,
-    ...restOfProps,
-  }
+  const props: StepIndicatorItemProps = useMemo(() => {
+    return {
+      status_state: status_state_default,
+      inactive: inactive_default,
+      disabled: disabled_default,
+      ...restOfProps,
+    }
+  }, [
+    disabled_default,
+    inactive_default,
+    restOfProps,
+    status_state_default,
+  ])
 
   const context = useContext(StepIndicatorContext)
 
-  const [previousStep, setPreviousStep] = useState<number>(
-    context.activeStep
-  )
-
-  const ref = useRef(null)
-
-  const thisReference = {
-    context,
-    props,
-    onClickHandler,
-  }
-
-  // Effect used to keep track of previous activeStep from context
-  useEffect(() => {
-    if (previousStep !== context.activeStep) {
-      setPreviousStep(context.activeStep)
-    }
-  }, [context.activeStep, previousStep])
-
-  function onClickHandler({ event, item, currentItemNum }) {
-    const params = {
-      event,
-      item,
-      current_step: currentItemNum,
-      currentStep: currentItemNum,
-    }
-
-    const onClickItem = dispatchCustomElementEvent(
-      thisReference,
-      'on_click',
-      params
-    )
-
-    const onClickGlobal = dispatchCustomElementEvent(
-      context,
-      'on_click',
-      params
-    )
-
-    if (onClickItem === false || onClickGlobal === false) {
-      return // stop here
-    }
-
-    if (context.activeStep !== currentItemNum) {
-      context.setActiveStep(currentItemNum)
-      if (typeof context.onChangeState === 'function') {
-        context.onChangeState()
+  const onClickHandler = useCallback(
+    ({ event, item, currentItemNum }) => {
+      const params = {
+        event,
+        item,
+        current_step: currentItemNum,
+        currentStep: currentItemNum,
       }
 
-      dispatchCustomElementEvent(context, 'on_change', params)
-    }
-  }
+      const onClickItem = dispatchCustomElementEvent(
+        {
+          context,
+          props,
+          onClickHandler,
+        },
+        'on_click',
+        params
+      )
+
+      const onClickGlobal = dispatchCustomElementEvent(
+        context,
+        'on_click',
+        params
+      )
+
+      if (onClickItem === false || onClickGlobal === false) {
+        return // stop here
+      }
+
+      if (context.activeStep !== currentItemNum) {
+        context.setActiveStep(currentItemNum)
+        if (typeof context.onChangeState === 'function') {
+          context.onChangeState()
+        }
+
+        dispatchCustomElementEvent(context, 'on_change', params)
+      }
+    },
+    [context, props]
+  )
 
   const {
     mode,
@@ -266,9 +255,7 @@ function StepIndicatorItem({
         itemParams.className
       )}
     >
-      <StepItemButton {...buttonParams} inner_ref={ref}>
-        {element}
-      </StepItemButton>
+      <StepItemButton {...buttonParams}>{element}</StepItemButton>
       <span id={id} aria-hidden className="dnb-sr-only">
         {ariaLabel}
       </span>

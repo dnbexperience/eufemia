@@ -31,6 +31,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import { ComponentProps } from '../../types'
+import useVisibility from '../../Form/Visibility/useVisibility'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -264,6 +265,8 @@ function WizardContainer(props: Props) {
     Record<string, () => React.ReactElement>
   >({})
 
+  const { check } = useVisibility()
+
   const activeIndex = activeIndexRef.current
   const providerValue = useMemo(() => {
     return {
@@ -275,6 +278,7 @@ function WizardContainer(props: Props) {
       activeIndexRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
+      check,
       setActiveIndex,
       handlePrevious,
       handleNext,
@@ -286,6 +290,7 @@ function WizardContainer(props: Props) {
     handlePrevious,
     id,
     prerenderFieldProps,
+    check,
     setActiveIndex,
     setFormError,
   ])
@@ -378,6 +383,7 @@ function DisplaySteps({
 
 function IterateOverSteps({ children }) {
   const {
+    check,
     titlesRef,
     activeIndexRef,
     prerenderFieldProps,
@@ -386,7 +392,6 @@ function IterateOverSteps({ children }) {
 
   titlesRef.current = {}
   let incrementIndex = -1
-  let decrementIndex = -1
 
   const childrenArray = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
@@ -407,13 +412,15 @@ function IterateOverSteps({ children }) {
           return null
         }
 
-        if (child.props.active === false) {
-          decrementIndex--
-        } else {
-          incrementIndex++
+        if (
+          child.props.activeWhen &&
+          !check({ visibleWhen: child.props.activeWhen })
+        ) {
+          return null
         }
-        const index =
-          child.props.active === false ? decrementIndex : incrementIndex
+
+        incrementIndex++
+        const index = incrementIndex
 
         titlesRef.current[index] =
           child.props.title !== undefined
@@ -450,9 +457,9 @@ function IterateOverSteps({ children }) {
 
   // Ensure we never have a higher index than the available children
   // else we get a white screen
-  if (childrenArray.length === 0) {
+  if (childrenArray?.length === 0) {
     activeIndexRef.current = 0
-  } else if (childrenArray.length < activeIndexRef.current + 1) {
+  } else if (childrenArray?.length < activeIndexRef.current + 1) {
     activeIndexRef.current = childrenArray.length - 1
   }
 

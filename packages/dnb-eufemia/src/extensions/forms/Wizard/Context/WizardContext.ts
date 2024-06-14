@@ -1,5 +1,6 @@
 import React from 'react'
 import { EventReturnWithStateObject } from '../../types'
+import { VisibleWhen } from '../../Form/Visibility'
 
 export type OnStepChange = (
   index: StepIndex,
@@ -39,6 +40,7 @@ export interface WizardContextState {
     }?: SetActiveIndexOptions
   ) => void
   setFormError?: (error: Error) => void
+  check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
 }
 
 const WizardContext = React.createContext<WizardContextState | undefined>(

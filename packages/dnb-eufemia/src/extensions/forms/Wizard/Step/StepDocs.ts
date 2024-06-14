@@ -16,6 +16,11 @@ export const StepProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  activeWhen: {
+    doc: 'Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path.',
+    type: 'object',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',

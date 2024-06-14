@@ -11,11 +11,11 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Section>
         <Form.Section.ViewContainer>
-          <Form.Section.EditContainer>
-            Edit Content
-          </Form.Section.EditContainer>
           View Content
         </Form.Section.ViewContainer>
+        <Form.Section.EditContainer>
+          Edit Content
+        </Form.Section.EditContainer>
       </Form.Section>
     )
 
