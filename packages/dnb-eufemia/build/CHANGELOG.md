@@ -3,6 +3,32 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.36.0](https://github.com/dnbexperience/eufemia/compare/v10.35.0...v10.36.0) (2024-06-14)
+
+
+### :sparkles: Features
+
+* **Anchor:** add helper classes as props ([#3701](https://github.com/dnbexperience/eufemia/issues/3701)) ([62b23e8](https://github.com/dnbexperience/eufemia/commit/62b23e8fbf626f795a129e4dcb2f21d5b65b14a1))
+* **forms:** add `activeWhen` prop to Wizard.Step ([#3705](https://github.com/dnbexperience/eufemia/issues/3705)) ([edd6214](https://github.com/dnbexperience/eufemia/commit/edd6214e79c153f5557b9c6c7554c0d5afb03056))
+* **Icon:** rewrite to TypeScript and hooks ([#3703](https://github.com/dnbexperience/eufemia/issues/3703)) ([70b1f8b](https://github.com/dnbexperience/eufemia/commit/70b1f8ba5129bcdf9860ed967db3d0919fb9ccc3)), closes [#3699](https://github.com/dnbexperience/eufemia/issues/3699)
+* **Table:** refactoring of types, documentation, and accordion file structure ([#3683](https://github.com/dnbexperience/eufemia/issues/3683)) ([6045e42](https://github.com/dnbexperience/eufemia/commit/6045e42ee4c61059da8159ec1bc7a94dae6f8971))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** make `input_value` react to prop change ([#3706](https://github.com/dnbexperience/eufemia/issues/3706)) ([641e5e7](https://github.com/dnbexperience/eufemia/commit/641e5e79f22e20dc647b250be3f8ce98e7e9751f))
+* **Autocomplete:** make inputValue update on data prop changes ([#3581](https://github.com/dnbexperience/eufemia/issues/3581)) ([83b05cf](https://github.com/dnbexperience/eufemia/commit/83b05cfeeb3cc9a88f0e710c35fdb65d8f39c81d))
+* **forms:** ensure useReactRouter to handle initial data given by url ([#3708](https://github.com/dnbexperience/eufemia/issues/3708)) ([a16f1f7](https://github.com/dnbexperience/eufemia/commit/a16f1f7d4d313f4b8d497a754ea025558141d970)), closes [#3702](https://github.com/dnbexperience/eufemia/issues/3702)
+* **StepIndicator:** avoid re-assigning functions that can cause titles to be not in sync ([#3697](https://github.com/dnbexperience/eufemia/issues/3697)) ([d8d740c](https://github.com/dnbexperience/eufemia/commit/d8d740cd129e4027bf94936f8898f7018c8f86f6)), closes [#3685](https://github.com/dnbexperience/eufemia/issues/3685)
+
+
+### :memo: Documentation
+
+* **forms:** add translations table ([#3693](https://github.com/dnbexperience/eufemia/issues/3693)) ([84605b7](https://github.com/dnbexperience/eufemia/commit/84605b70bd922bede930185aed7c981cf5ae2a48))
+* **Tabs:** fix the title of Tabs breakout example ([#3696](https://github.com/dnbexperience/eufemia/issues/3696)) ([7747e06](https://github.com/dnbexperience/eufemia/commit/7747e0639482a8541fe6013844b00375653cd1b9))
+* **Tabs:** improve property docs ([#3665](https://github.com/dnbexperience/eufemia/issues/3665)) ([7849cba](https://github.com/dnbexperience/eufemia/commit/7849cbac776b14bf0250843f160b593367457692))
+* update grid layout example without responsive sidebar ([#3709](https://github.com/dnbexperience/eufemia/issues/3709)) ([f4363c2](https://github.com/dnbexperience/eufemia/commit/f4363c260d0f6537fc457916625f6ed61c335a27))
+
 ## [10.35.0](https://github.com/dnbexperience/eufemia/compare/v10.34.1...v10.35.0) (2024-06-11)
 
 
