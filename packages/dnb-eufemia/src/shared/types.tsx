@@ -55,3 +55,8 @@ export type DeepPartial<T> = T extends object
       [K in keyof T]?: DeepPartial<T[K]>
     }
   : T
+
+/**
+ * The type of T, but all properties are optional
+ */
+export type Optional<T> = { [K in keyof T]?: T[K] }
