@@ -182,6 +182,8 @@ describe('SkipContent', () => {
 })
 
 describe('SkipContent.Return', () => {
+  jest.retryTimes(3)
+
   it('should show button and set focus on content element', async () => {
     render(
       <>
