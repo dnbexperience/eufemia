@@ -45,7 +45,7 @@ export type TableProps = {
   size?: TableSizes
 
   /**
-   * The style variant of the component.
+   * The style variant of the component. Currently not implemented.
    * Default: generic.
    */
   variant?: TableVariants

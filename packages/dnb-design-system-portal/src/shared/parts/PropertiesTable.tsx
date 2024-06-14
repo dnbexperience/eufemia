@@ -48,7 +48,7 @@ export const FormattedCode = ({
       case 'value': {
         style.color = children.startsWith(`'`)
           ? colorString
-          : children === 'undefined'
+          : children === 'undefined' || children === 'null'
           ? colorUndefined
           : colorValue
         // falls through

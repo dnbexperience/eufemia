@@ -48,7 +48,7 @@ export default class HeightAnimation {
     visibility: 'hidden',
     opacity: '0', // prevents before/after elements to be visible
     height: 'auto',
-  }
+  } as const
 
   constructor(opts: HeightAnimationOptions = {}) {
     this.isInBrowser = typeof window !== 'undefined'
