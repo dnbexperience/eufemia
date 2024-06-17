@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const accordionProperties: PropertiesTableProps = {
+export const AccordionProperties: PropertiesTableProps = {
   id: {
     doc: 'a unique `id` that will be used on the button element. If you use `remember_state`, an id is required.',
     type: 'string',
