@@ -324,7 +324,7 @@ describe('Accordion group component', () => {
 
     expect(first.className).not.toContain('--expanded')
     expect(second.className).not.toContain('--expanded')
-    expect(third.className).not.toContain('--expanded')
+    expect(third).not.toHaveClass('--expanded')
   })
 })
 
