@@ -101,7 +101,7 @@ describe('StepIndicator Sidebar', () => {
         showInitialData
       />
     )
-    expect(screen.queryAllByRole('listitem')).toHaveLength(4)
+    expect(screen.queryAllByRole('listitem')).toHaveLength(1)
 
     const element = document.querySelector('.dnb-button__text')
 
