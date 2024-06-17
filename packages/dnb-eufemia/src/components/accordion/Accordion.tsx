@@ -229,12 +229,11 @@ function Accordion({
     }
   }, [context.flush_remembered_state, context.expanded_id])
 
-  // Add callback for closing all accordions inside a group
-  if (
-    context?.collapseAccordionCallbacks &&
-    !hasAddedCallbackRef.current
-  ) {
-    context?.collapseAccordionCallbacks?.current.push(close)
+  // Add callback for closing all accordions inside a group if collapseAllHandleRef is defined
+  if (context?.collapseAllHandleRef && !hasAddedCallbackRef.current) {
+    context?.collapseAccordionCallbacks?.current.push(() =>
+      changeOpened(false)
+    )
     hasAddedCallbackRef.current = true
   }
 
@@ -307,7 +306,7 @@ function Accordion({
       event,
     })
   }
-
+  console.log('context', context)
   return (
     <Context.Consumer>
       {(globalContext) => (

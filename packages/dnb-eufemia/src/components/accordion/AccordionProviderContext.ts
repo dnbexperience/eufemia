@@ -15,6 +15,7 @@ type AccordionGroupContextProps = {
   onChange?: (...params: unknown[]) => void
   onInit?: (...args: any[]) => any
   collapseAccordionCallbacks?: React.MutableRefObject<(() => void)[]>
+  collapseAllHandleRef?: React.MutableRefObject<() => void>
 }
 
 const AccordionGroupContext =
