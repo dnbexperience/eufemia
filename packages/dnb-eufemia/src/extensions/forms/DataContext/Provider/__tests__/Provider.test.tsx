@@ -963,7 +963,7 @@ describe('DataContext.Provider', () => {
       render(
         <DataContext.Provider
           onSubmit={onSubmit}
-          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+          minimumAsyncBehaviorTime={30000} // with a high wait time, we ensure the Error will abort it
           asyncSubmitTimeout={1}
         >
           <Form.SubmitButton />
