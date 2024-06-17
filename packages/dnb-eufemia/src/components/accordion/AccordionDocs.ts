@@ -123,7 +123,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
 }
 
-export const accordionProviderGroupProperties: PropertiesTableProps = {
+export const AccordionProviderGroupProperties: PropertiesTableProps = {
   group: {
     doc: "define a unique id, it will be used to 'group' several accordions into one.",
     type: 'string',
@@ -146,7 +146,7 @@ export const accordionProviderGroupProperties: PropertiesTableProps = {
   },
 }
 
-export const accordionEvents: PropertiesTableProps = {
+export const AccordionEvents: PropertiesTableProps = {
   on_change: {
     doc: 'will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.',
     type: 'function',
