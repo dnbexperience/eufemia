@@ -3810,6 +3810,7 @@ __metadata:
     tar: "npm:6.1.11"
     traverse: "npm:0.6.6"
     typescript: "npm:5.2.2"
+    valibot: "npm:0.33.2"
     vd-tool: "npm:4.0.2"
     wait-on: "npm:6.0.0"
     what-input: "npm:5.2.10"
@@ -34977,6 +34978,13 @@ __metadata:
   dependencies:
     homedir-polyfill: "npm:^1.0.1"
   checksum: 4c88e2681f12153ae5e45de678ba724ebd2daf2619d4fbe5cc8075b07b2095522dbfd0cb55e510a1d27ea0ed0db4a5e6fc6d18d312f7d8fc098a3c6a79b7ffc6
+  languageName: node
+  linkType: hard
+
+"valibot@npm:0.33.2":
+  version: 0.33.2
+  resolution: "valibot@npm:0.33.2"
+  checksum: 41cb5ff2780e00c04a6ae2bc027188e543ab4c8924e92833f987f2baca19939aa82bc6d45c8b84f342898761f6a8901c3c662ce0ce0608b63862dfda1fef2fd6
   languageName: node
   linkType: hard
 
