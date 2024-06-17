@@ -317,7 +317,7 @@ export function AccordionCloseAllInGroup() {
       <Accordion.Group
         expanded
         allow_close_all
-        closeAllHandleRef={collapseAll}
+        collapseAllHandleRef={collapseAll}
       >
         <Accordion expanded>
           <Accordion.Header>Accordion title 1</Accordion.Header>

@@ -70,7 +70,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
     id: _id, // eslint-disable-line
     children, // eslint-disable-line
-    closeAllHandleRef,
+    collapseAllHandleRef,
 
     ...restOfExtendedProps
   } = extendedProps
@@ -78,14 +78,14 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   const collapseAccordionCallbacks = useRef<(() => void)[]>([])
 
   useEffect(() => {
-    if (closeAllHandleRef) {
-      closeAllHandleRef.current = () => {
+    if (collapseAllHandleRef) {
+      collapseAllHandleRef.current = () => {
         collapseAccordionCallbacks.current.forEach((callback) =>
           callback()
         )
       }
     }
-  }, [closeAllHandleRef])
+  }, [collapseAllHandleRef])
 
   const classes = classnames(
     'dnb-accordion-group',

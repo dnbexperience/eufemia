@@ -71,7 +71,7 @@ Accordion can be disabled, though is not exactly defined what the use case is.
 
 ### Close All Accordions In A Group
 
-You can collapse all expanded accordions by sending a ref to the `closeAllHandleRef` prop and calling the `.current()` function on your ref.
+You can collapse all expanded accordions by sending a ref to the `collapseAllHandleRef` prop and calling the `.current()` function on your ref.
 
 ```tsx
 const myCloseAllRef = React.useRef<() => void>()
@@ -81,7 +81,7 @@ return (
     Close all accordions
   </button>
 
-  <Accordion.Group closeAllHandleRef={myTableCollapseAll}>
+  <Accordion.Group collapseAllHandleRef={myTableCollapseAll}>
     {/* ... your accordions */}
   </Accordion.Group>
 )

@@ -279,13 +279,13 @@ describe('Accordion group component', () => {
   })
 
   it('should close all accordions inside a group with collapseAllHandleRef', () => {
-    const closeAll = React.createRef<() => void>()
+    const collapseAll = React.createRef<() => void>()
 
     render(
       <Accordion.Group
         expanded
         allow_close_all
-        closeAllHandleRef={closeAll}
+        collapseAllHandleRef={collapseAll}
       >
         <Accordion>
           <Accordion.Header>Accordion title 1</Accordion.Header>
