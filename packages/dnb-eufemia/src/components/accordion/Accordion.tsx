@@ -231,8 +231,8 @@ function Accordion({
 
   // Add callback for closing all accordions inside a group
   if (
-    !hasAddedCallbackRef.current &&
-    context?.collapseAccordionCallbacks
+    context?.collapseAccordionCallbacks &&
+    !hasAddedCallbackRef.current
   ) {
     context?.collapseAccordionCallbacks?.current.push(close)
     hasAddedCallbackRef.current = true
