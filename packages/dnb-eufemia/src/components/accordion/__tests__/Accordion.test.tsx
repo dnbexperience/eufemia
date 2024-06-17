@@ -316,15 +316,15 @@ describe('Accordion group component', () => {
       document.querySelectorAll('.dnb-accordion')
     )
 
-    expect(first.className).toContain('--expanded')
-    expect(second.className).toContain('--expanded')
-    expect(third).toHaveClass('--expanded')
+    expect(first).toHaveClass('dnb-accordion--expanded')
+    expect(second).toHaveClass('dnb-accordion--expanded')
+    expect(third).toHaveClass('dnb-accordion--expanded')
 
-    act(closeAll.current)
+    act(collapseAll.current)
 
-    expect(first.className).not.toContain('--expanded')
-    expect(second.className).not.toContain('--expanded')
-    expect(third).not.toHaveClass('--expanded')
+    expect(first).not.toHaveClass('dnb-accordion--expanded')
+    expect(second).not.toHaveClass('dnb-accordion--expanded')
+    expect(third).not.toHaveClass('dnb-accordion--expanded')
   })
 })
 
