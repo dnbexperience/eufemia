@@ -175,6 +175,7 @@ function Accordion({
   const [expanded, setExpanded] = useState<boolean>(
     getInitialExpandedState()
   )
+  const hasAddedCallbackRef = useRef<boolean>(false)
 
   // replacement for getDerivedStateFromProps
   if (props.expanded !== previousExpanded) {
@@ -227,6 +228,14 @@ function Accordion({
       setExpanded(true)
     }
   }, [context.flush_remembered_state, context.expanded_id])
+
+  // Add callback for closing all accordions inside a group if collapseAllHandleRef is defined
+  if (context?.collapseAllHandleRef && !hasAddedCallbackRef.current) {
+    context?.collapseAccordionCallbacks?.current.push(() =>
+      changeOpened(false)
+    )
+    hasAddedCallbackRef.current = true
+  }
 
   // Gets the initial expanded sate, to prevent the opening and closing of Accordion
   // That happens when if we put this logic in a useEffect that runs after the initial expanded state is set
@@ -297,7 +306,7 @@ function Accordion({
       event,
     })
   }
-
+  console.log('context', context)
   return (
     <Context.Consumer>
       {(globalContext) => (
@@ -427,6 +436,12 @@ Accordion.defaultProps = accordionDefaultProps
 
 export type GroupProps = AccordionProps & {
   allow_close_all?: boolean
+  /**
+   * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
+   *
+   * Default: `undefined`
+   */
+  collapseAllHandleRef?: React.MutableRefObject<() => void>
   expanded_id?: string
 }
 

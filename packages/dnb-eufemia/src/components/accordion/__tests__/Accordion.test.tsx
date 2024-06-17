@@ -10,7 +10,7 @@ import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '../../../icons'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, act } from '@testing-library/react'
 import MatchMediaMock from 'jest-matchmedia-mock'
 
 new MatchMediaMock()
@@ -276,6 +276,55 @@ describe('Accordion group component', () => {
       document.querySelector('#accordion-1 .dnb-accordion__header')
     )
     expect(my_event.mock.calls[2][0].expanded).toBe(true)
+  })
+
+  it('should close all accordions inside a group with collapseAllHandleRef', () => {
+    const collapseAll = React.createRef<() => void>()
+
+    render(
+      <Accordion.Group
+        expanded
+        allow_close_all
+        collapseAllHandleRef={collapseAll}
+      >
+        <Accordion>
+          <Accordion.Header>Accordion title 1</Accordion.Header>
+          <Accordion.Content>
+            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+            gravida himenaeos nostra mollis volutpat bibendum convallis cum
+            condimentum dictumst blandit rutrum vehicula
+          </Accordion.Content>
+        </Accordion>
+        <Accordion>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+            etiam
+          </Accordion.Content>
+        </Accordion>
+        <Accordion>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+            etiam
+          </Accordion.Content>
+        </Accordion>
+      </Accordion.Group>
+    )
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-accordion')
+    )
+
+    expect(first).toHaveClass('dnb-accordion--expanded')
+    expect(second).toHaveClass('dnb-accordion--expanded')
+    expect(third).toHaveClass('dnb-accordion--expanded')
+
+    act(collapseAll.current)
+
+    expect(first).not.toHaveClass('dnb-accordion--expanded')
+    expect(second).not.toHaveClass('dnb-accordion--expanded')
+    expect(third).not.toHaveClass('dnb-accordion--expanded')
   })
 })
 

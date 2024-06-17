@@ -2,8 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { AccordionEvents } from '@dnb/eufemia/src/components/accordion/AccordionDocs'
+
 ## Events
 
-| Events      | Description                                                                                                                                          |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`. |
+<PropertiesTable props={AccordionEvents} />
