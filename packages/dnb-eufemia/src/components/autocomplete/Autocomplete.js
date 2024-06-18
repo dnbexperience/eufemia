@@ -1713,7 +1713,7 @@ class AutocompleteInstance extends React.PureComponent {
     )
 
     return (
-      <AriaLive hidden={!IS_MAC} priority="hight" delay={0}>
+      <AriaLive hidden={!IS_MAC} priority="high" delay={0}>
         {currentDataItem && (
           <>
             {active_item === selected_item ? <>{selected_sr} </> : null}
@@ -2102,7 +2102,7 @@ class AutocompleteInstance extends React.PureComponent {
         {/* Add VoiceOver support to read the "selected" item */}
         {this.getVoiceOverActiveItem(selected_sr)}
 
-        <AriaLive priority="hight">{this.getAriaLiveUpdate()}</AriaLive>
+        <AriaLive priority="high">{this.getAriaLiveUpdate()}</AriaLive>
       </span>
     )
   }

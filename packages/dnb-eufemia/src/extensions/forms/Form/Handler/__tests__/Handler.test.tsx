@@ -582,7 +582,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler
           onSubmit={onSubmit}
-          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+          minimumAsyncBehaviorTime={30000} // with a high wait time, we ensure the Error will abort it
         >
           <Form.SubmitButton />
         </Form.Handler>
@@ -664,7 +664,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler
           onSubmit={onSubmit}
-          minimumAsyncBehaviorTime={30000} // with a hight wait time, we ensure the Error will abort it
+          minimumAsyncBehaviorTime={30000} // with a high wait time, we ensure the Error will abort it
           asyncSubmitTimeout={20}
         >
           <Form.SubmitButton />

@@ -3,130 +3,126 @@ import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
 import { Provider } from '../../../../../shared'
 
-describe('Value.Currency', () => {
+describe('Value.Date', () => {
   describe('props', () => {
     it('renders value', () => {
-      render(<Value.Currency value={42} />)
+      render(<Value.Date value="2023-01-16" />)
       expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('42,00 kr')
+        document.querySelector('.dnb-forms-value-block__content')
+          .textContent
+      ).toBe('16. januar 2023')
+    })
+
+    it('renders without value', () => {
+      expect(() => render(<Value.Date />)).not.toThrow()
+
+      render(<Value.Date />)
+      expect(document.body.textContent).toBe('')
     })
 
     it('renders label when showEmpty is true', () => {
       const { rerender } = render(
-        <Value.Currency label="Number label" showEmpty />
+        <Value.Date label="Date label" showEmpty />
       )
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Number label'
+        'Date label'
       )
 
-      rerender(<Value.Currency label="Number label" />)
+      rerender(<Value.Date label="Date label" />)
       expect(document.querySelector('.dnb-form-label')).toBeNull()
     })
 
     it('renders value and label', () => {
-      render(<Value.Currency label="Label" value={42} />)
+      render(<Value.Date label="Label" value="2023-01-16" />)
       expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('42')
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('16. januar 2023')
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
         'Label'
       )
     })
 
     it('renders placeholder', () => {
-      render(<Value.Currency placeholder="Enter some number" />)
+      render(<Value.Date placeholder="Enter some number" />)
       expect(screen.getByText('Enter some number')).toBeInTheDocument()
-    })
-
-    it('formats number', () => {
-      render(<Value.Currency value={-12345678} />)
-
-      expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('-12 345 678,00 kr')
     })
 
     it('renders gets value based on path', () => {
       render(
-        <Form.Handler data={{ myNumber: 1234 }}>
-          <Value.Currency path="/myNumber" />
+        <Form.Handler data={{ myDate: '2023-01-16' }}>
+          <Value.Date path="/myDate" />
         </Form.Handler>
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('1 234,00 kr')
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('16. januar 2023')
     })
 
-    it('formats with percent', () => {
-      render(<Value.Currency value={-12345} percent />)
+    it('formats with variant="short"', () => {
+      render(<Value.Date value="2023-01-16" variant="short" />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('−12 345 %')
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('16. jan. 2023')
     })
 
-    it('formats with percent and decimals', () => {
-      render(<Value.Currency value={-12345.6789} percent decimals={2} />)
+    it('should fall back to "toLocaleString" if "Intl" is not available', () => {
+      const intlBackup = globalThis.Intl
+      delete globalThis.Intl
+
+      render(<Value.Date value="2023-01-16" />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('−12 345,68 %')
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('16. januar 2023')
+      expect(window.Intl).toBeUndefined()
+
+      globalThis.Intl = intlBackup
     })
 
-    it('formats with currency and currencyDisplay', () => {
-      render(
-        <Value.Currency
-          value={-12345.6789}
-          currency
-          currencyPosition="before"
-          currencyDisplay="code"
-        />
-      )
+    describe('formats with different locale', () => {
+      it('given as prop', () => {
+        render(<Value.Date value="2023-01-16" locale="en-GB" />)
 
-      expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('NOK -12 345,68')
-    })
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16 January 2023')
+      })
 
-    it('formats currency with aria version', () => {
-      render(
-        <Value.Currency
-          value={-12345.6789}
-          currency
-          currencyPosition="before"
-          currencyDisplay="code"
-        />
-      )
+      it('formats with variant="short"', () => {
+        render(
+          <Value.Date value="2023-01-16" variant="short" locale="en-GB" />
+        )
 
-      expect(
-        document
-          .querySelector('.dnb-number-format .dnb-sr-only')
-          .getAttribute('data-text')
-      ).toBe('-12 345,68 kroner')
-    })
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16 Jan 2023')
+      })
 
-    it('formats with different locale', () => {
-      render(
-        <Provider locale="en-GB">
-          <Value.Currency
-            value={-12345.6789}
-            currency
-            currencyPosition="before"
-            currencyDisplay="name"
-          />
-        </Provider>
-      )
+      it('given by the Form.Handler context', () => {
+        render(
+          <Form.Handler locale="en-GB">
+            <Value.Date value="2023-01-16" />
+          </Form.Handler>
+        )
 
-      expect(
-        document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('kroner -12 345.68')
-      expect(
-        document
-          .querySelector('.dnb-number-format .dnb-sr-only')
-          .getAttribute('data-text')
-      ).toBe('-12 345.68 kroner')
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16 January 2023')
+      })
+
+      it('given by the shared context', () => {
+        render(
+          <Provider locale="en-GB">
+            <Value.Date value="2023-01-16" />
+          </Provider>
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16 January 2023')
+      })
     })
   })
 })
