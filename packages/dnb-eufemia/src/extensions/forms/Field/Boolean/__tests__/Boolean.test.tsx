@@ -3,6 +3,9 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DataContext, Field, Form } from '../../..'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {
@@ -697,6 +700,104 @@ describe('Field.Boolean', () => {
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
       })
+    })
+  })
+
+  describe('schema', () => {
+    it('should validate with schema and const', () => {
+      const booleanSchema = {
+        type: 'boolean',
+        const: true,
+      }
+
+      render(
+        <Field.Boolean
+          value={false}
+          schema={booleanSchema}
+          validateInitially
+        />
+      )
+
+      const formStatus = document.querySelector('.dnb-form-status')
+      expect(formStatus).toBeInTheDocument()
+      expect(formStatus).toHaveTextContent('must be equal to constant')
+    })
+
+    it('should validate with schema and enum', () => {
+      const booleanSchema = {
+        type: 'boolean',
+        enum: [true],
+      }
+
+      render(
+        <Field.Boolean
+          value={false}
+          schema={booleanSchema}
+          validateInitially
+        />
+      )
+
+      const formStatus = document.querySelector('.dnb-form-status')
+      expect(formStatus).toBeInTheDocument()
+      expect(formStatus).toHaveTextContent(
+        'must be equal to one of the allowed values'
+      )
+    })
+
+    it('should validate with schema given in context', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          myField: {
+            type: 'boolean',
+            const: true,
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema} data={{ myField: false }}>
+          <Field.Boolean path="/myField" validateInitially />
+        </Form.Handler>
+      )
+
+      const formStatus = document.querySelector('.dnb-form-status')
+      expect(formStatus).toBeInTheDocument()
+      expect(formStatus).toHaveTextContent('must be equal to constant')
+    })
+
+    it('should validate with schema interactively', async () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          myField: {
+            type: 'boolean',
+            const: true,
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema} data={{ myField: undefined }}>
+          <Field.Boolean required path="/myField" />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const formStatus = () => document.querySelector('.dnb-form-status')
+
+      fireEvent.submit(form)
+      expect(formStatus()).toBeInTheDocument()
+      expect(formStatus()).toHaveTextContent(nb.Field.errorRequired)
+
+      await userEvent.click(document.querySelector('input'))
+      expect(formStatus()).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('input'))
+
+      fireEvent.submit(form)
+      expect(formStatus()).toBeInTheDocument()
+      expect(formStatus()).toHaveTextContent('must be equal to constant')
     })
   })
 })
