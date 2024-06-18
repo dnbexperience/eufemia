@@ -13,6 +13,30 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Boolean path="/myState" />)
 ```
 
-### Indeterminate checkbox
+## Indeterminate checkbox
 
 Here is a indeterminate state (partially checked) [working example](/uilib/extensions/forms/base-fields/Indeterminate/).
+
+## Schema validation
+
+You can use a Ajv schema to validate the value with either `const` or `enum`.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const schema = {
+  type: 'object',
+  properties: {
+    myField: {
+      type: 'boolean',
+      const: true, // or enum: [true]
+    },
+  },
+}
+
+render(
+  <Form.Handler schema={schema} data={{ myField: false }}>
+    <Field.Boolean path="/myField" />
+  </Form.Handler>,
+)
+```
