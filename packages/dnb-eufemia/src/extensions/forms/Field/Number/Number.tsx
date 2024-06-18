@@ -19,6 +19,8 @@ import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import * as v from 'valibot'
+import { custom } from '../../utils/schema/valibot/useValibotSchemaValidator'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -83,15 +85,67 @@ function NumberComponent(props: Props) {
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'number',
-        minimum: props.minimum,
-        maximum: props.maximum,
-        exclusiveMinimum: props.exclusiveMinimum,
-        exclusiveMaximum: props.exclusiveMaximum,
-        multipleOf: props.multipleOf,
-      },
+    () => {
+      return (
+        props.schema ??
+        v.pipe(
+          v.number(),
+          typeof props.minimum === 'number'
+            ? v.minValue(props.minimum)
+            : v.number(),
+          typeof props.maximum === 'number'
+            ? v.maxValue(props.maximum)
+            : v.number(),
+          typeof props.exclusiveMinimum === 'number'
+            ? custom((value: number) => value > props.exclusiveMinimum, {
+                type: 'exclusive_minimum',
+                requirement: props.exclusiveMinimum,
+              })
+            : // context, label, dataset, config2, other
+              // v.rawCheck(({ dataset, addIssue }) => {
+              //   if (
+              //     dataset.typed &&
+              //     dataset.value > props.exclusiveMinimum
+              //   ) {
+              //     addIssue({
+              //       type: 'exclusive_minimum',
+              //       requirement: props.exclusiveMinimum,
+              //     })
+              //   }
+              // })
+              v.number(),
+          typeof props.exclusiveMaximum === 'number'
+            ? custom((value: number) => value < props.exclusiveMaximum, {
+                type: 'exclusive_maximum',
+                requirement: props.exclusiveMaximum,
+              })
+            : // v.rawCheck(({ dataset, addIssue }) => {
+              //   if (
+              //     dataset.typed &&
+              //     dataset.value < props.exclusiveMaximum
+              //   ) {
+              //     addIssue({
+              //       type: 'exclusive_maximum',
+              //       requirement: props.exclusiveMaximum,
+              //     })
+              //   }
+              // })
+              v.number(),
+          typeof props.multipleOf === 'number'
+            ? v.multipleOf(props.multipleOf)
+            : v.number()
+        )
+      )
+    },
+    // () =>
+    //   props.schema ?? {
+    //     type: 'number',
+    //     minimum: props.minimum,
+    //     maximum: props.maximum,
+    //     exclusiveMinimum: props.exclusiveMinimum,
+    //     exclusiveMaximum: props.exclusiveMaximum,
+    //     multipleOf: props.multipleOf,
+    //   },
     [
       props.schema,
       props.minimum,

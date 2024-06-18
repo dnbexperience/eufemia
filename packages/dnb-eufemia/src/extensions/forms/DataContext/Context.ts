@@ -1,5 +1,6 @@
 import React from 'react'
-import { Ajv, makeAjvInstance } from '../utils/ajv'
+import { Ajv } from '../utils/schema/ajv/ajv'
+
 import {
   AllJSONSchemaVersions,
   CustomErrorMessagesWithPaths,
@@ -117,7 +118,7 @@ export interface ContextState {
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState
-  ajvInstance: Ajv
+  ajvInstance?: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
   disabled?: boolean
@@ -155,7 +156,6 @@ export const defaultContextState: ContextState = {
   hasFieldError: () => false,
   setFieldState: () => null,
   setFieldError: () => null,
-  ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
   isInsideFormElement: false,
   props: null,

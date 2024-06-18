@@ -1510,7 +1510,7 @@ describe('DataContext.Provider', () => {
          *
          * The slower the performance, the higher the timeout needs to be.
          */
-        await wait(60)
+        await wait(40)
         if (value !== 'valid') {
           return Error(`value: ${value}`)
         }
@@ -2185,7 +2185,6 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider>
           <Field.String
             label="Field 1"
-            path="/foo"
             errorMessages={{
               required: 'Required string',
             }}
@@ -2275,9 +2274,9 @@ describe('DataContext.Provider', () => {
           </DataContext.Provider>
         )
 
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern provider error'
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('pattern provider error')
       })
 
       it('should display custom pattern error message from provider with json pointer', () => {
@@ -2299,9 +2298,9 @@ describe('DataContext.Provider', () => {
           </DataContext.Provider>
         )
 
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern provider myKey error'
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('pattern provider myKey error')
       })
 
       it('should display custom pattern error message from field', () => {
@@ -2326,9 +2325,9 @@ describe('DataContext.Provider', () => {
           </DataContext.Provider>
         )
 
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern field error'
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('pattern field error')
       })
 
       it('should interact with GlobalStatus', async () => {
@@ -2781,7 +2780,7 @@ describe('DataContext.Provider', () => {
 
       expect(log).toHaveBeenNthCalledWith(
         1,
-        'The field value (original) type must be number'
+        'The field at path="/foo" value (original) type must be number'
       )
       expect(log).toHaveBeenNthCalledWith(
         2,

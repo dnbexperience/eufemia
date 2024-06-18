@@ -342,6 +342,8 @@ describe('Field.Number', () => {
       })
 
       it('allow empty string as emptyValue', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
+
         render(
           <Form.Handler schema={schema} data={data}>
             <Field.Number path="/myFieldWithEmptyString" />
@@ -353,9 +355,13 @@ describe('Field.Number', () => {
 
         const statuses = document.querySelectorAll('.dnb-form-status')
         expect(statuses).toHaveLength(0)
+
+        log.mockRestore()
       })
 
       it('allow empty string as empty value', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
+
         render(
           <Form.Handler schema={schema} data={data}>
             <Field.Number path="/myFieldWithEmptyString" />
@@ -367,6 +373,8 @@ describe('Field.Number', () => {
 
         const statuses = document.querySelectorAll('.dnb-form-status')
         expect(statuses).toHaveLength(0)
+
+        log.mockRestore()
       })
 
       it('allow null as empty value', () => {
@@ -388,7 +396,10 @@ describe('Field.Number', () => {
 
         render(
           <Form.Handler schema={schema} data={data}>
-            <Field.Number path="/myFieldWitInvalidType" />
+            <Field.Number
+              path="/myFieldWitInvalidType"
+              validateInitially
+            />
           </Form.Handler>
         )
 
@@ -397,7 +408,7 @@ describe('Field.Number', () => {
 
         const status = document.querySelector('.dnb-form-status')
         expect(status).toHaveTextContent(
-          'The field value (foo) type must be number'
+          'The field at path="/myFieldWitInvalidType" value (foo) type must be number'
         )
 
         log.mockRestore()

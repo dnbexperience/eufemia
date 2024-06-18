@@ -1,7 +1,14 @@
 import React from 'react'
-import { Field, Form, JSONSchema } from '../../..'
-import { Flex } from '../../../../../components'
+import {
+  Field,
+  Form,
+  JSONSchema,
+  ajvSchema,
+  valibotSchema,
+} from '../../..'
+import { Flex, Hr } from '../../../../../'
 import Provider from '../Provider'
+import * as v from 'valibot'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Provider',
@@ -166,4 +173,135 @@ function replaceUndefinedValues(
   } else {
     return value
   }
+}
+
+// const schemaV = valibotSchema(
+//   v.object({
+//     myObj: v.required(
+//       v.object({
+//         key1: v.optional(
+//           v.pipe(v.string(), v.nonEmpty('requiredMessage'))
+//         ),
+//         key2: v.optional(v.number()),
+//         key3: v.optional(v.boolean()),
+//       }),
+//       ['key1', 'key2', 'key3'],
+//       'requiredMessage'
+//     ),
+//   })
+// )
+
+const schemaV = valibotSchema(
+  v.object({
+    myObj: v.object({
+      key1: v.pipe(v.string(), v.nonEmpty()),
+      key2: v.number(),
+      key3: v.pipe(v.boolean(), v.value(true, 'custom message')),
+    }),
+  })
+)
+const schemaBooleanV = valibotSchema(
+  v.pipe(v.boolean(), v.value(true, 'custom message'))
+)
+
+const schemaA = ajvSchema({
+  type: 'object',
+  properties: {
+    myObj: {
+      type: 'object',
+      properties: {
+        key1: {
+          type: 'string',
+        },
+        key2: {
+          type: 'number',
+        },
+        key3: {
+          type: 'boolean',
+          const: true,
+          // errorMessage: 'Your message',
+        },
+      },
+      required: ['key1', 'key2', 'key3'],
+    },
+  },
+})
+const schemaBooleanA = ajvSchema({
+  type: 'boolean',
+  const: true,
+})
+
+export const SchemaValidators = () => {
+  return (
+    <Flex.Stack>
+      {/* <Form.Handler
+        // schema={schemaA}
+        data={{
+          myObj: {
+            key1: '',
+            key2: undefined,
+            key3: false,
+          },
+        }}
+      >
+        <Flex.Stack>
+          <Field.String
+            label="key1"
+            path="/myObj/key1"
+            // validateInitially
+          />
+          <Field.Number
+            label="key2"
+            path="/myObj/key2"
+            // validateInitially
+          />
+          <Field.Boolean
+            label="key3"
+            path="/myObj/key3"
+            schema={schemaBooleanA}
+            validateInitially
+          />
+          <Form.SubmitButton />
+        </Flex.Stack>
+      </Form.Handler> */}
+
+      <Hr />
+
+      <Form.Handler
+        // schema={schemaV}
+        data={{
+          myObj: {
+            key1: '',
+            // key2: 'test',
+            key2: undefined,
+            key3: false,
+          },
+        }}
+      >
+        <Flex.Stack>
+          <Field.String
+            label="key1"
+            path="/myObj/key1"
+            validateInitially
+            minLength={2}
+          />
+          <Field.Number
+            label="key2"
+            path="/myObj/key2"
+            // value={3}
+            // exclusiveMinimum={4}
+            // exclusiveMaximum={2}
+            validateInitially
+          />
+          <Field.Boolean
+            label="key3"
+            path="/myObj/key3"
+            // schema={schemaBooleanV}
+            // validateInitially
+          />
+          <Form.SubmitButton />
+        </Flex.Stack>
+      </Form.Handler>
+    </Flex.Stack>
+  )
 }

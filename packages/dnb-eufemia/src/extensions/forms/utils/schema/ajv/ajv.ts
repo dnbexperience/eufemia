@@ -1,7 +1,7 @@
 import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
 import pointer from 'json-pointer'
-import { FormError, Path } from '../types'
+import { FormError, Path } from '../../../types'
 import type Ajv from 'ajv/dist/2020'
 
 export type AjvInstance = typeof ajvInstance
@@ -154,10 +154,10 @@ export function ajvErrorsToOneFormError(
  * @param data - The data object being validated.
  * @returns The converted form errors as a record of path and form error pairs.
  */
-export const ajvErrorsToFormErrors = (
+export function ajvErrorsToFormErrors<Data = Record<Path, unknown>>(
   errors?: ErrorObject[] | null,
-  data?: Record<Path, unknown>
-): Record<string, FormError> => {
+  data?: Data
+): Record<string, FormError> {
   return (errors ?? []).reduce((errors, ajvError) => {
     const path = getInstancePath(ajvError)
     const error = ajvErrorsTransformation(ajvError, data, path)

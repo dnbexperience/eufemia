@@ -8,7 +8,7 @@ import {
   ajvErrorsToOneFormError,
   ajvErrorsToFormErrors,
 } from '../ajv'
-import { FormError } from '../../types'
+import { FormError } from '../../../../types'
 
 describe('makeAjvInstance', () => {
   it('should return a new Ajv instance', () => {

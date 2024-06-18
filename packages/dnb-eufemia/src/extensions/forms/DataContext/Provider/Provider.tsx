@@ -7,12 +7,7 @@ import React, {
   useContext,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
-import { ValidateFunction } from 'ajv/dist/2020'
-import {
-  Ajv,
-  makeAjvInstance,
-  ajvErrorsToFormErrors,
-} from '../../utils/ajv'
+import { Ajv } from '../../utils/schema/ajv/ajv'
 import {
   FormError,
   CustomErrorMessagesWithPaths,
@@ -25,11 +20,11 @@ import {
   OnChange,
   EventReturnWithStateObject,
   ValueProps,
+  SchemaValidatorProps,
+  SchemaCallback,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Form/FieldProps'
-import useMountEffect from '../../../../shared/helpers/useMountEffect'
-import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 import { ContextProps } from '../../../../shared/Context'
@@ -40,6 +35,11 @@ import Context, {
   FilterData,
   TransformData,
 } from '../Context'
+import { useValibotSchemaValidator } from '../../utils/schema/valibot/useValibotSchemaValidator'
+import {
+  isAjvSchema,
+  useAjvSchemaValidator,
+} from '../../utils/schema/ajv/useAjvSchemaValidator'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -71,10 +71,11 @@ export interface Props<Data extends JsonObject> {
   /**
    * JSON Schema to validate the data against.
    */
-  schema?: AllJSONSchemaVersions<Data>
-  /**
-   * Custom Ajv instance, if you want to use your own
-   */
+  schema?:
+    | SchemaCallback<Data>
+    /** @deprecated Use `ajvSchema(schema)` instead */
+    | AllJSONSchemaVersions<Data>
+  /** @deprecated Use `ajvSchema(schema, ajvInstance)` instead */
   ajvInstance?: Ajv
   /**
    * Custom error messages for the whole data set
@@ -177,7 +178,7 @@ export default function Provider<Data extends JsonObject>(
     globalStatusId = 'main',
     defaultData,
     data,
-    schema,
+    schema: schemaProp,
     onChange,
     onPathChange,
     onSubmit,
@@ -214,9 +215,6 @@ export default function Provider<Data extends JsonObject>(
 
   // - Locale
   const translation = useTranslation().Field
-
-  // - Ajv
-  const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
 
   // - Paths
   const mountedFieldPathsRef = useRef<Path[]>([])
@@ -271,33 +269,51 @@ export default function Provider<Data extends JsonObject>(
   }, [])
   const internalDataRef = useRef<Data>(initialData)
 
-  // - Validator
-  const ajvValidatorRef = useRef<ValidateFunction>()
-  const executeAjvValidator = useCallback(() => {
-    if (!ajvValidatorRef.current) {
-      // No schema-based validator. Assume data is valid.
-      return
-    }
+  // - Schema validation
+  const {
+    schema,
+    schemaValidator = useValibotSchemaValidator,
+    ...schemaParams
+  } = typeof schemaProp === 'function'
+    ? schemaProp()
+    : { schema: schemaProp }
 
-    if (!ajvValidatorRef.current?.(internalDataRef.current)) {
-      // Errors found
-      errorsRef.current = ajvErrorsToFormErrors(
-        ajvValidatorRef.current.errors,
-        internalDataRef.current
-      )
-    } else {
-      errorsRef.current = undefined
-    }
-  }, [])
+  const setErrors: SchemaValidatorProps<Data>['setErrors'] = useCallback(
+    (errors) => {
+      errorsRef.current = errors
+      forceUpdate()
+    },
+    []
+  )
+
+  // @deprecated legacy Ajv fallback support – will be removed in v11
+  const { executeSchemaValidator: executeAjvSchemaValidator } =
+    useAjvSchemaValidator({
+      schema,
+      setErrors,
+      dataRef: internalDataRef,
+      ajvInstance,
+      ...schemaParams,
+    })
+  const useSchemaValidator = schemaValidator
+  const { executeSchemaValidator: executeInternalSchemaValidator } =
+    useSchemaValidator({
+      schema,
+      setErrors,
+      errorMessages: contextErrorMessages,
+      dataRef: internalDataRef,
+      ...schemaParams,
+    })
+  const executeSchemaValidator = isAjvSchema(schema)
+    ? executeAjvSchemaValidator
+    : executeInternalSchemaValidator
+
   const validateData = useCallback(() => {
-    if (!ajvValidatorRef.current) {
-      // No schema-based validator. Assume data is valid.
-      return
+    if (schema) {
+      executeSchemaValidator()
+      forceUpdate()
     }
-
-    executeAjvValidator()
-    forceUpdate()
-  }, [executeAjvValidator])
+  }, [executeSchemaValidator, schema])
 
   // - Error handling
   const checkFieldStateFor = useCallback(
@@ -517,7 +533,7 @@ export default function Provider<Data extends JsonObject>(
 
   const cacheRef = useRef({
     data,
-    schema,
+    schema: undefined,
     shared: sharedData.data,
     hasUsedInitialData: false,
   })
@@ -584,12 +600,6 @@ export default function Provider<Data extends JsonObject>(
       extendSharedData?.(initialData)
     }
   }, [id, initialData, extendSharedData, sharedData.data])
-
-  useMemo(() => {
-    executeAjvValidator()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [internalDataRef.current]) // run validation when internal data has changed
 
   useLayoutEffect(() => {
     if (id) {
@@ -734,7 +744,7 @@ export default function Provider<Data extends JsonObject>(
 
       showAllErrorsRef.current = false
 
-      validateData()
+      executeSchemaValidator()
 
       const data = internalDataRef.current as Data
       const transformedData = transformOut
@@ -760,7 +770,7 @@ export default function Provider<Data extends JsonObject>(
       mutateDataHandler,
       onChange,
       transformOut,
-      validateData,
+      executeSchemaValidator,
     ]
   )
 
@@ -1014,24 +1024,21 @@ export default function Provider<Data extends JsonObject>(
     onSubmitContinueRef.current = null
   }
 
-  // - ajv validator routines
-  useMountEffect(() => {
-    if (schema) {
-      ajvValidatorRef.current = ajvRef.current?.compile(schema)
-    }
-
-    // Validate the initial data
-    validateData()
-  })
-  useUpdateEffect(() => {
+  useMemo(() => {
+    executeSchemaValidator()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    executeSchemaValidator,
+    internalDataRef.current, // run validation when internal data has changed
+  ])
+  useEffect(() => {
     if (schema && schema !== cacheRef.current.schema) {
       cacheRef.current.schema = schema
-      ajvValidatorRef.current = ajvRef.current?.compile(schema)
 
-      validateData()
+      executeSchemaValidator()
       forceUpdate()
     }
-  }, [schema, validateData, forceUpdate])
+  }, [schema, executeSchemaValidator, forceUpdate])
 
   const onTimeout = useCallback(() => {
     setFormState(undefined)
@@ -1101,7 +1108,7 @@ export default function Provider<Data extends JsonObject>(
           Object.keys(hasVisibleErrorRef.current).length > 0,
         fieldPropsRef,
         valuePropsRef,
-        ajvInstance: ajvRef.current,
+        ajvInstance,
 
         /** Additional */
         id,

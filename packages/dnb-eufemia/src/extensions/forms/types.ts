@@ -1,9 +1,11 @@
+import { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
-import type { JSONSchemaType } from 'ajv/dist/2020'
+import type { default as Ajv, JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject } from 'json-pointer'
-import { AriaAttributes } from 'react'
+import { BaseIssue, BaseSchema } from 'valibot'
 
+export type { Ajv }
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
 export type AllJSONSchemaVersionsBasis<DataType> =
@@ -11,6 +13,7 @@ export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchema6
   | JSONSchema7
   | JSONSchemaType<DataType>
+  | BaseSchema<unknown, unknown, BaseIssue<unknown>>
 export type AllJSONSchemaVersions<DataType = unknown> =
   | AllJSONSchemaVersionsBasis<DataType>
 
@@ -19,6 +22,27 @@ export type AllJSONSchemaVersions<DataType = unknown> =
       required?: readonly string[]
     })
 export { JSONSchemaType }
+
+export type SchemaCallback<Data> = () => {
+  schema: AllJSONSchemaVersions<Data>
+  schemaValidator: SchemaValidator<Data>
+}
+
+export type SchemaValidatorProps<Data> = {
+  schema: unknown
+  path?: Path
+  dataRef: React.MutableRefObject<Data>
+  errorMessages?: CustomErrorMessages | CustomErrorMessagesWithPaths
+  setErrors?: (errors: Record<Path, Error>) => void
+  ajvInstance?: Ajv
+}
+export type SchemaValidatorReturn = {
+  errors: Record<Path, Error>
+  executeSchemaValidator: () => Record<Path, Error>
+}
+export type SchemaValidator<Data> = (
+  props: SchemaValidatorProps<Data>
+) => SchemaValidatorReturn
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
 type MessageValues = Record<string, string>
@@ -247,7 +271,10 @@ export interface UseFieldProps<
 
   // - Validation
   required?: boolean
-  schema?: AllJSONSchemaVersions<Value>
+  schema?:
+    | SchemaCallback<Value>
+    /** @deprecated Use `ajvSchema(schema)` instead */
+    | AllJSONSchemaVersions<Value>
   validator?: (
     value: Value | EmptyValue,
     errorMessages?: ErrorMessages

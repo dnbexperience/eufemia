@@ -5,16 +5,25 @@ function App() {
   return (
     <>
       {/* <Button>Test</Button> */}
-      <Value.String value="foo" />
-      {/* <Form.Handler>
+      <Form.Handler>
         <Flex.Stack>
           <Card stack>
-            <Field.String label="String" value="foo"></Field.String>
-            <Field.Number label="Number" value={123}></Field.Number>
+            <Value.String value="foo" />
+            <Field.String
+              label="String"
+              // value="foo"
+              // required
+              // minLength={2}
+            />
+            {/* <Field.Number
+              label="Number"
+              // required
+              // value={123}
+            /> */}
           </Card>
           <Form.SubmitButton />
         </Flex.Stack>
-      </Form.Handler> */}
+      </Form.Handler>
     </>
   )
 }

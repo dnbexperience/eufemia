@@ -8,9 +8,7 @@ import {
   AriaAttributes,
 } from 'react'
 import pointer from 'json-pointer'
-import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
-import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
   FormError,
   FieldProps,
@@ -39,6 +37,11 @@ import {
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
+import { useValibotSchemaValidator } from '../utils/schema/valibot/useValibotSchemaValidator'
+import {
+  isAjvSchema,
+  useAjvSchemaValidator,
+} from '../utils/schema/ajv/useAjvSchemaValidator'
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -97,7 +100,7 @@ export default function useFieldProps<
     onChange,
     onBlurValidator,
     validator,
-    schema,
+    schema: schemaProp,
     validateInitially,
     validateUnchanged,
     continuousValidation,
@@ -193,6 +196,15 @@ export default function useFieldProps<
   const changedRef = useRef<boolean>(false)
   const hasFocusRef = useRef<boolean>(false)
 
+  // - Schema validation
+  const {
+    schema,
+    schemaValidator = useValibotSchemaValidator,
+    ...schemaParams
+  } = typeof schemaProp === 'function'
+    ? schemaProp()
+    : { schema: schemaProp }
+
   const required = useMemo(() => {
     if (requiredProp) {
       return requiredProp
@@ -220,7 +232,7 @@ export default function useFieldProps<
       if (
         paths
           .filter(Boolean)
-          .some((p) => collected.some((c) => c.includes(p)))
+          .some((p) => collected.some((c) => c.includes?.(p)))
       ) {
         return true
       }
@@ -247,6 +259,15 @@ export default function useFieldProps<
     dataContextError
   )
 
+  // Needs to be placed before "prepareError"
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: translation.Field.errorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, translation.Field.errorRequired])
+
   const validatorRef = useRef(validator)
   useUpdateEffect(() => {
     validatorRef.current = validator
@@ -256,18 +277,45 @@ export default function useFieldProps<
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
 
-  const schemaValidatorRef = useRef<ValidateFunction>(
-    schema ? dataContext.ajvInstance?.compile(schema) : undefined
-  )
+  // - Schema validation
+  // @deprecated legacy Ajv fallback support – will be removed in v11
+  const { executeSchemaValidator: executeAjvSchemaValidator } =
+    useAjvSchemaValidator({
+      schema,
+      dataRef: valueRef,
+      ajvInstance: dataContext.ajvInstance,
+      ...schemaParams,
+    })
+  const useSchemaValidator = schemaValidator
+  const { executeSchemaValidator: executeInternalSchemaValidator } =
+    useSchemaValidator({
+      schema,
+      path,
+      dataRef: valueRef,
+      errorMessages: errorMessagesRef.current,
+      ...schemaParams,
+    })
+  const executeSchemaValidator = isAjvSchema(schema)
+    ? executeAjvSchemaValidator
+    : executeInternalSchemaValidator
 
-  // Needs to be placed before "prepareError"
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
+  // TODO: remove this if not needed
+  // useMemo(() => {
+  //   // executeSchemaValidator()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   executeSchemaValidator,
+  //   valueRef.current, // run validation when internal value has changed
+  // ])
+  // const cacheRef = useRef(undefined)
+  // useEffect(() => {
+  //   if (schema && schema !== cacheRef.current) {
+  //     cacheRef.current = schema
+
+  //     // executeSchemaValidator()
+  //     // forceUpdate()
+  //   }
+  // }, [schema, executeSchemaValidator, forceUpdate])
 
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
@@ -632,17 +680,11 @@ export default function useFieldProps<
       }
 
       // Validate by provided JSON Schema for this value
-      if (
-        schemaValidatorRef.current &&
-        value !== undefined &&
-        !schemaValidatorRef.current(value) &&
-        !prioritizeContextSchema
-      ) {
-        const error = ajvErrorsToOneFormError(
-          schemaValidatorRef.current.errors,
-          valueRef.current
-        )
-        throw error
+      if (schema && value !== undefined && !prioritizeContextSchema) {
+        const errors = executeSchemaValidator()
+        if (errors) {
+          throw errors[Object.keys(errors)[0]]
+        }
       }
 
       // Validate by provided derivative validator
@@ -677,8 +719,10 @@ export default function useFieldProps<
     emptyValue,
     requiredProp,
     required,
+    schema,
     prioritizeContextSchema,
     validateInitially,
+    executeSchemaValidator,
     callValidator,
     persistErrorState,
   ])
@@ -1070,9 +1114,6 @@ export default function useFieldProps<
   })
 
   useUpdateEffect(() => {
-    schemaValidatorRef.current = schema
-      ? dataContext.ajvInstance?.compile(schema)
-      : undefined
     validateValue()
   }, [schema, validateValue])
 

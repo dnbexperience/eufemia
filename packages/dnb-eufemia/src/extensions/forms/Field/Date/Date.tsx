@@ -12,6 +12,7 @@ import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import * as v from 'valibot'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -28,11 +29,16 @@ function DateComponent(props: Props) {
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
+    () => {
+      return (
+        props.schema ?? v.pipe(v.string(), v.regex(RegExp(props.pattern)))
+      )
+    },
+    // () =>
+    //   props.schema ?? {
+    //     type: 'string',
+    //     pattern: props.pattern,
+    //   },
     [props.schema, props.pattern]
   )
 
