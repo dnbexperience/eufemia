@@ -450,7 +450,13 @@ export function toCapitalized(str) {
   return typeof str === 'string'
     ? str
         .toLowerCase()
-        .replace(/(?<=(^|\s|-))(.)/g, (l) => l.toUpperCase())
+        .split('')
+        .map((char, index, arr) =>
+          index === 0 || arr[index - 1] === ' ' || arr[index - 1] === '-'
+            ? char.toUpperCase()
+            : char
+        )
+        .join('')
     : str
 }
 
