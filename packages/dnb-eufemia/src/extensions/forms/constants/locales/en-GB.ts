@@ -131,4 +131,4 @@ export default {
       ariaLabelHide: 'Hide password',
     },
   },
-}
+} as const

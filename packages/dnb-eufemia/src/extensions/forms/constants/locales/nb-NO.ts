@@ -130,4 +130,4 @@ export default {
       ariaLabelHide: 'Skjul passord',
     },
   },
-}
+} as const

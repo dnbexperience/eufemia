@@ -11,4 +11,4 @@ export default {
       errorPattern: 'This is not a valid organization number.',
     },
   },
-}
+} as const
