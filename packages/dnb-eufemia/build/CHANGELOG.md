@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.37.0](https://github.com/dnbexperience/eufemia/compare/v10.36.0...v10.37.0) (2024-06-18)
+
+
+### :sparkles: Features
+
+* **Accordion:** close all `Accordions` in `Accordion.Group` ([#3712](https://github.com/dnbexperience/eufemia/issues/3712)) ([2db669f](https://github.com/dnbexperience/eufemia/commit/2db669f8a6aea1add012bb4ba35ba9cc867535f4))
+
+
+### :bug: Bug Fixes
+
+* **forms:** use corrct date formatting for Value.Date ([#3715](https://github.com/dnbexperience/eufemia/issues/3715)) ([5029f43](https://github.com/dnbexperience/eufemia/commit/5029f435d297fe549c7bff97324a96dc69a51176)), closes [#3711](https://github.com/dnbexperience/eufemia/issues/3711)
+* **StepIndicator:** lower flickering for when there are less than 4 steps ([#3713](https://github.com/dnbexperience/eufemia/issues/3713)) ([8e14587](https://github.com/dnbexperience/eufemia/commit/8e14587f4a9b5fc5fed854dc9aa365c88ada23b8))
+* **toCapitalized:** remove lookbehind regular expression in order to support iOS Safari <v16  ([#3721](https://github.com/dnbexperience/eufemia/issues/3721)) ([eb53409](https://github.com/dnbexperience/eufemia/commit/eb53409bfb15c68b8e2ae121b43d36f9d8494172))
+
 ## [10.36.0](https://github.com/dnbexperience/eufemia/compare/v10.35.0...v10.36.0) (2024-06-14)
 
 
