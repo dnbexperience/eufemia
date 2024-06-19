@@ -12,6 +12,7 @@ import {
 } from '../../../icons'
 import { render, fireEvent, act } from '@testing-library/react'
 import MatchMediaMock from 'jest-matchmedia-mock'
+import userEvent from '@testing-library/user-event'
 
 new MatchMediaMock()
 
@@ -464,6 +465,58 @@ describe('Accordion container component', () => {
         .querySelector('.dnb-accordion-group--single-container')
         .getAttribute('style')
     ).toBe('transition-duration: 1ms; min-height: 6rem;')
+  })
+
+  it.only('should allow all accordions inside a group to be expanded at the same time', async () => {
+    render(
+      <Accordion.Group allowAllExpanded>
+        <Accordion>
+          <Accordion.Header>Accordion title 1</Accordion.Header>
+          <Accordion.Content>
+            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+            gravida himenaeos nostra mollis volutpat bibendum convallis cum
+            condimentum dictumst blandit rutrum vehicula
+          </Accordion.Content>
+        </Accordion>
+        <Accordion>
+          <Accordion.Header>Accordion title 2</Accordion.Header>
+          <Accordion.Content>
+            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+            etiam
+          </Accordion.Content>
+        </Accordion>
+        <Accordion>
+          <Accordion.Header>Accordion title 3</Accordion.Header>
+          <Accordion.Content>
+            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+            etiam
+          </Accordion.Content>
+        </Accordion>
+      </Accordion.Group>
+    )
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-accordion__header')
+    )
+
+    expect(first).toHaveAttribute('aria-expanded', 'false')
+    expect(second).toHaveAttribute('aria-expanded', 'false')
+    expect(third).toHaveAttribute('aria-expanded', 'false')
+
+    await userEvent.click(first)
+    expect(first).toHaveAttribute('aria-expanded', 'true')
+    expect(second).toHaveAttribute('aria-expanded', 'false')
+    expect(third).toHaveAttribute('aria-expanded', 'false')
+
+    await userEvent.click(second)
+    expect(first).toHaveAttribute('aria-expanded', 'true')
+    expect(second).toHaveAttribute('aria-expanded', 'true')
+    expect(third).toHaveAttribute('aria-expanded', 'false')
+
+    await userEvent.click(third)
+    expect(first).toHaveAttribute('aria-expanded', 'true')
+    expect(second).toHaveAttribute('aria-expanded', 'true')
+    expect(third).toHaveAttribute('aria-expanded', 'true')
   })
 })
 
