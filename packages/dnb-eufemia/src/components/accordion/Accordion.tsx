@@ -228,13 +228,17 @@ function Accordion({
     if (context?.expanded_id && context.expanded_id === props.id) {
       setExpanded(true)
     }
-  }, [context.flush_remembered_state, context.expanded_id])
+  }, [
+    context.flush_remembered_state,
+    context.expanded_id,
+    props.expanded,
+    props.id,
+    store,
+  ])
 
   // Add callback for closing all accordions inside a group if collapseAllHandleRef is defined
   if (context?.collapseAllHandleRef && !hasAddedCallbackRef.current) {
-    context?.collapseAccordionCallbacks?.current.push(() =>
-      changeOpened(false)
-    )
+    context?.collapseAccordionCallbacks?.current.push(close)
     hasAddedCallbackRef.current = true
   }
 
@@ -442,11 +446,16 @@ export type GroupProps = AccordionProps & {
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
   expanded_id?: string
+  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  /**
+   * Allows for multiple accordions inside a group to be expanded at the same time
+   * Defaults: `false`
+   */
+  allowAllExpanded?: boolean
 }
 
-const Group = (props: GroupProps) => {
+const Group = ({ allowAllExpanded = false, ...props }: GroupProps) => {
   if (props.remember_state && !props.id) {
     rememberWarning('accordion group')
   }
@@ -514,6 +523,7 @@ const Group = (props: GroupProps) => {
       onInit={onInit}
       {...props}
       group={group}
+      allowAllExpanded={allowAllExpanded}
       expanded_id={expandedId || props.expanded_id}
     />
   )
