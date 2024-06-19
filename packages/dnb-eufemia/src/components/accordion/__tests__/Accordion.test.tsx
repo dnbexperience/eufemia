@@ -467,7 +467,7 @@ describe('Accordion container component', () => {
     ).toBe('transition-duration: 1ms; min-height: 6rem;')
   })
 
-  it.only('should allow all accordions inside a group to be expanded at the same time', async () => {
+  it('should allow all accordions inside a group to be expanded at the same time', async () => {
     render(
       <Accordion.Group allowAllExpanded>
         <Accordion>
