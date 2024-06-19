@@ -9,6 +9,7 @@ import React, {
   useEffect,
   useRef,
   HTMLProps,
+  useMemo,
 } from 'react'
 
 import classnames from 'classnames'
@@ -306,7 +307,7 @@ function Accordion({
       event,
     })
   }
-  console.log('context', context)
+
   return (
     <Context.Consumer>
       {(globalContext) => (
@@ -460,7 +461,7 @@ const Group = (props: GroupProps) => {
     ? '#' + makeUniqueId()
     : undefined
 
-  const store = new Store({ group })
+  const store = useMemo(() => new Store({ group }), [group])
 
   // Set stored expanded_id on mount
   useEffect(() => {
@@ -484,7 +485,7 @@ const Group = (props: GroupProps) => {
 
     // 2. set the fallback ids
     setExpandedId(fallbackId)
-  }, [])
+  }, [store])
 
   // Store and reset fallback id
   useEffect(() => {
@@ -497,7 +498,7 @@ const Group = (props: GroupProps) => {
 
     // 4. and reset the fallback id
     setExpandedId(null)
-  }, [expandedId])
+  }, [expandedId, store])
 
   function onInit(instance) {
     if (
