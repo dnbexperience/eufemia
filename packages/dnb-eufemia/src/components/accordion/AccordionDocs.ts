@@ -139,6 +139,11 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  allowAllExpanded: {
+    doc: 'Allows for multiple accordions inside a group to be expanded at the same time. Defaults to `false`',
+    type: 'boolean',
+    status: 'optional',
+  },
   space: {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
