@@ -319,7 +319,7 @@ export function AccordionCloseAllInGroup() {
         allow_close_all
         collapseAllHandleRef={collapseAll}
       >
-        <Accordion expanded>
+        <Accordion>
           <Accordion.Header>Accordion title 1</Accordion.Header>
           <Accordion.Content>
             <P>
@@ -329,30 +329,22 @@ export function AccordionCloseAllInGroup() {
             </P>
           </Accordion.Content>
         </Accordion>
-        <Accordion expanded>
+        <Accordion>
           <Accordion.Header>Accordion title 2</Accordion.Header>
           <Accordion.Content>
-            {() => {
-              return (
-                <P>
-                  Nec sit mattis natoque interdum sagittis cubilia nibh
-                  nullam etiam
-                </P>
-              )
-            }}
+            <P>
+              Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+              etiam
+            </P>
           </Accordion.Content>
         </Accordion>
-        <Accordion expanded>
-          <Accordion.Header>Accordion title 2</Accordion.Header>
+        <Accordion>
+          <Accordion.Header>Accordion title 3</Accordion.Header>
           <Accordion.Content>
-            {() => {
-              return (
-                <P>
-                  Nec sit mattis natoque interdum sagittis cubilia nibh
-                  nullam etiam
-                </P>
-              )
-            }}
+            <P>
+              Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+              etiam
+            </P>
           </Accordion.Content>
         </Accordion>
       </Accordion.Group>
