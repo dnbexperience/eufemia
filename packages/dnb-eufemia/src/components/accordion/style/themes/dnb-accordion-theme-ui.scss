@@ -102,6 +102,8 @@
         --ui-accordion-after-click-background: var(--color-sea-green);
         --ui-accordion-after-click-border-color: var(--color-sea-green);
         --ui-accordion-after-click-description-color: var(--color-white);
+
+        z-index: 1;
       }
 
       @include active() {
