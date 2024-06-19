@@ -85,6 +85,7 @@
         --ui-accordion-background: var(--color-white);
         --ui-accordion-border-color: var(--color-emerald-green);
         --ui-accordion-description-color: var(--color-black-55);
+        // Removes the optional 'inset' property on the box-shadow border, on hover.
         --ui-accordion-border-inset: ;
 
         // state = expanded
