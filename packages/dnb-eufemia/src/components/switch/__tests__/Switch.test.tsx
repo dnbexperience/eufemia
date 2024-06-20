@@ -6,8 +6,9 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Switch, { SwitchProps } from '../Switch'
+import Switch from '../Switch'
 import { Provider } from '../../../shared'
+import { SwitchProps } from '../types'
 
 const props: SwitchProps = {
   title: 'title',
@@ -37,18 +38,16 @@ describe('Switch component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
-    const my_event = jest.fn()
+  it('has "onChange" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
-    render(
-      <Switch on_change={my_event} onChange={myEvent} checked={false} />
-    )
+
+    render(<Switch onChange={myEvent} checked={false} />)
+
     fireEvent.click(document.querySelector('input'))
-    expect(my_event.mock.calls.length).toBe(1)
+
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
   it('does handle controlled vs uncontrolled state properly', () => {
@@ -60,7 +59,7 @@ describe('Switch component', () => {
         <>
           <Switch
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
