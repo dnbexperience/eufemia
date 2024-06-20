@@ -15,6 +15,10 @@ export default {
 export const SwitchSandbox = () => (
   <Wrapper>
     <Box>
+      <ControlledSwitch />
+    </Box>
+
+    <Box>
       <Switch
         checked
         status="Error message"
@@ -83,6 +87,24 @@ export const SwitchSandbox = () => (
     </Box>
   </Wrapper>
 )
+
+function ControlledSwitch() {
+  const [isChecked, setIsChecked] = React.useState(false)
+
+  return (
+    <>
+      Controlled Switch
+      <Switch
+        checked={isChecked}
+        onChange={() => setIsChecked(!isChecked)}
+      />
+      <Switch
+        checked={isChecked}
+        onChange={() => setIsChecked(!isChecked)}
+      />
+    </>
+  )
+}
 
 export const GlobalStatusExample = () => {
   return (

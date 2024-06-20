@@ -9,10 +9,7 @@ import { Switch, HelpButton } from '@dnb/eufemia/src'
 
 export const SwitchExampleDefault = () => (
   <ComponentBox data-visual-test="switch-default">
-    <Switch
-      label="Switch"
-      on_change={({ checked }) => console.log(checked)}
-    />
+    <Switch label="Switch" onChange={console.log} />
   </ComponentBox>
 )
 
@@ -20,9 +17,9 @@ export const SwitchExampleChecked = () => (
   <ComponentBox data-visual-test="switch-checked">
     <Switch
       label="Label"
-      label_position="left"
+      labelPosition="left"
       checked
-      on_change={({ checked }) => console.log(checked)}
+      onChange={({ checked }) => console.log(checked)}
     />
   </ComponentBox>
 )
