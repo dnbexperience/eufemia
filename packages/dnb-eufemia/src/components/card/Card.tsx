@@ -41,6 +41,7 @@ function Card(props: Props) {
     spacing,
     innerSpace,
     alignSelf = 'stretch',
+    align,
     divider = 'space',
     rowGap,
     responsive = true,
@@ -76,7 +77,7 @@ function Card(props: Props) {
     ),
     breakout: responsive ? trueWhenSmall : false,
     roundedCorner: responsive ? falseWhenSmall : true,
-    outline: true,
+    outline: '--outline-card-color',
     innerSpace:
       innerSpace ??
       ({
@@ -94,7 +95,7 @@ function Card(props: Props) {
         direction={direction ?? 'vertical'}
         divider={divider}
         alignSelf={alignSelf}
-        align={stack ? 'stretch' : undefined}
+        align={stack ? 'stretch' : align}
         wrap={!stack}
         gap={stack ? 'medium' : (gap ?? spacing) || false}
         rowGap={rowGap || false}

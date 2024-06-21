@@ -31,6 +31,7 @@
     background-color: var(--background-color, white);
   }
 
+  // The outline border
   &::before {
     content: '';
     position: absolute;
@@ -41,6 +42,7 @@
     border-radius: var(--rounded-corner, 0);
   }
 
+  // The background color
   &::after {
     content: '';
     visibility: var(--breakout, hidden);

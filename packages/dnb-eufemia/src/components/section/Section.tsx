@@ -215,6 +215,9 @@ export function SectionParams(
 }
 
 function getColor(value: string) {
+  if (value.includes('--')) {
+    return value
+  }
   return value
     ? !/#|var/.test(value)
       ? `var(--color-${value})`

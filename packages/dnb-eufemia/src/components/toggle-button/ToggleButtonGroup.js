@@ -26,6 +26,7 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
 import Flex from '../Flex'
+import Space from '../Space'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
@@ -291,9 +292,8 @@ export default class ToggleButtonGroup extends React.PureComponent {
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <Fieldset>
+          <Fieldset className="dnb-toggle-button-group__fieldset">
             <Flex.Container
-              align="baseline"
               direction={
                 vertical || label_direction === 'vertical'
                   ? 'vertical'
@@ -311,7 +311,8 @@ export default class ToggleButtonGroup extends React.PureComponent {
                 </FormLabel>
               )}
 
-              <span
+              <Space
+                element="span"
                 id={id}
                 className="dnb-toggle-button-group__shell"
                 role="group"
@@ -348,7 +349,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
                     </Suffix>
                   )}
                 </span>
-              </span>
+              </Space>
             </Flex.Container>
           </Fieldset>
         </div>
