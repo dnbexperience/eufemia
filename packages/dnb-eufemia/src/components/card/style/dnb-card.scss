@@ -20,7 +20,24 @@
   }
 
   &.dnb-section {
+    --outline-color: var(--card-outline-color);
+    --outline-width: var(--card-outline-width);
+    --background-color: var(--card-background-color);
+
     background-color: var(--background-color);
+  }
+
+  & .dnb-section {
+    z-index: 1;
+  }
+  @include allAbove(small) {
+    // These vars needs to be declared outside of the nested .dnb-section
+    --nested-space-l: calc(var(--padding-left, 0px) * -1);
+    --nested-space-r: calc(var(--padding-right, 0px) * -1);
+    & .dnb-section::after {
+      --left: var(--nested-space-l);
+      --width: calc(100% - var(--nested-space-r) * 2);
+    }
   }
 
   &--filled#{&}.dnb-section {

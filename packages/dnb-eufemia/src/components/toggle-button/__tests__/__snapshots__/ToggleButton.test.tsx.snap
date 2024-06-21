@@ -1421,9 +1421,12 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   transform: translateY(0.25rem); /* 4/16 */
 }
 .dnb-radio-group {
-  --radio-group-margin-bottom: 0.5rem;
-  --radio-group-margin-right: 1rem;
+  --radio-group-row-gap: 0.5rem;
+  --radio-group-column-gap: 1rem;
   display: inline-flex;
+}
+.dnb-radio-group, .dnb-radio-group__fieldset, .dnb-radio-group__shell {
+  flex-grow: 1;
 }
 .dnb-radio-group fieldset {
   margin: 0;
@@ -1440,8 +1443,8 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group [role=radiogroup], .dnb-radio-group__shell {
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--radio-group-margin-right);
-  row-gap: var(--radio-group-margin-bottom);
+  column-gap: var(--radio-group-column-gap);
+  row-gap: var(--radio-group-row-gap);
 }
 .dnb-radio-group__shell > .dnb-form-status {
   margin-top: 0;
@@ -1720,6 +1723,9 @@ button .dnb-form-status__text {
   --toggle-button-group-row-gap: 1rem;
   display: inline-flex;
 }
+.dnb-toggle-button-group, .dnb-toggle-button-group__fieldset, .dnb-toggle-button-group__shell {
+  flex-grow: 1;
+}
 .dnb-toggle-button-group fieldset {
   margin: 0;
   padding: 0;
@@ -1754,9 +1760,6 @@ button .dnb-form-status__text {
 .dnb-toggle-button-group__shell > .dnb-form-status {
   order: 2;
   transform: translateY(-0.5rem);
-}
-.dnb-toggle-button-group .dnb-flex-container {
-  margin-bottom: calc(var(--toggle-button-group-margin-bottom) * -1);
 }
 .dnb-toggle-button-group .dnb-flex-container--direction-horizontal .dnb-form-label {
   margin-top: 0.5rem;

@@ -42,6 +42,13 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match nested section', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="card-nested-section"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match flex', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
@@ -51,6 +58,7 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
 describe.each(['ui', 'sbanken'])(
   'Card small screen for %s',
   (themeName) => {
@@ -73,6 +81,15 @@ describe.each(['ui', 'sbanken'])(
       const screenshot = await makeScreenshot({
         ...params,
         selector: '[data-visual-test="layout-card-grid"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match nested section', async () => {
+      const screenshot = await makeScreenshot({
+        ...params,
+        addWrapper: false,
+        selector: '[data-visual-test="card-nested-section"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

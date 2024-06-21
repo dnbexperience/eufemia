@@ -119,6 +119,12 @@
     --toggle-button-group-row-gap: 1rem;
     display: inline-flex;
 
+    &,
+    &__fieldset,
+    &__shell {
+      flex-grow: 1;
+    }
+
     fieldset {
       @include fieldsetReset();
     }
@@ -162,8 +168,6 @@
     }
 
     .dnb-flex-container {
-      margin-bottom: calc(var(--toggle-button-group-margin-bottom) * -1);
-
       &--direction-horizontal .dnb-form-label {
         margin-top: 0.5rem;
         align-self: flex-start;
