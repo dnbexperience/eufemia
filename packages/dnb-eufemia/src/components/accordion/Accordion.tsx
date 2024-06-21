@@ -442,20 +442,20 @@ Accordion.defaultProps = accordionDefaultProps
 export type GroupProps = AccordionProps & {
   allow_close_all?: boolean
   /**
+   * Determines how many accordions can be expanded at once.
+   * Default: `single`
+   */
+  expandBehaviour?: 'single' | 'multiple'
+  /**
    * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
    *
    * Default: `undefined`
    */
   expanded_id?: string
   collapseAllHandleRef?: React.MutableRefObject<() => void>
-  /**
-   * Allows for multiple accordions inside a group to be expanded at the same time
-   * Defaults: `false`
-   */
-  allowAllExpanded?: boolean
 }
 
-const Group = ({ allowAllExpanded = false, ...props }: GroupProps) => {
+const Group = ({ expandBehaviour = 'single', ...props }: GroupProps) => {
   if (props.remember_state && !props.id) {
     rememberWarning('accordion group')
   }
@@ -523,7 +523,7 @@ const Group = ({ allowAllExpanded = false, ...props }: GroupProps) => {
       onInit={onInit}
       {...props}
       group={group}
-      allowAllExpanded={allowAllExpanded}
+      expandBehaviour={expandBehaviour}
       expanded_id={expandedId || props.expanded_id}
     />
   )

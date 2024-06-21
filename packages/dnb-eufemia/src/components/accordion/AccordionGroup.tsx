@@ -71,7 +71,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     id: _id, // eslint-disable-line
     children, // eslint-disable-line
     collapseAllHandleRef,
-    allowAllExpanded,
+    expandBehaviour,
 
     ...restOfExtendedProps
   } = extendedProps
@@ -112,7 +112,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     onChange: onChangeHandler,
     collapseAllHandleRef,
     collapseAccordionCallbacks,
-    allowAllExpanded,
+    expandBehaviour,
   }
 
   return (

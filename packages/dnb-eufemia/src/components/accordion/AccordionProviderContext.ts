@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import { AccordionGroupProps } from './AccordionGroup'
 
 type AccordionGroupContextProps = {
   expanded?: boolean
@@ -16,7 +17,7 @@ type AccordionGroupContextProps = {
   onInit?: (...args: any[]) => any
   collapseAccordionCallbacks?: React.MutableRefObject<(() => void)[]>
   collapseAllHandleRef?: React.MutableRefObject<() => void>
-  allowAllExpanded?: boolean
+  expandBehaviour?: AccordionGroupProps['expandBehaviour']
 }
 
 const AccordionGroupContext =

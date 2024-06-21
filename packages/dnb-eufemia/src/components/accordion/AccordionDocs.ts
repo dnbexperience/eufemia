@@ -134,9 +134,10 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  allowAllExpanded: {
-    doc: 'Allows for multiple accordions inside a group to be expanded at the same time. Defaults to `false`',
-    type: 'boolean',
+
+  expandBehaviour: {
+    doc: 'Determines how many accordions can be expanded at once. Defaults to `single`',
+    type: ['single', 'multiple'],
     status: 'optional',
   },
   expanded_id: {

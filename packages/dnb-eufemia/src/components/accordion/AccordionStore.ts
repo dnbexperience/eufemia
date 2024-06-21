@@ -15,7 +15,7 @@ export class AccordionStore {
   }
   onChange({ id }: { id: string }) {
     this._instances.forEach((inst) => {
-      if (!inst.context.allowAllExpanded && inst._id !== id) {
+      if (inst.context.expandBehaviour === 'single' && inst._id !== id) {
         inst.close()
       }
     })

@@ -469,7 +469,7 @@ describe('Accordion container component', () => {
 
   it('should allow all accordions inside a group to be expanded at the same time', async () => {
     render(
-      <Accordion.Group allowAllExpanded>
+      <Accordion.Group expandBehaviour="multiple">
         <Accordion>
           <Accordion.Header>Accordion title 1</Accordion.Header>
           <Accordion.Content>
