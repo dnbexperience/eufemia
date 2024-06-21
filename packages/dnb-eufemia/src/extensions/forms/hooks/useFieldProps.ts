@@ -16,6 +16,7 @@ import {
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
+  AllJSONSchemaVersions,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
@@ -196,14 +197,71 @@ export default function useFieldProps<
   const changedRef = useRef<boolean>(false)
   const hasFocusRef = useRef<boolean>(false)
 
+  // Needs to be placed before "prepareError"
+  const errorMessagesRef = useRef(null)
+  errorMessagesRef.current = useMemo(() => {
+    return {
+      required: translation.Field.errorRequired,
+      ...errorMessages,
+    }
+  }, [errorMessages, translation.Field.errorRequired])
+
   // - Schema validation
+  const schemaObj =
+    typeof schemaProp === 'function'
+      ? schemaProp(props)
+      : { schema: schemaProp }
+
   const {
     schema,
     schemaValidator = useValibotSchemaValidator,
     ...schemaParams
-  } = typeof schemaProp === 'function'
-    ? schemaProp()
-    : { schema: schemaProp }
+  } = schemaObj?.schema ? schemaObj : { schema: schemaObj }
+
+  const schemaRef = useRef<AllJSONSchemaVersions<Value>>()
+  schemaRef.current = schema
+
+  const useSchemaValidator = schemaValidator
+  const { executeSchemaValidator: executeInternalSchemaValidator } =
+    useSchemaValidator({
+      schema: schemaRef.current,
+      path,
+      dataRef: valueRef,
+      errorMessages: errorMessagesRef.current,
+      ...schemaParams,
+    })
+
+  // @deprecated legacy Ajv fallback support – will be removed in v11
+  const { executeSchemaValidator: executeAjvSchemaValidator } =
+    useAjvSchemaValidator({
+      schema: schemaRef.current,
+      dataRef: valueRef,
+      ajvInstance: dataContext.ajvInstance,
+      ...schemaParams,
+    })
+
+  const executeSchemaValidatorRef = useRef<() => unknown>()
+  executeSchemaValidatorRef.current = isAjvSchema(schemaRef.current)
+    ? executeAjvSchemaValidator
+    : executeInternalSchemaValidator
+
+  // TODO: remove this if not needed
+  // useMemo(() => {
+  //   // executeSchemaValidator()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   executeSchemaValidator,
+  //   valueRef.current, // run validation when internal value has changed
+  // ])
+  // const cacheRef = useRef(undefined)
+  // useEffect(() => {
+  //   if (schema && schema !== cacheRef.current) {
+  //     cacheRef.current = schema
+
+  //     // executeSchemaValidator()
+  //     // forceUpdate()
+  //   }
+  // }, [schema, executeSchemaValidator, forceUpdate])
 
   const required = useMemo(() => {
     if (requiredProp) {
@@ -211,8 +269,8 @@ export default function useFieldProps<
     }
 
     const paths = identifier.split('/')
-    if (paths.length > 0 && (schema || dataContext?.schema)) {
-      const requiredList = [schema?.['required']]
+    if (paths.length > 0 && (schemaRef.current || dataContext?.schema)) {
+      const requiredList = [schemaRef.current?.['required']]
 
       if (paths.length > 1) {
         const schema = dataContext.schema
@@ -237,7 +295,7 @@ export default function useFieldProps<
         return true
       }
     }
-  }, [sectionPath, dataContext.schema, identifier, requiredProp, schema])
+  }, [requiredProp, identifier, dataContext.schema, sectionPath])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -259,15 +317,6 @@ export default function useFieldProps<
     dataContextError
   )
 
-  // Needs to be placed before "prepareError"
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
-
   const validatorRef = useRef(validator)
   useUpdateEffect(() => {
     validatorRef.current = validator
@@ -276,46 +325,6 @@ export default function useFieldProps<
   useUpdateEffect(() => {
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
-
-  // - Schema validation
-  // @deprecated legacy Ajv fallback support – will be removed in v11
-  const { executeSchemaValidator: executeAjvSchemaValidator } =
-    useAjvSchemaValidator({
-      schema,
-      dataRef: valueRef,
-      ajvInstance: dataContext.ajvInstance,
-      ...schemaParams,
-    })
-  const useSchemaValidator = schemaValidator
-  const { executeSchemaValidator: executeInternalSchemaValidator } =
-    useSchemaValidator({
-      schema,
-      path,
-      dataRef: valueRef,
-      errorMessages: errorMessagesRef.current,
-      ...schemaParams,
-    })
-  const executeSchemaValidator = isAjvSchema(schema)
-    ? executeAjvSchemaValidator
-    : executeInternalSchemaValidator
-
-  // TODO: remove this if not needed
-  // useMemo(() => {
-  //   // executeSchemaValidator()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [
-  //   executeSchemaValidator,
-  //   valueRef.current, // run validation when internal value has changed
-  // ])
-  // const cacheRef = useRef(undefined)
-  // useEffect(() => {
-  //   if (schema && schema !== cacheRef.current) {
-  //     cacheRef.current = schema
-
-  //     // executeSchemaValidator()
-  //     // forceUpdate()
-  //   }
-  // }, [schema, executeSchemaValidator, forceUpdate])
 
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
@@ -453,15 +462,16 @@ export default function useFieldProps<
     }
   }, [dataContextError, prepareError])
 
-  const error =
-    showErrorRef.current ||
-    // If the error is a type error, we want to show it even if the field as not been used
-    localErrorRef.current?.['validationRule'] === 'type'
-      ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-      : undefined
+  const error = showErrorRef.current
+  // ||
+  // // If the error is a type error, we want to show it even if the field as not been used
+  // localErrorRef.current?.['validationRule'] === 'type'
+  //   ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
+  //   : undefined
 
-  const hasVisibleError =
-    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
+  // console.log('error', error)
+
+  const hasVisibleError = Boolean(error) //|| (inFieldBlock && fieldBlockContext.hasErrorProp)
   const hasError = useCallback(() => {
     return Boolean(
       errorProp ?? localErrorRef.current ?? contextErrorRef.current
@@ -680,8 +690,12 @@ export default function useFieldProps<
       }
 
       // Validate by provided JSON Schema for this value
-      if (schema && value !== undefined && !prioritizeContextSchema) {
-        const errors = executeSchemaValidator()
+      if (
+        // schemaRef.current &&
+        value !== undefined &&
+        !prioritizeContextSchema
+      ) {
+        const errors = executeSchemaValidatorRef.current()
         if (errors) {
           throw errors[Object.keys(errors)[0]]
         }
@@ -711,20 +725,18 @@ export default function useFieldProps<
       }
     }
   }, [
-    startProcess,
-    disabled,
-    hideError,
-    setFieldState,
-    clearErrorState,
-    emptyValue,
-    requiredProp,
-    required,
-    schema,
-    prioritizeContextSchema,
-    validateInitially,
-    executeSchemaValidator,
     callValidator,
+    clearErrorState,
+    disabled,
+    emptyValue,
+    hideError,
     persistErrorState,
+    prioritizeContextSchema,
+    required,
+    requiredProp,
+    setFieldState,
+    startProcess,
+    validateInitially,
   ])
 
   const handleError = useCallback(() => {
@@ -1114,8 +1126,11 @@ export default function useFieldProps<
   })
 
   useUpdateEffect(() => {
-    validateValue()
-  }, [schema, validateValue])
+    // validateValue()
+  }, [
+    // schemaRef.current, // TODO: remove this if not needed
+    validateValue,
+  ])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)

@@ -88,53 +88,55 @@ function NumberComponent(props: Props) {
     () => {
       return (
         props.schema ??
-        v.pipe(
-          v.number(),
-          typeof props.minimum === 'number'
-            ? v.minValue(props.minimum)
-            : v.number(),
-          typeof props.maximum === 'number'
-            ? v.maxValue(props.maximum)
-            : v.number(),
-          typeof props.exclusiveMinimum === 'number'
-            ? custom((value: number) => value > props.exclusiveMinimum, {
-                type: 'exclusive_minimum',
-                requirement: props.exclusiveMinimum,
-              })
-            : // context, label, dataset, config2, other
-              // v.rawCheck(({ dataset, addIssue }) => {
-              //   if (
-              //     dataset.typed &&
-              //     dataset.value > props.exclusiveMinimum
-              //   ) {
-              //     addIssue({
-              //       type: 'exclusive_minimum',
-              //       requirement: props.exclusiveMinimum,
-              //     })
-              //   }
-              // })
-              v.number(),
-          typeof props.exclusiveMaximum === 'number'
-            ? custom((value: number) => value < props.exclusiveMaximum, {
-                type: 'exclusive_maximum',
-                requirement: props.exclusiveMaximum,
-              })
-            : // v.rawCheck(({ dataset, addIssue }) => {
-              //   if (
-              //     dataset.typed &&
-              //     dataset.value < props.exclusiveMaximum
-              //   ) {
-              //     addIssue({
-              //       type: 'exclusive_maximum',
-              //       requirement: props.exclusiveMaximum,
-              //     })
-              //   }
-              // })
-              v.number(),
-          typeof props.multipleOf === 'number'
-            ? v.multipleOf(props.multipleOf)
-            : v.number()
-        )
+        ((props) => {
+          return v.pipe(
+            v.number(),
+            typeof props.minimum === 'number'
+              ? v.minValue(props.minimum)
+              : v.number(),
+            typeof props.maximum === 'number'
+              ? v.maxValue(props.maximum)
+              : v.number(),
+            typeof props.exclusiveMinimum === 'number'
+              ? custom((value: number) => value > props.exclusiveMinimum, {
+                  type: 'exclusive_minimum',
+                  requirement: props.exclusiveMinimum,
+                })
+              : // context, label, dataset, config2, other
+                // v.rawCheck(({ dataset, addIssue }) => {
+                //   if (
+                //     dataset.typed &&
+                //     dataset.value > props.exclusiveMinimum
+                //   ) {
+                //     addIssue({
+                //       type: 'exclusive_minimum',
+                //       requirement: props.exclusiveMinimum,
+                //     })
+                //   }
+                // })
+                v.number(),
+            typeof props.exclusiveMaximum === 'number'
+              ? custom((value: number) => value < props.exclusiveMaximum, {
+                  type: 'exclusive_maximum',
+                  requirement: props.exclusiveMaximum,
+                })
+              : // v.rawCheck(({ dataset, addIssue }) => {
+                //   if (
+                //     dataset.typed &&
+                //     dataset.value < props.exclusiveMaximum
+                //   ) {
+                //     addIssue({
+                //       type: 'exclusive_maximum',
+                //       requirement: props.exclusiveMaximum,
+                //     })
+                //   }
+                // })
+                v.number(),
+            typeof props.multipleOf === 'number'
+              ? v.multipleOf(props.multipleOf)
+              : v.number()
+          )
+        })
       )
     },
     // () =>
@@ -146,14 +148,7 @@ function NumberComponent(props: Props) {
     //     exclusiveMaximum: props.exclusiveMaximum,
     //     multipleOf: props.multipleOf,
     //   },
-    [
-      props.schema,
-      props.minimum,
-      props.maximum,
-      props.exclusiveMinimum,
-      props.exclusiveMaximum,
-      props.multipleOf,
-    ]
+    [props.schema]
   )
 
   const toInput = useCallback((external: number | undefined) => {

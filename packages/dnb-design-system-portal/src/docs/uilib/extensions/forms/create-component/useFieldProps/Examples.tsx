@@ -29,12 +29,22 @@ export const CustomComponentExample = () => {
           )
           const schema = React.useMemo<AllJSONSchemaVersions>(
             () =>
-              props.schema ?? {
-                type: 'number',
-                minimum: props.minimum,
-                maximum: props.maximum,
-              },
-            [props.schema, props.minimum, props.maximum],
+              props.schema ??
+              ((props) => {
+                // Ajv schema
+                return {
+                  type: 'number',
+                  minimum: props.minimum,
+                  maximum: props.maximum,
+                }
+
+                // Valibot schema
+                // return pipe(
+                //   minValue(props.minimum),
+                //   maxValue(props.maximum),
+                // )
+              }),
+            [props.schema],
           )
 
           const preparedProps = {

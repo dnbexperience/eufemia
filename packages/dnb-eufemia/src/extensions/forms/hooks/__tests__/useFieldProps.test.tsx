@@ -133,7 +133,7 @@ describe('useFieldProps', () => {
     })
   })
 
-  it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
+  it.only('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
     const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
     const { result } = renderHook(

@@ -192,3 +192,10 @@ export function custom<TInput>(
     requirement,
   }
 }
+
+export function isValibotSchema(schema: unknown): boolean {
+  return (
+    Object.prototype.hasOwnProperty.call(schema ?? {}, 'kind') &&
+    Object.prototype.hasOwnProperty.call(schema ?? {}, '_run')
+  )
+}

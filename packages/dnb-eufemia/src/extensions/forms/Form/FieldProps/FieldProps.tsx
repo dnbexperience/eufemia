@@ -10,6 +10,8 @@ import FieldPropsContext from './FieldPropsContext'
 import SharedProvider from '../../../../shared/Provider'
 import SharedContext, { ContextProps } from '../../../../shared/Context'
 import type { FieldProps, Path, UseFieldProps } from '../../types'
+import { isAjvSchema } from '../../utils/schema/ajv/useAjvSchemaValidator'
+import { isValibotSchema } from '../../utils/schema/valibot/useValibotSchemaValidator'
 
 export type FieldPropsProps = FieldProps & {
   children: React.ReactNode
@@ -92,6 +94,8 @@ function FieldPropsProvider(props: FieldPropsProps) {
     return translations
   }, [restProps?.translations, sharedContext.translations])
 
+  // console.log('make change')
+
   const extend = useCallback(
     <T extends FieldProps>(fieldProps: T) => {
       // Extract props from data context to be used in fields
@@ -100,14 +104,26 @@ function FieldPropsProvider(props: FieldPropsProps) {
       // Extract props from overwriteProps to be used in fields
       const key = overwriteProps && fieldProps?.path?.split('/')?.pop()
       const overwrite = overwriteProps?.[key]
+      // console.log('overwrite', overwrite)
 
       // Overwrite given schema props
       if (overwrite && fieldProps?.schema) {
-        Object.keys(fieldProps.schema).forEach((key) => {
-          if (overwrite?.[key]) {
-            fieldProps.schema[key] = overwrite[key]
-          }
-        })
+        // if (isValibotSchema(fieldProps.schema)) {
+        //   // console.log('make change')
+        //   // Object.keys(overwrite).forEach((key) => {
+        //   //   if (overwrite?.[key]) {
+        //   //     console.log('merge?', key, overwrite[key])
+        //   //     // fieldProps.schema[key] = overwrite[key]
+        //   //   }
+        //   // })
+        // }
+        // if (isAjvSchema(fieldProps.schema)) {
+        //   Object.keys(fieldProps.schema).forEach((key) => {
+        //     if (overwrite?.[key]) {
+        //       fieldProps.schema[key] = overwrite[key]
+        //     }
+        //   })
+        // }
       }
 
       const value = assignPropsWithContext(

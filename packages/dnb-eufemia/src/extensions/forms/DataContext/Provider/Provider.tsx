@@ -285,6 +285,15 @@ export default function Provider<Data extends JsonObject>(
     },
     []
   )
+  const useSchemaValidator = schemaValidator
+  const { executeSchemaValidator: executeInternalSchemaValidator } =
+    useSchemaValidator({
+      schema,
+      setErrors,
+      errorMessages: contextErrorMessages,
+      dataRef: internalDataRef,
+      ...schemaParams,
+    })
 
   // @deprecated legacy Ajv fallback support – will be removed in v11
   const { executeSchemaValidator: executeAjvSchemaValidator } =
@@ -295,15 +304,7 @@ export default function Provider<Data extends JsonObject>(
       ajvInstance,
       ...schemaParams,
     })
-  const useSchemaValidator = schemaValidator
-  const { executeSchemaValidator: executeInternalSchemaValidator } =
-    useSchemaValidator({
-      schema,
-      setErrors,
-      errorMessages: contextErrorMessages,
-      dataRef: internalDataRef,
-      ...schemaParams,
-    })
+
   const executeSchemaValidator = isAjvSchema(schema)
     ? executeAjvSchemaValidator
     : executeInternalSchemaValidator

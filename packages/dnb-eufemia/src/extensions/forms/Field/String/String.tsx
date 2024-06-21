@@ -87,27 +87,39 @@ function StringComponent(props: Props) {
     () => {
       return (
         props.schema ??
-        v.pipe(
-          v.string(),
-          typeof props.minLength === 'number'
-            ? v.minLength(props.minLength)
-            : v.string(),
-          typeof props.maxLength === 'number'
-            ? v.maxLength(props.maxLength)
-            : v.string(),
-          v.regex(RegExp(props.pattern, 'u')) // use "u" to make it JSON Schema 2020 draft compatible
-        )
+        ((props: Props) => {
+          return v.pipe(
+            v.string(),
+            typeof props.minLength === 'number'
+              ? v.minLength(props.minLength)
+              : v.string(),
+            typeof props.maxLength === 'number'
+              ? v.maxLength(props.maxLength)
+              : v.string(),
+            v.regex(RegExp(props.pattern, 'u')) // use "u" to make it JSON Schema 2020 draft compatible
+          )
+        })
       )
     },
-    // () =>
-    //   props.schema ?? {
-    //     type: 'string',
-    //     minLength: props.minLength,
-    //     maxLength: props.maxLength,
-    //     pattern: props.pattern,
-    //   },
-    [props.schema, props.minLength, props.maxLength, props.pattern]
+    // () => {
+    //   return (
+    //     props.schema ??
+    //     ((props) => {
+    //       return {
+    //         type: 'string',
+    //         minLength: props.minLength,
+    //         maxLength: props.maxLength,
+    //         pattern: props.pattern,
+    //       }
+    //     })
+    //   )
+    // },
+    [props.schema]
+    // [props.schema, props.minLength, props.maxLength, props.pattern]
   )
+
+  // console.log('schema', schema)
+
   const fromInput = useCallback(
     (event: { value: string; cleanedValue?: string }) => {
       if (typeof event === 'string') {

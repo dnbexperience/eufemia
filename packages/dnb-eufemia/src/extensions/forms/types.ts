@@ -23,9 +23,9 @@ export type AllJSONSchemaVersions<DataType = unknown> =
     })
 export { JSONSchemaType }
 
-export type SchemaCallback<Data> = () => {
+export type SchemaCallback<Data> = (props?: FieldProps<Data>) => {
   schema: AllJSONSchemaVersions<Data>
-  schemaValidator: SchemaValidator<Data>
+  schemaValidator?: SchemaValidator<Data>
 }
 
 export type SchemaValidatorProps<Data> = {

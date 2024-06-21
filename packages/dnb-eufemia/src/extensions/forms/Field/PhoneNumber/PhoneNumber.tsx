@@ -113,7 +113,8 @@ function PhoneNumber(props: Props) {
   const schema = useMemo<AllJSONSchemaVersions>(
     () => {
       return (
-        props.schema ?? v.pipe(v.string(), v.regex(RegExp(props.pattern)))
+        props.schema ??
+        ((props) => v.pipe(v.string(), v.regex(RegExp(props.pattern))))
       )
     },
     // () =>
@@ -121,7 +122,7 @@ function PhoneNumber(props: Props) {
     //     type: 'string',
     //     pattern: props.pattern,
     //   },
-    [props.schema, props.pattern]
+    [props.schema]
   )
   const defaultProps: Partial<Props> = {
     schema,
