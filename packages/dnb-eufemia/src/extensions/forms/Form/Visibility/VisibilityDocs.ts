@@ -61,6 +61,11 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  compensateForGap: {
+    doc: 'To compensate for CSS gap between the rows so animation not jumps during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
+    type: 'string',
+    status: 'optional',
+  },
   filterData: {
     doc: 'Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.',
     type: ['object', 'function'],

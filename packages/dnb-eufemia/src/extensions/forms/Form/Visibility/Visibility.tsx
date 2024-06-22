@@ -48,6 +48,8 @@ export type Props = {
   animate?: boolean
   /** Keep the content in the DOM, even if it's not visible */
   keepInDOM?: boolean
+  /** To compensate for CSS gap between the rows so animation not jumps during the animation. Provide a CSS unit or `auto`. Defaults to `null`. */
+  compensateForGap?: HeightAnimationProps['compensateForGap']
   /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
   element?: HeightAnimationProps['element']
@@ -75,6 +77,7 @@ function Visibility({
   filterData,
   animate,
   keepInDOM,
+  compensateForGap,
   fieldPropsWhenHidden,
   children,
   ...rest
@@ -110,6 +113,7 @@ function Visibility({
         open={open}
         keepInDOM={Boolean(keepInDOM)}
         className="dnb-forms-visibility"
+        compensateForGap={compensateForGap}
         {...rest}
       >
         <FieldProps {...props}>{children}</FieldProps>
