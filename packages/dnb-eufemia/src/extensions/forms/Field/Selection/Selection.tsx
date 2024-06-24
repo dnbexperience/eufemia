@@ -10,6 +10,7 @@ import {
 } from '../../../../components'
 import OptionField, { makeOptions } from '../Option'
 import { useFieldProps } from '../../hooks'
+import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import FieldBlock from '../../FieldBlock'
 import {
@@ -27,16 +28,25 @@ import type {
   DropdownAllProps,
   DropdownProps,
 } from '../../../../components/Dropdown'
+import { HelpButtonProps } from '../../../../components/HelpButton'
 import {
   convertCamelCaseProps,
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 
-interface IOption {
+type IOption = {
   title: string | React.ReactNode
   value: number | string
   status: FormStatusText
 }
+type OptionProps = React.ComponentProps<
+  React.FC<{
+    error: Error | FormError | undefined
+    title: React.ReactNode
+    help: HelpButtonProps
+    children: React.ReactNode
+  }>
+>
 
 export type Data = AutocompleteAllProps['data'] | DropdownAllProps['data']
 
@@ -140,47 +150,9 @@ function Selection(props: Props) {
     labelDescription,
   }
 
-  const getStatus = useCallback(
-    (error: Error | FormError | undefined) => {
-      return (
-        error?.message ??
-        ((warning instanceof Error && warning.message) ||
-          (warning instanceof FormError && warning.message) ||
-          warning?.toString() ||
-          (info instanceof Error && info.message) ||
-          (info instanceof FormError && info.message) ||
-          info?.toString())
-      )
-    },
-    [info, warning]
-  )
-
-  const status = getStatus(error)
-
   switch (variant) {
     case 'radio':
     case 'button': {
-      const options: IOption[] = React.Children.toArray(children)
-        .filter(
-          (child) =>
-            React.isValidElement(child) && child.type === OptionField
-        )
-        .map((option: React.ReactElement) => {
-          const { error, title, help, children, ...rest } = option.props
-          const status = getStatus(error)
-
-          return {
-            title: title ?? children,
-            status,
-            suffix: help ? (
-              <HelpButton size="small" title={help.title}>
-                {help.content}
-              </HelpButton>
-            ) : undefined,
-            ...rest,
-          }
-        })
-
       const Component = (
         variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
@@ -196,20 +168,15 @@ function Selection(props: Props) {
             on_change={onChangeHandler}
             value={String(value ?? '')}
           >
-            {options.map((option, i) => {
-              const { value, title, status, ...rest } = option
-              return (
-                <Component
-                  id={options.length === 1 ? id : undefined}
-                  key={`option-${i}-${value}`}
-                  label={variant === 'radio' ? title : undefined}
-                  text={variant === 'button' ? title : undefined}
-                  value={String(value ?? '')}
-                  status={(hasError || status) && 'error'}
-                  {...htmlAttributes}
-                  {...rest}
-                />
-              )
+            {getRadioOrToggleOptions({
+              id,
+              value,
+              variant,
+              info,
+              warning,
+              htmlAttributes,
+              children,
+              hasError,
             })}
           </Component.Group>
         </FieldBlock>
@@ -218,6 +185,7 @@ function Selection(props: Props) {
 
     case 'autocomplete':
     case 'dropdown': {
+      const status = getStatus(error, info, warning)
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
         list_class: 'dnb-forms-field-selection__list',
@@ -262,6 +230,95 @@ function Selection(props: Props) {
       )
     }
   }
+}
+
+export function getStatus(
+  error: Error | FormError | undefined,
+  info: React.ReactNode,
+  warning: React.ReactNode
+) {
+  return (
+    error?.message ??
+    ((warning instanceof Error && warning.message) ||
+      (warning instanceof FormError && warning.message) ||
+      warning?.toString() ||
+      (info instanceof Error && info.message) ||
+      (info instanceof FormError && info.message) ||
+      info?.toString())
+  )
+}
+
+export function getRadioOrToggleOptions({
+  id,
+  value,
+  variant,
+  info,
+  warning,
+  htmlAttributes,
+  children,
+  hasError,
+}: {
+  id: string
+  value: Props['value']
+  variant: Props['variant']
+  info: Props['info']
+  warning: Props['warning']
+  htmlAttributes: Props['htmlAttributes']
+  children: Props['children']
+  hasError: ReturnAdditional<Props['value']>['hasError']
+}) {
+  const optionsCount = React.Children.count(children)
+
+  const Component = (
+    variant === 'radio' ? Radio : ToggleButton
+  ) as typeof Radio & typeof ToggleButton
+
+  const createOption = (props: OptionProps, i: number) => {
+    const { error, title, help, children, ...rest } = props
+
+    const label = title ?? children
+    const status = getStatus(error, info, warning)
+    const suffix = help ? (
+      <HelpButton size="small" title={help.title}>
+        {help.content}
+      </HelpButton>
+    ) : undefined
+
+    return (
+      <Component
+        id={optionsCount === 1 ? id : undefined}
+        key={`option-${i}-${value}`}
+        label={variant === 'radio' ? label : undefined}
+        text={variant === 'button' ? label : undefined}
+        value={String(value ?? '')}
+        status={(hasError || status) && 'error'}
+        suffix={suffix}
+        {...htmlAttributes}
+        {...rest}
+      />
+    )
+  }
+
+  const mapOptions = (children: React.ReactNode) => {
+    return React.Children.toArray(children).map(
+      (child: React.ReactElement<OptionProps>, i) => {
+        if (React.isValidElement(child)) {
+          if (child.type === OptionField) {
+            return createOption(child.props, i)
+          }
+
+          if (child.props.children) {
+            const nestedChildren = mapOptions(child.props.children)
+            return React.cloneElement(child, child.props, nestedChildren)
+          }
+        }
+
+        return child
+      }
+    )
+  }
+
+  return mapOptions(children)
 }
 
 Selection._supportsSpacingProps = true

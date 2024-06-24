@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field } from '../../..'
+import { Field, Form } from '../../..'
 
 describe('Selection', () => {
   it('renders selected option', () => {
@@ -173,6 +173,46 @@ describe('variants', () => {
       expect(radioButtons[1]).toBeDisabled()
     })
 
+    it('should render options in nested elements', () => {
+      render(
+        <Field.Selection variant="radio">
+          <div>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <div>
+              <Field.Option value="option2">Option 2</Field.Option>
+            </div>
+          </div>
+        </Field.Selection>
+      )
+
+      const [option1, option2] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(option1).toBeInTheDocument()
+      expect(option2).toBeInTheDocument()
+    })
+
+    it('should render nested fields', () => {
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.String />
+          <Form.Visibility visible>
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Form.Visibility>
+        </Field.Selection>
+      )
+
+      const [option1, option2, option3] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(option1).toHaveAttribute('type', 'radio')
+      expect(option2).toHaveAttribute('type', 'text')
+      expect(option3).toHaveAttribute('type', 'radio')
+    })
+
     it('renders update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="radio" value="bar">
@@ -312,6 +352,46 @@ describe('variants', () => {
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
       expect(buttons[1].getAttribute('aria-pressed')).toBe('true')
+    })
+
+    it('should render options in nested elements', () => {
+      render(
+        <Field.Selection variant="button">
+          <div>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <div>
+              <Field.Option value="option2">Option 2</Field.Option>
+            </div>
+          </div>
+        </Field.Selection>
+      )
+
+      const [option1, option2] = Array.from(
+        document.querySelectorAll('button')
+      )
+
+      expect(option1).toBeInTheDocument()
+      expect(option2).toBeInTheDocument()
+    })
+
+    it('should render nested fields', () => {
+      render(
+        <Field.Selection variant="button">
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.String />
+          <Form.Visibility visible>
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Form.Visibility>
+        </Field.Selection>
+      )
+
+      const [option1, option2, option3] = Array.from(
+        document.querySelectorAll('button, input')
+      )
+
+      expect(option1).toHaveAttribute('type', 'button')
+      expect(option2).toHaveAttribute('type', 'text')
+      expect(option3).toHaveAttribute('type', 'button')
     })
 
     it('renders fieldset/legend if more than two options are given', () => {

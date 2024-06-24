@@ -67,6 +67,17 @@ describe('Selection', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match radio-nesting-logic', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="selection-radio-nesting-logic"]',
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="selection-radio-nesting-logic"] .dnb-radio:nth-of-type(2) input',
+        recalculateHeightAfterSimulate: true,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 
   describe('button', () => {
@@ -88,6 +99,17 @@ describe('Selection', () => {
     it('have to match button-vertical', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="selection-button-vertical"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match button-nesting-logic', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="selection-button-nesting-logic"]',
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="selection-button-nesting-logic"] .dnb-toggle-button:nth-of-type(2) button',
+        recalculateHeightAfterSimulate: true,
       })
       expect(screenshot).toMatchImageSnapshot()
     })
