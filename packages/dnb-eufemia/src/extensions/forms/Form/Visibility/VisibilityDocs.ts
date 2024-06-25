@@ -62,7 +62,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   compensateForGap: {
-    doc: 'To compensate for CSS gap between the rows so animation not jumps during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
+    doc: 'To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
