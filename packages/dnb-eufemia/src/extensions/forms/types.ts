@@ -322,7 +322,7 @@ export interface UseFieldProps<
   ) => Value
 
   /**
-   * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value form the original event object.
+   * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value from the original event object.
    */
   fromInput?: (external: Value | unknown) => Value
 
