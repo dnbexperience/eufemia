@@ -94,14 +94,14 @@ describe('HeightAnimation', () => {
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen).toHaveBeenLastCalledWith(false)
 
-    rerender(<HeightAnimation open />)
+    rerender(<HeightAnimation open onOpen={onOpen} />)
 
     simulateAnimationEnd()
 
     expect(onOpen).toHaveBeenCalledTimes(2)
     expect(onOpen).toHaveBeenLastCalledWith(true)
 
-    rerender(<HeightAnimation open={false} />)
+    rerender(<HeightAnimation open={false} onOpen={onOpen} />)
 
     simulateAnimationEnd()
 
@@ -117,14 +117,18 @@ describe('HeightAnimation', () => {
 
     expect(onAnimationEnd).toHaveBeenCalledTimes(0)
 
-    rerender(<HeightAnimation open={true} />)
+    rerender(
+      <HeightAnimation open={true} onAnimationEnd={onAnimationEnd} />
+    )
 
     simulateAnimationEnd()
 
     expect(onAnimationEnd).toHaveBeenCalledTimes(1)
     expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
 
-    rerender(<HeightAnimation open={false} />)
+    rerender(
+      <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />
+    )
 
     simulateAnimationEnd()
 
@@ -143,7 +147,7 @@ describe('HeightAnimation', () => {
       expect.any(HeightAnimationInstance)
     )
 
-    rerender(<HeightAnimation open={true} />)
+    rerender(<HeightAnimation onInit={onInit} open={true} />)
 
     expect(onInit).toHaveBeenCalledTimes(1)
   })
@@ -158,6 +162,37 @@ describe('HeightAnimation', () => {
     runAnimation()
 
     expect(getElement()).toHaveAttribute('style', 'height: auto;')
+  })
+
+  describe('compensateForGap', () => {
+    it('should add wrapper element with compensateForGap class', () => {
+      render(
+        <HeightAnimation compensateForGap="auto">
+          <span className="content">content</span>
+        </HeightAnimation>
+      )
+
+      const inner = document.querySelector(
+        '.dnb-height-animation > .compensateForGap'
+      )
+      expect(inner).toBeInTheDocument()
+    })
+
+    it('should set marginTop when compensateForGap is given', () => {
+      render(
+        <div style={{ rowGap: '2rem' }}>
+          <HeightAnimation compensateForGap="auto">
+            <span className="content">content</span>
+          </HeightAnimation>
+        </div>
+      )
+
+      const main = document.querySelector('.dnb-height-animation')
+      expect(main).toHaveStyle('margin-top: calc(2rem * -1);')
+
+      const inner = main.querySelector('.compensateForGap')
+      expect(inner).toHaveStyle('margin-top: 2rem;')
+    })
   })
 
   describe('keepInDOM', () => {
