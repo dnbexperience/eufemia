@@ -188,7 +188,6 @@ const cardData: PaymentCardType[] = [
     productCode: 'VX1',
     displayName: 'Mitt første kort',
     ...myFirst,
-    paymentType: null,
   },
   {
     productCode: 'VX3',
@@ -201,6 +200,7 @@ const cardData: PaymentCardType[] = [
     displayName: 'Mitt første kort',
     productType: { type: 'Intro' },
     ...myFirst,
+    paymenType: null,
   },
   {
     productCode: 'VX5',
