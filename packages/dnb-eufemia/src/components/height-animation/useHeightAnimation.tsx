@@ -19,7 +19,7 @@ export type useHeightAnimationOptions = {
   animate?: boolean
 
   /**
-   * To compensate for CSS gap between the rows so animation does not jump during the animation.
+   * To compensate for CSS gap between the rows, so animation does not jump during the animation.
    * Provide a CSS unit or `var(--row-gap)`.
    */
   compensateForGap?: string | 'auto'
