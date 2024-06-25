@@ -49,7 +49,7 @@ export const PaymentCardProperties: PropertiesTableProps = {
 
 export const PaymentCardTypeProperties: PropertiesTableProps = {
   displayName: {
-    doc: 'used by the screan reader.',
+    doc: 'used by the screen reader.',
     type: 'string',
     status: 'optional',
   },
