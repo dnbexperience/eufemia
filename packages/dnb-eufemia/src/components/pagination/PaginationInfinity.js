@@ -282,6 +282,8 @@ export default class InfinityScroller extends React.PureComponent {
       fallback_element,
       marker_element,
       indicator_element,
+      load_button_text,
+      load_button_icon_position,
     } = this.context.pagination
 
     // invoke startup if needed
@@ -353,6 +355,8 @@ export default class InfinityScroller extends React.PureComponent {
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
+                  text={load_button_text}
+                  icon_position={load_button_icon_position}
                   on_click={(event) =>
                     this.getNewContent(pageNumber - 1, {
                       position: 'before',
@@ -380,6 +384,8 @@ export default class InfinityScroller extends React.PureComponent {
                 pageNumber < pageCount) && (
                 <InfinityLoadButton
                   element={fallback_element}
+                  text={load_button_text}
+                  icon_position={load_button_icon_position}
                   icon="arrow_down"
                   on_click={(event) =>
                     this.getNewContent(pageNumber + 1, {
@@ -528,11 +534,15 @@ export class InfinityLoadButton extends React.PureComponent {
     ]),
     icon: PropTypes.string.isRequired,
     on_click: PropTypes.func.isRequired,
+    text: PropTypes.string,
+    icon_position: PropTypes.string,
   }
   static defaultProps = {
     element: 'div',
     pressed_element: null,
     icon: 'arrow_down',
+    text: null,
+    icon_position: 'left',
   }
   state = { isPressed: false }
   onClickHandler = (e) => {
@@ -542,7 +552,7 @@ export class InfinityLoadButton extends React.PureComponent {
     }
   }
   render() {
-    const { element, icon } = this.props
+    const { element, icon, text, icon_position } = this.props
     const Element = element
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
@@ -554,8 +564,10 @@ export class InfinityLoadButton extends React.PureComponent {
           <Button
             size="medium"
             icon={icon}
-            icon_position="left"
-            text={this.context.translation.Pagination.load_button_text}
+            icon_position={icon_position}
+            text={
+              text || this.context.translation.Pagination.load_button_text
+            }
             variant="secondary"
             on_click={this.onClickHandler}
           />

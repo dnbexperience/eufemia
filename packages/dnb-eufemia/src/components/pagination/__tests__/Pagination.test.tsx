@@ -746,6 +746,34 @@ describe('Infinity scroller', () => {
       document.querySelector('.dnb-pagination__indicator')
     ).not.toBeInTheDocument()
   })
+
+  it('should forward load button props', async () => {
+    const action = ({ pageNumber, setContent }) => {
+      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    }
+
+    const on_startup = jest.fn(action)
+
+    render(
+      <Pagination
+        mode="infinity"
+        {...props}
+        on_startup={on_startup}
+        use_load_button
+        load_button_text="Load please"
+        load_button_icon_position="right"
+      />
+    )
+
+    await waitForComponent()
+
+    const loadButton = document.querySelector(
+      '.dnb-button--secondary'
+    ) as HTMLButtonElement
+
+    expect(loadButton).toHaveTextContent('Load please')
+    expect(loadButton).toHaveClass('dnb-button--icon-position-right')
+  })
 })
 
 describe('Pagination ARIA', () => {
