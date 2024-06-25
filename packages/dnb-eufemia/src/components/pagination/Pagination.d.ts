@@ -146,6 +146,10 @@ export interface PaginationProps
    * Used during infinity mode. If `use_load_button` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    */
   load_button_text?: string;
+  /**
+   * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
+   */
+  load_button_icon_position?: string;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -327,7 +331,10 @@ interface PaginationInstanceProps extends SpacingProps {
    * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    */
   load_button_text?: string;
-  className?: string;
+  /**
+   * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
+   */
+  load_button_icon_position?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
@@ -502,6 +509,10 @@ interface InfinityMarkerProps extends SpacingProps {
    * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    */
   load_button_text?: string;
+  /**
+   * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
+   */
+  load_button_icon_position?: string;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
