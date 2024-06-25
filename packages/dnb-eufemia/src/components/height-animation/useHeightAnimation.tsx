@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -110,25 +110,27 @@ export function useHeightAnimation(
     }
   }, [animate])
 
+  const handleCompensateForGap = useCallback(() => {
+    if (compensateForGap) {
+      let gap = compensateForGap
+      const { elem } = instRef.current
+      if (compensateForGap === 'auto') {
+        gap = window
+          .getComputedStyle(elem.parentElement)
+          .getPropertyValue('row-gap')
+      }
+      elem.style.marginTop = `calc(${gap} * -1)`
+      const inner = elem.querySelector('.compensateForGap') as HTMLElement
+      inner.style.marginTop = gap
+    }
+  }, [compensateForGap])
+
   useLayoutEffect(() => {
     instRef.current.onStart((state: HeightAnimationOnStartTypes) => {
       switch (state) {
         case 'opening':
-          if (compensateForGap) {
-            let gap = compensateForGap
-            const { elem } = instRef.current
-            if (compensateForGap === 'auto') {
-              gap = window
-                .getComputedStyle(elem.parentElement)
-                .getPropertyValue('row-gap')
-            }
-            elem.style.marginTop = `calc(${gap} * -1)`
-            const inner = elem.querySelector(
-              '.compensateForGap'
-            ) as HTMLElement
-            inner.style.marginTop = gap
-          }
           setIsVisible(true)
+          handleCompensateForGap()
           setParallax(true)
           setIsAnimating(true)
           break
@@ -174,7 +176,7 @@ export function useHeightAnimation(
         eventsRef.current.onAnimationEnd?.(state)
       }
     })
-  }, [compensateForGap])
+  }, [compensateForGap, handleCompensateForGap])
 
   useOpenClose({ open, instRef, isInitialRenderRef, targetRef })
   useAdjust({ children, instRef, isInitialRenderRef, targetRef })
