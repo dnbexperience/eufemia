@@ -134,6 +134,12 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+
+  expandBehaviour: {
+    doc: 'Determines how many accordions can be expanded at once. Defaults to `single`',
+    type: ['single', 'multiple'],
+    status: 'optional',
+  },
   expanded_id: {
     doc: 'Define an `id` of a nested accordion that will get expanded.',
     type: 'string',
