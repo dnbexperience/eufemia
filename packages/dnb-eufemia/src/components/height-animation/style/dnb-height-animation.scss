@@ -6,8 +6,9 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-height-animation {
-  --height-animation: height var(--duration, 400ms) var(--easing-default)
-    var(--delay, 0ms);
+  --height-animation-duration: var(--duration, 400ms);
+  --height-animation: height var(--height-animation-duration)
+    var(--easing-default) var(--delay, 0ms);
 
   will-change: height;
   transition: var(--height-animation);

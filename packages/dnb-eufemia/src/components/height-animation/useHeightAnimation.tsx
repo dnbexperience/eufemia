@@ -129,8 +129,8 @@ export function useHeightAnimation(
     instRef.current.onStart((state: HeightAnimationOnStartTypes) => {
       switch (state) {
         case 'opening':
-          setIsVisible(true)
           handleCompensateForGap()
+          setIsVisible(true)
           setParallax(true)
           setIsAnimating(true)
           break
