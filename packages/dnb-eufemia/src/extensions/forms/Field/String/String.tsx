@@ -30,7 +30,7 @@ interface ErrorMessages extends CustomErrorMessages {
   pattern?: string
 }
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string, ErrorMessages> & {
+  FieldProps<string, undefined | string | unknown, ErrorMessages> & {
     // - Shared props
     multiline?: boolean
     inputClassName?: string
