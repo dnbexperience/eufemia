@@ -178,7 +178,7 @@ describe('HeightAnimation', () => {
       expect(inner).toBeInTheDocument()
     })
 
-    it('should marginTop when compensateForGap is given', () => {
+    it('should set marginTop when compensateForGap is given', () => {
       render(
         <div style={{ rowGap: '2rem' }}>
           <HeightAnimation compensateForGap="auto">
