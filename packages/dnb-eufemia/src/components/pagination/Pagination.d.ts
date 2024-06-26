@@ -149,7 +149,7 @@ export interface PaginationProps
   /**
    * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
    */
-  load_button_icon_position?: string;
+  loadButtonIconPosition?: ButtonIconPosition;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -334,7 +334,7 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
    */
-  load_button_icon_position?: string;
+  loadButtonIconPosition?: ButtonIconPosition;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
@@ -512,7 +512,7 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
    */
-  load_button_icon_position?: string;
+  loadButtonIconPosition?: ButtonIconPosition;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
