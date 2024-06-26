@@ -283,7 +283,7 @@ export default class InfinityScroller extends React.PureComponent {
       marker_element,
       indicator_element,
       load_button_text,
-      loadButtonIconPosition,
+      loadButton,
     } = this.context.pagination
 
     // invoke startup if needed
@@ -353,10 +353,14 @@ export default class InfinityScroller extends React.PureComponent {
               pageNumber > 1 &&
               pageNumber <= startupPage && (
                 <InfinityLoadButton
-                  element={fallback_element}
+                  element={
+                    typeof loadButton === 'function'
+                      ? loadButton
+                      : fallback_element
+                  }
                   icon="arrow_up"
-                  text={load_button_text}
-                  icon_position={loadButtonIconPosition}
+                  text={load_button_text ?? loadButton?.text}
+                  icon_position={loadButton?.iconPosition}
                   on_click={(event) =>
                     this.getNewContent(pageNumber - 1, {
                       position: 'before',
@@ -383,9 +387,13 @@ export default class InfinityScroller extends React.PureComponent {
               (typeof pageCount === 'undefined' ||
                 pageNumber < pageCount) && (
                 <InfinityLoadButton
-                  element={fallback_element}
-                  text={load_button_text}
-                  icon_position={loadButtonIconPosition}
+                  element={
+                    typeof loadButton === 'function'
+                      ? loadButton
+                      : fallback_element
+                  }
+                  text={load_button_text ?? loadButton?.text}
+                  icon_position={loadButton?.iconPosition}
                   icon="arrow_down"
                   on_click={(event) =>
                     this.getNewContent(pageNumber + 1, {
