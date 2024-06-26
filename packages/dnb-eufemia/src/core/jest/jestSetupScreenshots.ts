@@ -102,7 +102,7 @@ export const makeScreenshot = async (
     simulate?: Simulate
     /** An action, or list of action, to simulate right after screenshot is taken, used for cleanup before the next test */
     simulateAfter?: Simulate
-    /** Delay at the end, right before returning the reslult */
+    /** Delay at the end, right before returning the result */
     waitBeforeFinish?: number
     /** Delay right before running simulations and right after simulation element has been selected */
     waitBeforeSimulate?: number
