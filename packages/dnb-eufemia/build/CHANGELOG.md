@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.38.0](https://github.com/dnbexperience/eufemia/compare/v10.37.0...v10.38.0) (2024-06-26)
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** add missing bottom border on hover ([#3723](https://github.com/dnbexperience/eufemia/issues/3723)) ([41fb027](https://github.com/dnbexperience/eufemia/commit/41fb0275a8a1661afd5c5fd279b5a4c54a23d661))
+
+
+### :memo: Documentation
+
+* **Button:** add 'small' button size as supported ([#3735](https://github.com/dnbexperience/eufemia/issues/3735)) ([686cb90](https://github.com/dnbexperience/eufemia/commit/686cb908c1de1ac4c31eabfe6c859a35b69ecb46))
+
+
+### :sparkles: Features
+
+* **Accordion:** allow multiple accordions inside a group to be expanded at the same time ([#3726](https://github.com/dnbexperience/eufemia/issues/3726)) ([68d3b0b](https://github.com/dnbexperience/eufemia/commit/68d3b0b8c7a8d56dff1fa67b1df0aebb9292e355))
+* **Card:** add support for nesting a Section with breakout until edge of card ([#3728](https://github.com/dnbexperience/eufemia/issues/3728)) ([97e92c2](https://github.com/dnbexperience/eufemia/commit/97e92c257cf4e0a3a4a16ad336bc5151bc8d66b4))
+* **forms:** add property compensateForGap to Visibility ([#3733](https://github.com/dnbexperience/eufemia/issues/3733)) ([3094b18](https://github.com/dnbexperience/eufemia/commit/3094b1889457205ae6cc5fb2d74e0e9dbcfa2976)), closes [#3732](https://github.com/dnbexperience/eufemia/issues/3732)
+* **forms:** add support for nested `Section` and `ArraySelection` fields ([#3734](https://github.com/dnbexperience/eufemia/issues/3734)) ([d4b3bb4](https://github.com/dnbexperience/eufemia/commit/d4b3bb4c6a1ad2a5acd860acd42d24e04ca9f4b9)), closes [#3733](https://github.com/dnbexperience/eufemia/issues/3733)
+* **HeightAnimation:** add property `compensateForGap` ([#3732](https://github.com/dnbexperience/eufemia/issues/3732)) ([b0c4199](https://github.com/dnbexperience/eufemia/commit/b0c4199515e5642ac8bb3dd068ea1d2022dbdec0))
+
 ## [10.37.0](https://github.com/dnbexperience/eufemia/compare/v10.36.0...v10.37.0) (2024-06-18)
 
 
