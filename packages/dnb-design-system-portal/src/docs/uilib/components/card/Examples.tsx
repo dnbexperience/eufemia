@@ -7,6 +7,7 @@ import {
   H2,
   Hr,
   P,
+  Section,
   Table,
   Td,
   Th,
@@ -203,6 +204,47 @@ export const WithHeadingsAndAriaLabel = () => {
         </Form.SubHeading>
         <P>Content inside a landmark ...</P>
       </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithNestedSection = () => {
+  return (
+    <ComponentBox data-visual-test="card-nested-section">
+      <Flex.Stack>
+        <Card gap="x-small" align="stretch">
+          <Form.SubHeading>Card with a nested Section</Form.SubHeading>
+          <Section
+            variant="info"
+            innerSpace={{ top: 'small', bottom: 'medium' }}
+          >
+            <Field.String width="medium" label="In nested Section" />
+          </Section>
+        </Card>
+
+        <Card innerSpace="x-large" stack>
+          <Section
+            variant="info"
+            innerSpace={{ top: 'small', bottom: 'medium' }}
+          >
+            <Field.String
+              width="medium"
+              label="Card with a 'x-large' inner space"
+            />
+          </Section>
+        </Card>
+
+        <Card innerSpace={false} align="stretch">
+          <P>no inner space</P>
+          <Section innerSpace backgroundColor="var(--card-outline-color)">
+            <Field.String
+              width="medium"
+              label="Card with no inner space"
+            />
+          </Section>
+          <P>no inner space</P>
+        </Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

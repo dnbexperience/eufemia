@@ -128,7 +128,40 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
     const container = element.querySelector('.dnb-flex-container')
 
+    expect(element).toHaveClass('dnb-flex-item--align-self-stretch')
     expect(container).toHaveClass('dnb-flex-container--align-stretch')
+    expect(container).toHaveClass('dnb-flex-container--align-self-stretch')
+  })
+
+  it('should set align="stretch" classes', () => {
+    render(
+      <Card align="stretch">
+        <P>Paragraph</P>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    const container = element.querySelector('.dnb-flex-container')
+
+    expect(element).toHaveClass('dnb-flex-item--align-self-stretch')
+    expect(container).toHaveClass('dnb-flex-container--align-stretch')
+    expect(container).toHaveClass('dnb-flex-container--align-self-stretch')
+  })
+
+  it('should set align="flex-end" classes', () => {
+    render(
+      <Card align="flex-end">
+        <P>Paragraph</P>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    const container = element.querySelector('.dnb-flex-container')
+
+    expect(element).toHaveClass('dnb-flex-item--align-self-stretch')
+    expect(container).toHaveClass('dnb-flex-container--align-flex-end')
     expect(container).toHaveClass('dnb-flex-container--align-self-stretch')
   })
 

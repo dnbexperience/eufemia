@@ -9,6 +9,7 @@ import React, {
   useEffect,
   useRef,
   HTMLProps,
+  useMemo,
 } from 'react'
 
 import classnames from 'classnames'
@@ -227,13 +228,17 @@ function Accordion({
     if (context?.expanded_id && context.expanded_id === props.id) {
       setExpanded(true)
     }
-  }, [context.flush_remembered_state, context.expanded_id])
+  }, [
+    context.flush_remembered_state,
+    context.expanded_id,
+    props.expanded,
+    props.id,
+    store,
+  ])
 
   // Add callback for closing all accordions inside a group if collapseAllHandleRef is defined
   if (context?.collapseAllHandleRef && !hasAddedCallbackRef.current) {
-    context?.collapseAccordionCallbacks?.current.push(() =>
-      changeOpened(false)
-    )
+    context?.collapseAccordionCallbacks?.current.push(close)
     hasAddedCallbackRef.current = true
   }
 
@@ -306,7 +311,7 @@ function Accordion({
       event,
     })
   }
-  console.log('context', context)
+
   return (
     <Context.Consumer>
       {(globalContext) => (
@@ -437,15 +442,20 @@ Accordion.defaultProps = accordionDefaultProps
 export type GroupProps = AccordionProps & {
   allow_close_all?: boolean
   /**
+   * Determines how many accordions can be expanded at once.
+   * Default: `single`
+   */
+  expandBehaviour?: 'single' | 'multiple'
+  /**
    * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
   expanded_id?: string
+  collapseAllHandleRef?: React.MutableRefObject<() => void>
 }
 
-const Group = (props: GroupProps) => {
+const Group = ({ expandBehaviour = 'single', ...props }: GroupProps) => {
   if (props.remember_state && !props.id) {
     rememberWarning('accordion group')
   }
@@ -460,7 +470,7 @@ const Group = (props: GroupProps) => {
     ? '#' + makeUniqueId()
     : undefined
 
-  const store = new Store({ group })
+  const store = useMemo(() => new Store({ group }), [group])
 
   // Set stored expanded_id on mount
   useEffect(() => {
@@ -484,7 +494,7 @@ const Group = (props: GroupProps) => {
 
     // 2. set the fallback ids
     setExpandedId(fallbackId)
-  }, [])
+  }, [store])
 
   // Store and reset fallback id
   useEffect(() => {
@@ -497,7 +507,7 @@ const Group = (props: GroupProps) => {
 
     // 4. and reset the fallback id
     setExpandedId(null)
-  }, [expandedId])
+  }, [expandedId, store])
 
   function onInit(instance) {
     if (
@@ -513,6 +523,7 @@ const Group = (props: GroupProps) => {
       onInit={onInit}
       {...props}
       group={group}
+      expandBehaviour={expandBehaviour}
       expanded_id={expandedId || props.expanded_id}
     />
   )

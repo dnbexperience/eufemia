@@ -62,7 +62,7 @@ $fonts-path: '../../../../assets/fonts/sbanken' !default;
   src: url('#{$fonts-path}/Roboto-Bold.woff2'),
     url('#{$fonts-path}/Roboto-Bold.woff'),
     url('#{$fonts-path}/Roboto-Bold.ttf');
-  font-weight: 700; // have to be the same as: --sb-font-weight-boldcode
+  font-weight: 700; // have to be the same as: --sb-font-weight-bold
   font-style: normal;
   font-display: fallback;
 }

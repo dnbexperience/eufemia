@@ -248,11 +248,16 @@
   }
 
   &-group {
-    --radio-group-margin-bottom: 0.5rem;
-    --radio-group-margin-right: 1rem;
+    --radio-group-row-gap: 0.5rem;
+    --radio-group-column-gap: 1rem;
 
     display: inline-flex;
-    // flex-direction: row;
+
+    &,
+    &__fieldset,
+    &__shell {
+      flex-grow: 1;
+    }
 
     fieldset {
       @include fieldsetReset();
@@ -271,8 +276,8 @@
     &__shell {
       display: flex;
       flex-wrap: wrap;
-      column-gap: var(--radio-group-margin-right);
-      row-gap: var(--radio-group-margin-bottom);
+      column-gap: var(--radio-group-column-gap);
+      row-gap: var(--radio-group-row-gap);
     }
 
     &__shell {
@@ -285,13 +290,6 @@
     &--column &__shell {
       flex-direction: column;
     }
-
-    // .dnb-flex-container {
-    //   &::before {
-    //     // move the group 2px up if label exists
-    //     font-size: var(--font-size-basis);
-    //   }
-    // }
   }
 
   /*
@@ -299,7 +297,7 @@
    */
 
   // stylelint-disable no-descending-specificity
-  // We prioritise categorisation and readability over specificity here */
+  // We prioritize categorisation and readability over specificity here */
 
   /** Normal state **/
 

@@ -2,16 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { HeightAnimationProperties } from '@dnb/eufemia/src/components/height-animation/HeightAnimationDocs'
+
 ## Properties
 
-| Properties                              | Description                                                                                                       |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `open`                                  | _(optional)_ Set to `true` on second re-render when the view should animate from 0px to auto. Defaults to `true`. |
-| `animate`                               | _(optional)_ Set to `false` to omit the animation. Defaults to `true`.                                            |
-| `keepInDOM`                             | _(optional)_ Set to `true` ensure the nested children content will be kept in the DOM. Defaults to `false`.       |
-| `showOverflow`                          | _(optional)_ Set to `true` to omit the usage of "overflow: hidden;". Defaults to `false`.                         |
-| `duration`                              | _(optional)_ Custom duration of the animation in milliseconds. Defaults to `400ms`.                               |
-| `delay`                                 | _(optional)_ Custom delay of the animation in milliseconds. Defaults to `0ms`.                                    |
-| `element`                               | _(optional)_ Custom HTML element for the component. Defaults to `div` HTML Element.                               |
-| `innerRef`                              | _(optional)_ Send along a custom React Ref.                                                                       |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                             |
+<PropertiesTable props={HeightAnimationProperties} />

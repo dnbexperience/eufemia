@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card } from '../../../../../components'
-import { Field } from '../../..'
+import { Card, Section } from '../../../../../components'
+import { Field, Form } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Selection',
@@ -114,5 +114,66 @@ export function HelpButton() {
         />
       </Field.Selection>
     </Card>
+  )
+}
+
+export function NestingWithLogic() {
+  return (
+    <Form.Handler>
+      <Card stack>
+        <Field.Selection
+          variant="radio"
+          // variant="button"
+          label="Make a selection"
+          path="/mySelection"
+          // defaultValue="showAdditionalOption"
+          defaultValue="showInput"
+        >
+          <Field.Option value="nothing" title="Nothing" />
+
+          <Field.Option value="showInput" title="Show an input" />
+          <Form.Visibility
+            animate
+            visibleWhen={{ path: '/mySelection', hasValue: 'showInput' }}
+            compensateForGap="auto"
+          >
+            <Section variant="info" innerSpace>
+              <Field.String placeholder="Enter some value" />
+            </Section>
+          </Form.Visibility>
+
+          <Field.Option
+            value="showAdditionalOption"
+            title="Show additional option"
+          />
+          <Form.Visibility
+            animate
+            visibleWhen={{
+              path: '/mySelection',
+              withValue: (value) =>
+                value === 'showAdditionalOption' || value === 'showMeMore',
+            }}
+            compensateForGap="auto"
+          >
+            <Field.Option
+              value="showMeMore"
+              title="Show even more"
+              bottom="x-small"
+            />
+            <Form.Visibility
+              animate
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: 'showMeMore',
+              }}
+            >
+              <Section variant="info" innerSpace>
+                <Field.String placeholder="Enter more info" />
+              </Section>
+            </Form.Visibility>
+          </Form.Visibility>
+        </Field.Selection>
+      </Card>
+    </Form.Handler>
   )
 }

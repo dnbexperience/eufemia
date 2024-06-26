@@ -1,20 +1,31 @@
 @import '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-array-selection {
+  --row-gap: var(--spacing-x-small);
   &--options-layout-vertical &__options {
     display: flex;
     flex-flow: column;
-    row-gap: var(--spacing-x-small);
+    row-gap: var(--row-gap);
   }
-  &--options-layout-vertical#{&}--layout-horizontal &__options {
+  &--options-layout-vertical#{&}--layout-horizontal {
+    .dnb-forms-field-block__label {
+      align-items: flex-start;
+    }
+  }
+  &--variant-checkbox#{&}--layout-horizontal &__options {
     row-gap: 0;
+  }
+  &--variant-button#{&}--options-layout-vertical#{&}--layout-horizontal {
+    .dnb-forms-field-block__label {
+      line-height: 2.5rem;
+    }
   }
 
   &--options-layout-horizontal &__options {
     display: flex;
     flex-flow: row wrap;
     column-gap: var(--spacing-small);
-    row-gap: var(--spacing-x-small); // for when wrapped
+    row-gap: var(--row-gap); // for when wrapped
   }
 
   @include allAbove(small) {

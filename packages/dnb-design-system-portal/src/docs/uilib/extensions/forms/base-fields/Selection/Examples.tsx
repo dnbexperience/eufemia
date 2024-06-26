@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Button, Flex } from '@dnb/eufemia/src'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Button, Card, Flex, Section } from '@dnb/eufemia/src'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 // - Dropdown
 
@@ -408,6 +408,62 @@ export const RadioError = () => (
   </ComponentBox>
 )
 
+export const RadioNestingWithLogic = () => (
+  <ComponentBox data-visual-test="selection-radio-nesting-logic">
+    <Form.Handler>
+      <Card stack>
+        <Field.Selection
+          variant="radio"
+          label="Make a selection"
+          path="/mySelection"
+        >
+          <Field.Option value="nothing" title="Nothing" />
+          <Field.Option value="showInput" title="Show an input" />
+          <Form.Visibility
+            animate
+            visibleWhen={{ path: '/mySelection', hasValue: 'showInput' }}
+            compensateForGap="auto"
+          >
+            <Section variant="info" innerSpace>
+              <Field.String placeholder="Enter some value" />
+            </Section>
+          </Form.Visibility>
+          <Field.Option
+            value="showAdditionalOption"
+            title="Show additional option"
+          />
+          <Form.Visibility
+            animate
+            visibleWhen={{
+              path: '/mySelection',
+              withValue: (value) =>
+                value === 'showAdditionalOption' || value === 'showMeMore',
+            }}
+            compensateForGap="auto"
+          >
+            <Field.Option
+              value="showMeMore"
+              title="Show even more"
+              bottom="x-small"
+            />
+            <Form.Visibility
+              animate
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: 'showMeMore',
+              }}
+            >
+              <Section variant="info" innerSpace>
+                <Field.String placeholder="Enter more info" />
+              </Section>
+            </Form.Visibility>
+          </Form.Visibility>
+        </Field.Selection>
+      </Card>
+    </Form.Handler>
+  </ComponentBox>
+)
+
 // - Button
 
 export const ButtonEmpty = () => (
@@ -490,5 +546,61 @@ export const ButtonError = () => (
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
+  </ComponentBox>
+)
+
+export const ButtonNestingWithLogic = () => (
+  <ComponentBox data-visual-test="selection-button-nesting-logic">
+    <Form.Handler>
+      <Card stack>
+        <Field.Selection
+          variant="button"
+          label="Make a selection"
+          path="/mySelection"
+        >
+          <Field.Option value="nothing" title="Nothing" />
+
+          <Field.Option value="showInput" title="Show an input" />
+          <Form.Visibility
+            animate
+            visibleWhen={{ path: '/mySelection', hasValue: 'showInput' }}
+          >
+            <Section variant="info" innerSpace>
+              <Field.String placeholder="Enter some value" />
+            </Section>
+          </Form.Visibility>
+
+          <Field.Option
+            value="showAdditionalOption"
+            title="Show additional option"
+          />
+          <Form.Visibility
+            animate
+            visibleWhen={{
+              path: '/mySelection',
+              withValue: (value) =>
+                value === 'showAdditionalOption' || value === 'showMeMore',
+            }}
+          >
+            <Field.Option
+              value="showMeMore"
+              title="Show even more"
+              bottom="x-small"
+            />
+            <Form.Visibility
+              animate
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: 'showMeMore',
+              }}
+            >
+              <Section variant="info" innerSpace>
+                <Field.String placeholder="Enter more info" />
+              </Section>
+            </Form.Visibility>
+          </Form.Visibility>
+        </Field.Selection>
+      </Card>
+    </Form.Handler>
   </ComponentBox>
 )

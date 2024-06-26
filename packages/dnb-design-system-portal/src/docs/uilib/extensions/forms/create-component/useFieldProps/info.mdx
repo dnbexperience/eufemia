@@ -213,7 +213,7 @@ They should return a transformed value: `(value) => value`
 
 - `toInput` transforms the value before it is returned. This applies whether the original source of the value is the value prop or the data context.
 
-- `fromInput` transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value form the original event object.
+- `fromInput` transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value from the original event object.
 
 - `toEvent` transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
 

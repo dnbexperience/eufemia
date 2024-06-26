@@ -237,15 +237,14 @@ export default class RadioGroup extends React.PureComponent {
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <Fieldset>
+          <Fieldset className="dnb-toggle-button-group__fieldset">
             <Flex.Container
-              // align="baseline"
               direction={
                 vertical || label_direction === 'vertical'
                   ? 'vertical'
                   : 'horizontal'
               }
-              spacing={vertical ? 'x-small' : 'small'}
+              gap={vertical ? 'x-small' : 'small'}
             >
               {label && (
                 <FormLabel

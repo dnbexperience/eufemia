@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -17,6 +17,12 @@ export type useHeightAnimationOptions = {
    * Default: true
    */
   animate?: boolean
+
+  /**
+   * To compensate for CSS gap between the rows, so animation does not jump during the animation.
+   * Provide a CSS unit or `var(--row-gap)`.
+   */
+  compensateForGap?: string | 'auto'
 
   /**
    * In order to let the Hook know when children has changed
@@ -57,6 +63,7 @@ export function useHeightAnimation(
     open = true,
     animate = true,
     children = null,
+    compensateForGap,
     onInit = null,
     onOpen = null,
     onAnimationStart = null,
@@ -75,14 +82,25 @@ export function useHeightAnimation(
   const [isAnimating, setIsAnimating] = useState(false)
   const [isVisibleParallax, setParallax] = useState(open)
 
+  const eventsRef = useRef({
+    onInit,
+    onAnimationEnd,
+    onAnimationStart,
+    onOpen,
+  })
+  eventsRef.current.onInit = onInit
+  eventsRef.current.onAnimationEnd = onAnimationEnd
+  eventsRef.current.onAnimationStart = onAnimationStart
+  eventsRef.current.onOpen = onOpen
+
   useLayoutEffect(() => {
     instRef.current = new HeightAnimationInstance()
-    onInit?.(instRef.current)
+    eventsRef.current.onInit?.(instRef.current)
     return () => {
       instRef.current?.remove()
       instRef.current = null
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   useLayoutEffect(() => {
     instRef.current.setOptions({ animate })
@@ -92,10 +110,26 @@ export function useHeightAnimation(
     }
   }, [animate])
 
+  const handleCompensateForGap = useCallback(() => {
+    if (compensateForGap) {
+      let gap = compensateForGap
+      const { elem } = instRef.current
+      if (compensateForGap === 'auto') {
+        gap = window
+          .getComputedStyle(elem.parentElement)
+          .getPropertyValue('row-gap')
+      }
+      elem.style.marginTop = `calc(${gap} * -1)`
+      const inner = elem.querySelector('.compensateForGap') as HTMLElement
+      inner.style.marginTop = gap
+    }
+  }, [compensateForGap])
+
   useLayoutEffect(() => {
     instRef.current.onStart((state: HeightAnimationOnStartTypes) => {
       switch (state) {
         case 'opening':
+          handleCompensateForGap()
           setIsVisible(true)
           setParallax(true)
           setIsAnimating(true)
@@ -112,7 +146,7 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        onAnimationStart?.(state)
+        eventsRef.current.onAnimationStart?.(state)
       }
     })
 
@@ -122,7 +156,7 @@ export function useHeightAnimation(
           setIsVisible(true)
           setIsOpen(true)
           setIsAnimating(false)
-          onOpen?.(true)
+          eventsRef.current.onOpen?.(true)
           break
 
         case 'closed':
@@ -130,7 +164,7 @@ export function useHeightAnimation(
           setIsOpen(false)
           setParallax(false)
           setIsAnimating(false)
-          onOpen?.(false)
+          eventsRef.current.onOpen?.(false)
           break
 
         case 'adjusted':
@@ -139,10 +173,10 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        onAnimationEnd?.(state)
+        eventsRef.current.onAnimationEnd?.(state)
       }
     })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [compensateForGap, handleCompensateForGap])
 
   useOpenClose({ open, instRef, isInitialRenderRef, targetRef })
   useAdjust({ children, instRef, isInitialRenderRef, targetRef })

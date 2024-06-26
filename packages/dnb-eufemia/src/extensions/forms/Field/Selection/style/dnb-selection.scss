@@ -21,4 +21,20 @@
       }
     }
   }
+
+  // In order to stretch nested Section components
+  // Because __contents is not a flex container by default (and should not be)
+  .dnb-forms-field-block__contents {
+    display: flex;
+  }
+
+  .dnb-radio-group,
+  .dnb-toggle-button-group {
+    // On order to stretch a nested Section component
+    .dnb-height-animation,
+    & > .dnb-flex-container {
+      width: 100%;
+      flex-grow: 1;
+    }
+  }
 }

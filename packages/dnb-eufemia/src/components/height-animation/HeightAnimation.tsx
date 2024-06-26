@@ -61,6 +61,7 @@ function HeightAnimation({
   className,
   innerRef,
   children,
+  compensateForGap,
   onInit = null,
   onOpen = null,
   onAnimationStart = null,
@@ -80,6 +81,7 @@ function HeightAnimation({
     open,
     animate,
     children,
+    compensateForGap,
     onInit,
     onOpen,
     onAnimationStart,
@@ -118,7 +120,11 @@ function HeightAnimation({
       aria-hidden={keepInDOM ? !open : undefined}
       {...rest}
     >
-      {children}
+      {compensateForGap ? (
+        <div className="compensateForGap">{children}</div>
+      ) : (
+        children
+      )}
     </Space>
   )
 }

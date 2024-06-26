@@ -1,6 +1,8 @@
 import { warn } from '../../shared/component-helper'
+import { AccordionContextProps } from './AccordionContext'
 
 type AccordionStoreInstance = {
+  context: AccordionContextProps
   _id: string
   close: () => void
 }
@@ -13,7 +15,7 @@ export class AccordionStore {
   }
   onChange({ id }: { id: string }) {
     this._instances.forEach((inst) => {
-      if (inst._id !== id) {
+      if (inst.context.expandBehaviour === 'single' && inst._id !== id) {
         inst.close()
       }
     })
