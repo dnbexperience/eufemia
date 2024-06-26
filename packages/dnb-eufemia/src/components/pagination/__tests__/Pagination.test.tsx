@@ -761,7 +761,7 @@ describe('Infinity scroller', () => {
         on_startup={on_startup}
         use_load_button
         load_button_text="Load please"
-        load_button_icon_position="right"
+        loadButtonIconPosition="right"
       />
     )
 
