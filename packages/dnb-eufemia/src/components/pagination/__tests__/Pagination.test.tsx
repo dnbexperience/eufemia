@@ -760,8 +760,7 @@ describe('Infinity scroller', () => {
         {...props}
         on_startup={on_startup}
         use_load_button
-        load_button_text="Load please"
-        loadButtonIconPosition="right"
+        loadButton={{ text: 'Load please', iconPosition: 'right' }}
       />
     )
 
