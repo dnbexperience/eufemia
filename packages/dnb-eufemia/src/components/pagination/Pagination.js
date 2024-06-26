@@ -92,7 +92,7 @@ const paginationPropTypes = {
   more_pages: PropTypes.string,
   is_loading_text: PropTypes.string,
   load_button_text: PropTypes.string,
-  load_button_icon_position: PropTypes.string,
+  loadButtonIconPosition: PropTypes.string,
 
   ...spacingPropTypes,
 
