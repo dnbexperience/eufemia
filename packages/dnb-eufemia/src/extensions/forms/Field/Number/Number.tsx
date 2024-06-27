@@ -31,7 +31,7 @@ interface ErrorMessages extends CustomErrorMessages {
 }
 
 export type Props = FieldHelpProps &
-  FieldProps<number, undefined | unknown, ErrorMessages> & {
+  FieldProps<number, undefined | number, ErrorMessages> & {
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
     currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
