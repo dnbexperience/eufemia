@@ -1,0 +1,41 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.Upload` is a wrapper for the [Upload](/uilib/components/upload/) component to make it easier to use inside a form.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Upload />)
+```
+
+## About the `value` and `path` prop
+
+The `value` and `path` (Data Context) props represents an array with an object containing a file object and a unique ID.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const files = [
+  {
+    id: '1234',
+    file: {
+      name: 'file1.jpg',
+      size: 1234,
+      type: 'image/jpeg',
+    },
+  },
+]
+
+render(
+  <Form.Handler defaultData={{ myFiles: files }}>
+    <Field.Upload path="/myFiles" />
+  </Form.Handler>,
+)
+```
+
+## Title vs label
+
+The original [Upload](/uilib/components/upload/) component has a `title` and `text` prop, while Eufemia Forms has a `label` and `labelDescription` prop. For consistency, the `label` and the `title` can be used interchangeably. The same applies to the `text` and `labelDescription` props.

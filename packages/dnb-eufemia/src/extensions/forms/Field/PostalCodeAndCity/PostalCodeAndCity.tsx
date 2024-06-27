@@ -1,13 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Props as FieldSectionProps } from '../../FieldBlock'
+import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
 import { FieldHelpProps } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = FieldHelpProps &
-  Omit<FieldSectionProps, 'children'> &
+  Omit<FieldBlockProps, 'children'> &
   Partial<Record<'postalCode' | 'city', StringFieldProps>>
 
 function PostalCodeAndCity(props: Props) {
@@ -18,7 +18,7 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
-    ...fieldSectionProps
+    ...fieldBlockProps
   } = props
 
   return (
@@ -27,7 +27,7 @@ function PostalCodeAndCity(props: Props) {
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
-      {...fieldSectionProps}
+      {...fieldBlockProps}
       width={width}
     >
       <StringField

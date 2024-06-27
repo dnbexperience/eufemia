@@ -52,7 +52,7 @@ function ArraySelection(props: Props) {
     children,
   } = useFieldProps(props)
 
-  const fieldSectionProps = {
+  const fieldBlockProps = {
     forId: id,
     className: classnames(
       'dnb-forms-field-array-selection',
@@ -102,7 +102,7 @@ function ArraySelection(props: Props) {
   switch (variant) {
     case 'button':
       return (
-        <FieldBlock {...fieldSectionProps}>
+        <FieldBlock {...fieldBlockProps}>
           <ToggleButtonGroupContext.Provider
             value={{
               status: hasError ? 'error' : undefined,
@@ -114,7 +114,7 @@ function ArraySelection(props: Props) {
         </FieldBlock>
       )
     case 'checkbox':
-      return <FieldBlock {...fieldSectionProps}>{options}</FieldBlock>
+      return <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
   }
 }
 

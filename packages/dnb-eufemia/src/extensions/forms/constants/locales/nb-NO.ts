@@ -129,5 +129,8 @@ export default {
       ariaLabelShow: 'Vis passord',
       ariaLabelHide: 'Skjul passord',
     },
+    Upload: {
+      errorRequired: 'Du må laste opp minst en fil.',
+    },
   },
 }
