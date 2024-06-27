@@ -353,7 +353,7 @@ describe('useFieldProps', () => {
             fieldState: SubmitState
             info: string
             warning: string
-          }>(id)
+          }>('field-block-props-' + id)
         )
         expect(sharedResult.current.data).toEqual({
           disabled: undefined,
@@ -2639,5 +2639,80 @@ describe('useFieldProps', () => {
     expect(result.current.htmlAttributes).toEqual(
       expect.objectContaining(htmlAttributes)
     )
+  })
+
+  it('should forward props in a props object', () => {
+    const props = {
+      foo: 'bar',
+    } as Record<string, unknown>
+
+    const { result } = renderHook(() => useFieldProps(props))
+
+    expect(result.current.props).toEqual(expect.objectContaining(props))
+  })
+
+  it('should call async context onChange when no error is present', async () => {
+    const onChange = jest.fn(async () => null)
+
+    const { result } = renderHook(useFieldProps, {
+      initialProps: {
+        path: '/foo',
+        error: undefined,
+      },
+      wrapper: (props) => <Provider {...props} onChange={onChange} />,
+    })
+
+    await act(async () => {
+      result.current.handleChange('new-value')
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith({ foo: 'new-value' })
+    expect(result.current.error).toBeUndefined()
+  })
+
+  it('should not call async context onChange when error is present', async () => {
+    const onChange = jest.fn(async () => null)
+
+    const { result } = renderHook(useFieldProps, {
+      initialProps: {
+        path: '/foo',
+        error: new Error('Error message'),
+      },
+      wrapper: (props) => <Provider {...props} onChange={onChange} />,
+    })
+
+    await act(async () => {
+      result.current.handleChange('new-value')
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+    expect(result.current.error).toBeInstanceOf(Error)
+  })
+
+  it('should call async context onChange regardless of error when executeOnChangeRegardlessOfError is true', async () => {
+    const onChange = jest.fn(async () => null)
+
+    const { result } = renderHook(
+      (props) =>
+        useFieldProps(props, {
+          executeOnChangeRegardlessOfError: true,
+        }),
+      {
+        initialProps: {
+          path: '/foo',
+          error: new Error('Error message'),
+        },
+        wrapper: (props) => <Provider {...props} onChange={onChange} />,
+      }
+    )
+
+    await act(async () => {
+      result.current.handleChange('new-value')
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith({ foo: 'new-value' })
+    expect(result.current.error).toBeInstanceOf(Error)
   })
 })
