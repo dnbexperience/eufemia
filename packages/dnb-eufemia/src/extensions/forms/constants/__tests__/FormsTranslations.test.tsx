@@ -84,7 +84,10 @@ describe('Form.Handler', () => {
       const Tr = (p: Tr<typeof translations>) => <Translation {...p} />
 
       const GlobalHook = () => {
-        const t = useTranslation<typeof translations>()
+        const t =
+          useTranslation<
+            (typeof translations)[keyof typeof translations]
+          >()
         return t.my.string
       }
       const FormsHook = () => {
@@ -279,7 +282,10 @@ describe('Form.Section', () => {
       const Tr = (p: Tr<typeof translations>) => <Translation {...p} />
 
       const GlobalHook = () => {
-        const t = useTranslation<typeof translations>()
+        const t =
+          useTranslation<
+            (typeof translations)[keyof typeof translations]
+          >()
         return t.my.string
       }
       const FormsHook = () => {
@@ -362,7 +368,10 @@ describe('Form.Section', () => {
       )
 
       const GlobalHook = () => {
-        const t = useTranslation<typeof sectionTranslations>()
+        const t =
+          useTranslation<
+            (typeof sectionTranslations)[keyof typeof sectionTranslations]
+          >()
         return t.my.string
       }
       const FormsHook = () => {
@@ -502,7 +511,10 @@ describe('Shared Provider', () => {
       const Tr = (p: Tr<typeof translations>) => <Translation {...p} />
 
       const GlobalHook = () => {
-        const t = useTranslation<typeof translations>()
+        const t =
+          useTranslation<
+            (typeof translations)[keyof typeof translations]
+          >()
         return t.my.string
       }
       const FormsHook = () => {

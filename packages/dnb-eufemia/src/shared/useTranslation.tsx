@@ -2,21 +2,28 @@ import { useContext, useMemo } from 'react'
 import Context, {
   Translation,
   TranslationLocale,
-  TranslationCustomLocales,
+  TranslationCustomTranslations,
   InternalLocale,
 } from './Context'
 import defaultLocales from './locales'
 
 export type TranslationId = string
-export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
+export type TranslationIdAsFunction<T = TranslationCustomTranslations> = (
   messages: T & Translation
 ) => string
 export type TranslationArguments = Record<TranslationId, unknown>
 export type UseTranslationMessages<T = Translation> =
   | TranslationId
   | Translation
-  | TranslationCustomLocales
+  | TranslationCustomTranslations
   | Record<TranslationLocale, T>
+  | T
+
+export type FormatMessage = (
+  id: TranslationId,
+  args?: TranslationArguments,
+  translation?: Translation
+) => string
 
 export default function useTranslation<T = Translation>(
   messages?: UseTranslationMessages<T>,
@@ -27,35 +34,53 @@ export default function useTranslation<T = Translation>(
   return useMemo(() => {
     const id = typeof messages === 'string' ? messages : undefined
     if (id) {
-      return formatMessage(id, args, translation)
+      // return formatMessage<T>(id, args, translation)
     }
 
-    return combineWithExternalTranslations({
+    // return translation
+
+    return combineWithExternalTranslations<T>({
       translation,
       messages,
       locale,
-    }) as T
+    })
   }, [locale, messages, args, translation])
 }
 
-export type combineWithExternalTranslationsArgs = {
-  translation: Translation
-  messages?: TranslationCustomLocales
+export type CombineWithExternalTranslationsArgs<T> = {
+  translation: Translation | T
+  // translation: T
+  messages?: TranslationCustomTranslations
+  // messages?: T
   locale?: InternalLocale
 }
-export type combineWithExternalTranslationsReturn = Translation &
-  TranslationCustomLocales & {
-    formatMessage: typeof formatMessage
+export type CombineWithExternalTranslationsReturn = Translation &
+  TranslationCustomTranslations & {
+    formatMessage: FormatMessage
   }
 
-export function combineWithExternalTranslations({
+function formatCombinedMessage<T>(
+  id: TranslationId,
+  args: TranslationArguments,
+  combined: TranslationCustomTranslations
+) {
+  return formatMessage<T>(id, args, combined)
+}
+
+export function combineWithExternalTranslations<T = Translation>({
   translation,
   messages,
   locale,
-}: combineWithExternalTranslationsArgs): combineWithExternalTranslationsReturn {
+}: CombineWithExternalTranslationsArgs<T>) {
+  // : CombineWithExternalTranslationsReturn
+
   let combined = {
     ...translation,
-  } as combineWithExternalTranslationsReturn
+  }
+  //  as typeof translation &
+  //   T & {
+  //     formatMessage: FormatMessage
+  //   }
 
   if (messages) {
     if (Object.keys(defaultLocales).some((locale) => messages[locale])) {
@@ -64,32 +89,39 @@ export function combineWithExternalTranslations({
       }
     }
 
-    for (const key in messages as TranslationCustomLocales) {
+    for (const key in messages as TranslationCustomTranslations) {
       combined[key] = { ...translation[key], ...messages[key] }
     }
   }
 
-  combined.formatMessage = (
-    id: TranslationId,
-    args: TranslationArguments
-  ) => {
-    return formatMessage(id, args, combined)
-  }
+  // combined.formatMessage = (
+  //   id: TranslationId,
+  //   args: TranslationArguments
+  // ) => {
+  //   return formatCombinedMessage<T>(id, args, combined)
+  // }
 
   return combined
 }
 
-export function formatMessage(
+const formatMessageReplace = (str: string, args: TranslationArguments) => {
+  if (str) {
+    for (const t in args) {
+      str = str.replace(new RegExp(`{${t}}`, 'g'), String(args[t]))
+    }
+  }
+  return str
+}
+
+export function formatMessage<T = Translation>(
   id: TranslationId | TranslationIdAsFunction,
   args: TranslationArguments,
-  messages: TranslationCustomLocales
+  messages: TranslationCustomTranslations | T
 ) {
-  let str = undefined
-
   if (typeof id === 'function') {
-    str = id(messages)
+    return formatMessageReplace(id(messages), args)
   } else if (messages[id]) {
-    str = messages[id]
+    return formatMessageReplace(messages[id], args)
   } else if (id?.includes?.('.')) {
     const keys = id.split('.')
     for (const key of keys) {
@@ -100,15 +132,9 @@ export function formatMessage(
       }
     }
     if (typeof messages === 'string') {
-      str = messages
+      return formatMessageReplace(messages, args)
     }
   }
 
-  if (str) {
-    for (const t in args) {
-      str = str.replace(new RegExp(`{${t}}`, 'g'), args[t])
-    }
-  }
-
-  return str
+  return undefined
 }

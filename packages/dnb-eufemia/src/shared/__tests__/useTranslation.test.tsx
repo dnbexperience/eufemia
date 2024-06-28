@@ -161,9 +161,12 @@ describe('useTranslation without an ID', () => {
           stringWithArg: 'Ny streng {arg}',
         },
       },
-    }
+    } as const
 
-    const result = renderHook(() => useTranslation(), {
+    type CustomLocales = keyof typeof customTranslation
+    type CustomTranslation = (typeof customTranslation)[CustomLocales]
+
+    const result = renderHook(() => useTranslation<CustomTranslation>(), {
       wrapper: ({ children }) => (
         <Provider translations={customTranslation} locale="en-GB">
           {children}
@@ -223,7 +226,7 @@ describe('useTranslation with an ID', () => {
         foo: 'foo',
         bar: 'bar',
         max: 'max',
-      })
+      }) as JSX.Element
     }
 
     const ChangeLocale = (props) => {

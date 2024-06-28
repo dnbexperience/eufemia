@@ -168,12 +168,12 @@ export type ContextProps = ContextComponents & {
   /**
    * Overwrite existing internal translation strings or define new strings via the Provider
    */
-  translations?: Translations | TranslationCustomLocales
+  translations?: Translations | TranslationCustomTranslations
 
   /**
    * @deprecated Use `translations` instead
    */
-  locales?: Translations | TranslationCustomLocales
+  locales?: Translations | TranslationCustomTranslations
 
   // -- For internal use --
   __context__?: Record<string, unknown>
@@ -206,7 +206,7 @@ export type TranslationKeys =
   keyof TranslationDefaultLocales[TranslationLocale]
 export type TranslationValues =
   TranslationDefaultLocales[TranslationLocale]
-export type TranslationCustomLocales = Record<
+export type TranslationCustomTranslations = Record<
   never,
   string | Record<string, string>
 >

@@ -6,11 +6,11 @@ import {
   formatMessage,
 } from './useTranslation'
 import SharedContext, {
-  TranslationCustomLocales,
+  TranslationCustomTranslations,
   TranslationFlatToObject,
 } from './Context'
 
-export type TranslationProps<T = TranslationCustomLocales> = {
+export type TranslationProps<T = TranslationCustomTranslations> = {
   id?: TranslationId | TranslationIdAsFunction<TranslationFlatToObject<T>>
   children?: TranslationId
 } & TranslationArguments
