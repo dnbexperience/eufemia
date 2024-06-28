@@ -390,6 +390,29 @@ describe('Field.Number', () => {
         log.mockRestore()
       })
     })
+
+    it('should use emptyValue when not set in data context', () => {
+      const onSubmit = jest.fn()
+      render(
+        <Form.Handler data={{}} onSubmit={onSubmit}>
+          <Field.Number
+            label="Label"
+            value={0}
+            path="/myValue"
+            emptyValue={0}
+          />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { myValue: 0 },
+        expect.anything()
+      )
+    })
   })
 
   describe('event handlers', () => {
