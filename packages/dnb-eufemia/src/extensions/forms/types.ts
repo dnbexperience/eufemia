@@ -324,7 +324,7 @@ export interface UseFieldProps<
   /**
    * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value from the original event object.
    */
-  fromInput?: (external: Value | unknown) => Value | EmptyValue
+  fromInput?: (external: Value | unknown) => Value
 
   /**
    * Transforms the given props `value` before any other step gets entered.
