@@ -5,7 +5,6 @@ showTabs: true
 import PaymentCard, {
   getCardData,
   Designs,
-  ProductType,
   CardType,
 } from '@dnb/eufemia/src/extensions/payment-card'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
@@ -15,6 +14,7 @@ import {
   PaymentCardStatusExample,
   PaymentCardCompactExample,
   PaymentCardAllCardsExample,
+  PaymentCardDesignsExample,
 } from './Examples'
 
 ## Demos
@@ -30,27 +30,13 @@ Basic card using productCode.
 
 <PaymentCardBasicExample />
 
-### Custom card using rawData
-
-You may have to import the extra named exports:
-
-```js
-import PaymentCard, {
-  getCardData,
-  Designs,
-  ProductType,
-  CardType,
-  BankAxeptType,
-} from '@dnb/eufemia/extensions/PaymentCard'
-```
-
-<PaymentCardCustomExample />
-
 ### Basic card using a status
 
-<PaymentCardStatusExample />
-
 Basic card using product code and status.
+
+The supported statuses are `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
+
+<PaymentCardStatusExample />
 
 ### Basic card in compact variant
 
@@ -58,8 +44,24 @@ Basic card using product code and status.
 
 <PaymentCardCompactExample />
 
+### Custom card using customCard
+
+While the preffered way to use this component is using the product code, you can also define your own style. The most practical way of doing this is to start with one of the default designs exposed through the object `Designs`, and modifying this until you get what you want.
+
+```ts
+import PaymentCard, { Designs } from '@dnb/eufemia/extensions/PaymentCard'
+```
+
+The default for the gold card design is with a white Visa logo, here we overwrite it to the mastercard logo instead.
+
+<PaymentCardDesignsExample />
+
+Providing a custom class in the `customData` object can controll atributes like background color and color witch is not supported otherwise.
+
+<PaymentCardCustomExample />
+
 ### Demo cards
 
-All the different card products and PaymentCard designs.
+All the different card products and PaymentCard designs. For a full overview covering the different options look at the [Properties](uilib/extensions/payment-card/properties/) tab.
 
 <PaymentCardAllCardsExample />

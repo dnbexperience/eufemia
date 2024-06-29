@@ -2,104 +2,70 @@
 showTabs: true
 ---
 
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  PaymentCardProperties,
+  PaymentCardTypeProperties,
+} from '@dnb/eufemia/src/extensions/payment-card/PaymentCardDocs'
+import PropsMapping from 'Docs/uilib/extensions/payment-card/props-mapping.png'
+
 ## Card Properties
 
-| Properties                              | Description                                                                                                                                              |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `product_code`                          | _(required)_ if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.       |
-| `card_number`                           | _(required)_ masked card number.                                                                                                                         |
-| `raw_data`                              | _(optional)_ useful if you want to create custom cards. See Card data properties.                                                                        |
-| `card_status`                           | _(optional)_ use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`. |
-| `variant`                               | _(optional)_ defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.                                                      |
-| `digits`                                | _(optional)_ will use 8 digits if none are specified.                                                                                                    |
-| `locale`                                | _(optional)_ use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.                                                                                   |
-| `skeleton`                              | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                      |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                    |
+<PropertiesTable props={PaymentCardProperties} />
 
-## Card Data
+## PaymentCardType
 
-| Properties    | Type         | Description                                                                                                                                                                                                                                        |
-| ------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `productCode` | `string`     | _(required)_ product code for the given card.                                                                                                                                                                                                      |
-| `productName` | `string`     | _(required)_ product name. Can be blank.                                                                                                                                                                                                           |
-| `displayName` | `string`     | _(required)_ the visible product name. Can be empty.                                                                                                                                                                                               |
-| `cardDesign`  | `object`     | _(required)_ object that describes the style properties of the card. `import { Designs } from '@dnb/eufemia/extensions/payment-card'` (see available designs below) or a custom one can be created.                                                |
-| `cardType`    | `Union Type` | _(required)_ `import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                                                                  |
-| `productType` | `Union Type` | _(required)_ `import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be ProductType.Saga, ProductType.Pluss, ProductType.Intro, ProductType.Business, ProductType.Bedrift, ProductType.PrivateBanking or ProductType.None |
-| `bankAxept`   | `Union Type` | _(required)_ `import { BankAxeptType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be BankAxeptType.BankAxept, BankAxeptType.Credit or BankAxeptType.None                                                                             |
-
-## Card Design
-
-| Properties       | Type         | Description                                                                                                                                                            |
-| ---------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`           | `string`     | _(required)_ string Name of design                                                                                                                                     |
-| `cardStyle`      | `string`     | _(required)_ css class. mainly to set background and color                                                                                                             |
-| `bankLogo`       | `Union Type` | _(required)_ Union Type. import DNB from ./card/utils/Types to use. Can be DNB.Colored('HexValue')                                                                     |
-| `visa`           | `Union Type` | _(required)_ Union Type. import Visa from ./card/utils/Types to use. Can be Visa.Colored('HexValue') or Visa.Platinum                                                  |
-| `mastercard`     | `Union Type` | _(required)_ Union Type. import Mastercard from ./card/utils/Types to use. Can be Mastercard.Default or Mastercard.Dark                                                |
-| `bankAxept`      | `Union Type` | _(required)_ Union Type. import BankAxept from ./card/utils/Types to use. Can be BankAxept.White, BankAxept.Black, BankAxept.Gold, BankAxept.Black20 or BankAxept.Gray |
-| `saga`           | `Union Type` | _(required)_ Union Type. import Saga from ./card/utils/Types to use. Can be Saga.Gold, Saga.Platinum or Saga.None                                                      |
-| `privateBanking` | `Union Type` | _(required)_ Union Type. import PB from ./card/utils/Types to use. Can be PB.Default or PB.None                                                                        |
-
-## List of designs
-
-| Properties          | Type     | Description            |
-| ------------------- | -------- | ---------------------- |
-| `defaultDesign`     | `object` | Default                |
-| `pluss`             | `object` | Pluss                  |
-| `young`             | `object` | Ung                    |
-| `myFirst`           | `object` | My first               |
-| `youth`             | `object` | Youth                  |
-| `gold`              | `object` | Gold                   |
-| `saga`              | `object` | Saga                   |
-| `sagaPlatinum`      | `object` | Saga platinum          |
-| `privateBanking`    | `object` | Private Banking        |
-| `mcBlack`           | `object` | Mastercard Black       |
-| `businessNoVisa`    | `object` | Bedriftskort BankAxept |
-| `businessWithVisa`  | `object` | Bedriftskort Visa      |
-| `sbankenVisa`       | `object` | Sbanken Visa           |
-| `sbankenMastercard` | `object` | Sbanken Mastercard     |
+<PropertiesTable props={PaymentCardTypeProperties} />
 
 ## Types
 
-| Type             |
-| ---------------- |
-| **DNB**          |
-| `Colored`        |
-| `Sbanken`        |
-| **Saga**         |
-| `Gold`           |
-| `Platinum`       |
-| `None`           |
-| **PB**           |
-| `Default`        |
-| `None`           |
-| **Mastercard**   |
-| `Default`        |
-| `Dark`           |
-| **ProductType**  |
-| `Saga`           |
-| `Pluss`          |
-| `Intro`          |
-| `Bedrift`        |
-| `Business`       |
-| `PrivateBanking` |
-| `None`           |
-| **CardType**     |
-| `Visa`           |
-| `Mastercard`     |
-| `None`           |
-| **BankAxept**    |
-| `White`          |
-| `Black`          |
-| `Gold`           |
-| `Black20`        |
-| `Gray`           |
-| `GrayDark`       |
-| **Visa**         |
-| `Colored`        |
-| `Platinum`       |
-| **Status**       |
-| `Expired`        |
-| `Blocked`        |
-| `Active`         |
+```jsx
+export type BankLogoType = 'sbanken' | 'DNB'
+
+export type CardProvider =
+  | 'Mastercard'
+  | 'MastercardDark'
+  | 'Visa'
+  | 'VisaPlatinum'
+
+export type PaymentType = 'BankAxept' | 'Credit'
+
+export type ProductType =
+  | 'SagaGold'
+  | 'SagaPlatinum'
+  | 'Pluss'
+  | 'Intro'
+  | 'Business'
+  | 'Bedrift'
+  | 'PrivateBanking'
+```
+
+<div style={{ maxWidth: '1200px' }}>
+  <InlineImg
+    height="auto"
+    width="auto"
+    src={PropsMapping}
+    caption="PaymentCardType example "
+  />
+</div>
+
+## List of designs
+
+| Properties          | Type              | Description            |
+| ------------------- | ----------------- | ---------------------- |
+| `defaultDesign`     | `PaymentCardType` | Default                |
+| `pluss`             | `PaymentCardType` | Pluss                  |
+| `young`             | `PaymentCardType` | Ung                    |
+| `myFirst`           | `PaymentCardType` | My first               |
+| `youth`             | `PaymentCardType` | Youth                  |
+| `gold`              | `PaymentCardType` | Gold                   |
+| `saga`              | `PaymentCardType` | Saga                   |
+| `sagaPlatinum`      | `PaymentCardType` | Saga platinum          |
+| `privateBanking`    | `PaymentCardType` | Private Banking        |
+| `mcBlack`           | `PaymentCardType` | Mastercard Black       |
+| `businessNoVisa`    | `PaymentCardType` | Bedriftskort BankAxept |
+| `businessWithVisa`  | `PaymentCardType` | Bedriftskort Visa      |
+| `sbankenVisa`       | `PaymentCardType` | Sbanken Visa           |
+| `sbankenMastercard` | `PaymentCardType` | Sbanken Mastercard     |

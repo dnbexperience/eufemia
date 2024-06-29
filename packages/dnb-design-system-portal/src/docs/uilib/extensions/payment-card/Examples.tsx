@@ -6,18 +6,17 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import PaymentCard, {
-  getCardData,
+  getCardDesign,
+  PaymentCardType,
   Designs,
-  ProductType,
-  CardType,
-  BankAxeptType,
 } from '@dnb/eufemia/src/extensions/payment-card'
 import { H4 } from '@dnb/eufemia/src'
+import styled from '@emotion/styled'
 
 export function PaymentCardAllCardsExample() {
   return (
     <ComponentBox
-      scope={{ PaymentCard, getCardData }}
+      scope={{ PaymentCard, getCardDesign }}
       data-visual-test="all-cards"
     >
       {() => {
@@ -69,16 +68,16 @@ export function PaymentCardAllCardsExample() {
 
         const Cards = () => (
           <>
-            {demoCards.map((product_code) => {
-              const cardData = getCardData(product_code)
+            {demoCards.map((productCode) => {
+              const cardData = getCardDesign(productCode)
               return (
-                <article key={product_code}>
+                <article key={productCode}>
                   <H4>
-                    {cardData.cardDesign.name}({product_code})
+                    {cardData.displayName}({productCode})
                   </H4>
                   <PaymentCard
-                    product_code={product_code}
-                    card_number="************1337"
+                    productCode={productCode}
+                    cardNumber="************1337"
                   />
                 </article>
               )
@@ -92,35 +91,60 @@ export function PaymentCardAllCardsExample() {
   )
 }
 
+export function PaymentCardDesignsExample() {
+  return (
+    <ComponentBox
+      scope={{ PaymentCard, Designs }}
+      data-visual-test="design-cards"
+    >
+      <PaymentCard
+        customCard={{
+          ...Designs.gold,
+          cardProvider: { type: 'Mastercard' },
+        }}
+      />
+    </ComponentBox>
+  )
+}
+
 export const PaymentCardBasicExample = () => (
   <ComponentBox
     scope={{ PaymentCard }}
     data-visual-test="payment-card-basic"
   >
-    <PaymentCard product_code="NK1" card_number="************1337" />
+    <PaymentCard productCode="NK1" cardNumber="************1337" />
   </ComponentBox>
 )
 
 export const PaymentCardCustomExample = () => (
   <ComponentBox
-    scope={{ PaymentCard, Designs, ProductType, CardType, BankAxeptType }}
+    scope={{
+      PaymentCard,
+    }}
   >
     {() => {
-      const customData = {
-        productCode: 'UNDEFINED',
-        productName: 'DNB Custom Card',
-        displayName: 'Custom card',
-        cardDesign: Designs.gold,
-        cardType: CardType.Visa,
-        productType: ProductType.None,
-        bankAxept: BankAxeptType.BankAxept,
+      const Wrapper = styled.div`
+        .custom-card-background {
+          background-color: var(--color-lavender);
+          color: var(--color-indigo);
+        }
+      `
+
+      const customData: PaymentCardType = {
+        // Changing the background and all the text can be done by providing a css class
+        cardClassName: 'custom-card-background',
+        displayName: 'custom card',
+        bankLogo: { type: 'DNB' },
+        cardProvider: { type: 'MastercardDark' },
+        paymentType: { type: 'BankAxept' },
       }
       return (
-        <PaymentCard
-          product_code="UNDEFINED"
-          raw_data={customData}
-          card_number="************1337"
-        />
+        <Wrapper>
+          <PaymentCard
+            customCard={customData}
+            cardNumber="************1337"
+          />
+        </Wrapper>
       )
     }}
   </ComponentBox>
@@ -132,9 +156,9 @@ export const PaymentCardStatusExample = () => (
     data-visual-test="payment-card-status"
   >
     <PaymentCard
-      product_code="VG2"
-      card_status="blocked"
-      card_number="************1337"
+      productCode="VG2"
+      cardStatus="blocked"
+      cardNumber="************1337"
     />
   </ComponentBox>
 )
@@ -146,8 +170,8 @@ export const PaymentCardCompactExample = () => (
   >
     <PaymentCard
       variant="compact"
-      product_code="VG1"
-      card_number="************1337"
+      productCode="VG1"
+      cardNumber="************1337"
     />
   </ComponentBox>
 )

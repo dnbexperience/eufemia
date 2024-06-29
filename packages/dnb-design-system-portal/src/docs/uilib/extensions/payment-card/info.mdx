@@ -4,24 +4,57 @@ showTabs: true
 
 ## Description
 
-The PaymentCard component is a dynamic defined visual component imitate a physical payment card. It exists as an independent extension to Eufemia.
+The PaymentCard component is a dynamic defined visual component imitating a physical payment card. It exists as an independent extension to Eufemia.
 
-How to use it:
-
-1. First, define your desired look and design.
-2. And import and include it in your application:
+The main way to use this component is to with the product code of the card you want to show. All the product codes of credit and debit cards provided by DNB are supported.
 
 ```jsx
 import '@dnb/eufemia/extensions/payment-card/style'
-import PaymentCard, {
-  getCardData,
-} from '@dnb/eufemia/extensions/payment-card'
+import PaymentCard from '@dnb/eufemia/extensions/payment-card'
 
-render(<PaymentCard product_code="..." />)
+render(<PaymentCard productCode="NK1" />)
 ```
+
+---
+
+```jsx
+import '@dnb/eufemia/extensions/payment-card/style'
+import PaymentCard, { Designs } from '@dnb/eufemia/extensions/payment-card'
+
+// custom defined card style with a gold card and a red bank axept logo
+render(
+  <PaymentCard
+    customCard={{
+      ...Designs.gold,
+      paymentType: { type: 'BankAxept', color: 'red' },
+    }}
+  />,
+)
+```
+
+Alternativly, if we for example want a custom background image we can do the following.
+
+```jsx
+import '@dnb/eufemia/extensions/payment-card/style'
+import PaymentCard from '@dnb/eufemia/extensions/payment-card'
+
+// custom defined card style with custom image
+render(
+  <PaymentCard
+    customCard={{
+      backgroundImage: base64EncodedImage
+      paymentType: { type: 'BankAxept', color: '#fff' },
+      bankLogo: {type: 'DNB', color: '#fff'}
+      cardProvider: {type: 'Visa', color: '#fff'}
+    }}
+  />,
+)
+```
+
+It's worth noting that if you don't provide a `productCode` the design will be the same as `customCard={Designs.defaultDesign}`, but all the values can be overwritten.
 
 Resources:
 
 - [Figma design](https://www.figma.com/file/461cAN5Qc3Nks4ztZ9pjtM)
+- [Figma design (sbanken)](<https://www.figma.com/design/4fgS4rHsGJtU9JxE3DWwFO/Eufemia---Web-(Sbanken)?node-id=21096-10019&t=SxGeJNuxR8Cmo4ze-0>)
 - [Confluence specifications](https://confluence.tech.dnb.no/pages/viewpage.action?spaceKey=PMDT&title=Cards+mapping)
-- [Kortprodukter med egenskaper](http://team.erf01.net/sites/8974/Shared%20Documents/Kortprodukter_med_egenskaper.pdf)

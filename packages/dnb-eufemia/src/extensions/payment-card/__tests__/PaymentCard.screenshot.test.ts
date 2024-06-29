@@ -33,6 +33,13 @@ describe('PaymentCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match a custom variant of design', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="design-cards"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match all cards', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="all-cards"]',
