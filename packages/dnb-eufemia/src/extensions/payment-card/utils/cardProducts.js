@@ -380,8 +380,8 @@ const cardData = [
   },
   {
     productCode: 'VO3',
-    productName: 'SBanken Visa',
-    displayName: 'SBanken Visa',
+    productName: 'Sbanken Visa',
+    displayName: 'Sbanken Visa',
     cardDesign: sbankenVisa,
     productType: ProductType.None,
     cardType: CardType.Visa,
@@ -389,8 +389,8 @@ const cardData = [
   },
   {
     productCode: 'VS8',
-    productName: 'SBanken et konsept fra DNB',
-    displayName: 'SBanken et Konsept fra DNB',
+    productName: 'Sbanken – et konsept fra DNB',
+    displayName: 'Sbanken – et konsept fra DNB',
     cardDesign: sbankenVisa,
     productType: ProductType.None,
     cardType: CardType.Visa,
@@ -398,8 +398,8 @@ const cardData = [
   },
   {
     productCode: 'P103',
-    productName: 'SBanken et konsept fra DNB',
-    displayName: 'SBanken et konsept fra DNB',
+    productName: 'Sbanken – et konsept fra DNB',
+    displayName: 'Sbanken – et konsept fra DNB',
     cardDesign: sbankenMastercard,
     productType: ProductType.None,
     cardType: CardType.Mastercard,
