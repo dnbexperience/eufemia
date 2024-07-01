@@ -260,6 +260,11 @@ export interface ModalContentProps {
   content_class?: string
 
   /**
+   * @deprecated – use className instead. Will be removed in v11.
+   */
+  class?: string
+
+  /**
    * Give the page overlay a custom class name (maps to `dnb-modal__overlay`).
    */
   overlay_class?: string
