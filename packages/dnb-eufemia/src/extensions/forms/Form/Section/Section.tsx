@@ -10,14 +10,14 @@ import EditContainer from './EditContainer'
 import type { Props as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
 import type {
-  FieldSectionProps,
+  FieldBlockProps,
   Path,
   FieldProps,
   OnChange,
 } from '../../types'
 
 export type OverwritePropsDefaults = {
-  [key: Path]: (FieldProps & FieldSectionProps) | OverwritePropsDefaults
+  [key: Path]: (FieldProps & FieldBlockProps) | OverwritePropsDefaults
 }
 export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   /**

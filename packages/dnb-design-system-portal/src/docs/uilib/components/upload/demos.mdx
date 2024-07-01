@@ -32,13 +32,13 @@ You can also use the file blob in combination with the [FileReader](https://deve
 
 ### Upload loading state
 
-When uploading the file you can set the loading state of the request using the `Upload.useUpload` hook and passing isLoading to the file that is being uploaded.
+When uploading the file you can set the loading state of the request using the `Upload.useUpload` hook and passing `isLoading` to the file that is being uploaded.
 
 <UploadIsLoading />
 
 ### Upload error message
 
-The only checks we do currently is for the file size and the file type. These errors are handled by the HTML element ´input´ so they aren't selectable. If you want any other error messages you can use the `Upload.useUpload` the same way as with the loading state.
+The only file verification the Upload component does is for the file size and the file type. These errors are handled by the HTML element `input` so they aren't selectable. If you want any other error messages you can use the `Upload.useUpload` hook the same way as with the loading state.
 
 <UploadErrorMessage />
 

@@ -75,7 +75,8 @@ export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
 >(
-  localeProps: Props
+  localeProps: Props,
+  { executeOnChangeRegardlessOfError = false } = {}
 ): Props & FieldProps<Value> & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
   const props = extend<Props>(localeProps)
@@ -876,7 +877,7 @@ export default function useFieldProps<
         defineAsyncProcess('onChangeContext')
 
         // Skip sync errors, such as required
-        if (!hasError()) {
+        if (!hasError() || executeOnChangeRegardlessOfError) {
           setEventResult(
             (await handlePathChangeDataContext?.(
               identifier
@@ -899,12 +900,13 @@ export default function useFieldProps<
     asyncBehaviorIsEnabled,
     hasPath,
     yieldAsyncProcess,
-    identifier,
     onChangeContext,
     defineAsyncProcess,
     hasError,
+    executeOnChangeRegardlessOfError,
     setEventResult,
     handlePathChangeDataContext,
+    identifier,
   ])
 
   const updateValue = useCallback(
@@ -1312,7 +1314,7 @@ export default function useFieldProps<
     }
   }
 
-  const fieldSectionProps = {
+  const fieldBlockProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
@@ -1330,12 +1332,12 @@ export default function useFieldProps<
     fieldState: resolveValidatingState(fieldStateRef.current),
   }
 
-  const sharedData = useSharedState(id)
-  sharedData.set(fieldSectionProps)
+  const sharedData = useSharedState('field-block-props-' + id)
+  sharedData.set(fieldBlockProps)
 
   return {
     ...props,
-    ...fieldSectionProps,
+    ...fieldBlockProps,
 
     /** HTML Attributes */
     name: props.name || props.path?.replace('/', '') || id,
@@ -1350,6 +1352,7 @@ export default function useFieldProps<
     ),
     hasError: hasVisibleError,
     isChanged: changedRef.current,
+    props,
     htmlAttributes,
     setHasFocus,
     handleFocus,

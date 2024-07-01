@@ -21,6 +21,7 @@ import type { UploadFile, UploadAllProps } from './types'
 import UploadFileList from './UploadFileList'
 import UploadInfo from './UploadInfo'
 
+export type * from './types'
 export { defaultProps }
 
 const Upload = (localProps: UploadAllProps) => {

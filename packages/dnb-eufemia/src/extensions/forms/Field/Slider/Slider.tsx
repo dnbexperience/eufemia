@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef } from 'react'
-import FieldBlock, { Props as FieldSectionProps } from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import {
   FieldBlockWidth,
@@ -100,7 +100,7 @@ function SliderComponent(props: Props) {
     [handleChange, props.paths]
   )
 
-  const fieldSectionProps: FieldSectionProps = {
+  const fieldBlockProps: FieldBlockProps = {
     forId: id,
     layout,
     label,
@@ -141,7 +141,7 @@ function SliderComponent(props: Props) {
   }
 
   return (
-    <FieldBlock {...fieldSectionProps}>
+    <FieldBlock {...fieldBlockProps}>
       <Slider {...sliderProps} />
     </FieldBlock>
   )

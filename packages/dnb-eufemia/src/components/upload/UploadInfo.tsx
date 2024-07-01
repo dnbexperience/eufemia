@@ -20,9 +20,10 @@ const UploadInfo = () => {
     fileSizeContent,
     filesAmountLimit,
     fileMaxSize,
+    children,
   } = context
 
-  const prettyfiedAcceptedFileFormats = acceptedFileTypes
+  const prettifiedAcceptedFileFormats = acceptedFileTypes
     .join(', ')
     .toUpperCase()
 
@@ -34,16 +35,18 @@ const UploadInfo = () => {
         {text}
       </P>
 
+      {children}
+
       <Dl
         top="small"
         bottom={0}
         layout="horizontal"
         className="dnb-upload__condition-list"
       >
-        {prettyfiedAcceptedFileFormats && (
+        {prettifiedAcceptedFileFormats && (
           <Dl.Item>
             <Dt>{fileTypeDescription}</Dt>
-            <Dd>{prettyfiedAcceptedFileFormats}</Dd>
+            <Dd>{prettifiedAcceptedFileFormats}</Dd>
           </Dl.Item>
         )}
 

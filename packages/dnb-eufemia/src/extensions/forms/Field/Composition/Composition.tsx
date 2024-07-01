@@ -1,7 +1,7 @@
 import React from 'react'
-import FieldBlock, { Props as FieldSectionProps } from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 
-function CompositionField(props: FieldSectionProps) {
+function CompositionField(props: FieldBlockProps) {
   return <FieldBlock {...props} composition />
 }
 
