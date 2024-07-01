@@ -397,7 +397,7 @@ const cardData = [
     bankAxept: BankAxeptType.BankAxept,
   },
   {
-    productCode: 'P103',
+    productCode: '103',
     productName: 'Sbanken – et konsept fra DNB',
     displayName: 'Sbanken – et konsept fra DNB',
     cardDesign: sbankenMastercard,
