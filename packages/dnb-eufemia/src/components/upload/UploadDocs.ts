@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   acceptedFileTypes: {
-    doc: 'List of accepted file types. ',
+    doc: 'List of accepted file types.',
     type: 'Array<string>',
     status: 'required',
   },
