@@ -80,7 +80,7 @@ function DatePickerFooter({
         : null
 
       const endDate = previousDates.endDate
-        ? convertStringToDate(previousDates.startDate, {
+        ? convertStringToDate(previousDates.endDate, {
             date_format,
           })
         : startDate

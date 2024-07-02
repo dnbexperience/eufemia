@@ -528,7 +528,6 @@ function DatePicker(externalProps: DatePickerProps) {
   const onSubmitHandler = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       hidePicker(event)
-
       on_submit?.({
         ...getReturnObject.current({ event }),
       })
@@ -540,9 +539,10 @@ function DatePicker(externalProps: DatePickerProps) {
     (
       event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>
     ) => {
+      hidePicker()
       on_cancel?.({ ...getReturnObject.current(event) })
     },
-    [on_cancel]
+    [hidePicker, on_cancel]
   )
 
   const onResetHandler = useCallback(
