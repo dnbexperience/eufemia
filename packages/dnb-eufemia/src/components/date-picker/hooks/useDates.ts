@@ -185,26 +185,23 @@ function mapDates(
 
   const endDate = !isRange
     ? startDate
-    : convertStringToDate(
-        String(initialDates?.endDate) || String(initialDates?.date),
-        {
-          date_format: dateFormat,
-        }
-      ) || undefined
+    : convertStringToDate(initialDates?.endDate || initialDates?.date, {
+        date_format: dateFormat,
+      }) || undefined
 
-  const startMonth = convertStringToDate(String(initialDates.startMonth), {
+  const startMonth = convertStringToDate(initialDates.startMonth, {
     date_format: dateFormat,
   })
 
-  const endMonth = convertStringToDate(String(initialDates.endMonth), {
+  const endMonth = convertStringToDate(initialDates.endMonth, {
     date_format: dateFormat,
   })
 
-  const minDate = convertStringToDate(String(initialDates.minDate), {
+  const minDate = convertStringToDate(initialDates.minDate, {
     date_format: dateFormat,
   })
 
-  const maxDate = convertStringToDate(String(initialDates.maxDate), {
+  const maxDate = convertStringToDate(initialDates.maxDate, {
     date_format: dateFormat,
   })
 
