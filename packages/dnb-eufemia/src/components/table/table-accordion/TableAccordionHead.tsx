@@ -122,6 +122,8 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         <div>{tableContext?.allProps?.accordionToggleButtonSR}</div>
       </Th>
     )
+  } else if (!hasAccordionContent) {
+    addExpandIcon(<Td key="empty-td"></Td>)
   }
 
   const countTds = hasAccordionContent

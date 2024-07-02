@@ -63,8 +63,12 @@ export type TableProps = {
   outline?: boolean
 
   /**
-   * Set to true if you have one or more rows that contains an accordion content.
-   * Default: false
+   * Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigatable table.
+   */
+  mode?: 'accordion' | 'navigation'
+
+  /**
+   * @deprecated – use mode="accordion" instead. Will be removed in v11.
    */
   accordion?: boolean
 
@@ -121,7 +125,8 @@ const Table = (componentProps: TableAllProps) => {
     fixed,
     border,
     outline,
-    accordion,
+    accordion, // Deprecated – can be removed in v11
+    mode,
     accordionChevronPlacement, // eslint-disable-line
     collapseAllHandleRef,
     ...props
@@ -166,7 +171,9 @@ const Table = (componentProps: TableAllProps) => {
             fixed && 'dnb-table--fixed',
             border && 'dnb-table--border',
             outline && 'dnb-table--outline',
-            accordion && 'dnb-table--accordion',
+            accordion && 'dnb-table--accordion', // Deprecated – can be removed in v11
+            mode === 'accordion' && 'dnb-table--accordion',
+            mode === 'navigation' && 'dnb-table--navigation',
             spacingClasses,
             skeletonClasses,
             className
