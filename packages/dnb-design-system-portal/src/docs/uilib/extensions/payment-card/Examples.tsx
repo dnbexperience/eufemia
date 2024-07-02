@@ -62,7 +62,7 @@ export function PaymentCardAllCardsExample() {
           'VB2',
           'VB5',
           'P101',
-          'P103',
+          '103',
           'VS8',
           'VO3',
         ]

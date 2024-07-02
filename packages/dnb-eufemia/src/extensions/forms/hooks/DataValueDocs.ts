@@ -38,7 +38,7 @@ export const dataValueProperties: PropertiesTableProps = {
   },
   emptyValue: {
     doc: 'The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.',
-    type: 'any',
+    type: ['{valueType}', 'undefined'],
     status: 'optional',
   },
   required: {
