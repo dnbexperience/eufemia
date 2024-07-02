@@ -137,6 +137,7 @@ export default {
     Table: {
       accordionToggleButtonSR: 'Vis mer innhold',
       accordionMoreContentSR: 'Mer innhold i neste rad',
+      navigationButtonSR: 'Naviger til mer innhold',
     },
     Upload: {
       title: 'Last opp dokumenter',

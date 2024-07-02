@@ -1,10 +1,10 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const TableProperties: PropertiesTableProps = {
-  accordion: {
-    doc: 'Set to true if you have one or more rows that contains an accordion content.',
-    type: 'boolean',
-    defaultValue: 'false',
+  mode: {
+    doc: 'Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigatable table.',
+    type: [`'accordion'`, `'navigation'`],
+    defaultValue: 'null',
     status: 'optional',
   },
   accordionChevronPlacement: {
