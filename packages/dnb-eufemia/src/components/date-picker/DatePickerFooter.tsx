@@ -70,17 +70,17 @@ function DatePickerFooter({
       }
 
       const startDate = previousDates.startDate
-        ? convertStringToDate(String(previousDates.startDate), {
+        ? convertStringToDate(previousDates.startDate, {
             date_format,
           })
         : previousDates.date
-        ? convertStringToDate(String(previousDates.date), {
+        ? convertStringToDate(previousDates.date, {
             date_format,
           })
         : null
 
       const endDate = previousDates.endDate
-        ? convertStringToDate(String(previousDates.startDate), {
+        ? convertStringToDate(previousDates.startDate, {
             date_format,
           })
         : startDate

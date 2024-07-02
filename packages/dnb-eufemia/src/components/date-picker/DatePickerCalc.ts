@@ -248,7 +248,7 @@ export function correctV1Format(date: string) {
 }
 
 export function convertStringToDate(
-  date: string,
+  date: string | Date,
   { date_format = null }: { date_format?: string | null } = {}
 ): Date {
   if (date === null) {
@@ -266,7 +266,7 @@ export function convertStringToDate(
 
   // rather return null than an invalid date
   if (!isValid(dateObject)) {
-    // warn('convertStringToDate got invalid date:', date)
+    warn('convertStringToDate got invalid date:', date)
     return null
   }
 
