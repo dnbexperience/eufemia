@@ -771,7 +771,7 @@ export const Accordion = () => (
         }
 
         return (
-          <Table accordion id={id} {...props}>
+          <Table mode="accordion" id={id} {...props}>
             <caption className="dnb-sr-only">A Table Caption</caption>
 
             <thead>
@@ -796,14 +796,147 @@ export const Accordion = () => (
         <>
           <Table.ScrollView>
             <AccordionTable
-              id="table-1"
+              id="accordion-table-1"
               showCheckbox
               accordionChevronPlacement="end"
             />
           </Table.ScrollView>
 
           <Table.ScrollView top>
-            <AccordionTable id="table-2" border outline size="medium" />
+            <AccordionTable
+              id="accordion-table-2"
+              border
+              outline
+              size="medium"
+            />
+          </Table.ScrollView>
+        </>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const AccordionMixed = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-accordion-mixed"
+    scope={{ copyIcon, useCopyWithNotice }}
+  >
+    {() => {
+      const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
+        const TdCheckbox = () => {
+          return <Checkbox label="Select row" label_sr_only />
+        }
+        const TdInput = () => {
+          return <Input label="Label" label_sr_only size={4} />
+        }
+        const Content = ({ shareId }) => {
+          const ref = React.useRef()
+          const { copy } = useCopyWithNotice()
+
+          const shareHandler = () => {
+            const url = new URL(location.href)
+            url.hash = '#' + shareId
+            copy(url.toString(), ref.current)
+          }
+
+          return (
+            <>
+              <Button top icon="bell" variant="secondary">
+                Ring the bell
+              </Button>
+
+              <Section top spacing>
+                <Dl>
+                  <Dt>Favorittfarge</Dt>
+                  <Dd>Grønn</Dd>
+                  <Dt>Favorittmat</Dt>
+                  <Dd>Taco</Dd>
+                </Dl>
+              </Section>
+
+              <Button
+                top
+                variant="tertiary"
+                icon={copyIcon}
+                icon_position="left"
+                on_click={shareHandler}
+                inner_ref={ref}
+              >
+                Copy link to this row
+              </Button>
+            </>
+          )
+        }
+
+        return (
+          <Table mode="accordion" id={id} {...props}>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th>Column A</Th>
+                <Th>Column B</Th>
+                <Th>Column C</Th>
+                <Th align="right">Column D</Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Tr id={id + '-' + 1}>
+                <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 1}</Td>
+                <Td>Row {1}</Td>
+                <Td spacing="horizontal">
+                  <TdInput />
+                </Td>
+                <Td align="right">Row {1}</Td>
+
+                <Td.AccordionContent>
+                  <Content shareId={id + '-' + 1} />
+                </Td.AccordionContent>
+              </Tr>
+              <Tr id={id + '-' + 2}>
+                <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 2}</Td>
+                <Td>Row {2}</Td>
+                <Td spacing="horizontal">
+                  <TdInput />
+                </Td>
+                <Td align="right">Row {2}</Td>
+              </Tr>
+              <Tr id={id + '-' + 3}>
+                <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 3}</Td>
+                <Td>Row {3}</Td>
+                <Td spacing="horizontal">
+                  <TdInput />
+                </Td>
+                <Td align="right">Row {3}</Td>
+
+                <Td.AccordionContent>
+                  <Content shareId={id + '-' + 3} />
+                </Td.AccordionContent>
+              </Tr>
+            </tbody>
+          </Table>
+        )
+      }
+
+      return (
+        <>
+          <Table.ScrollView>
+            <AccordionTable
+              id="accordion-table-mixed-1"
+              showCheckbox
+              accordionChevronPlacement="end"
+            />
+          </Table.ScrollView>
+
+          <Table.ScrollView top>
+            <AccordionTable
+              id="accordion-table-mixed-2"
+              border
+              outline
+              size="medium"
+            />
           </Table.ScrollView>
         </>
       )
@@ -825,7 +958,7 @@ export const AccordionRow = () => {
         ]
         return (
           <Table.ScrollView>
-            <Table accordion accordionChevronPlacement="end">
+            <Table mode="accordion" accordionChevronPlacement="end">
               <thead>
                 <Tr>
                   <Th>Column A</Th>
@@ -887,6 +1020,169 @@ export const AccordionRow = () => {
     </ComponentBox>
   )
 }
+
+export const Navigation = () => (
+  <ComponentBox hideCode data-visual-test="table-navigation">
+    {() => {
+      const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
+        const TdCheckbox = () => {
+          return <Checkbox label="Select row" label_sr_only />
+        }
+        const TdInput = () => {
+          return <Input label="Label" label_sr_only size={4} />
+        }
+
+        const Row = ({ nr }) => {
+          const shareId = id + '-' + nr
+          return (
+            <Tr
+              id={shareId}
+              onClick={() => {
+                console.log('your navigation logic here')
+                // window.location.href = 'https://eufemia.dnb.no/'
+              }}
+            >
+              <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
+              <Td>Row {nr}</Td>
+              <Td spacing="horizontal">
+                <TdInput />
+              </Td>
+              <Td align="right">Row {nr}</Td>
+            </Tr>
+          )
+        }
+
+        return (
+          <Table mode="navigation" id={id} {...props}>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th>Column A</Th>
+                <Th>Column B</Th>
+                <Th>Column C</Th>
+                <Th align="right">Column D</Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Row nr="1" />
+              <Row nr="2" />
+              <Row nr="3" />
+            </tbody>
+          </Table>
+        )
+      }
+
+      return (
+        <>
+          <Table.ScrollView>
+            <NavigationTable id="navigation-table-1" showCheckbox />
+          </Table.ScrollView>
+
+          <Table.ScrollView top>
+            <NavigationTable
+              id="navigation-table-2"
+              border
+              outline
+              size="medium"
+            />
+          </Table.ScrollView>
+        </>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const NavigationMixed = () => (
+  <ComponentBox hideCode data-visual-test="table-navigation-mixed">
+    {() => {
+      const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
+        const TdCheckbox = () => {
+          return <Checkbox label="Select row" label_sr_only />
+        }
+        const TdInput = () => {
+          return <Input label="Label" label_sr_only size={4} />
+        }
+
+        return (
+          <Table mode="navigation" id={id} {...props}>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th>Column A</Th>
+                <Th>Column B</Th>
+                <Th>Column C</Th>
+                <Th align="right">Column D</Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Tr
+                id={id + '-' + 1}
+                onClick={() => {
+                  console.log('your navigation logic here')
+                  // window.location.href = 'https://eufemia.dnb.no/'
+                }}
+              >
+                <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 1}</Td>
+                <Td>Row {1}</Td>
+                <Td spacing="horizontal">
+                  <TdInput />
+                </Td>
+                <Td align="right">Row {1}</Td>
+              </Tr>
+              <Tr id={id + '-' + 2}>
+                <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 2}</Td>
+                <Td>Row {2}</Td>
+                <Td spacing="horizontal">
+                  <TdInput />
+                </Td>
+                <Td align="right">Row {2}</Td>
+              </Tr>
+              <Tr
+                id={id + '-' + 3}
+                onClick={() => {
+                  console.log('your navigation logic here')
+                  // window.location.href = 'https://eufemia.dnb.no/'
+                }}
+              >
+                <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 3}</Td>
+                <Td>Row {3}</Td>
+                <Td spacing="horizontal">
+                  <TdInput />
+                </Td>
+                <Td align="right">Row {3}</Td>
+              </Tr>
+            </tbody>
+          </Table>
+        )
+      }
+
+      return (
+        <>
+          <Table.ScrollView>
+            <NavigationTable
+              id="navigation-table-mixed-1"
+              showCheckbox
+              accordionChevronPlacement="end"
+            />
+          </Table.ScrollView>
+
+          <Table.ScrollView top>
+            <NavigationTable
+              id="navigation-table-mixed-2"
+              border
+              outline
+              size="medium"
+            />
+          </Table.ScrollView>
+        </>
+      )
+    }}
+  </ComponentBox>
+)
 
 export const Sticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(

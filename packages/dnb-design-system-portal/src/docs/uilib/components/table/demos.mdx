@@ -64,11 +64,15 @@ return (
     Close all rows
   </button>
 
-  <Table accordion collapseAllHandleRef={myTableCollapseAll}>
+  <Table mode="accordion" collapseAllHandleRef={myTableCollapseAll}>
     {/* ... your table code */}
   </Table>
 )
 ```
+
+### Table with navigation
+
+<Examples.Navigation />
 
 ### Table with sticky header
 
@@ -124,4 +128,9 @@ This example uses `scope="row"` with a table header (`<th>`) in each row.
 
 <VisibleWhenVisualTest>
   <Examples.VariantCombinations />
+</VisibleWhenVisualTest>
+
+<VisibleWhenVisualTest>
+  <Examples.AccordionMixed />
+  <Examples.NavigationMixed />
 </VisibleWhenVisualTest>

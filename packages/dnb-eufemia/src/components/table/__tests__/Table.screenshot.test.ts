@@ -359,6 +359,17 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match default state when mixed(only a few TRs has accordionContent', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion-mixed"] .dnb-table',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 
@@ -389,7 +400,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:first-child',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable:first-child',
         simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -403,7 +414,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content.dnb-table__tr--last',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable.dnb-table__tr--last',
         simulate: 'hover',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -417,7 +428,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content.dnb-table__tr--last',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable.dnb-table__tr--last',
         simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -431,7 +442,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content.dnb-table__tr--last',
+          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable.dnb-table__tr--last',
         simulate: 'active',
         matchConfig: {
           failureThreshold: 0.01, // locally as well
@@ -452,9 +463,86 @@ describe.each(['ui', 'sbanken'])(
           {
             action: 'click',
             selector:
-              '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--has-accordion-content:first-child',
+              '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable:first-child',
           },
         ],
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
+
+describe.each(['ui', 'sbanken'])(
+  'Table with navigation for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/table/demos',
+    })
+
+    it('have to match default state', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-navigation"] .dnb-table',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match hover state on first row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match hover state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match focus state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match default state when mixed(only a few TRs has onClick', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-navigation-mixed"] .dnb-table',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

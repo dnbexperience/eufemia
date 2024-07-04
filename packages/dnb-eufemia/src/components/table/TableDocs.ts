@@ -1,14 +1,14 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const TableProperties: PropertiesTableProps = {
-  accordion: {
-    doc: 'Set to true if you have one or more rows that contains an accordion content.',
-    type: 'boolean',
-    defaultValue: 'false',
+  mode: {
+    doc: 'Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigatable table.',
+    type: [`'accordion'`, `'navigation'`],
+    defaultValue: 'null',
     status: 'optional',
   },
   accordionChevronPlacement: {
-    doc: 'Defines where the chevron will be placed.',
+    doc: 'Defines where the chevron will be placed, should only be used together with mode="accordion".',
     type: [`'start'`, `'end'`],
     defaultValue: `'start'`,
     status: 'optional',
@@ -125,7 +125,7 @@ export const TrProperties: PropertiesTableProps = {
 
 export const TrEventProperties: PropertiesTableProps = {
   onClick: {
-    doc: 'Will emit when user clicks/expands the table row. Returns a native click.',
+    doc: 'Will emit when user clicks/expands or on keydown space/enter in the table row. Returns a native click.',
     type: '(event) => void',
     defaultValue: 'undefined',
     status: 'optional',

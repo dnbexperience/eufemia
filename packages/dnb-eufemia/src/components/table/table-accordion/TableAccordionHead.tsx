@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import classnames from 'classnames'
-import keycode from 'keycode'
-import { hasSelectedText } from '../../../shared/helpers'
-import Button from '../../button/Button'
-import IconPrimary from '../../icon/IconPrimary'
-import Th from '../TableTh'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
+import {
+  TableClickableButtonTd,
+  TableClickableHead,
+  TableIconSrTh,
+  isTableHead,
+  onClickTr,
+} from '../TableClickableHead'
 import { TableAccordionContext } from './TableAccordionContext'
 import {
   TableAccordionContentSingle,
@@ -28,9 +29,7 @@ export type TableAccordionHeadProps = {
 export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const {
     children,
-    className,
     expanded,
-    disabled,
     noAnimation,
     onClick,
     onOpened,
@@ -57,13 +56,14 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   let headerContent = React.Children.toArray(children)
 
-  const addExpandIcon = (icon) => {
+  const addContent = (content) => {
     if (tableContext.allProps.accordionChevronPlacement === 'end') {
-      headerContent.push(icon)
+      headerContent.push(content)
     } else {
-      headerContent.unshift(icon)
+      headerContent.unshift(content)
     }
   }
+
   /**
    * Handle Accordion Content
    */
@@ -91,15 +91,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     }
   }, [count, tableContext?.collapseTrCallbacks, hasAccordionContent])
 
-  const trParams =
-    !disabled && hasAccordionContent
-      ? {
-          onClick: toggleOpenTr,
-          onMouseEnter: onMouseEnterHandler,
-          onMouseLeave: onMouseLeaveHandler,
-          onKeyDown: onKeydownHandler,
-        }
-      : {}
+  const tableContextAllProps = React.useContext(TableContext)?.allProps
 
   if (hasAccordionContent) {
     // Remove the AccordionContent, and use it outside of the tr
@@ -107,26 +99,31 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       return !isAccordionElement(element)
     })
 
-    addExpandIcon(
-      <Td className="dnb-table__td__accordion-icon" key="td-icon">
-        <TableAccordionToggleButton />
-      </Td>
+    addContent(
+      <TableClickableButtonTd
+        trIsOpen={trIsOpen}
+        ariaLabel={tableContextAllProps?.accordionToggleButtonSR}
+        icon="chevron_down"
+        onClick={toggleOpenTr}
+        key="td-icon"
+      />
     )
   } else if (isTableHead(headerContent)) {
-    addExpandIcon(
-      <Th
-        aria-hidden
-        className="dnb-table__th__accordion-icon"
+    addContent(
+      <TableIconSrTh
         key="th-icon"
-      >
-        <div>{tableContext?.allProps?.accordionToggleButtonSR}</div>
-      </Th>
+        text={tableContext?.allProps?.accordionToggleButtonSR}
+      />
     )
+  } else if (!hasAccordionContent) {
+    addContent(<Td key="empty-td"></Td>)
   }
 
   const countTds = hasAccordionContent
     ? headerContent.filter((element: React.ReactElement) => {
-        return element.type === Td // TODO: We may need to include this in future --> || component.type === Td.MainCell
+        return (
+          element.type === Td || element.type === TableClickableButtonTd
+        ) // TODO: We may need to include this in future --> || component.type === Td.MainCell
       }).length
     : null
 
@@ -141,111 +138,52 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         onClosed,
       }}
     >
-      <tr
-        tabIndex={accordionContent && !disabled ? 0 : undefined}
-        className={classnames(
-          className,
-          hasAccordionContent && 'dnb-table__tr--has-accordion-content',
-          trIsOpen && 'dnb-table__tr--expanded',
-          disabled && 'dnb-table__tr--disabled',
-          noAnimation && 'dnb-table__tr--no-animation',
-          trIsHover && trHadClick && 'dnb-table__tr--hover'
-        )}
-        {...trParams}
+      <TableClickableHead
+        trIsOpen={trIsOpen}
+        trIsHover={trIsHover}
+        trHadClick={trHadClick}
+        clickable={hasAccordionContent}
+        noAnimation={noAnimation}
+        onClick={toggleOpenTr}
+        onMouseEnter={onMouseEnterHandler}
+        onMouseLeave={onMouseLeaveHandler}
+        onKeyDown={onKeyDownHandler}
+        ariaLabel={tableContextAllProps?.accordionToggleButtonSR}
         {...props}
       >
         {headerContent}
-      </tr>
+      </TableClickableHead>
       {accordionContent}
     </TableAccordionContext.Provider>
   )
 
-  function onKeydownHandler(event: React.SyntheticEvent) {
-    switch (keycode(event.nativeEvent)) {
-      case 'space':
-      case 'enter':
-        {
-          const target = event.target as HTMLElement
-          if (
-            document.activeElement !== target ||
-            target.tagName === 'TR'
-          ) {
-            setOpen(!trIsOpen)
-            event.preventDefault()
-          }
-        }
-        break
-    }
-  }
   function onMouseEnterHandler() {
     setHover(true)
   }
+
+  function onKeyDownHandler(event: React.SyntheticEvent) {
+    toggleOpenTr(event, true)
+  }
+
   function onMouseLeaveHandler() {
     setHover(false)
     setHadClick(false)
   }
+
+  function toggleOpenFn(event: React.SyntheticEvent) {
+    setOpen(!trIsOpen)
+    setHadClick(true)
+    onClick?.(event)
+  }
+
   function toggleOpenTr(
     event: React.SyntheticEvent,
-    allowInteractiveElement = false
+    allowInteractiveElement?: boolean
   ) {
-    const target = event.target as HTMLElement
-    if (
-      /**
-       * Do not toggle if user clicked an interactive element (input, button, etc.).
-       * Interactive to set activeElement on mouseDown, we we can check against it.
-       */
-      ((document.activeElement !== target &&
-        /**
-         * Safari on macOS needs this extra check:
-         *
-         * > For example, on macOS systems, elements that aren't text input elements are not typically focusable by default.
-         * https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement
-         */
-        target.tagName !== 'INPUT' &&
-        target.tagName !== 'LABEL') ||
-        allowInteractiveElement) &&
-      /**
-       * Let the user select text,
-       * without triggering the accordion.
-       */
-      !hasSelectedText()
-    ) {
-      setOpen(!trIsOpen)
-      setHadClick(true)
-
-      onClick?.(event)
-    }
+    onClickTr(event, allowInteractiveElement, toggleOpenFn)
   }
-}
-
-export function TableAccordionToggleButton() {
-  const tableAccordionContext = React.useContext(TableAccordionContext)
-  const tableContextAllProps = React.useContext(TableContext)?.allProps
-  const iconSize =
-    tableContextAllProps?.size === 'medium' ||
-    tableContextAllProps?.size === 'small'
-      ? 'basis'
-      : 'medium'
-
-  return (
-    <span className="dnb-table__toggle-button">
-      <IconPrimary icon="chevron_down" size={iconSize} />
-      <Button
-        className="dnb-sr-only"
-        tabIndex={-1}
-        aria-label={tableContextAllProps?.accordionToggleButtonSR}
-        aria-expanded={Boolean(tableAccordionContext?.trIsOpen)}
-        on_click={(event) =>
-          tableAccordionContext?.toggleOpenTr(event, true)
-        }
-      />
-    </span>
-  )
 }
 
 const isAccordionElement = (element: React.ReactElement) =>
   element.type === TableAccordionContentSingle ||
   element.type === TableAccordionContentRow
-
-const isTableHead = (children: React.ReactNode[]) =>
-  children.some((element: React.ReactElement) => element.type === Th)
