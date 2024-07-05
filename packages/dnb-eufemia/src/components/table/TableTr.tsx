@@ -39,7 +39,7 @@ export type TableTrProps = {
   noAnimation?: boolean
 
   /**
-   * Will emit when user clicks/expands or on keydown space/enter in the table row.
+   * Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row.
    * Is part of the mode feature and needs to be enabled with the `mode` prop in main Table.
    */
   onClick?: (event: React.SyntheticEvent) => void

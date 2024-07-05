@@ -125,7 +125,7 @@ export const TrProperties: PropertiesTableProps = {
 
 export const TrEventProperties: PropertiesTableProps = {
   onClick: {
-    doc: 'Will emit when user clicks/expands or on keydown space/enter in the table row. Returns a native click.',
+    doc: 'Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row. Returns a native click.',
     type: '(event) => void',
     defaultValue: 'undefined',
     status: 'optional',
