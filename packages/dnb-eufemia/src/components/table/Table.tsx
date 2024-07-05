@@ -63,7 +63,7 @@ export type TableProps = {
   outline?: boolean
 
   /**
-   * Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigatable table.
+   * Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.
    */
   mode?: 'accordion' | 'navigation'
 
