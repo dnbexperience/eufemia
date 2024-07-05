@@ -247,6 +247,7 @@ export const Percentage = () => {
   return (
     <ComponentBox>
       <Field.Number
+        percent
         value={80}
         label="Percentage"
         onChange={(value) => console.log('onChange', value)}
