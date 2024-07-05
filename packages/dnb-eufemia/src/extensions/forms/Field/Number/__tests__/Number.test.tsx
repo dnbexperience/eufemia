@@ -263,7 +263,7 @@ describe('Field.Number', () => {
 
       await userEvent.type(input, '-365')
 
-      expect(input).not.toHaveValue('-365')
+      expect(input).toHaveValue('365')
     })
   })
 

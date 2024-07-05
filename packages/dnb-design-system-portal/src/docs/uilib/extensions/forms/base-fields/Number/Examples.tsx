@@ -251,6 +251,14 @@ export const AllowNegative = () => {
   )
 }
 
+export const DisallowLeadingZeroes = () => {
+  return (
+    <ComponentBox>
+      <Field.Number disallowLeadingZeroes />
+    </ComponentBox>
+  )
+}
+
 export const Percentage = () => {
   return (
     <ComponentBox>
