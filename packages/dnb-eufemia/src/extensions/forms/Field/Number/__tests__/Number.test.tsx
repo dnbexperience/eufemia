@@ -265,6 +265,23 @@ describe('Field.Number', () => {
 
       expect(input).toHaveValue('365')
     })
+
+    it('should not allow leading zeroes when `disallowLeadingZeroes` is true', async () => {
+      render(<Field.Number value={123} />)
+
+      const input = document.querySelector('input')
+
+      await fireEvent.keyDown(document.querySelector('input'), {
+        key: '0',
+        keyCode: 48, // zero
+        target: {
+          value: 123,
+          selectionStart: 3, // set it to be a leading zero
+        },
+      })
+
+      expect(input).toHaveValue('123')
+    })
   })
 
   describe('should gracefully handle empty value', () => {
