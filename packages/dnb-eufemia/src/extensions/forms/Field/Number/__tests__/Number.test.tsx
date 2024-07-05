@@ -267,20 +267,13 @@ describe('Field.Number', () => {
     })
 
     it('should not allow leading zeroes when `disallowLeadingZeroes` is true', async () => {
-      render(<Field.Number value={123} />)
+      render(<Field.Number disallowLeadingZeroes />)
 
       const input = document.querySelector('input')
 
-      await fireEvent.keyDown(document.querySelector('input'), {
-        key: '0',
-        keyCode: 48, // zero
-        target: {
-          value: 123,
-          selectionStart: 3, // set it to be a leading zero
-        },
-      })
+      await userEvent.type(input, '00123456')
 
-      expect(input).toHaveValue('123')
+      expect(input).toHaveValue('123456')
     })
   })
 
