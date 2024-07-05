@@ -265,6 +265,14 @@ export const Percentage = () => {
   )
 }
 
+export const DisallowLeadingZeroes = () => {
+  return (
+    <ComponentBox>
+      <Field.Number disallowLeadingZeroes />
+    </ComponentBox>
+  )
+}
+
 export const ValidateMaximumCustomError = () => {
   return (
     <ComponentBox>
