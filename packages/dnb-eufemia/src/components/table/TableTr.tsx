@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { TableAccordionHead } from './table-accordion/TableAccordionHead'
+import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
 import { TableContext } from './TableContext'
 
@@ -11,47 +12,47 @@ export type TableTrProps = {
   variant?: 'even' | 'odd'
 
   /**
-   * If set to true, the inherited header text will not wrap to new lines
+   * If set to true, the inherited header text will not wrap to new lines.
    * Default: false
    */
   noWrap?: boolean
 
   /**
-   * Set true to render the tr initially as expanded
-   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   * Set true to render the tr initially as expanded.
+   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    * Default: false
    */
   expanded?: boolean
 
   /**
-   * Set true to disable the tr to be accessible as an interactive element
-   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   * Set true to disable the tr to be accessible as an interactive element.
+   * Is part of the accordion feature and needs to be enabled with `mode="accordion"`prop in main Table.
    * Default: false
    */
   disabled?: boolean
 
   /**
-   * Set to true to skip animation
-   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   * Set to true to skip animation.
+   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    * Default: false
    */
   noAnimation?: boolean
 
   /**
-   * Will emit when user clicks/expands the table row
-   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   * Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row.
+   * Is part of the mode feature and needs to be enabled with the `mode` prop in main Table.
    */
   onClick?: (event: React.SyntheticEvent) => void
 
   /**
-   * Will emit when table row is expanded
-   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   * Will emit when table row is expanded.
+   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
   onOpened?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * Will emit when table row is closed (after it was open)
-   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
   onClosed?: ({ target }: { target: HTMLTableRowElement }) => void
 
@@ -69,7 +70,7 @@ export default function Tr(
     variant,
     noWrap,
     className: _className,
-    ...accordionProps
+    ...restProps
   } = componentProps
 
   const { currentVariant, isLast, count } = useHandleTrVariant({
@@ -85,14 +86,24 @@ export default function Tr(
   )
 
   const tableContext = React.useContext(TableContext)
-  if (tableContext?.allProps?.accordion) {
+
+  // Deprecated – can be removed in v11
+  const deprecatedAccordionProp = tableContext?.allProps?.accordion
+
+  if (
+    deprecatedAccordionProp ||
+    tableContext?.allProps?.mode == 'accordion'
+  ) {
     return (
       <TableAccordionHead
         count={count}
         className={className}
-        {...accordionProps}
+        {...restProps}
       />
     )
+  }
+  if (tableContext?.allProps?.mode == 'navigation') {
+    return <TableNavigationHead className={className} {...restProps} />
   }
 
   const {
@@ -103,7 +114,7 @@ export default function Tr(
     onOpened, // eslint-disable-line @typescript-eslint/no-unused-vars
     onClosed, // eslint-disable-line @typescript-eslint/no-unused-vars
     ...trProps
-  } = accordionProps
+  } = restProps
 
   return <tr role="row" className={className} {...trProps} />
 }

@@ -16,11 +16,10 @@ import Provider from '../../../shared/Provider'
 const nb = nbNO['nb-NO'].Table
 const en = enGB['en-GB'].Table
 
-// Deprecated – can be removed in v11, replaced with mode="accordion" and TableAccordionMode.test.tsx
-describe('TableAccordion using deprecated accordion prop', () => {
+describe('Table using mode="accordion" prop', () => {
   it('table should have --accordion modifier class', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <tr>
             <td>content</td>
@@ -36,7 +35,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('tr should have --clickable modifier class', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -55,7 +54,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('content tr should render when closed', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -83,7 +82,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('expanded accordion content tr should contain correct roles', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr expanded>
             <Td>content</Td>
@@ -114,7 +113,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('noAnimation should set correct class to tr', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr noAnimation>
             <Td>content</Td>
@@ -137,7 +136,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('content td should render when closed', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -162,7 +161,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('expanded accordion content td should contain correct roles', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr expanded>
             <Td>content</Td>
@@ -189,7 +188,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('expanded accordion content should contain correct roles', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr expanded>
             <Td>content</Td>
@@ -216,7 +215,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('expanded accordion content should contain aria-live announcement', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr expanded>
             <Td>content</Td>
@@ -240,7 +239,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('expanded accordion content should contain aria-live en-GB announcement', () => {
     const { rerender } = render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -262,7 +261,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
     expect(liveElement.textContent).toBe(nb.accordionMoreContentSR)
 
     rerender(
-      <Table accordion lang="en-GB">
+      <Table mode="accordion" lang="en-GB">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -278,7 +277,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('tr should open on tr click', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -308,7 +307,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('tr should not open on interactive element click', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>
@@ -422,7 +421,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('tr should open on toggle button click', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>Nothing</Td>
@@ -450,7 +449,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('chevron placement class should be set with accordionChevronPlacement', () => {
     const { rerender } = render(
-      <Table accordion>
+      <Table mode="accordion">
         <thead>
           <Tr>
             <Th>heading</Th>
@@ -488,7 +487,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
     )
 
     rerender(
-      <Table accordion accordionChevronPlacement="end">
+      <Table mode="accordion" accordionChevronPlacement="end">
         <thead>
           <Tr>
             <Th>heading</Th>
@@ -513,7 +512,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('chevron header column needs a div for proper width', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <thead>
           <Tr>
             <Th>heading</Th>
@@ -533,7 +532,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('chevron header column should contain accordionToggleButtonSR text', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <thead>
           <Tr>
             <Th>heading</Th>
@@ -561,7 +560,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
     const { rerender } = render(
       <Provider>
-        <Table accordion>{content}</Table>
+        <Table mode="accordion">{content}</Table>
       </Provider>
     )
 
@@ -574,7 +573,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
     rerender(
       <Provider>
-        <Table accordion locale="en-GB">
+        <Table mode="accordion" locale="en-GB">
           {content}
         </Table>
       </Provider>
@@ -584,7 +583,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
     rerender(
       <Provider locale="nb-NO">
-        <Table accordion>{content}</Table>
+        <Table mode="accordion">{content}</Table>
       </Provider>
     )
 
@@ -592,7 +591,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
     rerender(
       <Provider>
-        <Table accordion lang="en-GB">
+        <Table mode="accordion" lang="en-GB">
           {content}
         </Table>
       </Provider>
@@ -603,7 +602,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('tr should open with enter or space key on tr', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <thead>
           <Tr>
             <Th>heading</Th>
@@ -660,7 +659,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
 
   it('tr should have hover class when had click', () => {
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr>
             <Td>content</Td>
@@ -712,7 +711,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
     })
 
     render(
-      <Table accordion>
+      <Table mode="accordion">
         <tbody>
           <Tr id="unique-id-1">
             <Td>content 1</Td>
@@ -753,7 +752,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
       const trid = '123'
 
       render(
-        <Table accordion>
+        <Table mode="accordion">
           <tbody>
             <Tr onClick={onClick} data-trid={trid}>
               <Td>content</Td>
@@ -778,7 +777,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
       const onOpened = jest.fn()
 
       render(
-        <Table accordion>
+        <Table mode="accordion">
           <tbody>
             <Tr onOpened={onOpened}>
               <Td>content</Td>
@@ -803,7 +802,7 @@ describe('TableAccordion using deprecated accordion prop', () => {
       const onOpened = jest.fn()
 
       render(
-        <Table accordion>
+        <Table mode="accordion">
           <tbody>
             <Tr onOpened={onOpened} onClosed={onClosed}>
               <Td>content</Td>
@@ -838,7 +837,10 @@ describe('TableAccordion using deprecated accordion prop', () => {
       const collapseAllHandleRef = React.createRef<() => void>()
 
       render(
-        <Table accordion collapseAllHandleRef={collapseAllHandleRef}>
+        <Table
+          mode="accordion"
+          collapseAllHandleRef={collapseAllHandleRef}
+        >
           <tbody>
             <Tr expanded>
               <Td>Accordion single</Td>
