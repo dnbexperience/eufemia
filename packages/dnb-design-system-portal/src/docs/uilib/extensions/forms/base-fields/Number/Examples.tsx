@@ -243,10 +243,27 @@ export const ValidateMinimum = () => {
   )
 }
 
+export const AllowNegative = () => {
+  return (
+    <ComponentBox>
+      <Field.Number allowNegative={false} />
+    </ComponentBox>
+  )
+}
+
+export const DisallowLeadingZeroes = () => {
+  return (
+    <ComponentBox>
+      <Field.Number disallowLeadingZeroes />
+    </ComponentBox>
+  )
+}
+
 export const Percentage = () => {
   return (
     <ComponentBox>
       <Field.Number
+        percent
         value={80}
         label="Percentage"
         onChange={(value) => console.log('onChange', value)}

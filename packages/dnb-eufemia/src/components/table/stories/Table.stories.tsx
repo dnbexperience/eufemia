@@ -595,7 +595,7 @@ const HeaderSortButton = ({ children }) => {
   )
 }
 
-export const TableAccordion = () => {
+export const TableDeprecatedAccordionProp = () => {
   const [skeleton, setSkeleton] = React.useState(false)
   return (
     <main aria-label="main area">
@@ -612,6 +612,84 @@ export const TableAccordion = () => {
       <Table.ScrollView top>
         <Table
           accordion
+          skeleton={skeleton}
+          outline
+          border
+          size="large"
+          sticky
+          // lang="no"
+        >
+          <TableContent />
+        </Table>
+      </Table.ScrollView>
+
+      <Global
+        styles={css`
+          html {
+            overflow: scroll;
+          }
+        `}
+      />
+    </main>
+  )
+}
+
+export const TableAccordionMode = () => {
+  const [skeleton, setSkeleton] = React.useState(false)
+  return (
+    <main aria-label="main area">
+      <h1 className="dnb-sr-only">Table with accordion row</h1>
+      <ToggleButton
+        // size="small"
+        on_change={() => {
+          setSkeleton((s) => !s)
+        }}
+      >
+        Toggle Skeleton
+      </ToggleButton>
+
+      <Table.ScrollView top>
+        <Table
+          mode="accordion"
+          skeleton={skeleton}
+          outline
+          border
+          size="large"
+          sticky
+          // lang="no"
+        >
+          <TableContent />
+        </Table>
+      </Table.ScrollView>
+
+      <Global
+        styles={css`
+          html {
+            overflow: scroll;
+          }
+        `}
+      />
+    </main>
+  )
+}
+
+export const TableNavigationMode = () => {
+  const [skeleton, setSkeleton] = React.useState(false)
+  return (
+    <main aria-label="main area">
+      <h1 className="dnb-sr-only">Table with accordion row</h1>
+      <ToggleButton
+        // size="small"
+        on_change={() => {
+          setSkeleton((s) => !s)
+        }}
+      >
+        Toggle Skeleton
+      </ToggleButton>
+
+      <Table.ScrollView top>
+        <Table
+          mode="navigation"
           skeleton={skeleton}
           outline
           border

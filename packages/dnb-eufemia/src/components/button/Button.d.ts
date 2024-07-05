@@ -136,6 +136,10 @@ export type ButtonProps = {
   disabled?: boolean;
   inner_ref?: React.Ref;
   className?: string;
+  /**
+   * @deprecated – use className instead. Will be removed in v11.
+   */
+  class?: string;
   innerRef?: any;
   /**
    * The content of the button can be a string or a React Element.

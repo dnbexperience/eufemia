@@ -4,12 +4,12 @@
 */
 
 @mixin tableAccordionActiveColor {
-  .dnb-table__td__accordion-icon .dnb-icon {
+  .dnb-table__td__button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--active);
   }
 }
 @mixin tableAccordionDisabledColor {
-  .dnb-table__td__accordion-icon .dnb-icon {
+  .dnb-table__td__button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--disabled);
   }
 }
@@ -32,7 +32,7 @@
   --table-accordion-outline-width: var(--focus-ring-width);
   --table-accordion-outline-background--active: var(--color-pistachio);
 
-  &__th#{&}__th__accordion-icon {
+  &__th#{&}__th__button-icon {
     &.dnb-table__th {
       padding: 0;
     }
@@ -53,14 +53,14 @@
     }
   }
 
-  &__td#{&}__td__accordion-icon {
+  &__td#{&}__td__button-icon {
     &.dnb-table__td {
       padding: 0;
     }
     user-select: none; // prevent selection on double-click
   }
 
-  &__tr--has-accordion-content &__toggle-button {
+  &__tr--clickable &__button {
     display: flex; // to ensure we inherit the correct size from its content
     justify-content: center;
 
@@ -69,26 +69,21 @@
       transition: transform 500ms var(--easing-default);
     }
   }
-  &__tr--has-accordion-content#{&}__tr--no-animation
-    &__toggle-button
-    .dnb-icon,
-  html[data-visual-test]
-    &__tr--has-accordion-content
-    &__toggle-button
-    .dnb-icon {
+  &__tr--clickable#{&}__tr--no-animation &__button .dnb-icon,
+  html[data-visual-test] &__tr--clickable &__button .dnb-icon {
     transition: none !important;
   }
 
-  &__tr--has-accordion-content,
+  &__tr--clickable,
   &__tr__accordion-content {
     position: relative;
   }
-  &__tr--has-accordion-content#{&}__tr--expanded,
+  &__tr--clickable#{&}__tr--expanded,
   &__tr__accordion-content {
     z-index: 3; // ensure borders are visible in certain states
   }
 
-  &__tr--has-accordion-content {
+  &__tr--clickable {
     &:active,
     html[data-whatinput='keyboard'] &:focus,
     &:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
@@ -96,13 +91,11 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr--expanded
-    &__toggle-button
-    .dnb-icon {
+  &__tr--clickable#{&}__tr--expanded &__button .dnb-icon {
     transform: rotate(180deg);
   }
 
-  &__tr--has-accordion-content#{&}__tr--expanded {
+  &__tr--clickable#{&}__tr--expanded {
     .dnb-table--border & td::after {
       border-bottom: none;
       border-left: none;
@@ -110,7 +103,7 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled) {
+  &__tr--clickable#{&}__tr:not(&__tr--disabled) {
     outline: none;
 
     td::before {
@@ -145,19 +138,18 @@
 
   &--border
     tbody
-    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(&__tr--last)
+    &__tr--clickable:not(#{&}__tr--expanded):not(&__tr--last)
     &__td::before {
     bottom: calc(var(--table-border-width) * -1);
   }
 
-  &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
-    &__td {
+  &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover &__td {
     background-color: var(--color-white);
   }
 
-  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):not(
-      :active
-    ):not(:hover):focus {
+  &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
+      :hover
+    ):focus {
     td::before {
       @include whatInput(keyboard) {
         border-color: var(--focus-ring-color);
@@ -172,7 +164,7 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active {
+  &__tr--clickable#{&}__tr:not(&__tr--disabled):active {
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
       border-color: var(--table-accordion-outline-color);
@@ -182,13 +174,13 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active &__td {
+  &__tr--clickable#{&}__tr:not(&__tr--disabled):active &__td {
     background-color: var(--table-accordion-outline-background--active);
 
     @include tableAccordionActiveColor();
   }
 
-  &__tr--has-accordion-content#{&}__tr--expanded:not(
+  &__tr--clickable#{&}__tr--expanded:not(
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
@@ -200,9 +192,9 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr#{&}__tr--expanded:not(
-      &__tr--disabled
-    ):not(:active):not(:hover) {
+  &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
+      :active
+    ):not(:hover) {
     @include whatInputNot('keyboard') {
       background-color: var(--table-accordion-header-background);
 
@@ -213,7 +205,7 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr--disabled {
+  &__tr--clickable#{&}__tr--disabled {
     @include tableAccordionDisabledColor();
   }
 
@@ -256,7 +248,7 @@
         background-color: var(--color-white);
       }
 
-      + .dnb-table__tr--has-accordion-content .dnb-table__td {
+      + .dnb-table__tr--clickable .dnb-table__td {
         @include tableBorder() {
           border-top: var(--table-accordion-border);
         }
@@ -323,13 +315,13 @@
   }
 
   // stylelint-disable-next-line
-  &__tr--has-accordion-content:not(&__tr--disabled) {
+  &__tr--clickable:not(&__tr--disabled) {
     cursor: pointer;
   }
 
   // prevent selection while animating – useful when user double-clicks
   // TODO: Our SASS version does not support :has – so we may use this in future
-  // &__tr--has-accordion-content:has(& + &__tr__accordion-content--animating) {
+  // &__tr--clickable:has(& + &__tr__accordion-content--animating) {
   //   user-select: none;
   // }
 

@@ -255,6 +255,16 @@ describe('Field.Number', () => {
       expect(input).toHaveAttribute('data-testid', 'testid')
       expect(input).toHaveAttribute('data-long-value', 'long-value')
     })
+
+    it('should not allow negative numbers when `allowNegative` is set to false', async () => {
+      render(<Field.Number allowNegative={false} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-365')
+
+      expect(input).toHaveValue('365')
+    })
   })
 
   describe('should gracefully handle empty value', () => {
@@ -324,6 +334,7 @@ describe('Field.Number', () => {
         myFieldWithNull: null,
         myFieldWithUndefined: undefined,
         myFieldWithEmptyString: '',
+        myFieldWithZero: 0,
         myFieldWitInvalidType: 'foo',
       }
 
@@ -341,29 +352,15 @@ describe('Field.Number', () => {
         expect(statuses).toHaveLength(0)
       })
 
-      it('allow empty string as emptyValue', () => {
+      it('allow number as emptyValue', () => {
         render(
           <Form.Handler schema={schema} data={data}>
-            <Field.Number path="/myFieldWithEmptyString" />
+            <Field.Number path="/myFieldWithZero" />
           </Form.Handler>
         )
 
         const input = document.querySelector('input')
-        expect(input).toHaveValue('')
-
-        const statuses = document.querySelectorAll('.dnb-form-status')
-        expect(statuses).toHaveLength(0)
-      })
-
-      it('allow empty string as empty value', () => {
-        render(
-          <Form.Handler schema={schema} data={data}>
-            <Field.Number path="/myFieldWithEmptyString" />
-          </Form.Handler>
-        )
-
-        const input = document.querySelector('input')
-        expect(input).toHaveValue('')
+        expect(input).toHaveValue('0')
 
         const statuses = document.querySelectorAll('.dnb-form-status')
         expect(statuses).toHaveLength(0)
@@ -402,6 +399,29 @@ describe('Field.Number', () => {
 
         log.mockRestore()
       })
+    })
+
+    it('should use emptyValue when not set in data context', () => {
+      const onSubmit = jest.fn()
+      render(
+        <Form.Handler data={{}} onSubmit={onSubmit}>
+          <Field.Number
+            label="Label"
+            value={0}
+            path="/myValue"
+            emptyValue={0}
+          />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { myValue: 0 },
+        expect.anything()
+      )
     })
   })
 

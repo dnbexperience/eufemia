@@ -31,7 +31,7 @@ interface ErrorMessages extends CustomErrorMessages {
 }
 
 export type Props = FieldHelpProps &
-  FieldProps<number, undefined, ErrorMessages> & {
+  FieldProps<number, undefined | number, ErrorMessages> & {
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
     currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
@@ -41,6 +41,8 @@ export type Props = FieldHelpProps &
     startWith?: number
     // Formatting
     decimalLimit?: number
+    allowNegative?: boolean
+    disallowLeadingZeroes?: boolean
     prefix?: string
     suffix?: string
     // Validation
@@ -68,6 +70,8 @@ function NumberComponent(props: Props) {
     mask,
     step = 1,
     decimalLimit = 12,
+    allowNegative = true,
+    disallowLeadingZeroes = false,
     prefix,
     suffix,
     showStepControls,
@@ -132,7 +136,13 @@ function NumberComponent(props: Props) {
   )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
-    const mask_options = { prefix, suffix, decimalLimit }
+    const mask_options = {
+      prefix,
+      suffix,
+      decimalLimit,
+      allowNegative,
+      disallowLeadingZeroes,
+    }
 
     if (currency) {
       return {
@@ -167,6 +177,8 @@ function NumberComponent(props: Props) {
     percent,
     prefix,
     suffix,
+    allowNegative,
+    disallowLeadingZeroes,
   ])
 
   const preparedProps: Props = {

@@ -17,6 +17,16 @@ export const numberProperties: PropertiesTableProps = {
     type: ['boolean', 'string'],
     status: 'optional',
   },
+  allowNegative: {
+    doc: 'Whether or not to allow negative numbers. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  disallowLeadingZeroes: {
+    doc: 'Whether or not to allow leading zeroes. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   minimum: {
     doc: 'Validation for inclusive minimum number value (greater than or equal). Defaults to `Number.MIN_SAFE_INTEGER`.',
     type: 'number',
