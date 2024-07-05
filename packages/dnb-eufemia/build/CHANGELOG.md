@@ -3,6 +3,29 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.39.0](https://github.com/dnbexperience/eufemia/compare/v10.38.0...v10.39.0) (2024-07-05)
+
+
+### :bug: Bug Fixes
+
+* deprecate `class` prop in Button, Drawer, Dialog and Modal components ([#3745](https://github.com/dnbexperience/eufemia/issues/3745)) ([2aea682](https://github.com/dnbexperience/eufemia/commit/2aea682d39f220826a1c9da7c364e16cd798860b)), closes [#3634](https://github.com/dnbexperience/eufemia/issues/3634)
+* **Forms:** update `emptyValue` documentation and type to reflect how it's used internally  ([#3729](https://github.com/dnbexperience/eufemia/issues/3729)) ([ff755e7](https://github.com/dnbexperience/eufemia/commit/ff755e70a27d6c798be7dd63d9cda3fe64100904))
+* **PaymentCard:** change SBanken to Sbanken ([#3747](https://github.com/dnbexperience/eufemia/issues/3747)) ([bfe8a9d](https://github.com/dnbexperience/eufemia/commit/bfe8a9d5ff5f7496de2b4937cf499367ede9384f))
+* **PaymentCard:** set sbanken MC code to P103 ([#3746](https://github.com/dnbexperience/eufemia/issues/3746)) ([1e97a41](https://github.com/dnbexperience/eufemia/commit/1e97a41da548e892a78e8c8edffdaec3bb654117))
+
+
+### :memo: Documentation
+
+* **Field.Number:** add `allowNegative` demo/example ([#3754](https://github.com/dnbexperience/eufemia/issues/3754)) ([d6d3dbd](https://github.com/dnbexperience/eufemia/commit/d6d3dbd4397880d854b2109440038ff359cc990e))
+* **Field.Number:** fix `percent` demo/example ([#3755](https://github.com/dnbexperience/eufemia/issues/3755)) ([c1a0839](https://github.com/dnbexperience/eufemia/commit/c1a083927e571c8b1d751673046ddc94f127a3be))
+
+
+### :sparkles: Features
+
+* **Field.Number:** add `allowNegative` mask prop ([#3753](https://github.com/dnbexperience/eufemia/issues/3753)) ([9dc1358](https://github.com/dnbexperience/eufemia/commit/9dc1358eea68e6bdc095a4cd4291ec2914566d44))
+* **Field.Number:** add `disallowLeadingZeroes` prop ([#3756](https://github.com/dnbexperience/eufemia/issues/3756)) ([d49cad9](https://github.com/dnbexperience/eufemia/commit/d49cad9f428102b86fd06de3976d46c51cb47fda))
+* **Table:** add navigation mode ([#3752](https://github.com/dnbexperience/eufemia/issues/3752)) ([b3a6db9](https://github.com/dnbexperience/eufemia/commit/b3a6db91c10591db061ec8bbac16d5cf6a987866))
+
 ## [10.38.0](https://github.com/dnbexperience/eufemia/compare/v10.37.0...v10.38.0) (2024-06-26)
 
 
