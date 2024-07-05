@@ -243,6 +243,14 @@ export const ValidateMinimum = () => {
   )
 }
 
+export const AllowNegative = () => {
+  return (
+    <ComponentBox>
+      <Field.Number allowNegative={false} />
+    </ComponentBox>
+  )
+}
+
 export const Percentage = () => {
   return (
     <ComponentBox>
