@@ -42,6 +42,7 @@ export type Props = FieldHelpProps &
     // Formatting
     decimalLimit?: number
     allowNegative?: boolean
+    disallowLeadingZeroes?: boolean
     prefix?: string
     suffix?: string
     // Validation
@@ -70,6 +71,7 @@ function NumberComponent(props: Props) {
     step = 1,
     decimalLimit = 12,
     allowNegative = true,
+    disallowLeadingZeroes = false,
     prefix,
     suffix,
     showStepControls,
@@ -139,6 +141,7 @@ function NumberComponent(props: Props) {
       suffix,
       decimalLimit,
       allowNegative,
+      disallowLeadingZeroes,
     }
 
     if (currency) {
@@ -175,6 +178,7 @@ function NumberComponent(props: Props) {
     prefix,
     suffix,
     allowNegative,
+    disallowLeadingZeroes,
   ])
 
   const preparedProps: Props = {
