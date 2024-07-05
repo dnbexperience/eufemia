@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const TableProperties: PropertiesTableProps = {
   mode: {
-    doc: 'Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigatable table.',
+    doc: 'Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.',
     type: [`'accordion'`, `'navigation'`],
     defaultValue: 'null',
     status: 'optional',
