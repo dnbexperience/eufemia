@@ -255,6 +255,16 @@ describe('Field.Number', () => {
       expect(input).toHaveAttribute('data-testid', 'testid')
       expect(input).toHaveAttribute('data-long-value', 'long-value')
     })
+
+    it('should not allow negative numbers when `allowNegative` is set to false', async () => {
+      render(<Field.Number allowNegative={false} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-365')
+
+      expect(input).not.toHaveValue('-365')
+    })
   })
 
   describe('should gracefully handle empty value', () => {

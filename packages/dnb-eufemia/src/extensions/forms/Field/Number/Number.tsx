@@ -41,6 +41,7 @@ export type Props = FieldHelpProps &
     startWith?: number
     // Formatting
     decimalLimit?: number
+    allowNegative?: boolean
     prefix?: string
     suffix?: string
     // Validation
@@ -68,6 +69,7 @@ function NumberComponent(props: Props) {
     mask,
     step = 1,
     decimalLimit = 12,
+    allowNegative = true,
     prefix,
     suffix,
     showStepControls,
@@ -132,7 +134,12 @@ function NumberComponent(props: Props) {
   )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
-    const mask_options = { prefix, suffix, decimalLimit }
+    const mask_options = {
+      prefix,
+      suffix,
+      decimalLimit,
+      allowNegative,
+    }
 
     if (currency) {
       return {
@@ -167,6 +174,7 @@ function NumberComponent(props: Props) {
     percent,
     prefix,
     suffix,
+    allowNegative,
   ])
 
   const preparedProps: Props = {
