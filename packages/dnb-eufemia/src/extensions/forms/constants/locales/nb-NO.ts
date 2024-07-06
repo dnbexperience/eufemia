@@ -20,11 +20,25 @@ export default {
       edit: 'Endre',
       summaryTitle: 'Oppsummering',
     },
-    Section: {
-      remove: 'Fjern',
-      done: 'Ferdig',
-      cancel: 'Avbryt',
-      edit: 'Endre',
+    RemoveButton: {
+      text: 'Fjern',
+    },
+    IterateViewContainer: {
+      removeButton: 'Fjern',
+      editButton: 'Endre',
+    },
+    SectionViewContainer: {
+      editButton: 'Endre',
+    },
+    SectionEditContainer: {
+      doneButton: 'Ferdig',
+      cancelButton: 'Avbryt',
+      errorInSection: 'Feilene ovenfor må rettes',
+    },
+    IterateEditContainer: {
+      removeButton: 'Fjern',
+      doneButton: 'Ferdig',
+      cancelButton: 'Avbryt',
       errorInSection: 'Feilene ovenfor må rettes',
     },
 

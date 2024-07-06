@@ -1,10 +1,11 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
+import { Form } from '../../..'
 import IterateElementContext from '../../IterateElementContext'
 import EditContainer from '../EditContainer'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('EditContainer', () => {
   it('renders content and without errors', () => {
@@ -172,8 +173,8 @@ describe('EditContainer', () => {
       const buttons = document.querySelectorAll('button')
 
       expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent(nb.done)
-      expect(buttons[1]).toHaveTextContent(nb.remove)
+      expect(buttons[0]).toHaveTextContent(nb.doneButton)
+      expect(buttons[1]).toHaveTextContent(nb.removeButton)
     })
 
     it('and isNew is not set', () => {
@@ -186,8 +187,70 @@ describe('EditContainer', () => {
       const buttons = document.querySelectorAll('button')
 
       expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent(nb.done)
-      expect(buttons[1]).toHaveTextContent(nb.cancel)
+      expect(buttons[0]).toHaveTextContent(nb.doneButton)
+      expect(buttons[1]).toHaveTextContent(nb.cancelButton)
+    })
+
+    it('supports translations removeButton and doneButton from Form.Handler', () => {
+      const remove = 'custom-translation-remove-button-text'
+      const done = 'custom-translation-done-button-text'
+
+      render(
+        <Form.Handler
+          translations={{
+            'nb-NO': {
+              'IterateEditContainer.removeButton': remove,
+              'IterateEditContainer.doneButton': done,
+            },
+            'en-GB': {
+              'IterateEditContainer.removeButton': remove,
+              'IterateEditContainer.doneButton': done,
+            },
+          }}
+        >
+          <IterateElementContext.Provider
+            value={{
+              containerMode: 'edit',
+              isNew: true,
+            }}
+          >
+            <EditContainer>content</EditContainer>
+          </IterateElementContext.Provider>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText(remove)).toBeInTheDocument()
+      expect(screen.getByText(done)).toBeInTheDocument()
+    })
+    it('supports translations cancelButton and doneButton from Form.Handler', () => {
+      const done = 'custom-translation-done-button-text'
+      const cancel = 'custom-translation-cancel-button-text'
+
+      render(
+        <Form.Handler
+          translations={{
+            'nb-NO': {
+              'IterateEditContainer.doneButton': done,
+              'IterateEditContainer.cancelButton': cancel,
+            },
+            'en-GB': {
+              'IterateEditContainer.doneButton': done,
+              'IterateEditContainer.cancelButton': cancel,
+            },
+          }}
+        >
+          <IterateElementContext.Provider
+            value={{
+              containerMode: 'edit',
+            }}
+          >
+            <EditContainer>content</EditContainer>
+          </IterateElementContext.Provider>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText(cancel)).toBeInTheDocument()
+      expect(screen.getByText(done)).toBeInTheDocument()
     })
   })
 })
