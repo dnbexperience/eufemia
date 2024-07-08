@@ -27,7 +27,7 @@ export function isAsync(fn: unknown): boolean {
   const isAsyncFunctionBabelTranspiled = fn
     ?.toString()
     ?.trim()
-    .match(/return _ref[^\.]*\.apply/)
+    .match(/return _ref[^\.]*\.apply/) //eslint-disable-line
 
   if (!!isAsyncFunctionBabelTranspiled) {
     return true
