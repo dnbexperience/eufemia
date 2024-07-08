@@ -71,4 +71,16 @@
   &--vertical-top {
     top: 0;
   }
+
+  &--inline {
+    &.dnb-badge--vertical-top {
+      // 1/4 of the badge height
+      transform: translateY(-25%);
+    }
+
+    &.dnb-badge--vertical-bottom {
+      // 1/4 of the badge height
+      transform: translateY(25%);
+    }
+  }
 }
