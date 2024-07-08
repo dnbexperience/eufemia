@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.40.0](https://github.com/dnbexperience/eufemia/compare/v10.39.0...v10.40.0) (2024-07-08)
+
+
+### :sparkles: Features
+
+* **Forms.Wizard:** separate translations for buttons ([#3762](https://github.com/dnbexperience/eufemia/issues/3762)) ([d07a3ef](https://github.com/dnbexperience/eufemia/commit/d07a3ef0f8d52ecc63d6b6d3a92d40aa0f3ab857))
+* **Forms:** translations EditContainer, ViewContainer, RemoveButton ([#3760](https://github.com/dnbexperience/eufemia/issues/3760)) ([d173de2](https://github.com/dnbexperience/eufemia/commit/d173de294e45958bbc787a3c6238cbfa4446f549))
+
+
+### :bug: Bug Fixes
+
+* **Badge:** fix vertical alignment support when used inline ([#3761](https://github.com/dnbexperience/eufemia/issues/3761)) ([5d10fa9](https://github.com/dnbexperience/eufemia/commit/5d10fa90f64a904fe86cf4fd9e96a5ea5396cf2a))
+* **Forms.Handler:** onSubmit support async fn @babel/plugin-transform-async-to-generator ([#3764](https://github.com/dnbexperience/eufemia/issues/3764)) ([340ce12](https://github.com/dnbexperience/eufemia/commit/340ce12b0e50b23bc7047f49ea808221f2059117))
+
 ## [10.39.0](https://github.com/dnbexperience/eufemia/compare/v10.38.0...v10.39.0) (2024-07-05)
 
 
