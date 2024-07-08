@@ -23,5 +23,14 @@ export function isAsync(fn: unknown): boolean {
     return true
   }
 
+  // is async function transpiled using @babel/plugin-transform-async-to-generator
+  const isAsyncFunctionBabelTranspiled = fn
+    ?.toString()
+    ?.trim()
+    .match(/return _ref[^\.]*\.apply/)
+
+  if (!!isAsyncFunctionBabelTranspiled) {
+    return true
+  }
   return firstCheck
 }
