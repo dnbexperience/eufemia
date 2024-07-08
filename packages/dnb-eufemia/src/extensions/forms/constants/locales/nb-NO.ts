@@ -15,10 +15,16 @@ export default {
       sendText: 'Send inn',
     },
     Step: {
-      next: 'Neste',
-      previous: 'Tilbake',
-      edit: 'Endre',
       summaryTitle: 'Oppsummering',
+    },
+    WizardEditButton: {
+      text: 'Endre',
+    },
+    WizardPreviousButton: {
+      text: 'Tilbake',
+    },
+    WizardNextButton: {
+      text: 'Neste',
     },
     RemoveButton: {
       text: 'Fjern',

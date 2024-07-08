@@ -1,5 +1,8 @@
 ---
-showTabs: false
+title: 'EditButton'
+description: '`Wizard.EditButton` is a button to be placed in a summary step.'
+hideInMenu: true
+showTabs: true
 breadcrumb:
   - text: Forms
     href: /uilib/extensions/forms/
@@ -9,37 +12,17 @@ breadcrumb:
     href: /uilib/extensions/forms/Wizard/Step/
   - text: EditButton
     href: /uilib/extensions/forms/Wizard/Step/EditButton/
+tabs:
+  - title: Info
+    key: '/info'
+  - title: Demos
+    key: '/demos'
+  - title: Properties
+    key: '/properties'
 ---
 
-import * as Examples from './Examples'
+import Info from 'Docs/uilib/extensions/forms/Wizard/Step/EditButton/info'
+import Demos from 'Docs/uilib/extensions/forms/Wizard/Step/EditButton/demos'
 
-# EditButton
-
-## Description
-
-`Wizard.EditButton` is a button to be placed in a summary step.
-
-It provides a `toStep` property that lets you navigate to a specific step.
-
-```jsx
-import { Hr } from '@dnb/eufemia'
-import { Form, Wizard, Value } from '@dnb/eufemia/extensions/forms'
-
-render(
-  <Form.Handler>
-    <Wizard.Layout>
-      <Wizard.Step title="Summary">
-        <Card stack>
-          <Value.Name.First path="/firstName" />
-          <Hr />
-          <Wizard.EditButton toStep={2} />
-        </Card>
-      </Wizard.Step>
-    </Wizard.Layout>
-  </Form.Handler>,
-)
-```
-
-## Demo
-
-<Examples.EditButton />
+<Info />
+<Demos />

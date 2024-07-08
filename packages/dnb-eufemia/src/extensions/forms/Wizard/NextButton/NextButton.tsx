@@ -10,13 +10,13 @@ import useTranslation from '../../hooks/useTranslation'
 export type Props = ComponentProps & Omit<ButtonProps, 'variant'>
 
 function NextButton(props: Props) {
-  const translations = useTranslation().Step
+  const translations = useTranslation().WizardNextButton
 
   const {
     className,
     icon_position = 'right',
     icon = 'chevron_right',
-    children = translations.next,
+    children = translations.text,
   } = props
   const { handleNext } = useContext(WizardContext) || {}
 
