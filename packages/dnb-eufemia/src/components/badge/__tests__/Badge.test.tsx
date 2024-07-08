@@ -125,6 +125,7 @@ describe('Badge', () => {
       'dnb-badge',
       'dnb-badge--variant-information',
       'dnb-space__top--large',
+      'dnb-badge--inline',
     ])
   })
 
@@ -150,7 +151,20 @@ describe('Badge', () => {
       'dnb-badge--variant-information',
       'dnb-skeleton',
       'dnb-skeleton--shape',
+      'dnb-badge--inline',
     ])
+  })
+
+  it('should support vertical alignment when used inline', () => {
+    render(
+      <p>
+        This is text with a <Badge content={9} vertical="top" />
+      </p>
+    )
+
+    const badge = document.querySelector('.dnb-badge')
+
+    expect(badge).toHaveClass('dnb-badge--inline')
   })
 
   describe('default values', () => {

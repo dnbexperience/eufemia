@@ -68,6 +68,12 @@ exports[`Badge scss has to match style dependencies css 1`] = `
 }
 .dnb-badge--vertical-top {
   top: 0;
+}
+.dnb-badge--inline.dnb-badge--vertical-top {
+  transform: translateY(-25%);
+}
+.dnb-badge--inline.dnb-badge--vertical-bottom {
+  transform: translateY(25%);
 }"
 `;
 

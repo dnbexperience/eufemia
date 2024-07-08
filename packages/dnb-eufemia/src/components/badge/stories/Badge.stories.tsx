@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import Badge from '../Badge'
 import Avatar from '../../avatar/Avatar'
+import { Tabs } from '../../lib'
 
 export default {
   title: 'Eufemia/Components/Badge',
@@ -131,6 +132,102 @@ const TemplateText = (props) => {
       <Badge label="meaningless label" {...props} /> badges, to display
       that <Badge label="meaningless label" {...props} /> it looks nice{' '}
       <Badge label="meaningless label" {...props} /> inline :)
+    </>
+  )
+}
+
+const badgeData = [
+  {
+    title: (
+      <>
+        Meldinger{' '}
+        <Badge
+          label="Notifications"
+          variant="notification"
+          vertical="top"
+          horizontal="right"
+        />
+      </>
+    ),
+    key: '1',
+  },
+  { title: 'Kontoer', key: '2' },
+  { title: 'Noe Annet', key: '3' },
+]
+
+const noBadgeData = [
+  {
+    title: (
+      <>
+        Meldinger{' '}
+        <Badge
+          content={2}
+          label="Notifications"
+          variant="notification"
+          vertical="top"
+          horizontal="right"
+        />
+      </>
+    ),
+    key: '1',
+  },
+  {
+    title: (
+      <>
+        Meldinger{' '}
+        <Badge
+          content={300}
+          label="Notifications"
+          variant="notification"
+          vertical="bottom"
+          horizontal="right"
+        />
+      </>
+    ),
+    key: '2',
+  },
+  {
+    title: (
+      <>
+        Meldinger{' '}
+        <Badge
+          content={6}
+          label="Notifications"
+          variant="notification"
+          horizontal="right"
+        />
+      </>
+    ),
+    key: '3',
+  },
+]
+
+export function BadgeInline() {
+  return (
+    <>
+      <Tabs data={badgeData} />
+      <Tabs data={noBadgeData} />
+      <p>
+        Lang tekst med{' '}
+        <Badge
+          label="Notifications"
+          variant="notification"
+          vertical="top"
+          horizontal="right"
+        />{' '}
+        i midten
+      </p>
+      <p>
+        Lang tekst med{' '}
+        <Badge
+          content={2}
+          label="Notifications"
+          variant="notification"
+          vertical="top"
+          horizontal="right"
+        />{' '}
+        i midten
+      </p>
     </>
   )
 }
