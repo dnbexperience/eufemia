@@ -30,39 +30,3 @@ export const Default = () => {
     </ComponentBox>
   )
 }
-
-export const NextButton = () => {
-  return (
-    <ComponentBox>
-      <Wizard.Provider
-        value={{
-          activeIndex: 0,
-          handlePrevious: () => null,
-          handleNext: () => console.log('handleNext'),
-          setActiveIndex: () => null,
-          setFormError: () => null,
-        }}
-      >
-        <Wizard.NextButton />
-      </Wizard.Provider>
-    </ComponentBox>
-  )
-}
-
-export const PreviousButton = () => {
-  return (
-    <ComponentBox>
-      <Wizard.Provider
-        value={{
-          activeIndex: 5,
-          handlePrevious: () => console.log('handlePrevious'),
-          handleNext: () => null,
-          setActiveIndex: () => null,
-          setFormError: () => null,
-        }}
-      >
-        <Wizard.PreviousButton />
-      </Wizard.Provider>
-    </ComponentBox>
-  )
-}

@@ -1,10 +1,11 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import ViewContainer from '../ViewContainer'
+import { Form } from '../../../..'
 import nbNO from '../../../../constants/locales/nb-NO'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].SectionViewContainer
 
 describe('ViewContainer', () => {
   it('renders content and without errors', () => {
@@ -83,6 +84,31 @@ describe('ViewContainer', () => {
     const buttons = document.querySelectorAll('button')
 
     expect(buttons).toHaveLength(1)
-    expect(buttons[0]).toHaveTextContent(nb.edit)
+    expect(buttons[0]).toHaveTextContent(nb.editButton)
+  })
+
+  it('supports translations from Form.Handler', () => {
+    const edit = 'custom-translation-edit-button-text'
+
+    render(
+      <Form.Handler
+        translations={{
+          'nb-NO': {
+            'SectionViewContainer.editButton': edit,
+          },
+          'en-GB': {
+            'SectionViewContainer.editButton': edit,
+          },
+        }}
+      >
+        <SectionContainerContext.Provider
+          value={{ containerMode: 'edit' }}
+        >
+          <ViewContainer>content</ViewContainer>
+        </SectionContainerContext.Provider>
+      </Form.Handler>
+    )
+
+    expect(screen.getByText(edit)).toBeInTheDocument()
   })
 })

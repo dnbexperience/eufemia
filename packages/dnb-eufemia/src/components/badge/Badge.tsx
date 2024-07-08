@@ -141,6 +141,8 @@ function Badge(localProps: BadgeAndSpacingProps) {
       )
     }
 
+    const isInline = !children && content
+
     return (
       <span
         role="status"
@@ -149,6 +151,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
           `dnb-badge--variant-${variant}`,
           horizontal && `dnb-badge--horizontal-${horizontal}`,
           vertical && `dnb-badge--vertical-${vertical}`,
+          isInline && 'dnb-badge--inline',
           skeletonClasses,
           spacingClasses,
           className

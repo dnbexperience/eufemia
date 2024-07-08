@@ -15,16 +15,36 @@ export default {
       sendText: 'Send inn',
     },
     Step: {
-      next: 'Neste',
-      previous: 'Tilbake',
-      edit: 'Endre',
       summaryTitle: 'Oppsummering',
     },
-    Section: {
-      remove: 'Fjern',
-      done: 'Ferdig',
-      cancel: 'Avbryt',
-      edit: 'Endre',
+    WizardEditButton: {
+      text: 'Endre',
+    },
+    WizardPreviousButton: {
+      text: 'Tilbake',
+    },
+    WizardNextButton: {
+      text: 'Neste',
+    },
+    RemoveButton: {
+      text: 'Fjern',
+    },
+    IterateViewContainer: {
+      removeButton: 'Fjern',
+      editButton: 'Endre',
+    },
+    SectionViewContainer: {
+      editButton: 'Endre',
+    },
+    SectionEditContainer: {
+      doneButton: 'Ferdig',
+      cancelButton: 'Avbryt',
+      errorInSection: 'Feilene ovenfor må rettes',
+    },
+    IterateEditContainer: {
+      removeButton: 'Fjern',
+      doneButton: 'Ferdig',
+      cancelButton: 'Avbryt',
       errorInSection: 'Feilene ovenfor må rettes',
     },
 

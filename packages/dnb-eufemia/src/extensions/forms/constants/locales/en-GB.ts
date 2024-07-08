@@ -15,16 +15,36 @@ export default {
       sendText: 'Send',
     },
     Step: {
-      next: 'Next',
-      previous: 'Back',
-      edit: 'Edit',
       summaryTitle: 'Summary',
     },
-    Section: {
-      remove: 'Remove',
-      done: 'Done',
-      cancel: 'Cancel',
-      edit: 'Edit',
+    WizardEditButton: {
+      text: 'Edit',
+    },
+    WizardPreviousButton: {
+      text: 'Back',
+    },
+    WizardNextButton: {
+      text: 'Next',
+    },
+    RemoveButton: {
+      text: 'Remove',
+    },
+    IterateViewContainer: {
+      removeButton: 'Remove',
+      editButton: 'Edit',
+    },
+    SectionViewContainer: {
+      editButton: 'Edit',
+    },
+    SectionEditContainer: {
+      doneButton: 'Done',
+      cancelButton: 'Cancel',
+      errorInSection: 'Please correct the errors above',
+    },
+    IterateEditContainer: {
+      removeButton: 'Remove',
+      doneButton: 'Done',
+      cancelButton: 'Cancel',
       errorInSection: 'Please correct the errors above',
     },
 

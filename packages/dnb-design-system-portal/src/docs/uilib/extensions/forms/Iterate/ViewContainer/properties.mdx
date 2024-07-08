@@ -3,9 +3,14 @@ showTabs: true
 hideInMenu: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ViewContainerProperties } from '@dnb/eufemia/src/extensions/forms/Iterate/ViewContainer/ViewContainerDocs'
 
 ## Properties
 
 <PropertiesTable props={ViewContainerProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['IterateViewContainer']} />

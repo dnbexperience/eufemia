@@ -5,7 +5,7 @@ import Toolbar from '../Toolbar'
 import nbNO from '../../../constants/locales/nb-NO'
 import RemoveButton from '../../RemoveButton'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].RemoveButton
 
 describe('Toolbar', () => {
   it('supports spacing props', () => {
@@ -69,7 +69,7 @@ describe('Toolbar', () => {
       const buttons = document.querySelectorAll('button')
 
       expect(buttons).toHaveLength(1)
-      expect(buttons[0]).toHaveTextContent(nb.remove)
+      expect(buttons[0]).toHaveTextContent(nb.text)
     })
 
     it('and isNew is false', () => {
@@ -88,7 +88,7 @@ describe('Toolbar', () => {
       const buttons = document.querySelectorAll('button')
 
       expect(buttons).toHaveLength(1)
-      expect(buttons[0]).toHaveTextContent(nb.remove)
+      expect(buttons[0]).toHaveTextContent(nb.text)
     })
   })
 })

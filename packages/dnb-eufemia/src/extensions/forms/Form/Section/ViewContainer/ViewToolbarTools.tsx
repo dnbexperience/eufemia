@@ -8,7 +8,7 @@ export default function ViewToolbarTools() {
   const sectionContainerContext = useContext(SectionContainerContext)
   const { switchContainerMode } = sectionContainerContext ?? {}
 
-  const translation = useTranslation().Section
+  const translation = useTranslation().SectionViewContainer
 
   const editHandler = useCallback(() => {
     switchContainerMode?.('edit')
@@ -22,7 +22,7 @@ export default function ViewToolbarTools() {
         icon_position="left"
         on_click={editHandler}
       >
-        {translation.edit}
+        {translation.editButton}
       </Button>
     </Flex.Horizontal>
   )

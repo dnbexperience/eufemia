@@ -15,7 +15,7 @@ export default function EditToolbarTools() {
   const { hasVisibleError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
 
-  const translation = useTranslation().Section
+  const translation = useTranslation().SectionEditContainer
 
   const [showError, setShowError] = useState(false)
 
@@ -49,7 +49,7 @@ export default function EditToolbarTools() {
           icon_position="left"
           on_click={doneHandler}
         >
-          {translation.done}
+          {translation.doneButton}
         </Button>
 
         <Button
@@ -58,7 +58,7 @@ export default function EditToolbarTools() {
           icon_position="left"
           on_click={cancelHandler}
         >
-          {translation.cancel}
+          {translation.cancelButton}
         </Button>
       </Flex.Horizontal>
     </>
