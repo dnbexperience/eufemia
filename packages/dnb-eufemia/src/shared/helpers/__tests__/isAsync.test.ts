@@ -65,6 +65,7 @@ describe('isAsync', () => {
   })
 
   it('should return correct result based async function transpiled using @babel/plugin-transform-async-to-generator', () => {
+    /* eslint-disable */
     function asyncGeneratorStep(n, t, e, r, o, a, c) {
       try {
         var i = n[a](c),
@@ -93,10 +94,11 @@ describe('isAsync', () => {
     var _ref = _asyncToGenerator(function* () {
       console.log('async')
     })
-
     function onSubmit() {
       return _ref.apply(this, arguments)
     }
+    /* eslint-enable */
+
     expect(isAsync(onSubmit)).toBeTruthy()
   })
 
