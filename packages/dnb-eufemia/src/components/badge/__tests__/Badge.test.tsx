@@ -155,7 +155,7 @@ describe('Badge', () => {
     ])
   })
 
-  it('should support vertical aligment when used inline', () => {
+  it('should support vertical alignment when used inline', () => {
     render(
       <p>
         This is text with a <Badge content={9} vertical="top" />
