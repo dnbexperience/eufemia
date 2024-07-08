@@ -8,8 +8,8 @@ import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import { Form, Wizard } from '../../..'
 
-const nb = nbNO['nb-NO'].Step
-const en = enGB['en-GB'].Step
+const nb = nbNO['nb-NO'].WizardEditButton
+const en = enGB['en-GB'].WizardEditButton
 
 describe('EditButton', () => {
   it('should have default text', () => {
@@ -17,7 +17,7 @@ describe('EditButton', () => {
 
     const button = document.querySelector('.dnb-forms-edit-button')
 
-    expect(button).toHaveTextContent(nb.edit)
+    expect(button).toHaveTextContent(nb.text)
   })
 
   it('should use en-GB text', () => {
@@ -29,7 +29,7 @@ describe('EditButton', () => {
 
     const button = document.querySelector('.dnb-forms-edit-button')
 
-    expect(button).toHaveTextContent(en.edit)
+    expect(button).toHaveTextContent(en.text)
   })
 
   it('should support custom text', () => {

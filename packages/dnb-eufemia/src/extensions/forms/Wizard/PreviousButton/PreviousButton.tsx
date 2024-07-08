@@ -10,14 +10,14 @@ import useTranslation from '../../hooks/useTranslation'
 export type Props = ComponentProps & ButtonProps
 
 function PreviousButton(props: Props) {
-  const translations = useTranslation().Step
+  const translations = useTranslation().WizardPreviousButton
 
   const {
     className,
     variant = 'tertiary',
     icon_position = 'left',
     icon = 'chevron_left',
-    children = translations.previous,
+    children = translations.text,
   } = props
   const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
 

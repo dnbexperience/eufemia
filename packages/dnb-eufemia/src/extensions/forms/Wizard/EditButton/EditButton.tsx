@@ -16,7 +16,7 @@ import {
 export type Props = ComponentProps & ButtonProps & { toStep?: StepIndex }
 
 function EditButton(props: Props) {
-  const translations = useTranslation().Step
+  const translations = useTranslation().WizardEditButton
   const { setActiveIndex } = useStep()
 
   const {
@@ -25,7 +25,7 @@ function EditButton(props: Props) {
     icon_position = 'left',
     icon,
     toStep,
-    children = translations.edit,
+    children = translations.text,
     ...rest
   } = props
 
