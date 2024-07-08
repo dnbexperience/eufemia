@@ -24,7 +24,7 @@ export default function EditToolbarTools() {
   } = useContext(IterateElementContext) || {}
   const { hasVisibleError } = useContext(FieldBoundaryContext) || {}
 
-  const translation = useTranslation().Section
+  const translation = useTranslation().IterateEditContainer
   const valueBackupRef = useRef<unknown>()
   const wasNew = useWasNew({ isNew, containerMode })
   const [showError, setShowError] = useState(false)
@@ -66,11 +66,11 @@ export default function EditToolbarTools() {
           icon_position="left"
           on_click={doneHandler}
         >
-          {translation.done}
+          {translation.doneButton}
         </Button>
 
         {wasNew ? (
-          <RemoveButton />
+          <RemoveButton text={translation.removeButton} />
         ) : (
           <Button
             variant="tertiary"
@@ -78,7 +78,7 @@ export default function EditToolbarTools() {
             icon_position="left"
             on_click={cancelHandler}
           >
-            {translation.cancel}
+            {translation.cancelButton}
           </Button>
         )}
       </Flex.Horizontal>

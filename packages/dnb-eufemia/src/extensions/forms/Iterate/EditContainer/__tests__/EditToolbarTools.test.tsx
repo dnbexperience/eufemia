@@ -6,7 +6,7 @@ import EditToolbarTools from '../EditToolbarTools'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('EditToolbarTools', () => {
   it('calls "switchContainerMode" when remove button is clicked', () => {
@@ -87,8 +87,8 @@ describe('EditToolbarTools', () => {
       const buttons = document.querySelectorAll('button')
 
       expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent(nb.done)
-      expect(buttons[1]).toHaveTextContent(nb.remove)
+      expect(buttons[0]).toHaveTextContent(nb.doneButton)
+      expect(buttons[1]).toHaveTextContent(nb.removeButton)
     })
 
     it('and isNew is not set', () => {
@@ -103,8 +103,8 @@ describe('EditToolbarTools', () => {
       const buttons = document.querySelectorAll('button')
 
       expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent(nb.done)
-      expect(buttons[1]).toHaveTextContent(nb.cancel)
+      expect(buttons[0]).toHaveTextContent(nb.doneButton)
+      expect(buttons[1]).toHaveTextContent(nb.cancelButton)
     })
   })
 })

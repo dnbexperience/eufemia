@@ -1,10 +1,11 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import IterateElementContext from '../../IterateElementContext'
 import ViewContainer from '../ViewContainer'
+import { Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].IterateViewContainer
 
 describe('ViewContainer', () => {
   it('renders content and without errors', () => {
@@ -97,7 +98,34 @@ describe('ViewContainer', () => {
     const buttons = document.querySelectorAll('button')
 
     expect(buttons).toHaveLength(2)
-    expect(buttons[0]).toHaveTextContent(nb.edit)
-    expect(buttons[1]).toHaveTextContent(nb.remove)
+    expect(buttons[0]).toHaveTextContent(nb.editButton)
+    expect(buttons[1]).toHaveTextContent(nb.removeButton)
+  })
+
+  it('supports translations from Form.Handler', () => {
+    const remove = 'custom-translation-remove-button-text'
+    const edit = 'custom-translation-edit-button-text'
+
+    render(
+      <Form.Handler
+        translations={{
+          'nb-NO': {
+            'IterateViewContainer.removeButton': remove,
+            'IterateViewContainer.editButton': edit,
+          },
+          'en-GB': {
+            'IterateViewContainer.removeButton': remove,
+            'IterateViewContainer.editButton': edit,
+          },
+        }}
+      >
+        <IterateElementContext.Provider value={{ containerMode: 'view' }}>
+          <ViewContainer>content</ViewContainer>
+        </IterateElementContext.Provider>
+      </Form.Handler>
+    )
+
+    expect(screen.getByText(remove)).toBeInTheDocument()
+    expect(screen.getByText(edit)).toBeInTheDocument()
   })
 })

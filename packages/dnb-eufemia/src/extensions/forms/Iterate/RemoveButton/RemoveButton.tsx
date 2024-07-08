@@ -25,8 +25,8 @@ function RemoveButton(props: Props) {
   const { className, ...restProps } = props
   const { children, text } = useFieldProps(restProps)
   const buttonProps = omitDataValueReadWriteProps(restProps)
-  const translation = useTranslation().Section
-  const textContent = text || children || translation.remove
+  const translation = useTranslation().RemoveButton
+  const textContent = text || children || translation.text
 
   const elementBlockContext = useContext(ElementBlockContext)
   const { handleRemoveBlock } = elementBlockContext ?? {}

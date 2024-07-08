@@ -7,7 +7,7 @@ import { Field, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', async () => {
@@ -185,7 +185,7 @@ describe('EditContainer and ViewContainer', () => {
 
     // Remove the element
     fireEvent.click(removeButton)
-    expect(removeButton).toHaveTextContent(nb.remove)
+    expect(removeButton).toHaveTextContent(nb.removeButton)
 
     await waitFor(() => {
       const elements = document.querySelectorAll(

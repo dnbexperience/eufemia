@@ -1,10 +1,11 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import IterateElementContext from '../../IterateElementContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
+import { Form } from '../../..'
 
-const nb = nbNO['nb-NO'].Section
+const nb = nbNO['nb-NO'].RemoveButton
 
 describe('RemoveButton', () => {
   const handleRemove = jest.fn()
@@ -57,7 +58,7 @@ describe('RemoveButton', () => {
     render(<RemoveButton />, { wrapper })
 
     const button = document.querySelector('button')
-    expect(button).toHaveTextContent(nb.remove)
+    expect(button).toHaveTextContent(nb.text)
   })
 
   it('should accept "text" prop', () => {
@@ -96,5 +97,27 @@ describe('RemoveButton', () => {
       'data-testid',
       'trash icon'
     )
+  })
+
+  it('supports translations from Form.Handler', () => {
+    const remove = 'custom-translation-remove-button-text'
+
+    render(
+      <Form.Handler
+        translations={{
+          'nb-NO': {
+            'RemoveButton.text': remove,
+          },
+          'en-GB': {
+            'RemoveButton.text': remove,
+          },
+        }}
+      >
+        <RemoveButton />
+      </Form.Handler>,
+      { wrapper }
+    )
+
+    expect(screen.getByText(remove)).toBeInTheDocument()
   })
 })

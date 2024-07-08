@@ -9,7 +9,7 @@ export default function ViewToolbarTools() {
   const iterateElementContext = useContext(IterateElementContext)
   const { switchContainerMode } = iterateElementContext ?? {}
 
-  const translation = useTranslation().Section
+  const translation = useTranslation().IterateViewContainer
 
   const editHandler = useCallback(() => {
     switchContainerMode?.('edit')
@@ -23,10 +23,10 @@ export default function ViewToolbarTools() {
         icon_position="left"
         on_click={editHandler}
       >
-        {translation.edit}
+        {translation.editButton}
       </Button>
 
-      <RemoveButton text={translation.remove} />
+      <RemoveButton text={translation.removeButton} />
     </Flex.Horizontal>
   )
 }
