@@ -776,6 +776,21 @@ describe('Dropdown component', () => {
     expect(elem.getAttribute('class')).toContain('dnb-dropdown--opened')
   })
 
+  it('should set aria-activedescendant to be of first option, when no items are selected', () => {
+    render(<Dropdown data={['1', '2']} />)
+    open()
+
+    expect(
+      document
+        .querySelectorAll('li.dnb-drawer-list__option')[0]
+        .getAttribute('id')
+    ).toBe(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('aria-activedescendant')
+    )
+  })
+
   it('has correct length of li elements', () => {
     render(<Dropdown {...props} data={mockData} />)
 
