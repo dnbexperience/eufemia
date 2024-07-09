@@ -175,6 +175,7 @@ class DrawerListInstance extends React.PureComponent {
       raw_data: _raw_data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      resetSelectIndexOnDataChange, // eslint-disable-line
       children,
 
       ...attributes

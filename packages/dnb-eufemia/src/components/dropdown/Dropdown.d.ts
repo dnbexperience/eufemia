@@ -107,6 +107,10 @@ export interface DropdownProps {
   suffix?: DrawerListSuffix;
   on_show_focus?: (...args: any[]) => any;
   on_hide_focus?: (...args: any[]) => any;
+  /**
+   * Resets the select index when data prop changes
+   */
+  resetSelectIndexOnDataChange?: boolean;
 }
 export type DropdownAllProps = DropdownProps &
   DrawerListProps &
