@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.40.1](https://github.com/dnbexperience/eufemia/compare/v10.40.0...v10.40.1) (2024-07-09)
+
+
+### :bug: Bug Fixes
+
+* **Dropdown:** NVDA navigation issue when no items are selected ([#3766](https://github.com/dnbexperience/eufemia/issues/3766)) ([6dd4a9f](https://github.com/dnbexperience/eufemia/commit/6dd4a9fefb4c8bcdde583e25b0b91e194a7bcce4))
+
 ## [10.40.0](https://github.com/dnbexperience/eufemia/compare/v10.39.0...v10.40.0) (2024-07-08)
 
 
