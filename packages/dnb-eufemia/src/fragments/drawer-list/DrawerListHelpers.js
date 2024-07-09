@@ -125,6 +125,7 @@ export const drawerListPropTypes = {
   on_resize: PropTypes.func,
   on_select: PropTypes.func,
   on_state_update: PropTypes.func,
+  resetSelectIndexOnDataChange: PropTypes.bool,
 }
 
 export const drawerListDefaultProps = {
@@ -173,6 +174,7 @@ export const drawerListDefaultProps = {
   on_select: null,
   on_state_update: null,
   options_render: null,
+  resetSelectIndexOnDataChange: false,
 }
 
 export const drawerListProviderPropTypes = {
@@ -458,6 +460,10 @@ export const prepareDerivedState = (props, state) => {
     }
     state.data = getData(props)
     state.original_data = getData(props)
+
+    if (props.resetSelectIndexOnDataChange) {
+      state.selected_item = null
+    }
   }
 
   state.usePortal =
