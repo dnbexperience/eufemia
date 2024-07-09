@@ -261,7 +261,7 @@ class DrawerListInstance extends React.PureComponent {
           !(parseFloat(selected_item) > -1)))
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${
-        active_item || 0
+        parseFloat(active_item) > -1 ? active_item : 0
       }`
     } else if (
       !isTrue(prevent_selection) &&
