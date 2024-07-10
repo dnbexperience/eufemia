@@ -115,6 +115,7 @@ export default {
       label: 'Fødselsnummer (11 siffer)',
       errorRequired:
         'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
+      errorFnr: 'Ugyldig fødselsnummer.',
     },
     OrganizationNumber: {
       label: 'Organisasjonsnummer',
