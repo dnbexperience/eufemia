@@ -335,10 +335,15 @@ function ListItem({
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
         </Anchor>
+        {subheadings && (
+          <ul>
+            {subheadings.map((item) => (
+              <ListItem key={item.path} {...item} />
+            ))}
+          </ul>
+        )}
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
-      {subheadings &&
-        subheadings.map((item) => <ListItem key={item.path} {...item} />)}
     </>
   )
 }
@@ -351,7 +356,7 @@ type NavItemTabs = {
 type NavItem = {
   id: string
   parentId?: string
-  active?: boolean
+  isActive?: boolean
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
   icon?: string
@@ -360,9 +365,9 @@ type NavItem = {
   hideInMenu?: boolean
   order?: number
   _order?: string
-  path?: string
+  path: string
   status?: string
-  title?: string
+  title: string
   showTabs?: boolean
   tabs?: NavItemTabs[]
   subheadings?: NavItem[]
@@ -495,7 +500,7 @@ const prepareNav = ({
 }
 
 function groupNavItems(navItems: NavItem[], location: Location) {
-  const topLevelHeadings = []
+  const topLevelHeadings: NavItem[] = []
 
   // Remove first and last slash from pathname to match path from graphql
   const currentPathName = location.pathname
