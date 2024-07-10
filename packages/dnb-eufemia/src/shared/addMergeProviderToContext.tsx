@@ -29,25 +29,19 @@ export function addMergeProviderToContext<T extends object>(
   const mergableContext = context as React.Context<T> & {
     MergeProvider: (props: React.ProviderProps<Optional<T>>) => JSX.Element
   }
-  mergableContext.MergeProvider = (props) => (
-    <MergeProvider context={context} {...props} />
-  )
 
+  const MergeProvider = ({
+    value,
+    ...props
+  }: React.ProviderProps<Optional<T>>) => {
+    return (
+      <context.Provider
+        value={{ ...React.useContext(context), ...value }}
+        {...props}
+      />
+    )
+  }
+
+  mergableContext.MergeProvider = MergeProvider
   return mergableContext
-}
-
-export const MergeProvider = function <T extends object>({
-  context,
-  value,
-  children,
-}: React.ProviderProps<Optional<T>> & {
-  context: React.Context<T>
-}) {
-  const currentValue = React.useContext(context)
-
-  return (
-    <context.Provider value={{ ...currentValue, ...value }}>
-      {children}
-    </context.Provider>
-  )
 }
