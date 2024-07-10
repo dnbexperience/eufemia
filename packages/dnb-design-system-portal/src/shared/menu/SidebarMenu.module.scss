@@ -56,12 +56,6 @@
         calc(10ms - var(--delay)) forwards;
     }
 
-    &:first-of-type {
-      margin-bottom: 1rem;
-      font-size: var(--font-size-large);
-      background-color: transparent;
-    }
-
     html[show-dev-grid] :global(.dev-grid) & {
       background-color: transparent;
     }
@@ -97,8 +91,10 @@
       &.is-inside-active-path {
         background-color: transparent;
       }
-      .dnb-anchor {
+      > .dnb-anchor {
+        background-color: transparent;
         margin-left: var(--level-icon-adjust);
+        margin-bottom: 1rem;
         padding-left: calc(var(--level-offset) + var(--level) * 2);
         min-height: 64px;
         color: var(--color-ocean-green);
@@ -109,7 +105,7 @@
     }
 
     &.l-2 {
-      .dnb-anchor {
+      > .dnb-anchor {
         padding-left: calc(var(--level-offset) + var(--level) * 2);
         min-height: 56px;
 
@@ -127,7 +123,7 @@
     }
 
     &.l-3 {
-      .dnb-anchor {
+      > .dnb-anchor {
         padding-left: calc(var(--level-offset) + var(--level) * 3);
       }
 
@@ -138,13 +134,13 @@
       }
     }
 
-    &.l-4 .dnb-anchor {
+    &.l-4 > .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 4);
     }
-    &.l-5 .dnb-anchor {
+    &.l-5 > .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 5);
     }
-    &.l-6 .dnb-anchor {
+    &.l-6 > .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 6);
     }
 
@@ -295,8 +291,10 @@
   }
 
   margin: 4rem 0 0;
-
   ul {
+    padding: 0;
+  }
+  > ul {
     padding: 2rem 0 1rem;
   }
 
