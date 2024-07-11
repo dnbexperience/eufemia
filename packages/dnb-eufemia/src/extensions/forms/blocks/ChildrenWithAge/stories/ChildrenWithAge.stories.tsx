@@ -47,6 +47,32 @@ export function Basic() {
   )
 }
 
+export function BasicHiddenStepControls() {
+  const { filterData } = Form.useData('ChildrenWithAge')
+  console.log('data', filterData(filterDataPaths))
+
+  return (
+    <Form.Handler
+      id="ChildrenWithAgeHiddenStepControls"
+      translations={myTranslations}
+    >
+      <Flex.Stack>
+        <ChildrenWithAge
+          enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+          hideStepControls={true}
+        />
+
+        <ChildrenWithAge
+          mode="summary"
+          enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+          hideStepControls={true}
+        />
+        <Form.SubmitButton />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
 export function InsideWizard() {
   const { filterData } = Form.useData('ChildrenWithAge')
   console.log('data', filterData(filterDataPaths))
