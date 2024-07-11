@@ -15,7 +15,13 @@ import {
   P,
   Flex,
 } from '@dnb/eufemia/src'
-import { download, trash } from '@dnb/eufemia/src/icons'
+import {
+  chevron_down,
+  chevron_right,
+  download,
+  newspaper,
+  trash,
+} from '@dnb/eufemia/src/icons'
 
 import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
@@ -659,3 +665,89 @@ export const DropdownListOpened = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const DropdownCustomizedLook = () => {
+  return (
+    <Wrapper>
+      <ComponentBox scope={{ chevron_right, newspaper, chevron_down }}>
+        {() => {
+          const styles = {
+            customTrigger: {
+              backgroundColor: '#d4ecc5',
+              color: '#14555a',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '8px 16px',
+              fontWeight: 600,
+            },
+            customMenuItem: {
+              display: 'flex',
+              flexFlow: 'row nowrap',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+            customMenuItemTitle: {
+              display: 'flex',
+              flexFlow: 'column',
+              gap: '0.5rem',
+            },
+          }
+
+          const MenuItem = ({ title, content, key }) => (
+            <span style={styles.customMenuItem} key="item-1">
+              <span style={styles.customMenuItemTitle}>
+                {title}
+                <span>{content}</span>
+              </span>
+              <Icon icon={chevron_right} />
+            </span>
+          )
+
+          const data = {
+            accounts: (
+              <MenuItem
+                key="item-1"
+                title="Accounts"
+                content={'Bills, Savings'}
+              />
+            ),
+            loans: (
+              <MenuItem
+                key="item-2"
+                title="Loans"
+                content={'Mortgage, Car'}
+              />
+            ),
+            cards: (
+              <MenuItem
+                key="item-3"
+                title="Cards"
+                content={'Visa, Mastercard'}
+              />
+            ),
+            stocks: (
+              <MenuItem
+                key="item-4"
+                title="Stocks"
+                content={'Nvidia, Apple'}
+              />
+            ),
+          }
+
+          return (
+            <Dropdown
+              data={data}
+              action_menu
+              trigger_element={(props) => (
+                <button {...props} style={styles.customTrigger}>
+                  <Icon icon={newspaper} /> Custom trigger{' '}
+                  <Icon icon={chevron_down} />
+                </button>
+              )}
+            />
+          )
+        }}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
