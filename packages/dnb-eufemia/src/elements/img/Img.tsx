@@ -22,6 +22,7 @@ export type ImgProps = SpacingProps &
     imgClass?: string
     element?: DynamicElement & 'figure'
     caption?: string
+    loading?: 'eager' | 'lazy'
   }
 
 const Img = ({
@@ -31,6 +32,7 @@ const Img = ({
   skeleton,
   imgClass,
   className,
+  loading = 'eager',
   ...p
 }: ImgProps) => {
   const [hasError, setError] = React.useState(false)
@@ -45,6 +47,7 @@ const Img = ({
     >
       <E
         as="img"
+        loading={loading}
         alt={alt}
         internalClass={classnames('dnb-img', hasError && 'dnb-img--error')}
         className={imgClass}
