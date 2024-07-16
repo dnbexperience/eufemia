@@ -346,7 +346,7 @@ export type FieldProps<
 export interface FieldHelpProps {
   help?: {
     title?: string
-    content?: string
+    content?: React.ReactNode
   }
 }
 
