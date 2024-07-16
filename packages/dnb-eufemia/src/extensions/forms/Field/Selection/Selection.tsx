@@ -20,14 +20,8 @@ import {
   FieldBlockWidth,
 } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
-import type {
-  AutocompleteAllProps,
-  AutocompleteProps,
-} from '../../../../components/Autocomplete'
-import type {
-  DropdownAllProps,
-  DropdownProps,
-} from '../../../../components/Dropdown'
+import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
+import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import {
   convertCamelCaseProps,
@@ -57,8 +51,8 @@ export type Props = FieldHelpProps &
     children?: React.ReactNode
 
     // - Autocomplete and Dropdown specific props
-    autocompleteProps?: ToCamelCase<AutocompleteProps>
-    dropdownProps?: ToCamelCase<DropdownProps>
+    autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+    dropdownProps?: ToCamelCase<DropdownAllProps>
     data?: Data
     width?: FieldBlockWidth
   }
