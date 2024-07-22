@@ -61,6 +61,8 @@ export type Props = Pick<
   forId?: string
   /** Use true if you have more than one form element */
   asFieldset?: boolean
+  /** use `true` to make the label only readable by screen readers. */
+  labelSrOnly?: boolean
   /** Defines the layout of nested fields */
   composition?: FieldBlockContextProps['composition']
   /** Width of outer block element */
@@ -92,6 +94,7 @@ function FieldBlock(props: Props) {
     composition,
     label: labelProp,
     labelDescription,
+    labelSrOnly,
     asFieldset,
     info,
     warning,
@@ -378,6 +381,7 @@ function FieldBlock(props: Props) {
   const labelProps: FormLabelAllProps = {
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,
+    srOnly: labelSrOnly,
     space: { top: 0, bottom: 'x-small' },
     size: labelSize,
     disabled,
