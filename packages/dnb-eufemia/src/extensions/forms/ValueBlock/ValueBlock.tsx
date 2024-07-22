@@ -89,7 +89,7 @@ function ValueBlock(props: Props) {
     )
 
   if (summaryListContext) {
-    const Element = summaryListContext.isNested
+    const Item = summaryListContext.isNested
       ? Dl
       : summaryListContext.layout === 'horizontal'
       ? Dl.Item
@@ -112,15 +112,13 @@ function ValueBlock(props: Props) {
       )
     } else {
       content = (
-        <Element>
-          <SummaryListContext.Provider
-            value={{ ...summaryListContext, isNested: true }}
-          >
-            {label && (
-              <Dt className="dnb-forms-value-block__label">
-                <strong>{label}</strong>
-              </Dt>
-            )}
+        <SummaryListContext.Provider
+          value={{ ...summaryListContext, isNested: true }}
+        >
+          <Item>
+            <Dt className="dnb-forms-value-block__label">
+              {label && <strong>{label}</strong>}
+            </Dt>
             <Dd
               className={classnames(
                 summaryListContext.layout !== 'grid' &&
@@ -145,8 +143,8 @@ function ValueBlock(props: Props) {
                 </span>
               )}
             </Dd>
-          </SummaryListContext.Provider>
-        </Element>
+          </Item>
+        </SummaryListContext.Provider>
       )
     }
   } else {
