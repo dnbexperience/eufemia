@@ -150,5 +150,9 @@ export default {
       ariaLabelShow: 'Show password',
       ariaLabelHide: 'Hide password',
     },
+    Upload: {
+      errorRequired: 'You must upload a file.',
+      errorInvalidFiles: 'Remove all files that have errors.',
+    },
   },
 }

@@ -252,7 +252,7 @@ function StringComponent(props: Props) {
     keep_placeholder: keepPlaceholder,
   }
 
-  const fieldSectionProps = {
+  const fieldBlockProps = {
     className: classnames('dnb-forms-field-string', className),
     forId: id,
     layout,
@@ -271,7 +271,7 @@ function StringComponent(props: Props) {
   }
 
   return (
-    <FieldBlock {...fieldSectionProps}>
+    <FieldBlock {...fieldBlockProps}>
       {multiline ? (
         <Textarea {...sharedProps} {...textareaProps} />
       ) : mask ? (

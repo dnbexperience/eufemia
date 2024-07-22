@@ -59,12 +59,13 @@ export type UploadProps = {
   loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
   fileListAriaLabel?: string
+  children?: React.ReactNode
 }
 
 export type UploadAllProps = UploadProps &
   SpacingProps &
   LocaleProps &
-  Omit<React.HTMLProps<HTMLElement>, 'onChange'>
+  Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'title'>
 
 export type UploadContextProps = {
   id?: string

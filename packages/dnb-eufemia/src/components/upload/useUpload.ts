@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import type { UploadFile } from './types'
 
@@ -18,29 +19,38 @@ function useUpload(id: string): useUploadReturn {
     internalFiles?: UploadFile[]
   }>(id)
 
-  const setFiles = (files: UploadFile[]) => {
-    extend({ files })
-  }
+  const setFiles = useCallback(
+    (files: UploadFile[]) => {
+      extend({ files })
+    },
+    [extend]
+  )
 
-  const setInternalFiles = (internalFiles: UploadFile[]) => {
-    extend({ internalFiles })
-  }
+  const setInternalFiles = useCallback(
+    (internalFiles: UploadFile[]) => {
+      extend({ internalFiles })
+    },
+    [extend]
+  )
 
-  const files = data?.files || []
-  const internalFiles = data?.internalFiles || []
+  const files = useMemo(() => data?.files || [], [data?.files])
+  const internalFiles = useMemo(
+    () => data?.internalFiles || [],
+    [data?.internalFiles]
+  )
 
-  const getExistingFile = (
-    file: File,
-    fileItems: UploadFile[] = files
-  ) => {
-    return fileItems.find(({ file: f }) => {
-      return (
-        f.name === file.name &&
-        f.size === file.size &&
-        f.lastModified === file.lastModified
-      )
-    })
-  }
+  const getExistingFile = useCallback(
+    (file: File, fileItems: UploadFile[] = files) => {
+      return fileItems.find(({ file: f }) => {
+        return (
+          f.name === file.name &&
+          f.size === file.size &&
+          f.lastModified === file.lastModified
+        )
+      })
+    },
+    [files]
+  )
 
   return {
     files,

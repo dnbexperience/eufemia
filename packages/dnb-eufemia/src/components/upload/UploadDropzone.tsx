@@ -1,4 +1,10 @@
-import React from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import classnames from 'classnames'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -13,13 +19,13 @@ export default function UploadDropzone({
   ...rest
 }: Partial<UploadAllProps>) {
   const props = rest as Omit<UploadProps, 'title' | 'onChange'>
-  const context = React.useContext(UploadContext)
-  const [hover, setHover] = React.useState(false)
-  const hoverTimeout = React.useRef<NodeJS.Timer>()
+  const context = useContext(UploadContext)
+  const [hover, setHover] = useState(false)
+  const hoverTimeout = useRef<NodeJS.Timer>()
 
   const { onInputUpload, id } = context
 
-  const getFiles = (event: UploadDragEvent) => {
+  const getFiles = useCallback((event: UploadDragEvent) => {
     const fileData = event.dataTransfer
 
     const files: UploadFile[] = []
@@ -29,35 +35,47 @@ export default function UploadDropzone({
     })
 
     return files
-  }
+  }, [])
 
-  const hoverHandler = (event: UploadDragEvent, state: boolean) => {
-    event.stopPropagation()
-    event.preventDefault()
-    clearTimers()
-    setHover(state)
-  }
-
-  const dropHandler = (event: UploadDragEvent) => {
-    const files = getFiles(event)
-
-    onInputUpload(files)
-    hoverHandler(event, false)
-  }
-
-  const dragEnterHandler = (event: UploadDragEvent) => {
-    hoverHandler(event, true)
-  }
-
-  const dragLeaveHandler = (event: UploadDragEvent) => {
-    hoverHandler(event, false)
-  }
-
-  const clearTimers = () => {
+  const clearTimers = useCallback(() => {
     clearTimeout(hoverTimeout.current)
-  }
+  }, [])
 
-  React.useEffect(() => {
+  const hoverHandler = useCallback(
+    (event: UploadDragEvent, state: boolean) => {
+      event.stopPropagation()
+      event.preventDefault()
+      clearTimers()
+      setHover(state)
+    },
+    [clearTimers]
+  )
+
+  const dropHandler = useCallback(
+    (event: UploadDragEvent) => {
+      const files = getFiles(event)
+
+      onInputUpload(files)
+      hoverHandler(event, false)
+    },
+    [getFiles, onInputUpload, hoverHandler]
+  )
+
+  const dragEnterHandler = useCallback(
+    (event: UploadDragEvent) => {
+      hoverHandler(event, true)
+    },
+    [hoverHandler]
+  )
+
+  const dragLeaveHandler = useCallback(
+    (event: UploadDragEvent) => {
+      hoverHandler(event, false)
+    },
+    [hoverHandler]
+  )
+
+  useEffect(() => {
     const elem = document.body
     const execute = () => {
       try {
@@ -89,7 +107,7 @@ export default function UploadDropzone({
         //
       }
     }
-  }, [])
+  }, [clearTimers, dragEnterHandler, dragLeaveHandler, dropHandler, id])
 
   return (
     <HeightAnimation
