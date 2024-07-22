@@ -3,13 +3,13 @@
  *
  */
 
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Icon, Badge } from '@dnb/eufemia/src/components'
+import { Icon, Badge, Button } from '@dnb/eufemia/src/components'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import { Context, useTheme } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
@@ -65,6 +65,7 @@ export default function SidebarLayout({
                 key
               }
               theme
+              expanded
             }
           }
         }
@@ -87,7 +88,7 @@ export default function SidebarLayout({
       setTimeout(() => {
         scrollToActiveItem()
         applyPageFocus('sidebar')
-      }, 300) // after animation is done
+      }, 10) // after animation is done
     } else if (isClosing) {
       setTimeout(() => {
         applyPageFocus('content')
@@ -120,6 +121,7 @@ export default function SidebarLayout({
           isInsideActivePath,
           isInsideActiveCategory,
           subheadings,
+          currentPathName,
         },
         nr,
       ) => {
@@ -133,6 +135,7 @@ export default function SidebarLayout({
           isInsideActiveCategory,
           path,
           subheadings,
+          currentPathName,
           title: menuTitle || title,
         }
 
@@ -244,6 +247,8 @@ type ListItemProps = {
   hideInMenu?: boolean
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
+  currentPathName?: string
+  expanded?: boolean
 }
 
 function ListItem({
@@ -260,11 +265,22 @@ function ListItem({
   title,
   subheadings,
   hideInMenu,
+  currentPathName,
+  expanded = null,
 }: ListItemProps) {
   const currentTheme = useTheme()?.name
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
+  const refIsInsideActivePathPrev = useRef(isInsideActivePath)
+  const refCurrentPathNamePrev = useRef(currentPathName)
+  const hasSubheadings =
+    subheadings && subheadings.some((x) => x.hideInMenu !== true)
+
+  const isAccordion = expanded !== null && hasSubheadings
+  const [isExpanded, setIsExpanded] = useState(
+    isAccordion ? expanded : true,
+  )
 
   if (hideInMenu) {
     return null
@@ -282,6 +298,27 @@ function ListItem({
     }[status]
 
   const params = {}
+
+  if (!isExpanded) {
+    if (
+      (isInsideActivePath &&
+        (!refIsInsideActivePathPrev.current ||
+          currentPathName !== refCurrentPathNamePrev.current)) ||
+      (isActive && currentPathName !== refCurrentPathNamePrev.current)
+    ) {
+      setIsExpanded(true)
+    }
+  } else if (
+    isAccordion &&
+    !expanded &&
+    !isInsideActivePath &&
+    !isActive &&
+    currentPathName !== refCurrentPathNamePrev.current
+  ) {
+    setIsExpanded(false)
+  }
+  refIsInsideActivePathPrev.current = isInsideActivePath
+  refCurrentPathNamePrev.current = currentPathName
 
   if (isActive) {
     params['aria-current'] = true
@@ -308,34 +345,57 @@ function ListItem({
           } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
         }
       >
-        <Anchor
-          href={path}
-          onClick={closeMenu}
-          className={classnames(
-            'dnb-anchor',
-            'dnb-anchor--no-underline',
-            'dnb-anchor--no-radius',
-            'dnb-anchor--no-hover',
-            icon && graphics[icon] ? 'has-icon' : null,
-          )}
-          {...params}
-        >
-          <span>
-            {icon && graphics[icon] && (
-              <Icon icon={graphics[icon]} size="medium" />
+        <div className="dnb-sidebar-menu__item">
+          <Anchor
+            href={path}
+            onClick={() => {
+              closeMenu()
+              if (!isExpanded) {
+                setIsExpanded(true)
+              }
+            }}
+            className={classnames(
+              'dnb-anchor',
+              'dnb-anchor--no-underline',
+              'dnb-anchor--no-radius',
+              'dnb-anchor--no-hover',
+              icon && graphics[icon] ? 'has-icon' : null,
             )}
-            <span
-              className={classnames(createSkeletonClass('font', skeleton))}
-            >
-              {title}
+            {...params}
+          >
+            <span>
+              {icon && graphics[icon] && (
+                <Icon icon={graphics[icon]} size="medium" />
+              )}
+              <span
+                className={classnames(
+                  createSkeletonClass('font', skeleton),
+                )}
+              >
+                {title}
+              </span>
             </span>
-          </span>
-          {theme === currentTheme && <ThemeBadge theme={theme} />}
-          {status && (
-            <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+            {theme === currentTheme && <ThemeBadge theme={theme} />}
+            {status && (
+              <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+            )}
+          </Anchor>
+
+          {isAccordion && (
+            <Button
+              right="x-small"
+              left="x-small"
+              className="dnb-sidebar-menu__expand-button"
+              variant="tertiary"
+              size="small"
+              icon={isExpanded ? 'subtract' : 'add'}
+              onClick={() => {
+                setIsExpanded(!isExpanded)
+              }}
+            />
           )}
-        </Anchor>
-        {subheadings && (
+        </div>
+        {hasSubheadings && isExpanded && (
           <ul>
             {subheadings.map((item) => (
               <ListItem key={item.path} {...item} />
@@ -371,6 +431,7 @@ type NavItem = {
   showTabs?: boolean
   tabs?: NavItemTabs[]
   subheadings?: NavItem[]
+  currentPathName?: string
 }
 
 const prepareNav = ({
@@ -530,6 +591,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
       isActive,
       isInsideActiveCategory,
       isInsideActivePath,
+      currentPathName,
     }
 
     // Initialize parentItem in hashmap
