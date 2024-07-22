@@ -82,7 +82,9 @@ function FieldBlock(props: Props) {
   const dataContext = useContext(DataContext)
   const nestedFieldBlockContext = useContext(FieldBlockContext)
 
-  const sharedData = createSharedState<Props>(props.forId || props.id)
+  const sharedData = createSharedState<Props>(
+    'field-block-props-' + (props.forId || props.id)
+  )
   const {
     className,
     forId,
