@@ -273,7 +273,7 @@ describe('Field.Number', () => {
 
       await userEvent.type(input, '00123456')
 
-      expect(input).toHaveValue('123456')
+      expect(input).toHaveValue('123 456')
     })
   })
 
