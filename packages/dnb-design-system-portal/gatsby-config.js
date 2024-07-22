@@ -125,7 +125,8 @@ const plugins = [
       elements: [
         {
           selector: '#portal-sidebar-menu',
-          ensureInView: '#portal-sidebar-menu ul li.is-active',
+          ensureInView:
+            '#portal-sidebar-menu ul li.is-active > .dnb-sidebar-menu__item',
         },
       ],
     },
