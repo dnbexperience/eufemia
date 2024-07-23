@@ -75,7 +75,8 @@ export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
 >(
-  localeProps: Props
+  localeProps: Props,
+  { executeOnChangeRegardlessOfError = false } = {}
 ): Props & FieldProps<Value> & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
   const props = extend<Props>(localeProps)
@@ -151,6 +152,7 @@ export default function useFieldProps<
     setFieldProps: setPropsDataContext,
     setHasVisibleError: setHasVisibleErrorDataContext,
     errors: dataContextErrors,
+    showAllErrors,
     contextErrorMessages,
   } = dataContext ?? {}
   const onChangeContext = dataContext?.props?.onChange
@@ -853,7 +855,7 @@ export default function useFieldProps<
   )
 
   const callOnChangeContext = useCallback(async () => {
-    if (asyncBehaviorIsEnabled) {
+    if (asyncBehaviorIsEnabled && !executeOnChangeRegardlessOfError) {
       await yieldAsyncProcess({
         name: 'onChangeContext',
         waitFor: [
@@ -876,7 +878,7 @@ export default function useFieldProps<
         defineAsyncProcess('onChangeContext')
 
         // Skip sync errors, such as required
-        if (!hasError()) {
+        if (!hasError() || executeOnChangeRegardlessOfError) {
           setEventResult(
             (await handlePathChangeDataContext?.(
               identifier
@@ -897,14 +899,15 @@ export default function useFieldProps<
     forceUpdate()
   }, [
     asyncBehaviorIsEnabled,
+    executeOnChangeRegardlessOfError,
     hasPath,
     yieldAsyncProcess,
-    identifier,
     onChangeContext,
     defineAsyncProcess,
     hasError,
     setEventResult,
     handlePathChangeDataContext,
+    identifier,
   ])
 
   const updateValue = useCallback(
@@ -1166,7 +1169,7 @@ export default function useFieldProps<
   ])
 
   useEffect(() => {
-    if (dataContext.showAllErrors) {
+    if (showAllErrors) {
       // In case of async validation, we don't want to show existing errors before the validation has been completed
       if (fieldStateRef.current !== 'validating') {
         // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
@@ -1175,7 +1178,7 @@ export default function useFieldProps<
         forceUpdate()
       }
     }
-  }, [dataContext.showAllErrors, showError])
+  }, [showAllErrors, showError])
 
   useEffect(() => {
     if (
@@ -1312,7 +1315,7 @@ export default function useFieldProps<
     }
   }
 
-  const fieldSectionProps = {
+  const fieldBlockProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
@@ -1330,12 +1333,12 @@ export default function useFieldProps<
     fieldState: resolveValidatingState(fieldStateRef.current),
   }
 
-  const sharedData = useSharedState(id)
-  sharedData.set(fieldSectionProps)
+  const sharedData = useSharedState('field-block-props-' + id)
+  sharedData.set(fieldBlockProps)
 
   return {
     ...props,
-    ...fieldSectionProps,
+    ...fieldBlockProps,
 
     /** HTML Attributes */
     name: props.name || props.path?.replace('/', '') || id,
@@ -1350,6 +1353,7 @@ export default function useFieldProps<
     ),
     hasError: hasVisibleError,
     isChanged: changedRef.current,
+    props,
     htmlAttributes,
     setHasFocus,
     handleFocus,

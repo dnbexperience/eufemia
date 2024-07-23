@@ -11,6 +11,11 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  labelSrOnly: {
+    doc: 'Use `true` to make the label only readable by screen readers.',
+    type: 'boolean',
+    status: 'optional',
+  },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
     type: 'string',

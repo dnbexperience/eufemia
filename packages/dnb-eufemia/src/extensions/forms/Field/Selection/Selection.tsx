@@ -20,14 +20,8 @@ import {
   FieldBlockWidth,
 } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
-import type {
-  AutocompleteAllProps,
-  AutocompleteProps,
-} from '../../../../components/Autocomplete'
-import type {
-  DropdownAllProps,
-  DropdownProps,
-} from '../../../../components/Dropdown'
+import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
+import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import {
   convertCamelCaseProps,
@@ -57,8 +51,8 @@ export type Props = FieldHelpProps &
     children?: React.ReactNode
 
     // - Autocomplete and Dropdown specific props
-    autocompleteProps?: ToCamelCase<AutocompleteProps>
-    dropdownProps?: ToCamelCase<DropdownProps>
+    autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+    dropdownProps?: ToCamelCase<DropdownAllProps>
     data?: Data
     width?: FieldBlockWidth
   }
@@ -138,7 +132,7 @@ function Selection(props: Props) {
     className
   )
 
-  const fieldSectionProps = {
+  const fieldBlockProps = {
     forId: id,
     className: cn,
     ...pickSpacingProps(props),
@@ -158,7 +152,7 @@ function Selection(props: Props) {
       ) as typeof Radio & typeof ToggleButton
 
       return (
-        <FieldBlock {...fieldSectionProps}>
+        <FieldBlock {...fieldBlockProps}>
           <Component.Group
             className={cn}
             layout_direction={
@@ -206,7 +200,7 @@ function Selection(props: Props) {
       }
 
       return (
-        <FieldBlock {...fieldSectionProps} width={width}>
+        <FieldBlock {...fieldBlockProps} width={width}>
           {variant === 'autocomplete' ? (
             <Autocomplete
               {...sharedProps}

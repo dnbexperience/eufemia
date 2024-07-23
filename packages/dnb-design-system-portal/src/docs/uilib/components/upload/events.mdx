@@ -2,11 +2,11 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { UploadEvents } from '@dnb/eufemia/src/components/upload/UploadDocs'
+
 ## Events
 
-| Events         | Description                                                                                                                        |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `onChange`     | _(optional)_ will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`). |
-| `onFileDelete` | _(optional)_ will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.                     |
+<PropertiesTable props={UploadEvents} />
 
 Each `fileItem` will contain a `{ file, id }` (File Object and an unique ID) along with other information.

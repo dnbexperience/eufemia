@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import {
   TranslationArguments,
   TranslationId,
@@ -24,8 +24,8 @@ export default function Translation({
   const result = formatMessage(id || children, params, translation)
 
   if (typeof result !== 'string') {
-    return String(id)
+    return <>{String(id)}</>
   }
 
-  return result
+  return <>{result}</>
 }

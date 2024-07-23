@@ -112,7 +112,8 @@ export default function StickyMenuBar({
           <Button
             id="github-button"
             href="https://github.com/dnbexperience/eufemia/"
-            size="large"
+            size="default"
+            icon_size="medium"
             target="_blank"
             icon={GithubLogo}
             title="Navigates to Eufemia's GitHub repository"
