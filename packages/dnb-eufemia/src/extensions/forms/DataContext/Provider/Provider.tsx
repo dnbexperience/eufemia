@@ -25,6 +25,7 @@ import {
   OnChange,
   EventReturnWithStateObject,
   ValueProps,
+  OnDispatch,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Form/FieldProps'
@@ -134,6 +135,11 @@ export interface Props<Data extends JsonObject> {
     | void
     | Promise<EventReturnWithStateObject | void>
   /**
+   * Used internally by the Form.Isolation component.
+   * Will emit on a nested form context dispatch (commit) – if validation has passed.
+   */
+  onDispatch?: OnDispatch<Data>
+  /**
    * Minimum time to display the submit indicator.
    */
   minimumAsyncBehaviorTime?: number
@@ -161,7 +167,13 @@ export interface Props<Data extends JsonObject> {
    * Make all fields required
    */
   required?: boolean
-
+  /**
+   * Used internally by the Form.Isolation component
+   */
+  isolate?: boolean
+  /**
+   * The children of the context provider
+   */
   children: React.ReactNode
 }
 
@@ -183,6 +195,7 @@ export default function Provider<Data extends JsonObject>(
     onSubmit,
     onSubmitRequest,
     onSubmitComplete,
+    onDispatch,
     scrollTopOnSubmit,
     minimumAsyncBehaviorTime,
     asyncSubmitTimeout,
@@ -196,6 +209,7 @@ export default function Provider<Data extends JsonObject>(
     translations,
     required,
     errorMessages: contextErrorMessages,
+    isolate,
     children,
     ...rest
   } = props
@@ -207,8 +221,9 @@ export default function Provider<Data extends JsonObject>(
     )
   }
 
-  const nestedContext = useContext(Context)
-  if (nestedContext?.hasContext) {
+  const { hasContext, handlePathChange: handlePathChangeNested } =
+    useContext(Context) || {}
+  if (hasContext && !isolate) {
     throw new Error('DataContext (Form.Handler) can not be nested')
   }
 
@@ -853,7 +868,13 @@ export default function Provider<Data extends JsonObject>(
         let result: EventStateObject | unknown
 
         try {
-          result = await onSubmit()
+          if (isolate) {
+            // Dispatch (commit) the internal data to the nested context data
+            handlePathChangeNested?.('/', internalDataRef.current)
+            result = await onDispatch?.(internalDataRef.current)
+          } else {
+            result = await onSubmit()
+          }
 
           if (result instanceof Error) {
             throw result
@@ -903,10 +924,13 @@ export default function Provider<Data extends JsonObject>(
       return internalDataRef.current
     },
     [
+      isolate,
       setSubmitState,
       hasErrors,
-      hasFieldWithAsyncValidator,
       hasFieldState,
+      hasFieldWithAsyncValidator,
+      handlePathChangeNested,
+      onDispatch,
       setFormState,
       onSubmitRequest,
       setShowAllErrors,

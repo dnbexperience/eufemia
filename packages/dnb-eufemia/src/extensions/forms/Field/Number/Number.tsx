@@ -19,6 +19,7 @@ import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import DataContext from '../../DataContext/Context'
 
 interface ErrorMessages extends CustomErrorMessages {
   required?: string
@@ -59,6 +60,7 @@ export type Props = FieldHelpProps &
   }
 
 function NumberComponent(props: Props) {
+  const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
   const translations = useTranslation()
@@ -223,15 +225,21 @@ function NumberComponent(props: Props) {
     handleChange,
   } = useFieldProps(preparedProps)
 
+  const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
-    ({ key, event }) => {
+    ({ event }: { event: React.KeyboardEvent<HTMLInputElement> }) => {
+      if (dataContext?.props?.isolate && event.key === 'Enter') {
+        handleSubmit() // So we dispatch the data to the outer context
+        event.preventDefault?.() // And prevent the default form submit
+      }
+
       if (!showStepControls) {
         return
       }
 
       let numberValue = null
 
-      switch (key) {
+      switch (event.key) {
         case 'ArrowUp':
           numberValue = clamp(
             (value ?? startWith) + step,
@@ -255,7 +263,9 @@ function NumberComponent(props: Props) {
       }
     },
     [
+      dataContext?.props?.isolate,
       handleChange,
+      handleSubmit,
       maximum,
       minimum,
       showStepControls,
