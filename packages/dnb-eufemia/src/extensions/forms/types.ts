@@ -187,7 +187,7 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type FieldSectionProps = {
+export type FieldBlockProps = {
   /**
    * The layout of the field block
    */
@@ -239,6 +239,12 @@ export interface UseFieldProps<
    * Forwards all possible props to the underlying component.
    */
   htmlAttributes?: Record<string, unknown>
+
+  /**
+   * NB: Undocumented for now.
+   * Forwards all given props in a props object.
+   */
+  props?: Record<string, unknown>
 
   // - Used by useFieldProps and FieldBlock
   info?: React.ReactNode
@@ -341,7 +347,7 @@ export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldSectionProps
+> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
 
 export interface FieldHelpProps {
   help?: {

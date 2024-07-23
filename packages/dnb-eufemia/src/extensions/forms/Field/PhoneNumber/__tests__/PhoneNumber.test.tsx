@@ -248,14 +248,14 @@ describe('Field.PhoneNumber', () => {
 
     rerender(<Field.PhoneNumber countries="Nordic" />)
 
+    const nordic = countries()
+
     await userEvent.clear(phoneInput)
     await userEvent.type(phoneInput, '123')
     fireEvent.keyDown(ccInput, {
       key: 'Enter',
       keyCode: 13,
     })
-
-    const nordic = countries()
 
     expect(nordic).toHaveLength(7)
     expect(nordic[0]).toHaveTextContent('+45 Danmark')
@@ -268,6 +268,8 @@ describe('Field.PhoneNumber', () => {
 
     rerender(<Field.PhoneNumber countries="Europe" />)
 
+    const europe = countries()
+
     await userEvent.clear(phoneInput)
     await userEvent.type(phoneInput, '123')
     fireEvent.keyDown(ccInput, {
@@ -275,7 +277,6 @@ describe('Field.PhoneNumber', () => {
       keyCode: 13,
     })
 
-    const europe = countries()
     expect(europe).toHaveLength(51)
   })
 

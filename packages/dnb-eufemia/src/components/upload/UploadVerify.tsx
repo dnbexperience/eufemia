@@ -5,7 +5,7 @@ import {
   UploadAcceptedFileTypes,
 } from './types'
 
-const BYTES_IN_A_MEGA_BYTE = 1048576
+export const BYTES_IN_A_MEGA_BYTE = 1048576
 
 export function verifyFiles(
   files: UploadFile[],

@@ -75,8 +75,8 @@ export default function PropertiesTable({
   omit?: string[]
   showDefaultValue: boolean
 }) {
-  const keys = Object.keys(props)
-  const tableRows = Object.entries(props).map(([key, props]) => {
+  const keys = Object.keys(props || {})
+  const tableRows = Object.entries(props || {}).map(([key, props]) => {
     if (!props) {
       return null
     }
