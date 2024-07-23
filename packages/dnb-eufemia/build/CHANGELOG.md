@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.41.0](https://github.com/dnbexperience/eufemia/compare/v10.40.1...v10.41.0) (2024-07-23)
+
+
+### :memo: Documentation
+
+* **Blocks:** correct import paths ChildrenWithAge  ([#3769](https://github.com/dnbexperience/eufemia/issues/3769)) ([43ffe16](https://github.com/dnbexperience/eufemia/commit/43ffe161223b9dcbe73123289970380d88666e42))
+* **Field.Email:** fix link to input docs ([#3770](https://github.com/dnbexperience/eufemia/issues/3770)) ([75bb560](https://github.com/dnbexperience/eufemia/commit/75bb56000d70d9b560fe0d73e9c2ffefbd4936e1))
+
+
+### :bug: Bug Fixes
+
+* **Translation:** ensure correct jsx type support ([c70cbeb](https://github.com/dnbexperience/eufemia/commit/c70cbeba75b92a145baaf57add4928890c4eb955))
+
+
+### :sparkles: Features
+
+* **Field.Selection:** allow all props for dropdown and autocomplete ([#3776](https://github.com/dnbexperience/eufemia/issues/3776)) ([951c67d](https://github.com/dnbexperience/eufemia/commit/951c67df6522e201d9df4582d2ae56685c5e3711))
+* **FieldBlock:** add `labelSrOnly` prop ([ebf50c6](https://github.com/dnbexperience/eufemia/commit/ebf50c63d21dc9c10f689764beb92a6422b30571))
+* **Field:** changed field help button types to ReactNode ([#3777](https://github.com/dnbexperience/eufemia/issues/3777)) ([6506934](https://github.com/dnbexperience/eufemia/commit/6506934a332eed1ce9e80a4197014bc07ffbeecc))
+* **forms:** add Upload field ([048bfc7](https://github.com/dnbexperience/eufemia/commit/048bfc70c1ffcf3e887b79bf6a45ea157e783616))
+* **forms:** add Upload field ([#3742](https://github.com/dnbexperience/eufemia/issues/3742)) ([4ea8933](https://github.com/dnbexperience/eufemia/commit/4ea89334326d1246a3e4aaa2d436cc26b57a6810))
+
 ## [10.40.1](https://github.com/dnbexperience/eufemia/compare/v10.40.0...v10.40.1) (2024-07-09)
 
 
