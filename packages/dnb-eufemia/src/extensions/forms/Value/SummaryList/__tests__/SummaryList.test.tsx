@@ -79,6 +79,21 @@ describe('Field.SummaryList', () => {
     expect(element.querySelector('dd')).toHaveTextContent('Value')
   })
 
+  it('should render dt without label', () => {
+    render(
+      <SummaryList>
+        <Value.String value="Value" />
+      </SummaryList>
+    )
+
+    const element = document.querySelector('.dnb-forms-summary-list')
+    const children = element.childNodes
+
+    expect(children.length).toEqual(2)
+    expect(element.querySelector('dt')).toBeEmptyDOMElement()
+    expect(element.querySelector('dd')).toHaveTextContent('Value')
+  })
+
   it('should default to medium heading', () => {
     render(<SummaryList>Summary</SummaryList>)
 

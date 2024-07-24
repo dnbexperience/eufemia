@@ -22,6 +22,13 @@ describe('Field.SummaryList', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match horizontal layout', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-value-summary-list-horizontal"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match combined layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-value-summary-list-combined"]',

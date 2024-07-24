@@ -1,6 +1,6 @@
 @import '../../../../style/core/utilities.scss';
 
-.dnb-forms-summary-list.dnb-dl {
+.dnb-forms-summary-list.dnb-dl:not(.dnb-dl__layout--horizontal) {
   & .dnb-dt,
   & > .dnb-dd > .dnb-dl,
   &:not([class*='dnb-space']) > .dnb-dd > .dnb-dl {
@@ -12,9 +12,6 @@
     &:last-of-type {
       margin-bottom: 0;
     }
-  }
-  &.dnb-dl__layout--grid {
-    row-gap: var(--spacing-medium);
   }
 }
 

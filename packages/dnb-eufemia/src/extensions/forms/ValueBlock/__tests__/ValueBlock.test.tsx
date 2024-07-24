@@ -128,7 +128,7 @@ describe('ValueBlock', () => {
       )
 
       expect(document.querySelector('dl')).toBeInTheDocument()
-      expect(document.querySelector('dt')).not.toBeInTheDocument()
+      expect(document.querySelector('dt')).toBeEmptyDOMElement()
       expect(document.querySelector('dd')).toBeInTheDocument()
 
       rerender(
@@ -178,7 +178,7 @@ describe('ValueBlock', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-block__label')
-      ).toBeNull()
+      ).toBeEmptyDOMElement()
     })
 
     it('renders the label with a strong element', () => {
