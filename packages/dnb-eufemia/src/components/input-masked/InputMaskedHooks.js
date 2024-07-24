@@ -329,6 +329,12 @@ const useCallEvent = ({ setLocalValue }) => {
       isUnidentified = false
     }
 
+    // Add support for "await userEvent.type(input, '0...')"
+    if (isUnidentified && event.key === '0') {
+      keyCode = '0'
+      isUnidentified = false
+    }
+
     // Prevent entering a leading zero
     if (
       name === 'on_key_down' &&
