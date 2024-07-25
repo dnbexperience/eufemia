@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.42.0](https://github.com/dnbexperience/eufemia/compare/v10.41.0...v10.42.0) (2024-07-25)
+
+
+### :bug: Bug Fixes
+
+* **forms:** add support for horizontal layout in SummaryList and adjust spacing and alignment ([#3782](https://github.com/dnbexperience/eufemia/issues/3782)) ([59c2839](https://github.com/dnbexperience/eufemia/commit/59c2839b11abce92e9d733d52ee59af8f4e1ee64))
+
+
+### :sparkles: Features
+
+* **Field. ArraySelection:** adds `checkbox-button` variant ([#3783](https://github.com/dnbexperience/eufemia/issues/3783)) ([9deace8](https://github.com/dnbexperience/eufemia/commit/9deace837177ce3127b9e04acb8a49dfe13230fd))
+* **Img:** add support for loading-prop ([#3778](https://github.com/dnbexperience/eufemia/issues/3778)) ([fe339bf](https://github.com/dnbexperience/eufemia/commit/fe339bf0b6eef991b9095887520d1a4f9148010e))
+
 ## [10.41.0](https://github.com/dnbexperience/eufemia/compare/v10.40.1...v10.41.0) (2024-07-23)
 
 
