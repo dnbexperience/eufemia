@@ -109,6 +109,9 @@
 }
 
 @mixin dlStyle() {
+  --column-gap: 1rem;
+  --row-gap: 0.5rem;
+
   &:not([class*='dnb-space__top']) {
     margin-top: 0;
   }
@@ -121,13 +124,14 @@
   line-height: var(--line-height-basis);
 
   & dt {
-    margin-top: 1rem;
-
     padding: 0;
     font-weight: var(--font-weight-medium);
   }
   & dd ~ dt {
-    margin-top: 1.5rem;
+    margin-top: var(--row-gap);
+  }
+  & dt:not(:first-of-type) {
+    margin-top: calc(var(--row-gap) + 1rem);
   }
   & dd {
     padding: 0;
@@ -138,7 +142,7 @@
   }
   & > dd > dl,
   &:not([class*='dnb-space']) > dd > dl {
-    margin-top: 1.5rem;
+    margin-top: calc(var(--row-gap) + 0.5rem);
     margin-left: 2rem;
   }
 
@@ -154,18 +158,20 @@
       max-width: 60ch; // to enhance readability
 
       & dt {
-        margin-right: 1rem;
+        margin-top: 0;
+        margin-right: calc(var(--column-gap) - 0.5rem);
         max-width: var(--dt-max-width);
       }
 
       & dd {
         width: var(--dd-max-width);
+        align-self: end;
       }
 
-      & dt,
+      & dt:not(:first-of-type),
       & dd,
-      & dd ~ dt {
-        margin-top: 0.5rem;
+      & dd ~ dt:not(:first-of-type) {
+        margin-top: var(--row-gap);
         margin-bottom: 0;
         &:first-of-type {
           margin-top: 0;
@@ -174,24 +180,31 @@
     }
 
     dd#{&}__item {
-      display: none;
+      visibility: hidden;
+      user-select: none;
       flex-basis: 100%; // ensures we always break to a new line, no matter what the available space is
       height: 0;
       margin: 0;
     }
+    &:not(#{&}__layout--horizontal) dd#{&}__item {
+      display: none;
+    }
 
     &__layout--grid {
       --dt-max-width: 15ch;
-      --dd-max-width: 30ch;
+      --dd-max-width: 40ch;
 
       display: grid;
       grid-template-columns: max-content 1fr;
-      column-gap: 1rem;
-      row-gap: 1rem;
+      column-gap: var(--column-gap);
+      row-gap: var(--row-gap);
 
       /* stylelint-disable */
       & dt {
         max-width: var(--dt-max-width);
+      }
+      & dt:not(:first-of-type) {
+        margin-top: 0;
       }
       & dd {
         max-width: var(--dd-max-width);

@@ -259,161 +259,134 @@ describe('ArraySelection', () => {
     })
   })
 
-  describe('button variant', () => {
-    it('has correct elements when "button" is provided provided', () => {
-      render(
-        <Field.ArraySelection variant="button">
-          <Field.Option value="option1">Option 1</Field.Option>
-          <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
-      )
-
-      const [option1, option2] = Array.from(
-        document.querySelectorAll('button')
-      )
-      expect(option1).toBeInTheDocument()
-      expect(option2).toBeInTheDocument()
-    })
-
-    it('should render options in nested elements', () => {
-      render(
-        <Field.ArraySelection variant="button">
-          <div>
+  describe.each(['button', 'checkbox-button'])(
+    '%s variant',
+    (testVariant: 'button' | 'checkbox-button') => {
+      it(`has correct elements when "${testVariant}" is provided provided`, () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
             <Field.Option value="option1">Option 1</Field.Option>
-            <div>
-              <Field.Option value="option2">Option 2</Field.Option>
-            </div>
-          </div>
-        </Field.ArraySelection>
-      )
-
-      const [option1, option2] = Array.from(
-        document.querySelectorAll('button')
-      )
-
-      expect(option1).toBeInTheDocument()
-      expect(option2).toBeInTheDocument()
-    })
-
-    it('should render nested fields', () => {
-      render(
-        <Field.ArraySelection variant="button">
-          <Field.Option value="option1">Option 1</Field.Option>
-          <Field.String />
-          <Form.Visibility visible>
             <Field.Option value="option2">Option 2</Field.Option>
-          </Form.Visibility>
-        </Field.ArraySelection>
-      )
+          </Field.ArraySelection>
+        )
 
-      const [option1, option2, option3] = Array.from(
-        document.querySelectorAll('button, input')
-      )
+        const [option1, option2] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(option1).toBeInTheDocument()
+        expect(option2).toBeInTheDocument()
+      })
 
-      expect(option1).toHaveAttribute('type', 'button')
-      expect(option2).toHaveAttribute('type', 'text')
-      expect(option3).toHaveAttribute('type', 'button')
-    })
+      it('should render options in nested elements', () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <div>
+              <Field.Option value="option1">Option 1</Field.Option>
+              <div>
+                <Field.Option value="option2">Option 2</Field.Option>
+              </div>
+            </div>
+          </Field.ArraySelection>
+        )
 
-    it('has error class when error prop is provided', () => {
-      const errorMessage = new Error('This is what is wrong...')
-      render(
-        <Field.ArraySelection variant="button" error={errorMessage}>
-          <Field.Option value="option1">Option 1</Field.Option>
-          <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
-      )
+        const [option1, option2] = Array.from(
+          document.querySelectorAll('button')
+        )
 
-      const [option1, option2] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button')
-      )
+        expect(option1).toBeInTheDocument()
+        expect(option2).toBeInTheDocument()
+      })
 
-      expect(option1).toHaveClass('dnb-toggle-button__status--error')
-      expect(option2).toHaveClass('dnb-toggle-button__status--error')
-    })
+      it('should render nested fields', () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <Field.String />
+            <Form.Visibility visible>
+              <Field.Option value="option2">Option 2</Field.Option>
+            </Form.Visibility>
+          </Field.ArraySelection>
+        )
 
-    it('disables all options when disabled prop is true', () => {
-      render(
-        <Field.ArraySelection variant="button" disabled>
-          <Field.Option value="option1">Option 1</Field.Option>
-          <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
-      )
+        const [option1, option2, option3] = Array.from(
+          document.querySelectorAll('button, input')
+        )
 
-      const [option1, option2] = Array.from(
-        document.querySelectorAll('button')
-      )
+        expect(option1).toHaveAttribute('type', 'button')
+        expect(option2).toHaveAttribute('type', 'text')
+        expect(option3).toHaveAttribute('type', 'button')
+      })
 
-      expect(option1).toBeDisabled()
-      expect(option2).toBeDisabled()
-    })
+      it('has error class when error prop is provided', () => {
+        const errorMessage = new Error('This is what is wrong...')
+        render(
+          <Field.ArraySelection variant={testVariant} error={errorMessage}>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Field.ArraySelection>
+        )
 
-    it('should render variant class', () => {
-      render(
-        <Field.ArraySelection variant="button">
-          <Field.Option value="option1">Option 1</Field.Option>
-          <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
-      )
+        const [option1, option2] = Array.from(
+          document.querySelectorAll('.dnb-toggle-button')
+        )
 
-      expect(
-        document.querySelector('.dnb-forms-field-array-selection')
-      ).toHaveClass('dnb-forms-field-array-selection--variant-button')
-    })
+        expect(option1).toHaveClass('dnb-toggle-button__status--error')
+        expect(option2).toHaveClass('dnb-toggle-button__status--error')
+      })
 
-    it('renders help', () => {
-      render(
-        <Field.ArraySelection
-          variant="button"
-          help={{ title: 'Help title', content: 'Help content' }}
-        >
-          <Field.Option value="option1">Option 1</Field.Option>
-          <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
-      )
-      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
-    })
+      it('disables all options when disabled prop is true', () => {
+        render(
+          <Field.ArraySelection variant={testVariant} disabled>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Field.ArraySelection>
+        )
 
-    it('renders error', () => {
-      render(
-        <Field.ArraySelection
-          variant="button"
-          error={new Error('Error message')}
-        >
-          <Field.Option value="A" title="Fooo!" />
-          <Field.Option value="B" title="Baar!" />
-          <Field.Option value="C" title="Bazz!" />
-          <Field.Option value="D" title="Quxx!" />
-        </Field.ArraySelection>
-      )
+        const [option1, option2] = Array.from(
+          document.querySelectorAll('button')
+        )
 
-      const element = document.querySelector('.dnb-form-status')
-      expect(element).toHaveTextContent('Error message')
+        expect(option1).toBeDisabled()
+        expect(option2).toBeDisabled()
+      })
 
-      const [
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-      ]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button')
-      )
-      expect(optionA).toHaveClass('dnb-toggle-button__status--error')
-      expect(optionB).toHaveClass('dnb-toggle-button__status--error')
-      expect(optionC).toHaveClass('dnb-toggle-button__status--error')
-      expect(optionD).toHaveClass('dnb-toggle-button__status--error')
-    })
+      it('should render variant class', () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Field.ArraySelection>
+        )
 
-    it('shows error style in FieldBlock', () => {
-      render(
-        <FieldBlock>
+        expect(
+          document.querySelector('.dnb-forms-field-array-selection')
+        ).toHaveClass('dnb-forms-field-array-selection--variant-button')
+      })
+
+      it('renders help', () => {
+        render(
           <Field.ArraySelection
-            variant="button"
+            variant={testVariant}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Field.Option value="option1">Option 1</Field.Option>
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Field.ArraySelection>
+        )
+        expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
+          1
+        )
+        expect(
+          document
+            .querySelector('.dnb-help-button')
+            .getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      })
+
+      it('renders error', () => {
+        render(
+          <Field.ArraySelection
+            variant={testVariant}
             error={new Error('Error message')}
           >
             <Field.Option value="A" title="Fooo!" />
@@ -421,21 +394,53 @@ describe('ArraySelection', () => {
             <Field.Option value="C" title="Bazz!" />
             <Field.Option value="D" title="Quxx!" />
           </Field.ArraySelection>
-        </FieldBlock>
-      )
+        )
 
-      const [
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-      ]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button')
-      )
-      expect(optionA).toHaveClass('dnb-toggle-button__status--error')
-      expect(optionB).toHaveClass('dnb-toggle-button__status--error')
-      expect(optionC).toHaveClass('dnb-toggle-button__status--error')
-      expect(optionD).toHaveClass('dnb-toggle-button__status--error')
-    })
-  })
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent('Error message')
+
+        const [
+          optionA,
+          optionB,
+          optionC,
+          optionD,
+        ]: Array<HTMLButtonElement> = Array.from(
+          document.querySelectorAll('.dnb-toggle-button')
+        )
+        expect(optionA).toHaveClass('dnb-toggle-button__status--error')
+        expect(optionB).toHaveClass('dnb-toggle-button__status--error')
+        expect(optionC).toHaveClass('dnb-toggle-button__status--error')
+        expect(optionD).toHaveClass('dnb-toggle-button__status--error')
+      })
+
+      it('shows error style in FieldBlock', () => {
+        render(
+          <FieldBlock>
+            <Field.ArraySelection
+              variant={testVariant}
+              error={new Error('Error message')}
+            >
+              <Field.Option value="A" title="Fooo!" />
+              <Field.Option value="B" title="Baar!" />
+              <Field.Option value="C" title="Bazz!" />
+              <Field.Option value="D" title="Quxx!" />
+            </Field.ArraySelection>
+          </FieldBlock>
+        )
+
+        const [
+          optionA,
+          optionB,
+          optionC,
+          optionD,
+        ]: Array<HTMLButtonElement> = Array.from(
+          document.querySelectorAll('.dnb-toggle-button')
+        )
+        expect(optionA).toHaveClass('dnb-toggle-button__status--error')
+        expect(optionB).toHaveClass('dnb-toggle-button__status--error')
+        expect(optionC).toHaveClass('dnb-toggle-button__status--error')
+        expect(optionD).toHaveClass('dnb-toggle-button__status--error')
+      })
+    }
+  )
 })
