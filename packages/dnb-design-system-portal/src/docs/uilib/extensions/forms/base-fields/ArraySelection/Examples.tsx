@@ -253,6 +253,20 @@ export const ButtonEmpty = () => (
   </ComponentBox>
 )
 
+export const CheckboxButtonEmpty = () => (
+  <ComponentBox data-visual-test="array-selection-checkbox-button">
+    <Field.ArraySelection
+      variant="checkbox-button"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Fooo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
 export const ButtonLabel = () => (
   <ComponentBox data-visual-test="array-selection-button-options-vertical">
     <Field.ArraySelection
