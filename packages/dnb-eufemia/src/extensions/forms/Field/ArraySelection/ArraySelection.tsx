@@ -26,7 +26,7 @@ type OptionProps = React.ComponentProps<
 export type Props = FieldHelpProps &
   FieldProps<Array<string | number> | undefined> & {
     children?: React.ReactNode
-    variant?: 'checkbox' | 'button'
+    variant?: 'checkbox' | 'button' | 'checkbox-button'
     optionsLayout?: 'horizontal' | 'vertical'
   }
 
@@ -56,7 +56,9 @@ function ArraySelection(props: Props) {
     forId: id,
     className: classnames(
       'dnb-forms-field-array-selection',
-      `dnb-forms-field-array-selection--variant-${variant}`,
+      `dnb-forms-field-array-selection--variant-${
+        variant === 'checkbox' ? 'checkbox' : 'button'
+      }`,
       `dnb-forms-field-array-selection--layout-${layout}`,
       `dnb-forms-field-array-selection--options-layout-${optionsLayout}`,
       className
@@ -100,21 +102,23 @@ function ArraySelection(props: Props) {
   })
 
   switch (variant) {
-    case 'button':
+    case 'checkbox':
+      return <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
+    default:
       return (
         <FieldBlock {...fieldBlockProps}>
           <ToggleButtonGroupContext.Provider
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
+              variant:
+                variant === 'checkbox-button' ? 'checkbox' : 'default',
             }}
           >
             {options}
           </ToggleButtonGroupContext.Provider>
         </FieldBlock>
       )
-    case 'checkbox':
-      return <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
   }
 }
 
@@ -182,11 +186,13 @@ export function getCheckboxOrToggleOptions({
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${value}`}
         className={classnames(
-          `dnb-forms-field-array-selection__${variant}`,
+          `dnb-forms-field-array-selection__${
+            variant === 'checkbox' ? 'checkbox' : 'button'
+          }`,
           className
         )}
         label={variant === 'checkbox' ? label : undefined}
-        text={variant === 'button' ? label : undefined}
+        text={variant !== 'checkbox' ? label : undefined}
         value={value}
         disabled={disabled}
         checked={value?.includes(selected)}

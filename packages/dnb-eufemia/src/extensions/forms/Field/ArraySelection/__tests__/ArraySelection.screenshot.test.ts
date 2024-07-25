@@ -112,4 +112,13 @@ describe('ArraySelection', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
+  describe('checkbox-button', () => {
+    it('have to match simple checkbox-button', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="array-selection-checkbox-button"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 })

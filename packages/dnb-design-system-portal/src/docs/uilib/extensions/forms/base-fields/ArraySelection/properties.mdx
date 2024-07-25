@@ -3,17 +3,14 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { arraySelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/ArraySelection/ArraySelectionDocs'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
 ### Field-specific props
 
-| Property        | Type         | Description                                                                     |
-| --------------- | ------------ | ------------------------------------------------------------------------------- |
-| `variant`       | `string`     | _(optional)_ Choice of UI feature. Can be: `checkbox` or `button`.              |
-| `optionsLayout` | `string`     | _(optional)_ Layout for the list of options. Can be `horizontal` or `vertical`. |
-| `children`      | `React.Node` | _(optional)_ For providing Option components.                                   |
+<PropertiesTable props={arraySelectionProperties} showDefaultValue />
 
 ### General props
 
