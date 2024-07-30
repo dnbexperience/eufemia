@@ -113,8 +113,14 @@ export interface DataValueWriteProps<
   EmptyValue = undefined | unknown,
 > {
   emptyValue?: EmptyValue
-  onFocus?: (value: Value | EmptyValue) => void
-  onBlur?: (value: Value | EmptyValue) => void
+  onFocus?: (
+    value: Value | EmptyValue,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
+  onBlur?: (
+    value: Value | EmptyValue,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   onChange?: OnChangeValue<Value, EmptyValue>
 }
 

@@ -12,7 +12,8 @@
     "types": ["node", "jest"],
     "outDir": "./build",
     "rootDir": ".",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "noErrorTruncation":true,
   },
   "exclude": ["node_modules", "build"]
 }

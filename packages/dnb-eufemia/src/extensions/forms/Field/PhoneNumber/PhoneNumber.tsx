@@ -153,8 +153,7 @@ function PhoneNumber(props: Props) {
     continuousValidation,
     validateUnchanged,
     omitCountryCodeField,
-    handleFocus,
-    handleBlur,
+    setHasFocus,
     handleChange,
     onCountryCodeChange,
     onNumberChange,
@@ -194,21 +193,52 @@ function PhoneNumber(props: Props) {
     })
   }, [lang, filterCountries, ccFilter])
 
-  const callOnChange = useCallback(
+  const getEventValues = useCallback(
     ({
       countryCode = omitCountryCodeField
         ? emptyValue
         : countryCodeRef.current || emptyValue,
       phoneNumber = numberRef.current || emptyValue,
     }) => {
-      handleChange(
-        joinValue([countryCode, phoneNumber]),
-        omitCountryCodeField
+      return {
+        countryCode,
+        phoneNumber,
+        additionalEventAttributes: omitCountryCodeField
           ? { phoneNumber }
-          : { countryCode, phoneNumber }
+          : { countryCode, phoneNumber },
+      }
+    },
+    [omitCountryCodeField, emptyValue]
+  )
+
+  const callSetHasFocus = useCallback(
+    (hasFocus: boolean) => {
+      setHasFocus(
+        hasFocus,
+        undefined,
+        getEventValues({}).additionalEventAttributes
       )
     },
-    [omitCountryCodeField, emptyValue, handleChange]
+    [setHasFocus, getEventValues]
+  )
+
+  const callOnFocus = useCallback(() => {
+    callSetHasFocus(true)
+  }, [callSetHasFocus])
+
+  const callOnBlur = useCallback(() => {
+    callSetHasFocus(false)
+  }, [callSetHasFocus])
+
+  const callOnChange = useCallback(
+    ({ countryCode = undefined, phoneNumber = undefined }) => {
+      const eventValues = getEventValues({ countryCode, phoneNumber })
+      handleChange(
+        joinValue([eventValues.countryCode, eventValues.phoneNumber]),
+        eventValues.additionalEventAttributes
+      )
+    },
+    [getEventValues, handleChange]
   )
 
   /**
@@ -256,16 +286,16 @@ function PhoneNumber(props: Props) {
     [emptyValue, callOnChange, onNumberChange]
   )
 
-  const onFocusHandler = useCallback(
+  const handleCountryCodeFocus = useCallback(
     ({ updateData }) => {
       if (!wasFilled.current) {
         wasFilled.current = true
         updateCurrentDataSet()
         updateData(dataRef.current)
       }
-      handleFocus()
+      callOnFocus()
     },
-    [handleFocus, updateCurrentDataSet]
+    [callOnFocus, updateCurrentDataSet]
   )
 
   const onTypeHandler = useCallback(
@@ -325,8 +355,8 @@ function PhoneNumber(props: Props) {
             value={countryCodeRef.current}
             status={hasError ? 'error' : undefined}
             disabled={disabled}
-            on_focus={onFocusHandler}
-            on_blur={handleBlur}
+            on_focus={handleCountryCodeFocus}
+            on_blur={callOnBlur}
             on_change={handleCountryCodeChange}
             on_type={onTypeHandler}
             independent_width
@@ -354,8 +384,8 @@ function PhoneNumber(props: Props) {
           mask={
             numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
           }
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onFocus={callOnFocus}
+          onBlur={callOnBlur}
           onChange={handleNumberChange}
           value={numberRef.current}
           info={info}

@@ -75,7 +75,7 @@ export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
 >(
-  localeProps: Props,
+  localeProps: Props & FieldProps<Value>,
   { executeOnChangeRegardlessOfError = false } = {}
 ): Props & FieldProps<Value> & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
@@ -701,7 +701,11 @@ export default function useFieldProps<
   }, [continuousValidation, hideError, showError])
 
   const setHasFocus = useCallback(
-    async (hasFocus: boolean, valueOverride?: Value) => {
+    async (
+      hasFocus: boolean,
+      valueOverride?: Value,
+      additionalArgs?: AdditionalEventArgs
+    ) => {
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
@@ -709,7 +713,7 @@ export default function useFieldProps<
           valueOverride ?? valueRef.current,
           'onFocus'
         )
-        onFocus?.(value)
+        onFocus?.(value, additionalArgs)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
@@ -717,7 +721,7 @@ export default function useFieldProps<
           valueOverride ?? valueRef.current,
           'onBlur'
         )
-        onBlur?.(value)
+        onBlur?.(value, additionalArgs)
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -1372,7 +1376,11 @@ export interface ReturnAdditional<Value> {
   value: Value
   isChanged: boolean
   htmlAttributes: AriaAttributes | DataAttributes
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  setHasFocus: (
+    hasFocus: boolean,
+    valueOverride?: unknown,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
