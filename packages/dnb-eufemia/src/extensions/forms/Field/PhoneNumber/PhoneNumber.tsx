@@ -13,6 +13,7 @@ import {
   FieldHelpProps,
   FieldProps,
   AllJSONSchemaVersions,
+  FieldValue,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
@@ -26,7 +27,10 @@ import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
+  FieldProps<
+    FieldValue<string, { countryCode?: string; phoneNumber: string }>,
+    undefined | string
+  > & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
     countryCodePlaceholder?: string
@@ -76,8 +80,8 @@ function PhoneNumber(props: Props) {
   const translations = useTranslation()
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const countryCodeRef = React.useRef<Props['value']>(props?.emptyValue)
-  const numberRef = React.useRef<Props['value']>(props?.emptyValue)
+  const countryCodeRef = React.useRef<Props['value'][0]>(props?.emptyValue)
+  const numberRef = React.useRef<Props['value'][0]>(props?.emptyValue)
   const dataRef = React.useRef<Array<DrawerListDataObject>>(null)
   const langRef = React.useRef<string>(lang)
   const wasFilled = React.useRef<boolean>(false)

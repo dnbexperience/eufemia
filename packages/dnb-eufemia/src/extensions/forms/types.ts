@@ -27,6 +27,17 @@ interface IFormErrorOptions {
   validationRule?: ValidationRule
   messageValues?: MessageValues
 }
+export type FieldValue<
+  V = unknown,
+  A extends AdditionalEventArgs = AdditionalEventArgs,
+> = [V, A]
+
+export type ValueOrFieldValue<T = unknown> = T extends FieldValue
+  ? FieldValue
+  : T
+
+export type ToValue<F> = F extends FieldValue ? F[0] : F
+export type ToAdditional<F> = F extends FieldValue ? F[1] : FieldValue[1]
 
 /**
  * Standard error object for Eufemia Forms, extending the built-in error with additional information for data handling
@@ -109,19 +120,13 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
 }
 
 export interface DataValueWriteProps<
-  Value = unknown,
+  FValue extends ValueOrFieldValue = FieldValue,
   EmptyValue = undefined | unknown,
 > {
   emptyValue?: EmptyValue
-  onFocus?: (
-    value: Value | EmptyValue,
-    additionalArgs?: AdditionalEventArgs
-  ) => void
-  onBlur?: (
-    value: Value | EmptyValue,
-    additionalArgs?: AdditionalEventArgs
-  ) => void
-  onChange?: OnChangeValue<Value, EmptyValue>
+  onFocus?: EventSignature<FValue, EmptyValue, void>
+  onBlur?: EventSignature<FValue, EmptyValue, void>
+  onChange?: OnChangeValue<FValue, EmptyValue>
 }
 
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
@@ -147,9 +152,9 @@ export function omitDataValueWriteProps<Props extends DataValueWriteProps>(
 }
 
 export type DataValueReadWriteProps<
-  Value = unknown,
+  Value extends FieldValue = FieldValue,
   EmptyValue = undefined | unknown,
-> = DataValueReadProps<Value> & DataValueWriteProps<Value, EmptyValue>
+> = DataValueReadProps<Value[0]> & DataValueWriteProps<Value, EmptyValue>
 
 export function pickDataValueReadWriteProps<
   Props extends DataValueReadWriteProps,
@@ -187,10 +192,10 @@ export type DataValueReadComponentProps<Value = unknown> = ComponentProps &
   DataValueReadProps<Value>
 
 export type DataValueReadWriteComponentProps<
-  Value = unknown,
+  Value extends ValueOrFieldValue = FieldValue,
   EmptyValue = undefined | unknown,
 > = ComponentProps &
-  DataValueReadProps<Value> &
+  DataValueReadProps<ToValue<Value>> &
   DataValueWriteProps<Value, EmptyValue>
 
 export type FieldBlockProps = {
@@ -223,7 +228,7 @@ export type FieldBlockWidth =
   | 'stretch'
 
 export interface UseFieldProps<
-  Value = unknown,
+  Value extends ValueOrFieldValue = FieldValue,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue>,
@@ -259,16 +264,16 @@ export interface UseFieldProps<
 
   // - Validation
   required?: boolean
-  schema?: AllJSONSchemaVersions<Value>
+  schema?: AllJSONSchemaVersions<ToValue<Value>>
   validator?: (
-    value: Value | EmptyValue,
+    value: ToValue<Value> | EmptyValue,
     errorMessages?: ErrorMessages
   ) => Error | undefined | void | Promise<Error | undefined | void>
   onBlurValidator?: (
-    value: Value | EmptyValue
+    value: ToValue<Value> | EmptyValue
   ) => Error | undefined | void | Promise<Error | undefined | void>
   validateRequired?: (
-    internal: Value,
+    internal: ToValue<Value>,
     {
       emptyValue,
       required,
@@ -307,41 +312,48 @@ export interface UseFieldProps<
    * Transforms the `value` before its displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
-  transformIn?: (external: Value | unknown) => Value | unknown
+  transformIn?: (
+    external: ToValue<Value> | unknown
+  ) => ToValue<Value> | unknown
 
   /**
    * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
    * Public API. Should not be used internally.
    */
-  transformOut?: (internal: Value | unknown) => Value
+  transformOut?: (internal: ToValue<Value> | unknown) => ToValue<Value>
 
   /**
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
    */
-  transformValue?: (value: Value, currentValue?: Value) => Value
+  transformValue?: (
+    value: ToValue<Value>,
+    currentValue?: ToValue<Value>
+  ) => ToValue<Value>
 
   /**
    * Transforms the value before it gets returned as the `value`.
    */
-  toInput?: (external: Value | unknown) => Value | unknown
+  toInput?: (
+    external: ToValue<Value> | unknown
+  ) => ToValue<Value> | unknown
 
   /**
    * Transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
    */
   toEvent?: (
-    internal: Value,
+    internal: ToValue<Value>,
     type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
-  ) => Value
+  ) => ToValue<Value>
 
   /**
    * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value from the original event object.
    */
-  fromInput?: (external: Value | unknown) => Value
+  fromInput?: (external: ToValue<Value> | unknown) => ToValue<Value>
 
   /**
    * Transforms the given props `value` before any other step gets entered.
    */
-  fromExternal?: (external: Value) => Value
+  fromExternal?: (external: ToValue<Value>) => ToValue<Value>
 
   /**
    * For internal use only.
@@ -350,7 +362,7 @@ export interface UseFieldProps<
 }
 
 export type FieldProps<
-  Value = unknown,
+  Value extends ValueOrFieldValue = FieldValue,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
@@ -496,12 +508,23 @@ export type OnChange<Data = unknown> = (
   | Promise<EventReturnWithStateObjectAndSuccess | void>
 
 export type OnChangeValue<
-  Value = unknown,
+  FValue extends ValueOrFieldValue = FieldValue,
   EmptyValue = undefined | unknown,
-> = (
-  value: Value | EmptyValue,
-  additionalArgs?: AdditionalEventArgs
-) =>
+> = EventSignature<
+  FValue,
+  EmptyValue,
   | EventReturnWithStateObjectAndSuccess
   | void
   | Promise<EventReturnWithStateObjectAndSuccess | void>
+>
+
+type EventSignature<
+  FValue extends ValueOrFieldValue,
+  EmptyValue,
+  ReturnType,
+> = FValue extends FieldValue
+  ? (
+      value: ToValue<FValue> | EmptyValue,
+      additionalArgs?: ToAdditional<FValue>
+    ) => ReturnType
+  : (value: ToValue<FValue> | EmptyValue) => ReturnType

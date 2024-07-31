@@ -14,11 +14,13 @@ import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
   FormError,
   FieldProps,
-  AdditionalEventArgs,
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
   UseFieldProps,
+  ValueOrFieldValue,
+  ToAdditional,
+  ToValue,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
@@ -73,12 +75,12 @@ export type DataAttributes = {
 // useEffect depend on them (like the external `value`)
 
 export default function useFieldProps<
-  Value = unknown,
-  Props extends FieldProps<Value> = FieldProps<Value>,
+  FValue extends ValueOrFieldValue = ValueOrFieldValue,
+  Props extends FieldProps<FValue> = FieldProps<FValue>,
 >(
   localeProps: Props,
   { executeOnChangeRegardlessOfError = false } = {}
-): Props & FieldProps<Value> & ReturnAdditional<Value> {
+): Props & FieldProps<FValue> & ReturnAdditional<FValue> {
   const { extend } = useContext(FieldPropsContext)
   const props = extend<Props>(localeProps)
 
@@ -103,14 +105,17 @@ export default function useFieldProps<
     validateInitially,
     validateUnchanged,
     continuousValidation,
-    transformIn = (value: Value) => value,
-    transformOut = (value: Value) => value,
-    toInput = (value: Value) => value,
-    fromInput = (value: Value) => value,
-    toEvent = (value: Value) => value,
-    transformValue = (value: Value) => value,
-    fromExternal = (value: Value) => value,
-    validateRequired = (value: Value, { emptyValue, required, error }) => {
+    transformIn = (value: ToValue<FValue>) => value,
+    transformOut = (value: ToValue<FValue>) => value,
+    toInput = (value: ToValue<FValue>) => value,
+    fromInput = (value: ToValue<FValue>) => value,
+    toEvent = (value: ToValue<FValue>) => value,
+    transformValue = (value: ToValue<FValue>) => value,
+    fromExternal = (value: ToValue<FValue>) => value,
+    validateRequired = (
+      value: ToValue<FValue>,
+      { emptyValue, required, error }
+    ) => {
       const res =
         required &&
         (value === emptyValue ||
@@ -179,7 +184,7 @@ export default function useFieldProps<
 
   const defaultValueRef = useRef(defaultValue)
   const externalValue =
-    useExternalValue<Value>({
+    useExternalValue<ToValue<FValue>>({
       path,
       itemPath,
       value: valueProp,
@@ -192,7 +197,7 @@ export default function useFieldProps<
 
   // Hold an internal copy of the input value in case the input component is used uncontrolled,
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
-  const valueRef = useRef<Value>(externalValue)
+  const valueRef = useRef<ToValue<FValue>>(externalValue)
   const changedRef = useRef<boolean>(false)
   const hasFocusRef = useRef<boolean>(false)
 
@@ -276,7 +281,7 @@ export default function useFieldProps<
   const asyncBehaviorIsEnabled = useMemo(() => {
     return isAsync(onChange) || isAsync(onChangeContext)
   }, [onChangeContext, onChange])
-  const validatedValue = useRef<Value>()
+  const validatedValue = useRef<ToValue<FValue>>()
   const changeEventResultRef = useRef<EventStateObjectWithSuccess>(null)
   const asyncProcessRef = useRef<AsyncProcesses>(null)
   const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
@@ -704,8 +709,8 @@ export default function useFieldProps<
   const setHasFocus = useCallback(
     async (
       hasFocus: boolean,
-      valueOverride?: Value,
-      additionalArgs?: AdditionalEventArgs
+      valueOverride?: ToValue<FValue>,
+      additionalArgs?: ToAdditional<FValue>
     ) => {
       const getArgs = (type: Parameters<UseFieldProps['toEvent']>[1]) => {
         const value = transformers.current.toEvent(
@@ -767,7 +772,7 @@ export default function useFieldProps<
       waitFor: Array<{
         processName?: AsyncProcesses
         withStates: Array<SubmitStateWithValidating>
-        withValue?: Value
+        withValue?: ToValue<FValue>
       }>
     }) => {
       return new Promise<void>((resolve) => {
@@ -919,7 +924,7 @@ export default function useFieldProps<
   ])
 
   const updateValue = useCallback(
-    async (newValue: Value) => {
+    async (newValue: ToValue<FValue>) => {
       if (newValue === valueRef.current) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
@@ -959,8 +964,8 @@ export default function useFieldProps<
 
   const handleChange = useCallback(
     async (
-      argFromInput: Value,
-      additionalArgs: AdditionalEventArgs = undefined
+      argFromInput: ToValue<FValue>,
+      additionalArgs: ToAdditional<FValue> = undefined
     ) => {
       const currentValue = valueRef.current
       const fromInput = transformers.current.fromInput(argFromInput)
@@ -990,7 +995,9 @@ export default function useFieldProps<
         updateValue(transformedValue)
       }
 
-      const getArgs = (): [Value] | [Value, AdditionalEventArgs] => {
+      const getArgs = ():
+        | [ToValue<FValue>]
+        | [ToValue<FValue>, ToAdditional<FValue>] => {
         const value = transformers.current.toEvent(
           valueRef.current,
           'onChange'
@@ -1375,23 +1382,23 @@ export default function useFieldProps<
   }
 }
 
-export interface ReturnAdditional<Value> {
+export interface ReturnAdditional<Value extends ValueOrFieldValue> {
   /** Documented APIs */
-  value: Value
+  value: ToValue<Value>
   isChanged: boolean
   htmlAttributes: AriaAttributes | DataAttributes
   setHasFocus: (
     hasFocus: boolean,
     valueOverride?: unknown,
-    additionalArgs?: AdditionalEventArgs
+    additionalArgs?: ToAdditional<Value>
   ) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
-    value: Value,
-    additionalArgs?: AdditionalEventArgs
+    value: ToValue<Value>,
+    additionalArgs?: ToAdditional<Value>
   ) => void
-  updateValue: (value: Value) => void
+  updateValue: (value: ToValue<Value>) => void
   forceUpdate: () => void
   hasError?: boolean
 
