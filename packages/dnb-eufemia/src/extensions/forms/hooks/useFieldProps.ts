@@ -76,7 +76,7 @@ export default function useFieldProps<
   Value = unknown,
   Props extends FieldProps<Value> = FieldProps<Value>,
 >(
-  localeProps: Props & FieldProps<Value>,
+  localeProps: Props,
   { executeOnChangeRegardlessOfError = false } = {}
 ): Props & FieldProps<Value> & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
