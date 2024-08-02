@@ -9,7 +9,12 @@ import countries, {
   type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
-import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
+import {
+  FieldBlockWidth,
+  FieldHelpProps,
+  FieldProps,
+  FieldValue,
+} from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -21,7 +26,7 @@ export type CountryFilterSet =
   | 'Prioritized'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
+  FieldProps<FieldValue<string, CountryType>, undefined | string> & {
     countries?: CountryFilterSet
 
     // Styling
@@ -72,8 +77,7 @@ function SelectCountry(props: Props) {
     width = 'large',
     help,
     htmlAttributes,
-    handleFocus,
-    handleBlur,
+    setHasFocus,
     handleChange,
     updateValue,
     forceUpdate,
@@ -121,9 +125,8 @@ function SelectCountry(props: Props) {
     ({ data }: { data: { selectedKey: string } }) => {
       const newValue = data?.selectedKey
       const country = countries.find(({ iso }) => newValue === iso)
-      if (country?.iso) {
-        handleChange(country.iso, country)
-      }
+
+      handleChange(country?.iso, country)
     },
     [handleChange]
   )
@@ -140,13 +143,37 @@ function SelectCountry(props: Props) {
     }
   }, [ccFilter, filterCountries, forceUpdate])
 
+  const callSetHasFocus = useCallback(
+    (hasFocus: boolean, currentValue) => {
+      const country =
+        currentValue != ''
+          ? countries.find(({ i18n }) =>
+              Object.values(i18n).some((s) =>
+                s.toLowerCase().includes(currentValue.toLowerCase())
+              )
+            )
+          : undefined
+
+      setHasFocus(hasFocus, undefined, country)
+    },
+    [setHasFocus]
+  )
+
   const onFocusHandler = useCallback(
-    ({ updateData }) => {
+    ({ value: currentValue, updateData }) => {
       fillData()
       updateData(dataRef.current)
-      handleFocus()
+
+      callSetHasFocus(true, currentValue)
     },
-    [fillData, handleFocus]
+    [fillData, callSetHasFocus]
+  )
+
+  const onBlurHandler = useCallback(
+    ({ value: currentValue }) => {
+      callSetHasFocus(false, currentValue)
+    },
+    [callSetHasFocus]
   )
 
   const onTypeHandler = useCallback(
@@ -185,7 +212,7 @@ function SelectCountry(props: Props) {
         disabled={disabled}
         on_show={fillData}
         on_focus={onFocusHandler}
-        on_blur={handleBlur}
+        on_blur={onBlurHandler}
         on_change={handleCountryChange}
         on_type={onTypeHandler}
         stretch

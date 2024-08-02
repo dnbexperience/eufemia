@@ -12,10 +12,18 @@ describe('Field.SelectCountry', () => {
     expect(document.querySelector('input')).toBeInTheDocument()
   })
 
-  it('should return correct value onChange event', () => {
+  it('should return correct value on events', () => {
     const onChange = jest.fn()
+    const onBlur = jest.fn()
+    const onFocus = jest.fn()
 
-    render(<Field.SelectCountry onChange={onChange} />)
+    render(
+      <Field.SelectCountry
+        onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+      />
+    )
 
     const inputElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-select-country input'
@@ -28,19 +36,28 @@ describe('Field.SelectCountry', () => {
     fireEvent.change(inputElement, { target: { value: 'Norge' } })
     fireEvent.click(firstItemElement())
 
-    expect(onChange).toHaveBeenLastCalledWith('NO', {
-      cdc: '47',
-      continent: 'Europe',
-      i18n: {
-        en: 'Norway',
-        nb: 'Norge',
+    const expectedValue = [
+      'NO',
+      {
+        cdc: '47',
+        continent: 'Europe',
+        i18n: {
+          en: 'Norway',
+          nb: 'Norge',
+        },
+        iso: 'NO',
+        regions: ['Scandinavia', 'Nordic'],
       },
-      iso: 'NO',
-      regions: ['Scandinavia', 'Nordic'],
-    })
+    ]
+    expect(onChange).toHaveBeenLastCalledWith(...expectedValue)
     expect(inputElement.value).toEqual('Norge')
 
+    fireEvent.blur(inputElement)
     fireEvent.focus(inputElement)
+
+    expect(onBlur).toHaveBeenLastCalledWith(...expectedValue)
+    expect(onFocus).toHaveBeenLastCalledWith(...expectedValue)
+
     fireEvent.change(inputElement, { target: { value: 'Dan' } })
     fireEvent.click(firstItemElement())
 
