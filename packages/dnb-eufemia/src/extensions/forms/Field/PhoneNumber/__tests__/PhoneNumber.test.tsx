@@ -113,18 +113,30 @@ describe('Field.PhoneNumber', () => {
     )
 
     fireEvent.focus(phoneElement)
-    expect(onFocus).toHaveBeenLastCalledWith(undefined)
+    expect(onFocus).toHaveBeenLastCalledWith(undefined, {
+      countryCode: '+47',
+      phoneNumber: undefined,
+    })
 
     fireEvent.blur(phoneElement)
-    expect(onBlur).toHaveBeenLastCalledWith(undefined)
+    expect(onBlur).toHaveBeenLastCalledWith(undefined, {
+      countryCode: '+47',
+      phoneNumber: undefined,
+    })
 
     await userEvent.type(phoneElement, '99999999')
 
     fireEvent.focus(phoneElement)
-    expect(onFocus).toHaveBeenLastCalledWith('+47 99999999')
+    expect(onFocus).toHaveBeenLastCalledWith('+47 99999999', {
+      countryCode: '+47',
+      phoneNumber: '99999999',
+    })
 
     fireEvent.blur(phoneElement)
-    expect(onBlur).toHaveBeenLastCalledWith('+47 99999999')
+    expect(onBlur).toHaveBeenLastCalledWith('+47 99999999', {
+      countryCode: '+47',
+      phoneNumber: '99999999',
+    })
   })
 
   it('should have selected correct item', async () => {
@@ -160,7 +172,7 @@ describe('Field.PhoneNumber', () => {
       return (
         <Field.PhoneNumber
           value={state}
-          onFocus={onFocus}
+          onFocus={(value) => onFocus(value)}
           onCountryCodeChange={onCountryCodeChange}
           onChange={(value) => {
             update(value)

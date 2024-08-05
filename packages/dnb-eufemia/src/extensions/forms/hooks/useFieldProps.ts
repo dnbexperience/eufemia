@@ -18,6 +18,7 @@ import {
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
+  UseFieldProps,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
@@ -701,23 +702,30 @@ export default function useFieldProps<
   }, [continuousValidation, hideError, showError])
 
   const setHasFocus = useCallback(
-    async (hasFocus: boolean, valueOverride?: Value) => {
+    async (
+      hasFocus: boolean,
+      valueOverride?: Value,
+      additionalArgs?: AdditionalEventArgs
+    ) => {
+      const getArgs = (type: Parameters<UseFieldProps['toEvent']>[1]) => {
+        const value = transformers.current.toEvent(
+          valueOverride ?? valueRef.current,
+          type
+        )
+        return typeof additionalArgs !== 'undefined'
+          ? [value, additionalArgs]
+          : [value]
+      }
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
-          'onFocus'
-        )
-        onFocus?.(value)
+        const args = getArgs('onFocus')
+        onFocus?.apply(this, args)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
-          'onBlur'
-        )
-        onBlur?.(value)
+        const args = getArgs('onBlur')
+        onBlur?.apply(this, args)
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -1372,7 +1380,11 @@ export interface ReturnAdditional<Value> {
   value: Value
   isChanged: boolean
   htmlAttributes: AriaAttributes | DataAttributes
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  setHasFocus: (
+    hasFocus: boolean,
+    valueOverride?: unknown,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
