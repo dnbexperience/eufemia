@@ -29,8 +29,13 @@ function SubmitButton(props: Props) {
     children ||
     (variant === 'send' ? translations.sendText : translations.text)
 
-  const { formState, handleSubmit, isInsideFormElement } =
-    useContext(DataContext) || {}
+  const {
+    formState,
+    handleSubmit,
+    isInsideFormElement,
+    props: dataContextProps,
+  } = useContext(DataContext) || {}
+  const { isolate } = dataContextProps || {}
 
   const onClickHandler = useCallback(() => {
     if (!isInsideFormElement) {
@@ -42,7 +47,7 @@ function SubmitButton(props: Props) {
     <Button
       className={classnames('dnb-forms-submit-button', className)}
       onClick={onClickHandler}
-      type="submit"
+      type={isolate ? 'button' : 'submit'}
       icon={variant === 'send' ? send : null}
       {...rest}
     >

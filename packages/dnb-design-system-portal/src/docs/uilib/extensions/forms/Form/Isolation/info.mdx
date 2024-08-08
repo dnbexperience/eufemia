@@ -1,0 +1,92 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
+
+Its a provider that lets you provide a `schema` or `data` very similar to what the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component does.
+
+### Good to know
+
+- It needs to be used inside of a `Form.Handler` component.
+- All fields inside needs to validate successfully before the isolated data can be commited, like the `Form.Handler` does before it submits.
+- Input fields are prevented from submitting the form when pressing enter. Pressing enter on input fields will commit the isolated data to the `Form.Handler` context instead.
+- You can provide a `schema`, `data` or `defaultData` like you would do with the `Form.Handler`.
+- You can also provide `data` or `defaultData` to the `Form.Handler`, defining the data that will be used for the isolated data.
+- `onChange` on the `Form.Handler` will be called when the isolated data gets commited.
+- `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onCommit` to get the data that gets commited.
+
+## Usage
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+export function MyForm(props) {
+  return (
+    <Form.Handler
+      defaultData={{ isolated: 'Isolated', regular: 'Regular' }}
+    >
+      <Form.Isolation>
+        <Field.String label="Isolated" path="/isolated" />
+        <Form.Isolation.CommitButton />
+      </Form.Isolation>
+
+      <Field.String label="Regular" path="/regular" />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+```
+
+## Commit the data to the form
+
+You can either use the `Form.Isolation.CommitButton` or provide a custom ref handler you can use (call) when you want to commit the data to the `Form.Handler` context:
+
+```tsx
+import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  const commitHandleRef = React.useRef<() => void>()
+
+  return (
+    <Form.Handler>
+      <Form.Isolation commitHandleRef={commitHandleRef}>
+        <Field.PhoneNumber path="/phoneNumber" />
+        <Button text="Submit" onClick={commitHandleRef.current} />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
+
+render(<MyForm />)
+```
+
+## Schema support
+
+You can also use a `schema` to define the properties of the nested fields:
+
+```tsx
+import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+
+const isolatedSchema: JSONSchema = {
+  type: 'object',
+  properties: {
+    phoneNumber: {
+      type: 'string',
+      pattern: '^[0-9]{10}$',
+    },
+  },
+  required: ['phoneNumber'],
+}
+
+render(
+  <Form.Handler>
+    <Form.Isolation schema={isolatedSchema}>
+      <Field.PhoneNumber path="/phoneNumber" />
+    </Form.Isolation>
+  </Form.Handler>,
+)
+```

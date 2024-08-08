@@ -14,6 +14,9 @@ export default {
       text: 'Send',
       sendText: 'Send',
     },
+    Isolation: {
+      commitButtonText: 'Add',
+    },
     Step: {
       summaryTitle: 'Summary',
     },

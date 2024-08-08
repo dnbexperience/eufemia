@@ -14,6 +14,9 @@ export default {
       text: 'Send',
       sendText: 'Send inn',
     },
+    Isolation: {
+      commitButtonText: 'Legg til',
+    },
     Step: {
       summaryTitle: 'Oppsummering',
     },

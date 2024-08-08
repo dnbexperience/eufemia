@@ -6,6 +6,7 @@ import InputMasked, {
   InputMaskedProps,
 } from '../../../../components/InputMasked'
 import { TextareaProps } from '../../../../components/Textarea'
+import DataContext from '../../DataContext/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -69,9 +70,13 @@ export type Props = FieldHelpProps &
     spellCheck?: React.HTMLAttributes<HTMLInputElement>['spellCheck']
     autoFocus?: React.HTMLAttributes<HTMLInputElement>['autoFocus']
     autoCapitalize?: React.HTMLAttributes<HTMLInputElement>['autoCapitalize']
+
+    // - Events
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   }
 
 function StringComponent(props: Props) {
+  const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const translations = useTranslation()
 
@@ -196,11 +201,29 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    onKeyDown,
   } = useFieldProps(preparedProps)
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),
     [props.capitalize]
+  )
+
+  const { handleSubmit } = dataContext ?? {}
+  const handleKeyDown = useCallback(
+    ({ event }: { event: React.KeyboardEvent<HTMLInputElement> }) => {
+      if (
+        !multiline &&
+        dataContext?.props?.isolate &&
+        event.key === 'Enter'
+      ) {
+        handleSubmit() // So we commit the data to the outer context
+        event.preventDefault?.() // And prevent the default form submit
+      }
+
+      onKeyDown?.(event)
+    },
+    [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown]
   )
 
   const cn = classnames('dnb-forms-field-string__input', inputClassName)
@@ -222,6 +245,7 @@ function StringComponent(props: Props) {
     on_focus: handleFocus,
     on_blur: handleBlur,
     on_change: handleChange,
+    on_key_down: handleKeyDown,
     disabled,
     ...htmlAttributes,
     stretch: Boolean(
