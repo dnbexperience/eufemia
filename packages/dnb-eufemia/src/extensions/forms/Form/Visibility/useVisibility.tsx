@@ -1,7 +1,7 @@
 import { useCallback, useContext, useRef } from 'react'
 import pointer from 'json-pointer'
 import DataContext from '../../DataContext/Context'
-import SectionContext from '../Section/SectionContext'
+import usePath from '../../hooks/usePath'
 import { Path } from '../../types'
 import { Props } from './Visibility'
 
@@ -9,17 +9,8 @@ export type { Props }
 
 export default function useVisibility(props?: Partial<Props>) {
   const { filterDataHandler, data: originalData } = useContext(DataContext)
-  const sectionContext = useContext(SectionContext)
 
-  const sectionPath = sectionContext?.path
-  const composePath = useCallback(
-    (path: Path) => {
-      return `${
-        sectionPath && sectionPath !== '/' ? sectionPath : ''
-      }${path}`
-    },
-    [sectionPath]
-  )
+  const { makePath, makeIteratePath } = usePath()
 
   // Forward props to the "check" method with ref to avoid infinite loop
   const propsRef = useRef(props)
@@ -55,18 +46,28 @@ export default function useVisibility(props?: Partial<Props>) {
         if (visibleWhenNot) {
           visibleWhen = visibleWhenNot
         }
-        const hasPath = pointer.has(data, composePath(visibleWhen.path))
-        if (hasPath) {
-          const value = pointer.get(data, composePath(visibleWhen.path))
 
-          const withValue = visibleWhen?.['withValue']
+        const path =
+          'itemPath' in visibleWhen
+            ? makeIteratePath(visibleWhen.itemPath)
+            : makePath(visibleWhen.path)
+        const hasPath = pointer.has(data, path)
+
+        if (hasPath) {
+          const value = pointer.get(data, path)
+
+          if (visibleWhen?.['withValue']) {
+            console.warn(
+              'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
+            )
+          }
+
+          const hasValue =
+            visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
           const result =
-            (withValue && withValue?.(value) === false) ||
-            (Object.prototype.hasOwnProperty.call(
-              visibleWhen,
-              'hasValue'
-            ) &&
-              visibleWhen?.['hasValue'] !== value)
+            typeof hasValue === 'function'
+              ? hasValue(value) === false
+              : hasValue !== value
 
           if (visibleWhenNot) {
             if (!result) {
@@ -80,10 +81,10 @@ export default function useVisibility(props?: Partial<Props>) {
         }
       }
 
-      if (pathDefined && !pointer.has(data, composePath(pathDefined))) {
+      if (pathDefined && !pointer.has(data, makePath(pathDefined))) {
         return false
       }
-      if (pathUndefined && pointer.has(data, composePath(pathUndefined))) {
+      if (pathUndefined && pointer.has(data, makePath(pathUndefined))) {
         return false
       }
 
@@ -93,22 +94,19 @@ export default function useVisibility(props?: Partial<Props>) {
         }
       }
 
-      if (pathTrue && getValue(composePath(pathTrue)) !== true) {
+      if (pathTrue && getValue(makePath(pathTrue)) !== true) {
         return false
       }
-      if (pathFalse && getValue(composePath(pathFalse)) !== false) {
+      if (pathFalse && getValue(makePath(pathFalse)) !== false) {
         return false
       }
       if (
         pathTruthy &&
-        Boolean(getValue(composePath(pathTruthy))) === false
+        Boolean(getValue(makePath(pathTruthy))) === false
       ) {
         return false
       }
-      if (
-        pathFalsy &&
-        Boolean(getValue(composePath(pathFalsy))) === true
-      ) {
+      if (pathFalsy && Boolean(getValue(makePath(pathFalsy))) === true) {
         return false
       }
       if (inferData && !inferData(data)) {
@@ -116,13 +114,13 @@ export default function useVisibility(props?: Partial<Props>) {
       }
 
       // Deprecated can be removed in v11
-      if (pathValue && getValue(composePath(pathValue)) !== whenValue) {
+      if (pathValue && getValue(makePath(pathValue)) !== whenValue) {
         return false
       }
 
       return true
     },
-    [composePath, filterDataHandler, originalData]
+    [makePath, filterDataHandler, originalData]
   )
 
   return { check }

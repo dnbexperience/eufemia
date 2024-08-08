@@ -381,13 +381,13 @@ export default function useFieldProps<
           }
         }
 
-        const messageWithValues = Object.entries(
+        const messagehasValues = Object.entries(
           error.messageValues ?? {}
         ).reduce((message, [key, value]) => {
           return message.replace(`{${key}}`, value)
         }, message)
 
-        error.message = messageWithValues
+        error.message = messagehasValues
 
         return error
       }
@@ -759,19 +759,19 @@ export default function useFieldProps<
       waitFor: Array<{
         processName?: AsyncProcesses
         withStates: Array<SubmitStateWithValidating>
-        withValue?: Value
+        hasValue?: Value
       }>
     }) => {
       return new Promise<void>((resolve) => {
         const validateProcesses = () => {
           const result = waitFor.some(
-            ({ processName, withStates, withValue }) => {
+            ({ processName, withStates, hasValue }) => {
               const hasMatchingValue =
                 // If the value has changed during the async process, we don't want to resolve anymore
-                withValue === validatedValue.current
+                hasValue === validatedValue.current
 
               const result =
-                (typeof withValue === 'undefined'
+                (typeof hasValue === 'undefined'
                   ? false
                   : !hasMatchingValue) ||
                 ((processName
@@ -862,12 +862,12 @@ export default function useFieldProps<
           {
             processName: 'validator',
             withStates: ['validating', 'error'],
-            withValue: valueRef.current,
+            hasValue: valueRef.current,
           },
           {
             processName: 'onBlurValidator',
             withStates: ['validating', 'error'],
-            withValue: valueRef.current,
+            hasValue: valueRef.current,
           },
         ],
       })
@@ -972,7 +972,10 @@ export default function useFieldProps<
 
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
-        handleChangeIterateContext?.(makeIteratePath(), transformedValue)
+        handleChangeIterateContext?.(
+          makeIteratePath(itemPath, ''),
+          transformedValue
+        )
       }
 
       if (asyncBehaviorIsEnabled) {
@@ -1005,17 +1008,17 @@ export default function useFieldProps<
                 {
                   processName: 'validator',
                   withStates: ['validating', 'error'],
-                  withValue: args[0],
+                  hasValue: args[0],
                 },
                 {
                   processName: 'onBlurValidator',
                   withStates: ['validating', 'error'],
-                  withValue: args[0],
+                  hasValue: args[0],
                 },
                 {
                   processName: 'onChangeContext',
                   withStates: ['pending', 'error'],
-                  withValue: args[0],
+                  hasValue: args[0],
                 },
               ],
             })

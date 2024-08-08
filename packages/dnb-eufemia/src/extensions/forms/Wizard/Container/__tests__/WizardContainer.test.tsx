@@ -650,7 +650,7 @@ describe('Wizard.Container', () => {
       ).toHaveLength(1)
     })
 
-    it('should render inactive steps based on paths and activeWhen with withValue', () => {
+    it('should render inactive steps based on paths and activeWhen with hasValue', () => {
       render(
         <Form.Handler defaultData={{ enabledStep: 'group-1' }}>
           <Wizard.Container mode="loose">
@@ -658,7 +658,7 @@ describe('Wizard.Container', () => {
               title="Step 1"
               activeWhen={{
                 path: '/enabledStep',
-                withValue: (value) => {
+                hasValue: (value) => {
                   return value === 'group-1'
                 },
               }}
@@ -709,7 +709,7 @@ describe('Wizard.Container', () => {
               title="Step 3"
               activeWhen={{
                 path: '/enabledStep',
-                withValue: (value) => {
+                hasValue: (value) => {
                   return value === 'group-1'
                 },
               }}

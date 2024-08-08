@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
-import { Field, Form } from '../../..'
+import { Field, Form, Iterate } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
 
@@ -242,6 +242,8 @@ describe('Visibility', () => {
     })
 
     it('should render children when withValue matches', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
       render(
         <Provider data={{ myPath: 'foo' }}>
           <Visibility
@@ -255,9 +257,13 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
+
+      log.mockRestore()
     })
 
     it('should not render children when withValue does not match', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
       render(
         <Provider data={{ myPath: 'foo' }}>
           <Visibility
@@ -271,6 +277,84 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
+
+      log.mockRestore()
+    })
+
+    describe('Iterate', () => {
+      it('should render with whole path', async () => {
+        render(
+          <Form.Handler>
+            <Iterate.Array path="/myList" value={[{}]}>
+              <Field.Name.First
+                className="firstName"
+                itemPath="/firstName"
+              />
+
+              <Form.Visibility
+                visibleWhen={{
+                  path: '/myList/0/firstName',
+                  hasValue: (value: string) => value.length > 0,
+                }}
+              >
+                <Field.Name.Last
+                  className="lastName"
+                  itemPath="/lastName"
+                />
+              </Form.Visibility>
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        expect(document.querySelector('.firstName')).toBeInTheDocument()
+        expect(document.querySelector('.lastName')).toBeNull()
+
+        await userEvent.type(
+          document.querySelector('.firstName input'),
+          'foo'
+        )
+
+        expect(document.querySelector('.lastName')).toBeInTheDocument()
+      })
+
+      it('should render with itemPath', async () => {
+        const log = jest.spyOn(console, 'warn').mockImplementation()
+
+        render(
+          <Form.Handler>
+            <Iterate.Array path="/myList" value={[{}]}>
+              <Field.Name.First
+                className="firstName"
+                itemPath="/firstName"
+              />
+
+              <Form.Visibility
+                visibleWhen={{
+                  itemPath: '/firstName',
+                  hasValue: (value: string) => value.length > 0,
+                }}
+              >
+                <Field.Name.Last
+                  className="lastName"
+                  itemPath="/lastName"
+                />
+              </Form.Visibility>
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        expect(document.querySelector('.firstName')).toBeInTheDocument()
+        expect(document.querySelector('.lastName')).toBeNull()
+
+        await userEvent.type(
+          document.querySelector('.firstName input'),
+          'foo'
+        )
+
+        expect(document.querySelector('.lastName')).toBeInTheDocument()
+
+        log.mockRestore()
+      })
     })
   })
 

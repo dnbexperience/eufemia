@@ -325,3 +325,30 @@ export const DynamicPathValue = () => {
     </ComponentBox>
   )
 }
+
+export const WithVisibility = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      <Form.Handler>
+        <Iterate.Array path="/myList" value={[{}]}>
+          <Flex.Stack>
+            <Field.Name.First
+              className="firstName"
+              itemPath="/firstName"
+            />
+
+            <Form.Visibility
+              animate
+              visibleWhen={{
+                itemPath: '/firstName',
+                hasValue: (value) => Boolean(value),
+              }}
+            >
+              <Field.Name.Last className="lastName" itemPath="/lastName" />
+            </Form.Visibility>
+          </Flex.Stack>
+        </Iterate.Array>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

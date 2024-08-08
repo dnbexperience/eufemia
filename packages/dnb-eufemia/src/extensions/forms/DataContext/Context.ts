@@ -19,8 +19,8 @@ type HandleSubmitProps = {
 }
 
 export type EventListenerCall = {
-  path: Path
-  type: 'onSubmit'
+  path?: Path
+  type?: 'onSubmit'
   callback: () => any
 }
 
