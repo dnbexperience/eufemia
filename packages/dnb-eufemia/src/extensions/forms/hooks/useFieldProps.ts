@@ -972,7 +972,10 @@ export default function useFieldProps<
 
       // Run in sync, before any async operations to avoid lag in UX
       if (itemPath) {
-        handleChangeIterateContext?.(makeIteratePath(), transformedValue)
+        handleChangeIterateContext?.(
+          makeIteratePath(itemPath, ''),
+          transformedValue
+        )
       }
 
       if (asyncBehaviorIsEnabled) {

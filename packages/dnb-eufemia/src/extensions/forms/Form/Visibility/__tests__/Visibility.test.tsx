@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
-import { Field, Form } from '../../..'
+import { Field, Form, Iterate } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
 
@@ -271,6 +271,78 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    describe('Iterate', () => {
+      it('should render with whole path', async () => {
+        render(
+          <Form.Handler>
+            <Iterate.Array path="/myList" value={[{}]}>
+              <Field.Name.First
+                className="firstName"
+                itemPath="/firstName"
+              />
+
+              <Form.Visibility
+                visibleWhen={{
+                  path: '/myList/0/firstName',
+                  withValue: (value: string) => value.length > 0,
+                }}
+              >
+                <Field.Name.Last
+                  className="lastName"
+                  itemPath="/lastName"
+                />
+              </Form.Visibility>
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        expect(document.querySelector('.firstName')).toBeInTheDocument()
+        expect(document.querySelector('.lastName')).toBeNull()
+
+        await userEvent.type(
+          document.querySelector('.firstName input'),
+          'foo'
+        )
+
+        expect(document.querySelector('.lastName')).toBeInTheDocument()
+      })
+
+      it('should render with itemPath', async () => {
+        render(
+          <Form.Handler>
+            <Iterate.Array path="/myList" value={[{}]}>
+              <Field.Name.First
+                className="firstName"
+                itemPath="/firstName"
+              />
+
+              <Form.Visibility
+                visibleWhen={{
+                  itemPath: '/firstName',
+                  withValue: (value: string) => value.length > 0,
+                }}
+              >
+                <Field.Name.Last
+                  className="lastName"
+                  itemPath="/lastName"
+                />
+              </Form.Visibility>
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        expect(document.querySelector('.firstName')).toBeInTheDocument()
+        expect(document.querySelector('.lastName')).toBeNull()
+
+        await userEvent.type(
+          document.querySelector('.firstName input'),
+          'foo'
+        )
+
+        expect(document.querySelector('.lastName')).toBeInTheDocument()
+      })
     })
   })
 

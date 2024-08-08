@@ -8,35 +8,43 @@ import HeightAnimation, {
 import FieldProps from '../FieldProps'
 import useVisibility from './useVisibility'
 
-import type { UseFieldProps } from '../../types'
+import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import { FilterData } from '../../DataContext'
 
 export type VisibleWhen =
   | {
-      path: string
+      path: Path
       hasValue: unknown
     }
   | {
-      path: string
+      path: Path
+      withValue: (value: unknown) => boolean
+    }
+  | {
+      itemPath: Path
+      hasValue: unknown
+    }
+  | {
+      itemPath: Path
       withValue: (value: unknown) => boolean
     }
 
 export type Props = {
   visible?: boolean
   /** Given data context path must be defined to show children */
-  pathDefined?: string
+  pathDefined?: Path
   /** Given data context path must be undefined to show children */
-  pathUndefined?: string
+  pathUndefined?: Path
   /** Given data context path must be truthy to show children */
-  pathTruthy?: string
+  pathTruthy?: Path
   /** Given data context path must be falsy to show children */
-  pathFalsy?: string
+  pathFalsy?: Path
   /** Given data context path must be true to show children */
-  pathTrue?: string
+  pathTrue?: Path
   /** Given data context path must be false to show children */
-  pathFalse?: string
-  /** Provide a `path` and a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path. */
+  pathFalse?: Path
+  /** Provide a `path` or `itemPath` and a `withValue` method or a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path. */
   visibleWhen?: VisibleWhen
   /** Same as `visibleWhen`, but with inverted logic. */
   visibleWhenNot?: VisibleWhen

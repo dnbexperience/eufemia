@@ -14,7 +14,7 @@ export default function usePath(props: Props = {}) {
   const { path: pathProp, itemPath: itemPathProp } = props
   const id = useId(props.id)
   const { path: sectionPath } = useContext(SectionContext) ?? {}
-  const { path: iteratePath, index: iterateElementIndex } =
+  const { path: iteratePathProp, index: iterateElementIndex } =
     useContext(IterateElementContext) ?? {}
 
   if (pathProp && !pathProp.startsWith('/')) {
@@ -34,7 +34,10 @@ export default function usePath(props: Props = {}) {
   )
 
   const makeIteratePath = useCallback(
-    (iteratePath: Path = '') => {
+    (
+      itemPath: Path = itemPathProp,
+      iteratePath: Path = iteratePathProp
+    ) => {
       let root = ''
 
       if (sectionPath) {
@@ -42,21 +45,27 @@ export default function usePath(props: Props = {}) {
       }
 
       return `${root}${iteratePath}/${iterateElementIndex}${
-        itemPathProp && itemPathProp !== '/' ? itemPathProp : ''
+        itemPath && itemPath !== '/' ? itemPath : ''
       }`
     },
-    [sectionPath, itemPathProp, iterateElementIndex, makeSectionPath]
+    [
+      iteratePathProp,
+      sectionPath,
+      iterateElementIndex,
+      itemPathProp,
+      makeSectionPath,
+    ]
   )
 
   const itemPath = useMemo(() => {
     if (itemPathProp) {
-      return makeIteratePath(iteratePath)
+      return makeIteratePath()
     }
-  }, [itemPathProp, makeIteratePath, iteratePath])
+  }, [itemPathProp, makeIteratePath])
 
   const makePath = useCallback(
     (path: Path) => {
-      if (itemPath) {
+      if (itemPathProp) {
         return itemPath
       }
 
@@ -67,7 +76,7 @@ export default function usePath(props: Props = {}) {
       // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
       return path
     },
-    [itemPath, sectionPath, makeSectionPath]
+    [itemPathProp, sectionPath, itemPath, makeSectionPath]
   )
 
   const path = useMemo(() => {
