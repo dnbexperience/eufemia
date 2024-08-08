@@ -366,7 +366,7 @@ export const WithVisibility = () => {
               <Form.Visibility
                 visibleWhen={{
                   path: '/myString',
-                  withValue: (value) => value !== 'has a value',
+                  hasValue: (value) => value !== 'has a value',
                 }}
                 animate
               >

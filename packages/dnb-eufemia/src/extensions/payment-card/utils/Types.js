@@ -201,7 +201,7 @@ function createDaggy() {
     return obj
   }
 
-  // adopted version of withValue from  https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+  // adopted version of hasValue from  https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
   function defProp(obj, prop, val) {
     const desc =
       defProp.desc ||

@@ -226,6 +226,8 @@ describe('useVisibility', () => {
     })
 
     it('should render children when withValue matches', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -241,9 +243,13 @@ describe('useVisibility', () => {
         }
       )
       expect(result.current.check()).toBe(true)
+
+      log.mockRestore()
     })
 
     it('should not render children when withValue does not match', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
       const { result } = renderHook(() => useVisibility(), {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
@@ -257,6 +263,8 @@ describe('useVisibility', () => {
           },
         })
       ).toBe(false)
+
+      log.mockRestore()
     })
   })
 

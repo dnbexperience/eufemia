@@ -18,15 +18,23 @@ export type VisibleWhen =
       hasValue: unknown
     }
   | {
-      path: Path
-      withValue: (value: unknown) => boolean
-    }
-  | {
       itemPath: Path
       hasValue: unknown
     }
+  /**
+   * @deprecated Will be remove din v11!
+   */
+  | {
+      path: Path
+      /** @deprecated Use `hasValue` instead */
+      withValue: (value: unknown) => boolean
+    }
+  /**
+   * @deprecated  Will be remove din v11!
+   */
   | {
       itemPath: Path
+      /** @deprecated Use `hasValue` instead */
       withValue: (value: unknown) => boolean
     }
 
@@ -44,7 +52,7 @@ export type Props = {
   pathTrue?: Path
   /** Given data context path must be false to show children */
   pathFalse?: Path
-  /** Provide a `path` or `itemPath` and a `withValue` method or a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path. */
+  /** Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the excepted value in order to show children. The first parameter is the value of the path. */
   visibleWhen?: VisibleWhen
   /** Same as `visibleWhen`, but with inverted logic. */
   visibleWhenNot?: VisibleWhen

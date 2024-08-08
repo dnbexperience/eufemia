@@ -242,6 +242,8 @@ describe('Visibility', () => {
     })
 
     it('should render children when withValue matches', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
       render(
         <Provider data={{ myPath: 'foo' }}>
           <Visibility
@@ -255,9 +257,13 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
+
+      log.mockRestore()
     })
 
     it('should not render children when withValue does not match', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
       render(
         <Provider data={{ myPath: 'foo' }}>
           <Visibility
@@ -271,6 +277,8 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
+
+      log.mockRestore()
     })
 
     describe('Iterate', () => {
@@ -286,7 +294,7 @@ describe('Visibility', () => {
               <Form.Visibility
                 visibleWhen={{
                   path: '/myList/0/firstName',
-                  withValue: (value: string) => value.length > 0,
+                  hasValue: (value: string) => value.length > 0,
                 }}
               >
                 <Field.Name.Last
@@ -310,6 +318,8 @@ describe('Visibility', () => {
       })
 
       it('should render with itemPath', async () => {
+        const log = jest.spyOn(console, 'warn').mockImplementation()
+
         render(
           <Form.Handler>
             <Iterate.Array path="/myList" value={[{}]}>
@@ -321,7 +331,7 @@ describe('Visibility', () => {
               <Form.Visibility
                 visibleWhen={{
                   itemPath: '/firstName',
-                  withValue: (value: string) => value.length > 0,
+                  hasValue: (value: string) => value.length > 0,
                 }}
               >
                 <Field.Name.Last
@@ -342,6 +352,8 @@ describe('Visibility', () => {
         )
 
         expect(document.querySelector('.lastName')).toBeInTheDocument()
+
+        log.mockRestore()
       })
     })
   })

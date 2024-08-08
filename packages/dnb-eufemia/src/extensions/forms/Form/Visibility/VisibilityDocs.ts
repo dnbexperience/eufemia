@@ -32,7 +32,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   visibleWhen: {
-    doc: 'Provide a `path` or `itemPath` and a `withValue` method or a `hasValue` property with the excepted value in order to show children. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path.',
+    doc: 'Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the excepted value in order to show children. The first parameter is the value of the path.',
     type: 'object',
     status: 'optional',
   },

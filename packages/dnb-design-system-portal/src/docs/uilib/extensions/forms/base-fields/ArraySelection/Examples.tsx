@@ -181,7 +181,7 @@ export const CheckboxNestingWithLogic = () => (
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) => {
+              hasValue: (value) => {
                 return Array.isArray(value)
                   ? value.includes('showInput')
                   : false
@@ -202,7 +202,7 @@ export const CheckboxNestingWithLogic = () => (
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) => {
+              hasValue: (value) => {
                 return Array.isArray(value)
                   ? value.includes('showAdditionalOption')
                   : false
@@ -219,7 +219,7 @@ export const CheckboxNestingWithLogic = () => (
               animate
               visibleWhen={{
                 path: '/mySelection',
-                withValue: (value) => {
+                hasValue: (value) => {
                   return Array.isArray(value)
                     ? value.includes('showMeMore')
                     : false
@@ -443,7 +443,7 @@ export const ButtonNestingWithLogic = () => (
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) => {
+              hasValue: (value) => {
                 return Array.isArray(value)
                   ? value.includes('showInput')
                   : false
@@ -464,7 +464,7 @@ export const ButtonNestingWithLogic = () => (
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) => {
+              hasValue: (value) => {
                 return Array.isArray(value)
                   ? value.includes('showAdditionalOption')
                   : false
@@ -481,7 +481,7 @@ export const ButtonNestingWithLogic = () => (
               animate
               visibleWhen={{
                 path: '/mySelection',
-                withValue: (value) => {
+                hasValue: (value) => {
                   return Array.isArray(value)
                     ? value.includes('showMeMore')
                     : false

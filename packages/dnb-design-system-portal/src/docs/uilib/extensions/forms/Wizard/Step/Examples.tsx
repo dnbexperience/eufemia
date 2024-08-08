@@ -32,7 +32,7 @@ export const DynamicSteps = () => {
             title="Step 3"
             activeWhen={{
               path: '/activeSteps',
-              withValue: (value: string) =>
+              hasValue: (value: string) =>
                 ['group-1', 'group-2'].includes(value),
             }}
           >

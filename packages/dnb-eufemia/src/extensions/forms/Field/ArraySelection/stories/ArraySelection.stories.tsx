@@ -24,7 +24,7 @@ export function NestingWithLogic() {
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value: string[]) => {
+              hasValue: (value: string[]) => {
                 return Boolean(value?.includes('showInput'))
               },
             }}
@@ -43,7 +43,7 @@ export function NestingWithLogic() {
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value: string[]) =>
+              hasValue: (value: string[]) =>
                 Boolean(value?.includes('showAdditionalOption')),
             }}
             compensateForGap="auto"
@@ -57,7 +57,7 @@ export function NestingWithLogic() {
               animate
               visibleWhen={{
                 path: '/mySelection',
-                withValue: (value: string[]) => {
+                hasValue: (value: string[]) => {
                   return Boolean(value?.includes('showMeMore'))
                 },
               }}

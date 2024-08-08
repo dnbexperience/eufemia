@@ -36,7 +36,7 @@ export type Props = ComponentProps &
     active?: boolean
 
     /**
-     * Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `withValue` function that returns a boolean. The first parameter is the value of the path.
+     * Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
      */
     activeWhen?: VisibleWhen
 

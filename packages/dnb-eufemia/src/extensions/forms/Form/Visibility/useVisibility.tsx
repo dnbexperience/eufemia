@@ -46,23 +46,28 @@ export default function useVisibility(props?: Partial<Props>) {
         if (visibleWhenNot) {
           visibleWhen = visibleWhenNot
         }
+
         const path =
           'itemPath' in visibleWhen
             ? makeIteratePath(visibleWhen.itemPath)
             : makePath(visibleWhen.path)
         const hasPath = pointer.has(data, path)
-        // console.log('itemPath', path, hasPath, data)
+
         if (hasPath) {
           const value = pointer.get(data, path)
 
-          const withValue = visibleWhen?.['withValue']
+          if (visibleWhen?.['withValue']) {
+            console.warn(
+              'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
+            )
+          }
+
+          const hasValue =
+            visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
           const result =
-            (withValue && withValue?.(value) === false) ||
-            (Object.prototype.hasOwnProperty.call(
-              visibleWhen,
-              'hasValue'
-            ) &&
-              visibleWhen?.['hasValue'] !== value)
+            typeof hasValue === 'function'
+              ? hasValue(value) === false
+              : hasValue !== value
 
           if (visibleWhenNot) {
             if (!result) {
