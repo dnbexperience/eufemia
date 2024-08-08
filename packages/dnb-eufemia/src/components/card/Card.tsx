@@ -30,7 +30,7 @@ export type Props = {
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size' | 'title'>
 
 function Card(props: Props) {
   const {
