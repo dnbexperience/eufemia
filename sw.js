@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "98275dda189978987500d106937bcee2"
+    "revision": "52fdb3408382b3d8a99cc5b84f12d46a"
   },
   {
     "url": "500.html",
-    "revision": "5c7980f2a2a65e1f3fe50eb5c6370d4f"
+    "revision": "467be1a535381ea6f9f22944c3feb5b1"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,10 +44,10 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "9f9d6fb0c9727522eeed709f1c0c2ab5"
+    "revision": "695be0dc7dcad06a8c55e1cfe8deab93"
   },
   {
-    "url": "commons.250e9d2ac39ef6f305c0.css"
+    "url": "commons.25ce24e97db4166064de.css"
   },
   {
     "url": "framework-c5df6d12579f33233478.js"
@@ -62,17 +62,17 @@ self.__precacheManifest = [
     "url": "eiendom.484d5a131ad41bc635f4.css"
   },
   {
-    "url": "aaa5778d-9d64d0ae462a099c24d7.js"
+    "url": "aaa5778d-241e5830796bd6f43cb5.js"
   },
   {
-    "url": "app-ff5a1e80993f21afbf62.js"
+    "url": "app-2a955c6e80c4c0c84131.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "f840091766a66beb7116b3feec769751"
+    "revision": "cc5ae4330dad08dd44be2c7e0697169d"
   },
   {
-    "url": "webpack-runtime-a45f47b425c64d307985.js"
+    "url": "webpack-runtime-2681f1585706e5f8a6a2.js"
   },
   {
     "url": "manifest.webmanifest",
@@ -186,7 +186,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-ff5a1e80993f21afbf62.js`))) {
+  if (!resources || !(await caches.match(`/app-2a955c6e80c4c0c84131.js`))) {
     return await fetch(event.request)
   }
 
