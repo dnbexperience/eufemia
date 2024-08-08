@@ -12,12 +12,14 @@ export type Props = SectionProps & {
   mode?: Mode
   enableAdditionalQuestions?: Variant
   toWizardStep?: number
+  hideStepControls?: boolean
 }
 
 export default function ChildrenWithAge({
   mode,
   enableAdditionalQuestions,
   toWizardStep,
+  hideStepControls,
   ...props
 }: Props) {
   return (
@@ -27,13 +29,17 @@ export default function ChildrenWithAge({
       ) : (
         <EditContent
           enableAdditionalQuestions={enableAdditionalQuestions}
+          hideStepControls={hideStepControls}
         />
       )}
     </Form.Section>
   )
 }
 
-function EditContent({ enableAdditionalQuestions }: Props) {
+function EditContent({
+  enableAdditionalQuestions,
+  hideStepControls,
+}: Props) {
   const tr = Form.useTranslation<Translation>()
 
   return (
@@ -85,7 +91,7 @@ function EditContent({ enableAdditionalQuestions }: Props) {
           defaultValue={1}
           minimum={1}
           maximum={20}
-          showStepControls
+          showStepControls={!hideStepControls}
         />
 
         <Iterate.Array
@@ -108,7 +114,7 @@ function EditContent({ enableAdditionalQuestions }: Props) {
               width="small"
               minimum={0}
               maximum={100}
-              showStepControls
+              showStepControls={!hideStepControls}
             />
 
             <Form.Visibility pathTrue="/hasJointResponsibility">

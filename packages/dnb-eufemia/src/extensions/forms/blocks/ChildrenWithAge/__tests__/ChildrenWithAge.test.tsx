@@ -73,6 +73,28 @@ describe('ChildrenWithAge', () => {
     ).toBeInTheDocument()
   })
 
+  it('should render with step controls by default ', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(screen.getByTitle('Reduser (0)')).toBeInTheDocument()
+    expect(screen.getByTitle('Øk (2)')).toBeInTheDocument()
+    expect(screen.getByTitle('Reduser (0)')).toBeInTheDocument()
+    expect(screen.getByTitle('Øk (1)')).toBeInTheDocument()
+  })
+
+  it('should render without step controls ', async () => {
+    render(<ChildrenWithAge hideStepControls />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(screen.queryByTitle('Reduser (0)')).not.toBeInTheDocument()
+    expect(screen.queryByTitle('Øk (2)')).not.toBeInTheDocument()
+    expect(screen.queryByTitle('Reduser (0)')).not.toBeInTheDocument()
+    expect(screen.queryByTitle('Øk (1)')).not.toBeInTheDocument()
+  })
+
   it('should replace translations', async () => {
     const myTranslations = {
       'en-GB': {

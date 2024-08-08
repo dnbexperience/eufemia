@@ -16,4 +16,9 @@ export const ChildrenWithAgeProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  hideStepControls: {
+    doc: 'Hides the step controls for the number input fields',
+    type: 'boolean',
+    status: 'optional',
+  },
 }
