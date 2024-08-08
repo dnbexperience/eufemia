@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.43.0](https://github.com/dnbexperience/eufemia/compare/v10.42.0...v10.43.0) (2024-08-08)
+
+
+### :memo: Documentation
+
+* **Typography:** improve font-weights table ([#3790](https://github.com/dnbexperience/eufemia/issues/3790)) ([a6af760](https://github.com/dnbexperience/eufemia/commit/a6af760b963a9d9c6dddf11c494d09e4b54c48d1))
+
+
+### :sparkles: Features
+
+* **forms:** add `itemPath` to Visibility for when using `visibleWhen` ([#3798](https://github.com/dnbexperience/eufemia/issues/3798)) ([2e0663e](https://github.com/dnbexperience/eufemia/commit/2e0663e3234f82faed72836800cf8962fc85f91d))
+* **forms:** add Form.Isolation to isolate data context temporarily ([#3796](https://github.com/dnbexperience/eufemia/issues/3796)) ([9ea241f](https://github.com/dnbexperience/eufemia/commit/9ea241fb8350d647d41df5e99ff437dee868c5bf))
+* **forms:** Form.Visibility – deprecate `withValue` in favor of `hasValue` ([#3799](https://github.com/dnbexperience/eufemia/issues/3799)) ([e9e51e0](https://github.com/dnbexperience/eufemia/commit/e9e51e02d52c49191d0d526b94a245b9b1dc2f43))
+
+
+### :bug: Bug Fixes
+
+* **Button:** Allow `react-router` Link as `element` ([#3801](https://github.com/dnbexperience/eufemia/issues/3801)) ([eebbf11](https://github.com/dnbexperience/eufemia/commit/eebbf11bde7cc7a023e2209afcab7d9ed15c70bb))
+* **Card:** fix `title` type error that occurs when using jsx as value ([#3795](https://github.com/dnbexperience/eufemia/issues/3795)) ([3553ed2](https://github.com/dnbexperience/eufemia/commit/3553ed257b82f4c9e159b219647a55e2b0e9e3d2))
+* **Tabs:** make sure props data key is used if defined ([#3802](https://github.com/dnbexperience/eufemia/issues/3802)) ([49f1c05](https://github.com/dnbexperience/eufemia/commit/49f1c05f69099cf88fcbad0906e0db1d580aed4e))
+
 ## [10.42.0](https://github.com/dnbexperience/eufemia/compare/v10.41.0...v10.42.0) (2024-07-25)
 
 
