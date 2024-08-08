@@ -628,6 +628,34 @@ describe('A single Tab component', () => {
 
     expect(document.querySelector('.dnb-tabs')).toBeInTheDocument()
   })
+
+  it('should use `key` data prop if defined', () => {
+    render(
+      <Tabs
+        data={[
+          {
+            title: 'First',
+            key: 'first_key',
+          },
+          {
+            title: 'Second',
+            key: 'second_key',
+          },
+          {
+            title: 'Third',
+            key: 'third_key',
+          },
+        ]}
+      />
+    )
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-tabs__button')
+    )
+
+    expect(first).toHaveAttribute('data-tab-key', 'first_key')
+    expect(second).toHaveAttribute('data-tab-key', 'second_key')
+    expect(third).toHaveAttribute('data-tab-key', 'third_key')
+  })
 })
 
 describe('Tabs scss', () => {
