@@ -38,8 +38,25 @@ export type ButtonChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
+
+// Local type for react-router-dom link with only the necessary props. Done this way to prevent react-router-dom dependency.
+type ReactRouterLink = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> & {
+  to:
+    | string
+    | {
+        pathname?: string;
+        search?: string;
+        has?: string;
+      };
+};
 export type ButtonElement =
   | DynamicElement<HTMLButtonElement | HTMLAnchorElement | AnchorProps>
+  | React.ForwardRefExoticComponent<
+      ReactRouterLink & React.RefAttributes<HTMLAnchorElement>
+    >
   | React.ReactNode;
 export type ButtonOnClick = string | ((...args: any[]) => any);
 export type ButtonProps = {
