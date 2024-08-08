@@ -436,7 +436,7 @@ export const RadioNestingWithLogic = () => (
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) =>
+              hasValue: (value) =>
                 value === 'showAdditionalOption' || value === 'showMeMore',
             }}
             compensateForGap="auto"
@@ -578,7 +578,7 @@ export const ButtonNestingWithLogic = () => (
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) =>
+              hasValue: (value) =>
                 value === 'showAdditionalOption' || value === 'showMeMore',
             }}
           >

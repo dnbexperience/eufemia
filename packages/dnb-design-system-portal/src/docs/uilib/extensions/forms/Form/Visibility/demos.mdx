@@ -12,13 +12,13 @@ import * as Examples from './Examples'
 
 ### Matching value
 
-`visibleWhen` is pretty powerful. You can use it to show/hide based on the value of a `path`. You can also give it a `withValue` function that gives you the current value, so you can assert it and return a boolean based on that.
+`visibleWhen` is pretty powerful. You can use it to show/hide based on the value of a `path`. You can also give it a `hasValue` function that gives you the current value, so you can assert it and return a boolean based on that.
 
 ```jsx
 <Form.Visibility
   visibleWhen={{
     path: '/toggleValue',
-    withValue: (value) => value === 'checked',
+    hasValue: (value) => value === 'checked',
   }}
 >
   Content

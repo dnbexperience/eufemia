@@ -341,7 +341,7 @@ export const WithVisibility = () => {
               animate
               visibleWhen={{
                 itemPath: '/firstName',
-                withValue: (value) => Boolean(value),
+                hasValue: (value) => Boolean(value),
               }}
             >
               <Field.Name.Last className="lastName" itemPath="/lastName" />

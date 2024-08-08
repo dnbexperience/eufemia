@@ -49,7 +49,7 @@ const Step1 = () => {
       active={data?.step1}
       activeWhen={{
         path: '/enabledStep',
-        withValue: (value) => {
+        hasValue: (value) => {
           return value === '1' || value === undefined
         },
       }}

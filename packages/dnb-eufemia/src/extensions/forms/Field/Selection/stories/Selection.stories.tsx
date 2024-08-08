@@ -150,7 +150,7 @@ export function NestingWithLogic() {
             animate
             visibleWhen={{
               path: '/mySelection',
-              withValue: (value) =>
+              hasValue: (value) =>
                 value === 'showAdditionalOption' || value === 'showMeMore',
             }}
             compensateForGap="auto"
