@@ -25,7 +25,7 @@ import {
   OnChange,
   EventReturnWithStateObject,
   ValueProps,
-  OnDispatch,
+  OnCommit,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Form/FieldProps'
@@ -136,9 +136,9 @@ export interface Props<Data extends JsonObject> {
     | Promise<EventReturnWithStateObject | void>
   /**
    * Used internally by the Form.Isolation component.
-   * Will emit on a nested form context dispatch (commit) – if validation has passed.
+   * Will emit on a nested form context commit – if validation has passed.
    */
-  onDispatch?: OnDispatch<Data>
+  onCommit?: OnCommit<Data>
   /**
    * Minimum time to display the submit indicator.
    */
@@ -195,7 +195,7 @@ export default function Provider<Data extends JsonObject>(
     onSubmit,
     onSubmitRequest,
     onSubmitComplete,
-    onDispatch,
+    onCommit,
     scrollTopOnSubmit,
     minimumAsyncBehaviorTime,
     asyncSubmitTimeout,
@@ -869,9 +869,9 @@ export default function Provider<Data extends JsonObject>(
 
         try {
           if (isolate) {
-            // Dispatch (commit) the internal data to the nested context data
+            // Commit (commit) the internal data to the nested context data
             handlePathChangeNested?.('/', internalDataRef.current)
-            result = await onDispatch?.(internalDataRef.current)
+            result = await onCommit?.(internalDataRef.current)
           } else {
             result = await onSubmit()
           }
@@ -930,7 +930,7 @@ export default function Provider<Data extends JsonObject>(
       hasFieldState,
       hasFieldWithAsyncValidator,
       handlePathChangeNested,
-      onDispatch,
+      onCommit,
       setFormState,
       onSubmitRequest,
       setShowAllErrors,

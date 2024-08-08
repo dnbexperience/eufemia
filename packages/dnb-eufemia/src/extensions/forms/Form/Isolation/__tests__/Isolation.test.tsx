@@ -160,7 +160,7 @@ describe('Form.Isolation', () => {
 
         <Form.Isolation>
           <Field.String path="/isolated" />
-          <Form.Isolation.DispatchButton />
+          <Form.Isolation.CommitButton />
         </Form.Isolation>
       </Form.Handler>
     )
@@ -282,13 +282,13 @@ describe('Form.Isolation', () => {
 
   it('should call onChange on data context when local data submit is called', async () => {
     const onChange = jest.fn()
-    const dispatchHandleRef = React.createRef<() => void>()
+    const commitHandleRef = React.createRef<() => void>()
 
     render(
       <Form.Handler onChange={onChange}>
         <Field.String path="/regular" />
 
-        <Form.Isolation dispatchHandleRef={dispatchHandleRef}>
+        <Form.Isolation commitHandleRef={commitHandleRef}>
           <Field.String path="/isolated" />
         </Form.Isolation>
 
@@ -305,7 +305,7 @@ describe('Form.Isolation', () => {
     expect(onChange).toHaveBeenCalledTimes(0)
 
     act(() => {
-      dispatchHandleRef.current()
+      commitHandleRef.current()
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -324,7 +324,7 @@ describe('Form.Isolation', () => {
 
   it('should support nested paths', async () => {
     const onChange = jest.fn()
-    const dispatchHandleRef = React.createRef<() => void>()
+    const commitHandleRef = React.createRef<() => void>()
 
     render(
       <Form.Handler
@@ -336,7 +336,7 @@ describe('Form.Isolation', () => {
       >
         <Field.String path="/regular" />
 
-        <Form.Isolation dispatchHandleRef={dispatchHandleRef}>
+        <Form.Isolation commitHandleRef={commitHandleRef}>
           <Field.String path="/nested/isolated" />
         </Form.Isolation>
 
@@ -356,7 +356,7 @@ describe('Form.Isolation', () => {
     expect(onChange).toHaveBeenCalledTimes(0)
 
     act(() => {
-      dispatchHandleRef.current()
+      commitHandleRef.current()
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -398,7 +398,7 @@ describe('Form.Isolation', () => {
           }}
         >
           <Field.String path="/myKey" />
-          <Form.Isolation.DispatchButton />
+          <Form.Isolation.CommitButton />
         </Form.Isolation>
       </Form.Handler>
     )
@@ -423,26 +423,26 @@ describe('Form.Isolation', () => {
     it('should have correct type and text', async () => {
       render(
         <Form.Isolation>
-          <Form.Isolation.DispatchButton />
+          <Form.Isolation.CommitButton />
         </Form.Isolation>
       )
 
       const button = document.querySelector('button')
 
-      expect(button).toHaveTextContent(nb.Isolation.dispatchButtonText)
+      expect(button).toHaveTextContent(nb.Isolation.commitButtonText)
       expect(button).toHaveAttribute('type', 'button')
     })
 
-    it('should call global onChange and local onDispatch on data context when Isolate.Button gets clicked', async () => {
+    it('should call global onChange and local onCommit on data context when Isolate.Button gets clicked', async () => {
       const onChange = jest.fn()
       const onSubmit = jest.fn()
-      const onDispatch = jest.fn()
+      const onCommit = jest.fn()
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
-          <Form.Isolation onDispatch={onDispatch}>
+          <Form.Isolation onCommit={onCommit}>
             <Field.String path="/isolated" />
-            <Form.Isolation.DispatchButton text="Complete" />
+            <Form.Isolation.CommitButton text="Complete" />
           </Form.Isolation>
         </Form.Handler>
       )
@@ -452,7 +452,7 @@ describe('Form.Isolation', () => {
 
       await userEvent.type(isolated, 'Isolated')
       expect(onChange).toHaveBeenCalledTimes(0)
-      expect(onDispatch).toHaveBeenCalledTimes(0)
+      expect(onCommit).toHaveBeenCalledTimes(0)
 
       await userEvent.click(button)
 
@@ -460,8 +460,8 @@ describe('Form.Isolation', () => {
       expect(onChange).toHaveBeenLastCalledWith({
         isolated: 'Isolated',
       })
-      expect(onDispatch).toHaveBeenCalledTimes(1)
-      expect(onDispatch).toHaveBeenLastCalledWith({
+      expect(onCommit).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenLastCalledWith({
         isolated: 'Isolated',
       })
 
@@ -472,8 +472,8 @@ describe('Form.Isolation', () => {
       expect(onChange).toHaveBeenLastCalledWith({
         isolated: 'Isolated',
       })
-      expect(onDispatch).toHaveBeenCalledTimes(2)
-      expect(onDispatch).toHaveBeenLastCalledWith({
+      expect(onCommit).toHaveBeenCalledTimes(2)
+      expect(onCommit).toHaveBeenLastCalledWith({
         isolated: 'Isolated',
       })
 
@@ -483,8 +483,8 @@ describe('Form.Isolation', () => {
       expect(onChange).toHaveBeenLastCalledWith({
         isolated: 'Isolated-updated',
       })
-      expect(onDispatch).toHaveBeenCalledTimes(3)
-      expect(onDispatch).toHaveBeenLastCalledWith({
+      expect(onCommit).toHaveBeenCalledTimes(3)
+      expect(onCommit).toHaveBeenLastCalledWith({
         isolated: 'Isolated-updated',
       })
 
@@ -494,13 +494,13 @@ describe('Form.Isolation', () => {
 
   it('should prevent onSubmit call on root context', async () => {
     const onSubmit = jest.fn()
-    const dispatchHandleRef = React.createRef<() => void>()
+    const commitHandleRef = React.createRef<() => void>()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.String path="/regular" />
 
-        <Form.Isolation dispatchHandleRef={dispatchHandleRef}>
+        <Form.Isolation commitHandleRef={commitHandleRef}>
           <Field.String path="/isolated" />
           <Form.SubmitButton />
         </Form.Isolation>
@@ -602,18 +602,18 @@ describe('Form.Isolation', () => {
     }
   })
 
-  it('should call onDispatch when submit is called', () => {
+  it('should call onCommit when submit is called', () => {
     const onSubmit = jest.fn()
-    const onDispatch = jest.fn()
+    const onCommit = jest.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.String />
 
-        <Form.Isolation onDispatch={onDispatch}>
+        <Form.Isolation onCommit={onCommit}>
           <Field.String />
           <Field.Number />
-          <Form.Isolation.DispatchButton />
+          <Form.Isolation.CommitButton />
         </Form.Isolation>
       </Form.Handler>
     )
@@ -629,7 +629,7 @@ describe('Form.Isolation', () => {
       })
       fireEvent(isolatedString, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
-      expect(onDispatch).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(1)
     }
 
     {
@@ -639,7 +639,7 @@ describe('Form.Isolation', () => {
       })
       fireEvent(isolatedNumber, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
-      expect(onDispatch).toHaveBeenCalledTimes(2)
+      expect(onCommit).toHaveBeenCalledTimes(2)
     }
 
     {
@@ -649,33 +649,33 @@ describe('Form.Isolation', () => {
       })
       fireEvent(regular, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
-      expect(onDispatch).toHaveBeenCalledTimes(2)
+      expect(onCommit).toHaveBeenCalledTimes(2)
     }
 
     const form = document.querySelector('form')
     fireEvent.submit(form)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onDispatch).toHaveBeenCalledTimes(2)
+    expect(onCommit).toHaveBeenCalledTimes(2)
 
     const button = document.querySelector('button')
     fireEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onDispatch).toHaveBeenCalledTimes(3)
+    expect(onCommit).toHaveBeenCalledTimes(3)
   })
 
-  it('should not call onDispatch when error is present', async () => {
+  it('should not call onCommit when error is present', async () => {
     const onSubmit = jest.fn()
-    const onDispatch = jest.fn()
+    const onCommit = jest.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.String required />
 
-        <Form.Isolation onDispatch={onDispatch}>
+        <Form.Isolation onCommit={onCommit}>
           <Field.String required />
-          <Form.Isolation.DispatchButton />
+          <Form.Isolation.CommitButton />
         </Form.Isolation>
       </Form.Handler>
     )
@@ -709,14 +709,14 @@ describe('Form.Isolation', () => {
     fireEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(0)
-    expect(onDispatch).toHaveBeenCalledTimes(0)
+    expect(onCommit).toHaveBeenCalledTimes(0)
 
     await userEvent.type(isolated.querySelector('input'), 'foo')
 
     fireEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(0)
-    expect(onDispatch).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenCalledTimes(1)
   })
 
   it('should show required when submit is called', () => {

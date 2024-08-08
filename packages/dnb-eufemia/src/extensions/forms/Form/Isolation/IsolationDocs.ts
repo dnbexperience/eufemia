@@ -5,7 +5,7 @@ import {
 } from '../../DataContext/Provider/ProviderDocs'
 
 export const IsolationProperties: PropertiesTableProps = {
-  dispatchHandleRef: {
+  commitHandleRef: {
     doc: 'Provide a ref to a function that can be called from any location to commit the data to the form.',
     type: 'React.Ref',
     status: 'optional',
@@ -20,8 +20,8 @@ export const IsolationProperties: PropertiesTableProps = {
 }
 
 export const IsolationEvents: PropertiesTableProps = {
-  onDispatch: {
-    doc: 'Will be called on a nested form context dispatch (commit) – if validation has passed.',
+  onCommit: {
+    doc: 'Will be called on a nested form context commit – if validation has passed.',
     type: 'function',
     status: 'optional',
   },

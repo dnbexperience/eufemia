@@ -12,12 +12,12 @@ Its a provider that lets you provide a `schema` or `data` very similar to what t
 ### Good to know
 
 - It needs to be used inside of a `Form.Handler` component.
-- All fields inside needs to validate successfully before the isolated data can be dispatched, like the `Form.Handler` does before it submits.
-- Input fields are prevented from submitting the form when pressing enter. Pressing enter on input fields will dispatch the isolated data to the `Form.Handler` context instead.
+- All fields inside needs to validate successfully before the isolated data can be commited, like the `Form.Handler` does before it submits.
+- Input fields are prevented from submitting the form when pressing enter. Pressing enter on input fields will commit the isolated data to the `Form.Handler` context instead.
 - You can provide a `schema`, `data` or `defaultData` like you would do with the `Form.Handler`.
 - You can also provide `data` or `defaultData` to the `Form.Handler`, defining the data that will be used for the isolated data.
-- `onChange` on the `Form.Handler` will be called when the isolated data gets dispatched.
-- `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onDispatch` to get the data that gets dispatched.
+- `onChange` on the `Form.Handler` will be called when the isolated data gets commited.
+- `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onCommit` to get the data that gets commited.
 
 ## Usage
 
@@ -31,7 +31,7 @@ export function MyForm(props) {
     >
       <Form.Isolation>
         <Field.String label="Isolated" path="/isolated" />
-        <Form.Isolation.DispatchButton />
+        <Form.Isolation.CommitButton />
       </Form.Isolation>
 
       <Field.String label="Regular" path="/regular" />
@@ -43,19 +43,19 @@ export function MyForm(props) {
 
 ## Commit the data to the form
 
-You can either use the `Form.Isolation.DispatchButton` or provide a custom ref handler you can use (call) when you want to dispatch the data to the `Form.Handler` context:
+You can either use the `Form.Isolation.CommitButton` or provide a custom ref handler you can use (call) when you want to commit the data to the `Form.Handler` context:
 
 ```tsx
 import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
-  const dispatchHandleRef = React.useRef<() => void>()
+  const commitHandleRef = React.useRef<() => void>()
 
   return (
     <Form.Handler>
-      <Form.Isolation dispatchHandleRef={dispatchHandleRef}>
+      <Form.Isolation commitHandleRef={commitHandleRef}>
         <Field.PhoneNumber path="/phoneNumber" />
-        <Button text="Submit" onClick={dispatchHandleRef.current} />
+        <Button text="Submit" onClick={commitHandleRef.current} />
       </Form.Isolation>
     </Form.Handler>
   )

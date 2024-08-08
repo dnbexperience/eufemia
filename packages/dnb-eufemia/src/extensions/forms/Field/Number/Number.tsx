@@ -229,7 +229,7 @@ function NumberComponent(props: Props) {
   const onKeyDownHandler = useCallback(
     ({ event }: { event: React.KeyboardEvent<HTMLInputElement> }) => {
       if (dataContext?.props?.isolate && event.key === 'Enter') {
-        handleSubmit() // So we dispatch the data to the outer context
+        handleSubmit() // So we commit the data to the outer context
         event.preventDefault?.() // And prevent the default form submit
       }
 

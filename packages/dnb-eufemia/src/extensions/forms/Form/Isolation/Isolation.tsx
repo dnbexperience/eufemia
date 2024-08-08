@@ -10,7 +10,7 @@ import { Context, Provider } from '../../DataContext'
 import { Props as ProviderProps } from '../../DataContext/Provider'
 import { Path } from '../../types'
 import { extendDeep } from '../../../../shared/component-helper'
-import IsolationDispatchButton from './IsolationDispatchButton'
+import IsolationCommitButton from './IsolationCommitButton'
 
 export type IsolationProps<Data> = Omit<
   ProviderProps<Data>,
@@ -25,14 +25,14 @@ export type IsolationProps<Data> = Omit<
   | 'globalStatusId'
 > & {
   /**
-   * A ref (function) that you can call in order to dispatch the data programmatically to the outer context.
+   * A ref (function) that you can call in order to commit the data programmatically to the outer context.
    */
-  dispatchHandleRef?: React.MutableRefObject<() => void>
+  commitHandleRef?: React.MutableRefObject<() => void>
 
   /**
-   * Will be called when the isolated context is dispatched (submitted).
+   * Will be called when the isolated context is committed.
    */
-  onDispatch?: (data: Data) => void
+  onCommit?: (data: Data) => void
 }
 
 function IsolationProvider<Data extends JsonObject>(
@@ -41,8 +41,8 @@ function IsolationProvider<Data extends JsonObject>(
   const {
     children,
     onPathChange,
-    onDispatch,
-    dispatchHandleRef,
+    onCommit,
+    commitHandleRef,
     data,
     defaultData,
   } = props
@@ -56,12 +56,12 @@ function IsolationProvider<Data extends JsonObject>(
   }, [nestedContext?.data])
 
   useEffect(() => {
-    if (dispatchHandleRef) {
-      dispatchHandleRef.current = () => {
+    if (commitHandleRef) {
+      commitHandleRef.current = () => {
         handlePathChange?.('/', getData())
       }
     }
-  }, [getData, handlePathChange, dispatchHandleRef])
+  }, [getData, handlePathChange, commitHandleRef])
 
   const onPathChangeHandler = useCallback(
     async (path: Path, value: any) => {
@@ -77,7 +77,7 @@ function IsolationProvider<Data extends JsonObject>(
     data,
     defaultData,
     onPathChange: onPathChangeHandler,
-    onDispatch,
+    onCommit,
     isolate: true,
   }
 
@@ -92,7 +92,7 @@ function IsolationProvider<Data extends JsonObject>(
   return <Provider {...providerProps}>{children}</Provider>
 }
 
-IsolationProvider.DispatchButton = IsolationDispatchButton
+IsolationProvider.CommitButton = IsolationCommitButton
 IsolationProvider._supportsSpacingProps = undefined
 
 export default IsolationProvider

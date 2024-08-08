@@ -33,7 +33,7 @@ export function Isolation() {
             //   info: 'Info message',
             // }
           }}
-          onDispatch={(data) => console.log('onDispatch:', data)}
+          onCommit={(data) => console.log('onCommit:', data)}
           // defaultData={{
           //   isolated: 'Isolated',
           // }}
@@ -47,8 +47,8 @@ export function Isolation() {
             />
 
             <Flex.Horizontal>
-              <Form.SubmitButton text="Dispatch" />
-              <Form.Isolation.DispatchButton text="Dispatch" />
+              <Form.SubmitButton text="Commit" />
+              <Form.Isolation.CommitButton text="Commit" />
             </Flex.Horizontal>
           </Flex.Stack>
         </Form.Isolation>

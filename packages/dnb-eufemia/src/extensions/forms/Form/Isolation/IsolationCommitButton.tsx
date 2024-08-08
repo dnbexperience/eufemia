@@ -7,12 +7,12 @@ import { check } from '../../../../icons'
 
 export type Props = ButtonProps
 
-function IsolationDispatchButton(props: Props) {
+function IsolationCommitButton(props: Props) {
   const translations = useTranslation().Isolation
 
   const { className, children, text, ...rest } = props
 
-  const content = text || children || translations.dispatchButtonText
+  const content = text || children || translations.commitButtonText
 
   const { handleSubmit, props: dataContextProps } =
     useContext(DataContext) || {}
@@ -37,5 +37,5 @@ function IsolationDispatchButton(props: Props) {
   )
 }
 
-IsolationDispatchButton._supportsSpacingProps = true
-export default IsolationDispatchButton
+IsolationCommitButton._supportsSpacingProps = true
+export default IsolationCommitButton

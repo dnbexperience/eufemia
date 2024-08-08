@@ -15,7 +15,7 @@ export default {
       sendText: 'Send',
     },
     Isolation: {
-      dispatchButtonText: 'Finish',
+      commitButtonText: 'Add',
     },
     Step: {
       summaryTitle: 'Summary',

@@ -2,7 +2,7 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
-export const UsingDispatchButton = () => {
+export const UsingCommitButton = () => {
   return (
     <ComponentBox>
       <Form.Handler
@@ -17,14 +17,14 @@ export const UsingDispatchButton = () => {
               <Field.String required label="Isolated" path="/isolated" />
 
               <Flex.Horizontal>
-                <Form.Isolation.DispatchButton text="Dispatch" />
+                <Form.Isolation.CommitButton text="Commit" />
               </Flex.Horizontal>
             </Flex.Stack>
           </Form.Isolation>
 
           <Field.String
             required
-            label="Dispatched from isolation"
+            label="Commited from isolation"
             path="/isolated"
           />
           <Field.String

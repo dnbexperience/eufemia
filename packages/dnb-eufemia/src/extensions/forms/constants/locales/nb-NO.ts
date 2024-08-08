@@ -15,7 +15,7 @@ export default {
       sendText: 'Send inn',
     },
     Isolation: {
-      dispatchButtonText: 'Ferdig',
+      commitButtonText: 'Legg til',
     },
     Step: {
       summaryTitle: 'Oppsummering',

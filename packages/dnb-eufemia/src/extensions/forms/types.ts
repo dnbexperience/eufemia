@@ -482,7 +482,7 @@ export type OnSubmit<Data = JsonObject> = (
   | void
   | Promise<EventReturnWithStateObject | void>
 
-export type OnDispatch<Data = JsonObject> = (
+export type OnCommit<Data = JsonObject> = (
   data: Data
 ) =>
   | EventReturnWithStateObject
