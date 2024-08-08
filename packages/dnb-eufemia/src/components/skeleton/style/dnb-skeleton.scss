@@ -9,6 +9,8 @@
 
 .dnb-skeleton {
   --skeleton-delay: 5s;
+  --skeleton-duration: 1.5s;
+  --skeleton-iteration-count: 20;
 
   img,
   video {
@@ -74,8 +76,8 @@
     background-size: 100% !important; // to take presence
 
     clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-    animation: skeletonLinearAnimation 1.5s linear infinite
-      var(--skeleton-delay);
+    animation: skeletonLinearAnimation var(--skeleton-duration) linear
+      var(--skeleton-iteration-count) var(--skeleton-delay);
   }
 
   &--code,
