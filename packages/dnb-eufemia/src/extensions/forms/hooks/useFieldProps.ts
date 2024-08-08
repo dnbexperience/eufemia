@@ -356,6 +356,8 @@ export default function useFieldProps<
     showFieldErrorFieldBlock?.(identifier, true)
     if (localErrorRef.current) {
       setHasVisibleErrorDataContext?.(identifier, true)
+    } else {
+      setHasVisibleErrorDataContext?.(identifier, false)
     }
   }, [showFieldErrorFieldBlock, identifier, setHasVisibleErrorDataContext])
 
