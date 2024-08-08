@@ -381,6 +381,17 @@ export default function useFieldProps<
           }
         }
 
+        if (/\{label/.test(String(message))) {
+          message = message.replace(
+            /\{label.*\}/,
+            String(
+              props.label ||
+                String(message).match(/\{label\|([^}]*)\}/)?.[1] ||
+                ''
+            )
+          )
+        }
+
         const messageWithValues = Object.entries(
           error.messageValues ?? {}
         ).reduce((message, [key, value]) => {

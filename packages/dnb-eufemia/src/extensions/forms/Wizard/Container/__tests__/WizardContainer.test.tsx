@@ -229,7 +229,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
     )
 
     await userEvent.type(input(), 'invalid')
@@ -259,7 +259,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
     )
 
     await userEvent.click(previousButton())
@@ -289,7 +289,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired.replace(/\{label\|(.*?)\}/, '$1')
     )
   }, 20000)
 

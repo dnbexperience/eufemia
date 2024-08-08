@@ -7,8 +7,8 @@ export default {
       errorSummaryTitle: 'Please correct the following errors',
       stateSummary: 'Summary:',
       errorSummary: 'Please correct the following errors:',
-      errorRequired: 'This field is required.',
-      errorPattern: 'The value is invalid.',
+      errorRequired: 'You must enter a {label|this field}.',
+      errorPattern: 'Invalid value. Enter a valid {label|value}.',
     },
     SubmitButton: {
       text: 'Send',
