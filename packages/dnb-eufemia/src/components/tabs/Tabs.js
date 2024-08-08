@@ -206,9 +206,9 @@ export default class Tabs extends React.PureComponent {
       ) {
         // tabs data from main prop
         const dataProps =
-          (props.tabs &&
-            Array.isArray(props.tabs) &&
-            props.tabs[reactElemIndex]) ||
+          (props.children &&
+            Array.isArray(props.children) &&
+            props.children[reactElemIndex]) ||
           {}
 
         // props from the "CustomContent" Component
