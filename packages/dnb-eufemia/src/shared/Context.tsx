@@ -54,6 +54,7 @@ import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
+import { SwitchProps } from '../components/switch/types'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -92,6 +93,7 @@ export type ContextComponents = {
   Icon?: Partial<IconProps>
   IconPrimary?: Partial<IconPrimaryProps>
 
+  Switch?: Partial<SwitchProps>
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
   Pagination?: Record<string, unknown>
