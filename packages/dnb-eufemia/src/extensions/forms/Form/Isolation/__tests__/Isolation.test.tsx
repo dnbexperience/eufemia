@@ -322,6 +322,55 @@ describe('Form.Isolation', () => {
     })
   })
 
+  it('should call onCommit event when commitHandleRef is called', async () => {
+    const onCommit = jest.fn()
+    const commitHandleRef = React.createRef<() => void>()
+
+    render(
+      <Form.Handler>
+        <Field.String path="/regular" />
+
+        <Form.Isolation
+          onCommit={onCommit}
+          commitHandleRef={commitHandleRef}
+        >
+          <Field.String path="/isolated" />
+        </Form.Isolation>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    await userEvent.type(isolated, 'Isolated')
+
+    expect(onCommit).toHaveBeenCalledTimes(0)
+
+    act(() => {
+      commitHandleRef.current()
+    })
+
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith({
+      isolated: 'Isolated',
+    })
+
+    await userEvent.type(regular, 'Regular')
+
+    act(() => {
+      commitHandleRef.current()
+    })
+
+    expect(onCommit).toHaveBeenCalledTimes(2)
+    expect(onCommit).toHaveBeenLastCalledWith({
+      regular: 'Regular',
+      isolated: 'Isolated',
+    })
+  })
+
   it('should support nested paths', async () => {
     const onChange = jest.fn()
     const commitHandleRef = React.createRef<() => void>()
@@ -494,13 +543,12 @@ describe('Form.Isolation', () => {
 
   it('should prevent onSubmit call on root context', async () => {
     const onSubmit = jest.fn()
-    const commitHandleRef = React.createRef<() => void>()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.String path="/regular" />
 
-        <Form.Isolation commitHandleRef={commitHandleRef}>
+        <Form.Isolation>
           <Field.String path="/isolated" />
           <Form.SubmitButton />
         </Form.Isolation>
@@ -717,6 +765,26 @@ describe('Form.Isolation', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(0)
     expect(onCommit).toHaveBeenCalledTimes(1)
+  })
+
+  it('should render error when commitHandleRef is called', async () => {
+    const commitHandleRef = React.createRef<() => void>()
+
+    render(
+      <Form.Handler>
+        <Form.Isolation commitHandleRef={commitHandleRef}>
+          <Field.String required />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+
+    act(() => {
+      commitHandleRef.current()
+    })
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
   })
 
   it('should show required when submit is called', () => {
