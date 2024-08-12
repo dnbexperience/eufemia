@@ -24,6 +24,13 @@ export type IsolationProps<Data> = Omit<
   commitHandleRef?: React.MutableRefObject<() => void>
 
   /**
+   * A function that will be called when the isolated context is committed.
+   * It will receive the data from the isolated context and the data from the outer context.
+   * You can use this to transform the data before it is committed.
+   */
+  transformOnCommit?: (isolatedData: Data, handlerData: Data) => Data
+
+  /**
    * Will be called when the isolated context is committed.
    */
   onCommit?: (data: Data) => void
