@@ -1,6 +1,7 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { getFieldEventsWithTypes } from '../FieldDocs'
 
-export const phoneNumberEvents: PropertiesTableProps = {
+export const phoneNumberSpecificEvents: PropertiesTableProps = {
   onCountryCodeChange: {
     doc: ' Callback on country code change.',
     type: '(value?: string) => void',
@@ -12,3 +13,8 @@ export const phoneNumberEvents: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const phoneNumberGeneralEvents = getFieldEventsWithTypes(
+  { type: 'string', optional: true },
+  { type: 'object' }
+)
