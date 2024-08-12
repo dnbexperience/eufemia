@@ -171,6 +171,10 @@ export interface Props<Data extends JsonObject> {
   /**
    * Used internally by the Form.Isolation component
    */
+  path?: Path
+  /**
+   * Used internally by the Form.Isolation component
+   */
   isolate?: boolean
   /**
    * The children of the context provider
@@ -542,7 +546,7 @@ export default function Provider<Data extends JsonObject>(
     hasUsedInitialData: false,
   })
 
-  internalDataRef.current = useMemo(() => {
+  const internalData = useMemo(() => {
     // NB: "sharedData.data" is only available on a rerender.
     // Update the shared state, if initialData is given and no shared state is available.
     // We do almost the same later in a useLayoutEffect, but we need to do it here as well, so we set the data as early as possible.
@@ -597,6 +601,11 @@ export default function Provider<Data extends JsonObject>(
 
     return internalDataRef.current
   }, [data, id, initialData, sharedData])
+
+  internalDataRef.current =
+    props.path && pointer.has(internalData, props.path)
+      ? pointer.get(internalData, props.path)
+      : internalData
 
   useLayoutEffect(() => {
     // Set the shared state, if initialData was given
@@ -874,10 +883,16 @@ export default function Provider<Data extends JsonObject>(
 
         try {
           if (isolate) {
+            const path = props.path ?? '/'
+            const data =
+              props.path && pointer.has(dataNested, path)
+                ? pointer.get(dataNested, path)
+                : dataNested
+
             // Commit the internal data to the nested context data
             handlePathChangeNested?.(
-              '/',
-              extendDeep({}, dataNested, internalDataRef.current)
+              path,
+              extendDeep({}, data, internalDataRef.current)
             )
             result = await onCommit?.(internalDataRef.current)
           } else {
@@ -940,6 +955,7 @@ export default function Provider<Data extends JsonObject>(
       isolate,
       onCommit,
       onSubmitRequest,
+      props.path,
       setFormState,
       setShowAllErrors,
       setSubmitState,

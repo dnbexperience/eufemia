@@ -5,6 +5,11 @@ import {
 } from '../../DataContext/Provider/ProviderDocs'
 
 export const IsolationProperties: PropertiesTableProps = {
+  path: {
+    doc: 'JSON Pointer to define the object key for all the generated nested field data.',
+    type: 'string',
+    status: 'optional',
+  },
   commitHandleRef: {
     doc: 'Provide a ref to a function that can be called from any location to commit the data to the form.',
     type: 'React.Ref',
