@@ -587,6 +587,11 @@ export default function Provider<Data extends JsonObject>(
       sharedData.data !== internalDataRef.current
     ) {
       cacheRef.current.shared = sharedData.data
+      if (sharedData.data.resetForm) {
+        const reset = {} as Data
+        sharedData.set(reset)
+        return reset
+      }
       return {
         ...internalDataRef.current,
         ...sharedData.data,

@@ -90,3 +90,27 @@ render(
   </Form.Handler>,
 )
 ```
+
+## Clear data from isolated fields
+
+You can clear the isolation by calling `Form.clearData` with the `id` of the form.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Form.Isolation
+        id="my-isolated-data"
+        onCommit={() => {
+          Form.clearData('my-isolated-data')
+        }}
+      >
+        <Field.String path="/isolated" />
+        <Form.Isolation.CommitButton />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
+```
