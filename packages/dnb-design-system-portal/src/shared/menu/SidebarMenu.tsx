@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import classnames from 'classnames'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
@@ -266,26 +272,29 @@ function ListItem({
   subheadings,
   hideInMenu,
   currentPathName,
-  expanded = null,
+  expanded: defaultExpanded = null,
 }: ListItemProps) {
   const currentTheme = useTheme()?.name
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
-  const refIsInsideActivePathPrev = useRef(isInsideActivePath)
-  const refCurrentPathNamePrev = useRef(currentPathName)
-  const hasSubheadings =
-    subheadings && subheadings.some((x) => x.hideInMenu !== true)
-
-  const isAccordion = expanded !== null && hasSubheadings
+  const [, isInsideActivePathPrevious] = usePrevious(isInsideActivePath)
+  const [hasCurrentPathNameChanged] = usePrevious(currentPathName)
+  const hasSubheadings = useMemo(
+    () => subheadings && subheadings.some((x) => x.hideInMenu !== true),
+    [subheadings],
+  )
+  const isAccordion = useMemo(
+    () => defaultExpanded !== null && hasSubheadings,
+    [defaultExpanded, hasSubheadings],
+  )
   const [isExpanded, setIsExpanded] = useState(
-    isAccordion ? expanded : true,
+    isAccordion ? defaultExpanded : true,
   )
 
   if (hideInMenu) {
     return null
   }
-
   const statusTitle =
     status &&
     {
@@ -299,27 +308,28 @@ function ListItem({
 
   const params = {}
 
-  if (!isExpanded) {
-    if (
-      (isInsideActivePath &&
-        (!refIsInsideActivePathPrev.current ||
-          currentPathName !== refCurrentPathNamePrev.current)) ||
-      (isActive && currentPathName !== refCurrentPathNamePrev.current)
-    ) {
-      setIsExpanded(true)
-    }
-  } else if (
-    isAccordion &&
-    !expanded &&
-    !isInsideActivePath &&
-    !isActive &&
-    currentPathName !== refCurrentPathNamePrev.current
-  ) {
-    setIsExpanded(false)
-  }
-  refIsInsideActivePathPrev.current = isInsideActivePath
-  refCurrentPathNamePrev.current = currentPathName
+  if (isAccordion) {
+    if (!isExpanded) {
+      const shouldAutoExpand =
+        (isInsideActivePath &&
+          (!isInsideActivePathPrevious || hasCurrentPathNameChanged)) ||
+        (isActive && hasCurrentPathNameChanged)
 
+      if (shouldAutoExpand) {
+        setIsExpanded(true)
+      }
+    } else {
+      const shouldAutoCollapse =
+        !defaultExpanded &&
+        !isInsideActivePath &&
+        !isActive &&
+        hasCurrentPathNameChanged
+
+      if (shouldAutoCollapse) {
+        setIsExpanded(false)
+      }
+    }
+  }
   if (isActive) {
     params['aria-current'] = true
   }
@@ -334,6 +344,12 @@ function ListItem({
           isInsideActivePath && 'is-inside-active-path',
           isInsideActiveCategory && !isInsideActivePath && 'is-inside',
           status && `status-${status}`,
+          isAccordion &&
+            `dnb-sidebar-menu--accordion dnb-sidebar-menu--${
+              isExpanded ? 'expanded' : 'collapsed'
+            }${
+              defaultExpanded ? '' : ' dnb-sidebar-menu--default-collapsed'
+            }`,
           className,
         )}
         ref={ref}
@@ -383,7 +399,6 @@ function ListItem({
 
           {isAccordion && (
             <Button
-              right="x-small"
               left="x-small"
               className="dnb-sidebar-menu__expand-button"
               variant="tertiary"
@@ -707,4 +722,15 @@ function checkIfActiveItem(
   }
 
   return false
+}
+
+function usePrevious<T>(
+  value: T,
+  hasChanged: (current: T, previous: T) => boolean = (a, b) => a !== b,
+): [boolean, T] {
+  const valueRef = useRef(value)
+  const previousValue = valueRef.current
+  valueRef.current = value
+
+  return [hasChanged(value, previousValue), previousValue]
 }
