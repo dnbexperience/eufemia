@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { Context, Provider } from '../../DataContext'
 import { Props as ProviderProps } from '../../DataContext/Provider'
@@ -47,21 +41,12 @@ function IsolationProvider<Data extends JsonObject>(
     defaultData,
   } = props
 
-  const nestedContext = useContext(Context)
-  const { handlePathChange } = nestedContext ?? {}
+  const outerContext = useContext(Context)
 
   const dataRef = useRef<Partial<Data>>({})
   const getData = useCallback(() => {
-    return extendDeep({}, nestedContext?.data, dataRef.current) as Data
-  }, [nestedContext?.data])
-
-  useEffect(() => {
-    if (commitHandleRef) {
-      commitHandleRef.current = () => {
-        handlePathChange?.('/', getData())
-      }
-    }
-  }, [getData, handlePathChange, commitHandleRef])
+    return extendDeep({}, outerContext?.data, dataRef.current) as Data
+  }, [outerContext?.data])
 
   const onPathChangeHandler = useCallback(
     async (path: Path, value: any) => {
@@ -89,7 +74,19 @@ function IsolationProvider<Data extends JsonObject>(
     return providerProps.data
   }, [data, defaultData, getData, providerProps.data])
 
-  return <Provider {...providerProps}>{children}</Provider>
+  return (
+    <Provider {...providerProps}>
+      <Context.Consumer>
+        {(dataContext) => {
+          if (commitHandleRef) {
+            commitHandleRef.current = dataContext?.handleSubmit
+          }
+
+          return children
+        }}
+      </Context.Consumer>
+    </Provider>
+  )
 }
 
 IsolationProvider.CommitButton = IsolationCommitButton
