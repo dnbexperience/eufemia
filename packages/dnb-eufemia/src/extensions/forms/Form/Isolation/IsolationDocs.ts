@@ -10,6 +10,11 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  transformOnCommit: {
+    doc: 'Transform the data before it gets committed to the form. The first parameter is the isolated data object. The second parameter is the outer context data object (Form.Handler).',
+    type: 'function',
+    status: 'optional',
+  },
   commitHandleRef: {
     doc: 'Provide a ref to a function that can be called from any location to commit the data to the form.',
     type: 'React.Ref',

@@ -1003,4 +1003,48 @@ describe('Form.Isolation', () => {
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
   })
+
+  it('should support "transformOnCommit"', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler
+        data={{ existing: 'data', persons: [{ name: 'John' }] }}
+        onChange={onChange}
+      >
+        <Form.Isolation
+          transformOnCommit={(isolatedData, handlerData) => {
+            return {
+              ...handlerData,
+              persons: [...handlerData.persons, isolatedData.newPerson],
+            }
+          }}
+        >
+          <Field.String required path="/newPerson/name" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const commitButton = document.querySelector('button')
+    const isolated = document.querySelector('input')
+
+    await userEvent.type(isolated, 'Oda')
+    await userEvent.click(commitButton)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith({
+      existing: 'data',
+      persons: [{ name: 'John' }, { name: 'Oda' }],
+    })
+
+    await userEvent.type(isolated, '{Backspace>3}Odd')
+    await userEvent.click(commitButton)
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith({
+      existing: 'data',
+      persons: [{ name: 'John' }, { name: 'Oda' }, { name: 'Odd' }],
+    })
+  })
 })

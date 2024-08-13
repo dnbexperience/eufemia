@@ -177,6 +177,10 @@ export interface Props<Data extends JsonObject> {
    */
   isolate?: boolean
   /**
+   * Transform the data before it gets committed to the form. The first parameter is the isolated data object. The second parameter is the outer context data object (Form.Handler).
+   */
+  transformOnCommit?: (data: Data, contextData: Data) => Data
+  /**
    * The children of the context provider
    */
   children: React.ReactNode
@@ -884,17 +888,25 @@ export default function Provider<Data extends JsonObject>(
         try {
           if (isolate) {
             const path = props.path ?? '/'
-            const data =
+            const outerData =
               props.path && pointer.has(dataNested, path)
                 ? pointer.get(dataNested, path)
                 : dataNested
+            let isolatedData = internalDataRef.current
+
+            if (typeof props.transformOnCommit === 'function') {
+              isolatedData = props.transformOnCommit(
+                isolatedData,
+                outerData
+              )
+            }
 
             // Commit the internal data to the nested context data
             handlePathChangeNested?.(
               path,
-              extendDeep({}, data, internalDataRef.current)
+              extendDeep({}, outerData, isolatedData)
             )
-            result = await onCommit?.(internalDataRef.current)
+            result = await onCommit?.(isolatedData)
           } else {
             result = await onSubmit()
           }
