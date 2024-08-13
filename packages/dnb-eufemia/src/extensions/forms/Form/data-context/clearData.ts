@@ -5,5 +5,5 @@ export default function clearData(id: string) {
   sharedAttachments.set({})
 
   const sharedData = createSharedState(id)
-  sharedData.update({ resetForm: true })
+  sharedData.update({ clearForm: true })
 }
