@@ -6,6 +6,8 @@ export const Empty = () => {
     <ComponentBox>
       <Field.SelectCountry
         onChange={(value, obj) => console.log('onChange', value, obj)}
+        onBlur={(value, obj) => console.log('onBlur', value, obj)}
+        onFocus={(value, obj) => console.log('onFocus', value, obj)}
       />
     </ComponentBox>
   )

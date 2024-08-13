@@ -108,6 +108,8 @@ export default function useFieldProps<
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
     transformValue = (value: Value) => value,
+    transformAdditionalArgs = (additionalArgs: AdditionalEventArgs) =>
+      additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value: Value, { emptyValue, required, error }) => {
       const res =
@@ -134,6 +136,7 @@ export default function useFieldProps<
   const transformers = useRef({
     transformIn,
     transformOut,
+    transformAdditionalArgs,
     toInput,
     fromInput,
     toEvent,
@@ -713,8 +716,14 @@ export default function useFieldProps<
           valueOverride ?? valueRef.current,
           type
         )
-        return typeof additionalArgs !== 'undefined'
-          ? [value, additionalArgs]
+        const transformedAdditionalArgs =
+          transformers.current.transformAdditionalArgs(
+            additionalArgs,
+            value
+          )
+
+        return typeof transformedAdditionalArgs !== 'undefined'
+          ? [value, transformedAdditionalArgs]
           : [value]
       }
 
@@ -1001,8 +1010,14 @@ export default function useFieldProps<
           'onChange'
         )
 
-        return typeof additionalArgs !== 'undefined'
-          ? [value, additionalArgs]
+        const transformedAdditionalArgs =
+          transformers.current.transformAdditionalArgs(
+            additionalArgs,
+            value
+          )
+
+        return typeof transformedAdditionalArgs !== 'undefined'
+          ? [value, transformedAdditionalArgs]
           : [value]
       }
 
