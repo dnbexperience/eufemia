@@ -181,6 +181,18 @@ describe('ChildrenWithAge', () => {
     )
   })
 
+  it('should display default translations when providing a non-existent locale to Provider', async () => {
+    render(
+      <Form.Handler locale="non-existent">
+        <ChildrenWithAge />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-p')).toHaveTextContent(
+      'Antall barn'
+    )
+  })
+
   it('should match snapshot', () => {
     const generateRef = React.createRef<GenerateRef>()
 
