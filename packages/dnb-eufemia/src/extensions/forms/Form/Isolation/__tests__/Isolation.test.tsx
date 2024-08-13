@@ -103,6 +103,101 @@ describe('Form.Isolation', () => {
     expect(isolated).toHaveValue('Isolated other value')
   })
 
+  it('should use initial value from root data context with a path', () => {
+    render(
+      <Form.Handler
+        data={{
+          regular: 'Regular',
+          nested: {
+            isolated: 'Isolated',
+          },
+        }}
+      >
+        <Field.String path="/regular" />
+
+        <Form.Isolation path="/nested">
+          <Field.String path="/isolated" />
+        </Form.Isolation>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(regular).toHaveValue('Regular')
+    expect(isolated).toHaveValue('Isolated')
+  })
+
+  it('should use initial value from root defaultData context with a path', () => {
+    render(
+      <Form.Handler
+        defaultData={{
+          regular: 'Regular',
+          nested: {
+            isolated: 'Isolated',
+          },
+        }}
+      >
+        <Field.String path="/regular" />
+
+        <Form.Isolation path="/nested">
+          <Field.String path="/isolated" />
+        </Form.Isolation>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(regular).toHaveValue('Regular')
+    expect(isolated).toHaveValue('Isolated')
+  })
+
+  it('should set data with given path', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        defaultData={{
+          nested: {
+            isolated: 'Isolated',
+          },
+        }}
+      >
+        <Form.Isolation path="/nested">
+          <Field.String path="/isolated" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    const button = document.querySelector('button')
+    const isolated = document.querySelector('input')
+
+    await userEvent.type(isolated, ' updated')
+
+    fireEvent.click(button)
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      {
+        nested: {
+          isolated: 'Isolated updated',
+        },
+      },
+      expect.anything()
+    )
+  })
+
   it('should not overwrite changed data', async () => {
     render(
       <Form.Handler
