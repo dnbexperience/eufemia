@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react'
 import { Field, Form } from '../../..'
 
 describe('Form.clearData', () => {
-  it('should reset a form with an id', () => {
+  it('should clear a form with an id', () => {
     render(
       <Form.Handler id="unique-id" data={{ myString: 'my string' }}>
         <Field.String path="/myString" />
