@@ -147,6 +147,79 @@ describe('Form.Isolation', () => {
     expect(isolated).toHaveValue('Isolated updated 2')
   })
 
+  it('should not overwrite existing data when defaultData is given', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler
+        defaultData={{
+          regular: 'Regular',
+          isolated: 'Isolated',
+        }}
+        onChange={onChange}
+      >
+        <Field.String path="/regular" />
+
+        <Form.Isolation defaultData={{}}>
+          <Field.String path="/isolated" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(regular).toHaveValue('Regular')
+    expect(isolated).toHaveValue('')
+
+    await userEvent.type(isolated, 'Something')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular')
+    expect(isolated).toHaveValue('Something')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith({
+      regular: 'Regular',
+      isolated: 'Something',
+    })
+
+    await userEvent.type(regular, ' updated')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular updated')
+    expect(isolated).toHaveValue('Something')
+    expect(onChange).toHaveBeenCalledTimes(10)
+    expect(onChange).toHaveBeenLastCalledWith({
+      regular: 'Regular updated',
+      isolated: 'Something',
+    })
+
+    await userEvent.type(isolated, ' 2')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular updated')
+    expect(isolated).toHaveValue('Something 2')
+    expect(onChange).toHaveBeenCalledTimes(11)
+    expect(onChange).toHaveBeenLastCalledWith({
+      regular: 'Regular updated',
+      isolated: 'Something 2',
+    })
+
+    await userEvent.type(regular, ' 2')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular updated 2')
+    expect(isolated).toHaveValue('Something 2')
+    expect(onChange).toHaveBeenCalledTimes(14)
+    expect(onChange).toHaveBeenLastCalledWith({
+      regular: 'Regular updated 2',
+      isolated: 'Something 2',
+    })
+  })
+
   it('should not change the data path from outside', async () => {
     render(
       <Form.Handler

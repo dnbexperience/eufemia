@@ -28,6 +28,7 @@ import {
   OnCommit,
 } from '../../types'
 import { debounce } from '../../../../shared/helpers'
+import { extendDeep } from '../../../../shared/component-helper'
 import FieldPropsProvider from '../../Form/FieldProps'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -221,8 +222,12 @@ export default function Provider<Data extends JsonObject>(
     )
   }
 
-  const { hasContext, handlePathChange: handlePathChangeNested } =
-    useContext(Context) || {}
+  const {
+    hasContext,
+    handlePathChange: handlePathChangeNested,
+    data: dataNested,
+  } = useContext(Context) || {}
+
   if (hasContext && !isolate) {
     throw new Error('DataContext (Form.Handler) can not be nested')
   }
@@ -869,8 +874,11 @@ export default function Provider<Data extends JsonObject>(
 
         try {
           if (isolate) {
-            // Commit (commit) the internal data to the nested context data
-            handlePathChangeNested?.('/', internalDataRef.current)
+            // Commit the internal data to the nested context data
+            handlePathChangeNested?.(
+              '/',
+              extendDeep({}, dataNested, internalDataRef.current)
+            )
             result = await onCommit?.(internalDataRef.current)
           } else {
             result = await onSubmit()
@@ -924,16 +932,17 @@ export default function Provider<Data extends JsonObject>(
       return internalDataRef.current
     },
     [
-      isolate,
-      setSubmitState,
+      dataNested,
+      handlePathChangeNested,
       hasErrors,
       hasFieldState,
       hasFieldWithAsyncValidator,
-      handlePathChangeNested,
+      isolate,
       onCommit,
-      setFormState,
       onSubmitRequest,
+      setFormState,
       setShowAllErrors,
+      setSubmitState,
     ]
   )
 
