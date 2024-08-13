@@ -22,16 +22,16 @@ import {
 
 The first argument value returned by the event handlers is a string where the country code and phone-number is separated by a space, e.g. `+47 9123457`. If the `omitCountryCodeField` is set to `true`, then only the phone-number will be used, so the argument would be `9123457` without the leading country code.
 
-The `onChange` has an extra second parameter of type `{ countryCode?: string, phoneNumber: string | undefined }`.
+PhoneNumber also has and extra second parameter of type `{ countryCode?: string, phoneNumber: string | undefined }`.
 
-The typing of the `onChange` event callback is as follows:
+The typing of the general event callbacks is as follows:
 
 ```jsx
-onChange: (
-    value: string | undefined, // e.g. "+47 12345678"
-    additionalArgs: {
-        countryCode?: string, // e.g. "+47"
-        phoneNumber: string | undefined // e.g. "12345678"
-    }
+(
+  value: string | undefined, // e.g. "+47 12345678"
+  additionalArgs: {
+      countryCode?: string, // e.g. "+47"
+      phoneNumber: string | undefined // e.g. "12345678"
+  }
 ) => void
 ```

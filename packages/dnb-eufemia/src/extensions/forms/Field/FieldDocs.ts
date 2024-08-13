@@ -28,19 +28,21 @@ export const getFieldEventsWithTypes = (
       }`
     : ''
 
+  const typeString = `(${value}${add}) => void`
+
   return {
     ...fieldEvents,
     onChange: {
       ...fieldEvents.onChange,
-      type: `(${value}${add}) => void`,
+      type: typeString,
     },
     onFocus: {
       ...fieldEvents.onFocus,
-      type: `(${value}) => void`,
+      type: typeString,
     },
     onBlur: {
       ...fieldEvents.onBlur,
-      type: `(${value}) => void`,
+      type: typeString,
     },
   }
 }
