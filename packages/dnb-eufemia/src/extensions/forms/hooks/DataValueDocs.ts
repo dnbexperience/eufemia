@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../shared/types'
 
 export const dataValueProperties: PropertiesTableProps = {
   value: {
-    doc: 'Source data value for the field. Will take precedence over the path value given in the data context..',
+    doc: 'Source data value for the field. Will take precedence over the path value given in the data context.',
     type: '{valueType}',
     status: 'optional',
   },
