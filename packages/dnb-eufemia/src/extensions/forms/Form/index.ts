@@ -13,6 +13,7 @@ export { default as FieldProps } from './FieldProps'
 export { default as useData } from './data-context/useData'
 export { default as setData } from './data-context/setData'
 export { default as getData } from './data-context/getData'
+export { default as clearData } from './data-context/clearData'
 export { default as useError } from './data-context/useError'
 export { default as useTranslation } from '../hooks/useTranslation'
 
