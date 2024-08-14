@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, Section } from '@dnb/eufemia/src'
+import { Card, Code, Flex, Section } from '@dnb/eufemia/src'
 import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
@@ -49,34 +49,67 @@ export const CommitHandleRef = () => {
           const commitHandleRef = React.useRef(null)
 
           return (
-            <Form.Handler data={{ foo: 'bar' }}>
-              <Card stack>
-                <Form.SubHeading>Ny hovedkontaktperson</Form.SubHeading>
-                <Form.Isolation commitHandleRef={commitHandleRef}>
-                  <Flex.Stack>
-                    <Form.Section path="/newPerson">
-                      <Field.Name.First required path="/title" />
-                    </Form.Section>
-                    <button
-                      onClick={() => {
-                        commitHandleRef.current()
-                      }}
-                    >
-                      Legg til
-                    </button>
-                  </Flex.Stack>
-                </Form.Isolation>
-                <Log />
-              </Card>
-            </Form.Handler>
+            <>
+              <Form.Handler
+                bottom="large"
+                data={{
+                  contactPersons: [{ title: 'Hanne', value: 'hanne' }],
+                }}
+              >
+                <Card stack>
+                  <Form.SubHeading>Ny hovedkontaktperson</Form.SubHeading>
+                  <Field.Selection
+                    variant="radio"
+                    dataPath="/contactPersons"
+                  />
+                  <Form.Isolation
+                    commitHandleRef={commitHandleRef}
+                    transformOnCommit={(isolatedData, handlerData) => {
+                      const transformedData = {
+                        ...handlerData,
+                        contactPersons: [
+                          ...handlerData.contactPersons,
+                          {
+                            title: isolatedData.newPerson.title,
+                            value:
+                              isolatedData.newPerson.title.toLowerCase(),
+                          },
+                        ],
+                      }
+
+                      return transformedData
+                    }}
+                  >
+                    <Flex.Stack>
+                      <Form.Section path="/newPerson">
+                        <Field.Name.First required path="/title" />
+                      </Form.Section>
+                    </Flex.Stack>
+                  </Form.Isolation>
+                  <Log />
+                </Card>
+              </Form.Handler>
+              <button
+                onClick={() => {
+                  commitHandleRef.current()
+                }}
+              >
+                Commit from outside of handler
+              </button>
+            </>
           )
         }
 
         const Log = () => {
           const { data } = Form.useData()
           return (
-            <Section backgroundColor="sand-yellow" innerSpace>
-              <pre>{JSON.stringify(data)}</pre>
+            <Section
+              element="output"
+              innerSpace
+              backgroundColor="sand-yellow"
+              top
+            >
+              {JSON.stringify(data || {}, null, 4)}
             </Section>
           )
         }
@@ -90,55 +123,81 @@ export const CommitHandleRef = () => {
 export const TransformCommitData = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
-      <Form.Handler
-        onChange={console.log}
-        defaultData={{
-          persons: [{ value: 'id-123', title: 'Hanne' }],
-        }}
-      >
-        <Card stack>
-          <Form.SubHeading>Legg til ny hovedkontaktperson</Form.SubHeading>
-          <Field.Selection required variant="radio" path="/person">
-            <Iterate.Array path="/persons">
-              <Field.Option itemPath="/" />
-            </Iterate.Array>
+      {() => {
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              onChange={console.log}
+              defaultData={{
+                people: [
+                  { value: 'hanne', title: 'Hanne' },
+                  { title: 'Annen person', value: 'other' },
+                ],
+                selection: 'hanne',
+              }}
+            >
+              <Card stack>
+                <Form.SubHeading>
+                  Legg til ny hovedkontaktperson
+                </Form.SubHeading>
+                <Field.Selection
+                  variant="radio"
+                  path="/selection"
+                  dataPath="/people"
+                />
 
-            <Field.Option value="other-person">Annen person</Field.Option>
-          </Field.Selection>
-          <Form.Visibility
-            visibleWhen={{
-              path: '/person',
-              hasValue: 'other-person',
-            }}
-            animate
-          >
-            <Flex.Stack>
-              <Form.SubHeading>Ny hovedkontaktperson</Form.SubHeading>
-              <Form.Isolation
-                transformCommitData={(isolatedData, outerData) => {
-                  return {
-                    ...outerData,
-                    persons: [
-                      ...outerData.persons,
-                      isolatedData.newPerson,
-                    ],
-                  }
-                }}
-              >
-                <Flex.Stack>
-                  <Form.Section path="/newPerson">
-                    <Field.Name.First required path="/title" />
-                  </Form.Section>
+                <Form.Visibility
+                  visibleWhen={{
+                    path: '/selection',
+                    hasValue: 'other',
+                  }}
+                  animate
+                >
+                  <Flex.Stack>
+                    <Form.SubHeading>
+                      Ny hovedkontaktperson
+                    </Form.SubHeading>
+                    <Form.Isolation
+                      transformOnCommit={(isolatedData, handlerData) => {
+                        const lastPersonIndex =
+                          handlerData.people.length - 1
 
-                  <Form.Isolation.CommitButton />
-                </Flex.Stack>
-              </Form.Isolation>
-            </Flex.Stack>
-          </Form.Visibility>
+                        return {
+                          ...handlerData,
+                          people: [
+                            ...handlerData.people.slice(
+                              0,
+                              lastPersonIndex,
+                            ),
+                            {
+                              ...isolatedData.newPerson,
+                              value:
+                                isolatedData.newPerson.title.toLowerCase(),
+                            },
+                            handlerData.people[lastPersonIndex],
+                          ],
+                        }
+                      }}
+                    >
+                      <Flex.Stack>
+                        <Form.Section path="/newPerson">
+                          <Field.Name.First required path="/title" />
+                        </Form.Section>
 
-          <Form.SubmitButton />
-        </Card>
-      </Form.Handler>
+                        <Form.Isolation.CommitButton />
+                      </Flex.Stack>
+                    </Form.Isolation>
+                  </Flex.Stack>
+                </Form.Visibility>
+
+                <Form.SubmitButton />
+              </Card>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }
