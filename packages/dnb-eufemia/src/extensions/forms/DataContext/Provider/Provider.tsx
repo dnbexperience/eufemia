@@ -25,8 +25,8 @@ import {
   OnChange,
   EventReturnWithStateObject,
   ValueProps,
-  OnCommit,
 } from '../../types'
+import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
 import { extendDeep } from '../../../../shared/component-helper'
 import FieldPropsProvider from '../../Form/FieldProps'
@@ -53,7 +53,8 @@ import structuredClone from '@ungap/structured-clone'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
-export interface Props<Data extends JsonObject> {
+export interface Props<Data extends JsonObject>
+  extends IsolationProviderProps<Data> {
   /**
    * Unique ID to communicate with the hook Form.useData
    */
@@ -108,7 +109,7 @@ export interface Props<Data extends JsonObject> {
    */
   onPathChange?: (
     path: Path,
-    value: any
+    value: unknown
   ) =>
     | EventReturnWithStateObject
     | void
@@ -135,11 +136,6 @@ export interface Props<Data extends JsonObject> {
     | EventReturnWithStateObject
     | void
     | Promise<EventReturnWithStateObject | void>
-  /**
-   * Used internally by the Form.Isolation component.
-   * Will emit on a nested form context commit – if validation has passed.
-   */
-  onCommit?: OnCommit<Data>
   /**
    * Minimum time to display the submit indicator.
    */
@@ -169,18 +165,6 @@ export interface Props<Data extends JsonObject> {
    */
   required?: boolean
   /**
-   * Used internally by the Form.Isolation component
-   */
-  path?: Path
-  /**
-   * Used internally by the Form.Isolation component
-   */
-  isolate?: boolean
-  /**
-   * Transform the data before it gets committed to the form. The first parameter is the isolated data object. The second parameter is the outer context data object (Form.Handler).
-   */
-  transformOnCommit?: (data: Data, contextData: Data) => Data
-  /**
    * The children of the context provider
    */
   children: React.ReactNode
@@ -205,6 +189,8 @@ export default function Provider<Data extends JsonObject>(
     onSubmitRequest,
     onSubmitComplete,
     onCommit,
+    onClear,
+    transformOnCommit,
     scrollTopOnSubmit,
     minimumAsyncBehaviorTime,
     asyncSubmitTimeout,
@@ -232,8 +218,8 @@ export default function Provider<Data extends JsonObject>(
 
   const {
     hasContext,
-    handlePathChange: handlePathChangeNested,
-    data: dataNested,
+    handlePathChange: handlePathChangeOuter,
+    data: dataOuter,
   } = useContext(Context) || {}
 
   if (hasContext && !isolate) {
@@ -294,6 +280,7 @@ export default function Provider<Data extends JsonObject>(
         return JSON.parse(sessionDataJSON)
       }
     }
+
     return data ?? defaultData
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
@@ -591,11 +578,14 @@ export default function Provider<Data extends JsonObject>(
       sharedData.data !== internalDataRef.current
     ) {
       cacheRef.current.shared = sharedData.data
-      if (sharedData.data.clearForm) {
-        const clear = {} as Data
-        sharedData.set(clear)
+
+      // Reset the shared state, if clearForm is set
+      if (sharedData.data?.clearForm) {
+        const clear = (cacheRef.current.shared = clearedData as Data)
+        setSharedData(clear)
         return clear
       }
+
       return {
         ...internalDataRef.current,
         ...sharedData.data,
@@ -609,12 +599,18 @@ export default function Provider<Data extends JsonObject>(
     }
 
     return internalDataRef.current
-  }, [data, id, initialData, sharedData])
+  }, [id, initialData, sharedData, data, setSharedData])
 
   internalDataRef.current =
     props.path && pointer.has(internalData, props.path)
       ? pointer.get(internalData, props.path)
       : internalData
+
+  useEffect(() => {
+    if (sharedData.data?.clearForm) {
+      onClear?.()
+    }
+  }, [onClear, sharedData.data?.clearForm])
 
   useLayoutEffect(() => {
     // Set the shared state, if initialData was given
@@ -837,6 +833,16 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [])
 
+  const clearData = useCallback(() => {
+    internalDataRef.current = clearedData as Data
+    if (id) {
+      setSharedData?.(internalDataRef.current)
+    } else {
+      forceUpdate()
+    }
+    onClear?.()
+  }, [id, onClear, setSharedData])
+
   /**
    * Shared logic dedicated to submit the whole form
    */
@@ -894,24 +900,22 @@ export default function Provider<Data extends JsonObject>(
           if (isolate) {
             const path = props.path ?? '/'
             const outerData =
-              props.path && pointer.has(dataNested, path)
-                ? pointer.get(dataNested, path)
-                : dataNested
+              props.path && pointer.has(dataOuter, path)
+                ? pointer.get(dataOuter, path)
+                : dataOuter
             let isolatedData = internalDataRef.current
 
-            if (typeof props.transformOnCommit === 'function') {
-              isolatedData = props.transformOnCommit(
-                isolatedData,
-                outerData
-              )
+            if (typeof transformOnCommit === 'function') {
+              isolatedData = transformOnCommit(isolatedData, outerData)
             }
 
             // Commit the internal data to the nested context data
-            handlePathChangeNested?.(
+            handlePathChangeOuter?.(
               path,
               extendDeep({}, outerData, isolatedData)
             )
-            result = await onCommit?.(isolatedData)
+
+            result = await onCommit?.(isolatedData, { clearData })
           } else {
             result = await onSubmit()
           }
@@ -964,8 +968,9 @@ export default function Provider<Data extends JsonObject>(
       return internalDataRef.current
     },
     [
-      dataNested,
-      handlePathChangeNested,
+      clearData,
+      dataOuter,
+      handlePathChangeOuter,
       hasErrors,
       hasFieldState,
       hasFieldWithAsyncValidator,
@@ -976,6 +981,7 @@ export default function Provider<Data extends JsonObject>(
       setFormState,
       setShowAllErrors,
       setSubmitState,
+      transformOnCommit,
     ]
   )
 
@@ -1004,14 +1010,7 @@ export default function Provider<Data extends JsonObject>(
 
               forceUpdate() // in order to fill "empty fields" again with their internal states
             },
-            clearData: () => {
-              internalDataRef.current = {} as Data
-              if (id) {
-                setSharedData?.({} as Data)
-              } else {
-                forceUpdate()
-              }
-            },
+            clearData,
           }
 
           let result = undefined
@@ -1042,16 +1041,15 @@ export default function Provider<Data extends JsonObject>(
       })
     },
     [
+      clearData,
       filterDataHandler,
       handleSubmitCall,
-      id,
       mutateDataHandler,
       onSubmit,
       onSubmitComplete,
       scrollToTop,
       scrollTopOnSubmit,
       sessionStorageId,
-      setSharedData,
       transformOut,
     ]
   )
@@ -1332,3 +1330,5 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
 
   return { bufferedFormState: stateRef.current }
 }
+
+export const clearedData = Object.freeze({})

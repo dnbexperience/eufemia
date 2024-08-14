@@ -16,10 +16,7 @@ export const UsingCommitButton = () => {
           >
             <Flex.Stack>
               <Field.String required label="Isolated" path="/isolated" />
-
-              <Flex.Horizontal>
-                <Form.Isolation.CommitButton text="Commit" />
-              </Flex.Horizontal>
+              <Form.Isolation.CommitButton text="Commit" />
             </Flex.Stack>
           </Form.Isolation>
 
@@ -58,10 +55,14 @@ export const CommitHandleRef = () => {
               >
                 <Card stack>
                   <Form.SubHeading>Ny hovedkontaktperson</Form.SubHeading>
-                  <Field.Selection
-                    variant="radio"
-                    dataPath="/contactPersons"
-                  />
+
+                  <HeightAnimation>
+                    <Field.Selection
+                      variant="radio"
+                      dataPath="/contactPersons"
+                    />
+                  </HeightAnimation>
+
                   <Form.Isolation
                     commitHandleRef={commitHandleRef}
                     transformOnCommit={(isolatedData, handlerData) => {
@@ -176,9 +177,8 @@ export const TransformCommitData = () => {
                           ],
                         }
                       }}
-                      id="my-isolated-area"
-                      onCommit={() => {
-                        Form.clearData('my-isolated-area')
+                      onCommit={(data, { clearData }) => {
+                        clearData()
                       }}
                     >
                       <Flex.Stack>
@@ -198,6 +198,48 @@ export const TransformCommitData = () => {
 
         return <MyForm />
       }}
+    </ComponentBox>
+  )
+}
+
+export const InsideSection = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        defaultData={{
+          mySection: {
+            isolated: 'Isolated value defined outside',
+            regular: 'Outer regular value',
+          },
+        }}
+        onChange={(data) => {
+          console.log('Outer onChange:', data)
+        }}
+      >
+        <Form.Section path="/mySection">
+          <Flex.Stack>
+            <Form.Isolation
+              defaultData={{
+                isolated: 'The real initial "isolated" value',
+              }}
+              onPathChange={(path, value) => {
+                console.log('Isolated onChange:', path, value)
+              }}
+              onCommit={(data) => console.log('onCommit:', data)}
+            >
+              <Flex.Stack>
+                <Field.String label="Isolated" path="/isolated" required />
+                <Form.Isolation.CommitButton />
+              </Flex.Stack>
+            </Form.Isolation>
+
+            <Field.String label="Synced" path="/isolated" />
+            <Field.String label="Regular" path="/regular" required />
+
+            <Form.SubmitButton />
+          </Flex.Stack>
+        </Form.Section>
+      </Form.Handler>
     </ComponentBox>
   )
 }

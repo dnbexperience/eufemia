@@ -119,4 +119,9 @@ export const ProviderEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onClear: {
+    doc: 'Will be called when the form is cleared via `Form.clearData` or via the `onSubmit` event (or `onCommit`) argument `{ clearData }`.',
+    type: 'function',
+    status: 'optional',
+  },
 }

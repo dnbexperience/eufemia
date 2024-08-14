@@ -17,6 +17,22 @@ describe('Form.clearData', () => {
     expect(document.querySelector('input')).toHaveValue('')
   })
 
+  it('should call onClear', () => {
+    const onClear = jest.fn()
+
+    render(
+      <Form.Handler id="unique-id" onClear={onClear}>
+        <Field.String path="/myString" />
+      </Form.Handler>
+    )
+
+    expect(onClear).not.toHaveBeenCalled()
+
+    act(() => Form.clearData('unique-id'))
+
+    expect(onClear).toHaveBeenCalledTimes(1)
+  })
+
   describe('can be used in beforeEach', () => {
     beforeEach(() => {
       Form.clearData('unique-id')
