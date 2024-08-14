@@ -59,6 +59,9 @@ export type Props = FieldHelpProps &
     showStepControls?: boolean
   }
 
+const defaultMinimum = Number.MIN_SAFE_INTEGER
+const defaultMaximum = Number.MAX_SAFE_INTEGER
+
 function NumberComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
@@ -92,8 +95,8 @@ function NumberComponent(props: Props) {
     () =>
       props.schema ?? {
         type: 'number',
-        minimum: props.minimum,
-        maximum: props.maximum,
+        minimum: props.minimum ?? defaultMinimum,
+        maximum: props.maximum ?? defaultMaximum,
         exclusiveMinimum: props.exclusiveMinimum,
         exclusiveMaximum: props.exclusiveMaximum,
         multipleOf: props.multipleOf,
@@ -122,19 +125,6 @@ function NumberComponent(props: Props) {
       return numberValue
     },
     [props.emptyValue]
-  )
-  const transformValue = useCallback(
-    (value: number, currentValue: number) => {
-      if (
-        value > Number.MAX_SAFE_INTEGER ||
-        value < Number.MIN_SAFE_INTEGER
-      ) {
-        return currentValue
-      }
-
-      return value
-    },
-    []
   )
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
@@ -190,7 +180,6 @@ function NumberComponent(props: Props) {
     schema,
     toInput,
     fromInput,
-    transformValue,
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'medium'),
@@ -208,8 +197,8 @@ function NumberComponent(props: Props) {
     labelDescription,
     value,
     startWith = null,
-    minimum = Number.MIN_SAFE_INTEGER,
-    maximum = Number.MAX_SAFE_INTEGER,
+    minimum = defaultMinimum,
+    maximum = defaultMaximum,
     disabled,
     htmlAttributes,
     info,
