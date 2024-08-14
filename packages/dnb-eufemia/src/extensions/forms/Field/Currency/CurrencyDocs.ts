@@ -3,7 +3,7 @@ import { numberProperties } from '../Number/NumberDocs'
 
 export const currencyProperties: PropertiesTableProps = {
   currency: {
-    doc: 'Currency to show the value in. I.e `NOK` or `USD`.',
+    doc: 'Defines what format to show the currency value in I.e `NOK` or `USD`.',
     type: 'string',
     status: 'optional',
   },
