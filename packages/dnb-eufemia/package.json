@@ -48,7 +48,7 @@
     "lint": "eslint --quiet ./src ./scripts",
     "lint:ci": "yarn lint:js && yarn lint:styles && yarn prettier:check && yarn prettier:package",
     "lint:ci-needs-to-be-used-when-lint:lockfile-works": "yarn lint:lockfile && yarn lint:js && yarn lint:styles",
-    "lint:js": "yarn lint --fix",
+    "lint:js": "yarn lint",
     "lint:js:staged": "eslint --quiet --fix",
     "lint:lockfile": "yarn lockfile-lint --path ../../yarn.lock --type yarn --validate-https --allowed-hosts yarn github.com codeload.github.com",
     "lint:styles": "stylelint './src/**/*{.stories.*,.scss}'",

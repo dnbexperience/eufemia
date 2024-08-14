@@ -116,7 +116,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       />
     )
   } else if (!hasAccordionContent) {
-    addContent(<Td key="empty-td"></Td>)
+    addContent(<Td key="empty-td" />)
   }
 
   const countTds = hasAccordionContent

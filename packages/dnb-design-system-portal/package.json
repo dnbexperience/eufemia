@@ -14,7 +14,7 @@
     "clean": "gatsby clean",
     "lint": "eslint --quiet .",
     "lint:ci": "NODE_ENV=test yarn lint:js && yarn lint:styles && yarn prettier:check && yarn prettier:package",
-    "lint:js": "yarn lint --fix",
+    "lint:js": "yarn lint",
     "lint:js:staged": "eslint --quiet --fix",
     "lint:styles": "stylelint './src/**/*.scss'",
     "lint:styles:staged": "stylelint './src/**/*.scss'",
