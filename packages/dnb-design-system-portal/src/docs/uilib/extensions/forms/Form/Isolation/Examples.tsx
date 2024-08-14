@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Code, Flex, Section } from '@dnb/eufemia/src'
+import { Card, Flex, HeightAnimation, Section } from '@dnb/eufemia/src'
 import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
@@ -65,14 +65,15 @@ export const CommitHandleRef = () => {
                   <Form.Isolation
                     commitHandleRef={commitHandleRef}
                     transformOnCommit={(isolatedData, handlerData) => {
+                      const value =
+                        isolatedData.newPerson.title.toLowerCase()
                       const transformedData = {
                         ...handlerData,
                         contactPersons: [
                           ...handlerData.contactPersons,
                           {
-                            title: isolatedData.newPerson.title,
-                            value:
-                              isolatedData.newPerson.title.toLowerCase(),
+                            ...isolatedData.newPerson,
+                            value,
                           },
                         ],
                       }
@@ -89,6 +90,7 @@ export const CommitHandleRef = () => {
                   <Log />
                 </Card>
               </Form.Handler>
+
               <button
                 onClick={() => {
                   commitHandleRef.current()
@@ -129,26 +131,29 @@ export const TransformCommitData = () => {
             <Form.Handler
               onChange={console.log}
               defaultData={{
-                people: [
-                  { value: 'hanne', title: 'Hanne' },
+                contactPersons: [
+                  { title: 'Hanne', value: 'hanne' },
                   { title: 'Annen person', value: 'other' },
                 ],
-                selection: 'hanne',
+                mySelection: 'hanne',
               }}
             >
               <Card stack>
                 <Form.SubHeading>
                   Legg til ny hovedkontaktperson
                 </Form.SubHeading>
-                <Field.Selection
-                  variant="radio"
-                  path="/selection"
-                  dataPath="/people"
-                />
+
+                <HeightAnimation>
+                  <Field.Selection
+                    variant="radio"
+                    path="/mySelection"
+                    dataPath="/contactPersons"
+                  />
+                </HeightAnimation>
 
                 <Form.Visibility
                   visibleWhen={{
-                    path: '/selection',
+                    path: '/mySelection',
                     hasValue: 'other',
                   }}
                   animate
@@ -157,15 +162,16 @@ export const TransformCommitData = () => {
                     <Form.SubHeading>
                       Ny hovedkontaktperson
                     </Form.SubHeading>
+
                     <Form.Isolation
                       transformOnCommit={(isolatedData, handlerData) => {
                         const lastPersonIndex =
-                          handlerData.people.length - 1
+                          handlerData.contactPersons.length - 1
 
                         return {
                           ...handlerData,
-                          people: [
-                            ...handlerData.people.slice(
+                          contactPersons: [
+                            ...handlerData.contactPersons.slice(
                               0,
                               lastPersonIndex,
                             ),
@@ -174,9 +180,13 @@ export const TransformCommitData = () => {
                               value:
                                 isolatedData.newPerson.title.toLowerCase(),
                             },
-                            handlerData.people[lastPersonIndex],
+                            handlerData.contactPersons[lastPersonIndex],
                           ],
                         }
+                      }}
+                      id="my-isolated-area"
+                      onCommit={() => {
+                        Form.clearData('my-isolated-area')
                       }}
                     >
                       <Flex.Stack>
@@ -189,8 +199,6 @@ export const TransformCommitData = () => {
                     </Form.Isolation>
                   </Flex.Stack>
                 </Form.Visibility>
-
-                <Form.SubmitButton />
               </Card>
             </Form.Handler>
           )
