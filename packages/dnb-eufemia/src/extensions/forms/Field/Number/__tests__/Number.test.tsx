@@ -4,6 +4,9 @@ import { screen, render, fireEvent, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, FieldBlock, Form, JSONSchema } from '../../..'
 import { Provider } from '../../../../../shared'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Field.Number', () => {
   describe('props', () => {
@@ -44,7 +47,7 @@ describe('Field.Number', () => {
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
     })
 
-    it('corrects minimum number', () => {
+    it('shows error when minimum exceeded', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
@@ -59,10 +62,18 @@ describe('Field.Number', () => {
 
       fireEvent.blur(input)
 
-      expect(input).toHaveValue('-9 007 199 254 740 991')
+      expect(input).toHaveValue('-9 007 199 254 740 992')
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMinimum.replace(
+          '{minimum}',
+          '-9007199254740991'
+        )
+      )
     })
 
-    it('corrects maximum number', () => {
+    it('shows error when maximum exceeded', () => {
       render(<Field.Number value={Number.MAX_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
@@ -77,7 +88,15 @@ describe('Field.Number', () => {
 
       fireEvent.blur(input)
 
-      expect(input).toHaveValue('9 007 199 254 740 991')
+      expect(input).toHaveValue('9 007 199 254 740 992')
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          '9007199254740991'
+        )
+      )
     })
 
     it('should support disabled prop', () => {

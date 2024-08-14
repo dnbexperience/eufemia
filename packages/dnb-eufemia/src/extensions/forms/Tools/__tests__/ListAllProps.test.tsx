@@ -275,8 +275,8 @@ describe('Tools.ListAllProps', () => {
             "schema": {
               "exclusiveMaximum": undefined,
               "exclusiveMinimum": undefined,
-              "maximum": undefined,
-              "minimum": undefined,
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
               "multipleOf": undefined,
               "type": "number",
             },
@@ -649,8 +649,8 @@ describe('Tools.ListAllProps', () => {
               "schema": {
                 "exclusiveMaximum": undefined,
                 "exclusiveMinimum": undefined,
-                "maximum": undefined,
-                "minimum": undefined,
+                "maximum": 9007199254740991,
+                "minimum": -9007199254740991,
                 "multipleOf": undefined,
                 "type": "number",
               },
@@ -675,8 +675,8 @@ describe('Tools.ListAllProps', () => {
               "schema": {
                 "exclusiveMaximum": undefined,
                 "exclusiveMinimum": undefined,
-                "maximum": undefined,
-                "minimum": undefined,
+                "maximum": 9007199254740991,
+                "minimum": -9007199254740991,
                 "multipleOf": undefined,
                 "type": "number",
               },

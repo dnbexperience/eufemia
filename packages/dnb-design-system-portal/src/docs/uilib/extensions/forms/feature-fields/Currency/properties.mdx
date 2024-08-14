@@ -5,17 +5,13 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { numberProperties } from '@dnb/eufemia/src/extensions/forms/Field/Number/NumberDocs'
 
 ## Properties
 
 ### Field-specific props
 
-| Property                                              | Type     | Description                                                                     |
-| ----------------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| `currency`                                            | `string` | _(optional)_ Currency to show the value in. I.e `NOK` or `USD`.                 |
-| `currencyDisplay`                                     | `string` | _(optional)_ Can be `code`, `symbol`, `narrowSymbol` or `name` (kroner).        |
-| `help`                                                | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
-| [Number](/uilib/extensions/forms/base-fields/Number/) | Various  | _(optional)_ All Number properties.                                             |
+<PropertiesTable props={numberProperties} valueType="number" />
 
 ### General props
 
