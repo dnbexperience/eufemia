@@ -233,6 +233,91 @@ describe('variants', () => {
       expect(radioButtons[1]).not.toBeChecked()
     })
 
+    it('should support selected value from a path', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="radio"
+            path="/mySelection"
+            dataPath="/myList"
+            onChange={onChange}
+          />
+        </Form.Handler>
+      )
+
+      const options = Array.from(document.querySelectorAll('.dnb-radio'))
+      expect(options).toHaveLength(2)
+
+      const [option1, option2] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1.querySelector('input')).toBeChecked()
+      expect(option2.querySelector('input')).not.toBeChecked()
+
+      await userEvent.click(option2.querySelector('input'))
+
+      expect(option1.querySelector('input')).not.toBeChecked()
+      expect(option2.querySelector('input')).toBeChecked()
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith('bar')
+    })
+
+    it('should support itemPath', () => {
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              { value: 'foo', title: 'Foo!' },
+              { value: 'bar', title: 'Baar!' },
+            ],
+            mySelection: 'bar',
+          }}
+        >
+          <Field.Selection
+            variant="radio"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+        </Form.Handler>
+      )
+
+      const options = Array.from(document.querySelectorAll('.dnb-radio'))
+      expect(options).toHaveLength(2)
+
+      const [option1, option2] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1.querySelector('input')).toHaveAttribute(
+        'aria-checked',
+        'false'
+      )
+      expect(option2.querySelector('input')).toHaveAttribute(
+        'aria-checked',
+        'true'
+      )
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(
@@ -442,6 +527,91 @@ describe('variants', () => {
       expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
     })
 
+    it('should support selected value from a path', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="button"
+            path="/mySelection"
+            dataPath="/myList"
+            onChange={onChange}
+          />
+        </Form.Handler>
+      )
+
+      const options = Array.from(document.querySelectorAll('button'))
+      expect(options).toHaveLength(2)
+
+      const [option1, option2] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-pressed', 'true')
+      expect(option2).toHaveAttribute('aria-pressed', 'false')
+
+      await userEvent.click(option2)
+
+      {
+        const [option1, option2] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(option1).toHaveAttribute('aria-pressed', 'false')
+        expect(option2).toHaveAttribute('aria-pressed', 'true')
+      }
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith('bar')
+    })
+
+    it('should support itemPath', () => {
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection variant="button" dataPath="/myList" />
+        </Form.Handler>
+      )
+
+      const options = Array.from(document.querySelectorAll('button'))
+      expect(options).toHaveLength(2)
+
+      const [option1, option2] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-pressed', 'false')
+      expect(option2).toHaveAttribute('aria-pressed', 'false')
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(
@@ -635,6 +805,121 @@ describe('variants', () => {
       expect(document.querySelector('.dnb-dropdown')).toHaveClass(
         'dnb-dropdown--vertical'
       )
+    })
+
+    it('should support data prop', async () => {
+      render(
+        <Field.Selection
+          variant="dropdown"
+          value="foo"
+          data={[
+            {
+              title: 'Foo!',
+              value: 'foo',
+            },
+            {
+              title: 'Baar!',
+              value: 'bar',
+            },
+          ]}
+        />
+      )
+
+      const title = document.querySelector('.dnb-dropdown')
+      expect(title).toHaveTextContent('Foo!')
+
+      open()
+
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
+      const [option1, option2] = options
+
+      expect(options).toHaveLength(2)
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-selected', 'true')
+      expect(option2).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('should support selected value from a path', async () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="dropdown"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+        </Form.Handler>
+      )
+
+      open()
+
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
+      const [option1, option2] = options
+
+      expect(options).toHaveLength(2)
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-selected', 'true')
+      expect(option2).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('should support itemPath', () => {
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection variant="dropdown" dataPath="/myList" />
+        </Form.Handler>
+      )
+
+      open()
+
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
+
+      expect(options).toHaveLength(2)
+
+      const [option1, option2] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-selected', 'false')
+      expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
     describe('ARIA', () => {
@@ -836,6 +1121,121 @@ describe('variants', () => {
       )
     })
 
+    it('should support data prop', async () => {
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          value="foo"
+          data={[
+            {
+              title: 'Foo!',
+              value: 'foo',
+            },
+            {
+              title: 'Baar!',
+              value: 'bar',
+            },
+          ]}
+        />
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('Foo!')
+
+      open()
+
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
+      const [option1, option2] = options
+
+      expect(options).toHaveLength(2)
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-selected', 'true')
+      expect(option2).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('should support selected value from a path', async () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="autocomplete"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+        </Form.Handler>
+      )
+
+      open()
+
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
+      const [option1, option2] = options
+
+      expect(options).toHaveLength(2)
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-selected', 'true')
+      expect(option2).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('should support itemPath', () => {
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Baar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection variant="autocomplete" dataPath="/myList" />
+        </Form.Handler>
+      )
+
+      open()
+
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
+
+      expect(options).toHaveLength(2)
+
+      const [option1, option2] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Baar!')
+
+      expect(option1).toHaveAttribute('aria-selected', 'false')
+      expect(option2).toHaveAttribute('aria-selected', 'false')
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(
@@ -1006,62 +1406,62 @@ describe('validation and error handling', () => {
       })
     })
   })
-})
 
-it('shows error border', () => {
-  const { rerender } = render(
-    <Field.Selection error={new Error('This is what went wrong')}>
-      <Field.Option value="foo">Fooo</Field.Option>
-      <Field.Option value="bar">Baar</Field.Option>
-    </Field.Selection>
-  )
-  const dropdown = document.querySelector('.dnb-dropdown')
-  expect(dropdown.className).toContain('dnb-dropdown__status--error')
+  it('shows error border', () => {
+    const { rerender } = render(
+      <Field.Selection error={new Error('This is what went wrong')}>
+        <Field.Option value="foo">Fooo</Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+    const dropdown = document.querySelector('.dnb-dropdown')
+    expect(dropdown.className).toContain('dnb-dropdown__status--error')
 
-  rerender(
-    <Field.Selection
-      variant="radio"
-      error={new Error('This is what went wrong')}
-    >
-      <Field.Option value="foo">Fooo</Field.Option>
-      <Field.Option value="bar">Baar</Field.Option>
-    </Field.Selection>
-  )
-
-  const radio = document.querySelector('.dnb-radio')
-  expect(radio.className).toContain('dnb-radio__status--error')
-
-  rerender(
-    <Field.Selection
-      variant="button"
-      error={new Error('This is what went wrong')}
-    >
-      <Field.Option value="foo">Fooo</Field.Option>
-      <Field.Option value="bar">Baar</Field.Option>
-    </Field.Selection>
-  )
-
-  const button = document.querySelector('.dnb-toggle-button')
-  expect(button.className).toContain('dnb-toggle-button__status--error')
-})
-
-it('shows error in individual button item', () => {
-  render(
-    <Field.Selection variant="button">
-      <Field.Option
-        value="foo"
+    rerender(
+      <Field.Selection
+        variant="radio"
         error={new Error('This is what went wrong')}
       >
-        Fooo
-      </Field.Option>
-      <Field.Option value="bar">Baar</Field.Option>
-    </Field.Selection>
-  )
-  const [first, second] = Array.from(
-    document.querySelectorAll('.dnb-toggle-button')
-  )
-  expect(first.className).toContain('dnb-toggle-button__status--error')
-  expect(second.className).not.toContain(
-    'dnb-toggle-button__status--error'
-  )
+        <Field.Option value="foo">Fooo</Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+
+    const radio = document.querySelector('.dnb-radio')
+    expect(radio.className).toContain('dnb-radio__status--error')
+
+    rerender(
+      <Field.Selection
+        variant="button"
+        error={new Error('This is what went wrong')}
+      >
+        <Field.Option value="foo">Fooo</Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+
+    const button = document.querySelector('.dnb-toggle-button')
+    expect(button.className).toContain('dnb-toggle-button__status--error')
+  })
+
+  it('shows error in individual button item', () => {
+    render(
+      <Field.Selection variant="button">
+        <Field.Option
+          value="foo"
+          error={new Error('This is what went wrong')}
+        >
+          Fooo
+        </Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-toggle-button')
+    )
+    expect(first.className).toContain('dnb-toggle-button__status--error')
+    expect(second.className).not.toContain(
+      'dnb-toggle-button__status--error'
+    )
+  })
 })

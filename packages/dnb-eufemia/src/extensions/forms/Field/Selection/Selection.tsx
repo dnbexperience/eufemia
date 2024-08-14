@@ -8,7 +8,7 @@ import {
   HelpButton,
   Autocomplete,
 } from '../../../../components'
-import OptionField, { makeOptions } from '../Option'
+import OptionField, { convertDataToOptions, makeOptions } from '../Option'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -18,6 +18,7 @@ import {
   FieldProps,
   FieldHelpProps,
   FieldBlockWidth,
+  Path,
 } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
@@ -27,6 +28,7 @@ import {
   convertCamelCaseProps,
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
+import useDataValue from '../../hooks/useDataValue'
 
 type IOption = {
   title: string | React.ReactNode
@@ -46,15 +48,49 @@ export type Data = AutocompleteAllProps['data'] | DropdownAllProps['data']
 
 export type Props = FieldHelpProps &
   FieldProps<IOption['value']> & {
+    /**
+     * Defines the variant of the component.
+     * Default: dropdown
+     */
     variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
-    optionsLayout?: 'horizontal' | 'vertical'
-    children?: React.ReactNode
 
-    // - Autocomplete and Dropdown specific props
-    autocompleteProps?: ToCamelCase<AutocompleteAllProps>
-    dropdownProps?: ToCamelCase<DropdownAllProps>
-    data?: Data
+    /**
+     * The width of the component.
+     * Default: large
+     */
     width?: FieldBlockWidth
+
+    /**
+     * Defines the layout of the options for radio and button variants.
+     */
+    optionsLayout?: 'horizontal' | 'vertical'
+
+    /**
+     * The path to the context data (Form.Handler).
+     * The object needs to have a `value` and a `title` property.
+     */
+    dataPath?: Path
+
+    /**
+     * Data to be used for the component. The object needs to have a `value` and a `title` property.
+     * Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.
+     */
+    data?: Array<{ value: string; title: React.ReactNode }>
+
+    /**
+     * Autocomplete specific props
+     */
+    autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+
+    /**
+     * Dropdown specific props
+     */
+    dropdownProps?: ToCamelCase<DropdownAllProps>
+
+    /**
+     * The content of the component.
+     */
+    children?: React.ReactNode
   }
 
 function Selection(props: Props) {
@@ -81,13 +117,20 @@ function Selection(props: Props) {
     htmlAttributes,
     setHasFocus,
     handleChange,
+    data,
+    dataPath,
     children,
 
     // - Autocomplete and Dropdown specific props
-    data,
     autocompleteProps,
     dropdownProps,
   } = useFieldProps(props)
+
+  const { getValueByPath } = useDataValue()
+  let dataList = data
+  if (dataPath) {
+    dataList = getValueByPath(dataPath)
+  }
 
   const handleDropdownChange = useCallback(
     ({ data }) => {
@@ -151,6 +194,22 @@ function Selection(props: Props) {
         variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
 
+      const content = getRadioOrToggleOptions({
+        id,
+        value,
+        variant,
+        info,
+        warning,
+        htmlAttributes,
+        children:
+          dataList?.length > 0
+            ? dataList.map(({ value, title }) => (
+                <OptionField key={value} value={value} title={title} />
+              ))
+            : children,
+        hasError,
+      })
+
       return (
         <FieldBlock {...fieldBlockProps}>
           <Component.Group
@@ -162,16 +221,7 @@ function Selection(props: Props) {
             on_change={onChangeHandler}
             value={String(value ?? '')}
           >
-            {getRadioOrToggleOptions({
-              id,
-              value,
-              variant,
-              info,
-              warning,
-              htmlAttributes,
-              children,
-              hasError,
-            })}
+            {content}
           </Component.Group>
         </FieldBlock>
       )
@@ -180,6 +230,9 @@ function Selection(props: Props) {
     case 'autocomplete':
     case 'dropdown': {
       const status = getStatus(error, info, warning)
+      const data = dataList
+        ? convertDataToOptions<Data>(dataList)
+        : makeOptions<Data>(children)
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
         list_class: 'dnb-forms-field-selection__list',
@@ -189,7 +242,7 @@ function Selection(props: Props) {
         status: (hasError || status) && 'error',
         disabled,
         ...htmlAttributes,
-        data: data ?? makeOptions<Data>(children),
+        data,
         suffix: help ? (
           <HelpButton title={help.title}>{help.content}</HelpButton>
         ) : undefined,

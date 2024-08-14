@@ -259,6 +259,40 @@ export const DropdownValidationRequired = () => (
   </ComponentBox>
 )
 
+export const DropdownWithData = () => (
+  <ComponentBox>
+    <Field.Selection
+      label="Label text"
+      data={[
+        { title: 'One', value: 'one' },
+        { title: 'Two', value: 'two' },
+      ]}
+    />
+  </ComponentBox>
+)
+
+export const DropdownWithAPath = () => (
+  <ComponentBox>
+    <Form.Handler
+      data={{
+        example: {
+          list: [
+            { title: 'One', value: 'one' },
+            { title: 'Two', value: 'two' },
+          ],
+        },
+        selection: 'two',
+      }}
+    >
+      <Field.Selection
+        label="Label text"
+        path="/selection"
+        dataPath="/example/list"
+      />
+    </Form.Handler>
+  </ComponentBox>
+)
+
 // - Autocomplete
 
 export const AutocompleteLabel = () => (
@@ -408,6 +442,42 @@ export const RadioError = () => (
   </ComponentBox>
 )
 
+export const RadioWithData = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      data={[
+        { title: 'One', value: 'one' },
+        { title: 'Two', value: 'two' },
+      ]}
+    />
+  </ComponentBox>
+)
+
+export const RadioWithAPath = () => (
+  <ComponentBox>
+    <Form.Handler
+      data={{
+        example: {
+          list: [
+            { title: 'One', value: 'one' },
+            { title: 'Two', value: 'two' },
+          ],
+        },
+        selection: 'two',
+      }}
+    >
+      <Field.Selection
+        variant="radio"
+        label="Label text"
+        path="/selection"
+        dataPath="/example/list"
+      />
+    </Form.Handler>
+  </ComponentBox>
+)
+
 export const RadioNestingWithLogic = () => (
   <ComponentBox data-visual-test="selection-radio-nesting-logic">
     <Form.Handler>
@@ -546,6 +616,42 @@ export const ButtonError = () => (
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
+  </ComponentBox>
+)
+
+export const ButtonWithData = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="button"
+      label="Label text"
+      data={[
+        { title: 'One', value: 'one' },
+        { title: 'Two', value: 'two' },
+      ]}
+    />
+  </ComponentBox>
+)
+
+export const ButtonWithAPath = () => (
+  <ComponentBox>
+    <Form.Handler
+      data={{
+        example: {
+          list: [
+            { title: 'One', value: 'one' },
+            { title: 'Two', value: 'two' },
+          ],
+        },
+        selection: 'two',
+      }}
+    >
+      <Field.Selection
+        variant="button"
+        label="Label text"
+        path="/selection"
+        dataPath="/example/list"
+      />
+    </Form.Handler>
   </ComponentBox>
 )
 

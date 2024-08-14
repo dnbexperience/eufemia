@@ -16,21 +16,33 @@ export default function useDataValue<Value>({
   const dataContextRef = useRef<ContextState>()
   dataContextRef.current = useContext<ContextState>(DataContext)
 
-  const { makePath } = usePath()
+  const { makePath, makeIteratePath } = usePath()
+
+  const get = useCallback((selector: Path) => {
+    if (selector === '/') {
+      return dataContextRef.current?.data
+    }
+    return pointer.has(dataContextRef.current?.data, selector)
+      ? pointer.get(dataContextRef.current.data, selector)
+      : undefined
+  }, [])
 
   const getValueByPath = useCallback(
     (path: Path) => {
       if (isPath(path)) {
-        const selector = makePath(path)
-        if (selector === '/') {
-          return dataContextRef.current?.data
-        }
-        return pointer.has(dataContextRef.current?.data, selector)
-          ? pointer.get(dataContextRef.current.data, selector)
-          : undefined
+        return get(makePath(path))
       }
     },
-    [makePath]
+    [get, makePath]
+  )
+
+  const getValueByIteratePath = useCallback(
+    (path: Path) => {
+      if (isPath(path)) {
+        return get(makeIteratePath(path))
+      }
+    },
+    [get, makeIteratePath]
   )
 
   const getData = useCallback(
@@ -65,7 +77,13 @@ export default function useDataValue<Value>({
     value = getValue(pathProp)
   }
 
-  return { getValue, getValueByPath, getData, value }
+  return {
+    getValue,
+    getValueByPath,
+    getValueByIteratePath,
+    getData,
+    value,
+  }
 }
 
 function isPath(path: Path | unknown) {

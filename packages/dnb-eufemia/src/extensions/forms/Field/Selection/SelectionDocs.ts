@@ -21,6 +21,16 @@ export const SelectionProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  data: {
+    doc: 'Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.',
+    type: 'array',
+    status: 'optional',
+  },
+  dataPath: {
+    doc: 'The path to the context data (Form.Handler). The object needs to have a `value` and a `title` property.',
+    type: 'string',
+    status: 'optional',
+  },
   autocompleteProps: {
     doc: 'Forward any additional props (camelCase) to the [Autocomplete](/uilib/components/autocomplete/) component.',
     type: 'object',
