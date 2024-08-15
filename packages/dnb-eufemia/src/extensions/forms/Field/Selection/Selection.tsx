@@ -36,15 +36,6 @@ type IOption = {
   value: number | string
   status: FormStatusText
 }
-type OptionProps = React.ComponentProps<
-  React.FC<{
-    error: Error | FormError | undefined
-    title: React.ReactNode
-    help: HelpButtonProps
-    children: React.ReactNode
-  }>
->
-
 export type Data = Array<{
   value: string
   title: React.ReactNode
@@ -199,7 +190,7 @@ function Selection(props: Props) {
         variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
 
-      const content = getRadioOrToggleOptions({
+      const items = renderRadioItems({
         id,
         value,
         variant,
@@ -214,7 +205,7 @@ function Selection(props: Props) {
       return (
         <FieldBlock
           {...fieldBlockProps}
-          asFieldset={React.Children.count(content) > 1}
+          asFieldset={React.Children.count(items) > 1}
         >
           <Component.Group
             className={cn}
@@ -225,7 +216,7 @@ function Selection(props: Props) {
             on_change={onChangeHandler}
             value={String(value ?? '')}
           >
-            {content}
+            {items}
           </Component.Group>
         </FieldBlock>
       )
@@ -234,9 +225,10 @@ function Selection(props: Props) {
     case 'autocomplete':
     case 'dropdown': {
       const status = getStatus(error, info, warning)
-      const data = convertDataToOptions(dataList)
+      const data = renderDropdownItems(dataList)
         .concat(makeOptions(children))
         .filter(Boolean)
+
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
         list_class: 'dnb-forms-field-selection__list',
@@ -299,7 +291,16 @@ export function getStatus(
   )
 }
 
-function getRadioOrToggleOptions({
+type OptionProps = React.ComponentProps<
+  React.FC<{
+    error?: Error | FormError | undefined
+    title: React.ReactNode
+    help?: HelpButtonProps
+    children?: React.ReactNode
+  }>
+>
+
+function renderRadioItems({
   id,
   value,
   variant,
@@ -320,7 +321,8 @@ function getRadioOrToggleOptions({
   dataList: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
 }) {
-  const optionsCount = React.Children.count(children)
+  const optionsCount =
+    React.Children.count(children) + (dataList?.length || 0)
 
   const Component = (
     variant === 'radio' ? Radio : ToggleButton
@@ -373,10 +375,10 @@ function getRadioOrToggleOptions({
   }
 
   return [
-    (dataList || []).map((props, i) => {
-      return createOption(props as unknown as OptionProps, i)
+    ...(dataList || []).map((props, i) => {
+      return createOption(props as OptionProps, i)
     }),
-    mapOptions(children),
+    ...(mapOptions(children) || []),
   ].filter(Boolean)
 }
 
@@ -406,7 +408,7 @@ export function makeOptions<T = DrawerListProps['data']>(
   }) as T
 }
 
-function convertDataToOptions(data: Data) {
+function renderDropdownItems(data: Data) {
   return (
     data?.map(({ value, title, text }) => ({
       selectedKey: value,

@@ -234,7 +234,7 @@ describe('variants', () => {
       expect(radioButtons[1]).not.toBeChecked()
     })
 
-    it('should support selected value from a path', async () => {
+    it('should support selected value from "path"', async () => {
       const onChange = jest.fn()
 
       render(
@@ -323,6 +323,22 @@ describe('variants', () => {
       expect(option3.querySelector('input')).toHaveAttribute(
         'aria-checked',
         'false'
+      )
+
+      expect(option1.querySelector('input').id).toBe(
+        option1.querySelector('label').getAttribute('for')
+      )
+      expect(option2.querySelector('input').id).toBe(
+        option2.querySelector('label').getAttribute('for')
+      )
+      expect(option3.querySelector('input').id).toBe(
+        option3.querySelector('label').getAttribute('for')
+      )
+      expect(option1.querySelector('input').id).not.toBe(
+        option2.querySelector('label').getAttribute('for')
+      )
+      expect(option1.querySelector('input').id).not.toBe(
+        option3.querySelector('label').getAttribute('for')
       )
     })
 
@@ -535,7 +551,7 @@ describe('variants', () => {
       expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
     })
 
-    it('should support selected value from a path', async () => {
+    it('should support selected value from "path"', async () => {
       const onChange = jest.fn()
 
       render(
@@ -856,7 +872,7 @@ describe('variants', () => {
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support selected value from a path', async () => {
+    it('should support selected value from "path"', async () => {
       render(
         <Form.Handler
           defaultData={{
@@ -1174,7 +1190,7 @@ describe('variants', () => {
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support selected value from a path', async () => {
+    it('should support selected value from "path"', async () => {
       render(
         <Form.Handler
           defaultData={{
