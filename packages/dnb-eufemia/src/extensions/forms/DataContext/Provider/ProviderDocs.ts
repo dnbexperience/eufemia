@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'Provide your own custom Ajv instance. More info in the <a href="/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords">Schema validation</a> section.',
+    doc: 'Provide your own custom Ajv instance. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
     type: 'ajv',
     status: 'optional',
   },
