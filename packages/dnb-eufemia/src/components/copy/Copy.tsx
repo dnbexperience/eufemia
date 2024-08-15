@@ -56,13 +56,17 @@ const Copy = ({
   }
 
   const params = {
-    onClick: onClickHandler,
+    onClick: disabled ? undefined : onClickHandler,
   }
 
   return (
     <span
-      className={classnames('dnb-copy', showCursor && 'cursor', className)}
-      ref={disabled ? undefined : ref}
+      className={classnames(
+        'dnb-copy',
+        showCursor && 'dnb-copy--cursor',
+        className
+      )}
+      ref={ref}
       {...props}
       {...params}
     >
@@ -75,6 +79,7 @@ Copy.propTypes = {
   children: PropTypes.node.isRequired,
   showCursor: PropTypes.bool,
 }
+
 Copy.defaultProps = {
   className: null,
   showCursor: true,

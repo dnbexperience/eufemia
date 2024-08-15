@@ -1,6 +1,4 @@
 export type CopyProps = {
-  element?: React.ElementType
-
   /**
    * Whether the show the copy cursor or not.
    * @default true
