@@ -27,7 +27,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dataPath: {
-    doc: 'The path to the context data (Form.Handler). The object needs to have a `value` and a `title` property.',
+    doc: 'The path to the context data (Form.Handler). The object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
     type: 'string',
     status: 'optional',
   },

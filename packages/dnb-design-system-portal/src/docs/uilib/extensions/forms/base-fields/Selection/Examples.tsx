@@ -288,7 +288,9 @@ export const DropdownWithAPath = () => (
         label="Label text"
         path="/selection"
         dataPath="/example/list"
-      />
+      >
+        <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
     </Form.Handler>
   </ComponentBox>
 )
@@ -473,7 +475,9 @@ export const RadioWithAPath = () => (
         label="Label text"
         path="/selection"
         dataPath="/example/list"
-      />
+      >
+        <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
     </Form.Handler>
   </ComponentBox>
 )
@@ -650,7 +654,9 @@ export const ButtonWithAPath = () => (
         label="Label text"
         path="/selection"
         dataPath="/example/list"
-      />
+      >
+        <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
     </Form.Handler>
   </ComponentBox>
 )

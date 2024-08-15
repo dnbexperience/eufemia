@@ -131,10 +131,7 @@ export const TransformCommitData = () => {
             <Form.Handler
               onChange={console.log}
               defaultData={{
-                contactPersons: [
-                  { title: 'Hanne', value: 'hanne' },
-                  { title: 'Annen person', value: 'other' },
-                ],
+                contactPersons: [{ title: 'Hanne', value: 'hanne' }],
                 mySelection: 'hanne',
               }}
             >
@@ -148,7 +145,9 @@ export const TransformCommitData = () => {
                     variant="radio"
                     path="/mySelection"
                     dataPath="/contactPersons"
-                  />
+                  >
+                    <Field.Option title="Annen person" value="other" />
+                  </Field.Selection>
                 </HeightAnimation>
 
                 <Form.Visibility
@@ -165,22 +164,15 @@ export const TransformCommitData = () => {
 
                     <Form.Isolation
                       transformOnCommit={(isolatedData, handlerData) => {
-                        const lastPersonIndex =
-                          handlerData.contactPersons.length - 1
-
                         return {
                           ...handlerData,
                           contactPersons: [
-                            ...handlerData.contactPersons.slice(
-                              0,
-                              lastPersonIndex,
-                            ),
+                            ...handlerData.contactPersons,
                             {
                               ...isolatedData.newPerson,
                               value:
                                 isolatedData.newPerson.title.toLowerCase(),
                             },
-                            handlerData.contactPersons[lastPersonIndex],
                           ],
                         }
                       }}
