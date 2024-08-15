@@ -8,20 +8,21 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { makeOptions } from '../Selection'
 import { Field, Form } from '../../..'
 
 describe('Selection', () => {
   it('renders selected option', () => {
     render(
       <Field.Selection value="bar">
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
     expect(screen.queryAllByRole('button').length).toEqual(1)
-    expect(screen.getByText('Baar')).toBeInTheDocument()
+    expect(screen.getByText('Bar')).toBeInTheDocument()
     expect(screen.queryAllByRole('option').length).toEqual(0)
-    expect(screen.queryByText('Fooo')).not.toBeInTheDocument()
+    expect(screen.queryByText('Foo')).not.toBeInTheDocument()
   })
 
   it('renders selected option with number values', () => {
@@ -40,27 +41,27 @@ describe('Selection', () => {
   it('should change option based on external value change', async () => {
     const { rerender } = render(
       <Field.Selection value="bar">
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
     const btn1 = screen.getByRole('button')
-    expect(within(btn1).getByText('Baar')).toBeInTheDocument()
-    expect(within(btn1).queryByText('Fooo')).not.toBeInTheDocument()
+    expect(within(btn1).getByText('Bar')).toBeInTheDocument()
+    expect(within(btn1).queryByText('Foo')).not.toBeInTheDocument()
 
     // This should re-render the mounted Selection-component with a new value-prop
     rerender(
       <Field.Selection value="foo">
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
     // The selected button should now show the other option based on the value-prop change
     const btn2 = screen.getByRole('button')
-    expect(within(btn2).getByText('Fooo')).toBeInTheDocument()
-    expect(within(btn2).queryByText('Baar')).not.toBeInTheDocument()
+    expect(within(btn2).getByText('Foo')).toBeInTheDocument()
+    expect(within(btn2).queryByText('Bar')).not.toBeInTheDocument()
   })
 
   it('renders given options', async () => {
@@ -86,8 +87,8 @@ describe('Selection', () => {
   it('renders placeholder', () => {
     render(
       <Field.Selection placeholder="Select something">
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
     // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
@@ -120,8 +121,8 @@ describe('variants', () => {
     it('renders selected option', () => {
       render(
         <Field.Selection variant="radio" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
       const radioButtons = screen.queryAllByRole('radio')
@@ -137,13 +138,13 @@ describe('variants', () => {
             value="foo"
             help={{ title: 'Help title', content: 'Help content' }}
           >
-            Fooo
+            Foo
           </Field.Option>
           <Field.Option
             value="bar"
             help={{ title: 'Help title', content: 'Help content' }}
           >
-            Baar
+            Bar
           </Field.Option>
         </Field.Selection>
       )
@@ -164,8 +165,8 @@ describe('variants', () => {
     it('should disable options', () => {
       render(
         <Field.Selection variant="radio" disabled>
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
       const radioButtons = screen.queryAllByRole('radio')
@@ -216,14 +217,14 @@ describe('variants', () => {
     it('renders update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="radio" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
       rerender(
         <Field.Selection variant="radio" value="foo">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -247,7 +248,7 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
@@ -267,7 +268,7 @@ describe('variants', () => {
       const [option1, option2] = options
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
 
       expect(option1.querySelector('input')).toBeChecked()
       expect(option2.querySelector('input')).not.toBeChecked()
@@ -281,13 +282,13 @@ describe('variants', () => {
       expect(onChange).toHaveBeenLastCalledWith('bar')
     })
 
-    it('should support itemPath', () => {
+    it('should support "dataPath"', () => {
       render(
         <Form.Handler
           data={{
             myList: [
               { value: 'foo', title: 'Foo!' },
-              { value: 'bar', title: 'Baar!' },
+              { value: 'bar', title: 'Bar!' },
             ],
             mySelection: 'bar',
           }}
@@ -296,17 +297,20 @@ describe('variants', () => {
             variant="radio"
             path="/mySelection"
             dataPath="/myList"
-          />
+          >
+            <Field.Option value="baz">Baz!</Field.Option>
+          </Field.Selection>
         </Form.Handler>
       )
 
       const options = Array.from(document.querySelectorAll('.dnb-radio'))
-      expect(options).toHaveLength(2)
+      expect(options).toHaveLength(3)
 
-      const [option1, option2] = options
+      const [option1, option2, option3] = options
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
+      expect(option3).toHaveTextContent('Baz!')
 
       expect(option1.querySelector('input')).toHaveAttribute(
         'aria-checked',
@@ -315,6 +319,10 @@ describe('variants', () => {
       expect(option2.querySelector('input')).toHaveAttribute(
         'aria-checked',
         'true'
+      )
+      expect(option3.querySelector('input')).toHaveAttribute(
+        'aria-checked',
+        'false'
       )
     })
 
@@ -327,8 +335,8 @@ describe('variants', () => {
             required
             validateInitially
           >
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -338,8 +346,8 @@ describe('variants', () => {
       it('should have aria-required', () => {
         render(
           <Field.Selection variant="radio" value="bar" required>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -353,8 +361,8 @@ describe('variants', () => {
       it('should have aria-invalid', () => {
         render(
           <Field.Selection variant="radio" required validateInitially>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -371,8 +379,8 @@ describe('variants', () => {
     it('has no selected value by default', () => {
       render(
         <Field.Selection variant="button">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -389,13 +397,13 @@ describe('variants', () => {
             value="foo"
             help={{ title: 'Help title', content: 'Help content' }}
           >
-            Fooo
+            Foo
           </Field.Option>
           <Field.Option
             value="bar"
             help={{ title: 'Help title', content: 'Help content' }}
           >
-            Baar
+            Bar
           </Field.Option>
         </Field.Selection>
       )
@@ -416,8 +424,8 @@ describe('variants', () => {
     it('should disable options', () => {
       render(
         <Field.Selection variant="button" disabled>
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
       const buttons = document.querySelectorAll('button')
@@ -428,8 +436,8 @@ describe('variants', () => {
     it('renders selected option', () => {
       render(
         <Field.Selection variant="button" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -482,8 +490,8 @@ describe('variants', () => {
     it('renders fieldset/legend if more than two options are given', () => {
       const { rerender } = render(
         <Field.Selection variant="button" label="Legend">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -493,7 +501,7 @@ describe('variants', () => {
 
       rerender(
         <Field.Selection variant="button" label="Label">
-          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
         </Field.Selection>
       )
 
@@ -509,15 +517,15 @@ describe('variants', () => {
     it('renders update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="button" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
       rerender(
         <Field.Selection variant="button" value="foo">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -541,7 +549,7 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
@@ -561,7 +569,7 @@ describe('variants', () => {
       const [option1, option2] = options
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
 
       expect(option1).toHaveAttribute('aria-pressed', 'true')
       expect(option2).toHaveAttribute('aria-pressed', 'false')
@@ -580,7 +588,7 @@ describe('variants', () => {
       expect(onChange).toHaveBeenLastCalledWith('bar')
     })
 
-    it('should support itemPath', () => {
+    it('should support "dataPath"', () => {
       render(
         <Form.Handler
           data={{
@@ -591,25 +599,29 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
         >
-          <Field.Selection variant="button" dataPath="/myList" />
+          <Field.Selection variant="button" dataPath="/myList">
+            <Field.Option value="baz">Baz!</Field.Option>
+          </Field.Selection>
         </Form.Handler>
       )
 
       const options = Array.from(document.querySelectorAll('button'))
-      expect(options).toHaveLength(2)
+      expect(options).toHaveLength(3)
 
-      const [option1, option2] = options
+      const [option1, option2, option3] = options
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
+      expect(option3).toHaveTextContent('Baz!')
 
       expect(option1).toHaveAttribute('aria-pressed', 'false')
       expect(option2).toHaveAttribute('aria-pressed', 'false')
+      expect(option3).toHaveAttribute('aria-pressed', 'false')
     })
 
     describe('ARIA', () => {
@@ -621,8 +633,8 @@ describe('variants', () => {
             required
             validateInitially
           >
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -639,8 +651,8 @@ describe('variants', () => {
       it('should have aria-required', () => {
         render(
           <Field.Selection variant="button" value="bar" required>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -654,8 +666,8 @@ describe('variants', () => {
       it('should have aria-invalid', () => {
         render(
           <Field.Selection variant="button" required validateInitially>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -675,8 +687,8 @@ describe('variants', () => {
     it('has no selected value by default', () => {
       render(
         <Field.Selection variant="dropdown">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -694,8 +706,8 @@ describe('variants', () => {
           variant="dropdown"
           help={{ title: 'Help title', content: 'Help content' }}
         >
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
@@ -712,8 +724,8 @@ describe('variants', () => {
     it('should disable dropdown', () => {
       render(
         <Field.Selection variant="dropdown" disabled>
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -725,8 +737,8 @@ describe('variants', () => {
     it('renders selected option', () => {
       render(
         <Field.Selection variant="dropdown" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -741,15 +753,15 @@ describe('variants', () => {
     it('renders update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="dropdown" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
       rerender(
         <Field.Selection variant="dropdown" value="foo">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -764,8 +776,8 @@ describe('variants', () => {
     it('renders only options with a value', () => {
       const { rerender } = render(
         <Field.Selection variant="dropdown" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
           {null}
         </Field.Selection>
       )
@@ -776,8 +788,8 @@ describe('variants', () => {
 
       rerender(
         <Field.Selection variant="dropdown" value="foo">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
           content without a key
         </Field.Selection>
       )
@@ -797,8 +809,8 @@ describe('variants', () => {
             labelDirection: 'vertical',
           }}
         >
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -818,7 +830,7 @@ describe('variants', () => {
               value: 'foo',
             },
             {
-              title: 'Baar!',
+              title: 'Bar!',
               value: 'bar',
             },
           ]}
@@ -838,7 +850,7 @@ describe('variants', () => {
       expect(options).toHaveLength(2)
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
@@ -856,7 +868,7 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
@@ -879,13 +891,13 @@ describe('variants', () => {
       expect(options).toHaveLength(2)
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support itemPath', () => {
+    it('should support "dataPath"', () => {
       render(
         <Form.Handler
           data={{
@@ -896,12 +908,14 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
         >
-          <Field.Selection variant="dropdown" dataPath="/myList" />
+          <Field.Selection variant="dropdown" dataPath="/myList">
+            <Field.Option value="baz">Baz!</Field.Option>
+          </Field.Selection>
         </Form.Handler>
       )
 
@@ -911,15 +925,17 @@ describe('variants', () => {
         document.querySelectorAll('[role="option"]')
       )
 
-      expect(options).toHaveLength(2)
+      expect(options).toHaveLength(3)
 
-      const [option1, option2] = options
+      const [option1, option2, option3] = options
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
+      expect(option3).toHaveTextContent('Baz!')
 
       expect(option1).toHaveAttribute('aria-selected', 'false')
       expect(option2).toHaveAttribute('aria-selected', 'false')
+      expect(option3).toHaveAttribute('aria-selected', 'false')
     })
 
     describe('ARIA', () => {
@@ -931,8 +947,8 @@ describe('variants', () => {
             required
             validateInitially
           >
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -952,8 +968,8 @@ describe('variants', () => {
       it('should have aria-required', () => {
         render(
           <Field.Selection variant="dropdown" value="bar" required>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -967,8 +983,8 @@ describe('variants', () => {
       it('should have aria-invalid', () => {
         render(
           <Field.Selection variant="dropdown" required validateInitially>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -989,8 +1005,8 @@ describe('variants', () => {
     it('has no selected value by default', () => {
       render(
         <Field.Selection variant="autocomplete">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -1008,8 +1024,8 @@ describe('variants', () => {
           variant="autocomplete"
           help={{ title: 'Help title', content: 'Help content' }}
         >
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
@@ -1026,8 +1042,8 @@ describe('variants', () => {
     it('should disable autocomplete', () => {
       render(
         <Field.Selection variant="autocomplete" disabled>
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -1037,8 +1053,8 @@ describe('variants', () => {
     it('renders selected option', () => {
       render(
         <Field.Selection variant="autocomplete" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -1053,15 +1069,15 @@ describe('variants', () => {
     it('renders update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
       rerender(
         <Field.Selection variant="autocomplete" value="foo">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -1076,8 +1092,8 @@ describe('variants', () => {
     it('renders only options with a value', () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
           {null}
         </Field.Selection>
       )
@@ -1088,8 +1104,8 @@ describe('variants', () => {
 
       rerender(
         <Field.Selection variant="autocomplete" value="foo">
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
           content without a key
         </Field.Selection>
       )
@@ -1110,8 +1126,8 @@ describe('variants', () => {
             submitButtonTitle: 'Custom title',
           }}
         >
-          <Field.Option value="foo">Fooo</Field.Option>
-          <Field.Option value="bar">Baar</Field.Option>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
@@ -1132,7 +1148,7 @@ describe('variants', () => {
               value: 'foo',
             },
             {
-              title: 'Baar!',
+              title: 'Bar!',
               value: 'bar',
             },
           ]}
@@ -1152,7 +1168,7 @@ describe('variants', () => {
       expect(options).toHaveLength(2)
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
@@ -1170,7 +1186,7 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
@@ -1193,13 +1209,13 @@ describe('variants', () => {
       expect(options).toHaveLength(2)
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support itemPath', () => {
+    it('should support "dataPath"', () => {
       render(
         <Form.Handler
           data={{
@@ -1210,12 +1226,14 @@ describe('variants', () => {
               },
               {
                 value: 'bar',
-                title: 'Baar!',
+                title: 'Bar!',
               },
             ],
           }}
         >
-          <Field.Selection variant="autocomplete" dataPath="/myList" />
+          <Field.Selection variant="autocomplete" dataPath="/myList">
+            <Field.Option value="baz">Baz!</Field.Option>
+          </Field.Selection>
         </Form.Handler>
       )
 
@@ -1225,15 +1243,17 @@ describe('variants', () => {
         document.querySelectorAll('[role="option"]')
       )
 
-      expect(options).toHaveLength(2)
+      expect(options).toHaveLength(3)
 
-      const [option1, option2] = options
+      const [option1, option2, option3] = options
 
       expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Baar!')
+      expect(option2).toHaveTextContent('Bar!')
+      expect(option3).toHaveTextContent('Baz!')
 
       expect(option1).toHaveAttribute('aria-selected', 'false')
       expect(option2).toHaveAttribute('aria-selected', 'false')
+      expect(option3).toHaveAttribute('aria-selected', 'false')
     })
 
     describe('ARIA', () => {
@@ -1245,8 +1265,8 @@ describe('variants', () => {
             required
             validateInitially
           >
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -1266,8 +1286,8 @@ describe('variants', () => {
       it('should have aria-required', () => {
         render(
           <Field.Selection variant="autocomplete" value="bar" required>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -1285,8 +1305,8 @@ describe('variants', () => {
             required
             validateInitially
           >
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
@@ -1304,8 +1324,8 @@ describe('event handlers', () => {
     const onChange = jest.fn()
     render(
       <Field.Selection value="bar" onChange={onChange}>
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
@@ -1313,7 +1333,7 @@ describe('event handlers', () => {
     await userEvent.click(selectionButton)
 
     await waitFor(async () => {
-      const option1 = screen.getByText('Fooo')
+      const option1 = screen.getByText('Foo')
       await userEvent.click(option1)
     })
 
@@ -1322,7 +1342,7 @@ describe('event handlers', () => {
 
     await waitFor(async () => {
       await userEvent.click(selectionButton)
-      const option2 = screen.getByText('Baar')
+      const option2 = screen.getByText('Bar')
       await userEvent.click(option2)
     })
 
@@ -1335,8 +1355,8 @@ describe('event handlers', () => {
     const onFocus = jest.fn()
     render(
       <Field.Selection value="bar" onFocus={onFocus}>
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
@@ -1353,8 +1373,8 @@ describe('event handlers', () => {
     const onBlur = jest.fn()
     render(
       <Field.Selection value="bar" onBlur={onBlur}>
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
@@ -1362,7 +1382,7 @@ describe('event handlers', () => {
     await userEvent.click(selectionButton)
 
     await waitFor(async () => {
-      const option1 = screen.getByText('Fooo')
+      const option1 = screen.getByText('Foo')
       await userEvent.click(option1)
     })
 
@@ -1377,8 +1397,8 @@ describe('validation and error handling', () => {
       it('should show error for empty value', async () => {
         render(
           <Field.Selection required validateInitially>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
         const selectionButton = screen.getByRole('button')
@@ -1390,15 +1410,15 @@ describe('validation and error handling', () => {
       it('should not show error when value is not empty', async () => {
         render(
           <Field.Selection required>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
         const selectionButton = screen.getByRole('button')
         await userEvent.click(selectionButton)
 
         await waitFor(async () => {
-          const option1 = screen.getByText('Fooo')
+          const option1 = screen.getByText('Foo')
           await userEvent.click(option1)
         })
 
@@ -1410,8 +1430,8 @@ describe('validation and error handling', () => {
   it('shows error border', () => {
     const { rerender } = render(
       <Field.Selection error={new Error('This is what went wrong')}>
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
     const dropdown = document.querySelector('.dnb-dropdown')
@@ -1422,8 +1442,8 @@ describe('validation and error handling', () => {
         variant="radio"
         error={new Error('This is what went wrong')}
       >
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
@@ -1435,8 +1455,8 @@ describe('validation and error handling', () => {
         variant="button"
         error={new Error('This is what went wrong')}
       >
-        <Field.Option value="foo">Fooo</Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
 
@@ -1451,9 +1471,9 @@ describe('validation and error handling', () => {
           value="foo"
           error={new Error('This is what went wrong')}
         >
-          Fooo
+          Foo
         </Field.Option>
-        <Field.Option value="bar">Baar</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
     const [first, second] = Array.from(
@@ -1463,5 +1483,47 @@ describe('validation and error handling', () => {
     expect(second.className).not.toContain(
       'dnb-toggle-button__status--error'
     )
+  })
+})
+
+describe('makeOptions', () => {
+  it('should render with props', () => {
+    const result = makeOptions([
+      <Field.Option key="a" value="foo" title="Foo!" />,
+      <Field.Option key="b" value="bar" title="Baar!" />,
+    ])
+
+    expect(result).toEqual([
+      { selectedKey: 'foo', content: 'Foo!' },
+      { selectedKey: 'bar', content: 'Baar!' },
+    ])
+  })
+
+  it('should render "Untitled" when no title is given', () => {
+    const result = makeOptions(<Field.Option />)
+
+    expect(result).toEqual([
+      { content: <em>Untitled</em>, selectedKey: '' },
+    ])
+  })
+
+  it('title can be given by children', () => {
+    const result = makeOptions(
+      <Field.Option value="foo">Foo</Field.Option>
+    )
+
+    expect(result).toEqual([{ content: 'Foo', selectedKey: 'foo' }])
+  })
+
+  it('should support extra text in title', () => {
+    const result = makeOptions(
+      <Field.Option value="foo" text="Text">
+        Foo
+      </Field.Option>
+    )
+
+    expect(result).toEqual([
+      { content: ['Foo', 'Text'], selectedKey: 'foo' },
+    ])
   })
 })

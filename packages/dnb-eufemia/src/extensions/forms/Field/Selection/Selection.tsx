@@ -8,7 +8,7 @@ import {
   HelpButton,
   Autocomplete,
 } from '../../../../components'
-import OptionField, { convertDataToOptions, makeOptions } from '../Option'
+import OptionField, { Props as OptionFieldProps } from '../Option'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -24,6 +24,7 @@ import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpButtonProps } from '../../../../components/HelpButton'
+import { DrawerListProps } from '../../../../fragments/DrawerList'
 import {
   convertCamelCaseProps,
   ToCamelCase,
@@ -44,7 +45,11 @@ type OptionProps = React.ComponentProps<
   }>
 >
 
-export type Data = AutocompleteAllProps['data'] | DropdownAllProps['data']
+export type Data = Array<{
+  value: string
+  title: React.ReactNode
+  text?: React.ReactNode
+}>
 
 export type Props = FieldHelpProps &
   FieldProps<IOption['value']> & {
@@ -73,9 +78,9 @@ export type Props = FieldHelpProps &
 
     /**
      * Data to be used for the component. The object needs to have a `value` and a `title` property.
-     * Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.
+     * The generated options will be placed above given JSX based children.
      */
-    data?: Array<{ value: string; title: React.ReactNode }>
+    data?: Data
 
     /**
      * Autocomplete specific props
@@ -201,17 +206,16 @@ function Selection(props: Props) {
         info,
         warning,
         htmlAttributes,
-        children:
-          dataList?.length > 0
-            ? dataList.map(({ value, title }) => (
-                <OptionField key={value} value={value} title={title} />
-              ))
-            : children,
+        children,
+        dataList,
         hasError,
       })
 
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock
+          {...fieldBlockProps}
+          asFieldset={React.Children.count(content) > 1}
+        >
           <Component.Group
             className={cn}
             layout_direction={
@@ -230,9 +234,9 @@ function Selection(props: Props) {
     case 'autocomplete':
     case 'dropdown': {
       const status = getStatus(error, info, warning)
-      const data = dataList
-        ? convertDataToOptions<Data>(dataList)
-        : makeOptions<Data>(children)
+      const data = convertDataToOptions(dataList)
+        .concat(makeOptions(children))
+        .filter(Boolean)
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
         list_class: 'dnb-forms-field-selection__list',
@@ -295,7 +299,7 @@ export function getStatus(
   )
 }
 
-export function getRadioOrToggleOptions({
+function getRadioOrToggleOptions({
   id,
   value,
   variant,
@@ -303,6 +307,7 @@ export function getRadioOrToggleOptions({
   warning,
   htmlAttributes,
   children,
+  dataList,
   hasError,
 }: {
   id: string
@@ -312,6 +317,7 @@ export function getRadioOrToggleOptions({
   warning: Props['warning']
   htmlAttributes: Props['htmlAttributes']
   children: Props['children']
+  dataList: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
 }) {
   const optionsCount = React.Children.count(children)
@@ -347,7 +353,8 @@ export function getRadioOrToggleOptions({
   }
 
   const mapOptions = (children: React.ReactNode) => {
-    return React.Children.toArray(children).map(
+    return React.Children.map(
+      children,
       (child: React.ReactElement<OptionProps>, i) => {
         if (React.isValidElement(child)) {
           if (child.type === OptionField) {
@@ -365,7 +372,47 @@ export function getRadioOrToggleOptions({
     )
   }
 
-  return mapOptions(children)
+  return [
+    (dataList || []).map((props, i) => {
+      return createOption(props as unknown as OptionProps, i)
+    }),
+    mapOptions(children),
+  ].filter(Boolean)
+}
+
+export function makeOptions<T = DrawerListProps['data']>(
+  children: React.ReactNode
+): T {
+  return React.Children.map(children, (child) => {
+    if (child?.['props']?.children?.type === OptionField) {
+      child = child['props'].children
+    }
+
+    if (React.isValidElement(child) && child.type === OptionField) {
+      const props = child.props as OptionFieldProps
+      const title = props.children ?? props.title ?? <em>Untitled</em>
+      const content = props.text ? [title, props.text] : title
+      const selectedKey = String(props.value ?? '')
+
+      return { selectedKey, content }
+    }
+
+    // For other children, just show them as content
+    if (child) {
+      return {
+        content: child,
+      }
+    }
+  }) as T
+}
+
+function convertDataToOptions(data: Data) {
+  return (
+    data?.map(({ value, title, text }) => ({
+      selectedKey: value,
+      content: (text ? [title, text] : title) || <em>Untitled</em>,
+    })) || []
+  )
 }
 
 Selection._supportsSpacingProps = true
