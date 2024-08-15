@@ -67,7 +67,7 @@ export default function PortalToolsMenu({
         </Space>
 
         <Space top="large">
-          <H2 size="small">Change portal language</H2>
+          <H2 size="small">Change components language</H2>
           <Space top>
             <ChangeLocale />
           </Space>
