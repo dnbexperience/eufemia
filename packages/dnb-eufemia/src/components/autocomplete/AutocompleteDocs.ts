@@ -107,7 +107,7 @@ export const autocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   show_submit_button: {
-    doc: 'Use `true` to show a Autocomplete button to toggle the <a href="/uilib/components/fragments/drawer-list">DrawerList</a>. Defaults to `false`.',
+    doc: 'Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -197,7 +197,7 @@ export const autocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.',
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -250,27 +250,27 @@ export const autocompleteProperties: PropertiesTableProps = {
 
 export const AutocompleteEvents: PropertiesTableProps = {
   on_type: {
-    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.',
+    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data)',
     type: 'function',
     status: 'optional',
   },
   on_focus: {
-    doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.',
+    doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   on_blur: {
-    doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.',
+    doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   on_change: {
-    doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.',
+    doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   on_select: {
-    doc: 'Will be called once the users selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>. The "active_item" property is the currently selected item by keyboard navigation',
+    doc: 'Will be called once the users selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "active_item" property is the currently selected item by keyboard navigation',
     type: 'function',
     status: 'optional',
   },
