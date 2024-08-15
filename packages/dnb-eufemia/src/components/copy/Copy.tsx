@@ -1,26 +1,19 @@
 /**
- * Copy Tag
- *
+ * Web Copy Component
  */
 
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { IS_IOS, hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
-import {
-  convertJsxToString,
-  warn,
-} from '@dnb/eufemia/src/shared/component-helper'
-import {
-  useCopyWithNotice,
-  runIOSSelectionFix,
-} from '@dnb/eufemia/src/components/number-format/NumberUtils'
-import { copyStyle } from './Copy.module.scss'
+import type { CopyAllProps } from './types'
+import { runIOSSelectionFix, useCopyWithNotice } from '../number-format/NumberUtils'
+import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
+import { convertJsxToString } from '../../shared/component-helper'
 
 let hasiOSFix = false
 
-const Copy = ({ children, className = null, ...rest }) => {
-  const ref = React.useRef()
+const Copy = ({ children, className = null, disabled, showCursor = true, ...props }: CopyAllProps) => {
+  const ref = useRef<HTMLSpanElement>(null)
 
   React.useEffect(() => {
     if (IS_IOS) {
@@ -59,9 +52,11 @@ const Copy = ({ children, className = null, ...rest }) => {
 
   return (
     <span
-      className={classnames('dnb-copy', copyStyle, className)}
-      ref={ref}
-      {...rest}
+      className={classnames('dnb-copy', 
+      showCursor && 'cursor',
+      className)}
+      ref={disabled ? undefined : ref}
+      {...props}
       {...params}
     >
       {children}
@@ -71,9 +66,11 @@ const Copy = ({ children, className = null, ...rest }) => {
 Copy.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
+  showCursor: PropTypes.bool
 }
 Copy.defaultProps = {
   className: null,
+  showCursor: true
 }
 
 export default Copy
