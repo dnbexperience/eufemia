@@ -6,8 +6,12 @@ export const Empty = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        onFocus={(value) => console.log('onFocus', value)}
-        onBlur={(value) => console.log('onBlur', value)}
+        onFocus={(value, additionalArgs) =>
+          console.log('onFocus', value, additionalArgs)
+        }
+        onBlur={(value, additionalArgs) =>
+          console.log('onBlur', value, additionalArgs)
+        }
         onChange={(value, additionalArgs) =>
           console.log('onChange', value, additionalArgs)
         }

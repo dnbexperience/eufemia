@@ -108,6 +108,8 @@ export default function useFieldProps<
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
     transformValue = (value: Value) => value,
+    transformAdditionalArgs = (additionalArgs: AdditionalEventArgs) =>
+      additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value: Value, { emptyValue, required, error }) => {
       const res =
@@ -134,6 +136,7 @@ export default function useFieldProps<
   const transformers = useRef({
     transformIn,
     transformOut,
+    transformAdditionalArgs,
     toInput,
     fromInput,
     toEvent,
@@ -701,23 +704,39 @@ export default function useFieldProps<
   }, [continuousValidation, hideError, showError])
 
   const setHasFocus = useCallback(
-    async (hasFocus: boolean, valueOverride?: Value) => {
+    async (
+      hasFocus: boolean,
+      valueOverride?: Value,
+      additionalArgs?: AdditionalEventArgs
+    ) => {
+      const getArgs = (
+        type: Parameters<typeof transformers.current.toEvent>[1]
+      ) => {
+        const value = transformers.current.toEvent(
+          valueOverride ?? valueRef.current,
+          type
+        )
+        const transformedAdditionalArgs =
+          transformers.current.transformAdditionalArgs(
+            additionalArgs,
+            value
+          )
+
+        return typeof transformedAdditionalArgs !== 'undefined'
+          ? [value, transformedAdditionalArgs]
+          : [value]
+      }
+
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
-          'onFocus'
-        )
-        onFocus?.(value)
+        const args = getArgs('onFocus')
+        onFocus?.apply(this, args)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
-          'onBlur'
-        )
-        onBlur?.(value)
+        const args = getArgs('onBlur')
+        onBlur?.apply(this, args)
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -991,8 +1010,14 @@ export default function useFieldProps<
           'onChange'
         )
 
-        return typeof additionalArgs !== 'undefined'
-          ? [value, additionalArgs]
+        const transformedAdditionalArgs =
+          transformers.current.transformAdditionalArgs(
+            additionalArgs,
+            value
+          )
+
+        return typeof transformedAdditionalArgs !== 'undefined'
+          ? [value, transformedAdditionalArgs]
           : [value]
       }
 
@@ -1375,7 +1400,11 @@ export interface ReturnAdditional<Value> {
   value: Value
   isChanged: boolean
   htmlAttributes: AriaAttributes | DataAttributes
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  setHasFocus: (
+    hasFocus: boolean,
+    valueOverride?: unknown,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (

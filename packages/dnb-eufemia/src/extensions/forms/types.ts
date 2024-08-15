@@ -113,8 +113,14 @@ export interface DataValueWriteProps<
   EmptyValue = undefined | unknown,
 > {
   emptyValue?: EmptyValue
-  onFocus?: (value: Value | EmptyValue) => void
-  onBlur?: (value: Value | EmptyValue) => void
+  onFocus?: (
+    value: Value | EmptyValue,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
+  onBlur?: (
+    value: Value | EmptyValue,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   onChange?: OnChangeValue<Value, EmptyValue>
 }
 
@@ -313,6 +319,14 @@ export interface UseFieldProps<
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
    */
   transformValue?: (value: Value, currentValue?: Value) => Value
+
+  /**
+   * Transform additionalArgs or generate it based on value after `toEvent` and before callbacks such as `onChange`, `onFocus` and `onBlur`.
+   */
+  transformAdditionalArgs?: (
+    additionalArgs: AdditionalEventArgs,
+    internal: Value
+  ) => AdditionalEventArgs
 
   /**
    * Transforms the value before it gets returned as the `value`.
