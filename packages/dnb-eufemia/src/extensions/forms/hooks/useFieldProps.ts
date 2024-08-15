@@ -13,7 +13,7 @@ import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
   FormError,
-  FieldProps,
+  FieldPropsBase,
   AdditionalEventArgs,
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
@@ -71,15 +71,12 @@ export type DataAttributes = {
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
-export default function useFieldProps<
-  Value = unknown,
-  Props extends FieldProps<Value> = FieldProps<Value>,
->(
-  localeProps: Props,
+export default function useFieldProps<Value, EmptyValue, Props>(
+  localeProps: Props & FieldPropsBase<Value, EmptyValue>,
   { executeOnChangeRegardlessOfError = false } = {}
-): Props & FieldProps<Value> & ReturnAdditional<Value> {
+): typeof localeProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
-  const props = extend<Props>(localeProps)
+  const props = extend(localeProps)
 
   const {
     path: pathProp,
@@ -111,10 +108,10 @@ export default function useFieldProps<
     transformAdditionalArgs = (additionalArgs: AdditionalEventArgs) =>
       additionalArgs,
     fromExternal = (value: Value) => value,
-    validateRequired = (value: Value, { emptyValue, required, error }) => {
+    validateRequired = (value, { emptyValue, required, error }) => {
       const res =
         required &&
-        (value === emptyValue ||
+        ((value as any) === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
           ? error
           : undefined
@@ -970,7 +967,7 @@ export default function useFieldProps<
 
   const handleChange = useCallback(
     async (
-      argFromInput: Value,
+      argFromInput: Value | unknown,
       additionalArgs: AdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
@@ -1408,7 +1405,7 @@ export interface ReturnAdditional<Value> {
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
-    value: Value,
+    value: Value | unknown,
     additionalArgs?: AdditionalEventArgs
   ) => void
   updateValue: (value: Value) => void

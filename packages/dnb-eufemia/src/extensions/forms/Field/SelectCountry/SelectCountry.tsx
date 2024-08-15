@@ -9,7 +9,11 @@ import countries, {
   type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
-import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
+import {
+  FieldBlockWidth,
+  FieldHelpProps,
+  FieldPropsWithExtraValue,
+} from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -21,7 +25,7 @@ export type CountryFilterSet =
   | 'Prioritized'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
+  FieldPropsWithExtraValue<string, CountryType, undefined | string> & {
     countries?: CountryFilterSet
 
     // Styling
@@ -46,7 +50,7 @@ function SelectCountry(props: Props) {
   const translations = useTranslation().SelectCountry
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const transformAdditionalArgs = (additionalArgs, value) => {
+  const transformAdditionalArgs = (additionalArgs: CountryType, value) => {
     const country = countries.find(({ iso }) => value === iso)
     if (country?.iso) {
       return country

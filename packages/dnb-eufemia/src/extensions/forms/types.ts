@@ -108,20 +108,24 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
   )
 }
 
+type EventArgs<
+  Value,
+  ExtraValue extends AdditionalEventArgs,
+> = ExtraValue extends undefined
+  ? [value: Value]
+  : [value: Value, additionalArgs?: ExtraValue]
+
 export interface DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
+  ExtraValue extends AdditionalEventArgs = AdditionalEventArgs,
 > {
   emptyValue?: EmptyValue
-  onFocus?: (
-    value: Value | EmptyValue,
-    additionalArgs?: AdditionalEventArgs
-  ) => void
-  onBlur?: (
-    value: Value | EmptyValue,
-    additionalArgs?: AdditionalEventArgs
-  ) => void
-  onChange?: OnChangeValue<Value, EmptyValue>
+  onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
+  onBlur?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
+  onChange?: (
+    ...args: EventArgs<Value | EmptyValue, ExtraValue>
+  ) => OnChangeReturnType
 }
 
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
@@ -357,11 +361,32 @@ export interface UseFieldProps<
   valueType?: string | number | boolean | Array<string | number | boolean>
 }
 
-export type FieldProps<
+export type FieldPropsBase<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
+
+export type FieldProps<
+  Value = unknown,
+  EmptyValue = undefined | unknown,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+> = Omit<
+  FieldPropsBase<Value, EmptyValue, ErrorMessages>,
+  keyof DataValueWriteProps
+> &
+  DataValueWriteProps<Value, EmptyValue, undefined>
+
+export type FieldPropsWithExtraValue<
+  Value = unknown,
+  ExtraValue extends AdditionalEventArgs = AdditionalEventArgs,
+  EmptyValue = undefined | unknown,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+> = Omit<
+  FieldPropsBase<Value, EmptyValue, ErrorMessages>,
+  keyof DataValueWriteProps
+> &
+  DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
 export interface FieldHelpProps {
   help?: {
@@ -503,20 +528,9 @@ export type OnCommit<Data = JsonObject> = (
   | void
   | Promise<EventReturnWithStateObject | void>
 
-export type OnChange<Data = unknown> = (
-  data: Data
-) =>
-  | EventReturnWithStateObjectAndSuccess
-  | void
-  | Promise<EventReturnWithStateObjectAndSuccess | void>
+export type OnChange<Data = unknown> = (data: Data) => OnChangeReturnType
 
-export type OnChangeValue<
-  Value = unknown,
-  EmptyValue = undefined | unknown,
-> = (
-  value: Value | EmptyValue,
-  additionalArgs?: AdditionalEventArgs
-) =>
+type OnChangeReturnType =
   | EventReturnWithStateObjectAndSuccess
   | void
   | Promise<EventReturnWithStateObjectAndSuccess | void>
