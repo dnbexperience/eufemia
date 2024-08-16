@@ -16,6 +16,12 @@ import {
 } from '../../DataContext/Provider'
 import type { OnCommit, Path } from '../../types'
 
+/**
+ * Deprecated, as it is supported by all major browsers and Node.js >=v18
+ * So its a question of time, when we will remove this polyfill
+ */
+import structuredClone from '@ungap/structured-clone'
+
 export type IsolationProviderProps<Data> = {
   /**
    * Form.Isolation: Will be called when the isolated context is committed.
@@ -65,8 +71,9 @@ function IsolationProvider<Data extends JsonObject>(
   const {
     children,
     onPathChange,
-    onCommit,
+    onCommit: onCommitProp,
     onClear: onClearProp,
+    transformOnCommit: transformOnCommitProp,
     commitHandleRef,
     data,
     defaultData,
@@ -77,6 +84,8 @@ function IsolationProvider<Data extends JsonObject>(
   const localDataRef = useRef<Partial<Data>>({})
   const outerContext = useContext(Context)
   const { path: pathSection } = useContext(SectionContext) || {}
+  const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
+    outerContext || {}
 
   const onPathChangeHandler = useCallback(
     async (path: Path, value: unknown) => {
@@ -110,11 +119,41 @@ function IsolationProvider<Data extends JsonObject>(
 
     internalDataRef.current = extendDeep(
       {},
-      outerContext?.data,
+      dataOuter,
       localData || {},
       localDataRef.current
     ) as Data
-  }, [data, defaultData, outerContext?.data, pathSection])
+  }, [data, defaultData, dataOuter, pathSection])
+
+  const onCommit: IsolationProps<Data>['onCommit'] = useCallback(
+    async (data: Data, additionalArgs) => {
+      const path = props.path ?? '/'
+      const outerData =
+        props.path && pointer.has(dataOuter, path)
+          ? pointer.get(dataOuter, path)
+          : dataOuter
+      let isolatedData = structuredClone(localDataRef.current) as Data
+
+      if (typeof transformOnCommitProp === 'function') {
+        isolatedData = transformOnCommitProp(isolatedData, outerData)
+      }
+
+      // Commit the internal data to the nested context data
+      handlePathChangeOuter?.(
+        path,
+        extendDeep({}, outerData, isolatedData)
+      )
+
+      return await onCommitProp?.(isolatedData, additionalArgs)
+    },
+    [
+      handlePathChangeOuter,
+      onCommitProp,
+      dataOuter,
+      props.path,
+      transformOnCommitProp,
+    ]
+  )
 
   const onClear = useCallback(() => {
     localDataRef.current = clearedData

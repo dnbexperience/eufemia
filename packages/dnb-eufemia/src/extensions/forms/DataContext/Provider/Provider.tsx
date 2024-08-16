@@ -28,7 +28,6 @@ import {
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
-import { extendDeep } from '../../../../shared/component-helper'
 import FieldPropsProvider from '../../Form/FieldProps'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -216,11 +215,7 @@ export default function Provider<Data extends JsonObject>(
     )
   }
 
-  const {
-    hasContext,
-    handlePathChange: handlePathChangeOuter,
-    data: dataOuter,
-  } = useContext(Context) || {}
+  const { hasContext } = useContext(Context) || {}
 
   if (hasContext && !isolate) {
     throw new Error('DataContext (Form.Handler) can not be nested')
@@ -898,24 +893,9 @@ export default function Provider<Data extends JsonObject>(
 
         try {
           if (isolate) {
-            const path = props.path ?? '/'
-            const outerData =
-              props.path && pointer.has(dataOuter, path)
-                ? pointer.get(dataOuter, path)
-                : dataOuter
-            let isolatedData = internalDataRef.current
-
-            if (typeof transformOnCommit === 'function') {
-              isolatedData = transformOnCommit(isolatedData, outerData)
-            }
-
-            // Commit the internal data to the nested context data
-            handlePathChangeOuter?.(
-              path,
-              extendDeep({}, outerData, isolatedData)
-            )
-
-            result = await onCommit?.(isolatedData, { clearData })
+            result = await onCommit?.(internalDataRef.current, {
+              clearData,
+            })
           } else {
             result = await onSubmit()
           }
@@ -969,19 +949,15 @@ export default function Provider<Data extends JsonObject>(
     },
     [
       clearData,
-      dataOuter,
-      handlePathChangeOuter,
       hasErrors,
       hasFieldState,
       hasFieldWithAsyncValidator,
       isolate,
       onCommit,
       onSubmitRequest,
-      props.path,
       setFormState,
       setShowAllErrors,
       setSubmitState,
-      transformOnCommit,
     ]
   )
 
