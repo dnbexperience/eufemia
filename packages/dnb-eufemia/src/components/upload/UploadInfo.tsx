@@ -23,8 +23,6 @@ const UploadInfo = () => {
     children,
   } = context
 
-  const disableFileMaxSize = !fileMaxSize || fileMaxSize === 0
-
   const prettifiedAcceptedFileFormats = acceptedFileTypes
     .join(', ')
     .toUpperCase()
@@ -52,7 +50,7 @@ const UploadInfo = () => {
           </Dl.Item>
         )}
 
-        {!disableFileMaxSize && (
+        {fileMaxSize && (
           <Dl.Item>
             <Dt>{fileSizeDescription}</Dt>
             <Dd>

@@ -25,10 +25,8 @@ export function verifyFiles(
   } = context
 
   const handleSize = (file: File) => {
-    const disableFileMaxSize = !fileMaxSize || fileMaxSize === 0
-
     if (
-      !disableFileMaxSize &&
+      fileMaxSize &&
       // Converts from b (binary) to MB (decimal)
       file.size / BYTES_IN_A_MEGA_BYTE > fileMaxSize
     ) {
