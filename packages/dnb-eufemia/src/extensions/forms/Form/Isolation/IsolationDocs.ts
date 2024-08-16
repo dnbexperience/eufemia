@@ -31,7 +31,7 @@ export const IsolationProperties: PropertiesTableProps = {
 
 export const IsolationEvents: PropertiesTableProps = {
   onCommit: {
-    doc: 'Will be called on a nested form context commit – if validation has passed. The first parameter is the committed data object. The second parameter is on object containing a method to clear the internal data `{ clearData }`.',
+    doc: 'Will be called on a nested form context commit – if validation has passed. The first parameter is the committed data object. The second parameter is an object containing a method to clear the internal data `{ clearData }`.',
     type: 'function',
     status: 'optional',
   },
