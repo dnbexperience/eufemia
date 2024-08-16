@@ -10,6 +10,7 @@ import {
   UploadIsLoading,
   UploadErrorMessage,
   UploadAcceptedFormats,
+  UploadDisabledFileMaxSize,
 } from 'Docs/uilib/components/upload/Examples'
 
 ## Demos
@@ -51,3 +52,10 @@ You can pass the file formats as a string array. This will restrict which files 
 ### Upload with prefilled error
 
 <UploadPrefilledFileList />
+
+### Upload without file max size, and custom error handling of file size
+
+You can disable the file max size, which will deactivate all file size verifications in the Upload component.
+This can also be used to manually implement more complex file max size verifications, like file max size based on file type, see the example below:
+
+<UploadDisabledFileMaxSize />

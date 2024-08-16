@@ -23,6 +23,8 @@ const UploadInfo = () => {
     children,
   } = context
 
+  const disableFileMaxSize = !fileMaxSize || fileMaxSize === 0
+
   const prettifiedAcceptedFileFormats = acceptedFileTypes
     .join(', ')
     .toUpperCase()
@@ -50,15 +52,17 @@ const UploadInfo = () => {
           </Dl.Item>
         )}
 
-        <Dl.Item>
-          <Dt>{fileSizeDescription}</Dt>
-          <Dd>
-            {String(fileSizeContent).replace(
-              '%size',
-              format(fileMaxSize).toString()
-            )}
-          </Dd>
-        </Dl.Item>
+        {!disableFileMaxSize && (
+          <Dl.Item>
+            <Dt>{fileSizeDescription}</Dt>
+            <Dd>
+              {String(fileSizeContent).replace(
+                '%size',
+                format(fileMaxSize).toString()
+              )}
+            </Dd>
+          </Dl.Item>
+        )}
 
         {filesAmountLimit < defaultProps.filesAmountLimit && (
           <Dl.Item>
