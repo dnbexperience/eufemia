@@ -507,7 +507,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
   // so it can be done with only one loop through
   navItems.reduce<{ [id: string]: NavItem }>((hashmap, item) => {
     // Using items url path as ID, it only works in this case, since we can determine the items grouping by the url path
-    // Its solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
+    // It's solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
     // and therefor leads to wrong grouping if used
     const itemId = item.path.replace(/\//g, '-')
     const parentId = item.path
