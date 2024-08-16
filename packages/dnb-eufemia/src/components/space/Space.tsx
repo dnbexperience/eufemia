@@ -51,7 +51,7 @@ export type SpaceProps = {
   no_collapse?: boolean
 
   /**
-   * If set to `true`, then the space element will be 100% in `width`.
+   * If set to `true`, then the space element will be 100% in width.
    * Default: false
    */
   stretch?: boolean
