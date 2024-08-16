@@ -92,11 +92,25 @@ function IsolationProvider<Data extends JsonObject>(
       if (localDataRef.current === clearedData) {
         localDataRef.current = {}
       }
+
       pointer.set(localDataRef.current, path, value)
+
+      if (pathSection) {
+        path = path.replace(pathSection, '')
+      }
 
       return await onPathChange?.(path, value)
     },
-    [onPathChange]
+    [onPathChange, pathSection]
+  )
+
+  const removeSectionPath = useCallback(
+    (data: Data) => {
+      return pathSection && pointer.has(data, pathSection)
+        ? pointer.get(data, pathSection)
+        : data
+    },
+    [pathSection]
   )
 
   // Update the isolated data with the outside context data
@@ -144,14 +158,18 @@ function IsolationProvider<Data extends JsonObject>(
         extendDeep({}, outerData, isolatedData)
       )
 
-      return await onCommitProp?.(isolatedData, additionalArgs)
+      return await onCommitProp?.(
+        removeSectionPath(isolatedData),
+        additionalArgs
+      )
     },
     [
+      props.path,
+      dataOuter,
+      transformOnCommitProp,
       handlePathChangeOuter,
       onCommitProp,
-      dataOuter,
-      props.path,
-      transformOnCommitProp,
+      removeSectionPath,
     ]
   )
 

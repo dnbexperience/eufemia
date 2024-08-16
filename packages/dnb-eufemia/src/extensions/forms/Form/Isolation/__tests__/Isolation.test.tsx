@@ -1213,8 +1213,9 @@ describe('Form.Isolation', () => {
   })
 
   it('should render inside section with correct paths', async () => {
-    const onPathChange = jest.fn()
     const onChange = jest.fn()
+    const onCommit = jest.fn()
+    const onPathChange = jest.fn()
 
     render(
       <Form.Handler
@@ -1231,6 +1232,7 @@ describe('Form.Isolation', () => {
             defaultData={{
               isolated: 'inside',
             }}
+            onCommit={onCommit}
             onPathChange={onPathChange}
           >
             <Field.String label="Isolated" path="/isolated" />
@@ -1254,7 +1256,7 @@ describe('Form.Isolation', () => {
     await userEvent.type(isolated, ' changed')
 
     expect(onPathChange).toHaveBeenLastCalledWith(
-      '/mySection/isolated',
+      '/isolated',
       'inside changed'
     )
 
@@ -1276,6 +1278,11 @@ describe('Form.Isolation', () => {
 
     await userEvent.click(button)
 
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      { isolated: 'inside changed' },
+      { clearData: expect.any(Function) }
+    )
     expect(onChange).toHaveBeenLastCalledWith({
       mySection: {
         isolated: 'inside changed',
@@ -1302,7 +1309,7 @@ describe('Form.Isolation', () => {
     await userEvent.type(isolated, ' 2x')
 
     expect(onPathChange).toHaveBeenLastCalledWith(
-      '/mySection/isolated',
+      '/isolated',
       'inside changed 2x'
     )
 
@@ -1356,11 +1363,7 @@ describe('Form.Isolation', () => {
 
     expect(onCommit).toHaveBeenCalledTimes(1)
     expect(onCommit).toHaveBeenLastCalledWith(
-      {
-        mySection: {
-          isolated: 'inside changed',
-        },
-      },
+      { isolated: 'inside changed' },
       { clearData: expect.any(Function) }
     )
 
