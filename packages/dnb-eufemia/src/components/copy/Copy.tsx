@@ -6,13 +6,22 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import type { CopyAllProps } from './types'
-import { runIOSSelectionFix, useCopyWithNotice } from '../number-format/NumberUtils'
+import {
+  runIOSSelectionFix,
+  useCopyWithNotice,
+} from '../number-format/NumberUtils'
 import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
 
 let hasiOSFix = false
 
-const Copy = ({ children, className = null, disabled, showCursor = true, ...props }: CopyAllProps) => {
+const Copy = ({
+  children,
+  className = null,
+  disabled,
+  showCursor = true,
+  ...props
+}: CopyAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
 
   React.useEffect(() => {
@@ -52,9 +61,7 @@ const Copy = ({ children, className = null, disabled, showCursor = true, ...prop
 
   return (
     <span
-      className={classnames('dnb-copy', 
-      showCursor && 'cursor',
-      className)}
+      className={classnames('dnb-copy', showCursor && 'cursor', className)}
       ref={disabled ? undefined : ref}
       {...props}
       {...params}
@@ -66,11 +73,11 @@ const Copy = ({ children, className = null, disabled, showCursor = true, ...prop
 Copy.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
-  showCursor: PropTypes.bool
+  showCursor: PropTypes.bool,
 }
 Copy.defaultProps = {
   className: null,
-  showCursor: true
+  showCursor: true,
 }
 
 export default Copy

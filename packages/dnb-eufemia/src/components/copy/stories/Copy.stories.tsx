@@ -2,7 +2,6 @@ import React from 'react'
 import Copy from '../Copy'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 
-
 export default {
   title: 'Eufemia/Components/Copy',
 }

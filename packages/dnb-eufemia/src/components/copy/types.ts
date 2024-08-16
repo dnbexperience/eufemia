@@ -19,5 +19,4 @@ export type CopyProps = {
   children: React.ReactNode
 }
 
-export type CopyAllProps = CopyProps &
-  React.HTMLAttributes<HTMLElement>
+export type CopyAllProps = CopyProps & React.HTMLAttributes<HTMLElement>
