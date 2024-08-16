@@ -260,7 +260,7 @@ export const UploadAcceptedFormats = () => (
 )
 
 export const UploadDisabledFileMaxSize = () => (
-  <ComponentBox>
+  <ComponentBox hideCode>
     {() => {
       const Component = () => {
         const verifyFileMaxSize = (file: File) => {
@@ -300,13 +300,13 @@ export const UploadDisabledFileMaxSize = () => (
 
         return (
           <Upload
+            text="Dra & slipp eller velg hvilke filer du vil laste opp. PDF-filer kan ikke være større enn 4 MB og JPG-filer ikke større enn 1 MB."
             acceptedFileTypes={['jpg', 'pdf']}
             id="upload-disabled-file-max-size"
             fileMaxSize={false}
             onChange={({ files }) => {
               setFiles(
                 files.map((fileItem) => {
-                  console.log(fileItem)
                   return {
                     ...fileItem,
                     errorMessage: verifyFileMaxSize(fileItem.file),
