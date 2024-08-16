@@ -13,7 +13,7 @@ import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
   FormError,
-  FieldPropsBase,
+  FieldPropsGeneric,
   AdditionalEventArgs,
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
@@ -72,7 +72,7 @@ export type DataAttributes = {
 // useEffect depend on them (like the external `value`)
 
 export default function useFieldProps<Value, EmptyValue, Props>(
-  localeProps: Props & FieldPropsBase<Value, EmptyValue>,
+  localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   { executeOnChangeRegardlessOfError = false } = {}
 ): typeof localeProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)

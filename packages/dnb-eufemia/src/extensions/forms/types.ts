@@ -118,7 +118,7 @@ type EventArgs<
 export interface DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
-  ExtraValue extends AdditionalEventArgs = AdditionalEventArgs,
+  ExtraValue extends AdditionalEventArgs = undefined,
 > {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
@@ -361,21 +361,21 @@ export interface UseFieldProps<
   valueType?: string | number | boolean | Array<string | number | boolean>
 }
 
-export type FieldPropsBase<
+export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
 
-export type FieldProps<
+export type FieldPropsGeneric<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<
-  FieldPropsBase<Value, EmptyValue, ErrorMessages>,
+  FieldProps<Value, EmptyValue, ErrorMessages>,
   keyof DataValueWriteProps
 > &
-  DataValueWriteProps<Value, EmptyValue, undefined>
+  DataValueWriteProps<Value, EmptyValue, AdditionalEventArgs>
 
 export type FieldPropsWithExtraValue<
   Value = unknown,
@@ -383,7 +383,7 @@ export type FieldPropsWithExtraValue<
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<
-  FieldPropsBase<Value, EmptyValue, ErrorMessages>,
+  FieldProps<Value, EmptyValue, ErrorMessages>,
   keyof DataValueWriteProps
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>

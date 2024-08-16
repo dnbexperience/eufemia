@@ -8,16 +8,17 @@ export type ElementChild =
   | ((value: any, index: number) => React.ReactNode)
 export type Props = Omit<
   FlexContainerProps,
-  'children' | 'width' | 'defaultValue'
-> & {
-  children: ElementChild | Array<ElementChild>
-  value?: UseFieldProps<Value, undefined | Value>['value']
-  path?: Path
-  countPath?: Path
-  countPathLimit?: number
-  countPathTransform?: (params: { value: any; index: number }) => any
-  withoutFlex?: boolean
-  emptyValue?: UseFieldProps<Value, undefined | Value>['emptyValue']
-  placeholder?: React.ReactNode
-  onChange?: UseFieldProps<Value, undefined | Value>['onChange']
-}
+  keyof Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>
+> &
+  Pick<
+    UseFieldProps<Value, undefined | Value>,
+    'value' | 'emptyValue' | 'onChange'
+  > & {
+    children: ElementChild | Array<ElementChild>
+    path?: Path
+    countPath?: Path
+    countPathLimit?: number
+    countPathTransform?: (params: { value: any; index: number }) => any
+    withoutFlex?: boolean
+    placeholder?: React.ReactNode
+  }
