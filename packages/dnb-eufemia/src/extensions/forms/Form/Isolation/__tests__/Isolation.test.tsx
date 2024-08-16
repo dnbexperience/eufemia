@@ -1318,6 +1318,64 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('regular changed 2x')
   })
 
+  it('should commit unchanged data when inside a section', async () => {
+    const onChange = jest.fn()
+    const onCommit = jest.fn()
+
+    render(
+      <Form.Handler
+        defaultData={{
+          mySection: {
+            isolated: 'outside',
+            regular: 'regular',
+          },
+        }}
+        onChange={onChange}
+      >
+        <Form.Section path="/mySection">
+          <Form.Isolation
+            defaultData={{
+              isolated: 'inside',
+            }}
+            onCommit={onCommit}
+          >
+            <Field.String label="Isolated" path="/isolated" />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+
+          <Field.String label="Synced" path="/isolated" />
+          <Field.String label="Regular" path="/regular" />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const inputs = Array.from(document.querySelectorAll('input'))
+    const [isolated, synced, regular] = inputs
+
+    expect(isolated).toHaveValue('inside')
+    expect(synced).toHaveValue('outside')
+    expect(regular).toHaveValue('regular')
+
+    await userEvent.click(button)
+
+    expect(isolated).toHaveValue('inside')
+    expect(synced).toHaveValue('inside')
+    expect(regular).toHaveValue('regular')
+
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      { isolated: 'inside' },
+      { clearData: expect.any(Function) }
+    )
+    expect(onChange).toHaveBeenLastCalledWith({
+      mySection: {
+        isolated: 'inside',
+        regular: 'regular',
+      },
+    })
+  })
+
   it('clears the form data when "clearData" is called inside the "onCommit" event', async () => {
     const onCommit = jest.fn((data, { clearData }) => {
       clearData()

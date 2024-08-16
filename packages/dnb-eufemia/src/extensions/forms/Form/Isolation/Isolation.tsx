@@ -140,13 +140,15 @@ function IsolationProvider<Data extends JsonObject>(
   }, [data, defaultData, dataOuter, pathSection])
 
   const onCommit: IsolationProps<Data>['onCommit'] = useCallback(
-    async (data: Data, additionalArgs) => {
+    async (mountedData: Data, additionalArgs) => {
       const path = props.path ?? '/'
       const outerData =
         props.path && pointer.has(dataOuter, path)
           ? pointer.get(dataOuter, path)
           : dataOuter
-      let isolatedData = structuredClone(localDataRef.current) as Data
+
+      localDataRef.current = mountedData
+      let isolatedData = structuredClone(mountedData) as Data
 
       if (typeof transformOnCommitProp === 'function') {
         isolatedData = transformOnCommitProp(isolatedData, outerData)

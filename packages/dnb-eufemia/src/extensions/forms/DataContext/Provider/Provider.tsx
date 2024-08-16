@@ -189,7 +189,6 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     onCommit,
     onClear,
-    transformOnCommit,
     scrollTopOnSubmit,
     minimumAsyncBehaviorTime,
     asyncSubmitTimeout,
@@ -893,7 +892,17 @@ export default function Provider<Data extends JsonObject>(
 
         try {
           if (isolate) {
-            result = await onCommit?.(internalDataRef.current, {
+            const mounterData = {} as Data
+            mountedFieldPathsRef.current.forEach((path) => {
+              if (pointer.has(internalDataRef.current, path)) {
+                pointer.set(
+                  mounterData,
+                  path,
+                  pointer.get(internalDataRef.current, path)
+                )
+              }
+            })
+            result = await onCommit?.(mounterData, {
               clearData,
             })
           } else {
