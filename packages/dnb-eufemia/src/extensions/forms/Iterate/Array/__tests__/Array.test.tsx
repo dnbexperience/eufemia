@@ -218,6 +218,29 @@ describe('Iterate.Array', () => {
         { foo: 'foo 2c', bar: 'bar 2' },
       ])
     })
+
+    it('should render array elements defined in the root data context', () => {
+      const data = [
+        { name: 'Iron Man' },
+        { name: 'Captain America' },
+        { name: 'Thor' },
+      ]
+
+      render(
+        <Form.Handler data={data}>
+          <Iterate.Array path="/">
+            <Field.String itemPath="/name" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+
+      expect(inputs).toHaveLength(3)
+      expect(inputs[0]).toHaveValue('Iron Man')
+      expect(inputs[1]).toHaveValue('Captain America')
+      expect(inputs[2]).toHaveValue('Thor')
+    })
   })
 
   describe('countPath', () => {
