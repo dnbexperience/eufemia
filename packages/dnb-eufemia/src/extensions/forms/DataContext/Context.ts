@@ -120,6 +120,7 @@ export interface ContextState {
   ajvInstance: Ajv
   contextErrorMessages: CustomErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
+  path?: Path
   disabled?: boolean
   required?: boolean
   submitState: Partial<EventStateObject>

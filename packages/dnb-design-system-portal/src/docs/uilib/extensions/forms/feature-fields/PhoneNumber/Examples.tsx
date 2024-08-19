@@ -6,9 +6,15 @@ export const Empty = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        onFocus={(value) => console.log('onFocus', value)}
-        onBlur={(value) => console.log('onBlur', value)}
-        onChange={(...args) => console.log('onChange', ...args)}
+        onFocus={(value, additionalArgs) =>
+          console.log('onFocus', value, additionalArgs)
+        }
+        onBlur={(value, additionalArgs) =>
+          console.log('onBlur', value, additionalArgs)
+        }
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         onCountryCodeChange={(countryCode) =>
           console.log('onCountryCodeChange', countryCode)
         }
@@ -25,7 +31,9 @@ export const Placeholder = () => {
     <ComponentBox>
       <Field.PhoneNumber
         placeholder="Call this number"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
       />
     </ComponentBox>
   )
@@ -36,7 +44,9 @@ export const Label = () => {
     <ComponentBox>
       <Field.PhoneNumber
         label="Label text"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
       />
     </ComponentBox>
   )
@@ -48,7 +58,9 @@ export const LabelAndValue = () => {
       <Field.PhoneNumber
         label="Label text"
         value="+47 98765432"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
       />
     </ComponentBox>
   )
@@ -58,7 +70,9 @@ export const WithHelp = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         help={{
           title: 'Help is available',
           content:
@@ -75,7 +89,9 @@ export const Disabled = () => {
       <Field.PhoneNumber
         value="+47 12345678"
         label="Label text"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         disabled
       />
     </ComponentBox>
@@ -88,7 +104,9 @@ export const WithError = () => {
       <Field.PhoneNumber
         value="007"
         label="Label text"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
@@ -101,7 +119,9 @@ export const ValidationRequired = () => {
       <Field.PhoneNumber
         value="+47 888"
         label="Label text"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         required
       />
     </ComponentBox>
@@ -114,7 +134,9 @@ export const ValidationPattern = () => {
       <Field.PhoneNumber
         value="+41 123"
         label="Label text"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         pattern="^\\+41 [1]\\d{2}$"
       />
     </ComponentBox>
@@ -126,7 +148,9 @@ export const WithFilter = () => {
     <ComponentBox>
       <Field.PhoneNumber
         label="Label text"
-        onChange={(...args) => console.log('onChange', ...args)}
+        onChange={(value, additionalArgs) =>
+          console.log('onChange', value, additionalArgs)
+        }
         countries="Scandinavia"
       />
     </ComponentBox>

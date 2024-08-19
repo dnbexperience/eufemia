@@ -28,10 +28,10 @@ export type UploadProps = {
   filesAmountLimit?: number
 
   /**
-   * fileMaxSize is max size of each file in MB
+   * Defines the max file size of each file in MB. Use either `0` or `false` to disable.
    * Default: 5 MB
    */
-  fileMaxSize?: number
+  fileMaxSize?: number | false
 
   /**
    * will be called on `files` changes made by the user. Access the files with `{ files }`.

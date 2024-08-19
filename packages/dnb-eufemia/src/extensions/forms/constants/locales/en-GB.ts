@@ -73,6 +73,10 @@ export default {
       yes: 'Yes',
       no: 'No',
     },
+    ToggleField: {
+      yes: 'Yes',
+      no: 'No',
+    },
 
     /**
      * Feature fields

@@ -13,13 +13,14 @@ import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
   FormError,
-  FieldProps,
+  FieldPropsGeneric,
   AdditionalEventArgs,
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
+import { clearedData } from '../DataContext/Provider/Provider'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
@@ -71,15 +72,12 @@ export type DataAttributes = {
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
-export default function useFieldProps<
-  Value = unknown,
-  Props extends FieldProps<Value> = FieldProps<Value>,
->(
-  localeProps: Props,
+export default function useFieldProps<Value, EmptyValue, Props>(
+  localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   { executeOnChangeRegardlessOfError = false } = {}
-): Props & FieldProps<Value> & ReturnAdditional<Value> {
+): typeof localeProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldPropsContext)
-  const props = extend<Props>(localeProps)
+  const props = extend(localeProps)
 
   const {
     path: pathProp,
@@ -108,11 +106,13 @@ export default function useFieldProps<
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
     transformValue = (value: Value) => value,
+    transformAdditionalArgs = (additionalArgs: AdditionalEventArgs) =>
+      additionalArgs,
     fromExternal = (value: Value) => value,
-    validateRequired = (value: Value, { emptyValue, required, error }) => {
+    validateRequired = (value, { emptyValue, required, error }) => {
       const res =
         required &&
-        (value === emptyValue ||
+        ((value as any) === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
           ? error
           : undefined
@@ -134,6 +134,7 @@ export default function useFieldProps<
   const transformers = useRef({
     transformIn,
     transformOut,
+    transformAdditionalArgs,
     toInput,
     fromInput,
     toEvent,
@@ -232,7 +233,7 @@ export default function useFieldProps<
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
-  const showErrorRef = useRef<boolean>(
+  const revealErrorRef = useRef<boolean>(
     Boolean(validateInitially || errorProp)
   )
   // - Local errors are errors based on validation instructions received by
@@ -351,16 +352,18 @@ export default function useFieldProps<
     [setFieldStateDataContext, identifier, validateInitially]
   )
 
-  const showError = useCallback(() => {
-    showErrorRef.current = true
+  const revealError = useCallback(() => {
+    revealErrorRef.current = true
     showFieldErrorFieldBlock?.(identifier, true)
     if (localErrorRef.current) {
       setHasVisibleErrorDataContext?.(identifier, true)
+    } else {
+      setHasVisibleErrorDataContext?.(identifier, false)
     }
   }, [showFieldErrorFieldBlock, identifier, setHasVisibleErrorDataContext])
 
   const hideError = useCallback(() => {
-    showErrorRef.current = false
+    revealErrorRef.current = false
     showFieldErrorFieldBlock?.(identifier, false)
     setHasVisibleErrorDataContext?.(identifier, false)
   }, [setHasVisibleErrorDataContext, identifier, showFieldErrorFieldBlock])
@@ -408,7 +411,7 @@ export default function useFieldProps<
   }, [dataContextError, prepareError])
 
   const error =
-    showErrorRef.current ||
+    revealErrorRef.current ||
     // If the error is a type error, we want to show it even if the field as not been used
     localErrorRef.current?.['validationRule'] === 'type'
       ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
@@ -523,7 +526,7 @@ export default function useFieldProps<
       if (continuousValidation || runAsync) {
         // Because we first need to throw the error to be able to display it, we delay the showError call
         window.requestAnimationFrame(() => {
-          showError()
+          revealError()
           forceUpdate()
         })
       }
@@ -547,7 +550,7 @@ export default function useFieldProps<
     persistErrorState,
     defineAsyncProcess,
     setFieldState,
-    showError,
+    revealError,
   ])
 
   const callOnBlurValidator = useCallback(
@@ -581,10 +584,10 @@ export default function useFieldProps<
         setFieldState(result instanceof Error ? 'error' : 'complete')
       }
 
-      showError()
+      revealError()
       forceUpdate()
     },
-    [persistErrorState, defineAsyncProcess, setFieldState, showError]
+    [persistErrorState, defineAsyncProcess, setFieldState, revealError]
   )
 
   const prioritizeContextSchema = useMemo(() => {
@@ -693,31 +696,47 @@ export default function useFieldProps<
       // When there is a change to the value without there having been any focus callback beforehand, it is likely
       // to believe that the blur callback will not be called either, which would trigger the display of the error.
       // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
-      showError()
+      revealError()
     } else {
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       hideError()
     }
-  }, [continuousValidation, hideError, showError])
+  }, [continuousValidation, hideError, revealError])
 
   const setHasFocus = useCallback(
-    async (hasFocus: boolean, valueOverride?: Value) => {
+    async (
+      hasFocus: boolean,
+      valueOverride?: Value,
+      additionalArgs?: AdditionalEventArgs
+    ) => {
+      const getArgs = (
+        type: Parameters<typeof transformers.current.toEvent>[1]
+      ) => {
+        const value = transformers.current.toEvent(
+          valueOverride ?? valueRef.current,
+          type
+        )
+        const transformedAdditionalArgs =
+          transformers.current.transformAdditionalArgs(
+            additionalArgs,
+            value
+          )
+
+        return typeof transformedAdditionalArgs !== 'undefined'
+          ? [value, transformedAdditionalArgs]
+          : [value]
+      }
+
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
-          'onFocus'
-        )
-        onFocus?.(value)
+        const args = getArgs('onFocus')
+        onFocus?.apply(this, args)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
-          'onBlur'
-        )
-        onBlur?.(value)
+        const args = getArgs('onBlur')
+        onBlur?.apply(this, args)
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -733,7 +752,7 @@ export default function useFieldProps<
 
         await runPool(() => {
           // Since the user left the field, show error (if any)
-          showError()
+          revealError()
           forceUpdate()
         })
       }
@@ -744,7 +763,7 @@ export default function useFieldProps<
       onBlur,
       onFocus,
       runPool,
-      showError,
+      revealError,
       validateUnchanged,
     ]
   )
@@ -805,7 +824,7 @@ export default function useFieldProps<
 
     if (typeof result?.error !== 'undefined') {
       persistErrorState('gracefully', result.error)
-      showError()
+      revealError()
     }
     if (typeof result?.warning !== 'undefined') {
       warningRef.current = result.warning
@@ -835,7 +854,7 @@ export default function useFieldProps<
     defineAsyncProcess,
     persistErrorState,
     setFieldState,
-    showError,
+    revealError,
     yieldAsyncProcess,
   ])
 
@@ -951,7 +970,7 @@ export default function useFieldProps<
 
   const handleChange = useCallback(
     async (
-      argFromInput: Value,
+      argFromInput: Value | unknown,
       additionalArgs: AdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
@@ -991,8 +1010,14 @@ export default function useFieldProps<
           'onChange'
         )
 
-        return typeof additionalArgs !== 'undefined'
-          ? [value, additionalArgs]
+        const transformedAdditionalArgs =
+          transformers.current.transformAdditionalArgs(
+            additionalArgs,
+            value
+          )
+
+        return typeof transformedAdditionalArgs !== 'undefined'
+          ? [value, transformedAdditionalArgs]
           : [value]
       }
 
@@ -1081,6 +1106,12 @@ export default function useFieldProps<
       : undefined
     validateValue()
   }, [schema, validateValue])
+
+  useEffect(() => {
+    if (dataContext.data === clearedData) {
+      hideError()
+    }
+  }, [dataContext.data, hideError])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
@@ -1177,11 +1208,11 @@ export default function useFieldProps<
       if (fieldStateRef.current !== 'validating') {
         // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
         // something else that should lead to showing the user all errors.
-        showError()
+        revealError()
         forceUpdate()
       }
     }
-  }, [showAllErrors, showError])
+  }, [showAllErrors, revealError])
 
   useEffect(() => {
     if (
@@ -1375,11 +1406,15 @@ export interface ReturnAdditional<Value> {
   value: Value
   isChanged: boolean
   htmlAttributes: AriaAttributes | DataAttributes
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  setHasFocus: (
+    hasFocus: boolean,
+    valueOverride?: unknown,
+    additionalArgs?: AdditionalEventArgs
+  ) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
-    value: Value,
+    value: Value | unknown,
     additionalArgs?: AdditionalEventArgs
   ) => void
   updateValue: (value: Value) => void

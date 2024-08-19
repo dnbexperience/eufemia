@@ -19,20 +19,22 @@ export const UploadSandbox = () => {
     console.log(files1)
   }, [files1])
 
+  const acceptedFileTypes = ['jpg', 'pdf', 'png']
+
   return (
     <Wrapper>
-      {/* <Box>
+      <Box>
         <Upload id="upload-example-1" acceptedFileTypes={['pdf']} />
       </Box>
       <Box>
         <Upload id="upload-example-2" acceptedFileTypes={['jpg', 'pdf']} />
-      </Box> */}
+      </Box>
       <Box>
         <Upload
           title="Upload single file"
           id="upload-example-3"
           filesAmountLimit={2}
-          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          acceptedFileTypes={acceptedFileTypes}
         />
       </Box>
       <Box>
@@ -45,7 +47,7 @@ export const UploadSandbox = () => {
       <Box>
         <Upload
           id="upload-example-5"
-          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          acceptedFileTypes={acceptedFileTypes}
           title="custom title"
           text="custom text"
           fileTypeDescription="custom fileTypeDescription"
@@ -60,12 +62,25 @@ export const UploadSandbox = () => {
         Two Upload components can be controlled using the same id
         <Upload
           id="upload-example-6"
-          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          acceptedFileTypes={acceptedFileTypes}
         />
         <Upload
           top="x-small"
-          id="upload-example-6"
-          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          id="upload-example-7"
+          acceptedFileTypes={acceptedFileTypes}
+        />
+      </Box>
+      <Box>
+        fileMaxSize disabled, hiding file max size
+        <Upload
+          id="upload-example-8"
+          fileMaxSize={0}
+          acceptedFileTypes={acceptedFileTypes}
+        />
+        <Upload
+          id="upload-example-9"
+          fileMaxSize={false}
+          acceptedFileTypes={acceptedFileTypes}
         />
       </Box>
     </Wrapper>

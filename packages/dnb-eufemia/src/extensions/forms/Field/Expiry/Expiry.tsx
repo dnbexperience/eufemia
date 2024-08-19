@@ -13,7 +13,8 @@ import useTranslation from '../../hooks/useTranslation'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
-export type ExpiryProps = FieldHelpProps & FieldProps<string>
+export type ExpiryProps = FieldHelpProps &
+  FieldProps<string, undefined | ''>
 
 function Expiry(props: ExpiryProps) {
   const {

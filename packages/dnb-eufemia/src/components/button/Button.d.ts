@@ -77,7 +77,7 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant;
   /**
-   * The size of the button. For now there is "small", "medium", "default" and "large".
+   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
    */
   size?: ButtonSize;
   /**

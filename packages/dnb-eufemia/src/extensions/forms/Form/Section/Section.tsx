@@ -71,7 +71,7 @@ function SectionComponent(props: LocalProps) {
     children,
   } = props
 
-  if (path && !path.startsWith('/')) {
+  if (path && !path.startsWith?.('/')) {
     throw new Error(`path="${path}" must start with a slash`)
   }
 

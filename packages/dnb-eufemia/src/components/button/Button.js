@@ -81,8 +81,8 @@ export default class Button extends React.PureComponent {
     }
   }
 
-  onClickHandler = (event) => {
-    const afterContent = dispatchCustomElementEvent(this, 'on_click', {
+  getOnClickHandler = (src) => (event) => {
+    const afterContent = dispatchCustomElementEvent(src, 'on_click', {
       event,
     })
     if (afterContent && React.isValidElement(afterContent)) {
@@ -222,8 +222,8 @@ export default class Button extends React.PureComponent {
       ...attributes,
     }
 
-    if (this.props.on_click || this.props.onClick) {
-      params.onClick = this.onClickHandler
+    if (props.on_click || props.onClick) {
+      params.onClick = this.getOnClickHandler(props)
     }
 
     if (Element !== Anchor && !params.type) {
@@ -386,6 +386,7 @@ Button.defaultProps = {
   element: null,
 
   on_click: null,
+  onClick: null,
 }
 
 function Content({

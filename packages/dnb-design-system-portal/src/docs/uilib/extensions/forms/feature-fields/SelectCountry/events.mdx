@@ -3,20 +3,27 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { selectCountryGeneralEvents } from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/SelectCountryDocs'
 
 ## Events
 
-<PropertiesTable props={fieldEvents} />
+<PropertiesTable props={selectCountryGeneralEvents} />
 
-### Argument value
+### Details about argument values
 
-The event handlers has two arguments. The first one is a `string` containing the `ISO` of the selected country, e.g. `CH`, and the second argument is an object with the properties `cdc`, `continent`, `i18n` and `iso`. e.g. `{
-  cdc: '41',
-  iso: 'CH',
+The event handlers has two arguments. The first one is a `string` containing the `ISO` of the selected country, e.g. `CH`, and the second argument is an object with the properties `cdc`, `continent`, `i18n` and `iso`.
+
+```jsx
+(
+  value?: string // e.g. "CH"
+  additionalArgs?: {
     i18n: {
-    en: 'Switzerland',
-    nb: 'Sveits'
-  },
-  continent: 'Europe'
-}`
+      en: string, // e.g. "Switzerland"
+      nb: string // e.g. "Sveits"
+    },
+    cdc: string, // e.g. "41"
+    iso: string, // e.g. "CH"
+    continent: string // e.g. "Europe"
+  }
+) => void
+```

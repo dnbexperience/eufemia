@@ -9,7 +9,11 @@ import countries, {
   type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
-import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
+import {
+  FieldBlockWidth,
+  FieldHelpProps,
+  FieldPropsWithExtraValue,
+} from '../../types'
 import FieldBlock from '../../FieldBlock'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -21,7 +25,7 @@ export type CountryFilterSet =
   | 'Prioritized'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
+  FieldPropsWithExtraValue<string, CountryType, undefined | string> & {
     countries?: CountryFilterSet
 
     // Styling
@@ -46,6 +50,15 @@ function SelectCountry(props: Props) {
   const translations = useTranslation().SelectCountry
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
+  const transformAdditionalArgs = (additionalArgs: CountryType, value) => {
+    const country = countries.find(({ iso }) => value === iso)
+    if (country?.iso) {
+      return country
+    } else {
+      return additionalArgs
+    }
+  }
+
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.errorRequired,
   })
@@ -56,6 +69,7 @@ function SelectCountry(props: Props) {
   const preparedProps: Props = {
     ...defaultProps,
     ...props,
+    transformAdditionalArgs,
   }
 
   const {
@@ -122,7 +136,7 @@ function SelectCountry(props: Props) {
       const newValue = data?.selectedKey
       const country = countries.find(({ iso }) => newValue === iso)
       if (country?.iso) {
-        handleChange(country.iso, country)
+        handleChange(country.iso)
       }
     },
     [handleChange]
@@ -159,7 +173,7 @@ function SelectCountry(props: Props) {
         )
         if (country?.iso) {
           setHidden()
-          handleChange(country.iso, country)
+          handleChange(country.iso)
         }
       }
     },
@@ -191,6 +205,7 @@ function SelectCountry(props: Props) {
         stretch
         status={hasError ? 'error' : undefined}
         show_submit_button
+        keep_selection
         suffix={
           help ? (
             <HelpButton title={help.title}>{help.content}</HelpButton>

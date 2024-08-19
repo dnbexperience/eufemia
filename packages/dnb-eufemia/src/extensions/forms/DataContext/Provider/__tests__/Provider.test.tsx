@@ -19,7 +19,7 @@ import {
   JSONSchema,
   Ajv,
   OnChange,
-  OnChangeValue,
+  DataValueWriteProps,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
@@ -32,6 +32,8 @@ import { debounceAsync } from '../../../../../shared/helpers/debounce'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
+
+type OnChangeValue = DataValueWriteProps['onChange']
 
 if (isCI) {
   jest.retryTimes(5) // because of an flaky async validation test

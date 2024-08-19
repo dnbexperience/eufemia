@@ -7,7 +7,7 @@ hideInMenu: true
 
 `Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
 
-Its a provider that lets you provide a `schema` or `data` very similar to what the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component does.
+It's a provider that lets you provide a `schema` or `data` very similar to what the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component does.
 
 ### Good to know
 
@@ -16,6 +16,7 @@ Its a provider that lets you provide a `schema` or `data` very similar to what t
 - Input fields are prevented from submitting the form when pressing enter. Pressing enter on input fields will commit the isolated data to the `Form.Handler` context instead.
 - You can provide a `schema`, `data` or `defaultData` like you would do with the `Form.Handler`.
 - You can also provide `data` or `defaultData` to the `Form.Handler`, defining the data that will be used for the isolated data.
+- Using `Form.Isolation` inside of a `Form.Section` is supported.
 - `onChange` on the `Form.Handler` will be called when the isolated data gets commited.
 - `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onCommit` to get the data that gets commited.
 
@@ -89,4 +90,28 @@ render(
     </Form.Isolation>
   </Form.Handler>,
 )
+```
+
+## Clear data from isolated fields
+
+You can clear the isolation by calling `Form.clearData` with the `id` of the form.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Form.Isolation
+        id="my-isolated-data"
+        onCommit={() => {
+          Form.clearData('my-isolated-data')
+        }}
+      >
+        <Field.String path="/isolated" />
+        <Form.Isolation.CommitButton />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
 ```

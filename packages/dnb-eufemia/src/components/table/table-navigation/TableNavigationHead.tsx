@@ -18,7 +18,7 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const { children, onClick, ...props } = allProps
   const tableContext = React.useContext(TableContext)
 
-  let content = React.Children.toArray(children)
+  const content = React.Children.toArray(children)
 
   const hasOnClick = typeof onClick === 'function'
 
@@ -41,7 +41,7 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
       />
     )
   } else if (!hasOnClick) {
-    content.push(<Td key="empty-td"></Td>)
+    content.push(<Td key="empty-td" />)
   }
 
   return (

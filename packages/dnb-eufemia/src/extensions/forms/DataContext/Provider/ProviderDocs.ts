@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'Provide your own custom Ajv instance. More info in the <a href="/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords">Schema validation</a> section.',
+    doc: 'Provide your own custom Ajv instance. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
     type: 'ajv',
     status: 'optional',
   },
@@ -116,6 +116,11 @@ export const ProviderEvents: PropertiesTableProps = {
   },
   onSubmitComplete: {
     doc: 'Will be called after onSubmit has finished and had not errors. It supports the same return values as `onSubmit` and will be merged together.',
+    type: 'function',
+    status: 'optional',
+  },
+  onClear: {
+    doc: 'Will be called when the form is cleared via `Form.clearData` or via the `onSubmit` event (or `onCommit`) argument `{ clearData }`.',
     type: 'function',
     status: 'optional',
   },

@@ -25,7 +25,7 @@ import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 
-import type { ContainerMode, ElementChild, Props, Value } from './types'
+import type { ContainerMode, ElementChild, Props } from './types'
 import type { Identifier, Path } from '../../types'
 
 /**
@@ -87,7 +87,7 @@ function ArrayComponent(props: Props) {
     handleChange,
     onChange,
     children,
-  } = useFieldProps<Value, Props>(preparedProps)
+  } = useFieldProps(preparedProps)
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
