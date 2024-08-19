@@ -11,7 +11,7 @@ import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import {
   FieldHelpProps,
-  FieldProps,
+  FieldPropsWithExtraValue,
   AllJSONSchemaVersions,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -26,7 +26,11 @@ import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
+  FieldPropsWithExtraValue<
+    string,
+    { country: string; phone: string },
+    undefined | string
+  > & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
     countryCodePlaceholder?: string
