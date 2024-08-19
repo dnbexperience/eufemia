@@ -4,12 +4,13 @@ import {
   createEvent,
   fireEvent,
   render,
+  waitFor,
 } from '@testing-library/react'
-import { Field, Form, JSONSchema } from '../../..'
 import userEvent from '@testing-library/user-event'
+import { Field, Form, JSONSchema } from '../../..'
+import setData from '../../data-context/setData'
 
 import nbNO from '../../../constants/locales/nb-NO'
-import setData from '../../data-context/setData'
 const nb = nbNO['nb-NO']
 
 describe('Form.Isolation', () => {
@@ -43,7 +44,7 @@ describe('Form.Isolation', () => {
     expect(isolated).toHaveValue('Isolated')
   })
 
-  it('should use data from isolated context', () => {
+  it('should use "data" from isolated context', () => {
     render(
       <Form.Handler
         defaultData={{
@@ -73,7 +74,7 @@ describe('Form.Isolation', () => {
     expect(isolated).toHaveValue('Isolated other value')
   })
 
-  it('should use defaultData from isolated context', () => {
+  it('should use "defaultData" from isolated context', () => {
     render(
       <Form.Handler
         defaultData={{
@@ -249,13 +250,13 @@ describe('Form.Isolation', () => {
       <Form.Handler
         defaultData={{
           regular: 'Regular',
-          isolated: 'Isolated',
+          isolated: 'Never displayed',
         }}
         onChange={onChange}
       >
         <Field.String path="/regular" />
 
-        <Form.Isolation defaultData={{}}>
+        <Form.Isolation defaultData={{ isolated: 'Isolated' }}>
           <Field.String path="/isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
@@ -268,9 +269,9 @@ describe('Form.Isolation', () => {
     )
 
     expect(regular).toHaveValue('Regular')
-    expect(isolated).toHaveValue('')
+    expect(isolated).toHaveValue('Isolated')
 
-    await userEvent.type(isolated, 'Something')
+    await userEvent.type(isolated, '{Backspace>8}Something')
     await userEvent.click(button)
 
     expect(regular).toHaveValue('Regular')
@@ -490,6 +491,86 @@ describe('Form.Isolation', () => {
     })
   })
 
+  it('onCommit should only return the isolated data', async () => {
+    const onCommit = jest.fn()
+
+    render(
+      <Form.Handler
+        defaultData={{
+          regular: 'Regular',
+          isolated: 'Isolated',
+        }}
+      >
+        <Field.String path="/regular" />
+
+        <Form.Isolation onCommit={onCommit}>
+          <Field.String path="/isolated" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(regular).toHaveValue('Regular')
+    expect(isolated).toHaveValue('Isolated')
+
+    await userEvent.type(isolated, '{Backspace>8}Something')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular')
+    expect(isolated).toHaveValue('Something')
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Something',
+      },
+      expect.anything()
+    )
+
+    await userEvent.type(regular, ' updated')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular updated')
+    expect(isolated).toHaveValue('Something')
+    expect(onCommit).toHaveBeenCalledTimes(2)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Something',
+      },
+      expect.anything()
+    )
+
+    await userEvent.type(isolated, ' 2')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular updated')
+    expect(isolated).toHaveValue('Something 2')
+    expect(onCommit).toHaveBeenCalledTimes(3)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Something 2',
+      },
+      expect.anything()
+    )
+
+    await userEvent.type(regular, ' 2')
+    await userEvent.click(button)
+
+    expect(regular).toHaveValue('Regular updated 2')
+    expect(isolated).toHaveValue('Something 2')
+    expect(onCommit).toHaveBeenCalledTimes(4)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Something 2',
+      },
+      expect.anything()
+    )
+  })
+
   it('should call onCommit event when commitHandleRef is called', async () => {
     const onCommit = jest.fn()
     const commitHandleRef = React.createRef<() => void>()
@@ -522,9 +603,12 @@ describe('Form.Isolation', () => {
     })
 
     expect(onCommit).toHaveBeenCalledTimes(1)
-    expect(onCommit).toHaveBeenLastCalledWith({
-      isolated: 'Isolated',
-    })
+    expect(onCommit).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Isolated',
+      },
+      expect.anything()
+    )
 
     await userEvent.type(regular, 'Regular')
 
@@ -533,10 +617,12 @@ describe('Form.Isolation', () => {
     })
 
     expect(onCommit).toHaveBeenCalledTimes(2)
-    expect(onCommit).toHaveBeenLastCalledWith({
-      regular: 'Regular',
-      isolated: 'Isolated',
-    })
+    expect(onCommit).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Isolated',
+      },
+      expect.anything()
+    )
   })
 
   it('should support nested paths', async () => {
@@ -636,7 +722,7 @@ describe('Form.Isolation', () => {
     )
   })
 
-  describe('Isolate.Button', () => {
+  describe('Isolate.CommitButton', () => {
     it('should have correct type and text', async () => {
       render(
         <Form.Isolation>
@@ -659,7 +745,7 @@ describe('Form.Isolation', () => {
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
           <Form.Isolation onCommit={onCommit}>
             <Field.String path="/isolated" />
-            <Form.Isolation.CommitButton text="Complete" />
+            <Form.Isolation.CommitButton />
           </Form.Isolation>
         </Form.Handler>
       )
@@ -678,9 +764,12 @@ describe('Form.Isolation', () => {
         isolated: 'Isolated',
       })
       expect(onCommit).toHaveBeenCalledTimes(1)
-      expect(onCommit).toHaveBeenLastCalledWith({
-        isolated: 'Isolated',
-      })
+      expect(onCommit).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
 
       await userEvent.click(button)
       await userEvent.type(isolated, '-updated')
@@ -690,9 +779,12 @@ describe('Form.Isolation', () => {
         isolated: 'Isolated',
       })
       expect(onCommit).toHaveBeenCalledTimes(2)
-      expect(onCommit).toHaveBeenLastCalledWith({
-        isolated: 'Isolated',
-      })
+      expect(onCommit).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
 
       await userEvent.click(button)
 
@@ -701,9 +793,81 @@ describe('Form.Isolation', () => {
         isolated: 'Isolated-updated',
       })
       expect(onCommit).toHaveBeenCalledTimes(3)
-      expect(onCommit).toHaveBeenLastCalledWith({
+      expect(onCommit).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated-updated',
+        },
+        expect.anything()
+      )
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+    })
+
+    it('should commit data on SubmitButton click without committing the form', async () => {
+      const onChange = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+          <Form.Isolation onCommit={onCommit}>
+            <Field.String path="/isolated" />
+            <Form.SubmitButton />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const isolated = document.querySelector('input')
+      const button = document.querySelector('button')
+
+      expect(button).toHaveTextContent('Send')
+
+      await userEvent.type(isolated, 'Isolated')
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(button)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith({
+        isolated: 'Isolated',
+      })
+      expect(onCommit).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
+
+      await userEvent.click(button)
+      await userEvent.type(isolated, '-updated')
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({
+        isolated: 'Isolated',
+      })
+      expect(onCommit).toHaveBeenCalledTimes(2)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
+
+      await userEvent.click(button)
+
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith({
         isolated: 'Isolated-updated',
       })
+      expect(onCommit).toHaveBeenCalledTimes(3)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated-updated',
+        },
+        expect.anything()
+      )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
     })
@@ -1020,7 +1184,7 @@ describe('Form.Isolation', () => {
             }
           }}
         >
-          <Field.String required path="/newPerson/name" />
+          <Field.String path="/newPerson/name" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
       </Form.Handler>
@@ -1046,5 +1210,239 @@ describe('Form.Isolation', () => {
       existing: 'data',
       persons: [{ name: 'John' }, { name: 'Oda' }, { name: 'Odd' }],
     })
+  })
+
+  it('should render inside section with correct paths', async () => {
+    const onChange = jest.fn()
+    const onCommit = jest.fn()
+    const onPathChange = jest.fn()
+
+    render(
+      <Form.Handler
+        defaultData={{
+          mySection: {
+            isolated: 'outside',
+            regular: 'regular',
+          },
+        }}
+        onChange={onChange}
+      >
+        <Form.Section path="/mySection">
+          <Form.Isolation
+            defaultData={{
+              isolated: 'inside',
+            }}
+            onCommit={onCommit}
+            onPathChange={onPathChange}
+          >
+            <Field.String label="Isolated" path="/isolated" />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+
+          <Field.String label="Synced" path="/isolated" />
+          <Field.String label="Regular" path="/regular" />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const inputs = Array.from(document.querySelectorAll('input'))
+    const [isolated, synced, regular] = inputs
+
+    expect(isolated).toHaveValue('inside')
+    expect(synced).toHaveValue('outside')
+    expect(regular).toHaveValue('regular')
+
+    await userEvent.type(isolated, ' changed')
+
+    expect(onPathChange).toHaveBeenLastCalledWith(
+      '/isolated',
+      'inside changed'
+    )
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('outside')
+    expect(regular).toHaveValue('regular')
+
+    await userEvent.type(regular, ' changed')
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('outside')
+    expect(regular).toHaveValue('regular changed')
+
+    await userEvent.type(synced, ' changed')
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('outside changed')
+    expect(regular).toHaveValue('regular changed')
+
+    await userEvent.click(button)
+
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      { isolated: 'inside changed' },
+      { clearData: expect.any(Function) }
+    )
+    expect(onChange).toHaveBeenLastCalledWith({
+      mySection: {
+        isolated: 'inside changed',
+        regular: 'regular changed',
+      },
+    })
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('inside changed')
+    expect(regular).toHaveValue('regular changed')
+
+    await userEvent.type(synced, ' 2x')
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('inside changed 2x')
+    expect(regular).toHaveValue('regular changed')
+
+    await userEvent.type(regular, ' 2x')
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('inside changed 2x')
+    expect(regular).toHaveValue('regular changed 2x')
+
+    await userEvent.type(isolated, ' 2x')
+
+    expect(onPathChange).toHaveBeenLastCalledWith(
+      '/isolated',
+      'inside changed 2x'
+    )
+
+    expect(isolated).toHaveValue('inside changed 2x')
+    expect(synced).toHaveValue('inside changed 2x')
+    expect(regular).toHaveValue('regular changed 2x')
+  })
+
+  it('should commit unchanged data when inside a section', async () => {
+    const onChange = jest.fn()
+    const onCommit = jest.fn()
+
+    render(
+      <Form.Handler
+        defaultData={{
+          mySection: {
+            isolated: 'outside',
+            regular: 'regular',
+          },
+        }}
+        onChange={onChange}
+      >
+        <Form.Section path="/mySection">
+          <Form.Isolation
+            defaultData={{
+              isolated: 'inside',
+            }}
+            onCommit={onCommit}
+          >
+            <Field.String label="Isolated" path="/isolated" />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+
+          <Field.String label="Synced" path="/isolated" />
+          <Field.String label="Regular" path="/regular" />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const inputs = Array.from(document.querySelectorAll('input'))
+    const [isolated, synced, regular] = inputs
+
+    expect(isolated).toHaveValue('inside')
+    expect(synced).toHaveValue('outside')
+    expect(regular).toHaveValue('regular')
+
+    await userEvent.click(button)
+
+    expect(isolated).toHaveValue('inside')
+    expect(synced).toHaveValue('inside')
+    expect(regular).toHaveValue('regular')
+
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      { isolated: 'inside' },
+      { clearData: expect.any(Function) }
+    )
+    expect(onChange).toHaveBeenLastCalledWith({
+      mySection: {
+        isolated: 'inside',
+        regular: 'regular',
+      },
+    })
+  })
+
+  it('clears the form data when "clearData" is called inside the "onCommit" event', async () => {
+    const onCommit = jest.fn((data, { clearData }) => {
+      clearData()
+    })
+
+    render(
+      <Form.Handler
+        defaultData={{
+          mySection: {
+            isolated: 'outside',
+            regular: 'regular',
+          },
+        }}
+      >
+        <Form.Section path="/mySection">
+          <Form.Isolation
+            defaultData={{
+              isolated: 'inside',
+            }}
+            onCommit={onCommit}
+          >
+            <Field.String label="Isolated" path="/isolated" required />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+
+          <Field.String label="Synced" path="/isolated" />
+          <Field.String label="Regular" path="/regular" />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const inputs = Array.from(document.querySelectorAll('input'))
+    const [isolated, synced, regular] = inputs
+
+    await userEvent.type(isolated, ' changed')
+
+    expect(isolated).toHaveValue('inside changed')
+    expect(synced).toHaveValue('outside')
+    expect(regular).toHaveValue('regular')
+
+    await userEvent.click(button)
+
+    expect(onCommit).toHaveBeenCalledTimes(1)
+    expect(onCommit).toHaveBeenLastCalledWith(
+      { isolated: 'inside changed' },
+      { clearData: expect.any(Function) }
+    )
+
+    await waitFor(() => {
+      expect(isolated).toHaveValue('')
+      expect(synced).toHaveValue('inside changed')
+      expect(regular).toHaveValue('regular')
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    await userEvent.click(button)
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+
+    await userEvent.type(isolated, 'new value')
+
+    expect(isolated).toHaveValue('new value')
+    expect(synced).toHaveValue('inside changed')
+    expect(regular).toHaveValue('regular')
   })
 })

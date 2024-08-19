@@ -497,7 +497,8 @@ export type OnSubmit<Data = JsonObject> = (
   | Promise<EventReturnWithStateObject | void>
 
 export type OnCommit<Data = JsonObject> = (
-  data: Data
+  data: Data,
+  { clearData }: { clearData: () => void }
 ) =>
   | EventReturnWithStateObject
   | void

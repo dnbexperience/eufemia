@@ -20,6 +20,7 @@ import {
   EventStateObjectWithSuccess,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
+import { clearedData } from '../DataContext/Provider/Provider'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
 import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
@@ -1108,6 +1109,12 @@ export default function useFieldProps<
       : undefined
     validateValue()
   }, [schema, validateValue])
+
+  useEffect(() => {
+    if (dataContext.data === clearedData) {
+      hideError()
+    }
+  }, [dataContext.data, hideError])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
