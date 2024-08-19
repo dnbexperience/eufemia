@@ -119,4 +119,43 @@ describe('FieldBoundaryProvider', () => {
       '/bar': true,
     })
   })
+
+  it('should set error in context with continuousValidation', async () => {
+    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+      React.createRef()
+
+    const Contexts = ({ children }) => {
+      contextRef.current = useContext(FieldBoundaryContext)
+      return <>{children}</>
+    }
+
+    render(
+      <Provider>
+        <FieldBoundaryProvider>
+          <Contexts>
+            <Field.String required path="/bar" continuousValidation />
+            <Form.SubmitButton />
+          </Contexts>
+        </FieldBoundaryProvider>
+      </Provider>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(contextRef.current.hasError).toBe(true)
+    expect(contextRef.current.hasSubmitError).toBe(true)
+    expect(contextRef.current.hasVisibleError).toBe(true)
+    expect(contextRef.current.errorsRef.current).toMatchObject({
+      '/bar': true,
+    })
+
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, 'b')
+    await userEvent.click(document.querySelector('button'))
+
+    expect(contextRef.current.hasError).toBe(false)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(false)
+    expect(contextRef.current.errorsRef.current).toMatchObject({})
+  })
 })

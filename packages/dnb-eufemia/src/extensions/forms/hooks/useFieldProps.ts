@@ -235,7 +235,7 @@ export default function useFieldProps<
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
-  const showErrorRef = useRef<boolean>(
+  const revealErrorRef = useRef<boolean>(
     Boolean(validateInitially || errorProp)
   )
   // - Local errors are errors based on validation instructions received by
@@ -354,16 +354,18 @@ export default function useFieldProps<
     [setFieldStateDataContext, identifier, validateInitially]
   )
 
-  const showError = useCallback(() => {
-    showErrorRef.current = true
+  const revealError = useCallback(() => {
+    revealErrorRef.current = true
     showFieldErrorFieldBlock?.(identifier, true)
     if (localErrorRef.current) {
       setHasVisibleErrorDataContext?.(identifier, true)
+    } else {
+      setHasVisibleErrorDataContext?.(identifier, false)
     }
   }, [showFieldErrorFieldBlock, identifier, setHasVisibleErrorDataContext])
 
   const hideError = useCallback(() => {
-    showErrorRef.current = false
+    revealErrorRef.current = false
     showFieldErrorFieldBlock?.(identifier, false)
     setHasVisibleErrorDataContext?.(identifier, false)
   }, [setHasVisibleErrorDataContext, identifier, showFieldErrorFieldBlock])
@@ -411,7 +413,7 @@ export default function useFieldProps<
   }, [dataContextError, prepareError])
 
   const error =
-    showErrorRef.current ||
+    revealErrorRef.current ||
     // If the error is a type error, we want to show it even if the field as not been used
     localErrorRef.current?.['validationRule'] === 'type'
       ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
@@ -526,7 +528,7 @@ export default function useFieldProps<
       if (continuousValidation || runAsync) {
         // Because we first need to throw the error to be able to display it, we delay the showError call
         window.requestAnimationFrame(() => {
-          showError()
+          revealError()
           forceUpdate()
         })
       }
@@ -550,7 +552,7 @@ export default function useFieldProps<
     persistErrorState,
     defineAsyncProcess,
     setFieldState,
-    showError,
+    revealError,
   ])
 
   const callOnBlurValidator = useCallback(
@@ -584,10 +586,10 @@ export default function useFieldProps<
         setFieldState(result instanceof Error ? 'error' : 'complete')
       }
 
-      showError()
+      revealError()
       forceUpdate()
     },
-    [persistErrorState, defineAsyncProcess, setFieldState, showError]
+    [persistErrorState, defineAsyncProcess, setFieldState, revealError]
   )
 
   const prioritizeContextSchema = useMemo(() => {
@@ -696,12 +698,12 @@ export default function useFieldProps<
       // When there is a change to the value without there having been any focus callback beforehand, it is likely
       // to believe that the blur callback will not be called either, which would trigger the display of the error.
       // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
-      showError()
+      revealError()
     } else {
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       hideError()
     }
-  }, [continuousValidation, hideError, showError])
+  }, [continuousValidation, hideError, revealError])
 
   const setHasFocus = useCallback(
     async (
@@ -752,7 +754,7 @@ export default function useFieldProps<
 
         await runPool(() => {
           // Since the user left the field, show error (if any)
-          showError()
+          revealError()
           forceUpdate()
         })
       }
@@ -763,7 +765,7 @@ export default function useFieldProps<
       onBlur,
       onFocus,
       runPool,
-      showError,
+      revealError,
       validateUnchanged,
     ]
   )
@@ -824,7 +826,7 @@ export default function useFieldProps<
 
     if (typeof result?.error !== 'undefined') {
       persistErrorState('gracefully', result.error)
-      showError()
+      revealError()
     }
     if (typeof result?.warning !== 'undefined') {
       warningRef.current = result.warning
@@ -854,7 +856,7 @@ export default function useFieldProps<
     defineAsyncProcess,
     persistErrorState,
     setFieldState,
-    showError,
+    revealError,
     yieldAsyncProcess,
   ])
 
@@ -1202,11 +1204,11 @@ export default function useFieldProps<
       if (fieldStateRef.current !== 'validating') {
         // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
         // something else that should lead to showing the user all errors.
-        showError()
+        revealError()
         forceUpdate()
       }
     }
-  }, [showAllErrors, showError])
+  }, [showAllErrors, revealError])
 
   useEffect(() => {
     if (
