@@ -48,22 +48,44 @@ export const AnimatedContainer = () => {
   )
 }
 
-const MyEditItem = () => {
+const MyEditItemForm = () => {
+  return (
+    <Field.Composition>
+      <Field.Name.First itemPath="/firstName" width="medium" />
+      <Field.Name.Last
+        itemPath="/lastName"
+        width="medium"
+        required
+        // validateInitially
+      />
+    </Field.Composition>
+  )
+}
+
+const MyEditItem = (props) => {
   return (
     <Iterate.EditContainer
       title="Edit account holder"
       titleWhenNew="New account holder"
+      {...props}
     >
-      <Field.Composition>
-        <Field.Name.First itemPath="/firstName" width="medium" />
-        <Field.Name.Last
-          itemPath="/lastName"
-          width="medium"
-          required
-          // validateInitially
-        />
-      </Field.Composition>
+      <MyEditItemForm />
     </Iterate.EditContainer>
+  )
+}
+
+const CreateNewEntry = () => {
+  return (
+    <Iterate.CreateEntryContainer
+      path="/accounts"
+      title="New account holder"
+      showButton={
+        <Iterate.CreateEntryContainer.OpenButton text="Add another account" />
+      }
+      showButtonWhen={(list) => list.length > 0}
+    >
+      <MyEditItemForm />
+    </Iterate.CreateEntryContainer>
   )
 }
 
@@ -82,30 +104,27 @@ export const ViewAndEditContainer = () => {
   return (
     <React.StrictMode>
       <Form.Handler
-        data={{
-          accounts: [
-            {
-              firstName: 'Tony',
-            },
-          ],
-        }}
+        data={
+          {
+            // accounts: [
+            //   {
+            //     firstName: 'Tony',
+            //   },
+            // ],
+          }
+        }
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
         <Flex.Vertical>
           <Form.MainHeading>Accounts</Form.MainHeading>
 
-          <Card stack>
+          <Card align="stretch">
             <Iterate.Array path="/accounts">
               <MyViewItem />
               <MyEditItem />
             </Iterate.Array>
-
-            <Iterate.PushButton
-              text="Add another account"
-              path="/accounts"
-              pushValue={{}}
-            />
+            <CreateNewEntry />
           </Card>
 
           <Form.SubmitButton variant="send" />

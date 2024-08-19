@@ -41,7 +41,7 @@ render(
     onChange={console.log}
   >
     <Iterate.Array path="/listOfHeroes">
-      <Field.String itemPath="/name" />
+      <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
   </Form.Handler>,
 )

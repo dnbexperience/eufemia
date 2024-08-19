@@ -1,6 +1,11 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
 export const PushButtonProperties: PropertiesTableProps = {
+  path: {
+    doc: 'The path to the array to add the new item to.',
+    type: 'string',
+    status: 'required',
+  },
   pushValue: {
     doc: 'The element to add to the array when the button is clicked. Can be a function to returns the push value.',
     type: 'unknown',

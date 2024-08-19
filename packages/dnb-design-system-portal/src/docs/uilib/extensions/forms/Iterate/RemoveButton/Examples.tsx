@@ -35,7 +35,7 @@ export const ObjectElements = () => {
       >
         <Iterate.Array path="/">
           <Flex.Horizontal align="center">
-            <Field.String itemPath="/name" />
+            <Field.Name.Last itemPath="/name" />
             <Iterate.RemoveButton text="Remove avenger" />
           </Flex.Horizontal>
         </Iterate.Array>

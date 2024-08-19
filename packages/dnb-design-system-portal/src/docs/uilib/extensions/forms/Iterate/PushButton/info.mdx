@@ -5,7 +5,7 @@ hideInMenu: true
 
 ## Description
 
-`Iterate.PushButton` connects to the array of a surrounding `Iterate.Array` or an array from the source pointed at through `path` and adds a new element to the array when clicked.
+`Iterate.PushButton` connects to the array of a surrounding `Iterate.Array` or an array from the source pointed at through `path` and adds a new entry to the array when clicked.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -13,14 +13,12 @@ import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <>
     <Iterate.Array path="/">
-      <Field.String itemPath="/name" />
+      <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
 
-    <Iterate.PushButton
-      text="Add another element"
-      path="/"
-      pushValue={{}}
-    />
+    <Iterate.PushButton text="Add another entry" path="/" pushValue={{}} />
   </>,
 )
 ```
+
+In order to create new entries you can also use the [Iterate.CreateEntryContainer](/uilib/extensions/forms/Iterate/CreateEntryContainer/) component.

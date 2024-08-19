@@ -3,6 +3,7 @@ import RemoveButton from './RemoveButton'
 
 export { default as Array } from './Array'
 export { default as PushButton } from './PushButton'
+export { default as CreateEntryContainer } from './CreateEntryContainer'
 export { default as RemoveButton } from './RemoveButton'
 export { default as EditContainer } from './EditContainer'
 export { default as ViewContainer } from './ViewContainer'

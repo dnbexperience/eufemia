@@ -12,6 +12,7 @@ import { check, close } from '../../../../icons'
 import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import CreateEntryContainerContext from '../CreateEntryContainer/CreateEntryContainerContext'
 
 export default function EditToolbarTools() {
   const {
@@ -23,8 +24,12 @@ export default function EditToolbarTools() {
     isNew,
   } = useContext(IterateElementContext) || {}
   const { hasVisibleError } = useContext(FieldBoundaryContext) || {}
+  const { entries, commitHandleRef } =
+    useContext(CreateEntryContainerContext) || {}
 
-  const translation = useTranslation().IterateEditContainer
+  const { doneButton, cancelButton, removeButton, errorInSection } =
+    useTranslation().IterateEditContainer
+  const { createButton } = useTranslation().IterateCreateEntryContainer
   const valueBackupRef = useRef<unknown>()
   const wasNew = useWasNew({ isNew, containerMode })
   const [showError, setShowError] = useState(false)
@@ -50,37 +55,53 @@ export default function EditToolbarTools() {
       setShowError(true)
     } else {
       setShowError(false)
-      switchContainerMode?.('view')
+      if (commitHandleRef) {
+        commitHandleRef.current?.()
+      } else {
+        switchContainerMode?.('view')
+      }
     }
-  }, [hasVisibleError, switchContainerMode])
+  }, [commitHandleRef, hasVisibleError, switchContainerMode])
 
   return (
     <>
       <FormStatus show={showError && hasVisibleError} no_animation={false}>
-        {translation.errorInSection}
+        {errorInSection}
       </FormStatus>
       <Flex.Horizontal gap="large">
-        <Button
-          variant="tertiary"
-          icon={check}
-          icon_position="left"
-          on_click={doneHandler}
-        >
-          {translation.doneButton}
-        </Button>
-
-        {wasNew ? (
-          <RemoveButton text={translation.removeButton} />
+        {commitHandleRef ? (
+          <Button
+            variant="tertiary"
+            icon={check}
+            icon_position="left"
+            on_click={doneHandler}
+          >
+            {createButton}
+          </Button>
         ) : (
           <Button
             variant="tertiary"
-            icon={close}
+            icon={check}
             icon_position="left"
-            on_click={cancelHandler}
+            on_click={doneHandler}
           >
-            {translation.cancelButton}
+            {doneButton}
           </Button>
         )}
+
+        {(!entries || (entries?.length > 0 && containerMode === 'edit')) &&
+          (wasNew ? (
+            <RemoveButton text={removeButton} />
+          ) : (
+            <Button
+              variant="tertiary"
+              icon={close}
+              icon_position="left"
+              on_click={cancelHandler}
+            >
+              {cancelButton}
+            </Button>
+          ))}
       </Flex.Horizontal>
     </>
   )
