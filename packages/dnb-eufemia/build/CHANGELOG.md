@@ -3,6 +3,38 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.44.0](https://github.com/dnbexperience/eufemia/compare/v10.43.0...v10.44.0) (2024-08-19)
+
+
+### :memo: Documentation
+
+* **Field.Expiry:** display translation props ([#3815](https://github.com/dnbexperience/eufemia/issues/3815)) ([1efbbd0](https://github.com/dnbexperience/eufemia/commit/1efbbd0ec737644d2cd7f7af74e72ea620f09e94))
+* **Field.PhoneNumber:** document onChange event args ([#3807](https://github.com/dnbexperience/eufemia/issues/3807)) ([2b5f55e](https://github.com/dnbexperience/eufemia/commit/2b5f55ea50f3dd11b29264cb45ea47a291aae737))
+* **Form.Isolation:** add real world examples ([#3808](https://github.com/dnbexperience/eufemia/issues/3808)) ([daec2fa](https://github.com/dnbexperience/eufemia/commit/daec2fae01230aeb3b3fa87b423208efb105b564))
+
+
+### :bug: Bug Fixes
+
+* **Button:** onClick can now be set using context provider ([#3781](https://github.com/dnbexperience/eufemia/issues/3781)) ([0d2f525](https://github.com/dnbexperience/eufemia/commit/0d2f525098169d65ec358652fb0252f483f88bc6))
+* **forms:** add `Form.Isolation` path support when used inside `Form.Section` ([#3829](https://github.com/dnbexperience/eufemia/issues/3829)) ([d836c18](https://github.com/dnbexperience/eufemia/commit/d836c18adf061737b27f5487915c1040768056ad))
+* **forms:** ensure correct spacing between `Iterate.Array` items ([#3838](https://github.com/dnbexperience/eufemia/issues/3838)) ([250aec0](https://github.com/dnbexperience/eufemia/commit/250aec065db5ba1b98d64678dc2dc76ccc843072))
+* **forms:** ensure Form.Isolated does merge data properly ([#3811](https://github.com/dnbexperience/eufemia/issues/3811)) ([8c90cb8](https://github.com/dnbexperience/eufemia/commit/8c90cb81d447f3c3982f9982ef5f4efd0081747b)), closes [#3806](https://github.com/dnbexperience/eufemia/issues/3806)
+* **forms:** ensure Form.Isolation with commitHandleRef triggers field errors ([#3810](https://github.com/dnbexperience/eufemia/issues/3810)) ([204396d](https://github.com/dnbexperience/eufemia/commit/204396d85cba48b0bd445c69c9a6d01985af517b))
+* **forms:** show error when entered `Field.Currency` or `Field.Number` value exceeds maximum possible amount ([#3821](https://github.com/dnbexperience/eufemia/issues/3821)) ([e9cdd68](https://github.com/dnbexperience/eufemia/commit/e9cdd687a3147573288f7d74a47f6d1a87d2f29d))
+
+
+### :sparkles: Features
+
+* **Field.PhoneNumber, Field.SelectCountry:** additional event args for onFocus and onBlur ([#3820](https://github.com/dnbexperience/eufemia/issues/3820)) ([1da5d4f](https://github.com/dnbexperience/eufemia/commit/1da5d4fb8ec40cbe17657061e8278f636776fbe5))
+* **Field:** adds typing for event callbacks ([#3830](https://github.com/dnbexperience/eufemia/issues/3830)) ([2275002](https://github.com/dnbexperience/eufemia/commit/2275002c2a8f44a102bf53e7edeb52c09ca49df3))
+* **Form:** continuousValidation did not update error state correctly ([#3804](https://github.com/dnbexperience/eufemia/issues/3804)) ([5ff74bd](https://github.com/dnbexperience/eufemia/commit/5ff74bd14d6ece306c400328dfad349af7fa55f1))
+* **forms:** add `dataPath` prop to Field.Selection ([#3816](https://github.com/dnbexperience/eufemia/issues/3816)) ([e43ad59](https://github.com/dnbexperience/eufemia/commit/e43ad59e9a2deaa3a6bed1db86f608191920a4e5))
+* **forms:** add `Form.clearData` method to remove existing/shared data forms with an id ([#3809](https://github.com/dnbexperience/eufemia/issues/3809)) ([acf4c7f](https://github.com/dnbexperience/eufemia/commit/acf4c7f94bf378cef0bdccb3f471dc9a2ee8d7fe)), closes [#3803](https://github.com/dnbexperience/eufemia/issues/3803) [/github.com/dnbexperience/eufemia/issues/3803#issuecomment-2283661946](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/issues/3803/issues/issuecomment-2283661946)
+* **forms:** add `transformOnCommit` to Form.Isolation ([#3813](https://github.com/dnbexperience/eufemia/issues/3813)) ([21eca1a](https://github.com/dnbexperience/eufemia/commit/21eca1ab6bc33c460d7989e3cd84a29cac10a165)), closes [#3812](https://github.com/dnbexperience/eufemia/issues/3812) [#3808](https://github.com/dnbexperience/eufemia/issues/3808)
+* **forms:** add path prop support to Form.Isolation ([#3812](https://github.com/dnbexperience/eufemia/issues/3812)) ([a16d782](https://github.com/dnbexperience/eufemia/commit/a16d7822288e5f146b2a20b42104243eef03ef26)), closes [#3811](https://github.com/dnbexperience/eufemia/issues/3811)
+* **Forms:** seperate translations for Boolean and Toggle ([#3819](https://github.com/dnbexperience/eufemia/issues/3819)) ([fa0827b](https://github.com/dnbexperience/eufemia/commit/fa0827b25a498fabfe1d31a5b56a97aa3c7dbae3))
+* **Upload:** enables disabling of fileMaxSize ([#3835](https://github.com/dnbexperience/eufemia/issues/3835)) ([f2eff23](https://github.com/dnbexperience/eufemia/commit/f2eff23e121ee1e647fb63fa868f60229ceddc4b))
+
 ## [10.43.0](https://github.com/dnbexperience/eufemia/compare/v10.42.0...v10.43.0) (2024-08-08)
 
 
