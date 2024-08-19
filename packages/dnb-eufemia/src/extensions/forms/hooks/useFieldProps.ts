@@ -1150,10 +1150,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       let value = valueProp
 
       // First, look for existing data in the context
-      const hasValue = pointer.has(dataContext.data, identifier)
-      const existingValue = hasValue
-        ? pointer.get(dataContext.data, identifier)
-        : undefined
+      const hasValue =
+        pointer.has(dataContext.data, identifier) || identifier === '/'
+      const existingValue =
+        identifier === '/'
+          ? dataContext.data
+          : hasValue
+          ? pointer.get(dataContext.data, identifier)
+          : undefined
 
       // If no data where found in the dataContext, look for shared data
       if (
