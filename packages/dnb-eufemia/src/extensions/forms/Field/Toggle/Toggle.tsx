@@ -21,7 +21,7 @@ export type ToggleProps = {
 export type Props = FieldHelpProps & FieldProps<unknown> & ToggleProps
 
 function Toggle(props: Props) {
-  const translations = useTranslation().BooleanField
+  const translations = useTranslation().ToggleField
 
   const preparedProps: Props = {
     ...props,
