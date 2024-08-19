@@ -174,6 +174,39 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders no file size when fileMaxSize is disabled', () => {
+      const fileMaxSize = 0
+      render(<Upload {...defaultProps} fileMaxSize={fileMaxSize} />)
+
+      expect(
+        screen.queryByText(
+          String(nb.fileSizeContent).replace(
+            '%size',
+            fileMaxSize.toString()
+          )
+        )
+      ).not.toBeInTheDocument()
+    })
+
+    it('renders no custom file size when fileMaxSize is disabled', () => {
+      const fileMaxSize = false
+      const fileSizeContent = '%size custom'
+
+      render(
+        <Upload
+          {...defaultProps}
+          fileMaxSize={fileMaxSize}
+          fileSizeContent={fileSizeContent}
+        />
+      )
+
+      expect(
+        screen.queryByText(
+          String(fileSizeContent).replace('%size', `${fileMaxSize}`)
+        )
+      ).not.toBeInTheDocument()
+    })
+
     it('renders the file amount limit description', () => {
       const filesAmountLimit = 2
       render(
@@ -600,6 +633,35 @@ describe('Upload', () => {
       expect(
         screen.queryByText(`error message ${fileMaxSize}`)
       ).toBeInTheDocument()
+    })
+
+    it('returns no file size error message when fileMaxSize is disabled', async () => {
+      const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
+
+      const fileMaxSize = 0
+      const errorMessage = 'error message %size'
+
+      render(
+        <Upload
+          {...defaultProps}
+          fileMaxSize={fileMaxSize}
+          errorLargeFile={errorMessage}
+        />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      expect(
+        screen.queryByText(`error message ${fileMaxSize}`)
+      ).not.toBeInTheDocument()
     })
   })
 

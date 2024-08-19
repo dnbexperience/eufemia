@@ -25,15 +25,17 @@ export function verifyFiles(
   } = context
 
   const handleSize = (file: File) => {
-    return (
+    if (
+      fileMaxSize &&
       // Converts from b (binary) to MB (decimal)
       file.size / BYTES_IN_A_MEGA_BYTE > fileMaxSize
-        ? String(errorLargeFile).replace(
-            '%size',
-            format(fileMaxSize).toString()
-          )
-        : null
-    )
+    ) {
+      return String(errorLargeFile).replace(
+        '%size',
+        format(fileMaxSize).toString()
+      )
+    }
+    return null
   }
 
   const handleType = (file: File) => {

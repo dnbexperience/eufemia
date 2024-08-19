@@ -24,6 +24,27 @@ describe('verifyFiles', () => {
     })
   })
 
+  it('returns no file size error message when disabling fileMaxSize', () => {
+    const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
+
+    const fileMaxSize = false
+    const errorLargeFile = 'error message %size'
+
+    const rawFiles = [{ file: file1 }]
+    const acceptedFileTypes = []
+
+    const files = verifyFiles(rawFiles, {
+      fileMaxSize,
+      acceptedFileTypes,
+      errorLargeFile,
+      errorUnsupportedFile: '',
+    })
+
+    expect(files[0]).toEqual({
+      file: file1,
+    })
+  })
+
   it('returns the file type error message', () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
 
