@@ -284,6 +284,16 @@ describe('Field.Number', () => {
 
       expect(input).toHaveValue('365')
     })
+
+    it('should not allow leading zeroes when `disallowLeadingZeroes` is true', async () => {
+      render(<Field.Number disallowLeadingZeroes />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '00123456')
+
+      expect(input).toHaveValue('123 456')
+    })
   })
 
   describe('should gracefully handle empty value', () => {
