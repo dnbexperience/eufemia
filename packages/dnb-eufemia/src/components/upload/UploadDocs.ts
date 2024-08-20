@@ -13,7 +13,7 @@ export const UploadProperties: PropertiesTableProps = {
   },
   fileMaxSize: {
     doc: 'Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.',
-    type: 'number',
+    type: ['number', 'false'],
     status: 'optional',
   },
   title: {
