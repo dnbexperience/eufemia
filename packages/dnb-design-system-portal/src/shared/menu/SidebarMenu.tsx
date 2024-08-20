@@ -546,15 +546,16 @@ const prepareNav = ({
 
       // Handle ordering when no order field is given
       const sub = parts.slice(0, -1).join('/')
-      subCache[sub] = subCache[sub] || { count: 1000 }
+      subCache[sub] = subCache[sub] || { count: 0 }
       const count = subCache[sub].count++
-
       item._order = parts
         .reduce((acc, cur, i) => {
           if (!levelCache[item.level][cur]) {
             levelCache[item.level][cur] = item.order
-              ? parseFloat(item.order) + 2000 // push manual ordering to the top
-              : count
+              ? parseFloat(item.order) >= 0
+                ? parseFloat(item.order) + 1000 // push manual ordering to the top
+                : parseFloat(item.order) + 3000 // push negative manual ordering to the bottom
+              : count + 2000
           }
           if (levelCache[i + 1]) {
             acc.push(levelCache[i + 1][cur])
@@ -568,9 +569,12 @@ const prepareNav = ({
 
   list
     // reorder regarding potential manually defined order
-    .sort(({ _order: oA }, { _order: oB }) =>
-      oA < oB ? -1 : oA > oB ? 1 : 0,
-    )
+    .sort(({ _order: oA }, { _order: oB }) => {
+      console.log(typeof oA, typeof oB)
+      const res = oA < oB ? -1 : oA > oB ? 1 : 0
+      console.log('res', res)
+      return res
+    })
 
   return list
 }
