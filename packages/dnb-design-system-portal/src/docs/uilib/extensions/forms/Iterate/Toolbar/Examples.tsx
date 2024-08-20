@@ -4,7 +4,7 @@ import { Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array value={['foo']}>
         <Iterate.AnimatedContainer>
           Item Content

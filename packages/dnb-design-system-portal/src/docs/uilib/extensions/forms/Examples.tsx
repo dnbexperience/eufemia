@@ -560,7 +560,7 @@ export const UsingFormSection = () => {
 
 export const UsingIterate = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       {() => {
         const MyEditItem = () => {
           return (

@@ -125,7 +125,7 @@ export const CommitHandleRef = () => {
 
 export const TransformCommitData = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       {() => {
         const MyForm = () => {
           return (
