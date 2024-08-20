@@ -7,12 +7,12 @@ import React, {
 } from 'react'
 import { Button, Flex, FormStatus } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import { check, close } from '../../../../icons'
 import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import CreateEntryContainerContext from '../CreateEntryContainer/CreateEntryContainerContext'
+import PushContainerContext from '../PushContainer/PushContainerContext'
 
 export default function EditToolbarTools() {
   const {
@@ -22,14 +22,14 @@ export default function EditToolbarTools() {
     arrayValue,
     index,
     isNew,
-  } = useContext(IterateElementContext) || {}
+  } = useContext(IterateItemContext) || {}
   const { hasVisibleError } = useContext(FieldBoundaryContext) || {}
   const { entries, commitHandleRef } =
-    useContext(CreateEntryContainerContext) || {}
+    useContext(PushContainerContext) || {}
 
   const { doneButton, cancelButton, removeButton, errorInSection } =
     useTranslation().IterateEditContainer
-  const { createButton } = useTranslation().IterateCreateEntryContainer
+  const { createButton } = useTranslation().IteratePushContainer
   const valueBackupRef = useRef<unknown>()
   const wasNew = useWasNew({ isNew, containerMode })
   const [showError, setShowError] = useState(false)

@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
-export const CreateEntryContainerProperties: PropertiesTableProps = {
+export const PushContainerProperties: PropertiesTableProps = {
   path: {
     doc: 'The path to the array to add the new item to.',
     type: 'string',
@@ -11,12 +11,12 @@ export const CreateEntryContainerProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
-  showButton: {
+  openButton: {
     doc: 'The button to open container.',
     type: 'React.Node',
     status: 'optional',
   },
-  showButtonWhen: {
+  showOpenButtonWhen: {
     doc: 'Define when the "open button" should be shown. Should be a function that returns a boolean.',
     type: 'function',
     status: 'optional',
@@ -33,4 +33,4 @@ export const CreateEntryContainerProperties: PropertiesTableProps = {
   },
 }
 
-export const CreateEntryContainerEvents: PropertiesTableProps = {}
+export const PushContainerEvents: PropertiesTableProps = {}

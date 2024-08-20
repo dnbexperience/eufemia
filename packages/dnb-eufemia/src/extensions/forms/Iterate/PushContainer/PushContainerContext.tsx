@@ -2,14 +2,13 @@ import { createContext } from 'react'
 import { Path } from '../../types'
 import { ContainerMode } from '../Array'
 
-type CreateEntryContainerContext = {
+type PushContainerContext = {
   path: Path
   entries?: Array<unknown>
   commitHandleRef: React.MutableRefObject<() => void>
   switchContainerMode?: (mode: ContainerMode) => void
 }
 
-const CreateEntryContainerContext =
-  createContext<CreateEntryContainerContext>(null)
+const PushContainerContext = createContext<PushContainerContext>(null)
 
-export default CreateEntryContainerContext
+export default PushContainerContext

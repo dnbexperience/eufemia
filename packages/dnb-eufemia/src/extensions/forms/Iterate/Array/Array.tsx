@@ -18,9 +18,9 @@ import {
   Props as FlexContainerAllProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
-import IterateElementContext, {
-  IterateElementContextState,
-} from '../IterateElementContext'
+import IterateItemContext, {
+  IterateItemContextState,
+} from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
@@ -182,7 +182,7 @@ function ArrayComponent(props: Props) {
             newArrayValue[index] = value
             handleChange(newArrayValue)
           },
-        } as IterateElementContextState
+        } as IterateItemContextState
       }
     )
 
@@ -241,12 +241,12 @@ function ArrayComponent(props: Props) {
 
             if (omitFlex) {
               return (
-                <IterateElementContext.Provider
+                <IterateItemContext.Provider
                   key={`element-${id}`}
                   value={contextValue}
                 >
                   <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-                </IterateElementContext.Provider>
+                </IterateItemContext.Provider>
               )
             }
 
@@ -257,9 +257,9 @@ function ArrayComponent(props: Props) {
                 innerRef={elementRef}
                 key={`element-${id}`}
               >
-                <IterateElementContext.Provider value={contextValue}>
+                <IterateItemContext.Provider value={contextValue}>
                   <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-                </IterateElementContext.Provider>
+                </IterateItemContext.Provider>
               </Flex.Item>
             )
           })}

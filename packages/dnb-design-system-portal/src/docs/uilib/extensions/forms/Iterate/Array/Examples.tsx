@@ -8,7 +8,7 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
-export const PrimitiveElementsFields = () => {
+export const PrimitiveItemsFields = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -21,7 +21,7 @@ export const PrimitiveElementsFields = () => {
   )
 }
 
-export const PrimitiveElementsValues = () => {
+export const PrimitiveItemsValues = () => {
   return (
     <ComponentBox
       scope={{ Iterate }}
@@ -96,7 +96,7 @@ export const WithTable = () => {
   )
 }
 
-export const ObjectElements = () => {
+export const ObjectItems = () => {
   return (
     <ComponentBox scope={{ Iterate, Value }}>
       <Iterate.Array
@@ -121,7 +121,7 @@ export const ObjectElements = () => {
   )
 }
 
-export const RenderPropsPrimitiveElements = () => {
+export const RenderPropsPrimitiveItems = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -134,7 +134,7 @@ export const RenderPropsPrimitiveElements = () => {
   )
 }
 
-export const RenderPropsObjectElements = () => {
+export const RenderPropsObjectItems = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -267,16 +267,16 @@ export const ViewAndEditContainer = () => {
 
         const CreateNewEntry = () => {
           return (
-            <Iterate.CreateEntryContainer
+            <Iterate.PushContainer
               path="/accounts"
               title="New account holder"
-              showButton={
-                <Iterate.CreateEntryContainer.OpenButton text="Add another account" />
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
               }
-              showButtonWhen={(list) => list.length > 0}
+              showOpenButtonWhen={(list) => list.length > 0}
             >
               <MyEditItemForm />
-            </Iterate.CreateEntryContainer>
+            </Iterate.PushContainer>
           )
         }
 

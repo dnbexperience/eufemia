@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import EditToolbarTools, { useWasNew } from './EditToolbarTools'
 import ElementBlock, {
   ElementSectionProps,
@@ -53,7 +53,7 @@ export default function EditContainer(props: AllProps) {
 export function EditContainerWithoutToolbar(
   props: Props & FlexContainerProps & { toolbar?: React.ReactNode }
 ) {
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateElementContext = useContext(IterateItemContext)
   const { containerMode, isNew } = iterateElementContext ?? {}
 
   const {

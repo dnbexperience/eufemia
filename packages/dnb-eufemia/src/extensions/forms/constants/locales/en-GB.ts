@@ -50,7 +50,7 @@ export default {
       cancelButton: 'Cancel',
       errorInSection: 'Please correct the errors above',
     },
-    IterateCreateEntryContainer: {
+    IteratePushContainer: {
       createButton: 'Add',
     },
 

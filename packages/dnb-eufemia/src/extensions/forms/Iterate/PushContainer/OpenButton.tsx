@@ -2,13 +2,13 @@ import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import Button, { ButtonProps } from '../../../../components/Button'
 import { add } from '../../../../icons'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 
 type Props = ButtonProps
 
 function OpenButton(props: Props) {
   const { className, children, ...restProps } = props
-  const { switchContainerMode } = useContext(IterateElementContext) || {}
+  const { switchContainerMode } = useContext(IterateItemContext) || {}
 
   const handleClick = useCallback(() => {
     switchContainerMode?.('edit')

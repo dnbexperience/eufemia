@@ -50,7 +50,7 @@ export default {
       cancelButton: 'Avbryt',
       errorInSection: 'Feilene ovenfor må rettes',
     },
-    IterateCreateEntryContainer: {
+    IteratePushContainer: {
       createButton: 'Legg til',
     },
 

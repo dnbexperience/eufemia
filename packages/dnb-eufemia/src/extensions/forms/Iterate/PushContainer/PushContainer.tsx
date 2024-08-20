@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import pointer from 'json-pointer'
 import Isolation from '../../Form/Isolation'
-import CreateEntryContainerContext from './CreateEntryContainerContext'
-import IterateElementContext from '../IterateElementContext'
+import PushContainerContext from './PushContainerContext'
+import IterateItemContext from '../IterateItemContext'
 import useDataValue from '../../hooks/useDataValue'
 import EditContainer from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
@@ -25,13 +25,13 @@ export type Props = {
   /**
    * The button to open container.
    */
-  showButton?: React.ReactNode
+  openButton?: React.ReactNode
 
   /**
    * Define when the "open button" should be shown.
    * Should be a function that returns a boolean.
    */
-  showButtonWhen?: (list: unknown[]) => boolean
+  showOpenButtonWhen?: (list: unknown[]) => boolean
 
   /**
    * Prefilled data to add to the fields.
@@ -46,14 +46,14 @@ export type Props = {
 
 export type AllProps = Props & SpacingProps
 
-function CreateEntryContainer(props: AllProps) {
+function PushContainer(props: AllProps) {
   const {
     data = {},
     path,
     title,
     children,
-    showButton,
-    showButtonWhen,
+    openButton,
+    showOpenButtonWhen,
     ...rest
   } = props
 
@@ -61,8 +61,8 @@ function CreateEntryContainer(props: AllProps) {
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
   const { value: entries = [] } = useDataValue<Array<unknown>>({ path })
 
-  const showOpenButton = showButtonWhen?.(entries)
-  const newItemContextProps: CreateEntryContainerContext = {
+  const showOpenButton = showOpenButtonWhen?.(entries)
+  const newItemContextProps: PushContainerContext = {
     path,
     entries,
     commitHandleRef,
@@ -86,9 +86,9 @@ function CreateEntryContainer(props: AllProps) {
         switchContainerModeRef.current?.('view')
       }}
     >
-      <CreateEntryContainerContext.Provider value={newItemContextProps}>
+      <PushContainerContext.Provider value={newItemContextProps}>
         <IterateArray value={[data]} path="/newItem">
-          <IterateElementContext.Consumer>
+          <IterateItemContext.Consumer>
             {({ containerMode, switchContainerMode }) => {
               switchContainerModeRef.current = switchContainerMode
 
@@ -102,24 +102,24 @@ function CreateEntryContainer(props: AllProps) {
                     {children}
                   </EditContainer>
 
-                  {showButton && typeof showOpenButton === 'boolean' && (
+                  {openButton && typeof showOpenButton === 'boolean' && (
                     <HeightAnimation
                       open={showOpenButton && containerMode === 'view'}
                     >
-                      {showButton}
+                      {openButton}
                     </HeightAnimation>
                   )}
                 </>
               )
             }}
-          </IterateElementContext.Consumer>
+          </IterateItemContext.Consumer>
         </IterateArray>
-      </CreateEntryContainerContext.Provider>
+      </PushContainerContext.Provider>
     </Isolation>
   )
 }
 
-CreateEntryContainer.OpenButton = OpenButton
-CreateEntryContainer._supportsSpacingProps = true
+PushContainer.OpenButton = OpenButton
+PushContainer._supportsSpacingProps = true
 
-export default CreateEntryContainer
+export default PushContainer

@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import ElementBlock from '../ElementBlock'
 import RemoveButton from '../../RemoveButton'
 import { wait } from '../../../../../core/jest/jestSetup'
@@ -11,9 +11,9 @@ describe('ElementBlock', () => {
     const onAnimationEnd = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     render(
@@ -32,11 +32,11 @@ describe('ElementBlock', () => {
     const handleRemove = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{ containerMode: 'view', handleRemove }}
       >
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     render(
@@ -55,11 +55,11 @@ describe('ElementBlock', () => {
     const fulfillRemove = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{ containerMode: 'view', fulfillRemove }}
       >
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     render(
@@ -157,11 +157,11 @@ describe('ElementBlock', () => {
 
   it('should open delayed when isNew is true', async () => {
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{ containerMode: 'view', isNew: true }}
       >
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const { rerender } = render(
@@ -190,9 +190,9 @@ describe('ElementBlock', () => {
 
   it('should have inner element of section', () => {
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     render(<ElementBlock mode="view">Content</ElementBlock>, { wrapper })
@@ -204,9 +204,9 @@ describe('ElementBlock', () => {
 
   it('should set aria-label', () => {
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     render(

@@ -50,16 +50,16 @@ export const InitiallyOpen = () => {
 
         const CreateNewEntry = () => {
           return (
-            <Iterate.CreateEntryContainer
+            <Iterate.PushContainer
               path="/accounts"
               title="New account holder"
-              showButton={
-                <Iterate.CreateEntryContainer.OpenButton text="Add another account" />
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
               }
-              showButtonWhen={(list) => list.length > 0}
+              showOpenButtonWhen={(list) => list.length > 0}
             >
               <MyEditItemForm />
-            </Iterate.CreateEntryContainer>
+            </Iterate.PushContainer>
           )
         }
 

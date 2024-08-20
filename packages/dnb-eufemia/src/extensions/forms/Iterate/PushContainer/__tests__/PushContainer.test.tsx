@@ -6,7 +6,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
-describe('CreateEntryContainer', () => {
+describe('PushContainer', () => {
   it('should add a new entry to the array', async () => {
     const onChange = jest.fn()
 
@@ -14,9 +14,9 @@ describe('CreateEntryContainer', () => {
       <Form.Handler onChange={onChange}>
         <Iterate.Array path="/entries">...</Iterate.Array>
 
-        <Iterate.CreateEntryContainer path="/entries">
+        <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -47,9 +47,9 @@ describe('CreateEntryContainer', () => {
           <Iterate.ViewContainer>ViewContainer</Iterate.ViewContainer>
         </Iterate.Array>
 
-        <Iterate.CreateEntryContainer path="/entries">
+        <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -81,9 +81,9 @@ describe('CreateEntryContainer', () => {
   it('should clear the input when the button is clicked', async () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer path="/entries">
+        <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -103,9 +103,9 @@ describe('CreateEntryContainer', () => {
   it('should validate input values', async () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer path="/entries">
+        <Iterate.PushContainer path="/entries">
           <Field.Name.Last itemPath="/name" required />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -124,9 +124,9 @@ describe('CreateEntryContainer', () => {
 
   it('should render the "title"', () => {
     render(
-      <Iterate.CreateEntryContainer path="/entries" title="New entry">
+      <Iterate.PushContainer path="/entries" title="New entry">
         <Field.String itemPath="/name" />
-      </Iterate.CreateEntryContainer>
+      </Iterate.PushContainer>
     )
 
     const title = document.querySelector('.dnb-p--lead')
@@ -137,13 +137,13 @@ describe('CreateEntryContainer', () => {
   it('should render children with initial value', () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer
+        <Iterate.PushContainer
           path="/entries"
           data={{ name: 'Tony' }}
-          showButton={<Iterate.CreateEntryContainer.OpenButton />}
+          openButton={<Iterate.PushContainer.OpenButton />}
         >
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -155,12 +155,12 @@ describe('CreateEntryContainer', () => {
   it('should render children and not the button', () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer
+        <Iterate.PushContainer
           path="/entries"
-          showButton={<Iterate.CreateEntryContainer.OpenButton />}
+          openButton={<Iterate.PushContainer.OpenButton />}
         >
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -177,45 +177,43 @@ describe('CreateEntryContainer', () => {
   it('should render correct button text', () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer path="/entries">
+        <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
     const button = document.querySelector('button')
     expect(button).toBeInTheDocument()
-    expect(button).toHaveTextContent(
-      nb.IterateCreateEntryContainer.createButton
-    )
+    expect(button).toHaveTextContent(nb.IteratePushContainer.createButton)
   })
 
   it('should not show cancel button when no entries are given', () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer path="/entries">
+        <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
     const buttons = document.querySelectorAll('button')
     expect(buttons).toHaveLength(1)
     expect(buttons[0]).toHaveTextContent(
-      nb.IterateCreateEntryContainer.createButton
+      nb.IteratePushContainer.createButton
     )
   })
 
   it('should show cancel button when open button is clicked', async () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer
+        <Iterate.PushContainer
           path="/entries"
-          showButton={<Iterate.CreateEntryContainer.OpenButton />}
-          showButtonWhen={(list) => list.length > 0}
+          openButton={<Iterate.PushContainer.OpenButton />}
+          showOpenButtonWhen={(list) => list.length > 0}
         >
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -225,7 +223,7 @@ describe('CreateEntryContainer', () => {
       )
       expect(buttons).toHaveLength(1)
       expect(buttons[0]).toHaveTextContent(
-        nb.IterateCreateEntryContainer.createButton
+        nb.IteratePushContainer.createButton
       )
       // Hide the form
       await userEvent.click(buttons[0])
@@ -250,7 +248,7 @@ describe('CreateEntryContainer', () => {
       )
       expect(buttons).toHaveLength(2)
       expect(buttons[0]).toHaveTextContent(
-        nb.IterateCreateEntryContainer.createButton
+        nb.IteratePushContainer.createButton
       )
       expect(buttons[1]).toHaveTextContent(
         nb.IterateEditContainer.cancelButton
@@ -279,15 +277,15 @@ describe('CreateEntryContainer', () => {
   it('should render OpenButton and hide the form', () => {
     render(
       <Form.Handler>
-        <Iterate.CreateEntryContainer
+        <Iterate.PushContainer
           path="/entries"
-          showButton={
-            <Iterate.CreateEntryContainer.OpenButton text="Add new entry" />
+          openButton={
+            <Iterate.PushContainer.OpenButton text="Add new entry" />
           }
-          showButtonWhen={(list) => list.length === 0}
+          showOpenButtonWhen={(list) => list.length === 0}
         >
           <Field.String itemPath="/name" />
-        </Iterate.CreateEntryContainer>
+        </Iterate.PushContainer>
       </Form.Handler>
     )
 
@@ -298,7 +296,7 @@ describe('CreateEntryContainer', () => {
 
     expect(openButton).toHaveTextContent('Add new entry')
     expect(addButton).toHaveTextContent(
-      nb.IterateCreateEntryContainer.createButton
+      nb.IteratePushContainer.createButton
     )
     expect(document.querySelector('.dnb-forms-section-block')).toHaveClass(
       'dnb-height-animation--hidden'
@@ -307,9 +305,9 @@ describe('CreateEntryContainer', () => {
 
   it('should support spacing props', () => {
     render(
-      <Iterate.CreateEntryContainer top="large" path="/entries">
+      <Iterate.PushContainer top="large" path="/entries">
         <Field.String itemPath="/name" />
-      </Iterate.CreateEntryContainer>
+      </Iterate.PushContainer>
     )
 
     expect(
