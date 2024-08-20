@@ -47,7 +47,6 @@ export default {
     IterateEditContainer: {
       removeButton: 'Fjern',
       doneButton: 'Ferdig',
-      createButton: 'Legg til',
       cancelButton: 'Avbryt',
       errorInSection: 'Feilene ovenfor må rettes',
     },
