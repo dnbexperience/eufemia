@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import { useFieldProps, useTranslation } from '../../hooks'
 import ElementBlockContext from '../AnimatedContainer/ElementBlockContext'
 import {
@@ -15,7 +15,7 @@ export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]>
 
 function RemoveButton(props: Props) {
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateElementContext = useContext(IterateItemContext)
   const { handleRemove } = iterateElementContext ?? {}
 
   if (!iterateElementContext) {

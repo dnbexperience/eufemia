@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../../RemoveButton'
 import ElementBlock from '../ElementBlock'
 
@@ -45,11 +45,11 @@ describe('ElementBlock', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateElementContext.Provider value={{ handleRemove }}>
+      <IterateItemContext.Provider value={{ handleRemove }}>
         <ElementBlock mode="view">
           <RemoveButton />
         </ElementBlock>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -62,14 +62,14 @@ describe('ElementBlock', () => {
     const fulfillRemove = jest.fn()
 
     render(
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{ handleRemove, fulfillRemove, containerMode: 'view' }}
       >
         {' '}
         <ElementBlock mode="view">
           <RemoveButton />
         </ElementBlock>{' '}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -86,9 +86,9 @@ describe('ElementBlock', () => {
 
   it('opens component based on containerMode', async () => {
     const { rerender } = render(
-      <IterateElementContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
         <ElementBlock mode="view">content</ElementBlock>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -96,9 +96,9 @@ describe('ElementBlock', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <IterateElementContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
         <ElementBlock mode="view">content</ElementBlock>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -134,11 +134,11 @@ describe('ElementBlock', () => {
 
   it('inverts default open state when "isNew" is true', async () => {
     render(
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{ containerMode: 'view', isNew: true }}
       >
         <ElementBlock mode="view">content</ElementBlock>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -151,7 +151,7 @@ describe('ElementBlock', () => {
     const onAnimationEnd = jest.fn()
 
     render(
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{
           handleRemove,
           containerMode: 'view',
@@ -161,7 +161,7 @@ describe('ElementBlock', () => {
         <ElementBlock mode="view" onAnimationEnd={onAnimationEnd}>
           <RemoveButton />
         </ElementBlock>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     fireEvent.click(document.querySelector('button'))

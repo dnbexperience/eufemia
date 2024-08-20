@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { render } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import Array from '../Array'
 
 describe('ArrayElement', () => {
@@ -16,7 +16,7 @@ describe('ArrayElement', () => {
     let elementRef = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateElementContext)
+      const context = React.useContext(IterateItemContext)
 
       useEffect(() => {
         elementRef = context.elementRef.current
@@ -39,7 +39,7 @@ describe('ArrayElement', () => {
     let contextToTest = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateElementContext)
+      const context = React.useContext(IterateItemContext)
 
       useEffect(() => {
         contextToTest = context

@@ -3,7 +3,7 @@ import { Iterate, Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
-export const PrimitiveElements = () => {
+export const PrimitiveItems = () => {
   return (
     <ComponentBox scope={{ Iterate, TrashIcon }}>
       <Iterate.Array
@@ -22,7 +22,7 @@ export const PrimitiveElements = () => {
   )
 }
 
-export const ObjectElements = () => {
+export const ObjectItems = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Form.Handler
@@ -35,7 +35,7 @@ export const ObjectElements = () => {
       >
         <Iterate.Array path="/">
           <Flex.Horizontal align="center">
-            <Field.String itemPath="/name" />
+            <Field.Name.Last itemPath="/name" />
             <Iterate.RemoveButton text="Remove avenger" />
           </Flex.Horizontal>
         </Iterate.Array>

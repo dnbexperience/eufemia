@@ -50,6 +50,9 @@ export default {
       cancelButton: 'Cancel',
       errorInSection: 'Please correct the errors above',
     },
+    IteratePushContainer: {
+      createButton: 'Add',
+    },
 
     /**
      * Base fields

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import { EditContainerWithoutToolbar, AllProps } from '../EditContainer'
 
 function AnimatedContainer(props: AllProps) {
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateElementContext = useContext(IterateItemContext)
   const { isNew } = iterateElementContext ?? {}
 
   return (

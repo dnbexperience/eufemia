@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react'
 import pointer from 'json-pointer'
 import { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
-import IterateElementContext from '../Iterate/IterateElementContext'
+import IterateElementContext from '../Iterate/IterateItemContext'
 
 export type Props<Value> = {
   path?: Path | undefined

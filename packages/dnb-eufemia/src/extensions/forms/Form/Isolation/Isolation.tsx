@@ -1,13 +1,14 @@
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
   useRef,
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
-import { Context, Provider } from '../../DataContext'
+import { Context, ContextState, Provider } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
 import IsolationCommitButton from './IsolationCommitButton'
 import {
@@ -82,6 +83,7 @@ function IsolationProvider<Data extends JsonObject>(
   const [, forceUpdate] = useReducer(() => ({}), {})
   const internalDataRef = useRef<Data>()
   const localDataRef = useRef<Partial<Data>>({})
+  const dataContextRef = useRef<ContextState>(null)
   const outerContext = useContext(Context)
   const { path: pathSection } = useContext(SectionContext) || {}
   const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
@@ -113,6 +115,22 @@ function IsolationProvider<Data extends JsonObject>(
     [pathSection]
   )
 
+  const getMountedData = useCallback((data: Data) => {
+    const mounterData = {} as Data
+    dataContextRef.current?.mountedFieldPathsRef.current.forEach(
+      (path) => {
+        if (pointer.has(data, path)) {
+          pointer.set(mounterData, path, pointer.get(data, path))
+        }
+      }
+    )
+    return mounterData
+  }, [])
+
+  useEffect(() => {
+    localDataRef.current = getMountedData(internalDataRef.current)
+  }, [getMountedData])
+
   // Update the isolated data with the outside context data
   useMemo(() => {
     if (localDataRef.current === clearedData) {
@@ -131,16 +149,16 @@ function IsolationProvider<Data extends JsonObject>(
       localData = obj
     }
 
-    internalDataRef.current = extendDeep(
+    internalDataRef.current = Object.assign(
       {},
-      dataOuter,
-      localData || {},
+      localData || dataOuter || {},
       localDataRef.current
-    ) as Data
+    )
   }, [data, defaultData, dataOuter, pathSection])
 
   const onCommit: IsolationProps<Data>['onCommit'] = useCallback(
-    async (mountedData: Data, additionalArgs) => {
+    async (data: Data, additionalArgs) => {
+      const mountedData = getMountedData(data)
       const path = props.path ?? '/'
       const outerData =
         props.path && pointer.has(dataOuter, path)
@@ -166,6 +184,7 @@ function IsolationProvider<Data extends JsonObject>(
       )
     },
     [
+      getMountedData,
       props.path,
       dataOuter,
       transformOnCommitProp,
@@ -196,6 +215,8 @@ function IsolationProvider<Data extends JsonObject>(
     <Provider {...providerProps}>
       <Context.Consumer>
         {(dataContext) => {
+          dataContextRef.current = dataContext
+
           if (commitHandleRef) {
             commitHandleRef.current = dataContext?.handleSubmit
           }

@@ -562,20 +562,26 @@ export const UsingIterate = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last
+                itemPath="/lastName"
+                width="medium"
+                required
+              />
+            </Field.Composition>
+          )
+        }
+
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
               title="Edit account holder"
               titleWhenNew="New account holder"
             >
-              <Field.Composition>
-                <Field.Name.First itemPath="/firstName" width="medium" />
-                <Field.Name.Last
-                  itemPath="/lastName"
-                  width="medium"
-                  required
-                />
-              </Field.Composition>
+              <MyEditItemForm />
             </Iterate.EditContainer>
           )
         }
@@ -588,6 +594,21 @@ export const UsingIterate = () => {
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />
               </Value.SummaryList>
             </Iterate.ViewContainer>
+          )
+        }
+
+        const CreateNewEntry = () => {
+          return (
+            <Iterate.PushContainer
+              path="/accounts"
+              title="New account holder"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <MyEditItemForm />
+            </Iterate.PushContainer>
           )
         }
 
@@ -616,11 +637,7 @@ export const UsingIterate = () => {
                     <MyEditItem />
                   </Iterate.Array>
 
-                  <Iterate.PushButton
-                    text="Add another account"
-                    path="/accounts"
-                    pushValue={{}}
-                  />
+                  <CreateNewEntry />
                 </Card>
 
                 <Form.SubmitButton variant="send" />

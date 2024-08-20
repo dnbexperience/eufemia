@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
 import EditToolbarTools from '../EditToolbarTools'
 
@@ -13,11 +13,11 @@ describe('EditToolbarTools', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateElementContext.Provider value={{ switchContainerMode }}>
+      <IterateItemContext.Provider value={{ switchContainerMode }}>
         <Toolbar>
           <EditToolbarTools />
         </Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -30,13 +30,13 @@ describe('EditToolbarTools', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{ switchContainerMode, isNew: true }}
       >
         <Toolbar>
           <EditToolbarTools />
         </Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -49,7 +49,7 @@ describe('EditToolbarTools', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{
           restoreOriginalValue,
           containerMode: 'edit',
@@ -60,7 +60,7 @@ describe('EditToolbarTools', () => {
         <Toolbar>
           <EditToolbarTools />
         </Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     fireEvent.click(document.querySelectorAll('button')[1])
@@ -72,7 +72,7 @@ describe('EditToolbarTools', () => {
   describe('to have buttons with correct text', () => {
     it('and isNew is true', () => {
       render(
-        <IterateElementContext.Provider
+        <IterateItemContext.Provider
           value={{
             containerMode: 'edit',
             isNew: true,
@@ -81,7 +81,7 @@ describe('EditToolbarTools', () => {
           <Toolbar>
             <EditToolbarTools />
           </Toolbar>
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const buttons = document.querySelectorAll('button')
@@ -93,11 +93,11 @@ describe('EditToolbarTools', () => {
 
     it('and isNew is not set', () => {
       render(
-        <IterateElementContext.Provider value={{ containerMode: 'edit' }}>
+        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
           <Toolbar>
             <EditToolbarTools />
           </Toolbar>
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const buttons = document.querySelectorAll('button')

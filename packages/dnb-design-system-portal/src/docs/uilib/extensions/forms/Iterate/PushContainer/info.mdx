@@ -1,0 +1,60 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+`Iterate.PushContainer` enables users to create a new item in the array. It can be used instead of the [PushButton](/uilib/extensions/forms/Iterate/PushButton/).
+
+It allows the user to fill in the fields without storing them in the data context.
+
+Fields inside the container must have an `itemPath` defined.
+
+You can place it below the [Array](/uilib/extensions/forms/Iterate/Array/) component like this:
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <>
+    <Iterate.Array>...</Iterate.Array>
+
+    <Iterate.PushContainer title="New item title">
+      <Field.Name.Last itemPath="/name" />
+    </Iterate.PushContainer>
+  </>,
+)
+```
+
+Technically it uses the [EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) and the [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) under the hood.
+
+## Show a button to create a new item
+
+By default, it keeps the form open after a new item has been created. You can change this behavior by using the `openButton` and `showOpenButtonWhen` props.
+
+These props allow you to render a button (`openButton`) and determine when to show it based on the logic provided by the `showOpenButtonWhen` function. The `showOpenButtonWhen` function receives the current list of items as an argument.
+
+The button will be shown instead of the content provided by the children when the `showOpenButtonWhen` function returns `true`.
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <>
+    <Iterate.Array>...</Iterate.Array>
+
+    <Iterate.PushContainer
+      title="New item title"
+      openButton={
+        <Iterate.PushContainer.OpenButton text="Add another item" />
+      }
+      showOpenButtonWhen={(list) => list.length > 0}
+    >
+      Will be hidden based on the showOpenButtonWhen function
+    </Iterate.PushContainer>
+  </>,
+)
+```
+
+The `Iterate.PushContainer.OpenButton` accepts the same props as the [Button](/uilib/components/button/) component.

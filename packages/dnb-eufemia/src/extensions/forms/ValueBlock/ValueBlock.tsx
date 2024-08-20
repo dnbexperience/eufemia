@@ -14,7 +14,7 @@ import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
 import { ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
-import IterateElementContext from '../Iterate/IterateElementContext'
+import IterateElementContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
 
 /**

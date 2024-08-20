@@ -15,12 +15,16 @@ export type Props = {
    * The title of the ViewContainer.
    */
   title?: React.ReactNode
+  /**
+   * An alternative toolbar to be shown in the ViewContainer.
+   */
+  toolbar?: React.ReactNode
 }
 
 export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 function ViewContainer(props: AllProps) {
-  const { children, className, title, ...restProps } = props || {}
+  const { children, className, title, toolbar, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
 
   return (
@@ -33,9 +37,11 @@ function ViewContainer(props: AllProps) {
       <Flex.Stack>
         {title && <Lead size="basis">{title}</Lead>}
         {children}
-        <Toolbar>
-          <ViewToolbarTools />
-        </Toolbar>
+        {toolbar ?? (
+          <Toolbar>
+            <ViewToolbarTools />
+          </Toolbar>
+        )}
       </Flex.Stack>
     </ElementBlock>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../Toolbar'
 import nbNO from '../../../constants/locales/nb-NO'
 import RemoveButton from '../../RemoveButton'
@@ -10,9 +10,9 @@ const nb = nbNO['nb-NO'].RemoveButton
 describe('Toolbar', () => {
   it('supports spacing props', () => {
     render(
-      <IterateElementContext.Provider value={{}}>
+      <IterateItemContext.Provider value={{}}>
         <Toolbar top="large">content</Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     expect(
@@ -22,9 +22,9 @@ describe('Toolbar', () => {
 
   it('has no buttons/tools by default', () => {
     render(
-      <IterateElementContext.Provider value={{}}>
+      <IterateItemContext.Provider value={{}}>
         <Toolbar />
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     expect(
@@ -38,13 +38,11 @@ describe('Toolbar', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateElementContext.Provider
-        value={{ handleRemove, isNew: true }}
-      >
+      <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -55,7 +53,7 @@ describe('Toolbar', () => {
   describe('to have buttons with correct text', () => {
     it('and isNew is true', () => {
       render(
-        <IterateElementContext.Provider
+        <IterateItemContext.Provider
           value={{
             isNew: true,
           }}
@@ -63,7 +61,7 @@ describe('Toolbar', () => {
           <Toolbar>
             <RemoveButton />
           </Toolbar>
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const buttons = document.querySelectorAll('button')
@@ -74,7 +72,7 @@ describe('Toolbar', () => {
 
     it('and isNew is false', () => {
       render(
-        <IterateElementContext.Provider
+        <IterateItemContext.Provider
           value={{
             isNew: false,
           }}
@@ -82,7 +80,7 @@ describe('Toolbar', () => {
           <Toolbar>
             <RemoveButton />
           </Toolbar>
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const buttons = document.querySelectorAll('button')

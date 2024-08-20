@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import EditContainer from '../EditContainer'
 import ViewContainer from '../../ViewContainer'
 import { Field, Form, Iterate } from '../../..'
@@ -73,7 +73,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateElementContext)
+      const context = React.useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
