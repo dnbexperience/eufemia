@@ -4,6 +4,9 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Props } from '../'
 import { Field, Form } from '../../..'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Field.Name', () => {
   it('should render with props', () => {
@@ -215,6 +218,9 @@ describe('Field.Name', () => {
     it.each(invalidNames)('Invalid name: %s', (name) => {
       render(<Field.Name validateInitially value={name} />)
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.Field.errorPattern
+      )
     })
   })
 
