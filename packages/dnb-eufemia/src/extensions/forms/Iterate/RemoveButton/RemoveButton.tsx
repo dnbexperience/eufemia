@@ -15,10 +15,10 @@ export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]>
 
 function RemoveButton(props: Props) {
-  const iterateElementContext = useContext(IterateItemContext)
-  const { handleRemove } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { handleRemove } = iterateItemContext ?? {}
 
-  if (!iterateElementContext) {
+  if (!iterateItemContext) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
   }
 

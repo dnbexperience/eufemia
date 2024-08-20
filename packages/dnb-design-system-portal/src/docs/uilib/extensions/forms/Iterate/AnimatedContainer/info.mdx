@@ -17,6 +17,22 @@ render(
 )
 ```
 
+## The item number in the title
+
+You can use the `{itemNr}` variable in the `title` or the `titleWhenNew` property to display the current item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.AnimatedContainer title="Item {itemNr}">
+      <Field.Name.Last itemPath="/name" />
+    </Iterate.AnimatedContainer>
+  </Iterate.Array>,
+)
+```
+
 ## Accessibility
 
 The `Iterate.AnimatedContainer` component has an `aria-label` attribute, which is set to the `title` prop value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.

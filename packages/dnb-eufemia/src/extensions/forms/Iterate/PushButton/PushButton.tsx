@@ -16,8 +16,8 @@ export type Props = ButtonProps &
   }
 
 function PushButton(props: Props) {
-  const iterateElementContext = useContext(IterateItemContext)
-  const { handlePush } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { handlePush } = iterateItemContext ?? {}
 
   const { pushValue, className, ...restProps } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)

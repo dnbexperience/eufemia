@@ -22,8 +22,48 @@ render(
     </Iterate.EditContainer>
 
     <Iterate.ViewContainer title="Account holder">
-      <Value.String itemPath="/name" />
+      <Value.Name.Last itemPath="/name" />
     </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```
+
+## The item number in the title
+
+You can use the `{itemNr}` variable in the `title` or the `titleWhenNew` property to display the current item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.EditContainer
+      title="Edit account holder {itemNr}"
+      titleWhenNew="New account holder {itemNr}"
+    >
+      <Field.Name.Last itemPath="/name" />
+    </Iterate.EditContainer>
+  </Iterate.Array>,
+)
+```
+
+## Get the internal item object
+
+You can get the internal item object by using the `Iterate.useItem` hook.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyItemForm = () => {
+  const item = Iterate.useItem()
+  console.log('index:', item.index)
+
+  return <Field.String itemPath="/" />
+}
+
+render(
+  <Iterate.Array value={['foo', 'bar']}>
+    <MyItemForm />
   </Iterate.Array>,
 )
 ```

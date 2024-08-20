@@ -3,8 +3,8 @@ import IterateItemContext from '../IterateItemContext'
 import { EditContainerWithoutToolbar, AllProps } from '../EditContainer'
 
 function AnimatedContainer(props: AllProps) {
-  const iterateElementContext = useContext(IterateItemContext)
-  const { isNew } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { isNew } = iterateItemContext ?? {}
 
   return (
     <EditContainerWithoutToolbar

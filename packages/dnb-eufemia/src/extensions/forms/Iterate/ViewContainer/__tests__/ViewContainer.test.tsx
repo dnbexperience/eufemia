@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import ViewContainer from '../ViewContainer'
-import { Form } from '../../..'
+import { Form, Iterate } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].IterateViewContainer
@@ -46,6 +46,31 @@ describe('ViewContainer', () => {
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenCalledWith('edit')
+  })
+
+  it('should render "title"', () => {
+    render(
+      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+        <ViewContainer title="Item title">content</ViewContainer>
+      </IterateItemContext.Provider>
+    )
+
+    expect(document.querySelector('.dnb-p')).toHaveTextContent(
+      'Item title'
+    )
+  })
+
+  it('should render title with "itemNr"', () => {
+    render(
+      <Iterate.Array value={['foo', 'bar']}>
+        <ViewContainer title="Item title {itemNr}">content</ViewContainer>
+      </Iterate.Array>
+    )
+
+    const leads = document.querySelectorAll('.dnb-p')
+    expect(leads).toHaveLength(2)
+    expect(leads[0]).toHaveTextContent('Item title 1')
+    expect(leads[1]).toHaveTextContent('Item title 2')
   })
 
   it('calls "handleRemove" when remove button is clicked', () => {

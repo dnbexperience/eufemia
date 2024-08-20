@@ -80,7 +80,7 @@ export const WithTable = () => {
           >
             <Tr>
               <Td>
-                <Value.String itemPath="/name" />
+                <Value.Name.Last itemPath="/name" />
               </Td>
               <Td>
                 <Value.Number itemPath="/age" />
@@ -237,8 +237,8 @@ export const ViewAndEditContainer = () => {
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
-              title="Edit account holder"
-              titleWhenNew="New account holder"
+              title="Edit account holder {itemNr}"
+              titleWhenNew="New account holder {itemNr}"
             >
               <MyEditItemForm />
             </Iterate.EditContainer>
@@ -246,8 +246,11 @@ export const ViewAndEditContainer = () => {
         }
 
         const MyViewItem = () => {
+          const item = Iterate.useItem()
+          console.log('index:', item.index)
+
           return (
-            <Iterate.ViewContainer title="Account holder">
+            <Iterate.ViewContainer title="Account holder {itemNr}">
               <Value.SummaryList>
                 <Value.Name.First itemPath="/firstName" showEmpty />
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />

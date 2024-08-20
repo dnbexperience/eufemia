@@ -19,7 +19,7 @@ export const AnimatedContainer = () => {
         <Iterate.Count path="/myList" />
         <Card top>
           <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
-            <Iterate.AnimatedContainer title="Title">
+            <Iterate.AnimatedContainer title="Title {itemNr}">
               <Field.String label="Label" itemPath="/" />
 
               <Iterate.Toolbar>
@@ -65,8 +65,8 @@ const MyEditItemForm = () => {
 const MyEditItem = (props) => {
   return (
     <Iterate.EditContainer
-      title="Edit account holder"
-      titleWhenNew="New account holder"
+      title="Edit account holder {itemNr}"
+      titleWhenNew="New account holder {itemNr}"
       {...props}
     >
       <MyEditItemForm />
@@ -90,8 +90,11 @@ const CreateNewEntry = () => {
 }
 
 const MyViewItem = () => {
+  const item = Iterate.useItem()
+  console.log('index:', item.index)
+
   return (
-    <Iterate.ViewContainer title="Account holder">
+    <Iterate.ViewContainer title="Account holder {itemNr}">
       <Value.SummaryList>
         <Value.Name.First itemPath="/firstName" showEmpty />
         <Value.Name.Last itemPath="/lastName" placeholder="–" />
@@ -104,15 +107,16 @@ export const ViewAndEditContainer = () => {
   return (
     <React.StrictMode>
       <Form.Handler
-        data={
-          {
-            // accounts: [
-            //   {
-            //     firstName: 'Tony',
-            //   },
-            // ],
-          }
-        }
+        data={{
+          accounts: [
+            {
+              firstName: 'Tony',
+            },
+            {
+              firstName: 'Maria',
+            },
+          ],
+        }}
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >

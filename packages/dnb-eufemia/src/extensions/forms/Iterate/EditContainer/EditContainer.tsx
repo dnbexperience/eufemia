@@ -53,8 +53,8 @@ export default function EditContainer(props: AllProps) {
 export function EditContainerWithoutToolbar(
   props: Props & FlexContainerProps & { toolbar?: React.ReactNode }
 ) {
-  const iterateElementContext = useContext(IterateItemContext)
-  const { containerMode, isNew } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { containerMode, isNew } = iterateItemContext ?? {}
 
   const {
     children,
@@ -66,11 +66,14 @@ export function EditContainerWithoutToolbar(
   } = props || {}
 
   const wasNew = useWasNew({ isNew, containerMode })
-  const blockTitle = wasNew && titleWhenNew ? titleWhenNew : title
-  const ariaLabel = useMemo(
-    () => convertJsxToString(blockTitle),
-    [blockTitle]
-  )
+  let itemTitle = wasNew && titleWhenNew ? titleWhenNew : title
+  let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
+  if (ariaLabel.includes('{itemNr}')) {
+    itemTitle = ariaLabel = ariaLabel.replace(
+      '{itemNr}',
+      iterateItemContext.index + 1
+    )
+  }
 
   return (
     <ElementBlock
@@ -79,7 +82,7 @@ export function EditContainerWithoutToolbar(
       ariaLabel={ariaLabel}
       {...restProps}
     >
-      {blockTitle && <Lead size="basis">{blockTitle}</Lead>}
+      {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
       {children}
       {toolbar}
     </ElementBlock>

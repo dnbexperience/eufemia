@@ -6,8 +6,8 @@ import IterateItemContext from '../IterateItemContext'
 import { edit } from '../../../../icons'
 
 export default function ViewToolbarTools() {
-  const iterateElementContext = useContext(IterateItemContext)
-  const { switchContainerMode } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { switchContainerMode } = iterateItemContext ?? {}
 
   const translation = useTranslation().IterateViewContainer
 

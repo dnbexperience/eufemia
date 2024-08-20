@@ -110,8 +110,8 @@ function FieldBlock(props: Props) {
     ...rest
   } = Object.assign({}, sharedData.data, props)
 
-  const iterateElementContext = useContext(IterateElementContext)
-  const { index: iterateIndex } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateElementContext)
+  const { index: iterateIndex } = iterateItemContext ?? {}
 
   const blockId = useId(props.id)
   const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})

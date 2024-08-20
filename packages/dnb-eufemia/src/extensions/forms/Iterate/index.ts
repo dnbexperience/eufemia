@@ -10,6 +10,7 @@ export { default as ViewContainer } from './ViewContainer'
 export { default as AnimatedContainer } from './AnimatedContainer'
 export { default as Toolbar } from './Toolbar'
 export { useCount, count, Count } from './Count'
+export { default as useItem } from './hooks/useItem'
 export { default as IterateItemContext } from './IterateItemContext'
 
 /**

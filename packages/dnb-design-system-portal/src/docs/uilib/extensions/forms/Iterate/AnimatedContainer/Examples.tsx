@@ -20,7 +20,7 @@ export const Default = () => {
                   path="/myList"
                   placeholder={<>Empty list</>}
                 >
-                  <Iterate.AnimatedContainer title="Title">
+                  <Iterate.AnimatedContainer title="Title {itemNr}">
                     <Field.String label="Label" itemPath="/" />
 
                     <Iterate.Toolbar>
