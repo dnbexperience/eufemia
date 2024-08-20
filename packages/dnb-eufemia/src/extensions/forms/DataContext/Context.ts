@@ -114,6 +114,7 @@ export interface ContextState {
   setValueProps?: (path: Path, props: any) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
+  mountedFieldPathsRef?: React.MutableRefObject<Path[]>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState

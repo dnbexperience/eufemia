@@ -892,17 +892,7 @@ export default function Provider<Data extends JsonObject>(
 
         try {
           if (isolate) {
-            const mounterData = {} as Data
-            mountedFieldPathsRef.current.forEach((path) => {
-              if (pointer.has(internalDataRef.current, path)) {
-                pointer.set(
-                  mounterData,
-                  path,
-                  pointer.get(internalDataRef.current, path)
-                )
-              }
-            })
-            result = await onCommit?.(mounterData, {
+            result = await onCommit?.(internalDataRef.current, {
               clearData,
             })
           } else {
@@ -1150,6 +1140,7 @@ export default function Provider<Data extends JsonObject>(
           Object.keys(hasVisibleErrorRef.current).length > 0,
         fieldPropsRef,
         valuePropsRef,
+        mountedFieldPathsRef,
         ajvInstance: ajvRef.current,
 
         /** Additional */
