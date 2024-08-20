@@ -5,6 +5,9 @@ import ViewContainer from '../../ViewContainer'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import { Field, Form } from '../../../..'
 import userEvent from '@testing-library/user-event'
+import nbNO from '../../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', () => {
@@ -211,5 +214,56 @@ describe('EditContainer and ViewContainer', () => {
     )
     expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
     expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
+  })
+
+  it('should validate on done button click', async () => {
+    render(
+      <Form.Handler>
+        <Form.Section>
+          <EditContainer>
+            <Field.Name required path="/name" />
+          </EditContainer>
+          <ViewContainer>content</ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    const [doneButton, cancelButton, editButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    expect(doneButton).toHaveTextContent(
+      nb.SectionEditContainer.doneButton
+    )
+    expect(cancelButton).toHaveTextContent(
+      nb.SectionEditContainer.cancelButton
+    )
+    expect(editButton).toHaveTextContent(
+      nbNO['nb-NO'].SectionViewContainer.editButton
+    )
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.click(cancelButton)
+    await userEvent.click(editButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+    await userEvent.click(doneButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
   })
 })
