@@ -84,7 +84,7 @@ export const IfRuleSchema = () => {
 
 export const DependantListSchema = () => {
   return (
-    <ComponentBox scope={{ Iterate, TrashIcon }}>
+    <ComponentBox scope={{ TrashIcon }}>
       <Form.Handler
         data={{
           accounts: [{}],

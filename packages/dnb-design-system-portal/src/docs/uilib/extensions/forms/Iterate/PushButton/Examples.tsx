@@ -3,7 +3,7 @@ import { Iterate, Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const PrimitiveItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.PushButton
         text="Add another item"
         value={['foo', 'bar']}
@@ -16,7 +16,7 @@ export const PrimitiveItems = () => {
 
 export const ObjectItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler
         data={[
           { name: 'Iron Man' },

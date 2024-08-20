@@ -10,7 +10,7 @@ export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
 export const PrimitiveItemsFields = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array
         value={['Iron Man', 'Captain America', 'The Hulk']}
         onChange={console.log}
@@ -23,10 +23,7 @@ export const PrimitiveItemsFields = () => {
 
 export const PrimitiveItemsValues = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate }}
-      data-visual-test="primitive-element-values"
-    >
+    <ComponentBox data-visual-test="primitive-element-values">
       <Value.SummaryList>
         <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
           <Value.String itemPath="/" />
@@ -38,7 +35,7 @@ export const PrimitiveItemsValues = () => {
 
 export const ValueComposition = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Value.Composition>
         <Iterate.Array
           value={[
@@ -64,7 +61,7 @@ export const ValueComposition = () => {
 
 export const WithTable = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Table>
         <thead>
           <Tr>
@@ -98,7 +95,7 @@ export const WithTable = () => {
 
 export const ObjectItems = () => {
   return (
-    <ComponentBox scope={{ Iterate, Value }}>
+    <ComponentBox scope={{ Value }}>
       <Iterate.Array
         value={[
           {
@@ -123,7 +120,7 @@ export const ObjectItems = () => {
 
 export const RenderPropsPrimitiveItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array
         value={['foo', 'bar']}
         onChange={(value) => console.log('onChange', value)}
@@ -136,7 +133,7 @@ export const RenderPropsPrimitiveItems = () => {
 
 export const RenderPropsObjectItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array
         value={[
           { num: 1, txt: 'One' },
@@ -157,10 +154,7 @@ export const RenderPropsObjectItems = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate }}
-      data-visual-test="animated-container"
-    >
+    <ComponentBox data-visual-test="animated-container">
       <Form.Handler
         data={{
           avengers: [
@@ -225,10 +219,7 @@ export const ArrayFromFormHandler = () => {
 
 export const ViewAndEditContainer = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate }}
-      data-visual-test="view-and-edit-container"
-    >
+    <ComponentBox data-visual-test="view-and-edit-container">
       {() => {
         const MyEditItemForm = () => {
           return (
@@ -322,7 +313,7 @@ export const ViewAndEditContainer = () => {
 
 export const DynamicPathValue = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler defaultData={{ count: 0 }}>
         <Flex.Stack>
           <Field.Number path="/count" width="small" showStepControls />
@@ -345,7 +336,7 @@ export const DynamicPathValue = () => {
 
 export const WithVisibility = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler>
         <Iterate.Array path="/myList" value={[{}]}>
           <Flex.Stack>

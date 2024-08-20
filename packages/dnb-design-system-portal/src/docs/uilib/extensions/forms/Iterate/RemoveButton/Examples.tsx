@@ -5,7 +5,7 @@ import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const PrimitiveItems = () => {
   return (
-    <ComponentBox scope={{ Iterate, TrashIcon }}>
+    <ComponentBox scope={{ TrashIcon }}>
       <Iterate.Array
         value={['One', 'Two', 'Three', 'Four', 'Five']}
         onChange={(value) => console.log('onChange', value)}
@@ -24,7 +24,7 @@ export const PrimitiveItems = () => {
 
 export const ObjectItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler
         data={[
           { name: 'Iron Man' },
