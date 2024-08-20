@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Card, Flex, HeightAnimation, Section } from '@dnb/eufemia/src'
-import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
 export const UsingCommitButton = () => {
