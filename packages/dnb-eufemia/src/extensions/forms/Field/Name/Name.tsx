@@ -9,7 +9,7 @@ function Name(props: Props) {
   const StringFieldProps: Props = {
     trim: true,
     autoComplete: 'name',
-    pattern: '^[\\p{L}\\p{M} \\-]+$',
+    pattern: '^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$',
     ...props,
   }
 

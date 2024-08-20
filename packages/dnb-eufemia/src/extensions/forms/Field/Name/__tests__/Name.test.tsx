@@ -185,6 +185,39 @@ describe('Field.Name', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
+  describe('should validate the correctness of the name', () => {
+    const validNames = [
+      'Ole',
+      'Anne-Marie',
+      'Hans Christian',
+      'Åse',
+      'Müller',
+      'García-López',
+      'Frédéric-Jean',
+    ]
+
+    const invalidNames = [
+      'Ole1',
+      'Hans  Christian',
+      'Anne--Marie',
+      '@nna',
+      'Ole--',
+      'Liv-',
+      ' Martin',
+      'Anders ',
+    ]
+
+    it.each(validNames)('Valid name: %s', (name) => {
+      render(<Field.Name validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it.each(invalidNames)('Invalid name: %s', (name) => {
+      render(<Field.Name validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
