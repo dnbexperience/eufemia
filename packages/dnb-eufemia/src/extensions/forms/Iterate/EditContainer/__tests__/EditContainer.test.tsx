@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import { Form } from '../../..'
+import { Form, Iterate } from '../../..'
 import IterateItemContext from '../../IterateItemContext'
 import EditContainer from '../EditContainer'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -104,12 +104,12 @@ describe('EditContainer', () => {
   it('should render "title"', () => {
     render(
       <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
-        <EditContainer title="Block title">content</EditContainer>
+        <EditContainer title="Item title">content</EditContainer>
       </IterateItemContext.Provider>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Block title'
+      'Item title'
     )
   })
 
@@ -118,14 +118,43 @@ describe('EditContainer', () => {
       <IterateItemContext.Provider
         value={{ containerMode: 'edit', isNew: true }}
       >
-        <EditContainer title="Block title" titleWhenNew="New Block title">
+        <EditContainer title="Item title" titleWhenNew="New Item title">
           content
         </EditContainer>
       </IterateItemContext.Provider>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'New Block title'
+      'New Item title'
+    )
+  })
+
+  it('should render title with "itemNr"', () => {
+    render(
+      <Iterate.Array value={['foo', 'bar']}>
+        <EditContainer title="Item title {itemNr}">content</EditContainer>
+      </Iterate.Array>
+    )
+
+    const leads = document.querySelectorAll('.dnb-p')
+    expect(leads).toHaveLength(2)
+    expect(leads[0]).toHaveTextContent('Item title 1')
+    expect(leads[1]).toHaveTextContent('Item title 2')
+  })
+
+  it('should render titleWhenNew with "itemNr"', () => {
+    render(
+      <IterateItemContext.Provider
+        value={{ containerMode: 'edit', isNew: true, index: 0 }}
+      >
+        <EditContainer titleWhenNew="New Item title {itemNr}">
+          content
+        </EditContainer>
+      </IterateItemContext.Provider>
+    )
+
+    expect(document.querySelector('.dnb-p')).toHaveTextContent(
+      'New Item title 1'
     )
   })
 

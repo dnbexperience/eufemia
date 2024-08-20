@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Flex } from '../../../../components'
@@ -7,6 +7,7 @@ import { Lead } from '../../../../elements'
 import ElementBlock, {
   ElementSectionProps,
 } from '../AnimatedContainer/ElementBlock'
+import IterateItemContext from '../IterateItemContext'
 import Toolbar from '../Toolbar'
 import ViewToolbarTools from './ViewToolbarTools'
 
@@ -25,7 +26,16 @@ export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, toolbar, ...restProps } = props || {}
-  const ariaLabel = useMemo(() => convertJsxToString(title), [title])
+  const iterateItemContext = useContext(IterateItemContext)
+
+  let itemTitle = title
+  let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
+  if (ariaLabel.includes('{itemNr}')) {
+    itemTitle = ariaLabel = ariaLabel.replace(
+      '{itemNr}',
+      iterateItemContext.index + 1
+    )
+  }
 
   return (
     <ElementBlock
@@ -35,7 +45,7 @@ function ViewContainer(props: AllProps) {
       {...restProps}
     >
       <Flex.Stack>
-        {title && <Lead size="basis">{title}</Lead>}
+        {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
         {children}
         {toolbar ?? (
           <Toolbar>

@@ -22,7 +22,23 @@ render(
     </Iterate.EditContainer>
 
     <Iterate.ViewContainer title="Account holder">
-      <Value.String itemPath="/name" />
+      <Value.Name.Last itemPath="/name" />
+    </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```
+
+## The item number in the title
+
+You can use the `{itemNr}` variable in the `title` property to display the current item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.ViewContainer title="Account holder {itemNr}">
+      <Value.Name.Last itemPath="/name" />
     </Iterate.ViewContainer>
   </Iterate.Array>,
 )

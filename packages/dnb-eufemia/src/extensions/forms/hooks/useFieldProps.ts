@@ -126,7 +126,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateItemContext = useContext(IterateElementContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const translation = useTranslation()
@@ -166,7 +166,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext ?? {}
   const { handleChange: handleChangeIterateContext } =
-    iterateElementContext ?? {}
+    iterateItemContext ?? {}
   const { path: sectionPath, errorPrioritization } = sectionContext ?? {}
   const { setFieldError } = fieldBoundaryContext ?? {}
 

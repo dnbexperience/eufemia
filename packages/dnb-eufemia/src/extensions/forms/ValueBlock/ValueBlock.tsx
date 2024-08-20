@@ -38,8 +38,8 @@ function ValueBlock(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const dataContext = useContext(DataContext)
-  const iterateElementContext = useContext(IterateElementContext)
-  const { index: iterateIndex } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateElementContext)
+  const { index: iterateIndex } = iterateItemContext ?? {}
 
   const {
     className,

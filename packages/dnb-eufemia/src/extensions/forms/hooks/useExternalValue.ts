@@ -23,9 +23,9 @@ export default function useExternalValue<Value>(props: Props<Value>) {
     emptyValue = undefined,
   } = props
   const dataContext = useContext(DataContext)
-  const iterateElementContext = useContext(IterateElementContext)
-  const inIterate = Boolean(iterateElementContext)
-  const { value: iterateElementValue } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateElementContext)
+  const inIterate = Boolean(iterateItemContext)
+  const { value: iterateElementValue } = iterateItemContext ?? {}
 
   return useMemo(() => {
     if (value !== emptyValue) {
