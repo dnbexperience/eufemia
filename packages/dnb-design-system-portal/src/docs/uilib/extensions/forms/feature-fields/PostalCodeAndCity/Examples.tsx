@@ -151,7 +151,7 @@ export const LongLabel = () => {
 
 export const IterateArray = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         value={[
           {
