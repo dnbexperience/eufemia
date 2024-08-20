@@ -168,7 +168,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { handleChange: handleChangeIterateContext } =
     iterateItemContext ?? {}
   const { path: sectionPath, errorPrioritization } = sectionContext ?? {}
-  const { setFieldError } = fieldBoundaryContext ?? {}
+  const { setFieldError, showBoundaryErrors } = fieldBoundaryContext ?? {}
 
   const hasPath = Boolean(pathProp)
   const { path, identifier, makeIteratePath } = usePath({
@@ -1207,16 +1207,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   useEffect(() => {
-    if (showAllErrors) {
+    if (showAllErrors || showBoundaryErrors) {
       // In case of async validation, we don't want to show existing errors before the validation has been completed
       if (fieldStateRef.current !== 'validating') {
         // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
         // something else that should lead to showing the user all errors.
         revealError()
-        forceUpdate()
       }
+    } else if (showBoundaryErrors === false) {
+      hideError()
     }
-  }, [showAllErrors, revealError])
+  }, [hideError, revealError, showAllErrors, showBoundaryErrors])
 
   useEffect(() => {
     if (

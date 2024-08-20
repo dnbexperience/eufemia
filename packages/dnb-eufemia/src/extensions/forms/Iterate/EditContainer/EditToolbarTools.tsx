@@ -23,7 +23,8 @@ export default function EditToolbarTools() {
     index,
     isNew,
   } = useContext(IterateItemContext) || {}
-  const { hasVisibleError } = useContext(FieldBoundaryContext) || {}
+  const { hasError, hasVisibleError, setShowBoundaryErrors } =
+    useContext(FieldBoundaryContext) || {}
   const { entries, commitHandleRef } =
     useContext(PushContainerContext) || {}
 
@@ -48,12 +49,17 @@ export default function EditToolbarTools() {
       restoreOriginalValue?.(valueBackupRef.current)
     }
     setShowError(false)
+    setShowBoundaryErrors?.(false)
     switchContainerMode?.('view')
-  }, [restoreOriginalValue, switchContainerMode])
+  }, [restoreOriginalValue, setShowBoundaryErrors, switchContainerMode])
   const doneHandler = useCallback(() => {
-    if (hasVisibleError) {
-      setShowError(true)
+    if (hasError) {
+      setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
+      setShowBoundaryErrors?.(false)
       setShowError(false)
       if (commitHandleRef) {
         commitHandleRef.current?.()
@@ -61,7 +67,13 @@ export default function EditToolbarTools() {
         switchContainerMode?.('view')
       }
     }
-  }, [commitHandleRef, hasVisibleError, switchContainerMode])
+  }, [
+    commitHandleRef,
+    hasError,
+    hasVisibleError,
+    setShowBoundaryErrors,
+    switchContainerMode,
+  ])
 
   return (
     <>

@@ -235,4 +235,54 @@ describe('EditContainer and ViewContainer', () => {
     expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
     expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
   })
+
+  it('should validate on done button click', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Iterate.Array value={['']} onChange={onChange}>
+          <EditContainer>
+            <Field.String required itemPath="/" />
+          </EditContainer>
+          <ViewContainer>content</ViewContainer>
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    const [doneButton, cancelButton, editButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    expect(doneButton).toHaveTextContent(nb.doneButton)
+    expect(cancelButton).toHaveTextContent(nb.cancelButton)
+    expect(editButton).toHaveTextContent(
+      nbNO['nb-NO'].IterateViewContainer.editButton
+    )
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(cancelButton)
+    await userEvent.click(editButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+    await userEvent.click(doneButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
 })
