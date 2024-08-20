@@ -7,9 +7,9 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { Flex, HeightAnimation } from '../../../../components'
-import IterateElementContext, {
-  IterateElementContextState,
-} from '../IterateElementContext'
+import IterateItemContext, {
+  IterateItemContextState,
+} from '../IterateItemContext'
 import ElementBlockContext from './ElementBlockContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
@@ -34,12 +34,12 @@ function ElementBlock(props: Props & FlexContainerProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const contextRef = useRef<
-    IterateElementContextState & {
+    IterateItemContextState & {
       hasError?: boolean
       hasSubmitError?: boolean
     }
   >()
-  contextRef.current = useContext(IterateElementContext) || {}
+  contextRef.current = useContext(IterateItemContext) || {}
 
   const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}

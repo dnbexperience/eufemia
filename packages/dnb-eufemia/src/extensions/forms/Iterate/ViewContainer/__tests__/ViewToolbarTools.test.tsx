@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
 import ViewToolbarTools from '../ViewToolbarTools'
 
@@ -11,11 +11,11 @@ const nb = nbNO['nb-NO'].IterateViewContainer
 describe('ViewToolbarTools', () => {
   it('to have buttons with correct text', () => {
     render(
-      <IterateElementContext.Provider value={{}}>
+      <IterateItemContext.Provider value={{}}>
         <Toolbar>
           <ViewToolbarTools />
         </Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const buttons = document.querySelectorAll('button')
@@ -29,13 +29,11 @@ describe('ViewToolbarTools', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateElementContext.Provider
-        value={{ handleRemove, isNew: true }}
-      >
+      <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
         <Toolbar>
           <ViewToolbarTools />
         </Toolbar>
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const buttons = document.querySelectorAll('button')

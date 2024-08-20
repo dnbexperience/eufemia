@@ -8,7 +8,7 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
-export const PrimitiveElementsFields = () => {
+export const PrimitiveItemsFields = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -21,7 +21,7 @@ export const PrimitiveElementsFields = () => {
   )
 }
 
-export const PrimitiveElementsValues = () => {
+export const PrimitiveItemsValues = () => {
   return (
     <ComponentBox
       scope={{ Iterate }}
@@ -96,7 +96,7 @@ export const WithTable = () => {
   )
 }
 
-export const ObjectElements = () => {
+export const ObjectItems = () => {
   return (
     <ComponentBox scope={{ Iterate, Value }}>
       <Iterate.Array
@@ -121,7 +121,7 @@ export const ObjectElements = () => {
   )
 }
 
-export const RenderPropsPrimitiveElements = () => {
+export const RenderPropsPrimitiveItems = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -134,7 +134,7 @@ export const RenderPropsPrimitiveElements = () => {
   )
 }
 
-export const RenderPropsObjectElements = () => {
+export const RenderPropsObjectItems = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
@@ -230,20 +230,26 @@ export const ViewAndEditContainer = () => {
       data-visual-test="view-and-edit-container"
     >
       {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last
+                itemPath="/lastName"
+                width="medium"
+                required
+              />
+            </Field.Composition>
+          )
+        }
+
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
               title="Edit account holder"
               titleWhenNew="New account holder"
             >
-              <Field.Composition>
-                <Field.Name.First itemPath="/firstName" width="medium" />
-                <Field.Name.Last
-                  itemPath="/lastName"
-                  width="medium"
-                  required
-                />
-              </Field.Composition>
+              <MyEditItemForm />
             </Iterate.EditContainer>
           )
         }
@@ -256,6 +262,21 @@ export const ViewAndEditContainer = () => {
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />
               </Value.SummaryList>
             </Iterate.ViewContainer>
+          )
+        }
+
+        const CreateNewEntry = () => {
+          return (
+            <Iterate.PushContainer
+              path="/accounts"
+              title="New account holder"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <MyEditItemForm />
+            </Iterate.PushContainer>
           )
         }
 
@@ -284,11 +305,7 @@ export const ViewAndEditContainer = () => {
                     <MyEditItem />
                   </Iterate.Array>
 
-                  <Iterate.PushButton
-                    text="Add another account"
-                    path="/accounts"
-                    pushValue={{}}
-                  />
+                  <CreateNewEntry />
                 </Card>
 
                 <Form.SubmitButton variant="send" />

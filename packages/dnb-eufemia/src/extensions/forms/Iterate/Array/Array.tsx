@@ -18,14 +18,15 @@ import {
   Props as FlexContainerAllProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
-import IterateElementContext, {
-  IterateElementContextState,
-} from '../IterateElementContext'
+import IterateItemContext, {
+  IterateItemContextState,
+} from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
+import useDataValue from '../../hooks/useDataValue'
 
-import type { ContainerMode, ElementChild, Props } from './types'
+import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier, Path } from '../../types'
 
 /**
@@ -33,7 +34,6 @@ import type { Identifier, Path } from '../../types'
  * So its a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
-import useDataValue from '../../hooks/useDataValue'
 
 export type * from './types'
 
@@ -92,7 +92,7 @@ function ArrayComponent(props: Props) {
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
   const modesRef = useRef<Record<Identifier, ContainerMode>>({})
-  const valueWhileClosingRef = useRef<Array<unknown>>()
+  const valueWhileClosingRef = useRef<Value>()
   const valueCountRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>()
   const hadPushRef = useRef<boolean>()
@@ -122,7 +122,9 @@ function ArrayComponent(props: Props) {
 
         const isNew = isNewRef.current[id] || false
         if (!modesRef.current[id]) {
-          modesRef.current[id] = isNew ? 'edit' : 'view'
+          modesRef.current[id] =
+            value?.['__containerMode'] ?? (isNew ? 'edit' : 'view')
+          delete value?.['__containerMode']
         }
 
         return {
@@ -180,7 +182,7 @@ function ArrayComponent(props: Props) {
             newArrayValue[index] = value
             handleChange(newArrayValue)
           },
-        } as IterateElementContextState
+        } as IterateItemContextState
       }
     )
 
@@ -239,12 +241,12 @@ function ArrayComponent(props: Props) {
 
             if (omitFlex) {
               return (
-                <IterateElementContext.Provider
+                <IterateItemContext.Provider
                   key={`element-${id}`}
                   value={contextValue}
                 >
                   <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-                </IterateElementContext.Provider>
+                </IterateItemContext.Provider>
               )
             }
 
@@ -255,9 +257,9 @@ function ArrayComponent(props: Props) {
                 innerRef={elementRef}
                 key={`element-${id}`}
               >
-                <IterateElementContext.Provider value={contextValue}>
+                <IterateItemContext.Provider value={contextValue}>
                   <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-                </IterateElementContext.Provider>
+                </IterateItemContext.Provider>
               </Flex.Item>
             )
           })}

@@ -50,6 +50,9 @@ export default {
       cancelButton: 'Avbryt',
       errorInSection: 'Feilene ovenfor må rettes',
     },
+    IteratePushContainer: {
+      createButton: 'Legg til',
+    },
 
     /**
      * Base fields

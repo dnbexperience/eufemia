@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useMemo, useRef } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
-import IterateElementContext from '../IterateElementContext'
-import EditToolbarTools from './EditToolbarTools'
+import IterateItemContext from '../IterateItemContext'
+import EditToolbarTools, { useWasNew } from './EditToolbarTools'
 import ElementBlock, {
   ElementSectionProps,
 } from '../AnimatedContainer/ElementBlock'
@@ -23,13 +23,11 @@ export type Props = {
 
   /**
    * If the EditContainer is open or not.
-   * Used internally.
    */
   open?: boolean
 
   /**
-   * The toolbar to be shown in the EditContainer.
-   * Used internally.
+   * An alternative toolbar to be shown in the EditContainer.
    */
   toolbar?: React.ReactNode
 }
@@ -37,14 +35,17 @@ export type Props = {
 export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 export default function EditContainer(props: AllProps) {
+  const { toolbar, ...rest } = props
   return (
     <EditContainerWithoutToolbar
       toolbar={
-        <Toolbar>
-          <EditToolbarTools />
-        </Toolbar>
+        toolbar ?? (
+          <Toolbar>
+            <EditToolbarTools />
+          </Toolbar>
+        )
       }
-      {...props}
+      {...rest}
     />
   )
 }
@@ -52,7 +53,7 @@ export default function EditContainer(props: AllProps) {
 export function EditContainerWithoutToolbar(
   props: Props & FlexContainerProps & { toolbar?: React.ReactNode }
 ) {
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateElementContext = useContext(IterateItemContext)
   const { containerMode, isNew } = iterateElementContext ?? {}
 
   const {
@@ -64,16 +65,8 @@ export function EditContainerWithoutToolbar(
     ...restProps
   } = props || {}
 
-  const wasNewRef = useRef<unknown>(isNew)
-
-  useEffect(() => {
-    if (containerMode === 'view') {
-      wasNewRef.current = false
-    }
-  }, [isNew, containerMode])
-
-  const blockTitle =
-    wasNewRef.current && titleWhenNew ? titleWhenNew : title
+  const wasNew = useWasNew({ isNew, containerMode })
+  const blockTitle = wasNew && titleWhenNew ? titleWhenNew : title
   const ariaLabel = useMemo(
     () => convertJsxToString(blockTitle),
     [blockTitle]

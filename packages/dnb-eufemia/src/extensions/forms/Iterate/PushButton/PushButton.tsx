@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import { useFieldProps } from '../../hooks'
 import {
   DataValueReadWriteComponentProps,
@@ -16,7 +16,7 @@ export type Props = ButtonProps &
   }
 
 function PushButton(props: Props) {
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateElementContext = useContext(IterateItemContext)
   const { handlePush } = iterateElementContext ?? {}
 
   const { pushValue, className, ...restProps } = props
