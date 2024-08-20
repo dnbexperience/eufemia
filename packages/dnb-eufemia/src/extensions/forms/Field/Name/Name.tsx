@@ -61,7 +61,8 @@ Name.Company = function CompanyName(props: Props) {
 
   const StringFieldProps: Props = {
     label: translations.label,
-    pattern: undefined,
+    pattern:
+      '^(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}\\p{N}][\\p{L}\\p{N}\\p{P}\\p{Zs}.]*[\\p{L}\\p{N}\\p{P}]$',
     autoComplete: 'organization',
     ...props,
     errorMessages,

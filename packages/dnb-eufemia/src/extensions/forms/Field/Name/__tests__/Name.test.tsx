@@ -188,7 +188,7 @@ describe('Field.Name', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
-  describe('should validate the correctness of the name', () => {
+  describe('should validate the correctness of a name', () => {
     const validNames = [
       'Ole',
       'Anne-Marie',
@@ -217,6 +217,44 @@ describe('Field.Name', () => {
 
     it.each(invalidNames)('Invalid name: %s', (name) => {
       render(<Field.Name validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.Field.errorPattern
+      )
+    })
+  })
+
+  describe('should validate the correctness of a company name', () => {
+    const validNames = [
+      'Acme Inc. 123',
+      'XYZ Corporation',
+      'Global Co.',
+      'Tech Solutions Ltd.',
+      'Alpha & Omega Enterprises',
+      'Beta Industries',
+      'Gamma-Group',
+      'Ink @ Nine',
+      '123',
+      'Non–Breaking Space',
+      'Corp!',
+    ]
+
+    const invalidNames = [
+      'Tech  Solutions',
+      'XYZ--Corp',
+      '@nna',
+      'Acme--',
+      ' Limited',
+      'Limited ',
+    ]
+
+    it.each(validNames)('Valid name: %s', (name) => {
+      render(<Field.Name.Company validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it.each(invalidNames)('Invalid name: %s', (name) => {
+      render(<Field.Name.Company validateInitially value={name} />)
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
         nb.Field.errorPattern
