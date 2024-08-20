@@ -5,7 +5,7 @@ hideInMenu: true
 
 ## Description
 
-`Iterate.Array` works in many ways similar to field-components. It has a `value`-prop that can receive an array or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All children components of `Iterate.Array` are rendered once per element the array-value consists of.
+`Iterate.Array` works in many ways similar to field-components. It has a `value`-prop that can receive an array or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All children components of `Iterate.Array` are rendered once per entry the array-value consists of.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -22,7 +22,7 @@ render(
 
 ## About `itemPath` and `path`
 
-`itemPath` points to the root of each iterated element, while `path`
+`itemPath` points to the root of each iterated entry, while `path`
 points to the root of the data source:
 
 ```tsx
@@ -48,15 +48,15 @@ render(
 
 ## Individual values and dynamic paths
 
-Since `Iterate.Array` renders its children once per element, the field components inside must receive values based on the different elements in the array. This can be done in two ways:
+Since `Iterate.Array` renders its children once per entry, the field components inside must receive values based on the different entries in the array. This can be done in two ways:
 
 ### 1. itemPath
 
-If field components inside `Iterate.Array` are given an `itemPath` prop, this will look for values based on the array element being the root of the structure, even if the array often comes from a surrounding data set. This means that you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can look at the individual element as its own structure.
+If field components inside `Iterate.Array` are given an `itemPath` prop, this will look for values based on the array entry being the root of the structure, even if the array often comes from a surrounding data set. This means that you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can look at the individual entry as its own structure.
 
 ### 2. Render props
 
-If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render prop. It works a bit like an array-map call. The render function receives the value of the element as the first argument, and the index of which element you are on as the second.
+If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render prop. It works a bit like an array-map call. The render function receives the value of the entry as the first argument, and the index of which entry you are on as the second.
 
 Examples of both the use of `itemPath` and Render Props in `Iterate.Array` can be found on [demos](/uilib/extensions/forms/Iterate/Array/demos).
 
