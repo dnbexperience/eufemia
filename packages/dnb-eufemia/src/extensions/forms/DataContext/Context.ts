@@ -21,7 +21,7 @@ type HandleSubmitProps = {
 export type EventListenerCall = {
   path?: Path
   type?: 'onSubmit'
-  callback: () => any
+  callback: () => void
 }
 
 export type FilterDataHandler<Data> = (
@@ -54,6 +54,11 @@ export type FilterData<Data = unknown> =
   | FilterDataPathObject<Data>
   | FilterDataHandlerCallback<boolean | undefined>
 export type TransformData = FilterDataHandlerCallback<unknown>
+export type HandleSubmitCallback = ({
+  preventSubmit,
+}: {
+  preventSubmit: () => void
+}) => void
 
 export interface ContextState {
   id?: Identifier
@@ -110,8 +115,9 @@ export interface ContextState {
     callback: EventListenerCall['callback']
   ) => void
   setHasVisibleError?: (path: Path, hasError: boolean) => void
-  setFieldProps?: (path: Path, props: any) => void
-  setValueProps?: (path: Path, props: any) => void
+  setFieldProps?: (path: Path, props: unknown) => void
+  setValueProps?: (path: Path, props: unknown) => void
+  setHandleSubmit?: (callback: HandleSubmitCallback) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
   mountedFieldPathsRef?: React.MutableRefObject<Path[]>

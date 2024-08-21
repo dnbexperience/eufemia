@@ -39,6 +39,7 @@ import Context, {
   ContextState,
   EventListenerCall,
   FilterData,
+  HandleSubmitCallback,
   TransformData,
 } from '../Context'
 
@@ -960,6 +961,24 @@ export default function Provider<Data extends JsonObject>(
     ]
   )
 
+  const handleSubmitListenersRef = useRef<Array<HandleSubmitCallback>>([])
+  const setHandleSubmit: ContextState['setHandleSubmit'] = useCallback(
+    (callback) => {
+      if (!handleSubmitListenersRef.current.includes(callback)) {
+        handleSubmitListenersRef.current.push(callback)
+      }
+    },
+    []
+  )
+  const handleSubmitListeners = useCallback(() => {
+    let stop = false
+    const preventSubmit = () => (stop = true)
+    handleSubmitListenersRef.current.forEach((cb) => {
+      cb({ preventSubmit })
+    })
+    return stop
+  }, [])
+
   /**
    * Request to submit the whole form
    */
@@ -968,6 +987,10 @@ export default function Provider<Data extends JsonObject>(
       handleSubmitCall({
         enableAsyncBehaviour: isAsync(onSubmit),
         onSubmit: async () => {
+          if (handleSubmitListeners()) {
+            return // stop here
+          }
+
           // - Mutate the data context
           const data = internalDataRef.current
           const filteredData = filterDataHandler(
@@ -1124,6 +1147,7 @@ export default function Provider<Data extends JsonObject>(
         setData,
         filterDataHandler,
         addOnChangeHandler,
+        setHandleSubmit,
         scrollToTop,
 
         /** State handling */
