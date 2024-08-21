@@ -4,6 +4,14 @@ import type { LocaleProps, SpacingProps } from '../../shared/types'
 
 export type UploadAcceptedFileTypes = string[]
 
+export type UploadAcceptedFileTypesWithFileMaxSize =
+  Array<UploadAcceptedFileTypeObject>
+
+export type UploadAcceptedFileTypeObject = {
+  fileType: string
+  fileMaxSize?: UploadProps['fileMaxSize']
+}
+
 export type UploadProps = {
   /**
    * unique id used with the useUpload hook to manage the files
@@ -13,7 +21,9 @@ export type UploadProps = {
   /**
    * list of accepted file types.
    */
-  acceptedFileTypes: UploadAcceptedFileTypes
+  acceptedFileTypes:
+    | UploadAcceptedFileTypes
+    | UploadAcceptedFileTypesWithFileMaxSize
 
   /**
    * Skeleton should be applied when loading content
@@ -48,6 +58,7 @@ export type UploadProps = {
    */
   title?: React.ReactNode
   text?: React.ReactNode
+  fileTypeTableCaption?: React.ReactNode
   fileTypeDescription?: React.ReactNode
   fileSizeDescription?: React.ReactNode
   fileAmountDescription?: React.ReactNode

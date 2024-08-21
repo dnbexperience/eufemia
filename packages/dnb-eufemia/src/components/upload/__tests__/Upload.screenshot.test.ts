@@ -34,6 +34,14 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match file max size based on file format/type table', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="upload-file-max-size-based-on-file-format"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {

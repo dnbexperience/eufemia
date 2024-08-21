@@ -143,6 +143,7 @@ export default {
       title: 'Last opp dokumenter',
       text: 'Dra & slipp eller velg hvilke filer du vil laste opp.',
       textSingular: 'Dra & slipp eller velg hvilken fil du vil laste opp.',
+      fileTypeTableCaption: 'Tillatte filformater og maks filstørrelse',
       fileTypeDescription: 'Tillatte filformater:',
       fileSizeDescription: 'Maks filstørrelse:',
       fileAmountDescription: 'Maks antall filer:',
@@ -151,7 +152,7 @@ export default {
       buttonTextSingular: 'Velg fil',
       loadingText: 'Laster opp',
       errorLargeFile:
-        'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB.',
+        'Filen du prøver å laste opp er for stor, den maksimale støttede størrelsen er %size MB.',
       errorAmountLimit:
         'Det er begrenset hvor mange filer du kan laste opp (%amount).',
       errorUnsupportedFile: 'Filen du prøver å laste opp er ikke støttet.',

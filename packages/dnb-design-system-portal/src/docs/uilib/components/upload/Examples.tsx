@@ -259,6 +259,37 @@ export const UploadAcceptedFormats = () => (
   </ComponentBox>
 )
 
+export const UploadFileMaxSizeBasedOnFileFormat = () => (
+  <ComponentBox
+    data-visual-test="upload-file-max-size-based-on-file-format"
+    hideCode
+  >
+    <Upload
+      id="upload-file-max-size-based-on-file-format"
+      fileMaxSize={99}
+      acceptedFileTypes={[
+        { fileType: 'jpg', fileMaxSize: 1 },
+        { fileType: 'doc', fileMaxSize: 1 },
+        { fileType: 'svg', fileMaxSize: 1 },
+        { fileType: 'gif', fileMaxSize: 1 },
+        { fileType: 'doc', fileMaxSize: 4 },
+        { fileType: 'docx', fileMaxSize: 4 },
+        { fileType: 'tiff', fileMaxSize: 5 },
+        { fileType: 'tif', fileMaxSize: 5 },
+        { fileType: 'html', fileMaxSize: 6 },
+        { fileType: 'htm', fileMaxSize: 6 },
+        { fileType: 'xls', fileMaxSize: 7 },
+        { fileType: 'xlsx', fileMaxSize: 7 },
+        { fileType: 'odt' },
+        { fileType: 'pdf' },
+        { fileType: 'text', fileMaxSize: false },
+        { fileType: 'txt', fileMaxSize: 0 },
+        { fileType: 'zip', fileMaxSize: 99 },
+      ]}
+    />
+  </ComponentBox>
+)
+
 export const UploadDisabledFileMaxSize = () => (
   <ComponentBox hideCode>
     {() => {

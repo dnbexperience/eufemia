@@ -145,6 +145,22 @@
     color: var(--upload-text--secondary);
   }
 
+  &__accepted-file-types-table {
+    &.dnb-table {
+      & thead th {
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-basis);
+        padding-top: var(--spacing-small);
+        &:first-child {
+          padding-left: 0;
+        }
+      }
+      & tbody td:first-child {
+        padding-left: 0;
+      }
+    }
+  }
+
   &__subtitle.dnb-p {
     color: var(--upload-text--secondary);
   }
