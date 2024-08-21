@@ -273,7 +273,7 @@
     "svgo": "3.0.0",
     "tar": "6.1.11",
     "traverse": "0.6.6",
-    "typescript": "5.2.2",
+    "typescript": "5.5.4",
     "vd-tool": "4.0.2",
     "wait-on": "6.0.0"
   },
