@@ -505,8 +505,8 @@ const prepareNav = ({
     )
 
   let countLevels = 0
-  const levelCache = {},
-    subCache = {}
+  const orderCache = {},
+    childCounts = {}
 
   const list = showAlwaysMenuItems
     .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
@@ -540,26 +540,23 @@ const prepareNav = ({
 
     // prepare items, make sure we forward order for sub paths, if needed
     .map((item) => {
-      levelCache[item.level] = levelCache[item.level] || {}
-
       const parts = item.path.split('/').filter(Boolean)
 
       // Handle ordering when no order field is given
-      const sub = parts.slice(0, -1).join('/')
-      subCache[sub] = subCache[sub] || { count: 0 }
-      const count = subCache[sub].count++
+      const parentPath = parts.slice(0, -1).join('/')
+      childCounts[parentPath] = childCounts[parentPath] || 0
+      const count = childCounts[parentPath]++
       item._order = parts
         .reduce((acc, cur, i) => {
-          if (!levelCache[item.level][cur]) {
-            levelCache[item.level][cur] = item.order
+          const mySub = parts.slice(0, i + 1).join('/')
+          if (!orderCache[mySub]) {
+            orderCache[mySub] = item.order
               ? parseFloat(item.order) >= 0
                 ? parseFloat(item.order) + 1000 // push manual ordering to the top
                 : parseFloat(item.order) + 3000 // push negative manual ordering to the bottom
               : count + 2000
           }
-          if (levelCache[i + 1]) {
-            acc.push(levelCache[i + 1][cur])
-          }
+          acc.push(orderCache[mySub])
           return acc
         }, [])
         .join('/')
@@ -569,12 +566,9 @@ const prepareNav = ({
 
   list
     // reorder regarding potential manually defined order
-    .sort(({ _order: oA }, { _order: oB }) => {
-      console.log(typeof oA, typeof oB)
-      const res = oA < oB ? -1 : oA > oB ? 1 : 0
-      console.log('res', res)
-      return res
-    })
+    .sort(({ _order: oA }, { _order: oB }) =>
+      oA < oB ? -1 : oA > oB ? 1 : 0,
+    )
 
   return list
 }
