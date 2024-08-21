@@ -28,7 +28,7 @@ export default function usePath(props: Props = {}) {
     (path: Path) => {
       return `${
         sectionPath && sectionPath !== '/' ? sectionPath : ''
-      }${path}`
+      }${path}`.replace(/\/$/, '')
     },
     [sectionPath]
   )

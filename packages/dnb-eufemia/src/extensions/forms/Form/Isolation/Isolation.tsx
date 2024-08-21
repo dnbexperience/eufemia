@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
+import useDataValue from '../../hooks/useDataValue'
 import { Context, ContextState, Provider } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
 import IsolationCommitButton from './IsolationCommitButton'
@@ -88,6 +89,7 @@ function IsolationProvider<Data extends JsonObject>(
   const { path: pathSection } = useContext(SectionContext) || {}
   const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
     outerContext || {}
+  const { moveValueToPath } = useDataValue()
 
   const onPathChangeHandler = useCallback(
     async (path: Path, value: unknown) => {
@@ -144,9 +146,7 @@ function IsolationProvider<Data extends JsonObject>(
       pathSection &&
       !pointer.has(localDataRef.current, pathSection)
     ) {
-      const obj = {} as Data
-      pointer.set(obj, pathSection, localData)
-      localData = obj
+      localData = moveValueToPath<Data>(pathSection, localData)
     }
 
     internalDataRef.current = Object.assign(
@@ -154,7 +154,7 @@ function IsolationProvider<Data extends JsonObject>(
       localData || dataOuter || {},
       localDataRef.current
     )
-  }, [data, defaultData, dataOuter, pathSection])
+  }, [data, defaultData, pathSection, dataOuter, moveValueToPath])
 
   const onCommit: IsolationProps<Data>['onCommit'] = useCallback(
     async (data: Data, additionalArgs) => {

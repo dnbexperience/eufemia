@@ -45,21 +45,29 @@ export default function useDataValue<Value>({
     [get, makeIteratePath]
   )
 
+  const moveValueToPath = useCallback(<T>(path: Path, value: unknown) => {
+    if (path !== '/' && isPath(path)) {
+      const obj = {} as T
+      pointer.set(obj, path, value)
+      return obj
+    }
+
+    return value as T
+  }, [])
+
   const getData = useCallback(
     (path: Path, options?: { includeCurrentPath?: boolean }) => {
       if (isPath(path)) {
         const value = getValueByPath(path)
 
         if (options?.includeCurrentPath && path !== '/') {
-          const data = {}
-          pointer.set(data, path, value)
-          return data
+          return moveValueToPath(path, value)
         }
 
         return value
       }
     },
-    [getValueByPath]
+    [getValueByPath, moveValueToPath]
   )
 
   const getValue = useCallback(
@@ -81,6 +89,7 @@ export default function useDataValue<Value>({
     getValue,
     getValueByPath,
     getValueByIteratePath,
+    moveValueToPath,
     getData,
     value,
   }

@@ -114,6 +114,51 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('bar')
   })
 
+  it('should reset entered data on Cancel press when path is set', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Handler
+        data={{
+          section: {
+            foo: 'bar',
+          },
+        }}
+      >
+        <Form.Section containerMode="edit" path="/section">
+          <EditContainer>
+            <Field.String path="/foo" required />
+          </EditContainer>
+          <ViewContainer>content</ViewContainer>
+          <ContextConsumer />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    expect(containerMode).toBe('edit')
+
+    const input = document.querySelector('input')
+    expect(input).toHaveValue('bar')
+
+    await userEvent.type(input, ' additional')
+    expect(input).toHaveValue('bar additional')
+
+    const [, cancelButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    await userEvent.click(cancelButton)
+
+    expect(containerMode).toBe('view')
+    expect(input).toHaveValue('bar')
+  })
+
   it('should set focus on __element when containerMode changes', async () => {
     render(
       <Form.Section>
