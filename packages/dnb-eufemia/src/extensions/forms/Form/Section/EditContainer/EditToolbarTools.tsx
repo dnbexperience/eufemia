@@ -12,8 +12,12 @@ export default function EditToolbarTools() {
   const { restoreOriginalData } = useContainerDataStore()
 
   const { switchContainerMode } = useContext(SectionContainerContext) || {}
-  const { hasVisibleError, hasSubmitError } =
-    useContext(FieldBoundaryContext) || {}
+  const {
+    hasVisibleError,
+    hasSubmitError,
+    hasError,
+    setShowBoundaryErrors,
+  } = useContext(FieldBoundaryContext) || {}
 
   const translation = useTranslation().SectionEditContainer
 
@@ -22,20 +26,36 @@ export default function EditToolbarTools() {
   const cancelHandler = useCallback(() => {
     if (hasSubmitError) {
       setShowError(true)
+      setShowBoundaryErrors?.(true)
     } else {
       setShowError(false)
+      setShowBoundaryErrors?.(false)
       restoreOriginalData()
       switchContainerMode?.('view')
     }
-  }, [hasSubmitError, restoreOriginalData, switchContainerMode])
+  }, [
+    hasSubmitError,
+    restoreOriginalData,
+    setShowBoundaryErrors,
+    switchContainerMode,
+  ])
   const doneHandler = useCallback(() => {
-    if (hasVisibleError) {
-      setShowError(true)
+    if (hasError) {
+      setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
       setShowError(false)
+      setShowBoundaryErrors?.(false)
       switchContainerMode?.('view')
     }
-  }, [hasVisibleError, switchContainerMode])
+  }, [
+    hasVisibleError,
+    hasError,
+    setShowBoundaryErrors,
+    switchContainerMode,
+  ])
 
   return (
     <>
