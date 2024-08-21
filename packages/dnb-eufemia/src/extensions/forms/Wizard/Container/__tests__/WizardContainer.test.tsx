@@ -451,6 +451,59 @@ describe('Wizard.Container', () => {
     })
   })
 
+  it('should trigger next step when submitting the form', async () => {
+    const onSubmit = jest.fn()
+    const onStepChange = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Wizard.Container onStepChange={onStepChange} mode="loose">
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.NextButton />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.PreviousButton />
+            <Wizard.NextButton />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <output>Step 3</output>
+            <Form.SubmitButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    const form = document.querySelector('form')
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+    })
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 3')
+    })
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    expect(output()).toHaveTextContent('Step 3')
+  })
+
   describe('dynamic steps', () => {
     it('should not render inactive steps', () => {
       render(

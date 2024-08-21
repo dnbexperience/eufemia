@@ -110,6 +110,7 @@ function WizardContainer(props: Props) {
     ...rest
   } = props
 
+  const dataContext = useContext(DataContext)
   const {
     hasContext,
     setFormState,
@@ -117,11 +118,12 @@ function WizardContainer(props: Props) {
     setShowAllErrors,
     showAllErrors,
     setSubmitState,
-  } = useContext(DataContext)
+  } = dataContext
 
   const id = useId(idProp)
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
+  const totalStepsRef = useRef<number>(NaN)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
   const stepElementRef = useRef<HTMLElement>()
 
@@ -259,6 +261,17 @@ function WizardContainer(props: Props) {
     [setSubmitState]
   )
 
+  const handleSubmit = useCallback(
+    ({ preventSubmit }) => {
+      if (activeIndexRef.current + 1 < totalStepsRef.current) {
+        handleNext()
+        preventSubmit()
+      }
+    },
+    [handleNext]
+  )
+  dataContext.setHandleSubmit?.(handleSubmit)
+
   const titlesRef = useRef({})
   const updateTitlesRef = useRef<() => void>()
   const prerenderFieldPropsRef = useRef<
@@ -268,7 +281,7 @@ function WizardContainer(props: Props) {
   const { check } = useVisibility()
 
   const activeIndex = activeIndexRef.current
-  const providerValue = useMemo(() => {
+  const providerValue = useMemo<WizardContextState>(() => {
     return {
       id,
       activeIndex,
@@ -276,6 +289,7 @@ function WizardContainer(props: Props) {
       titlesRef,
       updateTitlesRef,
       activeIndexRef,
+      totalStepsRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
       check,
@@ -386,6 +400,7 @@ function IterateOverSteps({ children }) {
     check,
     titlesRef,
     activeIndexRef,
+    totalStepsRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
   } = useContext(WizardContext)
@@ -462,6 +477,8 @@ function IterateOverSteps({ children }) {
   } else if (childrenArray?.length < activeIndexRef.current + 1) {
     activeIndexRef.current = childrenArray.length - 1
   }
+
+  totalStepsRef.current = childrenArray?.length
 
   return childrenArray
 }
