@@ -90,9 +90,6 @@ const CreateNewEntry = () => {
 }
 
 const MyViewItem = () => {
-  const item = Iterate.useItem()
-  console.log('index:', item.index)
-
   return (
     <Iterate.ViewContainer title="Account holder {itemNr}">
       <Value.SummaryList>

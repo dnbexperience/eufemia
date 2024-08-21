@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import { Form, Iterate } from '../../..'
+import userEvent from '@testing-library/user-event'
+import { Field, Form, Iterate } from '../../..'
 import IterateItemContext from '../../IterateItemContext'
 import EditContainer from '../EditContainer'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -184,6 +185,38 @@ describe('EditContainer', () => {
     ).toHaveAttribute('data-attr', 'value')
   })
 
+  it('should validate on done button click', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array value={['']}>
+          <EditContainer>
+            <Field.String required itemPath="/" />
+          </EditContainer>
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    const [doneButton] = Array.from(document.querySelectorAll('button'))
+
+    expect(doneButton).toHaveTextContent(nb.doneButton)
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'foo')
+    await userEvent.click(doneButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
   describe('to have buttons with correct text', () => {
     it('and isNew is true', () => {
       render(
@@ -249,6 +282,7 @@ describe('EditContainer', () => {
       expect(screen.getByText(remove)).toBeInTheDocument()
       expect(screen.getByText(done)).toBeInTheDocument()
     })
+
     it('supports translations cancelButton and doneButton from Form.Handler', () => {
       const done = 'custom-translation-done-button-text'
       const cancel = 'custom-translation-cancel-button-text'
