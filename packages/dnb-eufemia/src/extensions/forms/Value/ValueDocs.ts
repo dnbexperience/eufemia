@@ -12,8 +12,13 @@ export const ValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'Field label to show above the data value.',
+    doc: 'Field label to show above the displayed value.',
     type: 'string',
+    status: 'optional',
+  },
+  inheritLabel: {
+    doc: 'Use `true` to inherit the label from a visible (rendered) field with the same path.',
+    type: 'boolean',
     status: 'optional',
   },
   showEmpty: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
-import { Value, Form } from '../../..'
+import { Value, Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
 describe('Value.Number', () => {
@@ -182,5 +182,26 @@ describe('Value.Number', () => {
         .querySelector('.dnb-number-format .dnb-sr-only')
         .getAttribute('data-text')
     ).toBe('-12 345.68 Swedish kronor')
+  })
+
+  describe('inheritLabel', () => {
+    it('renders label from field with same path', () => {
+      render(
+        <Form.Handler
+          data={{
+            myPath: 123,
+          }}
+        >
+          <Field.Number path="/myPath" label="The label" />
+          <Value.Number path="/myPath" inheritLabel />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('.dnb-forms-field-number')
+      ).toHaveTextContent('The label')
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('The label')
+    })
   })
 })

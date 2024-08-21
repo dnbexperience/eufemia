@@ -25,3 +25,20 @@ When you utilize multiple `Value.*` components together, consider enclosing them
 You can also combine `Value.*` components together by using the value [Composition](/uilib/extensions/forms/Value/Composition/) component. And it can still be used within the above mentioned [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component.
 
 <Composition />
+
+## Inherit labels from fields to values
+
+You can use the `inheritLabel={true}` prop to inherit the label from the field with the same path.
+
+```tsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Field.String path="/myPath" label="My label" />
+      <Value.String path="/myPath" inheritLabel />
+    </Form.Handler>
+  )
+}
+```

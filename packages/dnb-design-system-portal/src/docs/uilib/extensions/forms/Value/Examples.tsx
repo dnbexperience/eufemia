@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const SummaryList = () => {
   return (
@@ -23,6 +23,17 @@ export const Composition = () => {
           <Value.Number value={123} />
         </Value.Composition>
       </Value.SummaryList>
+    </ComponentBox>
+  )
+}
+
+export const InheritLabel = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler data={{ myPath: 'My value' }}>
+        <Value.String path="/myPath" label="Foo" />
+        <Value.String path="/myPath" inheritLabel />
+      </Form.Handler>
     </ComponentBox>
   )
 }
