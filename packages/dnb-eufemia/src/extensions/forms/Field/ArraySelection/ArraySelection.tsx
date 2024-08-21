@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import OptionField from '../Option'
@@ -10,6 +10,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { getStatus } from '../Selection'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
+import DataContext from '../../DataContext/Context'
 
 type OptionProps = React.ComponentProps<
   React.FC<{
@@ -33,6 +34,7 @@ export type Props = FieldHelpProps &
 function ArraySelection(props: Props) {
   const {
     id,
+    path,
     className,
     variant = 'checkbox',
     layout = 'vertical',
@@ -87,8 +89,9 @@ function ArraySelection(props: Props) {
     ...pickSpacingProps(props),
   }
 
-  const options = getCheckboxOrToggleOptions({
+  const options = useCheckboxOrToggleOptions({
     id,
+    path,
     variant,
     info,
     warning,
@@ -122,8 +125,9 @@ function ArraySelection(props: Props) {
   }
 }
 
-export function getCheckboxOrToggleOptions({
+export function useCheckboxOrToggleOptions({
   id,
+  path,
   variant = 'checkbox',
   info,
   warning,
@@ -136,6 +140,7 @@ export function getCheckboxOrToggleOptions({
   handleChange,
 }: {
   id: Props['id']
+  path?: Props['path']
   variant?: Props['variant']
   info?: Props['info']
   warning?: Props['warning']
@@ -147,84 +152,113 @@ export function getCheckboxOrToggleOptions({
   hasError?: ReturnAdditional<Props['value']>['hasError']
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
 }) {
-  const optionsCount = React.Children.count(children)
+  const { setFieldProps } = useContext(DataContext)
+  const collectedDataRef = useRef<Array<OptionProps>>([])
 
-  const Component = (
-    variant === 'checkbox' ? Checkbox : ToggleButton
-  ) as typeof Checkbox & typeof ToggleButton
+  const createOption = useCallback(
+    (props: OptionProps, i: number) => {
+      const {
+        value: selected,
+        error,
+        title,
+        help,
+        className,
+        children,
+        ...rest
+      } = props
 
-  const createOption = (props: OptionProps, i: number) => {
-    const {
-      value: selected,
-      error,
-      title,
-      help,
-      className,
-      children,
-      ...rest
-    } = props
-
-    const label = title ?? children
-    const status = getStatus(error, info, warning)
-    const suffix = help ? (
-      <HelpButton size="small" title={help.title}>
-        {help.content}
-      </HelpButton>
-    ) : undefined
-    const handleSelect = () => {
-      const newValue = value?.includes(selected)
-        ? value.filter((value) => value !== selected)
-        : [...(value ?? []), selected]
-
-      handleChange?.(
-        newValue.length === 0 ? (emptyValue as typeof value) : newValue
-      )
-    }
-
-    return (
-      <Component
-        id={optionsCount === 1 ? id : undefined}
-        key={`option-${i}-${value}`}
-        className={classnames(
-          `dnb-forms-field-array-selection__${
-            variant === 'checkbox' ? 'checkbox' : 'button'
-          }`,
-          className
-        )}
-        label={variant === 'checkbox' ? label : undefined}
-        text={variant !== 'checkbox' ? label : undefined}
-        value={value}
-        disabled={disabled}
-        checked={value?.includes(selected)}
-        status={(hasError || status) && 'error'}
-        suffix={suffix}
-        on_change={handleSelect}
-        {...htmlAttributes}
-        {...rest}
-      />
-    )
-  }
-
-  const mapOptions = (children: React.ReactNode) => {
-    return React.Children.toArray(children).map(
-      (child: React.ReactElement<OptionProps>, i) => {
-        if (React.isValidElement(child)) {
-          if (child.type === OptionField) {
-            return createOption(child.props, i)
-          }
-
-          if (child.props.children) {
-            const nestedChildren = mapOptions(child.props.children)
-            return React.cloneElement(child, child.props, nestedChildren)
-          }
-        }
-
-        return child
+      if (value?.includes(selected)) {
+        collectedDataRef.current.push(props)
       }
-    )
+
+      const label = title ?? children
+      const status = getStatus(error, info, warning)
+      const suffix = help ? (
+        <HelpButton size="small" title={help.title}>
+          {help.content}
+        </HelpButton>
+      ) : undefined
+      const handleSelect = () => {
+        const newValue = value?.includes(selected)
+          ? value.filter((value) => value !== selected)
+          : [...(value ?? []), selected]
+
+        handleChange?.(
+          newValue.length === 0 ? (emptyValue as typeof value) : newValue
+        )
+      }
+
+      const Component = (
+        variant === 'checkbox' ? Checkbox : ToggleButton
+      ) as typeof Checkbox & typeof ToggleButton
+      const optionsCount = React.Children.count(children)
+
+      return (
+        <Component
+          id={optionsCount === 1 ? id : undefined}
+          key={`option-${i}-${value}`}
+          className={classnames(
+            `dnb-forms-field-array-selection__${
+              variant === 'checkbox' ? 'checkbox' : 'button'
+            }`,
+            className
+          )}
+          label={variant === 'checkbox' ? label : undefined}
+          text={variant !== 'checkbox' ? label : undefined}
+          value={value}
+          disabled={disabled}
+          checked={value?.includes(selected)}
+          status={(hasError || status) && 'error'}
+          suffix={suffix}
+          on_change={handleSelect}
+          {...htmlAttributes}
+          {...rest}
+        />
+      )
+    },
+    [
+      disabled,
+      emptyValue,
+      handleChange,
+      hasError,
+      htmlAttributes,
+      id,
+      info,
+      value,
+      variant,
+      warning,
+    ]
+  )
+
+  const mapOptions = useCallback(
+    (children: React.ReactNode) => {
+      return React.Children.toArray(children).map(
+        (child: React.ReactElement<OptionProps>, i) => {
+          if (React.isValidElement(child)) {
+            if (child.type === OptionField) {
+              return createOption(child.props, i)
+            }
+
+            if (child.props.children) {
+              const nestedChildren = mapOptions(child.props.children)
+              return React.cloneElement(child, child.props, nestedChildren)
+            }
+          }
+
+          return child
+        }
+      )
+    },
+    [createOption]
+  )
+
+  const result = mapOptions(children)
+
+  if (path && collectedDataRef.current.length > 0) {
+    setFieldProps?.(path + '/collectedData', collectedDataRef.current)
   }
 
-  return mapOptions(children)
+  return result
 }
 
 ArraySelection._supportsSpacingProps = true

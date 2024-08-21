@@ -1,6 +1,6 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
-import { Value, Form } from '../../..'
+import { Value, Form, Field } from '../../..'
 
 describe('Value.ArraySelection', () => {
   it('renders string values', () => {
@@ -104,5 +104,30 @@ describe('Value.ArraySelection', () => {
         '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Baz, Bar and Foo')
+  })
+
+  it('should use Field.Option title rendered in Field.ArraySelection', () => {
+    render(
+      <Form.Handler
+        locale="en-GB"
+        data={{
+          myPath: ['foo', 'bar'],
+        }}
+      >
+        <Field.ArraySelection path="/myPath">
+          <Field.Option value="foo" title="Foo title" />
+          <Field.Option value="bar" title={<span>Bar title</span>} />
+          <Field.Option value="baz" title="Baz title" />
+        </Field.ArraySelection>
+
+        <Value.ArraySelection path="/myPath" />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Foo title and Bar title')
   })
 })

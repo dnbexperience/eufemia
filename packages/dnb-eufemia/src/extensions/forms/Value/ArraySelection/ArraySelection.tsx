@@ -1,10 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import { LOCALE } from '../../../../shared/defaults'
+import { convertJsxToString } from '../../../../shared/component-helper'
 import SharedContext, { InternalLocale } from '../../../../shared/Context'
+import Context from '../../DataContext/Context'
 
 export type Props = ValueProps<Array<number | string>> & {
   /**
@@ -16,14 +18,27 @@ export type Props = ValueProps<Array<number | string>> & {
 
 function ArraySelection(props: Props) {
   const { locale } = useContext(SharedContext)
-  const { value, format, className, ...rest } = useValueProps(props)
+  const { fieldPropsRef } = useContext(Context) || {}
+  const { path, value, format, className, ...rest } = useValueProps(props)
+
+  const valueFromField = useMemo(() => {
+    if (path) {
+      const data = fieldPropsRef?.current?.[
+        path + '/collectedData'
+      ] as Array<{
+        value: string
+        title: string | React.ReactNode
+      }>
+      return data?.map(({ title }) => convertJsxToString(title))
+    }
+  }, [fieldPropsRef, path])
 
   return (
     <ValueBlock
       className={classnames('dnb-forms-value-array-selection', className)}
       {...rest}
     >
-      {listFormat(value, { locale, format })}
+      {listFormat(valueFromField ?? value, { locale, format })}
     </ValueBlock>
   )
 }
