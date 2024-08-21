@@ -3,14 +3,39 @@ import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
 
 describe('Value.ArraySelection', () => {
-  it('renders value', () => {
+  it('renders string values', () => {
     render(<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} />)
 
     expect(
       document.querySelector(
         '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Foo, Bar, Baz')
+    ).toHaveTextContent('Foo, Bar og Baz')
+  })
+
+  it('renders number values', () => {
+    render(<Value.ArraySelection value={[123, 456, 789]} />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('123, 456 og 789')
+  })
+
+  it('renders custom format', () => {
+    render(
+      <Value.ArraySelection
+        value={[123, 456, 789]}
+        format={{ style: 'short', type: 'disjunction' }}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('123, 456 eller 789')
   })
 
   it('renders label when showEmpty is true', () => {
@@ -31,7 +56,7 @@ describe('Value.ArraySelection', () => {
       document.querySelector(
         '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Foo, Bar, Baz')
+    ).toHaveTextContent('Foo, Bar og Baz')
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My selections'
@@ -61,6 +86,23 @@ describe('Value.ArraySelection', () => {
       document.querySelector(
         '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Baz, Bar, Foo')
+    ).toHaveTextContent('Baz, Bar og Foo')
+  })
+
+  it('formats value in different locale', () => {
+    render(
+      <Form.Handler
+        locale="en-GB"
+        data={{ myPath: ['Baz', 'Bar', 'Foo'] }}
+      >
+        <Value.ArraySelection path="/myPath" />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Baz, Bar and Foo')
   })
 })

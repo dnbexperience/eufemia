@@ -2,11 +2,17 @@
 showTabs: true
 ---
 
-import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import { ArraySelectionProperties } from '@dnb/eufemia/src/extensions/forms/Value/ArraySelection/ArraySelectionDocs'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
 
 ## Properties
+
+### Value-specific props
+
+<PropertiesTable props={ArraySelectionProperties} />
+
+### General props
 
 <PropertiesTable
   props={ValueProperties}
