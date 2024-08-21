@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import pointer from 'json-pointer'
 import Isolation from '../../Form/Isolation'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
@@ -59,7 +58,9 @@ function PushContainer(props: AllProps) {
 
   const commitHandleRef = useRef<() => void>()
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
-  const { value: entries = [] } = useDataValue<Array<unknown>>({ path })
+  const { value: entries = [], moveValueToPath } = useDataValue<
+    Array<unknown>
+  >({ path })
 
   const showOpenButton = showOpenButtonWhen?.(entries)
   const newItemContextProps: PushContainerContext = {
@@ -73,13 +74,10 @@ function PushContainer(props: AllProps) {
     <Isolation
       commitHandleRef={commitHandleRef}
       transformOnCommit={({ newItem }) => {
-        const obj = {}
-        pointer.set(obj, path, [
+        return moveValueToPath(path, [
           ...entries,
           { ...newItem[0], __containerMode: 'view' },
         ])
-
-        return obj
       }}
       onCommit={(data, { clearData }) => {
         clearData()
