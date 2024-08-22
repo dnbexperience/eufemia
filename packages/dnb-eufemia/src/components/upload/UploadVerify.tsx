@@ -119,7 +119,9 @@ export function getFileTypeFromExtension(file: File) {
 }
 
 export function getAcceptedFileTypes(
-  acceptedFileTypes: UploadAcceptedFileTypes
+  acceptedFileTypes:
+    | UploadAcceptedFileTypes
+    | UploadAcceptedFileTypesWithFileMaxSize
 ) {
   return extendWithAbbreviation(
     getAcceptedFileTypesAsListOfStrings(acceptedFileTypes)
