@@ -70,7 +70,12 @@ export function verifyFiles(
         return item.fileType === fileType
       })
 
-      return validateFileSize(file.size, acceptedFileTypeObj.fileMaxSize)
+      return validateFileSize(
+        file.size,
+        acceptedFileTypeObj.fileMaxSize !== undefined
+          ? acceptedFileTypeObj.fileMaxSize
+          : fileMaxSize
+      )
     }
     return null
   }

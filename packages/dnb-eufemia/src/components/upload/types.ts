@@ -5,11 +5,11 @@ import type { LocaleProps, SpacingProps } from '../../shared/types'
 export type UploadAcceptedFileTypes = string[]
 
 export type UploadAcceptedFileTypesWithFileMaxSize =
-  Array<UploadAcceptedFileTypeObject>
+  UploadAcceptedFileTypeObject[]
 
 export type UploadAcceptedFileTypeObject = {
   fileType: string
-  fileMaxSize?: UploadProps['fileMaxSize']
+  fileMaxSize?: number | false
 }
 
 export type UploadProps = {

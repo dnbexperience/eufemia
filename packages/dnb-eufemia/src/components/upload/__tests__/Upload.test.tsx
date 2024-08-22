@@ -11,7 +11,10 @@ import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { createMockFile } from './testHelpers'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import { UploadAllProps } from '../types'
+import {
+  UploadAcceptedFileTypesWithFileMaxSize,
+  UploadAllProps,
+} from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
 
@@ -106,6 +109,111 @@ describe('Upload', () => {
       expect(
         screen.queryByText(nb.fileTypeDescription)
       ).not.toBeInTheDocument()
+    })
+
+    it('does not render the accepted file types table when acceptedFileTypes is an array of strings', () => {
+      const acceptedFileTypes = ['jpg', 'png']
+
+      render(
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
+      )
+
+      expect(
+        screen.queryByText(nb.fileTypeTableCaption)
+      ).not.toBeInTheDocument()
+    })
+
+    it('renders the accepted file types table when acceptedFileTypes is an array of objects', () => {
+      const acceptedFileTypes = [
+        { fileType: 'jpg', fileMaxSize: 1 },
+        { fileType: 'png', fileMaxSize: 2 },
+      ]
+
+      render(
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
+      )
+
+      expect(
+        screen.queryByText(nb.fileTypeTableCaption)
+      ).toBeInTheDocument()
+    })
+
+    it('renders the correct grouping of file types based on file max size', () => {
+      const fileMaxSize = 99
+
+      const fileMaxSize1Types = [
+        {
+          fileType: 'jpg',
+          fileMaxSize: 1,
+        },
+        {
+          fileType: 'doc',
+          fileMaxSize: 1,
+        },
+        {
+          fileType: 'svg',
+          fileMaxSize: 1,
+        },
+        {
+          fileType: 'gif',
+          fileMaxSize: 1,
+        },
+      ]
+
+      const fileMaxSize2Types = [
+        {
+          fileType: 'docx',
+          fileMaxSize: 2,
+        },
+      ]
+
+      const fileMaxSizeUndefinedTypes = [
+        {
+          fileType: 'odt',
+        },
+        {
+          fileType: 'pdf',
+        },
+      ]
+
+      const fileMaxSizeDisabledTypes = [
+        {
+          fileType: 'text',
+          fileMaxSize: false,
+        },
+        {
+          fileType: 'txt',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const fileMaxSizeSameTypes = [
+        {
+          fileType: 'zip',
+          fileMaxSize,
+        },
+      ]
+
+      const acceptedFileTypes = [
+        ...fileMaxSize1Types,
+        ...fileMaxSize2Types,
+        ...fileMaxSizeUndefinedTypes,
+        ...fileMaxSizeDisabledTypes,
+        ...fileMaxSizeSameTypes,
+      ]
+
+      render(
+        <Upload
+          {...defaultProps}
+          fileMaxSize={fileMaxSize}
+          acceptedFileTypes={acceptedFileTypes}
+        />
+      )
+
+      expect(screen.queryByText('ODT, PDF, ZIP')).toBeInTheDocument()
+      expect(screen.queryByText('DOCX')).toBeInTheDocument()
+      expect(screen.queryByText('DOC, GIF, JPG, SVG')).toBeInTheDocument()
+      expect(screen.queryByText('TEXT, TXT')).toBeInTheDocument()
     })
 
     it('renders the custom accepted format', () => {
