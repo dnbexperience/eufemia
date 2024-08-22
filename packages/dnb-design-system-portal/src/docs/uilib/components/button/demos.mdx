@@ -78,6 +78,10 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 
 ### Icon button
 
+When the button has no text an `aria-label` attribute is required for accessibility. And a `title` attribute is recommended for mouse hover.
+
+We automatically add an `aria-label` with the same value as `title` if `text` and `children` props are undefined. So in most cases you only have to set the `title` prop.
+
 <ButtonIcon />
 
 ### Custom button content
