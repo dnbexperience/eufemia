@@ -11,10 +11,7 @@ import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { createMockFile } from './testHelpers'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import {
-  UploadAcceptedFileTypesWithFileMaxSize,
-  UploadAllProps,
-} from '../types'
+import { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
 

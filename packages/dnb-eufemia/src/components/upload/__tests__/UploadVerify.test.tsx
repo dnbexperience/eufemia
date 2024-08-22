@@ -1,5 +1,4 @@
 import { verifyFiles, getFileTypeFromExtension } from '../UploadVerify'
-import { UploadAcceptedFileTypes } from '../types'
 import { createMockFile } from './testHelpers'
 
 describe('verifyFiles', () => {
