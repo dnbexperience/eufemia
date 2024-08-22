@@ -11,11 +11,7 @@ import Table from '../Table'
 import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
-import {
-  UploadAcceptedFileTypeObject,
-  UploadAcceptedFileTypes,
-  UploadProps,
-} from './types'
+import { UploadAcceptedFileTypeObject, UploadProps } from './types'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
