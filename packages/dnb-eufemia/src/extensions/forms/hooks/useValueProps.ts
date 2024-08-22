@@ -15,6 +15,7 @@ export default function useValueProps<
     itemPath,
     value,
     defaultValue,
+    inheritLabel,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -39,8 +40,13 @@ export default function useValueProps<
   const dataContext = useContext(DataContext)
   dataContext?.setValueProps?.(path, props)
 
+  const label = inheritLabel
+    ? dataContext?.fieldPropsRef?.current?.[path]?.label
+    : undefined
+
   return {
     ...props,
+    label: props.label ?? label,
     value: transformers.current.transformIn(
       transformers.current.toInput(externalValue)
     ),

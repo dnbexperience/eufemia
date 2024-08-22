@@ -403,6 +403,11 @@ export interface ValueProps<Value = unknown>
   label?: React.ReactNode
 
   /**
+   * Use `true` to inherit the label from a visible (rendered) field with the same path.
+   */
+  inheritLabel?: boolean
+
+  /**
    * Shows the value even if it is empty.
    */
   showEmpty?: boolean

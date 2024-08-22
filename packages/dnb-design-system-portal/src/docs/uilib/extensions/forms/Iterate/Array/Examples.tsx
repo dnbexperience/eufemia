@@ -183,6 +183,7 @@ export const ArrayFromFormHandler = () => {
               <Iterate.AnimatedContainer
                 title={
                   <Value.String
+                    label={false}
                     itemPath="/nickname"
                     placeholder="A Nick name"
                   />
