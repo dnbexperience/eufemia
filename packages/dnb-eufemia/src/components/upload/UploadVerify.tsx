@@ -3,7 +3,6 @@ import {
   UploadFile,
   UploadContextProps,
   UploadAcceptedFileTypes,
-  UploadProps,
   UploadAcceptedFileTypesWithFileMaxSize,
 } from './types'
 
@@ -38,7 +37,7 @@ export function verifyFiles(
   const handleSize = (file: File) => {
     const validateFileSize = (
       fileSize: number,
-      maxFileSize: UploadProps['fileMaxSize']
+      maxFileSize: number | false
     ) => {
       if (
         maxFileSize &&
@@ -53,7 +52,11 @@ export function verifyFiles(
       return null
     }
 
-    if (isArrayOfStrings(acceptedFileTypes)) {
+    if (
+      isArrayOfStrings(acceptedFileTypes) ||
+      acceptedFileTypes.length === 0 ||
+      !acceptedFileTypes
+    ) {
       return validateFileSize(file.size, fileMaxSize)
     } else if (isArrayOfObjects(acceptedFileTypes)) {
       const fileType = getFileType(
@@ -95,6 +98,8 @@ export function verifyFiles(
     const { file } = item
 
     const errorMessage = handleSize(file) || handleType(file)
+    console.log('errorMessage')
+    console.log(errorMessage)
 
     if (errorMessage) {
       item.errorMessage = errorMessage
@@ -114,7 +119,7 @@ export function getFileTypeFromExtension(file: File) {
 }
 
 export function getAcceptedFileTypes(
-  acceptedFileTypes: UploadProps['acceptedFileTypes']
+  acceptedFileTypes: UploadAcceptedFileTypes
 ) {
   return extendWithAbbreviation(
     getAcceptedFileTypesAsListOfStrings(acceptedFileTypes)
@@ -137,7 +142,9 @@ export function hasPreferredMimeType(
 }
 
 function getAcceptedFileTypesAsListOfStrings(
-  acceptedFileTypes: UploadProps['acceptedFileTypes']
+  acceptedFileTypes:
+    | UploadAcceptedFileTypes
+    | UploadAcceptedFileTypesWithFileMaxSize
 ) {
   return isArrayOfStrings(acceptedFileTypes)
     ? (acceptedFileTypes as UploadAcceptedFileTypes)
