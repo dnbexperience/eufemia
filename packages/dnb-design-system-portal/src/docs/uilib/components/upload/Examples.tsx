@@ -259,7 +259,7 @@ export const UploadAcceptedFormats = () => (
   </ComponentBox>
 )
 
-export const UploadFileMaxSizeBasedOnFileFormat = () => (
+export const UploadFileMaxSizeBasedOnFileType = () => (
   <ComponentBox
     data-visual-test="upload-file-max-size-based-on-file-format"
     hideCode
