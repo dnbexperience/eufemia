@@ -11,7 +11,11 @@ import Table from '../Table'
 import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
-import { UploadAcceptedFileTypeObject } from './types'
+import {
+  UploadAcceptedFileTypeObject,
+  UploadAcceptedFileTypes,
+  UploadProps,
+} from './types'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
@@ -110,17 +114,34 @@ function UploadInfoAcceptedFileTypesTable() {
     fileTypeDescription,
     fileSizeDescription,
     fileSizeContent,
-    fileMaxSize: fallBackFileMaxSize,
+    fileMaxSize,
   } = context
 
-  const acceptedFileTypesGroupedByFileMaxSize = Object.groupBy(
+  const groupByFileMaxSize = (
+    acceptedFileTypes: UploadProps['acceptedFileTypes'],
+    fallBackFileMaxSize: UploadProps['fileMaxSize']
+  ) => {
+    const cache = {}
+    acceptedFileTypes.forEach((item) => {
+      const fileMaxSize = item.fileMaxSize
+      const group =
+        fileMaxSize === false || fileMaxSize === 0
+          ? 0
+          : fileMaxSize
+          ? fileMaxSize
+          : fallBackFileMaxSize === false || fallBackFileMaxSize === 0
+          ? 0
+          : fallBackFileMaxSize
+      cache[group] = cache[group] || []
+      cache[group].push(item)
+    })
+
+    return cache
+  }
+
+  const acceptedFileTypesGroupedByFileMaxSize = groupByFileMaxSize(
     acceptedFileTypes,
-    ({ fileMaxSize }: UploadAcceptedFileTypeObject) =>
-      fileMaxSize === false || fileMaxSize === 0
-        ? 0
-        : fileMaxSize
-        ? fileMaxSize
-        : fallBackFileMaxSize
+    fileMaxSize
   )
 
   return (
