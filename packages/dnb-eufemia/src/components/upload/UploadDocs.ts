@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   acceptedFileTypes: {
-    doc: 'List of accepted file types. Can also be a objectlist of accepted file types(`fileType`) and their max file size(`fileMaxSize`)',
+    doc: 'List of accepted file types. Can also be a objectlist of accepted file types(`fileType`) and their max file size(`fileMaxSize`).',
     type: ['Array<string>', 'Array<{ fileType, fileMaxSize }>'],
     status: 'required',
   },
