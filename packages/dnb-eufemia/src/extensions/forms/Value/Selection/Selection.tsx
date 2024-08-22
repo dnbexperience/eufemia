@@ -21,10 +21,12 @@ function Selection(props: Props) {
 
       const option = selection.find((child) => child.props.value === value)
 
-      return option?.props
+      return option?.props?.title
         ? convertJsxToString(option?.props?.title)
         : value
     }
+
+    return value
   }, [fieldPropsRef, path, value])
 
   return <StringValue value={valueFromField} {...rest} />
