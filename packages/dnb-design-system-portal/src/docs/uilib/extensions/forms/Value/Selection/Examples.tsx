@@ -1,14 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { P } from '@dnb/eufemia/src'
-import { Value } from '@dnb/eufemia/src/extensions/forms'
-
-export const Empty = () => {
-  return (
-    <ComponentBox scope={{ Value }}>
-      <Value.Selection showEmpty />
-    </ComponentBox>
-  )
-}
+import { Flex, P } from '@dnb/eufemia/src'
+import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Placeholder = () => {
   return (
@@ -50,6 +42,50 @@ export const Inline = () => {
         <Value.Selection value="Baz" inline />
         This is after the component
       </P>
+    </ComponentBox>
+  )
+}
+
+export const FieldSelectionPath = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        data={{
+          myPath: [
+            { value: 'foo', title: 'Foo' },
+            { value: 'bar', title: 'Bar' },
+            { value: 'baz', title: 'Baz' },
+          ],
+        }}
+      >
+        <Flex.Stack>
+          <Field.Selection label="My selection" path="/myPath" />
+          <Value.Selection label="My selection" path="/myPath" />
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const FieldSelectionAndOption = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Flex.Stack>
+          <Field.Selection
+            label="My selection"
+            path="/myPath"
+            variant="radio"
+            value="bar"
+          >
+            <Field.Option value="foo" title="Foo" />
+            <Field.Option value="bar" title="Bar" />
+            <Field.Option value="baz" title="Baz" />
+          </Field.Selection>
+
+          <Value.Selection label="My selection" path="/myPath" />
+        </Flex.Stack>
+      </Form.Handler>
     </ComponentBox>
   )
 }
