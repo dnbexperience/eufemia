@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "jsx": "react-jsx",
+    "lib": ["es2022", "dom"],
     "skipLibCheck": true,
     "declaration": true,
     "emitDeclarationOnly": true,
