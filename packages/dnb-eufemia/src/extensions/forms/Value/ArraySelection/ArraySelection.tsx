@@ -22,16 +22,16 @@ function ArraySelection(props: Props) {
   const { path, value, format, className, ...rest } = useValueProps(props)
 
   const valueFromField = useMemo(() => {
-    if (path) {
+    if (path && value) {
       const data = fieldPropsRef?.current?.[
-        path + '/collectedData'
+        path + '/arraySelectionData'
       ] as Array<{
         value: string
         title: string | React.ReactNode
       }>
       return data?.map(({ title }) => convertJsxToString(title))
     }
-  }, [fieldPropsRef, path])
+  }, [fieldPropsRef, path, value])
 
   return (
     <ValueBlock

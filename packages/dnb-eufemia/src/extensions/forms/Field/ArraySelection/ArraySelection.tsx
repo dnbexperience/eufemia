@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import OptionField from '../Option'
@@ -153,11 +153,11 @@ export function useCheckboxOrToggleOptions({
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
 }) {
   const { setFieldProps } = useContext(DataContext)
-  const collectedDataRef = useRef<Array<OptionProps>>([])
   const optionsCount = useMemo(
     () => React.Children.count(children),
     [children]
   )
+  const collectedData = []
 
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
@@ -172,7 +172,7 @@ export function useCheckboxOrToggleOptions({
       } = props
 
       if (value?.includes(selected)) {
-        collectedDataRef.current.push(props)
+        collectedData.push(props)
       }
 
       const label = title ?? children
@@ -258,8 +258,8 @@ export function useCheckboxOrToggleOptions({
 
   const result = mapOptions(children)
 
-  if (path && collectedDataRef.current.length > 0) {
-    setFieldProps?.(path + '/collectedData', collectedDataRef.current)
+  if (path) {
+    setFieldProps?.(path + '/arraySelectionData', collectedData)
   }
 
   return result

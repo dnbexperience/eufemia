@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen, render } from '@testing-library/react'
+import { screen, render, fireEvent } from '@testing-library/react'
 import { Value, Form, Field } from '../../..'
 
 describe('Value.ArraySelection', () => {
@@ -129,5 +129,45 @@ describe('Value.ArraySelection', () => {
         '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Foo title and Bar title')
+  })
+
+  it('should use Field.Option title rendered in Field.ArraySelection interactively', () => {
+    render(
+      <Form.Handler
+        locale="en-GB"
+        data={{
+          myPath: ['foo', 'bar'],
+        }}
+      >
+        <Field.ArraySelection path="/myPath">
+          <Field.Option value="foo" title="Foo title" />
+          <Field.Option value="bar" title="Bar title" />
+          <Field.Option value="baz" title="Baz title" />
+        </Field.ArraySelection>
+
+        <Value.ArraySelection path="/myPath" showEmpty />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Foo title and Bar title')
+
+    fireEvent.click(screen.getAllByText('Foo title')[0])
+    expect(element).toHaveTextContent('Bar title')
+
+    fireEvent.click(screen.getAllByText('Bar title')[0])
+    expect(element).toHaveTextContent('')
+
+    fireEvent.click(screen.getAllByText('Bar title')[0])
+    expect(element).toHaveTextContent('Bar title')
+
+    fireEvent.click(screen.getAllByText('Foo title')[0])
+    expect(element).toHaveTextContent('Foo title and Bar title')
+
+    fireEvent.click(screen.getAllByText('Baz title')[0])
+    expect(element).toHaveTextContent('Foo title, Bar title and Baz title')
   })
 })
