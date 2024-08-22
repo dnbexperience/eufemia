@@ -143,7 +143,6 @@ function UploadInfoAcceptedFileTypesTable() {
   return (
     <Table
       border
-      space={0}
       className="dnb-upload__accepted-file-types-table"
       size="small"
     >
