@@ -98,8 +98,6 @@ export function verifyFiles(
     const { file } = item
 
     const errorMessage = handleSize(file) || handleType(file)
-    console.log('errorMessage')
-    console.log(errorMessage)
 
     if (errorMessage) {
       item.errorMessage = errorMessage
