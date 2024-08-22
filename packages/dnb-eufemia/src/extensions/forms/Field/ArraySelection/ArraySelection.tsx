@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import OptionField from '../Option'
@@ -154,6 +154,10 @@ export function useCheckboxOrToggleOptions({
 }) {
   const { setFieldProps } = useContext(DataContext)
   const collectedDataRef = useRef<Array<OptionProps>>([])
+  const optionsCount = useMemo(
+    () => React.Children.count(children),
+    [children]
+  )
 
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
@@ -191,7 +195,6 @@ export function useCheckboxOrToggleOptions({
       const Component = (
         variant === 'checkbox' ? Checkbox : ToggleButton
       ) as typeof Checkbox & typeof ToggleButton
-      const optionsCount = React.Children.count(children)
 
       return (
         <Component
@@ -224,6 +227,7 @@ export function useCheckboxOrToggleOptions({
       htmlAttributes,
       id,
       info,
+      optionsCount,
       value,
       variant,
       warning,
