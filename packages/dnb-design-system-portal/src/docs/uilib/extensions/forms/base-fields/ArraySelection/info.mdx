@@ -6,12 +6,14 @@ showTabs: true
 
 `Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
 
+There is a corresponding [Value.ArraySelection](/uilib/extensions/forms/Value/ArraySelection) component.
+
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(
-  <Field.ArraySelection label="Label text">
-    <Field.Option value="foo" title="Fooo!" />
-    <Field.Option value="bar" title="Baar!" />
+  <Field.ArraySelection>
+    <Field.Option />
+    <Field.Option />
   </Field.ArraySelection>,
 )
 ```
