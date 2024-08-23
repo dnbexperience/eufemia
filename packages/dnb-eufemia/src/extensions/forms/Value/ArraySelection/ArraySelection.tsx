@@ -21,16 +21,18 @@ function ArraySelection(props: Props) {
   const { fieldPropsRef } = useContext(Context) || {}
   const { path, value, format, className, ...rest } = useValueProps(props)
 
-  const valueFromField = useMemo(() => {
-    if (path && value) {
+  const list = useMemo(() => {
+    if (path) {
       const data = fieldPropsRef?.current?.[
         path + '/arraySelectionData'
       ] as Array<{
         value: string
         title: string | React.ReactNode
       }>
-      return data?.map(({ title }) => convertJsxToString(title))
+      return data?.map?.(({ title }) => convertJsxToString(title)) || value
     }
+
+    return value
   }, [fieldPropsRef, path, value])
 
   return (
@@ -38,7 +40,7 @@ function ArraySelection(props: Props) {
       className={classnames('dnb-forms-value-array-selection', className)}
       {...rest}
     >
-      {listFormat(valueFromField ?? value, { locale, format })}
+      {listFormat(list, { locale, format })}
     </ValueBlock>
   )
 }

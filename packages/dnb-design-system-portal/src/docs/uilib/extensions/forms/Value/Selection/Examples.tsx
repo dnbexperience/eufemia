@@ -51,7 +51,8 @@ export const FieldSelectionPath = () => {
     <ComponentBox>
       <Form.Handler
         data={{
-          myPath: [
+          selection: 'bar',
+          myList: [
             { value: 'foo', title: 'Foo' },
             { value: 'bar', title: 'Bar' },
             { value: 'baz', title: 'Baz' },
@@ -59,8 +60,17 @@ export const FieldSelectionPath = () => {
         }}
       >
         <Flex.Stack>
-          <Field.Selection label="My selection" path="/myPath" />
-          <Value.Selection label="My selection" path="/myPath" />
+          <Field.Selection
+            path="/selection"
+            dataPath="/myList"
+            variant="radio"
+            label="My selection"
+          />
+          <Value.Selection
+            path="/selection"
+            dataPath="/myList"
+            inheritLabel
+          />
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>

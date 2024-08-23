@@ -140,4 +140,86 @@ describe('Value.Selection', () => {
     await userEvent.click(screen.getAllByText('Foo title')[0])
     expect(element).toHaveTextContent('Foo title')
   })
+
+  it('should use title from data context interactively', async () => {
+    render(
+      <Form.Handler
+        data={{
+          selection: 'foo',
+          myList: [
+            { value: 'foo', title: 'Foo title' },
+            { value: 'bar', title: 'Bar title' },
+            { value: 'baz', title: 'Baz title' },
+          ],
+        }}
+      >
+        <Field.Selection
+          path="/selection"
+          dataPath="/myList"
+          variant="radio"
+        />
+        <Value.Selection path="/selection" dataPath="/myList" />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-string .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Foo title')
+
+    await userEvent.click(screen.getAllByText('Bar title')[0])
+    expect(element).toHaveTextContent('Bar title')
+
+    await userEvent.click(screen.getAllByText('Baz title')[0])
+    expect(element).toHaveTextContent('Baz title')
+
+    await userEvent.click(screen.getAllByText('Foo title')[0])
+    expect(element).toHaveTextContent('Foo title')
+  })
+
+  it('should use data from context when "dataPath" is defined', () => {
+    render(
+      <Form.Handler
+        data={{
+          selection: 'bar',
+          myList: [
+            { value: 'foo', title: 'Foo title' },
+            { value: 'bar', title: 'Bar title' },
+            { value: 'baz', title: 'Baz title' },
+          ],
+        }}
+      >
+        <Value.Selection path="/selection" dataPath="/myList" />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-string .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Bar title')
+  })
+
+  it('should use data from context when "dataPath" is defined without "path"', () => {
+    render(
+      <Form.Handler
+        data={{
+          myList: [
+            { value: 'foo', title: 'Foo title' },
+            { value: 'bar', title: 'Bar title' },
+            { value: 'baz', title: 'Baz title' },
+          ],
+        }}
+      >
+        <Value.Selection dataPath="/myList" defaultValue="bar" />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-string .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Bar title')
+  })
 })

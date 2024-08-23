@@ -21,7 +21,7 @@ export function ArraySelectionValue() {
           <Field.Option value="baz" title="Bazz!" />
           <Field.Option value="qux" title="Quxx!" />
         </Field.ArraySelection>
-        <Value.ArraySelection label="My selection" path="/selection" />
+        <Value.ArraySelection inheritLabel path="/selection" />
         <button onClick={() => setCount(count + 1)}> {count}</button>
       </Flex.Stack>
     </Form.Handler>

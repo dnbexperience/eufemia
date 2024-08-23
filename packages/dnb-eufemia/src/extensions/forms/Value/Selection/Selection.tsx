@@ -1,35 +1,43 @@
 import React, { useContext, useMemo } from 'react'
 import StringValue from '../String'
-import { ValueProps } from '../../types'
+import { Path, ValueProps } from '../../types'
 import { useValueProps } from '../../hooks'
-
+import useDataValue from '../../hooks/useDataValue'
 import Context from '../../DataContext/Context'
-
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Data } from '../../Field/Selection'
 
-export type Props = ValueProps<string>
+export type Props = ValueProps<string> & {
+  dataPath?: Path
+}
 
 function Selection(props: Props) {
   const { fieldPropsRef } = useContext(Context) || {}
-  const { path, value, ...rest } = useValueProps(props)
+  const { path, dataPath, value, ...rest } = useValueProps(props)
+  const { getValueByPath } = useDataValue()
 
-  const valueFromField = useMemo<string | undefined>(() => {
-    if (!path || (path && !fieldPropsRef.current[path])) {
-      return value
+  const valueToDisplay = useMemo<string | undefined>(() => {
+    const fieldProp = fieldPropsRef?.current?.[path]
+
+    if (path || dataPath) {
+      let list = getValueByPath(dataPath)?.map?.((props) => ({ props }))
+
+      if (!list) {
+        list = fieldProp?.['children'] as Array<
+          Omit<JSX.Element, 'props'> & { props: Data[number] }
+        >
+      }
+
+      const title = list?.find?.((child) => child.props.value === value)
+        ?.props?.title
+
+      return title ? convertJsxToString(title) : value
     }
-    // Children is not defined on FieldProps, hence the lack of dot notation
-    const selection = fieldPropsRef.current[path]['children'] as Array<
-      Omit<JSX.Element, 'props'> & { props: Data[number] }
-    >
 
-    const option = selection.find((child) => child.props.value === value)
-    const title = option?.props?.title
+    return value
+  }, [dataPath, fieldPropsRef, getValueByPath, path, value])
 
-    return title ? convertJsxToString(title) : value
-  }, [fieldPropsRef, path, value])
-
-  return <StringValue value={valueFromField} {...rest} />
+  return <StringValue value={valueToDisplay} {...rest} />
 }
 
 Selection._supportsSpacingProps = true
