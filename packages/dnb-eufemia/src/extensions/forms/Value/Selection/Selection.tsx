@@ -14,7 +14,8 @@ function Selection(props: Props) {
   const { path, value, ...rest } = useValueProps(props)
 
   const valueFromField = useMemo(() => {
-    if (path && value) {
+    if (path && value && fieldPropsRef.current[path]) {
+      // Children is not defined on FieldProps, hence the lack of dot notation
       const selection = fieldPropsRef.current[path][
         'children'
       ] as Array<JSX.Element>
