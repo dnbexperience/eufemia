@@ -1,6 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
-import { Value, Form } from '../../..'
+import { Value, Form, Field } from '../../..'
+import userEvent from '@testing-library/user-event'
 
 describe('Value.Selection', () => {
   it('renders value', () => {
@@ -57,5 +58,86 @@ describe('Value.Selection', () => {
         '.dnb-forms-value-string .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Mastercard')
+  })
+
+  it('should use Field.Option title rendered in Field.Selection', () => {
+    render(
+      <Form.Handler
+        data={{
+          myPath: 'foo',
+        }}
+      >
+        <Field.Selection path="/myPath" variant="radio">
+          <Field.Option value="foo" title="Foo title" />
+          <Field.Option value="bar" title="Bar title" />
+          <Field.Option value="baz" title="Baz title" />
+        </Field.Selection>
+
+        <Value.Selection path="/myPath" />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Foo title')
+  })
+
+  it('should use Field.Option title, when title is JSX', async () => {
+    render(
+      <Form.Handler
+        data={{
+          myPath: 'bar',
+        }}
+      >
+        <Field.Selection path="/myPath">
+          <Field.Option value="foo" title="Foo title" />
+          <Field.Option value="bar" title={<span>Bar title</span>} />
+          <Field.Option value="baz" title="Baz title" />
+        </Field.Selection>
+
+        <Value.Selection path="/myPath" />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Bar title')
+  })
+
+  it('should use Field.Option title rendered in Field.Selection interactively', async () => {
+    render(
+      <Form.Handler
+        data={{
+          myPath: 'foo',
+        }}
+      >
+        <Field.Selection path="/myPath" variant="radio">
+          <Field.Option value="foo" title="Foo title" />
+          <Field.Option value="bar" title="Bar title" />
+          <Field.Option value="baz" title="Baz title" />
+        </Field.Selection>
+
+        <Value.Selection path="/myPath" />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-string .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Foo title')
+
+    await userEvent.click(screen.getAllByText('Bar title')[0])
+    expect(element).toHaveTextContent('Bar title')
+
+    await userEvent.click(screen.getAllByText('Baz title')[0])
+    expect(element).toHaveTextContent('Baz title')
+
+    await userEvent.click(screen.getAllByText('Foo title')[0])
+    expect(element).toHaveTextContent('Foo title')
   })
 })
