@@ -42,7 +42,7 @@ const UploadInfo = () => {
     isAcceptedFileTypeListOfStrings && prettifiedAcceptedFileFormats
 
   const displayFileMaxSizeItem =
-    isAcceptedFileTypeListOfStrings && fileMaxSize !== 0 && fileMaxSize
+    isAcceptedFileTypeListOfStrings && fileMaxSize
 
   const displayFilesAmountLimitItem =
     filesAmountLimit < defaultProps.filesAmountLimit
