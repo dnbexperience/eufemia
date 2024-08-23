@@ -117,22 +117,22 @@ function UploadInfoAcceptedFileTypesTable() {
     acceptedFileTypes: UploadProps['acceptedFileTypes'],
     fallBackFileMaxSize: UploadProps['fileMaxSize']
   ) => {
-    const cache = {}
+    const group = {}
     acceptedFileTypes.forEach((item) => {
-      const fileMaxSize = item.fileMaxSize
-      const group =
-        fileMaxSize === false || fileMaxSize === 0
+      const itemFileMaxSize = item.fileMaxSize
+      const groupName =
+        itemFileMaxSize === false || itemFileMaxSize === 0
           ? 0
-          : fileMaxSize
-          ? fileMaxSize
+          : itemFileMaxSize
+          ? itemFileMaxSize
           : fallBackFileMaxSize === false || fallBackFileMaxSize === 0
           ? 0
           : fallBackFileMaxSize
-      cache[group] = cache[group] || []
-      cache[group].push(item)
+      group[groupName] = group[groupName] || []
+      group[groupName].push(item)
     })
 
-    return cache
+    return group
   }
 
   const acceptedFileTypesGroupedByFileMaxSize = groupByFileMaxSize(
