@@ -259,66 +259,56 @@ export const UploadAcceptedFormats = () => (
   </ComponentBox>
 )
 
+export const UploadFileMaxSizeBasedOnFileType = () => (
+  <ComponentBox
+    data-visual-test="upload-file-max-size-based-on-file-format"
+    hideCode
+  >
+    <Upload
+      id="upload-file-max-size-based-on-file-format"
+      fileMaxSize={99}
+      acceptedFileTypes={[
+        { fileType: 'jpg', fileMaxSize: 1 },
+        { fileType: 'doc', fileMaxSize: 1 },
+        { fileType: 'svg', fileMaxSize: 1 },
+        { fileType: 'gif', fileMaxSize: 1 },
+        { fileType: 'doc', fileMaxSize: 4 },
+        { fileType: 'docx', fileMaxSize: 4 },
+        { fileType: 'tiff', fileMaxSize: 5 },
+        { fileType: 'tif', fileMaxSize: 5 },
+        { fileType: 'html', fileMaxSize: 6 },
+        { fileType: 'htm', fileMaxSize: 6 },
+        { fileType: 'xls', fileMaxSize: 7 },
+        { fileType: 'xlsx', fileMaxSize: 7 },
+        { fileType: 'odt' },
+        { fileType: 'pdf' },
+        { fileType: 'text', fileMaxSize: false },
+        { fileType: 'txt', fileMaxSize: 0 },
+        { fileType: 'zip', fileMaxSize: 99 },
+      ]}
+    />
+  </ComponentBox>
+)
+
+export const UploadFileMaxSizeBasedOnFileTypeDisabled = () => (
+  <ComponentBox>
+    <Upload
+      id="upload-file-max-size-based-on-file-format-disabled"
+      acceptedFileTypes={[
+        { fileType: 'jpg', fileMaxSize: 0 },
+        { fileType: 'doc', fileMaxSize: false },
+        { fileType: 'svg' },
+      ]}
+    />
+  </ComponentBox>
+)
+
 export const UploadDisabledFileMaxSize = () => (
-  <ComponentBox hideCode>
-    {() => {
-      const Component = () => {
-        const verifyFileMaxSize = (file: File) => {
-          const errorMapByType = {
-            ['application/pdf']: {
-              fileMaxSizeMb: 4,
-              errorMessage:
-                'Filen du prøver å laste opp er for stor, vi støtter ikke PDF-filer større enn 4 MB.',
-            },
-            ['image/jpeg']: {
-              fileMaxSizeMb: 1,
-              errorMessage:
-                'Filen du prøver å laste opp er for stor, vi støtter ikke JPG-filer større enn 1 MB.',
-            },
-          }
-          const BYTES_IN_A_MEGA_BYTE = 1048576
-
-          const errorObj = errorMapByType[file.type]
-
-          if (
-            errorObj &&
-            // Converts from b (binary) to MB (decimal)
-            file.size / BYTES_IN_A_MEGA_BYTE > errorObj.fileMaxSizeMb
-          ) {
-            return errorObj.errorMessage
-          }
-          return null
-        }
-
-        const { files, setFiles } = Upload.useUpload(
-          'upload-disabled-file-max-size',
-        )
-
-        if (files.length) {
-          console.log('files', files, setFiles)
-        }
-
-        return (
-          <Upload
-            text="Dra & slipp eller velg hvilke filer du vil laste opp. PDF-filer kan ikke være større enn 4 MB og JPG-filer ikke større enn 1 MB."
-            acceptedFileTypes={['jpg', 'pdf']}
-            id="upload-disabled-file-max-size"
-            fileMaxSize={false}
-            onChange={({ files }) => {
-              setFiles(
-                files.map((fileItem) => {
-                  return {
-                    ...fileItem,
-                    errorMessage: verifyFileMaxSize(fileItem.file),
-                  }
-                }),
-              )
-            }}
-          />
-        )
-      }
-
-      return <Component />
-    }}
+  <ComponentBox>
+    <Upload
+      acceptedFileTypes={['jpg', 'pdf']}
+      id="upload-disabled-file-max-size"
+      fileMaxSize={false}
+    />
   </ComponentBox>
 )

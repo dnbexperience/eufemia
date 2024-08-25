@@ -83,6 +83,74 @@ export const UploadSandbox = () => {
           acceptedFileTypes={acceptedFileTypes}
         />
       </Box>
+
+      <Box>
+        fileMaxSize only defined in acceptedFileTypes
+        <Upload
+          id="upload-example-10"
+          acceptedFileTypes={[
+            { fileType: 'jpg', fileMaxSize: 1 },
+            { fileType: 'png', fileMaxSize: 2 },
+            { fileType: 'pdf', fileMaxSize: 3 },
+          ]}
+        />
+        fileMaxSize only defined in acceptedFileTypes and filesAmountLimit
+        <Upload
+          id="upload-example-10"
+          acceptedFileTypes={[
+            { fileType: 'jpg', fileMaxSize: 1 },
+            { fileType: 'doc', fileMaxSize: 1 },
+            { fileType: 'eml', fileMaxSize: 1 },
+            { fileType: 'log', fileMaxSize: 1 },
+            { fileType: 'msg', fileMaxSize: 1 },
+            { fileType: 'odt', fileMaxSize: 1 },
+            { fileType: 'png', fileMaxSize: 2 },
+            { fileType: 'text', fileMaxSize: 2 },
+            { fileType: 'txt', fileMaxSize: 2 },
+            { fileType: 'pdf', fileMaxSize: 3 },
+          ]}
+          filesAmountLimit={2}
+        />
+        fileMaxSize defined in both acceptedFileTypes & fileMaxSize of 9
+        <Upload
+          id="upload-example-11"
+          acceptedFileTypes={[
+            { fileType: 'jpg', fileMaxSize: 1 },
+            { fileType: 'doc', fileMaxSize: 1 },
+            { fileType: 'svg', fileMaxSize: 1 },
+            { fileType: 'gif', fileMaxSize: 1 },
+            { fileType: 'eml', fileMaxSize: 1 },
+            { fileType: 'png', fileMaxSize: 1 },
+            { fileType: 'doc', fileMaxSize: 4 },
+            { fileType: 'docx', fileMaxSize: 4 },
+            { fileType: 'tiff', fileMaxSize: 5 },
+            { fileType: 'tif', fileMaxSize: 5 },
+            { fileType: 'html', fileMaxSize: 6 },
+            { fileType: 'htm', fileMaxSize: 6 },
+            { fileType: 'xls', fileMaxSize: 7 },
+            { fileType: 'xlsx', fileMaxSize: 7 },
+            { fileType: 'odt' },
+            { fileType: 'pdf', fileMaxSize: 7 },
+            { fileType: 'text', fileMaxSize: false },
+            { fileType: 'txt', fileMaxSize: 0 },
+            { fileType: 'zip', fileMaxSize: 99 },
+          ]}
+          fileMaxSize={99}
+        />
+        fileMaxSize defined in a few acceptedFileTypes & fileMaxSize of 9
+        <Upload
+          id="upload-example-12"
+          acceptedFileTypes={[
+            { fileType: 'gif', fileMaxSize: 1 },
+            { fileType: 'jpg' },
+            { fileType: 'png', fileMaxSize: 0 },
+            { fileType: 'pdf', fileMaxSize: false },
+          ]}
+          fileMaxSize={9}
+        />
+        Empty acceptedFileTypes
+        <Upload id="upload-example-13" acceptedFileTypes={[]} />
+      </Box>
     </Wrapper>
   )
 }
