@@ -147,6 +147,7 @@
 
   &__accepted-file-types-table {
     &.dnb-table {
+      width: fit-content;
       & thead th {
         font-weight: var(--font-weight-medium);
         font-size: var(--font-size-basis);

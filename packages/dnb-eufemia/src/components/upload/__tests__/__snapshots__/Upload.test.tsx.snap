@@ -846,6 +846,9 @@ button .dnb-form-status__text {
 .dnb-upload__text.dnb-p {
   color: var(--upload-text--secondary);
 }
+.dnb-upload__accepted-file-types-table.dnb-table {
+  width: fit-content;
+}
 .dnb-upload__accepted-file-types-table.dnb-table thead th {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-basis);

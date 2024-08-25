@@ -12,6 +12,7 @@ import {
   UploadAcceptedFormats,
   UploadDisabledFileMaxSize,
   UploadFileMaxSizeBasedOnFileType,
+  UploadFileMaxSizeBasedOnFileTypeDisabled,
 } from 'Docs/uilib/components/upload/Examples'
 
 ## Demos
@@ -59,6 +60,12 @@ You can pass the file formats as a string array. This will restrict which files 
 The table of accepted file types is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
 
 <UploadFileMaxSizeBasedOnFileType />
+
+To disable `maxFileSize` Use either `0` or `false`. If `maxFileSize` is not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.
+
+<VisibleWhenNotVisualTest>
+  <UploadFileMaxSizeBasedOnFileTypeDisabled />
+</VisibleWhenNotVisualTest>
 
 ### Upload without file max size
 
