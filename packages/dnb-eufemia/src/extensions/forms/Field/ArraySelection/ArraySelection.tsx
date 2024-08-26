@@ -156,7 +156,7 @@ export function useCheckboxOrToggleOptions({
     () => React.Children.count(children),
     [children]
   )
-  const collectedData = useMemo(() => [], [])
+  const collectedData = []
 
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
@@ -218,8 +218,8 @@ export function useCheckboxOrToggleOptions({
         />
       )
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      collectedData,
       disabled,
       emptyValue,
       handleChange,
