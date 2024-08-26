@@ -83,6 +83,88 @@ describe('verifyFiles', () => {
       file: file1,
     })
   })
+
+  describe('when providing max size to file type', () => {
+    it('returns file size error', () => {
+      const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
+
+      const fileMaxSize = 100000001
+      const errorLargeFile = 'error message %size'
+
+      const rawFiles = [{ file: file1 }]
+      const fileMaxSizeForPng = 1
+      const acceptedFileTypes = [
+        {
+          fileType: 'png',
+          fileMaxSize: fileMaxSizeForPng,
+        },
+      ]
+
+      const files = verifyFiles(rawFiles, {
+        fileMaxSize,
+        acceptedFileTypes,
+        errorLargeFile,
+        errorUnsupportedFile: '',
+      })
+
+      expect(files[0]).toEqual({
+        file: file1,
+        errorMessage: `error message ${fileMaxSizeForPng}`,
+      })
+    })
+
+    it('returns file size error based on fileMaxSize of Upload as a fallback', () => {
+      const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
+
+      const fileMaxSize = 1
+      const errorLargeFile = 'error message %size'
+
+      const rawFiles = [{ file: file1 }]
+      const acceptedFileTypes = [
+        {
+          fileType: 'png',
+        },
+      ]
+
+      const files = verifyFiles(rawFiles, {
+        fileMaxSize,
+        acceptedFileTypes,
+        errorLargeFile,
+        errorUnsupportedFile: '',
+      })
+
+      expect(files[0]).toEqual({
+        file: file1,
+        errorMessage: `error message ${fileMaxSize}`,
+      })
+    })
+
+    it('returns no file size error message when disabling fileMaxSize', () => {
+      const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
+
+      const fileMaxSize = 10000
+      const errorLargeFile = 'error message %size'
+
+      const rawFiles = [{ file: file1 }]
+      const acceptedFileTypes = [
+        {
+          fileType: 'png',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const files = verifyFiles(rawFiles, {
+        fileMaxSize,
+        acceptedFileTypes,
+        errorLargeFile,
+        errorUnsupportedFile: '',
+      })
+
+      expect(files[0]).toEqual({
+        file: file1,
+      })
+    })
+  })
 })
 
 describe('getFileTypeFromExtension', () => {

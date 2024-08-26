@@ -560,34 +560,58 @@ export const UsingFormSection = () => {
 
 export const UsingIterate = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last
+                itemPath="/lastName"
+                width="medium"
+                required
+              />
+            </Field.Composition>
+          )
+        }
+
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
-              title="Edit account holder"
-              titleWhenNew="New account holder"
+              title="Edit account holder {itemNr}"
+              titleWhenNew="New account holder {itemNr}"
             >
-              <Field.Composition>
-                <Field.Name.First itemPath="/firstName" width="medium" />
-                <Field.Name.Last
-                  itemPath="/lastName"
-                  width="medium"
-                  required
-                />
-              </Field.Composition>
+              <MyEditItemForm />
             </Iterate.EditContainer>
           )
         }
 
         const MyViewItem = () => {
+          const item = Iterate.useItem()
+          console.log('index:', item.index)
+
           return (
-            <Iterate.ViewContainer title="Account holder">
+            <Iterate.ViewContainer title="Account holder {itemNr}">
               <Value.SummaryList>
                 <Value.Name.First itemPath="/firstName" showEmpty />
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />
               </Value.SummaryList>
             </Iterate.ViewContainer>
+          )
+        }
+
+        const CreateNewEntry = () => {
+          return (
+            <Iterate.PushContainer
+              path="/accounts"
+              title="New account holder"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <MyEditItemForm />
+            </Iterate.PushContainer>
           )
         }
 
@@ -616,11 +640,7 @@ export const UsingIterate = () => {
                     <MyEditItem />
                   </Iterate.Array>
 
-                  <Iterate.PushButton
-                    text="Add another account"
-                    path="/accounts"
-                    pushValue={{}}
-                  />
+                  <CreateNewEntry />
                 </Card>
 
                 <Form.SubmitButton variant="send" />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useContext } from 'react'
 import Context from '../../DataContext/Context'
 import Space from '../../../../components/space/Space'
 import classnames from 'classnames'
@@ -12,13 +12,27 @@ export default function FormElement({
   onSubmit = null,
   ...rest
 }: Props) {
-  const dataContext = React.useContext(Context)
+  const dataContext = useContext(Context)
 
   /**
    * Set to true,
    * this way we prevent "handleSubmit" to be called twice when the SubmitButton is pressed.
    */
   dataContext.isInsideFormElement = true
+
+  const onSubmitHandler = useCallback(
+    (event: React.SyntheticEvent<HTMLFormElement>) => {
+      event?.preventDefault()
+
+      const formElement = event.target as HTMLFormElement
+      dataContext?.handleSubmit?.({ formElement })
+
+      if (typeof onSubmit === 'function') {
+        onSubmit(event)
+      }
+    },
+    [dataContext, onSubmit]
+  )
 
   return (
     <Space
@@ -30,15 +44,4 @@ export default function FormElement({
       {children}
     </Space>
   )
-
-  function onSubmitHandler(event: React.SyntheticEvent<HTMLFormElement>) {
-    event?.preventDefault()
-
-    const formElement = event.target as HTMLFormElement
-    dataContext?.handleSubmit?.({ formElement })
-
-    if (typeof onSubmit === 'function') {
-      onSubmit(event)
-    }
-  }
 }

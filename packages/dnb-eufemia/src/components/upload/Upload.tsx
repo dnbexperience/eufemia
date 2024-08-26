@@ -54,6 +54,7 @@ const Upload = (localProps: UploadAllProps) => {
     onFileDelete, // eslint-disable-line
     title, // eslint-disable-line
     text, // eslint-disable-line
+    fileTypeTableCaption, // eslint-disable-line
     fileTypeDescription, // eslint-disable-line
     fileSizeDescription, // eslint-disable-line
     fileAmountDescription, // eslint-disable-line

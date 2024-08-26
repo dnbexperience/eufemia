@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Form } from '../../..'
@@ -11,9 +11,9 @@ describe('RemoveButton', () => {
   const handleRemove = jest.fn()
 
   const wrapper = ({ children }) => (
-    <IterateElementContext.Provider value={{ handleRemove }}>
+    <IterateItemContext.Provider value={{ handleRemove }}>
       {children}
-    </IterateElementContext.Provider>
+    </IterateItemContext.Provider>
   )
 
   it('should call handleRemove when clicked inside an Iterate element', () => {

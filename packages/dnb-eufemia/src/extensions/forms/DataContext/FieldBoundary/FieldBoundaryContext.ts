@@ -23,6 +23,16 @@ export interface FieldBoundaryContextState {
   errorsRef?: React.RefObject<unknown>
 
   /**
+   * Will be set to true when the boundary context error state should be shown.
+   */
+  showBoundaryErrors?: boolean
+
+  /**
+   * To set the boundary context error state.
+   */
+  setShowBoundaryErrors?: (showBoundaryErrors: boolean) => void
+
+  /**
    * To set the local error state.
    */
   setFieldError?: (path: Path, error: Error) => void

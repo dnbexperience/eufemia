@@ -2,7 +2,7 @@ import React from 'react'
 import { Path } from '../types'
 import { ContainerMode } from './Array/types'
 
-export interface IterateElementContextState {
+export interface IterateItemContextState {
   id?: string
   index?: number
   value?: unknown
@@ -20,8 +20,8 @@ export interface IterateElementContextState {
   fulfillRemove?: () => void
 }
 
-const IterateElementContext = React.createContext<
-  IterateElementContextState | undefined
+const IterateItemContext = React.createContext<
+  IterateItemContextState | undefined
 >(undefined)
 
-export default IterateElementContext
+export default IterateItemContext

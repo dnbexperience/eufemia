@@ -19,7 +19,7 @@ export const AnimatedContainer = () => {
         <Iterate.Count path="/myList" />
         <Card top>
           <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
-            <Iterate.AnimatedContainer title="Title">
+            <Iterate.AnimatedContainer title="Title {itemNr}">
               <Field.String label="Label" itemPath="/" />
 
               <Iterate.Toolbar>
@@ -48,28 +48,50 @@ export const AnimatedContainer = () => {
   )
 }
 
-const MyEditItem = () => {
+const MyEditItemForm = () => {
+  return (
+    <Field.Composition>
+      <Field.Name.First itemPath="/firstName" width="medium" />
+      <Field.Name.Last
+        itemPath="/lastName"
+        width="medium"
+        required
+        // validateInitially
+      />
+    </Field.Composition>
+  )
+}
+
+const MyEditItem = (props) => {
   return (
     <Iterate.EditContainer
-      title="Edit account holder"
-      titleWhenNew="New account holder"
+      title="Edit account holder {itemNr}"
+      titleWhenNew="New account holder {itemNr}"
+      {...props}
     >
-      <Field.Composition>
-        <Field.Name.First itemPath="/firstName" width="medium" />
-        <Field.Name.Last
-          itemPath="/lastName"
-          width="medium"
-          required
-          // validateInitially
-        />
-      </Field.Composition>
+      <MyEditItemForm />
     </Iterate.EditContainer>
+  )
+}
+
+const CreateNewEntry = () => {
+  return (
+    <Iterate.PushContainer
+      path="/accounts"
+      title="New account holder"
+      openButton={
+        <Iterate.PushContainer.OpenButton text="Add another account" />
+      }
+      showOpenButtonWhen={(list) => list.length > 0}
+    >
+      <MyEditItemForm />
+    </Iterate.PushContainer>
   )
 }
 
 const MyViewItem = () => {
   return (
-    <Iterate.ViewContainer title="Account holder">
+    <Iterate.ViewContainer title="Account holder {itemNr}">
       <Value.SummaryList>
         <Value.Name.First itemPath="/firstName" showEmpty />
         <Value.Name.Last itemPath="/lastName" placeholder="–" />
@@ -87,6 +109,9 @@ export const ViewAndEditContainer = () => {
             {
               firstName: 'Tony',
             },
+            {
+              firstName: 'Maria',
+            },
           ],
         }}
         onSubmit={(data) => console.log('onSubmit', data)}
@@ -95,17 +120,12 @@ export const ViewAndEditContainer = () => {
         <Flex.Vertical>
           <Form.MainHeading>Accounts</Form.MainHeading>
 
-          <Card stack>
+          <Card align="stretch">
             <Iterate.Array path="/accounts">
               <MyViewItem />
               <MyEditItem />
             </Iterate.Array>
-
-            <Iterate.PushButton
-              text="Add another account"
-              path="/accounts"
-              pushValue={{}}
-            />
+            <CreateNewEntry />
           </Card>
 
           <Form.SubmitButton variant="send" />

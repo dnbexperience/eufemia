@@ -16,6 +16,16 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  toolbar: {
+    doc: 'An alternative toolbar to be shown in the container.',
+    type: 'React.Node',
+    status: 'optional',
+  },
+  open: {
+    doc: 'If the container should be open or not. This is taken care of internally by default.',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[FlexVertical](/uilib/layout/flex/container/)': {
     doc: 'All Flex.Vertical properties.',
     type: 'Various',

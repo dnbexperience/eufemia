@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo } from 'react'
 import { Path } from '../types'
 import useId from '../../../shared/helpers/useId'
 import SectionContext from '../Form/Section/SectionContext'
-import IterateElementContext from '../Iterate/IterateElementContext'
+import IterateElementContext from '../Iterate/IterateItemContext'
 
 export type Props = {
   id?: string
@@ -28,7 +28,7 @@ export default function usePath(props: Props = {}) {
     (path: Path) => {
       return `${
         sectionPath && sectionPath !== '/' ? sectionPath : ''
-      }${path}`
+      }${path}`.replace(/\/$/, '')
     },
     [sectionPath]
   )

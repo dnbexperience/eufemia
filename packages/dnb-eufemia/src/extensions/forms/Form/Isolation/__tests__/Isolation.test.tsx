@@ -362,7 +362,7 @@ describe('Form.Isolation', () => {
     expect(isolated).toHaveValue('Isolated updated')
   })
 
-  it('should update data when changed in the root context', async () => {
+  it('should not change the isolated value when changed in the root context', async () => {
     render(
       <Form.Handler id="form-id" data={{ isolated: 'Isolated' }}>
         <Field.String path="/isolated" />
@@ -384,7 +384,60 @@ describe('Form.Isolation', () => {
     })
 
     expect(outside).toHaveValue('Changed')
-    expect(inside).toHaveValue('Changed')
+    expect(inside).toHaveValue('Isolated')
+  })
+
+  it('should not override isolated values inside a section when changed via the root context', async () => {
+    const data = {
+      section: {
+        first: 'First',
+        second: 'Second',
+      },
+    }
+
+    const MockComponent = () => {
+      const [state, setState] = React.useState(data.section.second)
+      return (
+        <Form.Handler
+          data={{
+            section: {
+              first: 'First',
+              second: 'Second',
+            },
+          }}
+        >
+          <Form.Section path="/section">
+            <Form.Isolation defaultData={{ first: 'First value' }}>
+              <Field.String path="/first" />
+              <Field.String
+                path="/second"
+                value={state}
+                onChange={(value) => {
+                  setState(value)
+                }}
+              />
+            </Form.Isolation>
+          </Form.Section>
+        </Form.Handler>
+      )
+    }
+
+    render(<MockComponent />)
+
+    const [first, second] = Array.from(document.querySelectorAll('input'))
+
+    expect(first).toHaveValue('First value')
+    expect(second).toHaveValue('Second')
+
+    await userEvent.type(second, ' changed')
+
+    expect(first).toHaveValue('First value')
+    expect(second).toHaveValue('Second changed')
+
+    await userEvent.type(first, ' changed')
+
+    expect(first).toHaveValue('First value changed')
+    expect(second).toHaveValue('Second changed')
   })
 
   it('should not call onChange on root context', async () => {

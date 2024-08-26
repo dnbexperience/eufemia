@@ -28,7 +28,7 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import useMountEffect from '../../../shared/helpers/useMountEffect'
 import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
-import IterateElementContext from '../Iterate/IterateElementContext'
+import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import useProcessManager from './useProcessManager'
@@ -126,7 +126,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
-  const iterateElementContext = useContext(IterateElementContext)
+  const iterateItemContext = useContext(IterateElementContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const translation = useTranslation()
@@ -166,9 +166,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext ?? {}
   const { handleChange: handleChangeIterateContext } =
-    iterateElementContext ?? {}
+    iterateItemContext ?? {}
   const { path: sectionPath, errorPrioritization } = sectionContext ?? {}
-  const { setFieldError } = fieldBoundaryContext ?? {}
+  const { setFieldError, showBoundaryErrors } = fieldBoundaryContext ?? {}
 
   const hasPath = Boolean(pathProp)
   const { path, identifier, makeIteratePath } = usePath({
@@ -1150,10 +1150,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       let value = valueProp
 
       // First, look for existing data in the context
-      const hasValue = pointer.has(dataContext.data, identifier)
-      const existingValue = hasValue
-        ? pointer.get(dataContext.data, identifier)
-        : undefined
+      const hasValue =
+        pointer.has(dataContext.data, identifier) || identifier === '/'
+      const existingValue =
+        identifier === '/'
+          ? dataContext.data
+          : hasValue
+          ? pointer.get(dataContext.data, identifier)
+          : undefined
 
       // If no data where found in the dataContext, look for shared data
       if (
@@ -1203,16 +1207,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   useEffect(() => {
-    if (showAllErrors) {
+    if (showAllErrors || showBoundaryErrors) {
       // In case of async validation, we don't want to show existing errors before the validation has been completed
       if (fieldStateRef.current !== 'validating') {
         // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
         // something else that should lead to showing the user all errors.
         revealError()
-        forceUpdate()
       }
+    } else if (showBoundaryErrors === false) {
+      hideError()
     }
-  }, [showAllErrors, revealError])
+  }, [hideError, revealError, showAllErrors, showBoundaryErrors])
 
   useEffect(() => {
     if (

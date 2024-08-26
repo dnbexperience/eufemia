@@ -5,7 +5,7 @@ hideInMenu: true
 
 ## Description
 
-`Iterate.RemoveButton` connects to the array of a surrounding `Iterate.Array` and removes the element when clicked.
+`Iterate.RemoveButton` connects to the array of a surrounding `Iterate.Array` and removes the item when clicked.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -13,10 +13,10 @@ import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <>
     <Iterate.Array path="/">
-      <Field.String itemPath="/name" />
+      <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
 
-    <Iterate.RemoveButton text="Remove element" path="/" pushValue={{}} />
+    <Iterate.RemoveButton text="Remove item" path="/" pushValue={{}} />
   </>,
 )
 ```

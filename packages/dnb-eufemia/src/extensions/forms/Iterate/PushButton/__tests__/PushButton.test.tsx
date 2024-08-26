@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import IterateElementContext from '../../IterateElementContext'
+import IterateItemContext from '../../IterateItemContext'
 import PushButton from '../PushButton'
 
 describe('PushButton', () => {
@@ -10,9 +10,9 @@ describe('PushButton', () => {
 
     render(<PushButton pushValue={pushValue}>Push Button</PushButton>, {
       wrapper: ({ children }) => (
-        <IterateElementContext.Provider value={{ handlePush }}>
+        <IterateItemContext.Provider value={{ handlePush }}>
           {children}
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       ),
     })
 

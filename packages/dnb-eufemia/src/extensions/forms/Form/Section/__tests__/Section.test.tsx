@@ -118,11 +118,11 @@ describe('Form.Section', () => {
           },
           "label": "Fornavn",
           "path": "/firstName",
-          "pattern": "^[\\p{L}\\p{M} \\-]+$",
+          "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
           "schema": {
             "maxLength": undefined,
             "minLength": undefined,
-            "pattern": "^[\\p{L}\\p{M} \\-]+$",
+            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
             "type": "string",
           },
           "trim": true,
@@ -139,12 +139,12 @@ describe('Form.Section', () => {
           "label": "Etternavn",
           "minLength": 2,
           "path": "/lastName",
-          "pattern": "^[\\p{L}\\p{M} \\-]+$",
+          "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
           "required": true,
           "schema": {
             "maxLength": undefined,
             "minLength": 2,
-            "pattern": "^[\\p{L}\\p{M} \\-]+$",
+            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
             "type": "string",
           },
           "trim": true,
@@ -178,11 +178,11 @@ describe('Form.Section', () => {
       {
         "properties": {
           "firstName": {
-            "pattern": "^[\\p{L}\\p{M} \\-]+$",
+            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
             "type": "string",
           },
           "lastName": {
-            "pattern": "^[\\p{L}\\p{M} \\-]+$",
+            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
             "type": "string",
           },
         },

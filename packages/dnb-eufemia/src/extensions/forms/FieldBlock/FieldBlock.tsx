@@ -21,7 +21,7 @@ import FieldBlockContext, {
   StateBasis,
 } from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
-import IterateElementContext from '../Iterate/IterateElementContext'
+import IterateElementContext from '../Iterate/IterateItemContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
@@ -110,8 +110,8 @@ function FieldBlock(props: Props) {
     ...rest
   } = Object.assign({}, sharedData.data, props)
 
-  const iterateElementContext = useContext(IterateElementContext)
-  const { index: iterateIndex } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateElementContext)
+  const { index: iterateIndex } = iterateItemContext ?? {}
 
   const blockId = useId(props.id)
   const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})

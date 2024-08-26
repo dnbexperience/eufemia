@@ -4,11 +4,24 @@ showTabs: true
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { UploadProperties } from '@dnb/eufemia/src/components/upload/UploadDocs'
+import {
+  UploadProperties,
+  AcceptedFileTypeProperties,
+} from '@dnb/eufemia/src/components/upload/UploadDocs'
 
 ## Properties
 
 <PropertiesTable props={UploadProperties} />
+
+## AcceptedFileType
+
+The accepted file type object is used to define file max size for specific file types.
+
+When providing a list of AcceptedFileType to [Uploads](/uilib/components/upload/properties/#properties) `acceptedFileTypes`, the accepted file types will be presented in a table. Here is an [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type).
+
+The table is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
+
+<PropertiesTable props={AcceptedFileTypeProperties} />
 
 ## Translations
 

@@ -63,6 +63,7 @@ describe('useStep', () => {
           <Wizard.Step>
             <output>{JSON.stringify({ activeIndex })}</output>
             <button
+              type="button"
               className="dnb-forms-next-button"
               onClick={() => {
                 setActiveIndex(activeIndex + 1)
@@ -107,6 +108,7 @@ describe('useStep', () => {
           <Wizard.Step>
             <output>{JSON.stringify({ activeIndex })}</output>
             <button
+              type="button"
               className="dnb-forms-next-button"
               onClick={() => {
                 setActiveIndex(activeIndex + 1)
@@ -232,6 +234,7 @@ describe('useStep', () => {
         const { activeIndex, setActiveIndex } = useStep(identifier)
         return (
           <button
+            type="button"
             className="before"
             onClick={() => {
               setActiveIndex(activeIndex + 1)
@@ -246,6 +249,7 @@ describe('useStep', () => {
         const { activeIndex, setActiveIndex } = useStep(identifier)
         return (
           <button
+            type="button"
             className="after"
             onClick={() => {
               setActiveIndex(activeIndex + 1)
@@ -308,6 +312,7 @@ describe('useStep', () => {
           <>
             <output>{JSON.stringify({ activeIndex })}</output>
             <button
+              type="button"
               className="dnb-forms-next-button"
               onClick={() => {
                 setActiveIndex(activeIndex + 1)

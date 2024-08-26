@@ -7,11 +7,12 @@ import React, {
 } from 'react'
 import { Button, Flex, FormStatus } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import { check, close } from '../../../../icons'
 import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import PushContainerContext from '../PushContainer/PushContainerContext'
 
 export default function EditToolbarTools() {
   const {
@@ -21,10 +22,15 @@ export default function EditToolbarTools() {
     arrayValue,
     index,
     isNew,
-  } = useContext(IterateElementContext) || {}
-  const { hasVisibleError } = useContext(FieldBoundaryContext) || {}
+  } = useContext(IterateItemContext) || {}
+  const { hasError, hasVisibleError, setShowBoundaryErrors } =
+    useContext(FieldBoundaryContext) || {}
+  const { entries, commitHandleRef } =
+    useContext(PushContainerContext) || {}
 
-  const translation = useTranslation().IterateEditContainer
+  const { doneButton, cancelButton, removeButton, errorInSection } =
+    useTranslation().IterateEditContainer
+  const { createButton } = useTranslation().IteratePushContainer
   const valueBackupRef = useRef<unknown>()
   const wasNew = useWasNew({ isNew, containerMode })
   const [showError, setShowError] = useState(false)
@@ -43,44 +49,71 @@ export default function EditToolbarTools() {
       restoreOriginalValue?.(valueBackupRef.current)
     }
     setShowError(false)
+    setShowBoundaryErrors?.(false)
     switchContainerMode?.('view')
-  }, [restoreOriginalValue, switchContainerMode])
+  }, [restoreOriginalValue, setShowBoundaryErrors, switchContainerMode])
   const doneHandler = useCallback(() => {
-    if (hasVisibleError) {
-      setShowError(true)
+    if (hasError) {
+      setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
+      setShowBoundaryErrors?.(false)
       setShowError(false)
-      switchContainerMode?.('view')
+      if (commitHandleRef) {
+        commitHandleRef.current?.()
+      } else {
+        switchContainerMode?.('view')
+      }
     }
-  }, [hasVisibleError, switchContainerMode])
+  }, [
+    commitHandleRef,
+    hasError,
+    hasVisibleError,
+    setShowBoundaryErrors,
+    switchContainerMode,
+  ])
 
   return (
     <>
       <FormStatus show={showError && hasVisibleError} no_animation={false}>
-        {translation.errorInSection}
+        {errorInSection}
       </FormStatus>
       <Flex.Horizontal gap="large">
-        <Button
-          variant="tertiary"
-          icon={check}
-          icon_position="left"
-          on_click={doneHandler}
-        >
-          {translation.doneButton}
-        </Button>
-
-        {wasNew ? (
-          <RemoveButton text={translation.removeButton} />
+        {commitHandleRef ? (
+          <Button
+            variant="tertiary"
+            icon={check}
+            icon_position="left"
+            on_click={doneHandler}
+          >
+            {createButton}
+          </Button>
         ) : (
           <Button
             variant="tertiary"
-            icon={close}
+            icon={check}
             icon_position="left"
-            on_click={cancelHandler}
+            on_click={doneHandler}
           >
-            {translation.cancelButton}
+            {doneButton}
           </Button>
         )}
+
+        {(!entries || (entries?.length > 0 && containerMode === 'edit')) &&
+          (wasNew ? (
+            <RemoveButton text={removeButton} />
+          ) : (
+            <Button
+              variant="tertiary"
+              icon={close}
+              icon_position="left"
+              on_click={cancelHandler}
+            >
+              {cancelButton}
+            </Button>
+          ))}
       </Flex.Horizontal>
     </>
   )

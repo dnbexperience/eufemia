@@ -2,12 +2,12 @@ import React, { useCallback, useContext } from 'react'
 import { Button, Flex } from '../../../../components'
 import RemoveButton from '../RemoveButton'
 import useTranslation from '../../hooks/useTranslation'
-import IterateElementContext from '../IterateElementContext'
+import IterateItemContext from '../IterateItemContext'
 import { edit } from '../../../../icons'
 
 export default function ViewToolbarTools() {
-  const iterateElementContext = useContext(IterateElementContext)
-  const { switchContainerMode } = iterateElementContext ?? {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { switchContainerMode } = iterateItemContext ?? {}
 
   const translation = useTranslation().IterateViewContainer
 

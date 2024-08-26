@@ -5,6 +5,9 @@ import ViewContainer from '../../ViewContainer'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import { Field, Form } from '../../../..'
 import userEvent from '@testing-library/user-event'
+import nbNO from '../../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', () => {
@@ -85,6 +88,51 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler data={{ foo: 'bar' }}>
         <Form.Section containerMode="edit" path="/">
+          <EditContainer>
+            <Field.String path="/foo" required />
+          </EditContainer>
+          <ViewContainer>content</ViewContainer>
+          <ContextConsumer />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    expect(containerMode).toBe('edit')
+
+    const input = document.querySelector('input')
+    expect(input).toHaveValue('bar')
+
+    await userEvent.type(input, ' additional')
+    expect(input).toHaveValue('bar additional')
+
+    const [, cancelButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    await userEvent.click(cancelButton)
+
+    expect(containerMode).toBe('view')
+    expect(input).toHaveValue('bar')
+  })
+
+  it('should reset entered data on Cancel press when path is set', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Handler
+        data={{
+          section: {
+            foo: 'bar',
+          },
+        }}
+      >
+        <Form.Section containerMode="edit" path="/section">
           <EditContainer>
             <Field.String path="/foo" required />
           </EditContainer>
@@ -211,5 +259,56 @@ describe('EditContainer and ViewContainer', () => {
     )
     expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
     expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
+  })
+
+  it('should validate on done button click', async () => {
+    render(
+      <Form.Handler>
+        <Form.Section>
+          <EditContainer>
+            <Field.Name required path="/name" />
+          </EditContainer>
+          <ViewContainer>content</ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    const [doneButton, cancelButton, editButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    expect(doneButton).toHaveTextContent(
+      nb.SectionEditContainer.doneButton
+    )
+    expect(cancelButton).toHaveTextContent(
+      nb.SectionEditContainer.cancelButton
+    )
+    expect(editButton).toHaveTextContent(
+      nbNO['nb-NO'].SectionViewContainer.editButton
+    )
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.click(cancelButton)
+    await userEvent.click(editButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+    await userEvent.click(doneButton)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
   })
 })

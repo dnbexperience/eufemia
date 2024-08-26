@@ -8,9 +8,9 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
-export const PrimitiveElementsFields = () => {
+export const PrimitiveItemsFields = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array
         value={['Iron Man', 'Captain America', 'The Hulk']}
         onChange={console.log}
@@ -21,12 +21,9 @@ export const PrimitiveElementsFields = () => {
   )
 }
 
-export const PrimitiveElementsValues = () => {
+export const PrimitiveItemsValues = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate }}
-      data-visual-test="primitive-element-values"
-    >
+    <ComponentBox data-visual-test="primitive-element-values">
       <Value.SummaryList>
         <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
           <Value.String itemPath="/" />
@@ -38,7 +35,7 @@ export const PrimitiveElementsValues = () => {
 
 export const ValueComposition = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Value.Composition>
         <Iterate.Array
           value={[
@@ -64,7 +61,7 @@ export const ValueComposition = () => {
 
 export const WithTable = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Table>
         <thead>
           <Tr>
@@ -83,7 +80,7 @@ export const WithTable = () => {
           >
             <Tr>
               <Td>
-                <Value.String itemPath="/name" />
+                <Value.Name.Last itemPath="/name" />
               </Td>
               <Td>
                 <Value.Number itemPath="/age" />
@@ -96,9 +93,9 @@ export const WithTable = () => {
   )
 }
 
-export const ObjectElements = () => {
+export const ObjectItems = () => {
   return (
-    <ComponentBox scope={{ Iterate, Value }}>
+    <ComponentBox scope={{ Value }}>
       <Iterate.Array
         value={[
           {
@@ -121,9 +118,9 @@ export const ObjectElements = () => {
   )
 }
 
-export const RenderPropsPrimitiveElements = () => {
+export const RenderPropsPrimitiveItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array
         value={['foo', 'bar']}
         onChange={(value) => console.log('onChange', value)}
@@ -134,9 +131,9 @@ export const RenderPropsPrimitiveElements = () => {
   )
 }
 
-export const RenderPropsObjectElements = () => {
+export const RenderPropsObjectItems = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Iterate.Array
         value={[
           { num: 1, txt: 'One' },
@@ -157,10 +154,7 @@ export const RenderPropsObjectElements = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate }}
-      data-visual-test="animated-container"
-    >
+    <ComponentBox data-visual-test="animated-container">
       <Form.Handler
         data={{
           avengers: [
@@ -189,6 +183,7 @@ export const ArrayFromFormHandler = () => {
               <Iterate.AnimatedContainer
                 title={
                   <Value.String
+                    label={false}
                     itemPath="/nickname"
                     placeholder="A Nick name"
                   />
@@ -225,37 +220,58 @@ export const ArrayFromFormHandler = () => {
 
 export const ViewAndEditContainer = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate }}
-      data-visual-test="view-and-edit-container"
-    >
+    <ComponentBox data-visual-test="view-and-edit-container">
       {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last
+                itemPath="/lastName"
+                width="medium"
+                required
+              />
+            </Field.Composition>
+          )
+        }
+
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
-              title="Edit account holder"
-              titleWhenNew="New account holder"
+              title="Edit account holder {itemNr}"
+              titleWhenNew="New account holder {itemNr}"
             >
-              <Field.Composition>
-                <Field.Name.First itemPath="/firstName" width="medium" />
-                <Field.Name.Last
-                  itemPath="/lastName"
-                  width="medium"
-                  required
-                />
-              </Field.Composition>
+              <MyEditItemForm />
             </Iterate.EditContainer>
           )
         }
 
         const MyViewItem = () => {
+          const item = Iterate.useItem()
+          console.log('index:', item.index)
+
           return (
-            <Iterate.ViewContainer title="Account holder">
+            <Iterate.ViewContainer title="Account holder {itemNr}">
               <Value.SummaryList>
                 <Value.Name.First itemPath="/firstName" showEmpty />
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />
               </Value.SummaryList>
             </Iterate.ViewContainer>
+          )
+        }
+
+        const CreateNewEntry = () => {
+          return (
+            <Iterate.PushContainer
+              path="/accounts"
+              title="New account holder"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <MyEditItemForm />
+            </Iterate.PushContainer>
           )
         }
 
@@ -284,11 +300,7 @@ export const ViewAndEditContainer = () => {
                     <MyEditItem />
                   </Iterate.Array>
 
-                  <Iterate.PushButton
-                    text="Add another account"
-                    path="/accounts"
-                    pushValue={{}}
-                  />
+                  <CreateNewEntry />
                 </Card>
 
                 <Form.SubmitButton variant="send" />
@@ -305,7 +317,7 @@ export const ViewAndEditContainer = () => {
 
 export const DynamicPathValue = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler defaultData={{ count: 0 }}>
         <Flex.Stack>
           <Field.Number path="/count" width="small" showStepControls />
@@ -328,7 +340,7 @@ export const DynamicPathValue = () => {
 
 export const WithVisibility = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler>
         <Iterate.Array path="/myList" value={[{}]}>
           <Flex.Stack>

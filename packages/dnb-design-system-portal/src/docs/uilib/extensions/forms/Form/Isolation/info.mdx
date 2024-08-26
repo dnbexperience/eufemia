@@ -12,10 +12,10 @@ It's a provider that lets you provide a `schema` or `data` very similar to what 
 ### Good to know
 
 - It needs to be used inside of a `Form.Handler` component.
-- All fields inside needs to validate successfully before the isolated data can be commited, like the `Form.Handler` does before it submits.
+- All fields inside need to validate successfully before the isolated data can be committed, just like the `Form.Handler` does before submitting.
 - Input fields are prevented from submitting the form when pressing enter. Pressing enter on input fields will commit the isolated data to the `Form.Handler` context instead.
 - You can provide a `schema`, `data` or `defaultData` like you would do with the `Form.Handler`.
-- You can also provide `data` or `defaultData` to the `Form.Handler`, defining the data that will be used for the isolated data.
+- You can also provide `data` or `defaultData` to the `Form.Handler` component. If not given on the `Form.Isolation` component, this will define the data that will be used for the isolated data.
 - Using `Form.Isolation` inside of a `Form.Section` is supported.
 - `onChange` on the `Form.Handler` will be called when the isolated data gets commited.
 - `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onCommit` to get the data that gets commited.

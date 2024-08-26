@@ -43,13 +43,13 @@ describe('ArraySelection', () => {
       )
 
       fireEvent.click(screen.getByText('Option 1'))
-      expect(handleChange).toHaveBeenCalledWith(['option1'])
+      expect(handleChange).toHaveBeenLastCalledWith(['option1'])
 
       fireEvent.click(screen.getByText('Option 2'))
-      expect(handleChange).toHaveBeenCalledWith(['option1', 'option2'])
+      expect(handleChange).toHaveBeenLastCalledWith(['option1', 'option2'])
 
       fireEvent.click(screen.getByText('Option 1'))
-      expect(handleChange).toHaveBeenCalledWith(['option2'])
+      expect(handleChange).toHaveBeenLastCalledWith(['option2'])
     })
 
     it('handles emptyValue correctly', () => {
@@ -63,7 +63,7 @@ describe('ArraySelection', () => {
 
       fireEvent.click(screen.getByText('Option 1'))
       fireEvent.click(screen.getByText('Option 1'))
-      expect(handleChange).toHaveBeenCalledWith('empty')
+      expect(handleChange).toHaveBeenLastCalledWith('empty')
     })
 
     it('displays error message when error prop is provided', () => {

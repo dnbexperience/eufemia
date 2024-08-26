@@ -4,7 +4,7 @@ import { Form, Iterate, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       <Form.Handler data={{ myList: ['foo', 'bar'] }}>
         <Iterate.Count path="/myList" />
       </Form.Handler>
@@ -14,7 +14,7 @@ export const Default = () => {
 
 export const Interactive = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       {() => {
         const MyForm = () => {
           const { count } = Iterate.useCount('myForm')

@@ -4,6 +4,9 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Props } from '../'
 import { Field, Form } from '../../..'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Field.Name', () => {
   it('should render with props', () => {
@@ -183,6 +186,80 @@ describe('Field.Name', () => {
     fireEvent.blur(input)
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  describe('should validate the correctness of a name', () => {
+    const validNames = [
+      'Ole',
+      'Anne-Marie',
+      'Hans Christian',
+      'Åse',
+      'Müller',
+      'García-López',
+      'Frédéric-Jean',
+    ]
+
+    const invalidNames = [
+      'Ole1',
+      'Hans  Christian',
+      'Anne--Marie',
+      '@nna',
+      'Ole--',
+      'Liv-',
+      ' Martin',
+      'Anders ',
+    ]
+
+    it.each(validNames)('Valid name: %s', (name) => {
+      render(<Field.Name validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it.each(invalidNames)('Invalid name: %s', (name) => {
+      render(<Field.Name validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.Field.errorPattern
+      )
+    })
+  })
+
+  describe('should validate the correctness of a company name', () => {
+    const validNames = [
+      'Acme Inc. 123',
+      'XYZ Corporation',
+      'Global Co.',
+      'Tech Solutions Ltd.',
+      'Alpha & Omega Enterprises',
+      'Beta Industries',
+      'Gamma-Group',
+      'Ink @ Nine',
+      '123',
+      'Non–Breaking Space',
+      'Corp!',
+    ]
+
+    const invalidNames = [
+      'Tech  Solutions',
+      'XYZ--Corp',
+      '@nna',
+      'Acme--',
+      ' Limited',
+      'Limited ',
+    ]
+
+    it.each(validNames)('Valid name: %s', (name) => {
+      render(<Field.Name.Company validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it.each(invalidNames)('Invalid name: %s', (name) => {
+      render(<Field.Name.Company validateInitially value={name} />)
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.Field.errorPattern
+      )
+    })
   })
 
   describe('ARIA', () => {

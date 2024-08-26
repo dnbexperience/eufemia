@@ -83,6 +83,17 @@ describe('usePath', () => {
     )
   })
 
+  it('should remove trailing slash from path when path is a slash only', () => {
+    const path = '/'
+    const sectionPath = '/section'
+    const { result } = renderHook(() => usePath({ path }), {
+      wrapper: ({ children }) => (
+        <Form.Section path={sectionPath}>{children}</Form.Section>
+      ),
+    })
+    expect(result.current.path).toBe(`${sectionPath}`)
+  })
+
   it('should return the correct identifier when neither sectionPath nor itemPath is defined', () => {
     const path = '/path'
     const id = 'testId'

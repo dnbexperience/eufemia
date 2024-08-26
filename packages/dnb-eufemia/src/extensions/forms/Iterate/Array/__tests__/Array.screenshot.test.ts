@@ -42,7 +42,7 @@ describe('Iterate.Array', () => {
       waitAfterSimulate: 100,
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="view-and-edit-container"] .dnb-forms-iterate-push-button',
+        '[data-visual-test="view-and-edit-container"] .dnb-forms-iterate-open-button',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

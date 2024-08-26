@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { render } from '@testing-library/react'
+import { render, act } from '@testing-library/react'
 import FieldBoundaryProvider from '../FieldBoundaryProvider'
 import FieldBoundaryContext, {
   FieldBoundaryContextState,
@@ -75,12 +75,15 @@ describe('FieldBoundaryProvider', () => {
       hasError: true,
       hasSubmitError: true,
       hasVisibleError: true,
+      showBoundaryErrors: false,
       setFieldError: expect.any(Function),
+      setShowBoundaryErrors: expect.any(Function),
     })
 
     expect(contextRef.current.hasError).toBe(true)
     expect(contextRef.current.hasSubmitError).toBe(true)
     expect(contextRef.current.hasVisibleError).toBe(true)
+    expect(contextRef.current.showBoundaryErrors).toBe(false)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       'id-r0': true,
     })
@@ -115,9 +118,61 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasError).toBe(true)
     expect(contextRef.current.hasSubmitError).toBe(true)
     expect(contextRef.current.hasVisibleError).toBe(true)
+    expect(contextRef.current.showBoundaryErrors).toBe(false)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       '/bar': true,
     })
+  })
+
+  it('should set error in boundary context', async () => {
+    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+      React.createRef()
+
+    const ContextConsumer = () => {
+      contextRef.current = useContext(FieldBoundaryContext)
+      return null
+    }
+
+    const { rerender } = render(
+      <Provider>
+        <FieldBoundaryProvider>
+          <ContextConsumer />
+          <Field.String />
+        </FieldBoundaryProvider>
+      </Provider>
+    )
+
+    expect(contextRef.current.hasError).toBe(false)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(false)
+    expect(contextRef.current.showBoundaryErrors).toBe(false)
+
+    rerender(
+      <Provider>
+        <FieldBoundaryProvider>
+          <ContextConsumer />
+          <Field.String required />
+        </FieldBoundaryProvider>
+      </Provider>
+    )
+
+    act(() => {
+      contextRef.current.setShowBoundaryErrors?.(true)
+    })
+
+    expect(contextRef.current.hasError).toBe(true)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(true)
+    expect(contextRef.current.showBoundaryErrors).toBe(true)
+
+    act(() => {
+      contextRef.current.setShowBoundaryErrors?.(false)
+    })
+
+    expect(contextRef.current.hasError).toBe(true)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(false)
+    expect(contextRef.current.showBoundaryErrors).toBe(false)
   })
 
   it('should set error in context with continuousValidation', async () => {

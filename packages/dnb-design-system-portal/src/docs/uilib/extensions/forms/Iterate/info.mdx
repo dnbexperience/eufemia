@@ -7,7 +7,7 @@ hideInMenu: true
 
 Iterate is a set of components and functionality designed for traversing values and parts of data sets, such as arrays.
 
-It is particularly useful when dealing with data that contains a varying number of elements, as the number of components on the screen depends on the number of elements in the data.
+It is particularly useful when dealing with data that contains a varying number of items, as the number of components on the screen depends on the number of items in the data.
 
 ## Usage
 
@@ -41,7 +41,7 @@ render(
     onChange={console.log}
   >
     <Iterate.Array path="/listOfHeroes">
-      <Field.String itemPath="/name" />
+      <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
   </Form.Handler>,
 )
