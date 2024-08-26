@@ -3,6 +3,35 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.45.0](https://github.com/dnbexperience/eufemia/compare/v10.44.0...v10.45.0) (2024-08-26)
+
+
+### :memo: Documentation
+
+* **Upload:** adds `false` as a file max size type ([#3846](https://github.com/dnbexperience/eufemia/issues/3846)) ([8747e74](https://github.com/dnbexperience/eufemia/commit/8747e74e0606d176e312fac16b5651ccb1eb3000))
+
+
+### :bug: Bug Fixes
+
+* **forms:** enhance `Field.Name` validation rule ([#3849](https://github.com/dnbexperience/eufemia/issues/3849)) ([9c9142d](https://github.com/dnbexperience/eufemia/commit/9c9142d99e73764f8742a3e21d7ffbae933dabd0))
+* **forms:** ensure `Iterate.Array` can handle an array given in the data context ([#3842](https://github.com/dnbexperience/eufemia/issues/3842)) ([263f4c7](https://github.com/dnbexperience/eufemia/commit/263f4c7e52d60fdebcf294068744cd6973388ac7)), closes [#3759](https://github.com/dnbexperience/eufemia/issues/3759)
+* **forms:** ensure `Section.EditContainer` cancel restores data when path is given ([#3853](https://github.com/dnbexperience/eufemia/issues/3853)) ([eabc583](https://github.com/dnbexperience/eufemia/commit/eabc583f3d75b28b1ee228bb40e8ac316b05c9aa)), closes [#3797](https://github.com/dnbexperience/eufemia/issues/3797)
+* **forms:** ensure pressing enter in an input field inside Wizard does trigger next step ([#3852](https://github.com/dnbexperience/eufemia/issues/3852)) ([fd35828](https://github.com/dnbexperience/eufemia/commit/fd35828d295891744e1c3efd48ee62a013049705))
+* **forms:** make `Form.Isolation`s data flow "from outside" stricter ([#3847](https://github.com/dnbexperience/eufemia/issues/3847)) ([977962b](https://github.com/dnbexperience/eufemia/commit/977962b70277b03d743e617b16d2df46d25d22aa)), closes [#3844](https://github.com/dnbexperience/eufemia/issues/3844)
+* **forms:** validate fields inside `Iterate.EditContainer` when done button is pressed ([#3850](https://github.com/dnbexperience/eufemia/issues/3850)) ([2a2272e](https://github.com/dnbexperience/eufemia/commit/2a2272ef4b279d35bf9c28f138ec3741bb3384e6))
+* **forms:** validate fields inside `Section.EditContainer` when done button is pressed ([#3851](https://github.com/dnbexperience/eufemia/issues/3851)) ([1c34980](https://github.com/dnbexperience/eufemia/commit/1c34980980f8369a434a93b41a448e092e85e09b))
+* **useTheme:** define the return type of `null` as a possible return ([#3861](https://github.com/dnbexperience/eufemia/issues/3861)) ([8d0cf61](https://github.com/dnbexperience/eufemia/commit/8d0cf618a9620e7de00bfac8bde834846bff3b84))
+
+
+### :sparkles: Features
+
+* **forms:** add `inheritLabel` prop to value components ([#3858](https://github.com/dnbexperience/eufemia/issues/3858)) ([01e0976](https://github.com/dnbexperience/eufemia/commit/01e09761b2aca1d78b6517668ff35e857499cd24))
+* **forms:** add `Iterate.PushContainer` to support an "initially open" container ([#3843](https://github.com/dnbexperience/eufemia/issues/3843)) ([0fe23a9](https://github.com/dnbexperience/eufemia/commit/0fe23a969f6957fef4316dc4527277bf7f5d5b5b))
+* **forms:** add `Value.ArraySelection` component ([#3854](https://github.com/dnbexperience/eufemia/issues/3854)) ([bc55cc2](https://github.com/dnbexperience/eufemia/commit/bc55cc29af6b902795a83d8c4eee65ffa1db0b5d))
+* **forms:** add `Value.Selection` component ([#3857](https://github.com/dnbexperience/eufemia/issues/3857)) ([7432986](https://github.com/dnbexperience/eufemia/commit/74329864b8cecf31fccdfc356786b43575e5c256))
+* **forms:** add support for `{itemNr}` to the iterate container title + add `useItem` hook ([#3848](https://github.com/dnbexperience/eufemia/issues/3848)) ([0d50272](https://github.com/dnbexperience/eufemia/commit/0d50272c7a5c02d0e5d149432eb54927c327db9c))
+* **Upload:** define max file size for file type ([#3859](https://github.com/dnbexperience/eufemia/issues/3859)) ([13fc1a8](https://github.com/dnbexperience/eufemia/commit/13fc1a864c1a5f2add1e9eb3afd5f6ea5967cb27))
+
 ## [10.44.0](https://github.com/dnbexperience/eufemia/compare/v10.43.0...v10.44.0) (2024-08-19)
 
 
