@@ -156,7 +156,7 @@ export const useStickyHeader = ({
           }
         }
 
-        timeout = setTimeout(applyObservers, 100) // to get a more precise offset/sizes, we delay the initialisation
+        timeout = setTimeout(applyObservers, 100) // to get a more precise offset/sizes, we delay the initialization
 
         return () => {
           clearTimeout(timeout)
