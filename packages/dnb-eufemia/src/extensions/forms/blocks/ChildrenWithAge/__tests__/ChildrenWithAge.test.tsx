@@ -75,7 +75,7 @@ describe('ChildrenWithAge', () => {
     ).toBeInTheDocument()
   })
 
-  it('should render number of children with step controls ', async () => {
+  it('should render number of children with step controls', async () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
