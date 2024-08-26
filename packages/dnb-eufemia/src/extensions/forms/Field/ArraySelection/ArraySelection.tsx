@@ -1,13 +1,12 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
-import OptionField from '../Option'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { FieldHelpProps, FieldProps, FormError } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { getStatus } from '../Selection'
+import { getStatus, mapOptions } from '../Selection'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import DataContext from '../../DataContext/Context'
@@ -157,7 +156,7 @@ export function useCheckboxOrToggleOptions({
     () => React.Children.count(children),
     [children]
   )
-  const collectedData = []
+  const collectedData = useMemo(() => [], [])
 
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
@@ -220,6 +219,7 @@ export function useCheckboxOrToggleOptions({
       )
     },
     [
+      collectedData,
       disabled,
       emptyValue,
       handleChange,
@@ -234,29 +234,7 @@ export function useCheckboxOrToggleOptions({
     ]
   )
 
-  const mapOptions = useCallback(
-    (children: React.ReactNode) => {
-      return React.Children.toArray(children).map(
-        (child: React.ReactElement<OptionProps>, i) => {
-          if (React.isValidElement(child)) {
-            if (child.type === OptionField) {
-              return createOption(child.props, i)
-            }
-
-            if (child.props.children) {
-              const nestedChildren = mapOptions(child.props.children)
-              return React.cloneElement(child, child.props, nestedChildren)
-            }
-          }
-
-          return child
-        }
-      )
-    },
-    [createOption]
-  )
-
-  const result = mapOptions(children)
+  const result = mapOptions(children, { createOption })
 
   if (path) {
     setFieldProps?.(path + '/arraySelectionData', collectedData)
