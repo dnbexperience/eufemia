@@ -15,7 +15,12 @@ import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Icon, Badge, Button } from '@dnb/eufemia/src/components'
+import {
+  Icon,
+  Badge,
+  Button,
+  HeightAnimation,
+} from '@dnb/eufemia/src/components'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import { Context, useTheme } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
@@ -145,7 +150,7 @@ export default function SidebarLayout({
           title: menuTitle || title,
         }
 
-        return <ListItem key={path} {...props} />
+        return <ListItem key={path} {...props} scrollRef={scrollRef} />
       },
     )
 
@@ -255,6 +260,7 @@ type ListItemProps = {
   isInsideActiveCategory?: boolean
   currentPathName?: string
   expanded?: boolean
+  scrollRef?: React.MutableRefObject<HTMLElement>
 }
 
 function ListItem({
@@ -273,6 +279,7 @@ function ListItem({
   hideInMenu,
   currentPathName,
   expanded: defaultExpanded = null,
+  scrollRef,
 }: ListItemProps) {
   const currentTheme = useTheme()?.name
   const { closeMenu } = useContext(SidebarMenuContext)
@@ -289,9 +296,9 @@ function ListItem({
     [defaultExpanded, hasSubheadings],
   )
   const [isExpanded, setIsExpanded] = useState(
-    isAccordion ? defaultExpanded : true,
+    isAccordion ? defaultExpanded || isInsideActivePath || isActive : true,
   )
-
+  const [manualClick, setManualClick] = useState(false)
   if (hideInMenu) {
     return null
   }
@@ -364,6 +371,7 @@ function ListItem({
         <div className="dnb-sidebar-menu__item">
           <Anchor
             href={path}
+            aria-expanded={isAccordion ? isExpanded : undefined}
             onClick={() => {
               closeMenu()
               if (!isExpanded) {
@@ -403,19 +411,31 @@ function ListItem({
               className="dnb-sidebar-menu__expand-button"
               variant="tertiary"
               size="small"
+              aria-expanded={isExpanded}
               icon={isExpanded ? 'subtract' : 'add'}
               onClick={() => {
                 setIsExpanded(!isExpanded)
+                setManualClick(true)
               }}
             />
           )}
         </div>
-        {hasSubheadings && isExpanded && (
-          <ul>
+        {hasSubheadings && (
+          <HeightAnimation
+            element="ul"
+            open={isExpanded}
+            onAnimationEnd={(state) => {
+              if (manualClick) {
+                setManualClick(false)
+              } else if (state === 'closed') {
+                ensureActiveMenuItemIsInView(scrollRef)
+              }
+            }}
+          >
             {subheadings.map((item) => (
-              <ListItem key={item.path} {...item} />
+              <ListItem key={item.path} {...item} scrollRef={scrollRef} />
             ))}
-          </ul>
+          </HeightAnimation>
         )}
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
@@ -731,4 +751,31 @@ function usePrevious<T>(
   valueRef.current = value
 
   return [hasChanged(value, previousValue), previousValue]
+}
+
+function ensureActiveMenuItemIsInView(
+  parentRef: React.MutableRefObject<HTMLElement>,
+) {
+  const nav = parentRef?.current
+  if (nav) {
+    const item = nav.querySelector(
+      'li.is-active > div.dnb-sidebar-menu__item',
+    ) as HTMLElement
+
+    if (item) {
+      const navTop = nav.scrollTop
+      const navBottom = navTop + nav.offsetHeight
+      const itemTop = item.offsetTop
+      const itemBottom = itemTop + item.offsetHeight
+
+      const isInView = navTop <= itemTop && navBottom >= itemBottom
+
+      if (!isInView) {
+        nav.scrollTop = itemTop
+      } else {
+        // stop scrolling if item is in view
+        nav.scrollTop = navTop
+      }
+    }
+  }
 }
