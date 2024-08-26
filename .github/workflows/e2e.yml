@@ -86,19 +86,7 @@ jobs:
         if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
-
-      - name: Use Gatsby cache
-        uses: actions/cache@v3
-        id: gatsby-cache
-        with:
-          path: |
-            ./packages/dnb-design-system-portal/.cache
-            ./packages/dnb-design-system-portal/public
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
+      #     restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:visual-test
@@ -176,20 +164,6 @@ jobs:
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
-
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
-
-      - name: Use Gatsby cache
-        uses: actions/cache@v3
-        id: gatsby-cache
-        with:
-          path: |
-            ./packages/dnb-design-system-portal/.cache
-            ./packages/dnb-design-system-portal/public
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build
