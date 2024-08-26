@@ -63,7 +63,7 @@ export type Props = FieldHelpProps &
 
     /**
      * The path to the context data (Form.Handler).
-     * The object needs to have a `value` and a `title` property.
+     * The context data object needs to have a `value` and a `title` property.
      */
     dataPath?: Path
 
