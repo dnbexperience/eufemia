@@ -4,7 +4,13 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { Form, Field, JSONSchema, JSONSchemaType } from '../../..'
+import {
+  Form,
+  Field,
+  JSONSchema,
+  JSONSchemaType,
+  OnSubmit,
+} from '../../..'
 import type { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -14,7 +20,7 @@ const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
   it('should call "onSubmit"', () => {
-    const onSubmit = jest.fn()
+    const onSubmit: OnSubmit = jest.fn()
 
     render(
       <Form.Handler
@@ -48,7 +54,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call "onSubmit" from Provider at the same time', () => {
-    const onSubmit = jest.fn()
+    const onSubmit: OnSubmit = jest.fn()
 
     render(
       <Form.Handler
@@ -82,7 +88,7 @@ describe('Form.Handler', () => {
 
   it('should call preventDefault', () => {
     const preventDefault = jest.fn()
-    const onSubmit = jest.fn(preventDefault)
+    const onSubmit: OnSubmit = jest.fn(preventDefault)
 
     render(
       <Form.Handler
@@ -197,7 +203,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call HTMLFormElement.reset on "resetForm" call', () => {
-    const onSubmit = jest.fn((data, { resetForm }) => {
+    const onSubmit: OnSubmit = jest.fn((data, { resetForm }) => {
       resetForm()
     })
     const onChange = jest.fn()
@@ -242,16 +248,19 @@ describe('Form.Handler', () => {
       expect.anything()
     )
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({
-      other: 'data',
-      foo: 'New Value',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        other: 'data',
+        foo: 'New Value',
+      },
+      expect.anything()
+    )
     expect(reset).toHaveBeenCalledTimes(1)
     expect(inputElement.value).toBe('New Value')
   })
 
   it('should empty whole data set "clearData" call', () => {
-    const onSubmit = jest.fn((data, { clearData }) => {
+    const onSubmit: OnSubmit = jest.fn((data, { clearData }) => {
       clearData()
     })
     const onChange = jest.fn()
@@ -292,7 +301,10 @@ describe('Form.Handler', () => {
 
     expect(inputElement.value).toBe('unset me')
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({ foo: 'unset me' })
+    expect(onChange).toHaveBeenLastCalledWith(
+      { foo: 'unset me' },
+      expect.anything()
+    )
 
     fireEvent.click(submitElement)
 
@@ -357,7 +369,7 @@ describe('Form.Handler', () => {
       Object.getPrototypeOf(window.sessionStorage),
       'setItem'
     )
-    const onSubmit = jest.fn((data, { resetForm }) => {
+    const onSubmit: OnSubmit = jest.fn((data, { resetForm }) => {
       resetForm()
     })
 
@@ -396,7 +408,7 @@ describe('Form.Handler', () => {
   })
 
   it('should show errors if form is invalid on submit', () => {
-    const onSubmit = jest.fn()
+    const onSubmit: OnSubmit = jest.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -412,7 +424,7 @@ describe('Form.Handler', () => {
   })
 
   it('should include values from fields in data, without any change', () => {
-    const onSubmit = jest.fn()
+    const onSubmit: OnSubmit = jest.fn()
 
     render(
       <Form.Handler data={{ foo: 'bar' }} onSubmit={onSubmit}>
@@ -432,7 +444,7 @@ describe('Form.Handler', () => {
   })
 
   it('should show error message given in onSubmit', async () => {
-    const onSubmit = jest.fn(() => {
+    const onSubmit: OnSubmit = jest.fn(() => {
       throw new Error('Form error')
     })
 
@@ -451,7 +463,7 @@ describe('Form.Handler', () => {
   })
 
   it('should have error message that is connected with aria-labelledby', async () => {
-    const onSubmit = jest.fn(() => {
+    const onSubmit: OnSubmit = jest.fn(() => {
       throw new Error('Form error')
     })
 
@@ -573,7 +585,7 @@ describe('Form.Handler', () => {
     })
 
     it('should abort async submit when onSubmit returns error', async () => {
-      const onSubmit = jest.fn(async () => {
+      const onSubmit: OnSubmit = jest.fn(async () => {
         await wait(1)
 
         return new Error('Error message')
@@ -616,7 +628,7 @@ describe('Form.Handler', () => {
     })
 
     it('should call onSubmit and onSubmitComplete on async submit call', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit: OnSubmit = jest.fn()
       const onSubmitComplete = jest.fn()
 
       render(
@@ -640,6 +652,7 @@ describe('Form.Handler', () => {
           {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
+            filterData: expect.any(Function),
           }
         )
 
@@ -652,7 +665,7 @@ describe('Form.Handler', () => {
     })
 
     it('should handle onSubmit return with "info" and handle pending status', async () => {
-      const onSubmit = jest.fn().mockImplementation(async () => {
+      const onSubmit: OnSubmit = jest.fn().mockImplementation(async () => {
         await wait(500) // ensure we never finish onSubmit before the timeout
 
         return {
@@ -735,7 +748,7 @@ describe('Form.Handler', () => {
     })
 
     it('should call onSubmit and onSubmitComplete with async validator', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit: OnSubmit = jest.fn()
       const onSubmitComplete = jest.fn()
 
       const asyncValidator = async () => {
@@ -767,6 +780,7 @@ describe('Form.Handler', () => {
           {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
+            filterData: expect.any(Function),
           }
         )
 
@@ -779,7 +793,7 @@ describe('Form.Handler', () => {
     })
 
     it('should not call async validator when field is not mounted anymore', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit: OnSubmit = jest.fn()
       const asyncValidator = jest.fn(async () => {
         return null
       })
@@ -806,6 +820,7 @@ describe('Form.Handler', () => {
           {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
+            filterData: expect.any(Function),
           }
         )
 

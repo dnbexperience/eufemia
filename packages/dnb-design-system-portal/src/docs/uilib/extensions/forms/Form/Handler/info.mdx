@@ -147,3 +147,37 @@ In the demo section is an example of how to use the `filterSubmitData` method.
 ### Filter arrays
 
 You can filter arrays by using the `filterSubmitData` method. You can find more information about this in the [Iterate.Array](/uilib/extensions/forms/Iterate/Array/#filter-data) docs.
+
+### onSubmit parameters
+
+The `onSubmit` event returns additional methods to can call:
+
+- `filterData` Filters the given/internal data set.
+- `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
+- `clearData` Empties the given/internal data set.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFilter = {
+  '/myPath': (value) => {
+    return value.length > 0
+  },
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler
+      onSubmit={(data, { filterData, resetForm, clearData }) => {
+        resetForm()
+        clearData()
+
+        const myData = filterData(myFilter)
+      }}
+      sessionStorageId="session-key"
+    >
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+```

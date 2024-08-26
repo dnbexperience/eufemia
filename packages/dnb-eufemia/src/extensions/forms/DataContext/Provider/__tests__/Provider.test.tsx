@@ -20,6 +20,7 @@ import {
   Ajv,
   OnChange,
   DataValueWriteProps,
+  OnSubmit,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
@@ -187,7 +188,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onChange).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
 
       rerender(
         <DataContext.Provider
@@ -203,12 +207,15 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({ fooBar: 'Second Value' })
+      expect(onChange).toHaveBeenLastCalledWith(
+        { fooBar: 'Second Value' },
+        expect.anything()
+      )
     })
 
     it('should update data context with initially given "value"', () => {
       const onChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onSubmit: OnSubmit = jest.fn()
 
       render(
         <DataContext.Provider
@@ -240,10 +247,13 @@ describe('DataContext.Provider', () => {
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenCalledWith({
-        foo: 'New Value',
-        other: 'original',
-      })
+      expect(onChange).toHaveBeenCalledWith(
+        {
+          foo: 'New Value',
+          other: 'original',
+        },
+        expect.anything()
+      )
     })
 
     it('should work without any data provided, using an empty object as default when pointing to an object subkey', () => {
@@ -262,7 +272,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onChange).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
     })
 
     it('should work without any data provided, using an empty array as default when pointing to an array index subkey', () => {
@@ -281,7 +294,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenCalledWith([{ foo: 'New Value' }])
+      expect(onChange).toHaveBeenCalledWith(
+        [{ foo: 'New Value' }],
+        expect.anything()
+      )
     })
 
     it('should call async "onPathChange" on path change', () => {
@@ -333,7 +349,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should call "onSubmit" on submit', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit: OnSubmit = jest.fn()
 
       const { rerender } = render(
         <DataContext.Provider onSubmit={onSubmit}>
@@ -427,16 +443,16 @@ describe('DataContext.Provider', () => {
 
       await userEvent.type(element, '1')
       expect(onChangeSync).toHaveBeenCalledTimes(1)
-      expect(onChangeSync).toHaveBeenLastCalledWith({ foo: '1' })
+      expect(onChangeSync).toHaveBeenLastCalledWith(
+        { foo: '1' },
+        expect.anything()
+      )
 
       log.mockRestore()
     })
 
-    describe('filterSubmitData', () => {
-      it('should filter data based on the given "filterSubmitData" property paths', () => {
-        let filteredData = undefined
-        const onSubmit = jest.fn((data) => (filteredData = data))
-
+    describe('filterData', () => {
+      it('should filter data based on the given filterData paths', () => {
         const fooHandler: FilterDataPathCondition = jest.fn(
           ({ props }) => {
             if (props.disabled === true) {
@@ -457,11 +473,13 @@ describe('DataContext.Provider', () => {
           '/bar': barHandler,
         }
 
+        let filteredData = undefined
+        const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+          filteredData = filterData(filterDataPaths)
+        })
+
         const { rerender } = render(
-          <DataContext.Provider
-            onSubmit={onSubmit}
-            filterSubmitData={filterDataPaths}
-          >
+          <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
             <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -477,6 +495,10 @@ describe('DataContext.Provider', () => {
           { bar: 'bar', foo: 'Include this value' },
           expect.anything()
         )
+        expect(filteredData).toEqual({
+          bar: 'bar',
+          foo: 'Include this value',
+        })
 
         expect(fooHandler).toHaveBeenCalledTimes(1)
         expect(barHandler).toHaveBeenCalledTimes(1)
@@ -495,10 +517,7 @@ describe('DataContext.Provider', () => {
         })
 
         rerender(
-          <DataContext.Provider
-            onSubmit={onSubmit}
-            filterSubmitData={filterDataPaths}
-          >
+          <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
             <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -514,9 +533,12 @@ describe('DataContext.Provider', () => {
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
-          { bar: 'bar value' },
+          { bar: 'bar value', foo: 'Skip this value' },
           expect.anything()
         )
+        expect(filteredData).toEqual({
+          bar: 'bar value',
+        })
 
         expect(fooHandler).toHaveBeenCalledTimes(2)
         expect(barHandler).toHaveBeenCalledTimes(2)
@@ -537,21 +559,20 @@ describe('DataContext.Provider', () => {
         expect(filteredData).toEqual({ bar: 'bar value' })
       })
 
-      it('should filter data based on the given "filterSubmitData" property method', () => {
-        let filteredData = undefined
-        const onSubmit = jest.fn((data) => (filteredData = data))
-
+      it('should filter data based on the given filterData method', () => {
         const filterDataHandler: FilterData = jest.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
         })
 
+        let filteredData = undefined
+        const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+          return (filteredData = filterData(filterDataHandler))
+        })
+
         const { rerender } = render(
-          <DataContext.Provider
-            onSubmit={onSubmit}
-            filterSubmitData={filterDataHandler}
-          >
+          <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
             <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -567,6 +588,10 @@ describe('DataContext.Provider', () => {
           { bar: 'bar', foo: 'Include this value' },
           expect.anything()
         )
+        expect(filteredData).toEqual({
+          bar: 'bar',
+          foo: 'Include this value',
+        })
 
         expect(filterDataHandler).toHaveBeenCalledTimes(2)
         expect(filterDataHandler).toHaveBeenNthCalledWith(1, {
@@ -599,10 +624,7 @@ describe('DataContext.Provider', () => {
         })
 
         rerender(
-          <DataContext.Provider
-            onSubmit={onSubmit}
-            filterSubmitData={filterDataHandler}
-          >
+          <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
             <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -618,9 +640,12 @@ describe('DataContext.Provider', () => {
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
-          { bar: 'bar value' },
+          { bar: 'bar value', foo: 'Skip this value' },
           expect.anything()
         )
+        expect(filteredData).toEqual({
+          bar: 'bar value',
+        })
 
         expect(filterDataHandler).toHaveBeenCalledTimes(4)
         expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
@@ -656,7 +681,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('"filterSubmitData" should not mutate internal data', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit: OnSubmit = jest.fn()
         const onChange = jest.fn()
 
         const filterDataHandler: FilterData = jest.fn(({ value }) => {
@@ -697,7 +722,10 @@ describe('DataContext.Provider', () => {
         expect(filteredData).toMatchObject({ myField: 'remove m' })
         expect(originalData).toMatchObject({ myField: 'remove m' })
         expect(onChange).toHaveBeenCalledTimes(8)
-        expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove m' })
+        expect(onChange).toHaveBeenLastCalledWith(
+          { myField: 'remove m' },
+          expect.anything()
+        )
 
         fireEvent.click(submitButton)
         expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -705,20 +733,68 @@ describe('DataContext.Provider', () => {
           { myField: 'remove m' },
           expect.anything()
         )
+        expect(filteredData).toEqual({
+          myField: 'remove m',
+        })
 
         await userEvent.type(input, 'e')
         expect(filteredData).toMatchObject({})
         expect(originalData).toMatchObject({ myField: 'remove me' })
         expect(onChange).toHaveBeenCalledTimes(9)
-        expect(onChange).toHaveBeenLastCalledWith({ myField: 'remove me' })
+        expect(onChange).toHaveBeenLastCalledWith(
+          { myField: 'remove me' },
+          expect.anything()
+        )
 
         fireEvent.click(submitButton)
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+        expect(filteredData).toEqual({})
+      })
+
+      it('onChange should return filterData', async () => {
+        const filterDataHandler: FilterData = jest.fn(({ value }) => {
+          if (value === 'remove me') {
+            return false
+          }
+        })
+
+        let filteredData = undefined
+        const onChange: OnChange = jest.fn((data, { filterData }) => {
+          filteredData = filterData(filterDataHandler)
+        })
+
+        render(
+          <DataContext.Provider onChange={onChange}>
+            <Field.String path="/myField" />
+            <Form.SubmitButton>Submit</Form.SubmitButton>
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, 'remove m')
+        expect(onChange).toHaveBeenCalledTimes(8)
+        expect(onChange).toHaveBeenLastCalledWith(
+          { myField: 'remove m' },
+          expect.anything()
+        )
+        expect(filteredData).toMatchObject({ myField: 'remove m' })
+
+        await userEvent.type(input, 'e')
+        expect(onChange).toHaveBeenCalledTimes(9)
+        expect(onChange).toHaveBeenLastCalledWith(
+          { myField: 'remove me' },
+          expect.anything()
+        )
+        expect(filteredData).toMatchObject({})
       })
 
       it('should add and remove fieldProps properly', async () => {
-        const onSubmit = jest.fn()
+        let filteredData = undefined
+        const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+          filteredData = filterData(filterDataHandler)
+        })
 
         const filterDataHandler = ({ props }) => {
           return !props['data-exclude-field']
@@ -726,10 +802,7 @@ describe('DataContext.Provider', () => {
 
         const MockForm = () => {
           return (
-            <Form.Handler
-              onSubmit={onSubmit}
-              filterSubmitData={filterDataHandler}
-            >
+            <Form.Handler onSubmit={onSubmit}>
               <Field.Boolean
                 label="Toggle"
                 variant="button"
@@ -770,39 +843,54 @@ describe('DataContext.Provider', () => {
         render(<MockForm />)
 
         fireEvent.submit(document.querySelector('form'))
-        expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          {
+            isVisible: undefined,
+            mySelection: 'less',
+            myString: 'foo',
+          },
+          expect.anything()
+        )
+        expect(filteredData).toMatchObject({})
 
         await userEvent.click(screen.getByText('Toggle'))
 
         fireEvent.submit(document.querySelector('form'))
         expect(onSubmit).toHaveBeenLastCalledWith(
-          { mySelection: 'less' },
+          { isVisible: true, mySelection: 'less', myString: 'foo' },
           expect.anything()
         )
+        expect(filteredData).toMatchObject({ mySelection: 'less' })
 
         await userEvent.click(screen.getByText('More'))
 
         fireEvent.submit(document.querySelector('form'))
         expect(onSubmit).toHaveBeenLastCalledWith(
-          {
-            mySelection: 'more',
-            myString: 'foo',
-          },
+          { isVisible: true, mySelection: 'more', myString: 'foo' },
           expect.anything()
         )
+        expect(filteredData).toMatchObject({
+          mySelection: 'more',
+          myString: 'foo',
+        })
 
         await userEvent.click(screen.getByText('Less'))
 
         fireEvent.submit(document.querySelector('form'))
         expect(onSubmit).toHaveBeenLastCalledWith(
-          { mySelection: 'less' },
+          { isVisible: true, mySelection: 'less', myString: 'foo' },
           expect.anything()
         )
+        expect(filteredData).toMatchObject({ mySelection: 'less' })
 
         await userEvent.click(screen.getByText('Toggle'))
 
         fireEvent.submit(document.querySelector('form'))
-        expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { isVisible: false, mySelection: 'less', myString: 'foo' },
+          expect.anything()
+        )
+        expect(filteredData).toMatchObject({})
       })
     })
 
@@ -958,7 +1046,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should abort async submit onSubmit using asyncSubmitTimeout', async () => {
-      const onSubmit = jest.fn().mockImplementation(async () => {
+      const onSubmit: OnSubmit = jest.fn().mockImplementation(async () => {
         await wait(30) // ensure we never finish onSubmit before the timeout
       })
 
@@ -1110,7 +1198,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should evaluate sync validation, such as required, before continue with async validation', async () => {
-      const onSubmit = jest.fn(async () => {
+      const onSubmit: OnSubmit = jest.fn(async () => {
         return { info: 'Info message' } as const
       })
       const validator = jest.fn(async (value) => {
@@ -1398,10 +1486,12 @@ describe('DataContext.Provider', () => {
     })
 
     it('the user should be able to set the form in pending mode while an async validation is on going', async () => {
-      const onSubmit = jest.fn().mockImplementation(async () => null)
+      const onSubmit: OnSubmit = jest
+        .fn()
+        .mockImplementation(async () => null)
 
       const validator = debounceAsync(async (value) => {
-        await wait(300)
+        await wait(400)
         if (value === 'invalid') {
           return Error('My error')
         }
@@ -1593,7 +1683,10 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(onChangeContext).toHaveBeenCalledTimes(1)
-        expect(onChangeContext).toHaveBeenLastCalledWith({ foo: 'valid' })
+        expect(onChangeContext).toHaveBeenLastCalledWith(
+          { foo: 'valid' },
+          expect.anything()
+        )
       })
       await waitFor(() => {
         expect(onChangeField).toHaveBeenCalled()
@@ -2029,7 +2122,7 @@ describe('DataContext.Provider', () => {
   })
 
   it('should scroll on top when "scrollTopOnSubmit" is true', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit: OnSubmit = jest.fn()
     const scrollTo = jest.fn()
 
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
@@ -3168,14 +3261,13 @@ describe('DataContext.Provider', () => {
         return false
       }
     })
-    const onSubmit = jest.fn()
+    let filteredData = undefined
+    const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+      filteredData = filterData(filterDataHandler)
+    })
 
     const { rerender } = render(
-      <Form.Handler
-        id={id}
-        onSubmit={onSubmit}
-        filterSubmitData={filterDataHandler}
-      >
+      <Form.Handler id={id} onSubmit={onSubmit}>
         <Field.String path="/myField" disabled={true} value="foo" />
       </Form.Handler>
     )
@@ -3184,7 +3276,10 @@ describe('DataContext.Provider', () => {
     fireEvent.submit(form)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
-    expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { myField: 'foo' },
+      expect.anything()
+    )
     expect(filterDataHandler).toHaveBeenCalledTimes(1)
     expect(filterDataHandler).toHaveBeenLastCalledWith({
       path: '/myField',
@@ -3199,13 +3294,10 @@ describe('DataContext.Provider', () => {
         error: undefined,
       },
     })
+    expect(filteredData).toEqual({})
 
     rerender(
-      <Form.Handler
-        id={id}
-        onSubmit={onSubmit}
-        filterSubmitData={filterDataHandler}
-      >
+      <Form.Handler id={id} onSubmit={onSubmit}>
         <Field.String path="/myField" disabled={false} value="bar" />
       </Form.Handler>
     )
@@ -3230,6 +3322,9 @@ describe('DataContext.Provider', () => {
       internal: {
         error: undefined,
       },
+    })
+    expect(filteredData).toEqual({
+      myField: 'bar',
     })
   })
 
@@ -3915,18 +4010,17 @@ describe('DataContext.Provider', () => {
           return false
         }
       })
-      const onSubmit = jest.fn()
+      let filteredData = undefined
+      const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+        filteredData = filterData(filterDataHandler)
+      })
 
       const { result } = renderHook((props = { myField: 'foo' }) =>
         Form.useData(id, props)
       )
 
       const { rerender } = render(
-        <Form.Handler
-          id={id}
-          onSubmit={onSubmit}
-          filterSubmitData={filterDataHandler}
-        >
+        <Form.Handler id={id} onSubmit={onSubmit}>
           <Field.String path="/myField" disabled={true} />
         </Form.Handler>
       )
@@ -3942,7 +4036,10 @@ describe('DataContext.Provider', () => {
         set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myField: 'foo' },
+        expect.anything()
+      )
       expect(filterDataHandler).toHaveBeenCalledTimes(1)
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
@@ -3957,17 +4054,14 @@ describe('DataContext.Provider', () => {
           error: undefined,
         },
       })
+      expect(filteredData).toEqual({})
 
       act(() => {
         result.current.set({ myField: 'bar' })
       })
 
       rerender(
-        <Form.Handler
-          id={id}
-          onSubmit={onSubmit}
-          filterSubmitData={filterDataHandler}
-        >
+        <Form.Handler id={id} onSubmit={onSubmit}>
           <Field.String path="/myField" disabled={false} />
         </Form.Handler>
       )
@@ -4000,13 +4094,12 @@ describe('DataContext.Provider', () => {
           error: undefined,
         },
       })
+      expect(filteredData).toEqual({
+        myField: 'bar',
+      })
 
       rerender(
-        <Form.Handler
-          id={id}
-          onSubmit={onSubmit}
-          filterSubmitData={filterDataHandler}
-        >
+        <Form.Handler id={id} onSubmit={onSubmit}>
           <Field.String path="/myField" disabled={true} />
         </Form.Handler>
       )
@@ -4029,6 +4122,7 @@ describe('DataContext.Provider', () => {
           error: undefined,
         },
       })
+      expect(filteredData).toEqual({ myField: 'bar' })
     })
 
     describe('context support without id', () => {

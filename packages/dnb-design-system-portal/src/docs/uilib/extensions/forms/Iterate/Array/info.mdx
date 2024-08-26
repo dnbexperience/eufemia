@@ -108,14 +108,15 @@ const filterSubmitData = {
 
 render(
   <Form.Handler
-    filterSubmitData={filterSubmitData}
     data={{
       myList: [
         { foo: 'foo1', bar: 'bar1' },
         { foo: 'foo2', bar: 'bar2' },
       ],
     }}
-    onSubmit={console.log}
+    onSubmit={(data, { filterData }) => {
+      console.log('onSubmit', filterData(filterSubmitData))
+    }}
   >
     <Iterate.Array path="/myList">
       <Field.String itemPath="/foo" label="Foo no. {itemNr}" />
