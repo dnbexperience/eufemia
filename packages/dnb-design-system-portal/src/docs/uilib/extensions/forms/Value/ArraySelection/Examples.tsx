@@ -46,7 +46,7 @@ export const FieldArraySelectionAndOption = () => {
             <Field.Option value="baz" title="Baz" />
           </Field.ArraySelection>
 
-          <Value.ArraySelection label="My selections" path="/myPath" />
+          <Value.ArraySelection inheritLabel path="/myPath" />
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
@@ -67,7 +67,7 @@ export const FieldArraySelectionPath = () => {
       >
         <Flex.Stack>
           <Field.ArraySelection label="My selections" path="/myPath" />
-          <Value.ArraySelection label="My selections" path="/myPath" />
+          <Value.ArraySelection inheritLabel path="/myPath" />
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>

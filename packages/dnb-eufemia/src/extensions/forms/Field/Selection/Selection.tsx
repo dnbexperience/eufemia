@@ -324,10 +324,6 @@ function renderRadioItems({
   const optionsCount =
     React.Children.count(children) + (dataList?.length || 0)
 
-  const Component = (
-    variant === 'radio' ? Radio : ToggleButton
-  ) as typeof Radio & typeof ToggleButton
-
   const createOption = (props: OptionProps, i: number) => {
     const { error, title, help, children, ...rest } = props
 
@@ -338,6 +334,10 @@ function renderRadioItems({
         {help.content}
       </HelpButton>
     ) : undefined
+
+    const Component = (
+      variant === 'radio' ? Radio : ToggleButton
+    ) as typeof Radio & typeof ToggleButton
 
     return (
       <Component
@@ -354,32 +354,34 @@ function renderRadioItems({
     )
   }
 
-  const mapOptions = (children: React.ReactNode) => {
-    return React.Children.map(
-      children,
-      (child: React.ReactElement<OptionProps>, i) => {
-        if (React.isValidElement(child)) {
-          if (child.type === OptionField) {
-            return createOption(child.props, i)
-          }
-
-          if (child.props.children) {
-            const nestedChildren = mapOptions(child.props.children)
-            return React.cloneElement(child, child.props, nestedChildren)
-          }
-        }
-
-        return child
-      }
-    )
-  }
-
   return [
     ...(dataList || []).map((props, i) => {
       return createOption(props as OptionProps, i)
     }),
-    ...(mapOptions(children) || []),
+    ...(mapOptions(children, { createOption }) || []),
   ].filter(Boolean)
+}
+
+export function mapOptions(children: React.ReactNode, { createOption }) {
+  return React.Children.map(
+    children,
+    (child: React.ReactElement<OptionProps>, i) => {
+      if (React.isValidElement(child)) {
+        if (child.type === OptionField) {
+          return createOption(child.props, i)
+        }
+
+        if (child.props.children) {
+          const nestedChildren = mapOptions(child.props.children, {
+            createOption,
+          })
+          return React.cloneElement(child, child.props, nestedChildren)
+        }
+      }
+
+      return child
+    }
+  )
 }
 
 export function makeOptions<T = DrawerListProps['data']>(
