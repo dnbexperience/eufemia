@@ -52,17 +52,17 @@ export const dataValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   validateInitially: {
-    doc: 'Set `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.',
+    doc: 'Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.',
     type: 'boolean',
     status: 'optional',
   },
   validateUnchanged: {
-    doc: 'Set `true` to show validation based errors when the field is touched (like focusing a field and blurring) without having changed the value. Since the user did not introduce a new error, this will apply when the value was initially invalid based on validation.',
+    doc: 'Set to `true` to show validation based errors when the field is touched (like focusing a field and blurring) without having changed the value. Since the user did not introduce a new error, this will apply when the value was initially invalid based on validation.',
     type: 'boolean',
     status: 'optional',
   },
   continuousValidation: {
-    doc: 'Set `true` to show validation based errors continuously while writing, not just when blurring the field.',
+    doc: 'Set to `true` to show validation based errors continuously while writing, not just when blurring the field.',
     type: 'boolean',
     status: 'optional',
   },
