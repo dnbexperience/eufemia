@@ -406,9 +406,12 @@ describe('Iterate.Array', () => {
       expect(elements).toHaveLength(1)
 
       expect(onChangeDataContext).toHaveBeenCalledTimes(1)
-      expect(onChangeDataContext).toHaveBeenLastCalledWith({
-        myList: ['foo'],
-      })
+      expect(onChangeDataContext).toHaveBeenLastCalledWith(
+        {
+          myList: ['foo'],
+        },
+        expect.anything()
+      )
       expect(onChangeIterate).toHaveBeenCalledTimes(1)
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
     })
@@ -481,38 +484,70 @@ describe('Iterate.Array', () => {
           ])
 
           expect(dataContextOnChange).toHaveBeenCalledTimes(8)
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(1, {
-            someList: ['fool', 'bar'],
-            otherValue: 'lorem ipsu',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(2, {
-            someList: ['fools', 'bar'],
-            otherValue: 'lorem ipsu',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(3, {
-            someList: ['fools', 'bar'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(4, {
-            someList: ['fools', 'bar '],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(5, {
-            someList: ['fools', 'bar c'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(6, {
-            someList: ['fools', 'bar co'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(7, {
-            someList: ['fools', 'bar cod'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(8, {
-            someList: ['fools', 'bar code'],
-            otherValue: 'lorem ipsum',
-          })
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            1,
+            {
+              someList: ['fool', 'bar'],
+              otherValue: 'lorem ipsu',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            2,
+            {
+              someList: ['fools', 'bar'],
+              otherValue: 'lorem ipsu',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            3,
+            {
+              someList: ['fools', 'bar'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            4,
+            {
+              someList: ['fools', 'bar '],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            5,
+            {
+              someList: ['fools', 'bar c'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            6,
+            {
+              someList: ['fools', 'bar co'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            7,
+            {
+              someList: ['fools', 'bar cod'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            8,
+            {
+              someList: ['fools', 'bar code'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
         })
 
         it('should filter data based on the given "filterSubmitData" property method', () => {

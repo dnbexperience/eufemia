@@ -1621,14 +1621,17 @@ describe('Wizard.Container', () => {
       await userEvent.type(document.querySelector('input'), ' changed')
 
       expect(onChange).toHaveBeenCalledTimes(8)
-      expect(onChange).toHaveBeenLastCalledWith({
-        barStep1: 'has value',
-        barStep2: 'has value',
-        barStep3: undefined,
-        fooStep1: 'has value',
-        fooStep2: 'has value changed',
-        fooStep3: undefined,
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          barStep1: 'has value',
+          barStep2: 'has value',
+          barStep3: undefined,
+          fooStep1: 'has value',
+          fooStep2: 'has value changed',
+          fooStep3: undefined,
+        },
+        expect.anything()
+      )
 
       await userEvent.click(nextButton())
 

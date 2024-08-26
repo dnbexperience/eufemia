@@ -204,24 +204,27 @@ describe('Field.Upload', () => {
       )
 
       expect(onChangeContext).toHaveBeenCalledTimes(1)
-      expect(onChangeContext).toHaveBeenLastCalledWith({
-        myFiles: [
-          {
-            file: file1,
-            exists: false,
-            id: expect.anything(),
-          },
-          {
-            errorMessage: nbShared.Upload.errorLargeFile.replace(
-              '%size',
-              '5'
-            ),
-            file: file2,
-            exists: false,
-            id: expect.anything(),
-          },
-        ],
-      })
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            {
+              file: file1,
+              exists: false,
+              id: expect.anything(),
+            },
+            {
+              errorMessage: nbShared.Upload.errorLargeFile.replace(
+                '%size',
+                '5'
+              ),
+              file: file2,
+              exists: false,
+              id: expect.anything(),
+            },
+          ],
+        },
+        expect.anything()
+      )
       expect(onChangeField).toHaveBeenCalledTimes(1)
       expect(onChangeField).toHaveBeenLastCalledWith([
         {
@@ -298,15 +301,18 @@ describe('Field.Upload', () => {
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          expect.objectContaining({
-            exists: false,
-            file: file1,
-            id: expect.any(String),
-          }),
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file1,
+              id: expect.any(String),
+            }),
+          ],
+        },
+        expect.anything()
+      )
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -341,15 +347,18 @@ describe('Field.Upload', () => {
       fireEvent.submit(document.querySelector('form'))
 
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          expect.objectContaining({
-            exists: false,
-            file: file1,
-            id: expect.any(String),
-          }),
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file1,
+              id: expect.any(String),
+            }),
+          ],
+        },
+        expect.anything()
+      )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
@@ -364,6 +373,8 @@ describe('Field.Upload', () => {
         {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
+          visibleData: expect.any(Function),
+          filterData: expect.any(Function),
         }
       )
     })
@@ -400,19 +411,22 @@ describe('Field.Upload', () => {
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          {
-            errorMessage: nbShared.Upload.errorLargeFile.replace(
-              '%size',
-              '0,2'
-            ),
-            file: file1,
-            exists: false,
-            id: expect.anything(),
-          },
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            {
+              errorMessage: nbShared.Upload.errorLargeFile.replace(
+                '%size',
+                '0,2'
+              ),
+              file: file1,
+              exists: false,
+              id: expect.anything(),
+            },
+          ],
+        },
+        expect.anything()
+      )
 
       expect(
         document.querySelector(
@@ -443,7 +457,10 @@ describe('Field.Upload', () => {
       fireEvent.submit(document.querySelector('form'))
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({ myFiles: [] })
+      expect(onChange).toHaveBeenLastCalledWith(
+        { myFiles: [] },
+        expect.anything()
+      )
 
       expect(
         document.querySelector(
@@ -463,15 +480,18 @@ describe('Field.Upload', () => {
       fireEvent.submit(document.querySelector('form'))
 
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          expect.objectContaining({
-            exists: false,
-            file: file2,
-            id: expect.any(String),
-          }),
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file2,
+              id: expect.any(String),
+            }),
+          ],
+        },
+        expect.anything()
+      )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
@@ -486,6 +506,8 @@ describe('Field.Upload', () => {
         {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
+          visibleData: expect.any(Function),
+          filterData: expect.any(Function),
         }
       )
     })
@@ -528,15 +550,18 @@ describe('Field.Upload', () => {
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          expect.objectContaining({
-            exists: false,
-            file: file1,
-            id: expect.any(String),
-          }),
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file1,
+              id: expect.any(String),
+            }),
+          ],
+        },
+        expect.anything()
+      )
 
       expect(
         document.querySelector(
@@ -577,15 +602,18 @@ describe('Field.Upload', () => {
       await userEvent.click(submitButton)
 
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          expect.objectContaining({
-            exists: false,
-            file: file1,
-            id: expect.any(String),
-          }),
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file1,
+              id: expect.any(String),
+            }),
+          ],
+        },
+        expect.anything()
+      )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
@@ -600,6 +628,8 @@ describe('Field.Upload', () => {
         {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
+          visibleData: expect.any(Function),
+          filterData: expect.any(Function),
         }
       )
     })
@@ -645,19 +675,22 @@ describe('Field.Upload', () => {
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          {
-            errorMessage: nbShared.Upload.errorLargeFile.replace(
-              '%size',
-              '0,2'
-            ),
-            file: file1,
-            exists: false,
-            id: expect.anything(),
-          },
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            {
+              errorMessage: nbShared.Upload.errorLargeFile.replace(
+                '%size',
+                '0,2'
+              ),
+              file: file1,
+              exists: false,
+              id: expect.anything(),
+            },
+          ],
+        },
+        expect.anything()
+      )
 
       expect(
         document.querySelector(
@@ -688,9 +721,12 @@ describe('Field.Upload', () => {
       await userEvent.click(submitButton)
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [],
+        },
+        expect.anything()
+      )
 
       expect(
         document.querySelector(
@@ -710,15 +746,18 @@ describe('Field.Upload', () => {
       await userEvent.click(submitButton)
 
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        myFiles: [
-          expect.objectContaining({
-            exists: false,
-            file: file2,
-            id: expect.any(String),
-          }),
-        ],
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file2,
+              id: expect.any(String),
+            }),
+          ],
+        },
+        expect.anything()
+      )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
@@ -733,6 +772,8 @@ describe('Field.Upload', () => {
         {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
+          visibleData: expect.any(Function),
+          filterData: expect.any(Function),
         }
       )
     })

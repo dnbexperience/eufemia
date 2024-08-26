@@ -187,7 +187,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
+      expect(onChange).toHaveBeenCalledWith(
+        { foo: 'New Value' },
+        expect.anything()
+      )
 
       rerender(
         <DataContext.Provider

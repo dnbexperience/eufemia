@@ -30,13 +30,16 @@ describe('PushContainer', () => {
     await userEvent.click(button)
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({
-      entries: [
-        {
-          name: 'Tony',
-        },
-      ],
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        entries: [
+          {
+            name: 'Tony',
+          },
+        ],
+      },
+      expect.anything()
+    )
   })
 
   it('should show view container after adding a new entry', async () => {

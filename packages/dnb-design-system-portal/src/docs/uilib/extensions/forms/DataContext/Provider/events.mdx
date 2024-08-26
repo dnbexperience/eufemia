@@ -8,24 +8,3 @@ import { ProviderEvents } from '@dnb/eufemia/src/extensions/forms/DataContext/Pr
 ## Events
 
 <PropertiesTable props={ProviderEvents} />
-
-### onSubmit parameters
-
-The `onSubmit` event returns additional methods to can call:
-
-- `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
-- `clearData` Empties the given/internal data set.
-
-```jsx
-render(
-  <Form.Handler
-    onSubmit={(data, { resetForm, clearData }) => {
-      resetForm()
-      clearData()
-    }}
-    sessionStorageId="session-key"
-  >
-    <Form.SubmitButton />
-  </Form.Handler>,
-)
-```
