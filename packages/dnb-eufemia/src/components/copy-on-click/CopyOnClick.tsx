@@ -2,8 +2,7 @@
  * Web CopyOnClick Component
  */
 
-import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useCallback, useEffect, useRef } from 'react'
 import classnames from 'classnames'
 import type { CopyOnClickAllProps } from './types'
 import {
@@ -12,9 +11,7 @@ import {
 } from '../number-format/NumberUtils'
 import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
-import Context from '../../shared/Context'
-
-let hasiOSFix = false
+import { useTranslation } from '../../shared'
 
 const CopyOnClick = ({
   children,
@@ -25,31 +22,29 @@ const CopyOnClick = ({
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (IS_IOS) {
-      if (!hasiOSFix) {
-        hasiOSFix = true
-        runIOSSelectionFix()
-      }
+      runIOSSelectionFix()
     }
   }, [])
 
   const {
-    translation: {
-      CopyOnClick: { clipboard_copy },
+    CopyOnClick: { clipboard_copy },
+  } = useTranslation()
+
+  const copy = useCallback(
+    (value: string, positionElement: HTMLElement) => {
+      copyWithEffect(value, clipboard_copy, positionElement) // use copyWithNotice only to use the nice effect / animation
     },
-  } = React.useContext(Context)
+    [clipboard_copy]
+  )
 
-  const copy = (value, positionElement) => {
-    copyWithEffect(value, clipboard_copy, positionElement) // use copyWithNotice only to use the nice effect / animation
-  }
-
-  const onClickHandler = () => {
+  const onClickHandler = useCallback(() => {
     if (!hasSelectedText()) {
       try {
         const str = convertJsxToString(children)
 
-        if (String(str).length > 0) {
+        if (str) {
           const selection = window.getSelection()
           const range = document.createRange()
           range.selectNodeContents(ref.current)
@@ -62,7 +57,7 @@ const CopyOnClick = ({
         warn(e)
       }
     }
-  }
+  }, [children, copy])
 
   const params = {
     onClick: disabled ? undefined : onClickHandler,
@@ -82,16 +77,6 @@ const CopyOnClick = ({
       {children}
     </span>
   )
-}
-CopyOnClick.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  showCursor: PropTypes.bool,
-}
-
-CopyOnClick.defaultProps = {
-  className: null,
-  showCursor: true,
 }
 
 export default CopyOnClick
