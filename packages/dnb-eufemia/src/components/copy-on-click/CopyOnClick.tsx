@@ -12,6 +12,7 @@ import {
 import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
+import { Span } from '../../elements'
 
 const CopyOnClick = ({
   children,
@@ -64,7 +65,7 @@ const CopyOnClick = ({
   }
 
   return (
-    <span
+    <Span
       className={classnames(
         'dnb-copy-on-click',
         showCursor && !disabled && 'dnb-copy-on-click--cursor',
@@ -75,8 +76,9 @@ const CopyOnClick = ({
       {...params}
     >
       {children}
-    </span>
+    </Span>
   )
 }
 
+CopyOnClick._supportsSpacingProps = true
 export default CopyOnClick

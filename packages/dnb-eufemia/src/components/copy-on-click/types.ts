@@ -1,3 +1,5 @@
+import { SpacingProps } from '../space/types'
+
 export type CopyOnClickProps = {
   /**
    * Whether to show the copy cursor or not.
@@ -18,4 +20,5 @@ export type CopyOnClickProps = {
 }
 
 export type CopyOnClickAllProps = CopyOnClickProps &
-  React.HTMLAttributes<HTMLElement>
+  SpacingProps &
+  React.HTMLAttributes<HTMLSpanElement>

@@ -21,6 +21,7 @@ describe('CopyOnClick', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-copy-on-click',
       'dnb-copy-on-click--cursor',
+      'dnb-span',
     ])
   })
 
@@ -98,5 +99,11 @@ describe('CopyOnClick', () => {
   it('should copy to clipboard', async () => {
     copyWithEffect('CopyOnClick')
     expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
+  })
+
+  it('should support spacing props', async () => {
+    render(<CopyOnClick top="large">CopyOnClick text</CopyOnClick>)
+    const element = document.querySelector('.dnb-copy-on-click')
+    expect(element).toHaveClass('dnb-space__top--large')
   })
 })
