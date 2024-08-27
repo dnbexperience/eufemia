@@ -17,4 +17,5 @@ export type CopyOnClickProps = {
   children: React.ReactNode
 }
 
-export type CopyOnClickAllProps = CopyOnClickProps & React.HTMLAttributes<HTMLElement>
+export type CopyOnClickAllProps = CopyOnClickProps &
+  React.HTMLAttributes<HTMLElement>

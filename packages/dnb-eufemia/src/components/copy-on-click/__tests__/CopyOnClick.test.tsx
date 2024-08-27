@@ -80,7 +80,9 @@ describe('CopyOnClick', () => {
   })
 
   it('should set a custom HTML class name on the element', () => {
-    render(<CopyOnClick className="custom-class">CopyOnClick text</CopyOnClick>)
+    render(
+      <CopyOnClick className="custom-class">CopyOnClick text</CopyOnClick>
+    )
 
     const element = document.querySelector('.dnb-copy-on-click')
     expect(element).toHaveClass('custom-class')
