@@ -6,6 +6,11 @@ export const SelectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  value: {
+    doc: 'Defines the `value`. When using variant `radio` or `button`, value has to be a `string`.',
+    type: ['number', 'string'],
+    status: 'optional',
+  },
   optionsLayout: {
     doc: 'Layout for the list of options. Can be `horizontal` or `vertical`.',
     type: 'string',

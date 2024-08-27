@@ -14,7 +14,4 @@ import { SelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/Sel
 
 ### General props
 
-<PropertiesTable
-  props={fieldProperties}
-  valueType={['number', 'string']}
-/>
+<PropertiesTable props={fieldProperties} omit={['value']} />
