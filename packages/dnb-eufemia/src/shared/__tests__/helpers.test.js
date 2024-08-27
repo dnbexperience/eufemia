@@ -24,7 +24,7 @@ import {
   warn,
 } from '../helpers'
 
-import { mockGetSelection } from '../../core/jest/jestSetup'
+import { mockClipboard } from '../../core/jest/jestSetup'
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
@@ -34,7 +34,7 @@ beforeAll(() => {
   userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get')
   platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
 
-  mockGetSelection()
+  mockClipboard()
 })
 
 describe('"applyPageFocus" should', () => {
