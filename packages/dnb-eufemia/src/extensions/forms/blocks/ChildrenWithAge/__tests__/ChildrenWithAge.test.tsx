@@ -8,7 +8,7 @@ import { GenerateRef } from '../../../Tools/ListAllProps'
 import nbNO from '../../../constants/locales/nb-NO'
 
 describe('ChildrenWithAge', () => {
-  const translationsnbNo = translations['nb-NO']
+  const translationsNO = translations['nb-NO']
 
   it('should render correct fields', async () => {
     render(
@@ -20,7 +20,7 @@ describe('ChildrenWithAge', () => {
     )
 
     expect(document.querySelector('legend')).toHaveTextContent(
-      translationsnbNo.ChildrenWithAge.hasChildren.fieldLabel
+      translationsNO.ChildrenWithAge.hasChildren.fieldLabel
     )
     expect(
       document.querySelectorAll('.dnb-forms-field-block__grid')
@@ -48,22 +48,22 @@ describe('ChildrenWithAge', () => {
 
     expect(
       screen.queryByText(
-        translationsnbNo.ChildrenWithAge.hasChildren.fieldLabel
+        translationsNO.ChildrenWithAge.hasChildren.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
       screen.queryByText(
-        translationsnbNo.ChildrenWithAge.hasJointResponsibility.fieldLabel
+        translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
       screen.queryByText(
-        translationsnbNo.ChildrenWithAge.usesDaycare.fieldLabel
+        translationsNO.ChildrenWithAge.usesDaycare.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
       screen.queryByText(
-        translationsnbNo.ChildrenWithAge.countChildren.fieldLabel
+        translationsNO.ChildrenWithAge.countChildren.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
@@ -81,7 +81,7 @@ describe('ChildrenWithAge', () => {
     await userEvent.click(document.querySelector('button'))
 
     const countChildrenFieldBlock = screen.queryByText(
-      translationsnbNo.ChildrenWithAge.countChildren.fieldLabel
+      translationsNO.ChildrenWithAge.countChildren.fieldLabel
     ).parentElement.parentElement.parentElement
 
     expect(
@@ -101,7 +101,7 @@ describe('ChildrenWithAge', () => {
     await userEvent.click(document.querySelector('button'))
 
     const childreAgenFieldBlock = screen.queryByText(
-      translationsnbNo.ChildrenWithAge.childrenAge.fieldLabel.replace(
+      translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
         '{itemNr}',
         '1'
       )
