@@ -272,7 +272,8 @@ export function prepareContext<Props>(
   const context = {
     ...props,
     updateTranslation: (locale, newTranslations) => {
-      context.translation = newTranslations[locale]
+      context.translation =
+        newTranslations[locale] || newTranslations[LOCALE]
       context.translations = newTranslations
 
       if (context.locales) {
@@ -309,12 +310,10 @@ function handleLocaleFallbacks(
   locale: InternalLocale | AnyLocale,
   translations: Translations = {}
 ) {
-  if (!translations[locale]) {
-    if (locale === 'en' || String(locale).split('-')[0] === 'en') {
-      return 'en-GB'
-    }
+  if (locale === 'en' || String(locale).split('-')[0] === 'en') {
+    return 'en-GB'
   }
-  return locale
+  return translations[locale] ? locale : LOCALE
 }
 
 // If no provider is given, we use the default context from here

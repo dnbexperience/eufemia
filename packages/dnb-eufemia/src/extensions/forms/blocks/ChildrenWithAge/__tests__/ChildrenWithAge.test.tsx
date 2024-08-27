@@ -181,7 +181,7 @@ describe('ChildrenWithAge', () => {
     )
   })
 
-  it('should display default translations when providing a non-existent locale to Provider', async () => {
+  it('should display default translations when providing a non-existent locale to Form.Handler', () => {
     render(
       <Form.Handler locale="non-existent">
         <ChildrenWithAge />
