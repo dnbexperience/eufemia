@@ -3,7 +3,7 @@
  *
  */
 
-import { mockGetSelection } from '../../../core/jest/jestSetup'
+import { mockClipboard } from '../../../core/jest/jestSetup'
 import { InternalLocale } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'
@@ -35,7 +35,7 @@ beforeAll(() => {
 
   helpers.isMac() // just to update the exported const: IS_MAC
 
-  mockGetSelection()
+  mockClipboard()
 })
 
 describe('Node', () => {
