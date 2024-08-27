@@ -17,8 +17,15 @@ export const ChildrenWithAge = (props) => {
     <Form.Handler>
       <WithToolbar>
         <Flex.Stack>
-          <Blocks.ChildrenWithAge {...props} />
-          <Blocks.ChildrenWithAge mode="summary" {...props} />
+          <Blocks.ChildrenWithAge
+            enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+            {...props}
+          />
+          <Blocks.ChildrenWithAge
+            mode="summary"
+            enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+            {...props}
+          />
         </Flex.Stack>
       </WithToolbar>
     </Form.Handler>
