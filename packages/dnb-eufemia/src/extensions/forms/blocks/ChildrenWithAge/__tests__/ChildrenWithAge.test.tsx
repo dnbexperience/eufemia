@@ -1,12 +1,15 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form, Tools } from '../../..'
 import ChildrenWithAge from '../ChildrenWithAge'
 import { translations } from '../ChildrenWithAgeTranslations'
 import { GenerateRef } from '../../../Tools/ListAllProps'
+import nbNO from '../../../constants/locales/nb-NO'
 
 describe('ChildrenWithAge', () => {
+  const translationsNO = translations['nb-NO']
+
   it('should render correct fields', async () => {
     render(
       <Form.Handler>
@@ -17,7 +20,7 @@ describe('ChildrenWithAge', () => {
     )
 
     expect(document.querySelector('legend')).toHaveTextContent(
-      translations['nb-NO'].ChildrenWithAge.hasChildren.fieldLabel
+      translationsNO.ChildrenWithAge.hasChildren.fieldLabel
     )
     expect(
       document.querySelectorAll('.dnb-forms-field-block__grid')
@@ -45,23 +48,22 @@ describe('ChildrenWithAge', () => {
 
     expect(
       screen.queryByText(
-        translations['nb-NO'].ChildrenWithAge.hasChildren.fieldLabel
+        translationsNO.ChildrenWithAge.hasChildren.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
       screen.queryByText(
-        translations['nb-NO'].ChildrenWithAge.hasJointResponsibility
-          .fieldLabel
+        translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
       screen.queryByText(
-        translations['nb-NO'].ChildrenWithAge.usesDaycare.fieldLabel
+        translationsNO.ChildrenWithAge.usesDaycare.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
       screen.queryByText(
-        translations['nb-NO'].ChildrenWithAge.countChildren.fieldLabel
+        translationsNO.ChildrenWithAge.countChildren.fieldLabel
       )
     ).toBeInTheDocument()
     expect(
@@ -71,6 +73,91 @@ describe('ChildrenWithAge', () => {
         ].ChildrenWithAge.childrenAge.fieldLabel.replace('{itemNr}', '1')
       )
     ).toBeInTheDocument()
+  })
+
+  it('should render number of children with step controls', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const countChildrenFieldBlock = screen.queryByText(
+      translationsNO.ChildrenWithAge.countChildren.fieldLabel
+    ).parentElement.parentElement.parentElement
+
+    expect(
+      within(countChildrenFieldBlock).getByTitle('Reduser (0)')
+    ).toBeInTheDocument()
+    expect(
+      within(countChildrenFieldBlock).getByTitle('Øk (2)')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelectorAll('.dnb-input__input')[0]
+    ).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  it('should render age of child without step controls', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const childreAgenFieldBlock = screen.queryByText(
+      translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
+        '{itemNr}',
+        '1'
+      )
+    ).parentElement.parentElement.parentElement
+
+    expect(
+      within(childreAgenFieldBlock).queryByRole('Reduser')
+    ).not.toBeInTheDocument()
+
+    expect(
+      document.querySelectorAll('.dnb-input__input')[1]
+    ).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  it('should display error if age of child is older than 17 years', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const input = document.querySelectorAll('.dnb-input__input')[1]
+
+    const value18 = '18'
+
+    fireEvent.change(input, {
+      target: {
+        value: value18,
+      },
+    })
+    expect(input).toHaveValue(value18)
+
+    fireEvent.blur(input)
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nbNO['nb-NO'].NumberField.errorMaximum.replace('{maximum}', '17')
+    )
+  })
+
+  it('should accept 0 as age of child', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const input = document.querySelectorAll('.dnb-input__input')[1]
+
+    const value0 = '0'
+
+    fireEvent.change(input, {
+      target: {
+        value: value0,
+      },
+    })
+    expect(input).toHaveValue(value0)
+
+    fireEvent.blur(input)
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
   it('should replace translations', async () => {

@@ -86,6 +86,7 @@ function EditContent({ enableAdditionalQuestions }: Props) {
           minimum={1}
           maximum={20}
           showStepControls
+          decimalLimit={0}
         />
 
         <Iterate.Array
@@ -104,11 +105,10 @@ function EditContent({ enableAdditionalQuestions }: Props) {
                 required: tr.ChildrenWithAge.childrenAge.required,
               }}
               placeholder="0"
-              startWith={-1}
               width="small"
               minimum={0}
-              maximum={100}
-              showStepControls
+              maximum={17}
+              decimalLimit={0}
             />
 
             <Form.Visibility pathTrue="/hasJointResponsibility">
