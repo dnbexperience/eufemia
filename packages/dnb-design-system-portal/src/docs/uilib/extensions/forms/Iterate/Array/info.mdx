@@ -102,7 +102,7 @@ In the example below, the data given in `onSubmit` will still have "foo2" and "b
 ```tsx
 import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
 
-const filterSubmitData = {
+const myFiler = {
   '/myList/0': false,
 }
 
@@ -115,7 +115,7 @@ render(
       ],
     }}
     onSubmit={(data, { filterData }) => {
-      console.log('onSubmit', filterData(filterSubmitData))
+      console.log('onSubmit', filterData(myFiler))
     }}
   >
     <Iterate.Array path="/myList">

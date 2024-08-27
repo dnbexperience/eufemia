@@ -25,7 +25,6 @@ export const IsolationProperties: PropertiesTableProps = {
   asyncSubmitTimeout: undefined,
   scrollTopOnSubmit: undefined,
   sessionStorageId: undefined,
-  filterSubmitData: undefined,
   globalStatusId: undefined,
 }
 

@@ -129,7 +129,7 @@ It will flush the storage once the form gets submitted.
 
 ## Filter data
 
-You can use the `filterSubmitData` method to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
+You can use the `filterData` method to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
 
 1. `path` as the first argument.
 2. `value` as the second argument.
@@ -142,15 +142,15 @@ It returns the filtered form data.
 
 The [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook and the [getData](/uilib/extensions/forms/Form/getData/#filter-data) method also returns a `filterData` function you can use to filter data the same way.
 
-In the demo section is an example of how to use the `filterSubmitData` method.
+In the demo section is an example of how to use the `filterData` method.
 
 ### Filter arrays
 
-You can filter arrays by using the `filterSubmitData` method. You can find more information about this in the [Iterate.Array](/uilib/extensions/forms/Iterate/Array/#filter-data) docs.
+You can filter arrays by using the `filterData` method. You can find more information about this in the [Iterate.Array](/uilib/extensions/forms/Iterate/Array/#filter-data) docs.
 
 ### onSubmit parameters
 
-The `onSubmit` event returns additional methods to can call:
+The `onSubmit` event returns additional methods you can call:
 
 - `filterData` Filters the given/internal data set.
 - `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.

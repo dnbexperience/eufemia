@@ -89,10 +89,6 @@ export interface Props<Data extends JsonObject>
    */
   filterSubmitData?: FilterData
   /**
-   * @deprecated Use the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
-   */
-  filterData?: FilterData
-  /**
    * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
    */
   transformIn?: TransformData
@@ -199,7 +195,6 @@ export default function Provider<Data extends JsonObject>(
     transformIn,
     transformOut,
     filterSubmitData,
-    filterData: filterDataProp,
     locale,
     translations,
     required,
@@ -637,13 +632,12 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors,
         setSubmitState,
       })
-      if (filterDataProp || filterSubmitData) {
+      if (filterSubmitData) {
         rerenderUseDataHook?.()
       }
     }
   }, [
     extendAttachment,
-    filterDataProp,
     filterDataHandler,
     filterSubmitData,
     hasErrors,
@@ -706,7 +700,7 @@ export default function Provider<Data extends JsonObject>(
       if (id) {
         // Will ensure that Form.getData() gets the correct data
         extendSharedData?.(newData)
-        if (filterDataProp || filterSubmitData) {
+        if (filterSubmitData) {
           rerenderUseDataHook?.()
         }
       }
@@ -719,7 +713,6 @@ export default function Provider<Data extends JsonObject>(
     },
     [
       extendSharedData,
-      filterDataProp,
       filterSubmitData,
       id,
       mutateDataHandler,
