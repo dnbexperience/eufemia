@@ -87,6 +87,9 @@ export default {
       declineText: 'Avbryt',
       confirmText: 'Godta',
     },
+    CopyOnClick: {
+      clipboard_copy: 'Kopiert',
+    },
     NumberFormat: {
       clipboard_copy: 'Kopiert',
       not_available: 'Ikke tilgjengelig',

@@ -4,7 +4,7 @@
 
 import React from 'react'
 import CodeBlock from './CodeBlock'
-import { Checkbox, Input } from '@dnb/eufemia/src/components'
+import { Checkbox, Input, CopyOnClick } from '@dnb/eufemia/src/components'
 import {
   Ul,
   Ol,
@@ -20,7 +20,6 @@ import Table from './Table'
 // import Img from './Img'
 import Anchor from './Anchor'
 import Header from './AutoLinkHeader'
-import Copy from './Copy'
 import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
 import { TypographyBox } from '../parts/TypographyBox'
 
@@ -51,7 +50,7 @@ export const basicComponents = {
     }
     return (
       <Code {...rest}>
-        <Copy>{children}</Copy>
+        <CopyOnClick>{children}</CopyOnClick>
       </Code>
     )
   },
@@ -73,7 +72,7 @@ export const basicComponents = {
 }
 
 export default {
-  Copy,
+  CopyOnClick,
   TypographyBox,
   VisibilityByTheme,
   VisibleWhenVisualTest: ({ children }) => {

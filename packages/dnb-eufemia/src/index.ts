@@ -47,6 +47,7 @@ import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
 import Card from './components/card/Card'
 import Checkbox from './components/checkbox/Checkbox'
+import CopyOnClick from './components/copy-on-click/CopyOnClick'
 import DatePicker from './components/date-picker/DatePicker'
 import Dialog from './components/dialog/Dialog'
 import Drawer from './components/drawer/Drawer'
@@ -129,6 +130,7 @@ export {
   Button,
   Card,
   Checkbox,
+  CopyOnClick,
   DatePicker,
   Dialog,
   Drawer,
