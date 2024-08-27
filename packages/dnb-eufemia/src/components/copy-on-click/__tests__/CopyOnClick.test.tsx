@@ -1,8 +1,14 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
+import { mockClipboard } from '../../../core/jest/jestSetup'
+import { copyWithEffect } from '../../../components/number-format/NumberUtils'
 
 describe('CopyOnClick', () => {
+  beforeAll(() => {
+    mockClipboard()
+  })
+
   it('renders with default props', async () => {
     render(<CopyOnClick>CopyOnClick text</CopyOnClick>)
 
@@ -87,5 +93,10 @@ describe('CopyOnClick', () => {
     const element = document.querySelector('.dnb-copy-on-click')
     expect(element).toHaveClass('custom-class')
     expect(element).toHaveClass('dnb-copy-on-click')
+  })
+
+  it('should copy to clipboard', async () => {
+    copyWithEffect('CopyOnClick')
+    expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
   })
 })

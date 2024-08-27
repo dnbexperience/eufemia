@@ -8,10 +8,11 @@ import classnames from 'classnames'
 import type { CopyOnClickAllProps } from './types'
 import {
   runIOSSelectionFix,
-  useCopyWithNotice,
+  copyWithEffect,
 } from '../number-format/NumberUtils'
 import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
+import Context from '../../shared/Context'
 
 let hasiOSFix = false
 
@@ -33,7 +34,15 @@ const CopyOnClick = ({
     }
   }, [])
 
-  const { copy } = useCopyWithNotice()
+  const {
+    translation: {
+      CopyOnClick: { clipboard_copy },
+    },
+  } = React.useContext(Context)
+
+  const copy = (value, positionElement) => {
+    copyWithEffect(value, clipboard_copy, positionElement) // use copyWithNotice only to use the nice effect / animation
+  }
 
   const onClickHandler = () => {
     if (!hasSelectedText()) {
@@ -47,7 +56,7 @@ const CopyOnClick = ({
           selection.removeAllRanges()
           selection.addRange(range)
 
-          copy(str, ref.current) // use copyWithNotice only to use the nice effect / animation
+          copy(str, ref.current)
         }
       } catch (e) {
         warn(e)

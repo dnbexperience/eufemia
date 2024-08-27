@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import { Icon, Copy } from '@dnb/eufemia/src/components'
+import { Icon, CopyOnClick } from '@dnb/eufemia/src/components'
 import { P } from '@dnb/eufemia/src'
 import * as PrimaryIcons from '@dnb/eufemia/src/icons/dnb/primary_icons'
 import * as SecondaryIcons from '@dnb/eufemia/src/icons/dnb/secondary_icons'
@@ -106,7 +106,7 @@ export default class ListAllIcons extends React.PureComponent<Props> {
               element="figcaption"
               useSlug={iconName}
             >
-              <Copy>{iconName}</Copy>
+              <CopyOnClick>{iconName}</CopyOnClick>
             </AutoLinkHeader>
 
             <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
