@@ -114,47 +114,91 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('bar')
   })
 
-  it('when "validateFieldsInitially" is set to true, fields should show their errors and the mode should be "edit"', async () => {
-    let containerMode = null
+  describe('validateFieldsInitially', () => {
+    it('fields should show their errors and the mode should be "edit"', async () => {
+      let containerMode = null
 
-    const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
-      containerMode = context.containerMode
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
 
-      return null
-    }
+        return null
+      }
 
-    render(
-      <Form.Handler>
-        <Form.Section validateFieldsInitially path="/">
-          <EditContainer>
-            <Field.String path="/foo" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
-          <ContextConsumer />
-        </Form.Section>
-      </Form.Handler>
-    )
+      render(
+        <Form.Handler>
+          <Form.Section validateFieldsInitially path="/">
+            <EditContainer>
+              <Field.String path="/foo" required />
+            </EditContainer>
+            <ViewContainer>content</ViewContainer>
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
 
-    expect(containerMode).toBe('edit')
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
-    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
-    )
+      expect(containerMode).toBe('edit')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
 
-    const input = document.querySelector('input')
-    expect(input).toHaveValue('')
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('')
 
-    await userEvent.type(input, 'something')
+      await userEvent.type(input, 'something')
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
 
-    const [doneButton] = Array.from(document.querySelectorAll('button'))
-    await userEvent.click(doneButton)
+      const [doneButton] = Array.from(document.querySelectorAll('button'))
+      await userEvent.click(doneButton)
 
-    expect(containerMode).toBe('view')
+      expect(containerMode).toBe('view')
+    })
+
+    it('the cancel button should not cancel the edit mode', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Form.Section validateFieldsInitially path="/" required>
+            <EditContainer>
+              <Field.String path="/foo" />
+              <Field.String path="/bar" />
+            </EditContainer>
+            <ViewContainer>content</ViewContainer>
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(containerMode).toBe('edit')
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+
+      const [doneButton, cancelButton] = Array.from(
+        document.querySelectorAll('button')
+      )
+      await userEvent.click(doneButton)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(3)
+
+      await userEvent.click(cancelButton)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(3)
+
+      expect(containerMode).toBe('edit')
+    })
   })
 
   it('should reset entered data on Cancel press when path is set', async () => {

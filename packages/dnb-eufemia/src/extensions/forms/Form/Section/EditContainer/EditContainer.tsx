@@ -10,7 +10,6 @@ import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
 import Toolbar from '../containers/Toolbar'
-import SectionContext from '../SectionContext'
 import { Path } from '../../../types'
 import SectionContainerContext from '../containers/SectionContainerContext'
 
@@ -23,9 +22,8 @@ export type AllProps = Props & SectionContainerProps & FlexContainerProps
 function EditContainer(props: AllProps) {
   const { children, className, title, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
-  const { switchContainerMode } = useContext(SectionContainerContext) || {}
-  const sectionContext = useContext(SectionContext)
-  const { validateFieldsInitially } = sectionContext?.props || {}
+  const { switchContainerMode, validateFieldsInitially } =
+    useContext(SectionContainerContext) || {}
 
   const onPathError = useCallback(
     (path: Path, error: Error) => {

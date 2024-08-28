@@ -3,6 +3,7 @@ import { ContainerMode } from './SectionContainer'
 
 export interface SectionContainerContextState {
   containerMode?: ContainerMode
+  validateFieldsInitially?: boolean
   switchContainerMode?: (mode: ContainerMode) => void
 }
 
