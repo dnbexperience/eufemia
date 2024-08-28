@@ -22,7 +22,7 @@ export const PushContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autoPushWhen: {
-    doc: 'Define if the container should auto save when e.g. the first item (list is empty). Should be a function that returns a boolean.',
+    doc: 'Define if the container should auto push when e.g. the first item (list is empty). Should be a function that returns a boolean.',
     type: 'function',
     status: 'optional',
   },
