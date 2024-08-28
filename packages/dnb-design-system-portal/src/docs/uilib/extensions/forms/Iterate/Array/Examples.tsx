@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
+import { Card, Flex, Section, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -172,7 +172,7 @@ export const ArrayFromFormHandler = () => {
         }}
         onChange={(data) => console.log('DataContext/onChange', data)}
       >
-        <Flex.Vertical>
+        <Flex.Stack>
           <Form.MainHeading>Avengers</Form.MainHeading>
 
           <Card stack>
@@ -212,7 +212,7 @@ export const ArrayFromFormHandler = () => {
               pushValue={{}}
             />
           </Card>
-        </Flex.Vertical>
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )
@@ -291,7 +291,7 @@ export const ViewAndEditContainer = () => {
               }
               onSubmit={async (data) => console.log('onSubmit', data)}
             >
-              <Flex.Vertical>
+              <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
                 <Card stack>
@@ -304,7 +304,7 @@ export const ViewAndEditContainer = () => {
                 </Card>
 
                 <Form.SubmitButton variant="send" />
-              </Flex.Vertical>
+              </Flex.Stack>
             </Form.Handler>
           )
         }
@@ -361,6 +361,95 @@ export const WithVisibility = () => {
           </Flex.Stack>
         </Iterate.Array>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const InitialOpen = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Field.SelectCountry
+              label="Land du er statsborger i"
+              itemPath="/"
+              required
+            />
+          )
+        }
+
+        const MyEditItem = (props) => {
+          return (
+            <Iterate.EditContainer {...props}>
+              <MyEditItemForm />
+            </Iterate.EditContainer>
+          )
+        }
+
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer>
+              <Value.SelectCountry
+                label="Land du er statsborger i"
+                itemPath="/"
+              />
+            </Iterate.ViewContainer>
+          )
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              onSubmit={async (data) => console.log('onSubmit', data)}
+              onSubmitRequest={() => console.log('onSubmitRequest')}
+            >
+              <Flex.Stack>
+                <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+
+                <Card align="stretch">
+                  <Iterate.Array
+                    path="/countries"
+                    defaultValue={[null]}
+                    minimumRequiredItems={1}
+                    hideToolbarWhen={(index, items) => items.length === 1}
+                  >
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
+
+                  <Iterate.PushButton
+                    path="/countries"
+                    pushValue={null}
+                    text="Legg til flere statsborgerskap"
+                  />
+                </Card>
+
+                <Form.SubmitButton variant="send" />
+
+                <Output />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        const Output = () => {
+          const { data } = Form.useData()
+
+          return (
+            <Section
+              element="output"
+              backgroundColor="sand-yellow"
+              style={{ maxWidth: '80vw' }}
+              innerSpace
+            >
+              <pre>All data: {JSON.stringify(data)}</pre>
+            </Section>
+          )
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

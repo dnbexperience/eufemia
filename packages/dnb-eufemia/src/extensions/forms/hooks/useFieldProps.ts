@@ -1390,19 +1390,26 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateValue()
   }, [schema, validateValue])
 
+  const isEmptyData = useCallback(() => {
+    return (
+      dataContext.internalDataRef?.current ===
+      (dataContext.props?.emptyData ?? clearedData)
+    )
+  }, [dataContext.internalDataRef, dataContext.props?.emptyData])
+
   useEffect(() => {
-    if (dataContext.data === clearedData) {
+    if (isEmptyData()) {
       hideError()
     }
-  }, [dataContext.data, hideError])
+  }, [externalValue, hideError, isEmptyData])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
       validateValue()
+      forceUpdate()
     }
-    forceUpdate()
   }, [externalValue, validateValue])
 
   useEffect(() => {

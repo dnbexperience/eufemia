@@ -416,6 +416,66 @@ describe('Iterate.Array', () => {
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
     })
 
+    it('should handle "defaultValue" with React.StrictMode', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <React.StrictMode>
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.Array path="/myList" defaultValue={['']}>
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myList: [''] },
+        expect.anything()
+      )
+    })
+
+    it('should warn when "defaultValue" is used inside iterate', () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Iterate.Array path="/myList" defaultValue={['']}>
+            <Field.String itemPath="/" defaultValue="default value" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myList: [''] },
+        expect.anything()
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Using defaultValue="default value" prop inside Iterate is not supported yet'
+      )
+
+      log.mockRestore()
+    })
+
     describe('with primitive elements', () => {
       describe('referenced with path', () => {
         it('should distribute values and receive callbacks on both iterate and context', async () => {

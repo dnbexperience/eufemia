@@ -16,7 +16,7 @@ export type Props = ButtonProps &
 
 function RemoveButton(props: Props) {
   const iterateItemContext = useContext(IterateItemContext)
-  const { handleRemove } = iterateItemContext ?? {}
+  const { handleRemove } = iterateItemContext || {}
 
   if (!iterateItemContext) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
@@ -29,7 +29,7 @@ function RemoveButton(props: Props) {
   const textContent = text || children || translation.text
 
   const elementBlockContext = useContext(ElementBlockContext)
-  const { handleRemoveBlock } = elementBlockContext ?? {}
+  const { handleRemoveBlock } = elementBlockContext || {}
 
   const handleClick = useCallback(() => {
     if (handleRemoveBlock) {

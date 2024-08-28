@@ -3,6 +3,7 @@ import { fireEvent, render } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import ElementBlock from '../ElementBlock'
 import RemoveButton from '../../RemoveButton'
+import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, Form, Iterate } from '../../..'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
@@ -12,7 +13,9 @@ describe('ElementBlock', () => {
     const onAnimationEnd = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: 'foo' }}
+      >
         {children}
       </IterateItemContext.Provider>
     )
@@ -57,7 +60,7 @@ describe('ElementBlock', () => {
 
     const wrapper = ({ children }) => (
       <IterateItemContext.Provider
-        value={{ containerMode: 'view', fulfillRemove }}
+        value={{ containerMode: 'view', value: 'foo', fulfillRemove }}
       >
         {children}
       </IterateItemContext.Provider>
@@ -279,7 +282,12 @@ describe('ElementBlock', () => {
 
     render(
       <IterateItemContext.Provider
-        value={{ handleRemove, fulfillRemove, containerMode: 'view' }}
+        value={{
+          handleRemove,
+          fulfillRemove,
+          containerMode: 'view',
+          value: 'foo',
+        }}
       >
         <ElementBlock mode="view">
           <RemoveButton />
@@ -301,7 +309,9 @@ describe('ElementBlock', () => {
 
   it('opens component based on containerMode', async () => {
     const { rerender } = render(
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: 'foo' }}
+      >
         <ElementBlock mode="view">content</ElementBlock>
       </IterateItemContext.Provider>
     )
@@ -311,12 +321,59 @@ describe('ElementBlock', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'edit', value: 'foo' }}
+      >
         <ElementBlock mode="view">content</ElementBlock>
       </IterateItemContext.Provider>
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
+  })
+
+  it('opens in edit mode when falsy value was given', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: null }}
+      >
+        <ElementBlock mode="view">
+          <ContextConsumer />
+        </ElementBlock>
+      </IterateItemContext.Provider>
+    )
+
+    expect(containerMode).toBe('edit')
+  })
+
+  it('should call switchContainerMode when mode is edit and error is present', async () => {
+    const switchContainerMode = jest.fn()
+
+    render(
+      <FieldBoundaryContext.Provider value={{ hasError: true }}>
+        <IterateItemContext.Provider
+          value={{
+            switchContainerMode,
+            initialContainerMode: 'auto',
+            containerMode: 'view',
+            value: 'foo',
+          }}
+        >
+          <ElementBlock mode="edit">content</ElementBlock>
+        </IterateItemContext.Provider>
+      </FieldBoundaryContext.Provider>
+    )
+
+    expect(switchContainerMode).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenLastCalledWith('edit')
   })
 
   it('opens component based on "open" prop', async () => {
@@ -370,6 +427,7 @@ describe('ElementBlock', () => {
         value={{
           handleRemove,
           containerMode: 'view',
+          value: 'foo',
         }}
       >
         <ElementBlock mode="view" onAnimationEnd={onAnimationEnd}>
@@ -378,7 +436,10 @@ describe('ElementBlock', () => {
       </IterateItemContext.Provider>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    const buttons = document.querySelectorAll('button')
+    expect(buttons).toHaveLength(1)
+
+    fireEvent.click(buttons[0])
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
 

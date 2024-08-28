@@ -81,6 +81,7 @@ export interface ContextState {
   handlePathChangeUnvalidated: (path: Path, value: any) => void
   updateDataValue: (path: Path, value: any) => void
   setData: (data: any) => void
+  clearData?: () => void
   mutateDataHandler?: (data: any, mutate: TransformData) => any
   filterDataHandler?: (data: any, filter: FilterData) => any
   validateData: () => void

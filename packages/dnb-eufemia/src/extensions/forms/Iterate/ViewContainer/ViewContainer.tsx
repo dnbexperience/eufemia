@@ -26,15 +26,13 @@ export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, toolbar, ...restProps } = props || {}
-  const iterateItemContext = useContext(IterateItemContext)
+  const { index, arrayValue, hideToolbarWhen } =
+    useContext(IterateItemContext)
 
   let itemTitle = title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
   if (ariaLabel.includes('{itemNr}')) {
-    itemTitle = ariaLabel = ariaLabel.replace(
-      '{itemNr}',
-      iterateItemContext.index + 1
-    )
+    itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
   }
 
   return (
@@ -47,11 +45,12 @@ function ViewContainer(props: AllProps) {
       <Flex.Stack>
         {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
         {children}
-        {toolbar ?? (
-          <Toolbar>
-            <ViewToolbarTools />
-          </Toolbar>
-        )}
+        {toolbar ??
+          (!hideToolbarWhen?.(index, arrayValue) && (
+            <Toolbar>
+              <ViewToolbarTools />
+            </Toolbar>
+          ))}
       </Flex.Stack>
     </ElementBlock>
   )
