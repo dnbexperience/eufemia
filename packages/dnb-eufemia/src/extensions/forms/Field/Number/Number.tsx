@@ -44,8 +44,8 @@ export type Props = FieldHelpProps &
     decimalLimit?: number
     allowNegative?: boolean
     disallowLeadingZeroes?: boolean
-    prefix?: string
-    suffix?: string
+    prefix?: string | ((value: number) => string)
+    suffix?: string | ((value: number) => string)
     // Validation
     minimum?: number // aka greater than or equal to
     maximum?: number // aka less than or equal to
@@ -77,8 +77,8 @@ function NumberComponent(props: Props) {
     decimalLimit = 12,
     allowNegative = true,
     disallowLeadingZeroes = false,
-    prefix,
-    suffix,
+    prefix: prefixProp,
+    suffix: suffixProp,
     showStepControls,
   } = props
 
@@ -126,52 +126,6 @@ function NumberComponent(props: Props) {
     },
     [props.emptyValue]
   )
-
-  const maskProps: Partial<InputMaskedProps> = useMemo(() => {
-    const mask_options = {
-      prefix,
-      suffix,
-      decimalLimit,
-      allowNegative,
-      disallowLeadingZeroes,
-    }
-
-    if (currency) {
-      return {
-        as_currency: currency,
-        mask_options,
-        currency_mask: {
-          currencyDisplay,
-        },
-      }
-    }
-
-    if (percent) {
-      return {
-        as_percent: percent,
-        mask_options,
-      }
-    }
-
-    // Custom mask based on props
-    return {
-      as_number: true,
-      mask,
-      number_mask: {
-        ...mask_options,
-      },
-    }
-  }, [
-    currency,
-    currencyDisplay,
-    decimalLimit,
-    mask,
-    percent,
-    prefix,
-    suffix,
-    allowNegative,
-    disallowLeadingZeroes,
-  ])
 
   const preparedProps: Props = {
     valueType: 'number',
@@ -332,6 +286,57 @@ function NumberComponent(props: Props) {
       String(value - step)
     ),
   }
+
+  const prefix =
+    typeof prefixProp === 'function' ? prefixProp(value) : prefixProp
+  const suffix =
+    typeof suffixProp === 'function' ? suffixProp(value) : suffixProp
+
+  const maskProps: Partial<InputMaskedProps> = useMemo(() => {
+    const mask_options = {
+      prefix,
+      suffix,
+      decimalLimit,
+      allowNegative,
+      disallowLeadingZeroes,
+    }
+
+    if (currency) {
+      return {
+        as_currency: currency,
+        mask_options,
+        currency_mask: {
+          currencyDisplay,
+        },
+      }
+    }
+
+    if (percent) {
+      return {
+        as_percent: percent,
+        mask_options,
+      }
+    }
+
+    // Custom mask based on props
+    return {
+      as_number: true,
+      mask,
+      number_mask: {
+        ...mask_options,
+      },
+    }
+  }, [
+    currency,
+    currencyDisplay,
+    decimalLimit,
+    mask,
+    percent,
+    prefix,
+    suffix,
+    allowNegative,
+    disallowLeadingZeroes,
+  ])
 
   const ariaParams = showStepControls && {
     role: 'spinbutton',
