@@ -14,7 +14,7 @@ function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
   const errorMessage = translations.errorRequired
 
-  const { validate = true, omitMask, value } = props
+  const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorMessage,
