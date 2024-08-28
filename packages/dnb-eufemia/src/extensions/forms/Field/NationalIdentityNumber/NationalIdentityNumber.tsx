@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
 
@@ -43,30 +43,39 @@ function NationalIdentityNumber(props: Props) {
   )
   const validationPattern = '^[0-9]{11}$'
 
-  function fnrValidator(value: string) {
-    if (
-      new RegExp(validationPattern).test(value) &&
-      fnr(value).status === 'invalid'
-    ) {
-      return Error(translations.errorFnr)
-    }
-    return undefined
-  }
+  const fnrValidator = useCallback(
+    (value: string) => {
+      if (
+        new RegExp(validationPattern).test(value) &&
+        fnr(value).status === 'invalid'
+      ) {
+        return Error(translations.errorFnr)
+      }
+      return undefined
+    },
+    [translations.errorFnr]
+  )
 
-  function dnrValidator(value: string) {
-    const validationPattern = '^[4-7]([0-9]{10}$)' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
-    if (
-      new RegExp(validationPattern).test(value) &&
-      dnr(value).status === 'invalid'
-    ) {
-      return Error(translations.errorDnr)
-    }
-    return undefined
-  }
+  const dnrValidator = useCallback(
+    (value: string) => {
+      const validationPattern = '^[4-7]([0-9]{10}$)' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
+      if (
+        new RegExp(validationPattern).test(value) &&
+        dnr(value).status === 'invalid'
+      ) {
+        return Error(translations.errorDnr)
+      }
+      return undefined
+    },
+    [translations.errorDnr]
+  )
 
-  function dnrOrFnrValidator(value: string) {
-    return dnrValidator(value) || fnrValidator(value)
-  }
+  const dnrOrFnrValidator = useCallback(
+    (value: string) => {
+      return dnrValidator(value) || fnrValidator(value)
+    },
+    [dnrValidator, fnrValidator]
+  )
 
   const StringFieldProps: Props = {
     ...props,
