@@ -22,3 +22,6 @@ export type Props = Omit<
     withoutFlex?: boolean
     placeholder?: React.ReactNode
   }
+export type ContainerModeWhen = (
+  isNew: boolean
+) => ContainerMode | undefined

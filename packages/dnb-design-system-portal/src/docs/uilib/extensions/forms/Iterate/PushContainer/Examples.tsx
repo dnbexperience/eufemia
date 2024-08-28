@@ -97,3 +97,84 @@ export const InitiallyOpen = () => {
     </ComponentBox>
   )
 }
+
+export const AutoPush = () => {
+  return (
+    <ComponentBox scope={{ Iterate }}>
+      {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Field.Composition>
+              <Field.SelectCountry
+                label="Land du er statsborger i"
+                itemPath="/"
+              />
+            </Field.Composition>
+          )
+        }
+
+        const MyEditItem = (props) => {
+          return (
+            <Iterate.EditContainer {...props}>
+              <MyEditItemForm />
+            </Iterate.EditContainer>
+          )
+        }
+
+        const CreateNewEntry = () => {
+          return (
+            <Iterate.PushContainer
+              path="/countries"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Legg til flere statsborskap" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+              autoPushWhen={(list) => list.length === 0}
+            >
+              <MyEditItemForm />
+            </Iterate.PushContainer>
+          )
+        }
+
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer>
+              <Value.SelectCountry
+                label="Land du er statsborger i"
+                itemPath="/"
+              />
+            </Iterate.ViewContainer>
+          )
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              data={{
+                countries: [],
+              }}
+              onSubmit={(data) => console.log('onSubmit', data)}
+              onSubmitRequest={() => console.log('onSubmitRequest')}
+            >
+              <Flex.Vertical>
+                <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+
+                <Card align="stretch">
+                  <Iterate.Array path="/countries">
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
+                  <CreateNewEntry />
+                </Card>
+
+                <Form.SubmitButton variant="send" />
+              </Flex.Vertical>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}

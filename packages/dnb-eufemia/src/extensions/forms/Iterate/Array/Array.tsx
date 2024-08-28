@@ -23,10 +23,17 @@ import IterateItemContext, {
 } from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
+import DataContext from '../../DataContext/Context'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import useDataValue from '../../hooks/useDataValue'
 
-import type { ContainerMode, ElementChild, Props, Value } from './types'
+import type {
+  ContainerMode,
+  ContainerModeWhen,
+  ElementChild,
+  Props,
+  Value,
+} from './types'
 import type { Identifier, Path } from '../../types'
 
 /**
@@ -107,6 +114,13 @@ function ArrayComponent(props: Props) {
     valueCountRef.current = arrayValue || []
   }, [arrayValue])
 
+  const { fieldPropsRef } = useContext(DataContext) || {}
+  const pathProxy = fieldPropsRef?.current?.[
+    String(path) + '/iterateProxy'
+  ] as {
+    containerModeWhen?: ContainerModeWhen
+  }
+
   const elementData = useMemo(() => {
     return ((valueWhileClosingRef.current || arrayValue) ?? []).map(
       (value, index) => {
@@ -123,8 +137,8 @@ function ArrayComponent(props: Props) {
         const isNew = isNewRef.current[id] || false
         if (!modesRef.current[id]) {
           modesRef.current[id] =
-            value?.['__containerMode'] ?? (isNew ? 'edit' : 'view')
-          delete value?.['__containerMode']
+            pathProxy?.containerModeWhen?.(isNew) ??
+            (isNew ? 'edit' : 'view')
         }
 
         return {

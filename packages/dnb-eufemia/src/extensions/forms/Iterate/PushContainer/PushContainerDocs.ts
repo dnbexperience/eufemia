@@ -21,6 +21,16 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  autoPushWhen: {
+    doc: 'Define if the container should auto save when e.g. the first item (list is empty). Should be a function that returns a boolean.',
+    type: 'function',
+    status: 'optional',
+  },
+  toolbar: {
+    doc: 'A custom toolbar to be shown below the container.',
+    type: 'React.Node',
+    status: 'optional',
+  },
   children: {
     doc: 'The container contents.',
     type: 'React.Node',

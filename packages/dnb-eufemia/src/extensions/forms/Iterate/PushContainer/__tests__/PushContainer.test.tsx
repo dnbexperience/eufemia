@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import { Div } from '../../../../../elements'
 
 const nb = nbNO['nb-NO']
 
@@ -301,6 +302,136 @@ describe('PushContainer', () => {
     expect(document.querySelector('.dnb-forms-section-block')).toHaveClass(
       'dnb-height-animation--hidden'
     )
+  })
+
+  it('should render custom Toolbar', () => {
+    const Toolbar = (props) => {
+      return (
+        <Div id="toolbar" {...props}>
+          Custom Toolbar
+        </Div>
+      )
+    }
+    Toolbar._supportsSpacingProps = true
+
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/entries">...</Iterate.Array>
+
+        <Iterate.PushContainer path="/entries" toolbar={<Toolbar />}>
+          <Field.String itemPath="/" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const toolbar = document.querySelector('#toolbar')
+    expect(toolbar).toHaveTextContent('Custom Toolbar')
+    expect(toolbar).toHaveClass('dnb-space__top--medium')
+  })
+
+  describe('autoPushWhen', () => {
+    it('should render empty toolbar', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            autoPushWhen={(list) => list.length === 0}
+          >
+            ...
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('button')).toHaveLength(0)
+    })
+
+    it('should return the array items', () => {
+      const autoPushWhen = jest.fn()
+      render(
+        <Form.Handler data={{ entries: [{ foo: 'bar' }] }}>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            autoPushWhen={autoPushWhen}
+          >
+            ...
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(autoPushWhen).toHaveBeenCalledTimes(1)
+      expect(autoPushWhen).toHaveBeenCalledWith([{ foo: 'bar' }])
+    })
+
+    it('should render string field with empty string value', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" autoPushWhen={() => true}>
+            <Field.String itemPath="/" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('')
+    })
+
+    it('should auto push when field is changed', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            autoPushWhen={(list) => list.length < 2}
+          >
+            <Field.Boolean itemPath="/" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.click(input)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith({
+        entries: [true],
+      })
+
+      expect(input).not.toBeChecked()
+
+      await userEvent.click(input)
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({
+        entries: [true, true],
+      })
+
+      expect(input).not.toBeChecked()
+
+      await userEvent.click(input)
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+
+      expect(input).toBeChecked()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith({
+        entries: [true, true, true],
+      })
+
+      expect(input).not.toBeChecked()
+    })
   })
 
   it('should support spacing props', () => {
