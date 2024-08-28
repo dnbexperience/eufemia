@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import PaginationBar from './PaginationBar';
+import { ButtonIconPosition } from '../Button';
 type PaginationStartupPage = string | number;
 type PaginationCurrentPage = string | number;
 type PaginationPageCount = string | number;
@@ -34,6 +35,20 @@ type PaginationIndicatorElement =
   | ((...args: any[]) => any)
   | string;
 type PaginationChildren = React.ReactNode | ((...args: any[]) => any);
+
+type LoadButtonProps =
+  | (() => React.ReactNode)
+  | {
+      /**
+       * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+       */
+      text: string;
+      /**
+       * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
+       */
+      iconPosition: ButtonIconPosition;
+    };
+
 export interface PaginationProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
@@ -143,9 +158,14 @@ export interface PaginationProps
    */
   is_loading_text?: string;
   /**
-   * Used during infinity mode. If `use_load_button` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * @deprecated use `loadButtonProps.text` instead
    */
   load_button_text?: string;
+  /**
+   * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
+   */
+  loadButton?: LoadButtonProps;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -217,6 +237,7 @@ type PaginationInstanceIndicatorElement =
 type PaginationInstanceChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
+
 interface PaginationInstanceProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
@@ -325,9 +346,13 @@ interface PaginationInstanceProps extends SpacingProps {
   is_loading_text?: string;
   /**
    * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * @deprecated use `loadButtonProps.text` instead
    */
   load_button_text?: string;
-  className?: string;
+  /**
+   * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
+   */
+  loadButton?: LoadButtonProps;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
@@ -500,8 +525,13 @@ interface InfinityMarkerProps extends SpacingProps {
   is_loading_text?: string;
   /**
    * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * @deprecated use `loadButtonProps.text` instead
    */
   load_button_text?: string;
+  /**
+   * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
+   */
+  loadButton?: LoadButtonProps;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
