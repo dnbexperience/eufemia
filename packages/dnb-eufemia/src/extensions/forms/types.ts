@@ -3,6 +3,7 @@ import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject } from 'json-pointer'
 import { AriaAttributes } from 'react'
+import { FilterData } from './DataContext'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -511,6 +512,9 @@ export type EventReturnWithStateObjectAndSuccess =
   | EventStateObjectWithSuccess
 
 export type OnSubmitParams = {
+  /** Will filter data based on the given "filterDataHandler" method */
+  filterData: (filterDataHandler: FilterData) => Partial<JsonObject>
+
   /** Will remove browser-side stored autocomplete data  */
   resetForm: () => void
 
@@ -520,7 +524,7 @@ export type OnSubmitParams = {
 
 export type OnSubmit<Data = JsonObject> = (
   data: Data,
-  { resetForm, clearData }: OnSubmitParams
+  { filterData, resetForm, clearData }: OnSubmitParams
 ) =>
   | EventReturnWithStateObject
   | void
@@ -534,7 +538,10 @@ export type OnCommit<Data = JsonObject> = (
   | void
   | Promise<EventReturnWithStateObject | void>
 
-export type OnChange<Data = unknown> = (data: Data) => OnChangeReturnType
+export type OnChange<Data = unknown> = (
+  data: Data,
+  additionalArgs: Pick<OnSubmitParams, 'filterData'>
+) => OnChangeReturnType
 
 type OnChangeReturnType =
   | EventReturnWithStateObjectAndSuccess

@@ -151,9 +151,9 @@ export function FilterData() {
                     />
                   </Form.Visibility>
                 </Form.Visibility>
-              </Flex.Stack>
 
-              <Output />
+                <Output />
+              </Flex.Stack>
             </Form.Handler>
           )
         }
@@ -170,9 +170,13 @@ export function FilterData() {
             >
               <ScrollView>
                 <pre>
-                  Filtered: {JSON.stringify(filterData(filterDataPaths))}
+                  Filtered: <br />
+                  {JSON.stringify(filterData(filterDataPaths), null, 2)}
                 </pre>
-                <pre>All data: {JSON.stringify(data)}</pre>
+                <pre>
+                  All data: <br />
+                  {JSON.stringify(data, null, 2)}
+                </pre>
               </ScrollView>
             </Section>
           )

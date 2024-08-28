@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { Field, Form, Wizard } from '../../..'
+import { Field, Form, OnSubmit, Wizard } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -452,7 +452,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should trigger next step when submitting the form', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit: OnSubmit = jest.fn()
     const onStepChange = jest.fn()
 
     render(
@@ -1621,14 +1621,17 @@ describe('Wizard.Container', () => {
       await userEvent.type(document.querySelector('input'), ' changed')
 
       expect(onChange).toHaveBeenCalledTimes(8)
-      expect(onChange).toHaveBeenLastCalledWith({
-        barStep1: 'has value',
-        barStep2: 'has value',
-        barStep3: undefined,
-        fooStep1: 'has value',
-        fooStep2: 'has value changed',
-        fooStep3: undefined,
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          barStep1: 'has value',
+          barStep2: 'has value',
+          barStep3: undefined,
+          fooStep1: 'has value',
+          fooStep2: 'has value changed',
+          fooStep3: undefined,
+        },
+        expect.anything()
+      )
 
       await userEvent.click(nextButton())
 

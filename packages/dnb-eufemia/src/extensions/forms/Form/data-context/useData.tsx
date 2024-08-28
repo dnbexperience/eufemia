@@ -80,24 +80,29 @@ export default function useData<Data>(
     forceUpdate
   )
 
-  // If no id is provided, use the context data
-  const context = useContext(DataContext)
-  if (!id) {
-    if (context?.data) {
-      sharedDataRef.current.data = context.data
-    } else if (!context?.hasContext) {
-      throw new Error(
-        'useData needs to run inside DataContext (Form.Handler) or have a valid id'
-      )
-    }
-  }
-  const updateDataValue = context?.updateDataValue
-  const setData = context?.setData
-
   sharedAttachmentsRef.current = useSharedState<SharedAttachment<Data>>(
     id + '-attachments',
     { rerenderUseDataHook: forceUpdate }
   )
+
+  // If no id is provided, use the context data
+  const context = useContext(DataContext)
+  if (!id) {
+    if (!context?.hasContext) {
+      throw new Error(
+        'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+      )
+    }
+
+    if (context) {
+      sharedDataRef.current.data = context.data
+      sharedAttachmentsRef.current.data.filterDataHandler =
+        context.filterDataHandler
+    }
+  }
+
+  const updateDataValue = context?.updateDataValue
+  const setData = context?.setData
 
   const setHandler = useCallback(
     (newData: Data) => {
@@ -174,6 +179,6 @@ export default function useData<Data>(
       getValue,
       filterData,
     }),
-    [data, filterData, getValue, setHandler, updateHandler]
+    [data, getValue, setHandler, updateHandler, filterData]
   )
 }
