@@ -34,7 +34,7 @@ export type Props = {
   showOpenButtonWhen?: (list: unknown[]) => boolean
 
   /**
-   * Define if the container should auto save when e.g. the first item (list is empty).
+   * Define if the container should auto push when e.g. the first item (list is empty).
    * Should be a function that returns a boolean.
    */
   autoPushWhen?: (list: unknown[]) => boolean
