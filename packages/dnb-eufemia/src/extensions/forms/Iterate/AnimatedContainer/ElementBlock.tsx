@@ -33,27 +33,6 @@ export type Props = {
 function ElementBlock(props: Props & FlexContainerProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const contextRef = useRef<
-    IterateItemContextState & {
-      hasError?: boolean
-      hasSubmitError?: boolean
-    }
-  >()
-  contextRef.current = useContext(IterateItemContext) || {}
-
-  const { hasError, hasSubmitError } =
-    useContext(FieldBoundaryContext) || {}
-  contextRef.current.hasError = hasError
-  contextRef.current.hasSubmitError = hasSubmitError
-
-  // - Set the container mode to "edit" if we have an error
-  if (hasSubmitError) {
-    contextRef.current.containerMode = 'edit'
-  }
-
-  const { handleRemove, switchContainerMode, containerMode, isNew } =
-    contextRef.current
-
   const {
     mode,
     open,
@@ -65,6 +44,55 @@ function ElementBlock(props: Props & FlexContainerProps) {
     variant = 'outline',
     ...restProps
   } = props
+
+  const localContextRef = useRef<
+    IterateItemContextState & {
+      hasError?: boolean
+      hasSubmitError?: boolean
+    }
+  >()
+
+  const { hasError, hasSubmitError } =
+    useContext(FieldBoundaryContext) || {}
+  localContextRef.current = useContext(IterateItemContext) || {}
+  localContextRef.current.hasError = hasError
+  localContextRef.current.hasSubmitError = hasSubmitError
+  const { isNew, value } = localContextRef.current
+  if (hasSubmitError || !value) {
+    localContextRef.current.containerMode = 'edit'
+  }
+
+  const determineMode = useCallback(() => {
+    if (
+      mode === 'edit' &&
+      !localContextRef.current.hasSubmitError &&
+      localContextRef.current.initialContainerMode === 'auto'
+    ) {
+      if (hasError) {
+        // - Set the container mode to "edit" if we have an error
+        if (isNew) {
+          localContextRef.current.containerMode = 'edit'
+        } else {
+          localContextRef.current.switchContainerMode('edit')
+        }
+      }
+    }
+  }, [hasError, isNew, mode])
+
+  useEffect(() => {
+    determineMode()
+  }, [determineMode])
+
+  if (localContextRef.current.containerMode === 'auto') {
+    localContextRef.current.containerMode = 'view'
+  }
+
+  const {
+    handleRemove,
+    switchContainerMode,
+    containerMode,
+    initialContainerMode,
+  } = localContextRef.current
 
   const openRef = useRef(open ?? (containerMode === mode && !isNew))
   const isRemoving = useRef(false)
@@ -98,14 +126,16 @@ function ElementBlock(props: Props & FlexContainerProps) {
   const handleAnimationEnd = useCallback(
     (state) => {
       // - Keep the block open if we have an error
-      if (contextRef.current.hasSubmitError) {
+      if (
+        localContextRef.current.hasSubmitError &&
+        initialContainerMode !== 'auto'
+      ) {
         switchContainerMode?.('edit')
       }
 
-      const preventFocusOnErrorOpening = !contextRef.current.hasSubmitError
-      if (preventFocusOnErrorOpening) {
+      if (!localContextRef.current.hasSubmitError) {
         if (state === 'opened') {
-          contextRef.current?.elementRef?.current?.focus?.()
+          localContextRef.current?.elementRef?.current?.focus?.()
         } else {
           // Wait until the element is removed, then check if we can set focus
           window.requestAnimationFrame(() => {
@@ -118,13 +148,13 @@ function ElementBlock(props: Props & FlexContainerProps) {
                 )
               ) {
                 const elements =
-                  contextRef.current?.containerRef.current.querySelectorAll<HTMLDivElement>(
+                  localContextRef.current?.containerRef.current.querySelectorAll<HTMLDivElement>(
                     '.dnb-forms-iterate__element'
                   )
                 elements[elements.length - 1].focus()
               }
             } catch (e) {
-              /**/
+              /* do nothing */
             }
           })
         }
@@ -132,12 +162,12 @@ function ElementBlock(props: Props & FlexContainerProps) {
 
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
-        contextRef.current?.fulfillRemove?.()
+        localContextRef.current?.fulfillRemove?.()
       }
 
       onAnimationEnd?.(state)
     },
-    [onAnimationEnd, switchContainerMode]
+    [initialContainerMode, onAnimationEnd, switchContainerMode]
   )
   const handleRemoveBlock = useCallback(() => {
     isRemoving.current = true
@@ -152,7 +182,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
           'dnb-forms-section-block',
           variant && `dnb-forms-section-block--variant-${variant}`,
           isNew && 'dnb-forms-section-block--new',
-          contextRef.current.hasSubmitError &&
+          localContextRef.current.hasSubmitError &&
             'dnb-forms-section-block--error',
           className
         )}

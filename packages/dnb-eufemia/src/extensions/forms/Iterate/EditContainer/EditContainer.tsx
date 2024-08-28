@@ -9,6 +9,7 @@ import ElementBlock, {
   ElementSectionProps,
 } from '../AnimatedContainer/ElementBlock'
 import Toolbar from '../Toolbar'
+import { useSwitchContainerMode } from '../hooks'
 
 export type Props = {
   /**
@@ -35,15 +36,19 @@ export type Props = {
 export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 export default function EditContainer(props: AllProps) {
+  const iterateItemContext = useContext(IterateItemContext)
+  const { index, arrayValue, hideToolbarWhen } = iterateItemContext || {}
   const { toolbar, ...rest } = props
+
   return (
     <EditContainerWithoutToolbar
       toolbar={
-        toolbar ?? (
+        toolbar ??
+        (!hideToolbarWhen?.(index, arrayValue) && (
           <Toolbar>
             <EditToolbarTools />
           </Toolbar>
-        )
+        ))
       }
       {...rest}
     />
@@ -53,8 +58,8 @@ export default function EditContainer(props: AllProps) {
 export function EditContainerWithoutToolbar(
   props: Props & FlexContainerProps & { toolbar?: React.ReactNode }
 ) {
-  const iterateItemContext = useContext(IterateItemContext)
-  const { containerMode, isNew } = iterateItemContext ?? {}
+  const { containerMode, isNew, index, path } =
+    useContext(IterateItemContext)
 
   const {
     children,
@@ -69,11 +74,10 @@ export function EditContainerWithoutToolbar(
   let itemTitle = wasNew && titleWhenNew ? titleWhenNew : title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
   if (ariaLabel.includes('{itemNr}')) {
-    itemTitle = ariaLabel = ariaLabel.replace(
-      '{itemNr}',
-      iterateItemContext.index + 1
-    )
+    itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
   }
+
+  useSwitchContainerMode({ path })
 
   return (
     <ElementBlock

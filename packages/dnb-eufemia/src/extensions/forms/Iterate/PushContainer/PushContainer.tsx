@@ -1,14 +1,17 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import Isolation from '../../Form/Isolation'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
+import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import EditContainer from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
+import EditToolbarTools from '../EditContainer/EditToolbarTools'
 import { HeightAnimation } from '../../../../components'
 import { Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
+import { useSwitchContainerMode } from '../hooks'
 
 export type Props = {
   /**
@@ -35,7 +38,12 @@ export type Props = {
   /**
    * Prefilled data to add to the fields.
    */
-  data?: Record<string, unknown>
+  data?: unknown | Record<string, unknown>
+
+  /**
+   * A custom toolbar to be shown below the container.
+   */
+  toolbar?: React.ReactNode
 
   /**
    * The container contents.
@@ -47,7 +55,7 @@ export type AllProps = Props & SpacingProps
 
 function PushContainer(props: AllProps) {
   const {
-    data = {},
+    data = null,
     path,
     title,
     children,
@@ -62,6 +70,8 @@ function PushContainer(props: AllProps) {
     Array<unknown>
   >({ path })
 
+  const { setNextContainerMode } = useSwitchContainerMode({ path })
+
   const showOpenButton = showOpenButtonWhen?.(entries)
   const newItemContextProps: PushContainerContext = {
     path,
@@ -70,50 +80,96 @@ function PushContainer(props: AllProps) {
     switchContainerMode: switchContainerModeRef.current,
   }
 
+  const defaultData = useMemo(() => {
+    return { newItems: [data] }
+  }, [data])
+
   return (
     <Isolation
+      defaultData={defaultData}
+      emptyData={defaultData}
       commitHandleRef={commitHandleRef}
-      transformOnCommit={({ newItem }) => {
-        return moveValueToPath(path, [
-          ...entries,
-          { ...newItem[0], __containerMode: 'view' },
-        ])
+      transformOnCommit={({ newItems }) => {
+        return moveValueToPath(path, [...entries, ...newItems])
       }}
       onCommit={(data, { clearData }) => {
-        clearData()
+        setNextContainerMode('view')
         switchContainerModeRef.current?.('view')
+        clearData()
       }}
     >
       <PushContainerContext.Provider value={newItemContextProps}>
-        <IterateArray value={[data]} path="/newItem">
-          <IterateItemContext.Consumer>
-            {({ containerMode, switchContainerMode }) => {
-              switchContainerModeRef.current = switchContainerMode
-
-              return (
-                <>
-                  <EditContainer
-                    open={!showOpenButton || containerMode === 'edit'}
-                    title={title}
-                    {...rest}
-                  >
-                    {children}
-                  </EditContainer>
-
-                  {openButton && typeof showOpenButton === 'boolean' && (
-                    <HeightAnimation
-                      open={showOpenButton && containerMode === 'view'}
-                    >
-                      {openButton}
-                    </HeightAnimation>
-                  )}
-                </>
-              )
-            }}
-          </IterateItemContext.Consumer>
+        <IterateArray
+          path="/newItems"
+          containerMode={showOpenButton ? 'view' : 'edit'}
+        >
+          <NewContainer
+            title={title}
+            openButton={openButton}
+            switchContainerModeRef={switchContainerModeRef}
+            showOpenButton={showOpenButton}
+            {...rest}
+          >
+            {children}
+          </NewContainer>
         </IterateArray>
       </PushContainerContext.Provider>
     </Isolation>
+  )
+}
+
+function NewContainer({
+  title,
+  openButton,
+  showOpenButton,
+  switchContainerModeRef,
+  children,
+  ...rest
+}) {
+  const { containerMode, switchContainerMode } =
+    useContext(IterateItemContext) || {}
+  switchContainerModeRef.current = switchContainerMode
+
+  const { clearData } = useContext(DataContext) || {}
+  const restoreOriginalValue = useCallback(() => {
+    clearData?.()
+  }, [clearData])
+
+  const toolbar = (
+    <IterateItemContext.Consumer>
+      {(context) => {
+        const newItemContextProps = {
+          ...context,
+          restoreOriginalValue,
+        }
+        return (
+          <IterateItemContext.Provider value={newItemContextProps}>
+            <EditToolbarTools
+              enableButtons={['create', showOpenButton ? 'cancel' : false]}
+            />
+          </IterateItemContext.Provider>
+        )
+      }}
+    </IterateItemContext.Consumer>
+  )
+
+  return (
+    <>
+      <EditContainer
+        open={!showOpenButton || containerMode === 'edit'}
+        title={title}
+        toolbar={toolbar}
+        {...rest}
+      >
+        {children}
+      </EditContainer>
+
+      {openButton && typeof showOpenButton === 'boolean' && (
+        <HeightAnimation open={showOpenButton && containerMode === 'view'}>
+          {openButton}
+        </HeightAnimation>
+      )}
+    </>
   )
 }
 

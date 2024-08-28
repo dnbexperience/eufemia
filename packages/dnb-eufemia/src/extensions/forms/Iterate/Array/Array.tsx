@@ -13,6 +13,7 @@ import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import {
   BasicProps as FlexContainerProps,
   Props as FlexContainerAllProps,
@@ -24,7 +25,9 @@ import IterateItemContext, {
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
+import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { useSwitchContainerMode } from '../hooks'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier, Path } from '../../types'
@@ -81,9 +84,13 @@ function ArrayComponent(props: Props) {
   const {
     path,
     value: arrayValue,
+    defaultValue,
     withoutFlex,
     emptyValue,
     placeholder,
+    minimumRequiredItems,
+    hideToolbarWhen,
+    containerMode,
     handleChange,
     onChange,
     children,
@@ -102,89 +109,106 @@ function ArrayComponent(props: Props) {
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
+  // To support React.StrictMode, we inject the defaultValue into the data context this way.
+  // The routine inside useFieldProps where updateDataValueDataContext is called, does not support React.StrictMode
+  const { handlePathChange } = useContext(DataContext) || {}
+  useMountEffect(() => {
+    if (defaultValue) {
+      handlePathChange?.(path, defaultValue)
+    }
+  })
+
   useEffect(() => {
     // Update inside the useEffect, to support React.StrictMode
     valueCountRef.current = arrayValue || []
   }, [arrayValue])
 
+  const { getNextContainerMode } = useSwitchContainerMode()
+
   const elementData = useMemo(() => {
-    return ((valueWhileClosingRef.current || arrayValue) ?? []).map(
-      (value, index) => {
-        const id = idsRef.current[index] || makeUniqueId()
+    const list = valueWhileClosingRef.current || arrayValue
+    return (list ?? []).map((value, index) => {
+      const id = idsRef.current[index] || makeUniqueId()
 
-        const hasNewItems =
-          arrayValue.length > valueCountRef.current?.length
+      const hasNewItems =
+        arrayValue?.length > valueCountRef.current?.length
 
-        if (!idsRef.current[index]) {
-          isNewRef.current[id] = hasNewItems
-          idsRef.current.push(id)
-        }
+      if (!idsRef.current[index]) {
+        isNewRef.current[id] = hasNewItems
+        idsRef.current.push(id)
+      }
 
-        const isNew = isNewRef.current[id] || false
-        if (!modesRef.current[id]) {
-          modesRef.current[id] =
-            value?.['__containerMode'] ?? (isNew ? 'edit' : 'view')
-          delete value?.['__containerMode']
-        }
+      const isNew = isNewRef.current[id] || false
+      if (!modesRef.current[id]) {
+        modesRef.current[id] =
+          containerMode ??
+          (isNew ? getNextContainerMode() ?? 'edit' : 'auto')
+      }
 
-        return {
-          id,
-          path,
-          value,
-          index,
-          arrayValue,
-          containerRef,
-          isNew,
-          containerMode: modesRef.current[id],
-          switchContainerMode: (mode: ContainerMode) => {
-            modesRef.current[id] = mode
-            delete isNewRef.current?.[id]
-            forceUpdate()
-          },
-          handleChange: (path: Path, value: unknown) => {
-            const newArrayValue = structuredClone(arrayValue)
+      const itemContext: IterateItemContextState = {
+        id,
+        path,
+        value,
+        index,
+        arrayValue,
+        containerRef,
+        isNew,
+        minimumRequiredItems,
+        containerMode: modesRef.current[id],
+        initialContainerMode: containerMode || 'auto',
+        hideToolbarWhen,
+        switchContainerMode: (mode: ContainerMode) => {
+          modesRef.current[id] = mode
+          delete isNewRef.current?.[id]
+          forceUpdate()
+        },
+        handleChange: (path: Path, value: unknown) => {
+          const newArrayValue = structuredClone(arrayValue)
 
-            // Make sure we have a new object reference,
-            // else two new objects will be the same
-            newArrayValue[index] = { ...newArrayValue[index] }
+          // Make sure we have a new object reference,
+          // else two new objects will be the same
+          newArrayValue[index] = { ...newArrayValue[index] }
 
-            pointer.set(newArrayValue, path, value)
-            handleChange(newArrayValue)
-          },
-          handlePush: (element: unknown) => {
-            hadPushRef.current = true
-            handleChange([...(arrayValue ?? []), element])
-          },
-          handleRemove: ({ keepItems = false } = {}) => {
-            if (keepItems) {
-              // Add a backup as the array value while animating
-              valueWhileClosingRef.current = arrayValue
-            }
+          pointer.set(newArrayValue, path, value)
+          handleChange(newArrayValue)
+        },
+        handlePush: (element: unknown) => {
+          hadPushRef.current = true
+          handleChange([...(arrayValue || []), element])
+        },
+        handleRemove: ({ keepItems = false } = {}) => {
+          if (keepItems) {
+            // Add a backup as the array value while animating
+            valueWhileClosingRef.current = arrayValue
+          }
 
-            const newArrayValue = structuredClone(arrayValue)
-            newArrayValue.splice(index, 1)
-            handleChange(newArrayValue)
-          },
+          const newArrayValue = structuredClone(arrayValue)
+          newArrayValue.splice(index, 1)
+          handleChange(newArrayValue)
+        },
 
-          // - Called after animation end
-          fulfillRemove: () => {
-            valueWhileClosingRef.current = null
-            delete modesRef.current?.[id]
-            delete isNewRef.current?.[id]
-            const findIndex = idsRef.current.indexOf(id)
-            idsRef.current.splice(findIndex, 1)
-            forceUpdate()
-          },
+        // - Called after animation end
+        fulfillRemove: () => {
+          valueWhileClosingRef.current = null
+          delete modesRef.current?.[id]
+          delete isNewRef.current?.[id]
+          const findIndex = idsRef.current.indexOf(id)
+          idsRef.current.splice(findIndex, 1)
+          forceUpdate()
+        },
 
-          // - Called when cancel button press
-          restoreOriginalValue: (value: unknown) => {
+        // - Called when cancel button press
+        restoreOriginalValue: (value: unknown) => {
+          if (value) {
             const newArrayValue = structuredClone(arrayValue)
             newArrayValue[index] = value
             handleChange(newArrayValue)
-          },
-        } as IterateItemContextState
+          }
+        },
       }
-    )
+
+      return itemContext
+    })
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps

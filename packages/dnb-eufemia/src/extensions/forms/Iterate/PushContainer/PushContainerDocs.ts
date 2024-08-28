@@ -21,6 +21,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  toolbar: {
+    doc: 'A custom toolbar to be shown below the container.',
+    type: 'React.Node',
+    status: 'optional',
+  },
   children: {
     doc: 'The container contents.',
     type: 'React.Node',

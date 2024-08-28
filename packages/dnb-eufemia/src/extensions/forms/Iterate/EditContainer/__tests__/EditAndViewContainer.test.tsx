@@ -7,7 +7,10 @@ import { Field, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].IterateEditContainer
+const tr = {
+  viewContainer: nbNO['nb-NO'].IterateViewContainer,
+  editContainer: nbNO['nb-NO'].IterateEditContainer,
+}
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', async () => {
@@ -69,6 +72,43 @@ describe('EditContainer and ViewContainer', () => {
     expect(secondElement).toHaveTextContent('Edit Content')
   })
 
+  it('should switch mode from view to edit when a field errors', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Handler>
+        <Iterate.Array value={['0']}>
+          <EditContainer>
+            <Field.String
+              itemPath="/"
+              validator={(value) => {
+                if (value === '01') {
+                  return new Error('error')
+                }
+              }}
+            />
+          </EditContainer>
+          <ViewContainer>content</ViewContainer>
+          <ContextConsumer />
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    expect(containerMode).toBe('view')
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, '1')
+
+    expect(containerMode).toBe('edit')
+  })
+
   it('should switch mode from view to edit on error during submit', async () => {
     let containerMode = null
 
@@ -81,22 +121,33 @@ describe('EditContainer and ViewContainer', () => {
 
     render(
       <Form.Handler>
-        <Iterate.Array value={['']}>
+        <Iterate.Array value={['0']}>
           <EditContainer>
-            <Field.String itemPath="/" required />
+            <Field.String
+              itemPath="/"
+              onBlurValidator={(value) => {
+                if (value === '01') {
+                  return new Error('error')
+                }
+              }}
+            />
           </EditContainer>
           <ViewContainer>content</ViewContainer>
           <ContextConsumer />
         </Iterate.Array>
+        <Form.SubmitButton />
       </Form.Handler>
     )
 
-    const input = document.querySelector('input')
-    await userEvent.type(input, 'x{Backspace}')
     expect(containerMode).toBe('view')
 
-    const form = document.querySelector('form')
-    fireEvent.submit(form)
+    const input = document.querySelector('input')
+    await userEvent.type(input, '1')
+
+    expect(containerMode).toBe('view')
+
+    const button = document.querySelector('button')
+    await userEvent.click(button)
 
     expect(containerMode).toBe('edit')
   })
@@ -185,7 +236,7 @@ describe('EditContainer and ViewContainer', () => {
 
     // Remove the element
     fireEvent.click(removeButton)
-    expect(removeButton).toHaveTextContent(nb.removeButton)
+    expect(removeButton).toHaveTextContent(tr.editContainer.removeButton)
 
     await waitFor(() => {
       const elements = document.querySelectorAll(
@@ -257,22 +308,21 @@ describe('EditContainer and ViewContainer', () => {
     const [doneButton, cancelButton, editButton] = Array.from(
       document.querySelectorAll('button')
     )
-    expect(doneButton).toHaveTextContent(nb.doneButton)
-    expect(cancelButton).toHaveTextContent(nb.cancelButton)
-    expect(editButton).toHaveTextContent(
-      nbNO['nb-NO'].IterateViewContainer.editButton
-    )
+    expect(doneButton).toHaveTextContent(tr.editContainer.doneButton)
+    expect(cancelButton).toHaveTextContent(tr.editContainer.cancelButton)
+    expect(editButton).toHaveTextContent(tr.viewContainer.editButton)
     await userEvent.click(doneButton)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(onChange).toHaveBeenCalledTimes(0)
 
     await userEvent.click(cancelButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
     await userEvent.click(editButton)
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.click(doneButton)
 
@@ -281,8 +331,302 @@ describe('EditContainer and ViewContainer', () => {
     await userEvent.type(document.querySelector('input'), 'foo')
     await userEvent.click(doneButton)
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('containerMode', () => {
+    it('should set all items to edit mode', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Iterate.Array value={['foo', 'bar']} containerMode="edit">
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          <ContextConsumer />
+        </Iterate.Array>
+      )
+
+      expect(containerMode).toBe('edit')
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(2)
+
+      const [firstElement, secondElement] = Array.from(elements)
+
+      {
+        const [viewBlock, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+        expect(viewBlock).toHaveClass('dnb-height-animation--hidden')
+        expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+        expect(editBlock).not.toHaveClass('dnb-height-animation--hidden')
+      }
+
+      {
+        const [viewBlock, editBlock] = Array.from(
+          secondElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+        expect(viewBlock).toHaveClass('dnb-height-animation--hidden')
+        expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+        expect(editBlock).not.toHaveClass('dnb-height-animation--hidden')
+      }
+
+      expect(containerMode).toBe('edit')
+    })
+
+    it('should not contain toolbar when "hideToolbarWhen" returns true', async () => {
+      render(
+        <Iterate.Array
+          value={['foo', 'bar', 'baz']}
+          hideToolbarWhen={(index) => index === 0}
+        >
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(3)
+
+      const [firstElement, secondElement, thirdElement] =
+        Array.from(elements)
+
+      {
+        const [viewBlock, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(0)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(0)
+      }
+
+      {
+        const [viewBlock, editBlock] = Array.from(
+          secondElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+      }
+
+      {
+        const [viewBlock, editBlock] = Array.from(
+          thirdElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+      }
+    })
+
+    it('should hide remove button when "minimumRequiredItems" is set to 1 and there is only one item', () => {
+      const { rerender } = render(
+        <Iterate.Array value={['foo']} minimumRequiredItems={1}>
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(1)
+
+        const [firstElement] = Array.from(elements)
+        const [viewBlock, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(1)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(1)
+        expect(editBlock.querySelectorAll('button')[0]).toHaveTextContent(
+          tr.editContainer.doneButton
+        )
+        expect(viewBlock.querySelectorAll('button')[0]).toHaveTextContent(
+          tr.viewContainer.editButton
+        )
+      }
+
+      rerender(
+        <Iterate.Array value={['foo', 'bar']} minimumRequiredItems={1}>
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(2)
+
+        const [firstElement] = Array.from(elements)
+        const [viewBlock, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+      }
+    })
+
+    it('should validate on submit', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array value={['']}>
+            <EditContainer>
+              <Field.String required itemPath="/" />
+            </EditContainer>
+            <ViewContainer>content</ViewContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      const input = document.querySelector('input')
+      fireEvent.submit(input)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+
+    it('should open in "edit" without focusing', async () => {
+      const containerMode = {}
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode[context.index] = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Handler data={['']}>
+          <Iterate.Array path="/">
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>
+              <Field.String required itemPath="/" />
+            </Iterate.EditContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+
+          <Iterate.PushButton path="/" pushValue={'bar'} />
+        </Form.Handler>
+      )
+
+      expect(containerMode[0]).toBe('edit')
+      expect(document.body).toHaveFocus()
+    })
+
+    it('should set first item to "view" mode when a new is pushed to the array', async () => {
+      const containerMode = {}
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode[context.index] = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/" defaultValue={[null]}>
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>
+              <Field.String itemPath="/" required />
+            </Iterate.EditContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+
+          <Iterate.PushButton path="/" pushValue={null} />
+        </Form.Handler>
+      )
+
+      expect(containerMode[0]).toBe('edit')
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'foo')
+
+      await userEvent.click(
+        document.querySelector('button.dnb-forms-iterate-push-button')
+      )
+
+      const blocks = Array.from(
+        document.querySelectorAll('.dnb-forms-section-block')
+      )
+      expect(blocks).toHaveLength(4)
+      const [, secondBlock] = blocks
+
+      expect(containerMode[1]).toBe('edit')
+
+      await userEvent.click(secondBlock.querySelector('button'))
+
+      await waitFor(() => {
+        expect(containerMode[0]).toBe('view')
+        expect(containerMode[1]).toBe('edit')
+      })
+    })
+
+    it('should keep first item in "edit" mode when there is an error', async () => {
+      const containerMode = {}
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode[context.index] = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Handler data={[null]}>
+          <Iterate.Array path="/">
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>
+              <Field.String itemPath="/" required />
+            </Iterate.EditContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+
+          <Iterate.PushButton path="/" pushValue={null} />
+        </Form.Handler>
+      )
+
+      expect(containerMode[0]).toBe('edit')
+
+      await userEvent.click(
+        document.querySelector('button.dnb-forms-iterate-push-button')
+      )
+
+      const blocks = Array.from(
+        document.querySelectorAll('.dnb-forms-section-block')
+      )
+      expect(blocks).toHaveLength(4)
+      const [, secondBlock] = blocks
+
+      expect(containerMode[0]).toBe('edit')
+      expect(containerMode[1]).toBe('edit')
+
+      await userEvent.click(secondBlock.querySelector('button'))
+
+      expect(containerMode[0]).toBe('edit')
+      expect(containerMode[1]).toBe('edit')
+    })
   })
 })

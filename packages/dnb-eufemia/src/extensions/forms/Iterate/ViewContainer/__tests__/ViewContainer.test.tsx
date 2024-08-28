@@ -10,7 +10,9 @@ const nb = nbNO['nb-NO'].IterateViewContainer
 describe('ViewContainer', () => {
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'edit', value: 'foo' }}
+      >
         <ViewContainer>content</ViewContainer>
       </IterateItemContext.Provider>
     )
@@ -25,7 +27,9 @@ describe('ViewContainer', () => {
     expect(inner).toHaveTextContent('content')
 
     rerender(
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: 'foo' }}
+      >
         <ViewContainer>content</ViewContainer>
       </IterateItemContext.Provider>
     )

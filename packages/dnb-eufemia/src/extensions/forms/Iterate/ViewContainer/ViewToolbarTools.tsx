@@ -7,26 +7,42 @@ import { edit } from '../../../../icons'
 
 export default function ViewToolbarTools() {
   const iterateItemContext = useContext(IterateItemContext)
-  const { switchContainerMode } = iterateItemContext ?? {}
+  const { switchContainerMode, minimumRequiredItems, arrayValue } =
+    iterateItemContext ?? {}
 
-  const translation = useTranslation().IterateViewContainer
+  const { editButton, removeButton } =
+    useTranslation().IterateViewContainer
 
   const editHandler = useCallback(() => {
     switchContainerMode?.('edit')
   }, [switchContainerMode])
 
+  let editButtonElement: React.ReactElement = null
+  let removeButtonElement: React.ReactElement = null
+
+  editButtonElement = (
+    <Button
+      variant="tertiary"
+      icon={edit}
+      icon_position="left"
+      on_click={editHandler}
+    >
+      {editButton}
+    </Button>
+  )
+
+  if (
+    minimumRequiredItems > 0
+      ? arrayValue?.length > minimumRequiredItems
+      : true
+  ) {
+    removeButtonElement = <RemoveButton text={removeButton} />
+  }
+
   return (
     <Flex.Horizontal gap="large">
-      <Button
-        variant="tertiary"
-        icon={edit}
-        icon_position="left"
-        on_click={editHandler}
-      >
-        {translation.editButton}
-      </Button>
-
-      <RemoveButton text={translation.removeButton} />
+      {editButtonElement}
+      {removeButtonElement}
     </Flex.Horizontal>
   )
 }

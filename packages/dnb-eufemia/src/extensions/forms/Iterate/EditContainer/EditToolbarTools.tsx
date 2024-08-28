@@ -8,17 +8,27 @@ import React, {
 import { Button, Flex, FormStatus } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
+import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import PushContainerContext from '../PushContainer/PushContainerContext'
 import { check, close } from '../../../../icons'
 import RemoveButton from '../RemoveButton'
 import { ContainerMode } from '../Array/types'
-import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import PushContainerContext from '../PushContainer/PushContainerContext'
 
-export default function EditToolbarTools() {
+type Props = {
+  /**
+   * Used internally by the PushContainer component.
+   */
+  enableButtons?: Array<'create' | 'remove' | 'cancel' | false>
+}
+
+export default function EditToolbarTools(props: Props) {
+  const { enableButtons } = props
   const {
     restoreOriginalValue,
     switchContainerMode,
     containerMode,
+    initialContainerMode,
+    minimumRequiredItems,
     arrayValue,
     index,
     isNew,
@@ -45,13 +55,26 @@ export default function EditToolbarTools() {
   }, [arrayValue, containerMode, index])
 
   const cancelHandler = useCallback(() => {
-    if (valueBackupRef.current) {
+    if (hasError && initialContainerMode === 'auto') {
+      setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
+    } else {
       restoreOriginalValue?.(valueBackupRef.current)
+      setShowError(false)
+      setShowBoundaryErrors?.(false)
+      switchContainerMode?.('view')
     }
-    setShowError(false)
-    setShowBoundaryErrors?.(false)
-    switchContainerMode?.('view')
-  }, [restoreOriginalValue, setShowBoundaryErrors, switchContainerMode])
+  }, [
+    hasError,
+    hasVisibleError,
+    initialContainerMode,
+    restoreOriginalValue,
+    setShowBoundaryErrors,
+    switchContainerMode,
+  ])
+
   const doneHandler = useCallback(() => {
     if (hasError) {
       setShowBoundaryErrors?.(true)
@@ -75,45 +98,59 @@ export default function EditToolbarTools() {
     switchContainerMode,
   ])
 
+  let createButtonElement: React.ReactElement = null
+  let removeButtonElement: React.ReactElement = null
+
+  createButtonElement = (
+    <Button
+      variant="tertiary"
+      icon={check}
+      icon_position="left"
+      on_click={doneHandler}
+    >
+      {commitHandleRef || enableButtons?.includes('create')
+        ? createButton
+        : doneButton}
+    </Button>
+  )
+
+  const showCancelAndRemoveButton =
+    minimumRequiredItems > 0
+      ? arrayValue?.length > minimumRequiredItems
+      : true &&
+        (!entries || (entries?.length > 0 && containerMode === 'edit'))
+
+  if (
+    (showCancelAndRemoveButton && wasNew && !enableButtons) ||
+    enableButtons?.includes('remove')
+  ) {
+    removeButtonElement = <RemoveButton text={removeButton} />
+  }
+
+  if (
+    (showCancelAndRemoveButton && !wasNew && !enableButtons) ||
+    enableButtons?.includes('cancel')
+  ) {
+    removeButtonElement = (
+      <Button
+        variant="tertiary"
+        icon={close}
+        icon_position="left"
+        on_click={cancelHandler}
+      >
+        {cancelButton}
+      </Button>
+    )
+  }
+
   return (
     <>
       <FormStatus show={showError && hasVisibleError} no_animation={false}>
         {errorInSection}
       </FormStatus>
       <Flex.Horizontal gap="large">
-        {commitHandleRef ? (
-          <Button
-            variant="tertiary"
-            icon={check}
-            icon_position="left"
-            on_click={doneHandler}
-          >
-            {createButton}
-          </Button>
-        ) : (
-          <Button
-            variant="tertiary"
-            icon={check}
-            icon_position="left"
-            on_click={doneHandler}
-          >
-            {doneButton}
-          </Button>
-        )}
-
-        {(!entries || (entries?.length > 0 && containerMode === 'edit')) &&
-          (wasNew ? (
-            <RemoveButton text={removeButton} />
-          ) : (
-            <Button
-              variant="tertiary"
-              icon={close}
-              icon_position="left"
-              on_click={cancelHandler}
-            >
-              {cancelButton}
-            </Button>
-          ))}
+        {createButtonElement}
+        {removeButtonElement}
       </Flex.Horizontal>
     </>
   )

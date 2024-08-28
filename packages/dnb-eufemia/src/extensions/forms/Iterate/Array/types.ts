@@ -1,7 +1,7 @@
 import { Path, UseFieldProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 
-export type ContainerMode = 'view' | 'edit'
+export type ContainerMode = 'view' | 'edit' | 'auto'
 export type Value = Array<unknown | Record<string, unknown>>
 export type ElementChild =
   | React.ReactNode
@@ -12,13 +12,19 @@ export type Props = Omit<
 > &
   Pick<
     UseFieldProps<Value, undefined | Value>,
-    'value' | 'emptyValue' | 'onChange'
+    'value' | 'defaultValue' | 'emptyValue' | 'onChange'
   > & {
     children: ElementChild | Array<ElementChild>
     path?: Path
     countPath?: Path
     countPathLimit?: number
-    countPathTransform?: (params: { value: any; index: number }) => any
     withoutFlex?: boolean
     placeholder?: React.ReactNode
+    minimumRequiredItems?: number
+    containerMode?: ContainerMode
+    countPathTransform?: (params: { value: any; index: number }) => any
+    hideToolbarWhen?: (
+      index: number,
+      items: Array<ElementChild>
+    ) => boolean
   }

@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import { Div } from '../../../../../elements'
 
 const nb = nbNO['nb-NO']
 
@@ -137,7 +138,7 @@ describe('PushContainer', () => {
     expect(title).toHaveTextContent('New entry')
   })
 
-  it('should render children with initial value', () => {
+  it('should render children with initial data value as an object', () => {
     render(
       <Form.Handler>
         <Iterate.PushContainer
@@ -153,6 +154,50 @@ describe('PushContainer', () => {
     const input = document.querySelector('input')
     expect(input).toBeInTheDocument()
     expect(input).toHaveValue('Tony')
+  })
+
+  it('should render children with initial data value as a string', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler data={['foo']} onChange={onChange}>
+        <Iterate.Array path="/">
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer path="/" data="bar">
+          <Field.String itemPath="/" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const blocks = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    const [, , thirdBlock] = blocks
+
+    const input = thirdBlock.querySelector('input')
+    expect(input).toHaveValue('bar')
+
+    await userEvent.click(thirdBlock.querySelector('button'))
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      ['foo', 'bar'],
+      expect.anything()
+    )
+
+    await userEvent.type(input, '{Backspace>3}baz')
+    expect(input).toHaveValue('baz')
+
+    await userEvent.click(thirdBlock.querySelector('button'))
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
+      ['foo', 'bar', 'baz'],
+      expect.anything()
+    )
   })
 
   it('should render children and not the button', () => {
@@ -220,6 +265,12 @@ describe('PushContainer', () => {
       </Form.Handler>
     )
 
+    const editBlock = document.querySelector(
+      '.dnb-forms-section-edit-block'
+    )
+
+    expect(editBlock).toHaveAttribute('aria-hidden', 'false')
+
     {
       const buttons = document.querySelectorAll(
         '.dnb-forms-section-block__inner button'
@@ -228,22 +279,19 @@ describe('PushContainer', () => {
       expect(buttons[0]).toHaveTextContent(
         nb.IteratePushContainer.createButton
       )
-      // Hide the form
+
+      // Hide the form by adding a new item
       await userEvent.click(buttons[0])
     }
 
-    expect(
-      document.querySelector('.dnb-forms-section-edit-block')
-    ).toHaveAttribute('aria-hidden', 'true')
+    expect(editBlock).toHaveAttribute('aria-hidden', 'true')
 
     // Show the form
     await userEvent.click(
       document.querySelector('.dnb-forms-iterate-open-button')
     )
 
-    expect(
-      document.querySelector('.dnb-forms-section-edit-block')
-    ).toHaveAttribute('aria-hidden', 'false')
+    expect(editBlock).toHaveAttribute('aria-hidden', 'false')
 
     {
       const buttons = document.querySelectorAll(
@@ -256,25 +304,35 @@ describe('PushContainer', () => {
       expect(buttons[1]).toHaveTextContent(
         nb.IterateEditContainer.cancelButton
       )
+
       // Hide the form
       await userEvent.click(buttons[1])
     }
 
-    expect(
-      document.querySelector('.dnb-forms-section-edit-block')
-    ).toHaveAttribute('aria-hidden', 'true')
-    expect(
-      document.querySelectorAll('.dnb-forms-section-block__inner button')
-    ).toHaveLength(1)
+    expect(editBlock).toHaveAttribute('aria-hidden', 'true')
 
     // Show the form
     await userEvent.click(
       document.querySelector('.dnb-forms-iterate-open-button')
     )
 
-    expect(
-      document.querySelectorAll('.dnb-forms-section-block__inner button')
-    ).toHaveLength(2)
+    {
+      const buttons = document.querySelectorAll(
+        '.dnb-forms-section-block__inner button'
+      )
+      expect(buttons).toHaveLength(2)
+      expect(buttons[0]).toHaveTextContent(
+        nb.IteratePushContainer.createButton
+      )
+      expect(buttons[1]).toHaveTextContent(
+        nb.IterateEditContainer.cancelButton
+      )
+
+      // Hide the form
+      await userEvent.click(buttons[1])
+
+      expect(editBlock).toHaveAttribute('aria-hidden', 'true')
+    }
   })
 
   it('should render OpenButton and hide the form', () => {
@@ -293,17 +351,48 @@ describe('PushContainer', () => {
     )
 
     const buttons = document.querySelectorAll('button')
-    expect(buttons).toHaveLength(2)
+    expect(buttons).toHaveLength(3)
 
-    const [addButton, openButton] = Array.from(buttons)
+    const [addButton, cancelButton, openButton] = Array.from(buttons)
 
-    expect(openButton).toHaveTextContent('Add new entry')
     expect(addButton).toHaveTextContent(
       nb.IteratePushContainer.createButton
     )
+    expect(cancelButton).toHaveTextContent(
+      nb.IterateEditContainer.cancelButton
+    )
+    expect(openButton).toHaveTextContent('Add new entry')
     expect(document.querySelector('.dnb-forms-section-block')).toHaveClass(
       'dnb-height-animation--hidden'
     )
+    expect(
+      document.querySelector('.dnb-forms-section-edit-block')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should render custom Toolbar', () => {
+    const Toolbar = (props) => {
+      return (
+        <Div id="toolbar" {...props}>
+          Custom Toolbar
+        </Div>
+      )
+    }
+    Toolbar._supportsSpacingProps = true
+
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/entries">...</Iterate.Array>
+
+        <Iterate.PushContainer path="/entries" toolbar={<Toolbar />}>
+          <Field.String itemPath="/" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const toolbar = document.querySelector('#toolbar')
+    expect(toolbar).toHaveTextContent('Custom Toolbar')
+    expect(toolbar).toHaveClass('dnb-space__top--medium')
   })
 
   it('should support spacing props', () => {
@@ -316,5 +405,126 @@ describe('PushContainer', () => {
     expect(
       document.querySelector('.dnb-forms-section-block__inner')
     ).toHaveClass('dnb-space__top--large')
+  })
+
+  it('should support array data', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler data={['foo']} onChange={onChange}>
+        <Iterate.Array path="/">
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer path="/">
+          <Field.String itemPath="/" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const blocks = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    const [, , thirdBlock] = blocks
+
+    const input = thirdBlock.querySelector('input')
+    expect(input).toHaveValue('')
+
+    await userEvent.type(input, 'bar')
+    expect(input).toHaveValue('bar')
+
+    await userEvent.click(thirdBlock.querySelector('button'))
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      ['foo', 'bar'],
+      expect.anything()
+    )
+  })
+
+  it('should support initial data as a string', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler data={['foo']} onChange={onChange}>
+        <Iterate.Array path="/">
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer path="/" data="bar">
+          <Field.String itemPath="/" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const blocks = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    const [, , thirdBlock] = blocks
+
+    const input = thirdBlock.querySelector('input')
+    expect(input).toHaveValue('bar')
+
+    await userEvent.click(thirdBlock.querySelector('button'))
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      ['foo', 'bar'],
+      expect.anything()
+    )
+
+    await userEvent.type(input, '{Backspace>3}baz')
+    expect(input).toHaveValue('baz')
+
+    await userEvent.click(thirdBlock.querySelector('button'))
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
+      ['foo', 'bar', 'baz'],
+      expect.anything()
+    )
+  })
+
+  it('should push "null" to the array when "defaultValue" is given because it is not supported', async () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler data={['foo']} onChange={onChange}>
+        <Iterate.Array path="/">
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer path="/">
+          <Field.String itemPath="/" defaultValue="bar" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const blocks = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    const [, , thirdBlock] = blocks
+
+    const input = thirdBlock.querySelector('input')
+    expect(input).toHaveValue('bar')
+
+    await userEvent.click(thirdBlock.querySelector('button'))
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      ['foo', null],
+      expect.anything()
+    )
+
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      'Using defaultValue="bar" prop inside Iterate is not supported yet'
+    )
+
+    log.mockRestore()
   })
 })
