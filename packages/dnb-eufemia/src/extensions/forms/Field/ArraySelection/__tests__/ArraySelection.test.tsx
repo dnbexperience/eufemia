@@ -495,7 +495,7 @@ describe('ArraySelection', () => {
         expect(optionD).toHaveClass('dnb-toggle-button__status--error')
       })
 
-      it.only('should support "dataPath"', () => {
+      it('should support "dataPath"', () => {
         render(
           <Form.Handler
             data={{
