@@ -5,13 +5,11 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { SelectCountryProperties } from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/SelectCountryDocs'
 
 ### Field-specific props
 
-| Property    | Type     | Description                                                                                                                                                                                                                                                      |
-| ----------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `help`      | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`.                                                                                                                                                                                  |
-| `countries` | `string` | _(optional)_ List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized` |
+<PropertiesTable props={SelectCountryProperties} />
 
 ### General props
 
