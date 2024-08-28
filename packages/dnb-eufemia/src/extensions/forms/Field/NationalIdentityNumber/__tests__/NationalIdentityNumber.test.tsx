@@ -12,6 +12,10 @@ import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
+async function expectNever(callable: () => unknown): Promise<void> {
+  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
+}
+
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
     const props: Props = {}
@@ -55,9 +59,18 @@ describe('Field.NationalIdentityNumber', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
-  it('should execute validateInitially if required', () => {
-    render(<Field.NationalIdentityNumber required validateInitially />)
+  it('should execute validateInitially if required', async () => {
+    const { rerender } = render(
+      <Field.NationalIdentityNumber required validateInitially />
+    )
+
     expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    rerender(<Field.NationalIdentityNumber validateInitially />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
   })
 
   it('should validate given function', async () => {
@@ -136,22 +149,26 @@ describe('Field.NationalIdentityNumber', () => {
       '53137248022',
     ]
 
-    it.each(validDNum)('Valid D number: %s', (dNum) => {
+    it.each(validDNum)('Valid D number: %s', async (dNum) => {
       render(
         <Field.NationalIdentityNumber value={dNum} validateInitially />
       )
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
     })
 
-    it.each(invalidDNum)('Invalid D number: %s', (dNum) => {
+    it.each(invalidDNum)('Invalid D number: %s', async (dNum) => {
       render(
         <Field.NationalIdentityNumber value={dNum} validateInitially />
       )
 
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-      expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorDnr
-      )
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.NationalIdentityNumber.errorDnr
+        )
+      })
     })
   })
 
@@ -179,24 +196,28 @@ describe('Field.NationalIdentityNumber', () => {
 
     it.each(validFnrNum)(
       'Valid national identity number(fnr): %s',
-      (fnrNum) => {
+      async (fnrNum) => {
         render(
           <Field.NationalIdentityNumber validateInitially value={fnrNum} />
         )
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
       }
     )
 
     it.each(invalidFnrNum)(
       'Invalid national identity number(fnr): %s',
-      (fnrNum) => {
+      async (fnrNum) => {
         render(
           <Field.NationalIdentityNumber validateInitially value={fnrNum} />
         )
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-        expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.NationalIdentityNumber.errorFnr
-        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.NationalIdentityNumber.errorFnr
+          )
+        })
       }
     )
   })
