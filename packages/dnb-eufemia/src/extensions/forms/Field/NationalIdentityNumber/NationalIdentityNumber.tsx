@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import { fnr } from '@navikt/fnrvalidator'
+import { dnr, fnr } from '@navikt/fnrvalidator'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -53,6 +53,21 @@ function NationalIdentityNumber(props: Props) {
     return undefined
   }
 
+  function dnrValidator(value: string) {
+    const validationPattern = '^[4-7]([0-9]{10}$)' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
+    if (
+      new RegExp(validationPattern).test(value) &&
+      dnr(value).status === 'invalid'
+    ) {
+      return Error(translations.errorDnr)
+    }
+    return undefined
+  }
+
+  function dnrOrFnrValidator(value: string) {
+    return dnrValidator(value) || fnrValidator(value)
+  }
+
   const StringFieldProps: Props = {
     ...props,
     pattern:
@@ -61,10 +76,9 @@ function NationalIdentityNumber(props: Props) {
     label: props.label ?? translations.label,
     errorMessages,
     mask,
-    value,
     width: props.width ?? 'medium',
     inputMode: 'numeric',
-    validator: fnrValidator,
+    validator: props.validator || dnrOrFnrValidator,
   }
 
   return <StringField {...StringFieldProps} />

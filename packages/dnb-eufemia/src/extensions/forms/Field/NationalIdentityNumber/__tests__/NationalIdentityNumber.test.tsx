@@ -1,7 +1,16 @@
 import React from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+  act,
+} from '@testing-library/react'
 import { Props } from '..'
 import { Field, Form } from '../../..'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
@@ -39,27 +48,16 @@ describe('Field.NationalIdentityNumber', () => {
       '.dnb-forms-submit-button'
     )
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     fireEvent.click(buttonElement)
 
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
   it('should execute validateInitially if required', () => {
-    const { rerender } = render(
-      <Field.NationalIdentityNumber required validateInitially />
-    )
-
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
-
-    rerender(<Field.NationalIdentityNumber validateInitially />)
-
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    render(<Field.NationalIdentityNumber required validateInitially />)
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
   it('should validate given function', async () => {
@@ -114,5 +112,92 @@ describe('Field.NationalIdentityNumber', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  describe('should validate Norwegian D number', () => {
+    const validDNum = [
+      '48121312590',
+      '52018503288',
+      '43025742965',
+      '54046512368',
+      '61033601864',
+      '67114530463',
+      '47014816857',
+      '51069497545',
+      '62032012969',
+      '70042223293',
+    ]
+
+    const invalidDNum = [
+      '69020112345',
+      '53097248032',
+      '53097248023',
+      '72127248022',
+      '53137248022',
+    ]
+
+    it.each(validDNum)('Valid D number: %s', (dNum) => {
+      render(
+        <Field.NationalIdentityNumber value={dNum} validateInitially />
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it.each(invalidDNum)('Invalid D number: %s', (dNum) => {
+      render(
+        <Field.NationalIdentityNumber value={dNum} validateInitially />
+      )
+
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorDnr
+      )
+    })
+  })
+
+  describe('should validate Norwegian national identity number(fnr)', () => {
+    const validFnrNum = [
+      '08121312590',
+      '12018503288',
+      '03025742965',
+      '14046512368',
+      '21033601864',
+      '27114530463',
+      '07014816857',
+      '11069497545',
+      '22032012969',
+      '10042223293',
+    ]
+
+    const invalidFnrNum = [
+      '29020112345',
+      '13097248032',
+      '13097248023',
+      '32127248022',
+      '13137248022',
+    ]
+
+    it.each(validFnrNum)(
+      'Valid national identity number(fnr): %s',
+      (fnrNum) => {
+        render(
+          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      }
+    )
+
+    it.each(invalidFnrNum)(
+      'Invalid national identity number(fnr): %s',
+      (fnrNum) => {
+        render(
+          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+        )
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.NationalIdentityNumber.errorFnr
+        )
+      }
+    )
   })
 })

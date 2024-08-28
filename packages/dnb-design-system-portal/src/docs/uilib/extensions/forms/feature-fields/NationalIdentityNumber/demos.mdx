@@ -42,8 +42,20 @@ import * as Examples from './Examples'
 
 <Examples.ValidationRequired />
 
+### Validation - Norwegian national identity numbers
+
+It validates [norwegian national identity numbers(fnr)](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/fodselsnummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
+
+<Examples.ValidationFnr />
+
+### Validation - D numbers
+
+It validates [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
+
+<Examples.ValidationDnr />
+
 ### Validation function
 
-You can provide your own validation function or may use the one [from NAV](https://github.com/navikt/fnrvalidator).
+You can provide your own validation function.
 
 <Examples.ValidationFunction />
