@@ -102,11 +102,21 @@ function SectionContainer(props: Props & FlexContainerProps) {
     [onAnimationEnd, switchContainerMode]
   )
 
+  const preventAnimationRef = useRef(true)
+  useEffect(() => {
+    setTimeout(() => {
+      preventAnimationRef.current = false
+      forceUpdate()
+    }, 1000) // Initially, we don't want to animate
+  }, [])
+
   return (
     <HeightAnimation
       className={classnames(
         'dnb-forms-section-block',
         variant && `dnb-forms-section-block--variant-${variant}`,
+        preventAnimationRef.current &&
+          'dnb-forms-section-block--no-animation',
         contextRef.current.hasSubmitError &&
           'dnb-forms-section-block--error',
         className

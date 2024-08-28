@@ -53,6 +53,10 @@
       }
     }
 
+    &--no-animation &__inner {
+      transform: translateY(0);
+    }
+
     &.dnb-height-animation--is-visible &__inner {
       transform: translateY(-0.5rem);
     }

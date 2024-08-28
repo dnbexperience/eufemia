@@ -36,6 +36,11 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  validateFieldsInitially: {
+    doc: 'When set to `true`, the mode will initially be "edit" if fields contain errors. Fields will automatically get `validateInitially` and show their error messages. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'All the fields and values inside the section.',
     type: 'React.Node',

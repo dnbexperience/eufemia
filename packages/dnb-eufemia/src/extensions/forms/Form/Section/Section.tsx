@@ -43,6 +43,13 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   containerMode?: ContainerMode
 
   /**
+   * When set to `true`, the mode will initially be "edit" if fields contain errors.
+   * Fields will automatically get `validateInitially` and show their error messages.
+   * Defaults to `false`.
+   */
+  validateFieldsInitially?: boolean
+
+  /**
    * Only for internal use and undocumented for now.
    * Prioritize error techniques for the section.
    * Can be `fieldSchema`, `sectionSchema` or `contextSchema.

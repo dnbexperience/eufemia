@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
@@ -10,6 +10,9 @@ import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
 import Toolbar from '../containers/Toolbar'
+import SectionContext from '../SectionContext'
+import { Path } from '../../../types'
+import SectionContainerContext from '../containers/SectionContainerContext'
 
 export type Props = {
   title?: React.ReactNode
@@ -20,9 +23,24 @@ export type AllProps = Props & SectionContainerProps & FlexContainerProps
 function EditContainer(props: AllProps) {
   const { children, className, title, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
+  const { switchContainerMode } = useContext(SectionContainerContext) || {}
+  const sectionContext = useContext(SectionContext)
+  const { validateFieldsInitially } = sectionContext?.props || {}
+
+  const onPathError = useCallback(
+    (path: Path, error: Error) => {
+      if (validateFieldsInitially && error instanceof Error) {
+        switchContainerMode?.('edit')
+      }
+    },
+    [switchContainerMode, validateFieldsInitially]
+  )
 
   return (
-    <FieldBoundaryProvider>
+    <FieldBoundaryProvider
+      showErrors={validateFieldsInitially}
+      onPathError={onPathError}
+    >
       <SectionContainer
         mode="edit"
         ariaLabel={ariaLabel}
