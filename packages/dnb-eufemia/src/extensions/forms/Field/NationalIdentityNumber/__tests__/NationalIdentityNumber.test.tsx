@@ -6,6 +6,10 @@ import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
+async function expectNever(callable: () => unknown): Promise<void> {
+  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
+}
+
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
     const props: Props = {}
@@ -119,16 +123,13 @@ describe('Field.NationalIdentityNumber', () => {
 
   describe('should validate Norwegian D number', () => {
     const validDNum = [
-      '48121312590',
-      '52018503288',
-      '43025742965',
-      '54046512368',
-      '61033601864',
-      '67114530463',
-      '47014816857',
-      '51069497545',
-      '62032012969',
-      '70042223293',
+      '53097248016',
+      '51041678171',
+      '58081633086',
+      '53050129159',
+      '65015439860',
+      '51057844748',
+      '71075441007',
     ]
 
     const invalidDNum = [
@@ -143,8 +144,9 @@ describe('Field.NationalIdentityNumber', () => {
       render(
         <Field.NationalIdentityNumber value={dNum} validateInitially />
       )
-      await waitFor(() => {
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      await expectNever(() => {
+        // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
       })
     })
 
@@ -190,8 +192,9 @@ describe('Field.NationalIdentityNumber', () => {
         render(
           <Field.NationalIdentityNumber validateInitially value={fnrNum} />
         )
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        await expectNever(() => {
+          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
       }
     )
