@@ -1,20 +1,10 @@
 import React from 'react'
-import {
-  fireEvent,
-  render,
-  waitFor,
-  screen,
-  act,
-} from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Props } from '..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
-
-async function expectNever(callable: () => unknown): Promise<void> {
-  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
-}
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
