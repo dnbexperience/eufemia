@@ -70,7 +70,7 @@ function NationalIdentityNumber(props: Props) {
     [translations.errorDnr]
   )
 
-  const dnrOrFnrValidator = useCallback(
+  const dnrAndFnrValidator = useCallback(
     (value: string) => {
       return dnrValidator(value) || fnrValidator(value)
     },
@@ -87,7 +87,7 @@ function NationalIdentityNumber(props: Props) {
     mask,
     width: props.width ?? 'medium',
     inputMode: 'numeric',
-    validator: props.validator || dnrOrFnrValidator,
+    validator: props.validator || dnrAndFnrValidator,
   }
 
   return <StringField {...StringFieldProps} />
