@@ -121,6 +121,73 @@ describe('Field.NationalIdentityNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
+  it('should not validate pattern when validate false', async () => {
+    const invalidPattern = '1234'
+    render(
+      <Field.NationalIdentityNumber
+        value={invalidPattern}
+        validateInitially
+        validate={false}
+      />
+    )
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
+  it('should not validate dnum when validate false', async () => {
+    const invalidDnum = '69020112345'
+    render(
+      <Field.NationalIdentityNumber
+        value={invalidDnum}
+        validateInitially
+        validate={false}
+      />
+    )
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
+  it('should not validate fnr when validate false', async () => {
+    const invalidFnr = '29020112345'
+    render(
+      <Field.NationalIdentityNumber
+        value={invalidFnr}
+        validateInitially
+        validate={false}
+      />
+    )
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
+  it('should not validate custom validator when validate false', async () => {
+    const text = 'Custom Error message'
+    const validator = jest.fn((value) => {
+      return value.length < 4 ? new Error(text) : undefined
+    })
+
+    render(
+      <Field.NationalIdentityNumber
+        value="123"
+        required
+        validator={validator}
+        validateInitially
+        validate={false}
+      />
+    )
+
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
   describe('should validate Norwegian D number', () => {
     const validDNum = [
       '53097248016',

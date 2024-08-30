@@ -87,7 +87,9 @@ function NationalIdentityNumber(props: Props) {
     mask,
     width: props.width ?? 'medium',
     inputMode: 'numeric',
-    validator: props.validator || dnrAndFnrValidator,
+    validator: validate
+      ? props.validator || dnrAndFnrValidator
+      : undefined,
   }
 
   return <StringField {...StringFieldProps} />
