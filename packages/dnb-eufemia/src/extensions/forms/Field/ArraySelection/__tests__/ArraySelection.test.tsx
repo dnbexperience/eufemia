@@ -257,6 +257,59 @@ describe('ArraySelection', () => {
       expect(optionC).toHaveClass('dnb-checkbox__status--error')
       expect(optionD).toHaveClass('dnb-checkbox__status--error')
     })
+
+    it('should support "dataPath"', () => {
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              { value: 'foo', title: 'Foo!' },
+              { value: 'bar', title: 'Bar!' },
+            ],
+            mySelection: 'bar',
+          }}
+        >
+          <Field.ArraySelection
+            variant="checkbox"
+            path="/mySelection"
+            dataPath="/myList"
+          >
+            <Field.Option value="baz">Baz!</Field.Option>
+          </Field.ArraySelection>
+        </Form.Handler>
+      )
+
+      const options = Array.from(
+        document.querySelectorAll('.dnb-checkbox')
+      )
+      expect(options).toHaveLength(3)
+
+      const [option1, option2, option3] = options
+
+      expect(option1).toHaveTextContent('Foo!')
+      expect(option2).toHaveTextContent('Bar!')
+      expect(option3).toHaveTextContent('Baz!')
+
+      expect(option1.querySelector('input').checked).toBe(false)
+      expect(option2.querySelector('input').checked).toBe(true)
+      expect(option3.querySelector('input').checked).toBe(false)
+
+      expect(option1.querySelector('input').id).toBe(
+        option1.querySelector('label').getAttribute('for')
+      )
+      expect(option2.querySelector('input').id).toBe(
+        option2.querySelector('label').getAttribute('for')
+      )
+      expect(option3.querySelector('input').id).toBe(
+        option3.querySelector('label').getAttribute('for')
+      )
+      expect(option1.querySelector('input').id).not.toBe(
+        option2.querySelector('label').getAttribute('for')
+      )
+      expect(option1.querySelector('input').id).not.toBe(
+        option3.querySelector('label').getAttribute('for')
+      )
+    })
   })
 
   describe.each(['button', 'checkbox-button'])(
@@ -440,6 +493,59 @@ describe('ArraySelection', () => {
         expect(optionB).toHaveClass('dnb-toggle-button__status--error')
         expect(optionC).toHaveClass('dnb-toggle-button__status--error')
         expect(optionD).toHaveClass('dnb-toggle-button__status--error')
+      })
+
+      it('should support "dataPath"', () => {
+        render(
+          <Form.Handler
+            data={{
+              myList: [
+                { value: 'foo', title: 'Foo!' },
+                { value: 'bar', title: 'Bar!' },
+              ],
+              mySelection: 'bar',
+            }}
+          >
+            <Field.ArraySelection
+              variant={testVariant}
+              path="/mySelection"
+              dataPath="/myList"
+            >
+              <Field.Option value="baz">Baz!</Field.Option>
+            </Field.ArraySelection>
+          </Form.Handler>
+        )
+
+        const options = Array.from(
+          document.querySelectorAll(
+            `.dnb-forms-field-array-selection__button `
+          )
+        )
+        expect(options).toHaveLength(3)
+
+        const [option1, option2, option3] = options
+
+        expect(option1).toHaveTextContent('Foo!')
+        expect(option2).toHaveTextContent('Bar!')
+        expect(option3).toHaveTextContent('Baz!')
+
+        expect(option1.querySelector('button')).toHaveAttribute(
+          'aria-pressed',
+          'false'
+        )
+        expect(option1).not.toHaveClass('dnb-toggle-button--checked')
+
+        expect(option2.querySelector('button')).toHaveAttribute(
+          'aria-pressed',
+          'true'
+        )
+        expect(option2).toHaveClass('dnb-toggle-button--checked')
+
+        expect(option3.querySelector('button')).toHaveAttribute(
+          'aria-pressed',
+          'false'
+        )
+        expect(option3).not.toHaveClass('dnb-toggle-button--checked')
       })
     }
   )

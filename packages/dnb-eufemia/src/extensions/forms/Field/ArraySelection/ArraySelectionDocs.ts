@@ -18,4 +18,14 @@ export const arraySelectionProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  data: {
+    doc: 'Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.',
+    type: 'array',
+    status: 'optional',
+  },
+  dataPath: {
+    doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
+    type: 'string',
+    status: 'optional',
+  },
 }

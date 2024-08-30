@@ -237,6 +237,42 @@ export const CheckboxNestingWithLogic = () => (
   </ComponentBox>
 )
 
+export const CheckboxWithDataPath = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        data={{
+          myDataPath: [
+            { title: 'Foo!', value: 'foo' },
+            { title: 'Bar!', value: 'bar' },
+            { title: 'Baz!', value: 'baz' },
+          ],
+        }}
+      >
+        <Field.ArraySelection
+          label="Populated by dataPath"
+          dataPath="/myDataPath"
+        />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const CheckboxWithData = () => {
+  return (
+    <ComponentBox>
+      <Field.ArraySelection
+        label="Populated by data"
+        data={[
+          { title: 'Foo!', value: 'foo' },
+          { title: 'Bar!', value: 'bar' },
+          { title: 'Baz!', value: 'baz' },
+        ]}
+      />
+    </ComponentBox>
+  )
+}
+
 // Button
 
 export const ButtonEmpty = () => (
@@ -498,3 +534,41 @@ export const ButtonNestingWithLogic = () => (
     </Form.Handler>
   </ComponentBox>
 )
+
+export const ButtonWithDataPath = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        data={{
+          myDataPath: [
+            { title: 'Foo!', value: 'foo' },
+            { title: 'Bar!', value: 'bar' },
+            { title: 'Baz!', value: 'baz' },
+          ],
+        }}
+      >
+        <Field.ArraySelection
+          variant="button"
+          label="Populated by dataPath"
+          dataPath="/myDataPath"
+        />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const ButtonWithData = () => {
+  return (
+    <ComponentBox>
+      <Field.ArraySelection
+        variant="button"
+        label="Populated by data"
+        data={[
+          { title: 'Foo!', value: 'foo' },
+          { title: 'Bar!', value: 'bar' },
+          { title: 'Baz!', value: 'baz' },
+        ]}
+      />
+    </ComponentBox>
+  )
+}

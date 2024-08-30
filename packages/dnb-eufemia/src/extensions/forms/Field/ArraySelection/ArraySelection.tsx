@@ -4,12 +4,13 @@ import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
-import { FieldHelpProps, FieldProps, FormError } from '../../types'
+import { FieldHelpProps, FieldProps, FormError, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { getStatus, mapOptions } from '../Selection'
+import { getStatus, mapOptions, Data } from '../Selection'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import DataContext from '../../DataContext/Context'
+import useDataValue from '../../hooks/useDataValue'
 
 type OptionProps = React.ComponentProps<
   React.FC<{
@@ -28,12 +29,25 @@ export type Props = FieldHelpProps &
     children?: React.ReactNode
     variant?: 'checkbox' | 'button' | 'checkbox-button'
     optionsLayout?: 'horizontal' | 'vertical'
+    /**
+     * The path to the context data (Form.Handler).
+     * The context data object needs to have a `value` and a `title` property.
+     */
+    dataPath?: Path
+
+    /**
+     * Data to be used for the component. The object needs to have a `value` and a `title` property.
+     * The generated options will be placed above given JSX based children.
+     */
+    data?: Data
   }
 
 function ArraySelection(props: Props) {
   const {
     id,
     path,
+    dataPath,
+    data,
     className,
     variant = 'checkbox',
     layout = 'vertical',
@@ -52,6 +66,9 @@ function ArraySelection(props: Props) {
     handleChange,
     children,
   } = useFieldProps(props)
+
+  const { getValueByPath } = useDataValue()
+  const dataList = dataPath ? getValueByPath(dataPath) : data
 
   const fieldBlockProps = {
     forId: id,
@@ -96,6 +113,7 @@ function ArraySelection(props: Props) {
     warning,
     emptyValue,
     htmlAttributes,
+    dataList,
     children,
     value,
     disabled,
@@ -132,6 +150,7 @@ export function useCheckboxOrToggleOptions({
   warning,
   emptyValue,
   htmlAttributes,
+  dataList,
   children,
   value,
   disabled,
@@ -145,6 +164,7 @@ export function useCheckboxOrToggleOptions({
   warning?: Props['warning']
   emptyValue?: Props['emptyValue']
   htmlAttributes?: Props['htmlAttributes']
+  dataList?: Props['data']
   children?: Props['children']
   value?: Props['value']
   disabled?: Props['disabled']
@@ -153,8 +173,8 @@ export function useCheckboxOrToggleOptions({
 }) {
   const { setFieldProps } = useContext(DataContext)
   const optionsCount = useMemo(
-    () => React.Children.count(children),
-    [children]
+    () => React.Children.count(children) + (dataList?.length || 0),
+    [dataList, children]
   )
   const collectedData = []
 
@@ -234,7 +254,12 @@ export function useCheckboxOrToggleOptions({
     ]
   )
 
-  const result = mapOptions(children, { createOption })
+  const result = [
+    ...(dataList || []).map((props, i) =>
+      createOption(props as OptionProps, i)
+    ),
+    ...(mapOptions(children, { createOption }) || []).filter(Boolean),
+  ]
 
   if (path) {
     setFieldProps?.(path + '/arraySelectionData', collectedData)
