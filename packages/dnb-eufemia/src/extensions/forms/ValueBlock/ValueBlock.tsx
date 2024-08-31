@@ -87,6 +87,10 @@ function ValueBlock(props: Props) {
         composition === true ? 'horizontal' : composition
       }`
     )
+  const defaultClass = classnames(
+    'dnb-forms-value-block__content',
+    `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`
+  )
 
   if (summaryListContext) {
     const Item = summaryListContext.isNested
@@ -96,16 +100,7 @@ function ValueBlock(props: Props) {
       : Fragment
 
     if (!label && valueBlockContext?.composition) {
-      content = (
-        <span
-          className={classnames(
-            'dnb-forms-value-block__content',
-            gap && `dnb-forms-value-block__content--gap-${gap}`
-          )}
-        >
-          {children}
-        </span>
-      ) ?? (
+      content = <span className={defaultClass}>{children}</span> ?? (
         <span className="dnb-forms-value-block__placeholder">
           {placeholder}
         </span>
@@ -129,14 +124,7 @@ function ValueBlock(props: Props) {
               )}
             >
               {children ? (
-                <span
-                  className={classnames(
-                    'dnb-forms-value-block__content',
-                    gap && `dnb-forms-value-block__content--gap-${gap}`
-                  )}
-                >
-                  {children}
-                </span>
+                <span className={defaultClass}>{children}</span>
               ) : (
                 <span className="dnb-forms-value-block__placeholder">
                   {placeholder}
@@ -170,14 +158,7 @@ function ValueBlock(props: Props) {
           </FormLabel>
         )}
         {children ? (
-          <span
-            className={classnames(
-              'dnb-forms-value-block__content',
-              gap && `dnb-forms-value-block__content--gap-${gap}`
-            )}
-          >
-            {children}
-          </span>
+          <span className={defaultClass}>{children}</span>
         ) : (
           <span className="dnb-forms-value-block__placeholder">
             {placeholder}
