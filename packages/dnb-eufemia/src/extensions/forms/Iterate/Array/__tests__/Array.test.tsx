@@ -1071,4 +1071,44 @@ describe('Iterate.Array', () => {
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
     })
   })
+
+  describe('value and defaultValue', () => {
+    it('should warn when "value" prop is used', () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+
+      render(
+        <Form.Handler data={['foo']}>
+          <Iterate.Array path="/">
+            <Field.String itemPath="/" value="bar" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Using value="bar" prop inside iterate is not supported yet'
+      )
+
+      log.mockRestore()
+    })
+
+    it('should warn when "defaultValue" prop is used', () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+
+      render(
+        <Form.Handler data={['foo']}>
+          <Iterate.Array path="/">
+            <Field.String itemPath="/" defaultValue="bar" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Using defaultValue="bar" prop inside iterate is not supported yet'
+      )
+
+      log.mockRestore()
+    })
+  })
 })

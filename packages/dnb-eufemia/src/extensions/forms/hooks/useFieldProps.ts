@@ -22,7 +22,7 @@ import {
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
-import { combineDescribedBy } from '../../../shared/component-helper'
+import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import useMountEffect from '../../../shared/helpers/useMountEffect'
@@ -1144,6 +1144,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     prepareError,
     validateInitially,
   ])
+
+  useEffect(() => {
+    if (itemPath && valueProp !== undefined) {
+      warn(
+        `Using value="${valueProp}" prop inside iterate is not supported yet`
+      )
+    }
+    if (itemPath && defaultValue !== undefined) {
+      warn(
+        `Using defaultValue="${defaultValue}" prop inside iterate is not supported yet`
+      )
+    }
+  }, [defaultValue, itemPath, valueProp])
 
   useEffect(() => {
     if (hasPath) {
