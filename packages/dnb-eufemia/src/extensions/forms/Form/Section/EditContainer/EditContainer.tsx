@@ -22,24 +22,24 @@ export type AllProps = Props & SectionContainerProps & FlexContainerProps
 function EditContainer(props: AllProps) {
   const { children, className, title, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
-  const { switchContainerMode, containerMode } =
+  const { switchContainerMode, initialContainerMode } =
     useContext(SectionContainerContext) || {}
 
   const onPathError = useCallback(
     (path: Path, error: Error) => {
       if (
-        containerMode === 'openWhenFieldValidationError' &&
+        initialContainerMode === 'openWhenFieldValidationError' &&
         error instanceof Error
       ) {
         switchContainerMode?.('edit')
       }
     },
-    [switchContainerMode, containerMode]
+    [switchContainerMode, initialContainerMode]
   )
 
   return (
     <FieldBoundaryProvider
-      showErrors={containerMode === 'openWhenFieldValidationError'}
+      showErrors={initialContainerMode === 'openWhenFieldValidationError'}
       onPathError={onPathError}
     >
       <SectionContainer

@@ -12,7 +12,11 @@ function SectionContainerProvider(props: Props) {
 
   const { containerMode, children } = props
 
-  const containerModeRef = useRef<ContainerMode>(containerMode)
+  const containerModeRef = useRef<ContainerMode>(
+    containerMode === 'openWhenFieldValidationError'
+      ? 'view'
+      : containerMode
+  )
 
   const switchContainerMode = useCallback((mode: ContainerMode) => {
     containerModeRef.current = mode

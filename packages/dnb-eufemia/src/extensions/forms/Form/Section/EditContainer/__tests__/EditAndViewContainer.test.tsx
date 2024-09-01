@@ -1,7 +1,5 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
-import EditContainer from '../EditContainer'
-import ViewContainer from '../../ViewContainer'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import { Field, Form } from '../../../..'
 import userEvent from '@testing-library/user-event'
@@ -11,14 +9,26 @@ const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
     render(
       <Form.Section>
         <Form.Section.ViewContainer>
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
+
+        <ContextConsumer />
       </Form.Section>
     )
 
@@ -31,15 +41,15 @@ describe('EditContainer and ViewContainer', () => {
 
     // Switch to edit mode
     fireEvent.click(viewBlock.querySelector('button'))
-    expect(editBlock).toHaveTextContent('Edit Content')
+    expect(containerMode).toBe('edit')
 
     // Switch to view mode
     fireEvent.click(editBlock.querySelector('button'))
-    expect(viewBlock).toHaveTextContent('View Content')
+    expect(containerMode).toBe('view')
 
     // Switch to edit mode
     fireEvent.click(viewBlock.querySelector('button'))
-    expect(editBlock).toHaveTextContent('Edit Content')
+    expect(containerMode).toBe('edit')
   })
 
   it('should switch mode from view to edit on error during submit', async () => {
@@ -55,10 +65,12 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler>
         <Form.Section>
-          <EditContainer>
+          <Form.Section.EditContainer>
             <Field.String path="/" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
           <ContextConsumer />
         </Form.Section>
       </Form.Handler>
@@ -88,10 +100,12 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler data={{ foo: 'bar' }}>
         <Form.Section containerMode="edit" path="/">
-          <EditContainer>
+          <Form.Section.EditContainer>
             <Field.String path="/foo" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
           <ContextConsumer />
         </Form.Section>
       </Form.Handler>
@@ -115,7 +129,7 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   describe('containerMode="openWhenFieldValidationError"', () => {
-    it('fields should show their errors and the mode should be "edit"', async () => {
+    it('should open in view mode when there are no errors', async () => {
       let containerMode = null
 
       const ContextConsumer = () => {
@@ -126,18 +140,40 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       render(
-        <Form.Handler>
-          <Form.Section
-            containerMode="openWhenFieldValidationError"
-            path="/"
-          >
-            <EditContainer>
-              <Field.String path="/foo" required />
-            </EditContainer>
-            <ViewContainer>content</ViewContainer>
-            <ContextConsumer />
-          </Form.Section>
-        </Form.Handler>
+        <Form.Section containerMode="openWhenFieldValidationError">
+          <Form.Section.EditContainer>
+            <Field.String path="/foo" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+          <ContextConsumer />
+        </Form.Section>
+      )
+
+      expect(containerMode).toBe('view')
+    })
+
+    it('fields open in edit mode and show errors when there are errors', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Section containerMode="openWhenFieldValidationError">
+          <Form.Section.EditContainer>
+            <Field.String path="/foo" required />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+          <ContextConsumer />
+        </Form.Section>
       )
 
       expect(containerMode).toBe('edit')
@@ -174,20 +210,19 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       render(
-        <Form.Handler>
-          <Form.Section
-            containerMode="openWhenFieldValidationError"
-            path="/"
-            required
-          >
-            <EditContainer>
-              <Field.String path="/foo" />
-              <Field.String path="/bar" />
-            </EditContainer>
-            <ViewContainer>content</ViewContainer>
-            <ContextConsumer />
-          </Form.Section>
-        </Form.Handler>
+        <Form.Section
+          containerMode="openWhenFieldValidationError"
+          required
+        >
+          <Form.Section.EditContainer>
+            <Field.String path="/foo" />
+            <Field.String path="/bar" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+          <ContextConsumer />
+        </Form.Section>
       )
 
       expect(containerMode).toBe('edit')
@@ -205,6 +240,100 @@ describe('EditContainer and ViewContainer', () => {
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(3)
 
       expect(containerMode).toBe('edit')
+    })
+  })
+
+  it('should not set focus on initially opened section', async () => {
+    render(
+      <Form.Section containerMode="openWhenFieldValidationError">
+        <Form.Section.ViewContainer>
+          View Content
+        </Form.Section.ViewContainer>
+
+        <Form.Section.EditContainer>
+          Edit Content
+        </Form.Section.EditContainer>
+      </Form.Section>
+    )
+
+    expect(document.body).toHaveFocus()
+  })
+
+  it('should set focus after the section is opened', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Handler>
+        <Form.Section containerMode="openWhenFieldValidationError">
+          <Form.Section.ViewContainer>
+            View Content
+          </Form.Section.ViewContainer>
+
+          <Form.Section.EditContainer>
+            <Field.String path="/foo" required />
+          </Form.Section.EditContainer>
+
+          <ContextConsumer />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    expect(document.body).toHaveFocus()
+    expect(containerMode).toBe('edit')
+
+    const blocks = document.querySelectorAll('.dnb-forms-section-block')
+    const [viewBlock, editBlock] = Array.from(blocks)
+    const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
+    const [cancelButton] = Array.from(editBlock.querySelectorAll('button'))
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'foo')
+
+    fireEvent.click(cancelButton)
+
+    expect(containerMode).toBe('view')
+    await waitFor(() => {
+      expect(
+        viewBlock.querySelector('.dnb-forms-section-block__inner')
+      ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(viewBlock)
+    })
+
+    fireEvent.click(editButton)
+
+    expect(containerMode).toBe('edit')
+    await waitFor(() => {
+      expect(
+        editBlock.querySelector('.dnb-forms-section-block__inner')
+      ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(editBlock)
+    })
+
+    fireEvent.click(cancelButton)
+
+    expect(containerMode).toBe('view')
+    await waitFor(() => {
+      expect(
+        viewBlock.querySelector('.dnb-forms-section-block__inner')
+      ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(viewBlock)
+    })
+
+    fireEvent.click(editButton)
+
+    expect(containerMode).toBe('edit')
+    await waitFor(() => {
+      expect(
+        editBlock.querySelector('.dnb-forms-section-block__inner')
+      ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(editBlock)
     })
   })
 
@@ -227,10 +356,12 @@ describe('EditContainer and ViewContainer', () => {
         }}
       >
         <Form.Section containerMode="edit" path="/section">
-          <EditContainer>
+          <Form.Section.EditContainer>
             <Field.String path="/foo" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
           <ContextConsumer />
         </Form.Section>
       </Form.Handler>
@@ -254,14 +385,26 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should set focus on __element when containerMode changes', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
     render(
       <Form.Section>
         <Form.Section.ViewContainer>
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
+
+        <ContextConsumer />
       </Form.Section>
     )
 
@@ -278,12 +421,13 @@ describe('EditContainer and ViewContainer', () => {
 
     // Switch to edit mode
     fireEvent.click(editButton)
-    expect(editBlock).toHaveTextContent('Edit Content')
+    expect(containerMode).toBe('edit')
 
     await waitFor(() => {
       expect(
         editBlock.querySelector('.dnb-forms-section-block__inner')
       ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(editBlock)
     })
 
     // Reset focus, so we can test focus during close
@@ -291,12 +435,13 @@ describe('EditContainer and ViewContainer', () => {
 
     // Switch to view mode
     fireEvent.click(cancelButton)
-    expect(viewBlock).toHaveTextContent('View Content')
+    expect(containerMode).toBe('view')
 
     await waitFor(() => {
       expect(
         viewBlock.querySelector('.dnb-forms-section-block__inner')
       ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(viewBlock)
     })
 
     // Reset focus, so we can test focus during close
@@ -304,12 +449,13 @@ describe('EditContainer and ViewContainer', () => {
 
     // Switch to edit mode
     fireEvent.click(editButton)
-    expect(editBlock).toHaveTextContent('Edit Content')
+    expect(containerMode).toBe('edit')
 
     await waitFor(() => {
       expect(
         editBlock.querySelector('.dnb-forms-section-block__inner')
       ).toHaveFocus()
+      expect(document.activeElement.parentElement).toBe(editBlock)
     })
   })
 
@@ -319,6 +465,7 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.ViewContainer>
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
@@ -342,6 +489,7 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.ViewContainer variant="basic">
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer variant="basic">
           Edit Content
         </Form.Section.EditContainer>
@@ -357,14 +505,13 @@ describe('EditContainer and ViewContainer', () => {
 
   it('should validate on done button click', async () => {
     render(
-      <Form.Handler>
-        <Form.Section>
-          <EditContainer>
-            <Field.Name required path="/name" />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
-        </Form.Section>
-      </Form.Handler>
+      <Form.Section>
+        <Form.Section.EditContainer>
+          <Field.Name required path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
     )
 
     expect(

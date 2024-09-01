@@ -280,7 +280,6 @@ export function OpenWhenFieldValidationError() {
         <Form.Section
           path="/nestedPath"
           required
-          // containerMode="edit"
           containerMode="openWhenFieldValidationError"
         >
           <MyEditContainer />

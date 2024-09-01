@@ -53,7 +53,8 @@ function SectionContainer(props: Props & FlexContainerProps) {
     contextRef.current.containerMode = 'edit'
   }
 
-  const { switchContainerMode, containerMode } = contextRef.current
+  const { switchContainerMode, containerMode, initialContainerMode } =
+    contextRef.current
 
   const {
     mode,
@@ -93,14 +94,19 @@ function SectionContainer(props: Props & FlexContainerProps) {
       }
 
       if (state === 'opened') {
-        if (!contextRef.current.hasSubmitError) {
+        if (
+          !contextRef.current.hasSubmitError &&
+          initialContainerMode === 'openWhenFieldValidationError'
+            ? !contextRef.current.hasError
+            : true
+        ) {
           containerRef?.current?.focus?.()
         }
       }
 
       onAnimationEnd?.(state)
     },
-    [onAnimationEnd, switchContainerMode]
+    [initialContainerMode, onAnimationEnd, switchContainerMode]
   )
 
   const preventAnimationRef = useRef(true)
