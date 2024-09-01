@@ -110,7 +110,7 @@ export interface ContextState {
     skipFieldValidation?: boolean
     skipErrorCheck?: boolean
   }) => void
-  setFieldEventListener: (
+  setFieldEventListener?: (
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
@@ -154,7 +154,6 @@ export const defaultContextState: ContextState = {
   formState: undefined,
   setFormState: () => null,
   setSubmitState: () => null,
-  setFieldEventListener: () => null,
   handleSubmitCall: () => null,
   setShowAllErrors: () => null,
   handleMountField: () => null,

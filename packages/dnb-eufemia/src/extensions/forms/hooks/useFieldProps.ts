@@ -1,4 +1,4 @@
-import {
+import React, {
   useRef,
   useEffect,
   useContext,
@@ -25,8 +25,6 @@ import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
-import useMountEffect from '../../../shared/helpers/useMountEffect'
-import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
@@ -152,10 +150,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldError: setFieldErrorDataContext,
     setFieldProps: setPropsDataContext,
     setHasVisibleError: setHasVisibleErrorDataContext,
+    handleMountField,
+    handleUnMountField,
+    setFieldEventListener,
     errors: dataContextErrors,
     showAllErrors,
     contextErrorMessages,
-  } = dataContext ?? {}
+  } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
   const disabled = disabledProp ?? props.readOnly
@@ -164,11 +165,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
-  } = fieldBlockContext ?? {}
+  } = fieldBlockContext || {}
   const { handleChange: handleChangeIterateContext } =
-    iterateItemContext ?? {}
-  const { path: sectionPath, errorPrioritization } = sectionContext ?? {}
-  const { setFieldError, showBoundaryErrors } = fieldBoundaryContext ?? {}
+    iterateItemContext || {}
+  const { path: sectionPath, errorPrioritization } = sectionContext || {}
+  const { setFieldError, showBoundaryErrors } = fieldBoundaryContext || {}
 
   const hasPath = Boolean(pathProp)
   const { path, identifier, makeIteratePath } = usePath({
@@ -384,13 +385,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           }
         }
 
-        const messagehasValues = Object.entries(
-          error.messageValues ?? {}
+        const messageHasValues = Object.entries(
+          error.messageValues || {}
         ).reduce((message, [key, value]) => {
           return message.replace(`{${key}}`, value)
         }, message)
 
-        error.message = messagehasValues
+        error.message = messageHasValues
 
         return error
       }
@@ -1089,16 +1090,28 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Put props into the surrounding data context as early as possible
   setPropsDataContext?.(identifier, props)
 
-  useMountEffect(() => {
-    dataContext?.handleMountField(identifier)
+  useEffect(() => {
+    // Mount procedure.
+    handleMountField(identifier)
+
+    // Unmount procedure.
+    return () => {
+      handleUnMountField(identifier)
+      setFieldErrorDataContext?.(identifier, undefined)
+      setFieldError?.(identifier, undefined)
+      localErrorRef.current = undefined
+    }
+  }, [
+    handleMountField,
+    handleUnMountField,
+    identifier,
+    setFieldError,
+    setFieldErrorDataContext,
+  ])
+
+  useEffect(() => {
     validateValue()
-  })
-  useUnmountEffect(() => {
-    dataContext?.handleUnMountField(identifier)
-    setFieldErrorDataContext?.(identifier, undefined)
-    setFieldError?.(identifier, undefined)
-    localErrorRef.current = undefined
-  })
+  }, [validateValue])
 
   useUpdateEffect(() => {
     schemaValidatorRef.current = schema
@@ -1212,6 +1225,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [
     dataContext.data,
     dataContext.id,
+    defaultValue,
     hasPath,
     identifier,
     updateDataValueDataContext,
@@ -1258,44 +1272,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [addToPool, callOnBlurValidator, callValidator, hasError, runPool])
 
   // Validate/call validator functions during submit of the form
-  useMountEffect(() => {
-    dataContext?.setFieldEventListener?.(
-      identifier,
-      'onSubmit',
-      onSubmitHandler
-    )
-  })
+  useEffect(() => {
+    setFieldEventListener?.(identifier, 'onSubmit', onSubmitHandler)
+  }, [identifier, onSubmitHandler, setFieldEventListener])
 
   // Set the error in the field block context if this field is inside a field block
-  useMountEffect(() => {
+  useEffect(() => {
     if (inFieldBlock) {
-      if (errorProp) {
-        setFieldStateFieldBlock?.({
-          identifier,
-          type: 'error',
-          content: errorProp,
-          showInitially: true,
-          show: true,
-        })
-      }
-      if (warning) {
-        setFieldStateFieldBlock?.({
-          identifier,
-          type: 'warning',
-          content: warning,
-          showInitially: true,
-          show: true,
-        })
-      }
-      if (info) {
-        setFieldStateFieldBlock?.({
-          identifier,
-          type: 'info',
-          content: info,
-          showInitially: true,
-          show: true,
-        })
-      }
+      setFieldStateFieldBlock?.({
+        identifier,
+        type: 'error',
+        content: errorProp,
+        showInitially: true,
+        show: true,
+      })
+      setFieldStateFieldBlock?.({
+        identifier,
+        type: 'warning',
+        content: warning,
+        showInitially: true,
+        show: true,
+      })
+      setFieldStateFieldBlock?.({
+        identifier,
+        type: 'info',
+        content: info,
+        showInitially: true,
+        show: true,
+      })
 
       return () => {
         // Unmount procedure
@@ -1304,7 +1308,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
     }
-  })
+  }, [
+    errorProp,
+    identifier,
+    inFieldBlock,
+    info,
+    mountedFieldsRefFieldBlock,
+    setFieldStateFieldBlock,
+    warning,
+  ])
 
   const infoRef = useRef<React.ReactNode>(info)
   const warningRef = useRef<React.ReactNode>(warning)
