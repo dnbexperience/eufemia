@@ -24,6 +24,20 @@ const validator = (value) => {
 render(<Field.PhoneNumber validator={validator} />)
 ```
 
+## Reuse existing error messages in a validator function
+
+You can reuse existing error messages in a validator function. The types of error messages available depend on the field type.
+
+For example, you can reuse the `required` error message in a validator function:
+
+```tsx
+const validator = (value, { errorMessages }) => {
+  // Your validation logic
+  return new Error(errorMessages.required)
+}
+render(<Field.String validator={validator} />)
+```
+
 ### FormError object
 
 You can use the JavaScript `Error` object to display a custom error message:

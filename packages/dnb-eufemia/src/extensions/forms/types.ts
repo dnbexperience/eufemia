@@ -23,6 +23,13 @@ export { JSONSchemaType }
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
 type MessageValues = Record<string, string>
+export type ValidatorAdditionalArgs<
+  Value,
+  ErrorMessages = DefaultErrorMessages,
+> = {
+  errorMessages: ErrorMessages
+  connectWithPath: (path: Path) => { getValue: () => Value }
+}
 
 interface IFormErrorOptions {
   validationRule?: ValidationRule
@@ -266,11 +273,12 @@ export interface UseFieldProps<
   required?: boolean
   schema?: AllJSONSchemaVersions<Value>
   validator?: (
-    value: Value | EmptyValue,
-    errorMessages?: ErrorMessages
+    value: Value,
+    additionalArgs?: ValidatorAdditionalArgs<Value, ErrorMessages>
   ) => Error | undefined | void | Promise<Error | undefined | void>
   onBlurValidator?: (
-    value: Value | EmptyValue
+    value: Value,
+    additionalArgs?: ValidatorAdditionalArgs<Value, ErrorMessages>
   ) => Error | undefined | void | Promise<Error | undefined | void>
   validateRequired?: (
     internal: Value,

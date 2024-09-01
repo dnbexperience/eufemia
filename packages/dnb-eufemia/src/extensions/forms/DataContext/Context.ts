@@ -21,8 +21,8 @@ type HandleSubmitProps = {
 
 export type EventListenerCall = {
   path?: Path
-  type?: 'onSubmit'
-  callback: () => void
+  type?: 'onSubmit' | 'onPathChange'
+  callback: (params?: { value: unknown }) => void | Promise<void | Error>
 }
 
 export type FilterDataHandler<Data> = (
@@ -66,6 +66,7 @@ export interface ContextState {
   hasContext: boolean
   /** The dataset for the form / form wizard */
   data: any
+  internalDataRef?: React.MutableRefObject<any>
   /** Should the form validate data before submitting? */
   errors?: Record<string, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */

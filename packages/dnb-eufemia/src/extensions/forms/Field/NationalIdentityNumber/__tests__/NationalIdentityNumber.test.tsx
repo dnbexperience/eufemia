@@ -105,12 +105,19 @@ describe('Field.NationalIdentityNumber', () => {
     )
 
     expect(validator).toHaveBeenCalledTimes(1)
-    expect(validator).toHaveBeenCalledWith('123', {
-      maxLength: expect.stringContaining('{maxLength}'),
-      minLength: expect.stringContaining('{minLength}'),
-      pattern: expect.stringContaining('11'),
-      required: expect.stringContaining('11'),
-    })
+    expect(validator).toHaveBeenCalledWith(
+      '123',
+      expect.objectContaining({
+        errorMessages: expect.objectContaining({
+          maxLength: expect.stringContaining('{maxLength}'),
+          minLength: expect.stringContaining('{minLength}'),
+          pattern: expect.stringContaining('11'),
+          required: expect.stringContaining('11'),
+          errorDnr: expect.stringContaining('d-nummer'),
+          errorFnr: expect.stringContaining('fødselsnummer'),
+        }),
+      })
+    )
   })
 
   it('should have numeric input mode', () => {

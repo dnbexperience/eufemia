@@ -749,6 +749,12 @@ export default function Provider<Data extends JsonObject>(
         } else {
           onPathChange?.(path, value)
         }
+
+        for (const itm of fieldEventListenersRef.current) {
+          if (itm.type === 'onPathChange' && itm.path === path) {
+            itm.callback({ value })
+          }
+        }
       },
       [onPathChange, updateDataValue]
     )
@@ -1182,6 +1188,7 @@ export default function Provider<Data extends JsonObject>(
         /** Additional */
         id,
         data: internalDataRef.current,
+        internalDataRef,
         props,
         ...rest,
       }}

@@ -649,10 +649,15 @@ describe('Field.PhoneNumber', () => {
     )
 
     expect(validator).toHaveBeenCalledTimes(1)
-    expect(validator).toHaveBeenCalledWith('+41 9999', {
-      pattern: enGB.PhoneNumber.errorRequired,
-      required: enGB.PhoneNumber.errorRequired,
-    })
+    expect(validator).toHaveBeenCalledWith(
+      '+41 9999',
+      expect.objectContaining({
+        errorMessages: expect.objectContaining({
+          pattern: enGB.PhoneNumber.errorRequired,
+          required: enGB.PhoneNumber.errorRequired,
+        }),
+      })
+    )
 
     await waitFor(() => {
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
