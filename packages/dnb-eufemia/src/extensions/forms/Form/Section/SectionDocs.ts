@@ -32,13 +32,8 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   containerMode: {
-    doc: 'Defines the container mode. Can be `view` or `edit`. Defaults to `view`.',
+    doc: 'Defines the container mode. Can be `view`, `edit` or `openWhenFieldValidationError`. When set to `openWhenFieldValidationError`, the mode will initially be "edit" if fields contain errors. Fields will then automatically get `validateInitially` and show their error messages. Defaults to `view`.',
     type: 'string',
-    status: 'optional',
-  },
-  validateFieldsInitially: {
-    doc: 'When set to `true`, the mode will initially be "edit" if fields contain errors. Fields will automatically get `validateInitially` and show their error messages. Defaults to `false`.',
-    type: 'boolean',
     status: 'optional',
   },
   children: {

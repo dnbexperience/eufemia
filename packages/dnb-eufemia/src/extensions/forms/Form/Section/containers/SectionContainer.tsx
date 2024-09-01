@@ -13,7 +13,10 @@ import SectionContainerContext, {
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 
-export type ContainerMode = 'view' | 'edit'
+export type ContainerMode =
+  | 'view'
+  | 'edit'
+  | 'openWhenFieldValidationError'
 export type SectionContainerProps = {
   /**
    * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
@@ -90,9 +93,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
       }
 
       if (state === 'opened') {
-        const preventFocusOnErrorOpening =
-          !contextRef.current.hasSubmitError
-        if (preventFocusOnErrorOpening) {
+        if (!contextRef.current.hasSubmitError) {
           containerRef?.current?.focus?.()
         }
       }

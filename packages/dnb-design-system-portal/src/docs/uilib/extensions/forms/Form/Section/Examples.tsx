@@ -138,7 +138,7 @@ export const ViewAndEditContainerValidateInitially = () => {
               <Form.Section
                 path="/nestedPath"
                 required
-                validateFieldsInitially
+                containerMode="openWhenFieldValidationError"
               >
                 <MyEditContainer />
                 <MyViewContainer />

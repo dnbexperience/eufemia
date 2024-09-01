@@ -114,7 +114,7 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('bar')
   })
 
-  describe('validateFieldsInitially', () => {
+  describe('containerMode="openWhenFieldValidationError"', () => {
     it('fields should show their errors and the mode should be "edit"', async () => {
       let containerMode = null
 
@@ -127,7 +127,10 @@ describe('EditContainer and ViewContainer', () => {
 
       render(
         <Form.Handler>
-          <Form.Section validateFieldsInitially path="/">
+          <Form.Section
+            containerMode="openWhenFieldValidationError"
+            path="/"
+          >
             <EditContainer>
               <Field.String path="/foo" required />
             </EditContainer>
@@ -172,7 +175,11 @@ describe('EditContainer and ViewContainer', () => {
 
       render(
         <Form.Handler>
-          <Form.Section validateFieldsInitially path="/" required>
+          <Form.Section
+            containerMode="openWhenFieldValidationError"
+            path="/"
+            required
+          >
             <EditContainer>
               <Field.String path="/foo" />
               <Field.String path="/bar" />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Field, Form, JSONSchema, SectionProps, Value } from '../../..'
 import { Card, Flex } from '../../../../../components'
 import { Props as FieldNameProps } from '../../../Field/Name'
@@ -241,6 +241,53 @@ export function EditViewContainer() {
         </Form.Section>
         <Form.SubmitButton />
       </Card>
+    </Form.Handler>
+  )
+}
+
+export function OpenWhenFieldValidationError() {
+  const MyEditContainer = useCallback(() => {
+    return (
+      <Form.Section.EditContainer>
+        <Field.Name.First path="/firstName" />
+        <Field.Name.Last path="/lastName" />
+      </Form.Section.EditContainer>
+    )
+  }, [])
+
+  const MyViewContainer = useCallback(() => {
+    return (
+      <Form.Section.ViewContainer>
+        <Value.SummaryList>
+          <Value.Name.First path="/firstName" />
+          <Value.Name.Last path="/lastName" />
+        </Value.SummaryList>
+      </Form.Section.ViewContainer>
+    )
+  }, [])
+
+  return (
+    <Form.Handler
+      onSubmit={async (data) => console.log('onSubmit', data)}
+      defaultData={{
+        nestedPath: {
+          firstName: 'Nora',
+        },
+      }}
+    >
+      <Card stack>
+        <Form.SubHeading>Your account</Form.SubHeading>
+        <Form.Section
+          path="/nestedPath"
+          required
+          // containerMode="edit"
+          containerMode="openWhenFieldValidationError"
+        >
+          <MyEditContainer />
+          <MyViewContainer />
+        </Form.Section>
+      </Card>
+      <Form.SubmitButton />
     </Form.Handler>
   )
 }

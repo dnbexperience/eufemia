@@ -37,17 +37,12 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   required?: boolean
 
   /**
-   * Defines the container mode. Can be `view` or `edit`.
+   * Defines the container mode. Can be `view`, `edit` or `openWhenFieldValidationError`.
+   * When set to `openWhenFieldValidationError`, the mode will initially be "edit" if fields contain errors.
+   * Fields will then automatically get `validateInitially` and show their error messages.
    * Defaults to `view`.
    */
   containerMode?: ContainerMode
-
-  /**
-   * When set to `true`, the mode will initially be "edit" if fields contain errors.
-   * Fields will automatically get `validateInitially` and show their error messages.
-   * Defaults to `false`.
-   */
-  validateFieldsInitially?: boolean
 
   /**
    * Only for internal use and undocumented for now.
