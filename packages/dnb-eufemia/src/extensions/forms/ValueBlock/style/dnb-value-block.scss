@@ -67,6 +67,9 @@
     row-gap: var(--row-gap, var(--spacing-medium));
     column-gap: var(--column-gap, 0);
 
+    &--gap-none {
+      --column-gap: 0;
+    }
     &--gap-xx-small {
       --column-gap: var(--spacing-xx-small);
     }

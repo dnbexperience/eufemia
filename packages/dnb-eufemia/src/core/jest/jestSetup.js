@@ -49,7 +49,7 @@ export const loadScss = (file, options = {}) => {
   }
 }
 
-export const mockGetSelection = () => {
+export const mockClipboard = () => {
   let memory
   Object.defineProperty(window.navigator, 'clipboard', {
     configurable: true,

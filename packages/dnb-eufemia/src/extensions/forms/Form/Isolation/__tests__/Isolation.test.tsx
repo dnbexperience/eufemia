@@ -277,10 +277,13 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('Regular')
     expect(isolated).toHaveValue('Something')
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular',
-      isolated: 'Something',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular',
+        isolated: 'Something',
+      },
+      expect.anything()
+    )
 
     await userEvent.type(regular, ' updated')
     await userEvent.click(button)
@@ -288,10 +291,13 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('Regular updated')
     expect(isolated).toHaveValue('Something')
     expect(onChange).toHaveBeenCalledTimes(10)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular updated',
-      isolated: 'Something',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular updated',
+        isolated: 'Something',
+      },
+      expect.anything()
+    )
 
     await userEvent.type(isolated, ' 2')
     await userEvent.click(button)
@@ -299,10 +305,13 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('Regular updated')
     expect(isolated).toHaveValue('Something 2')
     expect(onChange).toHaveBeenCalledTimes(11)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular updated',
-      isolated: 'Something 2',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular updated',
+        isolated: 'Something 2',
+      },
+      expect.anything()
+    )
 
     await userEvent.type(regular, ' 2')
     await userEvent.click(button)
@@ -310,10 +319,13 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('Regular updated 2')
     expect(isolated).toHaveValue('Something 2')
     expect(onChange).toHaveBeenCalledTimes(14)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular updated 2',
-      isolated: 'Something 2',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular updated 2',
+        isolated: 'Something 2',
+      },
+      expect.anything()
+    )
   })
 
   it('should not change the data path from outside', async () => {
@@ -466,9 +478,12 @@ describe('Form.Isolation', () => {
     await userEvent.type(regular, 'Regular')
 
     expect(onChange).toHaveBeenCalledTimes(7)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular',
+      },
+      expect.anything()
+    )
   })
 
   it('should call local onChange', async () => {
@@ -493,9 +508,12 @@ describe('Form.Isolation', () => {
     await userEvent.type(isolated, 'Isolated')
 
     expect(onChange).toHaveBeenCalledTimes(8)
-    expect(onChange).toHaveBeenLastCalledWith({
-      isolated: 'Isolated',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Isolated',
+      },
+      expect.anything()
+    )
 
     await userEvent.type(regular, 'Regular')
 
@@ -531,17 +549,23 @@ describe('Form.Isolation', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({
-      isolated: 'Isolated',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        isolated: 'Isolated',
+      },
+      expect.anything()
+    )
 
     await userEvent.type(regular, 'Regular')
 
     expect(onChange).toHaveBeenCalledTimes(8)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular',
-      isolated: 'Isolated',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular',
+        isolated: 'Isolated',
+      },
+      expect.anything()
+    )
   })
 
   it('onCommit should only return the isolated data', async () => {
@@ -716,22 +740,28 @@ describe('Form.Isolation', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular',
-      nested: {
-        isolated: 'Isolated changed',
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular',
+        nested: {
+          isolated: 'Isolated changed',
+        },
       },
-    })
+      expect.anything()
+    )
 
     await userEvent.type(regular, ' changed')
 
     expect(onChange).toHaveBeenCalledTimes(9)
-    expect(onChange).toHaveBeenLastCalledWith({
-      regular: 'Regular changed',
-      nested: {
-        isolated: 'Isolated changed',
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        regular: 'Regular changed',
+        nested: {
+          isolated: 'Isolated changed',
+        },
       },
-    })
+      expect.anything()
+    )
   })
 
   it('should show provider schema type error with path', async () => {
@@ -813,9 +843,12 @@ describe('Form.Isolation', () => {
       await userEvent.click(button)
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        isolated: 'Isolated',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
@@ -828,9 +861,12 @@ describe('Form.Isolation', () => {
       await userEvent.type(isolated, '-updated')
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        isolated: 'Isolated',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
       expect(onCommit).toHaveBeenCalledTimes(2)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
@@ -842,9 +878,12 @@ describe('Form.Isolation', () => {
       await userEvent.click(button)
 
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        isolated: 'Isolated-updated',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated-updated',
+        },
+        expect.anything()
+      )
       expect(onCommit).toHaveBeenCalledTimes(3)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
@@ -882,9 +921,12 @@ describe('Form.Isolation', () => {
       await userEvent.click(button)
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        isolated: 'Isolated',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
@@ -897,9 +939,12 @@ describe('Form.Isolation', () => {
       await userEvent.type(isolated, '-updated')
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        isolated: 'Isolated',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated',
+        },
+        expect.anything()
+      )
       expect(onCommit).toHaveBeenCalledTimes(2)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
@@ -911,9 +956,12 @@ describe('Form.Isolation', () => {
       await userEvent.click(button)
 
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        isolated: 'Isolated-updated',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          isolated: 'Isolated-updated',
+        },
+        expect.anything()
+      )
       expect(onCommit).toHaveBeenCalledTimes(3)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
@@ -1250,19 +1298,25 @@ describe('Form.Isolation', () => {
     await userEvent.click(commitButton)
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({
-      existing: 'data',
-      persons: [{ name: 'John' }, { name: 'Oda' }],
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        existing: 'data',
+        persons: [{ name: 'John' }, { name: 'Oda' }],
+      },
+      expect.anything()
+    )
 
     await userEvent.type(isolated, '{Backspace>3}Odd')
     await userEvent.click(commitButton)
 
     expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith({
-      existing: 'data',
-      persons: [{ name: 'John' }, { name: 'Oda' }, { name: 'Odd' }],
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        existing: 'data',
+        persons: [{ name: 'John' }, { name: 'Oda' }, { name: 'Odd' }],
+      },
+      expect.anything()
+    )
   })
 
   it('should render inside section with correct paths', async () => {
@@ -1336,12 +1390,15 @@ describe('Form.Isolation', () => {
       { isolated: 'inside changed' },
       { clearData: expect.any(Function) }
     )
-    expect(onChange).toHaveBeenLastCalledWith({
-      mySection: {
-        isolated: 'inside changed',
-        regular: 'regular changed',
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        mySection: {
+          isolated: 'inside changed',
+          regular: 'regular changed',
+        },
       },
-    })
+      expect.anything()
+    )
 
     expect(isolated).toHaveValue('inside changed')
     expect(synced).toHaveValue('inside changed')
@@ -1421,12 +1478,15 @@ describe('Form.Isolation', () => {
       { isolated: 'inside' },
       { clearData: expect.any(Function) }
     )
-    expect(onChange).toHaveBeenLastCalledWith({
-      mySection: {
-        isolated: 'inside',
-        regular: 'regular',
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        mySection: {
+          isolated: 'inside',
+          regular: 'regular',
+        },
       },
-    })
+      expect.anything()
+    )
   })
 
   it('clears the form data when "clearData" is called inside the "onCommit" event', async () => {

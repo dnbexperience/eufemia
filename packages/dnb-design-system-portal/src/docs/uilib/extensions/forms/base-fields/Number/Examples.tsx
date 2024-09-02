@@ -49,6 +49,27 @@ export const LabelAndValue = () => {
   )
 }
 
+export const PrefixAndSuffix = () => {
+  return (
+    <ComponentBox>
+      <Flex.Stack>
+        <Field.Number
+          value={1234}
+          label="With prefix"
+          prefix="prefix "
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Number
+          value={1}
+          label="With suffix (function)"
+          suffix={(value) => (value === 1 ? ' year' : ' years')}
+          onChange={(value) => console.log('onChange', value)}
+        />
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
 export const Alignment = () => {
   return (
     <ComponentBox>

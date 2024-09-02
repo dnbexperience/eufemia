@@ -80,7 +80,7 @@ function SectionComponent(props: LocalProps) {
   const { path: nestedPath, props: nestedProps } =
     useContext(SectionContext) || {}
 
-  const handleChange = useCallback<OnChange<unknown>>(
+  const handleChange = useCallback<OnChange>(
     (...args) => onChange?.(...args),
     [onChange]
   )

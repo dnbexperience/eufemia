@@ -139,9 +139,7 @@ As you can see in the code above, you can even handle the state outside the `For
 
 #### Filter data
 
-The internal data will always contain all the fields, even if they are not visible. But you may want to filter out some data based on your own logic.
-
-You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
+In this seciton we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
 
 - [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
 - [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
@@ -149,7 +147,9 @@ You can filter data by any given criteria. This is done by utilizing the `filter
 
 You can provide either a function handler or an object with the paths (JSON Pointer) you want to filter out.
 
-Return `false` to exclude an entry:
+Return `false` to exclude an entry.
+
+Here is an example of how to filter data outlining the different ways to filter data:
 
 ```tsx
 // 1. Method – by using paths (JSON Pointer)
@@ -186,7 +186,23 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/useData/
 
 ##### Filter data during submit
 
-For filtering data during form submit (`onSubmit`), you can use the `filterSubmitData` property from:
+For filtering data during form submit (`onSubmit`), you can use the `filterData` method given as a parameter to the `onSubmit` event callback:
+
+```tsx
+const onSubmit = (data, { filterData }) => {
+  // Same method as in the previous example
+  const filteredDataA = filterData(filterDataPaths)
+  const filteredDataB = filterData(filterDataHandler)
+  console.log(filteredDataA)
+  console.log(filteredDataB)
+}
+
+render(
+  <Form.Handler onSubmit={onSubmit}>
+    <Field.String path="/foo" />
+  </Form.Handler>,
+)
+```
 
 - [Form.Handler](/uilib/extensions/forms/Form/Handler/)
 

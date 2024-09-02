@@ -378,7 +378,10 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(phoneElement, '9999')
 
     expect(onChange).toHaveBeenCalledTimes(4)
-    expect(onChange).toHaveBeenLastCalledWith({ phone: '+47 9999' })
+    expect(onChange).toHaveBeenLastCalledWith(
+      { phone: '+47 9999' },
+      expect.anything()
+    )
   })
 
   it('should handle events correctly with initial value', async () => {

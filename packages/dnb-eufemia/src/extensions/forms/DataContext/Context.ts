@@ -11,6 +11,7 @@ import {
   FieldProps,
   FormError,
   ValueProps,
+  OnChange,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 
@@ -94,7 +95,7 @@ export interface ContextState {
   handleUnMountField: (path: Path) => void
   setFormState?: (state: SubmitState) => void
   setSubmitState?: (state: EventStateObject) => void
-  addOnChangeHandler?: (callback: (data: unknown) => void) => void
+  addOnChangeHandler?: (callback: OnChange) => void
   handleSubmitCall: ({
     onSubmit,
     enableAsyncBehaviour,

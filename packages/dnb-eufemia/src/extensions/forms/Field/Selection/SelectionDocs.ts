@@ -6,6 +6,11 @@ export const SelectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  value: {
+    doc: 'Defines the `value`. When using variant `radio` or `button`, value has to be a `string`.',
+    type: ['number', 'string'],
+    status: 'optional',
+  },
   optionsLayout: {
     doc: 'Layout for the list of options. Can be `horizontal` or `vertical`.',
     type: 'string',
@@ -27,7 +32,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dataPath: {
-    doc: 'The path to the context data (Form.Handler). The object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
+    doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
     type: 'string',
     status: 'optional',
   },

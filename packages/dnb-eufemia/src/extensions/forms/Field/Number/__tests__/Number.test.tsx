@@ -220,6 +220,30 @@ describe('Field.Number', () => {
           '12 345 suffix'
         )
       })
+
+      it('formats with prefix as a function', () => {
+        const prefix = jest.fn(() => {
+          return 'prefix '
+        })
+        render(<Field.Number value={12345} currency prefix={prefix} />)
+        expect(document.querySelector('input')).toHaveValue(
+          'prefix 12 345 kr'
+        )
+        expect(prefix).toHaveBeenCalledTimes(1)
+        expect(prefix).toHaveBeenCalledWith(12345)
+      })
+
+      it('formats with suffix as a function', () => {
+        const suffix = jest.fn(() => {
+          return ' suffix'
+        })
+        render(<Field.Number value={12345} suffix={suffix} />)
+        expect(document.querySelector('input')).toHaveValue(
+          '12 345 suffix'
+        )
+        expect(suffix).toHaveBeenCalledTimes(1)
+        expect(suffix).toHaveBeenCalledWith(12345)
+      })
     })
 
     describe('decimalLimit', () => {

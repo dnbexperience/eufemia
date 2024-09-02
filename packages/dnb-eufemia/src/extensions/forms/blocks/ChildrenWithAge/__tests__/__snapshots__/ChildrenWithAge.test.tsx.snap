@@ -5,6 +5,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
   "children": {
     "0": {
       "age": {
+        "decimalLimit": 0,
         "errorMessages": {
           "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
           "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
@@ -14,20 +15,18 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
           "required": "Du må skrive inn alder på barnet.",
         },
         "itemPath": "/age",
-        "maximum": 100,
+        "maximum": 17,
         "minimum": 0,
         "placeholder": "0",
         "required": true,
         "schema": {
           "exclusiveMaximum": undefined,
           "exclusiveMinimum": undefined,
-          "maximum": 100,
+          "maximum": 17,
           "minimum": 0,
           "multipleOf": undefined,
           "type": "number",
         },
-        "showStepControls": true,
-        "startWith": -1,
         "translations": {
           "en-GB": {
             "ChildrenWithAge": {
@@ -284,6 +283,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     },
     "1": {
       "age": {
+        "decimalLimit": 0,
         "errorMessages": {
           "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
           "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
@@ -293,20 +293,18 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
           "required": "Du må skrive inn alder på barnet.",
         },
         "itemPath": "/age",
-        "maximum": 100,
+        "maximum": 17,
         "minimum": 0,
         "placeholder": "0",
         "required": true,
         "schema": {
           "exclusiveMaximum": undefined,
           "exclusiveMinimum": undefined,
-          "maximum": 100,
+          "maximum": 17,
           "minimum": 0,
           "multipleOf": undefined,
           "type": "number",
         },
-        "showStepControls": true,
-        "startWith": -1,
         "translations": {
           "en-GB": {
             "ChildrenWithAge": {
@@ -647,6 +645,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     },
   },
   "countChildren": {
+    "decimalLimit": 0,
     "defaultValue": 1,
     "errorMessages": {
       "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",

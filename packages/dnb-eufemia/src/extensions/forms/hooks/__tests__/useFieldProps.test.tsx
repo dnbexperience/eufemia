@@ -2667,7 +2667,10 @@ describe('useFieldProps', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({ foo: 'new-value' })
+    expect(onChange).toHaveBeenLastCalledWith(
+      { foo: 'new-value' },
+      expect.anything()
+    )
     expect(result.current.error).toBeUndefined()
   })
 
@@ -2712,7 +2715,10 @@ describe('useFieldProps', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith({ foo: 'new-value' })
+    expect(onChange).toHaveBeenLastCalledWith(
+      { foo: 'new-value' },
+      expect.anything()
+    )
     expect(result.current.error).toBeInstanceOf(Error)
   })
 })

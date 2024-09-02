@@ -205,17 +205,23 @@ describe('Form.Section', () => {
 
       fireEvent.change(first, { target: { value: 'foo' } })
 
-      expect(onChange).toHaveBeenLastCalledWith({
-        firstName: 'foo',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          firstName: 'foo',
+        },
+        expect.anything()
+      )
 
       fireEvent.change(last, { target: { value: 'bar' } })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        firstName: 'foo',
-        lastName: 'bar',
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          firstName: 'foo',
+          lastName: 'bar',
+        },
+        expect.anything()
+      )
     })
 
     it('should call onChange with path', () => {
@@ -227,16 +233,22 @@ describe('Form.Section', () => {
 
       fireEvent.change(first, { target: { value: 'foo' } })
 
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: { firstName: 'foo' },
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: { firstName: 'foo' },
+        },
+        expect.anything()
+      )
 
       fireEvent.change(last, { target: { value: 'bar' } })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: { firstName: 'foo', lastName: 'bar' },
-      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: { firstName: 'foo', lastName: 'bar' },
+        },
+        expect.anything()
+      )
     })
 
     it('should call onChange on Form.Handler without a path', () => {
@@ -254,11 +266,19 @@ describe('Form.Section', () => {
       fireEvent.change(last, { target: { value: 'bar' } })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenNthCalledWith(1, { firstName: 'foo' })
-      expect(onChange).toHaveBeenNthCalledWith(2, {
-        firstName: 'foo',
-        lastName: 'bar',
-      })
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        { firstName: 'foo' },
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        {
+          firstName: 'foo',
+          lastName: 'bar',
+        },
+        expect.anything()
+      )
     })
 
     it('should call onChange on Form.Handler with a path', () => {
@@ -276,12 +296,20 @@ describe('Form.Section', () => {
       fireEvent.change(last, { target: { value: 'bar' } })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenNthCalledWith(1, {
-        mySection: { firstName: 'foo' },
-      })
-      expect(onChange).toHaveBeenNthCalledWith(2, {
-        mySection: { firstName: 'foo', lastName: 'bar' },
-      })
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        {
+          mySection: { firstName: 'foo' },
+        },
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        {
+          mySection: { firstName: 'foo', lastName: 'bar' },
+        },
+        expect.anything()
+      )
     })
 
     it('should call onChange from nested fields', () => {
@@ -299,36 +327,45 @@ describe('Form.Section', () => {
 
       fireEvent.change(first, { target: { value: 'foo' } })
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: {
-          innerSection: {
-            firstName: 'foo',
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            innerSection: {
+              firstName: 'foo',
+            },
           },
         },
-      })
+        expect.anything()
+      )
 
       fireEvent.change(last, { target: { value: 'bar' } })
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: {
-          innerSection: {
-            firstName: 'foo',
-            lastName: 'bar',
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            innerSection: {
+              firstName: 'foo',
+              lastName: 'bar',
+            },
           },
         },
-      })
+        expect.anything()
+      )
 
       fireEvent.change(addition, { target: { value: 'baz' } })
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: {
-          innerSection: {
-            firstName: 'foo',
-            lastName: 'bar',
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            innerSection: {
+              firstName: 'foo',
+              lastName: 'bar',
+            },
+            otherField: 'baz',
           },
-          otherField: 'baz',
         },
-      })
+        expect.anything()
+      )
     })
 
     it('should support onChange without Form.Handler', () => {
@@ -342,36 +379,45 @@ describe('Form.Section', () => {
 
       fireEvent.change(first, { target: { value: 'foo' } })
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: {
-          innerSection: {
-            firstName: 'foo',
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            innerSection: {
+              firstName: 'foo',
+            },
           },
         },
-      })
+        expect.anything()
+      )
 
       fireEvent.change(last, { target: { value: 'bar' } })
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: {
-          innerSection: {
-            firstName: 'foo',
-            lastName: 'bar',
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            innerSection: {
+              firstName: 'foo',
+              lastName: 'bar',
+            },
           },
         },
-      })
+        expect.anything()
+      )
 
       fireEvent.change(addition, { target: { value: 'baz' } })
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenLastCalledWith({
-        mySection: {
-          innerSection: {
-            firstName: 'foo',
-            lastName: 'bar',
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            innerSection: {
+              firstName: 'foo',
+              lastName: 'bar',
+            },
+            otherField: 'baz',
           },
-          otherField: 'baz',
         },
-      })
+        expect.anything()
+      )
     })
   })
 
@@ -585,12 +631,20 @@ describe('Form.Section', () => {
       fireEvent.change(last, { target: { value: 'bar' } })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenNthCalledWith(1, {
-        mySection: { bar: undefined, foo: 'foo' },
-      })
-      expect(onChange).toHaveBeenNthCalledWith(2, {
-        mySection: { bar: 'bar', foo: 'foo' },
-      })
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        {
+          mySection: { bar: undefined, foo: 'foo' },
+        },
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        {
+          mySection: { bar: 'bar', foo: 'foo' },
+        },
+        expect.anything()
+      )
     })
 
     describe('nested', () => {
@@ -813,33 +867,45 @@ describe('Form.Section', () => {
         fireEvent.change(addition, { target: { value: 'baz' } })
 
         expect(onChange).toHaveBeenCalledTimes(3)
-        expect(onChange).toHaveBeenNthCalledWith(1, {
-          mySection: {
-            innerSection: {
-              bar: undefined,
-              foo: 'foo',
+        expect(onChange).toHaveBeenNthCalledWith(
+          1,
+          {
+            mySection: {
+              innerSection: {
+                bar: undefined,
+                foo: 'foo',
+              },
+              otherField: undefined,
             },
-            otherField: undefined,
           },
-        })
-        expect(onChange).toHaveBeenNthCalledWith(2, {
-          mySection: {
-            innerSection: {
-              bar: 'bar',
-              foo: 'foo',
+          expect.anything()
+        )
+        expect(onChange).toHaveBeenNthCalledWith(
+          2,
+          {
+            mySection: {
+              innerSection: {
+                bar: 'bar',
+                foo: 'foo',
+              },
+              otherField: undefined,
             },
-            otherField: undefined,
           },
-        })
-        expect(onChange).toHaveBeenNthCalledWith(3, {
-          mySection: {
-            innerSection: {
-              bar: 'bar',
-              foo: 'foo',
+          expect.anything()
+        )
+        expect(onChange).toHaveBeenNthCalledWith(
+          3,
+          {
+            mySection: {
+              innerSection: {
+                bar: 'bar',
+                foo: 'foo',
+              },
+              otherField: 'baz',
             },
-            otherField: 'baz',
           },
-        })
+          expect.anything()
+        )
       })
     })
   })

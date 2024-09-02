@@ -7,7 +7,7 @@ import React from 'react'
 import {
   axeComponent,
   loadScss,
-  mockGetSelection,
+  mockClipboard,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -44,7 +44,7 @@ beforeAll(() => {
 
   isMac() // just to update the exported const: IS_MAC
 
-  mockGetSelection()
+  mockClipboard()
 })
 
 describe('NumberFormat component', () => {

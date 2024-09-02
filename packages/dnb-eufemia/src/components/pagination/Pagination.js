@@ -92,6 +92,7 @@ const paginationPropTypes = {
   more_pages: PropTypes.string,
   is_loading_text: PropTypes.string,
   load_button_text: PropTypes.string,
+  loadButton: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 
   ...spacingPropTypes,
 
@@ -125,6 +126,7 @@ const paginationDefaultProps = {
   more_pages: null,
   is_loading_text: null,
   load_button_text: null,
+  loadButton: null,
   startup_count: 1,
   parallel_load_count: 1,
   place_maker_before_content: false,

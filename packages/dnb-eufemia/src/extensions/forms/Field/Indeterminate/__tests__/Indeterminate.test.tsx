@@ -62,7 +62,8 @@ describe('Indeterminate', () => {
           child2: undefined,
           child3: undefined,
           parent: false,
-        })
+        }),
+        expect.anything()
       )
 
       expect(child1).toBeChecked()
@@ -88,7 +89,8 @@ describe('Indeterminate', () => {
           child2: 'checked',
           child3: 'checked',
           parent: false,
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child1)
@@ -115,7 +117,8 @@ describe('Indeterminate', () => {
           child2: 'unchecked',
           child3: 'unchecked',
           parent: false,
-        })
+        }),
+        expect.anything()
       )
     })
 
@@ -173,7 +176,8 @@ describe('Indeterminate', () => {
           child2: 'checked',
           child3: 'checked',
           parent: true,
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child2)
@@ -198,7 +202,8 @@ describe('Indeterminate', () => {
           child2: 'checked',
           child3: 'checked',
           parent: true,
-        })
+        }),
+        expect.anything()
       )
     })
 
@@ -246,7 +251,8 @@ describe('Indeterminate', () => {
           child1: true,
           child2: 'custom-on',
           parent: 'what-ever',
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child2)
@@ -268,7 +274,8 @@ describe('Indeterminate', () => {
           child1: true,
           child2: 'custom-on',
           parent: 'what-ever',
-        })
+        }),
+        expect.anything()
       )
     })
   })
@@ -331,7 +338,8 @@ describe('Indeterminate', () => {
           child2: undefined,
           child3: undefined,
           parent: false,
-        })
+        }),
+        expect.anything()
       )
 
       expect(child1).toBeChecked()
@@ -357,7 +365,8 @@ describe('Indeterminate', () => {
           child2: 'checked',
           child3: 'checked',
           parent: true,
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child1)
@@ -384,7 +393,8 @@ describe('Indeterminate', () => {
           child2: 'unchecked',
           child3: 'unchecked',
           parent: true,
-        })
+        }),
+        expect.anything()
       )
     })
 
@@ -442,7 +452,8 @@ describe('Indeterminate', () => {
           child2: 'unchecked',
           child3: 'unchecked',
           parent: false,
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child2)
@@ -467,7 +478,8 @@ describe('Indeterminate', () => {
           child2: 'unchecked',
           child3: 'unchecked',
           parent: false,
-        })
+        }),
+        expect.anything()
       )
     })
 
@@ -515,7 +527,8 @@ describe('Indeterminate', () => {
           child1: false,
           child2: 'custom-off',
           parent: 'you-name-it',
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child2)
@@ -537,7 +550,8 @@ describe('Indeterminate', () => {
           child1: false,
           child2: 'custom-off',
           parent: 'you-name-it',
-        })
+        }),
+        expect.anything()
       )
     })
   })
@@ -600,7 +614,8 @@ describe('Indeterminate', () => {
           child2: undefined,
           child3: undefined,
           parent: false,
-        })
+        }),
+        expect.anything()
       )
 
       expect(child1).toBeChecked()
@@ -626,7 +641,8 @@ describe('Indeterminate', () => {
           child2: 'checked',
           child3: 'checked',
           parent: false,
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child1)
@@ -653,7 +669,8 @@ describe('Indeterminate', () => {
           child2: 'unchecked',
           child3: 'unchecked',
           parent: true,
-        })
+        }),
+        expect.anything()
       )
     })
 
@@ -711,7 +728,8 @@ describe('Indeterminate', () => {
           child2: 'checked',
           child3: 'checked',
           parent: true,
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child2)
@@ -736,7 +754,8 @@ describe('Indeterminate', () => {
           child2: 'unchecked',
           child3: 'unchecked',
           parent: false,
-        })
+        }),
+        expect.anything()
       )
     })
 
@@ -784,7 +803,8 @@ describe('Indeterminate', () => {
           child1: true,
           child2: 'custom-on',
           parent: 'what-ever',
-        })
+        }),
+        expect.anything()
       )
 
       await userEvent.click(child2)
@@ -806,7 +826,8 @@ describe('Indeterminate', () => {
           child1: false,
           child2: 'custom-off',
           parent: 'you-name-it',
-        })
+        }),
+        expect.anything()
       )
     })
   })

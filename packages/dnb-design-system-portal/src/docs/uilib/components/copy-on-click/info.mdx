@@ -1,0 +1,22 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `CopyOnClick` component provides a convenient way to copy text to the clipboard with a single click. This component is particularly useful in scenarios where users need to quickly copy text, such as when copying codes, IDs, URLs, or any other text content that needs to be easily shared or reused.
+Upon hovering, the component can optionally provide visual feedback to the user, displaying a copy cursor or other visual cues that indicate the component's functionality.
+Upon clicking, the component provides a visual feedback to the user, displaying a tooltip with a confirmation message, indicating that the text has been successfully copied.
+
+### Example
+
+Here’s a simple usage example of the `CopyOnClick` component:
+
+```jsx
+import { CopyOnClick, P } from '@dnb/eufemia'
+render(
+  <P>
+    <CopyOnClick>This is the text to copy!</CopyOnClick>
+  </P>,
+)
+```

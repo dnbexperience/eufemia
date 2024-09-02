@@ -58,7 +58,6 @@ export type IsolationProps<Data> = Omit<
   | 'asyncSubmitTimeout'
   | 'scrollTopOnSubmit'
   | 'sessionStorageId'
-  | 'filterSubmitData'
   | 'globalStatusId'
 > & {
   /**

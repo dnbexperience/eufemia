@@ -117,4 +117,22 @@ describe('Context', () => {
     rerender(<HelpButton lang="en-GB">content</HelpButton>)
     expect(screen.queryByLabelText(title_gb)).toBeInTheDocument()
   })
+
+  it('should support fallback "translation" for non-existent locale', () => {
+    let translation = undefined
+
+    render(
+      <Provider locale="non-existent">
+        <Context.Consumer>
+          {(context) => {
+            translation = context.translation
+            return null
+          }}
+        </Context.Consumer>
+      </Provider>
+    )
+
+    expect(translation).not.toBeUndefined()
+    expect(translation.DatePicker.month).toBe('måned')
+  })
 })

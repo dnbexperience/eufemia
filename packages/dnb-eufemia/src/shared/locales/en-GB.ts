@@ -87,6 +87,9 @@ export default {
       declineText: 'Cancel',
       confirmText: 'Approve',
     },
+    CopyOnClick: {
+      clipboard_copy: 'Copied',
+    },
     NumberFormat: {
       clipboard_copy: 'Copied',
       not_available: 'Not available',

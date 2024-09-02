@@ -406,9 +406,12 @@ describe('Iterate.Array', () => {
       expect(elements).toHaveLength(1)
 
       expect(onChangeDataContext).toHaveBeenCalledTimes(1)
-      expect(onChangeDataContext).toHaveBeenLastCalledWith({
-        myList: ['foo'],
-      })
+      expect(onChangeDataContext).toHaveBeenLastCalledWith(
+        {
+          myList: ['foo'],
+        },
+        expect.anything()
+      )
       expect(onChangeIterate).toHaveBeenCalledTimes(1)
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
     })
@@ -481,38 +484,70 @@ describe('Iterate.Array', () => {
           ])
 
           expect(dataContextOnChange).toHaveBeenCalledTimes(8)
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(1, {
-            someList: ['fool', 'bar'],
-            otherValue: 'lorem ipsu',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(2, {
-            someList: ['fools', 'bar'],
-            otherValue: 'lorem ipsu',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(3, {
-            someList: ['fools', 'bar'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(4, {
-            someList: ['fools', 'bar '],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(5, {
-            someList: ['fools', 'bar c'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(6, {
-            someList: ['fools', 'bar co'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(7, {
-            someList: ['fools', 'bar cod'],
-            otherValue: 'lorem ipsum',
-          })
-          expect(dataContextOnChange).toHaveBeenNthCalledWith(8, {
-            someList: ['fools', 'bar code'],
-            otherValue: 'lorem ipsum',
-          })
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            1,
+            {
+              someList: ['fool', 'bar'],
+              otherValue: 'lorem ipsu',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            2,
+            {
+              someList: ['fools', 'bar'],
+              otherValue: 'lorem ipsu',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            3,
+            {
+              someList: ['fools', 'bar'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            4,
+            {
+              someList: ['fools', 'bar '],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            5,
+            {
+              someList: ['fools', 'bar c'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            6,
+            {
+              someList: ['fools', 'bar co'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            7,
+            {
+              someList: ['fools', 'bar cod'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
+          expect(dataContextOnChange).toHaveBeenNthCalledWith(
+            8,
+            {
+              someList: ['fools', 'bar code'],
+              otherValue: 'lorem ipsum',
+            },
+            expect.anything()
+          )
         })
 
         it('should filter data based on the given "filterSubmitData" property method', () => {
@@ -889,15 +924,17 @@ describe('Iterate.Array', () => {
 
         it('should filter data based with multi wildcard paths', () => {
           let filteredData = undefined
-          const onSubmit = jest.fn((data) => (filteredData = data))
+          const onSubmit = jest.fn(
+            (data, { filterData }) =>
+              (filteredData = filterData({
+                '/firstList/0/secondList/*/foo': false,
+                '/firstList/1/secondList/*/bar': false,
+              }))
+          )
 
           render(
             <DataContext.Provider
               onSubmit={onSubmit}
-              filterSubmitData={{
-                '/firstList/0/secondList/*/foo': false,
-                '/firstList/1/secondList/*/bar': false,
-              }}
               data={{
                 firstList: [
                   {
@@ -933,9 +970,11 @@ describe('Iterate.Array', () => {
                   foo: 'foo 1',
                   secondList: [
                     {
+                      foo: 'foo 1',
                       bar: 'bar 1',
                     },
                     {
+                      foo: 'foo 2',
                       bar: 'bar 2',
                     },
                   ],
@@ -945,9 +984,11 @@ describe('Iterate.Array', () => {
                   secondList: [
                     {
                       foo: 'foo 1',
+                      bar: 'bar 1',
                     },
                     {
                       foo: 'foo 2',
+                      bar: 'bar 2',
                     },
                   ],
                 },
