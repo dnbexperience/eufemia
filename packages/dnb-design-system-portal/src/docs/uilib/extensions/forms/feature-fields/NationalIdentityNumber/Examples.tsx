@@ -112,6 +112,28 @@ export const ValidationRequired = () => {
   )
 }
 
+export const ValidationFnr = () => {
+  return (
+    <ComponentBox>
+      <Field.NationalIdentityNumber
+        value="29020112345"
+        validateInitially
+      />
+    </ComponentBox>
+  )
+}
+
+export const ValidationDnr = () => {
+  return (
+    <ComponentBox>
+      <Field.NationalIdentityNumber
+        value="69020112345"
+        validateInitially
+      />
+    </ComponentBox>
+  )
+}
+
 export const ValidationFunction = () => {
   return (
     <ComponentBox>
