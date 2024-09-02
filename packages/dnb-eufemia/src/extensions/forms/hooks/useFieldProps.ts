@@ -1148,7 +1148,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     if (itemPath && valueProp !== undefined) {
       warn(
-        `Using value="${valueProp}" prop inside iterate is not supported yet`
+        `Using value="${valueProp}" prop inside Iterate is not supported yet`
       )
     }
     if (itemPath && defaultValue !== undefined) {
