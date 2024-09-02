@@ -136,6 +136,22 @@ describe('Field.NationalIdentityNumber', () => {
     })
   })
 
+  it('should not validate custom pattern when validate false', async () => {
+    const invalidPattern = '1234'
+    render(
+      <Field.NationalIdentityNumber
+        pattern="[A-Z]"
+        value={invalidPattern}
+        validateInitially
+        validate={false}
+      />
+    )
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
   it('should not validate dnum when validate false', async () => {
     const invalidDnum = '69020112345'
     render(

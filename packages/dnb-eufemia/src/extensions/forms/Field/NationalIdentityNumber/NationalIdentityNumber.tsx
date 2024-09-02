@@ -80,8 +80,11 @@ function NationalIdentityNumber(props: Props) {
   const StringFieldProps: Props = {
     ...props,
     pattern:
-      props.pattern ??
-      (validate && !props.validator ? validationPattern : undefined),
+      validate && props.pattern
+        ? props.pattern
+        : validate && !props.validator
+        ? validationPattern
+        : undefined,
     label: props.label ?? translations.label,
     errorMessages,
     mask,
