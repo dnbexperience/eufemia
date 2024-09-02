@@ -1105,7 +1105,7 @@ describe('Iterate.Array', () => {
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'Using defaultValue="bar" prop inside iterate is not supported yet'
+        'Using defaultValue="bar" prop inside Iterate is not supported yet'
       )
 
       log.mockRestore()
