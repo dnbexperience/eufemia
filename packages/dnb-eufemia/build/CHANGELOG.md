@@ -3,6 +3,32 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.46.0](https://github.com/dnbexperience/eufemia/compare/v10.45.0...v10.46.0) (2024-09-02)
+
+
+### :memo: Documentation
+
+* **Selection:** value should be string when variant is radio or button ([#3869](https://github.com/dnbexperience/eufemia/issues/3869)) ([aab8f5b](https://github.com/dnbexperience/eufemia/commit/aab8f5b9e1a40c2fc09812cb3cf8f4850fdca467))
+
+
+### :sparkles: Features
+
+* **Blocks.ChildrenWithAge:** removes step controls in age field ([#3867](https://github.com/dnbexperience/eufemia/issues/3867)) ([3b02e45](https://github.com/dnbexperience/eufemia/commit/3b02e45b4cb7d413202d136cf412d1f3215fafc9))
+* **CopyOnClick:** add new component ([#3834](https://github.com/dnbexperience/eufemia/issues/3834)) ([07ba09d](https://github.com/dnbexperience/eufemia/commit/07ba09d8334388586853d54e221076609c9c5cb9))
+* **Field.ArraySelection:** add dataPath prop ([#3872](https://github.com/dnbexperience/eufemia/issues/3872)) ([35427d7](https://github.com/dnbexperience/eufemia/commit/35427d70ab71660cb5a274068ec17d3890aacffa))
+* **Forms:** add `Value.SelectCountry` component ([#3875](https://github.com/dnbexperience/eufemia/issues/3875)) ([416df35](https://github.com/dnbexperience/eufemia/commit/416df35d64e37c1cbbbe400d368721041dc02374))
+* **Forms:** add function support for the `prefix` or `suffix` props in `Field.Number` ([#3880](https://github.com/dnbexperience/eufemia/issues/3880)) ([652448c](https://github.com/dnbexperience/eufemia/commit/652448c0e07b476d0573b9acafe0904a939c33fd))
+* **Forms:** add validation for dnr and fnr in `Field.NationalIdentityNumber` ([#3771](https://github.com/dnbexperience/eufemia/issues/3771)) ([8a2da43](https://github.com/dnbexperience/eufemia/commit/8a2da43f0e82d4d09c8a472771e6eb286275a2be))
+* **Forms:** deprecate filterSubmitData in Form.Handler and return `filterData` in onSubmit and onChange instead ([#3873](https://github.com/dnbexperience/eufemia/issues/3873)) ([f05bdd2](https://github.com/dnbexperience/eufemia/commit/f05bdd2d8f35fbc37580c5089ee00d6812fe2572))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** add support for `gap={false}` to Value.Composition (ValueBlock) ([#3884](https://github.com/dnbexperience/eufemia/issues/3884)) ([413c568](https://github.com/dnbexperience/eufemia/commit/413c568758d27a938f3c7133fbfc01d520ef296d))
+* **Forms:** enhance `Field.Email` validation pattern ([#3874](https://github.com/dnbexperience/eufemia/issues/3874)) ([aee005f](https://github.com/dnbexperience/eufemia/commit/aee005f901e00423aebf675454d4604ef2118379))
+* **Forms:** fallback to use default locale for translations when providing a non-existent locale ([#3817](https://github.com/dnbexperience/eufemia/issues/3817)) ([f768613](https://github.com/dnbexperience/eufemia/commit/f7686138161ffc87c96dfb1389e3a8f16b2ea0ca))
+* **InfinityScroller:** forward load button props ([#3737](https://github.com/dnbexperience/eufemia/issues/3737)) ([645a7b3](https://github.com/dnbexperience/eufemia/commit/645a7b3a96c551ba927ecbb2e824a9d71db67130))
+
 ## [10.45.0](https://github.com/dnbexperience/eufemia/compare/v10.44.0...v10.45.0) (2024-08-26)
 
 
