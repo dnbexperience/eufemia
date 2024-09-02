@@ -194,6 +194,28 @@ describe('ValueBlock', () => {
     })
   })
 
+  it('renders support gap', () => {
+    const { rerender } = render(
+      <ValueBlock gap="medium" label="Label">
+        Value
+      </ValueBlock>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-block__content')
+    ).toHaveClass('dnb-forms-value-block__content--gap-medium')
+
+    rerender(
+      <ValueBlock gap={false} label="Label">
+        Value
+      </ValueBlock>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-block__content')
+    ).toHaveClass('dnb-forms-value-block__content--gap-none')
+  })
+
   it('should warn when ValueBlocks are siblings without being in a SummaryList', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
