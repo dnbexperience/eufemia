@@ -11,6 +11,11 @@ export const CopyOnClickProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  copyContent: {
+    doc: 'Contents to copy. Used when the copied value should differ from the visually shown value(`children`).',
+    type: 'React.Node',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',
