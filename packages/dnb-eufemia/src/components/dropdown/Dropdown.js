@@ -171,7 +171,7 @@ export default class Dropdown extends React.PureComponent {
     on_change: PropTypes.func,
     on_select: PropTypes.func,
     on_state_update: PropTypes.func,
-    resetSelectIndexOnDataChange: PropTypes.bool,
+    keepSelectIndexOnDataChange: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -228,7 +228,7 @@ export default class Dropdown extends React.PureComponent {
     on_change: null,
     on_select: null,
     on_state_update: null,
-    resetSelectIndexOnDataChange: false,
+    keepSelectIndexOnDataChange: false,
   }
 
   render() {
@@ -475,7 +475,7 @@ class DropdownInstance extends React.PureComponent {
       value: _value, // eslint-disable-line
       buttonRef, // eslint-disable-line
       innerRef, // eslint-disable-line
-      resetSelectIndexOnDataChange,
+      keepSelectIndexOnDataChange,
       ...attributes
     } = props
 
@@ -677,7 +677,7 @@ class DropdownInstance extends React.PureComponent {
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
                 on_hide={this.onHideHandler}
-                resetSelectIndexOnDataChange={resetSelectIndexOnDataChange}
+                keepSelectIndexOnDataChange={keepSelectIndexOnDataChange}
               />
             </span>
 

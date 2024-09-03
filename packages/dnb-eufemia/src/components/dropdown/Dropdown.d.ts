@@ -110,7 +110,7 @@ export interface DropdownProps {
   /**
    * Resets the select index when data prop changes
    */
-  resetSelectIndexOnDataChange?: boolean;
+  keepSelectIndexOnDataChange?: boolean;
 }
 export type DropdownAllProps = DropdownProps &
   DrawerListProps &
