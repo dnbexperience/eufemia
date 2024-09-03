@@ -5,7 +5,9 @@ import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
 import { createSpacingClasses } from '../../space/SpacingUtils'
 import { SpaceProps } from '../../Space'
+import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
+import P from '../../../elements/P'
 
 describe('Flex.Container', () => {
   it('should forward HTML attributes', () => {
@@ -720,6 +722,183 @@ describe('Flex.Container', () => {
       expect(
         document.querySelectorAll('[class*="dnb-space__"]')
       ).toHaveLength(3)
+    })
+
+    it('should handle nested fragments like _supportsSpacingProps=children', () => {
+      const { rerender, Wrapper, TestComponent } = getMocks()
+
+      Wrapper._supportsSpacingProps = 'children'
+
+      rerender(
+        <Flex.Vertical>
+          <>
+            <>
+              Content A<p>Content B</p>
+            </>
+            <>
+              <TestComponent top="large" />
+            </>
+          </>
+        </Flex.Vertical>
+      )
+
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <div
+            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            Content A
+          </div>
+          <div
+            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            <p>
+              Content B
+            </p>
+          </div>
+          <div
+            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+          >
+            content
+          </div>
+        </div>
+      `)
+
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__"]')
+      ).toHaveLength(3)
+    })
+
+    it('should handle Form.Visibility', () => {
+      const { rerender, Wrapper } = getMocks()
+
+      Wrapper._supportsSpacingProps = 'children'
+
+      rerender(
+        <Form.Handler
+          id="unique-id"
+          data={{
+            visible: false,
+          }}
+        >
+          <Flex.Vertical>
+            <Form.SubHeading>Heading</Form.SubHeading>
+            <Form.Visibility
+              visibleWhen={{ path: '/visible', hasValue: true }}
+            >
+              <P>text</P>
+            </Form.Visibility>
+            <Form.Visibility
+              visibleWhen={{ path: '/visible', hasValue: true }}
+            >
+              <P>text</P>
+            </Form.Visibility>
+            <Form.Visibility
+              visibleWhen={{ path: '/visible', hasValue: true }}
+            >
+              <P>text</P>
+            </Form.Visibility>
+            <Form.Visibility
+              visibleWhen={{ path: '/visible', hasValue: true }}
+            >
+              <P>text</P>
+            </Form.Visibility>
+          </Flex.Vertical>
+        </Form.Handler>
+      )
+
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <h3
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            Heading
+          </h3>
+        </div>
+      `)
+
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__"]')
+      ).toHaveLength(1)
+    })
+
+    it('should handle Form.Visibility nested in fragments', () => {
+      const { rerender, Wrapper } = getMocks()
+
+      Wrapper._supportsSpacingProps = 'children'
+
+      rerender(
+        <Form.Handler
+          id="unique-id"
+          data={{
+            visible: false,
+          }}
+        >
+          <Flex.Vertical>
+            <Form.SubHeading>Heading</Form.SubHeading>
+            <>
+              <>
+                <Form.Visibility
+                  visibleWhen={{ path: '/visible', hasValue: true }}
+                >
+                  <P>text</P>
+                </Form.Visibility>
+                <Form.Visibility
+                  visibleWhen={{ path: '/visible', hasValue: true }}
+                >
+                  <P>text</P>
+                </Form.Visibility>
+              </>
+              <Form.Visibility
+                visibleWhen={{ path: '/visible', hasValue: true }}
+              >
+                <P>text</P>
+              </Form.Visibility>
+            </>
+            <>
+              <>
+                <Form.Visibility
+                  visibleWhen={{ path: '/visible', hasValue: true }}
+                >
+                  <P>text</P>
+                </Form.Visibility>
+              </>
+            </>
+          </Flex.Vertical>
+        </Form.Handler>
+      )
+
+      const container = document.querySelector('.dnb-flex-container')
+      expect(container).toMatchInlineSnapshot(`
+        <div
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+        >
+          <h3
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+          >
+            Heading
+          </h3>
+        </div>
+      `)
+
+      expect(
+        document.querySelectorAll('.dnb-flex-container')
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll('[class*="dnb-space__"]')
+      ).toHaveLength(1)
     })
   })
 
