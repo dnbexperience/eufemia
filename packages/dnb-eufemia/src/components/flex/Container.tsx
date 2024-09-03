@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { Fragment, useCallback } from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
@@ -105,8 +105,7 @@ function FlexContainer(props: Props) {
   } = props
 
   const spacing = spacingProp ?? gap ?? 'small'
-
-  const childrenArray = wrapChildren(props, children)
+  const childrenArray = replaceRootFragment(wrapChildren(props, children))
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
     return (
@@ -270,6 +269,17 @@ function wrapChildren(props: Props, children: React.ReactNode) {
 
     return child
   })
+}
+
+function replaceRootFragment(children) {
+  const firstChild = children[0]
+  if (
+    React.Children.count(children) === 1 &&
+    firstChild?.type === Fragment
+  ) {
+    return React.Children.toArray(firstChild?.props?.children)
+  }
+  return children
 }
 
 FlexContainer._supportsSpacingProps = true

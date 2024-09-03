@@ -702,7 +702,7 @@ describe('Flex.Container', () => {
             Content A 
           </div>
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
           >
             <p>
               Content B
