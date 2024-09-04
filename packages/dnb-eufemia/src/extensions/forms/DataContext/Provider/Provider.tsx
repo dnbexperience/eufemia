@@ -29,7 +29,6 @@ import {
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Form/FieldProps'
-import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
@@ -65,13 +64,17 @@ export interface Props<Data extends JsonObject>
    */
   globalStatusId?: string
   /**
+   * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+   */
+  data?: Data
+  /**
    * Default source data, only used if no other source is available, and not leading to updates if changed after mount
    */
   defaultData?: Data
   /**
-   * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+   * Empty data, used to clear the data set.
    */
-  data?: Data
+  emptyData?: unknown
   /**
    * JSON Schema to validate the data against.
    */
@@ -178,6 +181,7 @@ export default function Provider<Data extends JsonObject>(
     id,
     globalStatusId = 'main',
     defaultData,
+    emptyData,
     data,
     schema,
     onChange,
@@ -241,7 +245,7 @@ export default function Provider<Data extends JsonObject>(
       } else {
         delete hasVisibleErrorRef.current[path]
       }
-      forceUpdate()
+      forceUpdate() // Will rerender the whole form initially
     },
     []
   )
@@ -709,7 +713,7 @@ export default function Provider<Data extends JsonObject>(
         storeInSession()
       }
 
-      forceUpdate()
+      forceUpdate() // Will rerender the whole form initially
     },
     [
       extendSharedData,
@@ -829,14 +833,15 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   const clearData = useCallback(() => {
-    internalDataRef.current = clearedData as Data
+    internalDataRef.current = (emptyData ?? clearedData) as Data
+
     if (id) {
       setSharedData?.(internalDataRef.current)
     } else {
       forceUpdate()
     }
     onClear?.()
-  }, [id, onClear, setSharedData])
+  }, [emptyData, id, onClear, setSharedData])
 
   /**
    * Shared logic dedicated to submit the whole form
@@ -1084,14 +1089,14 @@ export default function Provider<Data extends JsonObject>(
   }
 
   // - ajv validator routines
-  useMountEffect(() => {
+  useEffect(() => {
     if (schema) {
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
     }
 
     // Validate the initial data
     validateData()
-  })
+  }, [schema, validateData])
   useUpdateEffect(() => {
     if (schema && schema !== cacheRef.current.schema) {
       cacheRef.current.schema = schema

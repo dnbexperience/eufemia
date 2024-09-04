@@ -30,7 +30,6 @@ import {
   warn,
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
-import useUnmountEffect from '../../../shared/helpers/useUnmountEffect'
 import {
   ComponentProps,
   FieldProps,
@@ -355,10 +354,13 @@ function FieldBlock(props: Props) {
     }
   }, [errorProp, blockId, showFieldError, nestedFieldBlockContext])
 
-  useUnmountEffect(() => () => {
-    mountedFieldsRef.current = {}
-    stateRecordRef.current = {}
-  })
+  useEffect(
+    () => () => {
+      mountedFieldsRef.current = {}
+      stateRecordRef.current = {}
+    },
+    []
+  )
 
   const mainClasses = classnames(
     'dnb-forms-field-block',
