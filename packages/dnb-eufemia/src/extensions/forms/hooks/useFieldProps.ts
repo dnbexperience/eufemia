@@ -19,6 +19,7 @@ import {
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
   ValidatorAdditionalArgs,
+  Validator,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -462,28 +463,31 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       getValue: () => getValueByPath(path),
     }
   })
-  const additionalArgs: ValidatorAdditionalArgs<Value> = useMemo(() => {
-    return {
-      errorMessages: {
-        ...contextErrorMessages,
-        ...errorMessagesRef.current,
-      },
+  const additionalArgs = useMemo(() => {
+    const errorMessages = {
+      ...contextErrorMessages,
+      ...errorMessagesRef.current,
+    }
+    const args: ValidatorAdditionalArgs<Value> = {
+      /** @deprecated – can be removed in v11 */
+      ...errorMessages,
+
+      errorMessages,
       connectWithPath: connectWithPathRef.current,
     }
+
+    return args
   }, [contextErrorMessages])
   const callValidatorFnSync = useCallback(
     (
-      validator: FieldPropsGeneric<Value>['validator'],
+      validator: Validator<Value>,
       value: Value = valueRef.current
-    ): ReturnType<FieldPropsGeneric<Value>['validator']> => {
+    ): ReturnType<Validator<Value>> => {
       if (typeof validator !== 'function') {
         return undefined
       }
 
       const result = validator(value, additionalArgs)
-      if (result instanceof Promise) {
-        return Promise.resolve(result)
-      }
 
       return result
     },
@@ -491,17 +495,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
   const callValidatorFnAsync = useCallback(
     async (
-      validator: FieldPropsGeneric<Value>['validator'],
+      validator: Validator<Value>,
       value: Value = valueRef.current
-    ): Promise<ReturnType<FieldPropsGeneric<Value>['validator']>> => {
+    ): Promise<ReturnType<Validator<Value>>> => {
       if (typeof validator !== 'function') {
         return undefined
       }
 
       const result = await validator(value, additionalArgs)
-      if (result instanceof Promise) {
-        return await result
-      }
 
       return result
     },
@@ -590,9 +591,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const tmpValue = valueRef.current
-    const result = isAsync(validatorRef.current)
+    let result = isAsync(validatorRef.current)
       ? await callValidatorFnAsync(validatorRef.current)
       : callValidatorFnSync(validatorRef.current)
+    if (result instanceof Promise) {
+      result = await result
+    }
     const unchangedValue = tmpValue === valueRef.current
 
     // Don't show the error if the value has changed in the meantime
@@ -653,9 +657,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         setFieldState('validating')
       }
 
-      const result = isAsync(onBlurValidatorRef.current)
+      let result = isAsync(onBlurValidatorRef.current)
         ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
         : callValidatorFnSync(onBlurValidatorRef.current, value)
+      if (result instanceof Promise) {
+        result = await result
+      }
 
       persistErrorState('gracefully', result as Error)
 
