@@ -721,6 +721,35 @@ describe('Flex.Container', () => {
         document.querySelectorAll('[class*="dnb-space__"]')
       ).toHaveLength(3)
     })
+
+    it('should support spacing props for nested Flex.Containers', () => {
+      render(
+        <Flex.Container>
+          <Flex.Vertical
+            id="flex-container-space"
+            space={{
+              bottom: 'xx-large',
+              top: 'xx-large',
+              left: 'xx-large',
+              right: 'xx-large',
+            }}
+          >
+            <Flex.Item>FlexItem 1</Flex.Item>
+            <Flex.Item>FlexItem 2</Flex.Item>
+            <Flex.Item>FlexItem 3</Flex.Item>
+            <Flex.Item>FlexItem 4</Flex.Item>
+          </Flex.Vertical>
+        </Flex.Container>
+      )
+
+      const flexContainer = document.querySelector('#flex-container-space')
+      expect(flexContainer).toHaveClass(
+        'dnb-space__left--xx-large',
+        'dnb-space__right--xx-large',
+        'dnb-space__top--xx-large',
+        'dnb-space__bottom--xx-large'
+      )
+    })
   })
 
   it('should set custom element', () => {
