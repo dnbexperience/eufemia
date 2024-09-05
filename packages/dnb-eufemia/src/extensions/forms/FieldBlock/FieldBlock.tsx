@@ -519,7 +519,10 @@ function CombineMessages({
 
 function LabelDescription({ labelDescription, children }) {
   if (!labelDescription) {
-    return children
+    if (children) {
+      return children
+    }
+    return null
   }
   return <div className="dnb-forms-field-block__label">{children}</div>
 }
