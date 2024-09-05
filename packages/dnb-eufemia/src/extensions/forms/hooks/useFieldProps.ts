@@ -122,7 +122,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     },
   } = props
 
-  const [, forceUpdate] = useReducer(() => ({}), {})
+  const [salt, forceUpdate] = useReducer(() => ({}), {})
+  const isInternalRerenderRef = useRef(undefined)
+  useMemo(() => {
+    /**
+     * This is currently not used, but we keep it here for future use.
+     * It lets you check for isInternalRerenderRef.current !== undefined
+     * inside a useUpdateEffect or useEffect to know if the component is rerendering from inside or outside.
+     */
+    isInternalRerenderRef.current = salt
+  }, [salt])
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
@@ -153,7 +162,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldError: setFieldErrorDataContext,
     setFieldProps: setPropsDataContext,
     setHasVisibleError: setHasVisibleErrorDataContext,
-    setFieldEventListener: setFieldEventListenerDataContext,
     handleMountField,
     handleUnMountField,
     setFieldEventListener,
@@ -198,8 +206,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Hold an internal copy of the input value in case the input component is used uncontrolled,
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
   const valueRef = useRef<Value>(externalValue)
-  const changedRef = useRef<boolean>(false)
-  const hasFocusRef = useRef<boolean>(false)
+  const changedRef = useRef<boolean>()
+  const hasFocusRef = useRef<boolean>()
 
   const required = useMemo(() => {
     if (requiredProp) {
@@ -255,9 +263,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContextError
   )
 
-  const validatorRef = useRef(validator)
+  const onChangeValidatorRef = useRef(validator)
   useUpdateEffect(() => {
-    validatorRef.current = validator
+    onChangeValidatorRef.current = validator
   }, [validator])
   const onBlurValidatorRef = useRef(onBlurValidator)
   useUpdateEffect(() => {
@@ -358,20 +366,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   const revealError = useCallback(() => {
-    revealErrorRef.current = true
-    showFieldErrorFieldBlock?.(identifier, true)
-    if (localErrorRef.current) {
-      setHasVisibleErrorDataContext?.(identifier, true)
-    } else {
-      setHasVisibleErrorDataContext?.(identifier, false)
+    if (!revealErrorRef.current) {
+      revealErrorRef.current = true
+      showFieldErrorFieldBlock?.(identifier, true)
+      setHasVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
     }
-  }, [showFieldErrorFieldBlock, identifier, setHasVisibleErrorDataContext])
+  }, [identifier, setHasVisibleErrorDataContext, showFieldErrorFieldBlock])
 
   const hideError = useCallback(() => {
-    revealErrorRef.current = false
-    showFieldErrorFieldBlock?.(identifier, false)
-    setHasVisibleErrorDataContext?.(identifier, false)
-  }, [setHasVisibleErrorDataContext, identifier, showFieldErrorFieldBlock])
+    if (revealErrorRef.current) {
+      revealErrorRef.current = false
+      showFieldErrorFieldBlock?.(identifier, false)
+      setHasVisibleErrorDataContext?.(identifier, false)
+    }
+  }, [identifier, setHasVisibleErrorDataContext, showFieldErrorFieldBlock])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -430,39 +438,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     )
   }, [errorProp])
 
-  const { getValueByPath } = useDataValue()
-  const connectWithPathRef = useRef<
-    ValidatorAdditionalArgs<Value>['connectWithPath']
-  >((path) => {
-    setFieldEventListenerDataContext(path, 'onPathChange', async () => {
-      let result = undefined
-
-      if (
-        localErrorRef.current ||
-        changedRef.current ||
-        validateUnchanged ||
-        continuousValidation
-      ) {
-        if (validatorRef.current) {
-          result = await callValidator()
-        }
-
-        if (onBlurValidatorRef.current) {
-          result = await callOnBlurValidator()
-        }
-
-        if (!result) {
-          changedRef.current = false
-          hideError()
-          clearErrorState()
-        }
+  const connectWithPathListenerRef = useRef(async () => {
+    if (
+      localErrorRef.current ||
+      validateUnchanged ||
+      continuousValidation
+    ) {
+      if (onChangeValidatorRef.current) {
+        runOnChangeValidator()
       }
-    })
+    }
 
-    return {
-      getValue: () => getValueByPath(path),
+    if (localErrorRef.current && onBlurValidatorRef.current) {
+      runOnBlurValidator()
     }
   })
+
+  const { getValueByPath } = useDataValue()
   const additionalArgs = useMemo(() => {
     const errorMessages = {
       ...contextErrorMessages,
@@ -473,11 +465,22 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ...errorMessages,
 
       errorMessages,
-      connectWithPath: connectWithPathRef.current,
+      connectWithPath: (path) => {
+        setFieldEventListener?.(
+          path,
+          'onPathChange',
+          connectWithPathListenerRef.current
+        )
+
+        return {
+          getValue: () => getValueByPath(path),
+        }
+      },
     }
 
     return args
-  }, [contextErrorMessages])
+  }, [contextErrorMessages, getValueByPath, setFieldEventListener])
+
   const callValidatorFnSync = useCallback(
     (
       validator: Validator<Value>,
@@ -493,6 +496,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     },
     [additionalArgs]
   )
+
   const callValidatorFnAsync = useCallback(
     async (
       validator: Validator<Value>,
@@ -577,85 +581,148 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hasLocalErrorRef.current = false
   }, [persistErrorState])
 
-  const callValidator = useCallback(async () => {
-    if (typeof validatorRef.current !== 'function') {
+  const validatorCacheRef = useRef({
+    onChangeValidator: null,
+    onBlurValidator: null,
+  })
+
+  const revealOnChangeValidatorResult = useCallback(
+    ({ result, unchangedValue }) => {
+      const runAsync = isAsync(onChangeValidatorRef.current)
+
+      // Don't show the error if the value has changed in the meantime
+      if (unchangedValue) {
+        persistErrorState('gracefully', result as Error)
+
+        if (
+          (validateInitially && !changedRef.current) ||
+          validateUnchanged ||
+          continuousValidation ||
+          runAsync // Because its a better UX to show the error when the validation is async/delayed
+        ) {
+          // Because we first need to throw the error to be able to display it, we delay the showError call
+          window.requestAnimationFrame(() => {
+            revealError()
+            forceUpdate()
+          })
+        }
+      }
+
+      if (runAsync) {
+        defineAsyncProcess(undefined)
+
+        if (unchangedValue) {
+          setFieldState(result instanceof Error ? 'error' : 'complete')
+        } else {
+          setFieldState('pending')
+        }
+      }
+    },
+    [
+      continuousValidation,
+      defineAsyncProcess,
+      persistErrorState,
+      revealError,
+      setFieldState,
+      validateInitially,
+      validateUnchanged,
+    ]
+  )
+
+  const callOnChangeValidator = useCallback(async () => {
+    if (typeof onChangeValidatorRef.current !== 'function') {
+      return {}
+    }
+
+    const tmpValue = valueRef.current
+
+    let result = isAsync(onChangeValidatorRef.current)
+      ? await callValidatorFnAsync(onChangeValidatorRef.current)
+      : callValidatorFnSync(onChangeValidatorRef.current)
+    if (result instanceof Promise) {
+      result = await result
+    }
+
+    const unchangedValue = tmpValue === valueRef.current
+    return { result, unchangedValue }
+  }, [callValidatorFnAsync, callValidatorFnSync])
+
+  const startOnChangeValidatorValidation = useCallback(async () => {
+    if (typeof onChangeValidatorRef.current !== 'function') {
       return
     }
 
-    const runAsync = isAsync(validatorRef.current)
-
-    if (runAsync) {
+    if (isAsync(onChangeValidatorRef.current)) {
       defineAsyncProcess('validator')
       setFieldState('validating')
       hideError()
     }
 
+    // Ideally, we should rather call "callOnChangeValidator", but sadly it's not possible,
+    // because the we get an additional delay due to the async nature, which is too much.
     const tmpValue = valueRef.current
-    let result = isAsync(validatorRef.current)
-      ? await callValidatorFnAsync(validatorRef.current)
-      : callValidatorFnSync(validatorRef.current)
+    let result = isAsync(onChangeValidatorRef.current)
+      ? await callValidatorFnAsync(onChangeValidatorRef.current)
+      : callValidatorFnSync(onChangeValidatorRef.current)
     if (result instanceof Promise) {
       result = await result
     }
     const unchangedValue = tmpValue === valueRef.current
 
-    // Don't show the error if the value has changed in the meantime
-    if (unchangedValue) {
-      persistErrorState('gracefully', result as Error)
+    revealOnChangeValidatorResult({ result, unchangedValue })
 
-      // Because its a better UX to show the error when the validation is async/delayed
-      if (continuousValidation || validateUnchanged || runAsync) {
-        // Because we first need to throw the error to be able to display it, we delay the showError call
-        window.requestAnimationFrame(() => {
-          revealError()
-          forceUpdate()
-        })
-      }
-    }
-
-    if (runAsync) {
-      defineAsyncProcess(undefined)
-
-      if (unchangedValue) {
-        setFieldState(result instanceof Error ? 'error' : 'complete')
-      } else {
-        setFieldState('pending')
-      }
-    }
-
-    return result
+    return { result }
   }, [
     callValidatorFnAsync,
     callValidatorFnSync,
     defineAsyncProcess,
-    setFieldState,
     hideError,
-    persistErrorState,
-    continuousValidation,
-    validateUnchanged,
-    revealError,
+    revealOnChangeValidatorResult,
+    setFieldState,
+  ])
+
+  const runOnChangeValidator = useCallback(async () => {
+    if (!onChangeValidatorRef.current) {
+      return // stop here
+    }
+
+    const { result, unchangedValue } = await callOnChangeValidator()
+
+    if (
+      String(result) !==
+      String(validatorCacheRef.current.onChangeValidator)
+    ) {
+      if (result) {
+        revealOnChangeValidatorResult({ result, unchangedValue })
+      } else {
+        hideError()
+        clearErrorState()
+      }
+    }
+
+    validatorCacheRef.current.onChangeValidator = result || null
+  }, [
+    callOnChangeValidator,
+    clearErrorState,
+    hideError,
+    revealOnChangeValidatorResult,
   ])
 
   const callOnBlurValidator = useCallback(
-    async ({ valueOverride = null } = {}) => {
+    async ({
+      overrideValue = null,
+    }: {
+      overrideValue?: Value
+    } = {}) => {
       if (typeof onBlurValidatorRef.current !== 'function') {
-        return
+        return {}
       }
-      // External blur validators makes it possible to validate values but not on every character change in case of
-      // expensive validation calling external services etc.
 
       // Since the validator can return either a synchronous result or an asynchronous
       const value = transformers.current.toEvent(
-        valueOverride ?? valueRef.current,
+        overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
-
-      const runAsync = isAsync(onBlurValidatorRef.current)
-
-      if (runAsync) {
-        defineAsyncProcess('onBlurValidator')
-        setFieldState('validating')
-      }
 
       let result = isAsync(onBlurValidatorRef.current)
         ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
@@ -664,27 +731,78 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         result = await result
       }
 
+      return { result }
+    },
+    [callValidatorFnAsync, callValidatorFnSync]
+  )
+
+  const revealOnBlurValidatorResult = useCallback(
+    ({ result }) => {
       persistErrorState('gracefully', result as Error)
 
-      if (runAsync) {
+      if (isAsync(onBlurValidatorRef.current)) {
         defineAsyncProcess(undefined)
         setFieldState(result instanceof Error ? 'error' : 'complete')
       }
 
       revealError()
-      forceUpdate()
+    },
+    [defineAsyncProcess, persistErrorState, revealError, setFieldState]
+  )
 
-      return result
+  const startOnBlurValidatorProcess = useCallback(
+    async ({
+      overrideValue = null,
+    }: {
+      overrideValue?: Value
+    } = {}) => {
+      if (typeof onBlurValidatorRef.current !== 'function') {
+        return
+      }
+
+      if (isAsync(onBlurValidatorRef.current)) {
+        defineAsyncProcess('onBlurValidator')
+        setFieldState('validating')
+      }
+
+      const { result } = await callOnBlurValidator({ overrideValue })
+      revealOnBlurValidatorResult({ result })
     },
     [
-      callValidatorFnAsync,
-      callValidatorFnSync,
-      persistErrorState,
-      revealError,
+      callOnBlurValidator,
       defineAsyncProcess,
+      revealOnBlurValidatorResult,
       setFieldState,
     ]
   )
+
+  const runOnBlurValidator = useCallback(async () => {
+    if (!onBlurValidatorRef.current) {
+      return // stop here
+    }
+
+    const { result } = await callOnBlurValidator()
+
+    if (
+      String(result) !==
+        String(validatorCacheRef.current.onBlurValidator) &&
+      revealErrorRef.current
+    ) {
+      if (result) {
+        revealOnBlurValidatorResult({ result })
+      } else {
+        hideError()
+        clearErrorState()
+      }
+    }
+
+    validatorCacheRef.current.onBlurValidator = result || null
+  }, [
+    callOnBlurValidator,
+    clearErrorState,
+    hideError,
+    revealOnBlurValidatorResult,
+  ])
 
   const prioritizeContextSchema = useMemo(() => {
     if (errorPrioritization) {
@@ -748,10 +866,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Validate by provided derivative validator
       if (
-        validatorRef.current &&
+        onChangeValidatorRef.current &&
         (changedRef.current || validateInitially || validateUnchanged)
       ) {
-        const result = await callValidator()
+        const { result } = await startOnChangeValidatorValidation()
 
         if (result instanceof Error) {
           throw result
@@ -781,7 +899,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     prioritizeContextSchema,
     validateInitially,
     validateUnchanged,
-    callValidator,
+    startOnChangeValidatorValidation,
     persistErrorState,
   ])
 
@@ -803,14 +921,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setHasFocus = useCallback(
     async (
       hasFocus: boolean,
-      valueOverride?: Value,
+      overrideValue?: Value,
       additionalArgs?: AdditionalEventArgs
     ) => {
       const getArgs = (
         type: Parameters<typeof transformers.current.toEvent>[1]
       ) => {
         const value = transformers.current.toEvent(
-          valueOverride ?? valueRef.current,
+          overrideValue ?? valueRef.current,
           type
         )
         const transformedAdditionalArgs =
@@ -843,7 +961,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         addToPool(
           'onBlurValidator',
-          async () => await callOnBlurValidator({ valueOverride }),
+          async () => await startOnBlurValidatorProcess({ overrideValue }),
           isAsync(onBlurValidatorRef.current)
         )
 
@@ -860,7 +978,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validateUnchanged,
       addToPool,
       runPool,
-      callOnBlurValidator,
+      startOnBlurValidatorProcess,
       revealError,
     ]
   )
@@ -1040,7 +1158,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         handlePathChangeUnvalidatedDataContext(identifier, newValue)
       }
 
-      addToPool('validator', validateValue, isAsync(validatorRef.current))
+      addToPool(
+        'validator',
+        validateValue,
+        isAsync(onChangeValidatorRef.current)
+      )
 
       addToPool(
         'onChangeContext',
@@ -1345,7 +1467,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     if (
       dataContext.formState === 'pending' &&
-      (validatorRef.current || onBlurValidatorRef.current)
+      (onChangeValidatorRef.current || onBlurValidatorRef.current)
     ) {
       hideError()
       forceUpdate()
@@ -1357,15 +1479,26 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here
     }
 
-    addToPool('validator', callValidator, isAsync(validatorRef.current))
+    addToPool(
+      'validator',
+      startOnChangeValidatorValidation,
+      isAsync(onChangeValidatorRef.current)
+    )
+
     addToPool(
       'onBlurValidator',
-      callOnBlurValidator,
+      startOnBlurValidatorProcess,
       isAsync(onBlurValidatorRef.current)
     )
 
     await runPool()
-  }, [addToPool, callOnBlurValidator, callValidator, hasError, runPool])
+  }, [
+    addToPool,
+    startOnBlurValidatorProcess,
+    hasError,
+    runPool,
+    startOnChangeValidatorValidation,
+  ])
 
   // Validate/call validator functions during submit of the form
   useEffect(() => {
@@ -1496,6 +1629,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const sharedData = useSharedState('field-block-props-' + id)
   sharedData.set(fieldBlockProps)
 
+  useEffect(() => {
+    isInternalRerenderRef.current = undefined
+  })
+
   return {
     ...props,
     ...fieldBlockProps,
@@ -1512,7 +1649,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       transformers.current.toInput(valueRef.current)
     ),
     hasError: hasVisibleError,
-    isChanged: changedRef.current,
+    isChanged: Boolean(changedRef.current),
     props,
     htmlAttributes,
     setHasFocus,
@@ -1534,7 +1671,7 @@ export interface ReturnAdditional<Value> {
   htmlAttributes: AriaAttributes | DataAttributes
   setHasFocus: (
     hasFocus: boolean,
-    valueOverride?: unknown,
+    overrideValue?: Value,
     additionalArgs?: AdditionalEventArgs
   ) => void
   handleFocus: () => void

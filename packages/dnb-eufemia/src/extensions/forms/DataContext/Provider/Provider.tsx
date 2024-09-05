@@ -752,7 +752,12 @@ export default function Provider<Data extends JsonObject>(
 
         for (const itm of fieldEventListenersRef.current) {
           if (itm.type === 'onPathChange' && itm.path === path) {
-            itm.callback({ value })
+            const { callback } = itm
+            if (isAsync(callback)) {
+              await callback({ value })
+            } else {
+              callback({ value })
+            }
           }
         }
       },
@@ -876,11 +881,8 @@ export default function Provider<Data extends JsonObject>(
 
       // Just call the submit listeners "once", and not on the retry/recall
       if (!skipFieldValidation) {
-        for (const {
-          path,
-          type,
-          callback,
-        } of fieldEventListenersRef.current) {
+        for (const item of fieldEventListenersRef.current) {
+          const { path, type, callback } = item
           if (
             type === 'onSubmit' &&
             mountedFieldPathsRef.current.includes(path)
@@ -1079,9 +1081,11 @@ export default function Provider<Data extends JsonObject>(
       callback: EventListenerCall['callback']
     ) => {
       fieldEventListenersRef.current =
-        fieldEventListenersRef.current.filter(({ path: p, type: t }) => {
-          return !(p === path && t === type)
-        })
+        fieldEventListenersRef.current.filter(
+          ({ path: p, type: t, callback: c }) => {
+            return !(p === path && t === type && c === callback)
+          }
+        )
       fieldEventListenersRef.current.push({ path, type, callback })
     },
     []
