@@ -289,7 +289,7 @@ describe('Field.PhoneNumber', () => {
       keyCode: 13,
     })
 
-    expect(europe).toHaveLength(51)
+    expect(europe).toHaveLength(52)
   })
 
   it('should return correct value onChange event', async () => {

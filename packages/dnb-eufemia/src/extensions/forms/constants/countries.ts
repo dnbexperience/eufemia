@@ -1,5 +1,8 @@
 /**
- * Source: Wikipedia's official list of phone number country codes
+ * Sources:
+ * - https://en.wikipedia.org/wiki/List_of_country_calling_codes
+ * - https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+ * - https://www.itu.int/rec/T-REC-E.164/en#:~:text=The%20international%20public%20telecommunication%20numbering%20plan
  *
  * cdc: Country Dialing Code
  */
@@ -19,6 +22,7 @@ export type CountryType = {
     | 'Antarctica'
     | 'North America'
     | 'South America'
+    | 'None'
   regions?: Array<'Scandinavia' | 'Nordic'>
 }
 
@@ -286,6 +290,15 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
+      en: 'Bouvet Island',
+      nb: 'Bouvetøya',
+    },
+    cdc: '47', // Uncertain, low to no population on these islands
+    iso: 'BV',
+    continent: 'Antarctica',
+  },
+  {
+    i18n: {
       en: 'Brazil',
       nb: 'Brasil',
     },
@@ -382,6 +395,15 @@ const countries: Array<CountryType> = [
     cdc: '238',
     iso: 'CV',
     continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Bonaire, Saint Eustatius and Saba',
+      nb: 'Bonaire, Saint Eustatius og Saba',
+    },
+    cdc: '599',
+    iso: 'BQ',
+    continent: 'South America',
   },
   {
     i18n: {
@@ -721,6 +743,15 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
+      en: 'French Southern and Antarctic Lands',
+      nb: 'De franske sørterritorier',
+    },
+    cdc: '262', // Uncertain, low to no population on these islands
+    iso: 'TF',
+    continent: 'Africa',
+  },
+  {
+    i18n: {
       en: 'Gabon',
       nb: 'Gabon',
     },
@@ -872,6 +903,15 @@ const countries: Array<CountryType> = [
     cdc: '509',
     iso: 'HT',
     continent: 'North America',
+  },
+  {
+    i18n: {
+      en: 'Heard Island and McDonald Islands',
+      nb: 'Heard- og McDonaldøyene',
+    },
+    cdc: '672',
+    iso: 'HM',
+    continent: 'Antarctica',
   },
   {
     i18n: {
@@ -1245,6 +1285,15 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
+      en: 'Martinique',
+      nb: 'Martinique',
+    },
+    cdc: '596',
+    iso: 'MH',
+    continent: 'South America',
+  },
+  {
+    i18n: {
       en: 'Mauritania',
       nb: 'Mauritania',
     },
@@ -1457,6 +1506,15 @@ const countries: Array<CountryType> = [
     },
     cdc: '683',
     iso: 'NU',
+    continent: 'Oceania',
+  },
+  {
+    i18n: {
+      en: 'Norfolk Island',
+      nb: 'Norfolkøya',
+    },
+    cdc: '672',
+    iso: 'NF',
     continent: 'Oceania',
   },
   {
@@ -1858,6 +1916,15 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
+      en: 'South Georgia and the South Sandwich Islands',
+      nb: 'Sør-Georgia og Sør-Sandwichøyene',
+    },
+    cdc: '500',
+    iso: 'GS',
+    continent: 'None',
+  },
+  {
+    i18n: {
       en: 'South Korea',
       nb: 'Sør-Korea',
     },
@@ -2129,6 +2196,15 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
+      en: 'United States Minor Outlying Islands',
+      nb: 'USAs ytre småøyer',
+    },
+    cdc: '1', // Uncertain, low to no population on these islands
+    iso: 'UM',
+    continent: 'None',
+  },
+  {
+    i18n: {
       en: 'Uruguay',
       nb: 'Uruguay',
     },
@@ -2225,6 +2301,15 @@ const countries: Array<CountryType> = [
     cdc: '263',
     iso: 'ZW',
     continent: 'Africa',
+  },
+  {
+    i18n: {
+      en: 'Åland Islands',
+      nb: 'Åland',
+    },
+    cdc: '358',
+    iso: 'AX',
+    continent: 'Europe',
   },
 ]
 
