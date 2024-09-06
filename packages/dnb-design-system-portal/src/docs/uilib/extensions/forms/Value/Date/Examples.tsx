@@ -34,6 +34,14 @@ export const VariantShort = () => {
   )
 }
 
+export const VariantNumeric = () => {
+  return (
+    <ComponentBox scope={{ Value }}>
+      <Value.Date value="2023-01-16" variant="numeric" />
+    </ComponentBox>
+  )
+}
+
 export const Label = () => {
   return (
     <ComponentBox scope={{ Value }}>
