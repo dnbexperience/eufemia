@@ -23,27 +23,25 @@ export { JSONSchemaType }
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
 type MessageValues = Record<string, string>
-export type ValidatorReturnSync = Error | undefined | void
-export type ValidatorReturnAsync =
-  | ValidatorReturnSync
-  | Promise<ValidatorReturnSync>
+export type ValidatorReturnSync<Value> =
+  | Error
+  | undefined
+  | void
+  | Array<Validator<Value>>
+
+export type ValidatorReturnAsync<Value> =
+  | ValidatorReturnSync<Value>
+  | Promise<ValidatorReturnSync<Value>>
 export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
   value: Value,
   additionalArgs?: ValidatorAdditionalArgs<Value, ErrorMessages>
-) => ValidatorReturnAsync
+) => ValidatorReturnAsync<Value>
 export type ValidatorAdditionalArgs<
   Value,
   ErrorMessages = DefaultErrorMessages,
 > = {
-  /**
-   * Returns the error messages from the { errorMessages } object.
-   */
   errorMessages: ErrorMessages
-
-  /**
-   * Connects the validator to another field.
-   * This allows you to rerun the validator function once the value of the connected field changes.
-   */
+  validators: Record<string, Validator<Value>>
   connectWithPath: (path: Path) => { getValue: () => Value }
 } & {
   /** @deprecated use the error messages from the { errorMessages } object instead. */
@@ -295,6 +293,7 @@ export interface UseFieldProps<
   schema?: AllJSONSchemaVersions<Value>
   validator?: Validator<Value>
   onBlurValidator?: Validator<Value>
+  exportValidators?: Record<string, Validator<Value>>
   validateRequired?: (
     internal: Value,
     {

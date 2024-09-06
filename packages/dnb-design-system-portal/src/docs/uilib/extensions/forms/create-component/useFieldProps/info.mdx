@@ -89,6 +89,38 @@ All properties are optional and can be used as needed. These properties can be p
 - `validateUnchanged` in order to validate without a change and blur event. Used for rare cases.
 - `continuousValidation` in order to validate without a focus event beforehand. Used for rare cases.
 
+**Validators**
+
+- `exportValidators` object with your validators you want to export. More info down below.
+
+For more advanced use cases, you can export your curstom Field validators with `exportValidators`. They are then available (as `validators`) to be used in the validator.
+
+When an array is returned from the validator, it will be used to only call these validators.
+If no array is returned, the internal validator will be called in addition.
+
+```tsx
+const MyField = (props) => {
+  const myInternalValidator = useCallback(() => {
+    if (value === 'fail now') {
+      return new Error('Internal validation error')
+    }
+  }, [])
+  return (
+    <Field.String exportValidators={{ myInternalValidator }} {...props} />
+  )
+}
+
+const myValidator = (value, { validators: { myInternalValidator } }) => {
+  if (value === 'fail') {
+    return new Error('My error')
+  }
+
+  return [myInternalValidator] // optional
+}
+
+render(<MyField onBlurValidator={myValidator} />)
+```
+
 **Error**
 
 - `error` object like `FormError` that includes the string to display or an object with the key `validationRule`. More info down below.

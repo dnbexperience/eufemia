@@ -97,6 +97,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onChange,
     onBlurValidator,
     validator,
+    exportValidators,
     schema,
     validateInitially,
     validateUnchanged,
@@ -455,6 +456,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   })
 
   const { getValueByPath } = useDataValue()
+  const exportValidatorsRef = useRef(exportValidators)
+  exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
     const errorMessages = {
       ...contextErrorMessages,
@@ -465,6 +468,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ...errorMessages,
 
       errorMessages,
+      validators: exportValidatorsRef.current,
       connectWithPath: (path) => {
         setFieldEventListener?.(
           path,
@@ -480,6 +484,25 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     return args
   }, [contextErrorMessages, getValueByPath, setFieldEventListener])
+  const extendWithExportedValidators = useCallback(
+    (
+      validator: Validator<Value>,
+      result: ReturnType<Validator<Value>>
+    ) => {
+      if (
+        exportValidatorsRef.current &&
+        !result &&
+        (validator === onChangeValidatorRef.current ||
+          validator === onBlurValidatorRef.current) &&
+        !Array.isArray(result)
+      ) {
+        return Object.values(exportValidatorsRef.current)
+      }
+
+      return result
+    },
+    []
+  )
 
   const callValidatorFnSync = useCallback(
     (
@@ -490,11 +513,25 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return undefined
       }
 
-      const result = validator(value, additionalArgs)
+      const result = extendWithExportedValidators(
+        validator,
+        validator(value, additionalArgs)
+      )
+
+      if (Array.isArray(result)) {
+        for (const validator of result) {
+          const result = callValidatorFnSync(validator, value)
+          if (result instanceof Error) {
+            return result
+          }
+        }
+
+        return // stop here
+      }
 
       return result
     },
-    [additionalArgs]
+    [additionalArgs, extendWithExportedValidators]
   )
 
   const callValidatorFnAsync = useCallback(
@@ -506,11 +543,26 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return undefined
       }
 
-      const result = await validator(value, additionalArgs)
+      const result = extendWithExportedValidators(
+        validator,
+        await validator(value, additionalArgs)
+      )
+
+      if (Array.isArray(result)) {
+        for (const validator of result) {
+          const result = await callValidatorFnAsync(validator, value)
+
+          if (result instanceof Error) {
+            return result
+          }
+        }
+
+        return // stop here
+      }
 
       return result
     },
-    [additionalArgs]
+    [additionalArgs, extendWithExportedValidators]
   )
 
   /**

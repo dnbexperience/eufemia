@@ -3095,6 +3095,395 @@ describe('useFieldProps', () => {
         })
       })
     })
+
+    describe('exportValidators', () => {
+      it('should call all validators returned as an array', async () => {
+        const fooValidator = jest.fn((value) => {
+          if (value.includes('foo')) {
+            return new Error('foo')
+          }
+        })
+
+        const barValidator = jest.fn((value) => {
+          if (value.includes('bar')) {
+            return new Error('bar')
+          }
+        })
+
+        const myValidator = jest.fn(() => {
+          return [fooValidator, barValidator]
+        })
+
+        render(
+          <Form.Handler>
+            <Field.String
+              path="/myField"
+              defaultValue="foo"
+              validator={myValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+      })
+
+      it('should call all validators returned as an array (mixed async and sync)', async () => {
+        const fooValidator = jest.fn(async (value) => {
+          if (value.includes('foo')) {
+            return new Error('foo')
+          }
+        })
+
+        const barValidator = jest.fn((value) => {
+          if (value.includes('bar')) {
+            return new Error('bar')
+          }
+        })
+
+        // The main validator needs to be async, because it contains async validators in the array
+        const myValidator = jest.fn(async () => {
+          return [fooValidator, barValidator]
+        })
+
+        render(
+          <Form.Handler>
+            <Field.String
+              label="Label"
+              path="/myField"
+              defaultValue="foo"
+              validator={myValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+      })
+
+      it('should call exported validators from mock component', async () => {
+        let internalValidators, fooValidator, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              validator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn(
+          (value, { validators: { barValidator, bazValidator } }) => {
+            fooValidator = jest.fn(() => {
+              if (value.includes('foo')) {
+                return new Error('foo')
+              }
+            })
+
+            return [fooValidator, barValidator, bazValidator]
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              validator={publicValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+        expect(bazValidator).toHaveBeenCalledTimes(3)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}baz'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(9)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(bazValidator).toHaveBeenCalledTimes(7)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+
+      it('should only call returned validators (barValidator should not be called)', async () => {
+        let internalValidators, fooValidator, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              validator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn(
+          (value, { validators: { bazValidator } }) => {
+            fooValidator = jest.fn(() => {
+              if (value.includes('foo')) {
+                return new Error('foo')
+              }
+            })
+
+            return [fooValidator, bazValidator]
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              validator={publicValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar' // remove one letter from foo, so the foo validator should return undefined
+        )
+        await waitFor(() => {
+          // Here we should not see the bar validator called
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(4)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}baz'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(9)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(8)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+
+      it('should call internal validates when they are not returned in the publicValidator', async () => {
+        let internalValidators, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              validator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn((value) => {
+          if (value.includes('foo')) {
+            return new Error('foo')
+          }
+        })
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              validator={publicValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(5)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+        expect(bazValidator).toHaveBeenCalledTimes(3)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}baz'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(9)
+        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(bazValidator).toHaveBeenCalledTimes(7)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+    })
   })
 
   describe('onBlurValidator', () => {
@@ -3388,6 +3777,110 @@ describe('useFieldProps', () => {
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
+      })
+    })
+
+    describe('exportValidators', () => {
+      it('should only call returned validators (barValidator should not be called)', async () => {
+        let internalValidators, fooValidator, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              onBlurValidator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn(
+          (value, { validators: { bazValidator } }) => {
+            fooValidator = jest.fn(() => {
+              if (value.includes('foo')) {
+                return new Error('foo')
+              }
+            })
+
+            return [fooValidator, bazValidator]
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              onBlurValidator={publicValidator}
+            />
+          </Form.Handler>
+        )
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(
+          input,
+          '{Backspace}bar' // remove one letter from foo, so the foo validator should return undefined
+        )
+        fireEvent.blur(input)
+        await waitFor(() => {
+          // Here we should not see the bar validator called
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(2)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(1)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(input, ' baz')
+        fireEvent.blur(input)
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(3)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(2)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
       })
     })
   })
