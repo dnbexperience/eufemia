@@ -72,7 +72,7 @@ describe('Value.Date', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-block__content')
-      ).toHaveTextContent('1.9.2024')
+      ).toHaveTextContent('01.09.2024')
     })
 
     it('should fall back to "toLocaleString" if "Intl" is not available', () => {
