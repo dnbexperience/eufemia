@@ -11,7 +11,7 @@ export { ViewAndEditContainer } from '../Array/Examples'
 
 export const InitiallyOpen = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
+    <ComponentBox>
       {() => {
         const MyEditItemForm = () => {
           return (

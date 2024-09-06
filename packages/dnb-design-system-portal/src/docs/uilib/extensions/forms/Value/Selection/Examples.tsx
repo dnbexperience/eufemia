@@ -4,7 +4,7 @@ import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Selection placeholder="No values selected" />
     </ComponentBox>
   )
@@ -12,7 +12,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Selection value="Bar" />
     </ComponentBox>
   )
@@ -20,7 +20,7 @@ export const WithValue = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Selection label="Label text" showEmpty />
     </ComponentBox>
   )
@@ -28,7 +28,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Selection label="Label text" value="Foo" />
     </ComponentBox>
   )
@@ -36,7 +36,7 @@ export const LabelAndValue = () => {
 
 export const Inline = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <P>
         This is before the component
         <Value.Selection value="Baz" inline />

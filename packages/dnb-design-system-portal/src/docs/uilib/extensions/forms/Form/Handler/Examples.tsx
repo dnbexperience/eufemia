@@ -24,7 +24,7 @@ export const AsyncSubmit = () => {
 
 export const AsyncSubmitComplete = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Form.Handler
         data={{ myField: 'Some value' }}
         onSubmit={async (data) => {

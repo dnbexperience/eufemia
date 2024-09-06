@@ -4,7 +4,7 @@ import { Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Currency showEmpty />
     </ComponentBox>
   )
@@ -12,7 +12,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Currency placeholder="The value was not filled in" />
     </ComponentBox>
   )
@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Currency value={150} suffix=" kr" />
     </ComponentBox>
   )
@@ -28,7 +28,7 @@ export const WithValue = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Currency label="Label text" showEmpty />
     </ComponentBox>
   )
@@ -36,7 +36,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Currency label="Label text" value={60000000} />
     </ComponentBox>
   )
@@ -44,7 +44,7 @@ export const LabelAndValue = () => {
 
 export const Inline = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <P>
         This is before the component
         <Value.Currency value={25000} inline />
@@ -56,7 +56,7 @@ export const Inline = () => {
 
 export const InlineAndLabel = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <P>
         This is before the component
         <Value.Currency label="Label text" value={25000} inline />

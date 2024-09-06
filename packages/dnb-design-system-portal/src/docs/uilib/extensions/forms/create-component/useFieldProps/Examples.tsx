@@ -11,7 +11,7 @@ import { Flex, Slider } from '@dnb/eufemia/src'
 
 export const CustomComponentExample = () => {
   return (
-    <ComponentBox scope={{ useFieldProps, FieldBlock }}>
+    <ComponentBox scope={{ useFieldProps }}>
       {() => {
         const MySliderComponent = (props) => {
           const fromInput = React.useCallback(
