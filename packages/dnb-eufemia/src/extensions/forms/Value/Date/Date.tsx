@@ -20,12 +20,23 @@ function DateComponent(props: Props) {
         return undefined
       }
 
+      const getOptions = (variant) => {
+        if (variant === 'numeric') {
+          return {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          } as const
+        }
+        return {
+          day: 'numeric',
+          month: variant,
+          year: 'numeric',
+        } as const
+      }
+
       const date = new Date(value)
-      const options = {
-        day: 'numeric',
-        month: variant,
-        year: 'numeric',
-      } as const
+      let options = getOptions(variant)
 
       const formattedDate =
         typeof Intl !== 'undefined'
