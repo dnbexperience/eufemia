@@ -3367,7 +3367,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}bar' // remove one letter from foo, so the foo validator should return undefined
+          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
         )
         await waitFor(() => {
           // Here we should not see the bar validator called
