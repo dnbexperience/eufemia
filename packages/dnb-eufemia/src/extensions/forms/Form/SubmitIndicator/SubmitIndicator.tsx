@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { Icon, Space, Tooltip } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
@@ -9,6 +9,11 @@ import {
   pickSpacingProps,
 } from '../../../../components/flex/utils'
 import { useTranslation } from '../../../../shared'
+import { convertJsxToString } from '../../../../shared/component-helper'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type Props = {
   state: SubmitState
@@ -28,6 +33,7 @@ function SubmitIndicator(props: Props) {
   const translation = useTranslation()
   const childrenRef = useRef<HTMLSpanElement>(null)
   const [willWrap, setWillWrap] = useState(false)
+  const key = useMemo(() => convertJsxToString(children), [children])
 
   useLayoutEffect(() => {
     if (children && state) {
@@ -84,7 +90,11 @@ function SubmitIndicator(props: Props) {
 
   return (
     <Space {...params} element="span">
-      {children && <span ref={childrenRef}>{children}</span>}
+      {children && (
+        <span ref={childrenRef} key={key}>
+          {children}
+        </span>
+      )}
       {indicator}
     </Space>
   )

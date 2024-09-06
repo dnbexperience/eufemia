@@ -9,11 +9,6 @@ import locales from '../../../constants/locales'
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
 
-beforeEach(() => {
-  // Reset locale to nb-NO
-  render(<Provider locale="nb-NO">nothing</Provider>)
-})
-
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
     render(<Field.PhoneNumber />)
