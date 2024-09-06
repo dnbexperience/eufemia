@@ -68,11 +68,11 @@ describe('Value.Date', () => {
     })
 
     it('formats with variant="numeric"', () => {
-      render(<Value.Date value="2023-01-16" variant="numeric" />)
+      render(<Value.Date value="2024-09-01" variant="numeric" />)
 
       expect(
         document.querySelector('.dnb-forms-value-block__content')
-      ).toHaveTextContent('16.1.2023')
+      ).toHaveTextContent('1.9.2024')
     })
 
     it('should fall back to "toLocaleString" if "Intl" is not available', () => {
