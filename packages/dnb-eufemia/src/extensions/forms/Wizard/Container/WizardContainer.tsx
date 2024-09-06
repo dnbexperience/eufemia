@@ -179,7 +179,7 @@ function WizardContainer(props: Props) {
       handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
-        enableAsyncBehaviour: isAsync(onStepChange),
+        enableAsyncBehavior: isAsync(onStepChange),
         onSubmit: async () => {
           if (!skipStepChangeCallFromHook) {
             sharedStateRef.current?.data?.onStepChange?.(index, mode)

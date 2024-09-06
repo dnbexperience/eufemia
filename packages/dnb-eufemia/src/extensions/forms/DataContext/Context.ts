@@ -98,7 +98,7 @@ export interface ContextState {
   addOnChangeHandler?: (callback: OnChange) => void
   handleSubmitCall: ({
     onSubmit,
-    enableAsyncBehaviour,
+    enableAsyncBehavior,
     skipFieldValidation,
     skipErrorCheck,
   }: {
@@ -106,7 +106,7 @@ export interface ContextState {
       | EventReturnWithStateObject
       | void
       | Promise<EventReturnWithStateObject | void>
-    enableAsyncBehaviour: boolean
+    enableAsyncBehavior: boolean
     skipFieldValidation?: boolean
     skipErrorCheck?: boolean
   }) => void
