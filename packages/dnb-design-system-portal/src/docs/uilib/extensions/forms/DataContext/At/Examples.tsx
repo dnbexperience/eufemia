@@ -29,7 +29,7 @@ export const Path = () => {
 
 export const IteratePath = () => {
   return (
-    <ComponentBox scope={{ Value, DataContext }}>
+    <ComponentBox scope={{ DataContext }}>
       <Form.Handler
         data={{
           list: [
