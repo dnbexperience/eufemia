@@ -468,7 +468,7 @@ describe('Accordion container component', () => {
   })
 
   // Deprecated – expandBehaviour is replaced with expandBehavior - can be removed in v11
-  it('should allow all accordions inside a group to be expanded at the same time', async () => {
+  it('should allow all accordions inside a group to be expanded at the same time - deprecated', async () => {
     render(
       <Accordion.Group expandBehaviour="multiple">
         <Accordion>
