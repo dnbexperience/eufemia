@@ -544,7 +544,7 @@ describe('Field.String', () => {
 
   describe('error handling', () => {
     describe('json schema', () => {
-      describe('default behaviour', () => {
+      describe('default behavior', () => {
         it('should not show error message initially', () => {
           render(
             <Field.String

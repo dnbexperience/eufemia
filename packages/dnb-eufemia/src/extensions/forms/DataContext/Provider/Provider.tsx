@@ -850,7 +850,7 @@ export default function Provider<Data extends JsonObject>(
     async (args) => {
       const {
         onSubmit,
-        enableAsyncBehaviour,
+        enableAsyncBehavior,
         skipFieldValidation,
         skipErrorCheck,
       } = args
@@ -860,9 +860,9 @@ export default function Provider<Data extends JsonObject>(
       const asyncBehaviorIsEnabled =
         (skipErrorCheck
           ? true
-          : // Don't enable async behaviour if we have errors, but when we have a pending state
+          : // Don't enable async behavior if we have errors, but when we have a pending state
             !hasErrors() || hasFieldState('pending')) &&
-        (enableAsyncBehaviour || hasFieldWithAsyncValidator())
+        (enableAsyncBehavior || hasFieldWithAsyncValidator())
 
       if (asyncBehaviorIsEnabled) {
         setFormState('pending')
@@ -990,7 +990,7 @@ export default function Provider<Data extends JsonObject>(
   const handleSubmit = useCallback<ContextState['handleSubmit']>(
     async ({ formElement = null } = {}) => {
       handleSubmitCall({
-        enableAsyncBehaviour: isAsync(onSubmit),
+        enableAsyncBehavior: isAsync(onSubmit),
         onSubmit: async () => {
           if (handleSubmitListeners()) {
             return // stop here
