@@ -192,8 +192,8 @@ const Tag = (localProps: TagProps & SpacingProps) => {
 }
 
 /**
- * Support deprecated behaviour by mutating the props.
- * Deprecated behaviour: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
+ * Support deprecated behavior by mutating the props.
+ * Deprecated behavior: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
  */
 const handleDeprecatedBehaviour: (allProps: TagProps) => TagProps = ({
   onDelete,

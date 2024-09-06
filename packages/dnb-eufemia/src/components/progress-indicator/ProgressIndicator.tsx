@@ -190,7 +190,7 @@ function updatePropsWithContext(
 }
 
 /**
- * Support deprecated behaviour by mutating the props.
+ * Support deprecated behavior by mutating the props.
  */
 function handleDeprecatedBehaviour(
   oldProps: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
