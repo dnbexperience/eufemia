@@ -9,6 +9,8 @@ export type Props<Value> = {
   value?: Value
 }
 
+export type GetValueByPath<Value = unknown> = <T = Value>(path: Path) => T
+
 export default function useDataValue<Value>({
   path: pathProp,
   value,
@@ -19,11 +21,12 @@ export default function useDataValue<Value>({
   const { makePath, makeIteratePath } = usePath()
 
   const get = useCallback((selector: Path) => {
+    const data = dataContextRef.current?.internalDataRef?.current
     if (selector === '/') {
-      return dataContextRef.current?.data
+      return data
     }
-    return pointer.has(dataContextRef.current?.data, selector)
-      ? pointer.get(dataContextRef.current.data, selector)
+    return pointer.has(data, selector)
+      ? pointer.get(data, selector)
       : undefined
   }, [])
 
@@ -70,7 +73,7 @@ export default function useDataValue<Value>({
     [getValueByPath, moveValueToPath]
   )
 
-  const getValue = useCallback(
+  const getSourceValue = useCallback(
     (source: Path | Value) => {
       if (typeof source === 'string' && isPath(source)) {
         return getValueByPath(source)
@@ -82,11 +85,11 @@ export default function useDataValue<Value>({
   )
 
   if (pathProp) {
-    value = getValue(pathProp)
+    value = getSourceValue(pathProp)
   }
 
   return {
-    getValue,
+    getSourceValue,
     getValueByPath,
     getValueByIteratePath,
     moveValueToPath,

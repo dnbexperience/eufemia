@@ -810,7 +810,6 @@ describe('Form.Handler', () => {
       )
 
       const buttonElement = document.querySelector('button')
-
       fireEvent.click(buttonElement)
 
       await waitFor(() => {
@@ -823,15 +822,20 @@ describe('Form.Handler', () => {
             filterData: expect.any(Function),
           }
         )
-
-        expect(asyncValidator).toHaveBeenCalledTimes(1)
-        expect(asyncValidator).toHaveBeenCalledWith('bar', {
-          maxLength: expect.any(String),
-          minLength: expect.any(String),
-          pattern: expect.any(String),
-          required: expect.any(String),
-        })
       })
+
+      expect(asyncValidator).toHaveBeenCalledTimes(1)
+      expect(asyncValidator).toHaveBeenCalledWith(
+        'bar',
+        expect.objectContaining({
+          errorMessages: expect.objectContaining({
+            maxLength: expect.any(String),
+            minLength: expect.any(String),
+            pattern: expect.any(String),
+            required: expect.any(String),
+          }),
+        })
+      )
     })
 
     it('should accept custom minimumAsyncBehaviorTimevalue', async () => {

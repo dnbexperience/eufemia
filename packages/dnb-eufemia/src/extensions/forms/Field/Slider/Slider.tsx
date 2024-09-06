@@ -47,24 +47,24 @@ function SliderComponent(props: Props) {
   const dataContextRef = useRef<ContextState>()
   dataContextRef.current = useContext<ContextState>(DataContext)
 
-  const { getValue } = useDataValue()
+  const { getSourceValue } = useDataValue()
   const getValues = useCallback(
     (source: SliderValue | Path | Array<Path>) => {
       if (Array.isArray(source)) {
-        return source.map((s) => getValue(s) || 0)
+        return source.map((s) => getSourceValue(s) || 0)
       }
 
-      return getValue(source) || 0
+      return getSourceValue(source) || 0
     },
-    [getValue]
+    [getSourceValue]
   )
 
   const value = getValues(props.paths ?? props.path ?? props.value)
   const preparedProps = {
     ...props,
-    step: getValue(props.step),
-    min: getValue(props.min),
-    max: getValue(props.max),
+    step: getSourceValue(props.step),
+    min: getSourceValue(props.min),
+    max: getSourceValue(props.max),
   }
 
   const {

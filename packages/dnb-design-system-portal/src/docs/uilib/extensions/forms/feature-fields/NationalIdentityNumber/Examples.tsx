@@ -141,7 +141,7 @@ export const ValidationFunction = () => {
         const fnr = (value: string) =>
           value.length >= 11 ? { status: 'valid' } : { status: 'invalid' }
 
-        const validator = (value, errorMessages) => {
+        const validator = (value, { errorMessages }) => {
           const result = fnr(value)
           return result.status === 'invalid'
             ? new Error(errorMessages.pattern)

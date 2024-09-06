@@ -72,22 +72,22 @@ export const dataValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   validator: {
-    doc: 'Custom validator function that will be called for every change done by the user. Can be asynchronous or synchronous.',
+    doc: 'Custom validator function that is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath }.',
     type: 'function',
     status: 'optional',
   },
   onBlurValidator: {
-    doc: 'Custom validator function that will be called when the user leaves the field (blurring a text input, closing a dropdown etc). Can be asynchronous or synchronous.',
+    doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath }.',
     type: 'function',
     status: 'optional',
   },
   transformIn: {
-    doc: 'transforms the `value` before its displayed in the field (e.g. input).',
+    doc: 'Transforms the `value` before its displayed in the field (e.g. input).',
     type: 'function',
     status: 'optional',
   },
   transformOut: {
-    doc: 'transforms the value before it gets forwarded to the form data object or returned as the `onChange` value parameter.',
+    doc: 'Transforms the value before it gets forwarded to the form data object or returned as the `onChange` value parameter.',
     type: 'function',
     status: 'optional',
   },

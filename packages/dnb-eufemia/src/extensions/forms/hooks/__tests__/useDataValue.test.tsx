@@ -56,7 +56,9 @@ describe('useDataValue', () => {
         ),
       })
 
-      expect(result.current.getValue('/example/path')).toBe('Test Value')
+      expect(result.current.getSourceValue('/example/path')).toBe(
+        'Test Value'
+      )
     })
 
     it('should return the whole data set when the path is one level like "/"', () => {
@@ -69,7 +71,7 @@ describe('useDataValue', () => {
         ),
       })
 
-      expect(result.current.getValue('/')).toEqual({
+      expect(result.current.getSourceValue('/')).toEqual({
         example: { path: 'Test Value' },
       })
     })
@@ -77,7 +79,9 @@ describe('useDataValue', () => {
     it('should return the given value when source is not a path', () => {
       const { result } = renderHook(() => useDataValue())
 
-      expect(result.current.getValue('Test Value')).toBe('Test Value')
+      expect(result.current.getSourceValue('Test Value')).toBe(
+        'Test Value'
+      )
     })
   })
 
