@@ -67,6 +67,14 @@ describe('Value.Date', () => {
       ).toHaveTextContent('16. jan. 2023')
     })
 
+    it('formats with variant="numeric"', () => {
+      render(<Value.Date value="2023-01-16" variant="numeric" />)
+
+      expect(
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('16.1.2023')
+    })
+
     it('should fall back to "toLocaleString" if "Intl" is not available', () => {
       const intlBackup = globalThis.Intl
       delete globalThis.Intl

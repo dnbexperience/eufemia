@@ -4,7 +4,7 @@ import useTranslation from '../../hooks/useTranslation'
 import SharedContext, { AnyLocale } from '../../../../shared/Context'
 
 export type Props = StringValueProps & {
-  variant?: 'long' | 'short'
+  variant?: 'long' | 'short' | 'numeric'
   locale?: AnyLocale
 }
 
