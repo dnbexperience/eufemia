@@ -3857,7 +3857,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           input,
-          '{Backspace}bar' // remove one letter from foo, so the foo validator should return undefined
+          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
         )
         fireEvent.blur(input)
         await waitFor(() => {
