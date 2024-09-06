@@ -36,7 +36,7 @@ function DateComponent(props: Props) {
       }
 
       const date = new Date(value)
-      let options = getOptions(variant)
+      const options = getOptions(variant)
 
       const formattedDate =
         typeof Intl !== 'undefined'
