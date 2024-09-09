@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 
@@ -194,5 +195,30 @@ describe('Form.SubmitIndicator', () => {
     expect(element).not.toHaveClass(
       'dnb-forms-submit-indicator--inline-wrap'
     )
+  })
+
+  it('should update children (label) when it changes', async () => {
+    const MockComponent = () => {
+      const [count, increment] = React.useReducer((state) => state + 1, 1)
+      return (
+        <>
+          <Form.SubmitIndicator state="success">
+            Label {count}
+          </Form.SubmitIndicator>
+          <button onClick={increment}>{count}</button>
+        </>
+      )
+    }
+
+    render(<MockComponent />)
+
+    const button = document.querySelector('button')
+    const element = document.querySelector('.dnb-forms-submit-indicator')
+
+    expect(element).toHaveTextContent('Label 1')
+
+    await userEvent.click(button)
+
+    expect(element).toHaveTextContent('Label 2')
   })
 })
