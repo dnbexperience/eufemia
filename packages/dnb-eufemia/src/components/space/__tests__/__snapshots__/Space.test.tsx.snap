@@ -591,7 +591,7 @@ exports[`Space scss has to match style dependencies css 1`] = `
     --padding-bottom: var(--space-b-s);
   }
 }
-@media screen and (max-width: 59.9375em) and (min-width: 40.0625em) {
+@media screen and (max-width: 60em) and (min-width: 40.0625em) {
   .dnb-space {
     --padding-right: var(--space-r-m);
     --padding-left: var(--space-l-m);
@@ -599,7 +599,7 @@ exports[`Space scss has to match style dependencies css 1`] = `
     --padding-bottom: var(--space-b-m);
   }
 }
-@media screen and (min-width: 60em) {
+@media screen and (min-width: 60.0625em) {
   .dnb-space {
     --padding-right: var(--space-r-l);
     --padding-left: var(--space-l-l);
