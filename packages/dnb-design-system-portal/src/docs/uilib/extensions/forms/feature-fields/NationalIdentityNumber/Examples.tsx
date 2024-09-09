@@ -160,3 +160,35 @@ export const ValidationFunction = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationExtendValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const bornInApril = (value: string) =>
+          value.substring(2, 4) === '04'
+            ? { status: 'valid' }
+            : { status: 'invalid' }
+
+        const myValidator = (value, { validators }) => {
+          const { dnrValidator, fnrValidator } = validators
+          const result = bornInApril(value)
+          if (result.status === 'invalid') {
+            return new Error('My error')
+          }
+
+          return [dnrValidator, fnrValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="53050129159"
+            validator={myValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}

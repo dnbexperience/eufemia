@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Props } from '..'
-import { Field, Form } from '../../..'
+import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -211,6 +211,38 @@ describe('Field.NationalIdentityNumber', () => {
     })
   })
 
+  it('should not validate extended validator when validate false', async () => {
+    const invalidFnr = '29040112345'
+
+    const bornInApril = (value: string) =>
+      value.substring(2, 4) === '04'
+        ? { status: 'valid' }
+        : { status: 'invalid' }
+
+    const customValidator: Validator<string> = (value, { validators }) => {
+      const { dnrValidator, fnrValidator } = validators
+      const result = bornInApril(value)
+      if (result.status === 'invalid') {
+        return new Error('custom error')
+      }
+
+      return [dnrValidator, fnrValidator]
+    }
+
+    render(
+      <Field.NationalIdentityNumber
+        value={invalidFnr}
+        validateInitially
+        validate={false}
+        validator={customValidator}
+      />
+    )
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+  })
+
   describe('should validate Norwegian D number', () => {
     const validDNum = [
       '53097248016',
@@ -294,6 +326,105 @@ describe('Field.NationalIdentityNumber', () => {
       async (fnrNum) => {
         render(
           <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.NationalIdentityNumber.errorFnr
+          )
+        })
+      }
+    )
+  })
+
+  describe('should extend validation using custom validator', () => {
+    const validFnrNumApril = ['14046512368', '10042223293']
+    const validDNumApril = ['51041678171']
+
+    const validIds = [...validFnrNumApril, ...validDNumApril]
+
+    const invalidFnrNumApril = ['29040112345', '13047248032']
+    const invalidDNumApril = ['69040112345', '53047248032']
+
+    const validFnrNumNotApril = [
+      '58081633086',
+      '53050129159',
+      '65015439860',
+    ]
+    const validDNumNotApril = ['08121312590', '12018503288', '03025742965']
+
+    const invalidIds = [...validFnrNumNotApril, ...validDNumNotApril]
+
+    const bornInApril = (value: string) =>
+      value.substring(2, 4) === '04'
+        ? { status: 'valid' }
+        : { status: 'invalid' }
+
+    const customValidator: Validator<string> = (value, { validators }) => {
+      const { dnrValidator, fnrValidator } = validators
+      const result = bornInApril(value)
+      if (result.status === 'invalid') {
+        return new Error('custom error')
+      }
+
+      return [dnrValidator, fnrValidator]
+    }
+
+    it.each(validIds)('Valid identity number: %s', async (fnrNum) => {
+      render(
+        <Field.NationalIdentityNumber
+          validator={customValidator}
+          validateInitially
+          value={fnrNum}
+        />
+      )
+      await expectNever(() => {
+        // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      })
+    })
+
+    it.each(invalidIds)('Invalid identity number: %s', async (id) => {
+      render(
+        <Field.NationalIdentityNumber
+          validator={customValidator}
+          validateInitially
+          value={id}
+        />
+      )
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'custom error'
+        )
+      })
+    })
+
+    it.each(invalidDNumApril)('Invalid D number: %s', async (dNum) => {
+      render(
+        <Field.NationalIdentityNumber
+          validator={customValidator}
+          validateInitially
+          value={dNum}
+        />
+      )
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.NationalIdentityNumber.errorDnr
+        )
+      })
+    })
+
+    it.each(invalidFnrNumApril)(
+      'Invalid national identity number(fnr): %s',
+      async (fnr) => {
+        render(
+          <Field.NationalIdentityNumber
+            validator={customValidator}
+            validateInitially
+            value={fnr}
+          />
         )
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()

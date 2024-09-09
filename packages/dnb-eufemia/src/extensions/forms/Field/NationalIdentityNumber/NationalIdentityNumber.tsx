@@ -52,7 +52,6 @@ function NationalIdentityNumber(props: Props) {
       ) {
         return Error(errorFnr)
       }
-      return undefined
     },
     [errorFnr]
   )
@@ -66,7 +65,6 @@ function NationalIdentityNumber(props: Props) {
       ) {
         return Error(errorDnr)
       }
-      return undefined
     },
     [errorDnr]
   )
@@ -94,6 +92,7 @@ function NationalIdentityNumber(props: Props) {
     validator: validate
       ? props.validator || dnrAndFnrValidator
       : undefined,
+    exportValidators: { dnrValidator, fnrValidator },
   }
 
   return <StringField {...StringFieldProps} />
