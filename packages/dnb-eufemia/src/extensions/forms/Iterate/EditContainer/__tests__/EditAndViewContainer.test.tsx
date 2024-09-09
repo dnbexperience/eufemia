@@ -507,7 +507,7 @@ describe('EditContainer and ViewContainer', () => {
       ).toBeInTheDocument()
     })
 
-    it('should open in "edit" without focusing', async () => {
+    it('should open in "edit" mode without focusing', async () => {
       const containerMode = {}
 
       const ContextConsumer = () => {
@@ -518,16 +518,15 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       render(
-        <Form.Handler data={['']}>
+        <Form.Handler data={[{ firstName: 'Tony' }]}>
           <Iterate.Array path="/">
             <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
             <Iterate.EditContainer>
-              <Field.String required itemPath="/" />
+              <Field.Name.First required itemPath="/firstName" />
+              <Field.Name.Last required itemPath="/lastName" />
             </Iterate.EditContainer>
             <ContextConsumer />
           </Iterate.Array>
-
-          <Iterate.PushButton path="/" pushValue={'bar'} />
         </Form.Handler>
       )
 
