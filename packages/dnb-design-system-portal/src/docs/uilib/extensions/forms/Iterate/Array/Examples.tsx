@@ -282,7 +282,7 @@ export const ViewAndEditContainer = () => {
                 accounts: [
                   {
                     firstName: 'Tony',
-                    lastName: undefined, // initiate error
+                    lastName: 'Rogers',
                   },
                 ],
               }}
