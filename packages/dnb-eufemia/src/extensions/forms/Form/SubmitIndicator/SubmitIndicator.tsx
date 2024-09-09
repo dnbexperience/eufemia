@@ -105,11 +105,11 @@ function willWordWrap(element: HTMLElement, word: string) {
     return
   }
 
-  const { offsetHeight, textContent } = element
+  const { offsetHeight, innerHTML } = element
 
-  element.textContent += word
+  element.innerHTML += word
   const height = element.offsetHeight
-  element.textContent = textContent
+  element.innerHTML = innerHTML
 
   return height > offsetHeight
 }
