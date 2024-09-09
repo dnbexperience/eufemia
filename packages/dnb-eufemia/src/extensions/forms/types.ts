@@ -40,9 +40,21 @@ export type ValidatorAdditionalArgs<
   Value,
   ErrorMessages = DefaultErrorMessages,
 > = {
+  /**
+   * Returns the error messages from the { errorMessages } object.
+   */
   errorMessages: ErrorMessages
-  validators: Record<string, Validator<Value>>
+
+  /**
+   * Connects the validator to another field.
+   * This allows you to rerun the validator function once the value of the connected field changes.
+   */
   connectWithPath: (path: Path) => { getValue: () => Value }
+
+  /**
+   * Returns the validators from the { exportValidators } object.
+   */
+  validators: Record<string, Validator<Value>>
 } & {
   /** @deprecated use the error messages from the { errorMessages } object instead. */
   pattern: string
