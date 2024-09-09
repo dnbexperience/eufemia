@@ -197,6 +197,69 @@ describe('Form.SubmitIndicator', () => {
     )
   })
 
+  it('should support HTML content', () => {
+    Object.defineProperties(HTMLElement.prototype, {
+      offsetHeight: {
+        get: () => 10,
+      },
+    })
+
+    const { rerender } = render(
+      <Form.SubmitIndicator state="pending">
+        Text of a <b>bold</b> label 1
+      </Form.SubmitIndicator>
+    )
+
+    const element = document.querySelector('.dnb-forms-submit-indicator ')
+    expect(element).not.toHaveClass(
+      'dnb-forms-submit-indicator--inline-wrap'
+    )
+
+    expect(element.querySelector('span').innerHTML).toBe(
+      'Text of a <b>bold</b> label 1'
+    )
+
+    let count = 0
+    Object.defineProperties(HTMLElement.prototype, {
+      offsetHeight: {
+        get: () => {
+          count++
+          return 10 * count
+        },
+      },
+    })
+
+    rerender(
+      <Form.SubmitIndicator state="pending">
+        Text of a <b>bold</b> label 2
+      </Form.SubmitIndicator>
+    )
+
+    expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
+    expect(element.querySelector('span').innerHTML).toBe(
+      'Text of a <b>bold</b> label 2'
+    )
+
+    Object.defineProperties(HTMLElement.prototype, {
+      offsetHeight: {
+        get: () => 30,
+      },
+    })
+
+    rerender(
+      <Form.SubmitIndicator state="pending">
+        Text of a <b>bold</b> label 3
+      </Form.SubmitIndicator>
+    )
+
+    expect(element).not.toHaveClass(
+      'dnb-forms-submit-indicator--inline-wrap'
+    )
+    expect(element.querySelector('span').innerHTML).toBe(
+      'Text of a <b>bold</b> label 3'
+    )
+  })
+
   it('should update children (label) when it changes', async () => {
     const MockComponent = () => {
       const [count, increment] = React.useReducer((state) => state + 1, 1)
