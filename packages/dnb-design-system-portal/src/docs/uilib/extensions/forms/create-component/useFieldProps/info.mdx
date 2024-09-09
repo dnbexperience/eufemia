@@ -78,7 +78,7 @@ All properties are optional and can be used as needed. These properties can be p
 - `path` the JSON pointer that defines the entry name/key in the data structure.
 - `itemPath` similar to `path`, but is used when run inside the [Iterate](/uilib/extensions/forms/Iterate/) context.
 
-**Validation**
+#### Validation
 
 - `required` if true, it will call `validateRequired` for validation.
 - `schema` or `pattern` for JSON schema validation powered by [ajv](https://ajv.js.org/).
@@ -89,7 +89,7 @@ All properties are optional and can be used as needed. These properties can be p
 - `validateUnchanged` in order to validate without a change and blur event. Used for rare cases.
 - `continuousValidation` in order to validate without a focus event beforehand. Used for rare cases.
 
-**Validators**
+#### Validators
 
 - `exportValidators` object with your validators you want to export. More info down below.
 
@@ -121,7 +121,7 @@ const myValidator = (value, { validators: { myInternalValidator } }) => {
 render(<MyField onBlurValidator={myValidator} />)
 ```
 
-**Error**
+#### Error
 
 - `error` object like `FormError` that includes the string to display or an object with the key `validationRule`. More info down below.
 - `errorMessages` object with your custom messages, where each key represents a `validationRule`. More info down below.
