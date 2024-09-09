@@ -2,6 +2,9 @@ import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Field, Form, Value, Wizard } from '../../..'
 import userEvent from '@testing-library/user-event'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Value.String', () => {
   it('renders value', () => {
@@ -56,6 +59,28 @@ describe('Value.String', () => {
       expect(
         document.querySelector('.dnb-forms-value-string')
       ).toHaveTextContent('The label')
+    })
+
+    it('should only show optional label on the field label', () => {
+      render(
+        <Form.Handler
+          data={{
+            myPath: 'A value',
+          }}
+        >
+          <Field.String path="/myPath" label="The label" optional />
+          <Value.String path="/myPath" inheritLabel />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('.dnb-forms-field-string')
+      ).toHaveTextContent(`The label ${nb.Field.optionalLabel}`)
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('The label')
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).not.toHaveTextContent(nb.Field.optionalLabel)
     })
 
     it('should not use label from field with same path when label is false', () => {

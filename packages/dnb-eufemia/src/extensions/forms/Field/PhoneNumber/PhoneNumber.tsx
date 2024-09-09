@@ -153,6 +153,7 @@ function PhoneNumber(props: Props) {
     width = 'large',
     help,
     required,
+    optional,
     validateInitially,
     continuousValidation,
     validateUnchanged,
@@ -390,6 +391,7 @@ function PhoneNumber(props: Props) {
           width={omitCountryCodeField ? 'medium' : 'stretch'}
           help={help}
           required={required}
+          optional={optional}
           errorMessages={errorMessages}
           validateInitially={validateInitially}
           continuousValidation={continuousValidation}

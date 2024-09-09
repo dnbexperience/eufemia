@@ -4226,6 +4226,65 @@ describe('DataContext.Provider', () => {
     })
   })
 
+  describe('optional', () => {
+    it('should add optional label to each field if "optional" is true', () => {
+      const { rerender } = render(
+        <DataContext.Provider required>
+          <Field.String label="Foo" />
+          <Field.String label="Bar" optional />
+          <Field.String label="Baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('label')
+      )
+
+      expect(first).toHaveTextContent('Foo')
+      expect(second).toHaveTextContent(`Bar ${nb.Field.optionalLabel}`)
+      expect(third).toHaveTextContent('Baz')
+
+      rerender(
+        <DataContext.Provider required>
+          <Field.String label="Foo" optional />
+          <Field.String label="Bar" />
+          <Field.String label="Baz" optional />
+        </DataContext.Provider>
+      )
+
+      expect(first).toHaveTextContent(`Foo ${nb.Field.optionalLabel}`)
+      expect(second).toHaveTextContent('Bar')
+      expect(third).toHaveTextContent(`Baz ${nb.Field.optionalLabel}`)
+    })
+
+    it('should support translations', () => {
+      render(
+        <DataContext.Provider
+          required
+          translations={{
+            'nb-NO': {
+              Field: {
+                optionalLabel: '(recommended)',
+              },
+            },
+          }}
+        >
+          <Field.String label="Foo" />
+          <Field.String label="Bar" optional />
+          <Field.String label="Baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('label')
+      )
+
+      expect(first).toHaveTextContent('Foo')
+      expect(second).toHaveTextContent('Bar (recommended)')
+      expect(third).toHaveTextContent('Baz')
+    })
+  })
+
   describe('required', () => {
     it('should make all fields required', () => {
       const { rerender } = render(

@@ -10,6 +10,11 @@ import {
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { Field, Form } from '../..'
+import nbNO from '../../constants/locales/nb-NO'
+import enGB from '../../constants/locales/en-GB'
+
+const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('FieldBlock', () => {
   it('should forward HTML attributes', () => {
@@ -135,6 +140,58 @@ describe('FieldBlock', () => {
       'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement).toHaveTextContent('A Label Description')
+  })
+
+  describe('optional', () => {
+    it('should add (optional) text to the label', () => {
+      render(
+        <FieldBlock label="A Label" optional>
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveTextContent(
+        `A Label ${nb.Field.optionalLabel}`
+      )
+    })
+
+    it('should support en-GB locale', () => {
+      render(
+        <Form.Handler locale="en-GB">
+          <FieldBlock label="A Label" optional>
+            content
+          </FieldBlock>
+        </Form.Handler>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveTextContent(
+        `A Label ${en.Field.optionalLabel}`
+      )
+    })
+
+    it('should add (optional) text when label is a JSX element', () => {
+      render(
+        <FieldBlock label={<b>A Label</b>} optional>
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveTextContent(
+        `A Label ${nb.Field.optionalLabel}`
+      )
+      expect(labelElement.innerHTML).toContain(
+        `<span><b>A Label</b>&nbsp;(valgfritt)</span>`
+      )
+    })
   })
 
   it('click on label should set focus on input after value change', async () => {

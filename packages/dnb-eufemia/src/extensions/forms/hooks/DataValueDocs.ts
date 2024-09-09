@@ -42,7 +42,12 @@ export const dataValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   required: {
-    doc: 'When set `true`, the field will give an error if the value cannot be empty.',
+    doc: 'When set `true`, the field will give an error if the value fails the required validation.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  optional: {
+    doc: 'When set `true`, the field will add an optional label (e.g. `Label (optional)`) to the field. It will also set `required={false}` on the field so validation will not fail when set by a provider. Use `required={false}` if you want to make the field optional but not want the label to include the "(optional)" text.',
     type: 'boolean',
     status: 'optional',
   },

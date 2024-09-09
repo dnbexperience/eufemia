@@ -6,6 +6,14 @@ import * as Examples from './Examples'
 
 ## Demos
 
+### Required and Optional Fields
+
+To make all fields required, set the `required` prop on the `Form.Handler` component.
+
+For fields that should remain optional, use the `optional` prop on the specific field, which will add "(optional)" to the label.
+
+<Examples.RequiredAndOptionalFields />
+
 ### In combination with a SubmitButton
 
 This example uses an async `onSubmit` event handler. It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the form is pending.

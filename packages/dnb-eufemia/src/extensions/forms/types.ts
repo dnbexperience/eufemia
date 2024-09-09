@@ -302,6 +302,7 @@ export interface UseFieldProps<
 
   // - Validation
   required?: boolean
+  optional?: boolean
   schema?: AllJSONSchemaVersions<Value>
   validator?: Validator<Value>
   onBlurValidator?: Validator<Value>

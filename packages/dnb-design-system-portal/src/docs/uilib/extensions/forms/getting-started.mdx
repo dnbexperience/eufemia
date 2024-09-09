@@ -329,7 +329,25 @@ The `required` property is a boolean that indicates whether the field is require
 <Field.PhoneNumber required />
 ```
 
-**NB:** You can also use the `required` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component, [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) component or nested in the [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) component.
+**Note:** You can use the `required` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) or [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) components ([example](/uilib/extensions/forms/Form/Handler/demos/#required-and-optional-fields)). Additionally, the [Form.Section](/uilib/extensions/forms/Form/Section/) component as well as the [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) provider has a `required` property, which will make all nested fields within that section required.
+
+```tsx
+<Form.Handler required>
+  <Field.PhoneNumber />
+  <Field.String />
+</Form.Handler>
+```
+
+#### optional
+
+The `optional` property adds "(optional)" to the field label and ensures the field is not required. Even if all fields in the form are made required by inheriting the required property from a component, like [Form.Handler](/uilib/extensions/forms/Form/Handler/), the optional field will still not be required.
+
+```tsx
+<Form.Handler required>
+  <Field.String label="I'm required" />
+  <Field.String label="I'm not" optional />
+</Form.Handler>
+```
 
 #### pattern
 

@@ -62,6 +62,8 @@ export type Props = Pick<
   asFieldset?: boolean
   /** use `true` to make the label only readable by screen readers. */
   labelSrOnly?: boolean
+  /** use `true` to add an optional label to the field. */
+  optional?: boolean
   /** Defines the layout of nested fields */
   composition?: FieldBlockContextProps['composition']
   /** Width of outer block element */
@@ -95,6 +97,7 @@ function FieldBlock(props: Props) {
     labelDescription,
     labelSrOnly,
     asFieldset,
+    optional,
     info,
     warning,
     error: errorProp,
@@ -122,15 +125,36 @@ function FieldBlock(props: Props) {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const { optionalLabel } = useTranslation().Field
+  const optionalLabelText = useMemo(() => {
+    if (optional) {
+      // eslint-disable-next-line no-irregular-whitespace
+      return ` ${optionalLabel}`
+    }
+    return ''
+  }, [optional, optionalLabel])
+
   const label = useMemo(() => {
+    let content = labelProp
     if (iterateIndex !== undefined) {
-      return convertJsxToString(labelProp).replace(
+      content = convertJsxToString(labelProp).replace(
         '{itemNr}',
         String(iterateIndex + 1)
       )
     }
-    return labelProp
-  }, [iterateIndex, labelProp])
+    if (typeof content === 'string') {
+      return content + optionalLabelText
+    }
+    if (React.isValidElement(content)) {
+      return (
+        <>
+          {content}
+          {optionalLabelText}
+        </>
+      )
+    }
+    return content
+  }, [iterateIndex, labelProp, optionalLabelText])
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
