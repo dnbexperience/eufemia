@@ -95,7 +95,7 @@ All properties are optional and can be used as needed. These properties can be p
 
 For more advanced use cases, you can export your custom Field validators with `exportValidators`. They are then available (as `validators` in object of the second validator parameter) to be used in the validator.
 
-When an array is returned from the validator, it will be used to only call these validators.
+When an array is returned from the validator, it will be used to only call these validators (in the order they are returned).
 If no array is returned, the internal validator will be called in addition.
 
 ```tsx
