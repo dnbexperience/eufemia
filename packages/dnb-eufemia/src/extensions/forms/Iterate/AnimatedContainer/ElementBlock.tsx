@@ -57,6 +57,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
   localContextRef.current = useContext(IterateItemContext) || {}
   localContextRef.current.hasError = hasError
   localContextRef.current.hasSubmitError = hasSubmitError
+  const omitFocusManagementRef = useRef(false)
   const { isNew, value } = localContextRef.current
   if (hasSubmitError || !value) {
     localContextRef.current.containerMode = 'edit'
@@ -70,9 +71,8 @@ function ElementBlock(props: Props & FlexContainerProps) {
     ) {
       if (hasError) {
         // - Set the container mode to "edit" if we have an error
-        if (isNew) {
-          localContextRef.current.containerMode = 'edit'
-        } else {
+        if (!isNew) {
+          omitFocusManagementRef.current = true
           localContextRef.current.switchContainerMode('edit')
         }
       }
@@ -133,7 +133,10 @@ function ElementBlock(props: Props & FlexContainerProps) {
         switchContainerMode?.('edit')
       }
 
-      if (!localContextRef.current.hasSubmitError) {
+      if (
+        !omitFocusManagementRef.current &&
+        !localContextRef.current.hasSubmitError
+      ) {
         if (state === 'opened') {
           localContextRef.current?.elementRef?.current?.focus?.()
         } else {
@@ -159,6 +162,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
           })
         }
       }
+      omitFocusManagementRef.current = false
 
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
