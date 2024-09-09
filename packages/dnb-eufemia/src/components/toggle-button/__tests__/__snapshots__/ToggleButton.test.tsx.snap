@@ -1771,7 +1771,7 @@ button .dnb-form-status__text {
 .dnb-toggle-button-group__suffix {
   font-size: var(--font-size-basis);
 }
-@media screen and (min-width: 40em) {
+@media screen and (min-width: 40.0625em) {
   .dnb-form-label + .dnb-toggle-button {
     transform: translateY(-0.5rem);
   }

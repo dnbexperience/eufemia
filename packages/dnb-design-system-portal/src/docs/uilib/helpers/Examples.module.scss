@@ -19,13 +19,13 @@
 
 // 1. Show green when NO offset is given
 .showWhenLarge {
-  // is green on 960 and more
+  // is green on 961 and more
   @include allAbove(medium) {
     color: var(--color-success-green);
   }
 }
 .showWhenMedium {
-  // is green between 641 and 959
+  // is green on 641 to 960
   @include allBetween(small, medium) {
     color: var(--color-success-green);
   }
@@ -37,17 +37,17 @@
   }
 }
 
-// 2. Show red when an offset of 6em matches
+// 2. Show green when an offset of 6em matches
 .showWhenLargeOffset {
-  // is grey on 1247
-  // is green on 1248
+  // is grey on 1056
+  // is green on 1057
   @include allAbove(medium, 6em) {
     color: var(--color-success-green);
   }
 }
 .showWhenMediumOffset {
-  // is grey on 735 or 865
-  // is green between 736 and 864
+  // is grey on 736 or 865
+  // is green on 737 to 864
   @include allBetween(small, medium, 6em, -6em) {
     color: var(--color-success-green);
   }

@@ -82,7 +82,7 @@ describe('media', () => {
       selector,
       url,
       pageViewport: {
-        width: 1055,
+        width: 1056,
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -93,7 +93,7 @@ describe('media', () => {
       selector,
       url,
       pageViewport: {
-        width: 1056,
+        width: 1057,
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -104,7 +104,7 @@ describe('media', () => {
       selector,
       url,
       pageViewport: {
-        width: 735,
+        width: 736,
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -126,7 +126,7 @@ describe('media', () => {
       selector,
       url,
       pageViewport: {
-        width: 736,
+        width: 737,
       },
     })
     expect(screenshot).toMatchImageSnapshot()
