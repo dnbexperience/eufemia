@@ -48,6 +48,22 @@ export const LabelAndValue = () => {
   )
 }
 
+export const ExclusiveMinMax = () => {
+  return (
+    <ComponentBox>
+      <Field.Number
+        value={1000}
+        label="Label text"
+        allowNegative={false}
+        required
+        exclusiveMinimum={900}
+        exclusiveMaximum={1000}
+        validateInitially
+      />
+    </ComponentBox>
+  )
+}
+
 export const WithHelp = () => {
   return (
     <ComponentBox>
