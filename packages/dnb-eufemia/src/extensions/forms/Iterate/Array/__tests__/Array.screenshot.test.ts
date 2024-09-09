@@ -28,7 +28,8 @@ describe('Iterate.Array', () => {
   it('have to match view container', async () => {
     const screenshot = await makeScreenshot({
       url,
-      selector: '[data-visual-test="view-and-edit-container"]',
+      selector:
+        '[data-visual-test="view-and-edit-container"] .dnb-forms-section-view-block',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
