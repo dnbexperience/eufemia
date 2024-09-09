@@ -88,8 +88,8 @@ function ArrayComponent(props: Props) {
     withoutFlex,
     emptyValue,
     placeholder,
-    minimumRequiredItems,
-    hideToolbarWhen,
+    minimumContainerItems,
+    hideContainerToolbarWhen,
     containerMode,
     handleChange,
     onChange,
@@ -153,10 +153,10 @@ function ArrayComponent(props: Props) {
         arrayValue,
         containerRef,
         isNew,
-        minimumRequiredItems,
+        minimumContainerItems,
         containerMode: modesRef.current[id],
         initialContainerMode: containerMode || 'auto',
-        hideToolbarWhen,
+        hideContainerToolbarWhen,
         switchContainerMode: (mode: ContainerMode) => {
           modesRef.current[id] = mode
           delete isNewRef.current?.[id]

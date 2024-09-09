@@ -389,11 +389,11 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
     })
 
-    it('should not contain toolbar when "hideToolbarWhen" returns true', async () => {
+    it('should not contain toolbar when "hideContainerToolbarWhen" returns true', async () => {
       render(
         <Iterate.Array
           value={['foo', 'bar', 'baz']}
-          hideToolbarWhen={(index) => index === 0}
+          hideContainerToolbarWhen={(index) => index === 0}
         >
           <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
           <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
@@ -433,9 +433,9 @@ describe('EditContainer and ViewContainer', () => {
       }
     })
 
-    it('should hide remove button when "minimumRequiredItems" is set to 1 and there is only one item', () => {
+    it('should hide remove button when "minimumContainerItems" is set to 1 and there is only one item', () => {
       const { rerender } = render(
-        <Iterate.Array value={['foo']} minimumRequiredItems={1}>
+        <Iterate.Array value={['foo']} minimumContainerItems={1}>
           <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
           <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
         </Iterate.Array>
@@ -462,7 +462,7 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       rerender(
-        <Iterate.Array value={['foo', 'bar']} minimumRequiredItems={1}>
+        <Iterate.Array value={['foo', 'bar']} minimumContainerItems={1}>
           <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
           <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
         </Iterate.Array>

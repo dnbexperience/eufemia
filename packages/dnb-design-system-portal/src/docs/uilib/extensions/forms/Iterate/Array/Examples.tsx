@@ -411,8 +411,10 @@ export const InitialOpen = () => {
                   <Iterate.Array
                     path="/countries"
                     defaultValue={[null]}
-                    minimumRequiredItems={1}
-                    hideToolbarWhen={(index, items) => items.length === 1}
+                    minimumContainerItems={1}
+                    hideContainerToolbarWhen={(index, items) =>
+                      items.length === 1
+                    }
                   >
                     <MyViewItem />
                     <MyEditItem />

@@ -41,12 +41,12 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'unknown',
     status: 'optional',
   },
-  minimumRequiredItems: {
+  minimumContainerItems: {
     doc: 'Defines the minimum amount of items required to open the container. Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },
-  hideToolbarWhen: {
+  hideContainerToolbarWhen: {
     doc: 'Defines if the toolbar should be hidden based on your logic (e.g. `(index, items) => items.length === 1`).',
     type: 'function',
     status: 'optional',

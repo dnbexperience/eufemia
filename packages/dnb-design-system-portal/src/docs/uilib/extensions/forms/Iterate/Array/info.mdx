@@ -94,9 +94,9 @@ By default, the container mode is set to `auto`. This means that the container w
 
 When a new item is added via the [Iterate.PushButton](/uilib/extensions/forms/Iterate/PushButton/) component, the item before it will change to `view` mode, if it had no validation errors.
 
-You can also set `minimumRequiredItems` to 1, to ensure that the first has not remove button as long as there is at least one item.
+You can also set `minimumContainerItems` to 1, to ensure that the first has not remove button as long as there is at least one item.
 
-You can also set `hideToolbarWhen`, like `(index, items) => items.length === 1` to hide the toolbar when there is only one item.
+You can also set `hideContainerToolbarWhen`, like `(index, items) => items.length === 1` to hide the toolbar when there is only one item.
 
 ## Filter data
 
