@@ -26,7 +26,7 @@ export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, toolbar, ...restProps } = props || {}
-  const { index, arrayValue, hideToolbarWhen } =
+  const { index, arrayValue, hideContainerToolbarWhen } =
     useContext(IterateItemContext)
 
   let itemTitle = title
@@ -46,7 +46,7 @@ function ViewContainer(props: AllProps) {
         {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
         {children}
         {toolbar ??
-          (!hideToolbarWhen?.(index, arrayValue) && (
+          (!hideContainerToolbarWhen?.(index, arrayValue) && (
             <Toolbar>
               <ViewToolbarTools />
             </Toolbar>

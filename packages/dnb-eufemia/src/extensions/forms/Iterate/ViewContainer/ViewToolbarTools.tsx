@@ -7,7 +7,7 @@ import { edit } from '../../../../icons'
 
 export default function ViewToolbarTools() {
   const iterateItemContext = useContext(IterateItemContext)
-  const { switchContainerMode, minimumRequiredItems, arrayValue } =
+  const { switchContainerMode, minimumContainerItems, arrayValue } =
     iterateItemContext ?? {}
 
   const { editButton, removeButton } =
@@ -32,8 +32,8 @@ export default function ViewToolbarTools() {
   )
 
   if (
-    minimumRequiredItems > 0
-      ? arrayValue?.length > minimumRequiredItems
+    minimumContainerItems > 0
+      ? arrayValue?.length > minimumContainerItems
       : true
   ) {
     removeButtonElement = <RemoveButton text={removeButton} />

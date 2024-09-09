@@ -181,8 +181,10 @@ export const InitialOpen = () => {
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
-              minimumRequiredItems={1}
-              hideToolbarWhen={(index, items) => items.length === 1}
+              minimumContainerItems={1}
+              hideContainerToolbarWhen={(index, items) =>
+                items.length === 1
+              }
             >
               <MyViewItem />
               <MyEditItem />

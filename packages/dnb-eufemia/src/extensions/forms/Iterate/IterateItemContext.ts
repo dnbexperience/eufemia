@@ -11,10 +11,10 @@ export interface IterateItemContextState {
   arrayValue?: Array<ElementChild>
   containerMode?: ContainerMode
   initialContainerMode?: ContainerMode
-  minimumRequiredItems?: Props['minimumRequiredItems']
+  minimumContainerItems?: Props['minimumContainerItems']
   containerRef?: React.RefObject<HTMLDivElement>
   elementRef?: React.RefObject<HTMLDivElement>
-  hideToolbarWhen?: Props['hideToolbarWhen']
+  hideContainerToolbarWhen?: Props['hideContainerToolbarWhen']
   switchContainerMode?: (mode: ContainerMode) => void
   handleChange?: (path: Path, value: unknown) => void
   handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void

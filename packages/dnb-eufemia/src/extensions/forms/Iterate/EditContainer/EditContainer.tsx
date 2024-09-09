@@ -37,14 +37,15 @@ export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 export default function EditContainer(props: AllProps) {
   const iterateItemContext = useContext(IterateItemContext)
-  const { index, arrayValue, hideToolbarWhen } = iterateItemContext || {}
+  const { index, arrayValue, hideContainerToolbarWhen } =
+    iterateItemContext || {}
   const { toolbar, ...rest } = props
 
   return (
     <EditContainerWithoutToolbar
       toolbar={
         toolbar ??
-        (!hideToolbarWhen?.(index, arrayValue) && (
+        (!hideContainerToolbarWhen?.(index, arrayValue) && (
           <Toolbar>
             <EditToolbarTools />
           </Toolbar>

@@ -28,7 +28,7 @@ export default function EditToolbarTools(props: Props) {
     switchContainerMode,
     containerMode,
     initialContainerMode,
-    minimumRequiredItems,
+    minimumContainerItems,
     arrayValue,
     index,
     isNew,
@@ -115,8 +115,8 @@ export default function EditToolbarTools(props: Props) {
   )
 
   const showCancelAndRemoveButton =
-    minimumRequiredItems > 0
-      ? arrayValue?.length > minimumRequiredItems
+    minimumContainerItems > 0
+      ? arrayValue?.length > minimumContainerItems
       : true &&
         (!entries || (entries?.length > 0 && containerMode === 'edit'))
 
