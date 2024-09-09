@@ -90,11 +90,13 @@ render(
 
 ### Initial container mode
 
+This section describes the behavior of the `EditContainer` and the `ViewContainer` components.
+
 By default, the container mode is set to `auto`. This means that the container will open (switch to `edit` mode) when there is an error in the container or the value is falsy (empty string, null, undefined, etc.).
 
 When a new item is added via the [Iterate.PushButton](/uilib/extensions/forms/Iterate/PushButton/) component, the item before it will change to `view` mode, if it had no validation errors.
 
-You can also set `minimumContainerItems` to 1, to ensure that the first has not remove button as long as there is at least one item.
+You can also set `minimumContainerItems` to 1, to ensure that the first item does not have a remove button, as long as there is at least one item.
 
 You can also set `hideContainerToolbarWhen`, like `(index, items) => items.length === 1` to hide the toolbar when there is only one item.
 
